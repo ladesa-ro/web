@@ -1,5 +1,7 @@
+<script setup></script>
+
 <template>
-  <div class="button_add">
+  <div class="button_add" click="$emit('click')">
     <svg
       class="svg_add"
       width="45"
@@ -26,4 +28,3 @@
 }
 </style>
 
-<script setup></script>
