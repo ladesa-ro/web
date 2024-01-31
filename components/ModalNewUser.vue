@@ -17,7 +17,6 @@ import Searchs from "./Modal/Searchs.vue";
         <Searchs value="Email" />
         <SearchMatricula value="Matricula" />
         <Function />
-
       </div>
       <div>
         <button class="Cancel" @click="($event) => $emit('close')">
@@ -113,6 +112,7 @@ h1 {
   width: 390px;
   z-index: 10000;
   margin-left: 20px;
+  height: 600px;
 }
 
 .Cad,

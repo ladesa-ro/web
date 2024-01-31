@@ -21,14 +21,14 @@
 import { ref, onMounted } from "vue";
 import IconSearch from "./Icons/IconSearch.vue";
 
-const searchTerm = ref("");
-const filteredItems = ref([]);
+// const searchTerm = ref("");
+// const filteredItems = ref([]);
 
-const filterItems = () => {
-  filteredItems.value = items.value.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.value.toLowerCase())
-  );
-};
+// const filterItems = () => {
+//   filteredItems.value = items.value.filter((item) =>
+//     item.name.toLowerCase().includes(searchTerm.value.toLowerCase())
+//   );
+// };
 </script>
 <style scoped>
 .form {

@@ -172,8 +172,6 @@ const handleFormClick = () => {
   transition: max-height 0.3s ease-in-out;
 }
 
-
-
 .modal div {
   display: flex;
   gap: 5px;

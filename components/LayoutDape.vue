@@ -1,45 +1,37 @@
-<script setup lang="ts"> 
-import { ref } from 'vue';
-import IconAdd from './Icons/IconAdd.vue';
+<script setup lang="ts">
+import { ref } from "vue";
+import IconAdd from "./Icons/IconAdd.vue";
 
 const show = ref(false);
 
-
-
 const openConfirm = () => {
   show.value = true;
-console.log("clicou no iconeadd")
-}
+  console.log("clicou no iconeadd");
+};
 
-
-const closeConfirm = () => {show.value = false;
-  console.log("Cheghoy aqi")
-}
-
+const closeConfirm = () => {
+  show.value = false;
+  console.log("Cheghoy aqi");
+};
 
 const testeConsole = () => {
   console.log("clicou");
-  
-  }
-
+};
 </script>
 
 <template>
   <div>
     <div>
-      <SearchBar value="Pesquisar"/>
+      <SearchBar value="Pesquisar" />
     </div>
-    
+
     <div>
       <IconAdd @click="openConfirm" />
-    <!-- <Teleport to="#modal"> -->
-        <ModalNewUser v-if="show" @close="closeConfirm" ></ModalNewUser>
-      <!-- </Teleport> -->
-  </div>
+      <ModalNewUser v-if="show" @close="closeConfirm"></ModalNewUser>
+    </div>
 
     <div>
       <ProfileUserCardProfileUser />
     </div>
   </div>
 </template>
-

@@ -16,7 +16,7 @@
         width="18"
         height="18"
         rx="2"
-        stroke="#39A048"
+        stroke="#118D3B"
         stroke-width="2"
       />
       <path

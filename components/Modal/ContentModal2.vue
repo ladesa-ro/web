@@ -3,23 +3,36 @@
     <div class="initmodal2">
       <div class="iconWrapper">
         <div class="iconB">
-          <IconBeforeDays  @click="changeDay(-1)" />
+          <IconBeforeDays @click="changeDay(-1)" />
         </div>
 
-        <div  class="dayOfWeek">
+        <div class="dayOfWeek">
           <span>{{ selectedOptions[0]?.value }}</span>
         </div>
 
         <div class="iconA">
-          <IconAfterDays  @click="changeDay(1)" />
+          <IconAfterDays @click="changeDay(1)" />
         </div>
       </div>
     </div>
     <div class="contentModal">
       <div class="hoursMorning">
+        <span>Matutino</span>
+        <p class="elementHours"></p>
         <HoursMarkup />
       </div>
-      
+
+      <div class="hoursAfternoon">
+        <span>Vespertino</span>
+        <p class="elementHours"></p>
+        <HoursMarkup />
+      </div>
+
+      <div class="hoursNocturnal">
+        <span>Noturno</span>
+        <p class="elementHours"></p>
+        <HoursMarkup />
+      </div>
     </div>
   </div>
 </template>
@@ -55,6 +68,7 @@ const changeDay = (delta) => {
 .contentModal {
   display: flex;
   align-items: center;
+  gap: 50px;
 }
 
 .iconWrapper {
@@ -71,12 +85,29 @@ const changeDay = (delta) => {
 }
 
 .iconA {
-  margin-left: 70px; 
+  margin-left: 70px;
 }
 
 .dayOfWeek {
   text-align: center;
   margin-left: 70px;
   width: 80px;
+}
+
+.contentModal {
+  margin-top: 40px;
+}
+
+.elementHours {
+  content: "";
+  height: 2px;
+  width: auto;
+  background-color: #9ab69e;
+  margin-top: 2px;
+  margin-bottom: 8px;
+}
+
+.hoursMorning {
+  margin-left: 10px;
 }
 </style>

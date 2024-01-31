@@ -11,7 +11,11 @@
           class="usuario"
         >
           <div class="photoProfile">
-            <img class="photoUser" src="@/imgs/Perfil-Foto.png" alt="Photo User">
+            <img
+              class="photoUser"
+              src="@/imgs/Perfil-Foto.png"
+              alt="Photo User"
+            />
           </div>
           <h4 class="nomesP">Danilo Escudero</h4>
           <h6 class="cargo">Professor, DAPE</h6>
@@ -48,7 +52,7 @@
   align-items: center;
   width: 140px;
   height: 190px;
-  border: 3px solid #9AB69E;
+  border: 3px solid #9ab69e;
   border-radius: 8px;
   align-items: center;
   justify-content: center;
@@ -58,7 +62,7 @@
 .photoUser {
   width: 100px;
   height: 100px;
-  border: 3px solid #9AB69E;
+  border: 3px solid #9ab69e;
   border-radius: 8px;
   background-color: #f0f0f0;
 }
@@ -77,7 +81,7 @@
 
 .cargo {
   font-weight: 500;
-  color: #9AB69E;
+  color: #9ab69e;
   font-size: 14px;
 }
 
