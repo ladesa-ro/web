@@ -1,8 +1,8 @@
 <script setup>
-import ContainerImage from "./Modal/ContainerImage.vue";
-import Function from "./Modal/Function.vue";
-import SearchMatricula from "./Modal/SearchMatricula.vue";
-import Searchs from "./Modal/Searchs.vue";
+import ContainerImage from "../Forms/ContainerImage.vue";
+import Function from "../Forms/Function.vue";
+import SearchMatricula from "../Forms/SearchMatricula.vue";
+import Searchs from "../Forms/Searchs.vue";
 </script>
 
 <template>
@@ -64,7 +64,7 @@ import Searchs from "./Modal/Searchs.vue";
       <h1 class="hDispo">Disponibilidade</h1>
 
       <div>
-        <ModalContentModal2 />
+        <PagesDashboardUsersFormsDisponibilidade />
       </div>
     </div>
   </div>

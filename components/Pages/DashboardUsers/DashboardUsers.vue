@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import IconAdd from "./Icons/IconAdd.vue";
+import IconAdd from "~/components/Icons/IconAdd.vue";
 
 const show = ref(false);
 
@@ -27,11 +27,11 @@ const testeConsole = () => {
 
     <div>
       <IconAdd @click="openConfirm" />
-      <ModalNewUser v-if="show" @close="closeConfirm"></ModalNewUser>
+      <PagesDashboardUsersModalNewUser v-if="show" @close="closeConfirm" />
     </div>
 
     <div>
-      <ProfileUserCardProfileUser />
+      <PagesDashboardUsersUsersList />
     </div>
   </div>
 </template>

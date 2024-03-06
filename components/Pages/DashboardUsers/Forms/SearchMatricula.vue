@@ -1,43 +1,29 @@
-<template v-slot:search>
+<template v-slot:search="{ value }">
   <div>
     <div class="form">
       <form action="./">
-        <label id="label" class="label" for="pesquisar">Pesquisar</label>
-        <IconSearch
-         class="icon" />
-        <input
-          class="input"
-          type="text"
-          id="pesquisar"
-          placeholder="Digite aqui "
-          autocomplete="off"
-        />
+        <label id="label" class="label" for="pesquisar">{{ value }}</label>
+
+        <input class="input" type="text" id="pesquisar" placeholder="Digite aqui " autocomplete="off" />
       </form>
     </div>
   </div>
 </template>
 
 <script setup>
-import IconSearch from "~/components/Icons/IconSearch.vue";
-
-// const searchTerm = ref("");
-// const filteredItems = ref([]);
-
-// const filterItems = () => {
-//   filteredItems.value = items.value.filter((item) =>
-//     item.name.toLowerCase().includes(searchTerm.value.toLowerCase())
-//   );
-// };
+defineProps(["value"]);
 </script>
+
 <style scoped>
 .form {
   display: flex;
-  margin-left: 150px;
-  margin-top: 90px;
+  margin-bottom: 25px;
+  margin-top: 25px;
   position: relative;
-  width: 490px;
+  width: 200px;
   align-items: center;
 }
+
 .label {
   display: inline-block;
   padding: 5px;
@@ -49,11 +35,12 @@ import IconSearch from "~/components/Icons/IconSearch.vue";
   background-color: white;
   color: #9AB69E;
   position: absolute;
-  margin-left: 12px;
+  margin-left: 22px;
 }
+
 input {
   height: 48px;
-  width: 480px;
+  width: 180px;
   font-weight: 550;
   font-size: 0.75rem;
   border-radius: 8px;

@@ -1,3 +1,31 @@
+
+<script setup>
+import { ref } from "vue";
+import IconAfterDays from "~/components/Icons/IconAfterDays.vue";
+import IconBeforeDays from "~/components/Icons/IconBeforeDays.vue";
+import HoursMarkup from "./HoursMarkup.vue";
+
+const selectedOptions = ref([]);
+const options = [
+  { value: "Segunda" },
+  { value: "Terça" },
+  { value: "Quarta" },
+  { value: "Quinta" },
+  { value: "Sexta" },
+  { value: "Sábado" },
+  { value: "Domingo" },
+];
+
+let currentDayIndex = ref(0);
+
+const changeDay = (delta) => {
+  currentDayIndex.value =
+    (currentDayIndex.value + delta + options.length) % options.length;
+  selectedOptions.value = [options[currentDayIndex.value]];
+};
+</script>
+
+
 <template>
   <div>
     <div class="initmodal2">
@@ -36,32 +64,6 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { ref } from "vue";
-import IconAfterDays from "../Icons/IconAfterDays.vue";
-import IconBeforeDays from "../Icons/IconBeforeDays.vue";
-import HoursMarkup from "./HoursMarkup.vue";
-
-const selectedOptions = ref([]);
-const options = [
-  { value: "Segunda" },
-  { value: "Terça" },
-  { value: "Quarta" },
-  { value: "Quinta" },
-  { value: "Sexta" },
-  { value: "Sábado" },
-  { value: "Domingo" },
-];
-
-let currentDayIndex = ref(0);
-
-const changeDay = (delta) => {
-  currentDayIndex.value =
-    (currentDayIndex.value + delta + options.length) % options.length;
-  selectedOptions.value = [options[currentDayIndex.value]];
-};
-</script>
 
 <style>
 .initmodal2,
