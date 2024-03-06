@@ -1,9 +1,11 @@
 <template>
   <div>
-    <NuxtLink to="/dashboard/cursos">Cursos</NuxtLink>
-    <NuxtLink to="/dashboard/usuarios">Usuários</NuxtLink>
+    <PagesDashboardUsers />
   </div>
 </template>
+
+<script lang="ts" setup>
+</script>
 
 <style>
 .welcomeMessage {

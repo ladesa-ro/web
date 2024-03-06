@@ -1,5 +1,7 @@
+<script setup></script>
+
 <template>
-  <v-app class="app">
+  <v-app class="app" style="z-index: 1;">
     <v-layout>
       <Appbar />
       <Sidebar />
@@ -11,4 +13,3 @@
   </v-app>
 </template>
 
-<script setup></script>
