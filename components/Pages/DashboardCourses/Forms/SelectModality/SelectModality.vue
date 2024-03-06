@@ -1,39 +1,21 @@
 <template v-slot:search>
   <div class="form-container" @click="handleFormClick">
     <form action="./">
-      <label
-        id="label"
-        class="label"
-        for="pesquisar"
-        :class="{ 'label-focus': isFormFocused }"
-      >
+      <label id="label" class="label" for="pesquisar" :class="{ 'label-focus': isFormFocused }">
         Modalidade
       </label>
-      <div
-        class="selected-options"
-        :class="{ 'selected-options-active': isSelectOpen }"
-        @click="toggleSelect"
-      >
-        <span class="input" v-if="!selectedOptions.length"
-          >Escolha uma opção</span
-        >
+      <div class="selected-options" :class="{ 'selected-options-active': isSelectOpen }" @click="toggleSelect">
+        <span class="input" v-if="!selectedOptions.length">Escolha uma opção</span>
         <span v-else>{{ selectedOptions.join(", ") }}</span>
-        <IconsIconDownArrow
-          class="arrow-icon"
-          :style="{
-            transform: isSelectOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-            fill: isFormFocused ? '#00d047' : '#c8dccb',
-          }"
-        />
+        <IconsIconDownArrow class="arrow-icon" :style="{
+    transform: isSelectOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+    fill: isFormFocused ? '#00d047' : '#c8dccb',
+  }" />
       </div>
       <div v-if="isSelectOpen" class="modal" @click.stop>
-        <div
-          v-for="option in options"
-          :key="option.value"
-          @click="handleOptionClick(option)"
-        >
+        <div v-for="option in options" :key="option.value" @click="handleOptionClick(option)">
           <div class="modal-option">
-            
+
             <span class="option">{{ option.label }}</span>
           </div>
         </div>
@@ -44,7 +26,6 @@
 
 <script setup>
 import { ref } from "vue";
-import IconSelect from "./Icons/IconSelect.vue";
 
 const isSelectOpen = ref(false);
 const selectedOptions = ref([]);
@@ -141,7 +122,7 @@ const handleFormClick = () => {
   padding: 16px;
   width: 380px;
   height: 49px;
-   margin-left: -7px;
+  margin-left: -7px;
   margin-top: 0px;
   transition: border-color 0.3s;
 }
@@ -154,7 +135,7 @@ const handleFormClick = () => {
   border-color: #00d047;
 }
 
- 
+
 .icon {
   fill: #c8dccb;
   transition: fill 0.3s;
@@ -166,8 +147,9 @@ const handleFormClick = () => {
 }
 
 .modal-option {
-margin-top: -10px;
+  margin-top: -10px;
 }
+
 .modal {
   position: absolute;
   top: 100%;

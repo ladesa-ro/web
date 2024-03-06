@@ -1,36 +1,37 @@
-<template v-slot:search>
+
+<script setup>
+defineProps(["value"]);
+</script>
+
+
+<template v-slot:search="{ value }">
   <div>
     <div class="form">
       <form action="./">
-        <label id="label" class="label" for="pesquisar">Pesquisar</label>
-        <IconSearch
-         class="icon" />
+        <label id="label" class="label" for="pesquisar">{{ value }}</label>
+
         <input
+        type="text"
           class="input"
-          type="text"
           id="pesquisar"
-          placeholder="Digite aqui "
           autocomplete="off"
+          placeholder="Digite aqui "
         />
       </form>
     </div>
   </div>
 </template>
 
-<script setup>
-import IconSearch from './Icons/IconSearch.vue';
-
-
-</script>
 <style scoped>
 .form {
   display: flex;
-  margin-left: 150px;
-  margin-top: 90px;
+  margin-bottom: 25px;
+  margin-top: 25px;
   position: relative;
   width: 490px;
   align-items: center;
 }
+
 .label {
   display: inline-block;
   padding: 5px;
@@ -40,17 +41,18 @@ import IconSearch from './Icons/IconSearch.vue';
   font-weight: 600;
   border: 1px solid white;
   background-color: white;
-  color: #9AB69E;
+  color: #9ab69e;
   position: absolute;
-  margin-left: 12px;
+  margin-left: 22px;
 }
+
 input {
   height: 48px;
-  width: 480px;
+  width: 380px;
   font-weight: 550;
   font-size: 0.75rem;
   border-radius: 8px;
-  border: 3px solid #9AB69E;
+  border: 3px solid #9ab69e;
   transition: border-color 0.3s;
   padding: 16px;
   font-size: 14px;
@@ -60,7 +62,7 @@ input {
 input::placeholder {
   padding: 4px;
   margin: 5px;
-  color: #9AB69E;
+  color: #9ab69e;
 }
 
 input:focus {
@@ -73,7 +75,7 @@ input:focus {
   left: 448px;
   top: 26px;
   transform: translateY(-50%);
-  fill: #9AB69E;
+  fill: #9ab69e;
   transition: fill 0.3s;
   cursor: pointer;
 }

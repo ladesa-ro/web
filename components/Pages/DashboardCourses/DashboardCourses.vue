@@ -1,5 +1,5 @@
 <template>
   <div>
-    <LayoutDape />
+    <PagesDashboardCoursesContent />
   </div>
 </template>

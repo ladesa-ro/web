@@ -1,7 +1,6 @@
 <script setup>
-import IconEdit from "../Icons/IconEdit.vue";
-import ModalEditCourses from "../ModalEdits/ModalEditCourses.vue";
 import { ref } from "vue";
+import IconEdit from "~/components/Icons/IconEdit.vue";
 
 defineProps(["value"]);
 
@@ -24,26 +23,17 @@ const closeConfirm = () => {
       <div class="cardCourses" v-for="i in 10" :key="i">
         <div class="c">
           <div>
-            <img
-              src="@/imgs/CardCourses.png"
-              alt="Imagem de perfil do curso"
-              class="imageCursos"
-            />
+            <img src="@/imgs/CardCourses.png" alt="Imagem de perfil do curso" class="imageCursos" />
           </div>
 
           <div>
             <div class="edit-01">
-              <NuxtLink 
-              class="courseTitle" 
-              :to="`/cursos/${i}`"
+              <NuxtLink class="courseTitle" :to="`/cursos/${i}`">{{ value }}</NuxtLink>
 
-              >{{ value }}</NuxtLink>
-            
-                <IconEdit class="iconEdit" @click="openConfirm" />
-              <ModalEditCourses v-if="show" @close="closeConfirm"></ModalEditCourses>
-           
-             
-               </div>
+              <IconEdit class="iconEdit" @click="openConfirm" />
+
+              <PagesDashboardCoursesModalEditCourse v-if="show" @close="closeConfirm" />
+            </div>
 
             <div class="edit-02 ab">
               <span>Abreviação: Téc. Info.</span>
@@ -66,6 +56,7 @@ const closeConfirm = () => {
   gap: 50px;
   margin-left: 150px;
 }
+
 .cardCourses {
   width: calc(33.33% - 50px);
   height: 300px;

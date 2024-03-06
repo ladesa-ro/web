@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NuxtLink to="/dashboard/cursos">Cursos</NuxtLink>
+    <PagesDashboardCourses />
   </div>
 </template>
 

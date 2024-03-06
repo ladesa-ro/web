@@ -1,8 +1,15 @@
-<template v-slot:search="{ value }">
+
+<script setup>
+import IconSearch from '~/components/Icons/IconSearch.vue';
+</script>
+
+<template v-slot:search>
   <div>
     <div class="form">
       <form action="./">
-        <label id="label" class="label" for="pesquisar">{{ value }}</label>
+        <label id="label" class="label" for="pesquisar">Pesquisar</label>
+
+        <IconSearch class="icon" />
 
         <input
           class="input"
@@ -16,20 +23,15 @@
   </div>
 </template>
 
-<script setup>
-defineProps(["value"]);
-</script>
-
 <style scoped>
 .form {
   display: flex;
-  margin-bottom: 25px;
-  margin-top: 25px;
+  margin-left: 150px;
+  margin-top: 90px;
   position: relative;
   width: 490px;
   align-items: center;
 }
-
 .label {
   display: inline-block;
   padding: 5px;
@@ -39,18 +41,17 @@ defineProps(["value"]);
   font-weight: 600;
   border: 1px solid white;
   background-color: white;
-  color: #9ab69e;
+  color: #9AB69E;
   position: absolute;
-  margin-left: 22px;
+  margin-left: 12px;
 }
-
 input {
   height: 48px;
-  width: 380px;
+  width: 480px;
   font-weight: 550;
   font-size: 0.75rem;
   border-radius: 8px;
-  border: 3px solid #9ab69e;
+  border: 3px solid #9AB69E;
   transition: border-color 0.3s;
   padding: 16px;
   font-size: 14px;
@@ -60,7 +61,7 @@ input {
 input::placeholder {
   padding: 4px;
   margin: 5px;
-  color: #9ab69e;
+  color: #9AB69E;
 }
 
 input:focus {
@@ -73,7 +74,7 @@ input:focus {
   left: 448px;
   top: 26px;
   transform: translateY(-50%);
-  fill: #9ab69e;
+  fill: #9AB69E;
   transition: fill 0.3s;
   cursor: pointer;
 }

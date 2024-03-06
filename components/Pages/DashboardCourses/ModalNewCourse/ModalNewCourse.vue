@@ -1,8 +1,6 @@
 <script setup>
-import Modality from '../Modality.vue';
-import Searchs from '../Searchs.vue';
 
-  </script>
+</script>
 
 <template>
   <div class="overlay">
@@ -10,50 +8,28 @@ import Searchs from '../Searchs.vue';
       <h1>Cadastrar Novo Curso</h1>
 
       <div>
-        <ContainerImage />
+        <PagesDashboardCoursesFormsSelectCourseImage />
 
-        <Searchs value="Nome" />
-        <Searchs value="Nome Abreviado" />
-        <Modality />
-   
+        <UIInputText value="Nome" />
+        <UIInputText value="Nome Abreviado" />
+
+        <PagesDashboardCoursesFormsSelectModality />
       </div>
       <div>
         <button class="Cancel" @click="($event) => $emit('close')">
           <span>Cancelar</span>
-          <svg
-            class="svgCancel"
-            width="13"
-            height="14"
-            viewBox="0 0 13 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M1.23291 11.8824L10.9209 2.11755M10.9209 11.8824L1.23291 2.11755"
-              :stroke="svgCancelColor"
-              stroke-width="2.46588"
-              stroke-linecap="round"
-            />
+          <svg class="svgCancel" width="13" height="14" viewBox="0 0 13 14" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.23291 11.8824L10.9209 2.11755M10.9209 11.8824L1.23291 2.11755" :stroke="svgCancelColor"
+              stroke-width="2.46588" stroke-linecap="round" />
           </svg>
         </button>
 
         <button class="Cad" @click="($event) => $emit('close')">
           <span>Cadastrar</span>
-          <svg
-            class="svgCad"
-            width="18"
-            height="14"
-            viewBox="0 0 18 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M1.4082 6.63384L6.59038 11.647L15.7719 2.35291"
-              :stroke="svgColor"
-              stroke-width="2.8164"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+          <svg class="svgCad" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1.4082 6.63384L6.59038 11.647L15.7719 2.35291" :stroke="svgColor" stroke-width="2.8164"
+              stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </button>
       </div>
@@ -65,6 +41,7 @@ import Searchs from '../Searchs.vue';
 h1 {
   font-size: 16px;
 }
+
 .overlay {
   position: fixed;
   top: 0;
@@ -88,7 +65,7 @@ h1 {
     0 8px 10px -6px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
   width: 430px;
-  margin-bottom : 100px;
+  margin-bottom: 100px;
   z-index: 10000;
   margin-right: 20px;
 }
