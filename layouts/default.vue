@@ -15,16 +15,8 @@ onMounted(() => {
         <Appbar />
       </v-app-bar>
 
-      <v-navigation-drawer
-        v-model:model-value="sidebarOpened"
-        :class="{ ['navigation-drawer']: !init }"
-        class="px-1"
-        width="237"
-        color="#39A048"
-        rail-width="64"
-        expand-on-hover
-        rail
-      >
+      <v-navigation-drawer v-model:model-value="sidebarOpened" :class="{ ['navigation-drawer']: !init }" class="px-1"
+        width="237" color="#39A048" rail-width="64" expand-on-hover rail>
         <Sidebar />
       </v-navigation-drawer>
 
@@ -45,6 +37,9 @@ onMounted(() => {
 }
 
 .navigation-drawer {
+  background-color: rgb(57, 160, 72) !important;
+  color: rgb(255, 255, 255) !important;
+  caret-color: rgb(255, 255, 255) !important;
   left: 0px !important;
   transform: translateX(0%) !important;
   position: absolute !important;
