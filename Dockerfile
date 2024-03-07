@@ -12,10 +12,10 @@ RUN yarn install
 
 FROM dev-deps as assets
 COPY . .
-RUN npm run build
+RUN yarn run build
 RUN rm -rf node_modules
 
 FROM prod-deps
 COPY --from=assets /sisgea/sisgha-app /sisgea/sisgha-app
 WORKDIR /sisgea/sisgha-app
-CMD npm run start
+CMD yarn run start
