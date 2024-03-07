@@ -3,15 +3,13 @@ import profilePicture from "../assets/icons/profilePicture.svg";
 </script>
 
 <template>
-  <v-app-bar elevation="2">
-    <div class="userInfo">
-      <VImg class="ml-5" :src="profilePicture" width="52"></VImg>
-      <div class="nameRole">
-        <p class="name">Danilo Escudero</p>
-        <p class="role">Professor</p>
-      </div>
+  <div class="userInfo">
+    <VImg class="ml-5" :src="profilePicture" width="52"></VImg>
+    <div class="nameRole">
+      <p class="name">Danilo Escudero</p>
+      <p class="role">Professor</p>
     </div>
-  </v-app-bar>
+  </div>
 </template>
 
 <style>
