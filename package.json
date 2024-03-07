@@ -7,7 +7,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
+    "postinstall": "nuxt prepare; exit 0;",
     "start": "node .output/server/index.mjs",
     "format:check": "prettier --cache --ignore-unknown \"**/*\" --check",
     "format:write": "prettier --cache --ignore-unknown \"**/*\" --write"

@@ -4,19 +4,18 @@ RUN apt install -y git
 WORKDIR /sisgea/sisgha-app
 
 FROM base as prod-deps
-COPY package.json yarn.lock ./
-# RUN yarn install --prod
+COPY package.json package-lock.json ./
+RUN npm install --omit=dev
 
 FROM prod-deps as dev-deps
-RUN yarn install
+RUN npm install
 
 FROM dev-deps as assets
 COPY . .
-RUN yarn run build
+RUN npm run build
 RUN rm -rf node_modules
 
-FROM dev-deps
-# FROM prod-deps
+FROM prod-deps
 COPY --from=assets /sisgea/sisgha-app /sisgea/sisgha-app
 WORKDIR /sisgea/sisgha-app
-CMD yarn run start
+CMD npm run start
