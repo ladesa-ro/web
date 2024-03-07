@@ -1,60 +1,48 @@
 <template>
-  <v-navigation-drawer
-    class="px-1"
-    width="237"
-    color="#39A048"
-    rail-width="64"
-    expand-on-hover
-    rail
-  >
-    <v-list
-      class="d-flex flex-column justify-space-between"
-      style="height: 100%"
-    >
-      <v-list-item-group class="">
-        <nuxt-link
-          class="link"
-          v-for="link in links"
-          :key="link.title"
-          :to="link.to"
-        >
-          <v-list-item class="mt-3 listItem">
-            <template v-slot:prepend>
-              <img :src="link.icon" width="24" class="iconBefore" alt="" />
-            </template>
-            <v-list-item-title class="link">
-              <span> {{ link.title }}</span>
-            </v-list-item-title>
-          </v-list-item>
-        </nuxt-link>
-      </v-list-item-group>
+  <v-list class="d-flex flex-column justify-space-between" style="height: 100%">
+    <v-list-item-group class="">
+      <nuxt-link
+        class="link"
+        v-for="link in links"
+        :key="link.title"
+        :to="link.to"
+      >
+        <v-list-item class="mt-3 listItem">
+          <template v-slot:prepend>
+            <img :src="link.icon" width="24" class="iconBefore" alt="" />
+          </template>
+          <v-list-item-title class="link">
+            <span> {{ link.title }}</span>
+          </v-list-item-title>
+        </v-list-item>
+      </nuxt-link>
+    </v-list-item-group>
 
-      <v-list-item class="mt-3 listItem">
-        <template v-slot:prepend>
-          <img
-            :src="configuracoesIconWhite"
-            width="24"
-            class="iconBefore"
-            alt=""
-          />
-        </template>
-        <v-list-item-title class="link">
-          <span>Configurações</span>
-        </v-list-item-title>
-      </v-list-item>
-    </v-list>
-  </v-navigation-drawer>
+    <v-list-item class="mt-3 listItem">
+      <template v-slot:prepend>
+        <img
+          :src="configuracoesIconWhite"
+          width="24"
+          class="iconBefore"
+          alt=""
+        />
+      </template>
+      <v-list-item-title class="link">
+        <span>Configurações</span>
+      </v-list-item-title>
+    </v-list-item>
+  </v-list>
 </template>
 
 <script setup>
-import inicioIconWhite from "../assets/icons/inicioIconWhite.svg";
-import turmasIconWhite from "../assets/icons/turmasIconWhite.svg";
-import disciplinaIconWhite from "../assets/icons/disciplinaIconWhite.svg";
-import perfilIconWhite from "../assets/icons/perfilIconWhite.svg";
-import vinculoIconWhite from "../assets/icons/vinculosIconWhite.svg";
 import calendarioIconWhite from "../assets/icons/calendarioIconWhite.svg";
-import outrosIconWhite from "../assets/icons/outrosIconWhite.svg";
 import configuracoesIconWhite from "../assets/icons/configuracoesIconWhite.svg";
+import disciplinaIconWhite from "../assets/icons/disciplinaIconWhite.svg";
+import inicioIconWhite from "../assets/icons/inicioIconWhite.svg";
+import outrosIconWhite from "../assets/icons/outrosIconWhite.svg";
+import perfilIconWhite from "../assets/icons/perfilIconWhite.svg";
+import turmasIconWhite from "../assets/icons/turmasIconWhite.svg";
+import vinculoIconWhite from "../assets/icons/vinculosIconWhite.svg";
 
 const links = [
   {
