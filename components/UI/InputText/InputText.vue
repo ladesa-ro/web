@@ -1,8 +1,6 @@
-
 <script setup>
 defineProps(["value"]);
 </script>
-
 
 <template v-slot:search="{ value }">
   <div>
@@ -11,7 +9,7 @@ defineProps(["value"]);
         <label id="label" class="label" for="pesquisar">{{ value }}</label>
 
         <input
-        type="text"
+          type="text"
           class="input"
           id="pesquisar"
           autocomplete="off"

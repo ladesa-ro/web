@@ -23,16 +23,25 @@ const closeConfirm = () => {
       <div class="cardCourses" v-for="i in 10" :key="i">
         <div class="c">
           <div>
-            <img src="@/imgs/CardCourses.png" alt="Imagem de perfil do curso" class="imageCursos" />
+            <img
+              src="@/imgs/CardCourses.png"
+              alt="Imagem de perfil do curso"
+              class="imageCursos"
+            />
           </div>
 
           <div>
             <div class="edit-01">
-              <NuxtLink class="courseTitle" :to="`/cursos/${i}`">{{ value }}</NuxtLink>
+              <NuxtLink class="courseTitle" :to="`/cursos/${i}`">{{
+                value
+              }}</NuxtLink>
 
               <IconEdit class="iconEdit" @click="openConfirm" />
 
-              <PagesDashboardCoursesModalEditCourse v-if="show" @close="closeConfirm" />
+              <PagesDashboardCoursesModalEditCourse
+                v-if="show"
+                @close="closeConfirm"
+              />
             </div>
 
             <div class="edit-02 ab">

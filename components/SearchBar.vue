@@ -3,8 +3,7 @@
     <div class="form">
       <form action="./">
         <label id="label" class="label" for="pesquisar">Pesquisar</label>
-        <IconSearch
-         class="icon" />
+        <IconSearch class="icon" />
         <input
           class="input"
           type="text"
@@ -47,7 +46,7 @@ import IconSearch from "~/components/Icons/IconSearch.vue";
   font-weight: 600;
   border: 1px solid white;
   background-color: white;
-  color: #9AB69E;
+  color: #9ab69e;
   position: absolute;
   margin-left: 12px;
 }
@@ -57,7 +56,7 @@ input {
   font-weight: 550;
   font-size: 0.75rem;
   border-radius: 8px;
-  border: 3px solid #9AB69E;
+  border: 3px solid #9ab69e;
   transition: border-color 0.3s;
   padding: 16px;
   font-size: 14px;
@@ -67,7 +66,7 @@ input {
 input::placeholder {
   padding: 4px;
   margin: 5px;
-  color: #9AB69E;
+  color: #9ab69e;
 }
 
 input:focus {
@@ -80,7 +79,7 @@ input:focus {
   left: 448px;
   top: 26px;
   transform: translateY(-50%);
-  fill: #9AB69E;
+  fill: #9ab69e;
   transition: fill 0.3s;
   cursor: pointer;
 }

@@ -1,4 +1,3 @@
-
 <script setup>
 import { ref } from "vue";
 import IconAfterDays from "~/components/Icons/IconAfterDays.vue";
@@ -24,7 +23,6 @@ const changeDay = (delta) => {
   selectedOptions.value = [options[currentDayIndex.value]];
 };
 </script>
-
 
 <template>
   <div>

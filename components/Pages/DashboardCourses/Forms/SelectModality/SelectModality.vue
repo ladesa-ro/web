@@ -1,21 +1,38 @@
 <template v-slot:search>
   <div class="form-container" @click="handleFormClick">
     <form action="./">
-      <label id="label" class="label" for="pesquisar" :class="{ 'label-focus': isFormFocused }">
+      <label
+        id="label"
+        class="label"
+        for="pesquisar"
+        :class="{ 'label-focus': isFormFocused }"
+      >
         Modalidade
       </label>
-      <div class="selected-options" :class="{ 'selected-options-active': isSelectOpen }" @click="toggleSelect">
-        <span class="input" v-if="!selectedOptions.length">Escolha uma opção</span>
+      <div
+        class="selected-options"
+        :class="{ 'selected-options-active': isSelectOpen }"
+        @click="toggleSelect"
+      >
+        <span class="input" v-if="!selectedOptions.length"
+          >Escolha uma opção</span
+        >
         <span v-else>{{ selectedOptions.join(", ") }}</span>
-        <IconsIconDownArrow class="arrow-icon" :style="{
-    transform: isSelectOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-    fill: isFormFocused ? '#00d047' : '#c8dccb',
-  }" />
+        <IconsIconDownArrow
+          class="arrow-icon"
+          :style="{
+            transform: isSelectOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+            fill: isFormFocused ? '#00d047' : '#c8dccb',
+          }"
+        />
       </div>
       <div v-if="isSelectOpen" class="modal" @click.stop>
-        <div v-for="option in options" :key="option.value" @click="handleOptionClick(option)">
+        <div
+          v-for="option in options"
+          :key="option.value"
+          @click="handleOptionClick(option)"
+        >
           <div class="modal-option">
-
             <span class="option">{{ option.label }}</span>
           </div>
         </div>
@@ -38,12 +55,10 @@ const options = [
   { value: "Graduação", label: "Graduação" },
 ];
 
-
-
 const handleOptionClick = (option) => {
   if (selectedOptions.value.includes(option.value)) {
     selectedOptions.value = selectedOptions.value.filter(
-      (value) => value !== option.value
+      (value) => value !== option.value,
     );
   } else {
     selectedOptions.value.push(option.value);
@@ -55,8 +70,6 @@ const handleOptionClick = (option) => {
 const toggleSelect = () => {
   isSelectOpen.value = !isSelectOpen.value;
 };
-
-
 
 const handleFormClick = () => {
   isFormFocused.value = !isFormFocused.value;
@@ -105,7 +118,9 @@ const handleFormClick = () => {
   width: 85px;
   margin-top: -13px;
   margin-left: -170px;
-  transition: border-color 0.3s, color 0.3s;
+  transition:
+    border-color 0.3s,
+    color 0.3s;
 }
 
 .label-focus {
@@ -134,7 +149,6 @@ const handleFormClick = () => {
 .selected-options-active {
   border-color: #00d047;
 }
-
 
 .icon {
   fill: #c8dccb;

@@ -1,6 +1,4 @@
-<script setup>
-
-</script>
+<script setup></script>
 
 <template>
   <div class="overlay">
@@ -18,18 +16,40 @@
       <div>
         <button class="Cancel" @click="($event) => $emit('close')">
           <span>Cancelar</span>
-          <svg class="svgCancel" width="13" height="14" viewBox="0 0 13 14" fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path d="M1.23291 11.8824L10.9209 2.11755M10.9209 11.8824L1.23291 2.11755" :stroke="svgCancelColor"
-              stroke-width="2.46588" stroke-linecap="round" />
+          <svg
+            class="svgCancel"
+            width="13"
+            height="14"
+            viewBox="0 0 13 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1.23291 11.8824L10.9209 2.11755M10.9209 11.8824L1.23291 2.11755"
+              :stroke="svgCancelColor"
+              stroke-width="2.46588"
+              stroke-linecap="round"
+            />
           </svg>
         </button>
 
         <button class="Cad" @click="($event) => $emit('close')">
           <span>Cadastrar</span>
-          <svg class="svgCad" width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1.4082 6.63384L6.59038 11.647L15.7719 2.35291" :stroke="svgColor" stroke-width="2.8164"
-              stroke-linecap="round" stroke-linejoin="round" />
+          <svg
+            class="svgCad"
+            width="18"
+            height="14"
+            viewBox="0 0 18 14"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1.4082 6.63384L6.59038 11.647L15.7719 2.35291"
+              :stroke="svgColor"
+              stroke-width="2.8164"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
         </button>
       </div>
@@ -61,7 +81,8 @@ h1 {
   color: black;
   border-radius: 0.5rem;
   text-align: center;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 8px 10px -6px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
   width: 430px;
@@ -69,8 +90,6 @@ h1 {
   z-index: 10000;
   margin-right: 20px;
 }
-
-
 
 .Cad,
 .Cancel {

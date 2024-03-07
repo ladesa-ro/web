@@ -3,48 +3,50 @@ const props = defineProps({
   imagemSrc: String,
   mensagem: String,
   abreviacao: String,
-  nivel : String,
-})
+  nivel: String,
+});
 
 const { imagemSrc, mensagem, abreviacao, nivel } = props;
 </script>
 
 <template class="tudo">
   <div class="pai">
-    <img class="img" :src="imagemSrc"/>
-    <div class="titulo"><b>{{ mensagem }}</b></div>
+    <img class="img" :src="imagemSrc" />
+    <div class="titulo">
+      <b>{{ mensagem }}</b>
+    </div>
     <div class="abreviação">{{ abreviacao }}</div>
     <div class="nível">{{ nivel }}</div>
-    <img class="ft" src="~assets/Editar.png">
+    <img class="ft" src="~assets/Editar.png" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'bloco',
-}//EXPORTAÇÃO//
+  name: "bloco",
+}; //EXPORTAÇÃO//
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500&display=swap');
-.tudo{
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500&display=swap");
+.tudo {
   box-sizing: border-box;
-  position:absolute;
+  position: absolute;
 }
-.pai{
+.pai {
   width: 487px;
   height: 239px;
   flex-shrink: 0;
   border-radius: 8px;
-  border: 1.5px solid #9AB69E;
-  background: #FFF;
+  border: 1.5px solid #9ab69e;
+  background: #fff;
 }
-.img{
+.img {
   width: 487px;
   height: 120px;
   flex-shrink: 0;
 }
-.titulo{
+.titulo {
   position: absolute;
   margin-left: 20px;
   font-family: Poppins;
@@ -55,7 +57,7 @@ export default {
   line-height: bold;
   margin-top: 15px;
 }
-.abreviação{
+.abreviação {
   position: absolute;
   margin-left: 20px;
   font-family: Poppins;
@@ -63,10 +65,10 @@ export default {
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  color: #9AB69E;
+  color: #9ab69e;
   margin-top: 50px;
 }
-.nível{
+.nível {
   position: absolute;
   margin-left: 20px;
   font-family: Poppins;
@@ -74,13 +76,13 @@ export default {
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  color: #9AB69E;
+  color: #9ab69e;
   margin-top: 70px;
 }
-.img{
+.img {
   border-radius: 8px 8px 0px 0px;
 }
-.ft{
+.ft {
   position: absolute;
   margin-left: -45px;
   margin-top: 140px;

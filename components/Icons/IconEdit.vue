@@ -1,6 +1,5 @@
 <template>
   <div class="svgEdt" click="$emit('click')">
-    
     <svg
       width="14"
       height="16"
@@ -24,5 +23,4 @@
   width: 25px;
   height: 25px;
 }
-
 </style>

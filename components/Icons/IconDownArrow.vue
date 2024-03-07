@@ -1,9 +1,16 @@
 <template>
   <div>
-    <svg width="13" height="9" viewBox="0 0 13 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width="13"
+      height="9"
+      viewBox="0 0 13 9"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M0.553934 2.61714C-0.112253 1.91071 0.388583 0.75 1.35958 0.75H11.2267C12.1977 0.75 12.6986 1.91071 12.0324 2.61714L7.0988 7.84871C6.6617 8.31221 5.92461 8.31221 5.48751 7.84871L0.553934 2.61714Z"
-        fill="#118D3B" />
+        fill="#118D3B"
+      />
     </svg>
   </div>
 </template>
