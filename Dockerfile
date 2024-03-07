@@ -3,12 +3,11 @@ RUN apt update -y
 RUN apt install -y git
 WORKDIR /sisgea/sisgha-app
 
-# FROM base as prod-deps
-# COPY package.json yarn.lock ./
+FROM base as prod-deps
+COPY package.json yarn.lock ./
 # RUN yarn install --prod
 
-# FROM prod-deps as dev-deps
-FROM base as dev-deps
+FROM prod-deps as dev-deps
 RUN yarn install
 
 FROM dev-deps as assets
