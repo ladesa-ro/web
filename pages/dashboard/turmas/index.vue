@@ -1,0 +1,4 @@
+
+<template>
+  <PagesDashboardTurmas />
+</template>
