@@ -62,7 +62,7 @@ const isSelected = (option) => {
 const handleOptionClick = (option) => {
   if (selectedOptions.value.includes(option.value)) {
     selectedOptions.value = selectedOptions.value.filter(
-      (value) => value !== option.value
+      (value) => value !== option.value,
     );
   } else {
     selectedOptions.value.push(option.value);
@@ -120,7 +120,9 @@ const handleFormClick = () => {
   position: absolute;
   width: 60px;
   margin-top: -13px;
-  transition: border-color 0.3s, color 0.3s;
+  transition:
+    border-color 0.3s,
+    color 0.3s;
 }
 
 .label-focus {

@@ -16,5 +16,5 @@
 </template>
 
 <style>
-@import '@/assets/styles/fontePadrao.css';
+@import "@/assets/styles/fontePadrao.css";
 </style>

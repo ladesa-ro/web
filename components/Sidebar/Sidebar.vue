@@ -47,63 +47,63 @@
 </template>
 
 <script setup>
-import inicioIconWhite from '../assets/icons/inicioIconWhite.svg';
-import turmasIconWhite from '../assets/icons/turmasIconWhite.svg';
-import disciplinaIconWhite from '../assets/icons/disciplinaIconWhite.svg';
-import perfilIconWhite from '../assets/icons/perfilIconWhite.svg';
-import vinculoIconWhite from '../assets/icons/vinculosIconWhite.svg';
-import calendarioIconWhite from '../assets/icons/calendarioIconWhite.svg';
-import outrosIconWhite from '../assets/icons/outrosIconWhite.svg';
-import configuracoesIconWhite from '../assets/icons/configuracoesIconWhite.svg';
+import inicioIconWhite from "../assets/icons/inicioIconWhite.svg";
+import turmasIconWhite from "../assets/icons/turmasIconWhite.svg";
+import disciplinaIconWhite from "../assets/icons/disciplinaIconWhite.svg";
+import perfilIconWhite from "../assets/icons/perfilIconWhite.svg";
+import vinculoIconWhite from "../assets/icons/vinculosIconWhite.svg";
+import calendarioIconWhite from "../assets/icons/calendarioIconWhite.svg";
+import outrosIconWhite from "../assets/icons/outrosIconWhite.svg";
+import configuracoesIconWhite from "../assets/icons/configuracoesIconWhite.svg";
 
 const links = [
   {
-    title: 'Início',
+    title: "Início",
     icon: inicioIconWhite,
-    to: '/inicio',
+    to: "/inicio",
   },
   {
-    title: 'Turmas',
+    title: "Turmas",
     icon: turmasIconWhite,
-    to: '/turmas',
+    to: "/turmas",
   },
   {
-    title: 'Disciplinas',
+    title: "Disciplinas",
     icon: disciplinaIconWhite,
-    to: '/disciplinas',
+    to: "/disciplinas",
   },
   {
-    title: 'Perfil',
+    title: "Perfil",
     icon: perfilIconWhite,
-    to: '/perfil',
+    to: "/perfil",
   },
   {
-    title: 'Vínculos',
+    title: "Vínculos",
     icon: vinculoIconWhite,
-    to: '/vinculos',
+    to: "/vinculos",
   },
   {
-    title: 'Calendário',
+    title: "Calendário",
     icon: calendarioIconWhite,
-    to: '/calendario',
+    to: "/calendario",
   },
   {
-    title: 'Outros',
+    title: "Outros",
     icon: outrosIconWhite,
-    to: '/outros',
+    to: "/outros",
   },
 ];
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 .iconBefore {
   margin-right: 20px;
 }
 
 span {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
   font-size: 15px;
 }

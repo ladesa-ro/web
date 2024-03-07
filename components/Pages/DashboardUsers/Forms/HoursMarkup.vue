@@ -7,7 +7,7 @@ const toggleBackgroundColor = (index) => {
   if (index === "all") {
     allBackground.value = allBackground.value === "#118D3B" ? null : "#118D3B";
     individualBackgrounds.value = individualBackgrounds.value.map(() =>
-      allBackground.value ? allBackground.value : null
+      allBackground.value ? allBackground.value : null,
     );
   } else {
     allBackground.value = null;
@@ -30,7 +30,7 @@ const toggleBackgroundColor = (index) => {
       </div>
       <div v-for="(icon, index) in icons" :key="index" class="bx">
         <IconsIconMarkup
-        class="svgMarkup"
+          class="svgMarkup"
           @click="toggleBackgroundColor(index)"
           :style="{
             backgroundColor: allBackground

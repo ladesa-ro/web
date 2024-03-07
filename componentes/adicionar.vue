@@ -1,20 +1,20 @@
 <template>
-  <button @click="openModal"><img class="adc" src="~/assets/Bota0-Simples.jpg" alt="">
+  <button @click="openModal">
+    <img class="adc" src="~/assets/Bota0-Simples.jpg" alt="" />
     <slot></slot>
   </button>
 </template>
 
 <script>
 export default {
-  name: 'adicionar',
+  name: "adicionar",
 
   methods: {
     openModal() {
-      this.$emit('openModal');
+      this.$emit("openModal");
     },
   },
-}
-
+};
 </script>
 
 <style>

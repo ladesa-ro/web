@@ -7,11 +7,14 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "format:check": "prettier --cache --ignore-unknown \"**/*\" --check",
+    "format:write": "prettier --cache --ignore-unknown \"**/*\" --write"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "nuxt": "^3.8.2",
+    "prettier": "^3.2.5",
     "vite-plugin-vuetify": "^2.0.1",
     "vue": "^3.3.12",
     "vue-router": "4",
