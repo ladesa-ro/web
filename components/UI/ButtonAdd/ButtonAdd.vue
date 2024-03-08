@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="button_add" click="$emit('click')">
+
     <svg
       width="47"
       height="47"
@@ -17,7 +17,6 @@
         stroke-linecap="round"
       />
     </svg>
-  </div>
 </template>
 
 <style>

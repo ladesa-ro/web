@@ -9,7 +9,7 @@
       >
         <v-list-item class="mt-3 listItem">
           <template v-slot:prepend>
-            <img :src="link.icon" width="24" class="iconBefore" alt="" />
+            <img :src="link.icon" :width="link.width" class="iconBefore" alt="" />
           </template>
           <v-list-item-title class="link">
             <span> {{ link.title }}</span>
@@ -43,43 +43,62 @@ import outrosIconWhite from "../assets/icons/outrosIconWhite.svg";
 import perfilIconWhite from "../assets/icons/perfilIconWhite.svg";
 import turmasIconWhite from "../assets/icons/turmasIconWhite.svg";
 import vinculoIconWhite from "../assets/icons/vinculosIconWhite.svg";
+import cursosIconWhite from "../assets/icons/cursoIconWhite.svg";
+import usuariosIconWhite from "../assets/icons/usuariosIconWhite.svg";
+
+
+
 
 const links = [
   {
     title: "Início",
     icon: inicioIconWhite,
-    to: "/inicio",
+    to: "/",
+    width: "24",
   },
   {
     title: "Turmas",
     icon: turmasIconWhite,
-    to: "/turmas",
+    to: "/dashboard/turmas",
+    width: "24",
   },
   {
     title: "Disciplinas",
     icon: disciplinaIconWhite,
-    to: "/disciplinas",
+    to: "/dashboard/disciplinas",
+    width: "24",
   },
   {
     title: "Perfil",
     icon: perfilIconWhite,
     to: "/perfil",
+    width: "24",
   },
   {
     title: "Vínculos",
     icon: vinculoIconWhite,
     to: "/vinculos",
+    width: "24",
   },
   {
     title: "Calendário",
     icon: calendarioIconWhite,
     to: "/calendario",
+    width: "24",
   },
   {
-    title: "Outros",
-    icon: outrosIconWhite,
-    to: "/outros",
+    title: 'Usuários',
+    icon: usuariosIconWhite,
+    to: '/dashboard/usuarios',
+    width: "24",
   },
+  {
+    title: 'Cursos',
+    icon: cursosIconWhite,
+    to: '/dashboard/cursos',
+    width: "26",
+  },
+
 ];
 </script>
 

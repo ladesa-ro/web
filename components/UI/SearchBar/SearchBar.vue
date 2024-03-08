@@ -25,10 +25,9 @@ import IconSearch from "~/components/Icons/IconSearch.vue";
 <style scoped>
 .form {
   display: flex;
-  margin-left: 150px;
   margin-top: 90px;
   position: relative;
-  width: 490px;
+  width: 100%;
   align-items: center;
 }
 .label {
@@ -46,7 +45,7 @@ import IconSearch from "~/components/Icons/IconSearch.vue";
 }
 input {
   height: 48px;
-  width: 480px;
+  max-width: 480px;
   font-weight: 550;
   font-size: 0.75rem;
   border-radius: 8px;
@@ -70,8 +69,9 @@ input:focus {
 
 .icon {
   position: absolute;
-  left: 448px;
+  right: 0;
   top: 26px;
+  margin-right: 10px;
   transform: translateY(-50%);
   fill: #9ab69e;
   transition: fill 0.3s;

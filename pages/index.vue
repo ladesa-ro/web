@@ -1,19 +1,6 @@
 <template>
   <div>
-    <ul>
-      <li>
-        <NuxtLink to="/dashboard/cursos">Cursos</NuxtLink>
-      </li>
-      <li>
-        <NuxtLink to="/dashboard/usuarios">Usuários</NuxtLink>
-      </li>
-      <li>
-        <NuxtLink to="/dashboard/disciplinas">Disciplinas</NuxtLink>
-      </li>
-      <li>
-        <NuxtLink to="/dashboard/turmas">Turmas</NuxtLink>
-      </li>
-    </ul>
+
   </div>
 </template>
 

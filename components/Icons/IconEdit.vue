@@ -1,5 +1,4 @@
 <template>
-  <div class="svgEdt" click="$emit('click')">
     <svg
       width="14"
       height="16"
@@ -12,13 +11,11 @@
         fill="black"
       />
     </svg>
-  </div>
 </template>
 
-<style scoped>
+<style>
 .svgEdt {
   cursor: pointer;
-  position: absolute;
   z-index: 10;
   width: 25px;
   height: 25px;
