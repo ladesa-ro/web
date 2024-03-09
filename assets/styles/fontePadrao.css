@@ -1,3 +1,17 @@
-.app {
+a,
+p,
+input,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: "Poppins", sans-serif !important;
+  text-decoration: none;
+}
+
+select {
+  font-family: "Poppins", sans-serif !important;
+  text-decoration: none;
 }

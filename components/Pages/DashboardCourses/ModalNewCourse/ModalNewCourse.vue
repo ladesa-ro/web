@@ -44,7 +44,9 @@
   color: black;
   border-radius: 0.5rem;
   text-align: center;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
   width: 90%; /* Valor padrão para largura em dispositivos pequenos */
   max-width: 600px; /* Largura máxima para evitar que o modal fique muito grande em telas grandes */
@@ -70,7 +72,8 @@
   transition: color 0.2s ease;
 }
 
-.svgCad, .svgCancel {
+.svgCad,
+.svgCancel {
   vertical-align: middle;
   margin-left: 8px;
 }

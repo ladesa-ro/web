@@ -16,5 +16,25 @@
 </template>
 
 <style>
-@import "@/assets/styles/fontePadrao.css";
+@import "~/assets/styles/themes/theme.css";
+@import "~/assets/styles/fontePadrao.css";
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.svg-fill-text path {
+  fill: rgb(var(--sisgha-theme-text));
+}
+
+html {
+  overflow: auto;
+}
 </style>

@@ -92,8 +92,6 @@ const handleFormClick = () => {
   width: 100%;
 }
 
-
-
 .input {
   width: 100%;
   padding: 3px;
