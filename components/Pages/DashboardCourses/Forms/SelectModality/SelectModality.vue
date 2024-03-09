@@ -81,7 +81,7 @@ const handleFormClick = () => {
   display: flex;
   flex-direction: column;
   position: relative;
-  margin-left: 5px;
+  margin-left: 10px;
   margin-top: -7px;
 }
 
@@ -89,14 +89,14 @@ const handleFormClick = () => {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 90px;
   width: 100%;
 }
+
+
 
 .input {
   width: 100%;
   padding: 3px;
-  margin-left: -225px;
   margin-top: 3px;
   color: #9ab69e;
   font-size: 12px;
@@ -108,19 +108,17 @@ const handleFormClick = () => {
 }
 
 .label {
-  padding: 4px;
+  display: inline-block;
+  padding: 5px;
+  width: auto;
+  margin-top: -13px;
   font-size: 12px;
   font-weight: 600;
   border: 1px solid white;
   background-color: white;
   color: #9ab69e;
   position: absolute;
-  width: 85px;
-  margin-top: -13px;
-  margin-left: -170px;
-  transition:
-    border-color 0.3s,
-    color 0.3s;
+  margin-right: 22px;
 }
 
 .label-focus {
@@ -135,7 +133,7 @@ const handleFormClick = () => {
   border: 3px solid #9ab69e;
   border-radius: 8px;
   padding: 16px;
-  width: 380px;
+  width: 100%;
   height: 49px;
   margin-left: -7px;
   margin-top: 0px;
@@ -178,17 +176,16 @@ const handleFormClick = () => {
 }
 
 .modal div {
-  display: flex;
+  display: block;
   flex-direction: column;
   gap: 5px;
   align-items: center;
   cursor: pointer;
-  padding: 8px;
 }
 
 .arrow-icon {
   position: absolute;
-  right: 15px;
+  right: 0px;
   transition: transform 0.3s;
 }
 

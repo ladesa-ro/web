@@ -22,11 +22,12 @@ defineProps(["value"]);
 
 <style scoped>
 .form {
-  display: flex;
+  display: block;
   margin-bottom: 25px;
   margin-top: 25px;
   position: relative;
-  width: 490px;
+  width: 100%; /* Use toda a largura disponível */
+  max-width: 600px; /* Defina uma largura máxima */
   align-items: center;
 }
 
@@ -45,17 +46,16 @@ defineProps(["value"]);
 }
 
 input {
+  width: 100%; /* Faz o input ocupar toda a largura disponível */
   height: 48px;
-  width: 380px;
+  padding: 16px;
+  font-size: 14px;
   font-weight: 550;
-  font-size: 0.75rem;
   border-radius: 8px;
   border: 3px solid #9ab69e;
   transition: border-color 0.3s;
-  padding: 16px;
-  font-size: 14px;
-  flex: 1;
 }
+
 
 input::placeholder {
   padding: 4px;

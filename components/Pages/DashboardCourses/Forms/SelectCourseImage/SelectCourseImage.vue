@@ -50,7 +50,7 @@
 
 <style scoped>
 #drop-area {
-  width: 380px;
+  width: 100%;
   height: 200px;
   border: 2px solid #9ab69e;
   border-radius: 8px;
