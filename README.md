@@ -1,12 +1,8 @@
 # Iniciar o SISGHA em sua máquina.
 
-Antes de iniciar o projeto, instale o yarn globalmente na sua máquina
-
-## Yarn
-
 ```bash
-# yarn
-npm install --global yarn
+git clone https://github.com/sisgha/sisgha-app.git;
+cd sisgha-app;
 ```
 
 ## Setup
@@ -14,8 +10,7 @@ npm install --global yarn
 Instale as dependências do projeto:
 
 ```bash
-# yarn
-yarn install
+npm install
 ```
 
 ## Servidor de desenvolvimento
@@ -23,6 +18,5 @@ yarn install
 Comece o servidor de desenvolvimento em `http://localhost:3000`:
 
 ```bash
-# yarn
-yarn run dev
+npm run dev
 ```
