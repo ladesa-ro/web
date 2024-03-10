@@ -69,20 +69,20 @@ export default {
 
 .dis {
   position: absolute;
-  margin-left: 200px;
-  margin-top: 150px;
+  margin-left: 150px;
+  margin-top: 20px;
 }
 
 .dis2 {
   position: absolute;
-  margin-top: 295px;
-  margin-left: 200px;
+  margin-top: 160px;
+  margin-left: 150px;
 }
 
 .dis3 {
   position: absolute;
-  margin-left: 715px;
+  margin-left: 661px;
   display: block;
-  margin-top: 150px;
+  margin-top: 20px;
 }
 </style>

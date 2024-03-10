@@ -5,7 +5,7 @@
     :imagemSrc="caminhoDaImagem"
     :mensagem="mensagemDoPai"
     :abreviacao="abre"
-    :nivel="niv"
+    :nivel="niv"  
   />
 
   <bloco
@@ -79,20 +79,20 @@ export default {
 
 .p1 {
   position: absolute;
-  margin-left: 200px;
-  margin-top: 150px;
+  margin-left: 150px;
+  margin-top: 40px;
 }
 
 .p2 {
   position: absolute;
-  margin-top: 420px;
-  margin-left: 200px;
+  margin-top: 300px;
+  margin-left: 150px;
 }
 
 .p3 {
   position: absolute;
-  margin-left: 720px;
+  margin-left: 660px;
   display: block;
-  margin-top: 150px;
+  margin-top: 40px;
 }
 </style>
