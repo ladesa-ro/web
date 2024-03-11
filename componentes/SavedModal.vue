@@ -7,7 +7,7 @@
           <img class="ft" src="~/assets/Foto.png" />
           <div class="search-bar1">
             <fieldset class="f1">
-              <legend class="legenda1">Nome</legend>
+              <legend class="legenda1">Nome</legend><!--nome do contribuinte-->
               <p class="placeholder1">Programação orientada a objetos</p>
             </fieldset>
           </div>
