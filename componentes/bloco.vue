@@ -17,7 +17,6 @@ const { imagemSrc, mensagem, abreviacao, nivel } = props;
     </div>
     <div class="abreviação">{{ abreviacao }}</div>
     <div class="nível">{{ nivel }}</div>
-    <img class="ft" src="~assets/Editar.png" />
   </div>
 </template>
 
@@ -42,7 +41,7 @@ export default {
   background: #fff;
 }
 .img {
-  width: 487px;
+  width: 485px;
   height: 120px;
   flex-shrink: 0;
 }
@@ -82,11 +81,5 @@ export default {
 .img {
   border-radius: 8px 8px 0px 0px;
 }
-.ft {
-  position: absolute;
-  margin-left: -45px;
-  margin-top: 140px;
-  width: 30px;
-  height: 30px;
-}
+
 </style>
