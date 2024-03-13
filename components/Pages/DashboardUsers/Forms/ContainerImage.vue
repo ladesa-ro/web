@@ -57,6 +57,7 @@
   text-align: center;
   margin: 50px auto;
   cursor: pointer;
+  margin-top: 30px;
 }
 
 #drop-area input[type="file"] {
