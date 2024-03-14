@@ -3,8 +3,11 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import type ICredentialsProvider from "next-auth/providers/credentials";
 import CredentialsProviderModule from "next-auth/providers/credentials";
 import { AutenticacaoService } from "../../../infrastructure/api/generated";
-import { ServerAuthenticationService, ServerEnvironmentConfigService, serverInfrastructureContainer } from "../../server-infrastructure";
-
+import {
+  ServerAuthenticationService,
+  ServerEnvironmentConfigService,
+  serverInfrastructureContainer,
+} from "../../server-infrastructure";
 
 /// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
 const CredentialsProvider: typeof ICredentialsProvider = CredentialsProviderModule.default;
@@ -13,11 +16,6 @@ const ACCESS_TOKEN_EXPIRATION_TRIM = 0.5 * 60 * 1000;
 
 const serverAuthenticationService = serverInfrastructureContainer.get(ServerAuthenticationService);
 const serverEnvironmentConfigService = serverInfrastructureContainer.get(ServerEnvironmentConfigService);
-
-process.on("unhandledRejection", (reason, p) => {
-  console.log("Unhandled Rejection at: Promise", p, "reason:", reason);
-  // application specific logging, throwing an error, or other logic here
-});
 
 export default NuxtAuthHandler({
   secret: serverEnvironmentConfigService.getNuxtAuthSecret(),
@@ -108,7 +106,6 @@ export default NuxtAuthHandler({
     },
 
     async session({ session, token }) {
-      console.log("aff");
       session.user = token.user;
       session.error = token.error;
 

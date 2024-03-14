@@ -15,6 +15,7 @@ export type { AutenticacaoDefinirSenhaResultDto } from "./models/AutenticacaoDef
 export type { AutenticacaoLoginInputDto } from "./models/AutenticacaoLoginInputDto";
 export type { AutenticacaoLoginResultDto } from "./models/AutenticacaoLoginResultDto";
 export type { AutenticacaoQuemSouEuResultDto } from "./models/AutenticacaoQuemSouEuResultDto";
+export type { AutenticacaoRefreshInputDto } from "./models/AutenticacaoRefreshInputDto";
 export type { BlocoFindAllResultDto } from "./models/BlocoFindAllResultDto";
 export type { BlocoFindOneResultDto } from "./models/BlocoFindOneResultDto";
 export type { BlocoInputDto } from "./models/BlocoInputDto";
