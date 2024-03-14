@@ -1,3 +1,7 @@
+<template>
+  <PageLoading />
+</template>
+
 <script lang="ts" setup>
 import { callWithNuxt } from "nuxt/app";
 
@@ -26,7 +30,3 @@ const handleAuthStatus = async () => {
 
 watch([status], handleAuthStatus, { immediate: true });
 </script>
-
-<template>
-  <PageLoading />
-</template>

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import LogoSisgha from '@/components/Logo/LogoSisgha/LogoSisgha.vue';
+
 const { isBusy, isError, canSubmit, credentials, signInWithCredentials } =
   useAuthSignIn();
 </script>
@@ -10,7 +12,7 @@ const { isBusy, isError, canSubmit, credentials, signInWithCredentials } =
       <div class="light-2"></div>
 
       <div class="login-card">
-        <IconsLogoSisgha class="logo" />
+        <LogoSisgha class="logo" />
 
         <div class="fields">
           <UITextField
@@ -64,7 +66,7 @@ const { isBusy, isError, canSubmit, credentials, signInWithCredentials } =
           class="login-alternative-button"
         >
           <template #start-icon>
-            <IconsIconUser class="user-icon" />
+            <IconsUser class="user-icon" />
           </template>
 
           Entrar como Aluno

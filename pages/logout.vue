@@ -5,5 +5,5 @@ definePageMeta({
 </script>
 
 <template>
-  <PageLogout />
+  <PagesLogout />
 </template>
