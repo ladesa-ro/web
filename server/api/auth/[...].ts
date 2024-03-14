@@ -2,28 +2,20 @@ import { NuxtAuthHandler } from "#auth";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import type ICredentialsProvider from "next-auth/providers/credentials";
 import CredentialsProviderModule from "next-auth/providers/credentials";
-import type IKeycloakProvider from "next-auth/providers/keycloak";
-import KeycloakProviderModule from "next-auth/providers/keycloak";
+import { AutenticacaoService } from "../../../infrastructure/api/generated";
 import { EnvironmentConfigService } from "../../infrastructure/config/environment-config";
 import { OidcClientService } from "../../infrastructure/oidc-client/oidc-client.service";
 import { OidcClientProvider } from "../../infrastructure/oidc-client/providers/oidc-client.provider";
 
+/// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
+const CredentialsProvider: typeof ICredentialsProvider = CredentialsProviderModule.default;
+
 const ACCESS_TOKEN_EXPIRATION_TRIM = 0.5 * 60 * 1000;
-
-/// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
-const KeyCloakProvider: typeof IKeycloakProvider =
-  KeycloakProviderModule.default;
-
-/// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
-const CredentialsProvider: typeof ICredentialsProvider =
-  CredentialsProviderModule.default;
 
 const environmentConfigService = new EnvironmentConfigService();
 
 const oidcClientProvider = new OidcClientProvider(environmentConfigService);
 const oidcClientService = new OidcClientService(oidcClientProvider);
-
-// const keycloakConfig = environmentConfigService.getKeycloakCredentials();
 
 export default NuxtAuthHandler({
   secret: environmentConfigService.getNuxtAuthSecret(),
@@ -44,25 +36,20 @@ export default NuxtAuthHandler({
         password: { label: "Senha", type: "password" },
       },
 
-      async authorize(credentials, req) {
-        if (credentials) {
-          const { username, password } = credentials;
+      async authorize(credentials, _req) {
+        const matriculaSiape = credentials?.username;
+        const senha = credentials?.password;
 
-          const openidClient = await oidcClientProvider.getOpenIdClient();
-
+        if (credentials && matriculaSiape && senha) {
           try {
-            const token = await openidClient.grant({
-              username,
-              password,
-              grant_type: "password",
-              scope: "openid profile",
+            const token = await AutenticacaoService.autenticacaoControllerLogin({
+              matriculaSiape: matriculaSiape,
+              senha: senha,
             });
 
-            const accessToken = token.access_token;
+            const { access_token: accessToken } = token;
 
-            const data = <JwtPayload | null>(
-              (accessToken ? jwt.decode(accessToken) : null)
-            );
+            const data = <JwtPayload | null>(accessToken ? jwt.decode(accessToken) : null);
 
             const sub = data?.sub;
 
@@ -72,20 +59,12 @@ export default NuxtAuthHandler({
                 token,
               };
             }
-          } catch (error) {
-            return null;
-          }
+          } catch (error) {}
         }
 
         return null;
       },
     }),
-    // KeyCloakProvider({
-    //   id: "sisgha-sso",
-    //   issuer: keycloakConfig.issuer,
-    //   clientId: keycloakConfig.clientId,
-    //   clientSecret: keycloakConfig.clientSecret,
-    // }),
   ],
 
   callbacks: {

@@ -41,9 +41,7 @@ export const useAuthSignIn = () => {
 
     const { error, url } = await signIn("credentials", {
       callbackUrl: unref(callbackUrlRef),
-
       redirect: false,
-
       username: credentials.username,
       password: credentials.password,
     });
