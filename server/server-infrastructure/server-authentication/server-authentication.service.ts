@@ -1,9 +1,7 @@
 import { injectable } from "inversify";
 
 @injectable()
-export class AuthenticationService {
-  credentialsAuthorize(credentials: Record<"username" | "password", string>) {}
-
+export class ServerAuthenticationService {
   async refreshAccessToken(token: any): Promise<any> {
     // try {
     //   const client = await this.oidcClientProvider.getOpenIdClient();
@@ -21,6 +19,6 @@ export class AuthenticationService {
     // }
 
     console.log("vish kk");
-    throw new Error("AuthenticationService#refreshAccessToken - Not implemented.")
+    throw new Error("AuthenticationService#refreshAccessToken - Not implemented.");
   }
 }

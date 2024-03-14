@@ -2,18 +2,17 @@ import { NuxtAuthHandler } from "#auth";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import type ICredentialsProvider from "next-auth/providers/credentials";
 import CredentialsProviderModule from "next-auth/providers/credentials";
-import { AutenticacaoService } from "../../infrastructure/api/generated";
-import { AuthenticationService } from "../infrastructure/authentication";
-import { EnvironmentConfigService } from "../infrastructure/config/environment-config";
-import { infrastructureContainer } from "../infrastructure/infrastructure.container";
+import { AutenticacaoService } from "../../../infrastructure/api/generated";
+import { ServerAuthenticationService, ServerEnvironmentConfigService, serverInfrastructureContainer } from "../../server-infrastructure";
+
 
 /// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
 const CredentialsProvider: typeof ICredentialsProvider = CredentialsProviderModule.default;
 
 const ACCESS_TOKEN_EXPIRATION_TRIM = 0.5 * 60 * 1000;
 
-const authenticationService = infrastructureContainer.get(AuthenticationService);
-const environmentConfigService = infrastructureContainer.get(EnvironmentConfigService);
+const serverAuthenticationService = serverInfrastructureContainer.get(ServerAuthenticationService);
+const serverEnvironmentConfigService = serverInfrastructureContainer.get(ServerEnvironmentConfigService);
 
 process.on("unhandledRejection", (reason, p) => {
   console.log("Unhandled Rejection at: Promise", p, "reason:", reason);
@@ -21,7 +20,7 @@ process.on("unhandledRejection", (reason, p) => {
 });
 
 export default NuxtAuthHandler({
-  secret: environmentConfigService.getNuxtAuthSecret(),
+  secret: serverEnvironmentConfigService.getNuxtAuthSecret(),
 
   pages: {
     signIn: "/login",
@@ -105,7 +104,7 @@ export default NuxtAuthHandler({
       }
 
       // Access token has expired, try to update it
-      return authenticationService.refreshAccessToken(token);
+      return serverAuthenticationService.refreshAccessToken(token);
     },
 
     async session({ session, token }) {

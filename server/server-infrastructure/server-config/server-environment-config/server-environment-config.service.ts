@@ -3,7 +3,7 @@ import { withoutTrailingSlash } from "ufo";
 import { IConfig } from "../../../domain/config/IConfig";
 
 @injectable()
-export class EnvironmentConfigService implements IConfig {
+export class ServerEnvironmentConfigService implements IConfig {
   getRuntimeEnv() {
     const env = process.env.NODE_ENV ?? null;
     return env ?? "development";
