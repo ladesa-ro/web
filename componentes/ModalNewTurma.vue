@@ -1,29 +1,28 @@
 <script setup>
-import ContainerImage from "~/components/Pages/DashboardUsers/Forms/ContainerImage.vue";
-import Function from "~/components/Pages/DashboardUsers/Forms/Function.vue";
-import SearchMatricula from "~/components/Pages/DashboardUsers/Forms/SearchMatricula.vue";
-import Searchs from "~/components/Pages/DashboardUsers/Forms/Searchs.vue";
-
-
+import ContainerImage from "../Forms/ContainerImage.vue";
+import Function from "../Forms/Function.vue";
+import SearchMatricula from "../Forms/SearchMatricula.vue";
+import Searchs from "../Forms/Searchs.vue";
 </script>
 
 <template>
   <div class="overlay">
     <div class="modal">
-      <h1 class="title">Cadastrar nova disciplina</h1>
+      <h1>Cadastrar Usuário</h1>
 
       <div>
-        <ContainerImage/>
+        <ContainerImage />
 
         <Searchs value="Nome" />
-        <Searchs value="Nome abreviado" />
-        <Searchs value="Carga horária" />
+        <Searchs value="Email" />
+        <SearchMatricula value="Matricula" />
+        <Function />
       </div>
       <div>
-        <button class="Cancel" @click="showModal = true">
+        <button class="Cancel" @click="($event) => $emit('close')">
           <span>Cancelar</span>
           <svg
-          class="svgCancel"
+            class="svgCancel"
             width="13"
             height="14"
             viewBox="0 0 13 14"
@@ -60,20 +59,20 @@ import Searchs from "~/components/Pages/DashboardUsers/Forms/Searchs.vue";
         </button>
       </div>
     </div>
+
+    <div class="modal2">
+      <h1 class="hDispo">Disponibilidade</h1>
+
+      <div>
+        <PagesDashboardUsersFormsDisponibilidade />
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.title{
-  color: #000;
-  text-align: center;
-  font-family: Poppins;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  letter-spacing: 0.975px;
-  margin-top: 0px;
+h1 {
+  font-size: 16px;
 }
 .overlay {
   position: fixed;

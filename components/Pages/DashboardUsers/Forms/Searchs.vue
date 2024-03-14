@@ -24,7 +24,7 @@ defineProps(["value"]);
 .form {
   display: flex;
   margin-bottom: 25px;
-  margin-top: 25px;
+  margin-top: 0px;
   position: relative;
   width: 490px;
   align-items: center;
