@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     transpile: ["vuetify"],
   },
   auth: {
+    baseURL: process.env.AUTH_ORIGIN,
     provider: {
       type: "authjs",
       trustHost: true,
