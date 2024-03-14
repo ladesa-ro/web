@@ -14,8 +14,8 @@ export class OidcClientService {
 
       return {
         ...token,
-        refreshToken: tokenSet.refresh_token,
         accessToken: tokenSet.access_token,
+        refreshToken: tokenSet.refresh_token,
         accessTokenExpires: Date.now() + tokenSet.expires_in! * 1000,
       };
     } catch (error) {

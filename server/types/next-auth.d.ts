@@ -8,7 +8,6 @@ declare module "next-auth" {
     error?: any;
 
     user?: any;
-
     accessToken?: any;
     accessTokenExpires?: number;
   }

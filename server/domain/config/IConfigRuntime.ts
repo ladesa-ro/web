@@ -1,3 +1,4 @@
 export interface IConfigRuntime {
-  getRuntimeUrl(): string | null;
+  getRuntimeEnv(): "production" | "development" | "test" | string;
+  getRuntimeURL(): string | null;
 }
