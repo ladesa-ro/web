@@ -1,0 +1,70 @@
+/* generated using openapi-typescript-codegen -- do no edit */
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+export { ApiError } from "./core/ApiError";
+export { CancelablePromise, CancelError } from "./core/CancelablePromise";
+export { OpenAPI } from "./core/OpenAPI";
+export type { OpenAPIConfig } from "./core/OpenAPI";
+
+export type { AmbienteFindOneResultDto } from "./models/AmbienteFindOneResultDto";
+export type { AmbienteInputDto } from "./models/AmbienteInputDto";
+export type { AmbienteUpdateWithoutIdInputDto } from "./models/AmbienteUpdateWithoutIdInputDto";
+export type { AutenticacaoDefinirSenhaInputDto } from "./models/AutenticacaoDefinirSenhaInputDto";
+export type { AutenticacaoDefinirSenhaResultDto } from "./models/AutenticacaoDefinirSenhaResultDto";
+export type { AutenticacaoLoginInputDto } from "./models/AutenticacaoLoginInputDto";
+export type { AutenticacaoLoginResultDto } from "./models/AutenticacaoLoginResultDto";
+export type { AutenticacaoQuemSouEuResultDto } from "./models/AutenticacaoQuemSouEuResultDto";
+export type { BlocoFindAllResultDto } from "./models/BlocoFindAllResultDto";
+export type { BlocoFindOneResultDto } from "./models/BlocoFindOneResultDto";
+export type { BlocoInputDto } from "./models/BlocoInputDto";
+export type { BlocoUpdateWithoutIdInputDto } from "./models/BlocoUpdateWithoutIdInputDto";
+export type { CampusFindAllResultDto } from "./models/CampusFindAllResultDto";
+export type { CampusFindOneResultDto } from "./models/CampusFindOneResultDto";
+export type { CampusInputDto } from "./models/CampusInputDto";
+export type { CampusUpdateWithoutIdInputDto } from "./models/CampusUpdateWithoutIdInputDto";
+export type { CidadeFindAllResultDto } from "./models/CidadeFindAllResultDto";
+export type { CidadeFindOneResultDto } from "./models/CidadeFindOneResultDto";
+export type { CursoFindAllResultDto } from "./models/CursoFindAllResultDto";
+export type { CursoFindOneResultDto } from "./models/CursoFindOneResultDto";
+export type { CursoInputDto } from "./models/CursoInputDto";
+export type { CursoUpdateWithoutIdInputDto } from "./models/CursoUpdateWithoutIdInputDto";
+export type { DisciplinaFindAllResultDto } from "./models/DisciplinaFindAllResultDto";
+export type { DisciplinaFindOneResultDto } from "./models/DisciplinaFindOneResultDto";
+export type { DisciplinaInputDto } from "./models/DisciplinaInputDto";
+export type { DisciplinaUpdateWithoutIdInputDto } from "./models/DisciplinaUpdateWithoutIdInputDto";
+export type { EnderecoFindOneResultDto } from "./models/EnderecoFindOneResultDto";
+export type { EnderecoInputDto } from "./models/EnderecoInputDto";
+export type { EstadoFindAllResultDto } from "./models/EstadoFindAllResultDto";
+export type { EstadoFindOneResultDto } from "./models/EstadoFindOneResultDto";
+export type { ModalidadeFindAllResultDto } from "./models/ModalidadeFindAllResultDto";
+export type { ModalidadeFindOneResultDto } from "./models/ModalidadeFindOneResultDto";
+export type { ModalidadeInputDto } from "./models/ModalidadeInputDto";
+export type { ModalidadeUpdateWithoutIdInputDto } from "./models/ModalidadeUpdateWithoutIdInputDto";
+export type { ObjectIdDto } from "./models/ObjectIdDto";
+export type { ObjectUuidDto } from "./models/ObjectUuidDto";
+export type { PaginatedResultDtoMeta } from "./models/PaginatedResultDtoMeta";
+export type { TurmaFindAllResultDto } from "./models/TurmaFindAllResultDto";
+export type { TurmaFindOneResultDto } from "./models/TurmaFindOneResultDto";
+export type { TurmaInputDto } from "./models/TurmaInputDto";
+export type { TurmaUpdateWithoutIdInputDto } from "./models/TurmaUpdateWithoutIdInputDto";
+export type { UsuarioFindOneResultDto } from "./models/UsuarioFindOneResultDto";
+export type { UsuarioInputDto } from "./models/UsuarioInputDto";
+export type { UsuarioUpdateWithoutIdInputDto } from "./models/UsuarioUpdateWithoutIdInputDto";
+export { UsuarioVinculoCampusDto } from "./models/UsuarioVinculoCampusDto";
+export type { UsuarioVinculoCampusFindAllResultDto } from "./models/UsuarioVinculoCampusFindAllResultDto";
+export type { UsuarioVinculoCampusSetVinculosInputDto } from "./models/UsuarioVinculoCampusSetVinculosInputDto";
+
+export { AmbientesService } from "./services/AmbientesService";
+export { ApiService } from "./services/ApiService";
+export { AutenticacaoService } from "./services/AutenticacaoService";
+export { BlocosService } from "./services/BlocosService";
+export { CampiService } from "./services/CampiService";
+export { CidadesService } from "./services/CidadesService";
+export { CursosService } from "./services/CursosService";
+export { DisciplinasService } from "./services/DisciplinasService";
+export { EstadosService } from "./services/EstadosService";
+export { ModalidadesService } from "./services/ModalidadesService";
+export { TurmasService } from "./services/TurmasService";
+export { UsuariosService } from "./services/UsuariosService";
+export { VinculosService } from "./services/VinculosService";
