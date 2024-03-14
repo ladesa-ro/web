@@ -1,4 +1,5 @@
 import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
+// import svgLoader from "vite-svg-loader";
 
 export default defineNuxtConfig({
   //...
@@ -18,13 +19,18 @@ export default defineNuxtConfig({
     "@sidebase/nuxt-auth",
     (_options, nuxt) => {
       nuxt.hooks.hook("vite:extendConfig", (config) => {
-        // @ts-expect-error
+        config.plugins ||= [];
         config.plugins.push(vuetify({ autoImport: true }));
       });
     },
     //...
   ],
   vite: {
+    // plugins: [svgLoader({})],
+
+    // define: {
+    //   "process.env.DEBUG": false,
+    // },
     vue: {
       template: {
         transformAssetUrls,

@@ -5,7 +5,7 @@ import { pt } from "vuetify/locale";
 export default defineNuxtPlugin((nuxtApp) => {
   const vuetify = createVuetify({
     theme: {
-      defaultTheme: "dark",
+      defaultTheme: "light",
     },
 
     ssr: true,
