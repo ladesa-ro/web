@@ -1,3 +1,3 @@
 export * from "./appContextAPI";
-export * from "./appContextAuth";
+export * from "./ContextAuth";
 export * from "./appContextTheme";
