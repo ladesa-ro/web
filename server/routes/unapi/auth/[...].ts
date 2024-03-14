@@ -2,10 +2,10 @@ import { NuxtAuthHandler } from "#auth";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import type ICredentialsProvider from "next-auth/providers/credentials";
 import CredentialsProviderModule from "next-auth/providers/credentials";
-import { AutenticacaoService } from "../../../infrastructure/api/generated";
-import { AuthenticationService } from "../../infrastructure/authentication";
-import { EnvironmentConfigService } from "../../infrastructure/config/environment-config";
-import { infrastructureContainer } from "../../infrastructure/infrastructure.container";
+import { AutenticacaoService } from "../../../../infrastructure/api/generated";
+import { AuthenticationService } from "../../../infrastructure/authentication";
+import { EnvironmentConfigService } from "../../../infrastructure/config/environment-config";
+import { infrastructureContainer } from "../../../infrastructure/infrastructure.container";
 
 /// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
 const CredentialsProvider: typeof ICredentialsProvider = CredentialsProviderModule.default;
