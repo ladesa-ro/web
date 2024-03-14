@@ -12,7 +12,7 @@ import {
 /// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
 const CredentialsProvider: typeof ICredentialsProvider = CredentialsProviderModule.default;
 
-const ACCESS_TOKEN_EXPIRATION_TRIM = 0.5 * 60 * 1000;
+const ACCESS_TOKEN_EXPIRATION_TRIM = 1 * 60 * 1000;
 
 const serverAuthenticationService = serverInfrastructureContainer.get(ServerAuthenticationService);
 const serverEnvironmentConfigService = serverInfrastructureContainer.get(ServerEnvironmentConfigService);

@@ -7,7 +7,7 @@ export class ServerAuthenticationService {
     try {
       const refreshToken = token.refreshToken;
 
-      const tokenSet = await AutenticacaoService.autenticacaoControllerRefresh(refreshToken);
+      const tokenSet = await AutenticacaoService.autenticacaoControllerRefresh({ refreshToken });
 
       return {
         ...token,

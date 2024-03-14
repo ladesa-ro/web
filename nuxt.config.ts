@@ -24,7 +24,7 @@ export default defineNuxtConfig({
       trustHost: true,
     },
     session: {
-      enableRefreshPeriodically: 75 * 1000,
+      enableRefreshPeriodically: 15 * 1000,
       enableRefreshOnWindowFocus: true,
     },
   },
