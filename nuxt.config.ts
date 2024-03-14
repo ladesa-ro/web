@@ -2,6 +2,11 @@ import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 // import svgLoader from "vite-svg-loader";
 
 export default defineNuxtConfig({
+
+  serverHandlers: [
+    { route: '/_api/auth/**', handler: '~/server/_api/auth/[...].ts' }
+  ],
+
   //...
   css: [
     // ...
@@ -13,11 +18,15 @@ export default defineNuxtConfig({
     transpile: ["vuetify"],
   },
   auth: {
-    provider: { type: "authjs" },
+    baseURL: process.env.AUTH_ORIGIN ?? "/_api/auth",
+    provider: {
+      type: "authjs",
+      trustHost: true,
+    },
     session: {
       enableRefreshPeriodically: 75 * 1000,
       enableRefreshOnWindowFocus: true,
-    }
+    },
   },
   modules: [
     "@sidebase/nuxt-auth",

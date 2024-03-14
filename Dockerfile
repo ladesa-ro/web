@@ -12,6 +12,7 @@ RUN npm install
 
 FROM dev-deps as assets
 COPY . .
+ARG AUTH_ORIGIN
 RUN npm run build
 RUN rm -rf node_modules
 
