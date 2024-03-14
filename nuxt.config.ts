@@ -2,6 +2,12 @@ import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 
 export default defineNuxtConfig({
   //...
+  css: [
+    // ...
+    "@mdi/font/css/materialdesignicons.min.css",
+    "vuetify/lib/styles/main.css",
+  ],
+
   build: {
     transpile: ["vuetify"],
   },

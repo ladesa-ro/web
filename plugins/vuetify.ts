@@ -1,10 +1,22 @@
-// import this after install `@mdi/font` package
-import "@mdi/font/css/materialdesignicons.css";
-
-import "vuetify/styles";
 import { createVuetify } from "vuetify";
+import * as directives from "vuetify/directives";
+import { pt } from "vuetify/locale";
 
-export default defineNuxtPlugin((app) => {
-  const vuetify = createVuetify({});
-  app.vueApp.use(vuetify);
+export default defineNuxtPlugin((nuxtApp) => {
+  const vuetify = createVuetify({
+    theme: {
+      defaultTheme: "dark",
+    },
+
+    ssr: true,
+
+    directives,
+
+    locale: {
+      locale: "pt",
+      messages: { pt },
+    },
+  });
+
+  nuxtApp.vueApp.use(vuetify);
 });
