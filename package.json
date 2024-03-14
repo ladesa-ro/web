@@ -7,14 +7,25 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "prepare:api": "rimraf ./infrastructure/api/generated; openapi --input https://luna.sisgha.com/api/doc-api-json --output ./infrastructure/api/generated --client axios --indent 2; prettier --cache --ignore-unknown \"./infrastructure/api/generated/**/*\" --write",
     "postinstall": "nuxt prepare; exit 0;",
     "start": "node .output/server/index.mjs",
     "format:check": "prettier --cache --ignore-unknown \"**/*\" --check",
     "format:write": "prettier --cache --ignore-unknown \"**/*\" --write"
   },
   "devDependencies": {
+    "@mdi/font": "^7.3.67",
     "@nuxt/devtools": "latest",
-    "nuxt": "^3.8.2",
+    "@sidebase/nuxt-auth": "^0.7.0",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@vueuse/core": "^10.9.0",
+    "@vueuse/nuxt": "^10.9.0",
+    "axios": "^1.6.7",
+    "inversify": "^6.0.2",
+    "jsonwebtoken": "^9.0.2",
+    "nuxt": "^3.10.3",
+    "openapi-typescript-codegen": "^0.27.0",
+    "openid-client": "^5.6.5",
     "prettier": "^3.2.5",
     "vite-plugin-vuetify": "^2.0.1",
     "vue": "^3.3.12",
@@ -22,6 +33,6 @@
     "vuetify": "^3.4.8"
   },
   "dependencies": {
-    "@mdi/font": "^7.3.67"
+    "reflect-metadata": "^0.2.1"
   }
 }

@@ -20,7 +20,7 @@ const closeConfirm = () => {
       <div>
         <div class="containerButtons px-3">
           <UISearchBar />
-    
+
           <div>
             <UIButtonAdd @click="openConfirm" />
             <PagesDashboardCoursesModalNewCourse
@@ -29,7 +29,7 @@ const closeConfirm = () => {
             />
           </div>
         </div>
-    
+
         <div class="cardCoursesGeneral">
           <PagesDashboardCoursesCoursesList :value="'Técnico em Informática'" />
         </div>
@@ -59,6 +59,4 @@ const closeConfirm = () => {
     align-items: flex-end;
   }
 }
-
-
 </style>

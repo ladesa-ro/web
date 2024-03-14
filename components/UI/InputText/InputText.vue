@@ -56,7 +56,6 @@ input {
   transition: border-color 0.3s;
 }
 
-
 input::placeholder {
   padding: 4px;
   margin: 5px;

@@ -9,7 +9,12 @@
       >
         <v-list-item class="mt-3 listItem">
           <template v-slot:prepend>
-            <img :src="link.icon" :width="link.width" class="iconBefore" alt="" />
+            <img
+              :src="link.icon"
+              :width="link.width"
+              class="iconBefore"
+              alt=""
+            />
           </template>
           <v-list-item-title class="link">
             <span> {{ link.title }}</span>
@@ -45,9 +50,6 @@ import turmasIconWhite from "../assets/icons/turmasIconWhite.svg";
 import vinculoIconWhite from "../assets/icons/vinculosIconWhite.svg";
 import cursosIconWhite from "../assets/icons/cursoIconWhite.svg";
 import usuariosIconWhite from "../assets/icons/usuariosIconWhite.svg";
-
-
-
 
 const links = [
   {
@@ -87,18 +89,17 @@ const links = [
     width: "24",
   },
   {
-    title: 'Usuários',
+    title: "Usuários",
     icon: usuariosIconWhite,
-    to: '/dashboard/usuarios',
+    to: "/dashboard/usuarios",
     width: "24",
   },
   {
-    title: 'Cursos',
+    title: "Cursos",
     icon: cursosIconWhite,
-    to: '/dashboard/cursos',
+    to: "/dashboard/cursos",
     width: "26",
   },
-
 ];
 </script>
 
