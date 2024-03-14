@@ -1,6 +1,8 @@
+import { injectable } from "inversify";
 import { withoutTrailingSlash } from "ufo";
 import { IConfig } from "../../../domain/config/IConfig";
 
+@injectable()
 export class EnvironmentConfigService implements IConfig {
   getRuntimeEnv() {
     const env = process.env.NODE_ENV ?? null;

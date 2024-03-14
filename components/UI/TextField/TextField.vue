@@ -86,11 +86,11 @@ const handleContainerClick = () => {
         @click="togglePasswordVisibility"
         type="button"
       >
-        <IconEyeOff
+        <IconsEyeOff
           v-if="showPassword"
           class="visibility-icon svg-fill-text"
         />
-        <IconEyeOn
+        <IconsEyeOn
           v-if="!showPassword"
           class="visibility-icon svg-fill-text"
         />

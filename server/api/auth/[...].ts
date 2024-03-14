@@ -3,25 +3,27 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import type ICredentialsProvider from "next-auth/providers/credentials";
 import CredentialsProviderModule from "next-auth/providers/credentials";
 import { AutenticacaoService } from "../../../infrastructure/api/generated";
+import { AuthenticationService } from "../../infrastructure/authentication";
 import { EnvironmentConfigService } from "../../infrastructure/config/environment-config";
-import { OidcClientService } from "../../infrastructure/oidc-client/oidc-client.service";
-import { OidcClientProvider } from "../../infrastructure/oidc-client/providers/oidc-client.provider";
+import { infrastructureContainer } from "../../infrastructure/infrastructure.container";
 
 /// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
 const CredentialsProvider: typeof ICredentialsProvider = CredentialsProviderModule.default;
 
 const ACCESS_TOKEN_EXPIRATION_TRIM = 0.5 * 60 * 1000;
 
-const environmentConfigService = new EnvironmentConfigService();
+const authenticationService = infrastructureContainer.get(AuthenticationService);
+const environmentConfigService = infrastructureContainer.get(EnvironmentConfigService);
 
-const oidcClientProvider = new OidcClientProvider(environmentConfigService);
-const oidcClientService = new OidcClientService(oidcClientProvider);
+process.on("unhandledRejection", (reason, p) => {
+  console.log("Unhandled Rejection at: Promise", p, "reason:", reason);
+  // application specific logging, throwing an error, or other logic here
+});
 
 export default NuxtAuthHandler({
   secret: environmentConfigService.getNuxtAuthSecret(),
 
   pages: {
-    // Change the default behavior to use `/login` as the path for the sign-in page
     signIn: "/login",
   },
 
@@ -37,8 +39,8 @@ export default NuxtAuthHandler({
       },
 
       async authorize(credentials, _req) {
-        const matriculaSiape = credentials?.username;
         const senha = credentials?.password;
+        const matriculaSiape = credentials?.username;
 
         if (credentials && matriculaSiape && senha) {
           try {
@@ -69,9 +71,7 @@ export default NuxtAuthHandler({
 
   callbacks: {
     async jwt({ token, user, account }) {
-      // Initial sign in
       if (account && user) {
-        // Credentials login
         if (account?.provider === "credentials") {
           const token = (user as any).token;
 
@@ -90,10 +90,8 @@ export default NuxtAuthHandler({
         // OAuth login
         return {
           user,
-
           accessToken: account.access_token,
           refreshToken: account.refresh_token,
-
           accessTokenExpires: Date.now() + <number>account.expires_in * 1000,
         };
       }
@@ -107,10 +105,11 @@ export default NuxtAuthHandler({
       }
 
       // Access token has expired, try to update it
-      return oidcClientService.refreshAccessToken(token);
+      return authenticationService.refreshAccessToken(token);
     },
 
     async session({ session, token }) {
+      console.log("aff");
       session.user = token.user;
       session.error = token.error;
 

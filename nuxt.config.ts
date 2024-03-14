@@ -14,6 +14,10 @@ export default defineNuxtConfig({
   },
   auth: {
     provider: { type: "authjs" },
+    session: {
+      enableRefreshPeriodically: 75 * 1000,
+      enableRefreshOnWindowFocus: true,
+    }
   },
   modules: [
     "@sidebase/nuxt-auth",
@@ -25,6 +29,24 @@ export default defineNuxtConfig({
     },
     //...
   ],
+
+  nitro: {
+    hooks: {
+      "rollup:before"(ctx) {
+        ctx.options.moduleSideEffects.push("reflect-metadata");
+      },
+    },
+    esbuild: {
+      options: {
+        tsconfigRaw: {
+          compilerOptions: {
+            experimentalDecorators: true,
+          },
+        },
+      },
+    },
+  },
+
   vite: {
     // plugins: [svgLoader({})],
 
