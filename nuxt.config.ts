@@ -13,7 +13,6 @@ export default defineNuxtConfig({
     transpile: ["vuetify"],
   },
   auth: {
-    baseURL: "/api/auth",
     provider: {
       type: "authjs",
       trustHost: true,
