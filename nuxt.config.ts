@@ -13,11 +13,14 @@ export default defineNuxtConfig({
     transpile: ["vuetify"],
   },
   auth: {
-    provider: { type: "authjs" },
+    provider: {
+      type: "authjs",
+      trustHost: true,
+    },
     session: {
       enableRefreshPeriodically: 75 * 1000,
       enableRefreshOnWindowFocus: true,
-    }
+    },
   },
   modules: [
     "@sidebase/nuxt-auth",
