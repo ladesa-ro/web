@@ -45,6 +45,10 @@ export type { ModalidadeUpdateWithoutIdInputDto } from "./models/ModalidadeUpdat
 export type { ObjectIdDto } from "./models/ObjectIdDto";
 export type { ObjectUuidDto } from "./models/ObjectUuidDto";
 export type { PaginatedResultDtoMeta } from "./models/PaginatedResultDtoMeta";
+export type { ReservaFindAllResultDto } from "./models/ReservaFindAllResultDto";
+export type { ReservaFindOneResultDto } from "./models/ReservaFindOneResultDto";
+export type { ReservaInputDto } from "./models/ReservaInputDto";
+export type { ReservaUpdateWithoutIdInputDto } from "./models/ReservaUpdateWithoutIdInputDto";
 export type { TurmaFindAllResultDto } from "./models/TurmaFindAllResultDto";
 export type { TurmaFindOneResultDto } from "./models/TurmaFindOneResultDto";
 export type { TurmaInputDto } from "./models/TurmaInputDto";
@@ -66,6 +70,7 @@ export { CursosService } from "./services/CursosService";
 export { DisciplinasService } from "./services/DisciplinasService";
 export { EstadosService } from "./services/EstadosService";
 export { ModalidadesService } from "./services/ModalidadesService";
+export { ReservasService } from "./services/ReservasService";
 export { TurmasService } from "./services/TurmasService";
 export { UsuariosService } from "./services/UsuariosService";
 export { VinculosService } from "./services/VinculosService";

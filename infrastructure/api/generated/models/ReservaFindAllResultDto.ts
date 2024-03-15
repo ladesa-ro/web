@@ -2,9 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CursoFindOneResultDto } from "./CursoFindOneResultDto";
 import type { PaginatedResultDtoMeta } from "./PaginatedResultDtoMeta";
-export type CursoFindAllResultDto = {
+export type ReservaFindAllResultDto = {
   /**
    * Metadados da busca.
    */
@@ -12,5 +11,5 @@ export type CursoFindAllResultDto = {
   /**
    * Resultados da busca.
    */
-  data: Array<CursoFindOneResultDto>;
+  data: Array<ReservaFindAllResultDto>;
 };

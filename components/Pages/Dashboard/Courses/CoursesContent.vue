@@ -12,6 +12,7 @@ const closeConfirm = () => {
   show.value = false;
   console.log("Cheghoy aqi");
 };
+
 </script>
 
 <template>
@@ -23,10 +24,7 @@ const closeConfirm = () => {
 
           <div>
             <UIButtonAdd @click="openConfirm" />
-            <PagesDashboardCoursesModalNewCourse
-              v-if="show"
-              @close="closeConfirm"
-            />
+            <PagesDashboardCoursesModalNewCourse v-if="show" @close="closeConfirm" />
           </div>
         </div>
 

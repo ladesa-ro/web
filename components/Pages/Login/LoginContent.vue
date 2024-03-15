@@ -1,8 +1,14 @@
 <script lang="ts" setup>
-import LogoSisgha from '@/components/Logo/LogoSisgha/LogoSisgha.vue';
+import LogoSisgha from "@/components/Logo/LogoSisgha/LogoSisgha.vue";
 
-const { isBusy, isError, canSubmit, credentials, signInWithCredentials } =
-  useAuthSignIn();
+const {
+  //
+  isBusy,
+  isError,
+  canSubmit,
+  credentials,
+  signInWithCredentials,
+} = useAuthSignIn();
 </script>
 
 <template>
@@ -35,24 +41,12 @@ const { isBusy, isError, canSubmit, credentials, signInWithCredentials } =
           />
         </div>
 
-        <UIButton
-          class="login-form-submit"
-          type="submit"
-          :disabled="!canSubmit"
-        >
-          Entrar
-        </UIButton>
+        <UIButton class="login-form-submit" type="submit" :disabled="!canSubmit"> Entrar </UIButton>
 
         <div v-if="isError">
           <VDivider class="my-4"></VDivider>
 
-          <VAlert
-            class="error-feedback"
-            v-model="isError"
-            closable
-            text="Não foi possível realizar o login."
-            type="error"
-          >
+          <VAlert class="error-feedback" v-model="isError" closable text="Não foi possível realizar o login." type="error">
           </VAlert>
         </div>
       </div>
@@ -60,11 +54,7 @@ const { isBusy, isError, canSubmit, credentials, signInWithCredentials } =
 
     <div>
       <NuxtLink tabindex="-1" class="login-alternative-link" to="/aluno">
-        <UIButton
-          :disabled="isBusy"
-          type="button"
-          class="login-alternative-button"
-        >
+        <UIButton :disabled="isBusy" type="button" class="login-alternative-button">
           <template #start-icon>
             <IconsUser class="user-icon" />
           </template>
@@ -78,8 +68,8 @@ const { isBusy, isError, canSubmit, credentials, signInWithCredentials } =
 
 <style scoped>
 .login {
-  background-image: url("@/assets/decorations/login-bloom-1.svg"),
-    url("@/assets/decorations/login-bloom-2.svg");
+  background-image: url("@/assets/decorations/login-bloom-1.svg"), url("@/assets/decorations/login-bloom-2.svg");
+
   background-position:
     left top,
     right bottom;
