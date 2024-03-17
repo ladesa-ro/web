@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AmbienteFindAllResultDto } from "../models/AmbienteFindAllResultDto";
 import type { AmbienteFindOneResultDto } from "../models/AmbienteFindOneResultDto";
 import type { AmbienteInputDto } from "../models/AmbienteInputDto";
 import type { AmbienteUpdateWithoutIdInputDto } from "../models/AmbienteUpdateWithoutIdInputDto";
@@ -10,15 +11,34 @@ import { OpenAPI } from "../core/OpenAPI";
 import { request as __request } from "../core/request";
 export class AmbientesService {
   /**
-   * @returns AmbienteFindOneResultDto Lista de todos os ambientes cadastrados no sistema.
+   * @param page
+   * @param limit
+   * @param search
+   * @param sortBy
+   * @param filterBlocoId
+   * @param filterBlocoCampusId
+   * @returns AmbienteFindAllResultDto Lista de todos os ambientes cadastrados no sistema.
    * @throws ApiError
    */
-  public static ambienteControllerAmbienteFindAll(): CancelablePromise<
-    Array<AmbienteFindOneResultDto>
-  > {
+  public static ambienteControllerAmbienteFindAll(
+    page?: string,
+    limit?: string,
+    search?: string,
+    sortBy?: string,
+    filterBlocoId?: string,
+    filterBlocoCampusId?: string,
+  ): CancelablePromise<AmbienteFindAllResultDto> {
     return __request(OpenAPI, {
       method: "GET",
       url: "/ambientes",
+      query: {
+        page: page,
+        limit: limit,
+        search: search,
+        sortBy: sortBy,
+        "filter.bloco.id": filterBlocoId,
+        "filter.bloco.campus.id": filterBlocoCampusId,
+      },
       errors: {
         403: `O solicitante não tem permissão para executar esta ação.`,
       },

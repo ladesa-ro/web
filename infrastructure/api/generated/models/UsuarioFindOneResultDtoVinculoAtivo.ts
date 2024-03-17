@@ -2,8 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CampusFindOneResultDto } from "./CampusFindOneResultDto";
-export type UsuarioVinculoCampusDto = {
+import type { UsuarioFindOneResultDtoVinculoAtivoCampus } from "./UsuarioFindOneResultDtoVinculoAtivoCampus";
+export type UsuarioFindOneResultDtoVinculoAtivo = {
   /**
    * ID do vínculo.
    */
@@ -15,17 +15,13 @@ export type UsuarioVinculoCampusDto = {
   /**
    * Cargo do vínculo.
    */
-  cargo: UsuarioVinculoCampusDto.cargo;
+  cargo: UsuarioFindOneResultDtoVinculoAtivo.cargo;
   /**
    * Campus do vínculo.
    */
-  campus: CampusFindOneResultDto;
-  /**
-   * Usuário do vínculo.
-   */
-  usuario: Record<string, any>;
+  campus: UsuarioFindOneResultDtoVinculoAtivoCampus;
 };
-export namespace UsuarioVinculoCampusDto {
+export namespace UsuarioFindOneResultDtoVinculoAtivo {
   /**
    * Cargo do vínculo.
    */

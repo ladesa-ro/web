@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { UsuarioFindOneResultDtoVinculoAtivo } from "./UsuarioFindOneResultDtoVinculoAtivo";
 export type UsuarioFindOneResultDto = {
   /**
    * ID do usuário.
@@ -19,4 +20,8 @@ export type UsuarioFindOneResultDto = {
    * E-mail do usuário.
    */
   email: string;
+  /**
+   * Vínculos ativos do usuário.
+   */
+  vinculosAtivos: UsuarioFindOneResultDtoVinculoAtivo;
 };

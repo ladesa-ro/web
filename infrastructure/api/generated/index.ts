@@ -7,6 +7,7 @@ export { CancelablePromise, CancelError } from "./core/CancelablePromise";
 export { OpenAPI } from "./core/OpenAPI";
 export type { OpenAPIConfig } from "./core/OpenAPI";
 
+export type { AmbienteFindAllResultDto } from "./models/AmbienteFindAllResultDto";
 export type { AmbienteFindOneResultDto } from "./models/AmbienteFindOneResultDto";
 export type { AmbienteInputDto } from "./models/AmbienteInputDto";
 export type { AmbienteUpdateWithoutIdInputDto } from "./models/AmbienteUpdateWithoutIdInputDto";
@@ -54,6 +55,8 @@ export type { TurmaFindOneResultDto } from "./models/TurmaFindOneResultDto";
 export type { TurmaInputDto } from "./models/TurmaInputDto";
 export type { TurmaUpdateWithoutIdInputDto } from "./models/TurmaUpdateWithoutIdInputDto";
 export type { UsuarioFindOneResultDto } from "./models/UsuarioFindOneResultDto";
+export { UsuarioFindOneResultDtoVinculoAtivo } from "./models/UsuarioFindOneResultDtoVinculoAtivo";
+export type { UsuarioFindOneResultDtoVinculoAtivoCampus } from "./models/UsuarioFindOneResultDtoVinculoAtivoCampus";
 export type { UsuarioInputDto } from "./models/UsuarioInputDto";
 export type { UsuarioUpdateWithoutIdInputDto } from "./models/UsuarioUpdateWithoutIdInputDto";
 export { UsuarioVinculoCampusDto } from "./models/UsuarioVinculoCampusDto";
