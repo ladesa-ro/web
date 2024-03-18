@@ -1,7 +1,8 @@
 <template>
   <div class="searchField">
-    <v-text-field base-color="#9ab69e" color="#00d047" persistent-hint label="Pesquisar" placeholder="Digite Aqui"
-      variant="outlined" persistent-placeholder clearable append-inner-icon="mdi-magnify" v-bind="$attrs" />
+    <v-text-field hide-details base-color="#9ab69e" color="#00d047" persistent-hint label="Pesquisar"
+      placeholder="Digite Aqui" variant="outlined" persistent-placeholder clearable append-inner-icon="mdi-magnify"
+      v-bind="$attrs" />
   </div>
 </template>
 
@@ -10,8 +11,6 @@
   display: block;
   max-width: 480px;
   width: 100%;
-
-  margin-top: 90px;
 }
 
 .searchField .v-field {

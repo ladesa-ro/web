@@ -7,6 +7,7 @@
         <NuxtLink
           v-for="i in 14"
           :key="i"
+          no-prefetch
           :to="`/usuarios/${i}`"
           class="usuario"
         >
