@@ -16,22 +16,7 @@ onMounted(() => {
         <Appbar />
       </v-app-bar>
 
-<<<<<<< HEAD
-      <v-navigation-drawer
-        v-model:model-value="sidebarOpened"
-        :class="{ ['navigation-drawer']: !init }"
-        class="px-1"
-        width="237"
-        color="#39A048"
-        rail-width="64"
-        expand-on-hover
-        rail
-      >
-        <Sidebar />
-      </v-navigation-drawer>
-=======
       <Responsive />
->>>>>>> main
 
       <v-main :class="{ main: !init }">
         <slot></slot>
