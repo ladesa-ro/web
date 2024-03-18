@@ -19,10 +19,10 @@ const closeConfirm = () => {
   <v-container>
     <div class="container">
       <div>
-        <div class="containerButtons px-3">
+        <div class="container-header px-3">
           <UISearchBar />
 
-          <div>
+          <div class="container-header-actions">
             <UIButtonAdd @click="openConfirm" />
             <PagesDashboardCoursesModalNewCourse v-if="show" @close="closeConfirm" />
           </div>
@@ -42,19 +42,19 @@ const closeConfirm = () => {
   max-width: 89%;
 }
 
-.containerButtons {
+.container-header {
+  padding: 50px 0;
+
   margin: 0 auto;
   display: flex;
+
+  gap: 1rem;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
   margin-bottom: 20px;
 }
 
-@media (max-width: 600px) {
-  .containerButtons {
-    row-gap: 10px;
-    flex-direction: column;
-    align-items: flex-end;
-  }
+.container-header-actions {
+  flex-shrink: 0;
 }
 </style>
