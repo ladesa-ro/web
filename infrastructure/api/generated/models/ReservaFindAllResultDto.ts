@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { PaginatedResultDtoMeta } from "./PaginatedResultDtoMeta";
+import type { ReservaFindOneResultDto } from "./ReservaFindOneResultDto";
 export type ReservaFindAllResultDto = {
   /**
    * Metadados da busca.
@@ -11,5 +12,5 @@ export type ReservaFindAllResultDto = {
   /**
    * Resultados da busca.
    */
-  data: Array<ReservaFindAllResultDto>;
+  data: Array<ReservaFindOneResultDto>;
 };

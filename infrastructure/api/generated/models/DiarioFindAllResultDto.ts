@@ -2,9 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { DisciplinaFindOneResultDto } from "./DisciplinaFindOneResultDto";
+import type { DiarioFindOneResultDto } from "./DiarioFindOneResultDto";
 import type { PaginatedResultDtoMeta } from "./PaginatedResultDtoMeta";
-export type DisciplinaFindAllResultDto = {
+export type DiarioFindAllResultDto = {
   /**
    * Metadados da busca.
    */
@@ -12,5 +12,5 @@ export type DisciplinaFindAllResultDto = {
   /**
    * Resultados da busca.
    */
-  data: Array<DisciplinaFindOneResultDto>;
+  data: Array<DiarioFindOneResultDto>;
 };

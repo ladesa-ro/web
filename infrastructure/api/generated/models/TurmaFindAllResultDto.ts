@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { PaginatedResultDtoMeta } from "./PaginatedResultDtoMeta";
+import type { TurmaFindOneResultDto } from "./TurmaFindOneResultDto";
 export type TurmaFindAllResultDto = {
   /**
    * Metadados da busca.
@@ -11,5 +12,5 @@ export type TurmaFindAllResultDto = {
   /**
    * Resultados da busca.
    */
-  data: Array<TurmaFindAllResultDto>;
+  data: Array<TurmaFindOneResultDto>;
 };
