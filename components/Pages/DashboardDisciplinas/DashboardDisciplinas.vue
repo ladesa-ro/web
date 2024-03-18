@@ -1,6 +1,6 @@
 <template>
   <search-bar class="search" :msge="msg"></search-bar>
-  <bloco
+  <ContainerDiscipline
     class="p1"
     :imagemSrc="caminhoDaImagem"
     :mensagem="mensagemDoPai"
@@ -8,7 +8,7 @@
     :nivel="niv"  
   />
 
-  <bloco
+  <ContainerDiscipline
     class="p2"
     :imagemSrc="caminhoDaImagem2"
     :mensagem="mensagemDoPai2"
@@ -16,7 +16,7 @@
     :nivel="niv2"
   />
 
-  <bloco
+  <ContainerDiscipline
     class="p3"
     :imagemSrc="caminhoDaImagem3"
     :mensagem="mensagemDoPai3"
@@ -27,23 +27,25 @@
 
   <div class="save-btn">
     <button @click="showModal = true">
-      <adicionar />
+      <adicionar/>
     </button>
   </div>
 </template>
 
 <script>
 import caminhoDaImagem from "~/assets/Foto.png";
-import SavedModal from "~/componentes/SavedModal.vue";
-import SearchBar from "~/componentes/SearchBar.vue";
+import SavedModal from "~/components/Modais/SavedModal.vue";
+import SearchBar from "~/components/SearchBar.vue";
 import adicionar from "~/componentes/adicionar.vue";
-import bloco from "~/componentes/bloco.vue";
+import ButtonAdd from "~/components/UI/ButtonAdd/ButtonAdd.vue";
+import ContainerDiscipline from "~/components/Containers/ContainerDiscipline.vue";
 export default {
   components: {
-    bloco,
+    ContainerDiscipline,
     SearchBar,
     adicionar,
     SavedModal,
+    ButtonAdd
   },
   data() {
     return {

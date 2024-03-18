@@ -2,21 +2,21 @@
   <search-bar class="place" :msge="msg"></search-bar>
 
   <adicionar />
-  <disc
+  <ContainerClass
     class="dis2"
     :imgSr="caminhoDaImagem2"
     :sala="mensagemDoPai2"
     :curso="abre2"
     :turno="niv2"
   />
-  <disc
+  <ContainerClass
     class="dis3"
     :imgSr="caminhoDaImagem1"
     :sala="mensagemDoPai1"
     :curso="abre1"
     :turno="niv1"
   />
-  <disc
+  <ContainerClass
     class="dis"
     :imgSr="caminhoDaImagem3"
     :sala="mensagemDoPai3"
@@ -27,14 +27,14 @@
 
 <script>
 import iagex from "~/assets/kilo.png";
-import SearchBar from "~/componentes/SearchBar.vue";
+import SearchBar from "~/components/SearchBar.vue";
 import adicionar from "~/componentes/adicionar.vue";
-import disc from "~/componentes/disc.vue";
+import ContainerClass from "~/components/Containers/ContainerClass.vue";
 export default {
   components: {
     adicionar,
     SearchBar,
-    disc,
+    ContainerClass,
   },
   data() {
     return {

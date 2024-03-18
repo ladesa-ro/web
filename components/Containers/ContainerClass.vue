@@ -23,7 +23,7 @@ const { imgSr, sala, curso, turno } = props;
 
 <script>
 export default {
-  name: "bloco",
+  name: "ContainerClass",
 };
 </script>
 
