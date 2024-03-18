@@ -22,6 +22,7 @@
     "vuetify": "^3.4.8"
   },
   "dependencies": {
-    "@mdi/font": "^7.3.67"
+    "@mdi/font": "^7.3.67",
+    "vue3-side-panel": "^1.3.0"
   }
 }
