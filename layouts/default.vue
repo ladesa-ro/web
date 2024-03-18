@@ -1,7 +1,8 @@
 <script setup>
-const sidebarOpened = ref(true);
+import Responsive from '~/components/Sidebar/ResponsiveSidebar.vue';
+import { ref } from 'vue';
 
-const init = ref(false);
+const init = ref(true);
 
 onMounted(() => {
   init.value = true;
@@ -15,6 +16,7 @@ onMounted(() => {
         <Appbar />
       </v-app-bar>
 
+<<<<<<< HEAD
       <v-navigation-drawer
         v-model:model-value="sidebarOpened"
         :class="{ ['navigation-drawer']: !init }"
@@ -27,6 +29,9 @@ onMounted(() => {
       >
         <Sidebar />
       </v-navigation-drawer>
+=======
+      <Responsive />
+>>>>>>> main
 
       <v-main :class="{ main: !init }">
         <slot></slot>
@@ -42,19 +47,6 @@ onMounted(() => {
   position: absolute !important;
   left: 0px !important;
   width: calc(100% - 0px) !important;
-}
-
-.navigation-drawer {
-  background-color: rgb(57, 160, 72) !important;
-  color: rgb(255, 255, 255) !important;
-  caret-color: rgb(255, 255, 255) !important;
-  left: 0px !important;
-  transform: translateX(0%) !important;
-  position: absolute !important;
-  height: calc(100% - 64px) !important;
-  top: 64px !important;
-  bottom: 0px !important;
-  width: 64px !important;
 }
 
 .main {
