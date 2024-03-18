@@ -1,89 +1,45 @@
-<script setup>
-import IconSearch from "~/components/Icons/IconSearch.vue";
-</script>
-
-<template v-slot:search>
-  <div>
-    <div class="form">
-      <form action="./">
-        <label id="label" class="label" for="pesquisar">Pesquisar</label>
-
-        <IconSearch class="icon" />
-
-        <input
-          class="input"
-          type="text"
-          id="pesquisar"
-          placeholder="Digite aqui "
-          autocomplete="off"
-        />
-      </form>
-    </div>
+<template>
+  <div class="searchField">
+    <v-text-field base-color="#9ab69e" color="#00d047" persistent-hint label="Pesquisar" placeholder="Digite Aqui"
+      variant="outlined" persistent-placeholder clearable append-inner-icon="mdi-magnify" v-bind="$attrs" />
   </div>
 </template>
 
-<style scoped>
-.form {
-  display: flex;
-  margin-top: 90px;
-  position: relative;
-  width: 100%;
-  align-items: center;
-}
-.label {
-  display: inline-block;
-  padding: 5px;
-  width: auto;
-  margin-top: -13px;
-  font-size: 12px;
-  font-weight: 600;
-  border: 1px solid white;
-  background-color: white;
-  color: #9ab69e;
-  position: absolute;
-  margin-left: 12px;
-}
-input {
-  height: 48px;
+<style>
+.searchField {
+  display: block;
   max-width: 480px;
-  font-weight: 550;
-  font-size: 0.75rem;
+  width: 100%;
+
+  margin-top: 90px;
+}
+
+.searchField .v-field {
   border-radius: 8px;
-  border: 3px solid #9ab69e;
-  transition: border-color 0.3s;
-  padding: 16px;
+
+}
+
+.searchField .v-field--variant-outlined.v-field--focused .v-field__outline,
+.searchField .v-field .v-field__outline {
+  --v-field-border-width: 3px !important;
+  --v-field-border-opacity: 1 !important;
+}
+
+.searchField .v-field__input {
+  min-height: 48px;
+  padding: 4px 16px;
   font-size: 14px;
-  flex: 1;
+  font-weight: 550;
 }
 
-input::placeholder {
-  padding: 4px;
-  margin: 5px;
-  color: #9ab69e;
+.searchField .v-label {
+  --v-medium-emphasis-opacity: 1 !important;
 }
 
-input:focus {
-  outline: none;
-  border-color: #00d047;
+.searchField .v-field__input::placeholder {
+  color: #c8d7ca;
+  --v-disabled-opacity: 1 !important;
 }
 
-.icon {
-  position: absolute;
-  right: 0;
-  top: 26px;
-  margin-right: 10px;
-  transform: translateY(-50%);
-  fill: #9ab69e;
-  transition: fill 0.3s;
-  cursor: pointer;
-}
-
-.form:focus-within label {
-  color: #00d047;
-  transition: 0.3s;
-}
-
-.form:focus-within .icon {
-  fill: #00d047;
-}
+/*  */
 </style>
