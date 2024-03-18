@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { ModalidadeFindOneResultDto } from "./ModalidadeFindOneResultDto";
 import type { PaginatedResultDtoMeta } from "./PaginatedResultDtoMeta";
 export type ModalidadeFindAllResultDto = {
   /**
@@ -11,5 +12,5 @@ export type ModalidadeFindAllResultDto = {
   /**
    * Resultados da busca.
    */
-  data: Array<ModalidadeFindAllResultDto>;
+  data: Array<ModalidadeFindOneResultDto>;
 };
