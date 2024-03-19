@@ -1,12 +1,40 @@
+<script lang="ts" setup>
+import { useQueryClient } from '@tanstack/vue-query';
+import { CursosService } from '~/infrastructure/api/generated';
+
+const queryClient = useQueryClient()
+
+const emit = defineEmits(['close'])
+
+const formData = reactive({
+  nome: '',
+  nomeAbreviado: '',
+  campus: {
+    id: "50987cbb-01a2-4345-8974-cae554ffca51",
+  },
+  modalidade: {
+    id: "d8dda4ae-de9c-483c-ba89-b7c8bef120f5"
+  }
+})
+
+const salvarCurso = async () => {
+  await CursosService.cursoControllerCursoCreate(formData)
+  await queryClient.invalidateQueries({ queryKey: ["cursos"] })
+  emit('close')
+}
+
+</script>
 <template>
   <div class="overlay">
-    <div class="modal">
+    <form @submit.prevent="salvarCurso" class="modal">
       <h1>Cadastrar Novo Curso</h1>
-      <div>
+      <div class="modal-form">
         <!-- Componentes de seleção e inputs -->
         <PagesDashboardCoursesFormsSelectCourseImage />
-        <UIInputText value="Nome" />
-        <UIInputText value="Nome Abreviado" />
+
+        <UITextFieldBase v-model="formData.nome" label="Nome" placeholder="Digite aqui" />
+        <UITextFieldBase v-model="formData.nomeAbreviado" label="Nome Abreviado" placeholder="Digite aqui" />
+
         <PagesDashboardCoursesFormsSelectModality />
       </div>
       <div class="button-group">
@@ -14,16 +42,22 @@
           <span>Cancelar</span>
           <!-- SVG para botão Cancelar -->
         </button>
-        <button class="button Cad" @click="($event) => $emit('close')">
+        <button class="button Cad" type="submit">
           <span>Cadastrar</span>
           <!-- SVG para botão Cadastrar -->
         </button>
       </div>
-    </div>
+    </form>
   </div>
 </template>
 
 <style scoped>
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
 /* Estilos básicos e responsivos para o modal */
 .overlay {
   position: fixed;
@@ -48,15 +82,19 @@
     0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 8px 10px -6px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
-  width: 90%; /* Valor padrão para largura em dispositivos pequenos */
-  max-width: 600px; /* Largura máxima para evitar que o modal fique muito grande em telas grandes */
+  width: 90%;
+  /* Valor padrão para largura em dispositivos pequenos */
+  max-width: 600px;
+  /* Largura máxima para evitar que o modal fique muito grande em telas grandes */
   margin-bottom: 100px;
 }
 
 .button-group {
   display: flex;
-  justify-content: center; /* Centraliza os botões no modal */
-  gap: 20px; /* Espaço entre os botões */
+  justify-content: center;
+  /* Centraliza os botões no modal */
+  gap: 20px;
+  /* Espaço entre os botões */
 }
 
 .button {
@@ -88,11 +126,13 @@
 
 @media (max-width: 600px) {
   .button-group {
-    flex-direction: column; /* Empilha os botões verticalmente em telas pequenas */
+    flex-direction: column;
+    /* Empilha os botões verticalmente em telas pequenas */
   }
 
   .button {
-    width: 100%; /* Faz os botões ocuparem toda a largura do modal em telas pequenas */
+    width: 100%;
+    /* Faz os botões ocuparem toda a largura do modal em telas pequenas */
   }
 }
 </style>
