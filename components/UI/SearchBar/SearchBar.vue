@@ -15,7 +15,6 @@
 
 .searchField .v-field {
   border-radius: 8px;
-
 }
 
 .searchField .v-field--variant-outlined.v-field--focused .v-field__outline,
@@ -39,6 +38,4 @@
   color: #c8d7ca;
   --v-disabled-opacity: 1 !important;
 }
-
-/*  */
 </style>

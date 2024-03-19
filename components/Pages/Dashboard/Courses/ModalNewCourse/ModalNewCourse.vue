@@ -2,11 +2,13 @@
   <div class="overlay">
     <div class="modal">
       <h1>Cadastrar Novo Curso</h1>
-      <div>
+      <div class="modal-form">
         <!-- Componentes de seleção e inputs -->
         <PagesDashboardCoursesFormsSelectCourseImage />
-        <UIInputText value="Nome" />
-        <UIInputText value="Nome Abreviado" />
+
+        <UITextFieldBase label="Nome" placeholder="Digite aqui" />
+        <UITextFieldBase label="Nome Abreviado" placeholder="Digite aqui" />
+
         <PagesDashboardCoursesFormsSelectModality />
       </div>
       <div class="button-group">
@@ -24,6 +26,11 @@
 </template>
 
 <style scoped>
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
 /* Estilos básicos e responsivos para o modal */
 .overlay {
   position: fixed;
