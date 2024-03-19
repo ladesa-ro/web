@@ -11,6 +11,7 @@ export const useApiCursosFindAll = async () => {
 
   const cursos = computed(() => unref(query.data)?.data ?? []);
 
+
   await query.suspense();
 
   return {
