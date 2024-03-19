@@ -12,11 +12,11 @@
 		<v-list-item-group class="">
 		  <nuxt-link
 			class="link"
-			v-for="link in links"
+			v-for="(link, index) in links"
 			:key="link.title"
 			:to="link.to"
 		  >
-			<v-list-item class="mt-3 listItem">
+			<v-list-item :class="[{'active': $route.path === link.to}, { 'separator': index === separatorIndex }]" class="mt-3 listItem">
 			  <template v-slot:prepend>
 				<img :src="link.icon" :width="link.width" class="iconBefore" alt="" />
 			  </template>
@@ -24,6 +24,7 @@
 				<span> {{ link.title }}</span>
 			  </v-list-item-title>
 			</v-list-item>
+			<v-divider v-if="index === separatorIndex - 1" class="my-4 border-opacity-75" color="white" thickness="3"></v-divider>
 		  </nuxt-link>
 		</v-list-item-group>
 	  </v-list>
@@ -97,12 +98,12 @@
 	  to: '/configuracoes',
 	  width: "24",
 	},
-  
   ];
+  
+  const separatorIndex = links.findIndex(link => link.title === 'Configurações');
   </script>
   
   <style scoped>
-  
   @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
   
   .iconBefore {
@@ -124,11 +125,25 @@
 	color: #ffffff;
 	text-decoration: none;
   }
-
+  
   .navigation-drawer {
- background-color: rgb(57, 160, 72) !important;
- color: rgb(255, 255, 255) !important;
- caret-color: rgb(255, 255, 255) !important;
-}
-
+	background-color: rgb(57, 160, 72) !important;
+	color: rgb(255, 255, 255) !important;
+	caret-color: rgb(255, 255, 255) !important;
+  }
+  
+  .active {
+	background-color: #1bba47;
+	border-radius: 10px;
+  }
+  
+  .active .link {
+	color: #ffffff;
+  }
+  
+  .separator {
+	margin-bottom: 15px;
+  }
+  
   </style>
+  
