@@ -20,11 +20,11 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 .button_add {
-  width: 50px;
-  margin-left: 94%;
-  margin-top: -3%;
+  display: flex;
+  width: 47px;
+  height: 47px;
   cursor: pointer;
 }
 </style>
