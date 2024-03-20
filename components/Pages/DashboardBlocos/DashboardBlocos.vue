@@ -49,7 +49,7 @@ import bloco from '~/componentes/bloco.vue';
 
 <style scoped>
     .-container-buttons {
-        background-color: blue;
+        /* background-color: blue; */
         display: flex;
         flex-direction: row;
         padding: 5%;
@@ -60,7 +60,7 @@ import bloco from '~/componentes/bloco.vue';
         width: 100%;
         height: 100%;
 
-        background-color: red;
+        /* background-color: red; */
 
         padding: 5%;
     }
