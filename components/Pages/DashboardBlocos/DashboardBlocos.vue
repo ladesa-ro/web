@@ -60,7 +60,7 @@ import bloco from '~/componentes/bloco.vue';
         width: 100%;
         height: 100%;
 
-        /* background-color: red; */
+        /* background-color: purple; */
 
         padding: 5%;
     }
