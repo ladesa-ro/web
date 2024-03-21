@@ -1,12 +1,14 @@
 <script setup>
-import { ref, defineProps, watchEffect } from "vue";
+import { defineProps } from "vue";
 import IconEdit from "~/components/Icons/IconEdit.vue";
 
 const props = defineProps({
   searchBarText: String,
 });
 
-const { cursos } = await useApiCursosFindAll(props.searchBarText);
+const { searchBarText } = toRefs(props)
+
+const { cursos } = await useApiCursosFindAll(searchBarText);
 </script>
 
 <template v-slot:search="{ value }">
@@ -28,14 +30,8 @@ const { cursos } = await useApiCursosFindAll(props.searchBarText);
         </v-card>
       </v-col>
     </v-row>
-    <v-alert
-    v-if="cursos.length === 0"
-    color="info"
-      icon="$info"
-      variant="tonal"
-      title="Nenhum curso encontrado"
-      text=""
-  ></v-alert>
+    <v-alert v-if="cursos.length === 0" color="info" icon="$info" variant="tonal" title="Nenhum curso encontrado"
+      text=""></v-alert>
   </v-container>
 </template>
 
