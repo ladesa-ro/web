@@ -3,15 +3,7 @@ import { ref } from "vue";
 
 const show = ref(false);
 
-const openConfirm = () => {
-  show.value = true;
-  console.log("clicou no iconeadd");
-};
-
-const closeConfirm = () => {
-  show.value = false;
-  console.log("Cheghoy aqi");
-};
+let searchBarText = ref("");
 
 </script>
 
@@ -20,16 +12,14 @@ const closeConfirm = () => {
     <div class="container">
       <div>
         <div class="container-header px-3">
-          <UISearchBar />
-
+          <UISearchBar :value="searchBarText" @update:value="searchBarText = $event"/>
           <div class="container-header-actions">
-            <UIButtonAdd @click="openConfirm" />
-            <PagesDashboardCoursesModalNewCourse v-if="show" @close="closeConfirm" />
+            <PagesDashboardCoursesModalNewCourse />
           </div>
         </div>
 
         <div class="cardCoursesGeneral">
-          <PagesDashboardCoursesCoursesList :value="'Técnico em Informática'" />
+          <PagesDashboardCoursesCoursesList :searchBarText="searchBarText" />
         </div>
       </div>
     </div>

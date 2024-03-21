@@ -1,54 +1,67 @@
 <script lang="ts" setup>
-import { useQueryClient } from '@tanstack/vue-query';
-import { CursosService } from '~/infrastructure/api/generated';
+import { useQueryClient } from "@tanstack/vue-query";
+import { reactive } from "vue";
+import { CursosService } from "~/infrastructure/api/generated";
 
-const queryClient = useQueryClient()
+const queryClient = useQueryClient();
 
-const emit = defineEmits(['close'])
+let isActive = ref(false);
 
 const formData = reactive({
-  nome: '',
-  nomeAbreviado: '',
+  nome: "",
+  nomeAbreviado: "",
   campus: {
     id: "50987cbb-01a2-4345-8974-cae554ffca51",
   },
   modalidade: {
-    id: "d8dda4ae-de9c-483c-ba89-b7c8bef120f5"
-  }
-})
+    id: "d8dda4ae-de9c-483c-ba89-b7c8bef120f5",
+  },
+});
 
 const salvarCurso = async () => {
-  await CursosService.cursoControllerCursoCreate(formData)
-  await queryClient.invalidateQueries({ queryKey: ["cursos"] })
-  emit('close')
-}
-
+  await CursosService.cursoControllerCursoCreate(formData);
+  isActive.value = false;
+  await queryClient.invalidateQueries({ queryKey: ["cursos"] });
+  
+};
 </script>
 <template>
-  <div class="overlay">
-    <form @submit.prevent="salvarCurso" class="modal">
-      <h1>Cadastrar Novo Curso</h1>
-      <div class="modal-form">
-        <!-- Componentes de seleção e inputs -->
-        <PagesDashboardCoursesFormsSelectCourseImage />
+  <v-dialog class="dialog-style" max-width="500"  v-model="isActive">
+    <template v-slot:activator="{ props: activatorProps }">
+      <UIButtonAdd v-bind="activatorProps" />
+    </template>
+    <template v-slot:="{ isActive }">
+      <v-card>
+        <form @submit.prevent="salvarCurso" class="form">
+          <h1 class="main-title">Cadastrar Novo Curso</h1>
+          <div class="modal-form">
+            <PagesDashboardCoursesFormsSelectCourseImage />
 
-        <UITextFieldBase v-model="formData.nome" label="Nome" placeholder="Digite aqui" />
-        <UITextFieldBase v-model="formData.nomeAbreviado" label="Nome Abreviado" placeholder="Digite aqui" />
+            <UITextFieldBase
+              v-model="formData.nome"
+              label="Nome"
+              placeholder="Digite aqui"
+            />
+            <UITextFieldBase
+              v-model="formData.nomeAbreviado"
+              label="Nome Abreviado"
+              placeholder="Digite aqui"
+            />
 
-        <PagesDashboardCoursesFormsSelectModality />
-      </div>
-      <div class="button-group">
-        <button class="button Cancel" @click="($event) => $emit('close')">
-          <span>Cancelar</span>
-          <!-- SVG para botão Cancelar -->
-        </button>
-        <button class="button Cad" type="submit">
-          <span>Cadastrar</span>
-          <!-- SVG para botão Cadastrar -->
-        </button>
-      </div>
-    </form>
-  </div>
+            <PagesDashboardCoursesFormsSelectModality />
+          </div>
+          <div class="button-group">
+            <button class="button Cancel">
+              <span>Cancelar</span>
+            </button>
+            <button class="button Cad" type="submit">
+              <span>Cadastrar</span>
+            </button>
+          </div>
+        </form>
+      </v-card>
+    </template>
+  </v-dialog>
 </template>
 
 <style scoped>
@@ -58,37 +71,24 @@ const salvarCurso = async () => {
   gap: 32px;
 }
 
-/* Estilos básicos e responsivos para o modal */
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+.main-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.dialog-style {
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-style: solid 2px #9ab69e;
+}
+
+.form {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  z-index: 10000;
-}
-
-.modal {
-  background-color: white;
-  color: black;
-  border-radius: 0.5rem;
+  flex-direction: column;
   text-align: center;
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  width: 90%;
-  /* Valor padrão para largura em dispositivos pequenos */
-  max-width: 600px;
-  /* Largura máxima para evitar que o modal fique muito grande em telas grandes */
-  margin-bottom: 100px;
+  padding: 32px;
 }
-
 .button-group {
   display: flex;
   justify-content: center;

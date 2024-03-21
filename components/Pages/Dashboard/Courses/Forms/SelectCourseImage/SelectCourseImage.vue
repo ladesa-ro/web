@@ -55,7 +55,6 @@
   border: 2px solid #9ab69e;
   border-radius: 8px;
   text-align: center;
-  margin: 50px auto;
   cursor: pointer;
 }
 
