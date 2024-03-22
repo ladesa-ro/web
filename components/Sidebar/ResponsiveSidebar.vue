@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMonitorSize } from '~/composables/monitor-size';
-import Mobile from './MobileSidebar.vue';
+import Mobile from './MobileFootbar.vue';
 import Web from './WebSidebar.vue';
 
 const sizes = useMonitorSize();

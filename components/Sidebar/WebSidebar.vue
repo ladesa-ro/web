@@ -36,7 +36,6 @@
   import configuracoesIconWhite from "~/assets/icons/configuracoesIconWhite.svg";
   import disciplinaIconWhite from "~/assets/icons/disciplinaIconWhite.svg";
   import inicioIconWhite from "~/assets/icons/inicioIconWhite.svg";
-  import outrosIconWhite from "~/assets/icons/outrosIconWhite.svg";
   import perfilIconWhite from "~/assets/icons/perfilIconWhite.svg";
   import turmasIconWhite from "~/assets/icons/turmasIconWhite.svg";
   import vinculoIconWhite from "~/assets/icons/vinculosIconWhite.svg";
