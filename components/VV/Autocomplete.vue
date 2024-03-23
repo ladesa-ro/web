@@ -40,6 +40,6 @@ const {
   meta,
 } = useField(name.value, undefined, {
   initialValue: props.value,
-  validateOnValueUpdate: false,
+  validateOnValueUpdate: true,
 });
 </script>
