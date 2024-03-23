@@ -2,63 +2,116 @@
 import { useQueryClient } from "@tanstack/vue-query";
 import { reactive } from "vue";
 import { CursosService } from "~/infrastructure/api/generated";
+import { useApiModalitiesFindAll } from "~/composables/api/modalities";
+import { useApiCampusFindAll } from "~/composables/api/campus";
+import * as yup from 'yup';
+import { useField, useForm } from 'vee-validate'
 
 const queryClient = useQueryClient();
 
 let isActive = ref(false);
 
-const formData = reactive({
+const options = [
+  "Técnico Integrado",
+  "Técnico Subsequente",
+  "Técnico Concomitante",
+  "Graduação",
+];
+
+const formValues = reactive({
   nome: "",
   nomeAbreviado: "",
-  campus: {
-    id: "50987cbb-01a2-4345-8974-cae554ffca51",
-  },
   modalidade: {
-    id: "d8dda4ae-de9c-483c-ba89-b7c8bef120f5",
+    id: undefined,
+  },
+  campus: {
+    id: undefined,
   },
 });
 
-const salvarCurso = async () => {
-  await CursosService.cursoControllerCursoCreate(formData);
-  isActive.value = false;
-  await queryClient.invalidateQueries({ queryKey: ["cursos"] });
-  
-};
+watch(() => formValues, (newVal: any, oldVal: any) => {
+  console.log(newVal);
+}, { deep: true });
+
+const schema = yup.object().shape({
+  nome: yup.string().required("Nome é obrigatório!"),
+  nomeAbreviado: yup.string().required("Nome abreviado é obrigatório!"),
+});
+
+
+const { modalidade } = await useApiModalitiesFindAll("");
+
+const { campi } = await useApiCampusFindAll("");
+
+const { defineField, handleSubmit, resetForm, setFieldValue } = useForm({
+  validationSchema: schema,
+  initialValues: formValues,
+});
+
+
+const onSubmit = handleSubmit((values: any) => {
+  console.log('Submitted with', values);
+});
+
+
+
 </script>
 <template>
-  <v-dialog class="dialog-style" max-width="500"  v-model="isActive">
+  <v-dialog  max-width="500"  v-model="isActive">
     <template v-slot:activator="{ props: activatorProps }">
       <UIButtonAdd v-bind="activatorProps" />
     </template>
     <template v-slot:="{ isActive }">
-      <v-card>
-        <form @submit.prevent="salvarCurso" class="form">
+      <v-card class="dialog-style" >
+        <v-form @submit.prevent="onSubmit" class="form">
           <h1 class="main-title">Cadastrar Novo Curso</h1>
           <div class="modal-form">
             <PagesDashboardCoursesFormsSelectCourseImage />
 
-            <UITextFieldBase
-              v-model="formData.nome"
+            <VVTextField
+              v-model="formValues.nome"
+              type="text"
               label="Nome"
               placeholder="Digite aqui"
-            />
-            <UITextFieldBase
-              v-model="formData.nomeAbreviado"
+              name="nome"
+              />
+            
+            <VVTextField
+              v-model="formValues.nomeAbreviado"
+              type="text"
               label="Nome Abreviado"
               placeholder="Digite aqui"
+              name="nomeAbreviado"
+              />
+
+              <VVAutocomplete
+              v-model="formValues.modalidade.id"
+              label="Modalidade"
+              name="modalidade"
+              :items="modalidade"
+              item-title="nome"
+              item-value="id"
+              />
+
+            <VVAutocomplete
+              v-model="formValues.campus.id"
+              name="campus"
+              label="Campus"
+              :items="campi"
+              item-title="apelido"
+              item-value="id"
             />
 
-            <PagesDashboardCoursesFormsSelectModality />
           </div>
           <div class="button-group">
-            <button class="button Cancel">
+            <button @click="isActive.value = false" type="button" class="buttonCancelar Cancel">
               <span>Cancelar</span>
             </button>
-            <button class="button Cad" type="submit">
+            <button class="buttonCadastro Cad" type="submit">
               <span>Cadastrar</span>
             </button>
           </div>
-        </form>
+        </v-form>
       </v-card>
     </template>
   </v-dialog>
@@ -68,7 +121,7 @@ const salvarCurso = async () => {
 .modal-form {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 20px;
 }
 
 .main-title {
@@ -78,9 +131,9 @@ const salvarCurso = async () => {
 }
 
 .dialog-style {
-  border-radius: 8px;
+  border-radius: 14px !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-style: solid 2px #9ab69e;
+  border: solid 2px #9ab69e;
 }
 
 .form {
@@ -102,26 +155,30 @@ const salvarCurso = async () => {
   margin-top: 20px;
   cursor: pointer;
   border: none;
-  background-color: transparent;
+}
+
+.buttonCadastro {
+  background-color: #00d047;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+
+}
+
+.buttonCancelar {
+  background-color: #e9001c;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
 }
 
 .Cancel,
 .Cad {
-  transition: color 0.2s ease;
-}
-
-.svgCad,
-.svgCancel {
-  vertical-align: middle;
-  margin-left: 8px;
-}
-
-.Cad:hover {
-  color: #00d047;
+  transition: 0.2s ease;
 }
 
 .Cancel:hover {
-  color: #e9001c;
+  color: #0000;
 }
 
 @media (max-width: 600px) {
