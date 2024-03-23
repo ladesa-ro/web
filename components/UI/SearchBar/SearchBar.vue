@@ -1,6 +1,6 @@
 <template>
   <div class="searchField">
-    <UITextFieldBase v-model="localValue" label="Pesquisar" placeholder="Digite Aqui" append-inner-icon="mdi-magnify" />
+    <UITextFieldBase clearable v-model="localValue" label="Pesquisar" placeholder="Digite Aqui" append-inner-icon="mdi-magnify" />
   </div>
 </template>
 
