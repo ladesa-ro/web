@@ -1,6 +1,6 @@
 <template>
   <div class="textField">
-    <v-text-field hide-details base-color="#9ab69e" color="#00d047" persistent-hint variant="outlined"
+    <v-text-field hide-details="auto" base-color="#9ab69e" color="#00d047" persistent-hint variant="outlined"
       persistent-placeholder v-bind="$attrs" />
   </div>
 </template>

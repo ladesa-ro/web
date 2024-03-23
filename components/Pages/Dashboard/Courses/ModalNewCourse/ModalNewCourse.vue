@@ -29,13 +29,15 @@ const formValues = reactive({
   },
 });
 
-watch(() => formValues, (newVal: any, oldVal: any) => {
-  console.log(newVal);
-}, { deep: true });
-
 const schema = yup.object().shape({
   nome: yup.string().required("Nome é obrigatório!"),
   nomeAbreviado: yup.string().required("Nome abreviado é obrigatório!"),
+  modalidade: yup.object().shape({
+    id: yup.string().required("Modalidade é obrigatória!"),
+  }),
+  campus: yup.object().shape({
+    id: yup.string().required("Campus é obrigatório!"),
+  }),
 });
 
 
@@ -49,8 +51,11 @@ const { defineField, handleSubmit, resetForm, setFieldValue } = useForm({
 });
 
 
-const onSubmit = handleSubmit((values: any) => {
-  console.log('Submitted with', values);
+const onSubmit = handleSubmit(async (values: any) => {
+  await CursosService.cursoControllerCursoCreate(values);
+  resetForm();
+  isActive.value = false;
+  await queryClient.invalidateQueries({ queryKey: ["cursos"] });
 });
 
 
@@ -87,7 +92,8 @@ const onSubmit = handleSubmit((values: any) => {
               <VVAutocomplete
               v-model="formValues.modalidade.id"
               label="Modalidade"
-              name="modalidade"
+              placeholder="Selecione a modalidade"
+              name="modalidade.id"
               :items="modalidade"
               item-title="nome"
               item-value="id"
@@ -95,8 +101,9 @@ const onSubmit = handleSubmit((values: any) => {
 
             <VVAutocomplete
               v-model="formValues.campus.id"
-              name="campus"
+              name="campus.id"
               label="Campus"
+              placeholder="Selecione o campus"
               :items="campi"
               item-title="apelido"
               item-value="id"
@@ -145,6 +152,7 @@ const onSubmit = handleSubmit((values: any) => {
 .button-group {
   display: flex;
   justify-content: center;
+  margin-top: 20px;
   /* Centraliza os botões no modal */
   gap: 20px;
   /* Espaço entre os botões */
@@ -170,15 +178,6 @@ const onSubmit = handleSubmit((values: any) => {
   color: white;
   padding: 10px 20px;
   border-radius: 8px;
-}
-
-.Cancel,
-.Cad {
-  transition: 0.2s ease;
-}
-
-.Cancel:hover {
-  color: #0000;
 }
 
 @media (max-width: 600px) {

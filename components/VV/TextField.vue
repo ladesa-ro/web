@@ -43,11 +43,9 @@ const {
 
 <template>
   <div class="textField">
-    <v-text-field :name="name" :id="name" :type="type" @input="handleChange" @blur="handleBlur" hide-details base-color="#9ab69e" color="#00d047" persistent-hint variant="outlined" persistent-placeholder v-bind="$attrs" />
+    <UITextFieldBase :name="name" :id="name" :type="type" @input="handleChange" :error-messages="errorMessage ? [errorMessage] : []"
+    @blur="handleBlur" persistent-hint variant="outlined" persistent-placeholder v-bind="$attrs" />
  
-    <p class="help-message" v-show="errorMessage">
-      {{ errorMessage }}
-    </p>
  </div>
 </template>
 
