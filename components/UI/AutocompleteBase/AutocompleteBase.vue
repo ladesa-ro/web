@@ -53,11 +53,11 @@
 }
 
 .autoCompleteField .v-field .v-field__outline {
-  --v-field-border-width: 3px !important;
+  --v-field-border-width: 2px !important;
   --v-field-border-opacity: 1 !important;
 }
 
-.autoCompleteField .v-field .v-field__outline {
+.autoCompleteField .v-field:not(.v-field--error) .v-field__outline {
   --v-border-color: #9ab69e;
   color: #9ab69e;
 }

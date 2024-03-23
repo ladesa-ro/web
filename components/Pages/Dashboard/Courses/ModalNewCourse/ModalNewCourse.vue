@@ -104,14 +104,13 @@ const onSubmit = handleSubmit(async (values: any) => {
           <v-divider />
 
           <div class="form-footer button-group">
-            <VBtn color="red" variant="outlined">
+            <VBtn type="button" color="#e9001c" variant="outlined" @click="isActive.value = false" class="buttonCancelar">
               <span>Cancelar</span>
             </VBtn>
-            <button @click="isActive.value = false" type="button" class="buttonCancelar Cancel"></button>
 
-            <button class="buttonCadastro Cad" type="submit">
+            <VBtn type="submit" color="#00d047" variant="outlined" class="buttonCadastro">
               <span>Cadastrar</span>
-            </button>
+            </VBtn>
           </div>
         </v-form>
       </v-card>
@@ -150,12 +149,13 @@ const onSubmit = handleSubmit(async (values: any) => {
   text-align: center;
   padding: 32px;
 }
+
 .button-group {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 
   margin-top: 20px;
-
   gap: 20px;
 }
 
@@ -166,17 +166,23 @@ const onSubmit = handleSubmit(async (values: any) => {
   border: none;
 }
 
-.buttonCadastro {
-  background-color: #00d047;
-  color: white;
-  padding: 10px 20px;
+.v-btn.buttonCancelar,
+.v-btn.buttonCadastro {
+  padding: 6px 20px;
   border-radius: 8px;
+  height: auto;
+  text-transform: none;
 }
 
-.buttonCancelar {
-  background-color: #e9001c;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
+@media screen and (max-width: 450px) {
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .v-btn.buttonCancelar,
+  .v-btn.buttonCadastro {
+    padding: 6px 20px;
+  }
 }
 </style>
