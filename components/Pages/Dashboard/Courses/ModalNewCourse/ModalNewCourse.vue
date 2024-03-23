@@ -1,22 +1,17 @@
 <script lang="ts" setup>
 import { useQueryClient } from "@tanstack/vue-query";
+import { useForm } from "vee-validate";
 import { reactive } from "vue";
-import { CursosService } from "~/infrastructure/api/generated";
-import { useApiModalitiesFindAll } from "~/composables/api/modalities";
+import * as yup from "yup";
 import { useApiCampusFindAll } from "~/composables/api/campus";
-import * as yup from 'yup';
-import { useField, useForm } from 'vee-validate'
+import { useApiModalitiesFindAll } from "~/composables/api/modalities";
+import { CursosService } from "~/infrastructure/api/generated";
 
 const queryClient = useQueryClient();
 
 let isActive = ref(false);
 
-const options = [
-  "Técnico Integrado",
-  "Técnico Subsequente",
-  "Técnico Concomitante",
-  "Graduação",
-];
+const options = ["Técnico Integrado", "Técnico Subsequente", "Técnico Concomitante", "Graduação"];
 
 const formValues = reactive({
   nome: "",
@@ -40,7 +35,6 @@ const schema = yup.object().shape({
   }),
 });
 
-
 const { modalidade } = await useApiModalitiesFindAll("");
 
 const { campi } = await useApiCampusFindAll("");
@@ -50,46 +44,43 @@ const { defineField, handleSubmit, resetForm, setFieldValue } = useForm({
   initialValues: formValues,
 });
 
-
 const onSubmit = handleSubmit(async (values: any) => {
   await CursosService.cursoControllerCursoCreate(values);
   resetForm();
   isActive.value = false;
   await queryClient.invalidateQueries({ queryKey: ["cursos"] });
 });
-
-
-
 </script>
+
 <template>
-  <v-dialog  max-width="500"  v-model="isActive">
+  <v-dialog max-width="500" v-model="isActive">
     <template v-slot:activator="{ props: activatorProps }">
       <UIButtonAdd v-bind="activatorProps" />
     </template>
+
     <template v-slot:="{ isActive }">
-      <v-card class="dialog-style" >
+      <v-card class="dialog-style">
         <v-form @submit.prevent="onSubmit" class="form">
-          <h1 class="main-title">Cadastrar Novo Curso</h1>
-          <div class="modal-form">
+          <div class="form-header">
+            <h1 class="main-title">Cadastrar Novo Curso</h1>
+          </div>
+
+          <v-divider class="my-4" />
+
+          <div class="form-body modal-form">
             <PagesDashboardCoursesFormsSelectCourseImage />
 
-            <VVTextField
-              v-model="formValues.nome"
-              type="text"
-              label="Nome"
-              placeholder="Digite aqui"
-              name="nome"
-              />
-            
+            <VVTextField v-model="formValues.nome" type="text" label="Nome" placeholder="Digite aqui" name="nome" />
+
             <VVTextField
               v-model="formValues.nomeAbreviado"
               type="text"
               label="Nome Abreviado"
               placeholder="Digite aqui"
               name="nomeAbreviado"
-              />
+            />
 
-              <VVAutocomplete
+            <VVAutocomplete
               v-model="formValues.modalidade.id"
               label="Modalidade"
               placeholder="Selecione a modalidade"
@@ -97,7 +88,7 @@ const onSubmit = handleSubmit(async (values: any) => {
               :items="modalidade"
               item-title="nome"
               item-value="id"
-              />
+            />
 
             <VVAutocomplete
               v-model="formValues.campus.id"
@@ -108,12 +99,16 @@ const onSubmit = handleSubmit(async (values: any) => {
               item-title="apelido"
               item-value="id"
             />
-
           </div>
-          <div class="button-group">
-            <button @click="isActive.value = false" type="button" class="buttonCancelar Cancel">
+
+          <v-divider />
+
+          <div class="form-footer button-group">
+            <VBtn color="red" variant="outlined">
               <span>Cancelar</span>
-            </button>
+            </VBtn>
+            <button @click="isActive.value = false" type="button" class="buttonCancelar Cancel"></button>
+
             <button class="buttonCadastro Cad" type="submit">
               <span>Cadastrar</span>
             </button>
@@ -125,6 +120,13 @@ const onSubmit = handleSubmit(async (values: any) => {
 </template>
 
 <style scoped>
+.form {
+  overflow: hidden;
+}
+
+.form-body {
+  overflow: auto;
+}
 .modal-form {
   display: flex;
   flex-direction: column;
@@ -134,7 +136,6 @@ const onSubmit = handleSubmit(async (values: any) => {
 .main-title {
   font-size: 24px;
   font-weight: 700;
-  margin-bottom: 16px;
 }
 
 .dialog-style {
@@ -151,11 +152,11 @@ const onSubmit = handleSubmit(async (values: any) => {
 }
 .button-group {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+
   margin-top: 20px;
-  /* Centraliza os botões no modal */
+
   gap: 20px;
-  /* Espaço entre os botões */
 }
 
 .button {
@@ -170,7 +171,6 @@ const onSubmit = handleSubmit(async (values: any) => {
   color: white;
   padding: 10px 20px;
   border-radius: 8px;
-
 }
 
 .buttonCancelar {
@@ -178,17 +178,5 @@ const onSubmit = handleSubmit(async (values: any) => {
   color: white;
   padding: 10px 20px;
   border-radius: 8px;
-}
-
-@media (max-width: 600px) {
-  .button-group {
-    flex-direction: column;
-    /* Empilha os botões verticalmente em telas pequenas */
-  }
-
-  .button {
-    width: 100%;
-    /* Faz os botões ocuparem toda a largura do modal em telas pequenas */
-  }
 }
 </style>
