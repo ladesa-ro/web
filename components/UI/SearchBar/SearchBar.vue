@@ -5,26 +5,28 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
-import { defineProps, defineEmits } from 'vue';
+import { defineEmits, defineProps, ref, watch } from "vue";
 
 const props = defineProps({
-  value: String
+  value: String,
 });
 
-const emits = defineEmits(['update:value']);
+const emits = defineEmits(["update:value"]);
 
 const localValue = ref(props.value);
 
 watch(localValue, (newValue) => {
-  emits('update:value', newValue);
+  emits("update:value", newValue);
 });
 
-watch(() => props.value, (newValue) => {
-  if (newValue !== localValue.value) {
-    localValue.value = newValue;
+watch(
+  () => props.value,
+  (newValue) => {
+    if (newValue !== localValue.value) {
+      localValue.value = newValue;
+    }
   }
-});
+);
 </script>
 
 <style>

@@ -149,7 +149,6 @@ const onSubmit = handleSubmit(async (values: any) => {
   text-align: center;
   padding: 32px;
 }
-
 .button-group {
   display: flex;
   justify-content: space-between;
