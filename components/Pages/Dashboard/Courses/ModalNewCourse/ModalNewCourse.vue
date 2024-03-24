@@ -1,86 +1,146 @@
 <script lang="ts" setup>
 import { useQueryClient } from "@tanstack/vue-query";
+import { useForm } from "vee-validate";
 import { reactive } from "vue";
+import * as yup from "yup";
+import { useApiCampusFindAll } from "~/composables/api/campus";
+import { useApiModalitiesFindAll } from "~/composables/api/modalities";
 import { CursosService } from "~/infrastructure/api/generated";
 
 const queryClient = useQueryClient();
 
 let isActive = ref(false);
 
-const formData = reactive({
+const options = ["Técnico Integrado", "Técnico Subsequente", "Técnico Concomitante", "Graduação"];
+
+const formValues = reactive({
   nome: "",
   nomeAbreviado: "",
-  campus: {
-    id: "50987cbb-01a2-4345-8974-cae554ffca51",
-  },
   modalidade: {
-    id: "d8dda4ae-de9c-483c-ba89-b7c8bef120f5",
+    id: undefined,
+  },
+  campus: {
+    id: undefined,
   },
 });
 
-const salvarCurso = async () => {
-  await CursosService.cursoControllerCursoCreate(formData);
+const schema = yup.object().shape({
+  nome: yup.string().required("Nome é obrigatório!"),
+  nomeAbreviado: yup.string().required("Nome abreviado é obrigatório!"),
+  modalidade: yup.object().shape({
+    id: yup.string().required("Modalidade é obrigatória!"),
+  }),
+  campus: yup.object().shape({
+    id: yup.string().required("Campus é obrigatório!"),
+  }),
+});
+
+const { modalidade } = await useApiModalitiesFindAll("");
+
+const { campi } = await useApiCampusFindAll("");
+
+const { defineField, handleSubmit, resetForm, setFieldValue } = useForm({
+  validationSchema: schema,
+  initialValues: formValues,
+});
+
+const onSubmit = handleSubmit(async (values: any) => {
+  await CursosService.cursoControllerCursoCreate(values);
+  resetForm();
   isActive.value = false;
   await queryClient.invalidateQueries({ queryKey: ["cursos"] });
-  
-};
+});
 </script>
+
 <template>
-  <v-dialog class="dialog-style" max-width="500"  v-model="isActive">
+  <v-dialog max-width="500" v-model="isActive">
     <template v-slot:activator="{ props: activatorProps }">
       <UIButtonAdd v-bind="activatorProps" />
     </template>
+
     <template v-slot:="{ isActive }">
-      <v-card>
-        <form @submit.prevent="salvarCurso" class="form">
-          <h1 class="main-title">Cadastrar Novo Curso</h1>
-          <div class="modal-form">
+      <v-card class="dialog-style">
+        <v-form @submit.prevent="onSubmit" class="form">
+          <div class="form-header">
+            <h1 class="main-title">Cadastrar Novo Curso</h1>
+          </div>
+
+          <v-divider class="my-4" />
+
+          <div class="form-body modal-form">
             <PagesDashboardCoursesFormsSelectCourseImage />
 
-            <UITextFieldBase
-              v-model="formData.nome"
-              label="Nome"
-              placeholder="Digite aqui"
-            />
-            <UITextFieldBase
-              v-model="formData.nomeAbreviado"
+            <VVTextField v-model="formValues.nome" type="text" label="Nome" placeholder="Digite aqui" name="nome" />
+
+            <VVTextField
+              v-model="formValues.nomeAbreviado"
+              type="text"
               label="Nome Abreviado"
               placeholder="Digite aqui"
+              name="nomeAbreviado"
             />
 
-            <PagesDashboardCoursesFormsSelectModality />
+            <VVAutocomplete
+              v-model="formValues.modalidade.id"
+              label="Modalidade"
+              placeholder="Selecione a modalidade"
+              name="modalidade.id"
+              :items="modalidade"
+              item-title="nome"
+              item-value="id"
+            />
+
+            <VVAutocomplete
+              v-model="formValues.campus.id"
+              name="campus.id"
+              label="Campus"
+              placeholder="Selecione o campus"
+              :items="campi"
+              item-title="apelido"
+              item-value="id"
+            />
           </div>
-          <div class="button-group">
-            <button class="button Cancel">
+
+          <v-divider />
+
+          <div class="form-footer button-group">
+            <VBtn type="button" color="#e9001c" variant="outlined" @click="isActive.value = false" class="buttonCancelar">
               <span>Cancelar</span>
-            </button>
-            <button class="button Cad" type="submit">
+            </VBtn>
+
+            <VBtn type="submit" color="#00d047" variant="outlined" class="buttonCadastro">
               <span>Cadastrar</span>
-            </button>
+            </VBtn>
           </div>
-        </form>
+        </v-form>
       </v-card>
     </template>
   </v-dialog>
 </template>
 
 <style scoped>
+.form {
+  overflow: hidden;
+}
+
+.form-body {
+  overflow: auto;
+}
 .modal-form {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 20px;
 }
 
 .main-title {
   font-size: 24px;
   font-weight: 700;
-  margin-bottom: 16px;
 }
 
 .dialog-style {
-  border-radius: 8px;
+  border-radius: 14px !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-style: solid 2px #9ab69e;
+  border: solid 2px #9ab69e;
 }
 
 .form {
@@ -91,10 +151,11 @@ const salvarCurso = async () => {
 }
 .button-group {
   display: flex;
-  justify-content: center;
-  /* Centraliza os botões no modal */
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  margin-top: 20px;
   gap: 20px;
-  /* Espaço entre os botões */
 }
 
 .button {
@@ -102,37 +163,25 @@ const salvarCurso = async () => {
   margin-top: 20px;
   cursor: pointer;
   border: none;
-  background-color: transparent;
 }
 
-.Cancel,
-.Cad {
-  transition: color 0.2s ease;
+.v-btn.buttonCancelar,
+.v-btn.buttonCadastro {
+  padding: 6px 20px;
+  border-radius: 8px;
+  height: auto;
+  text-transform: none;
 }
 
-.svgCad,
-.svgCancel {
-  vertical-align: middle;
-  margin-left: 8px;
-}
-
-.Cad:hover {
-  color: #00d047;
-}
-
-.Cancel:hover {
-  color: #e9001c;
-}
-
-@media (max-width: 600px) {
+@media screen and (max-width: 450px) {
   .button-group {
     flex-direction: column;
-    /* Empilha os botões verticalmente em telas pequenas */
+    gap: 10px;
   }
 
-  .button {
-    width: 100%;
-    /* Faz os botões ocuparem toda a largura do modal em telas pequenas */
+  .v-btn.buttonCancelar,
+  .v-btn.buttonCadastro {
+    padding: 6px 20px;
   }
 }
 </style>

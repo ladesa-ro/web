@@ -1,6 +1,6 @@
 <script setup>
-import Responsive from '~/components/Sidebar/ResponsiveSidebar.vue';
-import { ref } from 'vue';
+import { ref } from "vue";
+import Responsive from "~/components/Sidebar/ResponsiveSidebar.vue";
 
 const init = ref(true);
 
@@ -12,7 +12,7 @@ onMounted(() => {
 <template>
   <v-app class="app" style="z-index: 1">
     <v-layout>
-      <v-app-bar :class="{ toolbar: !init }" elevation="2">
+      <v-app-bar :class="{ toolbar: !init }" class="fixed" elevation="2">
         <Appbar />
       </v-app-bar>
 
@@ -40,5 +40,9 @@ onMounted(() => {
   --v-layout-top: 64px !important;
   --v-layout-bottom: 0px !important;
   min-height: 300px;
+}
+
+.fixed {
+  position: fixed !important;
 }
 </style>

@@ -1,7 +1,14 @@
 <template>
   <div class="textField">
-    <v-text-field hide-details base-color="#9ab69e" color="#00d047" persistent-hint variant="outlined"
-      persistent-placeholder v-bind="$attrs" />
+    <v-text-field
+      hide-details="auto"
+      base-color="#9ab69e"
+      color="#00d047"
+      persistent-hint
+      variant="outlined"
+      persistent-placeholder
+      v-bind="$attrs"
+    />
   </div>
 </template>
 
@@ -21,7 +28,7 @@
 
 .textField .v-field--variant-outlined.v-field--focused .v-field__outline,
 .textField .v-field .v-field__outline {
-  --v-field-border-width: 3px !important;
+  --v-field-border-width: 2px !important;
   --v-field-border-opacity: 1 !important;
 }
 

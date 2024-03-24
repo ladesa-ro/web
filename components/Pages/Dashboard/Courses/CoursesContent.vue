@@ -4,7 +4,6 @@ import { ref } from "vue";
 const show = ref(false);
 
 let searchBarText = ref("");
-
 </script>
 
 <template>
@@ -12,7 +11,7 @@ let searchBarText = ref("");
     <div class="container">
       <div>
         <div class="container-header px-3">
-          <UISearchBar :value="searchBarText" @update:value="searchBarText = $event"/>
+          <UISearchBar :value="searchBarText" @update:value="searchBarText = $event" />
           <div class="container-header-actions">
             <PagesDashboardCoursesModalNewCourse />
           </div>
@@ -46,5 +45,8 @@ let searchBarText = ref("");
 
 .container-header-actions {
   flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
 }
 </style>
