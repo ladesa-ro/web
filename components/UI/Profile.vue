@@ -16,12 +16,17 @@
         </div>
         <UIIconsIconEditWhite class="edit-w" />
       </div>
+
+      <div class="container-availability">
+        <div class="hours-availability">
+          <UIIconsIconBefore/>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <style scoped>
 .user {
-  display: grid;
   width: 85%;
   height: 100vh;
   margin-left: 8%;
@@ -80,8 +85,12 @@
   color: #9ab69e;
 }
 
-.svg-container {
-  position: relative;
+.container-availability {
+  height: 300px;
+  width: 45%;
+  margin-top: 40px;
+  border: 2px solid #9ab69e;
+  border-radius: 8px;
 }
 
 @media (max-width: 1370px) {
