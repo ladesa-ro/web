@@ -1,4 +1,10 @@
-<script setup></script>
+<script setup>
+import IconEdit from '../Icons/IconEdit.vue';
+import IconEditWhite from '../Icons/IconEditWhite.vue';
+import Availability from './Availability/Availability.vue';
+
+
+</script>
 <template>
   <div>
     <div class="user">
@@ -11,17 +17,12 @@
               <p>danilo.escudero@gmail.com</p>
               <h4>Professor</h4>
             </div>
-            <UIIconsIconEdit class="icon-edit" />
+            <IconEdit class="icon-edit" />
           </div>
         </div>
-        <UIIconsIconEditWhite class="edit-w" />
+        <IconEditWhite class="edit-w" />
       </div>
-
-      <div class="container-availability">
-        <div class="hours-availability">
-          <UIIconsIconBefore/>
-        </div>
-      </div>
+      <Availability/>
     </div>
   </div>
 </template>
@@ -85,13 +86,6 @@
   color: #9ab69e;
 }
 
-.container-availability {
-  height: 300px;
-  width: 45%;
-  margin-top: 40px;
-  border: 2px solid #9ab69e;
-  border-radius: 8px;
-}
 
 @media (max-width: 1370px) {
   .text h2 {
@@ -138,8 +132,6 @@
     margin-right: 5%;
   }
 }
-
-
 
 @media (max-width: 395px) {
   .card-profile {

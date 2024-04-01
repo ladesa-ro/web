@@ -1,5 +1,5 @@
 <template>
   <div>
-    <UIProfile/>
+    <DashboardProfile/>
   </div>
 </template>
