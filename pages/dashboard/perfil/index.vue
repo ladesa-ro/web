@@ -1,5 +1,9 @@
+<script setup></script>
 <template>
   <div>
-    <DashboardProfile/>
+    <DashboardProfile />
   </div>
 </template>
+<style>
+
+</style>

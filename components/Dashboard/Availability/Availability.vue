@@ -21,8 +21,8 @@ const changeDay = (delta) => {
 };
 </script>
 <template>
-  <div>
-    <v-container class="container-availability ma-0 pa-0 w-auto">
+  <v-container class="pa-0 d-flex">
+    <div class=" container-availability pa-0 mt-8 w-50">
       <div class="hours-availability">
         <div class="top-availability">
           <div class="icons">
@@ -38,8 +38,9 @@ const changeDay = (delta) => {
           </div>
         </div>
       </div>
-    </v-container>
-  </div>
+    </div>
+    <DashboardTeaching/>
+  </v-container>
 </template>
 
 <style>
@@ -62,7 +63,7 @@ const changeDay = (delta) => {
 }
 
 .icons {
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 </style>
