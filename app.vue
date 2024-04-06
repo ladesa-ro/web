@@ -19,6 +19,10 @@
 @import "~/assets/styles/themes/theme.css";
 @import "~/assets/styles/fontePadrao.css";
 
+body {
+  font-family: "Poppins", sans-serif;
+}
+
 img {
   display: block;
   max-width: 100%;

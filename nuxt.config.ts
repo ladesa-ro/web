@@ -2,7 +2,6 @@ import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
 // import svgLoader from "vite-svg-loader";
 
 export default defineNuxtConfig({
-
   serverHandlers: [
     { route: '/_api/auth/**', handler: '~/server/_api/auth/[...].ts' }
   ],
@@ -17,6 +16,7 @@ export default defineNuxtConfig({
   build: {
     transpile: ["vuetify"],
   },
+
   auth: {
     baseURL: process.env.AUTH_ORIGIN ?? "/_api/auth",
     provider: {
@@ -28,6 +28,7 @@ export default defineNuxtConfig({
       enableRefreshOnWindowFocus: true,
     },
   },
+
   modules: [
     "@sidebase/nuxt-auth",
     (_options, nuxt) => {
@@ -67,5 +68,9 @@ export default defineNuxtConfig({
         transformAssetUrls,
       },
     },
+  },
+
+  devtools: {
+    enabled: true,
   },
 });
