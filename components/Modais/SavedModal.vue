@@ -20,7 +20,7 @@ import Searchs from "~/components/Pages/DashboardUsers/Forms/Searchs.vue";
         <Searchs value="Carga horária" />
       </div>
       <div>
-        <button class="Cancel" @click="showModal = true">
+        <button class="Cancel" @click="($event) => $emit('close')">
           <span>Cancelar</span>
           <svg
           class="svgCancel"

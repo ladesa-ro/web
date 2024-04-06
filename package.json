@@ -35,6 +35,7 @@
     "vuetify": "^3.4.8"
   },
   "dependencies": {
+    "next-auth": "^4.21.1",
     "vuex": "^4.0.2"
   }
 }
