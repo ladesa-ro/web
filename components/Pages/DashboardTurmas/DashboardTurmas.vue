@@ -1,43 +1,22 @@
-<script setup>
-import iagex from "~/assets/kilo.png";
-import SearchBar from "~/components/SearchBar.vue";
-import adicionar from "~/componentes/adicionar.vue";
-import ContainerClass from "~/components/Containers/ContainerClass.vue";
-
-const caminhoDaImagem1 = "https://tse4.mm.bing.net/th?id=OIP.-eVHxNSXqiqHdFy8tlPlJAHaFj&pid=Api&P=0&h=180";
-const mensagemDoPai1 = "2°Ano A - Química"; 
-const abre1 = "Curso: Téc.Quim.";
-const niv1 = "Turnos: Matutino e vespertino";
-
-const caminhoDaImagem2 = "https://tse4.mm.bing.net/th?id=OIP.-eVHxNSXqiqHdFy8tlPlJAHaFj&pid=Api&P=0&h=180";
-const mensagemDoPai2 = "2°Ano B - Floresta"; 
-const abre2 = "Curso: Téc.Flor.";
-const niv2 = "Turnos: Matutino e vespertino";
-
-const caminhoDaImagem3 = iagex;
-const mensagemDoPai3 = "2°Ano A - Informática";
-const abre3 = "Curso: Téc.Info.";
-const niv3 = "Turnos: Maatutino e Vespertino";
-</script>
 <template class="t">
   <search-bar class="place" :msge="msg"></search-bar>
 
   <adicionar />
-  <ContainerClass
+  <disc
     class="dis2"
     :imgSr="caminhoDaImagem2"
     :sala="mensagemDoPai2"
     :curso="abre2"
     :turno="niv2"
   />
-  <ContainerClass
+  <disc
     class="dis3"
     :imgSr="caminhoDaImagem1"
     :sala="mensagemDoPai1"
     :curso="abre1"
     :turno="niv1"
   />
-  <ContainerClass
+  <disc
     class="dis"
     :imgSr="caminhoDaImagem3"
     :sala="mensagemDoPai3"
@@ -45,6 +24,42 @@ const niv3 = "Turnos: Maatutino e Vespertino";
     :turno="niv3"
   />
 </template>
+
+<script>
+import iagex from "~/assets/kilo.png";
+import SearchBar from "~/componentes/SearchBar.vue";
+import adicionar from "~/componentes/adicionar.vue";
+import disc from "~/componentes/disc.vue";
+export default {
+  components: {
+    adicionar,
+    SearchBar,
+    disc,
+  },
+  data() {
+    return {
+      msg: "Procure uma turma...",
+
+      caminhoDaImagem3: iagex,
+      mensagemDoPai3: "2°Ano A - Informática", // Defina o valor da prop aqui
+      abre3: "Curso: Téc.Info.",
+      niv3: "Turnos: Maatutino e Vespertino",
+
+      caminhoDaImagem2:
+        "https://tse4.mm.bing.net/th?id=OIP.-eVHxNSXqiqHdFy8tlPlJAHaFj&pid=Api&P=0&h=180",
+      mensagemDoPai2: "2°Ano B - Floresta", // Defina o valor da prop aqui
+      abre2: "Curso: Téc.Flor.",
+      niv2: "Turnos: Matutino e vespertino",
+
+      caminhoDaImagem1:
+        "https://tse4.mm.bing.net/th?id=OIP.-eVHxNSXqiqHdFy8tlPlJAHaFj&pid=Api&P=0&h=180",
+      mensagemDoPai1: "2°Ano A - Química", // Defina o valor da prop aqui
+      abre1: "Curso: Téc.Quim.",
+      niv1: "Turnos: Matutino e vespertino",
+    };
+  },
+};
+</script>
 
 <style>
 .t {

@@ -1,47 +1,6 @@
-<script setup>
-import { ref } from 'vue';
-import caminhoDaImagem from "~/assets/Foto.png";
-import SavedModal from "~/components/Modais/SavedModal.vue";
-import adicionar from "~/componentes/adicionar.vue";
-import IconAdd from "~/components/Icons/IconAdd.vue"; 
-import ContainerDiscipline from "~/components/Containers/ContainerDiscipline.vue";
-
-const mensagemDoPai = ref("Linguagem e Lógica de Programação");
-const abre = "Abreviação: L. L. Prog.";
-const niv = "Modalidade: Técnico Integrado";
-
-const caminhoDaImagem2 = "https://tse1.mm.bing.net/th?id=OIP.lKoTmKPpWT-qSlTLmlIwwgHaEK&pid=Api&P=0&h=180";
-const mensagemDoPai2 = ref("Matemática");
-const abre2 = "Abreviação: Mat.";
-const niv2 = "Modalidade: Técnico Integrado";
-
-const caminhoDaImagem3 = "https://tse4.mm.bing.net/th?id=OIP.-eVHxNSXqiqHdFy8tlPlJAHaFj&pid=Api&P=0&h=180";
-const mensagemDoPai3 = ref("Português");
-const abre3 = "Abreviação: Port.";
-const niv3 = "Modalidade: Técnico Integrado";
-
-const msg = "Digite aqui.";
-const showModal = ref(false);
-
-const show = ref(false);
-
-const openConfirm = () => {
-  show.value = true;
-  console.log("clicou no iconeadd");
-};
-
-const closeConfirm = () => {
-  show.value = false;
-  console.log("Cheghoy aqi");
-};
-
-const testeConsole = () => {
-  console.log("clicou");
-}
-</script>
 <template>
-  <SearchBar value="Pesquisar" />
-  <ContainerDiscipline
+  <search-bar class="search" :msge="msg"></search-bar>
+  <bloco
     class="p1"
     :imagemSrc="caminhoDaImagem"
     :mensagem="mensagemDoPai"
@@ -49,7 +8,7 @@ const testeConsole = () => {
     :nivel="niv"  
   />
 
-  <ContainerDiscipline
+  <bloco
     class="p2"
     :imagemSrc="caminhoDaImagem2"
     :mensagem="mensagemDoPai2"
@@ -57,30 +16,69 @@ const testeConsole = () => {
     :nivel="niv2"
   />
 
-  <ContainerDiscipline
+  <bloco
     class="p3"
     :imagemSrc="caminhoDaImagem3"
     :mensagem="mensagemDoPai3"
     :abreviacao="abre3"
     :nivel="niv3"
   />
-  <SavedModal v-if="show" @close="closeConfirm"/>
+  <SavedModal v-show="showModal" />
 
   <div class="save-btn">
     <button @click="showModal = true">
-      <IconAdd class="adc" @click="openConfirm" />
+      <adicionar />
     </button>
   </div>
 </template>
 
-<style scooped>
+<script>
+import caminhoDaImagem from "~/assets/Foto.png";
+import SavedModal from "~/componentes/SavedModal.vue";
+import SearchBar from "~/componentes/SearchBar.vue";
+import adicionar from "~/componentes/adicionar.vue";
+import bloco from "~/componentes/bloco.vue";
+export default {
+  components: {
+    bloco,
+    SearchBar,
+    adicionar,
+    SavedModal,
+  },
+  data() {
+    return {
+      caminhoDaImagem: caminhoDaImagem,
+      mensagemDoPai: "Linguagem e Lógica de Programação", // Defina o valor da prop aqui
+      abre: "Abreviação: L. L. Prog.",
+      niv: "Modalidade: Técnico Integrado",
+
+      caminhoDaImagem2:
+        "https://tse1.mm.bing.net/th?id=OIP.lKoTmKPpWT-qSlTLmlIwwgHaEK&pid=Api&P=0&h=180",
+      mensagemDoPai2: "Matemática", // Defina o valor da prop aqui
+      abre2: "Abreviação: Mat.",
+      niv2: "Modalidade: Técnico Integrado",
+
+      caminhoDaImagem3:
+        "https://tse4.mm.bing.net/th?id=OIP.-eVHxNSXqiqHdFy8tlPlJAHaFj&pid=Api&P=0&h=180",
+      mensagemDoPai3: "Português", // Defina o valor da prop aqui
+      abre3: "Abreviação: Port.",
+      niv3: "Modalidade: Técnico Integrado",
+
+      msg: "Digite aqui.",
+      showModal: false,
+    };
+  },
+};
+</script>
+
+<style>
 .t {
   box-sizing: border-box;
   position: absolute;
 }
 
 .p1 {
-  position: absolute;/*oiiii*/
+  position: absolute;
   margin-left: 150px;
   margin-top: 40px;
 }
@@ -96,10 +94,5 @@ const testeConsole = () => {
   margin-left: 660px;
   display: block;
   margin-top: 40px;
-}
-
-
-.adc:hover{
-  cursor: pointer; 
 }
 </style>

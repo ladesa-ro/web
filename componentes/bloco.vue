@@ -22,7 +22,7 @@ const { imagemSrc, mensagem, abreviacao, nivel } = props;
 
 <script>
 export default {
-  name: "ContainerDiscipline.vue",
+  name: "bloco",
 }; //EXPORTAÇÃO//
 </script>
 
