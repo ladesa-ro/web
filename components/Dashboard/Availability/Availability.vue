@@ -22,10 +22,10 @@ const changeDay = (delta) => {
 </script>
 <template>
   <div>
-    <div class="container-availability">
+    <v-container class="container-availability ma-0 pa-0 w-auto">
       <div class="hours-availability">
         <div class="top-availability">
-          <div>
+          <div class="icons">
             <IconBefore @click="changeDay(-1)" />
           </div>
 
@@ -33,20 +33,18 @@ const changeDay = (delta) => {
             <span>{{ selectedOptions[0]?.value }}</span>
           </div>
 
-          <div>
+          <div class="icons">
             <IconsIconAfter class="icon-after" @click="changeDay(1)" />
           </div>
         </div>
       </div>
-    </div>
+    </v-container>
   </div>
 </template>
 
 <style>
 .container-availability {
   height: 300px;
-  width: 45%;
-  margin-top: 40px;
   border: 2px solid #9ab69e;
   border-radius: 8px;
 }
@@ -60,5 +58,11 @@ const changeDay = (delta) => {
   height: 35px;
   gap: 40px;
   color: #fff;
+  justify-content: space-between;
+}
+
+.icons {
+  margin-left: 20px;
+  margin-right: 20px;
 }
 </style>

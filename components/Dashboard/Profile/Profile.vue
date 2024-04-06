@@ -1,14 +1,15 @@
 <script setup>
-import IconEdit from '../Icons/IconEdit.vue';
-import IconEditWhite from '../Icons/IconEditWhite.vue';
-import Availability from './Availability/Availability.vue';
+import IconEdit from '@/components/Icons/IconEdit.vue';
+import IconEditWhite from '@/components/Icons/IconEditWhite.vue';
+import Availability from '@/components/Dashboard/Availability/Availability.vue';
 
 
 </script>
 <template>
   <div>
     <div class="user">
-      <div class="container-image">
+      <v-container class="container-image pa-0 ma-0  w-100"
+      >
         <div class="card-profile">
           <div class="container-content">
             <img src="@/imgs/Perfil-Foto.png" alt="" />
@@ -21,13 +22,15 @@ import Availability from './Availability/Availability.vue';
           </div>
         </div>
         <IconEditWhite class="edit-w" />
-      </div>
-      <Availability/>
+      </v-container>
+      <Availability class="avb"/>
+      <!-- <Availability class="avb"/> -->
     </div>
   </div>
 </template>
 <style scoped>
 .user {
+  display: grid;
   width: 85%;
   height: 100vh;
   margin-left: 8%;
@@ -58,6 +61,7 @@ import Availability from './Availability/Availability.vue';
   box-sizing: border-box;
   border-radius: 10px 10px 0px 0px;
   padding: 5px;
+  top: 300px;
 }
 
 .container-content {
@@ -86,6 +90,9 @@ import Availability from './Availability/Availability.vue';
   color: #9ab69e;
 }
 
+.avb {
+  margin-top: -180px;
+}
 
 @media (max-width: 1370px) {
   .text h2 {
