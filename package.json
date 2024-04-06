@@ -16,7 +16,7 @@
   "devDependencies": {
     "@mdi/font": "^7.3.67",
     "@nuxt/devtools": "latest",
-    "@sidebase/nuxt-auth": "^0.7.0",
+    "@sidebase/nuxt-auth": "^0.6.7",
     "@tanstack/vue-query": "^5.28.2",
     "@types/jsonwebtoken": "^9.0.6",
     "@vueuse/core": "^10.9.0",
@@ -31,9 +31,12 @@
     "reflect-metadata": "^0.2.1",
     "vee-validate": "^4.12.6",
     "vite-plugin-vuetify": "^2.0.1",
-    "vue": "^3.3.12",
-    "vue-router": "4",
-    "vuetify": "^3.4.8",
-    "yup": "^1.4.0"
+    "vue": "^3.4.21",
+    "vue-router": "^4.0.13",
+    "vuetify": "^3.4.8"
+  },
+  "dependencies": {
+    "next-auth": "^4.21.1",
+    "vuex": "^4.0.2"
   }
 }
