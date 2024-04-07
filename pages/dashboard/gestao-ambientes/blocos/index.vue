@@ -3,7 +3,7 @@
 
 <template>
     <div>
-        <PagesDashboardBlocos/>
+        <PagesDashboardBlocos />
     </div>
   </template>
   
