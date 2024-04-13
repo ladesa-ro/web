@@ -2,9 +2,6 @@
 import { useQueryClient } from "@tanstack/vue-query";
 import { useForm } from "vee-validate";
 import { reactive } from "vue";
-import * as yup from "yup";
-import { useApiCampusFindAll } from "~/composables/api/campus";
-import { CursosService } from "~/infrastructure/api/generated";
 
 let isActive = ref(false);
 
