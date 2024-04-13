@@ -1,0 +1,64 @@
+/* Botao */
+.botao {
+  display: flex !important;
+
+  justify-content: center;
+  align-items: center;
+
+  border-style: none;
+  outline: 0;
+
+  cursor: pointer;
+  background-color: #00000000;
+}
+
+/* Menu de botoes */
+.botoes {
+  display: flex !important;
+  flex-direction: row !important;
+
+  justify-content: center;
+  align-items: center;
+}
+.botoesDeCadastro {
+  display: flex !important;
+  flex-direction: row !important;
+
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  bottom: 2vh;
+}
+
+.dividerBotoes {
+  height: none;
+  width: 10%;
+  min-width: 25px !important;
+}
+
+/* Cores do botao */
+.botaoVerde {
+  background-color: #39a048 !important;
+}
+.botaoVermelho {
+  background-color: #ff4040 !important;
+}
+.corDaFonte {
+  color: #fff !important;
+}
+
+/* Dimensoes */
+.dimensao1 {
+  width: 15vw !important;
+  min-width: 200px !important;
+  height: 50px !important;
+}
+.dimensao2 {
+  height: 8vh !important;
+}
+.dimensao3 {
+  width: 28vw !important;
+  min-width: 300px !important;
+  height: 50px !important;
+}

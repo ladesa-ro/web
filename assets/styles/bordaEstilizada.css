@@ -1,0 +1,11 @@
+.bordaEstilizada {
+  border-radius: 9px !important;
+}
+
+.darkmodeOff .bordaEstilizada {
+  box-shadow: 0 0 5px #00000025;
+}
+
+.darkmodeOn .bordaEstilizada {
+  box-shadow: 0 0 5px #00000075;
+}

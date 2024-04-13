@@ -1,21 +1,19 @@
 <script setup>
-import profilePicture from '../assets/icons/profilePicture.svg';
+import profilePicture from "../assets/icons/profilePicture.svg";
 </script>
 
 <template>
-  <v-app-bar elevation="2">
-    <div class="userInfo">
-      <VImg class="ml-5" :src="profilePicture" width="52"></VImg>
-      <div class="nameRole">
-        <p class="name">Danilo Escudero</p>
-        <p class="role">Professor</p>
-      </div>
+  <div class="userInfo">
+    <VImg class="ml-5" :src="profilePicture" width="52"></VImg>
+    <div class="nameRole">
+      <p class="name">Danilo Escudero</p>
+      <p class="role">Professor</p>
     </div>
-  </v-app-bar>
+  </div>
 </template>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 .userInfo {
   display: flex;
@@ -25,7 +23,7 @@ import profilePicture from '../assets/icons/profilePicture.svg';
 }
 
 .nameRole p {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 15px;
   margin: 0;
 }

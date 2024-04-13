@@ -1,0 +1,15 @@
+.inputEstilizado {
+  display: flex;
+
+  font-weight: medium;
+  padding-left: 25px !important;
+
+  outline: 0;
+  border-style: none;
+}
+select {
+  display: flex;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
