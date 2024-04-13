@@ -19,8 +19,10 @@ import Availability from "@/components/Dashboard/Availability/Availability.vue";
     <IconEditWhite class="edit-w" />
   </v-container>
 
+  <v-container class="cont mt-5 pa-6">
+    <Availability class="avb" />
+  </v-container>
 
-  <Availability class="avb" />
   <!-- <DashboardTeaching/> -->
 
 </template>
@@ -80,4 +82,9 @@ import Availability from "@/components/Dashboard/Availability/Availability.vue";
   color: #9ab69e;
 }
 
+.cont {
+  border: 2px solid #9ab69e;
+  border-radius: 8px;
+
+}
 </style>

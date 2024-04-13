@@ -21,29 +21,45 @@ const changeDay = (delta) => {
 };
 </script>
 <template>
-  <v-container class="pa-0 d-flex">
-    <div class=" container-availability pa-0 mt-8 w-50">
-      <div class="hours-availability">
-        <div class="top-availability">
-          <div class="icons">
-            <IconBefore @click="changeDay(-1)" />
-          </div>
+  <v-container class="d-flex ma-0  pa-0 justify-space-between w-50 ">
+    <h4>
+    <IconsIconAvailbility class="icon"/>
+      Disponibilidade</h4>
+    <h4>
+    <IconsIconTeaching class="icon"/>
+      Ensino</h4>
+  </v-container>
 
-          <div>
-            <span>{{ selectedOptions[0]?.value }}</span>
-          </div>
+    <v-container class=" pa-0 d-flex">
+      
+      <div class=" container container-availability pa-0 mt-8 w-50 ">
+        <div class="hours-availability">
+          <div class="top-availability">
+            <div class="icons">
+              <IconBefore @click="changeDay(-1)" />
+            </div>
 
-          <div class="icons">
-            <IconsIconAfter class="icon-after" @click="changeDay(1)" />
+            <div>
+              <span>{{ selectedOptions[0]?.value }}</span>
+            </div>
+
+            <div class="icons">
+              <IconsIconAfter class="icon-after" @click="changeDay(1)" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <DashboardTeaching/>
-  </v-container>
+    
+      <DashboardTeaching />
+    </v-container>
 </template>
 
 <style>
+.container {
+  border: 2px solid red;
+  border-radius: 8px;
+  padding: 30px;
+}
 .container-availability {
   height: 300px;
   border: 2px solid #9ab69e;
@@ -66,4 +82,11 @@ const changeDay = (delta) => {
   margin-left: 10%;
   margin-right: 10%;
 }
+
+.icon {
+  margin-right: 8px;
+}
+
+
+
 </style>
