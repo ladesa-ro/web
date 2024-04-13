@@ -8,7 +8,7 @@
           class="-search-input"
           type="text"
           id="pesquisar"
-          placeholder="Digite aqui "
+          placeholder="Digite aqui"
           autocomplete="off"
         />
       </form>

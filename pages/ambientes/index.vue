@@ -6,18 +6,18 @@ import adicionar from "~/componentes/adicionar.vue";
 import IconAdd from "~/components/Icons/IconAdd.vue"; 
 import ContainerDiscipline from "~/components/Containers/ContainerDiscipline.vue";
 
-const mensagemDoPai = ref("Linguagem e Lógica de Programação");
-const abre = "Abreviação: L. L. Prog.";
-const niv = "Modalidade: Técnico Integrado";
+const mensagemDoPai = ref("Sala 27");
+const abre = "Bloco: BI. Info";
+const niv = "Estado: Ocupado";
 
 const caminhoDaImagem2 = "https://tse1.mm.bing.net/th?id=OIP.lKoTmKPpWT-qSlTLmlIwwgHaEK&pid=Api&P=0&h=180";
-const mensagemDoPai2 = ref("Matemática");
-const abre2 = "Abreviação: Mat.";
-const niv2 = "Modalidade: Técnico Integrado";
+const mensagemDoPai2 = ref("Sala 27");
+const abre2 = "Bloco: BI. Info";
+const niv2 = "Estado: Ocupado";
 
 const caminhoDaImagem3 = "https://tse4.mm.bing.net/th?id=OIP.-eVHxNSXqiqHdFy8tlPlJAHaFj&pid=Api&P=0&h=180";
-const mensagemDoPai3 = ref("Português");
-const abre3 = "Abreviação: Port.";
+const mensagemDoPai3 = ref("Sala 27");
+const abre3 = "Bloco: BI. Info";
 const niv3 = "Modalidade: Técnico Integrado";
 
 const msg = "Digite aqui.";
@@ -80,7 +80,7 @@ const testeConsole = () => {
 }
 
 .p1 {
-  position: absolute;/*oiiii*/
+  position: absolute;
   margin-left: 150px;
   margin-top: 40px;
 }

@@ -2,6 +2,10 @@
 import { useQueryClient } from "@tanstack/vue-query";
 import { useForm } from "vee-validate";
 import { reactive } from "vue";
+import * as yup from "yup";
+import { useApiCampusFindAll } from "~/composables/api/campus";
+import { useApiModalitiesFindAll } from "~/composables/api/modalities";
+import { CursosService } from "~/infrastructure/api/generated";
 
 let isActive = ref(false);
 
@@ -15,6 +19,9 @@ const formValues = reactive({
     id: undefined,
   },
 });
+
+const campi = "";
+const cursos = "";
 
 </script>
 
@@ -34,6 +41,9 @@ const formValues = reactive({
 
           <!-- Inputs -->
           <div class="form-body modal-form">
+            
+          <PagesDashboardCoursesFormsSelectCourseImage />
+
             <VVTextField 
               v-model="formValues.nome" 
               type="text" 
@@ -48,6 +58,26 @@ const formValues = reactive({
               label="Nome Abreviado"
               placeholder="Digite aqui"
               name="nomeAbreviado"
+            />
+
+            <VVAutocomplete
+              v-model="formValues.campus.id"
+              name="campus.id"
+              label="Campus"
+              placeholder="Selecione o campus"
+              :items="campi"
+              item-title="apelido"
+              item-value="id"
+            />
+            
+            <VVAutocomplete
+              v-model="formValues.curso.id"
+              name="curso.id"
+              label="Cursos"
+              placeholder="Selecione o curso"
+              :items="cursos"
+              item-title="apelido"
+              item-value="id"
             />
           </div>
 

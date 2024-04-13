@@ -1,10 +1,14 @@
 <script setup>
+import { defineProps } from "vue";
 import IconEdit from "~/components/Icons/IconEdit.vue";
 
-defineProps(["value"]);
+const props = defineProps({
+  searchBarText: String,
+});
 
-const { cursos } = await useApiCursosFindAll()
+const { searchBarText } = toRefs(props)
 
+const { cursos } = await useApiCursosFindAll(searchBarText);
 </script>
 
 <template v-slot:search="{ value }">
@@ -26,6 +30,8 @@ const { cursos } = await useApiCursosFindAll()
         </v-card>
       </v-col>
     </v-row>
+    <v-alert v-if="cursos.length === 0" color="info" icon="$info" variant="tonal" title="Nenhum curso encontrado"
+      text=""></v-alert>
   </v-container>
 </template>
 
@@ -45,6 +51,7 @@ const { cursos } = await useApiCursosFindAll()
 
 .detail {
   cursor: pointer;
+  z-index: 10;
   margin-right: 10px;
 }
 

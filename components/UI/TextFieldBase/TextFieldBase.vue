@@ -1,24 +1,18 @@
-<template v-slot:search>
-  <v-autocomplete
-  label="Autocomplete"
-  :items=options
-  variant="outlined"
-></v-autocomplete>
+<template>
+  <div class="textField">
+    <v-text-field
+      hide-details="auto"
+      base-color="#9ab69e"
+      color="#00d047"
+      persistent-hint
+      variant="outlined"
+      persistent-placeholder
+      v-bind="$attrs"
+    />
+  </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-
-const options = [
-  "Técnico Integrado",
-  "Técnico Subsequente",
-  "Técnico Concomitante",
-  "Graduação",
-];
-
-</script>
-
-<style scoped>
+<style>
 .textField {
   display: block;
   width: 100%;
@@ -34,7 +28,7 @@ const options = [
 
 .textField .v-field--variant-outlined.v-field--focused .v-field__outline,
 .textField .v-field .v-field__outline {
-  --v-field-border-width: 3px !important;
+  --v-field-border-width: 2px !important;
   --v-field-border-opacity: 1 !important;
 }
 

@@ -50,12 +50,15 @@
 
 <style scoped>
 #drop-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0px 50px;
   width: 100%;
   height: 200px;
   border: 2px solid #9ab69e;
   border-radius: 8px;
   text-align: center;
-  margin: 50px auto;
   cursor: pointer;
 }
 
@@ -71,11 +74,26 @@
 .newImage {
   margin-top: 40px;
   margin-left: 20px;
+
 }
 
 .ctt {
   margin-top: 20px;
   font-weight: 500;
   color: #adadad;
+}
+
+@media screen and (max-width: 600px){
+  #drop-area {
+    padding: 0px 20px;
+  }
+  .newImage {
+    margin-top: 20px;
+    margin-left: 10px;
+  }
+  .ctt {
+    margin-top: 10px;
+    font-size: 12px;
+  }
 }
 </style>
