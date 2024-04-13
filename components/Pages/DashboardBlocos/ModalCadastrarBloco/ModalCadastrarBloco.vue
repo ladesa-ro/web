@@ -4,7 +4,6 @@ import { useForm } from "vee-validate";
 import { reactive } from "vue";
 import * as yup from "yup";
 import { useApiCampusFindAll } from "~/composables/api/campus";
-import { useApiModalitiesFindAll } from "~/composables/api/modalities";
 import { CursosService } from "~/infrastructure/api/generated";
 
 let isActive = ref(false);
