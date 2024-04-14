@@ -31,7 +31,7 @@ export default defineNuxtConfig({
 
   modules: [
     "@sidebase/nuxt-auth",
-	"@nuxtjs/tailwindcss",
+    "@nuxtjs/tailwindcss",
     (_options, nuxt) => {
       nuxt.hooks.hook("vite:extendConfig", (config) => {
         config.plugins ||= [];
@@ -72,6 +72,6 @@ export default defineNuxtConfig({
   },
 
   devtools: {
-    enabled: true,
+    enabled: false,
   },
 });
