@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "prepare:api": "rimraf ./infrastructure/api/generated; openapi --input https://luna.sisgha.com/api/doc-api-json --output ./infrastructure/api/generated --client axios --indent 2; prettier --cache --ignore-unknown \"./infrastructure/api/generated/**/*\" --write",
-    "postinstall": "nuxt prepare; exit 0;",
+    "postinstall": "nuxt prepare",
     "start": "node .output/server/index.mjs",
     "format:check": "prettier --cache --ignore-unknown \"**/*\" --check",
     "format:write": "prettier --cache --ignore-unknown \"**/*\" --write"
@@ -32,9 +32,14 @@
     "reflect-metadata": "^0.2.1",
     "vee-validate": "^4.12.6",
     "vite-plugin-vuetify": "^2.0.1",
-    "vue": "^3.3.12",
-    "vue-router": "4",
+    "vue": "^3.4.21",
+    "vue-router": "^4.0.13",
     "vuetify": "^3.4.8",
     "yup": "^1.4.0"
+  },
+  "dependencies": {
+    "next-auth": "~4.21.1",
+    "vue3-dropzone": "^2.2.1",
+    "vuex": "^4.0.2"
   }
 }

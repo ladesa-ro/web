@@ -1,9 +1,17 @@
 <script setup>
 const props = defineProps({
-  imgSr: String,
-  sala: String,
-  curso: String,
-  turno: String,
+  imgSr:{
+    type:String
+  },
+  turno:{
+    type:String
+  },
+  curso:{
+    type:String
+  },
+  sala:{
+    type:String
+  }
 });
 
 const { imgSr, sala, curso, turno } = props;
@@ -23,7 +31,7 @@ const { imgSr, sala, curso, turno } = props;
 
 <script>
 export default {
-  name: "bloco",
+  name: "ContainerClass",
 };
 </script>
 
