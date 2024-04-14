@@ -1,35 +1,46 @@
 <script setup>
 import IconEdit from "@/components/Icons/IconEdit.vue";
 import IconEditWhite from "@/components/Icons/IconEditWhite.vue";
-import Availability from "@/components/Dashboard/Availability/Availability.vue";
+
+import Teaching from "@/components/Dashboard/Profile/Teaching/Teaching.vue";
+import Availability from "@/components/Dashboard/Profile/Availability/Availability.vue";
 </script>
+
 <template>
-  <v-container class="container-image pa-0 mt-14">
-    <div class="card-profile">
-      <div class="container-content">
-        <img src="@/imgs/Perfil-Foto.png" alt="" />
-        <div class="text">
-          <h2>Danilo Escudero</h2>
-          <p>danilo.escudero@gmail.com</p>
-          <h4>Professor</h4>
+  <div class="py-14">
+    <v-container class="container-image pa-0">
+      <div class="card-profile">
+        <div class="container-content">
+          <img src="@/imgs/Perfil-Foto.png" alt="" />
+          <div class="text">
+            <span class="font-bold">Danilo Escudero</span>
+            <p class="font-medium">danilo.escudero@gmail.com</p>
+            <span class="font-medium">Professor</span>
+          </div>
         </div>
-        <IconEdit class="icon-edit" />
+        <IconsIconEdit class="cursor-pointer mt-4 self-start"/>
       </div>
-    </div>
-    <IconEditWhite class="edit-w" />
-  </v-container>
+      <IconEditWhite class="self-start ml-auto mr-4 mt-4 cursor-pointer" />
+    </v-container>
 
-  <v-container class="cont mt-5 pa-6">
-    <Availability class="avb" />
-  </v-container>
-
-  <!-- <DashboardTeaching/> -->
-
+    <v-container class="my-7 pa-0 flex items-stretch gap-[12px]">
+      <Availability class="avb" />
+      <Teaching class="flex-1" />
+    </v-container>
+  </div>
 </template>
-<style scoped>
 
+<style>
+.border-card {
+  border: 2px solid #9ab69e;
+  border-radius: 8px;
+  overflow: hidden;
+}
+</style>
+
+<style scoped>
 .container-image {
-  display: flex;
+  display: flex;       
   align-items: flex-end;
   justify-content: start;
   background-color: #9ab69e;
@@ -85,6 +96,5 @@ import Availability from "@/components/Dashboard/Availability/Availability.vue";
 .cont {
   border: 2px solid #9ab69e;
   border-radius: 8px;
-
 }
 </style>

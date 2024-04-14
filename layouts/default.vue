@@ -11,14 +11,14 @@ onMounted(() => {
 
 <template>
   <v-app class="app" style="z-index: 1">
-    <v-layout>
+    <v-layout class="layout">
       <v-app-bar :class="{ toolbar: !init }" class="fixed" elevation="2">
         <Appbar />
       </v-app-bar>
 
       <Responsive />
 
-      <v-main :class="{ main: !init }">
+      <v-main class="content" :class="{ main: !init }">
         <slot></slot>
       </v-main>
     </v-layout>
@@ -44,5 +44,14 @@ onMounted(() => {
 
 .fixed {
   position: fixed !important;
+}
+
+.layout {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.content {
+  overflow: auto;
 }
 </style>
