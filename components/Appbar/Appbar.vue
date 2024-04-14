@@ -3,13 +3,16 @@ import profilePicture from "../assets/icons/profilePicture.svg";
 </script>
 
 <template>
-  <div class="userInfo">
-    <VImg class="ml-5" :src="profilePicture" width="52"></VImg>
-    <div class="nameRole">
-      <p class="name">Danilo Escudero</p>
-      <p class="role">Professor</p>
-    </div>
-  </div>
+	<IconsIconHamburger class="icon"/>
+	<LogoLogoSisgha />
+	<div class="userInfo absolute inset-y-0 right-20 w-29">
+		<IconsIconNotifications class="icon"/>
+		<VImg class="ml-5" :src="profilePicture" width="52"></VImg>
+		<div class="nameRole">
+			<p class="name">Danilo Escudero</p>
+			<p class="role">Professor</p>
+		</div>
+	</div>
 </template>
 
 <style>
