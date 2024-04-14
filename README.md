@@ -23,4 +23,6 @@ npm run dev
 
 ## Colaboradores
 
-Danilo Pereira Escudero
+- Danilo Pereira Escudero
+- Gabriel R. Antunes
+- Iury
