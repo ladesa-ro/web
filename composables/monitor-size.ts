@@ -5,7 +5,7 @@ export function useMonitorSize() {
     const sizes = reactive({
         browserWidth: 700,
         deviceWidth: 700,
-        isMobile: false
+        isMobile: false,
     });
 
 	const isMobile = () => window.matchMedia('(max-width: 600px)').matches;
