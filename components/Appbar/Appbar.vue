@@ -9,14 +9,14 @@ const { isMobile } = useMonitorSize();
 
 <template>
 	<IconsIconHamburger class="" />
-	<LogoLogoSisgha v-if="!isMobile" class="pl-9" />
+	<LogoLogoSisgha v-if="!isMobile" class="pl-5" />
 	<div
 		class="userInfo absolute inset-y-0 w-29"
 		:class="{ 'right-3': isMobile, 'right-12': !isMobile }"
 	>
 		<IconsIconNotifications class="" />
 		<VImg
-			:class="{ 'ml-9': !isMobile, 'ml-4': isMobile }"
+			:class="{ 'ml-9': !isMobile, 'ml-12': isMobile }"
 			:src="profilePicture"
 			width="52"
 		></VImg>
