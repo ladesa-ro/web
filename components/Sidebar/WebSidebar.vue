@@ -1,12 +1,13 @@
 <template>
 	<v-navigation-drawer
+		app
 		:absolute="true"
-		:mobile-breakpoint="0"
+		:clipped="true"
 		:permanent="true"
 		class="navigation-drawer"
-		rail-width="64"
-		expand-on-hover
-		rail
+		:rail-width="drawer ? null : 64"
+		:rail="!drawer"
+		:expand-on-hover="!drawer"
 	>
 		<v-list
 			class="flex-column justify-space-between h-full"
@@ -42,15 +43,17 @@
 </template>
 
 <script setup>
-import calendarioIconWhite from '~/assets/icons/calendarioIconWhite.svg'
-import configuracoesIconWhite from '~/assets/icons/configuracoesIconWhite.svg'
-import disciplinaIconWhite from '~/assets/icons/disciplinaIconWhite.svg'
-import inicioIconWhite from '~/assets/icons/inicioIconWhite.svg'
-import perfilIconWhite from '~/assets/icons/perfilIconWhite.svg'
-import turmasIconWhite from '~/assets/icons/turmasIconWhite.svg'
-import vinculoIconWhite from '~/assets/icons/vinculosIconWhite.svg'
-import cursosIconWhite from '~/assets/icons/cursoIconWhite.svg'
-import usuariosIconWhite from '~/assets/icons/usuariosIconWhite.svg'
+import { ref } from 'vue';
+
+import calendarioIconWhite from '~/assets/icons/calendarioIconWhite.svg';
+import configuracoesIconWhite from '~/assets/icons/configuracoesIconWhite.svg';
+import disciplinaIconWhite from '~/assets/icons/disciplinaIconWhite.svg';
+import inicioIconWhite from '~/assets/icons/inicioIconWhite.svg';
+import perfilIconWhite from '~/assets/icons/perfilIconWhite.svg';
+import turmasIconWhite from '~/assets/icons/turmasIconWhite.svg';
+import vinculoIconWhite from '~/assets/icons/vinculosIconWhite.svg';
+import cursosIconWhite from '~/assets/icons/cursoIconWhite.svg';
+import usuariosIconWhite from '~/assets/icons/usuariosIconWhite.svg';
 
 const links = [
 	{
@@ -107,7 +110,9 @@ const links = [
 		to: '/configuracoes',
 		width: '24',
 	},
-]
+];
+
+const drawer = ref(false);
 </script>
 
 <style scoped>
