@@ -1,13 +1,12 @@
 <template>
 	<v-navigation-drawer
 		app
-		:absolute="true"
-		:clipped="true"
-		:permanent="true"
+		absolute="true"
+		clipped="true"
+		:permanent="hamburgerActive || !isMobile"
 		class="navigation-drawer"
-		:rail-width="drawer ? null : 64"
-		:rail="!drawer"
-		:expand-on-hover="!drawer"
+		:rail="!isMobile && !hamburgerActive"
+		:expand-on-hover="!isMobile && !hamburgerActive"
 	>
 		<v-list
 			class="flex-column justify-space-between h-full"
@@ -43,7 +42,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { useMonitorSize } from '~/composables/monitor-size';
 
 import calendarioIconWhite from '~/assets/icons/calendarioIconWhite.svg';
 import configuracoesIconWhite from '~/assets/icons/configuracoesIconWhite.svg';
@@ -112,7 +111,14 @@ const links = [
 	},
 ];
 
-const drawer = ref(false);
+const { isMobile } = useMonitorSize();
+
+const props = defineProps({
+	hamburgerActive: {
+		type: Boolean,
+		required: true,
+	},
+});
 </script>
 
 <style scoped>

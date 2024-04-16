@@ -3,12 +3,15 @@ import profilePicture from '~/assets/icons/profilePicture.svg';
 import { useMonitorSize } from '~/composables/monitor-size';
 
 const { isMobile } = useMonitorSize();
+const emit = defineEmits(['toggle-hamburger']);
 
-// const rightPadingMobile = `${browserWidth.value * 0.02}px`
+function toggleHamburger() {
+	emit('toggle-hamburger');
+}
 </script>
 
 <template>
-	<IconsIconHamburger class="" />
+	<IconsIconHamburger @click="toggleHamburger" class="" />
 	<LogoLogoSisgha v-if="!isMobile" class="pl-5" />
 	<div
 		class="userInfo absolute inset-y-0 w-29"
@@ -20,9 +23,9 @@ const { isMobile } = useMonitorSize();
 			:src="profilePicture"
 			width="52"
 		></VImg>
-		<div class="nameRole">
-			<p class="name">Danilo Escudero</p>
-			<p class="role">Professor</p>
+		<div class="">
+			<p class="font-semibold">Danilo Escudero</p>
+			<p class="font-normal">Professor</p>
 		</div>
 	</div>
 </template>
@@ -35,19 +38,5 @@ const { isMobile } = useMonitorSize();
 	align-items: center;
 	justify-content: center;
 	gap: 10px;
-}
-
-.nameRole p {
-	font-family: 'Poppins', sans-serif;
-	font-size: 15px;
-	margin: 0;
-}
-
-.name {
-	font-weight: 600;
-}
-
-.role {
-	font-weight: 400;
 }
 </style>
