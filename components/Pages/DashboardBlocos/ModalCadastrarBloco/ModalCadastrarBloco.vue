@@ -33,7 +33,7 @@ const cursosLista = '';
 			<v-card class="-estilo-dialogo">
 				<v-form class="form">
 					<div class="form-header">
-						<h1 class="main-title">Cadastrar Novo Bloco</h1>
+						<h1 class="-main-titulo">Cadastrar Novo Bloco</h1>
 					</div>
 
 					<!-- Inputs -->
@@ -79,7 +79,7 @@ const cursosLista = '';
 					</div>
 
 					<!-- Submits -->
-					<div class="form-footer button-group">
+					<div class="form-footer -submit-botoes">
 						<VBtn
 							type="button"
 							color="#e9001c"
@@ -119,7 +119,7 @@ const cursosLista = '';
 	gap: 20px;
 }
 
-.main-title {
+.-main-titulo {
 	font-size: 24px;
 	font-weight: 700;
 }
@@ -136,7 +136,7 @@ const cursosLista = '';
 	text-align: center;
 	padding: 32px;
 }
-.button-group {
+.-submit-botoes {
 	display: flex;
 	justify-content: space-between;
 	flex-wrap: wrap;
@@ -161,7 +161,7 @@ const cursosLista = '';
 }
 
 @media screen and (max-width: 450px) {
-	.button-group {
+	.-submit-botoes {
 		flex-direction: column;
 		gap: 10px;
 	}
