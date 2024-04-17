@@ -20,7 +20,10 @@ function toggleHamburger() {
 	<v-app class="app" style="z-index: 1">
 		<v-layout>
 			<v-app-bar :class="{ toolbar: !init }" class="fixed" elevation="2">
-				<Appbar @toggle-hamburger="toggleHamburger" />
+				<Appbar
+					:hamburger-active="habumguerActive"
+					@toggle-hamburger="toggleHamburger"
+				/>
 			</v-app-bar>
 
 			<Sidebar :hamburger-active="habumguerActive" />

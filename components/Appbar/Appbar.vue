@@ -8,10 +8,20 @@ const emit = defineEmits(['toggle-hamburger']);
 function toggleHamburger() {
 	emit('toggle-hamburger');
 }
+
+const props = defineProps({
+	hamburgerActive: {
+		type: Boolean,
+		required: true,
+	},
+});
 </script>
 
 <template>
-	<IconsIconHamburger @click="toggleHamburger" class="" />
+	<div @click="toggleHamburger">
+		<IconsIconMenuOpen v-if="hamburgerActive" />
+		<IconsIconHamburger v-else />
+	</div>
 	<LogoLogoSisgha v-if="!isMobile" class="pl-5" />
 	<div
 		class="userInfo absolute inset-y-0 w-29"
