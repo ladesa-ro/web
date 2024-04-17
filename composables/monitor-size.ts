@@ -1,26 +1,22 @@
 import { onMounted, onUnmounted, reactive, toRefs } from "vue";
-// import { useRoute } from 'vue-router'; 
+import { throttle } from 'lodash';
 
 export function useMonitorSize() {
     const sizes = reactive({
         browserWidth: 700,
         deviceWidth: 700,
-        isMobile: false
+        isMobile: false,
     });
 
-	// const route = useRoute();
+	const isMobile = () => window.matchMedia('(max-width: 600px)').matches;
 
-    const isMobile = () => {
-        return window.innerWidth <= 600 ? true : false
-    };
-
-    const browserResized = () => {
+    const browserResized = throttle(() => {
         if (typeof window !== 'undefined') {
             sizes.browserWidth = window.innerWidth;
             sizes.deviceWidth = screen.width;
             sizes.isMobile = isMobile();
         }
-    };
+    },50);
 
     onMounted(() => {
         if (typeof window !== 'undefined') {
@@ -30,7 +26,7 @@ export function useMonitorSize() {
     });
 
     onUnmounted(() => {
-        if (typeof window !== 'undefined') { // Verifica se window está definido
+        if (typeof window !== 'undefined') {
             window.removeEventListener('resize', browserResized);
         }
     })
