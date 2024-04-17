@@ -39,13 +39,6 @@ const { searchBarText } = toRefs(props);
 </template>
 
 <style scoped>
-.courses {
-	display: flex;
-	flex-wrap: wrap;
-	column-gap: 30px;
-	row-gap: 25px;
-}
-
 .-textos-e-botoes {
 	display: flex;
 	justify-content: space-between;
