@@ -7,31 +7,29 @@ const props = defineProps({
 });
 
 const { searchBarText } = toRefs(props);
-
-// const { blocos } = null;
 </script>
 
 <template v-slot:search="{ value }">
 	<v-container class="">
 		<v-row>
 			<v-col cols="12" sm="6" md="4" lg="4" class="px-2">
-				<v-card class="cardCourses mx-auto" max-width="100%">
+				<v-card class="-card-bloco mx-auto" max-width="100%">
 					<v-img
 						src="https://picsum.photos/487/120"
 						height="120px"
 						width="100%"
 						cover
 					></v-img>
-					<div class="textAndButton">
-						<v-card-title class="courseTitle">
+					<div class="-textos-e-botoes">
+						<v-card-title class="-card-titulo">
 							Bloco de Carros
 						</v-card-title>
-						<IconEdit class="detail" />
+						<IconEdit class="-detalhes" />
 					</div>
-					<v-card-subtitle class="edit-02">
+					<v-card-subtitle class="">
 						Abreviação: Bl. Carros
 					</v-card-subtitle>
-					<v-card-subtitle class="edit-02">
+					<v-card-subtitle class="">
 						Curso: Téc. Bob.
 					</v-card-subtitle>
 				</v-card>
@@ -48,57 +46,29 @@ const { searchBarText } = toRefs(props);
 	row-gap: 25px;
 }
 
-.textAndButton {
+.-textos-e-botoes {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 }
 
-.detail {
+.-detalhes {
 	cursor: pointer;
 	z-index: 10;
 	margin-right: 10px;
 }
 
-.cardCourses {
+.-card-bloco {
 	border: 2px solid #9ab69e;
 	border-radius: 8px;
 	overflow: hidden;
 	padding-bottom: 20px;
 }
 
-.c {
-	text-decoration: none;
-}
-
-.courseTitle {
+.-card-titulo {
 	white-space: nowrap;
 	font-weight: 600;
 	color: black;
 	text-decoration: none;
-}
-
-.imageCursos {
-	border-radius: 8px 8px 0px 0px;
-	width: 100%;
-	height: 60%;
-	overflow: hidden;
-}
-
-.edit-01 {
-	display: flex;
-	margin-top: 10px;
-	margin-left: 20px;
-}
-
-.iconEdit {
-	margin-left: 380px;
-}
-
-.edit-02 {
-	display: block;
-	color: #9ab69e;
-	font-weight: 500;
-	opacity: 1 !important;
 }
 </style>
