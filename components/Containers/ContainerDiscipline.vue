@@ -9,15 +9,31 @@ const props = defineProps({
 const { imagemSrc, mensagem, abreviacao, nivel } = props;
 </script>
 
-<template class="tudo">
-  <div class="pai">
-    <img class="img" :src="imagemSrc" />
-    <div class="titulo">
-      <b>{{ mensagem }}</b>
-    </div>
-    <div class="abreviação">{{ abreviacao }}</div>
-    <div class="nível">{{ nivel }}</div>
-  </div>
+<template>
+  <v-card
+  elevation="3"
+  class="cardCourses mx-auto" 
+  max-width="40%"
+    hover
+  >
+    <v-img
+      height="148px"
+      :src="imagemSrc"
+      cover
+    ></v-img>
+
+    <v-card-title class="title">
+      {{ mensagem }}
+    </v-card-title>
+
+    <v-card-subtitle class="subtitle">
+      {{ abreviacao }}
+    </v-card-subtitle>
+
+    <v-card-subtitle class="subtitle">
+      {{ nivel }}
+    </v-card-subtitle>
+  </v-card>
 </template>
 
 <script>
@@ -28,58 +44,31 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500&display=swap");
-.tudo {
-  box-sizing: border-box;
-  position: absolute;
+
+.cardCourses {
+  border: 2.5px solid #9AB69E;
+  border-radius: 10px;
+  overflow: hidden;
+  padding-bottom: 20px;
 }
-.pai {
-  width: 487px;
-  height: 239px;
-  flex-shrink: 0;
-  border-radius: 8px;
-  border: 1.5px solid #9ab69e;
-  background: #fff;
-}
-.img {
-  width: 485px;
-  height: 120px;
-  flex-shrink: 0;
-}
-.titulo {
-  position: absolute;
-  margin-left: 20px;
+.title{
+  color: #05270F;
   font-family: Poppins;
-  font-size: 15.107px;
-  font-weight: bold;
-  font-style: normal;
-  font-weight: 900;
-  line-height: bold;
-  margin-top: 15px;
-}
-.abreviação {
-  position: absolute;
-  margin-left: 20px;
-  font-family: Poppins;
-  font-size: 15.107px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  color: #9ab69e;
-  margin-top: 50px;
+  margin-bottom: 9px;
+  margin-top: 12px;
 }
-.nível {
-  position: absolute;
-  margin-left: 20px;
+.subtitle{
+  color: #0D7B1D;
   font-family: Poppins;
-  font-size: 15.107px;
+  font-size: 16px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   line-height: normal;
-  color: #9ab69e;
-  margin-top: 70px;
-}
-.img {
-  border-radius: 8px 8px 0px 0px;
+  margin-bottom: 9px;
 }
 
 </style>
