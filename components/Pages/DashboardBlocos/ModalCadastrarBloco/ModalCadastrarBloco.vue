@@ -11,15 +11,15 @@ const formValues = reactive({
   campus: {
     id: undefined,
   },
-  curso: [
+  cursos: [
     {
       id: undefined,
     }
   ],
 });
 
-const campi = "";
-const cursos = "";
+const campiLista = "";
+const cursosLista = "";
 
 </script>
 
@@ -63,18 +63,18 @@ const cursos = "";
               name="campus.id"
               label="Campus"
               placeholder="Selecione o campus"
-              :items="campi"
+              :items="campiLista"
               item-title="apelido"
               item-value="id"
             />
             
             <VVAutocomplete
               multiple
-              v-model="formValues.curso.id"
+              v-model="formValues.cursos[0].id"
               name="curso.id"
               label="Cursos"
               placeholder="Selecione o curso"
-              :items="cursos"
+              :items="cursosLista"
               item-title="apelido"
               item-value="id"
             />
