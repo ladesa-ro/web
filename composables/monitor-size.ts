@@ -1,5 +1,5 @@
 import { onMounted, onUnmounted, reactive, toRefs } from "vue";
-import { throttle } from 'lodash/throttle';
+import throttle from 'lodash/throttle';
 
 export function useMonitorSize() {
     const sizes = reactive({
