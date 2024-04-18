@@ -31,13 +31,13 @@ const cursosLista = '';
 		<!-- Form -->
 		<template v-slot:="{ isActive }">
 			<v-card class="-estilo-dialogo">
-				<v-form class="form">
-					<div class="form-header">
-						<h1 class="-main-titulo">Cadastrar Novo Bloco</h1>
+				<v-form class="flex text-center flex-col p-8 overflow-hidden">
+					<div class="mb-6">
+						<h1 class="font-bold text-lg sm:text-xl lg:text-2xl">Cadastrar Novo Bloco</h1>
 					</div>
 
 					<!-- Inputs -->
-					<div class="form-body modal-form">
+					<div class="flex flex-col gap-6 overflow-auto">
 						<PagesDashboardCoursesFormsSelectCourseImage />
 
 						<VVTextField
@@ -79,24 +79,26 @@ const cursosLista = '';
 					</div>
 
 					<!-- Submits -->
-					<div class="form-footer -submit-botoes">
+					<div class="-form-submit-buttons mt-6 flex justify-between flex-wrap">
 						<VBtn
 							type="button"
 							color="#e9001c"
 							variant="outlined"
 							@click="isActive.value = false"
-							class="button-cancelar"
+							class="-button-submit"
 						>
 							<span>Cancelar</span>
+							<v-icon class="ml-2" color="#e9001c" icon="mdi-close"></v-icon>
 						</VBtn>
-
+						
 						<VBtn
-							type="submit"
+						type="submit"
 							color="#00d047"
 							variant="outlined"
-							class="button-cadastrar"
-						>
+							class="-button-submit"
+							>
 							<span>Cadastrar</span>
+							<v-icon class="ml-2" color="#00d047" icon="mdi-check"></v-icon>
 						</VBtn>
 					</div>
 				</v-form>
@@ -106,23 +108,6 @@ const cursosLista = '';
 </template>
 
 <style scoped>
-.form {
-	overflow: hidden;
-}
-
-.form-body {
-	overflow: auto;
-}
-.modal-form {
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-}
-
-.-main-titulo {
-	font-size: 24px;
-	font-weight: 700;
-}
 
 .-estilo-dialogo {
 	border-radius: 14px !important;
@@ -130,18 +115,7 @@ const cursosLista = '';
 	border: solid 2px #9ab69e;
 }
 
-.form {
-	display: flex;
-	flex-direction: column;
-	text-align: center;
-	padding: 32px;
-}
-.-submit-botoes {
-	display: flex;
-	justify-content: space-between;
-	flex-wrap: wrap;
-
-	margin-top: 20px;
+.-form-submit-buttons {
 	gap: 20px;
 }
 
@@ -152,8 +126,7 @@ const cursosLista = '';
 	border: none;
 }
 
-.v-btn.button-cancelar,
-.v-btn.button-cadastrar {
+.v-btn.-button-submit {
 	padding: 6px 20px;
 	border-radius: 8px;
 	height: auto;
@@ -161,13 +134,12 @@ const cursosLista = '';
 }
 
 @media screen and (max-width: 450px) {
-	.-submit-botoes {
+	.-form-submit-buttons {
 		flex-direction: column;
 		gap: 10px;
 	}
 
-	.v-btn.button-cancelar,
-	.v-btn.button-cadastrar {
+	.v-btn.-button-submit {
 		padding: 6px 20px;
 	}
 }
