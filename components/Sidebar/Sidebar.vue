@@ -7,6 +7,7 @@
 		class="navigation-drawer"
 		:rail="!isMobile && !hamburgerActive"
 		:expand-on-hover="!isMobile && !hamburgerActive"
+		:temporary="isMobile"
 	>
 		<v-list
 			class="flex-column justify-space-between h-full"
