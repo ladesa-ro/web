@@ -1,7 +1,6 @@
 <script setup>
 import iagex from "~/assets/kilo.png";
 import SearchBar from "~/components/SearchBar.vue";
-import adicionar from "~/componentes/adicionar.vue";
 import ContainerClass from "~/components/Containers/ContainerClass.vue";
 
 const caminhoDaImagem1 = "https://tse4.mm.bing.net/th?id=OIP.-eVHxNSXqiqHdFy8tlPlJAHaFj&pid=Api&P=0&h=180";
@@ -19,10 +18,11 @@ const mensagemDoPai3 = "2°Ano A - Informática";
 const abre3 = "Curso: Téc.Info.";
 const niv3 = "Turnos: Maatutino e Vespertino";
 </script>
+
 <template class="t">
   <search-bar class="place" :msge="msg"></search-bar>
+  <UIButtonAdd v-bind="activatorProps" />
 
-  <adicionar />
   <ContainerClass
     class="dis2"
     :imgSr="caminhoDaImagem2"

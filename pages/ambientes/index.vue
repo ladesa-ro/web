@@ -2,7 +2,6 @@
 import { ref } from 'vue';
 import caminhoDaImagem from "~/assets/Foto.png";
 import SavedModal from "~/components/Modais/SavedModal.vue";
-import adicionar from "~/componentes/adicionar.vue";
 import IconAdd from "~/components/Icons/IconAdd.vue"; 
 import ContainerDiscipline from "~/components/Containers/ContainerDiscipline.vue";
 

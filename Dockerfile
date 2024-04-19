@@ -5,7 +5,7 @@ WORKDIR /sisgea/sisgha-app
 
 FROM base as prod-deps
 COPY package.json package-lock.json ./
-RUN npm install --omit=dev
+RUN npm install --omit=dev --ignore-scripts
 
 FROM prod-deps as dev-deps
 RUN npm install
