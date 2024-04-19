@@ -23,8 +23,8 @@ import Availability from "@/components/Dashboard/Profile/Availability/Availabili
       <IconEditWhite class="self-start ml-auto mr-4 mt-4 cursor-pointer" />
     </v-container>
 
-    <v-container class="my-7 pa-0 flex items-stretch gap-[12px]">
-      <Availability class="avb" />
+    <v-container class="my-7 pa-0 lg:flex items-stretch gap-[12px] md:block">
+      <Availability class="abc" />
       <Teaching class="flex-1" />
     </v-container>
   </div>

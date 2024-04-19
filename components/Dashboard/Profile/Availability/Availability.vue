@@ -72,7 +72,7 @@ const changeDay = (delta) => {
           <div>
             <h5>Nortuno</h5>
             <span class="element"></span>
-            <ul class="list-hours">
+            <ul class="list-hours sm-text-wrap">
               <li class="hour">08:00 - 09:00</li>
               <li class="hour">08:00 - 09:00</li>
               <li class="hour">08:00 - 09:00</li>
@@ -117,7 +117,6 @@ const changeDay = (delta) => {
 }
 
 .list-hours {
-  display: block;
   font-weight: 500;
   margin-top: 10px;
   list-style: none;
@@ -128,4 +127,10 @@ const changeDay = (delta) => {
   margin-top: 2px;
   text-wrap: nowrap;
 }
+/* 
+@media (max-width: 450px) {
+  .hours {
+    flex-direction: row
+  }
+} */
 </style>
