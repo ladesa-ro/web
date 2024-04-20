@@ -55,7 +55,8 @@ import Availability from '@/components/Dashboard/Profile/Availability/Availabili
 	display: flex;
 	align-items: flex-end;
 	justify-content: start;
-	background-color: #9ab69e;
+	background-image: url('@/imgs/Usuario.jpg');
+	background-size: 100% auto;
 	height: 200px;
 	border-radius: 8px;
 }
