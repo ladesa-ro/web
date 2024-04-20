@@ -12,13 +12,13 @@ import Availability from "@/components/Dashboard/Profile/Availability/Availabili
       <div class="card-profile">
         <div class="container-content">
           <img src="@/imgs/Perfil-Foto.png" alt="" />
-          <div class="text">
+          <div class="text text-wrap">
             <span class="font-bold">Danilo Escudero</span>
-            <p class="font-medium">danilo.escudero@gmail.com</p>
+            <p class="font-medium ">danilo.escudero@gmail.com</p>
             <span class="font-medium">Professor</span>
           </div>
         </div>
-        <IconsIconEdit class="cursor-pointer mt-4 self-start"/>
+        <IconsIconEdit class="cursor-pointer mt-4 mr-5 self-start"/>
       </div>
       <IconEditWhite class="self-start ml-auto mr-4 mt-4 cursor-pointer" />
     </v-container>

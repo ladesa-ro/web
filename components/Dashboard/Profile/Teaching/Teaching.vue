@@ -22,8 +22,8 @@ import "vue3-carousel/dist/carousel.css";
                   >Técnico em Informática</span>
               </div>
 
-              <div class="flex ml-5">
-                <div class="block justify-center gap-7 w-max mx-4 text-nowrap text-xs border-2 border-[#9ab69e] rounded-lg overflow-hidden">
+              <div class="sm:flex ml-5">
+                <div class="block justify-center gap-7 w-max mx-[2%] mb-1 text-nowrap text-xs border-2 border-[#9ab69e] rounded-lg overflow-hidden">
                   <div class="block metade h-3/6 w-full px-4 bg-[#9ab69e] text-white py-1">
                     <span>Redes</span>
                   </div>
@@ -31,7 +31,7 @@ import "vue3-carousel/dist/carousel.css";
                     <span>3°A, 3°B</span>
                   </div>
                 </div>
-                <div class="block justify-center gap-7 max-[1280px]:w-max  mx-4 text-nowrap text-xs border-2 border-[#9ab69e] rounded-lg overflow-hidden">
+                <div class="block justify-center gap-7 max-[1280px]:w-max mb-2 mx-[2%] text-nowrap text-xs border-2 border-[#9ab69e] rounded-lg overflow-hidden">
                   <div class="block metade h-3/6 max-[1279px]:w-full bg-[#9ab69e] text-white px-4 py-1">
                     <span>Redes</span>
                   </div>
