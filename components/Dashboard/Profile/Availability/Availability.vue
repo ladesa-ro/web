@@ -38,7 +38,7 @@ const changeDay = (delta) => {
 			<div class="hours-availability flex-1 flex flex-col">
 				<div class="top-availability">
 					<div class="icons">
-						<IconBefore @click="changeDay(-1)" />
+						<IconBefore class="cursor-pointer" @click="changeDay(-1)" />
 					</div>
 
 					<div>
@@ -49,7 +49,7 @@ const changeDay = (delta) => {
 
 					<div class="icons">
 						<IconsIconAfter
-							class="icon-after"
+							class="icon-after cursor-pointer"
 							@click="changeDay(1)"
 						/>
 					</div>

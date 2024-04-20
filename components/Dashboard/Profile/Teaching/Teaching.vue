@@ -18,11 +18,11 @@ import 'vue3-carousel/dist/carousel.css';
 			>
 				<Slide v-for="slide in 10" :key="slide">
 					<div class="carousel__item border-card">
-						<div class="content block">
+						<div class="content block w-full">
 							<img
-								class="image"
+								alt="Capa do Curso Técnico"
+								class="image w-full object-cover"
 								src="@/imgs/Foto-Curso.png"
-								alt=""
 							/>
 
 							<div class="my-4 px-5">
