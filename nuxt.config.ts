@@ -31,7 +31,8 @@ export default defineNuxtConfig({
 
   modules: [
     "@sidebase/nuxt-auth",
-    "@nuxtjs/tailwindcss",
+	  "@nuxtjs/tailwindcss",
+    "vue3-carousel-nuxt",
     (_options, nuxt) => {
       nuxt.hooks.hook("vite:extendConfig", (config) => {
         config.plugins ||= [];
@@ -72,6 +73,6 @@ export default defineNuxtConfig({
   },
 
   devtools: {
-    enabled: false,
+    enabled: true,
   },
 });

@@ -55,4 +55,13 @@ function toggleHamburger() {
 .fixed {
 	position: fixed !important;
 }
+
+.layout {
+  overflow: hidden;
+  height: 100vh;
+}
+
+.content {
+  overflow: auto;
+}
 </style>
