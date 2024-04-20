@@ -42,9 +42,9 @@ const changeDay = (delta) => {
 					</div>
 
 					<div>
-						<span class="font-medium">{{
-							selectedOptions?.value
-						}}</span>
+						<span class="font-medium">
+							{{ selectedOptions?.value }}
+						</span>
 					</div>
 
 					<div class="icons">
