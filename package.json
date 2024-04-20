@@ -39,7 +39,7 @@
     "yup": "^1.4.0"
   },
   "dependencies": {
-    "next-auth": "~4.21.1",
+    "next-auth": "~4.24.5",
     "vue3-dropzone": "^2.2.1",
     "vuex": "^4.0.2",
     "vue": "^3.3.12",
