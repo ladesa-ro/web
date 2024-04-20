@@ -1,9 +1,8 @@
-<script setup>
+<script lang="ts" setup>
 import { ref } from 'vue';
 import caminhoDaImagem from "~/assets/Foto.png";
-import SavedModal from "~/components/Modais/SavedModal.vue";
-import IconAdd from "~/components/Icons/IconAdd.vue"; 
-import ContainerDiscipline from "~/components/Containers/ContainerDiscipline.vue";
+
+const show = ref(false);
 
 const mensagemDoPai = ref("Linguagem e Lógica de Programação");
 const abre = "Abreviação: L. L. Prog.";
@@ -19,68 +18,69 @@ const mensagemDoPai3 = ref("Português");
 const abre3 = "Abreviação: Port.";
 const niv3 = "Modalidade: Técnico Integrado";
 
-const msg = "Digite aqui.";
-const showModal = ref(false);
-
-const show = ref(false);
-
-const openConfirm = () => {
-  show.value = true;
-  console.log("clicou no iconeadd");
-};
-
-const closeConfirm = () => {
-  show.value = false;
-  console.log("Cheghoy aqi");
-};
-
-const testeConsole = () => {
-  console.log("clicou");
-}
+let searchBarText = ref('');
 </script>
+
 <template>
-  <SearchBar value="Pesquisar" />
-  <v-container class="container">
-    <ContainerDiscipline
-    class="p1"
-    :imagemSrc="caminhoDaImagem"
-    :mensagem="mensagemDoPai"
-    :abreviacao="abre"
-    :nivel="niv"  
-  />
-  <ContainerDiscipline
-    class="p1"
-    :imagemSrc="caminhoDaImagem"
-    :mensagem="mensagemDoPai"
-    :abreviacao="abre"
-    :nivel="niv"  
-  />
-  <ContainerDiscipline
-    class="p1"
-    :imagemSrc="caminhoDaImagem"
-    :mensagem="mensagemDoPai"
-    :abreviacao="abre"
-    :nivel="niv"  
-  />
-  </v-container>
-  
+	<v-container>
+		<div class="container">
+			<div>
+				<div class="container-header px-3">
+					<UISearchBar
+						:value="searchBarText"
+						@update:value="searchBarText = $event"
+					/>
 
-  <SavedModal v-if="show" @close="closeConfirm"/>
+					<div class="container-header-actions">
+						<PagesDashboardBlocosModalCadastrarBloco/>
+					</div>
+				</div>
 
-  <div class="save-btn">
-    <button @click="showModal = true">
-      <IconAdd class="adc" @click="openConfirm" />
-    </button>
-  </div>
+				<div class="-card-bloco-geral">
+					<ContainersContainerDiscipline 
+          :searchBarText="searchBarText" 
+          :imagemSrc="caminhoDaImagem"
+          :mensagem="mensagemDoPai"
+          :abreviacao="abre"
+          :nivel="niv"  
+          />
+				</div>
+
+        <div class="-card-bloco-geral">
+					<ContainersContainerDiscipline 
+          :imagemSrc="caminhoDaImagem2"
+          :mensagem="mensagemDoPai"
+          :abreviacao="abre"
+          :nivel="niv"  
+          />
+				</div>
+			</div>
+		</div>
+	</v-container>
 </template>
-<style scooped>
-.container{
-  display: flex;
-  margin-left: 90px;
-  margin-top: 15px;
-  flex-direction: row;
-  align-items: flex-end;
-  border: 1px solid red;
 
+<style scoped>
+.container {
+	margin: 0 auto;
+	max-width: 89%;
+}
+
+.container-header {
+	padding: 50px 0;
+
+	margin: 0 auto;
+	display: flex;
+
+	gap: 1rem;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.container-header-actions {
+	flex-shrink: 0;
+
+	display: flex;
+	align-items: center;
 }
 </style>

@@ -1,74 +1,61 @@
 <script setup>
+import { defineProps } from 'vue';
+import IconEdit from '~/components/Icons/IconEdit.vue';
+
 const props = defineProps({
+	searchBarText: String,
   imagemSrc: String,
   mensagem: String,
   abreviacao: String,
   nivel: String,
 });
 
+const { searchBarText } = toRefs(props);
 const { imagemSrc, mensagem, abreviacao, nivel } = props;
 </script>
 
-<template>
-  <v-card
-  elevation="3"
-  class="cardCourses mx-auto" 
-  max-width="40%"
-    hover
-  >
-    <v-img
-      height="148px"
-      :src="imagemSrc"
-      cover
-    ></v-img>
-
-    <v-card-title class="title">
-      {{ mensagem }}
-    </v-card-title>
-
-    <v-card-subtitle class="subtitle">
-      {{ abreviacao }}
-    </v-card-subtitle>
-
-    <v-card-subtitle class="subtitle">
-      {{ nivel }}
-    </v-card-subtitle>
-  </v-card>
+<template v-slot:search="{ value }">
+	<v-container class="">
+		<v-row>
+			<v-col cols="12" sm="6" md="4" lg="4" class="px-2">
+				<v-card class="-card-bloco mx-auto" max-width="100%">
+					<v-img
+            :src="imagemSrc"
+						height="120px"
+						width="100%"
+						cover
+					></v-img>
+					<div class="flex justify-between items-center">
+						<v-card-title class="-card-titulo">
+              {{ mensagem }}
+						</v-card-title>
+						<IconEdit class="cursor-pointer z-10 mr-10" />
+					</div>
+					<v-card-subtitle class="">
+            {{ abreviacao }}
+					</v-card-subtitle>
+					<v-card-subtitle class="">
+            {{ nivel }}
+					</v-card-subtitle>
+				</v-card>
+			</v-col>
+		</v-row>
+	</v-container>
 </template>
 
-<script>
-export default {
-  name: "ContainerDiscipline.vue",
-}; //EXPORTAÇÃO//
-</script>
-
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500&display=swap");
 
-.cardCourses {
-  border: 2.5px solid #9AB69E;
-  border-radius: 10px;
-  overflow: hidden;
-  padding-bottom: 20px;
-}
-.title{
-  color: #05270F;
-  font-family: Poppins;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  margin-bottom: 9px;
-  margin-top: 12px;
-}
-.subtitle{
-  color: #0D7B1D;
-  font-family: Poppins;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  margin-bottom: 9px;
+.-card-bloco {
+	border: 2px solid #9ab69e;
+	border-radius: 8px;
+	overflow: hidden;
+	padding-bottom: 20px;
 }
 
+.-card-titulo {
+	white-space: nowrap;
+	font-weight: 600;
+	color: black;
+	text-decoration: none;
+}
 </style>
