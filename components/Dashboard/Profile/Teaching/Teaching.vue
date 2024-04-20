@@ -43,7 +43,7 @@ import "vue3-carousel/dist/carousel.css";
             </div>
           </div>
         </Slide>
-
+ <!-- so um text para commitar teste -->
         <template #addons>
           <Navigation />
           <Pagination />
