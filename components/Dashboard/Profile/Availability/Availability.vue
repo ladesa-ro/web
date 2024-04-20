@@ -48,7 +48,7 @@ const changeDay = (delta) => {
           </div>
         </div>
 
-        <div class="hours flex-1 items-center">
+        <div class="hours flex-1 items-center overflow-x-auto whitespace-nowrap">
           <div>
             <h5>Matutino</h5>
             <span class="element"></span>
@@ -127,10 +127,6 @@ const changeDay = (delta) => {
   margin-top: 2px;
   text-wrap: nowrap;
 }
-/* 
-@media (max-width: 450px) {
-  .hours {
-    flex-direction: row
-  }
-} */
+
+
 </style>
