@@ -40,6 +40,12 @@
   "dependencies": {
     "next-auth": "~4.21.1",
     "vue3-dropzone": "^2.2.1",
-    "vuex": "^4.0.2"
+    "vuex": "^4.0.2",
+    "vue": "^3.3.12",
+    "vue-router": "4",
+    "vuetify": "^3.4.8"
+  },
+  "dependencies": {
+    "vee-validate": "^4.12.6"
   }
 }

@@ -2,7 +2,7 @@
 
 <template>
   <div class="button_add" click="$emit('click')">
-    <svg
+    <!-- <svg
       width="47"
       height="47"
       viewBox="0 0 47 47"
@@ -16,15 +16,20 @@
         stroke-width="3.04756"
         stroke-linecap="round"
       />
-    </svg>
+    </svg> -->
   </div>
 </template>
 
-<style>
-.button_add {
-  width: 50px;
-  margin-left: 94%;
-  margin-top: -3%;
-  cursor: pointer;
-}
+<style scoped>
+  .button_add {
+    display: block;
+  
+    border-radius: 8px;
+    width: 47px !important;
+    height: 47px !important;
+
+    cursor: pointer;
+
+    background-color: #000;
+  }
 </style>
