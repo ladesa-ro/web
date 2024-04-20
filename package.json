@@ -34,18 +34,18 @@
     "vite-plugin-vuetify": "^2.0.1",
     "vue": "^3.4.21",
     "vue-router": "^4.0.13",
+    "vue3-carousel-nuxt": "^1.1.1",
     "vuetify": "^3.4.8",
     "yup": "^1.4.0"
   },
   "dependencies": {
     "next-auth": "~4.21.1",
-    "vue3-dropzone": "^2.2.1",
-    "vuex": "^4.0.2",
+    "vee-validate": "^4.12.6",
     "vue": "^3.3.12",
     "vue-router": "4",
-    "vuetify": "^3.4.8"
-  },
-  "dependencies": {
-    "vee-validate": "^4.12.6"
+    "vue3-carousel": "^0.3.3",
+    "vue3-dropzone": "^2.2.1",
+    "vuetify": "^3.4.8",
+    "vuex": "^4.0.2"
   }
 }

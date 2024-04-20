@@ -6,7 +6,7 @@ const props = defineProps({
 	searchBarText: String,
   imagemSrc: String,
   mensagem: String,
-  abreviacao: String,
+  abreviacao: String, 
   nivel: String,
 });
 
