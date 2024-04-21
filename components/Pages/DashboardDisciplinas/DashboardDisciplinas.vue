@@ -23,32 +23,21 @@ let searchBarText = ref('');
 
 <template>
 	<v-container>
-		<div class="container">
+		<div class="container mx-auto max-w-[89%]">
 			<div>
-				<div class="container-header px-3">
+				<div class="container-header mx-auto justify-between items-center flex mb-5 gap-4 px-3">
 					<UISearchBar
 						:value="searchBarText"
 						@update:value="searchBarText = $event"
 					/>
 
-					<div class="container-header-actions">
+					<div class="flex items-center flex-shrink-0">
 						<PagesDashboardBlocosModalCadastrarBloco/>
 					</div>
 				</div>
-
 				<div class="-card-bloco-geral">
 					<ContainersContainerDiscipline 
-          :searchBarText="searchBarText" 
-          :imagemSrc="caminhoDaImagem"
-          :mensagem="mensagemDoPai"
-          :abreviacao="abre"
-          :nivel="niv"  
-          />
-				</div>
-
-        <div class="-card-bloco-geral">
-					<ContainersContainerDiscipline 
-          :imagemSrc="caminhoDaImagem2"
+          :imagemSrc="caminhoDaImagem3"
           :mensagem="mensagemDoPai"
           :abreviacao="abre"
           :nivel="niv"  
@@ -60,27 +49,7 @@ let searchBarText = ref('');
 </template>
 
 <style scoped>
-.container {
-	margin: 0 auto;
-	max-width: 89%;
-}
-
 .container-header {
 	padding: 50px 0;
-
-	margin: 0 auto;
-	display: flex;
-
-	gap: 1rem;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 20px;
-}
-
-.container-header-actions {
-	flex-shrink: 0;
-
-	display: flex;
-	align-items: center;
 }
 </style>

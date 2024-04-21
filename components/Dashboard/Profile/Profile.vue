@@ -4,6 +4,19 @@ import IconEditWhite from '@/components/Icons/IconEditWhite.vue';
 
 import Teaching from '@/components/Dashboard/Profile/Teaching/Teaching.vue';
 import Availability from '@/components/Dashboard/Profile/Availability/Availability.vue';
+import { ref } from 'vue';
+import ModalImage from '~/components/Modais/ModalImage.vue';
+
+const show = ref(false);
+
+const openConfirm = () => {
+	show.value = true;
+	console.log('clicou no iconeadd');
+};
+
+const closeConfirm = () => {
+	show.value = false;
+};
 </script>
 
 <template>
@@ -28,9 +41,12 @@ import Availability from '@/components/Dashboard/Profile/Availability/Availabili
 					class="cursor-pointer flex-shrink-0 mt-4 mr-5 self-start"
 				/>
 			</div>
-			<IconEditWhite
-				class="self-start flex-shrink-0 ml-auto mr-4 mt-4 cursor-pointer"
-			/>
+			<div class="self-start flex-shrink-0 ml-auto mr-4 mt-4 cursor-pointer">
+				<IconEditWhite
+					@click="openConfirm"
+					/>
+				<ModalImage v-if="show" @close="closeConfirm"/>
+			</div>
 		</v-container>
 
 		<v-container

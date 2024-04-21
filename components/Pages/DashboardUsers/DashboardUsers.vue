@@ -11,7 +11,6 @@ const openConfirm = () => {
 
 const closeConfirm = () => {
   show.value = false;
-  console.log("Cheghoy aqi");
 };
 
 const testeConsole = () => {
