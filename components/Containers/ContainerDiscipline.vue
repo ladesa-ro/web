@@ -1,85 +1,60 @@
 <script setup>
+import { defineProps } from 'vue';
+import IconEdit from '~/components/Icons/IconEdit.vue';
+
 const props = defineProps({
+	searchBarText: String,
   imagemSrc: String,
   mensagem: String,
-  abreviacao: String,
+  abreviacao: String, 
   nivel: String,
 });
 
+const { searchBarText } = toRefs(props);
 const { imagemSrc, mensagem, abreviacao, nivel } = props;
 </script>
 
-<template class="tudo">
-  <div class="pai">
-    <img class="img" :src="imagemSrc" />
-    <div class="titulo">
-      <b>{{ mensagem }}</b>
-    </div>
-    <div class="abreviação">{{ abreviacao }}</div>
-    <div class="nível">{{ nivel }}</div>
-  </div>
+<template v-slot:search="{ value }">
+	<v-container class="">
+		<v-row>
+			<v-col cols="12" sm="6" md="4" lg="4" class="px-2">
+				<v-card class="-card-bloco border-2 divide-solid border-lime-500 rounded-lg overflow-hidden pb-5 mx-auto" max-width="100%">
+					<v-img
+            :src="imagemSrc"
+						height="120px"
+						width="100%"
+						cover
+					></v-img>
+					<div class="flex justify-between items-center">
+						<v-card-title class="-card-titulo whitespace-nowrap text-black no-underline">
+              {{ mensagem }}
+						</v-card-title>
+						<IconEdit class="cursor-pointer z-10 mr-10" />
+					</div>
+					<v-card-subtitle class="edit-02 block font-medium !opacity-100">
+            {{ abreviacao }}
+					</v-card-subtitle>
+					<v-card-subtitle class="edit-02 font-medium">
+            {{ nivel }}
+					</v-card-subtitle>
+				</v-card>
+			</v-col>
+		</v-row>
+	</v-container>
 </template>
 
-<script>
-export default {
-  name: "ContainerDiscipline.vue",
-}; //EXPORTAÇÃO//
-</script>
-
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500&display=swap");
-.tudo {
-  box-sizing: border-box;
-  position: absolute;
-}
-.pai {
-  width: 487px;
-  height: 239px;
-  flex-shrink: 0;
-  border-radius: 8px;
-  border: 1.5px solid #9ab69e;
-  background: #fff;
-}
-.img {
-  width: 485px;
-  height: 120px;
-  flex-shrink: 0;
-}
-.titulo {
-  position: absolute;
-  margin-left: 20px;
-  font-family: Poppins;
-  font-size: 15.107px;
-  font-weight: bold;
-  font-style: normal;
-  font-weight: 900;
-  line-height: bold;
-  margin-top: 15px;
-}
-.abreviação {
-  position: absolute;
-  margin-left: 20px;
-  font-family: Poppins;
-  font-size: 15.107px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  color: #9ab69e;
-  margin-top: 50px;
-}
-.nível {
-  position: absolute;
-  margin-left: 20px;
-  font-family: Poppins;
-  font-size: 15.107px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  color: #9ab69e;
-  margin-top: 70px;
-}
-.img {
-  border-radius: 8px 8px 0px 0px;
+
+.-card-bloco {
+	/* adicionado borda. */
+	border: 2px solid #9ab69e;
 }
 
+.-card-titulo {
+	font-weight: 600;
+}
+.edit-02 {
+  color: #9ab69e;
+  font-weight: 500;
+}
 </style>
