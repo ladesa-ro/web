@@ -31,7 +31,7 @@ const { imagemSrc, mensagem, abreviacao, nivel } = props;
 						</v-card-title>
 						<IconEdit class="cursor-pointer z-10 mr-10" />
 					</div>
-					<v-card-subtitle class="edit-02 block font-medium">
+					<v-card-subtitle class="edit-02 block font-medium !opacity-100">
             {{ abreviacao }}
 					</v-card-subtitle>
 					<v-card-subtitle class="edit-02 font-medium">
@@ -46,6 +46,7 @@ const { imagemSrc, mensagem, abreviacao, nivel } = props;
 <style scoped>
 
 .-card-bloco {
+	/* adicionado borda. */
 	border: 2px solid #9ab69e;
 }
 
@@ -55,6 +56,5 @@ const { imagemSrc, mensagem, abreviacao, nivel } = props;
 .edit-02 {
   color: #9ab69e;
   font-weight: 500;
-  opacity: 1 !important;
 }
 </style>
