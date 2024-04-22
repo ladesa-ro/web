@@ -32,13 +32,13 @@
 		"prettier": "^3.2.5",
 		"reflect-metadata": "^0.2.1",
 		"vee-validate": "^4.12.6",
-		"vite-plugin-vuetify": "^2.0.1",
 		"vue": "^3.4.21",
 		"vue-router": "^4.0.13",
 		"vue3-carousel": "^0.3.3",
 		"vue3-carousel-nuxt": "^1.1.1",
 		"vue3-dropzone": "^2.2.1",
 		"vuetify": "^3.4.8",
+		"vuetify-nuxt-module": "^0.13.2",
 		"yup": "^1.4.0"
 	}
 }

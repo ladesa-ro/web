@@ -1,78 +1,57 @@
-import vuetify, { transformAssetUrls } from "vite-plugin-vuetify";
-// import svgLoader from "vite-svg-loader";
-
 export default defineNuxtConfig({
-  serverHandlers: [
-    { route: '/_api/auth/**', handler: '~/server/_api/auth/[...].ts' }
-  ],
+	ssr: true,
 
-  //...
-  css: [
-    // ...
-    "@mdi/font/css/materialdesignicons.min.css",
-    "vuetify/lib/styles/main.css",
-  ],
+	// ==============================================
 
-  build: {
-    transpile: ["vuetify"],
-  },
+	css: ['@mdi/font/css/materialdesignicons.min.css'],
 
-  auth: {
-    baseURL: process.env.AUTH_ORIGIN ?? "/_api/auth",
-    provider: {
-      type: "authjs",
-      trustHost: true,
-    },
-    session: {
-      enableRefreshPeriodically: 15 * 1000,
-      enableRefreshOnWindowFocus: true,
-    },
-  },
+	serverHandlers: [
+		{ route: '/_api/auth/**', handler: '~/server/_api/auth/[...].ts' },
+	],
 
-  modules: [
-    "@sidebase/nuxt-auth",
-	  "@nuxtjs/tailwindcss",
-    "vue3-carousel-nuxt",
-    (_options, nuxt) => {
-      nuxt.hooks.hook("vite:extendConfig", (config) => {
-        config.plugins ||= [];
-        config.plugins.push(vuetify({ autoImport: true }));
-      });
-    },
-    //...
-  ],
+	// ==============================================
 
-  nitro: {
-    hooks: {
-      "rollup:before"(ctx) {
-        ctx.options.moduleSideEffects.push("reflect-metadata");
-      },
-    },
-    esbuild: {
-      options: {
-        tsconfigRaw: {
-          compilerOptions: {
-            experimentalDecorators: true,
-          },
-        },
-      },
-    },
-  },
+	modules: [
+		'@sidebase/nuxt-auth',
+		'@nuxtjs/tailwindcss',
+		'vue3-carousel-nuxt',
+		'vuetify-nuxt-module',
+	],
 
-  vite: {
-    // plugins: [svgLoader({})],
+	// ==============================================
 
-    // define: {
-    //   "process.env.DEBUG": false,
-    // },
-    vue: {
-      template: {
-        transformAssetUrls,
-      },
-    },
-  },
+	auth: {
+		baseURL: process.env.AUTH_ORIGIN ?? '/_api/auth',
+		provider: {
+			type: 'authjs',
+			trustHost: true,
+		},
+		session: {
+			enableRefreshPeriodically: 15 * 1000,
+			enableRefreshOnWindowFocus: true,
+		},
+	},
 
-  devtools: {
-    enabled: true,
-  },
+	// ===========
+
+	devtools: {
+		enabled: true,
+	},
+
+	nitro: {
+		hooks: {
+			'rollup:before'(ctx) {
+				ctx.options.moduleSideEffects.push('reflect-metadata');
+			},
+		},
+		esbuild: {
+			options: {
+				tsconfigRaw: {
+					compilerOptions: {
+						experimentalDecorators: true,
+					},
+				},
+			},
+		},
+	},
 });
