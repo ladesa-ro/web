@@ -32,7 +32,7 @@ let searchBarText = ref('');
 					/>
 
 					<div class="flex items-center flex-shrink-0">
-						<PagesDashboardBlocosModalCadastrarBloco/>
+						<ModaisModalNewDiscipline/>
 					</div>
 				</div>
 				<div class="-card-bloco-geral">
