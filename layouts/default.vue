@@ -2,6 +2,9 @@
 import { ref } from 'vue';
 import Appbar from '~/components/Appbar/Appbar.vue';
 import Sidebar from '~/components/Sidebar/Sidebar.vue';
+import { useCustomTheme } from '~/composables/useCustomTheme';
+
+const { isDark } = useCustomTheme();
 
 const init = ref(true);
 
@@ -17,7 +20,7 @@ function toggleHamburger() {
 </script>
 
 <template>
-	<v-app class="app" style="z-index: 1">
+	<v-app class="app" :theme="isDark ? 'dark' : 'light'" style="z-index: 1">
 		<v-layout>
 			<v-app-bar :class="{ toolbar: !init }" class="fixed" elevation="2">
 				<Appbar
@@ -57,11 +60,11 @@ function toggleHamburger() {
 }
 
 .layout {
-  overflow: hidden;
-  height: 100vh;
+	overflow: hidden;
+	height: 100vh;
 }
 
 .content {
-  overflow: auto;
+	overflow: auto;
 }
 </style>
