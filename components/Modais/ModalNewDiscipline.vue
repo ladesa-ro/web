@@ -3,9 +3,7 @@ import { useQueryClient } from "@tanstack/vue-query";
 import { useForm } from "vee-validate";
 import { reactive } from "vue";
 import * as yup from "yup";
-import { useApiCampusFindAll } from "~/composables/api/campus";
-import { useApiModalitiesFindAll } from "~/composables/api/modalities";
-import { CursosService } from "~/infrastructure/api/generated";
+import { DisciplinasService } from "~/infrastructure/api/generated";
 
 const queryClient = useQueryClient();
 
@@ -14,13 +12,13 @@ let isActive = ref(false);
 const formValues = reactive({
   nome: "",
   nomeAbreviado: "",
-  CargaHoraria: "",
+  cargaHoraria: "",
 });
 
 const schema = yup.object().shape({
   nome: yup.string().required("Nome é obrigatório!"),
   nomeAbreviado: yup.string().required("Nome abreviado é obrigatório!"),
-  CargaHoraria: yup.string().required("Carga horária é obrigatória!"),
+  cargaHoraria: yup.string().required("Carga horária é obrigatória!"),
 });
 
 const { defineField, handleSubmit, resetForm, setFieldValue } = useForm({
@@ -29,10 +27,10 @@ const { defineField, handleSubmit, resetForm, setFieldValue } = useForm({
 });
 
 const onSubmit = handleSubmit(async (values: any) => {
-  await CursosService.cursoControllerCursoCreate(values);
+  await DisciplinasService.disciplinaControllerDisciplinaCreate(values);
   resetForm();
   isActive.value = false;
-  await queryClient.invalidateQueries({ queryKey: ["cursos"] });
+  await queryClient.invalidateQueries({ queryKey: ["disciplinas"] });
 });
 </script>
 
@@ -65,11 +63,11 @@ const onSubmit = handleSubmit(async (values: any) => {
             />
 
             <VVTextField
-              v-model="formValues.nomeAbreviado"
-              type="text"
+              v-model="formValues.cargaHoraria"
+              type="number"
               label="Carga Horária"
               placeholder="Digite aqui"
-              name="CargaHoraria"
+              name="cargaHoraria"
             />
           </div>
 

@@ -4,20 +4,17 @@ import IconEdit from '~/components/Icons/IconEdit.vue';
 
 const props = defineProps({
 	searchBarText: String,
-  imagemSrc: String,
-  mensagem: String,
-  abreviacao: String, 
-  nivel: String,
 });
 
-const { searchBarText } = toRefs(props);
-const { imagemSrc, mensagem, abreviacao, nivel } = props;
+const { searchBarText } = toRefs(props)
+
+const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
 </script>
 
 <template v-slot:search="{ value }">
 	<v-container class="">
-		<v-row>
-			<v-col cols="12" sm="6" md="4" lg="4" class="px-2">
+		<v-row v-if="disciplinas">
+			<v-col v-for="disciplina in disciplinas" cols="12" sm="6" md="4" lg="4" class="px-2">
 				<v-card class="-card-bloco border-2 divide-solid border-lime-500 rounded-lg overflow-hidden pb-5 mx-auto" max-width="100%">
 					<v-img
             :src="imagemSrc"
@@ -27,15 +24,15 @@ const { imagemSrc, mensagem, abreviacao, nivel } = props;
 					></v-img>
 					<div class="flex justify-between items-center">
 						<v-card-title class="-card-titulo whitespace-nowrap text-black no-underline">
-              {{ mensagem }}
+              {{ disciplina.nome }}
 						</v-card-title>
 						<IconEdit class="cursor-pointer z-10 mr-10" />
 					</div>
 					<v-card-subtitle class="edit-02 block font-medium !opacity-100">
-            {{ abreviacao }}
+            N/A
 					</v-card-subtitle>
 					<v-card-subtitle class="edit-02 font-medium">
-            {{ nivel }}
+            N/A
 					</v-card-subtitle>
 				</v-card>
 			</v-col>
