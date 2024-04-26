@@ -7,12 +7,11 @@ import { useApiCampusFindAll } from "~/composables/api/campus";
 import { useApiBlocosFindAll } from "~/composables/api/blocos";
 import { AmbientesService } from "~/infrastructure/api/generated";
 
-
 const queryClient = useQueryClient();
 
 let isActive = ref(false);
 
-const options = ["Bloco de Informática", "Bloco de Química", "Bloco de Floresta"];
+const options = ["Técnico Integrado", "Técnico Subsequente", "Técnico Concomitante", "Graduação"];
 
 const formValues = reactive({
   nome: "",
@@ -27,6 +26,7 @@ const formValues = reactive({
     id: undefined,
   },
 });
+
 
 const schema = yup.object().shape({
   nome: yup.string().required("Nome é obrigatório!"),
@@ -54,7 +54,8 @@ const onSubmit = handleSubmit(async (values: any) => {
   await AmbientesService.ambienteControllerAmbienteCreate(values);
   resetForm();
   isActive.value = false;
-await queryClient.invalidateQueries({ queryKey: ["ambientes"] });
+  await queryClient.invalidateQueries({ queryKey: ["ambientes"] });
+  window.location.reload()
 });
 </script>
 

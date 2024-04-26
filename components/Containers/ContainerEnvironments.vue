@@ -28,7 +28,7 @@ const { ambientes } = await useApiAmbientesFindAll(searchBarText);
 						{{ ambiente.bloco.nome}}
 					</v-card-subtitle>
 					<v-card-subtitle class="edit-02 block font-medium !opacity-100"">
-						{{ ambiente.bloco.capacidade}}
+						{{ ambiente.capacidade}}
 					</v-card-subtitle>
 				</v-card>
 			</v-col>
