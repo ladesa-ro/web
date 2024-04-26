@@ -36,7 +36,7 @@ let searchBarText = ref('');
 					</div>
 				</div>
 				<div class="-card-bloco-geral">
-					<ContainersContainerDiscipline 
+					<ContainersContainerEnvironments
           :imagemSrc="caminhoDaImagem3"
           :mensagem="mensagemDoPai"
           :abreviacao="abre"

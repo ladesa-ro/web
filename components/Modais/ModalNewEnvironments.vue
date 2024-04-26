@@ -53,7 +53,7 @@ const onSubmit = handleSubmit(async (values: any) => {
   await AmbientesService.ambienteControllerAmbienteCreate(values);
   resetForm();
   isActive.value = false;
-  await queryClient.invalidateQueries({ queryKey: ["bloco"] });
+  await queryClient.invalidateQueries({ queryKey: ["ambientes"] });
 });
 </script>
 
