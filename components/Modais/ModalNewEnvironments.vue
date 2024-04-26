@@ -7,6 +7,7 @@ import { useApiCampusFindAll } from "~/composables/api/campus";
 import { useApiBlocosFindAll } from "~/composables/api/blocos";
 import { AmbientesService } from "~/infrastructure/api/generated";
 
+
 const queryClient = useQueryClient();
 
 let isActive = ref(false);
@@ -53,7 +54,7 @@ const onSubmit = handleSubmit(async (values: any) => {
   await AmbientesService.ambienteControllerAmbienteCreate(values);
   resetForm();
   isActive.value = false;
-  await queryClient.invalidateQueries({ queryKey: ["ambientes"] });
+await queryClient.invalidateQueries({ queryKey: ["ambientes"] });
 });
 </script>
 
