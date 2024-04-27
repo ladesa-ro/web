@@ -1,27 +1,18 @@
-<script lang="ts" setup defer>
+<script lang="ts" setup>
 import { useQueryClient } from "@tanstack/vue-query";
 import { useForm } from "vee-validate";
 import { reactive } from "vue";
 import * as yup from "yup";
 import { useApiCampusFindAll } from "~/composables/api/campus";
-import { useApiBlocosFindAll } from "~/composables/api/blocos";
-import { AmbientesService } from "~/infrastructure/api/generated";
+import { BlocosService } from "~/infrastructure/api/generated";
 
 const queryClient = useQueryClient();
 
 let isActive = ref(false);
 
-const options = ["Técnico Integrado", "Técnico Subsequente", "Técnico Concomitante", "Graduação"];
-
 const formValues = reactive({
   nome: "",
-  descricao: "",
   codigo: "",
-  capacidade: "",
-  tipo: "",
-  bloco: {
-    id: undefined,
-  },
   campus: {
     id: undefined,
   },
@@ -30,18 +21,11 @@ const formValues = reactive({
 
 const schema = yup.object().shape({
   nome: yup.string().required("Nome é obrigatório!"),
-  descricao: yup.string().required("Descrição é obrigatório!"),
   codigo: yup.string().required("Código é obrigatório!"),
-  capacidade: yup.number().required("Capacidade é obrigatório!"),
-  bloco: yup.object().shape({
-    id: yup.string().required("Bloco é obrigatório!"),
-  }),
   campus: yup.object().shape({
     id: yup.string().required("Campus é obrigatório!"),
   }),
 });
-
-const { blocos } = await useApiBlocosFindAll("");
 
 const { campi } = await useApiCampusFindAll("");
 
@@ -51,11 +35,10 @@ const { defineField, handleSubmit, resetForm, setFieldValue } = useForm({
 });
 
 const onSubmit = handleSubmit(async (values: any) => {
-  await AmbientesService.ambienteControllerAmbienteCreate(values);
+  await BlocosService.blocoControllerBlocoCreate(values);
   resetForm();
   isActive.value = false;
-  await queryClient.invalidateQueries({ queryKey: ["ambientes"] });
-  window.location.reload()
+  await queryClient.invalidateQueries({ queryKey: ["blocos"] });
 });
 </script>
 
@@ -69,7 +52,7 @@ const onSubmit = handleSubmit(async (values: any) => {
       <v-card class="dialog-style">
         <v-form @submit.prevent="onSubmit" class="form">
           <div class="form-header">
-            <h1 class="main-title">Cadastrar Novo Ambiente</h1>
+            <h1 class="main-title">Cadastrar Novo Bloco</h1>
           </div>
 
           <v-divider class="my-4" />
@@ -79,23 +62,7 @@ const onSubmit = handleSubmit(async (values: any) => {
 
             <VVTextField v-model="formValues.nome" type="text" label="Nome" placeholder="Digite aqui" name="nome" />
 
-            <VVTextField v-model="formValues.descricao" type="text" label="Descrição" placeholder="Digite aqui" name="descricao" />
-
             <VVTextField v-model="formValues.codigo" type="text" label="Código" placeholder="Digite aqui" name="codigo" />
-
-            <VVTextField v-model="formValues.capacidade" type="number" label="Capacidade" placeholder="Digite aqui" name="capacidade" />
-
-            <VVTextField v-model="formValues.tipo" type="text" label="Tipo" placeholder="Digite aqui" name="tipo" />
-
-            <VVAutocomplete
-              v-model="formValues.bloco.id"
-              label="Bloco"
-              placeholder="Selecione um bloco"
-              name="bloco.id"
-              :items="blocos"
-              item-title="nome"
-              item-value="id"
-            />
 
             <VVAutocomplete
               v-model="formValues.campus.id"
