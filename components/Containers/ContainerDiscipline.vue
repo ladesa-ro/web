@@ -27,7 +27,7 @@ const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
 					<v-card-subtitle class="edit-02 block font-medium !opacity-100">
             N/A
 					</v-card-subtitle>
-					<v-card-subtitle class="edit-02 block font-medium !opacity-100"">
+					<v-card-subtitle class="edit-02 block font-medium !opacity-100">
             N/A
 					</v-card-subtitle>
 				</v-card>
