@@ -45,11 +45,22 @@ const { cursos } = await useApiCursosFindAll(searchBarText);
 
 .textAndButton {
   display: flex;
+  max-width: 100%;
   justify-content: space-between;
   align-items: center;
 }
 
+.courseTitle {
+  font-weight: 600;
+  color: black;
+  text-decoration: none;
+  display: inline-block; /* Exibe o elemento como bloco, mas permite que o texto quebre para uma nova linha*/
+  max-width: 90%; /* Define uma largura máxima para o elemento */
+  overflow: hidden; /* Oculta o texto que ultrapassa o contêiner */
+}
+
 .detail {
+  display: flex;
   cursor: pointer;
   z-index: 10;
   margin-right: 10px;
@@ -66,12 +77,6 @@ const { cursos } = await useApiCursosFindAll(searchBarText);
   text-decoration: none;
 }
 
-.courseTitle {
-  white-space: nowrap;
-  font-weight: 600;
-  color: black;
-  text-decoration: none;
-}
 
 .imageCursos {
   border-radius: 8px 8px 0px 0px;
@@ -96,6 +101,4 @@ const { cursos } = await useApiCursosFindAll(searchBarText);
   font-weight: 500;
   opacity: 1 !important;
 }
-
-.edit-02.ab {}
 </style>

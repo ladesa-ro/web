@@ -8,27 +8,27 @@ const props = defineProps({
 
 const { searchBarText } = toRefs(props)
 
-const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
+const { ambientes } = await useApiAmbientesFindAll(searchBarText);
 </script>
 
 <template v-slot:search="{ value }">
 	<v-container class="">
-		<v-row v-if="disciplinas">
-			<v-col v-for="disciplina in disciplinas" cols="12" sm="6" md="4" lg="4" class="px-2">
+		<v-row v-if="ambientes">
+			<v-col v-for="ambiente in ambientes" cols="12" sm="6" md="4" lg="4" class="px-2" :key="ambiente.id">
 				<v-card class="-card-bloco border-2 divide-solid border-lime-500 rounded-lg overflow-hidden pb-5 mx-auto" max-width="100%">
 					<v-img src="https://picsum.photos/487/120" height="120px" width="100%" cover></v-img>
 					<div class="textAndButton flex justify-between items-center max-w-full">
 						<v-card-title class="-card-titulo
 						font-semibold text-black no-underline inline-block max-w-[90%] overflow-hidden">
-              {{ disciplina.nome }}
+              {{ ambiente.nome }}
 						</v-card-title>
             <IconEdit class="detail" />
 					</div>
 					<v-card-subtitle class="edit-02 block font-medium !opacity-100">
-            N/A
+						{{ ambiente.bloco.nome}}
 					</v-card-subtitle>
-					<v-card-subtitle class="edit-02 block font-medium !opacity-100">
-            N/A
+					<v-card-subtitle class="edit-02 block font-medium !opacity-100"">
+						{{ ambiente.capacidade}}
 					</v-card-subtitle>
 				</v-card>
 			</v-col>

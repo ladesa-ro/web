@@ -16,9 +16,6 @@ let searchBarText = ref('');
 						@update:value="searchBarText = $event"
 					/>
 
-					<div class="container-header-actions">
-						<PagesDashboardBlocosModalCadastrarBloco />
-					</div>
 				</div>
 
 				<div class="-card-bloco-geral">

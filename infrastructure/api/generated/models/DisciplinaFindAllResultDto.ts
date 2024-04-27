@@ -12,5 +12,5 @@ export type DisciplinaFindAllResultDto = {
   /**
    * Resultados da busca.
    */
-  data: Array<DisciplinaFindOneResultDto>;
+  data: Array<DisciplinaFindOneResultDto>;//info da API direta, arrya de disciplinas
 };

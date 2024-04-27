@@ -3,47 +3,23 @@ import { useQueryClient } from "@tanstack/vue-query";
 import { useForm } from "vee-validate";
 import { reactive } from "vue";
 import * as yup from "yup";
-import { useApiCampusFindAll } from "~/composables/api/campus";
-import { useApiBlocosFindAll } from "~/composables/api/blocos";
-import { AmbientesService } from "~/infrastructure/api/generated";
+import { DisciplinasService } from "~/infrastructure/api/generated";
 
 const queryClient = useQueryClient();
 
 let isActive = ref(false);
 
-const options = ["Técnico Integrado", "Técnico Subsequente", "Técnico Concomitante", "Graduação"];
-
 const formValues = reactive({
   nome: "",
-  descricao: "",
-  codigo: "",
-  capacidade: "",
-  tipo: "",
-  bloco: {
-    id: undefined,
-  },
-  campus: {
-    id: undefined,
-  },
+  nomeAbreviado: "",
+  cargaHoraria: "",
 });
-
 
 const schema = yup.object().shape({
   nome: yup.string().required("Nome é obrigatório!"),
-  descricao: yup.string().required("Descrição é obrigatório!"),
-  codigo: yup.string().required("Código é obrigatório!"),
-  capacidade: yup.number().required("Capacidade é obrigatório!"),
-  bloco: yup.object().shape({
-    id: yup.string().required("Bloco é obrigatório!"),
-  }),
-  campus: yup.object().shape({
-    id: yup.string().required("Campus é obrigatório!"),
-  }),
+  nomeAbreviado: yup.string().required("Nome abreviado é obrigatório!"),
+  cargaHoraria: yup.string().required("Carga horária é obrigatória!"),
 });
-
-const { bloco } = await useApiBlocosFindAll("");
-
-const { campi } = await useApiCampusFindAll("");
 
 const { defineField, handleSubmit, resetForm, setFieldValue } = useForm({
   validationSchema: schema,
@@ -51,10 +27,10 @@ const { defineField, handleSubmit, resetForm, setFieldValue } = useForm({
 });
 
 const onSubmit = handleSubmit(async (values: any) => {
-  await AmbientesService.ambienteControllerAmbienteCreate(values);
+  await DisciplinasService.disciplinaControllerDisciplinaCreate(values);
   resetForm();
   isActive.value = false;
-  await queryClient.invalidateQueries({ queryKey: ["ambientes"] });
+  await queryClient.invalidateQueries({ queryKey: ["disciplinas"] });
   window.location.reload()
 });
 </script>
@@ -69,7 +45,7 @@ const onSubmit = handleSubmit(async (values: any) => {
       <v-card class="dialog-style">
         <v-form @submit.prevent="onSubmit" class="form">
           <div class="form-header">
-            <h1 class="main-title">Cadastrar Novo Ambiente</h1>
+            <h1 class="main-title">Cadastrar Nova Disciplina</h1>
           </div>
 
           <v-divider class="my-4" />
@@ -79,32 +55,20 @@ const onSubmit = handleSubmit(async (values: any) => {
 
             <VVTextField v-model="formValues.nome" type="text" label="Nome" placeholder="Digite aqui" name="nome" />
 
-            <VVTextField v-model="formValues.descricao" type="text" label="Descrição" placeholder="Digite aqui" name="descricao" />
-
-            <VVTextField v-model="formValues.codigo" type="text" label="Código" placeholder="Digite aqui" name="codigo" />
-
-            <VVTextField v-model="formValues.capacidade" type="number" label="Capacidade" placeholder="Digite aqui" name="capacidade" />
-
-            <VVTextField v-model="formValues.tipo" type="text" label="Tipo" placeholder="Digite aqui" name="tipo" />
-
-            <VVAutocomplete
-              v-model="formValues.bloco.id"
-              label="Bloco"
-              placeholder="Selecione um bloco"
-              name="bloco.id"
-              :items="bloco"
-              item-title="nome"
-              item-value="id"
+            <VVTextField
+              v-model="formValues.nomeAbreviado"
+              type="text"
+              label="Nome Abreviado"
+              placeholder="Digite aqui"
+              name="nomeAbreviado"
             />
 
-            <VVAutocomplete
-              v-model="formValues.campus.id"
-              name="campus.id"
-              label="Campus"
-              placeholder="Selecione o campus"
-              :items="campi"
-              item-title="apelido"
-              item-value="id"
+            <VVTextField
+              v-model="formValues.cargaHoraria"
+              type="number"
+              label="Carga Horária"
+              placeholder="Digite aqui"
+              name="cargaHoraria"
             />
           </div>
 
