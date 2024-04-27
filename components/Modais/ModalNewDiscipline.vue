@@ -31,7 +31,6 @@ const onSubmit = handleSubmit(async (values: any) => {
   resetForm();
   isActive.value = false;
   await queryClient.invalidateQueries({ queryKey: ["disciplinas"] });
-  window.location.reload()
 });
 </script>
 

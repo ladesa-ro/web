@@ -6,13 +6,13 @@ export const useApiBlocosFindAll = async (searchTerm: MaybeRef<string>) => {
     queryKey: ["blocos", searchTerm],
 
     queryFn: async () => {
-      return BlocosService.blocoControllerBlocoFindAll(undefined, undefined, unref(searchTerm));
+      return BlocosService.blocoControllerBlocoFindAll(undefined, undefined, unref(searchTerm), "nome:ASC");
     },
   });
 
   const blocos = computed(() => unref(query.data)?.data ?? []);
-
   await query.suspense();
+
 
   return {
     query,
