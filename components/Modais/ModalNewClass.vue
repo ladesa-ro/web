@@ -1,164 +1,219 @@
-<script setup>
-import ContainerImage from "../Forms/ContainerImage.vue";
-import Function from "../Forms/Function.vue";
-import SearchMatricula from "../Forms/SearchMatricula.vue";
-import Searchs from "../Forms/Searchs.vue";
+<script lang="ts" setup defer>
+import { useQueryClient } from "@tanstack/vue-query";
+import { useForm } from "vee-validate";
+import { reactive } from "vue";
+import * as yup from "yup";
+import { useApiCursosFindAll } from "~/composables/api/cursos";
+import { TurmasService, type ModalidadeFindOneResultDto } from "~/infrastructure/api/generated";
+import { useApiModalitiesFindAll } from "~/composables/api/modalities";
+import { useApiAmbientesFindAll } from "~/composables/api/ambientes";
+
+const queryClient = useQueryClient();
+
+
+let isActive = ref(false);
+
+const formValues = reactive({
+  curso: {
+    id: undefined,
+  },
+  ambiente: {
+    id: undefined,
+  },
+  serie: "",
+  letra: "",
+});
+
+
+const schema = yup.object().shape({
+  curso: yup.object().shape({
+    id: yup.string().required("Curso é obrigatório!"),
+  }),
+  ambiente: yup.object().shape({
+    id: yup.string().required("Ambiente é obrigatório!"),
+  }),
+  serie: yup.string().required("Série é obrigatório!"),
+  letra: yup.string().required("Letra é obrigatório!"),
+});
+
+const { cursos } = await useApiCursosFindAll("");
+
+const { modalidade } = await useApiModalitiesFindAll("");
+
+const { ambientes } = await useApiAmbientesFindAll("");
+
+
+const cursoSelecionado = computed(() => cursos.value.find(curso => curso.id === formValues.curso.id));
+
+const { handleSubmit, resetForm } = useForm({
+  validationSchema: schema,
+  initialValues: formValues,
+});
+
+const onSubmit = handleSubmit(async (values: any) => {
+  await TurmasService.turmaControllerTurmaCreate(values);
+  resetForm();
+  isActive.value = false;
+  await queryClient.invalidateQueries({ queryKey: ["turmas"] });
+  window.location.reload()
+});
+
+function verificarModalidade(modalidade: ModalidadeFindOneResultDto): "serie-turma" | "periodo" | "nao-implementado" {
+  switch (modalidade.id) {
+    case "1f08fe79-8f99-493b-ade1-fe082b4761e1":
+    case "aab71668-9dfc-46ae-8593-99dcb616a88d":
+      {
+        return "serie-turma"
+      }
+
+    case "3ec92df1-1c11-4990-8664-f17fbbd3ca41":
+    case "2fcfc6cb-8f79-44ff-9c06-96a6a955005b":
+    case "c6079567-5975-4247-b8bc-892eeeeb1451":
+      {
+        return "periodo"
+      }
+
+    default: {
+      return "nao-implementado"
+    }
+  }
+}
 </script>
 
 <template>
-  <div class="overlay">
-    <div class="modal">
-      <h1>Cadastrar Usuário</h1>
+  <v-dialog max-width="500" v-model="isActive">
+    <template v-slot:activator="{ props: activatorProps }">
+      <UIButtonAdd v-bind="activatorProps" />
+    </template>
 
-      <div>
-        <ContainerImage />
+    <template v-slot:="{ isActive }">
+      <v-card class="dialog-style">
+        <v-form @submit.prevent="onSubmit" class="form">
+          <div class="form-header">
+            <h1 class="main-title">Cadastrar Nova Turma</h1>
+          </div>
 
-        <Searchs value="Nome" />
-        <Searchs value="Email" />
-        <SearchMatricula value="Matricula" />
-        <Function />
-      </div>
-      <div>
-        <button class="Cancel" @click="($event) => $emit('close')">
-          <span>Cancelar</span>
-          <svg
-            class="svgCancel"
-            width="13"
-            height="14"
-            viewBox="0 0 13 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M1.23291 11.8824L10.9209 2.11755M10.9209 11.8824L1.23291 2.11755"
-              :stroke="svgCancelColor"
-              stroke-width="2.46588"
-              stroke-linecap="round"
-            />
-          </svg>
-        </button>
+          <v-divider class="my-4" />
 
-        <button class="Cad" @click="($event) => $emit('close')">
-          <span>Cadastrar</span>
-          <svg
-            class="svgCad"
-            width="18"
-            height="14"
-            viewBox="0 0 18 14"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M1.4082 6.63384L6.59038 11.647L15.7719 2.35291"
-              :stroke="svgColor"
-              stroke-width="2.8164"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-        </button>
-      </div>
-    </div>
+          <div class="form-body modal-form">
+            <PagesDashboardCoursesFormsSelectCourseImage />
 
-    <div class="modal2">
-      <h1 class="hDispo">Disponibilidade</h1>
+            <VVAutocomplete v-model="formValues.curso.id" label="Curso" placeholder="Selecione um curso" name="curso.id"
+              :items="cursos" item-title="nome" item-value="id" />
 
-      <div>
-        <PagesDashboardUsersFormsDisponibilidade />
-      </div>
-    </div>
-  </div>
+            <VVAutocomplete v-model="formValues.ambiente.id" label="Ambiente" placeholder="Selecione um ambiente"
+              name="ambiente.id" :items="ambientes" item-title="nome" item-value="id" />
+
+            <template v-if="cursoSelecionado">
+              <div v-if="verificarModalidade(cursoSelecionado.modalidade) === 'serie-turma'"
+                class="grid grid-cols-[2fr,1fr] gap-4">
+                <VVTextField v-model="formValues.serie" type="text" label="Série" placeholder="1°, 2°, 3°..."
+                  name="serie" />
+                <VVTextField v-model="formValues.letra" type="text" label="Letra" placeholder="A, B, C..."
+                  name="letra" />
+              </div>
+
+              <template v-else-if="verificarModalidade(cursoSelecionado.modalidade) === 'periodo'">
+                <VVTextField v-model="formValues.serie" type="text" label="Período"
+                  placeholder="1° Período, 2° Período, 3° Período..." name="serie" />
+              </template>
+
+              <template v-else>
+
+                <v-alert type="warning">O sistema ainda não suporta o cadastro de turmas para a modalidade {{
+                  cursoSelecionado.modalidade.nome }}.</v-alert>
+
+              </template>
+            </template>
+          </div>
+
+
+          <v-divider />
+
+          <div class="form-footer button-group">
+            <VBtn type="button" color="#e9001c" variant="outlined" @click="isActive.value = false"
+              class="buttonCancelar">
+              <span>Cancelar</span>
+            </VBtn>
+
+            <VBtn type="submit" color="#00d047" variant="outlined" class="buttonCadastro">
+              <span>Cadastrar</span>
+            </VBtn>
+          </div>
+        </v-form>
+      </v-card>
+    </template>
+  </v-dialog>
 </template>
 
 <style scoped>
-h1 {
-  font-size: 16px;
-}
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.form {
   overflow: hidden;
-  z-index: 10000;
 }
 
-.modal {
-  background-color: white;
-  color: black;
-  border-radius: 0.5rem;
-  text-align: center;
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  width: 430px;
-  z-index: 10000;
-  margin-right: 20px;
+.form-body {
+  overflow: auto;
 }
 
-.modal2 {
-  background-color: white;
-  color: black;
-  border-radius: 0.5rem;
-  text-align: center;
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 8px 10px -6px rgba(0, 0, 0, 0.1);
-  padding: 1.5rem;
-  width: 390px;
-  z-index: 10000;
-  margin-left: 20px;
-  height: 600px;
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.Cad,
-.Cancel {
+.main-title {
+  font-size: 24px;
   font-weight: 700;
 }
 
-.Cancel {
-  margin-right: 70px;
+.dialog-style {
+  border-radius: 14px !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: solid 2px #9ab69e;
 }
 
-.Cad {
-  margin-left: 110px;
+.form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 32px;
 }
 
-.Cad:hover {
-  color: #00d047;
-  transition: stroke 0.3s ease;
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  margin-top: 20px;
+  gap: 20px;
 }
 
-.Cad:hover .svgCad {
-  stroke: #00d047;
-  transition: stroke 0.2s ease;
+.button {
+  font-weight: 700;
+  margin-top: 20px;
+  cursor: pointer;
+  border: none;
 }
 
-.svgCad,
-.svgCancel {
-  stroke: black;
-  vertical-align: middle;
-  margin-bottom: 2px;
-  margin-left: 8px;
+.v-btn.buttonCancelar,
+.v-btn.buttonCadastro {
+  padding: 6px 20px;
+  border-radius: 8px;
+  height: auto;
+  text-transform: none;
 }
 
-.Cancel:hover {
-  color: #e9001c;
-  transition: stroke 0.2s ease;
+@media screen and (max-width: 450px) {
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .v-btn.buttonCancelar,
+  .v-btn.buttonCadastro {
+    padding: 6px 20px;
+  }
 }
 
-.Cancel:hover .svgCancel {
-  stroke: #e9001c;
-  transition: stroke 0.2s ease;
-}
-
-.hDispo {
-  margin-left: 10px;
-}
+.form :has(.v-field__loader) {}
 </style>
