@@ -1,10 +1,8 @@
 <script setup></script>
 <template>
 	<div>
-		<PagesDashboardSchedulesFullSchedulesHeaderSchedule/>
-        
-
-
+		<PagesDashboardSchedulesFullSchedulesHeaderSchedule />
+		<PagesDashboardSchedulesFullSchedulesDaysOfWeek/>
 		<!-- <table class="m-0">
 			<tr>
 				<th class="p-10"> </th>
@@ -23,10 +21,7 @@
 	</div>
 </template>
 <style scoped>
-
 td {
-    text-align: center;
+	text-align: center;
 }
-
-
 </style>
