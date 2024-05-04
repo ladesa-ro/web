@@ -3,12 +3,12 @@
 /* tslint:disable */
 /* eslint-disable */
 export type AutenticacaoLoginInputDto = {
-  /**
-   * Matrícula Siape do usuário.
-   */
-  matriculaSiape: string;
-  /**
-   * Senha.
-   */
-  senha: string;
+	/**
+	 * Matrícula SIAPE.
+	 */
+	matriculaSiape: string;
+	/**
+	 * Matrícula SIAPE.
+	 */
+	senha: string;
 };

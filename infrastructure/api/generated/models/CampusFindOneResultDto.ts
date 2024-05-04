@@ -2,30 +2,47 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { EnderecoFindOneResultDto } from "./EnderecoFindOneResultDto";
+import type { EnderecoDto } from './EnderecoDto';
+import type { ModalidadeDto } from './ModalidadeDto';
 export type CampusFindOneResultDto = {
-  /**
-   * ID do campus
-   */
-  id: string;
-  /**
-   * Nome fantasia do campus.
-   */
-  nomeFantasia: string;
-  /**
-   * Razão social do campus.
-   */
-  razaoSocial: string;
-  /**
-   * Apelido do campus.
-   */
-  apelido: string;
-  /**
-   * CNPJ do campus.
-   */
-  cnpj: string;
-  /**
-   * Endereço do campus.
-   */
-  endereco: EnderecoFindOneResultDto;
+	/**
+	 * ID do registro.
+	 */
+	id: string;
+	/**
+	 * Nome fantasia do Campus.
+	 */
+	nomeFantasia: string;
+	/**
+	 * Razão social do Campus.
+	 */
+	razaoSocial: string;
+	/**
+	 * Apelido do Campus.
+	 */
+	apelido: string;
+	/**
+	 * CNPJ do Campus.
+	 */
+	cnpj: string;
+	/**
+	 * Endereço do Campus.
+	 */
+	endereco: EnderecoDto;
+	/**
+	 * Modalidades oferecidas pelo Campus.
+	 */
+	modalidades: Array<ModalidadeDto>;
+	/**
+	 * Data de criação do registro.
+	 */
+	dateCreated: string;
+	/**
+	 * Data de atualização do registro.
+	 */
+	dateUpdated: string;
+	/**
+	 * Data de remoção do registro.
+	 */
+	dateDeleted: string | null;
 };
