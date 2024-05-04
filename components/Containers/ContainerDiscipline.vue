@@ -25,10 +25,10 @@ const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
             <IconEdit class="detail" />
 					</div>
 					<v-card-subtitle class="edit-02 block font-medium !opacity-100">
-						ABREVIAÇÃO: {{ disciplina.nomeAbreviado }}
+						Abreviação: {{ disciplina.nomeAbreviado }}
 					</v-card-subtitle>
 					<v-card-subtitle class="edit-02 block font-medium !opacity-100">
-						CARGA HORÁRIA: {{disciplina.cargaHoraria}}
+						Carga Horária: {{disciplina.cargaHoraria + " horas."}}
 					</v-card-subtitle>
 				</v-card>
 			</v-col>
