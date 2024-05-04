@@ -3,12 +3,28 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ModalidadeInputDto = {
-  /**
-   * Nome da Modalidade.
-   */
-  nome: string;
-  /**
-   * Slug da Modalidade.
-   */
-  slug: string;
+	/**
+	 * ID do registro.
+	 */
+	id: string;
+	/**
+	 * Nome da modalidade.
+	 */
+	nome: string;
+	/**
+	 * Slug da modalidade.
+	 */
+	slug: string;
+	/**
+	 * Data de criação do registro.
+	 */
+	dateCreated: string;
+	/**
+	 * Data de atualização do registro.
+	 */
+	dateUpdated: string;
+	/**
+	 * Data de remoção do registro.
+	 */
+	dateDeleted: string | null;
 };

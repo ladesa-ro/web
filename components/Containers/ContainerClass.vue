@@ -1,95 +1,56 @@
 <script setup>
+import { defineProps } from 'vue';
+import IconEdit from '~/components/Icons/IconEdit.vue';
+
 const props = defineProps({
-  imgSr:{
-    type:String
-  },
-  turno:{
-    type:String
-  },
-  curso:{
-    type:String
-  },
-  sala:{
-    type:String
-  }
+	searchBarText: String,
 });
 
-const { imgSr, sala, curso, turno } = props;
+const { searchBarText } = toRefs(props)
+
+const { turmas } = await useApiTurmasFindAll(searchBarText);
 </script>
 
-<template class="tudo">
-  <div class="pai">
-    <img class="lapis" src="~/assets/Edit.jpg" />
-    <img class="img" :src="imgSr" />
-    <div class="titulo">
-      <b>{{ sala }}</b>
-    </div>
-    <div class="abreviação">{{ curso }}</div>
-    <div class="nível">{{ turno }}</div>
-  </div>
+<template v-slot:search="{ value }">
+	<v-container class="">
+		<v-row v-if="turmas">
+			<v-col v-for="turma in turmas" cols="12" sm="6" md="4" lg="4" class="px-2">
+				<v-card class="-card-bloco border-2 divide-solid border-lime-500 rounded-lg overflow-hidden pb-5 mx-auto" max-width="100%">
+					<v-img src="https://picsum.photos/487/120" height="120px" width="100%" cover></v-img>
+					<div class="textAndButton flex justify-between items-center max-w-full">
+						<v-card-title class="-card-titulo
+						font-semibold text-black no-underline inline-block max-w-[90%] overflow-hidden">
+            {{ turma.periodo + " - " + turma.curso.modalidade.nome }}
+						</v-card-title>
+            <IconEdit class="detail" />
+					</div>
+					<v-card-subtitle class="edit-02 block font-medium !opacity-100">
+						Curso: {{ turma.curso.nomeAbreviado }}
+					</v-card-subtitle>
+					<v-card-subtitle class="edit-02 block font-medium !opacity-100">
+						Turno: Matutino e Vespertino
+					</v-card-subtitle>
+				</v-card>
+			</v-col>
+		</v-row>
+	</v-container>
 </template>
 
-<script>
-export default {
-  name: "ContainerClass",
-};
-</script>
-
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500&display=swap");
-.tudo {
-  box-sizing: border-box;
-  position: absolute;
+.-card-bloco {
+	/* adicionado borda. */
+	border: 2px solid #9ab69e;
 }
-.pai {
-  width: 487px;
-  height: 106px;
-  flex-shrink: 0;
-  border-radius: 8px;
-  border: 2.3px solid #b2d2b7;
-  background: #fff;
+.detail {
+  cursor: pointer;
+  z-index: 10;
+  margin-right: 10px;
 }
-.img {
-  width: 106px;
-  height: 106px;
-  flex-shrink: 0;
+.-card-titulo {
+	font-weight: 600;
 }
-.titulo {
-  position: absolute;
-  margin-left: 130px;
-  font-family: Poppins;
-  font-size: 18.884px;
-  font-weight: bold;
-  font-style: normal;
-  font-weight: 900;
-  line-height: bold;
-  margin-top: -95px;
-}
-.abreviação {
-  color: #7c9c81;
-  font-family: Poppins;
-  font-size: 15.107px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  margin-top: -67px;
-  margin-left: 130px;
-}
-.nível {
-  color: #7c9c81;
-  font-family: Poppins;
-  font-size: 15.107px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  margin-top: 0px;
-  margin-left: 130px;
-}
-.img {
-  border-radius: 8px 0px 0px 8px;
-}
-.lapis {
-  position: absolute;
-  margin-top: -900px;
+.edit-02 {
+  color: #9ab69e;
+  font-weight: 500;
 }
 </style>

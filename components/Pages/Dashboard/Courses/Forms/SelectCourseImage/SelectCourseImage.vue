@@ -43,13 +43,14 @@ const imageSrc = computed(()=>{
         Solte sua imagem aqui.
       </div>
 
+      <div v-if="imageSrc" class="image-container">
+      <img :src="imageSrc" alt="Imagem carregada" class="image-dropzone"/>
+    </div>
+
       <div class="ctt" v-else>
         Arraste e solte uma imagem ou escolha uma de até 500 KB .jpeg ou .png.
       </div>
       <input type="file" ref="fileInput" v-bind="getInputProps()" accept=".jpeg, .jpg, .png" />
-    </div>
-    <div v-if="imageSrc">
-      <img :src="imageSrc" alt="Imagem carregada" />
     </div>
   </div>
 </template>
@@ -57,13 +58,25 @@ const imageSrc = computed(()=>{
 
 
 <style scoped>
+.image-container {
+  position: relative;
+  border: dashed 1px red;
+}
+
+.image-dropzone{
+  display: block;
+  width: 100%;
+  height: 100%; /* Garantindo que a imagem preencha completamente o contêiner */
+  object-fit: cover; /* Mantém a proporção da imagem e preenche o contêiner */
+  border-radius: 8px; /* Adicionando borda arredondada */
+}
 #drop-area {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0px 50px;
   width: 100%;
-  height: 200px;
+  height: 200px;  
   border: 2px solid #9ab69e;
   border-radius: 8px;
   text-align: center;

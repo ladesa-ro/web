@@ -6,7 +6,7 @@ export const useApiModalitiesFindAll = async (searchTerm: MaybeRef<string>) => {
     queryKey: ["modalidade", searchTerm],
 
     queryFn: async () => {
-      return ModalidadesService.modalidadeControllerModalidadeFindAll(undefined, undefined, unref(searchTerm));
+      return ModalidadesService.modalidadeControllerModalidadeFindAll(undefined, undefined, unref(searchTerm), "nome:ASC");
     },
   });
 

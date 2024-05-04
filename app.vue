@@ -1,5 +1,7 @@
-<script setup>
+<script lang="ts" setup>
 const { isDark } = useCustomTheme();
+
+setupApiClient();
 </script>
 
 <template>

@@ -3,36 +3,36 @@
 /* tslint:disable */
 /* eslint-disable */
 export type AutenticacaoLoginResultDto = {
-  /**
-   * Token de acesso.
-   */
-  access_token: string | null;
-  /**
-   * Tipo de token de acesso.
-   */
-  token_type: string | null;
-  /**
-   * ID token.
-   */
-  id_token: string | null;
-  /**
-   * Refresh token.
-   */
-  refresh_token: string | null;
-  /**
-   * Quanto tempo para expirar o token (em segundos).
-   */
-  expires_in: number | null;
-  /**
-   * Data de expiração (em segundos unix).
-   */
-  expires_at: number | null;
-  /**
-   * Estado da sessão.
-   */
-  session_state: string | null;
-  /**
-   * Escopo do token de acesso.
-   */
-  scope: string | null;
+	/**
+	 * Token de acesso.
+	 */
+	accessToken: string | null;
+	/**
+	 * Tipo do token.
+	 */
+	tokenType: string | null;
+	/**
+	 * Token de identificação.
+	 */
+	idToken: string | null;
+	/**
+	 * Token de refresh.
+	 */
+	refreshToken: string | null;
+	/**
+	 * Tempo de expiração do token.
+	 */
+	expiresIn: number | null;
+	/**
+	 * Tempo de expiração do token.
+	 */
+	expiresAt: number | null;
+	/**
+	 * Estado da sessão.
+	 */
+	sessionState: string | null;
+	/**
+	 * Escopo da autenticação.
+	 */
+	scope: string | null;
 };

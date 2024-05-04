@@ -3,8 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export type AutenticacaoRefreshInputDto = {
-  /**
-   * Refresh token.
-   */
-  refreshToken: string;
+	/**
+	 * Token de refresh.
+	 */
+	refreshToken: string | null;
 };

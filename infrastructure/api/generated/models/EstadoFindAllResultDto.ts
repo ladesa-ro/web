@@ -2,15 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { EstadoFindOneResultDto } from "./EstadoFindOneResultDto";
-import type { PaginatedResultDtoMeta } from "./PaginatedResultDtoMeta";
+import type { EstadoFindOneResultDto } from './EstadoFindOneResultDto';
+import type { PaginatedResultDtoLinks } from './PaginatedResultDtoLinks';
+import type { PaginatedResultDtoMeta } from './PaginatedResultDtoMeta';
 export type EstadoFindAllResultDto = {
-  /**
-   * Metadados da busca.
-   */
-  meta: PaginatedResultDtoMeta;
-  /**
-   * Resultados da busca.
-   */
-  data: Array<EstadoFindOneResultDto>;
+	meta: PaginatedResultDtoMeta;
+	/**
+	 * Resultados da busca atual.
+	 */
+	data: Array<EstadoFindOneResultDto>;
+	links: PaginatedResultDtoLinks;
 };

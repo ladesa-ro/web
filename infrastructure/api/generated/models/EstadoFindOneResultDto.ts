@@ -3,16 +3,16 @@
 /* tslint:disable */
 /* eslint-disable */
 export type EstadoFindOneResultDto = {
-  /**
-   * ID IBGE do esatado.
-   */
-  id: number;
-  /**
-   * Nome oficial do estado.
-   */
-  nome: string;
-  /**
-   * Sigla UF oficial do estado.
-   */
-  sigla: string;
+	/**
+	 * ID IBGE do Estado.
+	 */
+	id: number;
+	/**
+	 * Nome oficial do Estado.
+	 */
+	nome: string;
+	/**
+	 * Sigla UF oficial do Estado.
+	 */
+	sigla: string;
 };

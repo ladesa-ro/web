@@ -6,7 +6,7 @@ export const useApiAmbientesFindAll = async (searchTerm: MaybeRef<string>) => {
     queryKey: ["ambientes", searchTerm],
 
     queryFn: async () => {
-      return AmbientesService.ambienteControllerAmbienteFindAll(undefined, undefined, unref(searchTerm)); 
+      return AmbientesService.ambienteControllerAmbienteFindAll(undefined, undefined, unref(searchTerm), undefined, undefined, "nome:ASC"); 
     },
   });
 
