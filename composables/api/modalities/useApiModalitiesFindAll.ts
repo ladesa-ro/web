@@ -1,12 +1,14 @@
 import { useQuery } from "@tanstack/vue-query";
-import { ModalidadesService } from "../../../infrastructure/api/generated";
 
 export const useApiModalitiesFindAll = async (searchTerm: MaybeRef<string>) => {
+  const apiClient = useApiClient();
   const query = useQuery({
     queryKey: ["modalidade", searchTerm],
 
     queryFn: async () => {
-      return ModalidadesService.modalidadeControllerModalidadeFindAll(undefined, undefined, unref(searchTerm), "nome:ASC");
+      return apiClient.modalidades.modalidadeFindAll({
+          search: unref(searchTerm)
+        })
     },
   });
 

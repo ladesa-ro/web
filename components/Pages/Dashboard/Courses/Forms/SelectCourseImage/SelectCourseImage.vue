@@ -60,7 +60,6 @@ const imageSrc = computed(()=>{
 <style scoped>
 .image-container {
   position: relative;
-  border: dashed 1px red;
 }
 
 .image-dropzone{

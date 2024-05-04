@@ -68,10 +68,10 @@ export class AmbientesService {
 	 * @returns AmbienteFindOneResultDto Ambiente encontrado.
 	 * @throws ApiError
 	 */
-	public static ambienteControllerAmbienteFindById(): CancelablePromise<AmbienteFindOneResultDto> {
+	public static ambienteControllerAmbienteFindById(id: string): CancelablePromise<AmbienteFindOneResultDto> {
 		return __request(OpenAPI, {
 			method: 'GET',
-			url: '/ambientes/{id}',
+			url: `/ambientes/${id}`,
 			errors: {
 				403: `O solicitante não tem permissão para executar esta ação.`,
 				404: `Registro não encontrado.`,
