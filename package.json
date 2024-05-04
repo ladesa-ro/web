@@ -17,7 +17,7 @@
 		"@mdi/font": "^7.3.67",
 		"@nuxt/devtools": "latest",
 		"@nuxtjs/tailwindcss": "^6.12.0",
-		"@sidebase/nuxt-auth": "^0.7.0",
+		"@sidebase/nuxt-auth": "^0.7.2",
 		"@sisgea/api-client": "^1.1.0-development.2",
 		"@tanstack/vue-query": "^5.32.1",
 		"@types/jsonwebtoken": "^9.0.6",
