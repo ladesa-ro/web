@@ -3,8 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export type ObjectUuidDto = {
-  /**
-   * UUID do registro.
-   */
-  id: string;
+	/**
+	 * ID do registro.
+	 */
+	id: string;
 };

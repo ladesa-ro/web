@@ -2,18 +2,18 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { EstadoFindOneResultDto } from "./EstadoFindOneResultDto";
+import type { EstadoDto } from './EstadoDto';
 export type CidadeFindOneResultDto = {
-  /**
-   * ID IBGE da cidade.
-   */
-  id: number;
-  /**
-   * Nome oficial da cidade.
-   */
-  nome: string;
-  /**
-   * Estado brasileiro o qual a cidade pertence.
-   */
-  estado: EstadoFindOneResultDto;
+	/**
+	 * ID IBGE da Cidade.
+	 */
+	id: number;
+	/**
+	 * Nome oficial da Cidade.
+	 */
+	nome: string;
+	/**
+	 * Estado da Cidade.
+	 */
+	estado: EstadoDto;
 };

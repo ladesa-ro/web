@@ -3,16 +3,16 @@
 /* tslint:disable */
 /* eslint-disable */
 export type AutenticacaoDefinirSenhaInputDto = {
-  /**
-   * Matrícula Siape do usuário.
-   */
-  matriculaSiape: string;
-  /**
-   * Senha a ser definida.
-   */
-  senha: string;
-  /**
-   * Confirmação da senha a ser definida.
-   */
-  confirmarSenha: string;
+	/**
+	 * Nova senha.
+	 */
+	senha: string;
+	/**
+	 * Confirmação da nova senha.
+	 */
+	confirmarSenha: string;
+	/**
+	 * Matrícula do usuário.
+	 */
+	matriculaSiape: string;
 };

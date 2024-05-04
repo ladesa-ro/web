@@ -2,15 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { DiarioFindOneResultDto } from "./DiarioFindOneResultDto";
-import type { PaginatedResultDtoMeta } from "./PaginatedResultDtoMeta";
+import type { DiarioFindOneResultDto } from './DiarioFindOneResultDto';
+import type { PaginatedResultDtoLinks } from './PaginatedResultDtoLinks';
+import type { PaginatedResultDtoMeta } from './PaginatedResultDtoMeta';
 export type DiarioFindAllResultDto = {
-  /**
-   * Metadados da busca.
-   */
-  meta: PaginatedResultDtoMeta;
-  /**
-   * Resultados da busca.
-   */
-  data: Array<DiarioFindOneResultDto>;
+	meta: PaginatedResultDtoMeta;
+	/**
+	 * Resultados da busca atual.
+	 */
+	data: Array<DiarioFindOneResultDto>;
+	links: PaginatedResultDtoLinks;
 };

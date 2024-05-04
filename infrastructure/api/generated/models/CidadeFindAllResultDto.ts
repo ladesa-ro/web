@@ -2,15 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { CidadeFindOneResultDto } from "./CidadeFindOneResultDto";
-import type { PaginatedResultDtoMeta } from "./PaginatedResultDtoMeta";
+import type { CidadeFindOneResultDto } from './CidadeFindOneResultDto';
+import type { PaginatedResultDtoLinks } from './PaginatedResultDtoLinks';
+import type { PaginatedResultDtoMeta } from './PaginatedResultDtoMeta';
 export type CidadeFindAllResultDto = {
-  /**
-   * Metadados da busca.
-   */
-  meta: PaginatedResultDtoMeta;
-  /**
-   * Resultados da busca.
-   */
-  data: Array<CidadeFindOneResultDto>;
+	meta: PaginatedResultDtoMeta;
+	/**
+	 * Resultados da busca atual.
+	 */
+	data: Array<CidadeFindOneResultDto>;
+	links: PaginatedResultDtoLinks;
 };

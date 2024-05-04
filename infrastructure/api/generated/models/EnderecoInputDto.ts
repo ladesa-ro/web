@@ -2,34 +2,34 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ObjectIdDto } from "./ObjectIdDto";
+import type { ObjectIdInputDto } from './ObjectIdInputDto';
 export type EnderecoInputDto = {
-  /**
-   * CEP do endereço.
-   */
-  cep: string;
-  /**
-   * Logradouro do endereço.
-   */
-  logradouro: string;
-  /**
-   * Número do endereço.
-   */
-  numero: number;
-  /**
-   * Bairro do endereço.
-   */
-  bairro: string;
-  /**
-   * Complemento do endereço.
-   */
-  complemento: string | null;
-  /**
-   * Ponto de referência do endereço.
-   */
-  pontoReferencia: string | null;
-  /**
-   * Cidade do endereço.
-   */
-  cidade: ObjectIdDto;
+	/**
+	 * CEP do Endereço.
+	 */
+	cep: string;
+	/**
+	 * Logradouro do Endereço.
+	 */
+	logradouro: string;
+	/**
+	 * Número do Endereço.
+	 */
+	numero: number;
+	/**
+	 * Bairro do Endereço.
+	 */
+	bairro: string;
+	/**
+	 * Complemento do Endereço.
+	 */
+	complemento: string | null;
+	/**
+	 * Ponto de referência do Endereço.
+	 */
+	pontoReferencia: string | null;
+	/**
+	 * Cidade do Endereço.
+	 */
+	cidade: ObjectIdInputDto;
 };

@@ -3,8 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export type AutenticacaoDefinirSenhaResultDto = {
-  /**
-   * Resultado da operação.
-   */
-  result: string | null;
+	/**
+	 * Resultado.
+	 */
+	result: string;
 };

@@ -2,15 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { ModalidadeFindOneResultDto } from "./ModalidadeFindOneResultDto";
-import type { PaginatedResultDtoMeta } from "./PaginatedResultDtoMeta";
+import type { ModalidadeFindOneResultDto } from './ModalidadeFindOneResultDto';
+import type { PaginatedResultDtoLinks } from './PaginatedResultDtoLinks';
+import type { PaginatedResultDtoMeta } from './PaginatedResultDtoMeta';
 export type ModalidadeFindAllResultDto = {
-  /**
-   * Metadados da busca.
-   */
-  meta: PaginatedResultDtoMeta;
-  /**
-   * Resultados da busca.
-   */
-  data: Array<ModalidadeFindOneResultDto>;
+	meta: PaginatedResultDtoMeta;
+	/**
+	 * Resultados da busca atual.
+	 */
+	data: Array<ModalidadeFindOneResultDto>;
+	links: PaginatedResultDtoLinks;
 };

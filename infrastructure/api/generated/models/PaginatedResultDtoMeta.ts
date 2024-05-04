@@ -2,21 +2,14 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { PaginatedResultDtoMetaFilter } from './PaginatedResultDtoMetaFilter';
+import type { PaginatedResultDtoMetaSortBy } from './PaginatedResultDtoMetaSortBy';
 export type PaginatedResultDtoMeta = {
-  /**
-   * Itens por página.
-   */
-  itemsPerPage: number;
-  /**
-   * Total de itens.
-   */
-  totalItems: number;
-  /**
-   * Página atual.
-   */
-  currentPage: number;
-  /**
-   * Total de páginas.
-   */
-  totalPages: number;
+	itemsPerPage: number;
+	totalItems: number;
+	currentPage: number;
+	totalPages: number;
+	search: string;
+	sortBy: Array<PaginatedResultDtoMetaSortBy>;
+	filter: Array<PaginatedResultDtoMetaFilter>;
 };
