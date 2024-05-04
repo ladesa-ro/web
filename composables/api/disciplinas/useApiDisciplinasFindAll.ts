@@ -6,7 +6,7 @@ export const useApiDisciplinasFindAll = async (searchTerm: MaybeRef<string>) => 
     queryKey: ["disciplinas", searchTerm],//identifica a informação fixa cadastrada no sistema, e pode ser utilizada junto com um filtro
 
     queryFn: async () => {//função que realmente busca os dados cadastrados, e obtém uma função de busca recente em uma página.
-      return DisciplinasService.disciplinaControllerDisciplinaFindAll(undefined, undefined, unref(searchTerm));
+      return DisciplinasService.disciplinaControllerDisciplinaFindAll(undefined, undefined, unref(searchTerm), "nome:ASC");
     },
   });
 

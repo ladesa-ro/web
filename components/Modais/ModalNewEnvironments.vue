@@ -9,9 +9,8 @@ import { AmbientesService } from "~/infrastructure/api/generated";
 
 const queryClient = useQueryClient();
 
-let isActive = ref(false);
 
-const options = ["Técnico Integrado", "Técnico Subsequente", "Técnico Concomitante", "Graduação"];
+let isActive = ref(false);
 
 const formValues = reactive({
   nome: "",
@@ -45,7 +44,7 @@ const { blocos } = await useApiBlocosFindAll("");
 
 const { campi } = await useApiCampusFindAll("");
 
-const { defineField, handleSubmit, resetForm, setFieldValue } = useForm({
+const { handleSubmit, resetForm } = useForm({
   validationSchema: schema,
   initialValues: formValues,
 });
@@ -54,7 +53,7 @@ const onSubmit = handleSubmit(async (values: any) => {
   await AmbientesService.ambienteControllerAmbienteCreate(values);
   resetForm();
   isActive.value = false;
-  await queryClient.invalidateQueries({ queryKey: ["ambientes"] });
+  await queryClient.invalidateQueries({ queryKey: ["ambientes"]});
   window.location.reload()
 });
 </script>
