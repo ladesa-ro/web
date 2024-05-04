@@ -20,15 +20,15 @@ const { turmas } = await useApiTurmasFindAll(searchBarText);
 					<div class="textAndButton flex justify-between items-center max-w-full">
 						<v-card-title class="-card-titulo
 						font-semibold text-black no-underline inline-block max-w-[90%] overflow-hidden">
-              {{ turma.nome }}
+            {{ turma.nome }}
 						</v-card-title>
             <IconEdit class="detail" />
 					</div>
 					<v-card-subtitle class="edit-02 block font-medium !opacity-100">
-            N/A
+						{{ turma.periodo }}
 					</v-card-subtitle>
 					<v-card-subtitle class="edit-02 block font-medium !opacity-100">
-            N/A
+						{{  turma.grupo }}
 					</v-card-subtitle>
 				</v-card>
 			</v-col>

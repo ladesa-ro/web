@@ -5,7 +5,6 @@ import { reactive } from "vue";
 import * as yup from "yup";
 import { useApiCursosFindAll } from "~/composables/api/cursos";
 import { TurmasService, type ModalidadeFindOneResultDto } from "~/infrastructure/api/generated";
-import { useApiModalitiesFindAll } from "~/composables/api/modalities";
 import { useApiAmbientesFindAll } from "~/composables/api/ambientes";
 
 const queryClient = useQueryClient();
@@ -18,7 +17,7 @@ const formValues = reactive({
     id: undefined,
   },
   ambiente: {
-    id: undefined,
+    id: null,
   },
   serie: "",
   letra: "",
@@ -38,7 +37,6 @@ const schema = yup.object().shape({
 
 const { cursos } = await useApiCursosFindAll("");
 
-const { modalidade } = await useApiModalitiesFindAll("");
 
 const { ambientes } = await useApiAmbientesFindAll("");
 
@@ -55,7 +53,7 @@ const onSubmit = handleSubmit(async (values: any) => {
   resetForm();
   isActive.value = false;
   await queryClient.invalidateQueries({ queryKey: ["turmas"] });
-  window.location.reload()
+  window.location.reload();
 });
 
 function verificarModalidade(modalidade: ModalidadeFindOneResultDto): "serie-turma" | "periodo" | "nao-implementado" {
@@ -112,7 +110,7 @@ function verificarModalidade(modalidade: ModalidadeFindOneResultDto): "serie-tur
                 <VVTextField v-model="formValues.letra" type="text" label="Letra" placeholder="A, B, C..."
                   name="letra" />
               </div>
-
+              
               <template v-else-if="verificarModalidade(cursoSelecionado.modalidade) === 'periodo'">
                 <VVTextField v-model="formValues.serie" type="text" label="Período"
                   placeholder="1° Período, 2° Período, 3° Período..." name="serie" />
@@ -126,7 +124,7 @@ function verificarModalidade(modalidade: ModalidadeFindOneResultDto): "serie-tur
               </template>
             </template>
           </div>
-
+          
 
           <v-divider />
 
@@ -214,6 +212,4 @@ function verificarModalidade(modalidade: ModalidadeFindOneResultDto): "serie-tur
     padding: 6px 20px;
   }
 }
-
-.form :has(.v-field__loader) {}
 </style>
