@@ -6,7 +6,7 @@ export const useApiTurmasFindAll = async (searchTerm: MaybeRef<string>) => {
     queryKey: ["turmas", searchTerm],
 
     queryFn: async () => {
-      return TurmasService.turmaControllerTurmaFindAll(undefined, undefined, unref(searchTerm), "nome:ASC"); 
+      return TurmasService.turmaControllerTurmaFindAll(undefined, undefined, unref(searchTerm),undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined,   "nome:ASC"); 
     },
   });
 

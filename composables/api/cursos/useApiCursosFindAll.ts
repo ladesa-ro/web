@@ -6,7 +6,7 @@ export const useApiCursosFindAll = async (searchTerm: MaybeRef<string>) => {
     queryKey: ["cursos", searchTerm],
 
     queryFn: async () => {
-      return CursosService.cursoControllerCursoFindAll(undefined, undefined, unref(searchTerm), "nome:ASC");
+      return CursosService.cursoControllerCursoFindAll(undefined, undefined, unref(searchTerm), undefined, undefined, undefined, undefined, undefined, undefined, undefined, "nome:ASC");
     },
   });
 

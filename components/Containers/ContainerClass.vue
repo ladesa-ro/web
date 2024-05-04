@@ -20,7 +20,7 @@ const { turmas } = await useApiTurmasFindAll(searchBarText);
 					<div class="textAndButton flex justify-between items-center max-w-full">
 						<v-card-title class="-card-titulo
 						font-semibold text-black no-underline inline-block max-w-[90%] overflow-hidden">
-            {{ turma.nome }}
+            {{ turma.curso }}
 						</v-card-title>
             <IconEdit class="detail" />
 					</div>

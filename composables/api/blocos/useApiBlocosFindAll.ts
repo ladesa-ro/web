@@ -6,7 +6,7 @@ export const useApiBlocosFindAll = async (searchTerm: MaybeRef<string>) => {
     queryKey: ["blocos", searchTerm],
 
     queryFn: async () => {
-      return BlocosService.blocoControllerBlocoFindAll(undefined, undefined, unref(searchTerm), "nome:ASC");
+      return BlocosService.blocoControllerBlocoFindAll(undefined, undefined, unref(searchTerm), undefined, "nome:ASC");
     },
   });
 
