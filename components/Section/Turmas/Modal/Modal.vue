@@ -42,6 +42,6 @@ const isActive = ref(false);
 .detail {
 	cursor: pointer;
 	z-index: 10;
-	margin-right: 10px;
+	margin-right: 16px;
 }
 </style>
