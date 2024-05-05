@@ -1,45 +1,39 @@
-<template>
-  <div class="autoCompleteField">
-    <UIAutocompleteBase
-      v-model="inputValue"
-      :error-messages="errorMessage ? [errorMessage] : []"
-      hide-details="auto"
-      clearable
-      persistent-placeholder
-      @input="handleChange"
-      @blur="handleBlur"
-      :name="name"
-      :id="name"
-      v-bind="$attrs"
-    />
-  </div>
-</template>
-
 <script lang="ts" setup>
-import { useField } from "vee-validate";
-import { defineProps, toRef } from "vue";
+import { useField } from 'vee-validate';
+import { toRef } from 'vue';
+
+const searchValue = defineModel('search', { default: '' });
 
 const props = defineProps({
-  value: {
-    type: String,
-    default: "",
-  },
-  name: {
-    type: String,
-    required: true,
-  },
+	name: {
+		type: String,
+		required: true,
+	},
 });
 
-const name = toRef(props, "name");
+const name = toRef(props, 'name');
 
 const {
-  value: inputValue,
-  errorMessage,
-  handleBlur,
-  handleChange,
-  meta,
+	handleBlur,
+	errorMessage,
+	value: modelValue,
 } = useField(name.value, undefined, {
-  initialValue: props.value,
-  validateOnValueUpdate: true,
+	validateOnValueUpdate: true,
 });
 </script>
+
+<template>
+	<div class="autoCompleteField">
+		<UIAutocompleteBase
+			clearable
+			:name="name"
+			v-bind="$attrs"
+			@blur="handleBlur"
+			hide-details="auto"
+			persistent-placeholder
+			v-model:value="modelValue"
+			v-model:search="searchValue"
+			:error-messages="errorMessage ? [errorMessage] : []"
+		/>
+	</div>
+</template>

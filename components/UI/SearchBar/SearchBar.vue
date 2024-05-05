@@ -1,38 +1,44 @@
-<template>
-  <div class="searchField">
-    <UITextFieldBase clearable v-model="localValue" label="Pesquisar" placeholder="Digite Aqui" append-inner-icon="mdi-magnify" />
-  </div>
-</template>
-
 <script setup>
-import { defineEmits, defineProps, ref, watch } from "vue";
+import { ref, watch } from 'vue';
 
 const props = defineProps({
-  value: String,
+	value: String,
 });
 
-const emits = defineEmits(["update:value"]);
+const emits = defineEmits(['update:value']);
 
 const localValue = ref(props.value);
 
 watch(localValue, (newValue) => {
-  emits("update:value", newValue);
+	emits('update:value', newValue);
 });
 
 watch(
-  () => props.value,
-  (newValue) => {
-    if (newValue !== localValue.value) {
-      localValue.value = newValue;
-    }
-  }
+	() => props.value,
+	(newValue) => {
+		if (newValue !== localValue.value) {
+			localValue.value = newValue;
+		}
+	}
 );
 </script>
 
+<template>
+	<div class="searchField">
+		<UITextFieldBase
+			clearable
+			label="Pesquisar"
+			v-model="localValue"
+			placeholder="Digite Aqui"
+			append-inner-icon="mdi-magnify"
+		/>
+	</div>
+</template>
+
 <style>
 .searchField {
-  display: block;
-  max-width: 480px;
-  width: 100%;
+	display: block;
+	max-width: 480px;
+	width: 100%;
 }
 </style>

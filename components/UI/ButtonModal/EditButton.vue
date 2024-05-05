@@ -6,7 +6,7 @@
 		append-icon="mdi-check-all"
 		class="buttonCadastro"
 	>
-		Cadastrar
+		Editar
 	</VBtn>
 </template>
 
