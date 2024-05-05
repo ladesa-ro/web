@@ -5,33 +5,41 @@ import { reactive } from "vue";
 import * as yup from "yup";
 import { DisciplinasService } from "~/infrastructure/api/generated";
 
+const apiClient = useApiClient();
 const queryClient = useQueryClient();
 
 let isActive = ref(false);
 
-const formValues = reactive({
+const initialFormValues = reactive({
+  imagem: null,
   nome: "",
   nomeAbreviado: "",
   cargaHoraria: "",
 });
 
 const schema = yup.object().shape({
+  imagem: yup.mixed(),
   nome: yup.string().required("Nome é obrigatório!"),
   nomeAbreviado: yup.string().required("Nome abreviado é obrigatório!"),
   cargaHoraria: yup.string().required("Carga horária é obrigatória!"),
 });
 
-const { defineField, handleSubmit, resetForm, setFieldValue } = useForm({
+const { values: formValues, handleSubmit, setFieldValue, resetForm } = useForm({
   validationSchema: schema,
-  initialValues: formValues,
+  initialValues: initialFormValues,
 });
 
 const onSubmit = handleSubmit(async (values: any) => {
-  await DisciplinasService.disciplinaControllerDisciplinaCreate(values);
+  const { imagem, ...dados } = values;
+
+  const disciplinaCriada = await apiClient.disciplinas.disciplinaCreate({ requestBody: dados });
+
+  await apiClient.disciplinas.disciplinaSetImagemCapa({ id: disciplinaCriada.id, formData: { file: imagem } })
+
   resetForm();
   isActive.value = false;
   await queryClient.invalidateQueries({ queryKey: ["disciplinas"] });
-});
+}, console.error);
 </script>
 
 <template>
@@ -50,25 +58,14 @@ const onSubmit = handleSubmit(async (values: any) => {
           <v-divider class="my-4" />
 
           <div class="form-body modal-form">
-            <PagesDashboardCoursesFormsSelectCourseImage />
+            <PagesDashboardCoursesFormsSelectCourseImage :modelValue="formValues.imagem"
+              @update:modelValue="($e) => setFieldValue('imagem', $e, true)" />
 
-            <VVTextField v-model="formValues.nome" type="text" label="Nome" placeholder="Digite aqui" name="nome" />
+            <VVTextField type="text" label="Nome" placeholder="Digite aqui" name="nome" />
 
-            <VVTextField
-              v-model="formValues.nomeAbreviado"
-              type="text"
-              label="Nome Abreviado"
-              placeholder="Digite aqui"
-              name="nomeAbreviado"
-            />
+            <VVTextField type="text" label="Nome Abreviado" placeholder="Digite aqui" name="nomeAbreviado" />
 
-            <VVTextField
-              v-model="formValues.cargaHoraria"
-              type="number"
-              label="Carga Horária"
-              placeholder="Digite aqui"
-              name="cargaHoraria"
-            />
+            <VVTextField type="number" label="Carga Horária" placeholder="Digite aqui" name="cargaHoraria" />
           </div>
 
           <v-divider />
@@ -96,6 +93,7 @@ const onSubmit = handleSubmit(async (values: any) => {
 .form-body {
   overflow: auto;
 }
+
 .modal-form {
   display: flex;
   flex-direction: column;
@@ -119,6 +117,7 @@ const onSubmit = handleSubmit(async (values: any) => {
   text-align: center;
   padding: 32px;
 }
+
 .button-group {
   display: flex;
   justify-content: space-between;
