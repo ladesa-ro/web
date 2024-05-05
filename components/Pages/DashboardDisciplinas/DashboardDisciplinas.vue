@@ -7,19 +7,22 @@ let searchBarText = ref('');
 	<v-container>
 		<div class="container mx-auto max-w-[89%]">
 			<div>
-				<div class="container-header mx-auto justify-between items-center flex mb-5 gap-4 px-3">
+				<div
+					class="container-header mx-auto justify-between items-center flex mb-5 gap-4 px-3"
+				>
 					<UISearchBar
 						:value="searchBarText"
 						@update:value="searchBarText = $event"
 					/>
 
 					<div class="flex items-center flex-shrink-0">
-						<ModaisModalNewDiscipline/>
+						<ModaisModalNewDiscipline />
 					</div>
 				</div>
-				<div class="-card-bloco-geral">
-					<ContainersContainerDiscipline :searchBarText="searchBarText" 
-          />
+				<div>
+					<ContainersContainerDiscipline
+						:searchBarText="searchBarText"
+					/>
 				</div>
 			</div>
 		</div>

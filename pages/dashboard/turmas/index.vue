@@ -1,3 +1,3 @@
 <template>
-  <PagesDashboardTurmas />
+	<SectionTurmas />
 </template>

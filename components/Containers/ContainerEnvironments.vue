@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { defineProps } from 'vue';
 import IconEdit from '~/components/Icons/IconEdit.vue';
 
 const props = defineProps({
@@ -18,7 +17,7 @@ const editarAmbiente = (id: string) => {
 
 </script>
 
-<template v-slot:search="{ value }">
+<template >
 	<v-container class="">
 		<v-row v-if="ambientes">
 			<v-col v-for="ambiente in ambientes" cols="12" sm="6" md="4" lg="4" class="px-2" :key="ambiente.id">

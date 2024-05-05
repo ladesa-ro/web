@@ -1,5 +1,4 @@
 <script setup>
-import { defineProps } from 'vue';
 import IconEdit from '~/components/Icons/IconEdit.vue';
 
 const props = defineProps({
@@ -9,7 +8,7 @@ const props = defineProps({
 const { searchBarText } = toRefs(props);
 </script>
 
-<template v-slot:search="{ value }">
+<template>
 	<v-container class="">
 		<v-row>
 			<v-col cols="12" sm="6" md="4" lg="4" class="px-2">
