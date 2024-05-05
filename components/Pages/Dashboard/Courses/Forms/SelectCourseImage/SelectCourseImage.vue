@@ -42,7 +42,7 @@ const imageSrc = computed(()=>{
       <div class="ctt" v-if="isDragActive">
         Solte sua imagem aqui.
       </div>
-
+<!-- oi -->
       <div v-if="imageSrc" class="image-container">
       <img :src="imageSrc" alt="Imagem carregada" class="image-dropzone"/>
     </div>
