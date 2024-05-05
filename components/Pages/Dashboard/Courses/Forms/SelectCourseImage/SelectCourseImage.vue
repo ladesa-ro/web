@@ -59,11 +59,12 @@ const imageSrc = computed(() => {
 
 .drop-area {
 
-  background-repeat: no-repeat;
-  /* Impede a repetição da imagem */
+  /* background-repeat: no-repeat;
+  /* Impede a repetição da imagem
   background-position: center;
-  /* Posiciona a imagem no centro */
-  background-size: contain;
+  /* Posiciona a imagem no centro 
+  background-size: cover; */
+  background: no-repeat center/cover;
   display: flex;
   flex-direction: column;
   align-items: center;
