@@ -4,30 +4,21 @@ import { useForm } from "vee-validate";
 import { reactive } from "vue";
 import * as yup from "yup";
 import { DisciplinasService } from "~/infrastructure/api/generated";
-import { useApiModalitiesFindAll } from "~/composables/api/modalities";
 
 const queryClient = useQueryClient();
 
 let isActive = ref(false);
 
-const { modalidade } = await useApiModalitiesFindAll("");
-
 const formValues = reactive({
   nome: "",
   nomeAbreviado: "",
   cargaHoraria: "",
-  modalidade: {
-    id: undefined,
-  },
 });
 
 const schema = yup.object().shape({
   nome: yup.string().required("Nome é obrigatório!"),
   nomeAbreviado: yup.string().required("Nome abreviado é obrigatório!"),
   cargaHoraria: yup.string().required("Carga horária é obrigatória!"),
-  modalidade: yup.object().shape({
-    id: yup.string().required("Modalidade é obrigatória!"),
-  }),
 });
 
 const { defineField, handleSubmit, resetForm, setFieldValue } = useForm({
@@ -71,16 +62,6 @@ const onSubmit = handleSubmit(async (values: any) => {
               name="nomeAbreviado"
             />
 
-            <VVAutocomplete
-              v-model="formValues.modalidade.id"
-              label="Modalidade"
-              placeholder="Selecione a modalidade"
-              name="modalidade.id"
-              :items="modalidade"
-              item-title="nome"
-              item-value="id"
-            />
-
             <VVTextField
               v-model="formValues.cargaHoraria"
               type="number"
@@ -93,13 +74,13 @@ const onSubmit = handleSubmit(async (values: any) => {
           <v-divider />
 
           <div class="form-footer button-group">
-            <VBtn type="button" color="#e9001c" variant="outlined" @click="isActive.value = false" class="buttonCancelar">
+            <UIButtonModalCancelButton @click="isActive.value = false">
               <span>Cancelar</span>
-            </VBtn>
+            </UIButtonModalCancelButton>
 
-            <VBtn type="submit" color="#00d047" variant="outlined" class="buttonCadastro">
+            <UIButtonModalSaveButton>
               <span>Cadastrar</span>
-            </VBtn>
+            </UIButtonModalSaveButton>
           </div>
         </v-form>
       </v-card>

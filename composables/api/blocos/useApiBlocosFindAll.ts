@@ -1,13 +1,17 @@
 import { useQuery } from "@tanstack/vue-query";
-import { BlocosService } from "../../../infrastructure/api/generated";
 
 export const useApiBlocosFindAll = async (searchTerm: MaybeRef<string>) => {
+
+  const apiClient = useApiClient();
+
   const query = useQuery({
     queryKey: ["blocos", searchTerm],
 
     queryFn: async () => {
-      return BlocosService.blocoControllerBlocoFindAll(undefined, undefined, unref(searchTerm), undefined, "nome:ASC");
-    },
+      return apiClient.blocos.blocoFindAll({
+        search: unref(searchTerm)
+      })
+    }
   });
 
   const blocos = computed(() => unref(query.data)?.data ?? []);
@@ -19,3 +23,4 @@ export const useApiBlocosFindAll = async (searchTerm: MaybeRef<string>) => {
     blocos,
   };
 };
+

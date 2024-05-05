@@ -1,12 +1,16 @@
 import { useQuery } from "@tanstack/vue-query";
-import { DisciplinasService } from "../../../infrastructure/api/generated";
 
 export const useApiDisciplinasFindAll = async (searchTerm: MaybeRef<string>) => {//busca no BD para uma consulta
+
+  const apiClient = useApiClient();
+
   const query = useQuery({//Cache= Salvamento local de navegador --> Algo FIXO
     queryKey: ["disciplinas", searchTerm],//identifica a informação fixa cadastrada no sistema, e pode ser utilizada junto com um filtro
 
     queryFn: async () => {//função que realmente busca os dados cadastrados, e obtém uma função de busca recente em uma página.
-      return DisciplinasService.disciplinaControllerDisciplinaFindAll(undefined, undefined, unref(searchTerm), "nome:ASC");
+      return apiClient.disciplinas.disciplinaFindAll({
+        search: unref(searchTerm)
+      })
     },
   });
 

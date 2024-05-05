@@ -99,7 +99,7 @@ function verificarModalidade(modalidade: ModalidadeFindOneResultDto): "serie-tur
             <VVAutocomplete v-model="formValues.curso.id" label="Curso" placeholder="Selecione um curso" name="curso.id"
               :items="cursos" item-title="nome" item-value="id" />
 
-            <VVAutocomplete v-model="formValues.ambiente.id" label="Ambiente" placeholder="Selecione um ambiente"
+            <VVAutocomplete v-model="formValues.ambiente.id" label="Sala de Aula" placeholder="Selecione um ambiente"
               name="ambiente.id" :items="ambientes" item-title="nome" item-value="id" />
 
             <template v-if="cursoSelecionado">
@@ -129,14 +129,13 @@ function verificarModalidade(modalidade: ModalidadeFindOneResultDto): "serie-tur
           <v-divider />
 
           <div class="form-footer button-group">
-            <VBtn type="button" color="#e9001c" variant="outlined" @click="isActive.value = false"
-              class="buttonCancelar">
+            <UIButtonModalCancelButton @click="isActive.value = false">
               <span>Cancelar</span>
-            </VBtn>
+            </UIButtonModalCancelButton>
 
-            <VBtn type="submit" color="#00d047" variant="outlined" class="buttonCadastro">
+            <UIButtonModalSaveButton>
               <span>Cadastrar</span>
-            </VBtn>
+            </UIButtonModalSaveButton>
           </div>
         </v-form>
       </v-card>

@@ -1,13 +1,17 @@
 import { useQuery } from "@tanstack/vue-query";
-import { CursosService } from "../../../infrastructure/api/generated";
 
 export const useApiCursosFindAll = async (searchTerm: MaybeRef<string>) => {
+
+  const apiClient = useApiClient();
+
   const query = useQuery({
     queryKey: ["cursos", searchTerm],
 
     queryFn: async () => {
-      return CursosService.cursoControllerCursoFindAll(undefined, undefined, unref(searchTerm), undefined, undefined, undefined, undefined, undefined, undefined, undefined, "nome:ASC");
-    },
+      return apiClient.cursos.cursoFindAll({
+        search: unref(searchTerm)
+      })
+    }
   });
 
   const cursos = computed(() => unref(query.data)?.data ?? []);
