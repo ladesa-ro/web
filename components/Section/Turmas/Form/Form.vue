@@ -53,7 +53,6 @@ type FormOutput = {
 };
 
 const initialFormValues = reactive({
-	imagem: null,
 	curso: {
 		id: currentTurma.value?.curso?.id ?? null,
 	},
@@ -76,7 +75,6 @@ const handleDelete = async () => {
 };
 
 const schema = yup.object().shape({
-	imagem: yup.mixed(),
 	curso: yup.object().shape({
 		id: yup.string().required('Curso é obrigatório!'),
 	}),
@@ -104,10 +102,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 	const editId = editIdRef.value;
 
 	if (editId === null) {
-		const { imagem, ...dados } = values;
-		const turmaCriada = await apiClient.turmas.turmaCreate({ requestBody: { ...values }});
-
-		await apiClient.turmas.turmaSetImagemCapa({ id: turmaCriada.id, formData: { file: imagem } })
+		await apiClient.turmas.turmaCreate({ requestBody: { ...values } });
 	} else {
 		await apiClient.turmas.turmaUpdate({
 			id: editId,
@@ -186,8 +181,7 @@ const letra = computed({
 		<v-divider class="my-4" />
 
 		<div class="form-body modal-form">
-			<UISelectImage  :modelValue="formValues.imagem"
-              @update:modelValue="($e) => setFieldValue('imagem', $e, true)" />
+			<PagesDashboardCoursesFormsSelectCourseImage z/>
 
 			<VVAutocompleteCurso name="curso.id" />
 

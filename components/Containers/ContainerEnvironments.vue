@@ -9,6 +9,8 @@ const { searchBarText } = toRefs(props)
 
 const { ambientes } = await useApiAmbientesFindAll(searchBarText);
 
+const $emit = defineEmits(['edit']);
+
 const edicaoAmbiente = ref(null);
 
 const editarAmbiente = (id: string) => {
@@ -17,56 +19,25 @@ const editarAmbiente = (id: string) => {
 
 </script>
 
-<template >
-	<v-container class="">
-		<v-row v-if="ambientes">
-			<v-col v-for="ambiente in ambientes" cols="12" sm="6" md="4" lg="4" class="px-2" :key="ambiente.id">
-				<v-card class="-card-bloco border-2 divide-solid border-lime-500 rounded-lg overflow-hidden pb-5 mx-auto"
-					max-width="100%">
-					<v-img
-						:src="`https://luna.sisgha.com/api/ambientes/${ambiente.id}/imagem/capa`"
-						height="120px"
-						width="100%"
-						cover
-					></v-img>
-					<div class="textAndButton flex justify-between items-center max-w-full">
-						<v-card-title class="-card-titulo
-						font-semibold text-black no-underline inline-block max-w-[90%] overflow-hidden">
-							{{ ambiente.nome }}
-						</v-card-title>
+<template>
+	<UIGrid :items="ambientes">
+		<template #item="{ item:  ambiente}">
+			<UICard variant="block" :src="`https://luna.sisgha.com/api/ambientes/${ambiente.id}/imagem/capa`">
+				<template #title>
+					{{ ambiente.nome }}
+				</template>
 
-						<IconEdit @click="editarAmbiente(ambiente.id)" class="detail" />
-					</div>
-					<v-card-subtitle class="edit-02 block font-medium !opacity-100">
-						{{ ambiente.bloco.nome }}
-					</v-card-subtitle>
-					<v-card-subtitle class="edit-02 block font-medium !opacity-100"">
-						Capacidade: {{ ambiente.capacidade + " pessoas"}}
-					</v-card-subtitle>
-				</v-card>
-			</v-col>
-		</v-row>
-	</v-container>
+				<template #actions>
+					<!-- deixa sem por enquanto, aqui vai o botão de edit -->
+				</template>
+
+				<UICardLine>
+					{{ ambiente.bloco.nome }}
+				</UICardLine>
+				<UICardLine>
+					Capacidade: {{ ambiente.capacidade + " pessoas"}}
+				</UICardLine>
+			</UICard>
+		</template>
+	</UIGrid>
 </template>
-
-<style scoped>
-.-card-bloco {
-	/* adicionado borda. */
-	border: 2px solid #9ab69e;
-}
-
-.detail {
-	cursor: pointer;
-	z-index: 10;
-	margin-right: 10px;
-}
-
-.-card-titulo {
-	font-weight: 600;
-}
-
-.edit-02 {
-	color: #9ab69e;
-	font-weight: 500;
-}
-</style>
