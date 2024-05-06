@@ -24,7 +24,7 @@ const { cursos } = await useApiCursosFindAll(searchBarText);
 			>
 				<v-card class="cardCourses mx-auto" max-width="100%">
 					<v-img
-						src="https://picsum.photos/487/120"
+						:src="`https://luna.sisgha.com/api/cursos/${curso.id}/imagem/capa`"
 						height="120px"
 						width="100%"
 						cover

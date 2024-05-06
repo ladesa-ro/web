@@ -23,7 +23,12 @@ const editarAmbiente = (id: string) => {
 			<v-col v-for="ambiente in ambientes" cols="12" sm="6" md="4" lg="4" class="px-2" :key="ambiente.id">
 				<v-card class="-card-bloco border-2 divide-solid border-lime-500 rounded-lg overflow-hidden pb-5 mx-auto"
 					max-width="100%">
-					<v-img src="https://picsum.photos/487/120" height="120px" width="100%" cover></v-img>
+					<v-img
+						:src="`https://luna.sisgha.com/api/ambientes/${ambiente.id}/imagem/capa`"
+						height="120px"
+						width="100%"
+						cover
+					></v-img>
 					<div class="textAndButton flex justify-between items-center max-w-full">
 						<v-card-title class="-card-titulo
 						font-semibold text-black no-underline inline-block max-w-[90%] overflow-hidden">
@@ -36,7 +41,7 @@ const editarAmbiente = (id: string) => {
 						{{ ambiente.bloco.nome }}
 					</v-card-subtitle>
 					<v-card-subtitle class="edit-02 block font-medium !opacity-100"">
-						{{ ambiente.capacidade }}
+						Capacidade: {{ ambiente.capacidade + " pessoas"}}
 					</v-card-subtitle>
 				</v-card>
 			</v-col>

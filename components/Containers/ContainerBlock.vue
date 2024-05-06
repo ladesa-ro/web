@@ -26,8 +26,8 @@ const { blocos } = await useApiBlocosFindAll(searchBarText);
 					class="-card-bloco border-2 divide-solid border-lime-500 rounded-lg overflow-hidden pb-5 mx-auto"
 					max-width="100%"
 				>
-					<v-img
-						src="https://picsum.photos/487/120"
+				<v-img
+						:src="`https://luna.sisgha.com/api/blocos/${bloco.id}/imagem/capa`"
 						height="120px"
 						width="100%"
 						cover

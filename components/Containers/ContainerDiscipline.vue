@@ -28,7 +28,7 @@ const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
 					<v-img
 						:src="`https://luna.sisgha.com/api/disciplinas/${disciplina.id}/imagem/capa`"
 						height="120px"
-						width="100%"
+						width="100%"	
 						cover
 					></v-img>
 
@@ -40,7 +40,6 @@ const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
 						>
 							{{ disciplina.nome }}
 						</v-card-title>
-						<IconEdit class="detail" />
 						<IconEdit class="detail" />
 					</div>
 					<v-card-subtitle

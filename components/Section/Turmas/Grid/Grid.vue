@@ -15,8 +15,16 @@ const { turmas } = await useApiTurmasFindAll(searchBarText);
 			<UICard
 				variant="block"
 				@edit="$emit('edit', turmas.id)"
-				src="https://picsum.photos/487/120"
 			>
+			<template>
+				<v-img
+						:src="`https://luna.sisgha.com/api/turmas/${turmas.id}/imagem/capa`"
+						height="120px"
+						width="100%"
+						cover
+					></v-img>
+			</template>
+			
 				<template #title>
 					{{ turma.periodo }} - {{ turma.curso.modalidade.nome }}
 				</template>
