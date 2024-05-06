@@ -15,7 +15,6 @@ const habumguerActive = ref(false);
 			<v-app-bar
 				height="73"
 				:elevation="0"
-				:class="{ toolbar: !init }"
 				style="box-shadow: 0px 0px 30px 0px rgba(17, 141, 59, 0.15)"
 				class="sticky w-full !border-solid !border-[#dddddd] !border-b-[1px]"
 			>
@@ -32,14 +31,6 @@ const habumguerActive = ref(false);
 </template>
 
 <style scoped>
-.toolbar {
-	top: 0px !important;
-	transform: translateY(0%) !important;
-	position: absolute !important;
-	left: 0px !important;
-	width: calc(100% - 0px) !important;
-}
-
 .main {
 	overflow: auto;
 }
