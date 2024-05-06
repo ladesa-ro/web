@@ -181,7 +181,8 @@ const letra = computed({
 		<v-divider class="my-4" />
 
 		<div class="form-body modal-form">
-			<PagesDashboardCoursesFormsSelectCourseImage z/>
+			<UISelectImage :modelValue="formValues.imagem"
+              @update:modelValue="($e) => setFieldValue('imagem', $e, true)"/>
 
 			<VVAutocompleteCurso name="curso.id" />
 
