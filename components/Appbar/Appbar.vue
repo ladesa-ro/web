@@ -22,7 +22,7 @@ function toggleHamburger() {
 		</div>
 
 		<div
-			class="userInfo cursor-pointer rounded-lg inset-y-0 w-29 bg-[#EBF8EF] pl-3 pr-6 py-2"
+			class="flex items-center gap-3 cursor-pointer rounded-lg inset-y-0 w-29 bg-[#EBF8EF] pl-3 pr-6 py-2"
 		>
 			<VImg :width="48" :height="48" :src="profilePicture" />
 
@@ -41,14 +41,3 @@ function toggleHamburger() {
 		<LogoSisghaBolder v-if="!isMobile" class="mr-8 w-40" />
 	</div>
 </template>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
-.userInfo {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 10px;
-}
-</style>
