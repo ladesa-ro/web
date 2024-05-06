@@ -13,12 +13,12 @@ let searchBarText = ref("");
         <div class="container-header px-3">
           <UISearchBar :value="searchBarText" @update:value="searchBarText = $event" />
           <div class="container-header-actions">
-            <ModaisModalNewEnvironments/>
+            <ModaisModalNewEnvironments />
           </div>
         </div>
 
         <div class="cardCoursesGeneral">
-          <ContainersContainerEnvironments	 :searchBarText="searchBarText" />
+          <ContainersContainerEnvironments :searchBarText="searchBarText" />
         </div>
       </div>
     </div>

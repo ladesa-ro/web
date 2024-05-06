@@ -78,13 +78,13 @@ const onSubmit = handleSubmit(async (values: any) => {
           <v-divider />
 
           <div class="form-footer button-group">
-            <VBtn type="button" color="#e9001c" variant="outlined" @click="isActive.value = false" class="buttonCancelar">
+            <UIButtonModalCancelButton @click="isActive.value = false">
               <span>Cancelar</span>
-            </VBtn>
+            </UIButtonModalCancelButton>
 
-            <VBtn type="submit" color="#00d047" variant="outlined" class="buttonCadastro">
+            <UIButtonModalSaveButton>
               <span>Cadastrar</span>
-            </VBtn>
+            </UIButtonModalSaveButton>
           </div>
         </v-form>
       </v-card>

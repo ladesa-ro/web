@@ -15,10 +15,9 @@ let searchBarText = ref('');
 						:value="searchBarText"
 						@update:value="searchBarText = $event"
 					/>
-
 				</div>
 
-				<div class="-card-bloco-geral">
+				<div>
 					<PagesDashboardBlocosLista :searchBarText="searchBarText" />
 				</div>
 			</div>

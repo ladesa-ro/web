@@ -7,25 +7,48 @@ import { useApiCampusFindAll } from "~/composables/api/campus";
 import { useApiBlocosFindAll } from "~/composables/api/blocos";
 import { AmbientesService } from "~/infrastructure/api/generated";
 
+
+const props = defineProps({
+  id: String
+})
+
+const { id } = toRefs(props)
+
+const { ambiente } = await useApiAmbienteFindOne(id)
+
 const queryClient = useQueryClient();
 
 
 let isActive = ref(false);
 
 const formValues = reactive({
+  id: null as string | null,
   nome: "",
   descricao: "",
   codigo: "",
   capacidade: "",
   tipo: "",
   bloco: {
-    id: undefined,
-  },
-  campus: {
-    id: undefined,
+    id: undefined as undefined | string,
   },
 });
 
+const fillValuesFromExistent = () => {
+  const valores = unref(ambiente);
+
+  if (valores) {
+    formValues.id = valores.id;
+
+    formValues.nome = valores.nome;
+    formValues.descricao = valores.descricao;
+    formValues.codigo = valores.codigo;
+    formValues.capacidade = valores.capacidade ?? "";
+    formValues.tipo = valores.tipo ?? "";
+    formValues.bloco.id = valores.bloco?.id;
+  }
+}
+
+fillValuesFromExistent();
 
 const schema = yup.object().shape({
   nome: yup.string().required("Nome é obrigatório!"),
@@ -34,9 +57,6 @@ const schema = yup.object().shape({
   capacidade: yup.number().required("Capacidade é obrigatório!"),
   bloco: yup.object().shape({
     id: yup.string().required("Bloco é obrigatório!"),
-  }),
-  campus: yup.object().shape({
-    id: yup.string().required("Campus é obrigatório!"),
   }),
 });
 
@@ -49,11 +69,20 @@ const { handleSubmit, resetForm } = useForm({
   initialValues: formValues,
 });
 
-const onSubmit = handleSubmit(async (values: any) => {
-  await AmbientesService.ambienteControllerAmbienteCreate(values);
+
+const onSubmit = handleSubmit(async ({ id, ...values }: any) => {
+  if (id === null) {
+    await AmbientesService.ambienteControllerAmbienteCreate(values);
+  } else {
+    await AmbientesService.ambienteControllerAmbienteUpdate({
+      id,
+      ...values
+    });
+  }
+
   resetForm();
   isActive.value = false;
-  await queryClient.invalidateQueries({ queryKey: ["ambientes"]});
+  await queryClient.invalidateQueries({ queryKey: ["ambientes"] });
   window.location.reload()
 });
 </script>
@@ -78,45 +107,32 @@ const onSubmit = handleSubmit(async (values: any) => {
 
             <VVTextField v-model="formValues.nome" type="text" label="Nome" placeholder="Digite aqui" name="nome" />
 
-            <VVTextField v-model="formValues.descricao" type="text" label="Descrição" placeholder="Digite aqui" name="descricao" />
+            <VVTextField v-model="formValues.descricao" type="text" label="Descrição" placeholder="Digite aqui"
+              name="descricao" />
 
-            <VVTextField v-model="formValues.codigo" type="text" label="Código" placeholder="Digite aqui" name="codigo" />
+            <VVTextField v-model="formValues.codigo" type="text" label="Código" placeholder="Digite aqui"
+              name="codigo" />
 
-            <VVTextField v-model="formValues.capacidade" type="number" label="Capacidade" placeholder="Digite aqui" name="capacidade" />
+            <VVTextField v-model="formValues.capacidade" type="number" label="Capacidade" placeholder="Digite aqui"
+              name="capacidade" />
 
             <VVTextField v-model="formValues.tipo" type="text" label="Tipo" placeholder="Digite aqui" name="tipo" />
 
-            <VVAutocomplete
-              v-model="formValues.bloco.id"
-              label="Bloco"
-              placeholder="Selecione um bloco"
-              name="bloco.id"
-              :items="blocos"
-              item-title="nome"
-              item-value="id"
-            />
+            <VVAutocomplete v-model="formValues.bloco.id" label="Bloco" placeholder="Selecione um bloco" name="bloco.id"
+              :items="blocos" item-title="nome" item-value="id" />
 
-            <VVAutocomplete
-              v-model="formValues.campus.id"
-              name="campus.id"
-              label="Campus"
-              placeholder="Selecione o campus"
-              :items="campi"
-              item-title="apelido"
-              item-value="id"
-            />
           </div>
 
           <v-divider />
 
           <div class="form-footer button-group">
-            <VBtn type="button" color="#e9001c" variant="outlined" @click="isActive.value = false" class="buttonCancelar">
+            <UIButtonModalCancelButton @click="isActive.value = false">
               <span>Cancelar</span>
-            </VBtn>
+            </UIButtonModalCancelButton>
 
-            <VBtn type="submit" color="#00d047" variant="outlined" class="buttonCadastro">
+            <UIButtonModalSaveButton>
               <span>Cadastrar</span>
-            </VBtn>
+            </UIButtonModalSaveButton>
           </div>
         </v-form>
       </v-card>
@@ -132,6 +148,7 @@ const onSubmit = handleSubmit(async (values: any) => {
 .form-body {
   overflow: auto;
 }
+
 .modal-form {
   display: flex;
   flex-direction: column;
@@ -155,6 +172,7 @@ const onSubmit = handleSubmit(async (values: any) => {
   text-align: center;
   padding: 32px;
 }
+
 .button-group {
   display: flex;
   justify-content: space-between;
