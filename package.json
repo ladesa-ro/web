@@ -27,7 +27,7 @@
 		"axios": "^1.6.7",
 		"inversify": "^6.0.2",
 		"jsonwebtoken": "^9.0.2",
-		"next-auth": "~4.21.1",
+		"next-auth": "4.21.1",
 		"nuxt": "^3.10.3",
 		"openapi-typescript-codegen": "^0.29.0",
 		"openid-client": "^5.6.5",
@@ -42,5 +42,10 @@
 		"vuetify": "^3.6.3",
 		"vuetify-nuxt-module": "^0.13.5",
 		"yup": "^1.4.0"
+	},
+	"overrides": {
+		"@sidebase/nuxt-auth": {
+			"next-auth": "4.21.1"
+		}
 	}
 }
