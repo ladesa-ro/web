@@ -24,7 +24,7 @@ function toggleHamburger() {
 		<div
 			class="userInfo cursor-pointer rounded-lg inset-y-0 w-29 bg-[#EBF8EF] pl-3 pr-6 py-2"
 		>
-			<VImg width="48" :src="profilePicture" />
+			<VImg :width="48" :height="48" :src="profilePicture" />
 
 			<div class="">
 				<p class="font-semibold">Danilo Escudero</p>
