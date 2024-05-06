@@ -6,31 +6,25 @@ import { useCustomTheme } from '~/composables/useCustomTheme';
 
 const { isDark } = useCustomTheme();
 
-const init = ref(true);
-
-onMounted(() => {
-	init.value = true;
-});
-
 const habumguerActive = ref(false);
 </script>
 
 <template>
 	<v-app class="app" :theme="isDark ? 'dark' : 'light'" style="z-index: 1">
-		<v-layout>
+		<v-layout class="layout">
 			<v-app-bar
 				height="73"
 				:elevation="0"
 				:class="{ toolbar: !init }"
 				style="box-shadow: 0px 0px 30px 0px rgba(17, 141, 59, 0.15)"
-				class="fixed w-full !border-solid !border-[#dddddd] !border-b-[1px]"
+				class="sticky w-full !border-solid !border-[#dddddd] !border-b-[1px]"
 			>
 				<Appbar v-model="habumguerActive" />
 			</v-app-bar>
 
 			<Sidebar v-model="habumguerActive" />
 
-			<v-main :class="{ main: !init }">
+			<v-main class="main">
 				<slot></slot>
 			</v-main>
 		</v-layout>
@@ -47,23 +41,11 @@ const habumguerActive = ref(false);
 }
 
 .main {
-	--v-layout-left: 64px !important;
-	--v-layout-right: 0px !important;
-	--v-layout-top: 64px !important;
-	--v-layout-bottom: 0px !important;
-	min-height: 300px;
-}
-
-.fixed {
-	position: fixed !important;
+	overflow: auto;
 }
 
 .layout {
 	overflow: hidden;
 	height: 100vh;
-}
-
-.content {
-	overflow: auto;
 }
 </style>
