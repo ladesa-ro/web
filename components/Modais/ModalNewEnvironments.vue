@@ -5,7 +5,6 @@ import { reactive } from "vue";
 import * as yup from "yup";
 import { useApiCampusFindAll } from "~/composables/api/campus";
 import { useApiBlocosFindAll } from "~/composables/api/blocos";
-import { AmbientesService } from "~/infrastructure/api/generated";
 
 
 const props = defineProps({
@@ -17,11 +16,13 @@ const { id } = toRefs(props)
 const { ambiente } = await useApiAmbienteFindOne(id)
 
 const queryClient = useQueryClient();
+const apiClient = useApiClient();
 
 
 let isActive = ref(false);
 
-const formValues = reactive({
+const initialFormValues = reactive({
+  imagem: null,
   id: null as string | null,
   nome: "",
   descricao: "",
@@ -38,7 +39,6 @@ const fillValuesFromExistent = () => {
 
   if (valores) {
     formValues.id = valores.id;
-
     formValues.nome = valores.nome;
     formValues.descricao = valores.descricao;
     formValues.codigo = valores.codigo;
@@ -51,6 +51,7 @@ const fillValuesFromExistent = () => {
 fillValuesFromExistent();
 
 const schema = yup.object().shape({
+  imagem: yup.mixed(),
   nome: yup.string().required("Nome é obrigatório!"),
   descricao: yup.string().required("Descrição é obrigatório!"),
   codigo: yup.string().required("Código é obrigatório!"),
@@ -64,20 +65,31 @@ const { blocos } = await useApiBlocosFindAll("");
 
 const { campi } = await useApiCampusFindAll("");
 
-const { handleSubmit, resetForm } = useForm({
+const { values: formValues, handleSubmit, setFieldValue, resetForm } = useForm({
   validationSchema: schema,
-  initialValues: formValues,
+  initialValues: initialFormValues,
 });
 
 
 const onSubmit = handleSubmit(async ({ id, ...values }: any) => {
+
   if (id === null) {
-    await AmbientesService.ambienteControllerAmbienteCreate(values);
-  } else {
-    await AmbientesService.ambienteControllerAmbienteUpdate({
+    const { imagem, ...dados } = values;
+
+  const ambienteCriado = await apiClient.ambientes.ambienteCreate({ requestBody: dados });
+
+  await apiClient.ambientes.ambienteSetImagemCapa({ id: ambienteCriado.id, formData: { file: imagem } })
+  } 
+  else {
+
+    const { imagem, ...dados } = values;
+
+    const ambienteAlterado = await apiClient.ambientes.ambienteUpdate({
       id,
       ...values
     });
+
+    await apiClient.ambientes.ambienteSetImagemCapa({ id: ambienteAlterado.id, formData: { file: imagem } })
   }
 
   resetForm();
@@ -103,7 +115,9 @@ const onSubmit = handleSubmit(async ({ id, ...values }: any) => {
           <v-divider class="my-4" />
 
           <div class="form-body modal-form">
-            <PagesDashboardCoursesFormsSelectCourseImage />
+            <UISelectImage 
+            :modelValue="formValues.imagem"
+              @update:modelValue="($e) => setFieldValue('imagem', $e, true)" />
 
             <VVTextField v-model="formValues.nome" type="text" label="Nome" placeholder="Digite aqui" name="nome" />
 

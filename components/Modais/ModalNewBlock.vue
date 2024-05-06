@@ -4,13 +4,15 @@ import { useForm } from "vee-validate";
 import { reactive } from "vue";
 import * as yup from "yup";
 import { useApiCampusFindAll } from "~/composables/api/campus";
-import { BlocosService } from "~/infrastructure/api/generated";
 
+
+const apiClient = useApiClient();
 const queryClient = useQueryClient();
 
 let isActive = ref(false);
 
-const formValues = reactive({
+const initialFormValues = reactive({
+  imagem: null,
   nome: "",
   codigo: "",
   campus: {
@@ -20,6 +22,7 @@ const formValues = reactive({
 
 
 const schema = yup.object().shape({
+  imagem: yup.mixed(),
   nome: yup.string().required("Nome é obrigatório!"),
   codigo: yup.string().required("Código é obrigatório!"),
   campus: yup.object().shape({
@@ -29,17 +32,23 @@ const schema = yup.object().shape({
 
 const { campi } = await useApiCampusFindAll("");
 
-const { defineField, handleSubmit, resetForm, setFieldValue } = useForm({
+const { values: formValues, handleSubmit, setFieldValue, resetForm } = useForm({
   validationSchema: schema,
-  initialValues: formValues,
+  initialValues: initialFormValues,
 });
 
 const onSubmit = handleSubmit(async (values: any) => {
-  await BlocosService.blocoControllerBlocoCreate(values);
-  resetForm();
-  isActive.value = false;
-  await queryClient.invalidateQueries({ queryKey: ["blocos"] });
-});
+
+  const { imagem, ...dados } = values;
+
+  const blocoCriado = await apiClient.blocos.blocoCreate({ requestBody: dados });
+
+await apiClient.blocos.blocoSetImagemCapa({ id: blocoCriado.id, formData: { file: imagem } })
+
+resetForm();
+isActive.value = false;
+await queryClient.invalidateQueries({ queryKey: ["blocos"] });
+}, console.error);
 </script>
 
 <template>
@@ -58,7 +67,8 @@ const onSubmit = handleSubmit(async (values: any) => {
           <v-divider class="my-4" />
 
           <div class="form-body modal-form">
-            <PagesDashboardCoursesFormsSelectCourseImage />
+            <UISelectImage :modelValue="formValues.imagem"
+              @update:modelValue="($e) => setFieldValue('imagem', $e, true)" />
 
             <VVTextField v-model="formValues.nome" type="text" label="Nome" placeholder="Digite aqui" name="nome" />
 

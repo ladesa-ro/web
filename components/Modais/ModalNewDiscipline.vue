@@ -58,14 +58,14 @@ const onSubmit = handleSubmit(async (values: any) => {
           <v-divider class="my-4" />
 
           <div class="form-body modal-form">
-            <PagesDashboardCoursesFormsSelectCourseImage :modelValue="formValues.imagem"
+            <UISelectImage :modelValue="formValues.imagem"
               @update:modelValue="($e) => setFieldValue('imagem', $e, true)" />
 
             <VVTextField type="text" label="Nome" placeholder="Digite aqui" name="nome" />
 
             <VVTextField type="text" label="Nome Abreviado" placeholder="Digite aqui" name="nomeAbreviado" />
 
-            <VVTextField type="number" label="Carga Horária" placeholder="Digite aqui" name="cargaHoraria" />
+            <VVTextField type="number" label="Carga Horária" placeholder="Digite aqui" name="cargaHoraria"/>
           </div>
 
           <v-divider />

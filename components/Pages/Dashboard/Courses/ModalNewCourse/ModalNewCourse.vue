@@ -7,13 +7,16 @@ import { useApiCampusFindAll } from "~/composables/api/campus";
 import { useApiModalitiesFindAll } from "~/composables/api/modalities";
 import { CursosService } from "~/infrastructure/api/generated";
 
+
+const apiClient = useApiClient();
 const queryClient = useQueryClient();
 
 let isActive = ref(false);
 
 const options = ["Técnico Integrado", "Técnico Subsequente", "Técnico Concomitante", "Graduação"];
 
-const formValues = reactive({
+const initialFormValues = reactive({
+  imagem: null,
   nome: "",
   nomeAbreviado: "",
   modalidade: {
@@ -25,6 +28,7 @@ const formValues = reactive({
 });
 
 const schema = yup.object().shape({
+  imagem: yup.mixed(),
   nome: yup.string().required("Nome é obrigatório!"),
   nomeAbreviado: yup.string().required("Nome abreviado é obrigatório!"),
   modalidade: yup.object().shape({
@@ -39,13 +43,20 @@ const { modalidade } = await useApiModalitiesFindAll("");
 
 const { campi } = await useApiCampusFindAll("");
 
-const { defineField, handleSubmit, resetForm, setFieldValue } = useForm({
+const { values: formValues, handleSubmit, setFieldValue, resetForm } = useForm({
   validationSchema: schema,
-  initialValues: formValues,
+  initialValues: initialFormValues,
 });
 
 const onSubmit = handleSubmit(async (values: any) => {
-  await CursosService.cursoControllerCursoCreate(values);
+
+
+  const { imagem, ...dados } = values;
+
+  const cursoCriado = await apiClient.cursos.cursoCreate({ requestBody: dados });
+
+  await apiClient.cursos.cursoSetImagemCapa({ id: cursoCriado.id, formData: { file: imagem } })
+
   resetForm();
   isActive.value = false;
   await queryClient.invalidateQueries({ queryKey: ["cursos"] });
@@ -68,43 +79,26 @@ const onSubmit = handleSubmit(async (values: any) => {
           <v-divider class="my-4" />
 
           <div class="form-body modal-form">
-            <PagesDashboardCoursesFormsSelectCourseImage />
+            <UISelectImage :modelValue="formValues.imagem"
+              @update:modelValue="($e) => setFieldValue('imagem', $e, true)" />
 
             <VVTextField v-model="formValues.nome" type="text" label="Nome" placeholder="Digite aqui" name="nome" />
 
-            <VVTextField
-              v-model="formValues.nomeAbreviado"
-              type="text"
-              label="Nome Abreviado"
-              placeholder="Digite aqui"
-              name="nomeAbreviado"
-            />
+            <VVTextField v-model="formValues.nomeAbreviado" type="text" label="Nome Abreviado" placeholder="Digite aqui"
+              name="nomeAbreviado" />
 
-            <VVAutocomplete
-              v-model="formValues.modalidade.id"
-              label="Modalidade"
-              placeholder="Selecione a modalidade"
-              name="modalidade.id"
-              :items="modalidade"
-              item-title="nome"
-              item-value="id"
-            />
+            <VVAutocomplete v-model="formValues.modalidade.id" label="Modalidade" placeholder="Selecione a modalidade"
+              name="modalidade.id" :items="modalidade" item-title="nome" item-value="id" />
 
-            <VVAutocomplete
-              v-model="formValues.campus.id"
-              name="campus.id"
-              label="Campus"
-              placeholder="Selecione o campus"
-              :items="campi"
-              item-title="apelido"
-              item-value="id"
-            />
+            <VVAutocomplete v-model="formValues.campus.id" name="campus.id" label="Campus"
+              placeholder="Selecione o campus" :items="campi" item-title="apelido" item-value="id" />
           </div>
 
           <v-divider />
 
           <div class="form-footer button-group">
-            <VBtn type="button" color="#e9001c" variant="outlined" @click="isActive.value = false" class="buttonCancelar">
+            <VBtn type="button" color="#e9001c" variant="outlined" @click="isActive.value = false"
+              class="buttonCancelar">
               <span>Cancelar</span>
             </VBtn>
 
@@ -126,6 +120,7 @@ const onSubmit = handleSubmit(async (values: any) => {
 .form-body {
   overflow: auto;
 }
+
 .modal-form {
   display: flex;
   flex-direction: column;
@@ -149,6 +144,7 @@ const onSubmit = handleSubmit(async (values: any) => {
   text-align: center;
   padding: 32px;
 }
+
 .button-group {
   display: flex;
   justify-content: space-between;
