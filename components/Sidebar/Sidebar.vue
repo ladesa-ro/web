@@ -1,13 +1,14 @@
 <template>
 	<v-navigation-drawer
 		app
-		absolute="true"
 		clipped="true"
-		:permanent="hamburgerActive || !isMobile"
-		class="navigation-drawer"
-		:rail="!isMobile && !hamburgerActive"
-		:expand-on-hover="!isMobile && !hamburgerActive"
+		absolute="true"
 		:temporary="isMobile"
+		class="navigation-drawer"
+		v-model:model-value="hamburgerActive"
+		:rail="!isMobile && !hamburgerActive"
+		:permanent="hamburgerActive && !isMobile"
+		:expand-on-hover="!isMobile && !hamburgerActive"
 	>
 		<v-list
 			class="flex-column justify-space-between h-full"
@@ -47,13 +48,13 @@ import { useMonitorSize } from '~/composables/monitor-size';
 
 import calendarioIconWhite from '~/assets/icons/calendarioIconWhite.svg';
 import configuracoesIconWhite from '~/assets/icons/configuracoesIconWhite.svg';
+import cursosIconWhite from '~/assets/icons/cursoIconWhite.svg';
 import disciplinaIconWhite from '~/assets/icons/disciplinaIconWhite.svg';
 import inicioIconWhite from '~/assets/icons/inicioIconWhite.svg';
 import perfilIconWhite from '~/assets/icons/perfilIconWhite.svg';
 import turmasIconWhite from '~/assets/icons/turmasIconWhite.svg';
-import vinculoIconWhite from '~/assets/icons/vinculosIconWhite.svg';
-import cursosIconWhite from '~/assets/icons/cursoIconWhite.svg';
 import usuariosIconWhite from '~/assets/icons/usuariosIconWhite.svg';
+import vinculoIconWhite from '~/assets/icons/vinculosIconWhite.svg';
 
 const links = [
 	{
@@ -114,11 +115,9 @@ const links = [
 
 const { isMobile } = useMonitorSize();
 
-const props = defineProps({
-	hamburgerActive: {
-		type: Boolean,
-		required: true,
-	},
+const hamburgerActive = defineModel({
+	required: true,
+	type: Boolean,
 });
 </script>
 

@@ -13,23 +13,22 @@ onMounted(() => {
 });
 
 const habumguerActive = ref(false);
-
-function toggleHamburger() {
-	habumguerActive.value = !habumguerActive.value;
-}
 </script>
 
 <template>
 	<v-app class="app" :theme="isDark ? 'dark' : 'light'" style="z-index: 1">
 		<v-layout>
-			<v-app-bar :class="{ toolbar: !init }" class="fixed" elevation="2">
-				<Appbar
-					:hamburger-active="habumguerActive"
-					@toggle-hamburger="toggleHamburger"
-				/>
+			<v-app-bar
+				height="73"
+				:elevation="0"
+				:class="{ toolbar: !init }"
+				style="box-shadow: 0px 0px 30px 0px rgba(17, 141, 59, 0.15)"
+				class="fixed w-full !border-solid !border-[#dddddd] !border-b-[1px]"
+			>
+				<Appbar v-model="habumguerActive" />
 			</v-app-bar>
 
-			<Sidebar :hamburger-active="habumguerActive" />
+			<Sidebar v-model="habumguerActive" />
 
 			<v-main :class="{ main: !init }">
 				<slot></slot>
