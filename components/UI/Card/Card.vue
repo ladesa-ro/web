@@ -2,31 +2,12 @@
 const $emit = defineEmits(['edit']);
 
 type Props = {
-	title: string;
+	title?: string;
 	src: string | null;
 	variant: 'block' | 'inline';
 };
 
-const props = defineProps({
-	// variants: block, inline
-	variant: {
-		type: String,
-		required: false,
-		default: 'block',
-		validator: (value: any) => ['block', 'inline'].includes(value),
-	},
-
-	src: {
-		type: String,
-		required: false,
-		default: null,
-	},
-
-	title: {
-		type: String,
-		required: true,
-	},
-}) as Props;
+const props = defineProps<Props>();
 </script>
 
 <template>
