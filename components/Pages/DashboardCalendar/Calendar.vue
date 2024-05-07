@@ -6,12 +6,12 @@
 		<div class="container">
 			<div>
 				<!-- Content -->
-				<div class="grid grid-cols-2 gap-4 justify-center items-center">
+				<div class="flex justify-center items-center w-full h-full">
 					<PagesDashboardCalendarMonth/>
 
-					<v-card class="-month mx-auto rounded-lg" max-width="500px">
+					<!-- <v-card class="-month mx-auto rounded-lg" max-width="500px">
 						
-					</v-card>
+					</v-card> -->
 				</div>
 			</div>
 		</div>
