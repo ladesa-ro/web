@@ -1,28 +1,18 @@
 <script lang="ts" setup>
-import IconEdit from '~/components/Icons/IconEdit.vue';
+const props = defineProps<{ searchBarText: string }>();
 
-const props = defineProps({
-	searchBarText: String,
-});
-
-const { searchBarText } = toRefs(props)
+const { searchBarText } = toRefs(props);
 
 const { ambientes } = await useApiAmbientesFindAll(searchBarText);
-
-const $emit = defineEmits(['edit']);
-
-const edicaoAmbiente = ref(null);
-
-const editarAmbiente = (id: string) => {
-
-}
-
 </script>
 
 <template>
 	<UIGrid :items="ambientes">
-		<template #item="{ item:  ambiente}">
-			<UICard variant="block" :src="`https://luna.sisgha.com/api/ambientes/${ambiente.id}/imagem/capa`">
+		<template #item="{ item: ambiente }">
+			<UICard
+				variant="block"
+				:src="`https://luna.sisgha.com/api/ambientes/${ambiente.id}/imagem/capa`"
+			>
 				<template #title>
 					{{ ambiente.nome }}
 				</template>
@@ -35,7 +25,7 @@ const editarAmbiente = (id: string) => {
 					{{ ambiente.bloco.nome }}
 				</UICardLine>
 				<UICardLine>
-					Capacidade: {{ ambiente.capacidade + " pessoas"}}
+					Capacidade: {{ ambiente.capacidade }} pessoas
 				</UICardLine>
 			</UICard>
 		</template>

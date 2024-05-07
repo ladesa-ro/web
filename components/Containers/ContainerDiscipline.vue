@@ -12,7 +12,10 @@ const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
 <template>
 	<UIGrid :items="disciplinas">
 		<template #item="{ item: disciplina }">
-			<UICard variant="block" :src="`https://luna.sisgha.com/api/disciplinas/${disciplina.id}/imagem/capa`">
+			<UICard
+				variant="block"
+				:src="`https://luna.sisgha.com/api/disciplinas/${disciplina.id}/imagem/capa`"
+			>
 				<template #title>
 					{{ disciplina.nome }}
 				</template>
@@ -22,7 +25,10 @@ const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
 				</template>
 
 				<UICardLine>
-					<span>Carga Horária: {{ disciplina.cargaHoraria }} horas.</span>
+					<span
+						>Carga Horária:
+						{{ disciplina.cargaHoraria }} horas.</span
+					>
 				</UICardLine>
 				<UICardLine>
 					<span>Abreviação: {{ disciplina.nomeAbreviado }}</span>

@@ -1,22 +1,15 @@
 <script setup lang="ts">
-const props = defineProps({
-	searchBarText: String,
-});
-
-const $emit = defineEmits(['edit']);
+const props = defineProps<{ searchBarText: string }>();
 
 const { searchBarText } = toRefs(props);
+
 const { turmas } = await useApiTurmasFindAll(searchBarText);
 </script>
 
 <template>
 	<UIGrid :items="turmas">
 		<template #item="{ item: turma }">
-			<UICard
-				variant="block"
-				@edit="$emit('edit', turmas.id)"
-				src="https://picsum.photos/487/120"
-			>
+			<UICard variant="block" src="https://picsum.photos/487/120">
 				<template #title>
 					{{ turma.periodo }} - {{ turma.curso.modalidade.nome }}
 				</template>

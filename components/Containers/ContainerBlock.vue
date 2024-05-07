@@ -1,22 +1,18 @@
-<script setup>
-import IconEdit from '~/components/Icons/IconEdit.vue';
-
-const props = defineProps({
-	searchBarText: String,
-});
-const $emit = defineEmits(['edit']);
+<script setup lang="ts">
+const props = defineProps<{ searchBarText: string }>();
 
 const { searchBarText } = toRefs(props);
 
 const { blocos } = await useApiBlocosFindAll(searchBarText);
 </script>
 
-
-
 <template>
 	<UIGrid :items="blocos">
 		<template #item="{ item: bloco }">
-			<UICard variant="block" :src="`https://luna.sisgha.com/api/blocos/${bloco.id}/imagem/capa`">
+			<UICard
+				variant="block"
+				:src="`https://luna.sisgha.com/api/blocos/${bloco.id}/imagem/capa`"
+			>
 				<template #title>
 					{{ bloco.nome }}
 				</template>
@@ -26,7 +22,7 @@ const { blocos } = await useApiBlocosFindAll(searchBarText);
 				</template>
 
 				<UICardLine>
-					<span>{{  bloco.campus.apelido }} horas.</span>
+					<span>{{ bloco.campus.apelido }} horas.</span>
 				</UICardLine>
 			</UICard>
 		</template>
