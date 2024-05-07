@@ -124,6 +124,7 @@ span {
 
 .navigation-drawer {
 	@apply bg-green-700 text-white caret-white;
+	@apply overflow-auto;
 }
 
 .active {

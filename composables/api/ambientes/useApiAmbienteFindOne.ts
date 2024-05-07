@@ -18,8 +18,6 @@ export const useApiAmbienteFindOne = async (idRef: MaybeRef<string | undefined |
 
       return null;
     },
-
-    enabled: isIdValid,
   });
 
   const ambiente = computed(() => unref(query.data) ?? null);

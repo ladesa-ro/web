@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import profilePicture from '~/assets/icons/profilePicture.svg';
-import { useMonitorSize } from '~/composables/monitor-size';
-
-const { isMobile } = useMonitorSize();
 
 const hamburgerActive = defineModel({
 	required: true,
@@ -38,6 +35,6 @@ function toggleHamburger() {
 			class="cursor-pointer pa-2 mr-3 w-[50px] h-[50px]"
 		/>
 
-		<LogoSisghaBolder v-if="!isMobile" class="mr-8 w-40" />
+		<LogoSisghaBolder class="mr-8 w-40 hidden sm:block" />
 	</div>
 </template>
