@@ -37,6 +37,9 @@ const habumguerActive = ref(false);
 
 .layout {
 	overflow: hidden;
-	height: 100vh;
+
+	height: 100vh; /* fallback para caso o dispositivo não suporte dvh */
+
+	height: 100dvh;
 }
 </style>
