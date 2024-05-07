@@ -1,3 +1,3 @@
 <template>
-  <PagesDashboardDisciplinas />
+  <SectionDisciplinas />
 </template>
