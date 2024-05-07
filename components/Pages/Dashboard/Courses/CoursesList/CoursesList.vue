@@ -1,6 +1,4 @@
 <script setup>
-import IconEdit from '~/components/Icons/IconEdit.vue';
-
 const $emit = defineEmits(['edit']);
 
 const props = defineProps({
@@ -15,9 +13,12 @@ const { cursos } = await useApiCursosFindAll(searchBarText);
 <template>
 	<UIGrid :items="cursos">
 		<template #item="{ item: curso }">
-			<UICard variant="block" :src="`https://luna.sisgha.com/api/cursos/${curso.id}/imagem/capa`">
+			<UICard
+				variant="block"
+				:src="`https://luna.sisgha.com/api/cursos/${curso.id}/imagem/capa`"
+			>
 				<template #title>
-					{{ 	curso.nome }}
+					{{ curso.nome }}
 				</template>
 
 				<template #actions>
@@ -34,6 +35,3 @@ const { cursos } = await useApiCursosFindAll(searchBarText);
 		</template>
 	</UIGrid>
 </template>
-
-
-

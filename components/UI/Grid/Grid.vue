@@ -1,12 +1,13 @@
-<script setup lang="ts">
-const props = defineProps({
-	items: {
-		type: Array,
-		default: () => [],
-	},
-});
+<script setup lang="ts" generic="T">
+const props = defineProps<{
+	items: T[];
+}>();
 
 const items = toRef(props, 'items');
+
+const slots = defineSlots<{
+	item(props: { item: T }): any;
+}>();
 </script>
 
 <template>
