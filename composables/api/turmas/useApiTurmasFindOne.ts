@@ -6,8 +6,6 @@ export const useApiTurmasFindOne = async (
 ) => {
 	const apiClient = useApiClient();
 
-	const isIdValid = computed(() => typeof unref(idRef) === 'string');
-
 	const query = useQuery({
 		queryKey: ['turmas', computed(() => `turma::id::${unref(idRef)}`)],
 
