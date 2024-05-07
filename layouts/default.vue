@@ -6,32 +6,24 @@ import { useCustomTheme } from '~/composables/useCustomTheme';
 
 const { isDark } = useCustomTheme();
 
-const init = ref(true);
-
-onMounted(() => {
-	init.value = true;
-});
-
 const habumguerActive = ref(false);
-
-function toggleHamburger() {
-	habumguerActive.value = !habumguerActive.value;
-}
 </script>
 
 <template>
 	<v-app class="app" :theme="isDark ? 'dark' : 'light'" style="z-index: 1">
-		<v-layout>
-			<v-app-bar :class="{ toolbar: !init }" class="fixed" elevation="2">
-				<Appbar
-					:hamburger-active="habumguerActive"
-					@toggle-hamburger="toggleHamburger"
-				/>
+		<v-layout class="layout">
+			<v-app-bar
+				height="72"
+				:elevation="0"
+				style="box-shadow: 0px 0px 30px 0px rgba(17, 141, 59, 0.15)"
+				class="sticky w-full !border-solid !border-[#dddddd] !border-b-[1px]"
+			>
+				<Appbar v-model="habumguerActive" />
 			</v-app-bar>
 
-			<Sidebar :hamburger-active="habumguerActive" />
+			<Sidebar v-model="habumguerActive" />
 
-			<v-main :class="{ main: !init }">
+			<v-main class="main">
 				<slot></slot>
 			</v-main>
 		</v-layout>
@@ -39,32 +31,15 @@ function toggleHamburger() {
 </template>
 
 <style scoped>
-.toolbar {
-	top: 0px !important;
-	transform: translateY(0%) !important;
-	position: absolute !important;
-	left: 0px !important;
-	width: calc(100% - 0px) !important;
-}
-
 .main {
-	--v-layout-left: 64px !important;
-	--v-layout-right: 0px !important;
-	--v-layout-top: 64px !important;
-	--v-layout-bottom: 0px !important;
-	min-height: 300px;
-}
-
-.fixed {
-	position: fixed !important;
+	overflow: auto;
 }
 
 .layout {
 	overflow: hidden;
-	height: 100vh;
-}
 
-.content {
-	overflow: auto;
+	height: 100vh; /* fallback para caso o dispositivo não suporte dvh */
+
+	height: 100dvh;
 }
 </style>

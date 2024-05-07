@@ -1,52 +1,40 @@
-<script setup>
+<script setup lang="ts">
 import profilePicture from '~/assets/icons/profilePicture.svg';
-import { useMonitorSize } from '~/composables/monitor-size';
 
-const { isMobile } = useMonitorSize();
-const emit = defineEmits(['toggle-hamburger']);
+const hamburgerActive = defineModel({
+	required: true,
+	type: Boolean,
+});
 
 function toggleHamburger() {
-	emit('toggle-hamburger');
+	hamburgerActive.value = !hamburgerActive.value;
 }
-
-const props = defineProps({
-	hamburgerActive: {
-		type: Boolean,
-		required: true,
-	},
-});
 </script>
 
 <template>
-	<div @click="toggleHamburger">
-		<IconsIconMenuOpen v-if="hamburgerActive" />
-		<IconsIconHamburger v-else />
-	</div>
-	<LogoLogoSisgha v-if="!isMobile" class="pl-5" />
-	<div
-		class="userInfo absolute inset-y-0 w-29"
-		:class="{ 'right-3': isMobile, 'right-12': !isMobile }"
-	>
-		<IconsIconNotifications class="" />
-		<VImg
-			:class="{ 'ml-9': !isMobile, 'ml-12': isMobile }"
-			:src="profilePicture"
-			width="52"
-		></VImg>
-		<div class="">
-			<p class="font-semibold">Danilo Escudero</p>
-			<p class="font-normal">Professor</p>
+	<div class="flex w-full items-center">
+		<div @click="toggleHamburger">
+			<IconsIconMenuOpen class="pa-3 w-[60px]" v-if="hamburgerActive" />
+			<IconsIconHamburger class="pa-3 w-[60px]" v-else />
 		</div>
+
+		<div
+			class="flex items-center gap-3 cursor-pointer rounded-lg inset-y-0 w-29 bg-[#EBF8EF] pl-3 pr-6 py-2"
+		>
+			<VImg :width="48" :height="48" :src="profilePicture" />
+
+			<div class="">
+				<p class="font-semibold">Danilo Escudero</p>
+				<p class="font-normal">DAPE</p>
+			</div>
+		</div>
+
+		<div class="flex-1"></div>
+
+		<IconsIconNotifications
+			class="cursor-pointer pa-2 mr-3 w-[50px] h-[50px]"
+		/>
+
+		<LogoSisghaBolder class="mr-8 w-40 hidden sm:block" />
 	</div>
 </template>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
-
-.userInfo {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 10px;
-}
-</style>

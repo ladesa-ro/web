@@ -13,9 +13,9 @@ const items = toRef(props, 'items');
 	<v-container>
 		<v-row v-if="items">
 			<v-col
-				sm="6"
-				md="4"
-				lg="4"
+				sm="12"
+				md="6"
+				lg="6"
 				cols="12"
 				class="px-2"
 				v-for="item in items"
