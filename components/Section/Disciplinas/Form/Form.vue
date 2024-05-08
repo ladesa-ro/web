@@ -114,6 +114,28 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 	resetForm();
 	$emit('close');
 }, console.error);
+
+const nome = computed({
+  get: () => formValues.nome,
+  set: (value) => {
+    formValues.nome = value;
+  }
+});
+
+const nomeAbreviado = computed({
+  get: () => formValues.nome,
+  set: (value) => {
+    formValues.nomeAbreviado = value;
+  }
+});
+
+const cargaHoraria = computed({
+  get: () => formValues.cargaHoraria,
+  set: (value) => {
+    formValues.cargaHoraria = Number(value);
+  }
+});
+	
 </script>
 
 <template>
@@ -130,11 +152,11 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 <div class="form-body modal-form">
   <UISelectImage :modelValue="formValues.imagem" @update:modelValue="($e) => setFieldValue('imagem', $e, true)" />
 
-    				<VVTextField type="text" label="Nome" placeholder="Digite aqui" name="nome" />
+    				<VVTextField type="text" v-model = "nome" label="Nome" placeholder="Digite aqui" name="nome" />
 
-            <VVTextField type="text" label="Nome Abreviado" placeholder="Digite aqui" name="nomeAbreviado" />
+            <VVTextField type="text" v-model = "nomeAbreviado" label="Nome Abreviado" placeholder="Digite aqui" name="nomeAbreviado" />
 
-            <VVTextField type="number" label="Carga Horária" placeholder="Digite aqui" name="cargaHoraria"/>
+            <VVTextField type="number" v-model= "cargaHoraria" label="Carga Horária" placeholder="Digite aqui" name="cargaHoraria"/>
 </div>
 
 <v-divider />
