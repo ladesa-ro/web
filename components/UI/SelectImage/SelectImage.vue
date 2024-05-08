@@ -1,122 +1,119 @@
-<script setup>
-import { useDropzone } from "vue3-dropzone";
+<script setup lang="ts">
+import { useDropzone } from 'vue3-dropzone';
 
-const model = defineModel();
+const model = defineModel<File | Blob | null | undefined>();
 
-function onDrop(acceptFiles, rejectReasons) {
-  console.log(acceptFiles);
-  console.log(rejectReasons);
-  model.value = acceptFiles[0];//retorna mais de um arquivo
+function onDrop(acceptedFiles) {
+	model.value = acceptedFiles[0]; //retorna mais de um arquivo
 }
 
-const { getRootProps, getInputProps, isDragActive, open } = useDropzone({ onDrop });
-
-const imageSrc = computed(() => {
-  if (model.value) {
-    return URL.createObjectURL(model.value)
-  }
-  return null
+const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
+	onDrop,
 });
 
+const imageSrc = computed(() => {
+	if (model.value) {
+		return URL.createObjectURL(model.value);
+	}
+	return null;
+});
 </script>
 <template>
-  <div>
+	<div>
+		<div
+			class="drop-area"
+			:class="{ selected: imageSrc !== null }"
+			v-bind="getRootProps()"
+			:style="{ backgroundImage: `url(${imageSrc})` }"
+		>
+			<div
+				class="dropzone-info flex flex-col h-full items-center justify-center"
+			>
+				<IconsIconFilePicker />
 
-    <div class="drop-area" :class="{ selected: imageSrc !== null }" v-bind="getRootProps()"
-      :style="{ backgroundImage: `url(${imageSrc})` }">
+				<div class="dropzone-info-message" v-if="isDragActive">
+					Solte sua imagem aqui.
+				</div>
 
-      <div class="dropzone-info flex flex-col h-full items-center justify-center">
-        <IconsIconFilePicker />
+				<div class="dropzone-info-message" v-else>
+					Arraste e solte uma imagem ou escolha uma de até 500 KB
+					.jpeg ou .png.
+				</div>
+			</div>
 
-        <div class="dropzone-info-message" v-if="isDragActive">
-          Solte sua imagem aqui.
-        </div>
-
-        <div class="dropzone-info-message" v-else>
-          Arraste e solte uma imagem ou escolha uma de até 500 KB .jpeg ou .png.
-        </div>
-      </div>
-
-      <input type="file" ref="fileInput" v-bind="getInputProps()" accept=".jpeg, .jpg, .png" />
-    </div>
-  </div>
+			<input
+				type="file"
+				ref="fileInput"
+				v-bind="getInputProps()"
+				accept=".jpeg, .jpg, .png"
+			/>
+		</div>
+	</div>
 </template>
-
-
 
 <style scoped>
 .image-container {
-  width: 415px;
-  height: 198px;
-  margin-top: -41px;
-  border-radius: 8px;
+	width: 415px;
+	height: 198px;
+	margin-top: -41px;
+	border-radius: 8px;
 }
 
 .image-dropzone {
-  border-radius: 8px;
-  width: 100%;
+	border-radius: 8px;
+	width: 100%;
 }
 
 .drop-area {
+	background: no-repeat center/cover;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
-  /* background-repeat: no-repeat;
-  /* Impede a repetição da imagem
-  background-position: center;
-  /* Posiciona a imagem no centro 
-  background-size: cover; */
-  background: no-repeat center/cover;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	width: 100%;
+	height: 200px;
 
-  width: 100%;
-  height: 200px;
+	border: 2px solid #9ab69e;
+	border-radius: 8px;
 
-  border: 2px solid #9ab69e;
-  border-radius: 8px;
+	text-align: center;
+	cursor: pointer;
 
-  text-align: center;
-  cursor: pointer;
-
-  overflow: hidden;
+	overflow: hidden;
 }
 
-.drop-area input[type="file"] {
-  display: none;
+.drop-area input[type='file'] {
+	display: none;
 }
 
 .drop-area .dropzone-info {
-  width: 100%;
-  padding: 0px 50px;
+	width: 100%;
+	padding: 0px 50px;
 
-  color: #777777;
+	color: #777777;
 }
 
 .drop-area .dropzone-info .dropzone-info-message {
-  margin-top: 20px;
-  font-weight: 500;
+	margin-top: 20px;
+	font-weight: 500;
 }
 
 .drop-area.selected .dropzone-info {
-  opacity: 0;
-  transition: 0.15s ease-in-out;
+	opacity: 0;
+	transition: 0.15s ease-in-out;
 }
 
 .drop-area:hover .dropzone-info {
-  opacity: 1;
-  color: black;
-  backdrop-filter: blur(4px);
-  background-color: rgba(240, 240, 240, 0.9);
+	opacity: 1;
+	color: black;
+	backdrop-filter: blur(4px);
+	background-color: rgba(240, 240, 240, 0.9);
 }
 
 @media screen and (max-width: 600px) {
-  .drop-area {
-    padding: 0px 20px;
-  }
-
-  .dropzone-info-message {
-    margin-top: 10px;
-    font-size: 12px;
-  }
+	.dropzone-info-message {
+		margin-top: 10px;
+		font-size: 12px;
+	}
 }
 </style>

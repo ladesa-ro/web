@@ -14,14 +14,14 @@ const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
 		<template #item="{ item: disciplina }">
 			<UICard
 				variant="block"
-				:src="`https://luna.sisgha.com/api/disciplinas/${disciplina.id}/imagem/capa`"
+				:src="`https://luna.sisgha.com/api/disciplinas/${disciplina.id}/imagem/capa?imgCapa=${disciplina.imagemCapa?.id}`"
 			>
 				<template #title>
 					{{ disciplina.nome }}
 				</template>
 
 				<template #actions>
-					<!-- deixa sem por enquanto, aqui vai o botão de edit -->
+					<SectionDisciplinasModal :editId="disciplina.id" />
 				</template>
 
 				<UICardLine>

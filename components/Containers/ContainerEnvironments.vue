@@ -11,7 +11,7 @@ const { ambientes } = await useApiAmbientesFindAll(searchBarText);
 		<template #item="{ item: ambiente }">
 			<UICard
 				variant="block"
-				:src="`https://luna.sisgha.com/api/ambientes/${ambiente.id}/imagem/capa`"
+				:src="`https://luna.sisgha.com/api/ambientes/${ambiente.id}/imagem/capa?imgCapa=${ambiente.imagemCapa?.id}`"
 			>
 				<template #title>
 					{{ ambiente.nome }}
