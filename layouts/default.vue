@@ -3,20 +3,24 @@ import { ref } from 'vue';
 import Appbar from '~/components/Appbar/Appbar.vue';
 import Sidebar from '~/components/Sidebar/Sidebar.vue';
 import { useCustomTheme } from '~/composables/useCustomTheme';
+import { HeadTitleContext } from '../infrastructure/HeadTitleContext';
 
 const { isDark } = useCustomTheme();
 
 const habumguerActive = ref(false);
+
+useTitle(HeadTitleContext.DASHBOARD);
 </script>
 
 <template>
 	<v-app class="app" :theme="isDark ? 'dark' : 'light'" style="z-index: 1">
 		<v-layout class="layout">
 			<v-app-bar
+				app
 				height="72"
 				:elevation="0"
 				style="box-shadow: 0px 0px 30px 0px rgba(17, 141, 59, 0.15)"
-				class="sticky w-full !border-solid !border-[#dddddd] !border-b-[1px] h-[72px] flex justify-center"
+				class="sticky w-full !border-solid !border-[#dddddd] !border-b-[1px]"
 			>
 				<Appbar v-model="habumguerActive" />
 			</v-app-bar>
