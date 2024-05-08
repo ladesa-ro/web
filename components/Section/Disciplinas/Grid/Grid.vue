@@ -21,14 +21,13 @@ const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
 				</template>
 
 				<template #actions>
-					<!-- deixa sem por enquanto, aqui vai o botão de edit -->
+					<SectionDisciplinasModal :editId="disciplina.id" />
 				</template>
 
 				<UICardLine>
-					<span
-						>Carga Horária:
-						{{ disciplina.cargaHoraria }} horas.</span
-					>
+	
+					<span>Carga Horária: {{ disciplina.cargaHoraria }} horas.</span>
+
 				</UICardLine>
 				<UICardLine>
 					<span>Abreviação: {{ disciplina.nomeAbreviado }}</span>
