@@ -1,19 +1,14 @@
 <template>
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		height="40"
-		viewBox="0 -960 960 960"
-		width="40"
-	>
-		<path
-			d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
-		/>
-	</svg>
+	<div class="-icon-black cursor-pointer pl-3 -icon-menu" v-html="HamburguerOff">
+	</div>
 </template>
 
+<script lang="ts" setup>
+	import HamburguerOff from "@/assets/icons/Hamburguer/Hamburguer-Off.svg?raw";
+</script>
+
 <style scoped>
-svg {
-	fill: currentColor;
-	cursor: pointer;
-}
+	.-icon-menu {
+		width: 45px;
+	}
 </style>

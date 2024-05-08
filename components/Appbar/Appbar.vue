@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import profilePicture from '~/assets/icons/profilePicture.svg';
+// import profilePicture from '~/assets/icons/profilePicture.svg';
 
 const hamburgerActive = defineModel({
 	required: true,
@@ -21,7 +21,7 @@ function toggleHamburger() {
 		<div
 			class="flex items-center gap-3 cursor-pointer rounded-lg inset-y-0 w-29 bg-[#EBF8EF] pl-3 pr-6 py-2"
 		>
-			<VImg :width="48" :height="48" :src="profilePicture" />
+			<VImg :width="48" :height="48" class="rounded-full bg-emerald-500" />
 
 			<div class="">
 				<p class="font-semibold">Danilo Escudero</p>

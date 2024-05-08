@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import EyeOff from "@/assets/icons/eye-off.svg?raw";
+import EyeOff from "@/assets/icons/Visualizar/Visualizar-Off.svg?raw";
 </script>
 
 <template>

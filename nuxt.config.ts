@@ -3,7 +3,10 @@ export default defineNuxtConfig({
 
 	// ==============================================
 
-	css: ['@mdi/font/css/materialdesignicons.min.css'],
+	css: [
+		'@mdi/font/css/materialdesignicons.min.css',
+		'@/assets/styles/main.css'
+	],
 
 	serverHandlers: [
 		{ route: '/_api/auth/**', handler: '~/server/_api/auth/[...].ts' },
