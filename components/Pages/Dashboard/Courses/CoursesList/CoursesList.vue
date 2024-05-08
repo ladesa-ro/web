@@ -15,7 +15,7 @@ const { cursos } = await useApiCursosFindAll(searchBarText);
 		<template #item="{ item: curso }">
 			<UICard
 				variant="block"
-				:src="`https://luna.sisgha.com/api/cursos/${curso.id}/imagem/capa`"
+				:src="`https://luna.sisgha.com/api/cursos/${curso.id}/imagem/capa?imgCapa=${curso.imagemCapa?.id}`"
 			>
 				<template #title>
 					{{ curso.nome }}

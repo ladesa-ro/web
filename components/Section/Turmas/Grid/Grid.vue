@@ -9,8 +9,10 @@ const { turmas } = await useApiTurmasFindAll(searchBarText);
 <template>
 	<UIGrid :items="turmas">
 		<template #item="{ item: turma }">
-			<UICard variant="block" 
-			:src="`https://luna.sisgha.com/api/turmas/${turma.id}/imagem/capa`">
+			<UICard
+				variant="block"
+				:src="`https://luna.sisgha.com/api/turmas/${turma.id}/imagem/capa?imgCapa=${turma.imagemCapa?.id}`"
+			>
 				<template #title>
 					{{ turma.periodo }} - {{ turma.curso.modalidade.nome }}
 				</template>

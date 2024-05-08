@@ -1,5 +1,9 @@
 <script setup lang="ts">
-const props = defineProps<{ searchBarText: string }>();
+const props = defineProps({
+	searchBarText: String,
+});
+
+const $emit = defineEmits(['edit']);
 
 const { searchBarText } = toRefs(props);
 
@@ -11,18 +15,22 @@ const { blocos } = await useApiBlocosFindAll(searchBarText);
 		<template #item="{ item: bloco }">
 			<UICard
 				variant="block"
-				:src="`https://luna.sisgha.com/api/blocos/${bloco.id}/imagem/capa`"
+				:src="`https://luna.sisgha.com/api/blocos/${bloco.id}/imagem/capa?imgCapa=${bloco.imagemCapa?.id}`"
 			>
 				<template #title>
 					{{ bloco.nome }}
 				</template>
 
 				<template #actions>
-					<!-- deixa sem por enquanto, aqui vai o botão de edit -->
+					<SectionBlocosModal :editId="bloco.id" />
 				</template>
 
 				<UICardLine>
-					<span>{{ bloco.campus.apelido }} horas.</span>
+					<span>{{ bloco.nome }} - {{ bloco.codigo }}</span>
+				</UICardLine>
+
+				<UICardLine>
+					<span>{{ bloco.campus.apelido }} </span>
 				</UICardLine>
 			</UICard>
 		</template>
