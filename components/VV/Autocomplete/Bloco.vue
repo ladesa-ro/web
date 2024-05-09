@@ -19,11 +19,11 @@ const { blocosDebounced: blocos } = await useApiBlocosFindAll(search);
 	<VVAutocomplete
 		:name="name"
 		item-value="id"
-		label="Ambiente"
+		label="Blocos"
 		v-bind="$attrs"
 		item-title="nome"
 		:items="blocos"
 		v-model:search="search"
-		placeholder="Selecione um ambiente"
+		placeholder="Selecione um bloco"
 	/>
 </template>

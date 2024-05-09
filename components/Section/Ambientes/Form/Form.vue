@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import { computed } from 'vue';
 import * as yup from 'yup';
-import { useApiClient, useApiBlocosFindOne } from '~/composables';
+import { useApiClient, useApiAmbienteFindOne } from '~/composables';
 
 const props = defineProps({
 	//props do modal criar e editar
@@ -21,63 +21,77 @@ const $emit = defineEmits(['close']);
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
 
-const { bloco: currentBloco } = await useApiBlocosFindOne(editIdRef);
+const { ambiente : currentAmbiente } = await useApiAmbienteFindOne(editIdRef);
 
 type FormValues = {
 	imagem: Blob | null | undefined;
 
-	campus: {
+	bloco: {
 		id: string | null;
 	};
 
 	nome: string;
 
+	descricao: string;
+
 	codigo: string;
+
+	capacidade: string;
+
+	tipo: string;
 };
 
 type FormOutput = {
 	imagem: Blob | null | undefined;
 
-	campus: {
+	bloco: {
 		id: string;
 	};
 
 	nome: string;
 
+	descricao: string;
+
 	codigo: string;
+
+	capacidade: string;
+
+	tipo: string;
 };
 
 const initialFormValues = reactive({
 	imagem: null,
-	campus: {
-		id: currentBloco.value?.campus?.id ?? null,
+	bloco: {
+		id: currentAmbiente.value?.bloco?.id ?? null,
 	},
-	nome: currentBloco.value?.nome ?? '',
-	codigo: currentBloco.value?.codigo ?? '',
+	nome: currentAmbiente.value?.nome ?? '',
+	descricao: currentAmbiente.value?.descricao ?? '',
+	codigo: currentAmbiente.value?.codigo ?? '',
+	capacidade: currentAmbiente.value?.capacidade ?? '',
+	tipo: currentAmbiente.value?.tipo ?? '',
 });
 
-const handleDelete = async () => {
+const handleDelete = async () => {	
 	const resposta = window.confirm(
-		'Você tem certeza de que deseja deletar esse bloco?'
+		'Você tem certeza de que deseja deletar esse ambiente?'
 	);
 
 	if (resposta) {
-		await apiClient.blocos.blocoDelete({ id: editIdRef.value });
-		await queryClient.invalidateQueries({ queryKey: ['blocos'] });
+		await apiClient.ambientes.ambienteDelete({ id: editIdRef.value });
+		await queryClient.invalidateQueries({ queryKey: ['ambientes'] });
 		$emit('close');
 	}
 };
 
 const schema = yup.object().shape({
 	imagem: yup.mixed().nullable().optional(),
-
-	campus: yup.object().shape({
-		id: yup.string().required('Campus é obrigatório!'),
+	bloco: yup.object().shape({
+		id: yup.string().required('Bloco é obrigatório!'),
 	}),
-
-	nome: yup.string().required('Nome do bloco é obrigatório!'),
-
+	nome: yup.string().required('Nome é obrigatório!'),
+	descricao: yup.string().required('Descrição é obrigatório!'),
 	codigo: yup.string().required('Código é obrigatório!'),
+	capacidade: yup.number().required('Capacidade é obrigatório!'),
 });
 
 const {
@@ -98,12 +112,12 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 	let id;
 
 	if (editId === null) {
-		const blocoCriado = await apiClient.blocos.blocoCreate({
+		const ambienteCriado = await apiClient.ambientes.ambienteCreate({
 			requestBody: { ...data },
 		});
-		id = blocoCriado.id;
+		id = ambienteCriado.id;
 	} else {
-		await apiClient.blocos.blocoUpdate({
+		await apiClient.ambientes.ambienteUpdate({
 			id: editId,
 
 			requestBody: {
@@ -116,7 +130,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 	}
 
 	if (imagem) {
-		await apiClient.blocos.blocoSetImagemCapa({
+		await apiClient.ambientes.ambienteSetImagemCapa({
 			id: id,
 			formData: {
 				file: imagem,
@@ -125,7 +139,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 	}
 
 	await queryClient.invalidateQueries({
-		queryKey: ['blocos'],
+		queryKey: ['ambientes'],
 	});
 
 	resetForm();
@@ -139,10 +153,31 @@ const nome = computed({
 	},
 });
 
+const descricao = computed({
+	get: () => formValues.descricao,
+	set: (value) => {
+		formValues.descricao = value;
+	},
+});
+
 const codigo = computed({
 	get: () => formValues.codigo,
 	set: (value) => {
 		formValues.codigo = value;
+	},
+});
+
+const capacidade = computed({
+	get: () => formValues.capacidade,
+	set: (value) => {
+		formValues.capacidade = value;
+	},
+});
+
+const tipo = computed({
+	get: () => formValues.tipo,
+	set: (value) => {
+		formValues.tipo = value;
 	},
 });
 </script>
@@ -151,8 +186,8 @@ const codigo = computed({
 	<v-form @submit.prevent="onSubmit" class="form">
 		<div class="form-header">
 			<h1 class="main-title">
-				<span v-if="editId">Editar Bloco</span>
-				<span v-else>Cadastrar Novo Bloco</span>
+				<span v-if="editId">Editar Ambiente</span>
+				<span v-else>Cadastrar Novo Ambiente</span>
 			</h1>
 		</div>
 
@@ -161,26 +196,49 @@ const codigo = computed({
 		<div class="form-body modal-form">
 			<VVSelectImage name="imagem" />
 
-			<VVAutocompleteCampus
-				name="campus.id"
-				:disabled="Boolean(editId)"
+			<VVAutocompleteBloco
+				name="bloco.id"
 			/>
 
 			<VVTextField
-				v-model="nome"
-				type="text"
-				label="Nome"
-				placeholder="Digite aqui"
-				name="nome"
-			/>
+							v-model="nome"
+							type="text"
+							label="Nome"
+							placeholder="Digite aqui"
+							name="nome"
+						/>
 
-			<VVTextField
-				v-model="codigo"
-				type="text"
-				label="Código"
-				placeholder="Digite aqui"
-				name="codigo"
-			/>
+						<VVTextField
+							v-model="descricao"
+							type="text"
+							label="Descrição"
+							placeholder="Digite aqui"
+							name="descricao"
+						/>
+
+						<VVTextField
+							v-model="codigo"
+							type="text"
+							label="Código"
+							placeholder="Digite aqui"
+							name="codigo"
+						/>
+
+						<VVTextField
+							v-model="capacidade"
+							type="number"
+							label="Capacidade"
+							placeholder="Digite aqui"
+							name="capacidade"
+						/>
+
+						<VVTextField
+							v-model="tipo"
+							type="text"
+							label="Tipo"
+							placeholder="Digite aqui"
+							name="tipo"
+						/>
 		</div>
 
 		<v-divider />
