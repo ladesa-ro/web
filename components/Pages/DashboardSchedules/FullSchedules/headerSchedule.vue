@@ -4,7 +4,7 @@ import IconOthersItems from '~/components/Icons/IconOthersItems.vue';
 <template>
 	<div>
 		<v-container class="flex justify-between mt-14">
-			<span class="flex font-[600] items-center gap-2 ml-11"
+			<span class="flex font-[600] items-center gap-2 ml-14"
 				>Março - day 06 a 11
 				<IconsIconDownArrow class="cursor-pointer" />
 			</span>
