@@ -1,18 +1,18 @@
 import { useQuery } from '@tanstack/vue-query';
 import { computed, unref, type MaybeRef } from 'vue';
 
-export const useApiCampusFindOne = async (
+export const useApiModalitiesFindOne = async (
 	idRef: MaybeRef<string | null | undefined>
 ) => {
 	const apiClient = useApiClient();
 
 	const query = useQuery({
-		queryKey: ['campi', computed(() => `campus::id::${unref(idRef)}`)],
+		queryKey: ['modalidades', computed(() => `modalidade::id::${unref(idRef)}`)],
 
 		queryFn: async () => {
 			const id = unref(idRef);
 			if (id) {
-				return apiClient.campi.campusFindOneById({
+				return apiClient.modalidades.modalidadeFindOneById({
 					id: id,
 				});
 			} else {
@@ -21,7 +21,7 @@ export const useApiCampusFindOne = async (
 		},
 	});
 
-	const campus = computed(() => unref(query.data) ?? null);
+	const modalidade = computed(() => unref(query.data) ?? null);
 
-	return { query, campus };	
+	return { query, modalidade };
 };

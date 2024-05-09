@@ -22,6 +22,8 @@ export const useApiCursosFindOne = async (
 	});
 
 	const curso = computed(() => unref(query.data) ?? null);
+	
+	await query.suspense()
 
 	return { query, curso };
 };
