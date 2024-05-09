@@ -49,7 +49,6 @@ const turnos: ITurnos = [
 <template>
 	<div class="pb-16">
 		<PagesDashboardSchedulesFullSchedulesHeaderSchedule />
-		<!-- <PagesDashboardSchedulesFullSchedulesDaysOfWeek /> -->
 
 		<div class="grade-horario ml-10">
 			<div class="col-start-1 col-span-2"></div>
