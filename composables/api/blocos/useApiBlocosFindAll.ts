@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/vue-query';
+import { refDebounced } from '@vueuse/core';
 
 export const useApiBlocosFindAll = async (
 	searchTerm: MaybeRef<string | undefined>
@@ -17,9 +18,11 @@ export const useApiBlocosFindAll = async (
 
 	const blocos = computed(() => unref(query.data)?.data ?? []);
 	await query.suspense();
+	const blocosDebounced = refDebounced(blocos, 200);
 
 	return {
 		query,
 		blocos,
+		blocosDebounced,
 	};
 };
