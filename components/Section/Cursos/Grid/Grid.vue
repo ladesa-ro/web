@@ -1,9 +1,9 @@
 <script setup>
-const $emit = defineEmits(['edit']);
-
 const props = defineProps({
 	searchBarText: String,
 });
+
+const $emit = defineEmits(['edit']);
 
 const { searchBarText } = toRefs(props);
 
@@ -22,7 +22,7 @@ const { cursos } = await useApiCursosFindAll(searchBarText);
 				</template>
 
 				<template #actions>
-					<!-- deixa sem por enquanto, aqui vai o botão de edit -->
+					<SectionCursosModal :editId="curso.id" />
 				</template>
 
 				<UICardLine>
