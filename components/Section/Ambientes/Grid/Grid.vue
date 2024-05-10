@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-const props = defineProps<{ searchBarText: string }>();
+const props = defineProps({
+	searchBarText: String,
+});
+
+const $emit = defineEmits(['edit']);
 
 const { searchBarText } = toRefs(props);
 
@@ -18,7 +22,7 @@ const { ambientes } = await useApiAmbientesFindAll(searchBarText);
 				</template>
 
 				<template #actions>
-					<!-- deixa sem por enquanto, aqui vai o botão de edit -->
+          <SectionAmbientesModal :editId="ambiente.id" />
 				</template>
 
 				<UICardLine>
