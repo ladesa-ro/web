@@ -1,5 +1,17 @@
 <script lang="ts" setup>
 import LogoSisgha from '@/components/Logo/LogoSisgha/LogoSisgha.vue';
+import { ref } from 'vue';
+import ModalResetpassword from './ModalResetpassword.vue';
+
+const show = ref(false);
+
+const openConfirm = () => {
+	show.value = true;
+};
+
+const closeConfirm = () => {
+	show.value = false;
+};
 
 const {
 	//
@@ -43,6 +55,14 @@ const {
 						v-model="credentials.password"
 					/>
 				</div>
+
+				<span class="block mb-8 text-center">Esqueceu a senha?<span
+    class="description cursor-pointer"
+    @click="openConfirm"
+    > Clique aqui.</span
+></span>
+
+				<ModalResetpassword v-if="show" @close="closeConfirm" />
 
 				<UIButton
 					class="login-form-submit"
@@ -112,7 +132,9 @@ const {
 		background-size: 18vmax;
 	}
 }
-
+.description{
+	color: #118D3B;
+}
 .login-form {
 	display: grid;
 
