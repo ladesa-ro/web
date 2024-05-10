@@ -5,9 +5,9 @@
 </script>
 
 <template>
-<div class="flex flex-col justify-center items-center w-[85px] h-[75px] rounded-[10px] border-[1.5px] border-[#118D3B]">
-    <p class="text-[#118D3B] text-[12px] p-0 pb-[5px] border-b-[1.5px] border-b-[#118D3B]">Segunda</p>
-    <p class="text-[#118D3B] text-[11px] mt-[6px]">06/03</p>
+<div class="flex flex-col justify-center items-center gap-2 rounded-[10px] border-2 border-[#118D3B] p-4"> <!--w-[85px] h-[75px] // w-[106.25px] h-[100px]-->
+    <p class="border-b-2 border-b-[#118D3B] p-0 pb-[5px] font-[600] text-[#118D3B]">Segunda</p>
+    <p class="font-[600] text-[#118D3B]">06/03</p>
 </div>
 </template>
 
