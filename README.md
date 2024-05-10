@@ -23,6 +23,10 @@ npm run dev
 
 ## Colaboradores
 
+- Anna Isabela B. Pontuschka
 - Danilo Pereira Escudero
+- Gabriel Guedes
 - Gabriel R. Antunes
 - Iury
+- Kauan Marques
+- Vitor Melo

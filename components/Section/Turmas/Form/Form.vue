@@ -12,7 +12,8 @@ import { type ModalidadeFindOneResultDto } from '~/infrastructure/api/generated'
 
 //
 
-const props = defineProps({//props do modal criar e editar
+const props = defineProps({
+	//props do modal criar e editar
 	editId: {
 		type: String,
 		required: false,
@@ -107,7 +108,6 @@ const {
 });
 
 const onSubmit = handleSubmit(async (values: FormOutput) => {
-
 	const editId = editIdRef.value;
 
 	const { imagem, ...data } = values;
@@ -115,10 +115,11 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 	let id;
 
 	if (editId === null) {
-		const turmaCriada = await apiClient.turmas.turmaCreate({ requestBody: { ...data } });
+		const turmaCriada = await apiClient.turmas.turmaCreate({
+			requestBody: { ...data },
+		});
 		id = turmaCriada.id;
-	}
-	else {
+	} else {
 		await apiClient.turmas.turmaUpdate({
 			id: editId,
 
@@ -132,7 +133,10 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 	}
 
 	if (imagem) {
-		await apiClient.turmas.turmaSetImagemCapa({ id: id, formData: { file: imagem } });
+		await apiClient.turmas.turmaSetImagemCapa({
+			id: id,
+			formData: { file: imagem },
+		});
 	}
 
 	await queryClient.invalidateQueries({
@@ -202,22 +206,45 @@ const letra = computed({
 		<v-divider class="my-4" />
 
 		<div class="form-body modal-form">
-			<UISelectImage :modelValue="formValues.imagem" @update:modelValue="($e) => setFieldValue('imagem', $e, true)" />
+			<VVSelectImage name="imagem" />
 
 			<VVAutocompleteCurso name="curso.id" />
 
-			<VVAutocompleteAmbiente name="ambientePadraoAula.id" label="Sala de Aula" />
+			<VVAutocompleteAmbiente
+				name="ambientePadraoAula.id"
+				label="Sala de Aula"
+			/>
 
 			<template v-if="cursoSelecionado">
-				<div v-if="estrategiaModalidade === 'serie-turma'" class="grid grid-cols-[2fr,1fr] gap-4">
-					<VVTextField type="text" name="serie" label="Série" v-model="serie" placeholder="1°, 2°, 3°..." />
+				<div
+					v-if="estrategiaModalidade === 'serie-turma'"
+					class="grid grid-cols-[2fr,1fr] gap-4"
+				>
+					<VVTextField
+						type="text"
+						name="serie"
+						label="Série"
+						v-model="serie"
+						placeholder="1°, 2°, 3°..."
+					/>
 
-					<VVTextField type="text" name="letra" label="Letra" v-model="letra" placeholder="A, B, C..." />
+					<VVTextField
+						type="text"
+						name="letra"
+						label="Letra"
+						v-model="letra"
+						placeholder="A, B, C..."
+					/>
 				</div>
 
 				<template v-else-if="estrategiaModalidade === 'periodo'">
-					<VVTextField type="text" name="periodo" label="Período" v-model="formValues.periodo"
-						placeholder="1° Período, 2° Período, 3° Período..." />
+					<VVTextField
+						type="text"
+						name="periodo"
+						label="Período"
+						v-model="formValues.periodo"
+						placeholder="1° Período, 2° Período, 3° Período..."
+					/>
 				</template>
 
 				<template v-else>
@@ -235,7 +262,10 @@ const letra = computed({
 		<div class="form-footer button-group">
 			<UIButtonModalCancelButton @click="$emit('close')" />
 
-			<UIButtonModalDeleteButton @click.prevent="handleDelete" v-if="editId" />
+			<UIButtonModalDeleteButton
+				@click.prevent="handleDelete"
+				v-if="editId"
+			/>
 
 			<UIButtonModalEditButton v-if="editId" />
 			<UIButtonModalSaveButton v-else />

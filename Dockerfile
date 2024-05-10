@@ -1,6 +1,6 @@
-FROM node:20 as base
-RUN apt update -y
-RUN apt install -y git
+FROM node:22 as base
+# RUN apt update -y
+# RUN apt install -y git
 WORKDIR /sisgea/sisgha-app
 
 FROM base as prod-deps

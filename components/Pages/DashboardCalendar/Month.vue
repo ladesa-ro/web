@@ -4,95 +4,97 @@
     import "dayjs/locale/pt-br";
     dayjs.locale("pt-br");
 
-    // Create structures
-    interface Day {
-        id: Number;
-        name: String;
-        num: Number;
-    };
-
-    interface CalendarDays {
-        daysInMonth: Day[];
-        emptyDays: {
-            before: Number;
-            after: Number;
-        }
-    };
+    // Props
+    const props = defineProps({
+        year: Number
+    });
     
     // Month
-    const calendarInfos: Object = {
-        monthNames: [
-            "Janeiro", "Fevereiro", "Marco", "Abril", 
-            "Maio", "Junho", "Julho", "Agosto", 
-            "Septembro", "Outubro","Novembro","Dezembro"
-        ],
-        daysWeek: [
-		    {name:"domingo", shortName:"Dom"}, 
-            {name:"segunda-feira", shortName:"Seg"}, 
-            {name:"terça-feira", shortName:"Ter"}, 
-            {name:"quarta-feira", shortName:"Qua"}, 
-		    {name:"quinta-feira", shortName:"Qui"}, 
-            {name:"sexta-feira", shortName:"Sex"}, 
-            {name:"sábado", shortName:"Sáb"}
-	    ],
-        monthActually: {
-            monthNum: dayjs(dayjs().startOf("day").toDate()).format("DD"),
-            dayNum: dayjs(dayjs().startOf("day").toDate()).format("MM")
-        }
-    };
+    let daysWeek = [
+	    {day:"domingo", shortDay:"Dom"}, 
+        {day:"segunda-feira", shortDay:"Seg"}, 
+        {day:"terça-feira", shortDay:"Ter"}, 
+        {day:"quarta-feira", shortDay:"Qua"}, 
+	    {day:"quinta-feira", shortDay:"Qui"}, 
+        {day:"sexta-feira", shortDay:"Sex"}, 
+        {day:"sábado", shortDay:"Sáb"}
+	];
+    
+    let monthNum = dayjs().month();
 
-    let calendarDays: CalendarDays =  {
-        daysInMonth: [{id: 0, name: "", num: 0}],
+    let calendarDays = {
+        daysInMonth: [{id: 0, day: "", date: ""}],
         emptyDays: {
-            before: 0,
-            after: 0
-        },
-    };
+            before: dayjs(`2024-${monthNum + 1}-01`).day(),
+            after: 35 
+        }
+    }
 
     // Functions
     async function setDaysInMonth() {
         async function setDays() {
             calendarDays.daysInMonth.shift();
 
-            for(let i = 1; i < dayjs(`${calendarInfos.monthActually.monthNum}`).daysInMonth() + 1; i++) {
+            for(let i = 0; i < dayjs(dayjs(`${dayjs().year()}-${monthNum + 1}-01`).format("YYYY-MM-DD")).daysInMonth(); i++) {
                 calendarDays.daysInMonth.push({
                     id: i,
-                    name: dayjs(`${dayjs(dayjs().startOf("day").toDate()).format("YYYY")}-${dayjs(dayjs().startOf("day").toDate()).format("MM")}-${i}`).format("dddd"),
-                    num: i
+                    day: dayjs(`${dayjs().year()}-${monthNum + 1}-${i + 1}`).format("dddd"),
+                    date: `${dayjs().year()}-${monthNum + 1}-${i + 1}`
                 });
             }
+
+            calendarDays.emptyDays.after = calendarDays.emptyDays.after - (calendarDays.emptyDays.before + calendarDays.daysInMonth.length);
         };
         
         await setDays();
     }
 
     setDaysInMonth();
-    
 </script>
 
 <template>
-  <v-card class="-month mx-auto rounded-lg" max-width="500px">
-      <v-card-title class="bg-purple-600 text-white text-center justify-between" max-width="100%">
-          {{ calendarInfos.monthNames[parseInt(calendarInfos.monthActually.monthNum)] }}
-      </v-card-title>
+    <v-card class="-month mx-auto rounded-lg" max-width="500px">
+        <div class="bg-green-700 text-white flex justify-between items-center p-3 w-full">
+            <h1 class="font-medium text-center text-xl w-full">
+                {{ 
+                    dayjs(`${dayjs().year()}-${monthNum + 1}-01`).format("MMMM")[0].toUpperCase() + 
+                    dayjs(`${dayjs().year()}-${monthNum + 1}-01`).format("MMMM").slice(1).toLowerCase()
+                }}
+            </h1>
+        </div>
       
-      <!-- Calendar -->
-      <div class="grid grid-cols-7 gap-4 justify-center items-center m-8 mt-4">
-          <!-- Days of the week -->
-          <p
-              class="text-center font-semibold"
-              v-for="daysInTheWeek in calendarInfos.daysWeek"
-          >
-              {{ daysInTheWeek.shortName }}
-          </p>
+        <!-- Calendar -->
+        <v-container class="grid grid-cols-7 gap-4 justify-center items-center m-0">
+            <!-- Days of the week -->
+                <p
+                    class="text-center font-semibold"
+                    v-for="daysInTheWeek in daysWeek"
+                >
+                    {{ daysInTheWeek.shortDay }}
+                </p>
       
-          <!-- Days -->
-          <PagesDashboardCalendarDay
+            <!-- Days -->
+            <!-- Before -->
+            <div 
+                class="-empty-day w-12 h-12 flex justify-center items-center overflow-hidden border-solid rounded-lg"
+                v-for="daysBefore in calendarDays.emptyDays.before"
+            ></div>
+
+            <!-- In month -->
+            <PagesDashboardCalendarDay
             v-for="dayInMonth in calendarDays.daysInMonth"
-            :name="dayInMonth.name"
-            :num="dayInMonth.num"
-          />
-      </div>
+            :key="dayInMonth.id"
+            :_id="dayInMonth.id"
+            :day="dayInMonth.day"
+            :date="dayInMonth.date"
+            />
+
+            <!-- After -->
+            <div 
+                class="-empty-day w-12 h-12 flex justify-center items-center overflow-hidden border-solid rounded-lg"
+                v-for="daysBefore in calendarDays.emptyDays.after"
+            ></div>
+        </v-container>
     </v-card>
 </template>
 
@@ -101,5 +103,9 @@
     .-month {
     	border: solid 2px #9ab69e;
 	    box-shadow: none;
+    }
+
+    .-empty-day {
+        background-color: #9ab69e;
     }
 </style>
