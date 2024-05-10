@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-<div class="flex flex-col gap-[30px]">
+<div class="flex flex-col gap-[15px]">
     <PagesDashboardSchedulesFullSchedulesHeaderSchedule/>
     
     <PagesDashboardSchedulesFullSchedulesListagemDaySquare/>
