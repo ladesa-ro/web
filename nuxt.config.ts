@@ -26,11 +26,11 @@ export default defineNuxtConfig({
 	// ==============================================
 
 	modules: [
-		'@sidebase/nuxt-auth',
-		'@nuxtjs/tailwindcss',
-		'vue3-carousel-nuxt',
-		'vuetify-nuxt-module',
-	],
+        '@sidebase/nuxt-auth',
+        '@nuxtjs/tailwindcss',
+        'vue3-carousel-nuxt',
+        'vuetify-nuxt-module'
+    ],
 
 	// ==============================================
 
