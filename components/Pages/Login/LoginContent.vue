@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import LogoSisgha from '@/components/Logo/LogoSisgha/LogoSisgha.vue';
-
 const {
 	//
 	isBusy,
@@ -18,7 +16,7 @@ const {
 			<div class="light-2"></div>
 
 			<div class="login-card">
-				<LogoSisgha class="logo" />
+				<LogoSisghaLogomarca class="logo" />
 
 				<div class="fields">
 					<UITextField

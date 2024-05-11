@@ -6,7 +6,9 @@ import IconOthersItems from '~/components/Icons/IconOthersItems.vue';
 		<v-container class="flex justify-between mt-14">
 			<span class="flex font-[600] items-center gap-2 ml-14">
 				Março - day 06 a 11
-				<IconsIconDownArrow class="cursor-pointer" />
+				<IconsArrowIconArrow
+					class="-rotate-90 cursor-pointer -icon-arrow fill-orange-500 text-orange-500"
+				/>
 			</span>
 			<div class="flex cursor-pointer">
 				<span
@@ -25,3 +27,10 @@ import IconOthersItems from '~/components/Icons/IconOthersItems.vue';
 		</v-container>
 	</div>
 </template>
+
+<style scoped>
+	/* Set color from "#118D3B" */
+	.-icon-arrow {
+		filter: invert(40%) sepia(20%) saturate(4635%) hue-rotate(110deg) brightness(94%) contrast(106%);
+	}
+</style>
