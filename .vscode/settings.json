@@ -6,6 +6,13 @@
 	"prettier.printWidth": 120,
 	"yaml.format.printWidth": 120,
 
+	"files.associations": {
+		"*.css": "tailwindcss"
+	},
+	"editor.quickSuggestions": {
+		"strings": true
+	},
+
 	"editor.codeActionsOnSave": {
 		"source.organizeImports": "explicit",
 		"source.fixAll": "explicit",

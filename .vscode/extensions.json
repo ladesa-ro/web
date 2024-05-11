@@ -8,6 +8,7 @@
 		"donjayamanne.githistory",
 		"huizhou.githd",
 		"wix.vscode-import-cost",
-		"netcorext.uuid-generator"
+		"netcorext.uuid-generator",
+		"bradlc.vscode-tailwindcss"
 	]
 }
