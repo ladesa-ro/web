@@ -28,24 +28,23 @@ const changeDay = (delta) => {
 </script>
 
 <template>
-	<div>
-		<div class="flex justify-between items-center mt-5">
-			<div >
-				<IconBeforeDays class="cursor-pointer" @click="changeDay(-1)" />
-			</div>
-			<div>
-				<span class="font-medium">
-					{{ selectedOptions?.value }}
-				</span>
-			</div>
-			<div>
-				<IconAfterDays
-					class="cursor-pointer"
-					@click="changeDay(1)"
-				/>
-			</div>
+	<div class="flex justify-between items-center mt-5">
+			<IconBeforeDays class="cursor-pointer" @click="changeDay(-1)" />
+		<div>
+			<span class="font-medium">
+				{{ selectedOptions?.value }}
+			</span>
 		</div>
+			<IconAfterDays class="cursor-pointer" @click="changeDay(1)" />
 	</div>
+
+<v-checkbox
+	hide-details
+	density="compact"
+	color="success"
+	label="Manhã"
+	v-for="i in 7"
+/>
 </template>
 
 <style>
