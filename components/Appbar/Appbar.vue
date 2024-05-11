@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import profilePicture from '~/assets/icons/profilePicture.svg';
+// import profilePicture from '~/assets/icons/profilePicture.svg';
 
 const hamburgerActive = defineModel({
 	required: true,
@@ -14,14 +14,17 @@ function toggleHamburger() {
 <template>
 	<div class="flex w-full items-center h-full">
 		<div @click="toggleHamburger">
-			<IconsIconMenuOpen class="pa-3 w-[60px]" v-if="hamburgerActive" />
-			<IconsIconHamburger class="pa-3 w-[60px]" v-else />
+			<IconsMenuIconHamburgerOn
+				class="pa-3 w-[45px]"
+				v-if="hamburgerActive"
+			/>
+			<IconsMenuIconHamburgerOff class="pa-3 w-[45px]" v-else />
 		</div>
 
 		<div
 			class="flex items-center gap-3 cursor-pointer rounded-lg inset-y-0 w-29 bg-[#EBF8EF] pl-3 pr-6 py-2"
 		>
-			<VImg :width="48" :height="48" :src="profilePicture" />
+			<VImg :width="48" :height="48" class="rounded-full bg-green-700" />
 
 			<div class="">
 				<p class="font-semibold">Danilo Escudero</p>
@@ -32,9 +35,9 @@ function toggleHamburger() {
 		<div class="flex-1"></div>
 
 		<IconsIconNotifications
-			class="cursor-pointer pa-2 mr-3 w-[50px] h-[50px]"
+			class="cursor-pointer pa-2 mr-3 w-[38px] h-[38px]"
 		/>
 
-		<LogoSisghaBolder class="mr-8 w-40 hidden sm:block" />
+		<LogoSisghaLogomarca class="mr-8 w-[140px] hidden sm:block" />
 	</div>
 </template>

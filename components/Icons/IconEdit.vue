@@ -1,24 +1,7 @@
 <template>
-    <svg
-    class="svg-container"
-      width="14"
-      height="15"
-      viewBox="0 0 9 11"
-      fill="black"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M6.05907 0.712975C5.70788 0.417708 5.18273 0.468224 4.89427 0.82502L0.138924 6.70687C0.0489002 6.82213 -1.3838e-07 6.96419 0 7.11045L4.32283e-07 9.33264C5.32415e-07 9.84738 0.468918 10.2347 0.97439 10.1375L3.17089 9.71506C3.32471 9.68547 3.46285 9.6018 3.56033 9.47918L8.31657 3.66763C8.60057 3.32062 8.55298 2.80979 8.20975 2.52121L6.05907 0.712975Z"
-        fill="black"
-      />
-    </svg>
+	<div class="flex w-[15px] h-[15px]" v-html="Editar"></div>
 </template>
 
-<style>
-.svgEdt {
-  cursor: pointer;
-  z-index: 10;
-  width: 25px !important;
-  height: 25px !important;
-}
-</style>
+<script lang="ts" setup>
+import Editar from '@/assets/icons/Editar.svg?raw';
+</script>
