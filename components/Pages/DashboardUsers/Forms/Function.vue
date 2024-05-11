@@ -34,12 +34,6 @@
 					:key="option.value"
 					@click="handleOptionClick(option)"
 				>
-					<IconsIconSelect
-						class="icon"
-						:style="{
-							fill: isSelected(option) ? '#00d047' : '#c8dccb',
-						}"
-					/>
 					<span>{{ option.label }}</span>
 				</div>
 			</div>

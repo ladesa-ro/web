@@ -73,10 +73,14 @@ const {
 					class="login-alternative-button"
 				>
 					<template #start-icon>
-						<IconsUser class="user-icon" />
+						<IconsUser class="flex w-6 h-6 mr-4" />
 					</template>
 
-					Entrar como Aluno
+					<p
+						class="border-l-2 w-full h-full border-solid border-white"
+					>
+						Entrar como Aluno
+					</p>
 				</UIButton>
 			</NuxtLink>
 		</div>

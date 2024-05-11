@@ -3,5 +3,17 @@
 }
 
 .-icon-white {
-    filter: invert(100%);
+	filter: invert(100%);
+}
+
+/* Set color from "#118D3B" */
+.-icon-green {
+	filter: invert(38%) sepia(20%) saturate(4635%) hue-rotate(110deg)
+		brightness(94%) contrast(106%);
+}
+
+/* Set color from "#9AB69E*/
+.-icon-light-green {
+	filter: invert(58%) sepia(35%) saturate(50%) hue-rotate(110deg)
+		brightness(94%) contrast(206%);
 }

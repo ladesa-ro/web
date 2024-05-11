@@ -24,11 +24,7 @@ function toggleHamburger() {
 		<div
 			class="flex items-center gap-3 cursor-pointer rounded-lg inset-y-0 w-29 bg-[#EBF8EF] pl-3 pr-6 py-2"
 		>
-			<VImg
-				:width="48"
-				:height="48"
-				class="rounded-full bg-emerald-500"
-			/>
+			<VImg :width="48" :height="48" class="rounded-full bg-green-700" />
 
 			<div class="">
 				<p class="font-semibold">Danilo Escudero</p>
