@@ -1,0 +1,13 @@
+{
+	"recommendations": [
+		"nuxtr.nuxt-vscode-extentions",
+		"esbenp.prettier-vscode",
+		"naumovs.color-highlight",
+		"usernamehw.errorlens",
+		"mhutchie.git-graph",
+		"donjayamanne.githistory",
+		"huizhou.githd",
+		"wix.vscode-import-cost",
+		"netcorext.uuid-generator"
+	]
+}
