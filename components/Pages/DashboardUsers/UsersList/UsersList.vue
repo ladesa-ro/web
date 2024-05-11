@@ -1,15 +1,15 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="contentUsu">
-    <section class="content-usuario">
-      <div class="ctusu">
+  <v-container >
+    <section>
+      <div class="flex flex-wrap gap-[27px]">
         <NuxtLink
           v-for="i in 14"
           :key="i"
           no-prefetch
           :to="`/usuarios/${i}`"
-          class="usuario"
+          class="flex flex-col justify-center items-center w-[140px] h-[190px] border-2 border-[#9ab69e] rounded-lg no-underline"
         >
           <div class="photoProfile">
             <img
@@ -23,29 +23,10 @@
         </NuxtLink>
       </div>
     </section>
-  </div>
+  </v-container>
 </template>
 
 <style>
-.content-usuario {
-  margin-left: 150px;
-}
-.ctusu {
-  display: flex;
-  flex-wrap: wrap;
-  margin-top: 100px;
-}
-
-.label {
-  display: block;
-  width: 50px;
-  font-size: 10px;
-  font-weight: 600;
-  background-color: white;
-  margin-top: 60px;
-  margin-left: 20px;
-}
-
 .usuario {
   display: flex;
   flex-direction: column;

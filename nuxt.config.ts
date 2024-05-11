@@ -1,5 +1,19 @@
 export default defineNuxtConfig({
+	// ==============================================
+
 	ssr: true,
+
+	// ===========
+
+	devtools: {
+		enabled: true,
+	},
+
+	// ===========
+
+	features: {
+		inlineStyles: true,
+	},
 
 	// ==============================================
 
@@ -37,10 +51,6 @@ export default defineNuxtConfig({
 
 	// ===========
 
-	devtools: {
-		enabled: true,
-	},
-
 	nitro: {
 		hooks: {
 			'rollup:before'(ctx) {
@@ -57,4 +67,6 @@ export default defineNuxtConfig({
 			},
 		},
 	},
+
+	// ===========
 });

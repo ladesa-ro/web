@@ -6,8 +6,6 @@ export const useApiCursosFindOne = async (
 ) => {
 	const apiClient = useApiClient();
 
-	const isIdValid = computed(() => typeof unref(idRef) === 'string');
-
 	const query = useQuery({
 		queryKey: ['cursos', computed(() => `curso::id::${unref(idRef)}`)],
 
@@ -21,11 +19,11 @@ export const useApiCursosFindOne = async (
 				return null;
 			}
 		},
-
-		enabled: isIdValid,
 	});
 
 	const curso = computed(() => unref(query.data) ?? null);
+	
+	await query.suspense()
 
 	return { query, curso };
 };
