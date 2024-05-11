@@ -126,6 +126,9 @@ span {
 	@apply bg-green-700 text-white caret-white;
 	@apply overflow-auto;
 }
+.navigation-drawer-drawer img {
+	@apply filter invert
+}
 
 .active {
 	@apply bg-green-600 rounded-lg;

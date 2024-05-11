@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import LogoDark from '@/assets/logos/sisgha-dark.svg?raw';
+import Logomarca from '@/assets/logos/sisgha/Logomarca.svg?raw';
 </script>
 
 <template>
-	<div class="svg-fill-text" v-html="LogoDark"></div>
+	<div class="svg-fill-text" v-html="Logomarca"></div>
 </template>

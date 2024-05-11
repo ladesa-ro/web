@@ -14,8 +14,8 @@ function toggleHamburger() {
 <template>
 	<div class="flex w-full items-center h-full">
 		<div @click="toggleHamburger">
-			<IconsIconMenuOpen class="pa-3 w-[60px]" v-if="hamburgerActive" />
-			<IconsIconHamburger class="pa-3 w-[60px]" v-else />
+			<IconsIconMenuOpen class="pa-3 w-[45px]" v-if="hamburgerActive" />
+			<IconsIconHamburger class="pa-3 w-[45px]" v-else />
 		</div>
 
 		<div
@@ -32,7 +32,7 @@ function toggleHamburger() {
 		<div class="flex-1"></div>
 
 		<IconsIconNotifications
-			class="cursor-pointer pa-2 mr-3 w-[50px] h-[50px]"
+			class="cursor-pointer pa-2 mr-3 w-[38px] h-[38px]"
 		/>
 
 		<LogoSisghaBolder class="mr-8 w-40 hidden sm:block" />
