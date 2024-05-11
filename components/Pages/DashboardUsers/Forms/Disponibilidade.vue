@@ -53,9 +53,17 @@ const changeDay = (delta) => {
 	display: flex;
 	align-items: center;
 	gap: 50px;
+	display: flex;
+	align-items: center;
+	gap: 50px;
 }
 
 .iconWrapper {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 30px;
+	margin-left: 60px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -66,12 +74,15 @@ const changeDay = (delta) => {
 .iconB,
 .iconA {
 	cursor: pointer;
+	cursor: pointer;
 }
 
 .iconA {
 	margin-left: 70px;
+	margin-left: 70px;
 }
 .contentModal {
+	margin-top: 40px;
 	margin-top: 40px;
 }
 
@@ -82,9 +93,16 @@ const changeDay = (delta) => {
 	background-color: #9ab69e;
 	margin-top: 2px;
 	margin-bottom: 8px;
+	content: '';
+	height: 2px;
+	width: auto;
+	background-color: #9ab69e;
+	margin-top: 2px;
+	margin-bottom: 8px;
 }
 
 .hoursMorning {
+	margin-left: 10px;
 	margin-left: 10px;
 }
 </style>
