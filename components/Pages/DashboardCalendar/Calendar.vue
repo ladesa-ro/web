@@ -4,9 +4,10 @@
 
 	});
 	
-	// const years: Array<Number> = [
-	// 	2024, 2023, 2022, 2021, 2020, 2019
-	// ]
+	const years = [
+		2024, 2023, 2022, 2021, 2020, 2019
+	]
+
 </script>
 
 <template>
@@ -25,7 +26,9 @@
 				
 				<!-- Content -->
 				<div class="flex justify-center items-center w-full h-full">
-					<PagesDashboardCalendarMonth/>
+					<PagesDashboardCalendarMonth
+						:year="2024"
+					/>
 
 					<!-- <v-card class="-month mx-auto rounded-lg" max-width="500px">
 						

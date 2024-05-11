@@ -6,61 +6,131 @@
 
     // Props
     const props = defineProps({
-        year: Number
+        year: Number,
+        toggleMonth: Boolean
     });
     
+    // Interface and types
+    type Day = {
+        num: number,
+        day: string,
+        date: string
+    }
+
     // Month
-    let daysWeek = [
-	    {day:"domingo", shortDay:"Dom"}, 
-        {day:"segunda-feira", shortDay:"Seg"}, 
-        {day:"terça-feira", shortDay:"Ter"}, 
-        {day:"quarta-feira", shortDay:"Qua"}, 
-	    {day:"quinta-feira", shortDay:"Qui"}, 
-        {day:"sexta-feira", shortDay:"Sex"}, 
-        {day:"sábado", shortDay:"Sáb"}
+    const daysInTheWeek = [
+	    "Dom", 
+        "Seg", 
+        "Ter", 
+        "Qua", 
+	    "Qui", 
+        "Sex", 
+        "Sáb"
 	];
     
-    let monthNum = dayjs().month();
+    let monthNum = ref<number>(dayjs().month());
 
     let calendarDays = {
-        daysInMonth: [{id: 0, day: "", date: ""}],
+        daysInMonth: ref<Day[]>([]),
         emptyDays: {
-            before: dayjs(`2024-${monthNum + 1}-01`).day(),
-            after: 35 
+            before: ref<number>(0),
+            after: ref<number>(0)
         }
     }
 
     // Functions
-    async function setDaysInMonth() {
-        async function setDays() {
-            calendarDays.daysInMonth.shift();
 
-            for(let i = 0; i < dayjs(dayjs(`${dayjs().year()}-${monthNum + 1}-01`).format("YYYY-MM-DD")).daysInMonth(); i++) {
-                calendarDays.daysInMonth.push({
-                    id: i,
-                    day: dayjs(`${dayjs().year()}-${monthNum + 1}-${i + 1}`).format("dddd"),
-                    date: `${dayjs().year()}-${monthNum + 1}-${i + 1}`
-                });
+    // Set days from this month
+    async function setDaysInMonth(): Promise<void> {
+        try {
+            // Set empty days
+            async function setEmptyDays(): Promise<boolean> {
+                try {
+                    // Calc before days
+                    calendarDays.emptyDays.before.value = dayjs(`${props.year}-${monthNum.value + 1}-01`).day();
+                    
+                    // Calc after days
+                    if(calendarDays.daysInMonth.value.length + calendarDays.emptyDays.before.value > (7 * 5)) {
+                        calendarDays.emptyDays.after.value = (7 * 6) - (calendarDays.emptyDays.before.value + calendarDays.daysInMonth.value.length);
+                    } else {
+                        calendarDays.emptyDays.after.value = (7 * 5) - (calendarDays.emptyDays.before.value + calendarDays.daysInMonth.value.length);
+                    }
+
+                    return true;
+                }
+                catch(error) {
+                    return false;
+                }
             }
 
-            calendarDays.emptyDays.after = calendarDays.emptyDays.after - (calendarDays.emptyDays.before + calendarDays.daysInMonth.length);
-        };
+            // Set days
+            async function setDays(): Promise<boolean> {
+                try {
+                    calendarDays.daysInMonth.value = [];
         
-        await setDays();
-    }
+                    // Set days
+                    for(let i = 0; i < dayjs(dayjs(`${props.year}-${monthNum.value + 1}-01`).format("YYYY-MM-DD")).daysInMonth(); i++) {
+                        calendarDays.daysInMonth.value.push({
+                            num: i,
+                            day: dayjs(`${props.year}-${monthNum.value + 1}-${i + 1}`).format("dddd"),
+                            date: `${props.year}-${monthNum.value + 1}-${i + 1}`
+                        });
+                    }
 
-    setDaysInMonth();
+                    await setEmptyDays();
+
+                    return true;
+                }
+                catch(error) {
+                    return false
+                }
+            }
+            await setDays();
+        }
+        catch(error) {
+        }
+    }
+    
+    // Toggle month
+    async function toggleMonth(num: number): Promise<void> {
+        try {
+            // Toggle
+            monthNum.value += num;
+            
+            if(monthNum.value > 11) monthNum.value = 0;
+            else if (monthNum.value < 0) monthNum.value = 11;
+            
+            await setDaysInMonth();
+            
+        }
+        catch(error) {
+        }
+    }
+    
+    onMounted(async () => {
+        await setDaysInMonth();
+    });
+
+
 </script>
 
 <template>
     <v-card class="-month mx-auto rounded-lg" max-width="500px">
         <div class="bg-green-700 text-white flex justify-between items-center p-3 w-full">
+            <!-- Toggle for before month -->
+            <button class="w-5 h-5 bg-white" @click="toggleMonth(-1)">
+            </button>
+            <!-- Month name -->
             <h1 class="font-medium text-center text-xl w-full">
                 {{ 
-                    dayjs(`${dayjs().year()}-${monthNum + 1}-01`).format("MMMM")[0].toUpperCase() + 
-                    dayjs(`${dayjs().year()}-${monthNum + 1}-01`).format("MMMM").slice(1).toLowerCase()
+                    dayjs(`${props.year}-${monthNum + 1}-01`).format("MMMM")[0].toUpperCase() + 
+                    dayjs(`${props.year}-${monthNum + 1}-01`).format("MMMM").slice(1).toLowerCase()
                 }}
             </h1>
+            
+            <!-- Toggle for after month -->
+            <button class="w-5 h-5 bg-white" @click="toggleMonth(1)">
+            </button>
         </div>
       
         <!-- Calendar -->
@@ -68,31 +138,36 @@
             <!-- Days of the week -->
                 <p
                     class="text-center font-semibold"
-                    v-for="daysInTheWeek in daysWeek"
+                    v-for="dayInTheWeek in daysInTheWeek"
                 >
-                    {{ daysInTheWeek.shortDay }}
+                    {{ dayInTheWeek }}
                 </p>
       
             <!-- Days -->
             <!-- Before -->
             <div 
-                class="-empty-day w-12 h-12 flex justify-center items-center overflow-hidden border-solid rounded-lg"
-                v-for="daysBefore in calendarDays.emptyDays.before"
+                class="-empty-day w-12 h-12 rounded-lg"
+                v-for="daysBefore in calendarDays.emptyDays.before.value" :key="daysBefore"
             ></div>
 
             <!-- In month -->
-            <PagesDashboardCalendarDay
-            v-for="dayInMonth in calendarDays.daysInMonth"
-            :key="dayInMonth.id"
-            :_id="dayInMonth.id"
-            :day="dayInMonth.day"
-            :date="dayInMonth.date"
-            />
-
+            <div
+                v-for="(dayInMonth, index) in calendarDays.daysInMonth.value"
+                :key="index"
+                class="w-12 h-12 flex justify-center items-center overflow-hidden border-solid rounded-lg bg-green-700"
+            >
+                <p 
+                :class="{'border-2 border-solid border-white rounded-md' : dayjs(dayjs().startOf('day').toDate()).format('YYYY-MM-DD') == dayjs(dayjs(dayInMonth.date).startOf('day').toDate()).format('YYYY-MM-DD')}"
+                class="mx-auto w-10 h-10 flex justify-center items-center text-center text-white font-semibold"
+                >
+                    {{ dayjs(dayInMonth.date).format("DD") }}
+                </p>
+            
+            </div>
             <!-- After -->
             <div 
-                class="-empty-day w-12 h-12 flex justify-center items-center overflow-hidden border-solid rounded-lg"
-                v-for="daysBefore in calendarDays.emptyDays.after"
+                class="-empty-day w-12 h-12 rounded-lg"
+                v-for="daysAfter in calendarDays.emptyDays.after.value" :key="daysAfter"
             ></div>
         </v-container>
     </v-card>
