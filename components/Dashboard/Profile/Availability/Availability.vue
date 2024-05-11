@@ -1,6 +1,4 @@
 <script setup>
-import IconBefore from '@/components/Icons/IconBefore.vue';
-
 const selectedOptions = ref();
 
 const options = [
@@ -27,7 +25,7 @@ const changeDay = (delta) => {
 <template>
 	<DashboardProfileCard class="pb-[20px]">
 		<template #icone>
-			<IconsIconAvailbility class="icon" />
+			<LogoSisghaLogo class="flex w-[22px] h-[22px]" />
 		</template>
 
 		<template #titulo>Disponibilidade</template>
@@ -37,9 +35,10 @@ const changeDay = (delta) => {
 		>
 			<div class="hours-availability flex-1 flex flex-col">
 				<div class="top-availability">
-					<div class="icons">
-						<IconBefore class="cursor-pointer" @click="changeDay(-1)" />
-					</div>
+					<IconsArrowIconArrow
+						class="cursor-pointer -icon-white -icons"
+						@click="changeDay(-1)"
+					/>
 
 					<div>
 						<span class="font-medium">
@@ -47,12 +46,10 @@ const changeDay = (delta) => {
 						</span>
 					</div>
 
-					<div class="icons">
-						<IconsIconAfter
-							class="icon-after cursor-pointer"
-							@click="changeDay(1)"
-						/>
-					</div>
+					<IconsArrowIconArrow
+						class="rotate-180 cursor-pointer -icon-white -icons"
+						@click="changeDay(1)"
+					/>
 				</div>
 
 				<div
@@ -107,7 +104,7 @@ const changeDay = (delta) => {
 	justify-content: space-between;
 }
 
-.icons {
+.-icons {
 	margin-left: 10%;
 	margin-right: 10%;
 }

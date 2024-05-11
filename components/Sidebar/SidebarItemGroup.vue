@@ -22,7 +22,7 @@ const { item } = toRefs(props);
 				<template v-slot:prepend>
 					<img
 						:width="24"
-						class="mr-4"
+						class="mr-4 -icon-white"
 						:src="item.icon"
 						alt="Ícone da funcionalidade."
 					/>
