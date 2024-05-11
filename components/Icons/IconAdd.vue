@@ -2,7 +2,7 @@
 
 <template>
   <div class="button_add" click="$emit('click')">
-    <!-- <svg
+    <svg
       width="47"
       height="47"
       viewBox="0 0 47 47"
@@ -16,7 +16,7 @@
         stroke-width="3.04756"
         stroke-linecap="round"
       />
-    </svg> -->
+    </svg>
   </div>
 </template>
 

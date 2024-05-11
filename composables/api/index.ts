@@ -5,3 +5,4 @@ export * from "./disciplinas";
 export * from "./turmas";
 export * from "./campus";
 export * from './useApiClient';
+export * from './modalities';

@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-
-useAppHeadTitle("Login");
+useTitle(null, 'Login');
 </script>
 
 <template>
-  <PagesLoginContent />
+	<PagesLoginContent />
 </template>
