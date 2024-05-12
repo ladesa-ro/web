@@ -1,13 +1,32 @@
 <script lang="ts" setup>
-	
-	const props = defineProps({
+const props = defineProps({});
 
-	});
-	
-	const years = [
-		2024, 2023, 2022, 2021, 2020, 2019
-	]
+const years = [2024, 2023, 2022, 2021, 2020, 2019];
 
+type Step = {
+	id: string;
+	number: number;
+	startDate: string;
+	endDate: string;
+	color: string;
+};
+
+const etapas = ref<Step[]>([
+	{
+		id: '0',
+		number: 0,
+		startDate: '2024-01-01',
+		endDate: '2024-05-14',
+		color: '#4830DB',
+	},
+	{
+		id: '1',
+		number: 1,
+		startDate: '2024-05-15',
+		endDate: '2024-12-31',
+		color: '#1C5A4F',
+	},
+]);
 </script>
 
 <template>
@@ -23,12 +42,10 @@
 						:items="years"
 					/>
 				</div> -->
-				
+
 				<!-- Content -->
 				<div class="flex justify-center items-center w-full h-full">
-					<PagesDashboardCalendarMonth
-						:year="2024"
-					/>
+					<PagesDashboardCalendarMonth :year="2024" />
 
 					<!-- <v-card class="-month mx-auto rounded-lg" max-width="500px">
 						
