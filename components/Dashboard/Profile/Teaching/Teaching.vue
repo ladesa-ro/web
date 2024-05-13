@@ -5,7 +5,7 @@ import 'vue3-carousel/dist/carousel.css';
 <template>
 	<DashboardProfileCard>
 		<template #icone>
-			<IconsIconTeaching class="icon" />
+			<IconsIconDiscipline class="icon" />
 		</template>
 
 		<template #titulo>Ensino</template>

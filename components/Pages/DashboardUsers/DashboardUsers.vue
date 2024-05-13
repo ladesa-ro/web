@@ -15,29 +15,28 @@ const closeConfirm = () => {
 </script>
 
 <template>
-	<v-container
-		>
+	<v-container>
 		<div class="container mx-auto max-w-[89%]">
-				<div
-					class="flex container-header mx-auto justify-between items-center  mb-5 gap-4 px-3"
-				>
-					<SearchBar />
-          <div class="mr-[80px]">
-            <IconAdd @click="openConfirm" />
-          </div>
-				</div>
-
-				<div>
-					<PagesDashboardUsersModalNewUser
-						v-if="show"
-						@close="closeConfirm"
-					/>
-				</div>
-
-				<div>
-					<PagesDashboardUsersUsersList />
+			<div
+				class="flex container-header mx-auto justify-between items-center mb-5 gap-4 px-3"
+			>
+				<SearchBar />
+				<div class="mr-[80px]">
+					<UIButtonAdd @click="openConfirm" />
 				</div>
 			</div>
+
+			<div>
+				<PagesDashboardUsersModalNewUser
+					v-if="show"
+					@close="closeConfirm"
+				/>
+			</div>
+
+			<div>
+				<PagesDashboardUsersUsersList />
+			</div>
+		</div>
 	</v-container>
 </template>
 <style scoped>

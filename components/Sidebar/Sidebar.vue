@@ -28,70 +28,70 @@
 <script setup lang="ts">
 import { useMonitorSize } from '~/composables/monitor-size';
 
-import calendarioIconWhite from '~/assets/icons/calendarioIconWhite.svg';
-import configuracoesIconWhite from '~/assets/icons/configuracoesIconWhite.svg';
-import cursosIconWhite from '~/assets/icons/cursoIconWhite.svg';
-import disciplinaIconWhite from '~/assets/icons/disciplinaIconWhite.svg';
-import inicioIconWhite from '~/assets/icons/inicioIconWhite.svg';
-import outrosIconWhite from '~/assets/icons/outrosIconWhite.svg';
-import perfilIconWhite from '~/assets/icons/perfilIconWhite.svg';
-import turmasIconWhite from '~/assets/icons/turmasIconWhite.svg';
-import usuariosIconWhite from '~/assets/icons/usuariosIconWhite.svg';
-import vinculoIconWhite from '~/assets/icons/vinculosIconWhite.svg';
+import iconCalendario from '~/assets/icons/Calendario.svg';
+import iconConfiguracoes from '~/assets/icons/Configurar.svg';
+import iconCursos from '~/assets/icons/Curso.svg';
+import iconDiario from '~/assets/icons/Diario.svg';
+import iconDisciplina from '~/assets/icons/Disciplina.svg';
+import iconHome from '~/assets/icons/Home.svg';
+import iconOutros from '~/assets/icons/Mais-Itens.svg';
+import iconPerfil from '~/assets/icons/Usuario.svg';
+import iconTurmas from '~/assets/icons/Turmas.svg';
+import iconUsuarios from '~/assets/icons/Usuarios.svg';
 import type { ISidebarItem } from './ISidebarItem';
 
 const items: ISidebarItem[] = [
 	{
 		type: 'link',
 		title: 'Início',
-		icon: inicioIconWhite,
+		icon: iconHome,
 		to: '/',
 	},
 	{
 		type: 'link',
 		title: 'Turmas',
-		icon: turmasIconWhite,
+		icon: iconTurmas,
 		to: '/dashboard/turmas',
 	},
 	{
 		type: 'link',
 		title: 'Disciplinas',
-		icon: disciplinaIconWhite,
+		icon: iconDisciplina,
 		to: '/dashboard/disciplinas',
 	},
 	{
 		type: 'link',
 		title: 'Perfil',
-		icon: perfilIconWhite,
+		icon: iconPerfil,
 		to: '/perfil',
 	},
 	{
 		type: 'link',
 		title: 'Diários',
-		icon: vinculoIconWhite,
+		icon: iconDiario,
 		to: '/vinculos',
 	},
 	{
 		type: 'link',
 		title: 'Calendário',
-		icon: calendarioIconWhite,
+		icon: iconCalendario,
 		to: '/calendario',
 	},
 	{
 		type: 'group',
 		title: 'Outros',
-		icon: outrosIconWhite,
+		icon: iconOutros,
 		items: [
 			{
 				type: 'link',
 				title: 'Usuários',
-				icon: usuariosIconWhite,
+				icon: iconUsuarios,
 				to: '/dashboard/usuarios',
 			},
 			{
 				type: 'link',
 				title: 'Cursos',
-				icon: cursosIconWhite,
+				icon: iconCursos,
 				to: '/dashboard/cursos',
 			},
 		],
@@ -102,7 +102,7 @@ const items: ISidebarItem[] = [
 	{
 		type: 'link',
 		title: 'Configurações',
-		icon: configuracoesIconWhite,
+		icon: iconConfiguracoes,
 		to: '/configuracoes',
 	},
 ];
@@ -125,6 +125,9 @@ span {
 .navigation-drawer {
 	@apply bg-green-700 text-white caret-white;
 	@apply overflow-auto;
+}
+.navigation-drawer-drawer img {
+	@apply filter invert
 }
 
 .active {

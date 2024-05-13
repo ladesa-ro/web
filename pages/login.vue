@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 definePageMeta({
-  layout: "empty",
-  auth: {
-    unauthenticatedOnly: true,
-    navigateAuthenticatedTo: "/",
-  },
+	layout: 'empty',
+	auth: {
+		unauthenticatedOnly: true,
+		navigateAuthenticatedTo: '/',
+	},
 });
 </script>
 
 <template>
-  <PagesLogin />
+	<PagesLogin />
 </template>

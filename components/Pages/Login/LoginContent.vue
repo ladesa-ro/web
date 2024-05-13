@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import LogoSisgha from '@/components/Logo/LogoSisgha/LogoSisgha.vue';
 import { ref } from 'vue';
 import ModalResetpassword from './ModalResetpassword.vue';
 
@@ -30,7 +29,7 @@ const {
 			<div class="light-2"></div>
 
 			<div class="login-card">
-				<LogoSisgha class="logo" />
+				<LogoSisghaLogomarca class="logo" />
 
 				<div class="fields">
 					<UITextField
@@ -95,10 +94,14 @@ const {
 					class="login-alternative-button"
 				>
 					<template #start-icon>
-						<IconsUser class="user-icon" />
+						<IconsUser class="flex w-6 h-6 mr-4" />
 					</template>
 
-					Entrar como Aluno
+					<p
+						class="border-l-2 w-full h-full border-solid border-white"
+					>
+						Entrar como Aluno
+					</p>
 				</UIButton>
 			</NuxtLink>
 		</div>

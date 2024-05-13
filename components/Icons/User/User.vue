@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import User from "@/assets/icons/user.svg?raw";
+  import iconUsuario from "@/assets/icons/Usuario.svg?raw";
 </script>
 
 <template>
-  <div v-html="User"></div>
+  <div v-html="iconUsuario" class="w-7 -icon-white"></div>
 </template>
