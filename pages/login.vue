@@ -9,5 +9,5 @@ definePageMeta({
 </script>
 
 <template>
-	<PagesLogin />
+	<SectionLogin />
 </template>
