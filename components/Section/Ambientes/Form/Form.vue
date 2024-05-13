@@ -21,7 +21,7 @@ const $emit = defineEmits(['close']);
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
 
-const { ambiente : currentAmbiente } = await useApiAmbienteFindOne(editIdRef);
+const { ambiente: currentAmbiente } = await useApiAmbienteFindOne(editIdRef);
 
 type FormValues = {
 	imagem: Blob | null | undefined;
@@ -71,7 +71,7 @@ const initialFormValues = reactive({
 	tipo: currentAmbiente.value?.tipo ?? '',
 });
 
-const handleDelete = async () => {	
+const handleDelete = async () => {
 	const resposta = window.confirm(
 		'Você tem certeza de que deseja deletar esse ambiente?'
 	);
@@ -196,49 +196,47 @@ const tipo = computed({
 		<div class="form-body modal-form">
 			<VVSelectImage name="imagem" />
 
-			<VVAutocompleteBloco
-				name="bloco.id"
+			<VVAutocompleteBloco name="bloco.id" :disabled="editId !== null" />
+
+			<VVTextField
+				v-model="nome"
+				type="text"
+				label="Nome"
+				placeholder="Digite aqui"
+				name="nome"
 			/>
 
 			<VVTextField
-							v-model="nome"
-							type="text"
-							label="Nome"
-							placeholder="Digite aqui"
-							name="nome"
-						/>
+				v-model="descricao"
+				type="text"
+				label="Descrição"
+				placeholder="Digite aqui"
+				name="descricao"
+			/>
 
-						<VVTextField
-							v-model="descricao"
-							type="text"
-							label="Descrição"
-							placeholder="Digite aqui"
-							name="descricao"
-						/>
+			<VVTextField
+				v-model="codigo"
+				type="text"
+				label="Código"
+				placeholder="Digite aqui"
+				name="codigo"
+			/>
 
-						<VVTextField
-							v-model="codigo"
-							type="text"
-							label="Código"
-							placeholder="Digite aqui"
-							name="codigo"
-						/>
+			<VVTextField
+				v-model="capacidade"
+				type="number"
+				label="Capacidade"
+				placeholder="Digite aqui"
+				name="capacidade"
+			/>
 
-						<VVTextField
-							v-model="capacidade"
-							type="number"
-							label="Capacidade"
-							placeholder="Digite aqui"
-							name="capacidade"
-						/>
-
-						<VVTextField
-							v-model="tipo"
-							type="text"
-							label="Tipo"
-							placeholder="Digite aqui"
-							name="tipo"
-						/>
+			<VVTextField
+				v-model="tipo"
+				type="text"
+				label="Tipo"
+				placeholder="Digite aqui"
+				name="tipo"
+			/>
 		</div>
 
 		<v-divider />
