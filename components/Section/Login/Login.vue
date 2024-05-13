@@ -1,17 +1,4 @@
-<script lang="ts" setup>
-import { ref } from 'vue';
-import ModalResetpassword from './ModalResetpassword.vue';
-
-const show = ref(false);
-
-const openConfirm = () => {
-	show.value = true;
-};
-
-const closeConfirm = () => {
-	show.value = false;
-};
-
+<script setup lang="ts">
 const {
 	//
 	isBusy,
@@ -20,6 +7,8 @@ const {
 	credentials,
 	signInWithCredentials,
 } = useAuthSignIn();
+
+useTitle(null, 'Login');
 </script>
 
 <template>
@@ -55,13 +44,11 @@ const {
 					/>
 				</div>
 
-				<span class="block mb-8 text-center">Esqueceu a senha?<span
-    class="description cursor-pointer"
-    @click="openConfirm"
-    > Clique aqui.</span
-></span>
+				<span class="block mb-8 text-center">
+					Esqueceu a senha?
 
-				<ModalResetpassword v-if="show" @close="closeConfirm" />
+					<SectionLoginResetPasswordModal />
+				</span>
 
 				<UIButton
 					class="login-form-submit"
@@ -135,9 +122,7 @@ const {
 		background-size: 18vmax;
 	}
 }
-.description{
-	color: #118D3B;
-}
+
 .login-form {
 	display: grid;
 
