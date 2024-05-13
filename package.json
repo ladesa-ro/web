@@ -19,7 +19,7 @@
 		"@nuxtjs/tailwindcss": "^6.12.0",
 		"@sidebase/nuxt-auth": "^0.7.2",
 		"@sisgea/api-client": "^1.1.0-development.3",
-		"@sisgea/spec": "^1.1.0-development.53",
+		"@sisgea/spec": "^1.1.0-development.61",
 		"@tanstack/vue-query": "^5.35.1",
 		"@types/jsonwebtoken": "^9.0.6",
 		"@vueuse/core": "^10.9.0",
