@@ -1,8 +1,5 @@
 <script setup>
 import { ref } from 'vue';
-import IconAfterDays from '~/components/Icons/IconAfterDays.vue';
-import IconBeforeDays from '~/components/Icons/IconBeforeDays.vue';
-
 const selectedOptions = ref();
 
 const options = [
@@ -29,13 +26,13 @@ const changeDay = (delta) => {
 
 <template>
 	<div class="flex justify-between items-center mt-5">
-			<IconBeforeDays class="cursor-pointer" @click="changeDay(-1)" />
+			<!-- <IconBeforeDays class="cursor-pointer" @click="changeDay(-1)" /> -->
 		<div>
 			<span class="font-medium">
 				{{ selectedOptions?.value }}
 			</span>
 		</div>
-			<IconAfterDays class="cursor-pointer" @click="changeDay(1)" />
+			<!-- <IconAfterDays class="cursor-pointer" @click="changeDay(1)" /> -->
 	</div>
 
 <v-checkbox
