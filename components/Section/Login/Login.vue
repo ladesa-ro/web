@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 const {
 	//
 	isBusy,
@@ -7,6 +7,8 @@ const {
 	credentials,
 	signInWithCredentials,
 } = useAuthSignIn();
+
+useTitle(null, 'Login');
 </script>
 
 <template>
@@ -41,6 +43,12 @@ const {
 						v-model="credentials.password"
 					/>
 				</div>
+
+				<span class="block mb-8 text-center">
+					Esqueceu a senha?
+
+					<SectionLoginResetPasswordModal />
+				</span>
 
 				<UIButton
 					class="login-form-submit"
