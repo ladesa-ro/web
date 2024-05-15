@@ -143,45 +143,26 @@ async function setDaysInMonth(): Promise<void> {
 							) {
 								// Set start and end day color
 								if (
+									// Verify start
 									dayjs(
 										calendarDays.daysInMonth.value[j].date
-									).isAfter(
-										dayjs(stepDuration.value[i].startDate)
-									) === true &&
-									// End step
+									).toDate() >=
+										dayjs(
+											stepDuration.value[i].startDate
+										).toDate() &&
+									// Verify end
 									dayjs(
 										calendarDays.daysInMonth.value[j].date
-									).isBefore(
-										dayjs(stepDuration.value[i].endDate)
-									) === true
+									).toDate() <=
+										dayjs(
+											stepDuration.value[i].endDate
+										).toDate()
 								) {
 									// Set color
 									calendarDays.daysInMonth.value[j].color =
 										stepDuration.value[i].color;
 								} else {
 								}
-
-								// const firstDayOfStep =
-								// 	calendarDays.daysInMonth.value.find(
-								// 		(item) =>
-								// 			item.date ===
-								// 			stepDuration.value[i].startDate
-								// 	);
-
-								// console.log(firstDayOfStep);
-								// if (firstDayOfStep) {
-								// 	console.log(firstDayOfStep);
-								// 	if (
-								// 		calendarDays.daysInMonth.value[
-								// 			firstDayOfStep.num
-								// 		].color != ''
-								// 	) {
-								// 	} else
-								// 		calendarDays.daysInMonth.value[
-								// 			j
-								// 		].color = stepDuration.value[i].color;
-								// 	console.log(firstDayOfStep);
-								// }
 							}
 						}
 						return true;
