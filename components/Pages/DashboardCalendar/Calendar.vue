@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-const props = defineProps({});
-
-const years = [2024, 2023, 2022, 2021, 2020, 2019];
-
+// Interface and types
 type Step = {
 	id: string;
 	number: number;
@@ -11,22 +8,68 @@ type Step = {
 	color: string;
 };
 
-const etapas = ref<Step[]>([
+type Event = {
+	id: string;
+	name: string;
+	startDate: string;
+	endDate: string;
+	color: string;
+};
+
+type CalendarDates = {
+	steps: Array<Step>;
+	events: Array<Event>;
+};
+
+// Props
+const props = defineProps({});
+
+const years = [2024, 2023, 2022, 2021, 2020, 2019];
+
+const etapas: Array<Step> = [
 	{
 		id: '0',
 		number: 0,
-		startDate: '2024-01-01',
+		startDate: '2024-02-01',
+		endDate: '2024-03-23',
+		color: '#0092E4',
+	},
+	{
+		id: '0',
+		number: 0,
+		startDate: '2024-03-24',
 		endDate: '2024-05-14',
-		color: '#4830DB',
+		color: '#2DAC0D',
+	},
+	{
+		id: '0',
+		number: 0,
+		startDate: '2024-05-15',
+		endDate: '2024-08-09',
+		color: '#D1A300',
 	},
 	{
 		id: '1',
 		number: 1,
-		startDate: '2024-05-15',
+		startDate: '2024-08-10',
 		endDate: '2024-12-31',
-		color: '#1C5A4F',
+		color: '#D7004D',
 	},
-]);
+];
+const eventos: Array<Event> = [
+	{
+		id: '0',
+		name: 'Bang',
+		startDate: '2024-05-15',
+		endDate: '2024-05-22',
+		color: '#B51B2A',
+	},
+];
+
+const datesDuration: CalendarDates = {
+	steps: etapas,
+	events: eventos,
+};
 </script>
 
 <template>
@@ -45,7 +88,10 @@ const etapas = ref<Step[]>([
 
 				<!-- Content -->
 				<div class="flex justify-center items-center w-full h-full">
-					<PagesDashboardCalendarMonth :year="2024" />
+					<PagesDashboardCalendarMonth
+						:year="2024"
+						:calendar-dates="datesDuration"
+					/>
 
 					<!-- <v-card class="-month mx-auto rounded-lg" max-width="500px">
 						

@@ -22,43 +22,27 @@ type Step = {
 	color: string;
 };
 
+type Event = {
+	id: string;
+	name: string;
+	startDate: string;
+	endDate: string;
+	color: string;
+};
+
+type CalendarDates = {
+	steps: Array<Step>;
+	events: Array<Event>;
+};
+
 // Props
 const props = defineProps({
 	year: Number,
 	toggleMonth: Boolean,
-	// stepDuration: Array<Step>,
+	calendarDates: {
+		type: Object as () => CalendarDates,
+	},
 });
-
-const stepDuration = ref<Step[]>([
-	{
-		id: '0',
-		number: 0,
-		startDate: '2024-01-01',
-		endDate: '2024-03-23',
-		color: '#0092E4',
-	},
-	{
-		id: '0',
-		number: 0,
-		startDate: '2024-03-24',
-		endDate: '2024-05-14',
-		color: '#2DAC0D',
-	},
-	{
-		id: '0',
-		number: 0,
-		startDate: '2024-05-15',
-		endDate: '2024-08-09',
-		color: '#D1A300',
-	},
-	{
-		id: '1',
-		number: 1,
-		startDate: '2024-08-10',
-		endDate: '2024-12-31',
-		color: '#D7004D',
-	},
-]);
 
 // Month
 const daysInTheWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -83,7 +67,7 @@ async function setDaysInMonth(): Promise<void> {
 			try {
 				// Calc before days
 				calendarDays.emptyDays.before.value = dayjs(
-					`${props.year}-${monthNum.value + 1}-01`
+					`${props.year!}-${monthNum.value + 1}-01`
 				).day();
 				calendarDays.emptyDays.after.value =
 					7 * 6 -
@@ -109,7 +93,7 @@ async function setDaysInMonth(): Promise<void> {
 							i <
 							dayjs(
 								dayjs(
-									`${props.year}-${monthNum.value + 1}-01`
+									`${props.year!}-${monthNum.value + 1}-01`
 								).format('YYYY-MM-DD')
 							).daysInMonth();
 							i++
@@ -117,9 +101,9 @@ async function setDaysInMonth(): Promise<void> {
 							calendarDays.daysInMonth.value.push({
 								num: i,
 								day: dayjs(
-									`${props.year}-${monthNum.value + 1}-${i + 1}`
+									`${props.year!}-${monthNum.value + 1}-${i + 1}`
 								).format('dddd'),
-								date: `${props.year}-${monthNum.value + 1}-${i + 1}`,
+								date: `${props.year!}-${monthNum.value + 1}-${i + 1}`,
 								color: '',
 							});
 						}
@@ -131,10 +115,14 @@ async function setDaysInMonth(): Promise<void> {
 				}
 
 				// Set steps
-				async function setSteps(): Promise<boolean> {
+				async function setDatesDuration(): Promise<boolean> {
 					try {
-						// Set days
-						for (let i = 0; i < stepDuration.value.length; i++) {
+						// Set steps
+						for (
+							let i = 0;
+							i < props.calendarDates!.steps.length;
+							i++
+						) {
 							// Check if date is between the start or end of the month
 							for (
 								let j = 0;
@@ -148,38 +136,74 @@ async function setDaysInMonth(): Promise<void> {
 										calendarDays.daysInMonth.value[j].date
 									).toDate() >=
 										dayjs(
-											stepDuration.value[i].startDate
+											props.calendarDates!.steps![i]
+												.startDate
 										).toDate() &&
 									// Verify end
 									dayjs(
 										calendarDays.daysInMonth.value[j].date
 									).toDate() <=
 										dayjs(
-											stepDuration.value[i].endDate
+											props.calendarDates!.steps![i]
+												.endDate
 										).toDate()
 								) {
 									// Set color
 									calendarDays.daysInMonth.value[j].color =
-										stepDuration.value[i].color;
+										props.calendarDates!.steps![i].color;
 								} else {
 								}
 							}
 						}
+
+						// Set events
+						for (
+							let i = 0;
+							i < props.calendarDates!.events.length;
+							i++
+						) {
+							// Check if date is between the start or end of the month
+							for (
+								let j = 0;
+								j < calendarDays.daysInMonth.value.length;
+								j++
+							) {
+								// Set start and end day color
+								if (
+									// Verify start
+									dayjs(
+										calendarDays.daysInMonth.value[j].date
+									).toDate() >=
+										dayjs(
+											props.calendarDates!.events![i]
+												.startDate
+										).toDate() &&
+									// Verify end
+									dayjs(
+										calendarDays.daysInMonth.value[j].date
+									).toDate() <=
+										dayjs(
+											props.calendarDates!.events![i]
+												.endDate
+										).toDate()
+								) {
+									// Set color
+									calendarDays.daysInMonth.value[j].color =
+										props.calendarDates!.events![i].color;
+								} else {
+								}
+							}
+						}
+
 						return true;
 					} catch (error) {
 						return false;
 					}
 				}
 
-				await setSteps();
 				await setDaysData();
+				await setDatesDuration();
 				await setEmptyDays();
-
-				console.log(
-					calendarDays.daysInMonth.value[3].color +
-						' Is a color ' +
-						setSteps()
-				);
 
 				return true;
 			} catch (error) {
@@ -205,8 +229,6 @@ async function toggleMonth(num: number): Promise<void> {
 
 onMounted(async () => {
 	await setDaysInMonth();
-	// console.log('cor: ' + calendarDays.daysInMonth.value[4].color);
-	// console.log('cor: ' + stepDuration.value[0].color);
 });
 </script>
 
@@ -223,10 +245,10 @@ onMounted(async () => {
 			<!-- Month name -->
 			<h1 class="font-medium text-center text-xl w-full">
 				{{
-					dayjs(`${props.year}-${monthNum + 1}-01`)
+					dayjs(`${props.year!}-${monthNum + 1}-01`)
 						.format('MMMM')[0]
 						.toUpperCase() +
-					dayjs(`${props.year}-${monthNum + 1}-01`)
+					dayjs(`${props.year!}-${monthNum + 1}-01`)
 						.format('MMMM')
 						.slice(1)
 						.toLowerCase()
