@@ -2,9 +2,11 @@
 // Import
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
+import isBetween from 'dayjs/plugin/isBetween';
 
 // Dayjs config
 dayjs.locale('pt-br');
+dayjs.extend(isBetween);
 
 // Interface and types
 type Day = {
@@ -48,6 +50,7 @@ const props = defineProps({
 const daysInTheWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 let monthNum = ref<number>(dayjs().month());
+let monthColor = ref<string>('#9ab69e');
 
 let calendarDays = {
 	daysInMonth: ref<Day[]>([]),
@@ -60,7 +63,7 @@ let calendarDays = {
 // Functions
 
 // Set days from this month
-async function setDaysInMonth(): Promise<void> {
+async function setMonth(): Promise<void> {
 	try {
 		// Set empty days
 		async function setEmptyDays(): Promise<boolean> {
@@ -92,9 +95,7 @@ async function setDaysInMonth(): Promise<void> {
 							let i = 0;
 							i <
 							dayjs(
-								dayjs(
-									`${props.year!}-${monthNum.value + 1}-01`
-								).format('YYYY-MM-DD')
+								dayjs(`${props.year!}-${monthNum.value + 1}-01`)
 							).daysInMonth();
 							i++
 						) {
@@ -104,7 +105,7 @@ async function setDaysInMonth(): Promise<void> {
 									`${props.year!}-${monthNum.value + 1}-${i + 1}`
 								).format('dddd'),
 								date: `${props.year!}-${monthNum.value + 1}-${i + 1}`,
-								color: '',
+								color: '#9ab69e',
 							});
 						}
 
@@ -115,7 +116,7 @@ async function setDaysInMonth(): Promise<void> {
 				}
 
 				// Set steps
-				async function setDatesDuration(): Promise<boolean> {
+				async function setDatesColor(): Promise<boolean> {
 					try {
 						// Set steps
 						for (
@@ -131,22 +132,16 @@ async function setDaysInMonth(): Promise<void> {
 							) {
 								// Set start and end day color
 								if (
-									// Verify start
+									// Check if the date is between
 									dayjs(
 										calendarDays.daysInMonth.value[j].date
-									).toDate() >=
-										dayjs(
-											props.calendarDates!.steps![i]
-												.startDate
-										).toDate() &&
-									// Verify end
-									dayjs(
-										calendarDays.daysInMonth.value[j].date
-									).toDate() <=
-										dayjs(
-											props.calendarDates!.steps![i]
-												.endDate
-										).toDate()
+									).isBetween(
+										props.calendarDates!.steps![i]
+											.startDate,
+										props.calendarDates!.steps![i].endDate,
+										'date',
+										'[]'
+									) === true
 								) {
 									// Set color
 									calendarDays.daysInMonth.value[j].color =
@@ -170,22 +165,16 @@ async function setDaysInMonth(): Promise<void> {
 							) {
 								// Set start and end day color
 								if (
-									// Verify start
+									// Check if the date is between
 									dayjs(
 										calendarDays.daysInMonth.value[j].date
-									).toDate() >=
-										dayjs(
-											props.calendarDates!.events![i]
-												.startDate
-										).toDate() &&
-									// Verify end
-									dayjs(
-										calendarDays.daysInMonth.value[j].date
-									).toDate() <=
-										dayjs(
-											props.calendarDates!.events![i]
-												.endDate
-										).toDate()
+									).isBetween(
+										props.calendarDates!.events![i]
+											.startDate,
+										props.calendarDates!.events![i].endDate,
+										'date',
+										'[]'
+									)
 								) {
 									// Set color
 									calendarDays.daysInMonth.value[j].color =
@@ -201,9 +190,29 @@ async function setDaysInMonth(): Promise<void> {
 					}
 				}
 
+				// Calling nternal functions
 				await setDaysData();
-				await setDatesDuration();
+				await setDatesColor();
 				await setEmptyDays();
+
+				// Set month color
+				for (let i = 0; i < props.calendarDates!.steps!.length; i++) {
+					if (
+						dayjs(
+							`${props.year!}-${monthNum.value + 1}-01`
+						).isBetween(
+							props.calendarDates!.steps![i].startDate,
+							props.calendarDates!.steps![i].endDate,
+							'date',
+							'[]'
+						) === true
+					) {
+						monthColor.value = props.calendarDates!.steps![i].color;
+						break;
+					} else {
+						monthColor.value = '#9ab69e';
+					}
+				}
 
 				return true;
 			} catch (error) {
@@ -223,19 +232,20 @@ async function toggleMonth(num: number): Promise<void> {
 		if (monthNum.value > 11) monthNum.value = 0;
 		else if (monthNum.value < 0) monthNum.value = 11;
 
-		await setDaysInMonth();
+		await setMonth();
 	} catch (error) {}
 }
 
 onMounted(async () => {
-	await setDaysInMonth();
+	await setMonth();
 });
 </script>
 
 <template>
 	<v-card class="-month mx-auto rounded-lg" max-width="500px">
 		<div
-			class="bg-green-700 text-white flex justify-between items-center p-3 pl-6 pr-6 w-full"
+			class="text-white flex justify-between items-center p-3 pl-6 pr-6 w-full"
+			:style="{ backgroundColor: monthColor }"
 		>
 			<!-- Toggle for before month -->
 			<IconsArrowIconArrow

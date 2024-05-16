@@ -93,9 +93,7 @@ const datesDuration: CalendarDates = {
 						:calendar-dates="datesDuration"
 					/>
 
-					<!-- <v-card class="-month mx-auto rounded-lg" max-width="500px">
-						
-					</v-card> -->
+					<PagesDashboardCalendarEvent />
 				</div>
 			</div>
 		</div>
