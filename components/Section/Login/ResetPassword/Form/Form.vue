@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useForm } from 'vee-validate';
+import { defineEmits } from 'vue';
 import * as yup from 'yup';
 
 const $emit = defineEmits(['close']);
@@ -6,31 +8,33 @@ const $emit = defineEmits(['close']);
 const schema = yup.object().shape({
 	email: yup
 		.string()
-		.required('Email é obrigatório.')
-		.email('Por favor, digite um e-mail válido!'),
+		.email('Por favor, digite um e-mail válido!')
+		.required('Email é obrigatório.'),
 });
 
-const formData = {
+const formInput = reactive({
 	email: '',
-};
+});
 
-const emailErrors = ref([]);
+const { handleSubmit } = useForm({
+	validationSchema: schema,
+	initialValues: formInput,
+});
 
-const submitForm = () => {
-	schema
-		.validate(formData, { abortEarly: false })
-		.then(() => {
-			console.log('Formulário válido, pronto para enviar!');
-		})
-		.catch((errors) => {
-			emailErrors.value = errors.errors;
-			console.error('Erro de validação:', errors);
-		});
-};
+const showAlert = ref(false);
+
+const onSubmit = handleSubmit(
+	(formData) => {
+		console.log('Formulário válido, pronto para enviar!', { formData });
+		showAlert.value = true;
+	},
+	(errors) => {
+		console.error('Erro de validação:', errors);
+	}
+);
 </script>
-
 <template>
-	<v-form @submit.prevent="submitForm" class="form">
+	<v-form @submit.prevent="onSubmit" class="form">
 		<div class="form-header">
 			<h1 class="main-title text-center">
 				<span>Redefinir Senha</span>
@@ -44,36 +48,40 @@ const submitForm = () => {
 				type="email"
 				name="email"
 				label="E-mail"
+				:disabled="showAlert"
 				placeholder="Digite aqui seu email"
-				:error-messages="emailErrors"
 			/>
-
-			<!-- <span class="text-center">
-								Um email de redefinição será enviado para você
-								caso a conta exista
-							</span> -->
 
 			<v-alert
 				class="text-sm"
 				variant="flat"
 				density="compact"
-				text="Um email de redefinição será enviado para você caso a conta exista"
 				type="info"
-			></v-alert>
+				text="Se o endereço de e-mail existir, você receberá as instruções para a redefinição de senha em sua caixa de entrada."
+				v-if="showAlert"
+			/>
 		</div>
 
 		<v-divider />
 
-		<div class="form-footer button-group">
+		<div
+			class="form-footer button-group"
+			:class="{ 'justify-center': showAlert }"
+		>
 			<UIButtonModalCancelButton
-				class="buttonCancelar"
+				v-if="!showAlert"
+				type="button"
 				@click="$emit('close')"
-			>
-				Cancelar
-			</UIButtonModalCancelButton>
-			<UIButtonModalResetButton class="buttonCadastro">
-				Redefinir
-			</UIButtonModalResetButton>
+			/>
+
+			<UIButtonModalOkButton
+				v-if="showAlert"
+				type="button"
+				@click="$emit('close')"
+				class="!px-10"
+			/>
+
+			<UIButtonModalResetButton v-if="!showAlert" type="submit" />
 		</div>
 	</v-form>
 </template>
