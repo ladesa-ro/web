@@ -74,6 +74,13 @@ const onSubmit = handleSubmit(
 				@click="$emit('close')"
 			/>
 
+			<UIButtonModalOkButton
+				v-if="showAlert"
+				type="button"
+				@click="$emit('close')"
+				class="!px-10"
+			/>
+
 			<UIButtonModalResetButton v-if="!showAlert" type="submit" />
 		</div>
 	</v-form>
