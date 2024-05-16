@@ -6,7 +6,7 @@
 		append-icon="mdi-check-all"
 		class="buttonCadastro"
 	>
-		Redefinir
+		<slot> Redefinir </slot>
 	</VBtn>
 </template>
 
