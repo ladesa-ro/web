@@ -199,7 +199,7 @@ async function setMonth(): Promise<void> {
 				for (let i = 0; i < props.calendarDates!.steps!.length; i++) {
 					if (
 						dayjs(
-							`${props.year!}-${monthNum.value + 1}-01`
+							`${props.year!}-${monthNum.value + 1}-${dayjs(props.calendarDates!.steps![0].startDate).date()}`
 						).isBetween(
 							props.calendarDates!.steps![i].startDate,
 							props.calendarDates!.steps![i].endDate,

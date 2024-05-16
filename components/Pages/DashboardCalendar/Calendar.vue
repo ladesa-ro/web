@@ -30,7 +30,7 @@ const etapas: Array<Step> = [
 	{
 		id: '0',
 		number: 0,
-		startDate: '2024-02-01',
+		startDate: '2024-02-08',
 		endDate: '2024-03-23',
 		color: '#0092E4',
 	},
@@ -45,14 +45,14 @@ const etapas: Array<Step> = [
 		id: '0',
 		number: 0,
 		startDate: '2024-05-15',
-		endDate: '2024-08-09',
+		endDate: '2024-07-09',
 		color: '#D1A300',
 	},
 	{
 		id: '1',
 		number: 1,
 		startDate: '2024-08-10',
-		endDate: '2024-12-31',
+		endDate: '2024-11-28',
 		color: '#D7004D',
 	},
 ];
