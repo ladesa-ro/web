@@ -1,8 +1,5 @@
 <script setup>
-import ContainerImage from "../Forms/ContainerImage.vue";
-import Function from "../Forms/Function.vue";
-import SearchMatricula from "../Forms/SearchMatricula.vue";
-import Searchs from "../Forms/Searchs.vue";
+
 </script>
 
 <template>
@@ -11,12 +8,23 @@ import Searchs from "../Forms/Searchs.vue";
       <h1>Cadastrar Usuário</h1>
 
       <div>
-        <ContainerImage />
+        <VVSelectImage name="imagem" />
 
-        <Searchs value="Nome" />
-        <Searchs value="Email" />
-        <SearchMatricula value="Matricula" />
-        <Function />
+        <VVTextField
+							v-model="nome"
+							type="text"
+							label="Nome"
+							placeholder="Digite aqui"
+							name="nome"
+						/>
+
+						<VVTextField
+							v-model="email"
+							type="text"
+							label="Email"
+							placeholder="Digite aqui"
+							name="email"
+						/>
       </div>
       <div>
         <button class="Cancel" @click="($event) => $emit('close')">

@@ -1,117 +1,106 @@
 <script setup>
 import { ref } from 'vue';
-import HoursMarkup from './HoursMarkup.vue';
+import IconArrow from '~/components/Icons/Arrow/IconArrow.vue';
+const selectedOptions = ref();
 
-const selectedOptions = ref([]);
 const options = [
+	{ value: 'Domingo' },
 	{ value: 'Segunda' },
 	{ value: 'Terça' },
 	{ value: 'Quarta' },
 	{ value: 'Quinta' },
 	{ value: 'Sexta' },
 	{ value: 'Sábado' },
-	{ value: 'Domingo' },
+];
+const turnos = [
+	{
+		nome: 'Matutino',
+		horarios: [
+			{ hora: '07:30', tipo: 'aula' },
+			{ hora: '08:20', tipo: 'aula' },
+			{ hora: '09:10', tipo: 'aula' },
+			{ hora: '10:00', tipo: 'intervalo' },
+			{ hora: '10:20', tipo: 'aula' },
+			{ hora: '11:10', tipo: 'aula' },
+		],
+	},
+	{
+		nome: 'Vespertino',
+		horarios: [
+			{ hora: '13:00', tipo: 'aula' },
+			{ hora: '13:50', tipo: 'aula' },
+			{ hora: '14:40', tipo: 'aula' },
+			{ hora: '15:30', tipo: 'intervalo' },
+			{ hora: '15:50', tipo: 'aula' },
+			{ hora: '16:40', tipo: 'aula' },
+		],
+	},
+	{
+		nome: 'Noturno',
+		horarios: [
+			{ hora: '19:00', tipo: 'aula' },
+			{ hora: '19:50', tipo: 'aula' },
+			{ hora: '20:40', tipo: 'aula' },
+			{ hora: '21:30', tipo: 'intervalo' },
+			{ hora: '21:50', tipo: 'aula' },
+			{ hora: '22:40', tipo: 'aula' },
+		],
+	},
 ];
 
-let currentDayIndex = ref(0);
+selectedOptions.value = options[1];
+
+let currentDayIndex = ref(1);
 
 const changeDay = (delta) => {
 	currentDayIndex.value =
 		(currentDayIndex.value + delta + options.length) % options.length;
-	selectedOptions.value = [options[currentDayIndex.value]];
+
+	selectedOptions.value = options[currentDayIndex.value];
 };
 </script>
 
 <template>
-	<div>
-		<div class="initmodal2">
-			<div class="iconWrapper">
-				<div class="iconB">
-					<IconsArrowIconArrow
-						class="cursor-pointer"
-						@click="changeDay(-1)"
-					/>
-				</div>
-
-				<div class="dayOfWeek">
-					<span>{{ selectedOptions[0]?.value }}</span>
-				</div>
-
-				<div class="iconA">
-					<IconsArrowIconArrow
-						class="rotate-180 cursor-pointer"
-						@click="changeDay(1)"
-					/>
-				</div>
-			</div>
+	<div class="flex justify-between items-center mt-5">
+		<IconArrow class="cursor-pointer" @click="changeDay(-1)" />
+		<div>
+			<span class="font-medium">
+				{{ selectedOptions?.value }}
+			</span>
 		</div>
-		<div class="contentModal">
-			<div class="hoursMorning">
-				<span>Matutino</span>
-				<p class="elementHours"></p>
-				<HoursMarkup />
-			</div>
-
-			<div class="hoursAfternoon">
-				<span>Vespertino</span>
-				<p class="elementHours"></p>
-				<HoursMarkup />
-			</div>
-
-			<div class="hoursNocturnal">
-				<span>Noturno</span>
-				<p class="elementHours"></p>
-				<HoursMarkup />
-			</div>
-		</div>
+		<IconArrow class="cursor-pointer rotate-180" @click="changeDay(1)" />
 	</div>
+
+	<section class="flex justify-between mt-10">
+		<div>
+			<span>Matutino</span>
+			<v-checkbox
+				hide-details
+				density="compact"
+				color="success"
+				label="Manhã"
+				v-for="i in 7"
+			/>
+		</div>
+		<div>
+			<span>Vespertino</span>
+			<v-checkbox
+				hide-details
+				density="compact"
+				color="success"
+				label="Manhã"
+				v-for="i in 7"
+			/>
+		</div>
+		<div>
+			<span>Noturno</span>
+			<v-checkbox
+				hide-details
+				density="compact"
+				color="success"
+				label="Manhã"
+				v-for="i in 7"
+			/>
+		</div>
+	</section>
 </template>
-
-<style>
-.initmodal2,
-.contentModal {
-	display: flex;
-	align-items: center;
-	gap: 50px;
-}
-
-.iconWrapper {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-top: 30px;
-	margin-left: 60px;
-}
-
-.iconB,
-.iconA {
-	cursor: pointer;
-}
-
-.iconA {
-	margin-left: 70px;
-}
-
-.dayOfWeek {
-	text-align: center;
-	margin-left: 70px;
-	width: 80px;
-}
-
-.contentModal {
-	margin-top: 40px;
-}
-
-.elementHours {
-	content: '';
-	height: 2px;
-	width: auto;
-	background-color: #9ab69e;
-	margin-top: 2px;
-	margin-bottom: 8px;
-}
-
-.hoursMorning {
-	margin-left: 10px;
-}
-</style>
