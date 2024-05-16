@@ -19,7 +19,7 @@ import { onKeyStroke } from '@vueuse/core';
 					</span>
 					<div class="flex flex-col justify-center items-start ml-1 w-full" >
 						<span class="flex font-bold text-sm items-center">Danilo Escudero
-							<IconsIconEdit class="ml-6 w-[12px] h-[12px] cursor-pointer"/>
+							<IconsIconEdit class="ml-6 w-[12px] h-[12px]"/>
 						</span>
 						<span class="font-semibold text-[#9ab69e] text-sm">Professor</span>
 					</div>
