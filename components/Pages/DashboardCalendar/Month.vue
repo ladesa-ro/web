@@ -190,7 +190,7 @@ async function setMonth(): Promise<void> {
 					}
 				}
 
-				// Calling nternal functions
+				// Calling internal functions
 				await setDaysData();
 				await setDatesColor();
 				await setEmptyDays();
@@ -219,6 +219,8 @@ async function setMonth(): Promise<void> {
 				return false;
 			}
 		}
+
+		// Calling internal functions
 		await setDays();
 	} catch (error) {}
 }
@@ -232,17 +234,19 @@ async function toggleMonth(num: number): Promise<void> {
 		if (monthNum.value > 11) monthNum.value = 0;
 		else if (monthNum.value < 0) monthNum.value = 11;
 
+		// Calling functions
 		await setMonth();
 	} catch (error) {}
 }
 
 onMounted(async () => {
+	// Calling functions
 	await setMonth();
 });
 </script>
 
 <template>
-	<v-card class="-month mx-auto rounded-lg" max-width="500px">
+	<v-card class="-month mx-auto rounded-lg w-[464px] h-[496px]">
 		<div
 			class="text-white flex justify-between items-center p-3 pl-6 pr-6 w-full"
 			:style="{ backgroundColor: monthColor }"
@@ -251,6 +255,7 @@ onMounted(async () => {
 			<IconsArrowIconArrow
 				class="-icon-white cursor-pointer"
 				@click="toggleMonth(-1)"
+				v-show="props.toggleMonth!"
 			/>
 			<!-- Month name -->
 			<h1 class="font-medium text-center text-xl w-full">
@@ -269,6 +274,7 @@ onMounted(async () => {
 			<IconsArrowIconArrow
 				class="-icon-white rotate-180 cursor-pointer"
 				@click="toggleMonth(1)"
+				v-show="props.toggleMonth!"
 			/>
 		</div>
 
