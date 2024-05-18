@@ -3,10 +3,10 @@
 		type="submit"
 		color="#00d047"
 		variant="outlined"
-		append-icon="mdi-check-all"
+		append-icon="mdi-check"
 		class="buttonCadastro"
 	>
-		<slot> Redefinir </slot>
+		<slot> Ok </slot>
 	</VBtn>
 </template>
 
