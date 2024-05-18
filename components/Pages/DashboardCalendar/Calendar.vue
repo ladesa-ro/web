@@ -1,12 +1,5 @@
 <script lang="ts" setup>
 // Import
-import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
-import isBetween from 'dayjs/plugin/isBetween';
-
-// Dayjs config
-dayjs.locale('pt-br');
-dayjs.extend(isBetween);
 
 // Interface and types
 type Step = {
@@ -24,15 +17,6 @@ type Event = {
 	endDate: string;
 	color: string;
 	locale: string;
-};
-
-type EventItem = Omit<Event, 'startDate' | 'endDate'> & {
-	details: string;
-};
-
-type CalendarDates = {
-	steps: Array<Step>;
-	events: Array<Event>;
 };
 
 // Props
@@ -84,88 +68,13 @@ const eventItems: Array<Event> = [
 	},
 ];
 
-const datesDuration = ref<CalendarDates>({
-	steps: stepItems,
-	events: eventItems,
-});
-
-// Set event data
-let allEventsItems = ref<EventItem[]>([
-	{
-		id: '',
-		name: '',
-		details: '',
-		locale: '',
-		color: '',
-	},
-]);
-
-async function setEvents(): Promise<void> {
-	try {
-		// Set steps
-		async function setAllItems(): Promise<boolean> {
-			allEventsItems.value = [];
-
-			try {
-				for (let i = 0; i < datesDuration.value.steps!.length; i++) {
-					allEventsItems.value.push({
-						id: datesDuration.value.steps![i].id,
-						name: `${datesDuration.value.steps![i].number}° Etapa`,
-						details: `Este evento começa dia ${dayjs(
-							dayjs(
-								datesDuration.value.steps![i].startDate
-							).toDate()
-						).format('DD/MM')} e termina em ${dayjs(
-							dayjs(
-								datesDuration.value.steps![i].endDate
-							).toDate()
-						).format('DD/MM')}.`,
-						locale: ``,
-						color: datesDuration.value.steps![i].color,
-					});
-				}
-
-				// Set events
-				for (let i = 0; i < datesDuration.value.events!.length; i++) {
-					allEventsItems.value.push({
-						id: datesDuration.value.events![i].id,
-						name: datesDuration.value.events![i].name,
-						details: `Este evento começa dia ${dayjs(
-							dayjs(
-								datesDuration.value.events![i].startDate
-							).toDate()
-						).format('DD/MM')} e termina em ${dayjs(
-							dayjs(
-								datesDuration.value.events![i].endDate
-							).toDate()
-						).format('DD/MM')}.`,
-						locale: datesDuration.value.events![i].locale,
-						color: datesDuration.value.events![i].color,
-					});
-				}
-
-				return true;
-			} catch (error) {
-				return false;
-			}
-		}
-
-		// Calling internal functions
-		await setAllItems();
-	} catch (error) {}
-}
-
-onMounted(async () => {
-	// Calling functions
-	await setEvents();
-	console.log(allEventsItems.value[0]);
-});
+onMounted(async () => {});
 </script>
 
 <template>
 	<v-container>
 		<div class="container">
-			<div>
+			<div class="flex justify-center w-full h-auto">
 				<!-- Select calendar -->
 				<!-- <div class="container-header w-3/6 flex gap-4 m-auto mb-5 justify-center items-center px-3">
 					<VVAutocomplete
@@ -177,25 +86,22 @@ onMounted(async () => {
 				</div> -->
 
 				<!-- Content -->
-				<div class="flex justify-center items-center w-full h-full">
+				<div
+					class="grid grid-cols-1 xl:grid-cols-2 gap-6 w-auto xl:w-full"
+				>
+					<!-- Month selected -->
 					<PagesDashboardCalendarMonth
 						:year="2024"
-						:calendar-dates="datesDuration"
+						:steps="stepItems"
+						:events="eventItems"
 						:toggle-month="true"
 					/>
 
-					<div
-						class="flex flex-col gap-2 overflow-y-auto w-[464px] h-[496px]"
-						max-width="500px"
-					>
-						<PagesDashboardCalendarEvent
-							v-for="(event, index) in allEventsItems"
-							:name="event.name"
-							:details="event.details"
-							:locale="event.locale"
-							:color="event.color"
-						/>
-					</div>
+					<!-- Event list -->
+					<PagesDashboardCalendarEventList
+						:steps="stepItems"
+						:events="eventItems"
+					/>
 				</div>
 			</div>
 		</div>

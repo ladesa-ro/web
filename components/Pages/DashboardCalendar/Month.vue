@@ -41,9 +41,8 @@ type CalendarDates = {
 const props = defineProps({
 	year: Number,
 	toggleMonth: Boolean,
-	calendarDates: {
-		type: Object as () => CalendarDates,
-	},
+	steps: Array<Step>,
+	events: Array<Event>,
 });
 
 // Month
@@ -119,11 +118,7 @@ async function setMonth(): Promise<void> {
 				async function setDatesColor(): Promise<boolean> {
 					try {
 						// Set steps
-						for (
-							let i = 0;
-							i < props.calendarDates!.steps.length;
-							i++
-						) {
+						for (let i = 0; i < props.steps!.length; i++) {
 							// Check if date is between the start or end of the month
 							for (
 								let j = 0;
@@ -136,27 +131,22 @@ async function setMonth(): Promise<void> {
 									dayjs(
 										calendarDays.daysInMonth.value[j].date
 									).isBetween(
-										props.calendarDates!.steps![i]
-											.startDate,
-										props.calendarDates!.steps![i].endDate,
+										props.steps![i].startDate,
+										props.steps![i].endDate,
 										'date',
 										'[]'
 									) === true
 								) {
 									// Set color
 									calendarDays.daysInMonth.value[j].color =
-										props.calendarDates!.steps![i].color;
+										props.steps![i].color;
 								} else {
 								}
 							}
 						}
 
 						// Set events
-						for (
-							let i = 0;
-							i < props.calendarDates!.events.length;
-							i++
-						) {
+						for (let i = 0; i < props.events!.length; i++) {
 							// Check if date is between the start or end of the month
 							for (
 								let j = 0;
@@ -169,16 +159,15 @@ async function setMonth(): Promise<void> {
 									dayjs(
 										calendarDays.daysInMonth.value[j].date
 									).isBetween(
-										props.calendarDates!.events![i]
-											.startDate,
-										props.calendarDates!.events![i].endDate,
+										props.events![i].startDate,
+										props.events![i].endDate,
 										'date',
 										'[]'
 									)
 								) {
 									// Set color
 									calendarDays.daysInMonth.value[j].color =
-										props.calendarDates!.events![i].color;
+										props.events![i].color;
 								} else {
 								}
 							}
@@ -196,18 +185,27 @@ async function setMonth(): Promise<void> {
 				await setEmptyDays();
 
 				// Set month color
-				for (let i = 0; i < props.calendarDates!.steps!.length; i++) {
+				for (let i = 0; i < props.steps!.length; i++) {
 					if (
+						// Check if month is between the start or end of the step
 						dayjs(
-							`${props.year!}-${monthNum.value + 1}-${dayjs(props.calendarDates!.steps![0].startDate).date()}`
+							`${props.year!}-${monthNum.value + 1}-${dayjs(props.steps![i].startDate).date()}`
 						).isBetween(
-							props.calendarDates!.steps![i].startDate,
-							props.calendarDates!.steps![i].endDate,
+							props.steps![i].startDate,
+							props.steps![i].endDate,
+							'date',
+							'[]'
+						) === true ||
+						dayjs(
+							`${props.year!}-${monthNum.value + 1}-${dayjs(props.steps![i].endDate).date()}`
+						).isBetween(
+							props.steps![i].startDate,
+							props.steps![i].endDate,
 							'date',
 							'[]'
 						) === true
 					) {
-						monthColor.value = props.calendarDates!.steps![i].color;
+						monthColor.value = props.steps![i].color;
 						break;
 					} else {
 						monthColor.value = '#9ab69e';
@@ -334,5 +332,6 @@ onMounted(async () => {
 .-month {
 	border: solid 2px #9ab69e;
 	box-shadow: none;
+	margin: 0;
 }
 </style>
