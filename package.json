@@ -24,7 +24,7 @@
 		"@types/jsonwebtoken": "^9.0.6",
 		"@vueuse/core": "^10.9.0",
 		"@vueuse/nuxt": "^10.9.0",
-		"axios": "^1.6.7",
+		"axios": "^1.7.0",
 		"inversify": "^6.0.2",
 		"jsonwebtoken": "^9.0.2",
 		"next-auth": "4.21.1",
