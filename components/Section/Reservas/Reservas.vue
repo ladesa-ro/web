@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ILesson } from '~/components/Section/Horario/DailyView/IDailyView';
+import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
 
 const genericLesson: ILesson = {
 	discipline: 'Linguagem de Programação',
@@ -33,27 +33,27 @@ function getVariantForIndex(index: number) {
 </script>
 
 <template>
-<div class="flex flex-col gap-[15px]">
-    <div class="mt-14">
-        <v-container>
-            <UISearchBar id="size"/>
-        </v-container>
-    </div>
+	<div class="flex flex-col gap-[15px]">
+		<div class="mt-14">
+			<v-container>
+				<UISearchBar id="size" />
+			</v-container>
+		</div>
 
-    <SectionHorarioDailyViewListagemDaySquare />
+		<SectionHorarioDailyViewDaySquareList />
 
-    <v-container class="flex flex-col gap-5">
-        <SectionHorarioDailyViewClass
-            v-for="(lesson, index) in lessons"
-            :lesson="lesson"
-            :variant="getVariantForIndex(index)"
-        />
-    </v-container>
-</div>
+		<v-container class="flex flex-col gap-5">
+			<SectionHorarioDailyViewLesson
+				v-for="(lesson, index) in lessons"
+				:lesson="lesson"
+				:variant="getVariantForIndex(index)"
+			/>
+		</v-container>
+	</div>
 </template>
 
 <style scoped>
 #size {
-    max-width: none;
+	max-width: none;
 }
 </style>

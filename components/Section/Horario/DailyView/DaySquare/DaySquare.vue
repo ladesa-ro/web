@@ -1,15 +1,10 @@
-<script setup>
-defineProps({
-	active: {
-		type: Boolean,
-	},
-	dayWeek: {
-		type: String,
-	},
-	dayMonth: {
-		type: String,
-	},
-});
+<script setup lang="ts">
+type Props = {
+	active: boolean;
+	dayWeek: string;
+	dayMonth: string;
+}
+defineProps<Props>();
 </script>
 
 <template>
@@ -17,7 +12,6 @@ defineProps({
 		class="flex-1 flex flex-col cursor-pointer justify-center items-center gap-2 rounded-[10px] border-2 border-[#118D3B] p-4 max-w-28 max-h-28"
 		:class="{ active: active }"
 	>
-		<!--w-[85px] h-[75px] // w-[106.25px] h-[100px]-->
 		<p
 			class="border-b-2 border-b-[#118D3B] p-0 pb-[5px] font-[600] text-[#118D3B]"
 		>
