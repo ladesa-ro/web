@@ -47,7 +47,7 @@ onMounted(() => {
 
 <style scoped>
 @media (max-width: 600px) {
-	.main {
+	.initializing .main {
 		--v-layout-left: 0 !important;
 	}
 }
