@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import type { ILesson } from '~/components/Section/Horario/DailyView/IDailyView';
+import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
+import dayjs from '../-Helpers/dayjs';
+
+const selectedDay = defineModel({
+	default: dayjs('2024-01-29'),
+});
 
 const genericLesson: ILesson = {
 	discipline: 'Linguagem de Programação',
@@ -27,15 +32,15 @@ function getVariantForIndex(index: number) {
 </script>
 
 <template>
-<SectionHorarioDailyViewListagemDaySquare />
+	<SectionHorarioDailyViewDaySquareList v-model="selectedDay" />
 
-<v-container class="flex flex-col gap-5">
-    <SectionHorarioDailyViewLesson
-        v-for="(lesson, index) in lessons"
-        :lesson="lesson"
-        :variant="getVariantForIndex(index)"
-    />
-</v-container>
+	<v-container class="flex flex-col gap-5">
+		<SectionHorarioDailyViewLesson
+			v-for="(lesson, index) in lessons"
+			:lesson="lesson"
+			:variant="getVariantForIndex(index)"
+		/>
+	</v-container>
 </template>
 
 <style scoped></style>

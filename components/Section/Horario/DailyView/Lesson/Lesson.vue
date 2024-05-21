@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ILesson } from './IDailyView';
+import type { ILesson } from '../../-Helpers/ILesson';
 type Props = {
 	lesson: ILesson;
 	variant?: 'active' | 'completed';
