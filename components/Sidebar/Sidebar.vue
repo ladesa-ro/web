@@ -129,7 +129,7 @@ span {
 	font-size: 15px;
 }
 
-.initializing {
+.initializing :deep(.v-navigation-drawer__content) {
 	height: 100%;
 }
 
