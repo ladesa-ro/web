@@ -20,7 +20,7 @@ defineProps<Props>();
 			<p>Horário: {{ lesson.startsAt }} - {{ lesson.endsAt }}</p>
 		</section>
 
-		<div v-if="variant === 'active'" class="icon">
+		<div v-if="variant === 'active'" class="icon max-w-7">
 			<IconsIconClock />
 		</div>
 	</div>
