@@ -14,7 +14,7 @@
 		:expand-on-hover="!isMobile && !hamburgerActive"
 		@update:model-value="($val) => (hamburgerActive = $val)"
 	>
-		<v-list class="flex-column justify-space-between h-full">
+		<v-list class="flex-column justify-space-between h-full sidebar-list">
 			<v-list-item-group class="flex flex-col gap-3 h-full">
 				<SidebarItem
 					:key="index"
@@ -127,6 +127,14 @@ span {
 	font-family: 'Poppins', sans-serif;
 	font-weight: 600;
 	font-size: 15px;
+}
+
+.initializing {
+	height: 100%;
+}
+
+.initializing .sidebar-list {
+	overflow: hidden;
 }
 
 @media (max-width: 600px) {
