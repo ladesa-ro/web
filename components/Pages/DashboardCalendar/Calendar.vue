@@ -26,7 +26,7 @@ const props = defineProps({});
 // Years
 const years = [2024, 2023, 2022, 2021, 2020, 2019];
 
-// Event and steps
+// Event and steps (For example. Remove in other moment)
 const stepItems: Array<Step> = [
 	{
 		id: '1',
@@ -68,7 +68,20 @@ const eventItems: Array<Event> = [
 	},
 ];
 
-onMounted(async () => {});
+// Functions
+
+// Month num (get emitted value)
+let monthNumReceived = ref<number>(0);
+
+const handleUpdate = (v: number) => {
+	monthNumReceived.value = v;
+};
+
+watch(monthNumReceived, (newValue: number) => {
+	if (newValue !== null) {
+		monthNumReceived.value = newValue;
+	}
+});
 </script>
 
 <template>
@@ -95,12 +108,15 @@ onMounted(async () => {});
 						:steps="stepItems"
 						:events="eventItems"
 						:toggle-month="true"
+						@custom:month-num="handleUpdate"
 					/>
 
 					<!-- Event list -->
 					<PagesDashboardCalendarEventList
+						:year="2024"
 						:steps="stepItems"
 						:events="eventItems"
+						:month-num="monthNumReceived"
 					/>
 				</div>
 			</div>

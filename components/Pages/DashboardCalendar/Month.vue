@@ -61,6 +61,14 @@ let calendarDays = {
 
 // Functions
 
+// Month num (emit value)
+const emit = defineEmits<{
+	(e: 'custom:monthNum', v: number): void;
+}>();
+const handleCalling = (v: number) => {
+	if (v !== null) emit('custom:monthNum', v);
+};
+
 // Set days from this month
 async function setMonth(): Promise<void> {
 	try {
@@ -220,6 +228,7 @@ async function setMonth(): Promise<void> {
 
 		// Calling internal functions
 		await setDays();
+		handleCalling(monthNum.value);
 	} catch (error) {}
 }
 
@@ -234,8 +243,11 @@ async function toggleMonth(num: number): Promise<void> {
 
 		// Calling functions
 		await setMonth();
+		handleCalling(monthNum.value);
 	} catch (error) {}
 }
+
+// Testes
 
 onMounted(async () => {
 	// Calling functions

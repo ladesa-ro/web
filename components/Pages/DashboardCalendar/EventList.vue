@@ -26,14 +26,17 @@ type Event = {
 	locale: string;
 };
 
-type EventItem = Event & {
+type EventItem = Omit<Event, 'locale'> & {
 	details: string;
+	locale?: string;
 };
 
 // Props
 const props = defineProps({
+	year: Number,
 	steps: Array<Step>,
 	events: Array<Event>,
+	monthNum: Number,
 });
 
 // Set event data
@@ -42,7 +45,6 @@ let allEventsItems = ref<EventItem[]>([
 		id: '',
 		name: '',
 		details: '',
-		locale: '',
 		color: '',
 		startDate: '',
 		endDate: '',
@@ -51,43 +53,58 @@ let allEventsItems = ref<EventItem[]>([
 
 async function setEvents(): Promise<void> {
 	try {
+		// Push in 'EventItems' array
+		async function pushItemInList(
+			Id: string,
+			Name: string,
+			StartDate: string,
+			EndDate: string,
+			Color: string,
+			Locale?: string
+		): Promise<void> {
+			try {
+				allEventsItems.value.push({
+					id: Id,
+					name: Name,
+					details: `Este evento começa dia ${dayjs(
+						dayjs(StartDate).toDate()
+					).format('DD/MM')} e termina em ${dayjs(
+						dayjs(EndDate).toDate()
+					).format('DD/MM')}.`,
+					color: Color,
+					locale: Locale,
+					startDate: StartDate,
+					endDate: EndDate,
+				});
+			} catch (error) {}
+		}
+
 		// Set all events
 		async function setAllItems(): Promise<boolean> {
 			allEventsItems.value = [];
 
-			// Set steps
 			try {
+				// Set steps
 				for (let i = 0; i < props.steps!.length; i++) {
-					allEventsItems.value.push({
-						id: props.steps![i].id,
-						name: `${props.steps![i].number}° Etapa`,
-						details: `Este evento começa dia ${dayjs(
-							dayjs(props.steps![i].startDate).toDate()
-						).format('DD/MM')} e termina em ${dayjs(
-							dayjs(props.steps![i].endDate).toDate()
-						).format('DD/MM')}.`,
-						locale: ``,
-						color: props.steps![i].color,
-						startDate: props.steps![i].startDate,
-						endDate: props.steps![i].endDate,
-					});
+					await pushItemInList(
+						props.steps![i].id,
+						`${props.steps![i].number}° Etapa`,
+						props.steps![i].startDate,
+						props.steps![i].endDate,
+						props.steps![i].color
+					);
 				}
 
 				// Set events
 				for (let i = 0; i < props.events!.length; i++) {
-					allEventsItems.value.push({
-						id: props.events![i].id,
-						name: props.events![i].name,
-						details: `Este evento começa dia ${dayjs(
-							dayjs(props.events![i].startDate).toDate()
-						).format('DD/MM')} e termina em ${dayjs(
-							dayjs(props.events![i].endDate).toDate()
-						).format('DD/MM')}.`,
-						locale: props.events![i].locale,
-						color: props.events![i].color,
-						startDate: props.steps![i].startDate,
-						endDate: props.steps![i].endDate,
-					});
+					await pushItemInList(
+						props.events![i].id,
+						props.events![i].name,
+						props.events![i].startDate,
+						props.events![i].endDate,
+						props.events![i].color,
+						props.events![i].locale
+					);
 				}
 
 				return true;
@@ -96,17 +113,43 @@ async function setEvents(): Promise<void> {
 			}
 		}
 
+		// Order list by date
+		async function OrderList(): Promise<boolean> {
+			try {
+				// Order
+				allEventsItems.value = allEventsItems.value
+					.slice()
+					.sort((a, b) => {
+						// Save diff dates
+						const date1 = dayjs(a.endDate).diff(dayjs().toDate());
+						const date2 = dayjs(b.endDate).diff(dayjs().toDate());
+
+						// Remove before events
+						return date1 - date2;
+					});
+
+				// Order events by month
+				const firstDayOfMonth = dayjs(
+					`${props.year!}-${props.monthNum! + 1}-01`
+				);
+
+				allEventsItems.value = allEventsItems.value.filter(
+					(event) =>
+						(dayjs(event.startDate) >=
+							firstDayOfMonth.startOf('month') ||
+							dayjs(event.endDate) >=
+								firstDayOfMonth.startOf('month')) &&
+						dayjs(event.startDate) <= firstDayOfMonth.endOf('month')
+				);
+				return true;
+			} catch (error) {
+				return false;
+			}
+		}
+
 		// Calling internal functions
 		await setAllItems();
-
-		// Order list by date
-		allEventsItems.value = allEventsItems.value.slice().sort((a, b) => {
-			// Save diff dates
-			const date1 = dayjs(a.startDate).diff(dayjs().toDate());
-			const date2 = dayjs(b.startDate).diff(dayjs().toDate());
-
-			return date1 - date2;
-		});
+		await OrderList();
 	} catch (error) {}
 }
 
@@ -114,12 +157,25 @@ onMounted(async () => {
 	// Calling functions
 	await setEvents();
 });
+
+watch(
+	() => props.monthNum!,
+	(newValue: number) => {
+		if (newValue !== null) {
+			setEvents();
+		}
+	}
+);
 </script>
 
 <template>
-	<div class="flex flex-col gap-2 overflow-y-auto w-[464px] h-[496px]">
+	<div
+		class="-custom-scrollbar flex flex-col gap-2 overflow-y-auto w-[464px] h-[496px]"
+	>
 		<PagesDashboardCalendarEvent
 			v-for="(event, index) in allEventsItems"
+			:id="event.id"
+			:key="event.id"
 			:name="event.name"
 			:details="event.details"
 			:locale="event.locale"
@@ -128,4 +184,8 @@ onMounted(async () => {
 	</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.-custom-scrollbar::-webkit-scrollbar {
+	width: 0px;
+}
+</style>

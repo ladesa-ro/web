@@ -3,6 +3,7 @@
 
 // Props
 const props = defineProps({
+	id: String,
 	name: String,
 	details: String,
 	locale: String,
