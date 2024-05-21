@@ -10,10 +10,21 @@ const { isDark } = useCustomTheme();
 const habumguerActive = ref(false);
 
 useTitle(HeadTitleContext.DASHBOARD);
+
+const init = ref(false);
+
+onMounted(() => {
+	init.value = true;
+});
 </script>
 
 <template>
-	<v-app class="app" :theme="isDark ? 'dark' : 'light'" style="z-index: 1">
+	<v-app
+		class="app"
+		style="z-index: 1"
+		:theme="isDark ? 'dark' : 'light'"
+		:class="{ initializing: !init }"
+	>
 		<v-layout class="layout">
 			<v-app-bar
 				app
@@ -35,6 +46,19 @@ useTitle(HeadTitleContext.DASHBOARD);
 </template>
 
 <style scoped>
+@media (max-width: 600px) {
+	.initializing .main {
+		--v-layout-left: 0 !important;
+	}
+}
+
+.initializing .main {
+	flex: 1 0 auto;
+	max-width: 100%;
+	padding: var(--v-layout-top) var(--v-layout-right) var(--v-layout-bottom)
+		var(--v-layout-left);
+}
+
 .main {
 	overflow: auto;
 }
