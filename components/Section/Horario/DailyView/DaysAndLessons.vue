@@ -3,7 +3,7 @@ import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
 import dayjs from '../-Helpers/dayjs';
 
 const selectedDay = defineModel({
-	default: dayjs('2024-01-29'),
+	default: dayjs(),
 });
 
 const genericLesson: ILesson = {
