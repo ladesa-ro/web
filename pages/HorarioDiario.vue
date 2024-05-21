@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { LazySectionHorarioDailyViewLesson } from '#build/components';
 import type { ILesson } from '~/components/Section/Horario/DailyView/IDailyView';
 
 const genericLesson: ILesson = {
@@ -10,24 +11,18 @@ const genericLesson: ILesson = {
 };
 
 const lessons: ILesson[] = [
-	genericLesson, // 0 < 2 --- completed
-	genericLesson, // 1 < 2 --- completed
-	genericLesson, // 2 == 2 -- active
-	genericLesson, // 3 > 2 --- default
-	genericLesson, // 4 > 2 --- default
+	genericLesson,
+	genericLesson,
+	genericLesson, 
+	genericLesson, 
+	genericLesson, 
 ];
 
 const activeIndex = 2;
 
 function getVariantForIndex(index: number) {
-	if (index < activeIndex) {
-		return 'completed';
-	}
-
-	if (index === activeIndex) {
-		return 'active';
-	}
-
+	if (index < activeIndex) return 'completed';
+	if (index === activeIndex) return 'active';
 	return;
 }
 </script>
@@ -39,7 +34,7 @@ function getVariantForIndex(index: number) {
 		<SectionHorarioDailyViewListagemDaySquare />
 
 		<v-container class="flex flex-col gap-5">
-			<SectionHorarioDailyViewClass
+			<LazySectionHorarioDailyViewLesson
 				v-for="(lesson, index) in lessons"
 				:lesson="lesson"
 				:variant="getVariantForIndex(index)"

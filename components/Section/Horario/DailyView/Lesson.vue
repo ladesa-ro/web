@@ -1,17 +1,9 @@
 <script setup lang="ts">
 import type { ILesson } from './IDailyView';
-
-// import { ref } from 'vue';
-// const subject = ref('Linguagem de Programação');
-// const _class = ref('2° A Informática');
-// const place = ref('Sala 20');
-// const time = ref('13:50 - 14:40');
-
 type Props = {
 	lesson: ILesson;
 	variant?: 'active' | 'completed';
 };
-
 defineProps<Props>();
 </script>
 
