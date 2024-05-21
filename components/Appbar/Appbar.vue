@@ -12,7 +12,7 @@ function toggleHamburger() {
 </script>
 
 <template>
-	<div class="flex w-full items-center h-full">
+	<div class="flex w-full items-center h-full bg-white">
 		<div @click="toggleHamburger">
 			<IconsMenuIconHamburgerOn
 				class="pa-3 w-[45px]"
