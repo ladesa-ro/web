@@ -19,8 +19,13 @@ export default defineNuxtConfig({
 
 	css: [
 		'@mdi/font/css/materialdesignicons.min.css',
-		'@/assets/styles/main.css'
+		'vuetify/lib/styles/main.css',
+		'@/assets/styles/main.css',
 	],
+
+	build: {
+		transpile: ['vuetify'],
+	},
 
 	serverHandlers: [
 		{ route: '/_api/auth/**', handler: '~/server/_api/auth/[...].ts' },
@@ -29,11 +34,11 @@ export default defineNuxtConfig({
 	// ==============================================
 
 	modules: [
-        '@sidebase/nuxt-auth',
-        '@nuxtjs/tailwindcss',
-        'vue3-carousel-nuxt',
-        'vuetify-nuxt-module'
-    ],
+		'@sidebase/nuxt-auth',
+		'@nuxtjs/tailwindcss',
+		'vue3-carousel-nuxt',
+		'vuetify-nuxt-module',
+	],
 
 	// ==============================================
 

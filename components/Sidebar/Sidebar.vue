@@ -8,12 +8,13 @@
 		:temporary="isMobile"
 		:permanent="!isMobile"
 		class="navigation-drawer"
+		:class="{ initializing: !init }"
 		:rail="!isMobile && !hamburgerActive"
 		:model-value="isMobile ? hamburgerActive : true"
 		:expand-on-hover="!isMobile && !hamburgerActive"
 		@update:model-value="($val) => (hamburgerActive = $val)"
 	>
-		<v-list class="flex-column justify-space-between h-full">
+		<v-list class="flex-column justify-space-between h-full sidebar-list">
 			<v-list-item-group class="flex flex-col gap-3 h-full">
 				<SidebarItem
 					:key="index"
@@ -35,8 +36,8 @@ import iconDiario from '~/assets/icons/Diario.svg';
 import iconDisciplina from '~/assets/icons/Disciplina.svg';
 import iconHome from '~/assets/icons/Home.svg';
 import iconOutros from '~/assets/icons/Mais-Itens.svg';
-import iconPerfil from '~/assets/icons/Usuario.svg';
 import iconTurmas from '~/assets/icons/Turmas.svg';
+import iconPerfil from '~/assets/icons/Usuario.svg';
 import iconUsuarios from '~/assets/icons/Usuarios.svg';
 import type { ISidebarItem } from './ISidebarItem';
 
@@ -113,6 +114,12 @@ const hamburgerActive = defineModel({
 	required: true,
 	type: Boolean,
 });
+
+const init = ref(false);
+
+onMounted(() => {
+	init.value = true;
+});
 </script>
 
 <style scoped>
@@ -122,12 +129,26 @@ span {
 	font-size: 15px;
 }
 
+.initializing :deep(.v-navigation-drawer__content) {
+	height: 100%;
+}
+
+.initializing .sidebar-list {
+	overflow: hidden;
+}
+
+@media (max-width: 600px) {
+	.initializing {
+		display: none;
+	}
+}
+
 .navigation-drawer {
 	@apply bg-green-700 text-white caret-white;
 	@apply overflow-auto;
 }
 .navigation-drawer-drawer img {
-	@apply filter invert
+	@apply filter invert;
 }
 
 .active {
