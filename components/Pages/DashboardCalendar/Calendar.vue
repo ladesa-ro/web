@@ -2,20 +2,20 @@
 // Import
 
 // Interface and types
-type Step = {
+type EventData = {
 	id: string;
-	number: number;
+	type: string;
 	startDate: string;
 	endDate: string;
 	color: string;
 };
 
-type Event = {
-	id: string;
+type Step = EventData & {
+	number: number;
+};
+
+type Event = EventData & {
 	name: string;
-	startDate: string;
-	endDate: string;
-	color: string;
 	locale: string;
 };
 
@@ -29,42 +29,65 @@ const years = [2024, 2023, 2022, 2021, 2020, 2019];
 // Event and steps (For example. Remove in other moment)
 const stepItems: Array<Step> = [
 	{
-		id: '1',
+		id: '123452',
 		number: 1,
 		startDate: '2024-02-08',
 		endDate: '2024-03-23',
 		color: '#0092E4',
+		type: 'step',
 	},
 	{
-		id: '2',
+		id: '24522',
 		number: 2,
 		startDate: '2024-03-24',
 		endDate: '2024-05-14',
 		color: '#2DAC0D',
+		type: 'step',
 	},
 	{
-		id: '3',
+		id: '3456',
 		number: 3,
 		startDate: '2024-05-15',
 		endDate: '2024-07-09',
 		color: '#D1A300',
+		type: 'step',
 	},
 	{
-		id: '4',
+		id: '544',
 		number: 4,
 		startDate: '2024-08-10',
 		endDate: '2024-11-28',
 		color: '#D7004D',
+		type: 'step',
 	},
 ];
 const eventItems: Array<Event> = [
 	{
-		id: '1',
+		id: '121312',
 		name: 'IFRO Party',
 		startDate: '2024-05-15',
 		endDate: '2024-05-22',
 		locale: 'Refeitório',
 		color: '#B51B2A',
+		type: 'event',
+	},
+	{
+		id: '1242',
+		name: 'IFRO Party 2',
+		startDate: '2024-05-15',
+		endDate: '2024-05-22',
+		locale: 'Refeitório',
+		color: '#211F1B',
+		type: 'event',
+	},
+	{
+		id: '12345',
+		name: 'IFRO Party 3',
+		startDate: '2024-05-31',
+		endDate: '2024-06-05',
+		locale: 'Refeitório',
+		color: '#0092E4',
+		type: 'event',
 	},
 ];
 
@@ -77,6 +100,7 @@ const handleUpdate = (v: number) => {
 	monthNumReceived.value = v;
 };
 
+// Watch month for toggle value
 watch(monthNumReceived, (newValue: number) => {
 	if (newValue !== null) {
 		monthNumReceived.value = newValue;

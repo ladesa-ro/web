@@ -65,6 +65,7 @@ let calendarDays = {
 const emit = defineEmits<{
 	(e: 'custom:monthNum', v: number): void;
 }>();
+
 const handleCalling = (v: number) => {
 	if (v !== null) emit('custom:monthNum', v);
 };

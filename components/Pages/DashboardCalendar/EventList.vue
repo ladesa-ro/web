@@ -9,24 +9,24 @@ dayjs.locale('pt-br');
 dayjs.extend(isBetween);
 
 // Interface and types
-type Step = {
+type EventData = {
 	id: string;
-	number: number;
+	type: string;
 	startDate: string;
 	endDate: string;
 	color: string;
 };
 
-type Event = {
-	id: string;
+type Step = EventData & {
+	number: number;
+};
+
+type Event = EventData & {
 	name: string;
-	startDate: string;
-	endDate: string;
-	color: string;
 	locale: string;
 };
 
-type EventItem = Omit<Event, 'locale'> & {
+type EventItem = Omit<Event, 'locale' | 'type'> & {
 	details: string;
 	locale?: string;
 };
@@ -40,7 +40,7 @@ const props = defineProps({
 });
 
 // Set event data
-let allEventsItems = ref<EventItem[]>([
+let allEventItems = ref<EventItem[]>([
 	{
 		id: '',
 		name: '',
@@ -63,7 +63,7 @@ async function setEvents(): Promise<void> {
 			Locale?: string
 		): Promise<void> {
 			try {
-				allEventsItems.value.push({
+				allEventItems.value.push({
 					id: Id,
 					name: Name,
 					details: `Este evento começa dia ${dayjs(
@@ -81,9 +81,9 @@ async function setEvents(): Promise<void> {
 
 		// Set all events
 		async function setAllItems(): Promise<boolean> {
-			allEventsItems.value = [];
-
 			try {
+				allEventItems.value = [];
+
 				// Set steps
 				for (let i = 0; i < props.steps!.length; i++) {
 					await pushItemInList(
@@ -114,16 +114,15 @@ async function setEvents(): Promise<void> {
 		}
 
 		// Order list by date
-		async function OrderList(): Promise<boolean> {
+		async function OrderList(): Promise<void> {
 			try {
 				// Order
-				allEventsItems.value = allEventsItems.value
+				allEventItems.value = allEventItems.value
 					.slice()
 					.sort((a, b) => {
 						// Save diff dates
 						const date1 = dayjs(a.endDate).diff(dayjs().toDate());
 						const date2 = dayjs(b.endDate).diff(dayjs().toDate());
-
 						// Remove before events
 						return date1 - date2;
 					});
@@ -133,7 +132,7 @@ async function setEvents(): Promise<void> {
 					`${props.year!}-${props.monthNum! + 1}-01`
 				);
 
-				allEventsItems.value = allEventsItems.value.filter(
+				allEventItems.value = allEventItems.value.filter(
 					(event) =>
 						(dayjs(event.startDate) >=
 							firstDayOfMonth.startOf('month') ||
@@ -141,10 +140,7 @@ async function setEvents(): Promise<void> {
 								firstDayOfMonth.startOf('month')) &&
 						dayjs(event.startDate) <= firstDayOfMonth.endOf('month')
 				);
-				return true;
-			} catch (error) {
-				return false;
-			}
+			} catch (error) {}
 		}
 
 		// Calling internal functions
@@ -154,26 +150,26 @@ async function setEvents(): Promise<void> {
 }
 
 onMounted(async () => {
-	// Calling functions
 	await setEvents();
-});
 
-watch(
-	() => props.monthNum!,
-	(newValue: number) => {
-		if (newValue !== null) {
-			setEvents();
+	// Watch month for toggle events
+	watch(
+		() => props.monthNum!,
+		async (newValue: number) => {
+			if (newValue !== null) {
+				await setEvents();
+			}
 		}
-	}
-);
+	);
+});
 </script>
 
 <template>
 	<div
-		class="-custom-scrollbar flex flex-col gap-2 overflow-y-auto w-[464px] h-[496px]"
+		class="-scrollbar flex flex-col gap-2 overflow-y-auto w-[464px] xl:w-[472px] h-[496px] pr-2"
 	>
 		<PagesDashboardCalendarEvent
-			v-for="(event, index) in allEventsItems"
+			v-for="(event, index) in allEventItems"
 			:id="event.id"
 			:key="event.id"
 			:name="event.name"
@@ -184,8 +180,4 @@ watch(
 	</div>
 </template>
 
-<style scoped>
-.-custom-scrollbar::-webkit-scrollbar {
-	width: 0px;
-}
-</style>
+<style scoped></style>
