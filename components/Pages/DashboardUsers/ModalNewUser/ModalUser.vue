@@ -19,12 +19,13 @@ const isActive = ref(false);
 	<v-dialog max-width="500" v-model="isActive">
 		<template v-slot:activator="{ props: activatorProps }">
 			<UIButtonAdd v-if="editId === null" v-bind="activatorProps" />
-			<IconsIconEdit v-else class="detail" v-bind="activatorProps" />
 		</template>
 
 		<template v-slot:="{ isActive }">
 			<v-card class="dialog-style">
-				<FormUser/>
+				<FormUser 
+				:editId="editId"
+				@close="isActive.value = false" />
 			</v-card>
 		</template>
 	</v-dialog>

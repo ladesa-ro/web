@@ -4,7 +4,7 @@ import { onKeyStroke } from '@vueuse/core';
 
 <template>
 	<v-container>
-		<section>
+		<section class="m-0 p-0">
 			<div class="flex flex-wrap gap-[27px]">
 				<NuxtLink
 					v-for="i in 14"
