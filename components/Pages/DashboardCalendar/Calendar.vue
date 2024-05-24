@@ -25,6 +25,14 @@ const props = defineProps({});
 // Calendar and events
 // Years
 const years = [2024, 2023, 2022, 2021, 2020, 2019];
+const calendars = [
+	'Informática 2024',
+	'Informática 2023',
+	'Informática 2022',
+	'Informática 2021',
+	'Informática 2020',
+	'Informática 2019',
+];
 
 // Event and steps (For example. Remove in other moment)
 const stepItems: Array<Step> = [
@@ -111,29 +119,69 @@ watch(monthNumReceived, (newValue: number) => {
 <template>
 	<v-container>
 		<div class="container">
-			<div class="flex justify-center w-full h-auto">
+			<div
+				class="flex flex-col justify-center items-center h-auto max-w-[952px]"
+			>
 				<!-- Select calendar -->
-				<!-- <div class="container-header w-3/6 flex gap-4 m-auto mb-5 justify-center items-center px-3">
+				<div
+					class="flex flex-col xl:flex-row w-full justify-center items-center gap-4 m-auto mb-5 py-[50px]"
+				>
+					<!-- Select year -->
 					<VVAutocomplete
 						name="year.id"
 						label="Ano letivo"
 						placeholder="Selecione um ano"
 						:items="years"
+						class="xl:max-w-[200px]"
 					/>
-				</div> -->
+
+					<!-- Select modality -->
+					<VVAutocompleteModalidades name="modalidade.id" />
+
+					<!-- Select calendar -->
+					<div class="flex w-full max-w-[1800px] gap-4">
+						<VVAutocomplete
+							name="calendar.id"
+							label="Calendários"
+							placeholder="Selecione um calendário"
+							:items="calendars"
+							class="xl:w-[252px]"
+						/>
+
+						<!-- Buttons -->
+
+						<!-- Search -->
+						<div>
+							<UIButtonSearch />
+						</div>
+
+						<!-- Add -->
+						<div>
+							<UIButtonAdd />
+						</div>
+					</div>
+				</div>
 
 				<!-- Content -->
 				<div
-					class="grid grid-cols-1 xl:grid-cols-2 gap-6 w-auto xl:w-full"
+					class="grid justify-center items-center grid-cols-1 xl:grid-cols-2 gap-6 w-[464px] xl:w-auto"
 				>
 					<!-- Month selected -->
-					<PagesDashboardCalendarMonth
-						:year="2024"
-						:steps="stepItems"
-						:events="eventItems"
-						:toggle-month="true"
-						@custom:month-num="handleUpdate"
-					/>
+					<div class="flex flex-col w-max h-auto gap-6">
+						<PagesDashboardCalendarMonth
+							:year="2024"
+							:steps="stepItems"
+							:events="eventItems"
+							:toggle-month="true"
+							@custom:month-num="handleUpdate"
+						/>
+
+						<!-- View complete calendar -->
+						<UITextButton
+							:text="'Calendário completo'"
+							:show-background="false"
+						/>
+					</div>
 
 					<!-- Event list -->
 					<PagesDashboardCalendarEventList
@@ -150,6 +198,9 @@ watch(monthNumReceived, (newValue: number) => {
 
 <style scoped>
 .container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	margin: 0 auto;
 	max-width: 89%;
 }

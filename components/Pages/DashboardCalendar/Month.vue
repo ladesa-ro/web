@@ -32,11 +32,6 @@ type Event = {
 	color: string;
 };
 
-type CalendarDates = {
-	steps: Array<Step>;
-	events: Array<Event>;
-};
-
 // Props
 const props = defineProps({
 	year: Number,

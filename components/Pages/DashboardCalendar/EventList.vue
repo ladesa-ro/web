@@ -166,7 +166,7 @@ onMounted(async () => {
 
 <template>
 	<div
-		class="-scrollbar flex flex-col gap-2 overflow-y-auto w-[464px] xl:w-[472px] h-[496px] pr-2"
+		class="-scrollbar flex flex-col gap-2 overflow-y-auto w-[464px] h-[568px] pr-2 xl:pr-0"
 	>
 		<PagesDashboardCalendarEvent
 			v-for="(event, index) in allEventItems"
