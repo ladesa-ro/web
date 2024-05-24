@@ -48,5 +48,8 @@
 		"@sidebase/nuxt-auth": {
 			"next-auth": "4.21.1"
 		}
+	},
+	"dependencies": {
+		"dayjs": "^1.11.11"
 	}
 }

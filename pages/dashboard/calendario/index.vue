@@ -3,9 +3,10 @@
 
 <template>
   <div>
-      <PagesDashboardBlocos />
+    <PagesDashboardCalendar />
   </div>
 </template>
-  
+
 <style>
+
 </style>
