@@ -1,17 +1,9 @@
 <script setup lang="ts">
-import type { ILesson } from './IDailyView';
-
-// import { ref } from 'vue';
-// const subject = ref('Linguagem de Programação');
-// const _class = ref('2° A Informática');
-// const place = ref('Sala 20');
-// const time = ref('13:50 - 14:40');
-
+import type { ILesson } from '../../-Helpers/ILesson';
 type Props = {
 	lesson: ILesson;
 	variant?: 'active' | 'completed';
 };
-
 defineProps<Props>();
 </script>
 
@@ -28,7 +20,7 @@ defineProps<Props>();
 			<p>Horário: {{ lesson.startsAt }} - {{ lesson.endsAt }}</p>
 		</section>
 
-		<div v-if="variant === 'active'" class="icon">
+		<div v-if="variant === 'active'" class="icon max-w-7">
 			<IconsIconClock />
 		</div>
 	</div>
