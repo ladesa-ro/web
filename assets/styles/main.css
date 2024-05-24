@@ -17,3 +17,18 @@
 	filter: invert(58%) sepia(35%) saturate(50%) hue-rotate(110deg)
 		brightness(94%) contrast(206%);
 }
+
+/* Scrollbar style */
+.-scrollbar::-webkit-scrollbar {
+	width: 6px;
+}
+.-scrollbar::-webkit-scrollbar-track {
+	background: #9ab69e;
+	border-radius: 50px;
+	cursor: pointer;
+}
+.-scrollbar::-webkit-scrollbar-thumb {
+	background: rgb(22 163 74);
+	border-radius: 50px;
+	cursor: pointer;
+}
