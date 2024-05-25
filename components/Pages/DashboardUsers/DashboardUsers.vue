@@ -11,15 +11,14 @@ const searchBarText = ref('');
 			<div
 				class="flex container-header mx-auto justify-between items-center mb-5 gap-4 px-3"
 			>
-			<UISearchBar
+				<UISearchBar
 					:value="searchBarText"
 					@update:value="searchBarText = $event"
 				/>
-				
-			</div>
 
-			<div class="flex items-center flex-shrink-0">
-				<ModalUser/>
+				<div class="flex items-center flex-shrink-0">
+					<ModalUser />
+				</div>
 			</div>
 
 			<div>

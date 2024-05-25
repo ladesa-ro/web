@@ -1,12 +1,95 @@
-<script setup></script>
+<script setup lang="ts">
+import { useQueryClient } from '@tanstack/vue-query';
+import { useForm } from 'vee-validate';
+import { computed } from 'vue';
+import * as yup from 'yup';
+
+const props = defineProps({
+	//props do modal criar e editar
+	editId: {
+		type: String,
+		required: false,
+		default: null,
+	},
+});
+
+const editIdRef = toRef(props, 'editId');
+
+const $emit = defineEmits(['close']);
+
+type FormOutput = {
+	imagem: Blob | null | undefined;
+
+	nome: string;
+
+	codigo: string;
+};
+
+type FormValues = {
+	imagem: Blob | null | undefined;
+	nome: string;
+
+	email: string;
+};
+
+const initialFormValues = reactive({
+	imagem: null,
+	nome: '',
+	codigo: '',
+});
+
+const schema = yup.object().shape({
+	imagem: yup.mixed().nullable().optional(),
+
+	nome: yup.string().required('Nome é obrigatório!'),
+
+	email: yup.string().required('Email é obrigatório!'),
+});
+
+const {
+	resetForm,
+	handleSubmit,
+	values: formValues,
+} = useForm<FormValues, FormOutput>({
+	validationSchema: schema,
+	initialValues: initialFormValues,
+});
+
+const onSubmit = handleSubmit(async (values: FormOutput) => {
+	const editId = editIdRef.value;
+
+	const { imagem, ...data } = values;
+
+	resetForm();
+	$emit('close');
+}, console.error);
+
+
+const nome = computed({
+	get: () => formValues.nome,
+	set: (value) => {
+		formValues.nome = value;
+	},
+});
+const email = computed({
+	get: () => formValues.email,
+	set: (value) => {
+		formValues.email = value;
+	},
+});
+</script>
 
 <template>
-	<v-form class="p-5 overflow-auto">
+	<v-form @submit.prevent="onSubmit" class="p-5 overflow-auto">
 		<div class="modal">
-			<span class="text-black font-bold text-[16px]">
-				Cadastrar Usuário
-			</span>
+			<div class="form-header">
+				<h1 class="main-title">
+					<span v-if="editId">Editar Turma</span>
+					<span v-else>Cadastrar Nova Turma</span>
+				</h1>
+			</div>
 
+			<v-divider class="my-4" />
 			<div class="flex flex-col gap-5">
 				<VVSelectImage name="imagem" />
 
@@ -33,45 +116,11 @@
 					/>
 				</div>
 			</div>
-			<div>
-				<button class="Cancel" @click="($event) => $emit('close')">
-					<span>Cancelar</span>
-					<svg
-						class="svgCancel"
-						width="13"
-						height="14"
-						viewBox="0 0 13 14"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							d="M1.23291 11.8824L10.9209 2.11755M10.9209 11.8824L1.23291 2.11755"
-							:stroke="svgCancelColor"
-							stroke-width="2.46588"
-							stroke-linecap="round"
-						/>
-					</svg>
-				</button>
+			<div class="form-footer button-group">
+				<UIButtonModalCancelButton @click="$emit('close')" />
 
-				<button class="Cad" @click="($event) => $emit('close')">
-					<span>Cadastrar</span>
-					<svg
-						class="svgCad"
-						width="18"
-						height="14"
-						viewBox="0 0 18 14"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							d="M1.4082 6.63384L6.59038 11.647L15.7719 2.35291"
-							:stroke="svgColor"
-							stroke-width="2.8164"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						/>
-					</svg>
-				</button>
+				<UIButtonModalEditButton v-if="editId" />
+				<UIButtonModalSaveButton v-else />
 			</div>
 		</div>
 
