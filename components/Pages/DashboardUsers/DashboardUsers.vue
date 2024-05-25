@@ -1,17 +1,8 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue';
-import IconAdd from '~/components/Icons/IconAdd.vue';
-import SearchBar from '~/components/UI/SearchBar/SearchBar.vue';
+import ModalUser from './ModalNewUser/ModalUser.vue';
 
-const show = ref(false);
-
-const openConfirm = () => {
-	show.value = true;
-};
-
-const closeConfirm = () => {
-	show.value = false;
-};
+const searchBarText = ref('');
 </script>
 
 <template>
@@ -20,17 +11,14 @@ const closeConfirm = () => {
 			<div
 				class="flex container-header mx-auto justify-between items-center mb-5 gap-4 px-3"
 			>
-				<SearchBar />
-				<div class="mr-[80px]">
-					<UIButtonAdd @click="openConfirm" />
-				</div>
-			</div>
-
-			<div>
-				<PagesDashboardUsersModalNewUser
-					v-if="show"
-					@close="closeConfirm"
+				<UISearchBar
+					:value="searchBarText"
+					@update:value="searchBarText = $event"
 				/>
+
+				<div class="flex items-center flex-shrink-0">
+					<ModalUser />
+				</div>
 			</div>
 
 			<div>
