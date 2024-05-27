@@ -1,3 +1,6 @@
+<script setup lang="ts">
+</script>
+
 <template>
-	<SectionHorarioDiary />
+	<SectionHorarioChooseRoute/>
 </template>
