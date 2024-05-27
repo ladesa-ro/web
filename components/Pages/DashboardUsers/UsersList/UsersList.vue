@@ -5,12 +5,12 @@ import { onKeyStroke } from '@vueuse/core';
 <template>
 	<v-container>
 		<section class="m-0 p-0">
-			<div class="flex flex-wrap gap-[27px]">
+			<div class="flex flex-wrap gap-[36.59px]">
 				<NuxtLink
 					v-for="i in 10"
 					:key="i"
 					:to="`/usuarios/${i}`"
-					class="grid bg w-[170px] h-[190px] border-2 border-[#9ab69e] rounded-lg no-underline p-0 m-0 overflow-hidden"
+					class="grid bg w-[172px] h-[190px] border-2 border-[#9ab69e] rounded-lg no-underline p-0 m-0 overflow-hidden"
 				>
 					<span
 						class="flex bg-[#F0F0F0] h-[100%] w-full rounded-t-lg items-center justify-center"
