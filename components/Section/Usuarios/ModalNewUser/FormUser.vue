@@ -41,7 +41,7 @@ const initialFormValues = reactive({
 	vinculos: [
 		{
 			campus: { id: null } as any,
-			cargos: [null] as any,
+			cargos: [] as any,
 		},
 	] as any,
 });
