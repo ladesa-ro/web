@@ -22,7 +22,7 @@ const searchBarText = ref('');
 			</div>
 
 			<div>
-				<PagesDashboardUsersUsersList />
+				<SectionUsuariosUsersList />
 			</div>
 		</div>
 	</v-container>
