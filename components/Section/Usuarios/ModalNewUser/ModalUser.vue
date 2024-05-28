@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
+import Disponibilidade from './Disponibilidade.vue';
 import FormUser from './FormUser.vue';
+import Teste from './Teste.vue';
+
+import formValues from './FormUser.vue';
 
 const props = defineProps({
 	editId: {
@@ -13,21 +17,41 @@ const props = defineProps({
 const editId = toRef(props, 'editId');
 
 const isActive = ref(false);
+
 </script>
 
 <template>
-	<v-dialog max-width="500" v-model="isActive">
+	<v-dialog v-model="isActive">
 		<template v-slot:activator="{ props: activatorProps }">
 			<UIButtonAdd v-if="editId === null" v-bind="activatorProps" />
-			<IconsIconEdit v-else class="detail" v-bind="activatorProps" />
 		</template>
 
 		<template v-slot:="{ isActive }">
-			<v-card class="dialog-style">
-				<FormUser 
-				:editId="editId"
-				@close="isActive.value = false" />
-			</v-card>
+			<div
+				class="flex flex-row justify-center gap-[16px] overflow-hidden"
+			>
+				<v-card class="dialog-style overflow-auto max-w-[400px]">
+					<FormUser
+						@close="isActive.value = false"
+					/>
+				</v-card>
+
+				<v-card class="dialog-style overflow-auto max-w-[400px]">
+					<Disponibilidade close="isActive.value = false" />
+				</v-card>
+				<!-- <div
+					v-if="
+						formValues.vinculos.some((teste) =>
+							teste.cargos.includes('professor')
+						)
+					"
+				>
+					<Disponibilidade />
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit.
+					</p>
+				</div> -->
+			</div>
 		</template>
 	</v-dialog>
 </template>
