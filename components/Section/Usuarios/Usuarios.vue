@@ -7,7 +7,7 @@ const searchBarText = ref('');
 
 <template>
 	<v-container>
-		<div class="container mx-auto max-w-[89%]">
+		<div class="container mx-auto py-4 max-w-[89%]">
 			<div
 				class="flex container-header mx-auto justify-between items-center mb-5 gap-4 px-3"
 			>
