@@ -8,12 +8,13 @@ import isBetween from 'dayjs/plugin/isBetween';
 dayjs.locale('pt-br');
 dayjs.extend(isBetween);
 
-// Interface and types
+// --- Interface and types ---
 type Day = {
 	num: number;
 	day: string;
 	date: string;
 	color: string;
+	hoverActive: boolean;
 };
 
 type Step = {
@@ -32,15 +33,16 @@ type Event = {
 	color: string;
 };
 
-// Props
+// --- Props ---
 const props = defineProps({
 	year: Number,
 	toggleMonth: Boolean,
+	selectWeek: Boolean,
 	steps: Array<Step>,
 	events: Array<Event>,
 });
 
-// Month
+//  --- Month ---
 const daysInTheWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 let monthNum = ref<number>(dayjs().month());
@@ -56,7 +58,7 @@ let calendarDays = {
 
 // Functions
 
-// Month num (emit value)
+//  --- Month num (emit value)  ---
 const emit = defineEmits<{
 	(e: 'custom:monthNum', v: number): void;
 }>();
@@ -65,6 +67,7 @@ const handleCalling = (v: number) => {
 	if (v !== null) emit('custom:monthNum', v);
 };
 
+//  --- Month data ---
 // Set days from this month
 async function setMonth(): Promise<void> {
 	try {
@@ -109,6 +112,7 @@ async function setMonth(): Promise<void> {
 								).format('dddd'),
 								date: `${props.year!}-${monthNum.value + 1}-${i + 1}`,
 								color: '#9ab69e',
+								hoverActive: false,
 							});
 						}
 
@@ -243,7 +247,51 @@ async function toggleMonth(num: number): Promise<void> {
 	} catch (error) {}
 }
 
-// Testes
+// --- Select week ---
+const daysOfWeek = ref<string[]>([]);
+
+// Get dates of week
+async function getWeek(date: string): Promise<void> {
+	try {
+		// Check if select week is enable
+		if (props.selectWeek! === true) {
+			const startOfWeek = dayjs(date).startOf('week');
+
+			// Set dates
+			daysOfWeek.value = [];
+			for (let i = 1; i <= 6; i++) {
+				daysOfWeek.value.push(
+					startOfWeek.add(i, 'day').format('YYYY-M-D')
+				);
+			}
+		}
+	} catch (error) {}
+}
+
+// Set hover
+async function hoverInWeek(date: string, enableHover: boolean): Promise<void> {
+	try {
+		// Check if select week is enable
+		if (props.selectWeek! === true) {
+			// Set dates of week
+			await getWeek(date);
+
+			// Set hover in all days
+			for (let i = 0; i <= 6; i++) {
+				// Find day
+				const dayItem = calendarDays.daysInMonth.value.find(
+					(item) => item.date === daysOfWeek.value[i]
+				);
+
+				// Active hover
+				if (dayItem) {
+					if (enableHover === true) dayItem!.hoverActive = true;
+					else dayItem!.hoverActive = false;
+				}
+			}
+		}
+	} catch (error) {}
+}
 
 onMounted(async () => {
 	// Calling functions
@@ -308,23 +356,33 @@ onMounted(async () => {
 			<div
 				v-for="(dayInMonth, index) in calendarDays.daysInMonth.value"
 				:key="index"
-				class="w-12 h-12 flex justify-center items-center overflow-hidden border-solid rounded-lg"
+				class="w-12 h-12 flex border-solid rounded-lg"
+				:class="{ 'cursor-pointer': props.selectWeek }"
 				:style="{ backgroundColor: dayInMonth.color }"
+				@mouseenter="hoverInWeek(dayInMonth.date, true)"
+				@mouseleave="hoverInWeek(dayInMonth.date, false)"
 			>
-				<p
+				<!-- Hover -->
+				<div
+					class="flex w-full h-full justify-center items-center"
 					:class="{
-						'border-2 border-solid border-white rounded-md':
-							dayjs(dayjs().startOf('day').toDate()).format(
-								'YYYY-MM-DD'
-							) ==
-							dayjs(
-								dayjs(dayInMonth.date).startOf('day').toDate()
-							).format('YYYY-MM-DD'),
+						'-hover-off ': dayInMonth.hoverActive !== true,
+						'-hover-on ': dayInMonth.hoverActive === true,
 					}"
-					class="mx-auto w-10 h-10 flex justify-center items-center text-center text-white font-semibold"
 				>
-					{{ dayjs(dayInMonth.date).format('DD') }}
-				</p>
+					<p
+						:class="{
+							'border-2 border-solid border-white rounded-md':
+								dayjs(dayjs().toDate()).format('YYYY-MM-DD') ==
+								dayjs(dayjs(dayInMonth.date)).format(
+									'YYYY-MM-DD'
+								),
+						}"
+						class="mx-auto w-10 h-10 flex justify-center items-center text-center text-white font-semibold"
+					>
+						{{ dayjs(dayInMonth.date).format('D') }}
+					</p>
+				</div>
 			</div>
 			<!-- After -->
 			<div
@@ -341,5 +399,11 @@ onMounted(async () => {
 	border: solid 2px #9ab69e;
 	box-shadow: none;
 	margin: 0;
+}
+.-hover-on {
+	background-color: #ffffff40;
+}
+.-hover-off {
+	background-color: #ffffff00;
 }
 </style>

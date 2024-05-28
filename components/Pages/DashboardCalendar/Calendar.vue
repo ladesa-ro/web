@@ -173,6 +173,7 @@ watch(monthNumReceived, (newValue: number) => {
 							:steps="stepItems"
 							:events="eventItems"
 							:toggle-month="true"
+							:select-week="true"
 							@custom:month-num="handleUpdate"
 						/>
 
