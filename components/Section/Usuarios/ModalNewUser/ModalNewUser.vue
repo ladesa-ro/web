@@ -24,7 +24,7 @@
 					name="email"
 				/>
 
-				<PagesDashboardUsersModalNewUserFuncao />
+				<SectionUsuariosModalNewUserFuncao />
 			</div>
 			<div>
 				<button class="Cancel" @click="($event) => $emit('close')">
@@ -72,7 +72,7 @@
 			<h1 class="hDispo">Disponibilidade</h1>
 
 			<div>
-				<PagesDashboardUsersFormsDisponibilidade />
+				<SectionUsuariosFormsDisponibilidade />
 			</div>
 		</div>
 	</div>
