@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import { computed } from 'vue';
 import * as yup from 'yup';
@@ -28,14 +27,24 @@ type FormOutput = {
 type FormValues = {
 	imagem: Blob | null | undefined;
 	nome: string;
-
 	email: string;
+
+	vinculos: Array<{
+		campus: { id: string };
+		cargos: Array<'dape' | 'professor'>;
+	}>;
 };
 
 const initialFormValues = reactive({
 	imagem: null,
 	nome: '',
 	codigo: '',
+	vinculos: [
+		{
+			campus: { id: null } as any,
+			cargos: ['dape'],
+		},
+	] as any,
 });
 
 const schema = yup.object().shape({
@@ -44,6 +53,21 @@ const schema = yup.object().shape({
 	nome: yup.string().required('Nome é obrigatório!'),
 
 	email: yup.string().required('Email é obrigatório!'),
+
+	vinculos: yup.array().of(
+		yup.object({
+			campus: yup.object({
+				id: yup.string().required('Informe o campus deste vínculo!'),
+			}),
+			cargos: yup
+				.array()
+				.of(yup.string())
+				.min(
+					1,
+					'O usuário deve possuir ao menos 1 cargo neste vínculo!'
+				),
+		})
+	),
 });
 
 const {
@@ -63,7 +87,6 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 	resetForm();
 	$emit('close');
 }, console.error);
-
 
 const nome = computed({
 	get: () => formValues.nome,
@@ -94,7 +117,6 @@ const email = computed({
 				<VVSelectImage name="imagem" />
 
 				<VVTextField
-					v-model="nome"
 					type="text"
 					label="Nome"
 					placeholder="Digite aqui"
@@ -102,18 +124,25 @@ const email = computed({
 				/>
 
 				<VVTextField
-					v-model="email"
 					type="text"
 					label="Email"
 					placeholder="Digite aqui"
 					name="email"
 				/>
 
-				<div class="flex gap-5 items-center">
-					<VVAutocompleteCampus name="campus" />
-					<PagesDashboardUsersModalNewUserFuncao
-						class="w-auto min-w-[10.65rem]"
-					/>
+				<SectionUsuariosFormRepeater />
+
+				<div
+					v-if="
+						formValues.vinculos.some((vinculo) =>
+							vinculo.cargos.includes('professor')
+						)
+					"
+				>
+					<p>
+						Esta mensagem só deve aparecer caso algum vínculo
+						contenha o cargo "professor".
+					</p>
 				</div>
 			</div>
 			<div class="form-footer button-group">
@@ -128,7 +157,8 @@ const email = computed({
       <h1 class="hDispo">Disponibilidade</h1>
 
       <div>
-        <PagesDashboardUsersFormsDisponibilidade />
+		2 modal
+        
       </div>
     </div> -->
 	</v-form>
