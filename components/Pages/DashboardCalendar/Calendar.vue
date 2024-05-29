@@ -1,12 +1,14 @@
 <script lang="ts" setup>
 // Import
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
 
 // Interface and types
 type EventData = {
 	id: string;
 	type: string;
-	startDate: string;
-	endDate: string;
+	startDate: dayjs.Dayjs;
+	endDate: dayjs.Dayjs;
 	color: string;
 };
 
@@ -39,32 +41,32 @@ const stepItems: Array<Step> = [
 	{
 		id: '123452',
 		number: 1,
-		startDate: '2024-02-08',
-		endDate: '2024-03-23',
+		startDate: dayjs('2024-02-08'),
+		endDate: dayjs('2024-03-23'),
 		color: '#0092E4',
 		type: 'step',
 	},
 	{
 		id: '24522',
 		number: 2,
-		startDate: '2024-03-24',
-		endDate: '2024-05-14',
+		startDate: dayjs('2024-03-24'),
+		endDate: dayjs('2024-05-14'),
 		color: '#2DAC0D',
 		type: 'step',
 	},
 	{
 		id: '3456',
 		number: 3,
-		startDate: '2024-05-15',
-		endDate: '2024-07-09',
+		startDate: dayjs('2024-05-15'),
+		endDate: dayjs('2024-07-09'),
 		color: '#D1A300',
 		type: 'step',
 	},
 	{
 		id: '544',
 		number: 4,
-		startDate: '2024-08-10',
-		endDate: '2024-11-28',
+		startDate: dayjs('2024-08-10'),
+		endDate: dayjs('2024-11-28'),
 		color: '#D7004D',
 		type: 'step',
 	},
@@ -73,8 +75,8 @@ const eventItems: Array<Event> = [
 	{
 		id: '121312',
 		name: 'IFRO Party',
-		startDate: '2024-05-15',
-		endDate: '2024-05-22',
+		startDate: dayjs('2024-05-15'),
+		endDate: dayjs('2024-05-22'),
 		locale: 'Refeitório',
 		color: '#B51B2A',
 		type: 'event',
@@ -82,8 +84,8 @@ const eventItems: Array<Event> = [
 	{
 		id: '1242',
 		name: 'IFRO Party 2',
-		startDate: '2024-05-15',
-		endDate: '2024-05-22',
+		startDate: dayjs('2024-05-15'),
+		endDate: dayjs('2024-05-22'),
 		locale: 'Refeitório',
 		color: '#211F1B',
 		type: 'event',
@@ -91,8 +93,8 @@ const eventItems: Array<Event> = [
 	{
 		id: '12345',
 		name: 'IFRO Party 3',
-		startDate: '2024-05-31',
-		endDate: '2024-06-05',
+		startDate: dayjs('2024-05-31'),
+		endDate: dayjs('2024-06-05'),
 		locale: 'Refeitório',
 		color: '#0092E4',
 		type: 'event',

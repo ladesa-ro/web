@@ -9,28 +9,29 @@ dayjs.locale('pt-br');
 dayjs.extend(isBetween);
 
 // --- Interface and types ---
+type EventData = {
+	id: string;
+	type: string;
+	startDate: dayjs.Dayjs;
+	endDate: dayjs.Dayjs;
+	color: string;
+};
+
+type Step = Omit<EventData, 'type'> & {
+	number: number;
+};
+
+type Event = Omit<EventData, 'type'> & {
+	name: string;
+	locale: string;
+};
+
 type Day = {
 	num: number;
 	day: string;
-	date: string;
+	date: dayjs.Dayjs;
 	color: string;
 	hoverActive: boolean;
-};
-
-type Step = {
-	id: string;
-	number: number;
-	startDate: string;
-	endDate: string;
-	color: string;
-};
-
-type Event = {
-	id: string;
-	name: string;
-	startDate: string;
-	endDate: string;
-	color: string;
 };
 
 // --- Props ---
@@ -110,7 +111,9 @@ async function setMonth(): Promise<void> {
 								day: dayjs(
 									`${props.year!}-${monthNum.value + 1}-${i + 1}`
 								).format('dddd'),
-								date: `${props.year!}-${monthNum.value + 1}-${i + 1}`,
+								date: dayjs(
+									`${props.year!}-${monthNum.value + 1}-${i + 1}`
+								),
 								color: '#9ab69e',
 								hoverActive: false,
 							});
@@ -248,10 +251,10 @@ async function toggleMonth(num: number): Promise<void> {
 }
 
 // --- Select week ---
-const daysOfWeek = ref<string[]>([]);
+const daysOfWeek = ref<dayjs.Dayjs[]>([]);
 
 // Get dates of week
-async function getWeek(date: string): Promise<void> {
+async function getWeek(date: dayjs.Dayjs): Promise<void> {
 	try {
 		// Check if select week is enable
 		if (props.selectWeek! === true) {
@@ -260,16 +263,17 @@ async function getWeek(date: string): Promise<void> {
 			// Set dates
 			daysOfWeek.value = [];
 			for (let i = 1; i <= 6; i++) {
-				daysOfWeek.value.push(
-					startOfWeek.add(i, 'day').format('YYYY-M-D')
-				);
+				daysOfWeek.value.push(startOfWeek.add(i, 'day'));
 			}
 		}
 	} catch (error) {}
 }
 
 // Set hover
-async function hoverInWeek(date: string, enableHover: boolean): Promise<void> {
+async function hoverInWeek(
+	date: dayjs.Dayjs,
+	enableHover: boolean
+): Promise<void> {
 	try {
 		// Check if select week is enable
 		if (props.selectWeek! === true) {

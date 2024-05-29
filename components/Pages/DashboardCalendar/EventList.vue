@@ -12,8 +12,8 @@ dayjs.extend(isBetween);
 type EventData = {
 	id: string;
 	type: string;
-	startDate: string;
-	endDate: string;
+	startDate: dayjs.Dayjs;
+	endDate: dayjs.Dayjs;
 	color: string;
 };
 
@@ -40,16 +40,7 @@ const props = defineProps({
 });
 
 // Set event data
-let allEventItems = ref<EventItem[]>([
-	{
-		id: '',
-		name: '',
-		details: '',
-		color: '',
-		startDate: '',
-		endDate: '',
-	},
-]);
+let allEventItems = ref<EventItem[]>([]);
 
 async function setEvents(): Promise<void> {
 	try {
@@ -57,8 +48,8 @@ async function setEvents(): Promise<void> {
 		async function pushItemInList(
 			Id: string,
 			Name: string,
-			StartDate: string,
-			EndDate: string,
+			StartDate: dayjs.Dayjs,
+			EndDate: dayjs.Dayjs,
 			Color: string,
 			Locale?: string
 		): Promise<void> {
