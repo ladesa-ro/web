@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
-import { computed } from 'vue';
 import * as yup from 'yup';
 
 const props = defineProps({
@@ -28,14 +26,24 @@ type FormOutput = {
 type FormValues = {
 	imagem: Blob | null | undefined;
 	nome: string;
-
 	email: string;
+
+	vinculos: Array<{
+		campus: { id: string };
+		cargos: Array<'dape' | 'professor'>;
+	}>;
 };
 
 const initialFormValues = reactive({
 	imagem: null,
 	nome: '',
 	codigo: '',
+	vinculos: [
+		{
+			campus: { id: null } as any,
+			cargos: [] as any,
+		},
+	] as any,
 });
 
 const schema = yup.object().shape({
@@ -44,6 +52,21 @@ const schema = yup.object().shape({
 	nome: yup.string().required('Nome é obrigatório!'),
 
 	email: yup.string().required('Email é obrigatório!'),
+
+	vinculos: yup.array().of(
+		yup.object({
+			campus: yup.object({
+				id: yup.string().required('Informe o campus deste vínculo!'),
+			}),
+			cargos: yup
+				.array()
+				.of(yup.string())
+				.min(
+					1,
+					'O usuário deve possuir ao menos 1 cargo neste vínculo!'
+				),
+		})
+	),
 });
 
 const {
@@ -63,20 +86,6 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 	resetForm();
 	$emit('close');
 }, console.error);
-
-
-const nome = computed({
-	get: () => formValues.nome,
-	set: (value) => {
-		formValues.nome = value;
-	},
-});
-const email = computed({
-	get: () => formValues.email,
-	set: (value) => {
-		formValues.email = value;
-	},
-});
 </script>
 
 <template>
@@ -94,7 +103,6 @@ const email = computed({
 				<VVSelectImage name="imagem" />
 
 				<VVTextField
-					v-model="nome"
 					type="text"
 					label="Nome"
 					placeholder="Digite aqui"
@@ -102,19 +110,13 @@ const email = computed({
 				/>
 
 				<VVTextField
-					v-model="email"
 					type="text"
 					label="Email"
 					placeholder="Digite aqui"
 					name="email"
 				/>
 
-				<div class="flex gap-5 items-center">
-					<VVAutocompleteCampus name="campus" />
-					<PagesDashboardUsersModalNewUserFuncao
-						class="w-auto min-w-[10.65rem]"
-					/>
-				</div>
+				<SectionUsuariosFormRepeater />
 			</div>
 			<div class="form-footer button-group">
 				<UIButtonModalCancelButton @click="$emit('close')" />
@@ -123,87 +125,31 @@ const email = computed({
 				<UIButtonModalSaveButton v-else />
 			</div>
 		</div>
+		<!-- <div
+			v-if="
+				formValues.vinculos.some((vinculo) =>
+					vinculo.cargos.includes('professor')
+				)
+			"
+		>
+			<Disponibilidade />
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+		</div> -->
 
 		<!-- <div class="modal2">
       <h1 class="hDispo">Disponibilidade</h1>
 
       <div>
-        <PagesDashboardUsersFormsDisponibilidade />
+		2 modal
+        
       </div>
     </div> -->
 	</v-form>
 </template>
 
 <style scoped>
-h1 {
-	font-size: 16px;
-}
-
 .modal {
-	background-color: white;
-	color: black;
-	border-radius: 0.5rem;
 	text-align: center;
-}
-
-.modal2 {
-	background-color: white;
-	color: black;
-	border-radius: 0.5rem;
-	text-align: center;
-	box-shadow:
-		0 20px 25px -5px rgba(0, 0, 0, 0.1),
-		0 8px 10px -6px rgba(0, 0, 0, 0.1);
-	padding: 1.5rem;
-	width: 390px;
-	z-index: 10000;
-	margin-left: 20px;
-	height: 600px;
-}
-
-.Cad,
-.Cancel {
-	font-weight: 700;
-}
-
-.Cancel {
-	margin-right: 70px;
-}
-
-.Cad {
-	margin-left: 110px;
-}
-
-.Cad:hover {
-	color: #00d047;
-	transition: stroke 0.3s ease;
-}
-
-.Cad:hover .svgCad {
-	stroke: #00d047;
-	transition: stroke 0.2s ease;
-}
-
-.svgCad,
-.svgCancel {
-	stroke: black;
-	vertical-align: middle;
-	margin-bottom: 2px;
-	margin-left: 8px;
-}
-
-.Cancel:hover {
-	color: #e9001c;
-	transition: stroke 0.2s ease;
-}
-
-.Cancel:hover .svgCancel {
-	stroke: #e9001c;
-	transition: stroke 0.2s ease;
-}
-
-.hDispo {
-	margin-left: 10px;
 }
 
 .form {
