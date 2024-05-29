@@ -162,10 +162,6 @@ watch(monthNumReceived, (newValue: number) => {
 					</div>
 				</div>
 
-				<div class="bg-red-600">
-					<IconsMenuIconHamburgerOn class="text-white w-16 h-16" />
-				</div>
-
 				<!-- Content -->
 				<div
 					class="grid justify-center items-center grid-cols-1 xl:grid-cols-2 gap-6 w-[464px] xl:w-auto"

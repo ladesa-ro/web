@@ -9,5 +9,7 @@
 <style scoped>
 svg {
 	fill: currentColor;
+	width: 15px;
+	height: 15px;
 }
 </style>
