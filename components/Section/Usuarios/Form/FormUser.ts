@@ -23,3 +23,17 @@ export type Vinculo = {
 export const useFormUser = () => {
 	return inject<FormContext<FormUserValues, FormUserOutput>>('FORM_USER')!;
 };
+
+export const checkActiveTeacherRole = (vinculo: Vinculo) => {
+	return vinculo.campus.id !== null && vinculo.cargos.includes('professor');
+};
+
+export const checkHasAtLeastOneActiveTeacherRole = (
+	vinculos: Array<Vinculo>
+) => {
+	return vinculos.some(checkActiveTeacherRole);
+};
+
+export const getActivesTeacherRole = (vinculos: Array<Vinculo>) => {
+	return vinculos.filter(checkActiveTeacherRole);
+};

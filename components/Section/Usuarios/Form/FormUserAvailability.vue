@@ -1,99 +1,57 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import IconArrow from '~/components/Icons/Arrow/IconArrow.vue';
+import { type Vinculo } from './FormUser';
 
-const selectedOptions = ref();
+const props = defineProps<{ vinculo: Vinculo }>();
 
-const options = [
-	{ value: 'Domingo' },
-	{ value: 'Segunda' },
-	{ value: 'Terça' },
-	{ value: 'Quarta' },
-	{ value: 'Quinta' },
-	{ value: 'Sexta' },
-	{ value: 'Sábado' },
-];
+const { campus, query } = await useApiCampusFindOne(props.vinculo.campus.id);
 
-selectedOptions.value = options[1];
-
-let currentDayIndex = ref(1);
-
-const changeDay = (delta: number) => {
-	currentDayIndex.value =
-		(currentDayIndex.value + delta + options.length) % options.length;
-
-	selectedOptions.value = options[currentDayIndex.value];
-};
+await query.suspense();
 </script>
 <template>
-	<v-form class="p-5 overflow-auto">
-		<div class="modal">
-			<div class="form-header">
-				<h1 class="main-title">
-					<span>Disponibilidade</span>
-				</h1>
-			</div>
-			<div class="flex justify-between items-center mt-5">
-				<IconArrow class="cursor-pointer" @click="changeDay(-1)" />
+	<v-expansion-panel :value="vinculo.campus.id">
+		<v-expansion-panel-title
+			expand-icon="mdi-menu-down"
+			class="font-medium"
+		>
+			{{ campus?.apelido }}
+		</v-expansion-panel-title>
+
+		<v-expansion-panel-text>
+			<section class="flex gap-6 justify-between">
 				<div>
-					<span class="font-medium">
-						{{ selectedOptions?.value }}
-					</span>
+					<span>Matutino</span>
+					<v-checkbox
+						hide-details
+						density="compact"
+						color="success"
+						label="Manhã"
+						v-for="i in 7"
+						name="disponibilidade"
+					/>
 				</div>
-				<IconArrow
-					class="cursor-pointer rotate-180"
-					@click="changeDay(1)"
-				/>
-			</div>
-
-			<v-divider class="my-4" />
-			<div class="flex flex-col gap-5">
-				<section class="flex justify-between mt-10">
-					<div>
-						<span>Matutino</span>
-						<v-checkbox
-							hide-details
-							density="compact"
-							color="success"
-							label="Manhã"
-							v-for="i in 7"
-							name="disponibilidade"
-						/>
-					</div>
-					<div>
-						<span>Vespertino</span>
-						<v-checkbox
-							hide-details
-							density="compact"
-							color="success"
-							label="Manhã"
-							v-for="i in 7"
-							name="disponibilidade"
-						/>
-					</div>
-					<div>
-						<span>Noturno</span>
-						<v-checkbox
-							hide-details
-							density="compact"
-							color="success"
-							label="Manhã"
-							v-for="i in 7"
-							name="disponibilidade"
-						/>
-					</div>
-				</section>
-			</div>
-		</div>
-	</v-form>
+				<div>
+					<span>Vespertino</span>
+					<v-checkbox
+						hide-details
+						density="compact"
+						color="success"
+						label="Manhã"
+						v-for="i in 7"
+						name="disponibilidade"
+					/>
+				</div>
+				<div>
+					<span>Noturno</span>
+					<v-checkbox
+						hide-details
+						density="compact"
+						color="success"
+						label="Manhã"
+						v-for="i in 7"
+						name="disponibilidade"
+					/>
+				</div>
+			</section>
+		</v-expansion-panel-text>
+	</v-expansion-panel>
 </template>
-
-<style scoped>
-.modal {
-	text-align: center;
-}
-.main-title {
-	font-size: 24px;
-	font-weight: 700;
-}
-</style>
