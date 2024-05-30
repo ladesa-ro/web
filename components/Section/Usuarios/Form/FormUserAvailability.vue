@@ -18,61 +18,12 @@ selectedOptions.value = options[1];
 
 let currentDayIndex = ref(1);
 
-const changeDay = (delta:number) => {
+const changeDay = (delta: number) => {
 	currentDayIndex.value =
 		(currentDayIndex.value + delta + options.length) % options.length;
 
 	selectedOptions.value = options[currentDayIndex.value];
 };
-
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
-
-const props = defineProps({
-	//props do modal criar e editar
-	editId: {
-		type: String,
-		required: false,
-		default: null,
-	},
-});
-
-const editIdRef = toRef(props, 'editId');
-
-const $emit = defineEmits(['close']);
-
-type FormOutput = {
-	disponibilidade: string;
-};
-
-type FormValues = {
-	disponibilidade: string;
-};
-
-const initialFormValues = reactive({
-	disponibilidade: ''
-});
-
-const schema = yup.object().shape({
-	disponibilidade: yup.string().required('Disponibilidade é obrigatório!')
-});
-
-const {
-	resetForm,
-	handleSubmit,
-	values: formValues,
-} = useForm<FormValues, FormOutput>({
-	validationSchema: schema,
-	initialValues: initialFormValues,
-});
-
-const onSubmit = handleSubmit(async (values: FormOutput) => {
-
-	const { ...data } = values;
-
-	resetForm();
-	$emit('close');
-}, console.error);
 </script>
 <template>
 	<v-form class="p-5 overflow-auto">
