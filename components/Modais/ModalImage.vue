@@ -1,6 +1,4 @@
-<script setup>
-import ContainerImage from '../Pages/DashboardUsers/Forms/ContainerImage.vue';
-</script>
+<script setup></script>
 
 <template>
 	<div>
@@ -8,10 +6,13 @@ import ContainerImage from '../Pages/DashboardUsers/Forms/ContainerImage.vue';
 			<div class="modal">
 				<h1 class="font-bold">Cadastrar Usuário</h1>
 				<div>
-					<ContainerImage />
+					<VVSelectImage name="aa" />
 				</div>
 				<div class="flex">
-					<button class="Cancel flex items-center" @click="($event) => $emit('close')">
+					<button
+						class="Cancel flex items-center"
+						@click="($event) => $emit('close')"
+					>
 						<span class="flex">Cancelar</span>
 						<svg
 							class="svgCancel"
@@ -30,7 +31,10 @@ import ContainerImage from '../Pages/DashboardUsers/Forms/ContainerImage.vue';
 						</svg>
 					</button>
 
-					<button class="Cad flex items-center" @click="($event) => $emit('close')">
+					<button
+						class="Cad flex items-center"
+						@click="($event) => $emit('close')"
+					>
 						<span>Cadastrar</span>
 						<svg
 							class="svgCad"
