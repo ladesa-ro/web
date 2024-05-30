@@ -1,36 +1,24 @@
-<script lang="ts" setup>
-import { ref } from 'vue';
-
-const props = defineProps({
-	addId: {
-		type: String,
-		default: null,
-		required: false,
-	},
-});
-
-const addId = toRef(props, 'addId');
-
-const isActive = ref(false);
-</script>
-
 <template>
-	<v-dialog max-width="500" v-model="isActive">
+	<v-dialog v-model="isActive" class="" max-width="450">
 		<template v-slot:activator="{ props: activatorProps }">
-			<UIButtonAdd v-if="addId === null" v-bind="activatorProps" />
-			<IconsIconEdit v-else class="detail" v-bind="activatorProps" />
+			<span class="description cursor-pointer" v-bind="activatorProps">
+				Clique aquino icone de adicionar disciplina.
+			</span>
 		</template>
 
 		<template v-slot:="{ isActive }">
 			<v-card class="dialog-style">
 				<SectionHorarioForm
-					:addId="addId"
 					@close="isActive.value = false"
 				/>
 			</v-card>
 		</template>
 	</v-dialog>
 </template>
+
+<script setup>
+const isActive = ref(false);
+</script>
 
 <style scoped>
 .dialog-style {
@@ -39,9 +27,7 @@ const isActive = ref(false);
 	border: solid 2px #9ab69e;
 }
 
-.detail {
-	cursor: pointer;
-	z-index: 10;
-	margin-right: 16px;
+.description {
+	color: #118d3b;
 }
 </style>
