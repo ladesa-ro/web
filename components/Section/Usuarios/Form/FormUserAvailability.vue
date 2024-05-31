@@ -18,8 +18,8 @@ await query.suspense();
 
 		<v-expansion-panel-text>
 			<section class="flex gap-6 justify-between">
-				<div>
-					<span>Matutino</span>
+				<div class="text-left">
+					<span class="p-1">Matutino</span>
 					<v-checkbox
 						hide-details
 						density="compact"
@@ -29,8 +29,8 @@ await query.suspense();
 						name="disponibilidade"
 					/>
 				</div>
-				<div>
-					<span>Vespertino</span>
+				<div class="text-left">
+					<span class="p-1">Vespertino</span>
 					<v-checkbox
 						hide-details
 						density="compact"
@@ -40,8 +40,8 @@ await query.suspense();
 						name="disponibilidade"
 					/>
 				</div>
-				<div>
-					<span>Noturno</span>
+				<div class="text-left">
+					<span class="p-1">Noturno</span>
 					<v-checkbox
 						hide-details
 						density="compact"

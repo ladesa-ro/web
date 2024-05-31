@@ -17,33 +17,35 @@ const removeField = (targetIndex: number) => {
 </script>
 
 <template>
+	<v-divider  :thickness="2" color="success" opacity="1"/>
 	<div v-for="(_, index) in vinculos" :key="index">
 		<div class="flex gap-5 items-start">
 			<VVAutocompleteCampus :name="`vinculos[${index}].campus.id`" />
-
+			
 			<VVSelectRoles
-				class="w-full max-w-[10.65rem]"
-				:name="`vinculos[${index}].cargos`"
+			class="w-full max-w-[10.65rem]"
+			:name="`vinculos[${index}].cargos`"
 			/>
-
+			
 			<v-btn
-				v-if="index > 0"
-				class="my-[0.625rem]"
-				variant="flat"
-				icon="mdi-delete"
-				density="compact"
-				@click="removeField(index)"
+			v-if="index > 0"
+			class="my-[0.625rem]"
+			variant="flat"
+			icon="mdi-delete"
+			density="compact"
+			@click="removeField(index)"
 			/>
 		</div>
 	</div>
-
+	
 	<button
-		type="button"
-		@click="addField"
-		class="border-dotted border-[3px] rounded-lg pa-4 border-[#9ab69e] hover:bg-[#f1fdf2] ease-in"
+	type="button"
+	@click="addField"
+	class="border-dotted border-[3px] rounded-lg pa-4 border-[#9ab69e] hover:bg-[#f1fdf2] ease-in"
 	>
-		Novo Vínculo
-	</button>
+	Novo Vínculo
+</button>
+<v-divider  :thickness="2" color="success" opacity="1"/>
 </template>
 
 <!-- <script>
