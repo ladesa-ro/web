@@ -41,3 +41,4 @@ function toggleHamburger() {
 		<LogoSisghaLogomarca class="mr-8 w-[140px] hidden sm:block" />
 	</div>
 </template>
+

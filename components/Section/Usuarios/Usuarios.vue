@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import ModalUser from './ModalNewUser/ModalUser.vue';
+import ModalUser from './Modals/ModalUser.vue';
 
 const searchBarText = ref('');
 </script>
