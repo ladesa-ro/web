@@ -54,4 +54,8 @@ svg {
 html {
 	overflow: auto;
 }
+
+.v-btn {
+	grid-template-rows: 1fr;
+}
 </style>
