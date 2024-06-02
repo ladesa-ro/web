@@ -2,7 +2,7 @@
 	<v-dialog v-model="isActive" class="" max-width="450">
 		<template v-slot:activator="{ props: activatorProps }">
 			<span class="description cursor-pointer" v-bind="activatorProps">
-				Clique aquino icone de adicionar disciplina.
+				Clique aqui no icone de adicionar disciplina.
 			</span>
 		</template>
 
