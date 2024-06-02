@@ -4,7 +4,10 @@
 import { ref } from 'vue';
 import SpeechBubbles from './SpeechBubbles/SpeechBubbles.vue';
 
-const hamburgerActive = ref(false);
+const hamburgerActive = defineModel({
+		required: true,
+		type:Boolean,
+})
 
 function toggleHamburger() {
 	hamburgerActive.value = !hamburgerActive.value;
