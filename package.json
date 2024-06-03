@@ -23,7 +23,7 @@
 		"@tanstack/vue-query": "^5.40.0",
 		"@types/jsonwebtoken": "^9.0.6",
 		"@vueuse/core": "^10.10.0",
-		"@vueuse/nuxt": "^10.9.0",
+		"@vueuse/nuxt": "^10.10.0",
 		"axios": "^1.7.0",
 		"dayjs": "^1.11.11",
 		"inversify": "^6.0.2",
