@@ -20,7 +20,7 @@ const isActive = ref(false);
 <template>
 	<v-dialog v-model="isActive">
 		<template v-slot:activator="{ props: activatorProps }">
-			<UIButtonAdd v-if="editId === null" v-bind="activatorProps" />
+			<UIButtonAdd v-bind="activatorProps" />
 		</template>
 
 		<template v-slot:="{ isActive }">
@@ -31,10 +31,10 @@ const isActive = ref(false);
 					<v-card
 						class="dialog-style p-1 overflow-auto max-w-[500px]"
 					>
-						<FormUserProfile @close="isActive.value = false" />
+						<FormUserProfile :editId="editId" @close="isActive.value = false" />
 					</v-card>
 
-					<ModalUserDialogAvailability />
+					<ModalUserDialogAvailability  />
 				</div>
 			</FormUser>
 		</template>

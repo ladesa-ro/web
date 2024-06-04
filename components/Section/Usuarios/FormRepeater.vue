@@ -45,7 +45,7 @@ const removeField = (targetIndex: number) => {
 	>
 	Novo Vínculo
 </button>
-<v-divider  :thickness="2" color="success" opacity="1"/>
+<v-divider  :thickness="2" color="success" opacity="1"/>		
 </template>
 
 <!-- <script>

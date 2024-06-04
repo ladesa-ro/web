@@ -1,5 +1,10 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core';
+// $emit('edit')
+
+const teste = () => {
+	console.log("teste")
+}
 </script>
 
 <template>
@@ -19,7 +24,7 @@ import { onKeyStroke } from '@vueuse/core';
 					</span>
 					<div class="flex flex-col justify-center items-start ml-1 w-full" >
 						<span class="flex font-bold text-sm items-center">Danilo Escudero
-							<IconsIconEdit class="ml-6 w-[12px] h-[12px]"/>
+							<IconsIconEdit @click="teste" class="detail ml-6 w-[12px] h-[12px]"/>
 						</span>
 						<span class="font-semibold text-[#9ab69e] text-sm">Professor</span>
 					</div>
@@ -44,5 +49,11 @@ import { onKeyStroke } from '@vueuse/core';
 
 .bg {
 	grid-template-rows: 65% auto;
+}
+
+.detail {
+	cursor: pointer;
+	z-index: 1000;
+	margin-right: 10px;
 }
 </style>
