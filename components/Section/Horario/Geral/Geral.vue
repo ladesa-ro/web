@@ -48,9 +48,7 @@ const turnos: ITurnos = [
 </script>
 <template>
 	<div class="pb-16">
-		<!-- <SectionHorarioHeaderSchedule /> -->
-
-		<div class="grade-horario ml-10">
+		<div class="grade-horario"> <!--ml-10-->
 			<div class="col-start-1 col-span-2"></div>
 
 			<!-- cédulas verdes dos dias da semana -->
