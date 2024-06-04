@@ -2,6 +2,7 @@
 import { capitalizeFirst } from './-Helpers/CapitalizeFirst';
 import { getWeekDays } from './-Helpers/GetWeekDays';
 import dayjs from './-Helpers/dayjs';
+import { ViewMode } from './ViewMode';
 
 //set month and week
 const selectedDay = defineModel('day', { default: dayjs() });
@@ -13,11 +14,11 @@ const weekDays = getWeekDays(selectedDay.value);
 const firstWeekDay = weekDays[0];
 const lastWeekDay = weekDays[5];
 
-const selectedOption = defineModel('option', { default: 2 })
+const selectedOption = defineModel('option', { default: ViewMode.DAILY_SCHEDULE })
 </script>
 
 <template>
-<v-container class="flex justify-between mt-14">
+<div class="flex justify-between mt-14 max-w-screen-xl w-full mx-auto">
 	<div class="flex font-[600] items-center gap-2">
 		{{ month }} - Dias {{ firstWeekDay.day }} a {{ lastWeekDay.day }}
 		<IconsArrowIconArrow
@@ -25,49 +26,34 @@ const selectedOption = defineModel('option', { default: 2 })
 		/>
 	</div>
 
-
 	<section class="flex cursor-pointer">
 		<!--left button-->
 		<div
-			class="flex gap-1 items-center border-2 p-3 font-[600] rounded-l-lg text-[#9AB69E]"
-			:class="{'active': selectedOption === 1, 'border-r-0': selectedOption !== 1}">
-
-			<input
-				type="radio"
-				name="options"
-				value="1"
-				@click="selectedOption = 1"
-				:checked="selectedOption === 1"
-			>
-
-			<p>Horário geral</p>
+			class="flex gap-2 items-center border-2 p-3 font-[600] rounded-l-lg text-[#9AB69E]"
+			:class="{'active': selectedOption === ViewMode.GENERAL_SCHEDULE, 'border-r-0': selectedOption !== ViewMode.GENERAL_SCHEDULE}"
+			@click="selectedOption = ViewMode.GENERAL_SCHEDULE"
+		>
+			<span>Horário geral</span>
 			<IconsIconMoreItems
-				class="ml-1 w-5"
-				:class="{'-icon-green': selectedOption === 1, '-icon-light-green': selectedOption !== 1}"
+				class="w-5"
+				:class="{'-icon-green': selectedOption === ViewMode.GENERAL_SCHEDULE, '-icon-light-green': selectedOption !== ViewMode.GENERAL_SCHEDULE}"
 			/>
 		</div>
 
 		<!--right button-->
 		<div
-			class="flex gap-1 items-center border-2 p-3 font-[600] rounded-r-lg text-[#9AB69E]"
-			:class="{'active': selectedOption === 2, 'border-l-0': selectedOption !== 2}">
-
-			<input
-				type="radio"
-				name="options"
-				value="2"
-				@click="selectedOption = 2"
-				:checked="selectedOption === 2"
-			>
-
-			<p>Horário do dia</p>
+			class="flex gap-2 items-center border-2 p-3 font-[600] rounded-r-lg text-[#9AB69E]"
+			:class="{'active': selectedOption === ViewMode.DAILY_SCHEDULE, 'border-l-0': selectedOption !== ViewMode.DAILY_SCHEDULE}"
+			@click="selectedOption = ViewMode.DAILY_SCHEDULE"
+		>
+			<span>Horário do dia</span>
 			<IconsIconClock
-				class="ml-1 w-5"
-				:class="{'-icon-green': selectedOption === 2, '-icon-light-green': selectedOption !== 2}"
+				class="w-5"
+				:class="{'-icon-green': selectedOption === ViewMode.DAILY_SCHEDULE, '-icon-light-green': selectedOption !== ViewMode.DAILY_SCHEDULE}"
 			/>
 		</div>
 	</section>
-</v-container>
+</div>
 </template>
 
 <style scoped>
@@ -76,21 +62,4 @@ const selectedOption = defineModel('option', { default: 2 })
 	background-color: #EBF8EF;
 	color: #118D3B;
 }
-
-/* input[type="radio"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: blue;
-  display: inline;
-  width: 100%;
-  height: 100%;
-  padding: 1px;
-} */
-
-/* div.button:has(input[type="radio"]:checked) {
-	border-color: #118D3B;
-	background-color: #EBF8EF;
-	color: #118D3B;
-} */
 </style>
