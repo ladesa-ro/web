@@ -11,6 +11,5 @@
 <style scoped>
 svg {
 	stroke: currentColor;
-	cursor: pointer;
 }
 </style>

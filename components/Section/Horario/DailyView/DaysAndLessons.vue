@@ -34,13 +34,13 @@ function getVariantForIndex(index: number) {
 <template>
 	<SectionHorarioDailyViewDaySquareList v-model="selectedDay" />
 
-	<v-container class="flex flex-col gap-5">
+	<div class="flex flex-col gap-5">
 		<SectionHorarioDailyViewLesson
 			v-for="(lesson, index) in lessons"
 			:lesson="lesson"
 			:variant="getVariantForIndex(index)"
 		/>
-	</v-container>
+	</div>
 </template>
 
 <style scoped></style>
