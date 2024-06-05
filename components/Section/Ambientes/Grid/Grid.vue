@@ -19,10 +19,10 @@ const { ambientes } = await useApiAmbientesFindAll(searchBarText);
 			>
 				<template #title>
 					{{ ambiente.nome }}
-				</template>	
+				</template>
 
 				<template #actions>
-          <SectionAmbientesModal :editId="ambiente.id" />
+					<SectionAmbientesModal :editId="ambiente.id" />
 				</template>
 
 				<UICardLine>

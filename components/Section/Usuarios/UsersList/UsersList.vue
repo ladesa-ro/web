@@ -17,6 +17,11 @@
 							class="text-[#9ab69e] w-[42px] h-[42px]"
 						/>
 					</span>
+					<div class="flex flex-col justify-center items-start ml-1 w-full" >
+						<span class="flex font-bold text-sm items-center">Danilo Escudero
+							<IconsIconEdit class="detail ml-6 w-[12px] h-[12px]"/>
+						</span>
+						</div>
 					<div
 						class="flex flex-col justify-center items-start ml-1 w-full"
 					>
@@ -49,5 +54,11 @@
 
 .bg {
 	grid-template-rows: 65% auto;
+}
+
+.detail {
+	cursor: pointer;
+	z-index: 1000;
+	margin-right: 10px;
 }
 </style>
