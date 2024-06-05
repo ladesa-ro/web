@@ -47,20 +47,18 @@ const turnos: ITurnos = [
 ];
 </script>
 <template>
-	<div class="pb-16">
-		<div class="grade-horario"> <!--ml-10-->
-			<div class="col-start-1 col-span-2"></div>
+	<div class="grade-horario"> <!--ml-10-->
+		<div class="col-start-1 col-span-2"></div>
 
-			<!-- cédulas verdes dos dias da semana -->
-			<div class="grid grid-cols-subgrid col-span-6">
-				<SectionHorarioWeekHeaderDays :dias-da-semana="diasDaSemana" />
-			</div>
-
-			<SectionHorarioShifts
-				:turnos="turnos"
-				:dias-da-semana="diasDaSemana"
-			/>
+		<!-- cédulas verdes dos dias da semana -->
+		<div class="grid grid-cols-subgrid col-span-6">
+			<SectionHorarioWeekHeaderDays :dias-da-semana="diasDaSemana" />
 		</div>
+
+		<SectionHorarioShifts
+			:turnos="turnos"
+			:dias-da-semana="diasDaSemana"
+		/>
 	</div>
 </template>
 
