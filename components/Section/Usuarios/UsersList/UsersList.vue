@@ -26,6 +26,10 @@
 								class="detail ml-6 w-[12px] h-[12px]"
 							/>
 						</span>
+						<span
+							class="flex font-medium text-sm items-center text-[#9ab69e]"
+							>Professor
+						</span>
 					</div>
 				</NuxtLink>
 			</div>
