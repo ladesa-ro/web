@@ -1,11 +1,4 @@
-<script setup lang="ts">
-import { onKeyStroke } from '@vueuse/core';
-// $emit('edit')
-
-const teste = () => {
-	console.log("teste")
-}
-</script>
+<script setup lang="ts"></script>
 
 <template>
 	<v-container>
@@ -20,13 +13,23 @@ const teste = () => {
 					<span
 						class="flex bg-[#F0F0F0] h-[100%] w-full rounded-t-lg items-center justify-center"
 					>
-						<IconsUser/>
+						<IconsIconUser
+							class="text-[#9ab69e] w-[42px] h-[42px]"
+						/>
 					</span>
 					<div class="flex flex-col justify-center items-start ml-1 w-full" >
 						<span class="flex font-bold text-sm items-center">Danilo Escudero
 							<IconsIconEdit @click="teste" class="detail ml-6 w-[12px] h-[12px]"/>
+					<div
+						class="flex flex-col justify-center items-start ml-1 w-full"
+					>
+						<span class="flex font-bold text-sm items-center"
+							>Danilo Escudero
+							<IconsIconEdit class="ml-6" />
 						</span>
-						<span class="font-semibold text-[#9ab69e] text-sm">Professor</span>
+						<span class="font-semibold text-[#9ab69e] text-sm"
+							>Professor</span
+						>
 					</div>
 				</NuxtLink>
 			</div>

@@ -1,7 +1,16 @@
 <template>
-	<div class="flex w-[20px] h-[18px]" v-html="SetaAlternativa"></div>
+	<svg viewBox="0 0 122 125" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<path
+			d="M62.1102 13L13 62.5M62.1102 112L13 62.5M109.39 62.5H13"
+			stroke-width="25"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		/>
+	</svg>
 </template>
 
-<script setup lang="ts">
-import SetaAlternativa from '@/assets/icons/Setas/Seta-Alternativa.svg?raw';
-</script>
+<style scoped>
+svg {
+	stroke: currentColor;
+}
+</style>

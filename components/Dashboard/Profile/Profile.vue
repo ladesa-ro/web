@@ -41,7 +41,7 @@ const closeConfirm = () => {
 			<div
 				class="self-start flex-shrink-0 flex items-center justify-center ml-auto mr-4 mt-4 cursor-pointer bg-[#00000030] h-8 w-8 rounded-full"
 			>
-				<IconsIconEdit @click="openConfirm" class="-icon-white" />
+				<IconsIconEdit @click="openConfirm" class="text-white" />
 				<ModalImage v-if="show" @close="closeConfirm" />
 			</div>
 		</v-container>

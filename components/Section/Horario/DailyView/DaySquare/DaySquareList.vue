@@ -12,7 +12,7 @@ const weekDays = getWeekDays(selectedDay.value);
 </script>
 
 <template>
-	<v-container class="flex flex-row justify-between">
+	<div class="flex flex-row justify-between max-w-screen-2xl w-full mx-auto">
 		<SectionHorarioDailyViewDaySquare
 			v-for="weekDay in weekDays"
 			:active="weekDay.dayMonth === activeDayMonth"
@@ -20,7 +20,7 @@ const weekDays = getWeekDays(selectedDay.value);
 			:dayMonth="weekDay.dayMonth"
 			@click="selectedDay = weekDay.dayAsDayJs"
 		/>
-	</v-container>
+	</div>
 </template>
 
 <style scoped></style>
