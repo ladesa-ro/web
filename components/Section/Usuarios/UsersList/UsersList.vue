@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { onKeyStroke } from '@vueuse/core';
 // $emit('edit')
-
-const teste = () => {
-	console.log("teste")
-}
 </script>
 
 <template>
@@ -24,7 +20,7 @@ const teste = () => {
 					</span>
 					<div class="flex flex-col justify-center items-start ml-1 w-full" >
 						<span class="flex font-bold text-sm items-center">Danilo Escudero
-							<IconsIconEdit @click="teste" class="detail ml-6 w-[12px] h-[12px]"/>
+							<IconsIconEdit class="detail ml-6 w-[12px] h-[12px]"/>
 						</span>
 						<span class="font-semibold text-[#9ab69e] text-sm">Professor</span>
 					</div>
