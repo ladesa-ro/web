@@ -81,7 +81,7 @@ useTitle(null, 'Login');
 					class="login-alternative-button"
 				>
 					<template #start-icon>
-						<IconsUser class="flex w-6 h-6 mr-4" />
+						<IconsIconUser class="flex w-6 h-6 mr-4" />
 					</template>
 
 					<p

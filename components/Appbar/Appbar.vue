@@ -1,14 +1,19 @@
 <script setup lang="ts">
 // import profilePicture from '~/assets/icons/profilePicture.svg';
 
+import { ref } from 'vue';
+import SpeechBubbles from './SpeechBubbles/SpeechBubbles.vue';
+
 const hamburgerActive = defineModel({
-	required: true,
-	type: Boolean,
-});
+		required: true,
+		type:Boolean,
+})
 
 function toggleHamburger() {
 	hamburgerActive.value = !hamburgerActive.value;
 }
+
+const notificationsButtonEl = ref(null);
 </script>
 
 <template>
@@ -34,10 +39,27 @@ function toggleHamburger() {
 
 		<div class="flex-1"></div>
 
-		<IconsIconNotifications
-			class="cursor-pointer pa-2 mr-3 w-[38px] h-[38px]"
-		/>
+		<v-menu
+			origin="auto"
+			location="bottom center"
+			transition="slide-y-transition"
+			:close-on-content-click="false"
+		>
+			<template v-slot:activator="{ props }">
+				<IconsIconNotifications
+					v-bind="props"
+					ref="notificationsButtonEl"
+					class="cursor-pointer pa-2 w-[38px] h-[38px]"
+				/>
+			</template>
 
-		<LogoSisghaLogomarca class="mr-8 w-[140px] hidden sm:block" />
+			<SpeechBubbles :notificationsButtonEl="notificationsButtonEl" />
+		</v-menu>
+
+		<div class="mr-3"></div>
+
+		<LogoSisghaLogomarca
+			class="cursor-pointer mr-8 w-[140px] hidden sm:block"
+		/>
 	</div>
 </template>

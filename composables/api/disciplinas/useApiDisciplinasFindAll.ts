@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/vue-query';
 
+import { refDebounced } from '@vueuse/core';
+
 export const useApiDisciplinasFindAll = async (
 	searchTerm: MaybeRef<string | undefined>
 ) => {
@@ -27,10 +29,13 @@ export const useApiDisciplinasFindAll = async (
 	//?. --> Acessar o valor de uma propriedade nula, quando ainda n recebeu dados, da erro pq ta acessando um valor nulo, ? = caso seja != de nulo ele acessa a propriedade DATA, se não existir esse valor não acesse
 	//?? = caso o valor left da interrogação for null ele pega o rigth, e assim o contrário
 	//computed = cria um ref - de mudança, quando query.data mudar, ele cria um valor reativo.
+	const disciplinasDebounced = refDebounced(disciplinas, 200);
+
 	await query.suspense(); //Entro na página e espera os primeiros dados para uma renderização. Ele espera receber uma resposta, recebeu? Sim ai ele renderiza todos os elementos
 
 	return {
 		query,
 		disciplinas,
+		disciplinasDebounced,
 	};
 };

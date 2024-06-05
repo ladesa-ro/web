@@ -36,7 +36,7 @@ const changeDay = (delta) => {
 			<div class="hours-availability flex-1 flex flex-col">
 				<div class="top-availability">
 					<IconsArrowIconArrow
-						class="cursor-pointer -icon-white -icons"
+						class="cursor-pointer text-white -icons"
 						@click="changeDay(-1)"
 					/>
 
@@ -47,7 +47,7 @@ const changeDay = (delta) => {
 					</div>
 
 					<IconsArrowIconArrow
-						class="rotate-180 cursor-pointer -icon-white -icons"
+						class="rotate-180 cursor-pointer text-white -icons"
 						@click="changeDay(1)"
 					/>
 				</div>
