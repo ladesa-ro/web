@@ -53,9 +53,15 @@ const turnos: ITurnos = [
       class="border-2 border-[#B2D2B7] rounded-lg"
       v-for="i in 4"
     >
-      <v-expansion-panel-title class="!bg-[#118D3B] text-white">
-        Técnico em Informatica
+      <v-expansion-panel-title class="!bg-[#118D3B]">
+        <p>
+          <span class="text-white">Técnico em Informatica </span><br /><br />
+          <span class="text-[#b7d1b8]">Editado há 3 horas</span>
+        </p>
       </v-expansion-panel-title>
+      <!-- <v-expansion-panel-title>
+        Técnico em Informatica
+      </v-expansion-panel-title> -->
       <v-expansion-panel-text class="overflow-auto">
         <div class="grade-horario">
           <SectionHorarioShifts
@@ -74,8 +80,4 @@ const turnos: ITurnos = [
   column-gap: 1rem;
   grid-template-columns: max-content max-content repeat(6, 11.25rem);
 }
-
-/* body {
-  box-sizing: border-box;
-} */
 </style>
