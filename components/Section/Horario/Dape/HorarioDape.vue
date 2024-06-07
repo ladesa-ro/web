@@ -45,33 +45,46 @@ const turnos: ITurnos = [
     ],
   },
 ];
-const isExpanded = ref(Array(4).fill(false));
 
-// comentário para fazer o PR
-function toggleExpansion(index: number) {
-  isExpanded.value[index] = !isExpanded.value[index];
-}
+const activeCalendar = ref<any[]>([]);
+
+const calendars = [
+  {
+    id: '1',
+    title: 'Técnico em Informatica',
+  },
+  {
+    id: '2',
+    title: 'Técnico em Informatica',
+  },
+  {
+    id: '3',
+    title: 'Técnico em Informatica',
+  },
+  {
+    id: '4',
+    title: 'Técnico em Informatica',
+  },
+];
 </script>
 
 <template>
-  <v-expansion-panels class="gap-3 px-8 mt-8">
+  <v-expansion-panels multiple v-model="activeCalendar" class="gap-3 px-8 mt-8">
     <v-expansion-panel
-      v-for="(item, index) in 4"
-      :key="index"
-      v-model="isExpanded[index]"
+      v-for="calendar in calendars"
+      :key="calendar.id"
+      :value="calendar.id"
       class="border-2 border-[#B2D2B7] rounded-lg"
     >
-      <v-expansion-panel-title
-        class="!bg-[#118D3B]"
-        :hide-actions="true"
-        @click="toggleExpansion(index)"
-      >
-        <p>
-          <span class="text-white">Técnico em Informatica </span><br /><br />
-          <span class="text-[#b7d1b8]">Editado há 3 horas</span>
-        </p>
+      <v-expansion-panel-title class="!bg-[#118D3B]" :hide-actions="true">
+        <div>
+          <p class="text-white">{{ calendar.title }}</p>
+          <br /><br />
+          <p class="text-[#b7d1b8]">Editado há 3 horas</p>
+        </div>
       </v-expansion-panel-title>
-      <v-expansion-panel-text class="overflow-auto">
+
+      <v-expansion-panel-text class="overflow-x-auto overflow-y-hidden">
         <div class="grade-horario">
           <SectionHorarioShifts
             :turnos="turnos"
@@ -79,15 +92,15 @@ function toggleExpansion(index: number) {
           />
         </div>
       </v-expansion-panel-text>
+
       <v-expansion-panel-title
         :hide-actions="true"
         class="text-[#118D3B] flex justify-center"
-        @click="toggleExpansion(index)"
       >
         <IconsArrowIconArrow
           :class="{
-            'rotate-90': isExpanded[index],
-            '-rotate-90': !isExpanded[index],
+            'rotate-90': activeCalendar.includes(calendar.id),
+            '-rotate-90': !activeCalendar.includes(calendar.id),
           }"
         />
       </v-expansion-panel-title>
