@@ -48,34 +48,34 @@ const turnos: ITurnos = [
 </script>
 
 <template>
-  <v-container>
-    <v-expansion-panels class="gap-3">
-      <v-expansion-panel
-        class="border-2 border-[#B2D2B7] pa-0 rounded-lg"
-        v-for="i in 4"
-      >
-        <v-expansion-panel-title class="!bg-[#118D3B] text-white">
-          Técnico em Informatica
-        </v-expansion-panel-title>
-        <v-expansion-panel-text class="overflow-auto">
-          <div class="grade-horario">
-            <SectionHorarioShifts
-              :turnos="turnos"
-              :dias-da-semana="diasDaSemana"
-            />
-          </div>
-        </v-expansion-panel-text>
-      </v-expansion-panel>
-    </v-expansion-panels>
-  </v-container>
+  <v-expansion-panels class="gap-3 px-8 mt-8">
+    <v-expansion-panel
+      class="border-2 border-[#B2D2B7] rounded-lg"
+      v-for="i in 4"
+    >
+      <v-expansion-panel-title class="!bg-[#118D3B] text-white">
+        Técnico em Informatica
+      </v-expansion-panel-title>
+      <v-expansion-panel-text class="overflow-auto">
+        <div class="grade-horario">
+          <SectionHorarioShifts
+            :turnos="turnos"
+            :dias-da-semana="diasDaSemana"
+          />
+        </div>
+      </v-expansion-panel-text>
+    </v-expansion-panel>
+  </v-expansion-panels>
 </template>
 <style scoped>
 .grade-horario {
   display: grid;
-
-  column-gap: 16px;
-  grid-template-columns: min-content min-content repeat(6, 180px);
-
-  grid-auto-rows: auto;
+  justify-content: center;
+  column-gap: 1rem;
+  grid-template-columns: max-content max-content repeat(6, 11.25rem);
 }
+
+/* body {
+  box-sizing: border-box;
+} */
 </style>
