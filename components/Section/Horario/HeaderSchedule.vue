@@ -18,9 +18,9 @@ const selectedOption = defineModel('option', { default: ViewMode.DAILY_SCHEDULE 
 </script>
 
 <template>
-<div class="flex justify-between mt-14 max-w-screen-2xl w-full mx-auto">
+<div class="flex justify-between mt-14 max-w-screen-xl w-full mx-auto">
 	<div class="flex font-[600] items-center gap-2">
-		{{ month }} - Dias {{ firstWeekDay.day }} a {{ lastWeekDay.day }}
+		<span>{{ month }} - Dias {{ firstWeekDay.day }} a {{ lastWeekDay.day }}</span>
 		<IconsArrowIconArrow
 			class="-rotate-90 cursor-pointer -icon-green"
 		/>

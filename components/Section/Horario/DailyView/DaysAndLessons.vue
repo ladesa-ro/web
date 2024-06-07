@@ -32,14 +32,16 @@ function getVariantForIndex(index: number) {
 </script>
 
 <template>
-	<SectionHorarioDailyViewDaySquareList v-model="selectedDay" />
+	<div class="max-w-screen-lg w-full">
+		<SectionHorarioDailyViewDaySquareList v-model="selectedDay"/>
 
-	<div class="flex flex-col gap-5">
-		<SectionHorarioDailyViewLesson
-			v-for="(lesson, index) in lessons"
-			:lesson="lesson"
-			:variant="getVariantForIndex(index)"
-		/>
+		<div class="flex flex-col gap-5 mt-12">
+			<SectionHorarioDailyViewLesson
+				v-for="(lesson, index) in lessons"
+				:lesson="lesson"
+				:variant="getVariantForIndex(index)"
+			/>
+		</div>
 	</div>
 </template>
 
