@@ -47,6 +47,7 @@ const turnos: ITurnos = [
 ];
 const isExpanded = ref(Array(4).fill(false));
 
+// comentário para fazer o PR
 function toggleExpansion(index: number) {
   isExpanded.value[index] = !isExpanded.value[index];
 }
