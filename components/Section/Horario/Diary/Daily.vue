@@ -8,7 +8,7 @@ const selectedDay = defineModel({
 
 <template>
 	<div class="flex flex-col gap-[15px]">
-		<SectionHorarioHeaderSchedule v-model="selectedDay" />
+		<!-- <SectionHorarioHeaderSchedule v-model="selectedDay" /> -->
 
 		<SectionHorarioDailyViewDaysAndLessons v-model="selectedDay" />
 	</div>

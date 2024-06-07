@@ -311,7 +311,7 @@ onMounted(async () => {
 		>
 			<!-- Toggle for before month -->
 			<IconsArrowIconArrow
-				class="-icon-white cursor-pointer"
+				class="text-white cursor-pointer"
 				@click="toggleMonth(-1)"
 				v-show="props.toggleMonth!"
 			/>
@@ -330,7 +330,7 @@ onMounted(async () => {
 
 			<!-- Toggle for after month -->
 			<IconsArrowIconArrow
-				class="-icon-white rotate-180 cursor-pointer"
+				class="text-white rotate-180 cursor-pointer"
 				@click="toggleMonth(1)"
 				v-show="props.toggleMonth!"
 			/>
