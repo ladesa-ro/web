@@ -2,7 +2,10 @@
 import { capitalizeFirst } from './-Helpers/CapitalizeFirst';
 import { getWeekDays } from './-Helpers/GetWeekDays';
 import dayjs from './-Helpers/dayjs';
+import SpeechBubblesCalendar from './SpeechBubblesCalendar/SpeechBubblesCalendar.vue';
 import { ViewMode } from './ViewMode';
+import { ref } from 'vue';
+
 
 //set month and week
 const selectedDay = defineModel('day', { default: dayjs() });
@@ -15,15 +18,29 @@ const firstWeekDay = weekDays[0];
 const lastWeekDay = weekDays[5];
 
 const selectedOption = defineModel('option', { default: ViewMode.DAILY_SCHEDULE })
+const notificationsButtonEl = ref(null);
 </script>
 
 <template>
 <div class="flex justify-between mt-14 max-w-screen-xl w-full mx-auto">
 	<div class="flex font-[600] items-center gap-2">
 		<span>{{ month }} - Dias {{ firstWeekDay.day }} a {{ lastWeekDay.day }}</span>
-		<IconsArrowIconArrow
-			class="-rotate-90 cursor-pointer -icon-green"
-		/>
+		<v-menu
+			origin="auto"
+			location="bottom center"
+			transition="slide-y-transition"
+			:close-on-content-click="false"
+		>
+		<template v-slot:activator="{ props }">
+				<IconsIconGenerate
+					v-bind="props"
+					ref="notificationsButtonEl"
+					class="cursor-pointer pa-2 w-[38px] h-[38px]"
+				/>
+			</template>
+
+			<SpeechBubblesCalendar :notificationsButtonEl="notificationsButtonEl" />
+		</v-menu>
 	</div>
 
 	<section class="flex cursor-pointer">
