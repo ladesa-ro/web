@@ -45,23 +45,31 @@ const turnos: ITurnos = [
     ],
   },
 ];
+const isExpanded = ref(Array(4).fill(false));
+
+function toggleExpansion(index: number) {
+  isExpanded.value[index] = !isExpanded.value[index];
+}
 </script>
 
 <template>
   <v-expansion-panels class="gap-3 px-8 mt-8">
     <v-expansion-panel
+      v-for="(item, index) in 4"
+      :key="index"
+      v-model="isExpanded[index]"
       class="border-2 border-[#B2D2B7] rounded-lg"
-      v-for="i in 4"
     >
-      <v-expansion-panel-title class="!bg-[#118D3B]">
+      <v-expansion-panel-title
+        class="!bg-[#118D3B]"
+        :hide-actions="true"
+        @click="toggleExpansion(index)"
+      >
         <p>
           <span class="text-white">Técnico em Informatica </span><br /><br />
           <span class="text-[#b7d1b8]">Editado há 3 horas</span>
         </p>
       </v-expansion-panel-title>
-      <!-- <v-expansion-panel-title>
-        Técnico em Informatica
-      </v-expansion-panel-title> -->
       <v-expansion-panel-text class="overflow-auto">
         <div class="grade-horario">
           <SectionHorarioShifts
@@ -70,6 +78,18 @@ const turnos: ITurnos = [
           />
         </div>
       </v-expansion-panel-text>
+      <v-expansion-panel-title
+        :hide-actions="true"
+        class="text-[#118D3B] flex justify-center"
+        @click="toggleExpansion(index)"
+      >
+        <IconsArrowIconArrow
+          :class="{
+            'rotate-90': isExpanded[index],
+            '-rotate-90': !isExpanded[index],
+          }"
+        />
+      </v-expansion-panel-title>
     </v-expansion-panel>
   </v-expansion-panels>
 </template>
