@@ -27,7 +27,7 @@ const computedPinLeft = computed(() => {
 		></div>
 
 		<div class="flex flex-col">
-			<div class="py-3">
+			<div class="py-2 px-4">
 				<PagesDashboardCalendarMonth/>
 			</div>
 		</div>
@@ -43,7 +43,7 @@ const computedPinLeft = computed(() => {
 	border: 2px solid #118d3b;
 
 	max-width: 90vw;
-	width: 35rem; 
+	width: 35rem;
 
 	border-radius: 0.625rem;
 
