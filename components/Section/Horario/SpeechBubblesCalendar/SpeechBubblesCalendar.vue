@@ -27,14 +27,7 @@ const computedPinLeft = computed(() => {
     ></div>
 
     <div class="flex flex-col">
-      <div class="py-2 px-4">Novo evento gerado.</div>
-      <hr />
-
-      <div class="py-2 px-4">O evento IFRO Party foi agendado.</div>
-
-      <hr />
-
-      <div class="py-2 px-4">Novo calendário cadastrado.</div>
+      <PagesDashboardCalendarMonth class="mx-0" />
     </div>
   </div>
 </template>
@@ -45,7 +38,6 @@ const computedPinLeft = computed(() => {
   background-color: #ffffff;
   border: 0.125rem solid #118d3b;
   max-width: 90vw;
-  width: 35rem;
   border-radius: 0.625rem;
   position: relative;
 }
