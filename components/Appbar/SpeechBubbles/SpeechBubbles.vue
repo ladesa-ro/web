@@ -39,7 +39,7 @@ const computedPinLeft = computed(() => {
 	</div>
 </template>
 
-<style>
+<style scoped>
 .chat-bubble {
 	font-weight: bold;
 
