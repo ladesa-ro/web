@@ -35,30 +35,20 @@ const computedPinLeft = computed(() => {
 <style scoped>
 .chat-bubble {
   font-weight: bold;
-
   background-color: #ffffff;
-
-  border: 2px solid #118d3b;
-
+  border: 0.125rem solid #118d3b;
   max-width: 90vw;
-
   border-radius: 0.625rem;
-
   position: relative;
 }
 
 .pin {
   content: '';
   position: absolute;
-
-  border: 10px solid transparent;
-
-  border-bottom: 10px solid #118d3b;
-
-  top: -20px;
-
-  transform: translateX(-12px);
-
-  width: 20px;
+  border: 0.635rem solid transparent;
+  border-bottom: 0.635rem solid #118d3b;
+  top: -1.25rem;
+  transform: translateX(-0.75rem);
+  width: 1.25rem;
 }
 </style>
