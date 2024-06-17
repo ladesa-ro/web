@@ -22,7 +22,7 @@
 		"@sisgea/spec": "^1.1.0-development.66",
 		"@tanstack/vue-query": "^5.45.0",
 		"@types/jsonwebtoken": "^9.0.6",
-		"@vueuse/core": "^10.10.0",
+		"@vueuse/core": "^10.11.0",
 		"@vueuse/nuxt": "^10.11.0",
 		"axios": "^1.7.0",
 		"dayjs": "^1.11.11",
