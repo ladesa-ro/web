@@ -1,10 +1,31 @@
 <script setup lang="ts">
+import dayjs from '../../-Helpers/dayjs';
 import type { ILesson } from '../../-Helpers/ILesson';
+
 type Props = {
 	lesson: ILesson;
-	variant?: 'active' | 'completed';
+	startTime: string;
+	// variant?: 'active' | 'completed';
 };
-defineProps<Props>();
+const props = defineProps<Props>();
+
+const timeClass: string = props.startTime;
+const splitString: string[] = timeClass.split(':');
+const hr = Number(splitString[0]);
+const min = Number(splitString[1]);
+
+// const diaAula: dayjs.Dayjs = dayjs();
+const start: dayjs.Dayjs = dayjs().hour(hr).minute(min).second(0);
+const end: dayjs.Dayjs = start.add(50, 'minutes'); //add 50 minutes to the class start time
+
+function verifyClassStatus(start: dayjs.Dayjs, end: dayjs.Dayjs) {
+    const now = dayjs().hour(9);
+	if (now > end) return 'completed';
+	else if (now >= start && now < end) return 'active';
+	return;
+}
+
+const variant = verifyClassStatus(start, end);
 </script>
 
 <template>
@@ -17,12 +38,13 @@ defineProps<Props>();
 				{{ lesson.discipline }} - {{ lesson.class }}
 			</h1>
 			<p>Ambiente: {{ lesson.environment }}</p>
-			<p>Horário: {{ lesson.startsAt }} - {{ lesson.endsAt }}</p>
+			<p>Horário: {{ start.format('HH:mm') }} - {{ end.format('HH:mm') }}</p>
 		</section>
 
-		<div v-if="variant === 'active'" class="icon max-w-7">
-			<IconsIconClock />
-		</div>
+		<IconsIconClock 
+			v-if="variant === 'active'"
+			class="icon max-w-8"
+		/>
 	</div>
 </template>
 
