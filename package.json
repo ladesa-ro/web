@@ -20,7 +20,7 @@
 		"@sidebase/nuxt-auth": "^0.7.2",
 		"@sisgea/api-client": "^1.1.0-development.3",
 		"@sisgea/spec": "^1.1.0-development.66",
-		"@tanstack/vue-query": "^5.41.0",
+		"@tanstack/vue-query": "^5.45.0",
 		"@types/jsonwebtoken": "^9.0.6",
 		"@vueuse/core": "^10.10.0",
 		"@vueuse/nuxt": "^10.11.0",
