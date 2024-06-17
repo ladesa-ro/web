@@ -59,13 +59,19 @@ let calendarDays = {
 
 // Functions
 
-//  --- Month num (emit value)  ---
-const emit = defineEmits<{
+//  --- Month data (emit values)  ---
+const emitMonthData = defineEmits<{
+  // Month number
   (e: 'custom:monthNum', v: number): void;
+  // Week of month
+  (e: 'custom:monthWeek', v: dayjs.Dayjs[]): void;
 }>();
 
-const handleCalling = (v: number) => {
-  if (v !== null) emit('custom:monthNum', v);
+const callingMonthNum = (v: number) => {
+  if (v !== null) emitMonthData('custom:monthNum', v);
+};
+const callingMonthWeek = (v: dayjs.Dayjs[]) => {
+  if (v !== null) emitMonthData('custom:monthWeek', v);
 };
 
 //  --- Month data ---
@@ -217,7 +223,7 @@ async function setMonth(): Promise<void> {
 
     // Calling internal functions
     await setDays();
-    handleCalling(monthNum.value);
+    callingMonthNum(monthNum.value);
   } catch (error) {}
 }
 
@@ -232,7 +238,7 @@ async function toggleMonth(num: number): Promise<void> {
 
     // Calling functions
     await setMonth();
-    handleCalling(monthNum.value);
+    callingMonthNum(monthNum.value);
   } catch (error) {}
 }
 
@@ -244,13 +250,18 @@ async function getWeek(date: dayjs.Dayjs): Promise<void> {
   try {
     // Check if select week is enable
     if (props.selectWeek! === true) {
-      const startOfWeek = dayjs(date).startOf('week');
-
       // Set dates
-      daysOfWeek.value = [];
       for (let i = 1; i <= 6; i++) {
-        daysOfWeek.value.push(startOfWeek.add(i, 'day'));
+        daysOfWeek.value.push(dayjs(date).startOf('week').add(i, 'day'));
       }
+    }
+  } catch (error) {}
+}
+
+async function emitWeekSelected(): Promise<void> {
+  try {
+    if (props.selectWeek! === true) {
+      callingMonthWeek(daysOfWeek.value);
     }
   } catch (error) {}
 }
@@ -267,8 +278,8 @@ async function hoverInWeek(
       if (enableHover === true) await getWeek(date);
 
       // Set hover in all days
-      if (daysOfWeek.value.length !== 0) {
-        for (let i = 0; i <= 6; i++) {
+      if (daysOfWeek.value !== null) {
+        for (let i = 0; i < 6; i++) {
           // Find day
           const dayItem = calendarDays.daysInMonth.value.find(
             (item) =>
@@ -282,6 +293,9 @@ async function hoverInWeek(
           }
         }
       }
+
+      // Clear array
+      if (enableHover === false) daysOfWeek.value = [];
     }
   } catch (error) {}
 }
@@ -293,7 +307,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-card class="-month mx-auto rounded-lg w-[464px] h-[496px]">
+  <v-card
+    class="-month mx-auto rounded-lg min-w-[415px] max-w-[464px] w-full h-max"
+  >
     <div
       class="text-white flex justify-between items-center p-3 pl-6 pr-6 w-full"
       :style="{ backgroundColor: monthColor }"
@@ -326,7 +342,9 @@ onMounted(async () => {
     </div>
 
     <!-- Calendar -->
-    <v-container class="grid grid-cols-7 gap-4 justify-center items-center m-0">
+    <v-container
+      class="grid grid-cols-7 gap-2 xl:gap-4 justify-center items-center m-0"
+    >
       <!-- Days of the week -->
       <p
         class="text-center font-semibold"
@@ -352,6 +370,7 @@ onMounted(async () => {
         :style="{ backgroundColor: dayInMonth.color }"
         @mouseenter="hoverInWeek(dayInMonth.date, true)"
         @mouseleave="hoverInWeek(dayInMonth.date, false)"
+        @click="emitWeekSelected()"
       >
         <!-- Hover -->
         <div
