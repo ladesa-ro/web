@@ -2,12 +2,11 @@
 import { ref } from 'vue';
 import { capitalizeFirst } from './-Helpers/CapitalizeFirst';
 import { getWeekDays } from './-Helpers/GetWeekDays';
-import dayjs from './-Helpers/dayjs';
 import SpeechBubblesCalendar from './SpeechBubblesCalendar/SpeechBubblesCalendar.vue';
 import { ViewMode } from './ViewMode';
 
 // set month and week
-const selectedDay = defineModel('day', { default: dayjs() });
+const selectedDay = useSelectedDay();
 
 const month = capitalizeFirst(selectedDay.value.format('MMMM'));
 

@@ -1,50 +1,44 @@
-<!-- // const lessons: ILesson[] = [
-// 	genericLesson,
-// 	genericLesson,
-// 	genericLesson,
-// 	genericLesson,
-// 	genericLesson,
-// ];
-
-// const activeIndex = 2;
-
-// function getVariantForIndex(index: number) {
-// 	if (index < activeIndex) return 'completed';
-// 	if (index === activeIndex) return 'active';
-// 	return;
-// } -->
-
 <script setup lang="ts">
 import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
-import dayjs from '../-Helpers/dayjs';
 
-const selectedDay = defineModel({
-	default: dayjs(),
-});
+const classTimings = [
+  { startsAt: '08:20:00', endsAt: '09:09:59' },
+  { startsAt: '09:10:00', endsAt: '18:59:59' },
+  { startsAt: '19:00:00', endsAt: '19:49:59' },
+  { startsAt: '19:50:00', endsAt: '20:39:59' },
+  { startsAt: '20:40:00', endsAt: '21:29:59' },
+];
 
-const genericLesson: ILesson = {
-	discipline: 'Linguagem de Programação',
-	class: '2° A Informática',
-	environment: 'Sala 20',
-	// startsAt: '13:50', //startsAt: start.format('HH.mm'),
-	// endsAt: '14:40', //endsAt: end.format('HH.mm'),
+const getTimeForIndex = (index: number) => {
+	return classTimings[index]
 };
 
-const startClassTime = [ '7:30', '8:20', '9:10', '10:20', '11:10' ];
+const generatedLessons = Array.from({ length: 5 }).map((_, index): ILesson => {
+  const { startsAt, endsAt } = getTimeForIndex(index);
+
+  return {
+    discipline: 'Linguagem de Programação',
+    class: '2° A Informática',
+    environment: 'Sala 20',
+    teacher: 'Danilo Escudero',
+    startsAt,
+    endsAt,
+  };
+});
 </script>
 
 <template>
-	<div class="max-w-screen-lg w-full">
-		<SectionHorarioDailyViewDaySquareList v-model="selectedDay"/>
+  <div class="max-w-screen-lg w-full">
+    <SectionHorarioDailyViewDaySquareList />
 
-		<div class="flex flex-col gap-5 mt-12">
-			<SectionHorarioDailyViewLesson
-				v-for="classTime in startClassTime"
-				:lesson="genericLesson"
-				:start-time="classTime"
-			/>
-		</div>
-	</div>
+    <div class="flex flex-col gap-5 mt-12">
+      <SectionHorarioDailyViewLesson
+        v-for="lesson in generatedLessons"
+        :lesson="lesson"
+        view-for="teacher"
+      />
+    </div>
+  </div>
 </template>
 
 <style scoped></style>
