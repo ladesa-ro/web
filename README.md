@@ -57,5 +57,5 @@ npm run dev
 
 <!-- Badges / Actions / Development  -->
 
-[action-ci-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/ci.yml?style=flat&logo=github&logoColor=white&label=CI@development&branch=development&labelColor=18181B
-[action-ci-dev-href]: https://github.com/ladesa-ro/web/actions/workflows/ci.yml?query=branch%3Adevelopment
+[action-ci-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/ci.yml?style=flat&logo=github&logoColor=white&label=CI@development&branch=main&labelColor=18181B
+[action-ci-dev-href]: https://github.com/ladesa-ro/web/actions/workflows/ci.yml?query=branch%3Amain
