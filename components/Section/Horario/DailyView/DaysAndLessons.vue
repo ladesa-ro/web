@@ -1,48 +1,44 @@
 <script setup lang="ts">
 import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
-import dayjs from '../-Helpers/dayjs';
 
-const selectedDay = defineModel({
-	default: dayjs(),
-});
-
-const genericLesson: ILesson = {
-	discipline: 'Linguagem de Programação',
-	class: '2° A Informática',
-	environment: 'Sala 20',
-	startsAt: '13:50',
-	endsAt: '14:40',
-};
-
-const lessons: ILesson[] = [
-	genericLesson,
-	genericLesson,
-	genericLesson,
-	genericLesson,
-	genericLesson,
+const classTimings = [
+  { startsAt: '08:20:00', endsAt: '09:09:59' },
+  { startsAt: '09:10:00', endsAt: '18:59:59' },
+  { startsAt: '19:00:00', endsAt: '19:49:59' },
+  { startsAt: '19:50:00', endsAt: '20:39:59' },
+  { startsAt: '20:40:00', endsAt: '21:29:59' },
 ];
 
-const activeIndex = 2;
+const getTimeForIndex = (index: number) => {
+	return classTimings[index]
+};
 
-function getVariantForIndex(index: number) {
-	if (index < activeIndex) return 'completed';
-	if (index === activeIndex) return 'active';
-	return;
-}
+const generatedLessons = Array.from({ length: 5 }).map((_, index): ILesson => {
+  const { startsAt, endsAt } = getTimeForIndex(index);
+
+  return {
+    discipline: 'Linguagem de Programação',
+    class: '2° A Informática',
+    environment: 'Sala 20',
+    teacher: 'Danilo Escudero',
+    startsAt,
+    endsAt,
+  };
+});
 </script>
 
 <template>
-	<div class="max-w-screen-lg w-full">
-		<SectionHorarioDailyViewDaySquareList v-model="selectedDay"/>
+  <div class="max-w-screen-lg w-full">
+    <SectionHorarioDailyViewDaySquareList />
 
-		<div class="flex flex-col gap-5 mt-12">
-			<SectionHorarioDailyViewLesson
-				v-for="(lesson, index) in lessons"
-				:lesson="lesson"
-				:variant="getVariantForIndex(index)"
-			/>
-		</div>
-	</div>
+    <div class="flex flex-col gap-5 mt-12">
+      <SectionHorarioDailyViewLesson
+        v-for="lesson in generatedLessons"
+        :lesson="lesson"
+        view-for="teacher"
+      />
+    </div>
+  </div>
 </template>
 
 <style scoped></style>

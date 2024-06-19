@@ -1,34 +1,45 @@
 <script setup lang="ts">
-import type { ILesson } from '../../-Helpers/ILesson';
+import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
+import LessonInfoEnvironment from './LessonInfoEnvironment.vue';
+import { verifyClassStatusByLesson } from './-Utils';
+
 type Props = {
-	lesson: ILesson;
-	variant?: 'active' | 'completed';
+  lesson: ILesson;
+  viewFor?: 'teacher' | 'student';
 };
-defineProps<Props>();
+
+const props = defineProps<Props>();
+const { lesson } = toRefs(props);
+
+provide('lesson', lesson);
+
+const variant = verifyClassStatusByLesson(lesson.value);
 </script>
 
 <template>
-	<div
-		class="flex flex-row items-center justify-between border-2 border-[#118D3B] rounded-lg px-5 py-3"
-		:class="{ completed: variant === 'completed' }"
-	>
-		<section class="flex flex-col justify-between">
-			<h1 class="font-[600]">
-				{{ lesson.discipline }} - {{ lesson.class }}
-			</h1>
-			<p>Ambiente: {{ lesson.environment }}</p>
-			<p>Horário: {{ lesson.startsAt }} - {{ lesson.endsAt }}</p>
-		</section>
+  <div
+    class="flex flex-row items-center justify-between border-2 border-[#118D3B] rounded-lg px-5 py-3"
+    :class="{ completed: variant === 'completed' }"
+  >
+    <section class="flex flex-col justify-between">
+      <slot>
+        <SectionHorarioDailyViewLessonTeacherView v-if="viewFor === 'teacher'"/>
 
-		<div v-if="variant === 'active'" class="icon max-w-7">
-			<IconsIconClock />
-		</div>
-	</div>
+        <SectionHorarioDailyViewLessonStudentView v-if="viewFor === 'student'"/>
+
+        <LessonInfoEnvironment /> <!--ambiente-->
+
+        <SectionHorarioDailyViewLessonInfoTime/> <!--horário-->
+      </slot>
+    </section>
+
+    <IconsIconClock v-if="variant === 'active'" class="icon max-w-8" />
+  </div>
 </template>
 
 <style scoped>
 .completed {
-	border-color: #9ab69e;
-	color: #9ab69e;
+  border-color: #9ab69e;
+  color: #9ab69e;
 }
 </style>

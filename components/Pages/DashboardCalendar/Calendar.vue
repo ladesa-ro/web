@@ -102,28 +102,12 @@ const eventItems: Array<Event> = [
 ];
 
 // Functions
-
-// Month num (get emitted value)
-let monthNumReceived = ref<number>(0);
-
-const handleUpdate = (v: number) => {
-  monthNumReceived.value = v;
-};
-
-// Watch month for toggle value
-watch(monthNumReceived, (newValue: number) => {
-  if (newValue !== null) {
-    monthNumReceived.value = newValue;
-  }
-});
 </script>
 
 <template>
   <v-container>
     <div class="container">
-      <div
-        class="flex flex-col justify-center items-center h-auto max-w-[952px]"
-      >
+      <div class="flex flex-col justify-center items-center w-max h-auto">
         <!-- Select calendar -->
         <div
           class="flex flex-col xl:flex-row w-full justify-center items-center gap-4 m-auto mb-5 py-[50px]"
@@ -147,7 +131,7 @@ watch(monthNumReceived, (newValue: number) => {
               label="Calendários"
               placeholder="Selecione um calendário"
               :items="calendars"
-              class="xl:w-[252px]"
+              class="w-full"
             />
 
             <!-- Buttons -->
@@ -165,35 +149,11 @@ watch(monthNumReceived, (newValue: number) => {
         </div>
 
         <!-- Content -->
-        <div
-          class="grid justify-center items-center grid-cols-1 xl:grid-cols-2 gap-6 min-w-[415px] w-full xl:w-auto"
-        >
-          <!-- Month selected -->
-          <div class="flex flex-col w-full xl:w-[464px] h-auto gap-6">
-            <PagesDashboardCalendarMonth
-              :year="2024"
-              :steps="stepItems"
-              :events="eventItems"
-              :toggle-month="true"
-              :select-week="true"
-              @custom:month-num="handleUpdate"
-            />
-
-            <!-- View complete calendar -->
-            <UITextButton
-              :text="'Calendário completo'"
-              :show-background="false"
-            />
-          </div>
-
-          <!-- Event list -->
-          <PagesDashboardCalendarEventList
-            :year="2024"
-            :steps="stepItems"
-            :events="eventItems"
-            :month-num="monthNumReceived"
-          />
-        </div>
+        <PagesDashboardCalendarViewsCompleteCalendar
+          :year="2024"
+          :events="eventItems"
+          :steps="stepItems"
+        />
       </div>
     </div>
   </v-container>
@@ -205,7 +165,6 @@ watch(monthNumReceived, (newValue: number) => {
   justify-content: center;
   align-items: center;
   margin: 0 auto;
-  max-width: 89%;
 }
 
 .container-header {

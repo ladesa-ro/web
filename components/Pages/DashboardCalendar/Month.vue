@@ -37,6 +37,7 @@ type Day = {
 // --- Props ---
 const props = defineProps({
   year: Number,
+  month: Number,
   toggleMonth: Boolean,
   selectWeek: Boolean,
   steps: Array<Step>,
@@ -46,7 +47,7 @@ const props = defineProps({
 //  --- Month ---
 const daysInTheWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
-let monthNum = ref<number>(dayjs().month());
+let monthNum = ref<number>(props.month!);
 let monthColor = ref<string>('#9ab69e');
 
 let calendarDays = {
@@ -308,7 +309,7 @@ onMounted(async () => {
 
 <template>
   <v-card
-    class="-month mx-auto rounded-lg min-w-[415px] max-w-[464px] w-full h-max"
+    class="-month mx-auto rounded-lg min-w-[400px] max-w-[464px] w-max h-max"
   >
     <div
       class="text-white flex justify-between items-center p-3 pl-6 pr-6 w-full"

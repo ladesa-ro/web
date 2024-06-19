@@ -37,6 +37,7 @@ const props = defineProps({
   steps: Array<Step>,
   events: Array<Event>,
   monthNum: Number,
+  showAllItems: Boolean,
 });
 
 // Set event data
@@ -73,7 +74,8 @@ async function setEvents(): Promise<void> {
     // Set all events
     async function setAllItems(): Promise<boolean> {
       try {
-        allEventItems.value = [];
+        // Clear array from events
+        if (props.showAllItems! === false) allEventItems.value = [];
 
         // Set steps
         for (let i = 0; i < props.steps!.length; i++) {
@@ -112,7 +114,7 @@ async function setEvents(): Promise<void> {
           // Save diff dates
           const date1 = dayjs(a.endDate).diff(dayjs().toDate());
           const date2 = dayjs(b.endDate).diff(dayjs().toDate());
-          // Remove before events
+
           return date1 - date2;
         });
 
@@ -121,12 +123,15 @@ async function setEvents(): Promise<void> {
           `${props.year!}-${props.monthNum! + 1}-01`
         );
 
-        allEventItems.value = allEventItems.value.filter(
-          (event) =>
-            (dayjs(event.startDate) >= firstDayOfMonth.startOf('month') ||
-              dayjs(event.endDate) >= firstDayOfMonth.startOf('month')) &&
-            dayjs(event.startDate) <= firstDayOfMonth.endOf('month')
-        );
+        // Filter items
+        if (props.showAllItems! === false) {
+          allEventItems.value = allEventItems.value.filter(
+            (event) =>
+              (dayjs(event.startDate) >= firstDayOfMonth.startOf('month') ||
+                dayjs(event.endDate) >= firstDayOfMonth.startOf('month')) &&
+              dayjs(event.startDate) <= firstDayOfMonth.endOf('month')
+          );
+        }
       } catch (error) {}
     }
 
@@ -153,7 +158,11 @@ onMounted(async () => {
 
 <template>
   <div
-    class="-scrollbar flex flex-col gap-2 overflow-y-auto max-w-[464px] w-full h-[568px] pr-2 xl:pr-0"
+    class="flex flex-col gap-2 max-w-[420px] xl:max-w-[464px] w-full"
+    :class="{
+      '-scrollbar overflow-y-auto h-[568px] pr-2 xl:pr-0':
+        props.showAllItems! === false,
+    }"
   >
     <PagesDashboardCalendarEvent
       v-for="(event, index) in allEventItems"
