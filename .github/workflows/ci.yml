@@ -5,7 +5,7 @@ on:
   push:
     branches:
       - 'production'
-      - 'development'
+      - 'main'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -30,7 +30,7 @@ jobs:
           password: ${{ secrets.REGISTRY_TOKEN }}
 
       - name: Build (and push if enabled) channel development
-        if: ${{ env.ENABLE_BUILD_IMAGE == 'true' && github.ref_name == 'development' }}
+        if: ${{ env.ENABLE_BUILD_IMAGE == 'true' && github.ref_name == 'main' }}
         uses: docker/build-push-action@v6
         with:
           push: ${{ env.ENABLE_PUSH_IMAGE == 'true' }}
