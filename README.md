@@ -14,14 +14,29 @@ Link: [`não disponível`](#).
 
 Link: [`https://luna.sisgha.com/`](https://luna.sisgha.com/).
 
-## Hackeando
+## Configuração Local
 
-```sh
+### Obter o código fonte do projeto
+
+```bash
 git clone https://github.com/ladesa-ro/web.git
 cd web
 ```
 
-Continue em [./HACKING.md](./HACKING.md).
+### Instalar as dependências do projeto
+
+```bash
+npm install
+```
+
+### Iniciar servidor de desenvolvimento local
+
+Comece o servidor de desenvolvimento em [`http://localhost:3000`](http://localhost:3000):
+
+```bash
+npm run dev
+```
+
 
 ## Colaboradores
 
