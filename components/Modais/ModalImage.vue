@@ -4,63 +4,24 @@
 	<div>
 		<div class="overlay">
 			<div class="modal">
-				<h1 class="font-bold">Cadastrar Usuário</h1>
+				<h1 class="main-title mb-5">Cadastrar Usuário</h1>
 				<div>
 					<VVSelectImage name="aa" />
 				</div>
-				<div class="flex">
-					<button
-						class="Cancel flex items-center"
-						@click="($event) => $emit('close')"
-					>
-						<span class="flex">Cancelar</span>
-						<svg
-							class="svgCancel"
-							width="13"
-							height="14"
-							viewBox="0 0 13 14"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								d="M1.23291 11.8824L10.9209 2.11755M10.9209 11.8824L1.23291 2.11755"
-								:stroke="svgCancelColor"
-								stroke-width="2.46588"
-								stroke-linecap="round"
-							/>
-						</svg>
-					</button>
-
-					<button
-						class="Cad flex items-center"
-						@click="($event) => $emit('close')"
-					>
-						<span>Cadastrar</span>
-						<svg
-							class="svgCad"
-							width="18"
-							height="14"
-							viewBox="0 0 18 14"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								d="M1.4082 6.63384L6.59038 11.647L15.7719 2.35291"
-								:stroke="svgColor"
-								stroke-width="2.8164"
-								stroke-linecap="round"
-								stroke-linejoin="round"
-							/>
-						</svg>
-					</button>
+				<div class="flex justify-between mt-10">
+					<UIButtonModalCancelButton
+					 @click="$emit('close')" />
+					<UIButtonModalSaveButton />
+					
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
 <style scoped>
-h1 {
-	font-size: 16px;
+.main-title {
+	font-size: 24px;
+	font-weight: 700;
 }
 .overlay {
 	position: fixed;
