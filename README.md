@@ -37,7 +37,6 @@ Comece o servidor de desenvolvimento em [`http://localhost:3000`](http://localho
 npm run dev
 ```
 
-
 ## Colaboradores
 
 - Anna Isabela B. Pontuschka
