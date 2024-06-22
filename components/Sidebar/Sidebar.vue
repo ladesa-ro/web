@@ -70,7 +70,7 @@ const items: ISidebarItem[] = [
 		type: 'link',
 		title: 'Diários',
 		icon: iconDiario,
-		to: '/vinculos',
+		to: '/dashboard/diarios',
 	},
 	{
 		type: 'link',

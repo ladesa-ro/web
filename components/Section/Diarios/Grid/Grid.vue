@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const props = defineProps({
 	searchBarText: String,
 });
@@ -6,30 +6,32 @@ const props = defineProps({
 const $emit = defineEmits(['edit']);
 
 const { searchBarText } = toRefs(props);
-
-const { cursos } = await useApiCursosFindAll(searchBarText);
+const { diarios } = await useApiDiariosFindAll(searchBarText);
 </script>
 
 <template>
-	<UIGrid :items="cursos">
-		<template #item="{ item: curso }">
+	<UIGrid :items="diarios">
+		<template #item="{ item: diario}">
 			<UICard
 				variant="block"
-				:src="`https://luna.sisgha.com/api/cursos/${curso.id}/imagem/capa?imgCapa=${curso.imagemCapa?.id}`"
+				:src="`https://luna.sisgha.com/api/disciplinas/${diario.id}/imagem/capa?imgCapa=${diario.imagemCapa?.id}`"
 			>
 				<template #title>
-					{{ curso.nome }}
+					{{ diario.disciplina.nome}}
 				</template>
 
 				<template #actions>
-					<SectionCursosModal :editId="curso.id" />
+					<SectionDisciplinasModal :editId="diario.id" />
 				</template>
 
 				<UICardLine>
-					<span>Abreviação: {{ curso.nomeAbreviado }}</span>
+					<span
+						>Turmas: 
+						{{ diario.turma.periodo }} - {{ diario.turma.curso.modalidade.nome }}</span
+					>
 				</UICardLine>
 				<UICardLine>
-					<span>Modalidade: {{ curso.modalidade.nome }}</span>
+					<span>Professor: {{  }}</span>
 				</UICardLine>
 			</UICard>
 		</template>
