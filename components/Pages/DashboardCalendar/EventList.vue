@@ -37,7 +37,7 @@ const props = defineProps({
   steps: Array<Step>,
   events: Array<Event>,
   monthNum: Number,
-  showAllItems: Boolean,
+  viewType: Number,
 });
 
 // Set event data
@@ -75,7 +75,7 @@ async function setEvents(): Promise<void> {
     async function setAllItems(): Promise<boolean> {
       try {
         // Clear array from events
-        if (props.showAllItems! === false) allEventItems.value = [];
+        if (props.viewType! === 2) allEventItems.value = [];
 
         // Set steps
         for (let i = 0; i < props.steps!.length; i++) {
@@ -124,7 +124,7 @@ async function setEvents(): Promise<void> {
         );
 
         // Filter items
-        if (props.showAllItems! === false) {
+        if (props.viewType! === 2) {
           allEventItems.value = allEventItems.value.filter(
             (event) =>
               (dayjs(event.startDate) >= firstDayOfMonth.startOf('month') ||
@@ -158,10 +158,10 @@ onMounted(async () => {
 
 <template>
   <div
-    class="flex flex-col gap-2 max-w-[420px] xl:max-w-[464px] w-full"
+    class="flex flex-col gap-2 w-full"
     :class="{
-      '-scrollbar overflow-y-auto h-[568px] pr-2 xl:pr-0':
-        props.showAllItems! === false,
+      '-scrollbar overflow-y-auto pr-2 xl:pr-0': props.viewType! > 0,
+      'h-[504px]': props.viewType! === 2,
     }"
   >
     <PagesDashboardCalendarEvent

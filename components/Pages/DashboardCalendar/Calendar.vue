@@ -24,6 +24,8 @@ type Event = EventData & {
 // Props
 const props = defineProps({});
 
+// Variables
+
 // Calendar and events
 // Years
 const years = [2024, 2023, 2022, 2021, 2020, 2019];
@@ -102,6 +104,12 @@ const eventItems: Array<Event> = [
 ];
 
 // Functions
+// Calendar view
+let calendarView = ref<boolean>(false);
+
+const handleUpdate = (v: boolean) => {
+  calendarView.value = v;
+};
 </script>
 
 <template>
@@ -110,7 +118,7 @@ const eventItems: Array<Event> = [
       <div class="flex flex-col justify-center items-center w-max h-auto">
         <!-- Select calendar -->
         <div
-          class="flex flex-col xl:flex-row w-full justify-center items-center gap-4 m-auto mb-5 py-[50px]"
+          class="flex flex-col xl:flex-row w-full justify-center items-center gap-4 m-auto mb-6 pt-[50px]"
         >
           <!-- Select year -->
           <VVAutocomplete
@@ -148,11 +156,27 @@ const eventItems: Array<Event> = [
           </div>
         </div>
 
+        <div class="flex w-full lg:justify-end mb-6">
+          <PagesDashboardCalendarViewsToggleView
+            @view:calendar="handleUpdate"
+          />
+        </div>
+
         <!-- Content -->
+        <!-- Partial calendar -->
+        <PagesDashboardCalendarViewsPartialCalendar
+          :year="2024"
+          :events="eventItems"
+          :steps="stepItems"
+          v-show="calendarView === false"
+        />
+
+        <!-- Complete calendar -->
         <PagesDashboardCalendarViewsCompleteCalendar
           :year="2024"
           :events="eventItems"
           :steps="stepItems"
+          v-show="calendarView !== false"
         />
       </div>
     </div>

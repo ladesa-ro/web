@@ -308,9 +308,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-card
-    class="-month mx-auto rounded-lg min-w-[400px] max-w-[464px] w-max h-max"
-  >
+  <v-card class="-month mx-auto rounded-lg w-max h-max">
     <div
       class="text-white flex justify-between items-center p-3 pl-6 pr-6 w-full"
       :style="{ backgroundColor: monthColor }"
@@ -322,7 +320,7 @@ onMounted(async () => {
         v-show="props.toggleMonth!"
       />
       <!-- Month name -->
-      <h1 class="font-medium text-center text-xl w-full">
+      <h1 class="font-medium text-center text-lg sm:text-xl w-full">
         {{
           dayjs(`${props.year!}-${monthNum + 1}-01`)
             .format('MMMM')[0]
@@ -344,11 +342,11 @@ onMounted(async () => {
 
     <!-- Calendar -->
     <v-container
-      class="grid grid-cols-7 gap-2 xl:gap-4 justify-center items-center m-0"
+      class="-month-content grid grid-cols-7 gap-1 sm:gap-2 justify-center items-center"
     >
       <!-- Days of the week -->
       <p
-        class="text-center font-semibold"
+        class="text-center text-sm sm:text-[16px] font-semibold"
         v-for="dayInTheWeek in daysInTheWeek"
       >
         {{ dayInTheWeek }}
@@ -357,7 +355,7 @@ onMounted(async () => {
       <!-- Days -->
       <!-- Before -->
       <div
-        class="-empty-day w-12 h-12 rounded-lg bg-[#9ab69e]"
+        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#9ab69e]"
         v-for="daysBefore in calendarDays.emptyDays.before.value"
         :key="daysBefore"
       ></div>
@@ -366,7 +364,7 @@ onMounted(async () => {
       <div
         v-for="(dayInMonth, index) in calendarDays.daysInMonth.value"
         :key="index"
-        class="w-12 h-12 flex border-solid rounded-lg"
+        class="flex w-10 h-10 sm:w-12 sm:h-12 border-solid rounded-lg"
         :class="{ 'cursor-pointer': props.selectWeek }"
         :style="{ backgroundColor: dayInMonth.color }"
         @mouseenter="hoverInWeek(dayInMonth.date, true)"
@@ -387,7 +385,7 @@ onMounted(async () => {
                 dayjs(dayjs().toDate()).format('YYYY-MM-DD') ==
                 dayjs(dayjs(dayInMonth.date)).format('YYYY-MM-DD'),
             }"
-            class="mx-auto w-10 h-10 flex justify-center items-center text-center text-white font-semibold"
+            class="mx-auto w-8 h-8 sm:w-10 sm:h-10 flex justify-center items-center text-center text-white font-semibold text-sm sm:text-[16px]"
           >
             {{ dayjs(dayInMonth.date).format('D') }}
           </p>
@@ -395,7 +393,7 @@ onMounted(async () => {
       </div>
       <!-- After -->
       <div
-        class="-empty-day w-12 h-12 rounded-lg bg-[#9ab69e]"
+        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#9ab69e]"
         v-for="daysAfter in calendarDays.emptyDays.after.value"
         :key="daysAfter"
       ></div>
@@ -409,6 +407,11 @@ onMounted(async () => {
   box-shadow: none;
   margin: 0;
 }
+
+.-month-content {
+  padding: 10px;
+}
+
 .-hover-on {
   background-color: #ffffff40;
 }

@@ -48,10 +48,10 @@ watch(monthNumReceived, (newValue: number) => {
 <template>
   <!-- Content -->
   <div
-    class="grid justify-center items-center grid-cols-1 xl:grid-cols-2 gap-6 min-w-[410px] max-w-[952px] w-max xl:w-auto h-auto"
+    class="flex flex-col lg:flex-row justify-between w-[328px] sm:w-[408px] lg:w-[844px] h-auto"
   >
     <!-- Month selected -->
-    <div class="flex flex-col w-max h-auto gap-6">
+    <div class="flex flex-col w-max h-auto gap-6 mb-6 lg:mr-4 lg:mb-0">
       <PagesDashboardCalendarMonth
         :year="2024"
         :month="dayjs().month()"
@@ -61,18 +61,16 @@ watch(monthNumReceived, (newValue: number) => {
         :select-week="false"
         @custom:month-num="handleUpdate"
       />
-
-      <!-- View complete calendar -->
-      <UITextButton :text="'Calendário completo'" :show-background="false" />
     </div>
 
     <!-- Event list -->
     <PagesDashboardCalendarEventList
+      class="max-w-[420px] xl:max-w-[464px]"
       :year="2024"
       :steps="props.steps!"
       :events="props.events!"
       :month-num="monthNumReceived"
-      :show-all-items="false"
+      :view-type="2"
     />
   </div>
 </template>

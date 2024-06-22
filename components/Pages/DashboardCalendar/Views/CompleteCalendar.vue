@@ -48,9 +48,13 @@ watch(monthNumReceived, (newValue: number) => {
 
 <template>
   <!-- Content -->
-  <div class="grid grid-cols-1 justify-between min-w-[420px] w-full h-auto">
-    <!-- Month selected -->
-    <div class="grid grid-cols-1 xl:grid-cols-2 w-max h-auto gap-4">
+  <div
+    class="flex flex-col justify-between w-[328px] sm:w-[408px] lg:w-full h-auto"
+  >
+    <!-- Months -->
+    <div
+      class="grid grid-cols-1 lg:grid-cols-2 w-max h-auto gap-4 max-w-[944px] mb-6"
+    >
       <PagesDashboardCalendarMonth
         v-for="month in monthNums"
         :year="2024"
@@ -65,12 +69,12 @@ watch(monthNumReceived, (newValue: number) => {
 
     <!-- Event list -->
     <PagesDashboardCalendarEventList
-      class=""
+      class="w-[420px] xl:w-full mb-4 h-[468px]"
       :year="2024"
       :steps="props.steps!"
       :events="props.events!"
       :month-num="0"
-      :show-all-items="true"
+      :view-type="1"
     />
   </div>
 </template>
