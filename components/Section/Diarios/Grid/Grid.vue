@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { DiarioProfessorService } from '~/infrastructure/api/generated';
+
 const props = defineProps({
 	searchBarText: String,
 });
@@ -25,13 +27,14 @@ const { diarios } = await useApiDiariosFindAll(searchBarText);
 				</template>
 
 				<UICardLine>
+					<span>Professores: {{ DiarioProfessorService.name }}</span>
+				</UICardLine>
+
+				<UICardLine>
 					<span
 						>Turmas: 
 						{{ diario.turma.periodo }} - {{ diario.turma.curso.modalidade.nome }}</span
 					>
-				</UICardLine>
-				<UICardLine>
-					<span>Professor: {{  }}</span>
 				</UICardLine>
 			</UICard>
 		</template>
