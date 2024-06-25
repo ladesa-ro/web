@@ -23,7 +23,7 @@ const isActive = ref(false);
 
 		<template v-slot:="{ isActive }">
 			<v-card class="dialog-style">
-				<SectionDisciplinasForm
+				<SectionDiariosForm
 					:editId="editId"
 					@close="isActive.value = false"
 				/>
