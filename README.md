@@ -1,21 +1,37 @@
-# Iniciar o SISGHA em sua máquina local
+# web
+
+## Ambientes
+
+### Produção
+
+[![CI Production][action-ci-prod-src]][action-ci-prod-href]
+
+Link: [`não disponível`](#).
+
+### Desenvolvimento
+
+[![CI Development][action-ci-dev-src]][action-ci-dev-href]
+
+Link: [`https://luna.sisgha.com/`](https://luna.sisgha.com/).
+
+## Configuração Local
+
+### Obter o código fonte do projeto
 
 ```bash
-git clone https://github.com/sisgha/sisgha-app.git;
-cd sisgha-app;
+git clone https://github.com/ladesa-ro/web.git
+cd web
 ```
 
-## Setup
-
-Instale as dependências do projeto:
+### Instalar as dependências do projeto
 
 ```bash
 npm install
 ```
 
-## Servidor de desenvolvimento
+### Iniciar servidor de desenvolvimento local
 
-Comece o servidor de desenvolvimento em `http://localhost:3000`:
+Comece o servidor de desenvolvimento em [`http://localhost:3000`](http://localhost:3000):
 
 ```bash
 npm run dev
@@ -30,3 +46,15 @@ npm run dev
 - Iury
 - Kauan Marques
 - Vitor Melo
+
+<!-- Badges -->
+
+<!-- Badges / Actions / Production  -->
+
+[action-ci-prod-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/ci.yml?style=flat&logo=github&logoColor=white&label=CI@production&branch=production&labelColor=18181B
+[action-ci-prod-href]: https://github.com/ladesa-ro/web/actions/workflows/ci.yml?query=branch%3Aproduction
+
+<!-- Badges / Actions / Development  -->
+
+[action-ci-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/ci.yml?style=flat&logo=github&logoColor=white&label=CI@development&branch=main&labelColor=18181B
+[action-ci-dev-href]: https://github.com/ladesa-ro/web/actions/workflows/ci.yml?query=branch%3Amain
