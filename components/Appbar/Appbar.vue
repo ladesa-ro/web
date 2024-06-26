@@ -26,15 +26,6 @@ const notificationsButtonEl = ref(null);
     </div>
 
     <!-- =================== user ===================  -->
-    <div
-      class="flex items-center gap-3 cursor-pointer rounded-lg inset-y-0 w-29 bg-[#EBF8EF] pl-3 pr-6 py-2"
-    >
-      <VImg :width="48" :height="48" class="rounded-full bg-green-700" />
-
-      <div>
-        <p class="font-semibold">Danilo Escudero</p>
-        <p class="font-normal flex flex-row items-center gap-2">
-          DAPE
 
     <!-- configuration to show the modal-->
     <v-menu
@@ -44,12 +35,27 @@ const notificationsButtonEl = ref(null);
       :close-on-content-click="false"
     >
       <template v-slot:activator="{ props, isActive }">
+        <div
+          v-bind="props"
+          class="flex items-center gap-3 cursor-pointer rounded-lg inset-y-0 w-29 bg-[#EBF8EF] pl-3 pr-6 py-2"
+        >
+          <VImg :width="48" :height="48" class="rounded-full bg-green-700" />
+
+          <div>
+            <p class="font-semibold">Danilo Escudero</p>
+
+            <p class="font-normal flex flex-row items-center gap-2">
+              DAPE
+
+              <!-- configuration to show the modal-->
               <IconsArrowIconArrow
-                v-bind="props"
                 ref="notificationsButtonEl"
-                class="-rotate-90 cursor-pointer -icon-green"
+                class="arrow -rotate-90 cursor-pointer -icon-green"
                 :class="{ down: isActive }"
               />
+            </p>
+          </div>
+        </div>
       </template>
 
       <!-- modal that will be shown if the arrow icon is clicked -->
@@ -57,9 +63,6 @@ const notificationsButtonEl = ref(null);
         :notificationsButtonEl="notificationsButtonEl"
       />
     </v-menu>
-        </p>
-      </div>
-    </div>
     <!-- ============================================ -->
 
     <div class="flex-1"></div>
@@ -92,3 +95,17 @@ const notificationsButtonEl = ref(null);
     />
   </div>
 </template>
+
+<style scoped>
+.arrow {
+  -moz-transition: all 0.25s ease-in-out;
+  -webkit-transition: all 0.25s ease-in-out;
+  transition: all 0.25s ease-in-out;
+}
+
+.arrow.down {
+  -moz-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+</style>
