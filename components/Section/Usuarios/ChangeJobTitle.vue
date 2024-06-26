@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const props = defineProps<{ notificationsButtonEl: HTMLElement | null }>();
 const activeButton = ref<string>('DAPE');
 </script>
 
@@ -13,19 +12,18 @@ const activeButton = ref<string>('DAPE');
       <!-- ===================== DAPE ===================== -->
       <div
         class="flex flex-col justify-end items-center w-28 h-36 border-2 rounded-lg border-[#9AB69E] px-0 py-8 gap-2 text-center cursor-pointer"
-        :class="{active: activeButton === 'DAPE'}"
+        :class="{ active: activeButton === 'DAPE' }"
         @click="activeButton = 'DAPE'"
       >
-        <IconsIconUser width="38" height="40"/>
+        <IconsIconUser width="38" height="40" />
         <p class="font-[600]">DAPE</p>
       </div>
       <!-- =============================================== -->
 
-
       <!-- ================== PROFESSOR ================== -->
       <div
         class="flex flex-col justify-end items-center w-28 h-36 border-2 rounded-lg border-[#9AB69E] px-0 py-8 gap-2 text-center cursor-pointer"
-        :class="{active: activeButton === 'Professor'}"
+        :class="{ active: activeButton === 'Professor' }"
         @click="activeButton = 'Professor'"
       >
         <IconsIconEducator width="36" height="49" />
@@ -38,15 +36,15 @@ const activeButton = ref<string>('DAPE');
       class="flex flex-row justify-between min-w-24 font-[600] cursor-pointer"
     >
       Cancelar
-	  <IconsIconClose width="11" height="10"/>
+      <IconsIconClose width="11" height="10" />
     </span>
   </div>
 </template>
 
 <style scoped>
 .active {
-  background-color: #118D3B;
-  border-color: #118D3B;
+  background-color: #118d3b;
+  border-color: #118d3b;
   color: white;
 }
 </style>
