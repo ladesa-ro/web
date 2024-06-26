@@ -22,7 +22,11 @@ const notificationsButtonEl = ref(null);
 </script>
 
 <template>
-  <div class="flex justify-between mt-14 max-w-screen-xl w-full mx-auto">
+  <div class="flex justify-between w-full mt-14
+    max-[1400px]:px-8
+    xl:max-w-screen-xl xl:mx-auto
+    max-xl:mx-4 max-xl:px-0"
+  >
     <div class="flex font-[600] items-center gap-2">
       <span>
         {{ month }} - Dias {{ firstWeekDay.day }} a {{ lastWeekDay.day }}
@@ -49,7 +53,7 @@ const notificationsButtonEl = ref(null);
       </v-menu>
     </div>
 
-    <section class="flex cursor-pointer">
+    <section class="flex cursor-pointer max-[600px]:hidden">
       <!--left button-->
       <div
         class="flex gap-2 items-center border-2 p-3 font-[600] rounded-l-lg text-[#9AB69E]"
