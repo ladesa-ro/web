@@ -33,7 +33,7 @@ const notificationsButtonEl = ref(null);
 
       <div>
         <p class="font-semibold">Danilo Escudero</p>
-        <p class="font-normal flex flex-row">
+        <p class="font-normal flex flex-row items-center gap-2">
           DAPE
 
 		  <!-- configuration to show the modal-->
@@ -47,10 +47,8 @@ const notificationsButtonEl = ref(null);
               <IconsArrowIconArrow
                 v-bind="props"
                 ref="notificationsButtonEl"
-                :class="[
-                  'arrow -rotate-90 cursor-pointer -icon-green',
-                  { down: isActive },
-                ]"
+                class="-rotate-90 cursor-pointer -icon-green"
+                :class="{ down: isActive }"
               />
             </template>
 

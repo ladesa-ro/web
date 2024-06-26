@@ -1,11 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{ notificationsButtonEl: HTMLElement | null }>();
+const activeButton = ref<string>('DAPE');
 </script>
-
-<!-- 
-	<!-- PROFESSOR -->
-	<!--  DAPE -- >
--->
 
 <template>
   <div
@@ -14,19 +10,28 @@ const props = defineProps<{ notificationsButtonEl: HTMLElement | null }>();
     <span class="font-[600]">Alternar versão</span>
 
     <section class="flex flex-row justify-between w-full">
+      <!-- ===================== DAPE ===================== -->
       <div
         class="flex flex-col justify-end items-center w-28 h-36 border-2 rounded-lg border-[#9AB69E] px-0 py-8 gap-2 text-center cursor-pointer"
+        :class="{active: activeButton === 'DAPE'}"
+        @click="activeButton = 'DAPE'"
       >
         <IconsIconUser width="38" height="40"/>
         <p class="font-[600]">DAPE</p>
       </div>
+      <!-- =============================================== -->
 
+
+      <!-- ================== PROFESSOR ================== -->
       <div
-        class="flex flex-col justify-end items-center w-28 h-36 border-2 rounded-lg border-[#118D3B] px-0 py-8 gap-2 bg-[#118D3B] text-center cursor-pointer"
+        class="flex flex-col justify-end items-center w-28 h-36 border-2 rounded-lg border-[#9AB69E] px-0 py-8 gap-2 text-center cursor-pointer"
+        :class="{active: activeButton === 'Professor'}"
+        @click="activeButton = 'Professor'"
       >
-        <IconsIconEducator width="36" height="49" class="-icon-white"/> 
-        <p class="font-[600] text-white">Professor</p>
+        <IconsIconEducator width="36" height="49" />
+        <p class="font-[600]">Professor</p>
       </div>
+      <!-- =============================================== -->
     </section>
 
     <span
@@ -38,5 +43,10 @@ const props = defineProps<{ notificationsButtonEl: HTMLElement | null }>();
   </div>
 </template>
 
-<style scoped></style>
-<!--ainda irei adicionar estilo de checked-->
+<style scoped>
+.active {
+  background-color: #118D3B;
+  border-color: #118D3B;
+  color: white;
+}
+</style>
