@@ -38,6 +38,7 @@ import iconUsuarios from '~/assets/icons/Usuarios.svg';
 import type { ISidebarItem } from './ISidebarItem';
 
 const items: ISidebarItem[] = [
+<<<<<<< HEAD
   {
     type: 'link',
     title: 'Início',
@@ -102,6 +103,72 @@ const items: ISidebarItem[] = [
     icon: iconConfiguracoes,
     to: '/configuracoes',
   },
+=======
+	{
+		type: 'link',
+		title: 'Início',
+		icon: iconHome,
+		to: '/',
+	},
+	{
+		type: 'link',
+		title: 'Turmas',
+		icon: iconTurmas,
+		to: '/dashboard/turmas',
+	},
+	{
+		type: 'link',
+		title: 'Disciplinas',
+		icon: iconDisciplina,
+		to: '/dashboard/disciplinas',
+	},
+	{
+		type: 'link',
+		title: 'Perfil',
+		icon: iconPerfil,
+		to: '/perfil',
+	},
+	{
+		type: 'link',
+		title: 'Diários',
+		icon: iconDiario,
+		to: '/dashboard/diarios',
+	},
+	{
+		type: 'link',
+		title: 'Calendário',
+		icon: iconCalendario,
+		to: '/calendario',
+	},
+	{
+		type: 'group',
+		title: 'Outros',
+		icon: iconOutros,
+		items: [
+			{
+				type: 'link',
+				title: 'Usuários',
+				icon: iconUsuarios,
+				to: '/dashboard/usuarios',
+			},
+			{
+				type: 'link',
+				title: 'Cursos',
+				icon: iconCursos,
+				to: '/dashboard/cursos',
+			},
+		],
+	},
+	{
+		type: 'spacer',
+	},
+	{
+		type: 'link',
+		title: 'Configurações',
+		icon: iconConfiguracoes,
+		to: '/configuracoes',
+	},
+>>>>>>> origin/main
 ];
 
 const { isMobile } = useMonitorSize();
