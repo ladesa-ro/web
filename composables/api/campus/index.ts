@@ -1,2 +1,2 @@
-export * from "./useApiCampusFindAll";
+export * from './useApiCampusFindAll';
 export * from './useApiCampusFindOne';

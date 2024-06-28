@@ -3,13 +3,15 @@ import { defineProps, toRefs, computed } from 'vue';
 
 // Definição das props ajustadas
 const props = defineProps({
-  diario: Object
+  diario: Object,
 });
 
 const { diario } = toRefs(props);
 
 // Realizei a chamada da ROTA useApiDiariosProfessorFindAllByDiarioId
-const { diarioProfessorList } = await useApiDiariosProfessorFindAllByDiarioId({ diario: diario.value });
+const { diarioProfessorList } = await useApiDiariosProfessorFindAllByDiarioId({
+  diario: diario.value,
+});
 </script>
 
 <template>
@@ -27,8 +29,11 @@ const { diarioProfessorList } = await useApiDiariosProfessorFindAllByDiarioId({ 
 
     <UICardLine>
       <span>
-        Professores: 
-        <template v-for="diarioProfessor in diarioProfessorList" :key="diarioProfessor.id">
+        Professores:
+        <template
+          v-for="diarioProfessor in diarioProfessorList"
+          :key="diarioProfessor.id"
+        >
           {{ diarioProfessor.vinculo.usuario.nome }}
         </template>
       </span>
@@ -36,7 +41,7 @@ const { diarioProfessorList } = await useApiDiariosProfessorFindAllByDiarioId({ 
 
     <UICardLine>
       <span>
-        Turmas: 
+        Turmas:
         {{ diario.turma.periodo }} - {{ diario.turma.curso.modalidade.nome }}
       </span>
     </UICardLine>

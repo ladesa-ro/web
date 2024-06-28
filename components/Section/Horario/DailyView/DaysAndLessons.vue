@@ -10,21 +10,23 @@ const classTimings = [
 ];
 
 const getTimeForIndex = (index: number) => {
-	return classTimings[index];
+  return classTimings[index];
 };
 
-const generatedLessons = Array.from({ length: classTimings.length }).map((_, index): ILesson => {
-  const { startsAt, endsAt } = getTimeForIndex(index);
+const generatedLessons = Array.from({ length: classTimings.length }).map(
+  (_, index): ILesson => {
+    const { startsAt, endsAt } = getTimeForIndex(index);
 
-  return {
-    discipline: 'Linguagem de Programação',
-    class: '2° A Informática',
-    environment: 'Sala 20',
-    teacher: 'Danilo Escudero',
-    startsAt,
-    endsAt,
-  };
-});
+    return {
+      discipline: 'Linguagem de Programação',
+      class: '2° A Informática',
+      environment: 'Sala 20',
+      teacher: 'Danilo Escudero',
+      startsAt,
+      endsAt,
+    };
+  }
+);
 </script>
 
 <template>

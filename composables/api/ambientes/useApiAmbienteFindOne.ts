@@ -1,19 +1,20 @@
-import { useQuery } from "@tanstack/vue-query";
-import { AmbientesService } from "../../../infrastructure/api/generated";
+import { useQuery } from '@tanstack/vue-query';
 
-export const useApiAmbienteFindOne = async (idRef: MaybeRef<string | undefined | null>) => {
-  const key = computed(() => `ambiente::${unref(idRef) ?? "-1"}`);
-  const isIdValid = computed(() => typeof unref(idRef) === "string");
+export const useApiAmbienteFindOne = async (
+  idRef: MaybeRef<string | undefined | null>
+) => {
+  const key = computed(() => `ambiente::${unref(idRef) ?? '-1'}`);
 
+  const apiClient = useApiClient();
 
   const query = useQuery({
-    queryKey: ["ambientes", key],
+    queryKey: ['ambientes', key],
 
     queryFn: async () => {
       const id = unref(idRef);
 
       if (id) {
-        return AmbientesService.ambienteControllerAmbienteFindById(id);
+        return apiClient.ambientes.ambienteFindById({ id: id });
       }
 
       return null;
@@ -28,5 +29,4 @@ export const useApiAmbienteFindOne = async (idRef: MaybeRef<string | undefined |
     query,
     ambiente,
   };
-}
-
+};

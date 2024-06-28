@@ -1,3 +1,3 @@
 <template>
-<SectionCursos/>
-</template> 
+  <SectionCursos />
+</template>

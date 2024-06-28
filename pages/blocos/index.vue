@@ -1,3 +1,3 @@
 <template>
-	<SectionBlocos />
+  <SectionBlocos />
 </template>

@@ -33,12 +33,14 @@ const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
               {{ disciplina.nome }}
             </template>
 
-			<template #actions>
+            <template #actions>
               <v-radio class="detail"></v-radio>
             </template>
 
             <UICardLine>
-              <span class="text-left w-full block">Carga Horária: {{ disciplina.cargaHoraria }}</span>
+              <span class="text-left w-full block"
+                >Carga Horária: {{ disciplina.cargaHoraria }}</span
+              >
             </UICardLine>
           </UICardSelectionDiscipline>
         </template>
