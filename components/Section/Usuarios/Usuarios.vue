@@ -6,29 +6,29 @@ const searchBarText = ref('');
 </script>
 
 <template>
-	<v-container>
-		<div class="container mx-auto py-4 max-w-[89%]">
-			<div
-				class="flex container-header mx-auto justify-between items-center mb-5 gap-4 px-3"
-			>
-				<UISearchBar
-					:value="searchBarText"
-					@update:value="searchBarText = $event"
-				/>
+  <v-container>
+    <div class="container mx-auto py-4 max-w-[89%]">
+      <div
+        class="flex container-header mx-auto justify-between items-center mb-5 gap-4 px-3"
+      >
+        <UISearchBar
+          :value="searchBarText"
+          @update:value="searchBarText = $event"
+        />
 
-				<div class="flex items-center flex-shrink-0">
-					<ModalUser />
-				</div>
-			</div>
+        <div class="flex items-center flex-shrink-0">
+          <ModalUser />
+        </div>
+      </div>
 
-			<div>
-				<SectionUsuariosUsersList />
-			</div>
-		</div>
-	</v-container>
+      <div>
+        <SectionUsuariosUsersList />
+      </div>
+    </div>
+  </v-container>
 </template>
 <style scoped>
 .container-header {
-	padding: 50px 0;
+  padding: 50px 0;
 }
 </style>

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 definePageMeta({
-	layout: 'empty',
+  layout: 'empty',
 });
 </script>
 
 <template>
-	<SectionLogout />
+  <SectionLogout />
 </template>

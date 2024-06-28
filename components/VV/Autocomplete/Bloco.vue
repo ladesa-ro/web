@@ -2,10 +2,10 @@
 import { toRefs } from 'vue';
 
 const props = defineProps({
-	name: {
-		type: String,
-		required: true,
-	},
+  name: {
+    type: String,
+    required: true,
+  },
 });
 
 const { name } = toRefs(props);
@@ -16,14 +16,14 @@ const { blocosDebounced: blocos } = await useApiBlocosFindAll(search);
 </script>
 
 <template>
-	<VVAutocomplete
-		:name="name"
-		item-value="id"
-		label="Blocos"
-		v-bind="$attrs"
-		item-title="nome"
-		:items="blocos"
-		v-model:search="search"
-		placeholder="Selecione um bloco"
-	/>
+  <VVAutocomplete
+    :name="name"
+    item-value="id"
+    label="Blocos"
+    v-bind="$attrs"
+    item-title="nome"
+    :items="blocos"
+    v-model:search="search"
+    placeholder="Selecione um bloco"
+  />
 </template>

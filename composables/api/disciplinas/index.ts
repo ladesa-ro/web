@@ -1,2 +1,2 @@
-export * from "./useApiDisciplinasFindAll";
+export * from './useApiDisciplinasFindAll';
 export * from './useApiDisciplinasFindOne';

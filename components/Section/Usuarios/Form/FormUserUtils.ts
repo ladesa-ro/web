@@ -1,39 +1,39 @@
 import type { FormContext } from 'vee-validate';
 
 export type FormUserValues = {
-	imagem: Blob | null | undefined;
+  imagem: Blob | null | undefined;
 
-	nome: string;
-	email: string;
+  nome: string;
+  email: string;
 
-	vinculos: Array<Vinculo>;
+  vinculos: Array<Vinculo>;
 };
 
 export type FormUserOutput = {
-	imagem: Blob | null | undefined;
-	nome: string;
-	codigo: string;
+  imagem: Blob | null | undefined;
+  nome: string;
+  codigo: string;
 };
 
 export type Vinculo = {
-	campus: { id: string };
-	cargos: Array<'dape' | 'professor'>;
+  campus: { id: string };
+  cargos: Array<'dape' | 'professor'>;
 };
 
 export const useFormUser = () => {
-	return inject<FormContext<FormUserValues, FormUserOutput>>('FORM_USER')!;
+  return inject<FormContext<FormUserValues, FormUserOutput>>('FORM_USER')!;
 };
 
 export const checkActiveTeacherRole = (vinculo: Vinculo) => {
-	return vinculo.campus.id !== null && vinculo.cargos.includes('professor');
+  return vinculo.campus.id !== null && vinculo.cargos.includes('professor');
 };
 
 export const checkHasAtLeastOneActiveTeacherRole = (
-	vinculos: Array<Vinculo>
+  vinculos: Array<Vinculo>
 ) => {
-	return vinculos.some(checkActiveTeacherRole);
+  return vinculos.some(checkActiveTeacherRole);
 };
 
 export const getActivesTeacherRole = (vinculos: Array<Vinculo>) => {
-	return vinculos.filter(checkActiveTeacherRole);
+  return vinculos.filter(checkActiveTeacherRole);
 };
