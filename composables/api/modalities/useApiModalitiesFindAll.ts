@@ -1,16 +1,16 @@
-import { useQuery } from "@tanstack/vue-query";
+import { useQuery } from '@tanstack/vue-query';
 
 import { refDebounced } from '@vueuse/core';
 
 export const useApiModalitiesFindAll = async (searchTerm: MaybeRef<string>) => {
   const apiClient = useApiClient();
   const query = useQuery({
-    queryKey: ["modalidade", searchTerm],
+    queryKey: ['modalidade', searchTerm],
 
     queryFn: async () => {
-      return apiClient.modalidades.modalidadeFindAll({
-          search: unref(searchTerm)
-        })
+      return apiClient.modalidades.modalidadeList({
+        search: unref(searchTerm),
+      });
     },
   });
 

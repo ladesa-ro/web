@@ -2,28 +2,28 @@ import { useQuery } from '@tanstack/vue-query';
 import { computed, unref, type MaybeRef } from 'vue';
 
 export const useApiBlocosFindOne = async (
-	idRef: MaybeRef<string | null | undefined>
+  idRef: MaybeRef<string | null | undefined>
 ) => {
-	const apiClient = useApiClient();
+  const apiClient = useApiClient();
 
-	const query = useQuery({
-		queryKey: ['blocos', computed(() => `blocos::id::${unref(idRef)}`)],
+  const query = useQuery({
+    queryKey: ['blocos', computed(() => `blocos::id::${unref(idRef)}`)],
 
-		queryFn: async () => {
-			const id = unref(idRef);
-			if (id) {
-				return apiClient.blocos.blocoFindOneById({
-					id: id,
-				});
-			} else {
-				return null;
-			}
-		},
-	});
+    queryFn: async () => {
+      const id = unref(idRef);
+      if (id) {
+        return apiClient.blocos.blocoFindById({
+          id: id,
+        });
+      } else {
+        return null;
+      }
+    },
+  });
 
-	const bloco = computed(() => unref(query.data) ?? null);
+  const bloco = computed(() => unref(query.data) ?? null);
 
-	await query.suspense();
+  await query.suspense();
 
-	return { query, bloco };
+  return { query, bloco };
 };
