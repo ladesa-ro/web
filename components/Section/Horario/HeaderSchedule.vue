@@ -53,7 +53,7 @@ const notificationsButtonEl = ref(null);
       </v-menu>
     </div>
 
-    <section class="flex cursor-pointer max-[600px]:hidden">
+    <section class="flex cursor-pointer max-[1300px]:hidden">
       <!--left button-->
       <div
         class="flex gap-2 items-center border-2 p-3 font-[600] rounded-l-lg text-[#9AB69E]"

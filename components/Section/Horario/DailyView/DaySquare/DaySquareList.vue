@@ -7,34 +7,6 @@ const activeDayMonth = computed(() => selectedDay.value.format('DD/MM')); //form
 
 const weekDays = getWeekDays(selectedDay.value); //array com dias da semana
 
-//===========================================================================================
-//vou precisar usar onMount pra executar assim que iniciar
-
-// const square = ref([]);
-
-// let i: number = 0;
-// for (const obj of weekDays) {
-//   i++;
-//   if (obj.dayMonth === activeDayMonth.value) break; //-> está aqui o que eu preciso
-// }
-
-//scrool
-
-// watch(
-//   [activeDayMonth],
-//   () => {
-//     if (typeof window !== 'undefined') {
-//       const activeDayElement = document.querySelector(
-//         `.scroll [data-day-month="${activeDayMonth.value}"]`
-//       );
-
-//       if (activeDayElement) {
-//         activeDayElement.scrollIntoView();
-//       }
-//     }
-//   },
-//   { immediate: true }
-// );
 </script>
 
 <template>
@@ -48,7 +20,5 @@ const weekDays = getWeekDays(selectedDay.value); //array com dias da semana
       :dayMonth="weekDay.dayMonth"
       @click="selectedDay = weekDay.dayAsDayJs"
     />
-
-    <!-- :data-day-month="weekDay.dayMonth"-->
   </div>
 </template>
