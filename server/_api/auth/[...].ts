@@ -1,38 +1,43 @@
-import { NuxtAuthHandler } from "#auth";
-import jwt, { JwtPayload } from "jsonwebtoken";
-import type ICredentialsProvider from "next-auth/providers/credentials";
-import CredentialsProviderModule from "next-auth/providers/credentials";
-import { AutenticacaoService } from "../../../infrastructure/api/generated";
+import { NuxtAuthHandler } from '#auth';
+import jwt, { type JwtPayload } from 'jsonwebtoken';
+import type ICredentialsProvider from 'next-auth/providers/credentials';
+import CredentialsProviderModule from 'next-auth/providers/credentials';
+import { getApiClient } from '~/composables';
 import {
   ServerAuthenticationService,
   ServerEnvironmentConfigService,
   serverInfrastructureContainer,
-} from "../../server-infrastructure";
+} from '../../server-infrastructure';
 
-/// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
-const CredentialsProvider: typeof ICredentialsProvider = CredentialsProviderModule.default;
+const CredentialsProvider: typeof ICredentialsProvider =
+  /// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
+  CredentialsProviderModule.default;
 
 const ACCESS_TOKEN_EXPIRATION_TRIM = 1 * 60 * 1000;
 
-const serverAuthenticationService = serverInfrastructureContainer.get(ServerAuthenticationService);
-const serverEnvironmentConfigService = serverInfrastructureContainer.get(ServerEnvironmentConfigService);
+const serverAuthenticationService = serverInfrastructureContainer.get(
+  ServerAuthenticationService
+);
+const serverEnvironmentConfigService = serverInfrastructureContainer.get(
+  ServerEnvironmentConfigService
+);
 
 export default NuxtAuthHandler({
   secret: serverEnvironmentConfigService.getNuxtAuthSecret(),
 
   pages: {
-    signIn: "/login",
+    signIn: '/login',
   },
 
   providers: [
     CredentialsProvider({
-      id: "credentials",
+      id: 'credentials',
 
-      name: "Credentials",
+      name: 'Credentials',
 
       credentials: {
-        username: { label: "Matrícula", type: "text" },
-        password: { label: "Senha", type: "password" },
+        username: { label: 'Matrícula', type: 'text' },
+        password: { label: 'Senha', type: 'password' },
       },
 
       async authorize(credentials, _req) {
@@ -41,14 +46,19 @@ export default NuxtAuthHandler({
 
         if (credentials && matriculaSiape && senha) {
           try {
-            const token = await AutenticacaoService.autenticacaoControllerLogin({
-              matriculaSiape: matriculaSiape,
-              senha: senha,
+            const apiClient = getApiClient();
+            const token = await apiClient.autenticacao.authLogin({
+              requestBody: {
+                matriculaSiape: matriculaSiape,
+                senha: senha,
+              },
             });
 
             const { access_token: accessToken } = token;
 
-            const data = <JwtPayload | null>(accessToken ? jwt.decode(accessToken) : null);
+            const data = <JwtPayload | null>(
+              (accessToken ? jwt.decode(accessToken) : null)
+            );
 
             const sub = data?.sub;
 
@@ -69,7 +79,7 @@ export default NuxtAuthHandler({
   callbacks: {
     async jwt({ token, user, account }) {
       if (account && user) {
-        if (account?.provider === "credentials") {
+        if (account?.provider === 'credentials') {
           const token = (user as any).token;
 
           return {

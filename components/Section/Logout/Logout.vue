@@ -1,5 +1,5 @@
 <template>
-	<SectionLoading />
+  <SectionLoading />
 </template>
 
 <script lang="ts" setup>
@@ -10,22 +10,22 @@ const app = useNuxtApp();
 const { signOut, status } = useAuth();
 
 const handleAuthStatus = async () => {
-	const status_value = unref(status);
+  const status_value = unref(status);
 
-	switch (status_value) {
-		case 'authenticated': {
-			await signOut({ redirect: false });
-			break;
-		}
-	}
+  switch (status_value) {
+    case 'authenticated': {
+      await signOut({ redirect: false });
+      break;
+    }
+  }
 
-	switch (status_value) {
-		case 'unauthenticated':
-		case 'authenticated': {
-			await callWithNuxt(app, () => navigateTo('/'));
-			break;
-		}
-	}
+  switch (status_value) {
+    case 'unauthenticated':
+    case 'authenticated': {
+      await callWithNuxt(app, () => navigateTo('/'));
+      break;
+    }
+  }
 };
 
 watch([status], handleAuthStatus, { immediate: true });

@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts" setup>
-definePageMeta({ middleware: 'auth' })
+definePageMeta({ middleware: 'auth' });
 
-const { data } = useAuthState()
+const { data } = useAuthState();
 </script>

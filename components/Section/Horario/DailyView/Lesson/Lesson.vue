@@ -26,13 +26,19 @@ const variant = verifyClassStatusByLesson(lesson.value);
   >
     <section class="flex flex-col justify-between">
       <slot>
-        <SectionHorarioDailyViewLessonTeacherView v-if="viewFor === 'teacher'"/>
+        <SectionHorarioDailyViewLessonTeacherView
+          v-if="viewFor === 'teacher'"
+        />
 
-        <SectionHorarioDailyViewLessonStudentView v-if="viewFor === 'student'"/>
+        <SectionHorarioDailyViewLessonStudentView
+          v-if="viewFor === 'student'"
+        />
 
-        <LessonInfoEnvironment /> <!--ambiente-->
+        <LessonInfoEnvironment />
+        <!--ambiente-->
 
-        <SectionHorarioDailyViewLessonInfoTime/> <!--horário-->
+        <SectionHorarioDailyViewLessonInfoTime />
+        <!--horário-->
       </slot>
     </section>
 

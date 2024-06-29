@@ -1,5 +1,5 @@
-import { injectable } from "inversify";
-import { AutenticacaoService } from "~/infrastructure/api/generated";
+import { injectable } from 'inversify';
+import { getApiClient } from '~/composables';
 
 @injectable()
 export class ServerAuthenticationService {
@@ -7,7 +7,11 @@ export class ServerAuthenticationService {
     try {
       const refreshToken = token.refreshToken;
 
-      const tokenSet = await AutenticacaoService.autenticacaoControllerRefresh({ refreshToken });
+      const apiClient = getApiClient();
+
+      const tokenSet = await apiClient.autenticacao.authRefresh({
+        requestBody: { refreshToken },
+      });
 
       return {
         ...token,

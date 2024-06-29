@@ -1,7 +1,6 @@
 <script setup lang="ts">
-
 const props = defineProps({
-    searchBarText: String,
+  searchBarText: String,
 });
 
 const $emit = defineEmits(['edit']);
@@ -11,9 +10,9 @@ const { diarios } = await useApiDiariosFindAll(searchBarText);
 </script>
 
 <template>
-    <UIGrid :items="diarios">
-        <template #item="{ item: diario}">
-            <SectionDiariosGridItem :diario="diario" />
-        </template>
-    </UIGrid>
+  <UIGrid :items="diarios">
+    <template #item="{ item: diario }">
+      <SectionDiariosGridItem :diario="diario" />
+    </template>
+  </UIGrid>
 </template>

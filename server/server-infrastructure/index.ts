@@ -1,4 +1,3 @@
-export * from "./server-authentication"
-export * from "./server-config"
-export * from "./server-infrastructure.container"
-
+export * from './server-authentication';
+export * from './server-config';
+export * from './server-infrastructure.container';

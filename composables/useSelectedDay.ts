@@ -1,4 +1,4 @@
-import type dayjs from "dayjs";
+import type dayjs from 'dayjs';
 
 export const useSelectedDay = () => {
   return inject<Ref<dayjs.Dayjs>>('selectedDay')!;

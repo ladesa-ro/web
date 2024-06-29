@@ -8,8 +8,8 @@ export const useApiDiariosProfessorFindAllByDiarioId = async (filter: any) => {
     queryKey: ['diarios', filter.diario.id],
 
     queryFn: async () => {
-      return apiClient.diarioProfessor.diarioProfessorFindAll({
-        'filter.diario.id': unref(filter.diario.id),
+      return apiClient.diarioProfessor.diarioProfessorList({
+        filterDiarioId: unref(filter.diario.id),
       });
     },
   });

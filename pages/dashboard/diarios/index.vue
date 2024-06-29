@@ -1,4 +1,3 @@
 <template>
-    <SectionDiarios/>
-  </template>
-  
+  <SectionDiarios />
+</template>

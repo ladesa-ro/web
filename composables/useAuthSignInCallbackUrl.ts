@@ -5,7 +5,7 @@ export const useAuthSignInCallbackUrl = () => {
 
   const callbackUrlRef = computed(() => {
     const callbackUrlParam = unref(callbackUrlParamRef);
-    return typeof callbackUrlParam === "string" ? callbackUrlParam : "/";
+    return typeof callbackUrlParam === 'string' ? callbackUrlParam : '/';
   });
 
   return callbackUrlRef;

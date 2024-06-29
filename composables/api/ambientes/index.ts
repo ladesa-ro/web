@@ -1,2 +1,2 @@
-export * from "./useApiAmbientesFindAll";
-export * from "./useApiAmbienteFindOne";
+export * from './useApiAmbientesFindAll';
+export * from './useApiAmbienteFindOne';

@@ -1,9 +1,13 @@
-import type { DebounceFilterOptions } from "@vueuse/core";
+import {
+  toReactive,
+  useDebounceFn,
+  type DebounceFilterOptions,
+} from '@vueuse/core';
 
 export const useDebouncedReactive = <T>(
   reactiveState: T,
   ms?: globalThis.MaybeRefOrGetter<number> | undefined,
-  options?: DebounceFilterOptions | undefined,
+  options?: DebounceFilterOptions | undefined
 ) => {
   const getReactiveStateClone = () => ({ ...reactiveState });
 
@@ -19,7 +23,7 @@ export const useDebouncedReactive = <T>(
   const handleSearchParamsUpdateDebounced = useDebounceFn(
     () => updateValue(),
     ms,
-    options,
+    options
   );
 
   const applyValue = () => {

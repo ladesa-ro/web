@@ -1,9 +1,9 @@
 <script setup lang="ts">
 type Props = {
-	active: boolean;
-	dayWeek: string;
-	dayMonth: string;
-}
+  active: boolean;
+  dayWeek: string;
+  dayMonth: string;
+};
 defineProps<Props>();
 </script>
 
@@ -30,14 +30,14 @@ defineProps<Props>();
 
 <style scoped>
 .active {
-	background-color: #118d3b;
+  background-color: #118d3b;
 }
 
 div.active p {
-	color: white;
+  color: white;
 }
 
 div.active p:first-child {
-	border-bottom-color: white;
+  border-bottom-color: white;
 }
 </style>

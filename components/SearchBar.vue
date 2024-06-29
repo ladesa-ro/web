@@ -17,9 +17,9 @@
 </template>
 
 <script setup>
-import IconSearch from "~/components/Icons/IconSearch.vue";
+import IconSearch from '~/components/Icons/IconSearch.vue';
 
-const searchTerm = ref("");
+const searchTerm = ref('');
 const filteredItems = ref([]);
 
 const filterItems = () => {
@@ -35,7 +35,7 @@ const filterItems = () => {
 .-search-bar {
   display: flex;
   width: 100%;
-  
+
   position: relative;
   align-items: center;
 }
@@ -49,18 +49,18 @@ const filterItems = () => {
   align-items: stretch;
   width: 100% !important;
   height: 48px;
-  
+
   font-weight: 550;
   font-size: 0.8rem !important;
   font-size: 14px;
-  
+
   border-radius: 8px;
   border: 2px solid #9ab69e;
-  
+
   padding: 16px;
-  
+
   transition: border-color 0.3s;
-  
+
   flex: 1;
 }
 
@@ -70,7 +70,7 @@ const filterItems = () => {
   position: absolute;
 
   width: auto;
-  
+
   margin-top: -0.8rem;
   margin-left: 1.6rem;
   padding-left: 0.5rem;
@@ -107,7 +107,7 @@ const filterItems = () => {
   right: 15px !important;
   top: 50%;
   transform: translateY(-50%);
-  
+
   fill: #9ab69e;
 
   transition: fill 0.3s;

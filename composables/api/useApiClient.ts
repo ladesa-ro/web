@@ -1,33 +1,35 @@
-import { SisgeaApiClient } from '@sisgea/api-client';
+import { LadesaApiClient } from '@ladesa-ro/api-client-fetch';
 import { inject, provide } from 'vue';
 
-const API_CLIENT_TOKEN = Symbol.for('SisgeaApiClient');
+const API_AUTH_TOKEN = Symbol.for('API_AUTH_TOKEN');
 
 export const getApiClient = () => {
-	const apiClient = new SisgeaApiClient({
-		BASE: 'https://luna.sisgha.com/api',
-		CREDENTIALS: 'omit',
-	});
+  const ENPOINT_URL = 'https://luna.sisgha.com/api';
 
-	return apiClient;
+  const apiClient = new LadesaApiClient({
+    BASE: ENPOINT_URL,
+    CREDENTIALS: 'omit',
+  });
+
+  return apiClient;
 };
 
 export const setupApiClient = (shouldProvide = true) => {
-	const apiClient = getApiClient();
+  const apiClient = getApiClient();
 
-	if (shouldProvide) {
-		provide(API_CLIENT_TOKEN, apiClient);
-	}
+  if (shouldProvide) {
+    provide(API_AUTH_TOKEN, apiClient);
+  }
 
-	return apiClient;
+  return apiClient;
 };
 
 export const useApiClient = () => {
-	const apiClient = inject<SisgeaApiClient>(
-		API_CLIENT_TOKEN,
-		() => getApiClient(),
-		true
-	);
+  const apiClient = inject<LadesaApiClient>(
+    API_AUTH_TOKEN,
+    () => getApiClient(),
+    true
+  );
 
-	return apiClient;
+  return apiClient;
 };
