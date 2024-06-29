@@ -9,6 +9,8 @@ const $emit = defineEmits(['close']);
 
 const { searchBarText } = toRefs(props);
 const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
+
+const selectedDisciplina = ref<string | null>(null); // Variável para armazenar a disciplina selecionada
 </script>
 
 <template>
@@ -34,13 +36,17 @@ const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
             </template>
 
             <template #actions>
-              <v-radio class="detail"></v-radio>
+              <v-radio 
+                class="detail"
+                :value="disciplina.id"
+                v-model="selectedDisciplina"
+              ></v-radio>
             </template>
 
             <UICardLine>
-              <span class="text-left w-full block"
-                >Carga Horária: {{ disciplina.cargaHoraria }}</span
-              >
+              <span class="text-left w-full block">
+                Carga Horária: {{ disciplina.cargaHoraria }}
+              </span>
             </UICardLine>
           </UICardSelectionDiscipline>
         </template>
@@ -51,7 +57,7 @@ const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
 
     <div class="form-footer button-group">
       <UIButtonModalCancelButton @click="$emit('close')" />
-      <UIButtonModalSaveButton />
+      <UIButtonModalAdvancedButton />
     </div>
   </v-form>
 </template>
