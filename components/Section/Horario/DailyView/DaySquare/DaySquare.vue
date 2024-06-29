@@ -4,12 +4,33 @@ type Props = {
   dayWeek: string;
   dayMonth: string;
 };
-defineProps<Props>();
+const props = defineProps<Props>();
+
+const square = ref<HTMLDivElement>();
+
+const { active } = toRefs(props);
+
+watch(
+  [active, square],
+  ([active, square]) => {
+    if (active && square) {
+      square.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center',
+      });
+    }
+  },
+  {
+    once: true,
+  }
+);
 </script>
 
 <template>
   <div
-    class="flex-1 flex flex-col cursor-pointer justify-center items-center gap-2 rounded-[10px] border-2 border-[#118D3B] p-4 max-w-28 max-h-28"
+    ref="square"
+    class="flex-1 flex flex-col cursor-pointer justify-center items-center rounded-[10px] border-2 border-[#118D3B] min-w-20 min-[900px]:p-4 min-[900px]:max-w-28 min-[900px]:max-h-28 min-[900px]:gap-2 max-[900px]:p-3 max-[900px]:max-w-20 max-[900px]:gap-1"
     :class="{ active: active }"
   >
     <p
@@ -26,6 +47,7 @@ defineProps<Props>();
 <style scoped>
 .active {
   background-color: #118d3b;
+  color: white;
 }
 
 div.active p {
