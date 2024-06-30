@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 const $emit = defineEmits(['edit']);
 
 type Props = {
@@ -7,6 +9,8 @@ type Props = {
 };
 
 const props = defineProps<Props>();
+
+const selectedRadio = ref<string>(''); 
 </script>
 
 <template>
@@ -16,14 +20,19 @@ const props = defineProps<Props>();
   >
     <div class="textAndButton flex items-center justify-between max-w-full">
       <v-card-title
-        class="-card-titulo font-semibold text-black no-underline inline-block max-w-[90%] overflow-hidden"
+        class="-card-titulo font-semibold text-black no-underline inline-block max-w-[100%] overflow-hidden"
       >
-        <slot name="title">
+        <slot name="title" class="title">
           {{ props.title }}
         </slot>
       </v-card-title>
 
-      <v-radio class="detail"></v-radio>
+      <v-radio
+        color="success"
+        value="success"
+        v-model="selectedRadio"
+        class="detail"
+      ></v-radio>
     </div>
 
     <slot></slot>
@@ -35,8 +44,11 @@ const props = defineProps<Props>();
   border: 2px solid #9ab69e;
 }
 .detail {
+  position: absolute;
   cursor: pointer;
-  margin-left: auto; /* Empurra o rádio botão para a direita */
+  z-index: 10;
+  margin-left: 80%;
+  margin-top: 9%;
 }
 .-card-titulo {
   font-weight: 600;
