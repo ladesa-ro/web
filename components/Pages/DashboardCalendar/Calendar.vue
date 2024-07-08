@@ -22,7 +22,7 @@ type Event = EventData & {
 };
 
 // Props
-const props = defineProps({});
+// removed due to not being used
 
 // Variables
 
