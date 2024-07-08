@@ -2,6 +2,7 @@
 import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
 
 const genericLesson: ILesson = {
+  teacher: 'Danilo',
   discipline: 'Linguagem de Programação',
   class: '2° A Informática',
   environment: 'Sala 20',
