@@ -1,2 +1,2 @@
-export * from "./useApiBlocosFindAll";
-export * from "./useApiBlocosFindOne";
+export * from './useApiBlocosFindAll';
+export * from './useApiBlocosFindOne';

@@ -5,38 +5,38 @@ import { ensureArray } from '../infrastructure/ensure-array';
 const SEPARATOR = ' — ';
 
 export const buildTitle = (
-	title: MaybeArray<string | null>,
-	context: HeadTitleContext | null = null
+  title: MaybeArray<string | null>,
+  context: HeadTitleContext | null = null
 ): string => {
-	const elements = [];
+  const elements = [];
 
-	for (const item of ensureArray(title).flat(4)) {
-		if (item) {
-			elements.push(item);
-		}
-	}
+  for (const item of ensureArray(title).flat(4)) {
+    if (item) {
+      elements.push(item);
+    }
+  }
 
-	switch (context) {
-		case HeadTitleContext.DASHBOARD: {
-			elements.push('Painel');
-			break;
-		}
+  switch (context) {
+    case HeadTitleContext.DASHBOARD: {
+      elements.push('Painel');
+      break;
+    }
 
-		default: {
-			break;
-		}
-	}
+    default: {
+      break;
+    }
+  }
 
-	elements.push('SISGHA');
+  elements.push('SISGHA');
 
-	return elements.filter(Boolean).join(SEPARATOR);
+  return elements.filter(Boolean).join(SEPARATOR);
 };
 
 export const useTitle = (
-	context: HeadTitleContext | null = null,
-	title: string | null = null
+  context: HeadTitleContext | null = null,
+  title: string | null = null
 ) => {
-	const builtTitle = buildTitle(title, context);
+  const builtTitle = buildTitle(title, context);
 
-	useHead({ title: builtTitle });
+  useHead({ title: builtTitle });
 };

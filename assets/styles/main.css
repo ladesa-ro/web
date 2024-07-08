@@ -7,16 +7,27 @@
 }
 
 /* Scrollbar style */
+<<<<<<< HEAD
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
+=======
+.-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.-scrollbar::-webkit-scrollbar-track {
+>>>>>>> origin/main
   background: #9ab69e;
   border-radius: 50px;
   cursor: pointer;
 }
+<<<<<<< HEAD
 ::-webkit-scrollbar-thumb {
+=======
+.-scrollbar::-webkit-scrollbar-thumb {
+>>>>>>> origin/main
   background: rgb(22 163 74);
   border-radius: 50px;
   cursor: pointer;

@@ -1,3 +1,3 @@
 <template>
-    <SectionReservas/>    
+  <SectionReservas />
 </template>

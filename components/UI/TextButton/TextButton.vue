@@ -10,6 +10,7 @@ const props = defineProps({
     class="flex w-full h-[48px] justify-center items-center cursor-pointer rounded-lg"
     :class="{
       'bg-[#118D3B] text-white': props.showBackground,
+<<<<<<< HEAD
       'border-[#9ab69e] border-solid border-2 bg-white':
         props.showBackground !== true,
     }"
@@ -17,5 +18,11 @@ const props = defineProps({
     <p class="font-semibold text-center text-sm sm:text-[16px]">
       {{ props.text }}
     </p>
+=======
+      'border-[#9ab69e] border-solid border-2': props.showBackground !== true,
+    }"
+  >
+    <p class="font-semibold text-center">{{ props.text }}</p>
+>>>>>>> origin/main
   </button>
 </template>

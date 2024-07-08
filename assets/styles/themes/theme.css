@@ -1,44 +1,44 @@
 :root,
 .app-color-mode-light {
-	--sisgha-theme-text: 0, 0, 0;
+  --sisgha-theme-text: 0, 0, 0;
 
-	--sisgha-theme-surface: 255, 255, 255;
-	--sisgha-theme-background: 255, 255, 255;
+  --sisgha-theme-surface: 255, 255, 255;
+  --sisgha-theme-background: 255, 255, 255;
 
-	--sisgha-theme-primary: 57, 160, 72;
-	--sisgha-theme-primary-text: 255, 255, 255;
+  --sisgha-theme-primary: 57, 160, 72;
+  --sisgha-theme-primary-text: 255, 255, 255;
 
-	--sisgha-theme-primary-half: 156, 207, 163;
+  --sisgha-theme-primary-half: 156, 207, 163;
 
-	--sisgha-theme-divider: 0, 0, 0;
+  --sisgha-theme-divider: 0, 0, 0;
 }
 
 .app-color-mode-dark {
-	--sisgha-theme-text: 255, 255, 255;
+  --sisgha-theme-text: 255, 255, 255;
 
-	--sisgha-theme-background: 18, 18, 18;
-	--sisgha-theme-surface: 33, 33, 33;
+  --sisgha-theme-background: 18, 18, 18;
+  --sisgha-theme-surface: 33, 33, 33;
 
-	--sisgha-theme-primary: 56, 161, 72;
-	--sisgha-theme-primary-text: 255, 255, 255;
+  --sisgha-theme-primary: 56, 161, 72;
+  --sisgha-theme-primary-text: 255, 255, 255;
 
-	--sisgha-theme-primary-half: 37, 90, 45;
+  --sisgha-theme-primary-half: 37, 90, 45;
 
-	--sisgha-theme-divider: 255, 255, 255;
+  --sisgha-theme-divider: 255, 255, 255;
 }
 
 .app {
-	background-color: rgb(var(--sisgha-theme-background));
-	color: rgb(var(--sisgha-theme-text));
+  background-color: rgb(var(--sisgha-theme-background));
+  color: rgb(var(--sisgha-theme-text));
 
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-	height: 100vh; /* fallback para caso o dispositivo não suporte dvh */
+  height: 100vh; /* fallback para caso o dispositivo não suporte dvh */
 
-	height: 100dvh;
+  height: 100dvh;
 }
 
 input {
-	color: inherit;
+  color: inherit;
 }

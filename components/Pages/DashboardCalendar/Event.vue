@@ -41,6 +41,4 @@ const props = defineProps({
   border-top-left-radius: 0px !important;
   border-bottom-left-radius: 0px !important;
   border: solid 2px #9ab69e;
-  box-shadow: none;
 }
-</style>

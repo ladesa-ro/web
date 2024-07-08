@@ -39,6 +39,9 @@ import type { ISidebarItem } from './ISidebarItem';
 
 const items: ISidebarItem[] = [
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> origin/main
   {
     type: 'link',
     title: 'Início',
@@ -67,7 +70,11 @@ const items: ISidebarItem[] = [
     type: 'link',
     title: 'Diários',
     icon: iconDiario,
+<<<<<<< HEAD
     to: '/vinculos',
+=======
+    to: '/dashboard/diarios',
+>>>>>>> origin/main
   },
   {
     type: 'link',
@@ -103,6 +110,7 @@ const items: ISidebarItem[] = [
     icon: iconConfiguracoes,
     to: '/configuracoes',
   },
+<<<<<<< HEAD
 =======
 	{
 		type: 'link',
@@ -168,6 +176,8 @@ const items: ISidebarItem[] = [
 		icon: iconConfiguracoes,
 		to: '/configuracoes',
 	},
+>>>>>>> origin/main
+=======
 >>>>>>> origin/main
 ];
 

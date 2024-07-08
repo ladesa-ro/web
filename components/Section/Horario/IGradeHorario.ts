@@ -1,20 +1,19 @@
 export type IDiaDaSemana = {
-    nome: string;
-}
+  nome: string;
+};
 
 export type IDiasDaSemana = Array<IDiaDaSemana>;
 
 export type ITurnoHorario = {
-    hora: string;
-    tipo: 'intervalo' | 'aula';////////
+  hora: string;
+  tipo: 'intervalo' | 'aula'; ////////
 };
 
 export type ITurnoHorarios = ITurnoHorario[];
 
 export type ITurno = {
-	nome: string;
-	horarios: ITurnoHorarios;
+  nome: string;
+  horarios: ITurnoHorarios;
 };
 
-
-export type ITurnos = ITurno[]
+export type ITurnos = ITurno[];
