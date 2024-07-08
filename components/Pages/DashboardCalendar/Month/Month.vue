@@ -86,12 +86,12 @@ async function setMonth(): Promise<void> {
     // Set days
     getMonth.setDaysData(props.year!, monthNum.value!);
     getMonth.setDatesColor(props.steps!, props.events!);
-    monthColor.value = getMonth.getMonthColor(props.steps!, props.year!, monthNum.value!);
+    monthColor.value = await getMonth.getMonthColor(props.steps!, props.year!, monthNum.value!);
     calendarDays.daysInMonth.value = getMonth.daysInMonth;
 
     // Set empty days
-    calendarDays.emptyDays.before.value = getEmptyDays.beforeDays(props.year!, monthNum.value!);
-    calendarDays.emptyDays.after.value = getEmptyDays.afterDays(props.year!, monthNum.value!, calendarDays.daysInMonth.value.length);
+    calendarDays.emptyDays.before.value = await getEmptyDays.beforeDays(props.year!, monthNum.value!);
+    calendarDays.emptyDays.after.value = await getEmptyDays.afterDays(props.year!, monthNum.value!, calendarDays.daysInMonth.value.length);
 
     // Calling internal functions
     callingMonthNum(monthNum.value);
