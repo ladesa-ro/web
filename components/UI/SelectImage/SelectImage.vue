@@ -3,7 +3,7 @@ import { useDropzone } from 'vue3-dropzone';
 
 const model = defineModel<File | Blob | null | undefined>();
 
-function onDrop(acceptedFiles) {
+function onDrop(acceptedFiles: any) {
   model.value = acceptedFiles[0]; //retorna mais de um arquivo
 }
 
@@ -40,12 +40,7 @@ const imageSrc = computed(() => {
         </div>
       </div>
 
-      <input
-        type="file"
-        ref="fileInput"
-        v-bind="getInputProps()"
-        accept=".jpeg, .jpg, .png"
-      />
+      <input v-bind="getInputProps()" accept=".jpeg, .jpg, .png" />
     </div>
   </div>
 </template>
