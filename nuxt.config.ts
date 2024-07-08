@@ -54,9 +54,9 @@ export default defineNuxtConfig({
       type: 'authjs',
       trustHost: true,
     },
-    session: {
-      enableRefreshPeriodically: 15 * 1000,
-      enableRefreshOnWindowFocus: true,
+    sessionRefresh: {
+      enablePeriodically: 15 * 1000,
+      enableOnWindowFocus: true,
     },
   },
 
