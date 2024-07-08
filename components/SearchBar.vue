@@ -35,7 +35,6 @@ const filterItems = () => {
 .-search-bar {
   display: flex;
   width: 100%;
-
   position: relative;
   align-items: center;
 }
@@ -70,7 +69,6 @@ const filterItems = () => {
   position: absolute;
 
   width: auto;
-
   margin-top: -0.8rem;
   margin-left: 1.6rem;
   padding-left: 0.5rem;
@@ -81,11 +79,7 @@ const filterItems = () => {
 
   border: 1px solid white;
 
-  background-color: white;
   color: #9ab69e;
-}
-
-.-search-input::placeholder {
   margin: 5px;
   padding: 4px;
 
@@ -107,7 +101,6 @@ const filterItems = () => {
   right: 15px !important;
   top: 50%;
   transform: translateY(-50%);
-
   fill: #9ab69e;
 
   transition: fill 0.3s;

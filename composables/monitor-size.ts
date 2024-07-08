@@ -35,3 +35,4 @@ export function useMonitorSize() {
     ...toRefs(sizes),
   };
 }
+
