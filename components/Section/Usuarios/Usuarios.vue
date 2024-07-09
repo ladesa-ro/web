@@ -22,7 +22,7 @@ const searchBarText = ref('');
       </div>
 
       <div>
-        <SectionUsuariosUsersList />
+        <SectionUsuariosGrid />
       </div>
     </div>
   </v-container>

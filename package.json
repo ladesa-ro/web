@@ -13,7 +13,7 @@
     "format:write": "prettier --cache --ignore-unknown \"**/*\" --write"
   },
   "devDependencies": {
-    "@ladesa-ro/api-client-fetch": "^1.0.0-alpha.6",
+    "@ladesa-ro/api-client-fetch": "^1.0.0-alpha.8",
     "@mdi/font": "^7.3.67",
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.12.0",
