@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import ModalUser from './Modals/ModalUser.vue';
 
 const searchBarText = ref('');
 </script>
@@ -17,7 +16,7 @@ const searchBarText = ref('');
         />
 
         <div class="flex items-center flex-shrink-0">
-          <ModalUser />
+          <SectionUsuariosModalsForm />
         </div>
       </div>
 

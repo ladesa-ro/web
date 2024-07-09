@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import FormUserAvailability from '../Form/FormUserAvailabilities.vue';
 import {
   checkHasAtLeastOneActiveTeacherRole,
   useFormUser,
-} from '../Form/FormUserUtils';
+} from '../../../Form/FormUserUtils';
 
 const { values: formValues } = useFormUser();
 
@@ -17,6 +16,6 @@ const hasAtLeastOneActiveTeacherRole = computed(() => {
     v-if="hasAtLeastOneActiveTeacherRole"
     class="dialog-style overflow-auto max-w-[500px]"
   >
-    <FormUserAvailability close="isActive.value = false" />
+    <SectionUsuariosFormAvailabilities />
   </v-card>
 </template>

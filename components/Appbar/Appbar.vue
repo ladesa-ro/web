@@ -59,7 +59,7 @@ const notificationsButtonEl = ref(null);
       </template>
 
       <!-- modal that will be shown if the arrow icon is clicked -->
-      <SectionUsuariosChangeJobTitle />
+      <SectionUsuariosModalsAccessRole />
     </v-menu>
     <!-- ============================================ -->
 

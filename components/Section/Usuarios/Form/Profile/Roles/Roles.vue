@@ -18,6 +18,7 @@ const removeField = (targetIndex: number) => {
 
 <template>
   <v-divider :thickness="2" color="success" opacity="1" />
+
   <div v-for="(_, index) in vinculos" :key="index">
     <div class="flex gap-5 items-start">
       <VVAutocompleteCampus :name="`vinculos[${index}].campus.id`" />
