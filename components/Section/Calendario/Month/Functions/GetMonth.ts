@@ -35,12 +35,10 @@ type Day = {
 
 // Functions
 export const getMonth = {
-  daysInMonth: <Day[]>[],
-
-  async setMonthData(year: number, month: number): Promise<void> {
+  async setMonthData(year: number, month: number): Promise<Day[]> {
     try {
       // Clear array
-      this.daysInMonth = [];
+      let daysInMonth: Array<Day> = [];
 
       // Repeat loop
       for (
@@ -48,7 +46,7 @@ export const getMonth = {
         i < dayjs(dayjs(`${year!}-${month! + 1}-01`)).daysInMonth();
         i++
       ) {
-        this.daysInMonth.push({
+        daysInMonth.push({
           num: i,
           day: dayjs(`${year!}-${month! + 1}-${i + 1}`).format('dddd'),
           date: dayjs(`${year!}-${month! + 1}-${i + 1}`),
@@ -56,19 +54,23 @@ export const getMonth = {
           hoverActive: false,
         });
       }
-    } catch (error) {}
+
+      return daysInMonth;
+    } catch (error) {
+      return [];
+    }
   },
 
-  async setDatesColor(steps: Array<Step>, events: Array<Event>): Promise<void> {
+  async setDatesColor(daysInMonth: Array<Day>, steps: Array<Step>, events: Array<Event>): Promise<Day[]> {
     try {
       // - Set steps -
       for (let i = 0; i < steps!.length; i++) {
         // Check if date is between the start or end of the month
-        for (let j = 0; j < this.daysInMonth.length; j++) {
+        for (let j = 0; j < daysInMonth.length; j++) {
           // Set start and end day color
           if (
             // Check if the date is between
-            dayjs(this.daysInMonth[j].date).isBetween(
+            dayjs(daysInMonth[j].date).isBetween(
               steps![i].startDate,
               steps![i].endDate,
               'date',
@@ -76,7 +78,7 @@ export const getMonth = {
             ) === true
           ) {
             // Set color
-            this.daysInMonth[j].color = steps![i].color;
+            daysInMonth[j].color = steps![i].color;
           } else {
           }
         }
@@ -85,11 +87,11 @@ export const getMonth = {
       // Set events
       for (let i = 0; i < events!.length; i++) {
         // Check if date is between the start or end of the month
-        for (let j = 0; j < this.daysInMonth.length; j++) {
+        for (let j = 0; j < daysInMonth.length; j++) {
           // Set start and end day color
           if (
             // Check if the date is between
-            dayjs(this.daysInMonth[j].date).isBetween(
+            dayjs(daysInMonth[j].date).isBetween(
               events![i].startDate,
               events![i].endDate,
               'date',
@@ -97,12 +99,16 @@ export const getMonth = {
             )
           ) {
             // Set color
-            this.daysInMonth[j].color = events![i].color;
+            daysInMonth[j].color = events![i].color;
           } else {
           }
         }
       }
-    } catch (error) {}
+
+      return daysInMonth;
+    } catch (error) {
+      return [];
+    }
   },
 
   async getMonthData(
@@ -113,11 +119,11 @@ export const getMonth = {
   ): Promise<Day[]> {
     try {
       // Set month and days with colors
-      await this.setMonthData(year, month);
-      await this.setDatesColor(steps, events);
+      let daysInMonth: Array<Day> = await this.setMonthData(year, month);
+      await this.setDatesColor(daysInMonth, steps, events);
 
       // Return days in month
-      return this.daysInMonth;
+      return daysInMonth;
     } catch (error) {
       return [];
     }

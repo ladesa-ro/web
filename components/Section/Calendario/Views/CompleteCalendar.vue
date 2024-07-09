@@ -55,7 +55,7 @@ watch(monthNumReceived, (newValue: number) => {
     <div
       class="grid grid-cols-1 lg:grid-cols-2 w-max h-auto gap-4 max-w-[944px] mb-6"
     >
-      <PagesDashboardCalendarMonth
+      <SectionCalendarioMonth
         v-for="month in monthNums"
         :year="2024"
         :month="month"
@@ -66,16 +66,6 @@ watch(monthNumReceived, (newValue: number) => {
         @custom:month-num="handleUpdate"
       />
     </div>
-
-    <!-- Event list -->
-    <PagesDashboardCalendarEventsList
-      class="w-[420px] xl:w-full mb-4 h-[468px]"
-      :year="2024"
-      :steps="props.steps!"
-      :events="props.events!"
-      :month-num="0"
-      :view-type="1"
-    />
   </div>
 </template>
 

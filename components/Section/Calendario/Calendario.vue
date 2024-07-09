@@ -157,14 +157,14 @@ const handleUpdate = (v: boolean) => {
         </div>
 
         <div class="flex w-full lg:justify-end mb-6">
-          <PagesDashboardCalendarViewsToggleView
+          <SectionCalendarioViewsToggleView
             @view:calendar="handleUpdate"
           />
         </div>
 
         <!-- Content -->
         <!-- Partial calendar -->
-        <PagesDashboardCalendarViewsPartialCalendar
+        <SectionCalendarioViewsPartialCalendar
           :year="2024"
           :events="eventItems"
           :steps="stepItems"
@@ -172,7 +172,7 @@ const handleUpdate = (v: boolean) => {
         />
 
         <!-- Complete calendar -->
-        <PagesDashboardCalendarViewsCompleteCalendar
+        <SectionCalendarioViewsCompleteCalendar
           :year="2024"
           :events="eventItems"
           :steps="stepItems"

@@ -52,7 +52,7 @@ watch(monthNumReceived, (newValue: number) => {
   >
     <!-- Month selected -->
     <div class="flex flex-col w-max h-auto gap-6 mb-6 lg:mr-4 lg:mb-0">
-      <PagesDashboardCalendarMonth
+      <SectionCalendarioMonth
         :year="2024"
         :month="dayjs().month()"
         :steps="props.steps!"
@@ -64,7 +64,7 @@ watch(monthNumReceived, (newValue: number) => {
     </div>
 
     <!-- Event list -->
-    <PagesDashboardCalendarEventsList
+    <SectionCalendarioEventsList
       class="max-w-[420px] xl:max-w-[464px]"
       :year="2024"
       :steps="props.steps!"

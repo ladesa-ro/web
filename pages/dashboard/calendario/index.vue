@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    <PagesDashboardCalendar />
+    <SectionCalendario />
   </div>
 </template>
 

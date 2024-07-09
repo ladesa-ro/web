@@ -115,6 +115,7 @@ async function setMonth(): Promise<void> {
     );
 
     // Calling internal functions
+    console.log(monthNum.value);
     callingMonthNum(monthNum.value);
   } catch (error) {}
 }
