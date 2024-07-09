@@ -45,7 +45,7 @@ const getRoleLabel = (role: string) => {
       <IconsIconUser class="text-[#9ab69e] w-[42px] h-[42px]" />
     </div>
 
-    <div class="flex flex-col items-stretch justify-center pa-2 w-full h-full">
+    <div class="flex flex-col items-stretch justify-center pa-3 w-full h-full">
       <div class="flex items-center gap-1">
         <span class="font-bold self-center text-sm text-wrap overflow-ellipsis">
           {{ usuario.nome }}
@@ -58,7 +58,7 @@ const getRoleLabel = (role: string) => {
         </div>
       </div>
 
-      <hr class="my-3" />
+      <div class="mt-2"></div>
 
       <template v-if="vinculos.length > 0">
         <div class="flex font-medium text-sm items-center text-[#9ab69e]">
@@ -74,9 +74,7 @@ const getRoleLabel = (role: string) => {
         </div>
       </template>
 
-      <div class="flex-1"></div>
-
-      <hr class="my-3" />
+      <div class="mt-3" />
 
       <div>
         <NuxtLink
