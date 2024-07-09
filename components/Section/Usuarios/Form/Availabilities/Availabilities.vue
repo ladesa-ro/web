@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import IconArrow from '~/components/Icons/Arrow/IconArrow.vue';
-import FormUserAvailability from './FormUserAvailability.vue';
-import { getActivesTeacherRole, useFormUser } from './FormUserUtils';
+import { getActivesTeacherRole, useFormUser } from '../FormUserUtils';
 
 const selectedOptions = ref();
 
@@ -68,13 +67,15 @@ watch(vinculosComCargoProfessor, (current, previous) => {
             {{ selectedOptions?.value }}
           </span>
         </div>
+
         <IconArrow class="cursor-pointer rotate-180" @click="changeDay(1)" />
       </div>
 
       <v-divider class="my-4" />
+
       <div class="flex flex-col gap-5">
         <v-expansion-panels mandatory class="mb-6" v-model="activePanel">
-          <FormUserAvailability
+          <SectionUsuariosFormAvailabilitiesAvailability
             v-for="vinculo in vinculosComCargoProfessor"
             :key="vinculo.campus.id"
             :vinculo="vinculo"
@@ -94,3 +95,4 @@ watch(vinculosComCargoProfessor, (current, previous) => {
   font-weight: 700;
 }
 </style>
+computed, , watch

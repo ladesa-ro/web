@@ -1,8 +1,5 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import FormUser from '../Form/FormUser.vue';
-import FormUserProfile from '../Form/FormUserProfile.vue';
-import ModalUserDialogAvailability from './ModalUserDialogAvailability.vue';
 
 const props = defineProps({
   editId: {
@@ -24,17 +21,20 @@ const isActive = ref(false);
     </template>
 
     <template v-slot:="{ isActive }">
-      <FormUser>
+      <SectionUsuariosForm>
         <div
           class="flex flex-row justify-center p-1 gap-[16px] overflow-hidden"
         >
           <v-card class="dialog-style p-1 overflow-auto max-w-[500px]">
-            <FormUserProfile :editId="editId" @close="isActive.value = false" />
+            <SectionUsuariosFormProfile
+              :editId="editId"
+              @close="isActive.value = false"
+            />
           </v-card>
 
-          <ModalUserDialogAvailability />
+          <SectionUsuariosModalsFormDialogAvailability />
         </div>
-      </FormUser>
+      </SectionUsuariosForm>
     </template>
   </v-dialog>
 </template>

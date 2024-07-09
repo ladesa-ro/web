@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Vinculo } from './FormUserUtils';
+import { type Vinculo } from '../../FormUserUtils';
 
 const props = defineProps<{ vinculo: Vinculo }>();
 

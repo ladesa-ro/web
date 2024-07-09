@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useFormUser, type FormUserOutput } from './FormUserUtils';
+import { useFormUser, type FormUserOutput } from '../FormUserUtils';
 
 const props = defineProps({
   //props do modal criar e editar
@@ -54,7 +54,7 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
           name="email"
         />
 
-        <SectionUsuariosFormRepeater />
+        <SectionUsuariosFormProfileRoles />
       </div>
       <div class="form-footer button-group">
         <UIButtonModalCancelButton @click="$emit('close')" />
