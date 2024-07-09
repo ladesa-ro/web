@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { useFormUser, type FormUserOutput } from '../FormUserUtils';
+import { useQueryClient } from '@tanstack/vue-query';
+import { useFormUser, type FormUserOutput } from '../FormUtils';
+
+const apiClient = useApiClient();
+const queryClient = useQueryClient();
 
 const props = defineProps({
   //props do modal criar e editar
@@ -19,7 +23,40 @@ const { resetForm, handleSubmit } = useFormUser();
 const onSubmit = handleSubmit(async (values: FormUserOutput) => {
   const editId = editIdRef.value;
 
-  const { imagem, ...data } = values;
+  const { imagem, vinculos, ...data } = values;
+
+  let id;
+
+  if (editId === null) {
+    const usuarioCriado = await apiClient.usuarios.usuarioCreate({
+      requestBody: { ...data },
+    });
+
+    id = usuarioCriado.id;
+  } else {
+    await apiClient.cursos.cursoUpdateById({
+      id: editId,
+
+      requestBody: {
+        ...values,
+      },
+    });
+
+    id = editId;
+  }
+
+  if (imagem) {
+    await apiClient.usuarios.usuarioSetCoverImage({
+      id: id,
+      formData: {
+        file: imagem,
+      },
+    });
+  }
+
+  await queryClient.invalidateQueries({
+    queryKey: ['usuarios'],
+  });
 
   resetForm();
   $emit('close');
@@ -37,6 +74,7 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
       </div>
 
       <v-divider class="my-4" />
+
       <div class="flex flex-col gap-5">
         <VVSelectImage name="imagem" />
 
@@ -54,8 +92,16 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
           name="email"
         />
 
+        <VVTextField
+          type="text"
+          label="Matrícula"
+          placeholder="Digite aqui"
+          name="matriculaSiape"
+        />
+
         <SectionUsuariosFormProfileRoles />
       </div>
+
       <div class="form-footer button-group">
         <UIButtonModalCancelButton @click="$emit('close')" />
 
@@ -63,25 +109,6 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
         <UIButtonModalSaveButton v-else />
       </div>
     </div>
-    <!-- <div
-			v-if="
-				formValues.vinculos.some((vinculo) =>
-					vinculo.cargos.includes('professor')
-				)
-			"
-		>
-			<Disponibilidade />
-			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-		</div> -->
-
-    <!-- <div class="modal2">
-      <h1 class="hDispo">Disponibilidade</h1>
-
-      <div>
-		2 modal
-        
-      </div>
-    </div> -->
   </v-form>
 </template>
 

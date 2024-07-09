@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import IconArrow from '~/components/Icons/Arrow/IconArrow.vue';
-import { getActivesTeacherRole, useFormUser } from '../FormUserUtils';
+import { getActivesTeacherRole, useFormUser } from '../FormUtils';
 
 const selectedOptions = ref();
 

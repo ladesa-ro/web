@@ -5,14 +5,19 @@ export type FormUserValues = {
 
   nome: string;
   email: string;
+  matriculaSiape: string;
 
   vinculos: Array<Vinculo>;
 };
 
 export type FormUserOutput = {
   imagem: Blob | null | undefined;
+
   nome: string;
-  codigo: string;
+  matriculaSiape: string;
+  email: string;
+
+  vinculos: Array<Vinculo>;
 };
 
 export type Vinculo = {

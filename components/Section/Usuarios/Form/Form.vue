@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import type { FormUserOutput, FormUserValues } from './FormUserUtils';
+import type { FormUserOutput, FormUserValues } from './FormUtils';
 
 const initialFormValues = reactive({
   imagem: null,
   nome: '',
   codigo: '',
+  matriculaSiape: '',
   vinculos: [{ campus: { id: null }, cargos: [] }] as any,
 });
 
@@ -19,6 +20,8 @@ const schema = yup.object().shape({
     .string()
     .required('Email é obrigatório!')
     .email('Informe um e-mail válido!'),
+
+  matriculaSiape: yup.string().required('Matrícula é obrigatório!'),
 
   vinculos: yup.array().of(
     yup.object({

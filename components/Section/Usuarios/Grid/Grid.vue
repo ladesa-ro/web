@@ -1,15 +1,21 @@
 <script setup lang="ts">
-const apiClient = useApiClient();
+const props = defineProps({
+  searchBarText: String,
+});
 
-const response = await apiClient.usuarios.usuarioList();
+const $emit = defineEmits(['edit']);
 
-const usuarios = response.data;
+const { searchBarText } = toRefs(props);
+
+const { usuarios } = await useApiUsuariosFindAll(searchBarText);
 </script>
 
 <template>
   <v-container>
     <section class="m-0 p-0">
-      <div class="flex flex-wrap gap-[36.59px]">
+      <div
+        class="grid grid-cols-[repeat(auto-fill,_minmax(200px,_1fr))] gap-[36.59px]"
+      >
         <SectionUsuariosGridItem
           v-for="usuario in usuarios"
           :key="usuario.id"
@@ -21,22 +27,6 @@ const usuarios = response.data;
 </template>
 
 <style>
-.nomesP {
-  color: #000;
-  font-size: 0.85rem;
-  font-weight: 700;
-}
-
-.cargo {
-  font-weight: 500;
-  color: #9ab69e;
-  font-size: 14px;
-}
-
-.bg {
-  grid-template-rows: 65% auto;
-}
-
 .detail {
   cursor: pointer;
   z-index: 1000;

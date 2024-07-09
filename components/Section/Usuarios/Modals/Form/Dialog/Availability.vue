@@ -2,7 +2,7 @@
 import {
   checkHasAtLeastOneActiveTeacherRole,
   useFormUser,
-} from '../../../Form/FormUserUtils';
+} from '../../../Form/FormUtils';
 
 const { values: formValues } = useFormUser();
 
