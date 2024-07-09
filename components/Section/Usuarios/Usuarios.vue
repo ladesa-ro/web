@@ -21,7 +21,7 @@ const searchBarText = ref('');
       </div>
 
       <div>
-        <SectionUsuariosGrid />
+        <SectionUsuariosGrid :searchBarText="searchBarText" />
       </div>
     </div>
   </v-container>
