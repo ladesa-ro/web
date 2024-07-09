@@ -4,7 +4,7 @@
 	<div>
 		<div class="overlay">
 			<div class="modal">
-				<h1 class="main-title mb-5">Cadastrar Usuário</h1>
+				<h1 class="main-title mb-5">Mudar Imagem de Fundo</h1>
 				<div>
 					<VVSelectImage name="aa" />
 				</div>
