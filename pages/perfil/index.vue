@@ -4,7 +4,7 @@ import { HeadTitleContext } from '~/infrastructure/HeadTitleContext';
 useTitle(HeadTitleContext.DASHBOARD, 'Perfil');
 </script>
 <template>
-	<div>
-		<DashboardProfile />
-	</div>
+  <div>
+    <DashboardProfile />
+  </div>
 </template>

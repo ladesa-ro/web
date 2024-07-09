@@ -1,2 +1,2 @@
-export * from "./useApiModalitiesFindAll";
+export * from './useApiModalitiesFindAll';
 export * from './useApiModalitiesFindOne';

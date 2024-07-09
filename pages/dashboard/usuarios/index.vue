@@ -1,5 +1,5 @@
 <template>
-	<div>
-		<SectionUsuarios />
-	</div>
+  <div>
+    <SectionUsuarios />
+  </div>
 </template>

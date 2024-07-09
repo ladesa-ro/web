@@ -21,7 +21,6 @@ const isActive = ref(false);
   <v-dialog v-model="isActive">
     <template v-slot:activator="{ props: activatorProps }">
       <UIButtonAdd v-bind="activatorProps" />
-      <UIButtonModalEditButton />
     </template>
 
     <template v-slot:="{ isActive }">

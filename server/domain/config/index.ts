@@ -1,3 +1,2 @@
-export * from "./IConfig";
-export * from "./IConfigRuntime";
-
+export * from './IConfig';
+export * from './IConfigRuntime';

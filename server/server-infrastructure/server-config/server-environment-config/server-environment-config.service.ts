@@ -1,12 +1,12 @@
-import { injectable } from "inversify";
-import { withoutTrailingSlash } from "ufo";
-import { IConfig } from "../../../domain/config/IConfig";
+import { injectable } from 'inversify';
+import { withoutTrailingSlash } from 'ufo';
+import { type IConfig } from '../../../domain/config/IConfig';
 
 @injectable()
 export class ServerEnvironmentConfigService implements IConfig {
   getRuntimeEnv() {
     const env = process.env.NODE_ENV ?? null;
-    return env ?? "development";
+    return env ?? 'development';
   }
 
   getRuntimeURL(): string | null {
@@ -18,10 +18,10 @@ export class ServerEnvironmentConfigService implements IConfig {
   getNuxtAuthSecret(): string {
     const secret = process.env.AUTH_SECRET ?? null;
 
-    if (!secret && this.getRuntimeEnv() === "production") {
-      throw new Error("Please provide AUTH_SECRET.");
+    if (!secret && this.getRuntimeEnv() === 'production') {
+      throw new Error('Please provide AUTH_SECRET.');
     }
 
-    return secret ?? "00d7597864954ddea0ae7823736b2772";
+    return secret ?? '00d7597864954ddea0ae7823736b2772';
   }
 }

@@ -9,6 +9,7 @@ const show = ref(false);
 
 const openConfirm = () => {
   show.value = true;
+  console.log('clicou no iconeadd');
 };
 
 const closeConfirm = () => {
@@ -30,12 +31,9 @@ const closeConfirm = () => {
             <p class="font-medium">Professor</p>
           </div>
         </div>
-        <div>
-          <IconsIconEdit
-            @click="openConfirm"
-            class="cursor-pointer flex-shrink-0 mt-4 mr-5 self-start"
-          />
-        </div>
+        <IconsIconEdit
+          class="cursor-pointer flex-shrink-0 mt-4 mr-5 self-start"
+        />
       </div>
       <div
         class="self-start flex-shrink-0 flex items-center justify-center ml-auto mr-4 mt-4 cursor-pointer bg-[#00000030] h-8 w-8 rounded-full"

@@ -1,3 +1,3 @@
 <template>
-	<SectionHorario />
+  <SectionHorario />
 </template>

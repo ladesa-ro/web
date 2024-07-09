@@ -3,13 +3,16 @@ import { getWeekDays } from '~/components/Section/Horario/-Helpers/GetWeekDays';
 
 const selectedDay = useSelectedDay();
 
-const activeDayMonth = computed(() => selectedDay.value.format('DD/MM'));
+const activeDayMonth = computed(() => selectedDay.value.format('DD/MM')); //formata dia atual
 
-const weekDays = getWeekDays(selectedDay.value);
+const weekDays = getWeekDays(selectedDay.value); //array com dias da semana
+
 </script>
 
 <template>
-  <div class="flex flex-row justify-between max-w-screen-2xl w-full mx-auto">
+  <div
+    class="flex flex-row justify-between max-w-screen-2xl w-full mx-auto max-sm:gap-3 max-sm:overflow-x-auto"
+  >
     <SectionHorarioDailyViewDaySquare
       v-for="weekDay in weekDays"
       :active="weekDay.dayMonth === activeDayMonth"
@@ -19,5 +22,3 @@ const weekDays = getWeekDays(selectedDay.value);
     />
   </div>
 </template>
-
-<style scoped></style>

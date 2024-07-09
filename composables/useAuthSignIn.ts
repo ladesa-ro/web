@@ -1,5 +1,5 @@
-import { callWithNuxt } from "nuxt/app";
-import { useAuthSignInCallbackUrl } from "./useAuthSignInCallbackUrl";
+import { callWithNuxt } from 'nuxt/app';
+import { useAuthSignInCallbackUrl } from './useAuthSignInCallbackUrl';
 
 export const useAuthSignIn = () => {
   const app = useNuxtApp();
@@ -10,18 +10,18 @@ export const useAuthSignIn = () => {
   watch(
     [status, callbackUrlRef],
     ([status, callbackUrl]) => {
-      if (status === "authenticated") {
+      if (status === 'authenticated') {
         callWithNuxt(app, () => navigateTo(callbackUrl, { external: true }));
       }
     },
-    { immediate: true },
+    { immediate: true }
   );
 
   const { signIn } = useAuth();
 
   const credentials = reactive({
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   });
 
   const isLoading = ref(false);
@@ -39,18 +39,22 @@ export const useAuthSignIn = () => {
     isLoading.value = true;
     isError.value = false;
 
-    const { error, url } = await signIn("credentials", {
+    const result = await signIn('credentials', {
       callbackUrl: unref(callbackUrlRef),
       redirect: false,
       username: credentials.username,
       password: credentials.password,
     });
 
-    if (error) {
-      isError.value = true;
-      isLoading.value = false;
-    } else {
-      callWithNuxt(app, () => navigateTo(url, { external: true }));
+    if (result) {
+      const { error, url } = result;
+
+      if (error) {
+        isError.value = true;
+        isLoading.value = false;
+      } else {
+        callWithNuxt(app, () => navigateTo(url, { external: true }));
+      }
     }
   };
 
