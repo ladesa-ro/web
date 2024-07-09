@@ -3,6 +3,7 @@ import Availability from '@/components/Dashboard/Profile/Availability/Availabili
 import Teaching from '@/components/Dashboard/Profile/Teaching/Teaching.vue';
 import { ref } from 'vue';
 import ModalImage from '~/components/Modais/ModalImage.vue';
+import FormUserProfile from '~/components/Section/Usuarios/Form/FormUserProfile.vue';
 
 const show = ref(false);
 
