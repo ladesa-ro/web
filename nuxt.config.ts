@@ -62,6 +62,7 @@ export default defineNuxtConfig({
 
   // ===========
 
+  // ===========
   nitro: {
     hooks: {
       'rollup:before'(ctx) {
@@ -79,5 +80,5 @@ export default defineNuxtConfig({
     },
   },
 
-  // ===========
+  compatibilityDate: '2024-07-08'
 });

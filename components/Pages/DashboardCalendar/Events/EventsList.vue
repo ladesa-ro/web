@@ -164,7 +164,7 @@ onMounted(async () => {
       'h-[504px]': props.viewType! === 2,
     }"
   >
-    <PagesDashboardCalendarEvent
+    <PagesDashboardCalendarEventsEvent
       v-for="(event, index) in allEventItems"
       :id="event.id"
       :key="event.id"

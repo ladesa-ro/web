@@ -25,7 +25,7 @@
 <script setup lang="ts">
 import { useMonitorSize } from '~/composables/monitor-size';
 
-import iconCalendario from '~/assets/icons/Calendario.svg';
+import iconCalendario from '~/assets/icons/Calendario/Calendario.svg';
 import iconConfiguracoes from '~/assets/icons/Configurar.svg';
 import iconCursos from '~/assets/icons/Curso.svg';
 import iconDiario from '~/assets/icons/Diario.svg';

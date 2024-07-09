@@ -68,7 +68,7 @@ watch(monthNumReceived, (newValue: number) => {
     </div>
 
     <!-- Event list -->
-    <PagesDashboardCalendarEventList
+    <PagesDashboardCalendarEventsList
       class="w-[420px] xl:w-full mb-4 h-[468px]"
       :year="2024"
       :steps="props.steps!"

@@ -84,14 +84,35 @@ const callingMonthWeek = (v: dayjs.Dayjs[]) => {
 async function setMonth(): Promise<void> {
   try {
     // Set days
-    getMonth.setDaysData(props.year!, monthNum.value!);
-    getMonth.setDatesColor(props.steps!, props.events!);
-    monthColor.value = await getMonth.getMonthColor(props.steps!, props.year!, monthNum.value!);
-    calendarDays.daysInMonth.value = getMonth.daysInMonth;
+    calendarDays.daysInMonth.value = await getMonth.getMonthData(
+      props.year!,
+      monthNum.value!,
+      props.steps!,
+      props.events!
+    );
+
+    monthColor.value = await getMonth.getMonthColor(
+      props.steps!,
+      props.year!,
+      monthNum.value!
+    );
 
     // Set empty days
-    calendarDays.emptyDays.before.value = await getEmptyDays.beforeDays(props.year!, monthNum.value!);
-    calendarDays.emptyDays.after.value = await getEmptyDays.afterDays(props.year!, monthNum.value!, calendarDays.daysInMonth.value.length);
+    // before
+    calendarDays.emptyDays.before.value = await getEmptyDays(
+      props.year!,
+      monthNum.value!,
+      calendarDays.daysInMonth.value.length,
+      'before'
+    );
+
+    // after
+    calendarDays.emptyDays.after.value = await getEmptyDays(
+      props.year!,
+      monthNum.value!,
+      calendarDays.daysInMonth.value.length,
+      'after'
+    );
 
     // Calling internal functions
     callingMonthNum(monthNum.value);

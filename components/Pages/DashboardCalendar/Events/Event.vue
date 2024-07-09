@@ -42,3 +42,4 @@ const props = defineProps({
   border-bottom-left-radius: 0px !important;
   border: solid 2px #9ab69e;
 }
+</style>

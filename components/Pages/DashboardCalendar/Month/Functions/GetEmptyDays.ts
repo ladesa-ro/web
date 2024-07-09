@@ -6,31 +6,26 @@ import 'dayjs/locale/pt-br';
 dayjs.locale('pt-br');
 
 // Functions
-export const getEmptyDays = {
-  async beforeDays(year: number, month: number): Promise<number> {
-    try {
-      // Calc before days
-      let beforeDays = dayjs(`${year!}-${month + 1}-01`).day();
+export async function getEmptyDays(
+  year: number,
+  month: number,
+  daysInMonth: number,
+  getDays: string
+): Promise<number> {
+  try {
+    // Calc empty days
+    const beforeDays = dayjs(`${year!}-${month + 1}-01`).day();
+    const afterDays = 7 * 6 - (beforeDays + daysInMonth!);
 
-      return beforeDays;
-    } catch (error) {
+    // Return before days
+    if (getDays! === 'before') return beforeDays;
+    // Return after days
+    else if (getDays! === 'after') return afterDays;
+    // Return any days
+    else {
       return 0;
     }
-  },
-
-  async afterDays(
-    year: number,
-    month: number,
-    daysInMonth: number
-  ): Promise<number> {
-    try {
-      // Calc after days
-      let afterDays =
-        7 * 6 - (dayjs(`${year!}-${month + 1}-01`).day() + daysInMonth!);
-
-      return afterDays;
-    } catch (error) {
-      return 0;
-    }
-  },
-};
+  } catch (error) {
+    return 0;
+  }
+}

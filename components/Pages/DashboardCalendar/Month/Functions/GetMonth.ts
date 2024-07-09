@@ -36,7 +36,8 @@ type Day = {
 // Functions
 export const getMonth = {
   daysInMonth: <Day[]>[],
-  async setDaysData(year: number, month: number): Promise<boolean> {
+
+  async setMonthData(year: number, month: number): Promise<void> {
     try {
       // Clear array
       this.daysInMonth = [];
@@ -55,17 +56,10 @@ export const getMonth = {
           hoverActive: false,
         });
       }
-
-      return true;
-    } catch (error) {
-      return false;
-    }
+    } catch (error) {}
   },
 
-  async setDatesColor(
-    steps: Array<Step>,
-    events: Array<Event>
-  ): Promise<boolean> {
+  async setDatesColor(steps: Array<Step>, events: Array<Event>): Promise<void> {
     try {
       // - Set steps -
       for (let i = 0; i < steps!.length; i++) {
@@ -108,10 +102,24 @@ export const getMonth = {
           }
         }
       }
+    } catch (error) {}
+  },
 
-      return true;
+  async getMonthData(
+    year: number,
+    month: number,
+    steps: Array<Step>,
+    events: Array<Event>
+  ): Promise<Day[]> {
+    try {
+      // Set month and days with colors
+      await this.setMonthData(year, month);
+      await this.setDatesColor(steps, events);
+
+      // Return days in month
+      return this.daysInMonth;
     } catch (error) {
-      return false;
+      return [];
     }
   },
 
