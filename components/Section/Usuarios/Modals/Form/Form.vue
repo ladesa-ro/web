@@ -22,10 +22,17 @@ const isActive = ref(false);
     </template>
 
     <template v-slot:="{ isActive }">
-      <SectionUsuariosForm>
-        <div
-          class="flex flex-row justify-center p-1 gap-[16px] overflow-hidden"
-        >
+      <div
+        @click="
+          (e) => {
+            if (e.target === e.currentTarget) {
+              isActive.value = false;
+            }
+          }
+        "
+        class="flex flex-row justify-center p-1 gap-[16px] overflow-hidden"
+      >
+        <SectionUsuariosForm>
           <v-card class="dialog-style p-1 overflow-auto max-w-[500px]">
             <SectionUsuariosFormProfile
               :editId="editId"
@@ -34,8 +41,8 @@ const isActive = ref(false);
           </v-card>
 
           <SectionUsuariosModalsFormDialogAvailability />
-        </div>
-      </SectionUsuariosForm>
+        </SectionUsuariosForm>
+      </div>
     </template>
   </v-dialog>
 </template>

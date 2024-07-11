@@ -33,11 +33,21 @@ const getRoleLabel = (role: string) => {
     }
   }
 };
+
+const handleCardClick = (e: MouseEvent) => {
+  const target = <HTMLElement>e.target;
+
+  if (target && target.closest('[data-grid-item-no-redirect]')) {
+    e.preventDefault();
+  }
+};
 </script>
 
 <template>
-  <div
+  <nuxt-link
+    @click.capture="handleCardClick"
     class="flex flex-col border-2 border-[#9ab69e] rounded-lg no-underline p-0 m-0"
+    :to="`/usuarios/${usuario.id}`"
   >
     <div
       class="flex py-6 bg-[#F0F0F0] h-max rounded-t-lg items-center justify-center"
@@ -53,7 +63,7 @@ const getRoleLabel = (role: string) => {
 
         <div class="flex-1"></div>
 
-        <div class="shrink-0 self-start">
+        <div class="shrink-0 self-start" data-grid-item-no-redirect="">
           <SectionUsuariosModalsForm :editId="usuario.id" />
         </div>
       </div>
@@ -73,19 +83,8 @@ const getRoleLabel = (role: string) => {
           Sem vínculos.
         </div>
       </template>
-
-      <div class="mt-3" />
-
-      <div>
-        <NuxtLink
-          class="flex w-full font-medium pa-2 justify-center transition-colors duration-150 items-center border-[1px] border-solid border-[#118D3B]/25 cursor-pointer rounded-lg hover:bg-[#118D3B]/10"
-          :to="`/usuarios/${usuario.id}`"
-        >
-          Ver Perfil
-        </NuxtLink>
-      </div>
     </div>
-  </div>
+  </nuxt-link>
 </template>
 
 <style></style>
