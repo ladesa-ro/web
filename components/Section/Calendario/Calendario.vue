@@ -6,7 +6,6 @@ import 'dayjs/locale/pt-br';
 // Interface and types
 type EventData = {
   id: string;
-  type: string;
   startDate: dayjs.Dayjs;
   endDate: dayjs.Dayjs;
   color: string;
@@ -18,7 +17,9 @@ type Step = EventData & {
 
 type Event = EventData & {
   name: string;
-  locale: string;
+  startTime?: dayjs.Dayjs;
+  endTime?: dayjs.Dayjs;
+  locale?: string;
 };
 
 // Props
@@ -46,7 +47,6 @@ const stepItems: Array<Step> = [
     startDate: dayjs('2024-02-08'),
     endDate: dayjs('2024-03-23'),
     color: '#0092E4',
-    type: 'step',
   },
   {
     id: '24522',
@@ -54,7 +54,6 @@ const stepItems: Array<Step> = [
     startDate: dayjs('2024-03-24'),
     endDate: dayjs('2024-05-14'),
     color: '#2DAC0D',
-    type: 'step',
   },
   {
     id: '3456',
@@ -62,7 +61,6 @@ const stepItems: Array<Step> = [
     startDate: dayjs('2024-05-15'),
     endDate: dayjs('2024-07-09'),
     color: '#D1A300',
-    type: 'step',
   },
   {
     id: '544',
@@ -70,7 +68,6 @@ const stepItems: Array<Step> = [
     startDate: dayjs('2024-08-10'),
     endDate: dayjs('2024-11-28'),
     color: '#D7004D',
-    type: 'step',
   },
 ];
 const eventItems: Array<Event> = [
@@ -79,27 +76,27 @@ const eventItems: Array<Event> = [
     name: 'IFRO Party',
     startDate: dayjs('2024-05-15'),
     endDate: dayjs('2024-05-22'),
+    startTime: dayjs('17:30:00'),
+    endTime: dayjs('17:30:00'),
     locale: 'Refeitório',
     color: '#B51B2A',
-    type: 'event',
   },
   {
     id: '1242',
     name: 'IFRO Party 2',
     startDate: dayjs('2024-05-15'),
     endDate: dayjs('2024-05-22'),
-    locale: 'Refeitório',
     color: '#211F1B',
-    type: 'event',
   },
   {
     id: '12345',
     name: 'IFRO Party 3',
     startDate: dayjs('2024-05-31'),
     endDate: dayjs('2024-06-05'),
+    startTime: dayjs('07:30:00'),
+    endTime: dayjs('14:00:00'),
     locale: 'Refeitório',
     color: '#0092E4',
-    type: 'event',
   },
 ];
 
@@ -158,6 +155,10 @@ const handleUpdate = (v: boolean) => {
 
         <div class="flex w-full lg:justify-end mb-6">
           <SectionCalendarioViewsToggleView
+            :class="{
+              'w-full': calendarView === false,
+              'w-full lg:max-w-[500px]': calendarView === true,
+            }"
             @view:calendar="handleUpdate"
           />
         </div>

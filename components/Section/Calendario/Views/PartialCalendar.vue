@@ -6,7 +6,6 @@ import 'dayjs/locale/pt-br';
 // Interface and types
 type EventData = {
   id: string;
-  type: string;
   startDate: dayjs.Dayjs;
   endDate: dayjs.Dayjs;
   color: string;
@@ -18,7 +17,9 @@ type Step = EventData & {
 
 type Event = EventData & {
   name: string;
-  locale: string;
+  startTime?: dayjs.Dayjs;
+  endTime?: dayjs.Dayjs;
+  locale?: string;
 };
 
 // Props
@@ -65,12 +66,12 @@ watch(monthNumReceived, (newValue: number) => {
 
     <!-- Event list -->
     <SectionCalendarioEventsList
-      class="max-w-[420px] xl:max-w-[464px]"
+      class="max-w-[420px] xl:max-w-[464px] max-h-[432px]"
       :year="2024"
       :steps="props.steps!"
       :events="props.events!"
       :month-num="monthNumReceived"
-      :view-type="2"
+      :listing-type="2"
     />
   </div>
 </template>

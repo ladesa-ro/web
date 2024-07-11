@@ -6,7 +6,6 @@ import 'dayjs/locale/pt-br';
 // Interface and types
 type EventData = {
   id: string;
-  type: string;
   startDate: dayjs.Dayjs;
   endDate: dayjs.Dayjs;
   color: string;
@@ -18,7 +17,9 @@ type Step = EventData & {
 
 type Event = EventData & {
   name: string;
-  locale: string;
+  startTime?: dayjs.Dayjs;
+  endTime?: dayjs.Dayjs;
+  locale?: string;
 };
 
 // Props

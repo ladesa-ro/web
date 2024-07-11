@@ -28,25 +28,29 @@ onMounted(async () => {
 
 <template>
   <div>
-    <section class="flex cursor-pointer">
+    <section class="flex w-full cursor-pointer">
       <!-- View partial calendar-->
       <div
-        class="flex gap-2 items-center border-2 border-r-0 border-[#9AB69E] p-3 font-[600] rounded-l-lg text-[#9AB69E]"
+        class="flex w-full gap-2 items-center justify-center border-2 border-r-0 border-[#9AB69E] p-3 font-[600] rounded-l-lg text-[#9AB69E]"
         :class="{ '-selected border-r-2': calendarView === false }"
         @click="toggleView(false)"
       >
-        <span>Calendário parcial</span>
-        <IconsCalendarIconPartialCalendar class="w-5" />
+        <span class="text-sm sm:text-[16px] font-semibold w-[120px] lg:w-max"
+          >Calendário parcial</span
+        >
+        <IconsCalendarIconPartialCalendar class="w-[18px] sm:w-5" />
       </div>
 
       <!-- View complete calendar -->
       <div
-        class="flex gap-2 items-center border-2 border-l-0 border-[#9AB69E] p-3 font-[600] rounded-r-lg text-[#9AB69E]"
+        class="flex w-full gap-2 items-center justify-center border-2 border-l-0 border-[#9AB69E] p-3 font-[600] rounded-r-lg text-[#9AB69E]"
         :class="{ '-selected border-l-2': calendarView !== false }"
         @click="toggleView(true)"
       >
-        <span>Calendário completo</span>
-        <IconsCalendarIconCompleteCalendar class="w-5" />
+        <span class="text-sm sm:text-[16px] font-semibold w-[120px] lg:w-max"
+          >Calendário completo</span
+        >
+        <IconsCalendarIconCompleteCalendar class="w-[18px] sm:w-5" />
       </div>
     </section>
   </div>

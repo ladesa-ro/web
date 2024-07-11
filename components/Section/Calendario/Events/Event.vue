@@ -1,13 +1,20 @@
 <script lang="ts" setup>
+// Import
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
+
 // Interface and types
 
 // Props
 const props = defineProps({
   id: String,
   name: String,
-  details: String,
-  locale: String,
   color: String,
+  startDate: dayjs.Dayjs,
+  endDate: dayjs.Dayjs,
+  locale: String,
+  startTime: dayjs.Dayjs,
+  endTime: dayjs.Dayjs,
 });
 
 // Event
@@ -17,13 +24,22 @@ const props = defineProps({
   <v-card class="-event flex-shrink-0 mx-auto rounded-lg w-full">
     <div class="w-2 h-full" :style="{ backgroundColor: props.color! }"></div>
     <v-container class="flex flex-col w-full h-full">
+      <!-- Event -->
       <p class="font-semibold text-sm sm:text-[16px]">{{ props.name! }}</p>
+
+      <!-- Infos -->
+      <p class="font-medium text-sm sm:text-[16px]">Início: {{}} às {{}}</p>
+      <p class="font-medium text-sm sm:text-[16px]">Término: {{}} às {{}}</p>
+
+      <!-- Event duration -->
       <p
         class="font-medium text-sm sm:text-[16px]"
         :class="{ 'h-full mb-[16px]': props.locale! }"
       >
-        {{ props.details! }}
+        Começa daqui {{}}.
       </p>
+
+      <!-- Locale -->
       <p class="font-medium text-sm sm:text-[16px]" v-show="props.locale!">
         {{ props.locale! }}
       </p>

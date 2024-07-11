@@ -10,19 +10,18 @@ dayjs.extend(isBetween);
 // Interface and types
 type EventData = {
   id: string;
-  type: string;
   startDate: dayjs.Dayjs;
   endDate: dayjs.Dayjs;
   color: string;
 };
 
-type Step = Omit<EventData, 'type'> & {
+type Step = EventData & {
   number: number;
 };
 
-type Event = Omit<EventData, 'type'> & {
+type Event = EventData & {
   name: string;
-  locale: string;
+  locale?: string;
 };
 
 type Day = {
