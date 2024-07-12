@@ -13,10 +13,7 @@ const height = 180;
 </script>
 
 <template>
-  <v-card
-    max-width="100%"
-    class="-card-bloco border-2 divide-solid border-lime-500 rounded-lg overflow-hidden pb-5 mx-auto"
-  >
+  <v-card max-width="100%" :elevation="1" class="card">
     <div
       :style="{
         backgroundSize: 'cover',
@@ -57,11 +54,9 @@ const height = 180;
   </v-card>
 </template>
 
+<style scoped src="./Card.css"></style>
+
 <style scoped>
-.-card-bloco {
-  /* adicionado borda. */
-  border: 2px solid #9ab69e;
-}
 .detail {
   cursor: pointer;
   z-index: 10;
