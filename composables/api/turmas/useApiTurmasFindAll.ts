@@ -1,8 +1,10 @@
 import type { TurmaListData } from '@ladesa-ro/api-client-fetch';
 import { useBaseApiSearch } from '../../../integrations/api/base/useBaseApiSearch';
+import type { QuerySuspenseBehaviour } from '../../../integrations';
 
 export const useApiTurmasFindAll = async (
-  searchTerm: MaybeRef<string | undefined>
+  searchTerm: MaybeRef<string | undefined>,
+  suspenseBehaviour?: QuerySuspenseBehaviour
 ) => {
   const apiClient = useApiClient();
 
@@ -20,7 +22,8 @@ export const useApiTurmasFindAll = async (
   } = await useBaseApiSearch(
     ['turmas'],
     (data: TurmaListData) => apiClient.turmas.turmaList(data),
-    data
+    data,
+    suspenseBehaviour
   );
 
   return {
