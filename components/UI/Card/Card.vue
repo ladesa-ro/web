@@ -10,6 +10,11 @@ type Props = {
 const props = defineProps<Props>();
 
 const height = 180;
+
+const hasImage = computed(() => {
+  const src = unref(props.src);
+  return src && !src.endsWith('undefined') && !src.endsWith('null');
+});
 </script>
 
 <template>
@@ -30,7 +35,17 @@ const height = 180;
       >
         <template v-slot:placeholder>
           <div class="d-flex align-center justify-center fill-height">
-            <v-progress-circular indeterminate />
+            <v-progress-circular indeterminate v-if="Boolean(hasImage)" />
+            <v-empty-state v-else icon="mdi-cancel" />
+          </div>
+        </template>
+
+        <template v-slot:error>
+          <div class="d-flex align-center justify-center fill-height">
+            <v-empty-state
+              icon="mdi-alert-circle-outline"
+              text="Não foi possível buscar a foto"
+            />
           </div>
         </template>
       </v-img>
