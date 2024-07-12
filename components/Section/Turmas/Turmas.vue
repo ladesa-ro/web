@@ -5,10 +5,10 @@ const searchBarText = ref('');
 </script>
 
 <template>
-  <v-container>
-    <div class="container mx-auto max-w-[89%]">
+  <v-container class="flex-1">
+    <div class="flex-1 h-full flex flex-col container mx-auto max-w-[89%]">
       <div
-        class="container-header mx-auto justify-between items-center flex mb-5 gap-4 px-3"
+        class="container-header w-full justify-between items-center flex gap-4 px-3"
       >
         <UISearchBar
           :value="searchBarText"
@@ -19,9 +19,8 @@ const searchBarText = ref('');
           <SectionTurmasModal />
         </div>
       </div>
-      <div>
-        <SectionTurmasGrid :searchBarText="searchBarText" />
-      </div>
+
+      <SectionTurmasGrid :searchBarText="searchBarText" />
     </div>
   </v-container>
 </template>
