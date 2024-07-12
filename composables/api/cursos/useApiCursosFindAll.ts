@@ -1,27 +1,37 @@
-import { useQuery } from '@tanstack/vue-query';
-import { refDebounced } from '@vueuse/core';
+import type { CursoListData } from '@ladesa-ro/api-client-fetch';
+import {
+  useBaseApiSearch,
+  type QuerySuspenseBehaviour,
+} from '../../../integrations';
 
-export const useApiCursosFindAll = async (searchTerm: MaybeRef<string>) => {
+export const useApiCursosFindAll = async (
+  searchTerm: MaybeRef<string>,
+  suspenseBehaviour?: QuerySuspenseBehaviour
+) => {
   const apiClient = useApiClient();
 
-  const query = useQuery({
-    queryKey: ['cursos', searchTerm],
-
-    queryFn: async () => {
-      return apiClient.cursos.cursoList({
-        search: unref(searchTerm),
-      });
-    },
+  const data = computed(() => {
+    return {
+      search: unref(searchTerm),
+    };
   });
 
-  const cursos = computed(() => unref(query.data)?.data ?? []);
-  const cursosDebounced = refDebounced(cursos, 200);
-
-  await query.suspense();
+  const {
+    query,
+    isLoading,
+    previousItems,
+    items: cursos,
+  } = await useBaseApiSearch(
+    ['cursos'],
+    (data: CursoListData) => apiClient.cursos.cursoList(data),
+    data,
+    suspenseBehaviour
+  );
 
   return {
+    isLoading,
     query,
     cursos,
-    cursosDebounced,
+    previousItems,
   };
 };
