@@ -37,17 +37,20 @@ const height = 180;
     </div>
 
     <div class="textAndButton flex justify-between items-center max-w-full">
-      <v-card-title
-        class="-card-titulo font-semibold text-black no-underline inline-block max-w-[90%] overflow-hidden"
-      >
-        <slot name="title">
-          {{ props.title }}
+      <div class="flex-1 flex-shrink overflow-hidden">
+        <v-card-title
+          class="-card-titulo font-semibold text-black no-underline inline-block"
+        >
+          <slot name="title">
+            {{ props.title }}
+          </slot>
+        </v-card-title>
+      </div>
+      <div class="flex-shrink-0 mr-3">
+        <slot name="actions">
+          <UIButtonEdit @click="$emit('edit')" />
         </slot>
-      </v-card-title>
-
-      <slot name="actions">
-        <IconsIconEdit @click="$emit('edit')" class="detail" />
-      </slot>
+      </div>
     </div>
 
     <slot></slot>
@@ -57,11 +60,6 @@ const height = 180;
 <style scoped src="./Card.css"></style>
 
 <style scoped>
-.detail {
-  cursor: pointer;
-  z-index: 10;
-  margin-right: 10px;
-}
 .-card-titulo {
   font-weight: 600;
 }
