@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/vue-query';
-import { refDebounced } from '@vueuse/core';
+import { useDebounceFn } from '@vueuse/core';
 import {
   QuerySuspense,
   type QuerySuspenseBehaviour,
@@ -10,21 +10,34 @@ export const useBaseApiSearch = async <ResultItemDto = unknown>(
   baseKey: MaybeRef<any>[],
 
   fn: IBaseApiSearchFn<ResultItemDto>,
-  data: MaybeRef<IBaseApiSearchInput>,
+  inputDto: MaybeRef<IBaseApiSearchInput>,
 
-  suspenseBehaviour?: QuerySuspenseBehaviour,
-
-  debounceTimeout = 200
+  suspenseBehaviour?: QuerySuspenseBehaviour
 ) => {
-  const queryKey = [...baseKey, computed(() => JSON.stringify(unref(data)))];
+  const inputDtoAsRef = computed(() => unref(inputDto));
+
+  const queryKey = [
+    ...baseKey,
+    computed(() => JSON.stringify(inputDtoAsRef.value)),
+  ].filter(Boolean);
+
+  const debouncedFn = useDebounceFn(fn, 200);
 
   const query = useQuery({
     queryKey: queryKey,
 
     queryFn: async () => {
-      const dataRaw = unref(data);
-      return fn({ ...dataRaw });
+      const inputDtoRaw = unref(inputDto);
+
+      const response = await debouncedFn({ ...inputDtoRaw });
+      return response ?? null;
     },
+  });
+
+  //
+
+  const isLoading = computed(() => {
+    return query.isLoading.value;
   });
 
   //
@@ -33,25 +46,25 @@ export const useBaseApiSearch = async <ResultItemDto = unknown>(
 
   //
 
-  const items = computed(() => unref(responseData)?.data ?? []);
+  const items = computed(() => unref(responseData)?.data ?? null);
 
-  const previousItems = ref<ResultItemDto[]>([]) as Ref<ResultItemDto[]>;
+  const previousItems = ref(unref(items)) as Ref<ResultItemDto[]>;
+
+  //
+
+  await QuerySuspense(query, suspenseBehaviour);
+
+  //
 
   watch(
-    [items, query.isLoading],
-    ([currentItems, isLoading]) => {
-      if (!isLoading) {
+    [items],
+    ([currentItems]) => {
+      if (currentItems) {
         previousItems.value = currentItems;
       }
     },
     { immediate: true }
   );
-
-  const paginatedDataDebounced = refDebounced(items, debounceTimeout);
-
-  //
-
-  await QuerySuspense(query, suspenseBehaviour);
 
   //
 
@@ -60,8 +73,8 @@ export const useBaseApiSearch = async <ResultItemDto = unknown>(
     query,
     //
     items,
-    paginatedDataDebounced,
     previousItems,
     //
+    isLoading,
   };
 };
