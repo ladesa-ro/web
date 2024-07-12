@@ -21,14 +21,13 @@ export const useBaseApiSearch = async <ResultItemDto = unknown>(
     computed(() => JSON.stringify(inputDtoAsRef.value)),
   ].filter(Boolean);
 
-  const debouncedFn = useDebounceFn(fn, 200);
+  const debouncedFn = useDebounceFn(fn, 100);
 
   const query = useQuery({
     queryKey: queryKey,
 
     queryFn: async () => {
       const inputDtoRaw = unref(inputDto);
-
       const response = await debouncedFn({ ...inputDtoRaw });
       return response ?? null;
     },
@@ -36,9 +35,7 @@ export const useBaseApiSearch = async <ResultItemDto = unknown>(
 
   //
 
-  const isLoading = computed(() => {
-    return query.isLoading.value;
-  });
+  const isLoading = query.isLoading;
 
   //
 

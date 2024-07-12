@@ -1,6 +1,6 @@
 import type { TurmaListData } from '@ladesa-ro/api-client-fetch';
-import { useBaseApiSearch } from '../../../integrations/api/base/useBaseApiSearch';
 import type { QuerySuspenseBehaviour } from '../../../integrations';
+import { useBaseApiSearch } from '../../../integrations/api/base/useBaseApiSearch';
 
 export const useApiTurmasFindAll = async (
   searchTerm: MaybeRef<string | undefined>,
