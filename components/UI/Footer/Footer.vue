@@ -1,67 +1,59 @@
+<script setup lang="ts">
+const footerLinks = [
+  {
+    icon: 'mdi-github',
+    href: 'https://github.com/ladesa-ro',
+    label: 'GitHub',
+  },
+
+  {
+    icon: 'mdi-book',
+    href: 'https://docs.ladesa.com.br',
+    label: 'Documentação',
+  },
+];
+</script>
+
 <template>
-  <footer
-    class="bg-gray-100/50 flex-grow-0 border-t-[1px] border-solid flex flex-col justify-stretch w-full"
-  >
-    <div
-      class="grid justify-center items-center grid-cols-[repeat(auto-fit,_minmax(1px,_max-content))] gap-2 py-3"
-    >
-      <v-btn
-        variant="text"
-        target="_blank"
-        prepend-icon="mdi-book"
-        append-icon="mdi-open-in-new"
-        href="https://docs.ladesa.com.br/user-guides/"
-      >
-        Documentação
-      </v-btn>
+  <footer class="footer-root">
+    <div class="footer-body">
+      <div>
+        <div>{{ new Date().getFullYear() }} — <strong>Ladesa</strong></div>
+      </div>
 
-      <span>|</span>
+      <div class="flex-1"></div>
 
       <v-btn
+        v-for="link in footerLinks"
+        :key="link.href"
         variant="text"
         target="_blank"
-        prepend-icon="mdi-github"
+        :href="link.href"
+        :prepend-icon="link.icon"
         append-icon="mdi-open-in-new"
-        href="https://github.com/ladesa-ro"
       >
-        GitHub
+        {{ link.label }}
       </v-btn>
     </div>
-
-    <hr class="" />
-
-    <div class="flex items-center justify-center bg-gray-100 px-3 py-2">
-      <div>{{ new Date().getFullYear() }} — <strong>Ladesa</strong></div>
-    </div>
-
-    <!-- <div class="flex items-center justify-center px-3 py-3">
-              <v-btn
-                variant="link"
-                target="_blank"
-                prepend-icon="mdi-book"
-                href="https://docs.ladesa.com.br"
-              >
-                Documentação
-              </v-btn>
-
-              <span class="mx-2">-</span>
-
-              <v-btn
-                variant="link"
-                target="_blank"
-                prepend-icon="mdi-github"
-                href="https://github.com/ladesa-ro"
-              >
-                GitHub
-              </v-btn>
-
-              <span class="mx-4">|</span>
-
-              <div>
-                <div>
-                  {{ new Date().getFullYear() }} — <strong>Ladesa</strong>
-                </div>
-              </div>
-            </div> -->
   </footer>
 </template>
+
+<style scoped>
+.footer-root {
+  @apply w-full flex-grow-0;
+  @apply flex flex-col justify-stretch;
+
+  @apply bg-gray-100/50;
+  @apply border-t-[1px] border-solid;
+}
+
+.footer-body {
+  @apply w-full;
+
+  @apply justify-center md:justify-start flex  items-center flex-col-reverse gap-2 sm:flex-row;
+
+  @apply mx-auto px-4 md:!px-2 py-3;
+
+  @apply max-w-screen-sm lg:max-w-screen-md lg:max-w-screen-md xl:max-w-screen-lg;
+}
+</style>
