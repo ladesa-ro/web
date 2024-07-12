@@ -52,8 +52,8 @@ const footerLinks = [
 
   @apply justify-center md:justify-start flex  items-center flex-col-reverse gap-2 sm:flex-row;
 
-  @apply mx-auto px-4 md:!px-2 py-3;
+  @apply mx-auto px-4 md:!px-0 py-3;
 
-  @apply max-w-screen-sm lg:max-w-screen-md lg:max-w-screen-md xl:max-w-screen-lg;
+  @apply max-w-screen-sm md:max-w-screen-md xl:max-w-screen-lg 2xl:max-w-screen-2xl;
 }
 </style>
