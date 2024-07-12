@@ -1,22 +1,33 @@
-<script setup>
-const props = defineProps({
-  searchBarText: String,
-});
+<script lang="ts" setup>
+import type { CursoFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 
+type Props = {
+  searchBarText: string;
+};
+
+const props = defineProps<Props>();
 const $emit = defineEmits(['edit']);
 
 const { searchBarText } = toRefs(props);
-
 const { cursos } = await useApiCursosFindAll(searchBarText);
+
+const apiClient = useApiClient();
+
+const getCourseCoverImageSrc = (item: CursoFindOneResultDto) => {
+  const imagemCapa = item.imagemCapa;
+  
+  if (imagemCapa) {
+    return `${apiClient.request.config.BASE}/cursos/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
+  }
+
+  return null;
+};
 </script>
 
 <template>
   <UIGrid :items="cursos">
     <template #item="{ item: curso }">
-      <UICard
-        variant="block"
-        :src="`https://luna.sisgha.com/api/cursos/${curso.id}/imagem/capa?imgCapa=${curso.imagemCapa?.id}`"
-      >
+      <UICard variant="block" :src="getCourseCoverImageSrc(curso)">
         <template #title>
           {{ curso.nome }}
         </template>
