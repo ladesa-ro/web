@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="T extends { id: string | number }">
 type Props = {
   isLoading?: boolean;
-  items?: T[];
+  items?: T[] | null;
 };
 
 type Slots = {
