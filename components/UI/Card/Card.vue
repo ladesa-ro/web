@@ -8,6 +8,8 @@ type Props = {
 };
 
 const props = defineProps<Props>();
+
+const height = 180;
 </script>
 
 <template>
@@ -15,12 +17,27 @@ const props = defineProps<Props>();
     max-width="100%"
     class="-card-bloco border-2 divide-solid border-lime-500 rounded-lg overflow-hidden pb-5 mx-auto"
   >
-    <v-img
-      cover
-      width="100%"
-      height="120px"
-      :src="props.src ?? 'https://picsum.photos/487/120'"
-    />
+    <div
+      :style="{
+        backgroundSize: 'cover',
+        backgroundImage: `url(${props.src})`,
+      }"
+    >
+      <v-img
+        eager
+        contain
+        width="100%"
+        :height="`${height}px`"
+        :src="props.src ?? undefined"
+        style="backdrop-filter: blur(10px) brightness(70%)"
+      >
+        <template v-slot:placeholder>
+          <div class="d-flex align-center justify-center fill-height">
+            <v-progress-circular indeterminate />
+          </div>
+        </template>
+      </v-img>
+    </div>
 
     <div class="textAndButton flex justify-between items-center max-w-full">
       <v-card-title
