@@ -1,7 +1,9 @@
 <script lang="ts" setup>
-const props = defineProps({
-  searchBarText: String,
-});
+type Props = {
+  searchBarText: string;
+};
+
+const props = defineProps<Props>();
 
 const $emit = defineEmits(['edit']);
 

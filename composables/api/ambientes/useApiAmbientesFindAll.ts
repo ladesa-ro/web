@@ -1,30 +1,37 @@
-import { useQuery } from '@tanstack/vue-query';
-import { refDebounced } from '@vueuse/core';
+import type { AmbienteListData } from '@ladesa-ro/api-client-fetch';
+import {
+  useBaseApiSearch,
+  type QuerySuspenseBehaviour,
+} from '../../../integrations';
 
 export const useApiAmbientesFindAll = async (
-  searchTerm: MaybeRef<string | undefined>
+  searchTerm: MaybeRef<string>,
+  suspenseBehaviour?: QuerySuspenseBehaviour
 ) => {
   const apiClient = useApiClient();
 
-  const query = useQuery({
-    queryKey: ['ambientes', searchTerm],
-
-    queryFn: async () => {
-      return apiClient.ambientes.ambienteList({
-        search: unref(searchTerm),
-        sortBy: ['nome:ASC'],
-      });
-    },
+  const data = computed(() => {
+    return {
+      search: unref(searchTerm),
+    };
   });
 
-  const ambientes = computed(() => unref(query.data)?.data ?? []);
-  const ambientesDebounced = refDebounced(ambientes, 200);
-
-  await query.suspense();
+  const {
+    query,
+    isLoading,
+    previousItems,
+    items: ambientes,
+  } = await useBaseApiSearch(
+    ['ambientes'],
+    (data: AmbienteListData) => apiClient.ambientes.ambienteList(data),
+    data,
+    suspenseBehaviour
+  );
 
   return {
+    isLoading,
     query,
     ambientes,
-    ambientesDebounced,
+    previousItems,
   };
 };
