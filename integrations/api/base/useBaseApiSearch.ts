@@ -48,7 +48,7 @@ export const useBaseApiSearch = async <ResultItemDto = unknown>(
 
   const items = computed(() => unref(responseData)?.data ?? null);
 
-  const previousItems = ref(unref(items)) as Ref<ResultItemDto[]>;
+  const previousItems = ref(unref(items)) as Ref<ResultItemDto[] | null>;
 
   //
 
