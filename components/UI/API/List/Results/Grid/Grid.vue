@@ -24,6 +24,20 @@ const { paginatedResponse, previousItems, isLoading } =
   );
 
 //
+
+const reachedTheEnd = computed(() => {
+  const meta = paginatedResponse.value?.meta;
+
+  if (meta) {
+    return (
+      meta.totalItems > 0 &&
+      meta.currentPage > 1 &&
+      meta.currentPage === meta.totalPages
+    );
+  }
+
+  return false;
+});
 </script>
 
 <template>
@@ -36,12 +50,11 @@ const { paginatedResponse, previousItems, isLoading } =
       <slot name="item-skeleton"></slot>
     </template>
 
-    <template v-if="!paginatedResponse?.links.next">
+    <template v-if="reachedTheEnd">
       <div>
         <v-empty-state
-          icon="mdi-text-box-check-outline"
-          text="Você chegou ao fim da consulta dessa listagem (ou você chegou apenas ao começo?)"
-          title="Isto é tudo"
+          title="Isso é tudo"
+          text="Você chegou ao final dos resultados."
         />
       </div>
     </template>

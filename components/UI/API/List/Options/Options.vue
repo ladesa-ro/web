@@ -2,6 +2,16 @@
 import { useUIApiListContext } from '../Context/UIApiListContext';
 
 const { formOptions } = useUIApiListContext();
+
+//
+
+type Slots = {
+  'actions'(props: any): any;
+};
+
+const slots = defineSlots<Slots>();
+
+//
 </script>
 
 <template>
@@ -12,7 +22,7 @@ const { formOptions } = useUIApiListContext();
     />
 
     <div class="flex items-center flex-shrink-0">
-      <SectionTurmasModal />
+      <slot name="actions"></slot>
     </div>
   </div>
 </template>

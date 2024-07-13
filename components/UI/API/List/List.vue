@@ -16,6 +16,7 @@ const props = defineProps<Props>();
 //
 
 type Slots = {
+  'options-actions'(props: any): any;
   'grid-item'(props: IGridItemSlotProps<T>): any;
   'grid-item-skeleton'(props: any): any;
 };
@@ -30,7 +31,11 @@ setupUIApiListContext(props.options);
 <template>
   <v-container class="flex-1">
     <div class="flex-1 h-full flex flex-col container mx-auto max-w-[89%]">
-      <UIAPIListOptions />
+      <UIAPIListOptions>
+        <template #actions>
+          <slot name="options-actions"></slot>
+        </template>
+      </UIAPIListOptions>
 
       <UIAPIListResults>
         <template #grid-item="options">

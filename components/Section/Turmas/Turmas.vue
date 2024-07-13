@@ -16,6 +16,10 @@ const options = {
 
 <template>
   <UIAPIList :options="options">
+    <template #options-actions>
+      <SectionTurmasModal />
+    </template>
+
     <template #grid-item="{ item, isLoading }">
       <SectionTurmasGridItem :turma="item" :isLoading="isLoading" />
     </template>
