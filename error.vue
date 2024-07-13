@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 const error = useError();
 </script>
 
@@ -8,6 +8,7 @@ const error = useError();
       <v-empty-state
         class="empty-state flex-1"
         headline="Oops! 404"
+        icon="mdi-alert-circle-outline"
         title="Página não encontrada"
         text="A página que você está procurando não existe."
       ></v-empty-state>
@@ -17,6 +18,7 @@ const error = useError();
       <v-empty-state
         class="empty-state flex-1"
         headline="Oops!"
+        icon="mdi-alert-circle-outline"
         title="Houve um comportamento não esperado em nossa aplicação."
       >
         <div class="text-center">

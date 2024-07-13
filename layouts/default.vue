@@ -39,8 +39,10 @@ onMounted(() => {
       <Sidebar v-model="habumguerActive" />
 
       <v-main class="main">
-        <div class="main-wrapper">
-          <slot></slot>
+        <div class="main-content">
+          <div class="flex-1 flex">
+            <slot></slot>
+          </div>
 
           <UIFooter />
         </div>
@@ -68,15 +70,11 @@ onMounted(() => {
   display: flex;
 }
 
-.main-wrapper {
+.main-content {
   flex: 1;
   overflow: auto;
   display: flex;
   flex-direction: column;
-}
-
-.main-wrapper > * {
-  width: 100%;
 }
 
 .layout {

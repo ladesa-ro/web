@@ -1,6 +1,12 @@
 <script setup lang="ts">
 const footerLinks = [
   {
+    icon: 'mdi-heart-pulse',
+    href: '#',
+    label: 'Status',
+  },
+
+  {
     icon: 'mdi-github',
     href: 'https://github.com/ladesa-ro',
     label: 'GitHub',
@@ -8,7 +14,7 @@ const footerLinks = [
 
   {
     icon: 'mdi-book',
-    href: 'https://docs.ladesa.com.br',
+    href: 'https://docs.ladesa.com.br/user-guides/',
     label: 'Documentação',
   },
 ];
@@ -16,25 +22,29 @@ const footerLinks = [
 
 <template>
   <footer class="footer-root">
-    <div class="footer-body">
-      <div>
-        <div>{{ new Date().getFullYear() }} — <strong>Ladesa</strong></div>
+    <v-container class="footer-container">
+      <div class="footer-body">
+        <div>
+          <div>{{ new Date().getFullYear() }} — <strong>Ladesa</strong></div>
+        </div>
+
+        <div class="flex-1"></div>
+
+        <div class="flex flex-wrap items-center justify-center">
+          <v-btn
+            v-for="link in footerLinks.filter((i) => i.href !== '#')"
+            :key="link.href"
+            variant="text"
+            target="_blank"
+            :href="link.href"
+            :prepend-icon="link.icon"
+            append-icon="mdi-open-in-new"
+          >
+            {{ link.label }}
+          </v-btn>
+        </div>
       </div>
-
-      <div class="flex-1"></div>
-
-      <v-btn
-        v-for="link in footerLinks"
-        :key="link.href"
-        variant="text"
-        target="_blank"
-        :href="link.href"
-        :prepend-icon="link.icon"
-        append-icon="mdi-open-in-new"
-      >
-        {{ link.label }}
-      </v-btn>
-    </div>
+    </v-container>
   </footer>
 </template>
 
@@ -50,10 +60,12 @@ const footerLinks = [
 .footer-body {
   @apply w-full;
 
-  @apply justify-center md:justify-start flex  items-center flex-col-reverse gap-2 sm:flex-row;
+  @apply justify-center md:justify-start flex flex-wrap items-center flex-col-reverse gap-2 lg:flex-row;
 
-  @apply mx-auto px-4 md:!px-0 py-3;
+  @apply max-w-[89%] mx-auto px-7 py-3;
+}
 
-  @apply max-w-screen-sm md:max-w-screen-md xl:max-w-screen-lg 2xl:max-w-screen-2xl;
+.footer-container {
+  @apply p-0;
 }
 </style>
