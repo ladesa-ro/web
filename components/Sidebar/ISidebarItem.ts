@@ -1,8 +1,11 @@
 export type ISidebarItemLink = {
   type: 'link';
   title: string;
+
   icon: any;
+
   to: string;
+  exact?: boolean;
 };
 
 export type ISidebarItemGroup = {
