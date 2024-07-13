@@ -6,7 +6,6 @@ const selectedDay = useSelectedDay();
 const activeDayMonth = computed(() => selectedDay.value.format('DD/MM')); //formata dia atual
 
 const weekDays = getWeekDays(selectedDay.value); //array com dias da semana
-
 </script>
 
 <template>
