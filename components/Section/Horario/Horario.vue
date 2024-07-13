@@ -6,7 +6,7 @@ const selectedOption = ref(ViewMode.DAILY_SCHEDULE);
 
 <template>
   <div
-    class="flex flex-1 flex-col items-center gap-12 pb-14 xl:max-w-screen-2xl xl:mx-auto max-xl:mx-16 max-[900px]:text-sm max-[850px]:mx-7"
+    class="flex flex-1 overflow-auto flex-col items-center gap-12 pb-14 xl:max-w-screen-2xl xl:mx-auto max-xl:mx-16 max-[900px]:text-sm max-[850px]:mx-7"
   >
     <SectionHorarioHeaderSchedule v-model:option="selectedOption" />
     <SectionHorarioGeral v-if="selectedOption === ViewMode.GENERAL_SCHEDULE" />

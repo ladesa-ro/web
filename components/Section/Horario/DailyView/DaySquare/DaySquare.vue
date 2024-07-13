@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useDebounceFn, useWindowSize } from '@vueuse/core';
+
 type Props = {
   active: boolean;
   dayWeek: string;
@@ -10,21 +12,31 @@ const square = ref<HTMLDivElement>();
 
 const { active } = toRefs(props);
 
+const scrollIntoViewIfActive = () => {
+  const isActive = active.value;
+  const squareElement = square.value;
+
+  if (isActive && squareElement) {
+    squareElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'center',
+      inline: 'center',
+    });
+  }
+};
+
 watch(
   [active, square],
-  ([active, square]) => {
-    if (active && square) {
-      square.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'center',
-      });
-    }
+  () => {
+    scrollIntoViewIfActive();
   },
-  {
-    once: true,
-  }
+  { once: true }
 );
+
+const debouncedScrollIntoView = useDebounceFn(scrollIntoViewIfActive, 150);
+
+const { width, height } = useWindowSize();
+watch([width, height], debouncedScrollIntoView);
 </script>
 
 <template>

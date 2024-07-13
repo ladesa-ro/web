@@ -72,16 +72,16 @@ onMounted(() => {
 
 .main-content {
   flex: 1;
+
   overflow: auto;
+
   display: flex;
   flex-direction: column;
 }
 
 .layout {
   overflow: hidden;
-
   height: 100vh; /* fallback para caso o dispositivo não suporte dvh */
-
   height: 100dvh;
 }
 </style>
