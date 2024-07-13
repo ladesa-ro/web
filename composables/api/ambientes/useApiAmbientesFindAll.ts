@@ -1,6 +1,6 @@
 import type { AmbienteListData } from '@ladesa-ro/api-client-fetch';
 import {
-  useBaseApiSearch,
+  useApiBaseResourceList,
   type QuerySuspenseBehaviour,
 } from '../../../integrations';
 
@@ -21,7 +21,7 @@ export const useApiAmbientesFindAll = async (
     isLoading,
     previousItems,
     items: ambientes,
-  } = await useBaseApiSearch(
+  } = await useApiBaseResourceList(
     ['ambientes'],
     (data: AmbienteListData) => apiClient.ambientes.ambienteList(data),
     data,

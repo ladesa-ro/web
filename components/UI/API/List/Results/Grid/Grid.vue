@@ -8,8 +8,8 @@ const { previousItems, isLoading } = await useApiTurmasFindAll(searchBarText);
 
 <template>
   <UIGrid :isLoading="isLoading" :items="previousItems">
-    <template #item="{ item: turma }">
-      <SectionTurmasGridItem :turma="turma" :isLoading="isLoading" />
+    <template #item="{ item }">
+      <SectionTurmasGridItem :turma="item" :isLoading="isLoading" />
     </template>
 
     <template #item-skeleton>

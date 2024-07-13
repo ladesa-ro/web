@@ -7,5 +7,11 @@ import {
 const { viewMode } = useUIApiListContext();
 </script>
 <template>
-  <UIAPIListResultsGrid v-if="viewMode === UIApiListViewMode.CARDS" />
+  <template v-if="viewMode === UIApiListViewMode.CARDS">
+    <UIAPIListResultsGrid />
+  </template>
+
+  <template v-else>
+    <p>Modo de visualização não suportado.</p>
+  </template>
 </template>
