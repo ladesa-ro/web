@@ -28,7 +28,23 @@ export const useBaseApiSearch = async <ResultItemDto = unknown>(
 
     queryFn: async () => {
       const inputDtoRaw = unref(inputDto);
-      const response = await debouncedFn({ ...inputDtoRaw });
+
+      //
+
+      const data = {
+        ...inputDtoRaw,
+        search: Boolean(inputDtoRaw.search) ? inputDtoRaw.search : undefined,
+      };
+
+      data.search = inputDtoRaw.search?.trim();
+
+      if (typeof data.search !== 'string' || data.search.length === 0) {
+        data.search = undefined;
+      }
+
+      //
+
+      const response = await debouncedFn({ ...data });
       return response ?? null;
     },
   });
