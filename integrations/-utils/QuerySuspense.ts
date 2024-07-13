@@ -12,6 +12,8 @@ export type QuerySuspenseBehaviour = {
   mode?: QuerySuspenseBehaviourMode;
 };
 
+const __ARBITRARY_MAX_SILENT_WAIT = 30;
+
 export const QuerySuspense = async (
   query: UseQueryReturnType<any, any>,
   suspenseBehaviour: QuerySuspenseBehaviour = {}
@@ -37,7 +39,7 @@ export const QuerySuspense = async (
     }
 
     case QuerySuspenseBehaviourMode.SILENT_WAIT: {
-      await Promise.race([doSuspense(), wait(100)]);
+      await Promise.race([doSuspense(), wait(__ARBITRARY_MAX_SILENT_WAIT)]);
       break;
     }
 
