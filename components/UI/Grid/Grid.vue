@@ -1,20 +1,24 @@
-<script setup lang="ts" generic="T extends { id: string | number }">
+<script setup lang="ts" generic="T = any">
+import type { IGridItemSlotProps } from '../API/List/Results/Grid/Typings';
+
 type Props = {
   isLoading?: boolean;
-  items?: T[] | null;
-};
-
-type Slots = {
-  item(props: { item: T }): any;
-
-  'item-skeleton'(props: any): any;
+  items?: IGridItemSlotProps['item'][] | null;
 };
 
 const props = defineProps<Props>();
 
-const items = toRef(props, 'items');
+type Slots = {
+  item(props: IGridItemSlotProps): any;
+  'item-skeleton'(props: any): any;
+  default(props: any): any;
+};
 
 const slots = defineSlots<Slots>();
+
+const items = toRef(props, 'items');
+
+const isLoading = computed(() => props.isLoading ?? false);
 </script>
 
 <template>
@@ -31,7 +35,7 @@ const slots = defineSlots<Slots>();
             :key="item.id"
             v-for="item in items"
           >
-            <slot name="item" v-bind="{ item }"></slot>
+            <slot name="item" v-bind="{ item, isLoading }"></slot>
           </v-col>
         </v-row>
       </v-container>
@@ -62,7 +66,9 @@ const slots = defineSlots<Slots>();
         icon="mdi-magnify"
         text="Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos menos específicos ou consultas mais amplas podem ajudá-lo a encontrar o que procura."
         title="Nenhum resultado encontrado."
-      ></v-empty-state>
+      />
     </template>
+
+    <slot></slot>
   </div>
 </template>

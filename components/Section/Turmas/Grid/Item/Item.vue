@@ -2,13 +2,17 @@
 import type { TurmaFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 import { useElementBounding } from '@vueuse/core';
 import { ref } from 'vue';
+import {
+  useApiImageRoute,
+  UseApiResourceImageResource,
+} from '../../../../../integrations/api/RoutesUtil';
 
 type Props = {
   isLoading?: boolean;
   turma?: TurmaFindOneResultDto | null;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const cardElRef = ref(null);
 const { height: cardElBoundingHeight } = useElementBounding(cardElRef);
@@ -20,16 +24,21 @@ watch([cardElBoundingHeight], ([height]) => {
     skeletonHeight.value = `${height}px`;
   }
 });
+
+const coverImage = useApiImageRoute(
+  UseApiResourceImageResource.TURMA_COVER,
+  props.turma
+);
 </script>
 
 <template>
   <UICardSkeleton :style="{ height: skeletonHeight }" v-if="isLoading" />
 
   <UICard
-    ref="cardElRef"
     v-if="!isLoading && turma"
+    ref="cardElRef"
     variant="block"
-    :src="`https://luna.sisgha.com/api/turmas/${turma.id}/imagem/capa?imgCapa=${turma.imagemCapa?.id}`"
+    :src="coverImage"
   >
     <template #title>
       {{ turma.periodo }} - {{ turma.curso.modalidade.nome }}

@@ -1,14 +1,34 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T = any">
 import {
   UIApiListViewMode,
   useUIApiListContext,
 } from '../Context/UIApiListContext';
+import type { IGridItemSlotProps } from './Grid/Typings';
+
+//
+
+type Slots = {
+  'grid-item'(props: IGridItemSlotProps<T>): any;
+  'grid-item-skeleton'(props: any): any;
+};
+
+const slots = defineSlots<Slots>();
+
+//
 
 const { viewMode } = useUIApiListContext();
 </script>
 <template>
   <template v-if="viewMode === UIApiListViewMode.CARDS">
-    <UIAPIListResultsGrid />
+    <UIAPIListResultsGrid>
+      <template #item="options">
+        <slot name="grid-item" v-bind="options"> </slot>
+      </template>
+
+      <template #item-skeleton>
+        <slot name="grid-item-skeleton"></slot>
+      </template>
+    </UIAPIListResultsGrid>
   </template>
 
   <template v-else>

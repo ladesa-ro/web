@@ -49,10 +49,10 @@ export const useApiBaseResourceList = async <ResultItemDto = unknown>(
     debouncedInputDtoString.value !== inputDtoStringRef.value;
 
   //
-  const responseData = computed(() => unref(query.data));
+  const paginatedResponse = computed(() => unref(query.data));
   //
 
-  const items = computed(() => unref(responseData)?.data ?? null);
+  const items = computed(() => unref(paginatedResponse)?.data ?? null);
   const previousItems = ref(unref(items)) as Ref<ResultItemDto[] | null>;
 
   //
@@ -78,6 +78,7 @@ export const useApiBaseResourceList = async <ResultItemDto = unknown>(
     query,
     //
     items,
+    paginatedResponse,
     previousItems,
     //
     isLoading,
