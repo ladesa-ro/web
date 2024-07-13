@@ -1,4 +1,21 @@
 <script setup lang="ts">
+import { useNow } from '@vueuse/core';
+
+const now = useNow();
+
+const yearOfToday = computed(() => now.value.getFullYear());
+
+const copyrightOwners = computed(() => {
+  return [
+    {
+      id: 1,
+      yearStart: 2022,
+      yearEnd: yearOfToday.value,
+      owner: 'Ladesa',
+    },
+  ];
+});
+
 const footerLinks = [
   {
     icon: 'mdi-heart-pulse',
@@ -25,7 +42,25 @@ const footerLinks = [
     <v-container class="footer-container">
       <div class="footer-body">
         <div>
-          <div>{{ new Date().getFullYear() }} — <strong>Ladesa</strong></div>
+          <p v-for="copyrightOwner of copyrightOwners" :key="copyrightOwner.id">
+            <span>© </span>
+
+            <span>{{ ' ' }}</span>
+
+            <span v-if="copyrightOwner.yearStart !== copyrightOwner.yearEnd">
+              {{ copyrightOwner.yearStart }} — {{ copyrightOwner.yearEnd }}
+            </span>
+
+            <span>{{ ' ' }}</span>
+
+            <span>
+              <strong>
+                {{ copyrightOwner.owner }}
+              </strong>
+            </span>
+
+            <span>.</span>
+          </p>
         </div>
 
         <div class="flex-1"></div>
