@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const props = defineProps<{ searchBarText: string }>();
+import { useUIApiListContext } from '../../Context/UIApiListContext';
 
-const { searchBarText } = toRefs(props);
+const { searchBarText } = useUIApiListContext();
 
 const { previousItems, isLoading } = await useApiTurmasFindAll(searchBarText);
 </script>
