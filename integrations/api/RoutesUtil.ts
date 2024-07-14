@@ -1,11 +1,13 @@
 import type {
   CursoFindOneResultDto,
+  DisciplinaFindOneResultDto,
   TurmaFindOneResultDto,
 } from '@ladesa-ro/api-client-fetch';
 
 export enum UseApiResourceImageResource {
   TURMA_COVER,
   CURSO_COVER,
+  DISCIPLINA_COVER,
 }
 
 type IUseApiImageRoute = {
@@ -17,6 +19,11 @@ type IUseApiImageRoute = {
   (
     resourceImage: UseApiResourceImageResource.CURSO_COVER,
     item: MaybeRef<CursoFindOneResultDto | null | undefined>
+  ): ComputedRef<string | null>;
+
+  (
+    resourceImage: UseApiResourceImageResource.DISCIPLINA_COVER,
+    item: MaybeRef<DisciplinaFindOneResultDto | null | undefined>
   ): ComputedRef<string | null>;
 };
 
@@ -47,6 +54,18 @@ export const useApiImageRoute: IUseApiImageRoute = (resourceImage, itemRef) => {
 
         if (imagemCapa) {
           return `${base}/cursos/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
+        }
+
+        return null;
+      }
+
+      case UseApiResourceImageResource.DISCIPLINA_COVER: {
+        const item = unref(itemRef);
+
+        const imagemCapa = item?.imagemCapa;
+
+        if (imagemCapa) {
+          return `${base}/disciplinas/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
         }
 
         return null;
