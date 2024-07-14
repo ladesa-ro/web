@@ -23,5 +23,9 @@ const options = {
     <template #grid-item="{ item, isLoading }">
       <SectionDisciplinasGridItem :disciplina="item" :isLoading="isLoading" />
     </template>
+
+    <template #grid-item-skeleton>
+      <SectionDisciplinasGridItem :disciplina="null" :isLoading="true" />
+    </template>
   </UIAPIList>
 </template>

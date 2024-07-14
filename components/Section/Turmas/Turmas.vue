@@ -23,5 +23,9 @@ const options = {
     <template #grid-item="{ item, isLoading }">
       <SectionTurmasGridItem :turma="item" :isLoading="isLoading" />
     </template>
+
+    <template #grid-item-skeleton>
+      <SectionTurmasGridItem :turma="null" :isLoading="true" />
+    </template>
   </UIAPIList>
 </template>
