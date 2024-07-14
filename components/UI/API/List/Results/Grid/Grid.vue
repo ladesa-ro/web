@@ -27,6 +27,10 @@ const {
 );
 
 //
+
+const { hasNextPage, hasPreviousPage } = query;
+
+//
 type InfiniteScrollSide = 'start' | 'end' | 'both';
 type InfiniteScrollStatus = 'ok' | 'empty' | 'loading' | 'error';
 
@@ -79,15 +83,15 @@ const lastPage = computed(() => {
 });
 
 const totalItems = computed(() => {
-  return lastPage.value.meta?.totalItems ?? 0;
+  return lastPage.value?.meta?.totalItems ?? 0;
 });
 
 const currentPage = computed(() => {
-  return lastPage.value.meta?.currentPage ?? 1;
+  return lastPage.value?.meta?.currentPage ?? 1;
 });
 
 const totalPages = computed(() => {
-  return lastPage.value.meta?.totalPages ?? 1;
+  return lastPage.value?.meta?.totalPages ?? 1;
 });
 
 const resultsMeta = computed(() => {
@@ -97,37 +101,60 @@ const resultsMeta = computed(() => {
 
 <template>
   <div class="flex-1">
-    <v-container key="items">
-      <v-infinite-scroll
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
-        :onLoad="load"
-      >
+    <v-container class="flex-1">
+      <v-infinite-scroll class="ui-api-list-results-grid" :onLoad="load">
         <template v-for="item in items" :key="item.id">
-          <div class="item">
+          <div class="ui-api-list-results-grid-item">
             <slot name="item" v-bind="{ item, isLoading }"></slot>
           </div>
         </template>
 
+        <template #loading="{ side }">
+          <template
+            v-if="
+              side === 'both' ||
+              (side === 'start' && hasPreviousPage) ||
+              (side === 'end' && hasNextPage)
+            "
+          >
+            <v-progress-circular indeterminate />
+          </template>
+        </template>
+
         <template #empty>
-          <v-empty-state>
-            <template v-slot:text>
-              <div class="text-medium-emphasis text-caption">
-                <p>É isso, você chegou ao fim dos resultados.</p>
-                <p>{{ resultsMeta }}</p>
-              </div>
-            </template>
-          </v-empty-state>
+          <template v-if="totalItems > 0">
+            <div class="w-full">
+              <v-empty-state>
+                <template v-slot:text>
+                  <div class="text-medium-emphasis text-caption">
+                    <p>Você chegou ao fim dos resultados.</p>
+                    <p>{{ resultsMeta }}</p>
+                  </div>
+                </template>
+              </v-empty-state>
+            </div>
+          </template>
+
+          <template v-else>
+            <v-empty-state
+              key="no-results"
+              icon="mdi-magnify"
+              text="Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos menos específicos ou consultas mais amplas podem ajudá-lo a encontrar o que procura."
+              title="Nenhum resultado encontrado."
+            />
+          </template>
         </template>
 
         <template v-slot:error="{ props }">
           <v-alert type="error">
             <div class="d-flex justify-space-between align-center">
               Não foi possível buscar mais conteúdo...
+
               <v-btn
-                color="white"
                 size="small"
-                variant="outlined"
+                color="white"
                 v-bind="props"
+                variant="outlined"
               >
                 Tentar Novamente
               </v-btn>
@@ -136,49 +163,7 @@ const resultsMeta = computed(() => {
         </template>
       </v-infinite-scroll>
     </v-container>
-
-    <!-- <template v-else-if="isLoading">
-      <v-container key="items-skeleton">
-        <v-row>
-          <v-col
-            sm="12"
-            md="6"
-            lg="4"
-            cols="12"
-            class="px-2"
-            v-for="item in 10"
-            :key="item"
-          >
-            <slot name="item-skeleton"></slot>
-          </v-col>
-        </v-row>
-      </v-container>
-    </template>
-
-    <template v-else>
-      <v-empty-state
-        key="no-results"
-        class="flex-1"
-        icon="mdi-magnify"
-        text="Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos menos específicos ou consultas mais amplas podem ajudá-lo a encontrar o que procura."
-        title="Nenhum resultado encontrado."
-      />
-    </template> -->
   </div>
 </template>
 
-<style scoped>
-.grid {
-  display: grid;
-  gap: 1rem;
-  /* grid-template-columns: repeat(3, 1fr); */
-}
-
-.grid > * {
-  grid-column: 1/-1;
-}
-
-.grid .item {
-  grid-column: auto;
-}
-</style>
+<style src="./Grid.css" scoped></style>

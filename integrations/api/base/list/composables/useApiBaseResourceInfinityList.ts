@@ -49,23 +49,26 @@ export const useApiBaseResourceInfinityList = async <ResultItemDto = unknown>(
     },
 
     getPreviousPageParam: (lastPage) => {
-      const currentPage = lastPage.meta.currentPage;
-      const totalPages = lastPage.meta.totalPages;
+      if (lastPage) {
+        const currentPage = lastPage.meta.currentPage;
+        const totalPages = lastPage.meta.totalPages;
 
-      if (totalPages > 0 && currentPage > 0 && currentPage > 1) {
-        return currentPage - 1;
+        if (totalPages > 0 && currentPage > 0 && currentPage > 1) {
+          return currentPage - 1;
+        }
       }
 
       return null;
     },
 
     getNextPageParam: (lastPage) => {
-      const currentPage = lastPage.meta.currentPage;
+      if (lastPage) {
+        const currentPage = lastPage.meta.currentPage;
+        const totalPages = lastPage.meta.totalPages;
 
-      const totalPages = lastPage.meta.totalPages;
-
-      if (totalPages > 0 && currentPage > 0 && currentPage < totalPages) {
-        return currentPage + 1;
+        if (totalPages > 0 && currentPage > 0 && currentPage < totalPages) {
+          return currentPage + 1;
+        }
       }
 
       return null;
