@@ -21,13 +21,12 @@ export const createUIApiListContext = (
 
   const formOptions = reactive({
     search: '',
+    limit: 20,
   });
 
   return {
     options,
-
     viewMode,
-
     formOptions,
   };
 };
