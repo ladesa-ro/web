@@ -1,6 +1,6 @@
 import type { CursoListData } from '@ladesa-ro/api-client-fetch';
 import {
-  useBaseApiSearch,
+  useApiBaseResourceList,
   type QuerySuspenseBehaviour,
 } from '../../../integrations';
 
@@ -21,7 +21,7 @@ export const useApiCursosFindAll = async (
     isLoading,
     previousItems,
     items: cursos,
-  } = await useBaseApiSearch(
+  } = await useApiBaseResourceList(
     ['cursos'],
     (data: CursoListData) => apiClient.cursos.cursoList(data),
     data,

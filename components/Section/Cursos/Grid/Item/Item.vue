@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import type { TurmaFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import { type CursoFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 import { useElementBounding } from '@vueuse/core';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import {
+  useApiImageRoute,
+  UseApiResourceImageResource,
+} from '../../../../../integrations/api/RoutesUtil';
 
 type Props = {
   isLoading?: boolean;
-  turma?: TurmaFindOneResultDto | null;
+  curso?: CursoFindOneResultDto | null;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const cardElRef = ref(null);
 const { height: cardElBoundingHeight } = useElementBounding(cardElRef);
@@ -20,30 +24,35 @@ watch([cardElBoundingHeight], ([height]) => {
     skeletonHeight.value = `${height}px`;
   }
 });
+
+const coverImage = useApiImageRoute(
+  UseApiResourceImageResource.CURSO_COVER,
+  props.curso
+);
 </script>
 
 <template>
   <UICardSkeleton :style="{ height: skeletonHeight }" v-if="isLoading" />
 
   <UICard
+    v-if="!isLoading && curso"
     ref="cardElRef"
-    v-if="!isLoading && turma"
     variant="block"
-    :src="`https://luna.sisgha.com/api/turmas/${turma.id}/imagem/capa?imgCapa=${turma.imagemCapa?.id}`"
+    :src="coverImage"
   >
     <template #title>
-      {{ turma.periodo }} - {{ turma.curso.modalidade.nome }}
+      {{ curso.nome }}
     </template>
 
     <template #actions>
-      <SectionTurmasModal :editId="turma.id" />
+      <SectionCursosModal :editId="curso.id" />
     </template>
 
     <UICardLine>
-      <span>Curso: {{ turma.curso.nomeAbreviado }}</span>
+      <span>Abreviação: {{ curso.nomeAbreviado }}</span>
     </UICardLine>
     <UICardLine>
-      <span>Turno: Matutino e Vespertino</span>
+      <span>Modalidade: {{ curso.modalidade.nome }}</span>
     </UICardLine>
   </UICard>
 </template>

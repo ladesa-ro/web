@@ -1,6 +1,9 @@
 import type { TurmaListData } from '@ladesa-ro/api-client-fetch';
-import type { QuerySuspenseBehaviour } from '../../../integrations';
-import { useBaseApiSearch } from '../../../integrations/api/base/useBaseApiSearch';
+import type {
+  IApiBaseResourceListRetrieverInput,
+  QuerySuspenseBehaviour,
+} from '../../../integrations';
+import { useApiBaseResourceList } from '../../../integrations/api/base/list/composables/useApiBaseResourceList';
 
 export const useApiTurmasFindAll = async (
   searchTerm: MaybeRef<string | undefined>,
@@ -11,15 +14,16 @@ export const useApiTurmasFindAll = async (
   const data = computed(() => {
     return {
       search: unref(searchTerm),
-    };
+    } satisfies IApiBaseResourceListRetrieverInput;
   });
 
   const {
     query,
     isLoading,
+    //
+    items,
     previousItems,
-    items: turmas,
-  } = await useBaseApiSearch(
+  } = await useApiBaseResourceList(
     ['turmas'],
     (data: TurmaListData) => apiClient.turmas.turmaList(data),
     data,
@@ -27,9 +31,10 @@ export const useApiTurmasFindAll = async (
   );
 
   return {
-    isLoading,
     query,
-    turmas,
+    isLoading,
+    //
+    items,
     previousItems,
   };
 };

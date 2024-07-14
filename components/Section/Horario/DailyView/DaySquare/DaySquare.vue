@@ -25,13 +25,9 @@ const scrollIntoViewIfActive = () => {
   }
 };
 
-watch(
-  [active, square],
-  () => {
-    scrollIntoViewIfActive();
-  },
-  { once: true }
-);
+onMounted(() => {
+  scrollIntoViewIfActive();
+});
 
 const debouncedScrollIntoView = useDebounceFn(scrollIntoViewIfActive, 150);
 
