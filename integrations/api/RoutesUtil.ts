@@ -1,4 +1,6 @@
 import type {
+  AmbienteFindOneResultDto,
+  BlocoFindOneResultDto,
   CursoFindOneResultDto,
   DisciplinaFindOneResultDto,
   TurmaFindOneResultDto,
@@ -8,6 +10,8 @@ export enum UseApiResourceImageResource {
   TURMA_COVER,
   CURSO_COVER,
   DISCIPLINA_COVER,
+  AMBIENTE_COVER,
+  BLOCO_COVER,
 }
 
 type IUseApiImageRoute = {
@@ -24,6 +28,16 @@ type IUseApiImageRoute = {
   (
     resourceImage: UseApiResourceImageResource.DISCIPLINA_COVER,
     item: MaybeRef<DisciplinaFindOneResultDto | null | undefined>
+  ): ComputedRef<string | null>;
+
+  (
+    resourceImage: UseApiResourceImageResource.AMBIENTE_COVER,
+    item: MaybeRef<AmbienteFindOneResultDto | null | undefined>
+  ): ComputedRef<string | null>;
+
+  (
+    resourceImage: UseApiResourceImageResource.BLOCO_COVER,
+    item: MaybeRef<BlocoFindOneResultDto | null | undefined>
   ): ComputedRef<string | null>;
 };
 
@@ -66,6 +80,30 @@ export const useApiImageRoute: IUseApiImageRoute = (resourceImage, itemRef) => {
 
         if (imagemCapa) {
           return `${base}/disciplinas/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
+        }
+
+        return null;
+      }
+
+      case UseApiResourceImageResource.AMBIENTE_COVER: {
+        const item = unref(itemRef);
+
+        const imagemCapa = item?.imagemCapa;
+
+        if (imagemCapa) {
+          return `${base}/ambientes/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
+        }
+
+        return null;
+      }
+
+      case UseApiResourceImageResource.BLOCO_COVER: {
+        const item = unref(itemRef);
+
+        const imagemCapa = item?.imagemCapa;
+
+        if (imagemCapa) {
+          return `${base}/blocos/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
         }
 
         return null;
