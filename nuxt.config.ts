@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   // ===========
 
   typescript: {
-    // typeCheck: true,
+    typeCheck: true,
   },
 
   // ===========
@@ -54,14 +54,15 @@ export default defineNuxtConfig({
       type: 'authjs',
       trustHost: true,
     },
-    session: {
-      enableRefreshPeriodically: 15 * 1000,
-      enableRefreshOnWindowFocus: true,
+    sessionRefresh: {
+      enablePeriodically: 15 * 1000,
+      enableOnWindowFocus: true,
     },
   },
 
   // ===========
 
+  // ===========
   nitro: {
     hooks: {
       'rollup:before'(ctx) {
@@ -79,5 +80,5 @@ export default defineNuxtConfig({
     },
   },
 
-  // ===========
+  compatibilityDate: '2024-07-09'
 });

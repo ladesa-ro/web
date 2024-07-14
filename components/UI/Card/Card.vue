@@ -8,48 +8,73 @@ type Props = {
 };
 
 const props = defineProps<Props>();
+
+const height = 180;
+
+const hasImage = computed(() => {
+  const src = unref(props.src);
+  return src && !src.endsWith('undefined') && !src.endsWith('null');
+});
 </script>
 
 <template>
-  <v-card
-    max-width="100%"
-    class="-card-bloco border-2 divide-solid border-lime-500 rounded-lg overflow-hidden pb-5 mx-auto"
-  >
-    <v-img
-      cover
-      width="100%"
-      height="120px"
-      :src="props.src ?? 'https://picsum.photos/487/120'"
-    />
+  <v-card max-width="100%" :elevation="1" class="card">
+    <div
+      :style="{
+        backgroundSize: 'cover',
+        backgroundImage: `url(${props.src})`,
+      }"
+    >
+      <v-img
+        eager
+        contain
+        width="100%"
+        :height="`${height}px`"
+        :src="props.src ?? undefined"
+        style="backdrop-filter: blur(10px) brightness(70%)"
+      >
+        <template v-slot:placeholder>
+          <div class="d-flex align-center justify-center fill-height">
+            <v-progress-circular indeterminate v-if="Boolean(hasImage)" />
+            <v-empty-state v-else icon="mdi-cancel" />
+          </div>
+        </template>
+
+        <template v-slot:error>
+          <div class="d-flex align-center justify-center fill-height">
+            <v-empty-state
+              icon="mdi-alert-circle-outline"
+              text="Não foi possível buscar a foto"
+            />
+          </div>
+        </template>
+      </v-img>
+    </div>
 
     <div class="textAndButton flex justify-between items-center max-w-full">
-      <v-card-title
-        class="-card-titulo font-semibold text-black no-underline inline-block max-w-[90%] overflow-hidden"
-      >
-        <slot name="title">
-          {{ props.title }}
+      <div class="flex-1 flex-shrink overflow-hidden">
+        <v-card-title
+          class="-card-titulo font-semibold text-black no-underline inline-block"
+        >
+          <slot name="title">
+            {{ props.title }}
+          </slot>
+        </v-card-title>
+      </div>
+      <div class="flex-shrink-0 mr-3">
+        <slot name="actions">
+          <UIButtonEdit @click="$emit('edit')" />
         </slot>
-      </v-card-title>
-
-      <slot name="actions">
-        <IconsIconEdit @click="$emit('edit')" class="detail" />
-      </slot>
+      </div>
     </div>
 
     <slot></slot>
   </v-card>
 </template>
 
+<style scoped src="./Card.css"></style>
+
 <style scoped>
-.-card-bloco {
-  /* adicionado borda. */
-  border: 2px solid #9ab69e;
-}
-.detail {
-  cursor: pointer;
-  z-index: 10;
-  margin-right: 10px;
-}
 .-card-titulo {
   font-weight: 600;
 }

@@ -1,33 +1,27 @@
-<script lang="ts" setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import type { CursoListData } from '@ladesa-ro/api-client-fetch';
+import type { ICreateUIApiListContextOptions } from '../../UI/API/List/Context/UIApiListContext';
 
-const searchBarText = ref('');
+const apiClient = useApiClient();
+
+const apiBaseResourceListRetriever = (data: CursoListData) => {
+  return apiClient.cursos.cursoList(data);
+};
+
+const options = {
+  baseQueryKey: ['cursos'],
+  apiBaseResourceListRetriever,
+} satisfies ICreateUIApiListContextOptions;
 </script>
 
 <template>
-  <v-container>
-    <div class="container mx-auto max-w-[89%]">
-      <div
-        class="container-header mx-auto justify-between items-center flex mb-5 gap-4 px-3"
-      >
-        <UISearchBar
-          :value="searchBarText"
-          @update:value="searchBarText = $event"
-        />
+  <UIAPIList :options="options">
+    <template #options-actions>
+      <SectionCursosModal />
+    </template>
 
-        <div class="flex items-center flex-shrink-0">
-          <SectionCursosModal />
-        </div>
-      </div>
-      <div>
-        <SectionCursosGrid :searchBarText="searchBarText" />
-      </div>
-    </div>
-  </v-container>
+    <template #grid-item="{ item, isLoading }">
+      <SectionCursosGridItem :curso="item" :isLoading="isLoading" />
+    </template>
+  </UIAPIList>
 </template>
-
-<style scoped>
-.container-header {
-  padding: 50px 0;
-}
-</style>

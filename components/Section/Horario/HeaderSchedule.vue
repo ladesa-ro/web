@@ -22,10 +22,8 @@ const notificationsButtonEl = ref(null);
 </script>
 
 <template>
-  <div class="flex justify-between w-full mt-14
-    max-[1400px]:px-8
-    xl:max-w-screen-xl xl:mx-auto
-    max-xl:mx-4 max-xl:px-0"
+  <div
+    class="flex justify-between w-full mt-14 max-[1400px]:px-8 xl:max-w-screen-xl xl:mx-auto max-xl:px-0"
   >
     <div class="flex font-[600] items-center gap-2">
       <span>
