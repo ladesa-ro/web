@@ -1,19 +1,34 @@
-import dayjs from '~/components/Section/Horario/-Helpers/dayjs';
+import { useNow } from '@vueuse/core';
+import type { Dayjs } from 'dayjs';
 import type { ILesson } from '../../-Helpers/ILesson';
 
 export function verifyClassStatusByStartAndEnd(
-  start: dayjs.Dayjs,
-  end: dayjs.Dayjs
+  start: MaybeRef<Dayjs>,
+  end: MaybeRef<Dayjs>
 ) {
-  const now = dayjs();
-  if (now >= end) return 'completed';
-  else if (now >= start && now < end) return 'active';
-  return;
+  const now = useNow();
+
+  return computed(() => {
+    const nowAsDate = now.value;
+
+    const endAsDate = unref(end).toDate();
+    const startAsDate = unref(start).toDate();
+
+    if (nowAsDate >= endAsDate) {
+      return 'completed';
+    } else if (nowAsDate >= startAsDate && nowAsDate < endAsDate) {
+      return 'active';
+    }
+
+    return null;
+  });
 }
 
-export function verifyClassStatusByLesson(lesson: ILesson) {
-  const start: dayjs.Dayjs = dayjs(lesson.startsAt, 'HH:mm:ss');
-  const end: dayjs.Dayjs = dayjs(lesson.endsAt, 'HH:mm:ss');
+export function verifyClassStatusByLesson(lesson: MaybeRef<ILesson>) {
+  const dayjs = useDayJs();
+
+  const start = computed(() => dayjs(unref(lesson).startsAt, 'HH:mm:ss'));
+  const end = computed(() => dayjs(unref(lesson).endsAt, 'HH:mm:ss'));
 
   return verifyClassStatusByStartAndEnd(start, end);
 }

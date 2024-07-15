@@ -1,11 +1,13 @@
 import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
+import ptBR from 'dayjs/locale/pt-br';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import isBetween from 'dayjs/plugin/isBetween';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 
-dayjs.locale('pt-br');
+dayjs.locale(ptBR);
 
+dayjs.extend(isBetween);
 dayjs.extend(weekOfYear);
 dayjs.extend(updateLocale);
 dayjs.extend(customParseFormat);
@@ -22,4 +24,6 @@ dayjs.updateLocale('pt-br', {
   ],
 });
 
-export default dayjs;
+export const useDayJs = () => {
+  return dayjs;
+};
