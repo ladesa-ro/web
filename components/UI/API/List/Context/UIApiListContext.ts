@@ -29,7 +29,7 @@ export const createUIApiListContext = (
 
   const formOptions = reactive({
     search: '',
-    limit: 20,
+    limit: 3 * 6,
   });
 
   return {
