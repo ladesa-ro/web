@@ -60,7 +60,11 @@ export const getMonth = {
     }
   },
 
-  async setDatesColor(daysInMonth: Array<Day>, steps: Array<Step>, events: Array<Event>): Promise<Day[]> {
+  async setDatesColor(
+    daysInMonth: Array<Day>,
+    steps: Array<Step>,
+    events: Array<Event>
+  ): Promise<Day[]> {
     try {
       // - Set steps -
       for (let i = 0; i < steps!.length; i++) {
@@ -156,7 +160,7 @@ export const getMonth = {
       }
       return monthColor;
     } catch (error) {
-      return '#9ab69e';
+      return '';
     }
   },
 };

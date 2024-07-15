@@ -4,7 +4,8 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 
 // Import functions
-import { getEventDuration } from './Functions/GetEventDuration';
+import { eventStatus } from './Functions/GetEventStatus.js';
+import NotifyEvent from './NotifyEvent.vue';
 
 // Interface and types
 
@@ -17,6 +18,11 @@ const props = defineProps({
   endDate: dayjs.Dayjs,
   locale: String,
 });
+
+const _eventStatus = await eventStatus.startEvent(
+  props.startDate!,
+  props.endDate!
+);
 </script>
 
 <template>
@@ -26,10 +32,13 @@ const props = defineProps({
       :style="{ borderLeftColor: props.color! }"
     >
       <!-- Event -->
-      <p class="font-semibold text-sm sm:text-[16px]">{{ props.name! }}</p>
+      <div class="flex flex-row w-full justify-between items-center">
+        <p class="font-semibold text-sm sm:text-[16px]">{{ props.name! }}</p>
+        <NotifyEvent />
+      </div>
 
       <!-- Infos -->
-      <p class="font-medium text-sm sm:text-[16px]">
+      <p class="font-medium text-sm sm:text-[16px] mt-2">
         Início: {{ startDate?.format('DD/MM') }}
         <span v-show="startDate?.format('HH:mm') !== '00:00'"
           >às {{ startDate?.format('HH:mm') }}
@@ -45,15 +54,16 @@ const props = defineProps({
       </p>
 
       <!-- Event duration -->
-      <p
-        class="font-medium text-sm sm:text-[16px]"
-        v-show="dayjs(dayjs().toDate()).isBefore(props.endDate)"
-      >
-        {{ getEventDuration(props.startDate!, props.endDate!) }}
+      <p class="font-medium text-sm sm:text-[16px] mt-2">
+        {{ _eventStatus }}
       </p>
 
       <!-- Locale -->
-      <p class="font-medium text-sm sm:text-[16px]" v-show="props.locale!">
+      <p
+        class="font-medium text-sm sm:text-[16px]"
+        v-show="props.locale!"
+        :class="{ 'mt-2': props.locale! !== '' }"
+      >
         {{ props.locale! }}
       </p>
     </v-container>

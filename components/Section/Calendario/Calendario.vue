@@ -94,8 +94,6 @@ const eventItems: Array<Event> = [
   },
 ];
 
-console.log(eventItems[0].startDate);
-
 // Functions
 // Calendar view
 let calendarView = ref<boolean>(false);
@@ -149,7 +147,12 @@ const handleUpdate = (v: boolean) => {
           </div>
         </div>
 
-        <div class="flex w-full lg:justify-end mb-6">
+        <div
+          class="flex flex-col-reverse gap-6 lg:flex-row justify-between w-full mb-6"
+        >
+          <SectionCalendarioEventsSeeEventsList
+            v-show="calendarView === true"
+          />
           <SectionCalendarioViewsToggleView
             :class="{
               'w-full': calendarView === false,

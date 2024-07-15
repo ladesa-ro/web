@@ -199,7 +199,7 @@ onMounted(async () => {
 <template>
   <v-card class="-month mx-auto rounded-lg w-max h-max">
     <div
-      class="text-white flex justify-between items-center p-3 pl-6 pr-6 w-full"
+      class="text-white flex justify-between items-center p-3 pl-6 pr-6 w-full bg-[#9ab69e]"
       :style="{ backgroundColor: monthColor }"
     >
       <!-- Toggle for before month -->
