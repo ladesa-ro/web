@@ -3,6 +3,9 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 
+// Import functions
+import { getEventDuration } from './Functions/GetEventDuration';
+
 // Interface and types
 
 // Props
@@ -46,43 +49,7 @@ const props = defineProps({
         class="font-medium text-sm sm:text-[16px]"
         v-show="dayjs(dayjs().toDate()).isBefore(props.endDate)"
       >
-        <!-- Days for start  -->
-        <span>
-          Começa daqui
-          <!-- Days -->
-          <span v-if="props.startDate!.diff(dayjs().toDate(), 'day') > 0"
-            >{{ props.startDate?.diff(dayjs().toDate(), 'day') }} dias.</span
-          >
-
-          <!-- Hour -->
-          <span
-            v-else-if="
-              props.startDate!.diff(dayjs().toDate(), 'hour') < 24 &&
-              props.startDate!.diff(dayjs().toDate(), 'hour') > 0
-            "
-            >{{ props.startDate?.diff(dayjs().toDate(), 'hour') }} horas.</span
-          >
-
-          <!-- Minutes -->
-          <span
-            v-else-if="
-              props.startDate!.diff(dayjs().toDate(), 'minute') < 60 &&
-              props.startDate!.diff(dayjs().toDate(), 'minute') > 0
-            "
-            >{{
-              props.startDate?.diff(dayjs().toDate(), 'minute')
-            }}
-            horas.</span
-          >
-
-          <!-- Second -->
-          <span v-else
-            >{{
-              props.startDate?.diff(dayjs().toDate(), 'second')
-            }}
-            segundos.</span
-          >
-        </span>
+        {{ getEventDuration(props.startDate!, props.endDate!) }}
       </p>
 
       <!-- Locale -->
