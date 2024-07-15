@@ -28,9 +28,6 @@ const {
 
 //
 
-const { hasNextPage, hasPreviousPage } = query;
-
-//
 type InfiniteScrollSide = 'start' | 'end' | 'both';
 type InfiniteScrollStatus = 'ok' | 'empty' | 'loading' | 'error';
 
@@ -47,7 +44,9 @@ const load = async ({ done, side }: LoadOptions) => {
       await suspend();
     } else {
       await suspend();
-      await query.fetchNextPage().catch(() => null);
+      if (query.hasNextPage) {
+        await query.fetchNextPage().catch(() => null);
+      }
     }
 
     if (query.isFetchNextPageError.value) {
@@ -64,7 +63,9 @@ const load = async ({ done, side }: LoadOptions) => {
       await suspend();
     } else {
       await suspend();
-      await query.fetchPreviousPage().catch(() => null);
+      if (query.hasPreviousPage) {
+        await query.fetchPreviousPage().catch(() => null);
+      }
     }
 
     if (query.isFetchPreviousPageError.value) {
@@ -110,15 +111,7 @@ const resultsMeta = computed(() => {
         </template>
 
         <template #loading="{ side }">
-          <template
-            v-if="
-              side === 'both' ||
-              (side === 'start' && hasPreviousPage) ||
-              (side === 'end' && hasNextPage)
-            "
-          >
-            <v-progress-circular indeterminate />
-          </template>
+          <v-progress-circular indeterminate />
         </template>
 
         <template #empty>
