@@ -1,6 +1,7 @@
 // Import
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
+import duration from 'dayjs/plugin/duration.js';
 
 // Dayjs config
 dayjs.locale('pt-br');
