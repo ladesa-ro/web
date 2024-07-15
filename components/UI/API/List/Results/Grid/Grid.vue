@@ -120,12 +120,12 @@ const resultsMeta = computed(() => {
           </template>
         </template>
 
-        <template #loading="{ side }">
+        <template #loading>
           <v-progress-circular indeterminate />
         </template>
 
         <template #empty>
-          <template v-if="totalItems > 0">
+          <template v-if="!isLoading && totalItems > 0">
             <div class="w-full">
               <v-empty-state>
                 <template v-slot:text>
@@ -138,7 +138,7 @@ const resultsMeta = computed(() => {
             </div>
           </template>
 
-          <template v-else>
+          <template v-else-if="!isLoading">
             <v-empty-state
               key="no-results"
               icon="mdi-magnify"
