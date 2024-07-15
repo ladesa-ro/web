@@ -48,7 +48,7 @@ const footerLinks = [
             <span>{{ ' ' }}</span>
 
             <span v-if="copyrightOwner.yearStart !== copyrightOwner.yearEnd">
-              {{ copyrightOwner.yearStart }} — {{ copyrightOwner.yearEnd }}
+              {{ copyrightOwner.yearStart }} – {{ copyrightOwner.yearEnd }}
             </span>
 
             <span>{{ ' ' }}</span>

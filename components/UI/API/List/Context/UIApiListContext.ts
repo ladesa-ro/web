@@ -14,6 +14,14 @@ export type ICreateUIApiListContextOptions<ResultItemDto extends any = any> = {
   apiBaseResourceListRetriever: IApiBaseResourceListRetriever<ResultItemDto>;
 };
 
+export const createApiListContextOptions = <
+  T extends ICreateUIApiListContextOptions,
+>(
+  options: T
+) => {
+  return options;
+};
+
 export const createUIApiListContext = (
   options: ICreateUIApiListContextOptions
 ) => {
@@ -21,13 +29,12 @@ export const createUIApiListContext = (
 
   const formOptions = reactive({
     search: '',
+    limit: 3 * 6,
   });
 
   return {
     options,
-
     viewMode,
-
     formOptions,
   };
 };

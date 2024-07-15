@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import type { AmbienteListData } from '@ladesa-ro/api-client-fetch';
-import type { ICreateUIApiListContextOptions } from '../../UI/API/List/Context/UIApiListContext';
+import { createApiListContextOptions } from '../../UI/API/List/Context/UIApiListContext';
+import { useAmbientesRetriever } from './-Helpers/Api';
 
-const apiClient = useApiClient();
+const ambientesRetriever = useAmbientesRetriever();
 
-const apiBaseResourceListRetriever = (data: AmbienteListData) => {
-  return apiClient.ambientes.ambienteList(data);
-};
-
-const options = {
+const options = createApiListContextOptions({
   baseQueryKey: ['ambientes'],
-  apiBaseResourceListRetriever,
-} satisfies ICreateUIApiListContextOptions;
+  apiBaseResourceListRetriever: ambientesRetriever,
+});
 </script>
 
 <template>
@@ -21,7 +17,11 @@ const options = {
     </template>
 
     <template #grid-item="{ item, isLoading }">
-      <SectionAmbientesGridItem :ambiente="item" :isLoading="isLoading" />
+      <SectionAmbientesGridItem :item="item" :isLoading="isLoading" />
+    </template>
+
+    <template #grid-item-skeleton>
+      <SectionAmbientesGridItem :item="null" :isLoading="true" />
     </template>
   </UIAPIList>
 </template>
