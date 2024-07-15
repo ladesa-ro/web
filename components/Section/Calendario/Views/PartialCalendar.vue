@@ -17,8 +17,6 @@ type Step = EventData & {
 
 type Event = EventData & {
   name: string;
-  startTime?: dayjs.Dayjs;
-  endTime?: dayjs.Dayjs;
   locale?: string;
 };
 
@@ -71,7 +69,7 @@ watch(monthNumReceived, (newValue: number) => {
       :steps="props.steps!"
       :events="props.events!"
       :month-num="monthNumReceived"
-      :listing-type="2"
+      :list-all-items="false"
     />
   </div>
 </template>

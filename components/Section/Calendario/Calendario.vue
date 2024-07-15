@@ -17,8 +17,6 @@ type Step = EventData & {
 
 type Event = EventData & {
   name: string;
-  startTime?: dayjs.Dayjs;
-  endTime?: dayjs.Dayjs;
   locale?: string;
 };
 
@@ -74,31 +72,29 @@ const eventItems: Array<Event> = [
   {
     id: '121312',
     name: 'IFRO Party',
-    startDate: dayjs('2024-05-15'),
-    endDate: dayjs('2024-05-22'),
-    startTime: dayjs('17:30:00'),
-    endTime: dayjs('17:30:00'),
+    startDate: dayjs('2024-05-15T00:00:00'),
+    endDate: dayjs('2024-05-22T00:00:00'),
     locale: 'Refeitório',
     color: '#B51B2A',
   },
   {
     id: '1242',
     name: 'IFRO Party 2',
-    startDate: dayjs('2024-05-15'),
-    endDate: dayjs('2024-05-22'),
+    startDate: dayjs('2024-05-15T00:00:00'),
+    endDate: dayjs('2024-05-22T00:00:00'),
     color: '#211F1B',
   },
   {
     id: '12345',
     name: 'IFRO Party 3',
-    startDate: dayjs('2024-05-31'),
-    endDate: dayjs('2024-06-05'),
-    startTime: dayjs('07:30:00'),
-    endTime: dayjs('14:00:00'),
+    startDate: dayjs('2024-07-16T16:30:00'),
+    endDate: dayjs('2024-07-26T18:20:00'),
     locale: 'Refeitório',
     color: '#0092E4',
   },
 ];
+
+console.log(eventItems[0].startDate);
 
 // Functions
 // Calendar view
