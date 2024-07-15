@@ -14,6 +14,14 @@ export type ICreateUIApiListContextOptions<ResultItemDto extends any = any> = {
   apiBaseResourceListRetriever: IApiBaseResourceListRetriever<ResultItemDto>;
 };
 
+export const createApiListContextOptions = <
+  T extends ICreateUIApiListContextOptions,
+>(
+  options: T
+) => {
+  return options;
+};
+
 export const createUIApiListContext = (
   options: ICreateUIApiListContextOptions
 ) => {

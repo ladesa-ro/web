@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/vue-query';
+import { useInfiniteQuery, useQueryClient } from '@tanstack/vue-query';
 import { debouncedRef } from '@vueuse/core';
 import {
   QuerySuspense,
@@ -30,12 +30,20 @@ export const useApiBaseResourceInfinityList = async <ResultItemDto = unknown>(
     rejectOnCancel: true,
   });
 
-  const queryKey = [...baseQueryKeys, debouncedInputDtoString];
+  const queryKey = [...baseQueryKeys, inputDtoStringRef].filter(
+    (i) => i !== undefined
+  );
+
+  const queryKeyDebounced = [...baseQueryKeys, debouncedInputDtoString].filter(
+    (i) => i !== undefined
+  );
+
+  const queryClient = useQueryClient();
 
   const query = useInfiniteQuery({
     initialPageParam: 1,
 
-    queryKey: queryKey.filter((i) => i !== undefined),
+    queryKey: queryKeyDebounced,
 
     queryFn: async ({ pageParam }) => {
       const data = unref(apiResourceListRetrieverInputDto);
@@ -77,9 +85,19 @@ export const useApiBaseResourceInfinityList = async <ResultItemDto = unknown>(
 
   //
 
-  const isLoading =
-    query.isLoading ||
-    debouncedInputDtoString.value !== inputDtoStringRef.value;
+  const isLoading = computed(() => {
+    const checkDebouncedLoading = () => {
+      const hasNextInCache = queryClient
+        .getQueryCache()
+        .find({ queryKey: queryKey });
+
+      return hasNextInCache
+        ? false
+        : debouncedInputDtoString.value !== inputDtoStringRef.value;
+    };
+
+    return query.isLoading.value || checkDebouncedLoading();
+  });
 
   //
   const data = computed(() => unref(query.data));

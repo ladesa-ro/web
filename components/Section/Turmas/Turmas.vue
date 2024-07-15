@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import type { TurmaListData } from '@ladesa-ro/api-client-fetch';
-import type { ICreateUIApiListContextOptions } from '../../UI/API/List/Context/UIApiListContext';
+import { createApiListContextOptions } from '../../UI/API/List/Context/UIApiListContext';
+import { useTurmasRetriever } from './-Helpers/Api';
 
-const apiClient = useApiClient();
+const turmasRetriever = useTurmasRetriever();
 
-const apiBaseResourceListRetriever = (data: TurmaListData) => {
-  return apiClient.turmas.turmaList(data);
-};
-
-const options = {
+const options = createApiListContextOptions({
   baseQueryKey: ['turmas'],
-  apiBaseResourceListRetriever,
-} satisfies ICreateUIApiListContextOptions;
+  apiBaseResourceListRetriever: turmasRetriever,
+});
 </script>
 
 <template>
@@ -21,11 +17,11 @@ const options = {
     </template>
 
     <template #grid-item="{ item, isLoading }">
-      <SectionTurmasGridItem :turma="item" :isLoading="isLoading" />
+      <SectionTurmasGridItem :item="item" :isLoading="isLoading" />
     </template>
 
     <template #grid-item-skeleton>
-      <SectionTurmasGridItem :turma="null" :isLoading="true" />
+      <SectionTurmasGridItem :item="null" :isLoading="true" />
     </template>
   </UIAPIList>
 </template>

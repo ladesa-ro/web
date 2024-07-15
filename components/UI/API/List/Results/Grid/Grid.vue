@@ -104,10 +104,20 @@ const resultsMeta = computed(() => {
   <div class="flex-1">
     <v-container class="flex-1">
       <v-infinite-scroll class="ui-api-list-results-grid" :onLoad="load">
-        <template v-for="item in items" :key="item.id">
-          <div class="ui-api-list-results-grid-item">
-            <slot name="item" v-bind="{ item, isLoading }"></slot>
-          </div>
+        <template v-if="items && items.length > 0">
+          <template v-for="item in items" :key="item.id">
+            <div class="ui-api-list-results-grid-item">
+              <slot name="item" v-bind="{ item, isLoading }"></slot>
+            </div>
+          </template>
+        </template>
+
+        <template v-else-if="isLoading">
+          <template v-for="item in 10" :key="item">
+            <div class="ui-api-list-results-grid-item">
+              <slot name="item-skeleton"></slot>
+            </div>
+          </template>
         </template>
 
         <template #loading="{ side }">
