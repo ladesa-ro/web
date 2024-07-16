@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+
 const props = defineProps({
   searchBarText: String,
 });
@@ -22,8 +23,8 @@ const selectedDisciplina = ref<string | null>(null); // Variável para armazenar
 
     <div class="form-body modal-form">
       <v-expansion-panels>
-        <v-expansion-panel  class="border-green-600 border-2">
-          <v-expansion-panel-title class="custom-panel-title border-none">
+        <v-expansion-panel class="border-[#9AB69E] border-2">
+          <v-expansion-panel-title class="custom-panel-title border-none" collapse-icon="" expand-icon="">
             <div class="title-content">
               <div>
                 <span class="title-espansion mb-2 font-semibold text-black no-underline inline-block">3°A Informática</span>
@@ -31,11 +32,12 @@ const selectedDisciplina = ref<string | null>(null); // Variável para armazenar
               </div>
               <div class="icons">
                 <v-icon small class="icon">mdi-trash-can</v-icon>
+                <v-icon small class="expansion-arrow icon ml-2">mdi-menu-down</v-icon>
               </div>
             </div>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
-            <p>oi</p>
+            <SectionDiariosModalAccessRole/>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -43,9 +45,15 @@ const selectedDisciplina = ref<string | null>(null); // Variável para armazenar
 
     <v-divider />
 
-    <div class="form-footer button-group">
+    <div class="form-footer">
+      <div class="button-solo">
+        <UIButtonModalAddNewClassButton/>
+      </div>
+      <div class="button-group">
+      <UIButtonModalBackButton />
       <UIButtonModalCancelButton @click="$emit('close')" />
-      <UIButtonModalAdvancedButton />
+      <UIButtonModalFinishButton/>
+      </div>
     </div>
   </v-form>
 </template>
@@ -81,19 +89,12 @@ const selectedDisciplina = ref<string | null>(null); // Variável para armazenar
   gap: 20px;
 }
 
-.button {
-  font-weight: 700;
+.button-solo{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
   margin-top: 20px;
-  cursor: pointer;
-  border: none;
-}
-
-.v-btn.buttonCancelar,
-.v-btn.buttonCadastro {
-  padding: 6px 20px;
-  border-radius: 8px;
-  height: auto;
-  text-transform: none;
+  gap: 20px;
 }
 
 .custom-panel-title {
@@ -117,6 +118,7 @@ const selectedDisciplina = ref<string | null>(null); // Variável para armazenar
   color: #9ab69e;
   font-weight: 500;
 }
+
 .icons {
   display: flex;
   align-items: center;
@@ -125,6 +127,18 @@ const selectedDisciplina = ref<string | null>(null); // Variável para armazenar
 .icon {
   cursor: pointer;
   margin-left: 8px;
+}
+
+/* Custom arrow style */
+.expansion-arrow {
+  color: #00a000; /* Define a cor verde */
+  transform: rotate(0deg);
+  transition: transform 0.3s ease;
+}
+
+/* Rotates the arrow when the panel is expanded */
+.v-expansion-panel--active .expansion-arrow {
+  transform: rotate(-180deg);
 }
 
 @media screen and (max-width: 450px) {
