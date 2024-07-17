@@ -1,8 +1,14 @@
-<script setup>
-import Availability from '@/components/Dashboard/Profile/Availability/Availability.vue';
-import Teaching from '@/components/Dashboard/Profile/Teaching/Teaching.vue';
+<script setup lang="ts">
+import Availability from '@/components/Section/Profile/Availability/Availability.vue';
+import Teaching from '@/components/Section/Profile/Teaching/Teaching.vue';
 import { ref } from 'vue';
 import ModalImage from '~/components/Modais/ModalImage.vue';
+
+type Props = {
+  userId: string;
+};
+
+defineProps<Props>();
 
 const show = ref(false);
 

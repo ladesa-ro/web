@@ -47,7 +47,7 @@ const handleCardClick = (e: MouseEvent) => {
   <nuxt-link
     @click.capture="handleCardClick"
     class="flex flex-col border-2 border-[#9ab69e] rounded-lg no-underline p-0 m-0"
-    :to="`/usuarios/${usuario.id}`"
+    :to="`/dape/usuarios/${usuario.id}`"
   >
     <div
       class="flex py-6 bg-[#F0F0F0] h-max rounded-t-lg items-center justify-center"
