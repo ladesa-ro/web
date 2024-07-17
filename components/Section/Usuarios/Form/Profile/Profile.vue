@@ -46,7 +46,7 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
   }
 
   if (imagem) {
-    await apiClient.usuarios.usuarioSetCoverImage({
+    await apiClient.usuarios.usuarioSetProfileImage({
       id: id,
       formData: {
         file: imagem,
