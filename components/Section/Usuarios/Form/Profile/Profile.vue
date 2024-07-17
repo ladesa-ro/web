@@ -45,6 +45,16 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
     id = editId;
   }
 
+  for (const vinculo of vinculos) {
+    await apiClient.vinculos.vinculoUpdate({
+      requestBody: {
+        usuario: { id: id },
+        campus: { id: vinculo.campus.id },
+        cargos: vinculo.cargos,
+      },
+    });
+  }
+
   if (imagem) {
     await apiClient.usuarios.usuarioSetProfileImage({
       id: id,
