@@ -38,15 +38,15 @@ onMounted(() => {
 
       <Sidebar v-model="habumguerActive" />
 
-      <v-main class="main">
+      <div class="main">
         <div class="main-content">
-          <div class="flex-1 flex">
+          <v-main class="flex-1 flex">
             <slot></slot>
-          </div>
+          </v-main>
 
           <UIFooter />
         </div>
-      </v-main>
+      </div>
     </v-layout>
   </v-app>
 </template>
