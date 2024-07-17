@@ -34,7 +34,7 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
 
     id = usuarioCriado.id;
   } else {
-    await apiClient.cursos.cursoUpdateById({
+    await apiClient.usuarios.usuarioUpdateById({
       id: editId,
 
       requestBody: {

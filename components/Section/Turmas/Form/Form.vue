@@ -23,6 +23,8 @@ const props = defineProps({
 
 const editIdRef = toRef(props, 'editId');
 
+//
+
 const $emit = defineEmits(['close']);
 
 const apiClient = useApiClient();
@@ -57,15 +59,28 @@ type FormOutput = {
   periodo: string;
 };
 
+const schema = yup.object().shape({
+  imagem: yup.mixed().nullable().optional().default(null),
+
+  curso: yup.object().shape({
+    id: yup.string().required('Curso é obrigatório!').default(null),
+  }),
+
+  ambientePadraoAula: yup.object().shape({
+    id: yup.string().uuid().nullable().optional().default(null),
+  }),
+
+  periodo: yup.string().required('Período é obrigatório!').default(''),
+
+  // serie: yup.string().required('Série é obrigatório!'),
+  // letra: yup.string().required('Letra é obrigatório!'),
+});
+
 const initialFormValues = reactive({
-  imagem: null,
-  curso: {
-    id: currentTurma.value?.curso?.id ?? null,
-  },
-  ambientePadraoAula: {
-    id: currentTurma.value?.ambientePadraoAula?.id ?? null,
-  },
-  periodo: currentTurma.value?.periodo ?? '',
+  ...schema.cast(currentTurma.value ?? {}, {
+    stripUnknown: true,
+    assert: false,
+  }),
 });
 
 const handleDelete = async () => {
@@ -79,23 +94,6 @@ const handleDelete = async () => {
     $emit('close');
   }
 };
-
-const schema = yup.object().shape({
-  imagem: yup.mixed().nullable().optional(),
-
-  curso: yup.object().shape({
-    id: yup.string().required('Curso é obrigatório!'),
-  }),
-
-  ambientePadraoAula: yup.object().shape({
-    id: yup.string().uuid().nullable().optional(),
-  }),
-
-  periodo: yup.string().required('Período é obrigatório!'),
-
-  // serie: yup.string().required('Série é obrigatório!'),
-  // letra: yup.string().required('Letra é obrigatório!'),
-});
 
 const {
   resetForm,

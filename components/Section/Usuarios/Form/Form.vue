@@ -1,38 +1,101 @@
 <script setup lang="ts">
+import { groupBy } from 'lodash';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
+import { useApiUsuarioVinculosAtivos } from '../../../../composables/api/usuarios/useApiUsuarioVinculosAtivos';
 import type { FormUserOutput, FormUserValues } from './FormUtils';
 
-const initialFormValues = reactive({
-  imagem: null,
-  nome: '',
-  codigo: '',
-  matriculaSiape: '',
-  vinculos: [{ campus: { id: null }, cargos: [] }] as any,
+//
+
+const props = defineProps({
+  //props do modal criar e editar
+  editId: {
+    type: String,
+    required: false,
+    default: null,
+  },
+});
+
+const editIdRef = toRef(props, 'editId');
+
+//
+
+const { usuario: currentUsuario } = await useApiUsuariosFindOne(editIdRef);
+
+const { vinculosAtivos } = await useApiUsuarioVinculosAtivos(editIdRef);
+
+const currentUsuarioVinculos = computed(() => {
+  return Object.entries(groupBy(vinculosAtivos.value, 'campus.id')).map(
+    ([campusId, vinculos]) => {
+      return {
+        campus: {
+          id: campusId,
+        },
+        cargos: vinculos.map((vinculo) => vinculo.cargo),
+      };
+    }
+  );
 });
 
 const schema = yup.object().shape({
-  imagem: yup.mixed().nullable().optional(),
+  imagem: yup.mixed().nullable().optional().default(null),
 
-  nome: yup.string().required('Nome é obrigatório!'),
+  nome: yup.string().required('Nome é obrigatório!').default(''),
 
   email: yup
     .string()
     .required('Email é obrigatório!')
-    .email('Informe um e-mail válido!'),
+    .email('Informe um e-mail válido!')
+    .default(''),
 
-  matriculaSiape: yup.string().required('Matrícula é obrigatório!'),
+  matriculaSiape: yup.string().required('Matrícula é obrigatório!').default(''),
 
-  vinculos: yup.array().of(
-    yup.object({
-      campus: yup.object({
-        id: yup.string().required('Informe o campus deste vínculo!'),
-      }),
-      cargos: yup
-        .array()
-        .of(yup.string())
-        .min(1, 'O usuário deve possuir ao menos 1 cargo neste vínculo!'),
-    })
+  vinculos: yup
+    .array()
+    .of(
+      yup
+        .object({
+          campus: yup.object({
+            id: yup
+              .string()
+              .required('Informe o campus deste vínculo!')
+              .default(null),
+          }),
+          cargos: yup
+            .array()
+            .of(yup.string().oneOf(['dape', 'professor']).required())
+            .min(1, 'O usuário deve possuir ao menos 1 cargo neste vínculo!')
+            .default([]),
+        })
+        .transform((data) => {
+          if (typeof data.cargo === 'string') {
+            return {
+              ...data,
+              cargos: [data.cargo],
+            };
+          }
+          return data;
+        })
+    )
+
+    .default([
+      {
+        campus: { id: null },
+        cargos: [],
+      },
+    ] as any),
+});
+
+const initialFormValues = reactive({
+  ...schema.cast(
+    {
+      ...currentUsuario.value,
+      vinculos: currentUsuarioVinculos.value,
+    },
+    {
+      stripUnknown: true,
+      assert: false,
+    }
   ),
 });
 
