@@ -3,23 +3,30 @@ import Availability from '@/components/Section/Profile/Availability/Availability
 import Teaching from '@/components/Section/Profile/Teaching/Teaching.vue';
 import { ref } from 'vue';
 import ModalImage from '~/components/Modais/ModalImage.vue';
+import { ApiImageResource, useApiImageRoute } from '~/integrations';
+
+//
 
 type Props = {
   userId: string;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+//
 
 const show = ref(false);
 
-const openConfirm = () => {
-  show.value = true;
-  console.log('clicou no iconeadd');
-};
+//
 
-const closeConfirm = () => {
-  show.value = false;
-};
+const apiClient = useApiClient();
+
+const usuario = await apiClient.usuarios.usuarioFindById({ id: props.userId });
+
+const profilePicureUrl = useApiImageRoute(
+  ApiImageResource.USUARIO_PROFILE,
+  usuario
+);
 </script>
 
 <template>
@@ -27,12 +34,30 @@ const closeConfirm = () => {
     <v-container class="container-image pa-0 gap-5">
       <div class="card-profile ml-5 mt-5 md:ml-8 md:mt-8">
         <div class="container-content items-center overflow-hidden gap-5">
-          <img src="@/imgs/Perfil-Foto.png" alt="" />
+          <v-img
+            :width="118"
+            aspect-ratio="1/1"
+            cover
+            class="rounded-lg"
+            v-if="profilePicureUrl"
+            :src="profilePicureUrl ?? ''"
+          >
+          </v-img>
+
+          <div
+            v-else
+            class="flex py-6 bg-[#F0F0F0] h-[118px] w-[118px] rounded-lg items-center justify-center"
+          >
+            <IconsIconUser class="text-[#9ab69e] w-[54px] h-[54px]" />
+          </div>
+
           <div class="text text-wrap overflow-hidden">
-            <p class="font-bold">Danilo Escudero</p>
+            <p class="font-bold">{{ usuario.nome }}</p>
+
             <p class="email font-medium text-wrap break-words max-w-full">
-              danilo.escudero@gmail.com
+              {{ usuario.email }}
             </p>
+
             <p class="font-medium">Professor</p>
           </div>
         </div>
@@ -43,8 +68,8 @@ const closeConfirm = () => {
       <div
         class="self-start flex-shrink-0 flex items-center justify-center ml-auto mr-4 mt-4 cursor-pointer bg-[#00000030] h-8 w-8 rounded-full"
       >
-        <IconsIconEdit @click="openConfirm" class="text-white" />
-        <ModalImage v-if="show" @close="closeConfirm" />
+        <IconsIconEdit class="text-white" />
+        <ModalImage v-if="show" />
       </div>
     </v-container>
 
