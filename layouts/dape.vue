@@ -1,9 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import Appbar from '~/components/Appbar/Appbar.vue';
 import Sidebar from '~/components/Sidebar/Sidebar.vue';
 import { useCustomTheme } from '~/composables/useCustomTheme';
 import { HeadTitleContext } from '../infrastructure/HeadTitleContext';
+
+definePageMeta({
+  middleware: 'auth',
+});
 
 const { isDark } = useCustomTheme();
 
