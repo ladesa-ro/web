@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-setupApiClient();
-
 const { isDark } = useCustomTheme();
 
-const dayjs = useDayJs();
+setupApiClient();
 
+const dayjs = useDayJs();
 const selectedDay = ref(dayjs());
 provide('selectedDay', selectedDay);
 </script>
@@ -32,33 +31,5 @@ provide('selectedDay', selectedDay);
 </template>
 
 <style>
-@import '~/assets/styles/themes/theme.css';
-@import '~/assets/styles/fontePadrao.css';
-
-body {
-  font-family: 'Poppins', sans-serif;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-svg {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-.svg-fill-text path {
-  fill: rgb(var(--sisgha-theme-text));
-}
-
-html {
-  overflow: auto;
-}
-
-.v-btn {
-  grid-template-rows: 1fr;
-}
+@import '~/styles/app.css';
 </style>
