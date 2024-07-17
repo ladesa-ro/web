@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { UsuarioFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import uniq from 'lodash/uniq';
 import { ApiImageResource, useApiImageRoute } from '~/integrations';
 
 //
@@ -40,6 +41,16 @@ const getRoleLabel = (role: string) => {
     }
   }
 };
+
+const vinculosConcatenated = computed(() => {
+  const allVinculosLabels = vinculos.map((vinculo) =>
+    getRoleLabel(vinculo.cargo)
+  );
+
+  const uniqueVinculosLabels = uniq(allVinculosLabels);
+
+  return uniqueVinculosLabels.join(' e ');
+});
 
 const handleCardClick = (e: MouseEvent) => {
   const target = <HTMLElement>e.target;
@@ -122,16 +133,12 @@ const profilePicureUrl = useApiImageRoute(
 
       <template v-if="vinculos.length > 0">
         <div class="flex font-medium text-sm items-center text-[#9ab69e]">
-          <div v-for="vinculo in vinculos" :key="vinculo.id">
-            {{ getRoleLabel(vinculo.cargo) }}.
-          </div>
+          {{ vinculosConcatenated }}
         </div>
       </template>
 
       <template v-if="vinculos.length === 0">
-        <div class="flex text-sm items-center text-[#9ab69e]">
-          Sem vínculos.
-        </div>
+        <div class="flex text-sm items-center text-[#9ab69e]">Sem vínculos</div>
       </template>
     </div>
   </nuxt-link>
