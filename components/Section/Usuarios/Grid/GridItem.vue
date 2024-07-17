@@ -1,5 +1,12 @@
 <script lang="ts" setup>
 import type { UsuarioFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import { ApiImageResource, useApiImageRoute } from '~/integrations';
+
+//
+
+const _ARBITRARY_UI_CARD_IMAGE_HEIGHT = 90;
+
+//
 
 const apiClient = useApiClient();
 
@@ -41,18 +48,61 @@ const handleCardClick = (e: MouseEvent) => {
     e.preventDefault();
   }
 };
+
+const profilePicureUrl = useApiImageRoute(
+  ApiImageResource.USUARIO_PROFILE,
+  usuario
+);
 </script>
 
 <template>
   <nuxt-link
     @click.capture="handleCardClick"
-    class="flex flex-col border-2 border-[#9ab69e] rounded-lg no-underline p-0 m-0"
+    class="flex flex-col border-2 border-[#9ab69e] rounded-lg no-underline p-0 m-0 overflow-hidden"
     :to="`/dape/usuarios/${usuario.id}`"
   >
     <div
-      class="flex py-6 bg-[#F0F0F0] h-max rounded-t-lg items-center justify-center"
+      :style="{
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundImage: `url(${profilePicureUrl})`,
+      }"
+      class="flex bg-[#F0F0F0] h-max rounded-t-lg items-center justify-center"
     >
-      <IconsIconUser class="text-[#9ab69e] w-[42px] h-[42px]" />
+      <v-img
+        contain
+        width="100%"
+        v-if="profilePicureUrl"
+        :src="profilePicureUrl"
+        :height="`${_ARBITRARY_UI_CARD_IMAGE_HEIGHT}px`"
+        style="backdrop-filter: blur(10px)"
+      >
+        <template v-slot:placeholder>
+          <div class="d-flex align-center justify-center fill-height">
+            <v-progress-circular
+              indeterminate
+              v-if="Boolean(profilePicureUrl)"
+            />
+
+            <div v-else class="py-6">
+              <IconsIconUser class="text-[#9ab69e] w-[42px] h-[42px]" />
+            </div>
+          </div>
+        </template>
+
+        <template v-slot:error>
+          <div class="d-flex align-center justify-center fill-height">
+            <v-empty-state
+              icon="mdi-alert-circle-outline"
+              text="Não foi possível buscar esta foto"
+            />
+          </div>
+        </template>
+      </v-img>
+
+      <div v-else class="py-6">
+        <IconsIconUser class="text-[#9ab69e] w-[42px] h-[42px]" />
+      </div>
     </div>
 
     <div class="flex flex-col items-stretch justify-center pa-3 w-full h-full">
@@ -88,3 +138,4 @@ const handleCardClick = (e: MouseEvent) => {
 </template>
 
 <style></style>
+import { useApiImageRoute, ApiImageResource } from '~/integrations';
