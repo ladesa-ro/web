@@ -1,12 +1,5 @@
 <script lang="ts" setup>
-// Import
-import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
-import isBetween from 'dayjs/plugin/isBetween';
-
-// Dayjs config
-dayjs.locale('pt-br');
-dayjs.extend(isBetween);
+const dayjs = useDayJs();
 
 // Interface and types
 type EventData = {

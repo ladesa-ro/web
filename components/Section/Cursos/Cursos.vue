@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import type { CursoListData } from '@ladesa-ro/api-client-fetch';
-import type { ICreateUIApiListContextOptions } from '../../UI/API/List/Context/UIApiListContext';
+import { createApiListContextOptions } from '../../UI/API/List/Context/UIApiListContext';
+import { useCursosRetriever } from './-Helpers/Api';
 
-const apiClient = useApiClient();
+const cursosRetriever = useCursosRetriever();
 
-const apiBaseResourceListRetriever = (data: CursoListData) => {
-  return apiClient.cursos.cursoList(data);
-};
-
-const options = {
+const options = createApiListContextOptions({
   baseQueryKey: ['cursos'],
-  apiBaseResourceListRetriever,
-} satisfies ICreateUIApiListContextOptions;
+  apiBaseResourceListRetriever: cursosRetriever,
+});
 </script>
 
 <template>
@@ -21,7 +17,11 @@ const options = {
     </template>
 
     <template #grid-item="{ item, isLoading }">
-      <SectionCursosGridItem :curso="item" :isLoading="isLoading" />
+      <SectionCursosGridItem :item="item" :isLoading="isLoading" />
+    </template>
+
+    <template #grid-item-skeleton>
+      <SectionCursosGridItem :item="null" :isLoading="true" />
     </template>
   </UIAPIList>
 </template>

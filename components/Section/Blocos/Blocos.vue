@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import type { BlocoListData } from '@ladesa-ro/api-client-fetch';
-import type { ICreateUIApiListContextOptions } from '../../UI/API/List/Context/UIApiListContext';
+import { createApiListContextOptions } from '../../UI/API/List/Context/UIApiListContext';
+import { useBlocosRetriever } from './-Helpers/Api';
 
-const apiClient = useApiClient();
+const blocosRetriever = useBlocosRetriever();
 
-const apiBaseResourceListRetriever = (data: BlocoListData) => {
-  return apiClient.blocos.blocoList(data);
-};
-
-const options = {
+const options = createApiListContextOptions({
   baseQueryKey: ['blocos'],
-  apiBaseResourceListRetriever,
-} satisfies ICreateUIApiListContextOptions;
+  apiBaseResourceListRetriever: blocosRetriever,
+});
 </script>
 
 <template>
@@ -21,7 +17,11 @@ const options = {
     </template>
 
     <template #grid-item="{ item, isLoading }">
-      <SectionBlocosGridItem :bloco="item" :isLoading="isLoading" />
+      <SectionBlocosGridItem :item="item" :isLoading="isLoading" />
+    </template>
+
+    <template #grid-item-skeleton>
+      <SectionBlocosGridItem :item="null" :isLoading="true" />
     </template>
   </UIAPIList>
 </template>

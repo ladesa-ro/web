@@ -1,9 +1,9 @@
+import type { Dayjs } from 'dayjs';
 import { capitalizeFirst } from './CapitalizeFirst';
 import type { IWeekDay } from './IWeekDay';
-import dayjs from './dayjs';
 
-export function getWeekDays(referenceDay: dayjs.Dayjs): IWeekDay[] {
-  const fullWeek: dayjs.Dayjs[] = [];
+export function getWeekDays(referenceDay: Dayjs): IWeekDay[] {
+  const fullWeek: Dayjs[] = [];
 
   for (let i = 1; i <= 6; i++) {
     fullWeek.push(referenceDay.day(i));

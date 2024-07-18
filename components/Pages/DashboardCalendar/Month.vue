@@ -1,12 +1,5 @@
 <script lang="ts" setup>
-// Import
-import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
-import isBetween from 'dayjs/plugin/isBetween';
-
-// Dayjs config
-dayjs.locale('pt-br');
-dayjs.extend(isBetween);
+const dayjs = useDayJs();
 
 // Interface and types
 type Day = {
@@ -251,6 +244,7 @@ onMounted(async () => {
         @click="toggleMonth(-1)"
         v-show="props.toggleMonth!"
       />
+      
       <!-- Month name -->
       <h1 class="font-medium text-center text-xl w-full">
         {{

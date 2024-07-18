@@ -6,7 +6,7 @@ import type {
   TurmaFindOneResultDto,
 } from '@ladesa-ro/api-client-fetch';
 
-export enum UseApiResourceImageResource {
+export enum ApiImageResource {
   TURMA_COVER,
   CURSO_COVER,
   DISCIPLINA_COVER,
@@ -14,34 +14,37 @@ export enum UseApiResourceImageResource {
   BLOCO_COVER,
 }
 
-type IUseApiImageRoute = {
+type IUseApiImageRouteFunction = {
   (
-    resourceImage: UseApiResourceImageResource.TURMA_COVER,
+    resourceImage: ApiImageResource.TURMA_COVER,
     item: MaybeRef<TurmaFindOneResultDto | null | undefined>
   ): ComputedRef<string | null>;
 
   (
-    resourceImage: UseApiResourceImageResource.CURSO_COVER,
+    resourceImage: ApiImageResource.CURSO_COVER,
     item: MaybeRef<CursoFindOneResultDto | null | undefined>
   ): ComputedRef<string | null>;
 
   (
-    resourceImage: UseApiResourceImageResource.DISCIPLINA_COVER,
+    resourceImage: ApiImageResource.DISCIPLINA_COVER,
     item: MaybeRef<DisciplinaFindOneResultDto | null | undefined>
   ): ComputedRef<string | null>;
 
   (
-    resourceImage: UseApiResourceImageResource.AMBIENTE_COVER,
+    resourceImage: ApiImageResource.AMBIENTE_COVER,
     item: MaybeRef<AmbienteFindOneResultDto | null | undefined>
   ): ComputedRef<string | null>;
 
   (
-    resourceImage: UseApiResourceImageResource.BLOCO_COVER,
+    resourceImage: ApiImageResource.BLOCO_COVER,
     item: MaybeRef<BlocoFindOneResultDto | null | undefined>
   ): ComputedRef<string | null>;
 };
 
-export const useApiImageRoute: IUseApiImageRoute = (resourceImage, itemRef) => {
+export const useApiImageRoute: IUseApiImageRouteFunction = (
+  resourceImage,
+  itemRef
+) => {
   const apiClient = useApiClient();
   const base = apiClient.request.config.BASE;
 
@@ -49,7 +52,7 @@ export const useApiImageRoute: IUseApiImageRoute = (resourceImage, itemRef) => {
 
   return computed(() => {
     switch (resourceImage) {
-      case UseApiResourceImageResource.TURMA_COVER: {
+      case ApiImageResource.TURMA_COVER: {
         const item = unref(itemRef);
 
         const imagemCapa = item?.imagemCapa;
@@ -61,7 +64,7 @@ export const useApiImageRoute: IUseApiImageRoute = (resourceImage, itemRef) => {
         return null;
       }
 
-      case UseApiResourceImageResource.CURSO_COVER: {
+      case ApiImageResource.CURSO_COVER: {
         const item = unref(itemRef);
 
         const imagemCapa = item?.imagemCapa;
@@ -73,7 +76,7 @@ export const useApiImageRoute: IUseApiImageRoute = (resourceImage, itemRef) => {
         return null;
       }
 
-      case UseApiResourceImageResource.DISCIPLINA_COVER: {
+      case ApiImageResource.DISCIPLINA_COVER: {
         const item = unref(itemRef);
 
         const imagemCapa = item?.imagemCapa;
@@ -85,7 +88,7 @@ export const useApiImageRoute: IUseApiImageRoute = (resourceImage, itemRef) => {
         return null;
       }
 
-      case UseApiResourceImageResource.AMBIENTE_COVER: {
+      case ApiImageResource.AMBIENTE_COVER: {
         const item = unref(itemRef);
 
         const imagemCapa = item?.imagemCapa;
@@ -97,7 +100,7 @@ export const useApiImageRoute: IUseApiImageRoute = (resourceImage, itemRef) => {
         return null;
       }
 
-      case UseApiResourceImageResource.BLOCO_COVER: {
+      case ApiImageResource.BLOCO_COVER: {
         const item = unref(itemRef);
 
         const imagemCapa = item?.imagemCapa;

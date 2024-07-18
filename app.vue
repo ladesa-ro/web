@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import dayjs from './components/Section/Horario/-Helpers/dayjs';
-const { isDark } = useCustomTheme();
 
 setupApiClient();
+
+const { isDark } = useCustomTheme();
+
+const dayjs = useDayJs();
 
 const selectedDay = ref(dayjs());
 provide('selectedDay', selectedDay);

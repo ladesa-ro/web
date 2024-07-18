@@ -1,17 +1,13 @@
 <script setup lang="ts">
-import type { DisciplinaListData } from '@ladesa-ro/api-client-fetch';
-import type { ICreateUIApiListContextOptions } from '../../UI/API/List/Context/UIApiListContext';
+import { createApiListContextOptions } from '../../UI/API/List/Context/UIApiListContext';
+import { useDisciplinasRetriever } from './-Helpers/Api';
 
-const apiClient = useApiClient();
+const disciplinasRetriever = useDisciplinasRetriever();
 
-const retrieveDisciplinas = (data: DisciplinaListData) => {
-  return apiClient.disciplinas.disciplinaList(data);
-};
-
-const options = {
+const options = createApiListContextOptions({
   baseQueryKey: ['disciplinas'],
-  apiBaseResourceListRetriever: retrieveDisciplinas,
-} satisfies ICreateUIApiListContextOptions;
+  apiBaseResourceListRetriever: disciplinasRetriever,
+});
 </script>
 
 <template>
@@ -21,7 +17,11 @@ const options = {
     </template>
 
     <template #grid-item="{ item, isLoading }">
-      <SectionDisciplinasGridItem :disciplina="item" :isLoading="isLoading" />
+      <SectionDisciplinasGridItem :item="item" :isLoading="isLoading" />
+    </template>
+
+    <template #grid-item-skeleton>
+      <SectionDisciplinasGridItem :item="null" :isLoading="true" />
     </template>
   </UIAPIList>
 </template>
