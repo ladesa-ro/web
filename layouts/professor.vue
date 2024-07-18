@@ -1,9 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import Appbar from '~/components/Appbar/Appbar.vue';
 import Sidebar from '~/components/Sidebar/Sidebar.vue';
 import { useCustomTheme } from '~/composables/useCustomTheme';
 import { HeadTitleContext } from '../infrastructure/HeadTitleContext';
+
+definePageMeta({
+  middleware: 'auth',
+});
 
 const { isDark } = useCustomTheme();
 
@@ -38,15 +42,15 @@ onMounted(() => {
 
       <Sidebar v-model="habumguerActive" />
 
-      <div class="main">
+      <v-main class="main">
         <div class="main-content">
-          <v-main class="flex-1 flex">
+          <div class="flex-1 flex">
             <slot></slot>
-          </v-main>
+          </div>
 
           <UIFooter />
         </div>
-      </div>
+      </v-main>
     </v-layout>
   </v-app>
 </template>

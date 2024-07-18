@@ -89,7 +89,7 @@ const items: ISidebarItem[] = [
         type: 'link',
         title: 'Usuários',
         icon: iconUsuarios,
-        to: '/dashboard/usuarios',
+        to: '/dape/usuarios',
         exact: false,
       },
       {

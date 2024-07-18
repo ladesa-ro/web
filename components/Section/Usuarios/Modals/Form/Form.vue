@@ -32,7 +32,7 @@ const isActive = ref(false);
         "
         class="flex flex-row justify-center p-1 gap-[16px] overflow-hidden"
       >
-        <SectionUsuariosForm>
+        <SectionUsuariosForm :editId="editId">
           <v-card class="dialog-style p-1 overflow-auto max-w-[500px]">
             <SectionUsuariosFormProfile
               :editId="editId"

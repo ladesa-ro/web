@@ -4,6 +4,7 @@ import type {
   CursoFindOneResultDto,
   DisciplinaFindOneResultDto,
   TurmaFindOneResultDto,
+  UsuarioFindOneResultDto,
 } from '@ladesa-ro/api-client-fetch';
 
 export enum ApiImageResource {
@@ -12,6 +13,7 @@ export enum ApiImageResource {
   DISCIPLINA_COVER,
   AMBIENTE_COVER,
   BLOCO_COVER,
+  USUARIO_PROFILE,
 }
 
 type IUseApiImageRouteFunction = {
@@ -39,6 +41,11 @@ type IUseApiImageRouteFunction = {
     resourceImage: ApiImageResource.BLOCO_COVER,
     item: MaybeRef<BlocoFindOneResultDto | null | undefined>
   ): ComputedRef<string | null>;
+
+  (
+    resourceImage: ApiImageResource.USUARIO_PROFILE,
+    item: MaybeRef<UsuarioFindOneResultDto | null | undefined>
+  ): ComputedRef<string | null>;
 };
 
 export const useApiImageRoute: IUseApiImageRouteFunction = (
@@ -48,13 +55,15 @@ export const useApiImageRoute: IUseApiImageRouteFunction = (
   const apiClient = useApiClient();
   const base = apiClient.request.config.BASE;
 
-  const item = unref(itemRef);
-
   return computed(() => {
+    const item = unref(itemRef);
+
+    if (!item) {
+      return null;
+    }
+
     switch (resourceImage) {
       case ApiImageResource.TURMA_COVER: {
-        const item = unref(itemRef);
-
         const imagemCapa = item?.imagemCapa;
 
         if (imagemCapa) {
@@ -65,8 +74,6 @@ export const useApiImageRoute: IUseApiImageRouteFunction = (
       }
 
       case ApiImageResource.CURSO_COVER: {
-        const item = unref(itemRef);
-
         const imagemCapa = item?.imagemCapa;
 
         if (imagemCapa) {
@@ -77,8 +84,6 @@ export const useApiImageRoute: IUseApiImageRouteFunction = (
       }
 
       case ApiImageResource.DISCIPLINA_COVER: {
-        const item = unref(itemRef);
-
         const imagemCapa = item?.imagemCapa;
 
         if (imagemCapa) {
@@ -89,8 +94,6 @@ export const useApiImageRoute: IUseApiImageRouteFunction = (
       }
 
       case ApiImageResource.AMBIENTE_COVER: {
-        const item = unref(itemRef);
-
         const imagemCapa = item?.imagemCapa;
 
         if (imagemCapa) {
@@ -101,12 +104,20 @@ export const useApiImageRoute: IUseApiImageRouteFunction = (
       }
 
       case ApiImageResource.BLOCO_COVER: {
-        const item = unref(itemRef);
-
         const imagemCapa = item?.imagemCapa;
 
         if (imagemCapa) {
           return `${base}/blocos/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
+        }
+
+        return null;
+      }
+
+      case ApiImageResource.USUARIO_PROFILE: {
+        const imagemPerfil = (<UsuarioFindOneResultDto>item)?.imagemPerfil;
+
+        if (imagemPerfil) {
+          return `${base}/usuarios/${item.id}/imagem/perfil?imgCapa=${imagemPerfil.id}`;
         }
 
         return null;

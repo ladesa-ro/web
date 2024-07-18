@@ -23,7 +23,7 @@ const changeDay = (delta) => {
 };
 </script>
 <template>
-  <DashboardProfileCard class="pb-[20px]">
+  <SectionProfileCard class="pb-[20px]">
     <template #icone>
       <LogoSisghaLogo class="flex w-[22px] h-[22px]" />
     </template>
@@ -86,7 +86,7 @@ const changeDay = (delta) => {
         </div>
       </div>
     </div>
-  </DashboardProfileCard>
+  </SectionProfileCard>
 </template>
 
 <style>

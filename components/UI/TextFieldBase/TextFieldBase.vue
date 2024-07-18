@@ -1,3 +1,7 @@
+<script setup lang="ts">
+const modelValue = defineModel('value', { default: null });
+</script>
+
 <template>
   <div class="textField">
     <v-text-field
@@ -5,6 +9,7 @@
       base-color="#9ab69e"
       color="#00d047"
       persistent-hint
+      v-model="modelValue"
       variant="outlined"
       persistent-placeholder
       v-bind="$attrs"

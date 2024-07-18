@@ -3,7 +3,7 @@ import 'vue3-carousel/dist/carousel.css';
 </script>
 
 <template>
-  <DashboardProfileCard>
+  <SectionProfileCard>
     <template #icone>
       <IconsIconDiscipline class="icon w-[22px] h-[22px]" />
     </template>
@@ -56,7 +56,7 @@ import 'vue3-carousel/dist/carousel.css';
         </template>
       </Carousel>
     </div>
-  </DashboardProfileCard>
+  </SectionProfileCard>
 </template>
 
 <style>
