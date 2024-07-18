@@ -1,0 +1,8 @@
+.v-btn {
+  grid-template-rows: 1fr;
+}
+
+.v-field__append-inner {
+  padding-top: none;
+  align-self: center;
+}
