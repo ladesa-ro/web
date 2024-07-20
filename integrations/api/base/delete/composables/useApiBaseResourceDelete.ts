@@ -6,7 +6,7 @@ import {
 } from '@tanstack/vue-query';
 import type { Maybe } from 'yup';
 import type { MaybePromise } from '../../../../../typings';
-import type { IApiBaseResourceDeleteExecutor } from '../typings/typings-delete';
+import type { IApiBaseResourceDeleteExecutor } from '../typings';
 
 export type MaybeRefDeep<T> = MaybeRef<
   T extends Function
