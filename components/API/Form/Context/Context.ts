@@ -1,62 +1,120 @@
 import { useForm, type GenericObject } from 'vee-validate';
 import * as yup from 'yup';
+import { useApiBaseResourceGet } from '../../../../integrations';
 import type { MaybePromise } from '../../../../typings';
 
-export const FORM_CONTEXT = Symbol();
+export const API_FORM_CONTEXT = Symbol();
 
 export type APIFormContext = {
   editId: ComputedRef<string | null>;
-
   formOnSubmit: (e?: Event) => Promise<void> | undefined;
+
+  isBusy: globalThis.ComputedRef<boolean>;
+  isLoading: globalThis.ComputedRef<boolean>;
 };
 
-type FormContextProps<
-  FormValues extends any,
+export type APIFormContextProps<
+  FormValues extends yup.Maybe<yup.AnyObject>,
   FormOutput extends any,
+  FormSchema extends yup.ObjectSchema<FormValues, any, any, any>,
   Id = string,
 > = {
+  baseQueryKey: MaybeRef<any>[] | MaybeRef<any>;
+
+  schema: FormSchema;
+
   editId?: MaybeRef<Id | null | undefined>;
   onSubmit(values: FormOutput): MaybePromise<void>;
-  existentDataRetriever(id: Id): MaybePromise<FormValues | FormOutput>;
+
+  existentDataRetriever(id: Id): MaybePromise<FormValues>;
 };
 
 export const createAPIFormContext = <
   FormValues extends yup.AnyObject,
   FormOutput extends GenericObject,
-  Props extends FormContextProps<FormValues, FormOutput> = FormContextProps<
+  FormSchema extends yup.ObjectSchema<FormValues, any, any, any>,
+  //
+  Id = string,
+  Props extends APIFormContextProps<
     FormValues,
-    FormOutput
-  >,
+    FormOutput,
+    FormSchema,
+    Id
+  > = APIFormContextProps<FormValues, FormOutput, FormSchema, Id>,
 >(
   props: Props
 ) => {
-  // TODO: retrieve default values with props.existentDataRetriever
-  // TODO: receive schema and pass to form
-  const form = useForm<FormValues, FormOutput>({});
+  //
 
-  const { handleSubmit } = form;
-
-  const formOnSubmit = handleSubmit(props.onSubmit);
-
+  const { schema } = props;
   const editId = computed(() => unref(props.editId) ?? null);
 
-  const formContext = {
+  //
+
+  const resourceGetQuery = useApiBaseResourceGet<Id, FormValues>({
+    id: editId,
+
+    baseQueryKey: props.baseQueryKey,
+    apiResourceGetRetriever: props.existentDataRetriever,
+  });
+
+  //
+
+  const form = useForm<FormValues, FormOutput>({ validationSchema: schema });
+
+  watch(
+    [resourceGetQuery.response],
+    ([response]) => {
+      if (response) {
+        form.setValues({ ...response } as any);
+      }
+    },
+    {
+      immediate: true,
+    }
+  );
+
+  //
+
+  const isLoading = computed(() => unref(resourceGetQuery.isLoading));
+
+  const isBusy = computed(() => {
+    return (
+      unref(isLoading) || unref(form.isSubmitting) || unref(form.isValidating)
+    );
+  });
+
+  //
+
+  const { handleSubmit } = form;
+  const formOnSubmit = handleSubmit(props.onSubmit);
+
+  //
+
+  const apiFormContext = {
+    isBusy,
+    isLoading,
+
     form,
     editId,
     formOnSubmit,
   };
 
-  provide(FORM_CONTEXT, formContext);
+  //
 
-  return formContext;
+  provide(API_FORM_CONTEXT, apiFormContext);
+
+  //
+
+  return apiFormContext;
 };
 
-export const useFormContext = () => {
-  const formContext = inject<APIFormContext>(FORM_CONTEXT);
+export const useAPIFormContext = () => {
+  const apiFormContext = inject<APIFormContext>(API_FORM_CONTEXT);
 
-  if (!formContext) {
+  if (!apiFormContext) {
     throw new TypeError();
   }
 
-  return formContext;
+  return apiFormContext;
 };

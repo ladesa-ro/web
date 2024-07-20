@@ -48,16 +48,16 @@ export const useTurmaHandleSubmit = () => {
     });
   };
 
-  const mutationQuery = useMutation({
+  const query = useMutation({
     mutationKey: ['turmas::create'],
     mutationFn: turmaHandleSubmitBase,
   });
 
-  const { mutateAsync } = mutationQuery;
+  const { mutateAsync: handleSubmit } = query;
 
   return {
-    mutateAsync,
-    mutationQuery,
+    query,
+    handleSubmit,
     turmaHandleSubmitBase,
   };
 };

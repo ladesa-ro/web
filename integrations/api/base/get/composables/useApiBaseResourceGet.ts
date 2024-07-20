@@ -1,10 +1,6 @@
 import { useQuery } from '@tanstack/vue-query';
 import filter from 'lodash/filter';
 import { castArray } from '../../../../-utils';
-import {
-  QuerySuspense,
-  type QuerySuspenseBehaviour,
-} from '../../../../-utils/QuerySuspense';
 import type { MaybeRefDeep } from '../../delete';
 import type { IUseApiBaseResourceGetRetrivever } from '../typings';
 
@@ -14,12 +10,10 @@ type IUseApiBaseResourceGetOptions<Id = any, ResultItemDto = unknown> = {
   id: MaybeRef<Id | null | undefined>;
   apiResourceGetRetriever: IUseApiBaseResourceGetRetrivever<Id, ResultItemDto>;
 
-  suspenseBehaviour?: QuerySuspenseBehaviour;
-
   itemQueryKeyResolver?: (id: Id) => MaybeRefDeep<any>;
 };
 
-export const useApiBaseResourceGet = async <
+export const useApiBaseResourceGet = <
   Id = any,
   ResultItemDto = unknown,
   ProvidedOptions extends IUseApiBaseResourceGetOptions<
@@ -33,7 +27,7 @@ export const useApiBaseResourceGet = async <
     //
     id,
     baseQueryKey,
-    suspenseBehaviour,
+
     apiResourceGetRetriever,
     itemQueryKeyResolver = (id) => JSON.stringify(id),
   } = options;
@@ -73,9 +67,6 @@ export const useApiBaseResourceGet = async <
   //
   const response = computed(() => unref(query.data));
   const previousResponse = ref(unref(response)) as Ref<ResultItemDto | null>;
-  //
-
-  await QuerySuspense(query, suspenseBehaviour);
 
   //
 

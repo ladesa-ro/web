@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import * as yup from 'yup';
 import { createAPIFormContext } from '../../../API/Form/Context/Context';
-import type { TurmaFormOutput, TurmaFormValues } from './-Helpers/typings';
+import type { TurmaFormOutput } from './-Helpers/typings';
+import { useTurmaExistentDataRetriever } from './-Helpers/useTurmaExistentDataRetriever';
 import { useTurmaHandleDelete } from './-Helpers/useTurmaHandleDelete';
 import { useTurmaHandleSubmit } from './-Helpers/useTurmaHandleSubmit';
 
@@ -29,7 +31,7 @@ const { handleDelete } = useTurmaHandleDelete({
 
 //
 
-const { mutateAsync: turmaHandleSubmit } = useTurmaHandleSubmit();
+const { handleSubmit: turmaHandleSubmit } = useTurmaHandleSubmit();
 
 const onSubmit = async (values: TurmaFormOutput) => {
   await turmaHandleSubmit({ editId: unref(editId), values });
@@ -38,29 +40,34 @@ const onSubmit = async (values: TurmaFormOutput) => {
 
 //
 
-const apiClient = useApiClient();
+const existentDataRetrieverTurma = useTurmaExistentDataRetriever();
 
-const existentDataRetrieverTurma = async (
-  id: string
-): Promise<TurmaFormValues> => {
-  const turma = await apiClient.turmas.turmaFindById({ id });
-
-  return {
-    imagem: null,
-    periodo: turma.periodo,
-    curso: { id: turma.curso.id ?? null },
-    ambientePadraoAula: { id: turma.ambientePadraoAula?.id ?? null },
-  };
-};
 //
 
-const { formOnSubmit } = createAPIFormContext<TurmaFormValues, TurmaFormOutput>(
-  {
-    editId,
-    onSubmit,
-    existentDataRetriever: existentDataRetrieverTurma,
-  }
-);
+const schema = yup.object().shape({
+  imagem: yup.mixed().nullable().optional().default(null),
+
+  curso: yup.object().shape({
+    id: yup.string().required('Curso é obrigatório!').default(null),
+  }),
+
+  ambientePadraoAula: yup.object().shape({
+    id: yup.string().uuid().nullable().optional().default(null),
+  }),
+
+  periodo: yup.string().required('Período é obrigatório!').default(''),
+});
+
+const { isBusy, formOnSubmit } = createAPIFormContext({
+  schema,
+  //
+  editId,
+  onSubmit,
+  //
+  baseQueryKey: ['turmas', 'existent-data'],
+  //
+  existentDataRetriever: existentDataRetrieverTurma,
+});
 
 //
 </script>
@@ -68,18 +75,18 @@ const { formOnSubmit } = createAPIFormContext<TurmaFormValues, TurmaFormOutput>(
 <template>
   <form @submit.prevent="formOnSubmit">
     <APIFormContextDialog
-      class="form"
       :on-close="onClose"
       :on-delete="handleDelete"
       title-edit="Editar Turma"
       title-create="Cadastrar Nova Turma"
     >
       <template #body>
-        <VVSelectImage name="imagem" />
+        <VVSelectImage :disabled="isBusy" name="imagem" />
 
-        <VVAutocompleteCurso name="curso.id" />
+        <VVAutocompleteCurso :disabled="isBusy" name="curso.id" />
 
         <VVAutocompleteAmbiente
+          :disabled="isBusy"
           name="ambientePadraoAula.id"
           label="Sala de Aula"
         />
