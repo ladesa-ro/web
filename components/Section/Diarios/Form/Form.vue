@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { SectionDiariosFormForm2 } from '#build/components';
 import { ref, toRefs } from 'vue';
 
 const props = defineProps({
@@ -10,11 +11,21 @@ const $emit = defineEmits(['close']);
 const { searchBarText } = toRefs(props);
 const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
 
-const selectedDisciplina = ref<string | null>(null); // Variável para armazenar a disciplina selecionada
+const selectedDisciplina = ref<string | null>(null);
+const isForm2Visible = ref<boolean>(false);
+
+const goToForm2 = () => {
+  isForm2Visible.value = true;
+};
+
+const closeForm = () => {
+  $emit('close');
+};
 </script>
 
+
 <template>
-  <v-form class="form">
+  <v-form v-if="!isForm2Visible" class="form">
     <div class="form-header">
       <h1 class="main-title">
         <span>Disciplina</span>
@@ -56,11 +67,15 @@ const selectedDisciplina = ref<string | null>(null); // Variável para armazenar
     <v-divider />
 
     <div class="form-footer button-group">
-      <UIButtonModalCancelButton @click="$emit('close')" />
-      <UIButtonModalAdvancedButton />
+      <UIButtonModalCancelButton @click="closeForm" />
+      <UIButtonModalAdvancedButton @click="goToForm2"/>
     </div>
   </v-form>
+
+  <!-- Render Form2 conditionally -->
+  <SectionDiariosFormForm2 v-if="isForm2Visible" @close="closeForm"/>
 </template>
+
 
 <style scoped>
 .form {
@@ -118,5 +133,13 @@ const selectedDisciplina = ref<string | null>(null); // Variável para armazenar
   .v-btn.buttonCadastro {
     padding: 6px 20px;
   }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

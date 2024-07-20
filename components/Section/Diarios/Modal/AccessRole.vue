@@ -1,6 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
+
+// Define emit to communicate with parent component
+const emit = defineEmits(['selectRole']);
+
+// Track the active button
 const activeButton = ref<string>('DAPE');
+
+// Emit an event when 'Professor' is clicked
+const selectProfessor = () => {
+  activeButton.value = 'Professor';
+  emit('selectRole', 'Professor');
+};
 </script>
 
 <template>
@@ -23,7 +34,7 @@ const activeButton = ref<string>('DAPE');
       <div
         class="flex flex-col justify-center items-center w-56 h-40 border-2 rounded-lg gap-2 text-center cursor-pointer"
         :class="{'border-green-500': activeButton === 'Professor', 'border-[#9AB69E]': activeButton !== 'Professor'}"
-        @click="activeButton = 'Professor'"
+        @click="selectProfessor"
       >
         <IconsIconEducator width="36" height="49" />
         <p class="font-[600]">
@@ -36,7 +47,7 @@ const activeButton = ref<string>('DAPE');
 </template>
 
 <style scoped>
-.border-green-600 {
+.border-green-500 {
   border-color: #118d3b;
 }
 </style>

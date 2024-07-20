@@ -1,6 +1,6 @@
 <template>
     <VBtn
-      type="submit"
+      type="Button"
       color="#00d047"
       variant="outlined"
       append-icon="mdi-arrow-right"

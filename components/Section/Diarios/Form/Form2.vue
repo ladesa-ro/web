@@ -1,14 +1,15 @@
-<script lang="ts" setup>
+<script setup lang="ts">
+import { ref } from 'vue';
 
 const props = defineProps({
   searchBarText: String,
 });
 
-const $emit = defineEmits(['close']);
+const emit = defineEmits(['close']);
 
 const { searchBarText } = toRefs(props);
 
-const selectedDisciplina = ref<string | null>(null); // Variável para armazenar a disciplina selecionada
+const showTeacherSection = ref(false); // Variável para controlar a visibilidade da div
 </script>
 
 <template>
@@ -24,20 +25,40 @@ const selectedDisciplina = ref<string | null>(null); // Variável para armazenar
     <div class="form-body modal-form">
       <v-expansion-panels>
         <v-expansion-panel class="border-[#9AB69E] border-2">
-          <v-expansion-panel-title class="custom-panel-title border-none" collapse-icon="" expand-icon="">
+          <v-expansion-panel-title
+            class="custom-panel-title border-none"
+            collapse-icon=""
+            expand-icon=""
+          >
             <div class="title-content">
               <div>
-                <span class="title-espansion mb-2 font-semibold text-black no-underline inline-block">3°A Informática</span>
+                <span
+                  class="title-espansion mb-2 font-semibold text-black no-underline inline-block"
+                  >3°A Informática</span
+                >
                 <small class="subtitle">Modalidade: Técnico Integrado</small>
               </div>
               <div class="icons">
                 <v-icon small class="icon">mdi-trash-can</v-icon>
-                <v-icon small class="expansion-arrow icon ml-2">mdi-menu-down</v-icon>
+                <v-icon small class="expansion-arrow icon ml-2"
+                  >mdi-menu-down</v-icon
+                >
               </div>
             </div>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
-            <SectionDiariosModalAccessRole/>
+            <SectionDiariosModalAccessRole
+              @selectRole="
+                (role) => (showTeacherSection = role === 'Professor')
+              "
+            />
+            <v-divider inset></v-divider>
+            <div v-if="showTeacherSection" class="Seaction-Teacher pt-3">
+              <UISearchBar
+                :value="searchBarText"
+                @update:value="searchBarText = $event"
+              />
+            </div>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -47,12 +68,12 @@ const selectedDisciplina = ref<string | null>(null); // Variável para armazenar
 
     <div class="form-footer">
       <div class="button-solo">
-        <UIButtonModalAddNewClassButton/>
+        <UIButtonModalAddNewClassButton />
       </div>
       <div class="button-group">
-      <UIButtonModalBackButton />
-      <UIButtonModalCancelButton @click="$emit('close')" />
-      <UIButtonModalFinishButton/>
+        <UIButtonModalBackButton />
+        <UIButtonModalCancelButton @click="$emit('close')" />
+        <UIButtonModalFinishButton />
       </div>
     </div>
   </v-form>
@@ -84,15 +105,14 @@ const selectedDisciplina = ref<string | null>(null); // Variável para armazenar
 .button-group {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
   margin-top: 20px;
-  gap: 20px;
+  flex-wrap: nowrap; /* Prevent buttons from wrapping */
+  gap: 10px;
 }
 
-.button-solo{
+.button-solo {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+  justify-content: flex-start;
   margin-top: 20px;
   gap: 20px;
 }
