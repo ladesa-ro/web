@@ -2,7 +2,7 @@
 import * as yup from 'yup';
 import { createAPIFormContext } from '../../../API/Form/Context/Context';
 import type { TurmaFormOutput } from './-Helpers/typings';
-import { useTurmaExistentDataRetriever } from './-Helpers/useTurmaExistentDataRetriever';
+import { useTurmaExistentFormDataRetriever } from './-Helpers/useTurmaExistentDataRetriever';
 import { useTurmaHandleDelete } from './-Helpers/useTurmaHandleDelete';
 import { useTurmaHandleSubmit } from './-Helpers/useTurmaHandleSubmit';
 
@@ -40,7 +40,7 @@ const onSubmit = async (values: TurmaFormOutput) => {
 
 //
 
-const existentDataRetrieverTurma = useTurmaExistentDataRetriever();
+const existentFormDataRetrieverTurma = useTurmaExistentFormDataRetriever();
 
 //
 
@@ -64,9 +64,9 @@ const { isBusy, formOnSubmit } = createAPIFormContext({
   editId,
   onSubmit,
   //
-  baseQueryKey: ['turmas', 'existent-data'],
+  baseQueryKey: ['turmas', 'form-data'],
   //
-  existentDataRetriever: existentDataRetrieverTurma,
+  existentFormDataRetriever: existentFormDataRetrieverTurma,
 });
 
 //

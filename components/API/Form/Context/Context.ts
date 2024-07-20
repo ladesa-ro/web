@@ -26,7 +26,7 @@ export type APIFormContextProps<
   editId?: MaybeRef<Id | null | undefined>;
   onSubmit(values: FormOutput): MaybePromise<void>;
 
-  existentDataRetriever(id: Id): MaybePromise<FormValues>;
+  existentFormDataRetriever(id: Id): MaybePromise<FormValues>;
 };
 
 export const createAPIFormContext = <
@@ -55,7 +55,9 @@ export const createAPIFormContext = <
     id: editId,
 
     baseQueryKey: props.baseQueryKey,
-    apiResourceGetRetriever: props.existentDataRetriever,
+    apiResourceGetRetriever: props.existentFormDataRetriever,
+
+    itemQueryKeyResolver: (id) => [JSON.stringify(id), 'form-data'],
   });
 
   //

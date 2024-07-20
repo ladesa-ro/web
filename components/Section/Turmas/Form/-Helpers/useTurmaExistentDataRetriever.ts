@@ -1,9 +1,9 @@
 import type { TurmaFormValues } from './typings';
 
-export const useTurmaExistentDataRetriever = () => {
+export const useTurmaExistentFormDataRetriever = () => {
   const apiClient = useApiClient();
 
-  const existentDataRetrieverTurma = async (
+  const existentFormDataRetrieverTurma = async (
     id: string
   ): Promise<TurmaFormValues> => {
     const turma = await apiClient.turmas.turmaFindById({ id });
@@ -16,5 +16,5 @@ export const useTurmaExistentDataRetriever = () => {
     };
   };
 
-  return existentDataRetrieverTurma;
+  return existentFormDataRetrieverTurma;
 };
