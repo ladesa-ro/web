@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { createFormContext } from '../../../VV/FormContext/-Context/Context';
+import { createAPIFormContext } from '../../../API/Form/Context/Context';
 import type { TurmaFormOutput, TurmaFormValues } from './-Helpers/typings';
 import { useTurmaHandleDelete } from './-Helpers/useTurmaHandleDelete';
 import { useTurmaHandleSubmit } from './-Helpers/useTurmaHandleSubmit';
@@ -23,20 +23,9 @@ const onClose = () => $emit('close');
 
 //
 
-const { mutateAsync: turmaHandleDelete } = useTurmaHandleDelete();
-
-const handleDelete = async (id: string) => {
-  try {
-    const resposta = window.confirm(
-      'Você tem certeza de que deseja deletar esta turma?'
-    );
-
-    if (resposta) {
-      await turmaHandleDelete(id);
-      onClose();
-    }
-  } catch (e) {}
-};
+const { handleDelete } = useTurmaHandleDelete({
+  afterSuccess: () => onClose(),
+});
 
 //
 
@@ -65,18 +54,20 @@ const existentDataRetrieverTurma = async (
 };
 //
 
-const { formOnSubmit } = createFormContext<TurmaFormValues, TurmaFormOutput>({
-  editId,
-  onSubmit,
-  existentDataRetriever: existentDataRetrieverTurma,
-});
+const { formOnSubmit } = createAPIFormContext<TurmaFormValues, TurmaFormOutput>(
+  {
+    editId,
+    onSubmit,
+    existentDataRetriever: existentDataRetrieverTurma,
+  }
+);
 
 //
 </script>
 
 <template>
   <form @submit.prevent="formOnSubmit">
-    <VVFormContextDialog
+    <APIFormContextDialog
       class="form"
       :on-close="onClose"
       :on-delete="handleDelete"
@@ -95,6 +86,6 @@ const { formOnSubmit } = createFormContext<TurmaFormValues, TurmaFormOutput>({
 
         <SectionTurmasFormFieldsPeriodo />
       </template>
-    </VVFormContextDialog>
+    </APIFormContextDialog>
   </form>
 </template>
