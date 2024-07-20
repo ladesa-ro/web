@@ -1,19 +1,30 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import type { SectionDiariosForm} from '#build/components';
+import { ref, toRefs } from 'vue';
 
 const props = defineProps({
   searchBarText: String,
 });
 
-const emit = defineEmits(['close']);
+const $emit = defineEmits(['close']);
+
+const isFormVisible = ref<boolean>(false);
 
 const { searchBarText } = toRefs(props);
 
 const showTeacherSection = ref(false); // Variável para controlar a visibilidade da div
+
+const goToForm = () => {
+  isFormVisible.value = true;
+};
+
+const closeForm = () => {
+  $emit('close');
+};
 </script>
 
 <template>
-  <v-form class="form">
+  <v-form v-if="!isFormVisible" class="form">
     <div class="form-header">
       <h1 class="main-title">
         <span>Turma</span>
@@ -71,12 +82,14 @@ const showTeacherSection = ref(false); // Variável para controlar a visibilidad
         <UIButtonModalAddNewClassButton />
       </div>
       <div class="button-group">
-        <UIButtonModalBackButton />
-        <UIButtonModalCancelButton @click="$emit('close')" />
+        <UIButtonModalBackButton @click="goToForm"/>
+        <UIButtonModalCancelButton @click="closeForm" />
         <UIButtonModalFinishButton />
       </div>
     </div>
   </v-form>
+    <!-- Render Form2 conditionally -->
+    <SectionDiariosForm v-if="isFormVisible" @close="closeForm"/>
 </template>
 
 <style scoped>
