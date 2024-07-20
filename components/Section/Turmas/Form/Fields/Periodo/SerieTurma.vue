@@ -1,19 +1,35 @@
 <script setup lang="ts">
-import { useTurmaForm } from '../../-Helpers/context';
+import { useTurmaFormValues } from '../../-Helpers/context';
 
-const { values: formValues } = useTurmaForm();
+defineProps({
+  disabled: {
+    type: Boolean,
+    required: false,
+  },
+  isLoading: {
+    type: Boolean,
+    required: false,
+  },
+});
+
+const formValues = useTurmaFormValues();
 
 const serie = computed({
-  get: () => formValues.periodo,
+  get: () => {
+    return formValues.value.periodo;
+  },
+
   set: (value) => {
-    formValues.periodo = value;
+    formValues.value.periodo = value;
   },
 });
 
 const letra = computed({
-  get: () => formValues.periodo,
+  get: () => {
+    return formValues.value.periodo;
+  },
   set: (value) => {
-    formValues.periodo = value;
+    formValues.value.periodo = value;
   },
 });
 </script>
@@ -24,6 +40,7 @@ const letra = computed({
       type="text"
       name="serie"
       label="Série"
+      :disabled="isLoading || disabled"
       v-model="serie"
       placeholder="1°, 2°, 3°..."
     />
@@ -31,6 +48,7 @@ const letra = computed({
     <VVTextField
       type="text"
       name="letra"
+      :disabled="isLoading || disabled"
       label="Letra"
       v-model="letra"
       placeholder="A, B, C..."

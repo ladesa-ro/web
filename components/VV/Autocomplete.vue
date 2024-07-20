@@ -27,13 +27,13 @@ const {
     <UIAutocompleteBase
       clearable
       :name="name"
-      v-bind="$attrs"
       @blur="handleBlur"
       hide-details="auto"
       persistent-placeholder
       v-model:value="modelValue"
       v-model:search="searchValue"
       :error-messages="errorMessage ? [errorMessage] : []"
+      v-bind="$attrs"
     />
   </div>
 </template>

@@ -9,6 +9,9 @@ const { editId } = useAPIFormContext();
 //
 
 type Props = {
+  isBusy?: boolean;
+  isLoading?: boolean;
+
   titleEdit: string;
   titleCreate: string;
 
@@ -43,6 +46,7 @@ const slots = defineSlots<Slots>();
         class="row-start-1 self-end justify-self-end col-start-1 col-span-1 flex items-center gap-2"
       >
         <v-menu
+          :disabled="isLoading || isBusy"
           v-if="editId"
           location="bottom end"
           :close-on-content-click="true"
@@ -51,6 +55,7 @@ const slots = defineSlots<Slots>();
             <v-tooltip location="bottom">
               <template v-slot:activator="{ props: tooltip }">
                 <v-btn
+                  :disabled="isLoading || isBusy"
                   size="small"
                   variant="text"
                   icon="mdi-dots-vertical"
@@ -66,6 +71,7 @@ const slots = defineSlots<Slots>();
           <v-list>
             <v-list-item
               v-if="onDelete"
+              :disabled="isLoading || isBusy"
               slim
               link
               color="#e9001c"
@@ -82,6 +88,7 @@ const slots = defineSlots<Slots>();
         </v-menu>
 
         <v-btn
+          :disabled="isBusy"
           size="small"
           type="button"
           variant="text"
@@ -100,10 +107,10 @@ const slots = defineSlots<Slots>();
     <v-divider />
 
     <div class="form-footer button-group">
-      <UIButtonModalCancelButton @click="onClose" />
+      <UIButtonModalCancelButton :disabled="isBusy" @click="onClose" />
 
-      <UIButtonModalEditButton v-if="editId" />
-      <UIButtonModalSaveButton v-else />
+      <UIButtonModalEditButton v-if="editId" :disabled="isLoading || isBusy" />
+      <UIButtonModalSaveButton v-else :disabled="isLoading || isBusy" />
     </div>
   </div>
 </template>

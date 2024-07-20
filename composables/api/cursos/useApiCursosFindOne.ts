@@ -1,8 +1,14 @@
 import { useQuery } from '@tanstack/vue-query';
 import { computed, unref, type MaybeRef } from 'vue';
+import {
+  QuerySuspense,
+  QuerySuspenseBehaviourMode,
+  type QuerySuspenseBehaviour,
+} from '../../../integrations';
 
 export const useApiCursosFindOne = async (
-  idRef: MaybeRef<string | null | undefined>
+  idRef: MaybeRef<string | null | undefined>,
+  suspenseBehaviour?: QuerySuspenseBehaviour
 ) => {
   const apiClient = useApiClient();
 
@@ -23,7 +29,13 @@ export const useApiCursosFindOne = async (
 
   const curso = computed(() => unref(query.data) ?? null);
 
-  await query.suspense();
+  await QuerySuspense(
+    query,
+    suspenseBehaviour ?? { mode: QuerySuspenseBehaviourMode.AWALWAYS_WAIT }
+  );
 
-  return { query, curso };
+  return {
+    query,
+    curso,
+  };
 };

@@ -62,13 +62,18 @@ export const createAPIFormContext = <
 
   //
 
-  const form = useForm<FormValues, FormOutput>({ validationSchema: schema });
+  const form = useForm<FormValues, FormOutput>({
+    validationSchema: schema,
+    initialValues: {
+      ...schema.getDefault(),
+    },
+  });
 
   watch(
     [resourceGetQuery.response],
     ([response]) => {
       if (response) {
-        form.setValues({ ...response } as any);
+        form.setValues(schema.cast(response) as any);
       }
     },
     {
@@ -81,9 +86,7 @@ export const createAPIFormContext = <
   const isLoading = computed(() => unref(resourceGetQuery.isLoading));
 
   const isBusy = computed(() => {
-    return (
-      unref(isLoading) || unref(form.isSubmitting) || unref(form.isValidating)
-    );
+    return unref(form.isSubmitting);
   });
 
   //

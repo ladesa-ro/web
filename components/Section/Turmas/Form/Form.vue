@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import * as yup from 'yup';
 import { createAPIFormContext } from '../../../API/Form/Context/Context';
+import { useTurmaFormSchema } from './-Helpers/schema';
 import type { TurmaFormOutput } from './-Helpers/typings';
 import { useTurmaExistentFormDataRetriever } from './-Helpers/useTurmaExistentDataRetriever';
 import { useTurmaHandleDelete } from './-Helpers/useTurmaHandleDelete';
@@ -25,6 +25,9 @@ const onClose = () => $emit('close');
 
 //
 
+const schema = useTurmaFormSchema();
+const existentFormDataRetrieverTurma = useTurmaExistentFormDataRetriever();
+
 const { handleDelete } = useTurmaHandleDelete({
   afterSuccess: () => onClose(),
 });
@@ -40,31 +43,13 @@ const onSubmit = async (values: TurmaFormOutput) => {
 
 //
 
-const existentFormDataRetrieverTurma = useTurmaExistentFormDataRetriever();
-
-//
-
-const schema = yup.object().shape({
-  imagem: yup.mixed().nullable().optional().default(null),
-
-  curso: yup.object().shape({
-    id: yup.string().required('Curso é obrigatório!').default(null),
-  }),
-
-  ambientePadraoAula: yup.object().shape({
-    id: yup.string().uuid().nullable().optional().default(null),
-  }),
-
-  periodo: yup.string().required('Período é obrigatório!').default(''),
-});
-
-const { isBusy, formOnSubmit } = createAPIFormContext({
+const { isBusy, isLoading, formOnSubmit } = createAPIFormContext({
   schema,
   //
   editId,
   onSubmit,
   //
-  baseQueryKey: ['turmas', 'form-data'],
+  baseQueryKey: ['turmas'],
   //
   existentFormDataRetriever: existentFormDataRetrieverTurma,
 });
@@ -75,23 +60,31 @@ const { isBusy, formOnSubmit } = createAPIFormContext({
 <template>
   <form @submit.prevent="formOnSubmit">
     <APIFormContextDialog
+      :is-busy="isBusy"
+      :is-loading="isLoading"
       :on-close="onClose"
       :on-delete="handleDelete"
       title-edit="Editar Turma"
       title-create="Cadastrar Nova Turma"
     >
       <template #body>
-        <VVSelectImage :disabled="isBusy" name="imagem" />
+        <VVSelectImage :disabled="isLoading || isBusy" name="imagem" />
 
-        <VVAutocompleteCurso :disabled="isBusy" name="curso.id" />
+        <VVAutocompleteCurso
+          :is-loading="isLoading"
+          :disabled="isLoading || isBusy"
+          name="curso.id"
+        />
 
         <VVAutocompleteAmbiente
-          :disabled="isBusy"
+          :is-loading="isLoading"
+          :disabled="isLoading || isBusy"
           name="ambientePadraoAula.id"
           label="Sala de Aula"
         />
 
-        <SectionTurmasFormFieldsPeriodo />
+        <SectionTurmasFormFieldsPeriodo  :is-loading="isLoading"
+        :disabled="isLoading || isBusy" />
       </template>
     </APIFormContextDialog>
   </form>

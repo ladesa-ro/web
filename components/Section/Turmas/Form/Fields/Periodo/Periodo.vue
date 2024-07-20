@@ -1,12 +1,29 @@
 <script setup lang="ts">
-import { useTurmaForm } from '../../-Helpers/context';
+import { useTurmaFormValues } from '../../-Helpers/context';
+import { QuerySuspenseBehaviourMode } from '../../../../../../integrations';
 import { verificarModalidade } from './-Helpers/verificar-modalidade';
 
-const { values: formValues } = useTurmaForm();
+const props = defineProps({
+  disabled: {
+    type: Boolean,
+    required: false,
+  },
+  isLoading: {
+    type: Boolean,
+    required: false,
+  },
+});
 
-const { curso: cursoSelecionado } = await useApiCursosFindOne(
-  computed(() => formValues?.curso?.id)
+const formValues = useTurmaFormValues();
+
+const { curso: cursoSelecionado, query } = await useApiCursosFindOne(
+  computed(() => formValues.value.curso?.id),
+  {
+    mode: QuerySuspenseBehaviourMode.NEVER_WAIT,
+  }
 );
+
+const isLoading = computed(() => props.isLoading || unref(query.isLoading));
 
 const estrategiaModalidade = computed(() => {
   return (
@@ -19,22 +36,25 @@ const FALLBACK_TO_PERIODO = true;
 </script>
 
 <template>
-  <template v-if="cursoSelecionado">
-    <SectionTurmasFormFieldsPeriodoSerieTurma
-      v-if="estrategiaModalidade === 'serie-turma'"
+  <SectionTurmasFormFieldsPeriodoSerieTurma
+    v-if="cursoSelecionado && estrategiaModalidade === 'serie-turma'"
+    :is-loading="isLoading"
+    :disabled="disabled"
+  />
+
+  <template
+    v-else-if="FALLBACK_TO_PERIODO || estrategiaModalidade === 'periodo'"
+  >
+    <SectionTurmasFormFieldsPeriodoBruto
+      :is-loading="isLoading"
+      :disabled="disabled"
     />
+  </template>
 
-    <template
-      v-else-if="FALLBACK_TO_PERIODO || estrategiaModalidade === 'periodo'"
-    >
-      <SectionTurmasFormFieldsPeriodoBruto />
-    </template>
-
-    <template v-else>
-      <v-alert type="warning">
-        O sistema ainda não suporta o cadastro de turmas para a modalidade
-        {{ cursoSelecionado.modalidade.nome }}.
-      </v-alert>
-    </template>
+  <template v-else-if="cursoSelecionado">
+    <v-alert type="warning">
+      O sistema ainda não suporta o cadastro de turmas para a modalidade
+      {{ cursoSelecionado.modalidade.nome }}.
+    </v-alert>
   </template>
 </template>
