@@ -31,6 +31,7 @@ const hasImage = computed(() => {
     <v-card max-width="100%" :elevation="1" class="card">
       <div
         :style="{
+          backgroundPosition: 'center',
           backgroundSize: 'cover',
           backgroundImage: `url(${props.src})`,
         }"

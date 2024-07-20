@@ -2,7 +2,7 @@
 import { type ModalidadeFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
-import { computed } from 'vue';
+import { computed, mergeProps } from 'vue';
 import * as yup from 'yup';
 import {
   useApiClient,
@@ -22,6 +22,8 @@ const props = defineProps({
 });
 
 const editIdRef = toRef(props, 'editId');
+
+//
 
 const $emit = defineEmits(['close']);
 
@@ -57,15 +59,28 @@ type FormOutput = {
   periodo: string;
 };
 
+const schema = yup.object().shape({
+  imagem: yup.mixed().nullable().optional().default(null),
+
+  curso: yup.object().shape({
+    id: yup.string().required('Curso é obrigatório!').default(null),
+  }),
+
+  ambientePadraoAula: yup.object().shape({
+    id: yup.string().uuid().nullable().optional().default(null),
+  }),
+
+  periodo: yup.string().required('Período é obrigatório!').default(''),
+
+  // serie: yup.string().required('Série é obrigatório!'),
+  // letra: yup.string().required('Letra é obrigatório!'),
+});
+
 const initialFormValues = reactive({
-  imagem: null,
-  curso: {
-    id: currentTurma.value?.curso?.id ?? null,
-  },
-  ambientePadraoAula: {
-    id: currentTurma.value?.ambientePadraoAula?.id ?? null,
-  },
-  periodo: currentTurma.value?.periodo ?? '',
+  ...schema.cast(currentTurma.value ?? {}, {
+    stripUnknown: true,
+    assert: false,
+  }),
 });
 
 const handleDelete = async () => {
@@ -79,23 +94,6 @@ const handleDelete = async () => {
     $emit('close');
   }
 };
-
-const schema = yup.object().shape({
-  imagem: yup.mixed().nullable().optional(),
-
-  curso: yup.object().shape({
-    id: yup.string().required('Curso é obrigatório!'),
-  }),
-
-  ambientePadraoAula: yup.object().shape({
-    id: yup.string().uuid().nullable().optional(),
-  }),
-
-  periodo: yup.string().required('Período é obrigatório!'),
-
-  // serie: yup.string().required('Série é obrigatório!'),
-  // letra: yup.string().required('Letra é obrigatório!'),
-});
 
 const {
   resetForm,
@@ -195,11 +193,63 @@ const letra = computed({
 
 <template>
   <v-form @submit.prevent="onSubmit" class="form">
-    <div class="form-header">
-      <h1 class="main-title">
+    <div class="form-header grid grid-cols-1 items-center">
+      <h1
+        class="main-title justify-self-center row-start-1 col-start-1 col-span-1"
+      >
         <span v-if="editId">Editar Turma</span>
         <span v-else>Cadastrar Nova Turma</span>
       </h1>
+
+      <div
+        class="row-start-1 self-end justify-self-end col-start-1 col-span-1 flex items-center gap-2"
+      >
+        <v-menu
+          v-if="editId"
+          :close-on-content-click="true"
+          location="bottom end"
+        >
+          <template v-slot:activator="{ props: menu }">
+            <v-tooltip location="bottom">
+              <template v-slot:activator="{ props: tooltip }">
+                <v-btn
+                  icon="mdi-dots-vertical"
+                  variant="text"
+                  size="small"
+                  v-bind="mergeProps(menu, tooltip)"
+                >
+                </v-btn>
+              </template>
+
+              <span>Opções</span>
+            </v-tooltip>
+          </template>
+
+          <v-list>
+            <v-list-item
+              slim
+              link
+              color="#e9001c"
+              density="compact"
+              @click.prevent="handleDelete"
+            >
+              <template v-slot:prepend>
+                <v-icon icon="mdi-delete"></v-icon>
+              </template>
+
+              <v-list-item-title>Deletar</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+
+        <v-btn
+          size="small"
+          type="button"
+          variant="text"
+          icon="mdi-close"
+          @click="$emit('close')"
+        />
+      </div>
     </div>
 
     <v-divider class="my-4" />
@@ -259,8 +309,6 @@ const letra = computed({
 
     <div class="form-footer button-group">
       <UIButtonModalCancelButton @click="$emit('close')" />
-
-      <UIButtonModalDeleteButton @click.prevent="handleDelete" v-if="editId" />
 
       <UIButtonModalEditButton v-if="editId" />
       <UIButtonModalSaveButton v-else />
