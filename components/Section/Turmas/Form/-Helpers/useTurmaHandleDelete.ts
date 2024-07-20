@@ -11,18 +11,8 @@ export const useTurmaHandleDelete = () => {
   const queryClient = useQueryClient();
 
   const handleDeleteBase = async (id: string) => {
-    const resposta = window.confirm(
-      'Você tem certeza de que deseja deletar esta turma?'
-    );
-
-    if (resposta) {
-      await apiClient.turmas.turmaDeleteById({ id: id });
-      await queryClient.invalidateQueries({ queryKey: ['turmas'] });
-
-      return true;
-    }
-
-    return false;
+    await apiClient.turmas.turmaDeleteById({ id: id });
+    await queryClient.invalidateQueries({ queryKey: ['turmas'] });
   };
 
   const mutationQuery = useMutation({
