@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { SectionDiariosForm} from '#build/components';
 import { ref, toRefs } from 'vue';
 
 const props = defineProps({
@@ -11,6 +10,7 @@ const $emit = defineEmits(['close']);
 const isFormVisible = ref<boolean>(false);
 
 const { searchBarText } = toRefs(props);
+const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
 
 const showTeacherSection = ref(false); // Variável para controlar a visibilidade da div
 
@@ -69,6 +69,28 @@ const closeForm = () => {
                 :value="searchBarText"
                 @update:value="searchBarText = $event"
               />
+              <LazyUIGridSelectionUser :items="disciplinas">
+        <template #item="{ item: disciplina }">
+          <LazyUICardUser variant="block">
+            <template #title>
+              {{ disciplina.nome }}
+            </template>
+
+            <template #actions>
+              <v-radio 
+                class="detail"
+                :value="disciplina.id"
+              ></v-radio>
+            </template>
+
+            <UICardLine>
+              <span class="text-left w-full block">
+                Carga Horária: {{ disciplina.cargaHoraria }}
+              </span>
+            </UICardLine>
+          </LazyUICardUser>
+        </template>
+        </LazyUIGridSelectionUser>
             </div>
           </v-expansion-panel-text>
         </v-expansion-panel>
@@ -84,11 +106,10 @@ const closeForm = () => {
       <div class="button-group">
         <UIButtonModalBackButton @click="goToForm"/>
         <UIButtonModalCancelButton @click="closeForm" />
-        <UIButtonModalFinishButton />
+        <UIButtonModalSaveButton/>
       </div>
     </div>
   </v-form>
-    <!-- Render Form2 conditionally -->
     <SectionDiariosForm v-if="isFormVisible" @close="closeForm"/>
 </template>
 

@@ -27,12 +27,13 @@ const selectedRadio = ref<string>('');
         </slot>
       </v-card-title>
 
-      <v-radio
+      <v-checkbox
         color="success"
         value="success"
         v-model="selectedRadio"
         class="detail"
-      ></v-radio>
+      >
+    </v-checkbox>
     </div>
 
     <slot></slot>
@@ -47,8 +48,9 @@ const selectedRadio = ref<string>('');
   position: absolute;
   cursor: pointer;
   z-index: 10;
-  margin-left: 88%;
-  margin-top: 9%;
+  margin-left: 83%;
+  margin-top: 18%;
+  font-size: 1.3rem;
 }
 .-card-titulo {
   font-weight: 600;

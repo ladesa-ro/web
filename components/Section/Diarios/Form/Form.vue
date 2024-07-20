@@ -71,8 +71,6 @@ const closeForm = () => {
       <UIButtonModalAdvancedButton @click="goToForm2"/>
     </div>
   </v-form>
-
-  <!-- Render Form2 conditionally -->
   <SectionDiariosFormForm2 v-if="isForm2Visible" @close="closeForm"/>
 </template>
 
