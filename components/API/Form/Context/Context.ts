@@ -1,11 +1,13 @@
 import { useForm, type GenericObject } from 'vee-validate';
 import * as yup from 'yup';
+import type { MaybePromise } from '../../../../typings';
 
 export const FORM_CONTEXT = Symbol();
 
-export type VVFormContext = {
+export type APIFormContext = {
   editId: ComputedRef<string | null>;
-  formOnSubmit: (e?: Event) => Promise<Promise<void> | undefined>;
+
+  formOnSubmit: (e?: Event) => Promise<void> | undefined;
 };
 
 type FormContextProps<
@@ -14,12 +16,11 @@ type FormContextProps<
   Id = string,
 > = {
   editId?: MaybeRef<Id | null | undefined>;
-  onSubmit(values: FormOutput): Promise<void>;
-
-  existentDataRetriever(id: Id): Promise<FormValues | FormOutput>;
+  onSubmit(values: FormOutput): MaybePromise<void>;
+  existentDataRetriever(id: Id): MaybePromise<FormValues | FormOutput>;
 };
 
-export const createFormContext = <
+export const createAPIFormContext = <
   FormValues extends yup.AnyObject,
   FormOutput extends GenericObject,
   Props extends FormContextProps<FormValues, FormOutput> = FormContextProps<
@@ -51,7 +52,7 @@ export const createFormContext = <
 };
 
 export const useFormContext = () => {
-  const formContext = inject<VVFormContext>(FORM_CONTEXT);
+  const formContext = inject<APIFormContext>(FORM_CONTEXT);
 
   if (!formContext) {
     throw new TypeError();

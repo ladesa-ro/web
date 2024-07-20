@@ -3,7 +3,7 @@ import {
   setupUIApiListContext,
   type ICreateUIApiListContextOptions,
 } from './Context/UIApiListContext';
-import type { IGridItemSlotProps } from './Results/Grid/Typings/Typings';
+import type { IGridItemSlotProps } from './Results/Grid/Typings';
 
 //
 
