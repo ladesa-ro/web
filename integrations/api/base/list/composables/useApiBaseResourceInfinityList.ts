@@ -7,7 +7,7 @@ import {
 import type {
   IApiBaseResourceListRetriever,
   IApiBaseResourceListRetrieverInput,
-} from '../typings/typings';
+} from '../typings/typings-list';
 
 export const useApiBaseResourceInfinityList = async <ResultItemDto = unknown>(
   baseQueryKey: MaybeRef<any>[] | MaybeRef<any>,
