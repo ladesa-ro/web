@@ -5,21 +5,21 @@ const props = defineProps({
   searchBarText: String,
 });
 
-const $emit = defineEmits(['close']);
+const $emit = defineEmits(['close', 'back', 'next']);
 
 const isFormVisible = ref<boolean>(false);
 
 const { searchBarText } = toRefs(props);
 const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
 
-const showTeacherSection = ref(false); // Variável para controlar a visibilidade da div
-
-const goToForm = () => {
-  isFormVisible.value = true;
-};
+const showTeacherSection = ref(false);
 
 const closeForm = () => {
   $emit('close');
+};
+
+const backForm = () => {
+  $emit('back');
 };
 </script>
 
@@ -70,27 +70,27 @@ const closeForm = () => {
                 @update:value="searchBarText = $event"
               />
               <LazyUIGridSelectionUser :items="disciplinas">
-        <template #item="{ item: disciplina }">
-          <LazyUICardUser variant="block">
-            <template #title>
-              {{ disciplina.nome }}
-            </template>
+                <template #item="{ item: disciplina }">
+                  <LazyUICardUser variant="block">
+                    <template #title>
+                      {{ disciplina.nome }}
+                    </template>
 
-            <template #actions>
-              <v-radio 
-                class="detail"
-                :value="disciplina.id"
-              ></v-radio>
-            </template>
+                    <template #actions>
+                      <v-radio 
+                        class="detail"
+                        :value="disciplina.id"
+                      ></v-radio>
+                    </template>
 
-            <UICardLine>
-              <span class="text-left w-full block">
-                Carga Horária: {{ disciplina.cargaHoraria }}
-              </span>
-            </UICardLine>
-          </LazyUICardUser>
-        </template>
-        </LazyUIGridSelectionUser>
+                    <UICardLine>
+                      <span class="text-left w-full block">
+                        Carga Horária: {{ disciplina.cargaHoraria }}
+                      </span>
+                    </UICardLine>
+                  </LazyUICardUser>
+                </template>
+              </LazyUIGridSelectionUser>
             </div>
           </v-expansion-panel-text>
         </v-expansion-panel>
@@ -104,13 +104,12 @@ const closeForm = () => {
         <UIButtonModalAddNewClassButton />
       </div>
       <div class="button-group">
-        <UIButtonModalBackButton @click="goToForm"/>
+        <UIButtonModalBackButton @click="backForm"/>
         <UIButtonModalCancelButton @click="closeForm" />
         <UIButtonModalSaveButton/>
       </div>
     </div>
   </v-form>
-    <SectionDiariosForm v-if="isFormVisible" @close="closeForm"/>
 </template>
 
 <style scoped>
@@ -140,7 +139,7 @@ const closeForm = () => {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-  flex-wrap: nowrap; /* Prevent buttons from wrapping */
+  flex-wrap: nowrap;
   gap: 10px;
 }
 
@@ -183,14 +182,12 @@ const closeForm = () => {
   margin-left: 8px;
 }
 
-/* Custom arrow style */
 .expansion-arrow {
-  color: #00a000; /* Define a cor verde */
+  color: #00a000;
   transform: rotate(0deg);
   transition: transform 0.3s ease;
 }
 
-/* Rotates the arrow when the panel is expanded */
 .v-expansion-panel--active .expansion-arrow {
   transform: rotate(-180deg);
 }

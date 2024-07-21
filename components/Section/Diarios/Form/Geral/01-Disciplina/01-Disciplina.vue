@@ -1,31 +1,44 @@
 <script lang="ts" setup>
-import type { SectionDiariosFormForm2 } from '#build/components';
-import { ref, toRefs } from 'vue';
+import { ref, computed, unref } from 'vue';
+import {
+  disciplinasBaseQueryKey,
+  useApiBaseResourceList,
+  useDisciplinasRetriever,
+} from '~/integrations';
 
-const props = defineProps({
-  searchBarText: String,
-});
+const $emit = defineEmits(['close', 'next']);
 
-const $emit = defineEmits(['close']);
+const searchBarText = ref('');
 
-const { searchBarText } = toRefs(props);
-const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
+const options = computed(() => ({
+  search: unref(searchBarText),
+}));
+
+const disciplinasRetriever = useDisciplinasRetriever();
+
+const { previousItems: disciplinas } = await useApiBaseResourceList(
+  disciplinasBaseQueryKey,
+  disciplinasRetriever,
+  options
+);
 
 const selectedDisciplina = ref<string | null>(null);
-const isForm2Visible = ref<boolean>(false);
-
-const goToForm2 = () => {
-  isForm2Visible.value = true;
-};
 
 const closeForm = () => {
   $emit('close');
 };
+
+const nextForm = () => {
+  $emit('next');
+};
+
+const onDisciplinaSelect = (disciplinaId: string | null) => {
+  selectedDisciplina.value = disciplinaId;
+};
 </script>
 
-
 <template>
-  <v-form v-if="!isForm2Visible" class="form">
+  <v-form class="form">
     <div class="form-header">
       <h1 class="main-title">
         <span>Disciplina</span>
@@ -39,27 +52,14 @@ const closeForm = () => {
         :value="searchBarText"
         @update:value="searchBarText = $event"
       />
-      <UIGridSelectionDiscipline :items="disciplinas">
+
+      <UIGridSelectionDiscipline :items="disciplinas ?? []">
         <template #item="{ item: disciplina }">
-          <UICardSelectionDiscipline variant="block">
-            <template #title>
-              {{ disciplina.nome }}
-            </template>
-
-            <template #actions>
-              <v-radio 
-                class="detail"
-                :value="disciplina.id"
-                v-model="selectedDisciplina"
-              ></v-radio>
-            </template>
-
-            <UICardLine>
-              <span class="text-left w-full block">
-                Carga Horária: {{ disciplina.cargaHoraria }}
-              </span>
-            </UICardLine>
-          </UICardSelectionDiscipline>
+          <SectionDiariosFormGeral01DisciplinaSelectionCard
+            :disciplina="disciplina"
+            :selected-disciplina="selectedDisciplina"
+            :on-disciplina-select="onDisciplinaSelect"
+          />
         </template>
       </UIGridSelectionDiscipline>
     </div>
@@ -68,12 +68,10 @@ const closeForm = () => {
 
     <div class="form-footer button-group">
       <UIButtonModalCancelButton @click="closeForm" />
-      <UIButtonModalAdvancedButton @click="goToForm2"/>
+      <UIButtonModalAdvancedButton @click="nextForm" />
     </div>
   </v-form>
-  <SectionDiariosFormForm2 v-if="isForm2Visible" @close="closeForm"/>
 </template>
-
 
 <style scoped>
 .form {
@@ -133,11 +131,13 @@ const closeForm = () => {
   }
 }
 
-.fade-enter-active, .fade-leave-active {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.5s;
 }
 
-.fade-enter, .fade-leave-to {
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }
 </style>
