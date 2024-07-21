@@ -1,5 +1,7 @@
 import type { DisciplinaListData } from '@ladesa-ro/api-client-fetch';
 
+export const disciplinasBaseQueryKey = ['disciplinas'];
+
 export const useDisciplinasRetriever = () => {
   const apiClient = useApiClient();
 

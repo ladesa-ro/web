@@ -191,7 +191,7 @@ const tipo = computed({
     <div class="form-body modal-form">
       <VVSelectImage name="imagem" />
 
-      <VVAutocompleteBloco name="bloco.id" :disabled="editId !== null" />
+      <VVAutocompleteAPIBloco name="bloco.id" :disabled="editId !== null" />
 
       <VVTextField
         v-model="nome"

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { createApiListContextOptions } from '../../UI/API/List/Context/UIApiListContext';
-import { useCursosRetriever } from './-Helpers/Api';
+import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
+import { campiBaseQueryKey, useCursosRetriever } from '~/integrations/api';
 
 const cursosRetriever = useCursosRetriever();
 
 const options = createApiListContextOptions({
-  baseQueryKey: ['cursos'],
+  baseQueryKey: campiBaseQueryKey,
   apiBaseResourceListRetriever: cursosRetriever,
 });
 </script>

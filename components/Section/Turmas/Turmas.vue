@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { createApiListContextOptions } from '../../UI/API/List/Context/UIApiListContext';
-import { useTurmasRetriever } from './-Helpers/Api';
+import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
+import { turmasBaseQueryKey, useTurmasRetriever } from '~/integrations/api';
 
 const turmasRetriever = useTurmasRetriever();
 
 const options = createApiListContextOptions({
-  baseQueryKey: ['turmas'],
+  baseQueryKey: turmasBaseQueryKey,
   apiBaseResourceListRetriever: turmasRetriever,
 });
 </script>
