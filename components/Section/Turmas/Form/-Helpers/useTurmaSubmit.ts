@@ -6,12 +6,12 @@ export type ITurmaHandleSubmitOptions = {
   values: TurmaFormOutput;
 };
 
-export const useTurmaHandleSubmit = () => {
+export const useTurmaSubmit = () => {
   const apiClient = useApiClient();
 
   const queryClient = useQueryClient();
 
-  const turmaHandleSubmitBase = async (options: ITurmaHandleSubmitOptions) => {
+  const turmaSubmitBase = async (options: ITurmaHandleSubmitOptions) => {
     const { editId, values } = options;
 
     const { imagem, ...data } = values;
@@ -49,15 +49,18 @@ export const useTurmaHandleSubmit = () => {
   };
 
   const query = useMutation({
-    mutationKey: ['turmas::create'],
-    mutationFn: turmaHandleSubmitBase,
+    mutationKey: ['turmas::submit'],
+    mutationFn: turmaSubmitBase,
   });
 
   const { mutateAsync: handleSubmit } = query;
 
   return {
     query,
+    //
     handleSubmit,
-    turmaHandleSubmitBase,
+    //
+    turmaSubmitBase,
+    turmaSubmit: handleSubmit,
   };
 };

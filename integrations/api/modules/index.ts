@@ -4,4 +4,7 @@ export * from './useCampiRetriever';
 export * from './useCursosRetriever';
 export * from './useDisciplinasRetriever';
 export * from './useModalidadesRetriever';
+export * from './useTurmaDelete';
+export * from './useTurmaGet';
+export * from './useTurmaGetRetriever';
 export * from './useTurmasRetriever';

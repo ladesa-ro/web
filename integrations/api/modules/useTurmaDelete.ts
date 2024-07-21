@@ -1,13 +1,11 @@
-import { useApiBaseResourceDelete } from '../../../../../integrations';
-import type { MaybePromise } from '../../../../../typings';
+import type { MaybePromise } from '../../../typings';
+import { useApiBaseResourceDelete } from '../base';
 
 export type IUseTurmaHandleDeleteOptions = {
   afterSuccess?: () => MaybePromise<any>;
 };
 
-export const useTurmaHandleDelete = (
-  options: IUseTurmaHandleDeleteOptions = {}
-) => {
+export const useTurmaDelete = (options: IUseTurmaHandleDeleteOptions = {}) => {
   const { afterSuccess } = options;
 
   //
