@@ -15,9 +15,9 @@
     @update:model-value="($val) => (hamburgerActive = $val)"
   >
     <v-list class="flex-column justify-space-between h-full sidebar-list">
-      <v-list-item-group class="flex flex-col gap-3 h-full">
+      <div class="flex flex-col gap-3 h-full">
         <SidebarItem :key="index" :item="item" v-for="(item, index) in items" />
-      </v-list-item-group>
+      </div>
     </v-list>
   </v-navigation-drawer>
 </template>
