@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { ModalidadeFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 import { toRefs } from 'vue';
 import {
   modalidadesBaseQueryKey,
+  useModalidadeGetRetriever,
   useModalidadesRetriever,
 } from '~/integrations/api';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
@@ -19,10 +21,18 @@ const { name } = toRefs(props);
 //
 
 const modalidadesRetriever = useModalidadesRetriever();
+const modalidadeGetRetriever = useModalidadeGetRetriever();
 
 const options = createUIAutocompleteApiRetrieverOptions({
   baseQueryKey: modalidadesBaseQueryKey,
-  apiBaseResourceListRetriever: modalidadesRetriever,
+
+  apiResourceGetRetriever: modalidadeGetRetriever,
+  apiResourceListRetriever: modalidadesRetriever,
+
+  transformer: (item: ModalidadeFindOneResultDto) => ({
+    value: item.id,
+    label: item.nome,
+  }),
 });
 
 //
@@ -34,8 +44,6 @@ const options = createUIAutocompleteApiRetrieverOptions({
     :options="options"
     :is-loading="isLoading"
     label="Modalidade"
-    item-value="id"
-    item-title="nome"
     placeholder="Selecione uma modalidade"
     v-bind="$attrs"
   />

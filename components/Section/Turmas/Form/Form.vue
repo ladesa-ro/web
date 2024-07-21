@@ -1,10 +1,10 @@
 <script lang="ts" setup>
+import { useTurmaDelete } from '../../../../integrations';
 import { createAPIFormContext } from '../../../API/Form/Context/Context';
 import { useTurmaFormSchema } from './-Helpers/schema';
 import type { TurmaFormOutput } from './-Helpers/typings';
-import { useTurmaExistentFormDataRetriever } from './-Helpers/useTurmaExistentDataRetriever';
-import { useTurmaHandleDelete } from './-Helpers/useTurmaHandleDelete';
-import { useTurmaHandleSubmit } from './-Helpers/useTurmaHandleSubmit';
+import { useTurmaFormExistentDataRetriever } from './-Helpers/useTurmaFormExistentDataRetriever';
+import { useTurmaSubmit } from './-Helpers/useTurmaSubmit';
 
 //
 
@@ -26,18 +26,18 @@ const onClose = () => $emit('close');
 //
 
 const schema = useTurmaFormSchema();
-const existentFormDataRetrieverTurma = useTurmaExistentFormDataRetriever();
+const formExistentDataRetrieverTurma = useTurmaFormExistentDataRetriever();
 
-const { handleDelete } = useTurmaHandleDelete({
+const { handleDelete: turmaDelete } = useTurmaDelete({
   afterSuccess: () => onClose(),
 });
 
 //
 
-const { handleSubmit: turmaHandleSubmit } = useTurmaHandleSubmit();
+const { turmaSubmit } = useTurmaSubmit();
 
 const onSubmit = async (values: TurmaFormOutput) => {
-  await turmaHandleSubmit({ editId: unref(editId), values });
+  await turmaSubmit({ editId: unref(editId), values });
   onClose();
 };
 
@@ -51,7 +51,7 @@ const { isBusy, isLoading, formOnSubmit } = createAPIFormContext({
   //
   baseQueryKey: ['turmas'],
   //
-  existentFormDataRetriever: existentFormDataRetrieverTurma,
+  formExistentDataRetriever: formExistentDataRetrieverTurma,
 });
 
 //
@@ -63,7 +63,7 @@ const { isBusy, isLoading, formOnSubmit } = createAPIFormContext({
       :is-busy="isBusy"
       :is-loading="isLoading"
       :on-close="onClose"
-      :on-delete="handleDelete"
+      :on-delete="turmaDelete"
       title-edit="Editar Turma"
       title-create="Cadastrar Nova Turma"
     >
