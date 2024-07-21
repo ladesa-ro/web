@@ -27,7 +27,7 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, curso);
       </template>
 
       <template #actions>
-        <SectionCursosModal :editId="curso.id" />
+        <LazySectionCursosModal :editId="curso.id" />
       </template>
 
       <UICardLine>

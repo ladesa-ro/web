@@ -1,9 +1,14 @@
 <script lang="ts" setup generic="T extends any = any">
+import { filter, uniqBy } from 'lodash';
+import { useField } from 'vee-validate';
 import {
   QuerySuspenseBehaviourMode,
+  useApiBaseResourceGet,
   useApiBaseResourceList,
 } from '../../../../integrations';
 import type { IUIAutocompleteApiRetrieverOptions } from './-Base';
+
+//
 
 type Props = {
   name: string;
@@ -12,9 +17,11 @@ type Props = {
 };
 
 const props = defineProps<Props>();
-const name = toRef(props, 'name');
 
+const name = toRef(props, 'name');
 const apiRetrieverOptions = props.options;
+
+//
 
 const searchValue = defineModel('search', { default: '' });
 
@@ -22,21 +29,59 @@ const searchOptions = computed(() => ({
   search: unref(searchValue),
 }));
 
-const { isLoading: queryIsLoading, previousItems } =
+const { isLoading: listIsLoading, previousItems } =
   await useApiBaseResourceList(
     apiRetrieverOptions.baseQueryKey,
-    apiRetrieverOptions.apiBaseResourceListRetriever,
+    apiRetrieverOptions.apiResourceListRetriever,
     searchOptions,
     { mode: QuerySuspenseBehaviourMode.NEVER_WAIT }
   );
 
+//
+
+const { value } = useField(name);
+
+const { response: activeItemData } = useApiBaseResourceGet({
+  id: computed(() => unref(value)),
+  baseQueryKey: apiRetrieverOptions.baseQueryKey,
+  apiResourceGetRetriever: apiRetrieverOptions.apiResourceGetRetriever,
+});
+
+//
+
+const items = computed(() => {
+  const rawPreviousItems = unref(previousItems);
+  const rawActiveItemData = unref(activeItemData);
+
+  if (!rawPreviousItems && !rawActiveItemData) {
+    return null;
+  }
+
+  const combinedItems = filter(
+    [rawActiveItemData, ...(rawPreviousItems ?? [])],
+    Boolean
+  );
+
+  const transformedCombinedItems = combinedItems.map(
+    apiRetrieverOptions.transformer
+  );
+
+  const uniqueTransformed = uniqBy(transformedCombinedItems, 'value');
+
+  return uniqueTransformed;
+});
+
+//
+
 const isLoading = computed(
-  () => unref(props.isLoading) || unref(queryIsLoading)
+  () => unref(props.isLoading) || unref(listIsLoading)
 );
+
+//
 </script>
 
 <template>
-  <template v-if="isLoading && !previousItems">
+  <template v-if="isLoading && !items">
     <div class="autoCompleteField">
       <UIAutocompleteBase
         clearable
@@ -51,7 +96,7 @@ const isLoading = computed(
     </div>
   </template>
 
-  <template v-else-if="!previousItems">
+  <template v-else-if="!items">
     <UIAutocompleteBase
       clearable
       hide-details="auto"
@@ -67,9 +112,9 @@ const isLoading = computed(
   <template v-else>
     <VVAutocomplete
       :name="name"
-      :items="previousItems"
-      item-value="id"
-      item-title="nome"
+      :items="items"
+      item-value="value"
+      item-title="label"
       v-model:search="searchValue"
       v-bind="$attrs"
     />

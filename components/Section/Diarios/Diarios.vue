@@ -16,7 +16,7 @@ const searchBarText = ref('');
         />
 
         <div class="flex items-center flex-shrink-0">
-          <SectionDiariosModal />
+          <LazySectionDiariosModal />
         </div>
       </div>
       <div>

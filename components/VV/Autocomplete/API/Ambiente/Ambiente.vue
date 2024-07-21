@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { AmbienteFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 import { toRefs } from 'vue';
 import {
   ambientesBaseQueryKey,
+  useAmbienteGetRetriever,
   useAmbientesRetriever,
 } from '~/integrations/api';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
@@ -19,10 +21,18 @@ const { name } = toRefs(props);
 //
 
 const ambientesRetriever = useAmbientesRetriever();
+const ambienteGetRetriever = useAmbienteGetRetriever();
 
 const options = createUIAutocompleteApiRetrieverOptions({
   baseQueryKey: ambientesBaseQueryKey,
-  apiBaseResourceListRetriever: ambientesRetriever,
+
+  apiResourceListRetriever: ambientesRetriever,
+  apiResourceGetRetriever: ambienteGetRetriever,
+
+  transformer: (item: AmbienteFindOneResultDto) => ({
+    value: item.id,
+    label: item.nome,
+  }),
 });
 
 //
@@ -34,8 +44,6 @@ const options = createUIAutocompleteApiRetrieverOptions({
     :options="options"
     :is-loading="isLoading"
     label="Ambiente"
-    item-value="id"
-    item-title="nome"
     placeholder="Selecione um ambiente"
     v-bind="$attrs"
   />
