@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import type { CursoFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 import { toRefs } from 'vue';
-import { cursosBaseQueryKey, useCursosRetriever } from '~/integrations/api';
+import {
+  cursosBaseQueryKey,
+  useCursoGetRetriever,
+  useCursosRetriever,
+} from '~/integrations/api';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 //
@@ -16,10 +21,18 @@ const { name } = toRefs(props);
 //
 
 const cursosRetriever = useCursosRetriever();
+const cursoGetRetriever = useCursoGetRetriever();
 
 const options = createUIAutocompleteApiRetrieverOptions({
   baseQueryKey: cursosBaseQueryKey,
-  apiBaseResourceListRetriever: cursosRetriever,
+
+  apiResourceGetRetriever: cursoGetRetriever,
+  apiResourceListRetriever: cursosRetriever,
+
+  transformer: (item: CursoFindOneResultDto) => ({
+    value: item.id,
+    label: item.nome,
+  }),
 });
 
 //
@@ -31,8 +44,6 @@ const options = createUIAutocompleteApiRetrieverOptions({
     :options="options"
     :is-loading="isLoading"
     label="Curso"
-    item-value="id"
-    item-title="nome"
     placeholder="Selecione um curso"
     v-bind="$attrs"
   />

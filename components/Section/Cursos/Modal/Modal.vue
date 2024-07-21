@@ -23,10 +23,7 @@ const isActive = ref(false);
 
     <template v-slot:="{ isActive }">
       <v-card class="dialog-style">
-        <LazySectionCursosForm
-          :editId="editId"
-          @close="isActive.value = false"
-        />
+        <SectionCursosForm :editId="editId" @close="isActive.value = false" />
       </v-card>
     </template>
   </v-dialog>

@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import type { CampusFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 import { toRefs } from 'vue';
-import { campiBaseQueryKey, useCampiRetriever } from '~/integrations/api';
+import {
+  campiBaseQueryKey,
+  useCampiRetriever,
+  useCampusGetRetriever,
+} from '~/integrations/api';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 //
@@ -16,10 +21,18 @@ const { name } = toRefs(props);
 //
 
 const campiRetriever = useCampiRetriever();
+const campusGetRetriever = useCampusGetRetriever();
 
 const options = createUIAutocompleteApiRetrieverOptions({
   baseQueryKey: campiBaseQueryKey,
-  apiBaseResourceListRetriever: campiRetriever,
+
+  apiResourceGetRetriever: campusGetRetriever,
+  apiResourceListRetriever: campiRetriever,
+
+  transformer: (item: CampusFindOneResultDto) => ({
+    value: item.id,
+    label: item.apelido,
+  }),
 });
 
 //
@@ -31,8 +44,6 @@ const options = createUIAutocompleteApiRetrieverOptions({
     :options="options"
     :is-loading="isLoading"
     label="Campus"
-    item-value="id"
-    item-title="apelido"
     placeholder="Selecione um campus"
     v-bind="$attrs"
   />

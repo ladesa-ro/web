@@ -16,7 +16,7 @@ const options = createApiListContextOptions({
 <template>
   <UIAPIList :options="options">
     <template #options-actions>
-      <SectionAmbientesModal />
+      <LazySectionAmbientesModal />
     </template>
 
     <template #grid-item="{ item, isLoading }">

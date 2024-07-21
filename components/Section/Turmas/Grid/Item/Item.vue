@@ -27,7 +27,7 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
       </template>
 
       <template #actions>
-        <SectionTurmasModal :editId="turma.id" />
+        <LazySectionTurmasModal :editId="turma.id" />
       </template>
 
       <UICardLine>

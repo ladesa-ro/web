@@ -29,7 +29,7 @@ export const useApiBaseResourceGet = <
     baseQueryKey,
 
     apiResourceGetRetriever,
-    itemQueryKeyResolver = (id) => JSON.stringify(id),
+    itemQueryKeyResolver = (id) => JSON.stringify(unref(id)),
   } = options;
 
   const baseQueryKeys = castArray(baseQueryKey);

@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { DisciplinaFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 import { toRefs } from 'vue';
 import {
   disciplinasBaseQueryKey,
+  useDisciplinaGetRetriever,
   useDisciplinasRetriever,
 } from '~/integrations/api';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
@@ -19,10 +21,18 @@ const { name } = toRefs(props);
 //
 
 const disciplinasRetriever = useDisciplinasRetriever();
+const disciplinaGetRetriever = useDisciplinaGetRetriever();
 
 const options = createUIAutocompleteApiRetrieverOptions({
   baseQueryKey: disciplinasBaseQueryKey,
-  apiBaseResourceListRetriever: disciplinasRetriever,
+
+  apiResourceGetRetriever: disciplinaGetRetriever,
+  apiResourceListRetriever: disciplinasRetriever,
+
+  transformer: (item: DisciplinaFindOneResultDto) => ({
+    value: item.id,
+    label: item.nome,
+  }),
 });
 
 //
@@ -34,8 +44,6 @@ const options = createUIAutocompleteApiRetrieverOptions({
     :options="options"
     :is-loading="isLoading"
     label="Disciplina"
-    item-value="id"
-    item-title="nome"
     placeholder="Selecione uma disciplina"
     v-bind="$attrs"
   />

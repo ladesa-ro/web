@@ -23,10 +23,7 @@ const isActive = ref(false);
 
     <template v-slot:="{ isActive }">
       <v-card class="dialog-style">
-        <LazySectionTurmasForm
-          :editId="editId"
-          @close="isActive.value = false"
-        />
+        <SectionTurmasForm :editId="editId" @close="isActive.value = false" />
       </v-card>
     </template>
   </v-dialog>

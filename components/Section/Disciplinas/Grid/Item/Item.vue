@@ -30,7 +30,7 @@ const coverImageSrc = useApiImageRoute(
       </template>
 
       <template #actions>
-        <SectionDisciplinasModal :editId="disciplina.id" />
+        <LazySectionDisciplinasModal :editId="disciplina.id" />
       </template>
 
       <UICardLine>

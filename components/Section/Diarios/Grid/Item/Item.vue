@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, toRefs, computed } from 'vue';
+import { defineProps, toRefs } from 'vue';
 
 // Definição das props ajustadas
 const props = defineProps({
@@ -24,7 +24,7 @@ const { diarioProfessorList } = await useApiDiariosProfessorFindAllByDiarioId({
     </template>
 
     <template #actions>
-      <SectionDiariosModal :editId="diario.id" />
+      <LazySectionDiariosModal :editId="diario.id" />
     </template>
 
     <UICardLine>

@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import type { BlocoFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 import { toRefs } from 'vue';
-import { blocosBaseQueryKey, useBlocosRetriever } from '~/integrations/api';
+import {
+  blocosBaseQueryKey,
+  useBlocoGetRetriever,
+  useBlocosRetriever,
+} from '~/integrations/api';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 //
@@ -16,10 +21,18 @@ const { name } = toRefs(props);
 //
 
 const blocosRetriever = useBlocosRetriever();
+const blocoGetRetriever = useBlocoGetRetriever();
 
 const options = createUIAutocompleteApiRetrieverOptions({
   baseQueryKey: blocosBaseQueryKey,
-  apiBaseResourceListRetriever: blocosRetriever,
+
+  apiResourceGetRetriever: blocoGetRetriever,
+  apiResourceListRetriever: blocosRetriever,
+
+  transformer: (item: BlocoFindOneResultDto) => ({
+    value: item.id,
+    label: item.nome,
+  }),
 });
 
 //
@@ -31,8 +44,6 @@ const options = createUIAutocompleteApiRetrieverOptions({
     :options="options"
     :is-loading="isLoading"
     label="Bloco"
-    item-value="id"
-    item-title="nome"
     placeholder="Selecione um bloco"
     v-bind="$attrs"
   />
