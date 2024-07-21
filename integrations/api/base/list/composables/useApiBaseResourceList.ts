@@ -7,7 +7,7 @@ import {
 import type {
   IApiBaseResourceListRetriever,
   IApiBaseResourceListRetrieverInput,
-} from '../typings/typings';
+} from '../typings';
 
 export const useApiBaseResourceList = async <ResultItemDto = unknown>(
   baseQueryKey: MaybeRef<any>[] | MaybeRef<any>,
@@ -44,9 +44,11 @@ export const useApiBaseResourceList = async <ResultItemDto = unknown>(
 
   //
 
-  const isLoading =
-    query.isLoading ||
-    debouncedInputDtoString.value !== inputDtoStringRef.value;
+  const isLoading = computed(
+    () =>
+      query.isLoading.value ||
+      debouncedInputDtoString.value !== inputDtoStringRef.value
+  );
 
   //
   const paginatedResponse = computed(() => unref(query.data));

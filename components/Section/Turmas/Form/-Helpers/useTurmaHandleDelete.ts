@@ -1,40 +1,45 @@
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
-import type { TurmaFormOutput } from './typings';
+import { useApiBaseResourceDelete } from '../../../../../integrations';
+import type { MaybePromise } from '../../../../../typings';
 
-export type ITurmaHandleSubmitOptions = {
-  editId: string | null;
-  values: TurmaFormOutput;
+export type IUseTurmaHandleDeleteOptions = {
+  afterSuccess?: () => MaybePromise<any>;
 };
 
-export const useTurmaHandleDelete = () => {
-  const apiClient = useApiClient();
-  const queryClient = useQueryClient();
+export const useTurmaHandleDelete = (
+  options: IUseTurmaHandleDeleteOptions = {}
+) => {
+  const { afterSuccess } = options;
 
-  const handleDeleteBase = async (id: string) => {
-    const resposta = window.confirm(
+  //
+
+  const apiClient = useApiClient();
+
+  const canDeleteCheck = async () => {
+    const canDelete = window.confirm(
       'Você tem certeza de que deseja deletar esta turma?'
     );
 
-    if (resposta) {
-      await apiClient.turmas.turmaDeleteById({ id: id });
-      await queryClient.invalidateQueries({ queryKey: ['turmas'] });
-
-      return true;
-    }
-
-    return false;
+    return canDelete;
   };
 
-  const mutationQuery = useMutation({
+  const turmaDeleteExecutor = async (id: string) => {
+    return apiClient.turmas.turmaDeleteById({ id: id });
+  };
+
+  return useApiBaseResourceDelete({
+    canDeleteCheck,
+    executor: turmaDeleteExecutor,
+
     mutationKey: ['turmas::delete'],
-    mutationFn: handleDeleteBase,
+
+    invalidators: [
+      {
+        filter: {
+          queryKey: ['turmas'],
+        },
+      },
+    ],
+
+    afterDeleteSuccess: afterSuccess,
   });
-
-  const { mutateAsync } = mutationQuery;
-
-  return {
-    mutateAsync,
-    mutationQuery,
-    handleDeleteBase,
-  };
 };

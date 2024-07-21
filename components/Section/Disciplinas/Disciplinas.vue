@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { createApiListContextOptions } from '../../UI/API/List/Context/UIApiListContext';
-import { useDisciplinasRetriever } from './-Helpers/Api';
+import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
+import {
+  disciplinasBaseQueryKey,
+  useDisciplinasRetriever,
+} from '~/integrations/api';
 
 const disciplinasRetriever = useDisciplinasRetriever();
 
 const options = createApiListContextOptions({
-  baseQueryKey: ['disciplinas'],
+  baseQueryKey: disciplinasBaseQueryKey,
   apiBaseResourceListRetriever: disciplinasRetriever,
 });
 </script>

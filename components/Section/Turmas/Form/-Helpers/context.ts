@@ -1,6 +1,6 @@
-import { useForm } from 'vee-validate';
-import type { TurmaFormOutput, TurmaFormValues } from './typings';
+import { useFormValues } from 'vee-validate';
+import type { TurmaFormValues } from './typings';
 
-export const useTurmasFormVVContext = () => {
-  return useForm<TurmaFormValues, TurmaFormOutput>();
+export const useTurmaFormValues = () => {
+  return useFormValues<TurmaFormValues>();
 };
