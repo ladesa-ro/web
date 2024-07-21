@@ -20,7 +20,7 @@
   
   .v-btn.buttonAdd {
     width: 100%;
-    padding: 6px 20px;
+    padding: 9px 20px;
     border-radius: 8px;
     height: auto;
     text-transform: none;

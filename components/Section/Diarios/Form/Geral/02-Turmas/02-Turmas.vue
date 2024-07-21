@@ -13,6 +13,7 @@ const { searchBarText } = toRefs(props);
 const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
 
 const showTeacherSection = ref(false);
+const showGroupingSection = ref(false);
 
 const closeForm = () => {
   $emit('close');
@@ -20,6 +21,11 @@ const closeForm = () => {
 
 const backForm = () => {
   $emit('back');
+};
+
+const selectRole = (role: string) => {
+  showTeacherSection.value = role === 'Professor';
+  showGroupingSection.value = role === 'AGRUPAMENTO';
 };
 </script>
 
@@ -59,9 +65,7 @@ const backForm = () => {
           </v-expansion-panel-title>
           <v-expansion-panel-text>
             <SectionDiariosModalAccessRole
-              @selectRole="
-                (role) => (showTeacherSection = role === 'Professor')
-              "
+              @selectRole="selectRole"
             />
             <v-divider inset></v-divider>
             <div v-if="showTeacherSection" class="Seaction-Teacher pt-3">
@@ -92,6 +96,11 @@ const backForm = () => {
                 </template>
               </LazyUIGridSelectionUser>
             </div>
+
+            <div v-if="showGroupingSection" class="Seaction-Grouping pt-3">
+              <UIDaySelectionClass/>
+            </div>
+            
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
