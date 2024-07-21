@@ -174,9 +174,9 @@ const nomeAbreviado = computed({
     <div class="form-body modal-form">
       <VVSelectImage name="imagem" />
 
-      <VVAutocompleteModalidades name="modalidade.id" />
+      <VVAutocompleteAPIModalidades name="modalidade.id" />
 
-      <VVAutocompleteCampus name="campus.id" />
+      <VVAutocompleteAPICampus name="campus.id" />
 
       <VVTextField
         v-model="nome"

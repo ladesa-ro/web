@@ -70,21 +70,23 @@ const { isBusy, isLoading, formOnSubmit } = createAPIFormContext({
       <template #body>
         <VVSelectImage :disabled="isLoading || isBusy" name="imagem" />
 
-        <VVAutocompleteCurso
+        <VVAutocompleteAPICurso
           :is-loading="isLoading"
           :disabled="isLoading || isBusy"
           name="curso.id"
         />
 
-        <VVAutocompleteAmbiente
+        <VVAutocompleteAPIAmbiente
           :is-loading="isLoading"
           :disabled="isLoading || isBusy"
           name="ambientePadraoAula.id"
           label="Sala de Aula"
         />
 
-        <SectionTurmasFormFieldsPeriodo  :is-loading="isLoading"
-        :disabled="isLoading || isBusy" />
+        <SectionTurmasFormFieldsPeriodo
+          :is-loading="isLoading"
+          :disabled="isLoading || isBusy"
+        />
       </template>
     </APIFormContextDialog>
   </form>

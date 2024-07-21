@@ -160,7 +160,7 @@ const codigo = computed({
     <div class="form-body modal-form">
       <VVSelectImage name="imagem" />
 
-      <VVAutocompleteCampus name="campus.id" :disabled="Boolean(editId)" />
+      <VVAutocompleteAPICampus name="campus.id" :disabled="Boolean(editId)" />
 
       <VVTextField
         v-model="nome"

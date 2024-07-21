@@ -136,7 +136,7 @@ watch(monthNumReceived, (newValue: number) => {
           />
 
           <!-- Select modality -->
-          <VVAutocompleteModalidades name="modalidade.id" />
+          <VVAutocompleteAPIModalidades name="modalidade.id" />
 
           <!-- Select calendar -->
           <div class="flex w-full max-w-[1800px] gap-4">

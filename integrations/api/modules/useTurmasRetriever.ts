@@ -1,5 +1,7 @@
 import type { TurmaListData } from '@ladesa-ro/api-client-fetch';
 
+export const turmasBaseQueryKey = ['turmas'];
+
 export const useTurmasRetriever = () => {
   const apiClient = useApiClient();
 

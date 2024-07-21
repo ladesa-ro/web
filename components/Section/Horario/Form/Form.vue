@@ -43,7 +43,7 @@ const onSubmit = handleSubmit(
     <v-divider class="my-4" />
 
     <div class="form-body modal-form">
-      <VVAutocompleteDisciplina name="disciplina.id" />
+      <VVAutocompleteAPIDisciplina name="disciplina.id" />
     </div>
 
     <v-divider />

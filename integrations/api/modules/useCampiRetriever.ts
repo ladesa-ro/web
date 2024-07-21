@@ -1,9 +1,11 @@
 import type { CursoListData } from '@ladesa-ro/api-client-fetch';
 
-export const useCursosRetriever = () => {
+export const campiBaseQueryKey = ['campi'];
+
+export const useCampiRetriever = () => {
   const apiClient = useApiClient();
 
   return (data: CursoListData) => {
-    return apiClient.cursos.cursoList(data);
+    return apiClient.campi.campusList(data);
   };
 };
