@@ -1,5 +1,6 @@
 <script lang="ts" setup generic="T extends any = any">
-import { filter, uniqBy } from 'lodash';
+import filter from 'lodash/filter';
+import uniqBy from 'lodash/uniqBy';
 import { useField } from 'vee-validate';
 import {
   QuerySuspenseBehaviourMode,
