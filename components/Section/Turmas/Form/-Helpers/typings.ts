@@ -14,4 +14,6 @@ export type TurmaFormOutput = {
   ambientePadraoAula: { id: string } | null;
 
   periodo: string;
+
+  _?: any;
 };

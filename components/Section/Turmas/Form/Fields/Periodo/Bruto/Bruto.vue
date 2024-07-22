@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useField } from 'vee-validate';
+
 defineProps({
   disabled: {
     type: Boolean,
@@ -8,6 +10,12 @@ defineProps({
     type: Boolean,
     required: false,
   },
+});
+
+const { value: modoPeriodo } = useField('_.modoPeriodo');
+
+onMounted(() => {
+  modoPeriodo.value = 'periodo';
 });
 </script>
 
