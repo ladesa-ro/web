@@ -45,6 +45,7 @@ onMounted(() => {
       name="_.serie"
       :disabled="isLoading || disabled"
       v-model="serie"
+      label="Série"
       placeholder="1°, 2°, 3°..."
     />
 
