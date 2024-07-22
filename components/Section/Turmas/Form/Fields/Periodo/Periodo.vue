@@ -9,16 +9,12 @@ const FALLBACK_TO_PERIODO = true;
 
 //
 
-const props = defineProps({
-  disabled: {
-    type: Boolean,
-    required: false,
-  },
-  isLoading: {
-    type: Boolean,
-    required: false,
-  },
-});
+type Props = {
+  disabled?: boolean;
+  isLoading?: boolean;
+};
+
+defineProps<Props>();
 
 //
 

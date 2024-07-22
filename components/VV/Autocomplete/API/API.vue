@@ -70,14 +70,14 @@ const { isLoading: listIsLoading, previousItems } =
 
 const items = computed(() => {
   const rawPreviousItems = unref(previousItems);
-  const rawactiveResourceData = unref(activeResourceData);
+  const rawActiveResourceData = unref(activeResourceData);
 
-  if (!rawPreviousItems && !rawactiveResourceData) {
+  if (!rawPreviousItems && !rawActiveResourceData) {
     return null;
   }
 
   const combinedItems = filter(
-    [rawactiveResourceData, ...(rawPreviousItems ?? [])],
+    [rawActiveResourceData, ...(rawPreviousItems ?? [])],
     Boolean
   );
 
@@ -105,6 +105,8 @@ const isFilterEnabled = computed(() => {
 
   return true;
 });
+
+const isFilterDisabled = computed(() => !isFilterEnabled.value);
 
 //
 </script>
@@ -144,7 +146,7 @@ const isFilterEnabled = computed(() => {
       :items="items"
       item-value="value"
       item-title="label"
-      :no-filter="!isFilterEnabled"
+      :no-filter="isFilterDisabled"
       v-model:search="searchValue"
       v-bind="$attrs"
     />

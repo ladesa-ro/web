@@ -2,16 +2,12 @@
 import { useField } from 'vee-validate';
 import { useSplittedSerieLetra } from './composables/useSplittedSerieLetra';
 
-defineProps({
-  disabled: {
-    type: Boolean,
-    required: false,
-  },
-  isLoading: {
-    type: Boolean,
-    required: false,
-  },
-});
+type Props = {
+  disabled?: boolean;
+  isLoading?: boolean;
+}
+
+defineProps<Props>();
 
 const { value: formPeriodo } = useField<string>('periodo');
 
