@@ -1,24 +1,24 @@
 <template>
     <VBtn
-      type="Button"
-      color="#00d047"
+      type="button"
+      color="#ffc52c"
       variant="outlined"
-      append-icon="mdi-arrow-right"
-      class="buttonCadastro"
+      append-icon="mdi-arrow-left"
+      class="buttonBack"
     >
-      Avançar
+      <span>Voltar</span>
     </VBtn>
   </template>
   
   <style>
-  .submit {
+  .button {
     font-weight: 700;
     margin-top: 20px;
     cursor: pointer;
     border: none;
   }
   
-  .v-btn.buttonCadastro {
+  .v-btn.buttonBack {
     padding: 6px 20px;
     border-radius: 8px;
     height: auto;

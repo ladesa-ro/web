@@ -1,16 +1,40 @@
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { ref, computed, unref } from 'vue';
+import {
+  disciplinasBaseQueryKey,
+  useApiBaseResourceList,
+  useDisciplinasRetriever,
+} from '~/integrations';
 
-const props = defineProps({
-  searchBarText: String,
-});
+const $emit = defineEmits(['close', 'next']);
 
-const $emit = defineEmits(['close']);
+const searchBarText = ref('');
 
-const { searchBarText } = toRefs(props);
-const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
+const options = computed(() => ({
+  search: unref(searchBarText),
+}));
 
-const selectedDisciplina = ref<string | null>(null); // Variável para armazenar a disciplina selecionada
+const disciplinasRetriever = useDisciplinasRetriever();
+
+const { previousItems: disciplinas } = await useApiBaseResourceList(
+  disciplinasBaseQueryKey,
+  disciplinasRetriever,
+  options
+);
+
+const selectedDisciplina = ref<string | null>(null);
+
+const closeForm = () => {
+  $emit('close');
+};
+
+const nextForm = () => {
+  $emit('next');
+};
+
+const onDisciplinaSelect = (disciplinaId: string | null) => {
+  selectedDisciplina.value = disciplinaId;
+};
 </script>
 
 <template>
@@ -28,27 +52,14 @@ const selectedDisciplina = ref<string | null>(null); // Variável para armazenar
         :value="searchBarText"
         @update:value="searchBarText = $event"
       />
-      <UIGridSelectionDiscipline :items="disciplinas">
+
+      <UIGridSelectionDiscipline :items="disciplinas ?? []">
         <template #item="{ item: disciplina }">
-          <UICardSelectionDiscipline variant="block">
-            <template #title>
-              {{ disciplina.nome }}
-            </template>
-
-            <template #actions>
-              <v-radio 
-                class="detail"
-                :value="disciplina.id"
-                v-model="selectedDisciplina"
-              ></v-radio>
-            </template>
-
-            <UICardLine>
-              <span class="text-left w-full block">
-                Carga Horária: {{ disciplina.cargaHoraria }}
-              </span>
-            </UICardLine>
-          </UICardSelectionDiscipline>
+          <SectionDiariosFormGeral01DisciplinaSelectionCard
+            :disciplina="disciplina"
+            :selected-disciplina="selectedDisciplina"
+            :on-disciplina-select="onDisciplinaSelect"
+          />
         </template>
       </UIGridSelectionDiscipline>
     </div>
@@ -56,8 +67,8 @@ const selectedDisciplina = ref<string | null>(null); // Variável para armazenar
     <v-divider />
 
     <div class="form-footer button-group">
-      <UIButtonModalCancelButton @click="$emit('close')" />
-      <UIButtonModalAdvancedButton />
+      <UIButtonModalCancelButton @click="closeForm" />
+      <UIButtonModalAdvancedButton @click="nextForm" />
     </div>
   </v-form>
 </template>
@@ -118,5 +129,15 @@ const selectedDisciplina = ref<string | null>(null); // Variável para armazenar
   .v-btn.buttonCadastro {
     padding: 6px 20px;
   }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
