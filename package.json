@@ -17,7 +17,7 @@
     "@mdi/font": "^7.3.67",
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.12.1",
-    "@sidebase/nuxt-auth": "^0.8.0",
+    "@sidebase/nuxt-auth": "^0.8.1",
     "@tanstack/query-persist-client-core": "^5.51.1",
     "@tanstack/query-sync-storage-persister": "^5.51.9",
     "@tanstack/vue-query": "^5.51.9",
