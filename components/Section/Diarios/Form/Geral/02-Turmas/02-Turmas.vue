@@ -7,7 +7,7 @@ const props = defineProps({
 
 const $emit = defineEmits(['close', 'back', 'next']);
 
-const isFormVisible = ref<boolean>(false);
+const isFormVisible = ref(false);
 
 const { searchBarText } = toRefs(props);
 const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
@@ -64,9 +64,7 @@ const selectRole = (role: string) => {
             </div>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
-            <SectionDiariosModalAccessRole
-              @selectRole="selectRole"
-            />
+            <SectionDiariosModalAccessRole @selectRole="selectRole" />
             <v-divider inset></v-divider>
             <div v-if="showTeacherSection" class="Seaction-Teacher pt-3">
               <UISearchBar
@@ -100,7 +98,6 @@ const selectRole = (role: string) => {
             <div v-if="showGroupingSection" class="Seaction-Grouping pt-3">
               <UIDaySelectionClass/>
             </div>
-            
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>

@@ -23,7 +23,7 @@ const isActive = ref(false);
 
     <template v-slot:="{ isActive }">
       <v-card class="dialog-style">
-        <SectionDiariosFormGeral02Turmas @close="isActive.value = false" />
+        <SectionDiariosFormGeral @close="isActive.value = false" />
       </v-card>
     </template>
   </v-dialog>
