@@ -1,11 +1,13 @@
 <script lang="ts" setup>
+import { ref } from 'vue';
+
 const $emit = defineEmits(['close']);
+
+const isForm2Visible = ref(false);
 
 const closeForm = () => {
   $emit('close');
 };
-
-const isForm2Visible = ref<boolean>(false);
 
 const goToForm2 = () => {
   isForm2Visible.value = true;
@@ -13,12 +15,6 @@ const goToForm2 = () => {
 
 const goBackToForm1 = () => {
   isForm2Visible.value = false;
-};
-
-const isFormVisible = ref<boolean>(false);
-
-const goToForm = () => {
-  isFormVisible.value = true;
 };
 </script>
 
@@ -28,6 +24,6 @@ const goToForm = () => {
   </template>
 
   <template v-if="isForm2Visible">
-    <SectionDiariosFormGeral02Turmas @close="closeForm" @back="goBackToForm1" @next="goToForm" />
+    <SectionDiariosFormGeral02Turmas @close="closeForm" @back="goBackToForm1" />
   </template>
 </template>
