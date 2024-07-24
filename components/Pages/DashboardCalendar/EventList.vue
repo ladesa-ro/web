@@ -25,12 +25,15 @@ type EventItem = Omit<Event, 'locale' | 'type'> & {
 };
 
 // Props
-const props = defineProps({
-  year: Number,
-  steps: Array<Step>,
-  events: Array<Event>,
-  monthNum: Number,
-});
+
+type Props = {
+  year: number;
+  steps: Step[];
+  events: Event[];
+  monthNum: number;
+};
+
+const props = defineProps<Props>();
 
 // Set event data
 let allEventItems = ref<EventItem[]>([

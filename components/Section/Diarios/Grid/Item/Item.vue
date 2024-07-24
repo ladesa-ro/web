@@ -1,15 +1,21 @@
-<script setup>
+<script setup lang="ts">
+import type { DiarioFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 import { defineProps, toRefs } from 'vue';
 
 // Definição das props ajustadas
-const props = defineProps({
-  diario: Object,
-});
+
+type Props = {
+  diario: DiarioFindOneResultDto;
+};
+
+const props = defineProps<Props>();
+
+//
 
 const { diario } = toRefs(props);
 
 // Realizei a chamada da ROTA useApiDiariosProfessorFindAllByDiarioId
-const { diarioProfessorList } = await useApiDiariosProfessorFindAllByDiarioId({
+const { diariosProfessorList } = await useApiDiariosProfessorFindAllByDiarioId({
   diario: diario.value,
 });
 </script>
@@ -31,7 +37,7 @@ const { diarioProfessorList } = await useApiDiariosProfessorFindAllByDiarioId({
       <span>
         Professores:
         <template
-          v-for="diarioProfessor in diarioProfessorList"
+          v-for="diarioProfessor in diariosProfessorList"
           :key="diarioProfessor.id"
         >
           {{ diarioProfessor.vinculo.usuario.nome }}

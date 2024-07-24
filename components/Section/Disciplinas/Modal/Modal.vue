@@ -1,13 +1,17 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-const props = defineProps({
-  editId: {
-    type: String,
-    default: null,
-    required: false,
-  },
+//
+
+type Props = {
+  editId?: string | null;
+};
+
+const props = withDefaults(defineProps<Props>(), {
+  editId: null,
 });
+
+//
 
 const editId = toRef(props, 'editId');
 
