@@ -4,12 +4,15 @@ import { toRef } from 'vue';
 
 const searchValue = defineModel('search', { default: '' });
 
-const props = defineProps({
-  name: {
-    type: String,
-    required: true,
-  },
-});
+//
+
+type Props = {
+  name: string;
+};
+
+const props = defineProps<Props>();
+
+//
 
 const name = toRef(props, 'name');
 

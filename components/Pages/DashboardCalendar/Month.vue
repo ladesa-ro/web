@@ -26,12 +26,15 @@ type Event = {
 };
 
 // Props
-const props = defineProps({
-  year: Number,
-  toggleMonth: Boolean,
-  steps: Array<Step>,
-  events: Array<Event>,
-});
+
+type Props = {
+  year: number;
+  toggleMonth: boolean;
+  steps: Step[];
+  events: Event[];
+};
+
+const props = defineProps<Props>();
 
 // Month
 const daysInTheWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -244,7 +247,7 @@ onMounted(async () => {
         @click="toggleMonth(-1)"
         v-show="props.toggleMonth!"
       />
-      
+
       <!-- Month name -->
       <h1 class="font-medium text-center text-xl w-full">
         {{

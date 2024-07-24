@@ -5,14 +5,17 @@ import { useFormUser, type FormUserOutput } from '../FormUtils';
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
 
-const props = defineProps({
-  //props do modal criar e editar
-  editId: {
-    type: String,
-    required: false,
-    default: null,
-  },
+//
+
+type Props = {
+  editId?: string | null;
+};
+
+const props = withDefaults(defineProps<Props>(), {
+  editId: null,
 });
+
+//
 
 const editIdRef = toRef(props, 'editId');
 
