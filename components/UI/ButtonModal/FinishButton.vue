@@ -1,12 +1,12 @@
 <template>
     <VBtn
-      type="Button"
+      type="submit"
       color="#00d047"
       variant="outlined"
-      append-icon="mdi-arrow-right"
+      append-icon="mdi-check-all"
       class="buttonCadastro"
     >
-      Avançar
+      Concluir
     </VBtn>
   </template>
   
