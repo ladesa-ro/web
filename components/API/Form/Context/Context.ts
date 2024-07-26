@@ -91,8 +91,15 @@ export const createAPIFormContext = <
 
   //
 
+  const onError = (...args: any[]) => {
+    if (import.meta.env.DEV) {
+      console.error(...args);
+    }
+  };
+
   const { handleSubmit } = form;
-  const formOnSubmit = handleSubmit(props.onSubmit);
+
+  const formOnSubmit = handleSubmit(props.onSubmit, onError);
 
   //
 

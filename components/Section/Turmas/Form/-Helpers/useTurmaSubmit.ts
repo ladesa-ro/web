@@ -14,7 +14,7 @@ export const useTurmaSubmit = () => {
   const turmaSubmitBase = async (options: ITurmaHandleSubmitOptions) => {
     const { editId, values } = options;
 
-    const { imagem, ...data } = values;
+    const { _, imagem, ...data } = values;
 
     let id;
 

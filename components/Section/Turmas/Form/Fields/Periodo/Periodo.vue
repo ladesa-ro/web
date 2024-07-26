@@ -1,46 +1,61 @@
 <script setup lang="ts">
-import { useTurmaFormValues } from '../../-Helpers/context';
+import { useField } from 'vee-validate';
 import { QuerySuspenseBehaviourMode } from '../../../../../../integrations';
 import { verificarModalidade } from './-Helpers/verificar-modalidade';
+
+//
+
+const FALLBACK_TO_PERIODO = true;
+
+//
 
 type Props = {
   disabled?: boolean;
   isLoading?: boolean;
 };
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
-const formValues = useTurmaFormValues();
+//
 
-const { curso: cursoSelecionado, query } = await useApiCursosFindOne(
-  computed(() => formValues.value.curso?.id),
-  {
-    mode: QuerySuspenseBehaviourMode.NEVER_WAIT,
-  }
-);
+const { value: cursoId } = useField<string | null>('curso.id');
+
+const { curso: cursoSelecionado, query } = await useApiCursosFindOne(cursoId, {
+  mode: QuerySuspenseBehaviourMode.NEVER_WAIT,
+});
+
+//
 
 const isLoading = computed(() => props.isLoading || unref(query.isLoading));
 
 const estrategiaModalidade = computed(() => {
-  return (
-    cursoSelecionado.value &&
-    verificarModalidade(cursoSelecionado.value.modalidade)
-  );
-});
+  if (cursoSelecionado.value) {
+    const estrategiaAutomatica = verificarModalidade(
+      cursoSelecionado.value.modalidade,
+      FALLBACK_TO_PERIODO
+    );
 
-const FALLBACK_TO_PERIODO = true;
+    if (estrategiaAutomatica !== 'nao-implementado') {
+      return estrategiaAutomatica;
+    }
+  }
+
+  if (FALLBACK_TO_PERIODO) {
+    return 'periodo';
+  }
+
+  return null;
+});
 </script>
 
 <template>
-  <SectionTurmasFormFieldsPeriodoSerieTurma
-    v-if="cursoSelecionado && estrategiaModalidade === 'serie-turma'"
+  <SectionTurmasFormFieldsPeriodoSerieLetra
+    v-if="estrategiaModalidade === 'serie-letra'"
     :is-loading="isLoading"
     :disabled="disabled"
   />
 
-  <template
-    v-else-if="FALLBACK_TO_PERIODO || estrategiaModalidade === 'periodo'"
-  >
+  <template v-else-if="estrategiaModalidade === 'periodo'">
     <SectionTurmasFormFieldsPeriodoBruto
       :is-loading="isLoading"
       :disabled="disabled"
@@ -50,7 +65,7 @@ const FALLBACK_TO_PERIODO = true;
   <template v-else-if="cursoSelecionado">
     <v-alert type="warning">
       O sistema ainda não suporta o cadastro de turmas para a modalidade
-      {{ cursoSelecionado.modalidade.nome }}.
+      <span>"{{ cursoSelecionado.modalidade.nome }}".</span>
     </v-alert>
   </template>
 </template>

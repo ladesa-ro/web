@@ -1,5 +1,6 @@
 <script lang="ts" setup generic="T extends any = any">
-import { filter, uniqBy } from 'lodash';
+import filter from 'lodash/filter';
+import uniqBy from 'lodash/uniqBy';
 import { useField } from 'vee-validate';
 import {
   QuerySuspenseBehaviourMode,
@@ -23,11 +24,39 @@ const apiRetrieverOptions = props.options;
 
 //
 
+const { value } = useField(name);
+
+const { response: activeResourceData } = useApiBaseResourceGet({
+  id: computed(() => unref(value)),
+  baseQueryKey: apiRetrieverOptions.baseQueryKey,
+  apiResourceGetRetriever: apiRetrieverOptions.apiResourceGetRetriever,
+});
+
+const activeItem = computed(() => {
+  if (activeResourceData.value) {
+    return apiRetrieverOptions.transformer(activeResourceData.value);
+  }
+
+  return null;
+});
+
+//
+
 const searchValue = defineModel('search', { default: '' });
 
-const searchOptions = computed(() => ({
-  search: unref(searchValue),
-}));
+const searchOptions = computed(() => {
+  let consideredSearch = unref(searchValue);
+
+  if (activeItem.value) {
+    if (activeItem.value.label === consideredSearch) {
+      consideredSearch = '';
+    }
+  }
+
+  return {
+    search: consideredSearch,
+  };
+});
 
 const { isLoading: listIsLoading, previousItems } =
   await useApiBaseResourceList(
@@ -39,26 +68,16 @@ const { isLoading: listIsLoading, previousItems } =
 
 //
 
-const { value } = useField(name);
-
-const { response: activeItemData } = useApiBaseResourceGet({
-  id: computed(() => unref(value)),
-  baseQueryKey: apiRetrieverOptions.baseQueryKey,
-  apiResourceGetRetriever: apiRetrieverOptions.apiResourceGetRetriever,
-});
-
-//
-
 const items = computed(() => {
   const rawPreviousItems = unref(previousItems);
-  const rawActiveItemData = unref(activeItemData);
+  const rawActiveResourceData = unref(activeResourceData);
 
-  if (!rawPreviousItems && !rawActiveItemData) {
+  if (!rawPreviousItems && !rawActiveResourceData) {
     return null;
   }
 
   const combinedItems = filter(
-    [rawActiveItemData, ...(rawPreviousItems ?? [])],
+    [rawActiveResourceData, ...(rawPreviousItems ?? [])],
     Boolean
   );
 
@@ -76,6 +95,18 @@ const items = computed(() => {
 const isLoading = computed(
   () => unref(props.isLoading) || unref(listIsLoading)
 );
+
+const isFilterEnabled = computed(() => {
+  if (activeItem.value) {
+    if (searchValue.value.trim() === activeItem.value.label.trim()) {
+      return false;
+    }
+  }
+
+  return true;
+});
+
+const isFilterDisabled = computed(() => !isFilterEnabled.value);
 
 //
 </script>
@@ -115,6 +146,7 @@ const isLoading = computed(
       :items="items"
       item-value="value"
       item-title="label"
+      :no-filter="isFilterDisabled"
       v-model:search="searchValue"
       v-bind="$attrs"
     />

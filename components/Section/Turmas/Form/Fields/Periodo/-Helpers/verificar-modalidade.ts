@@ -1,12 +1,13 @@
 import type { ModalidadeFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 
 export const verificarModalidade = (
-  modalidade: ModalidadeFindOneResultDto
-): 'serie-turma' | 'periodo' | 'nao-implementado' => {
-  switch (modalidade.id) {
+  modalidade: ModalidadeFindOneResultDto | null,
+  fallbackToPeriodo = false
+): 'serie-letra' | 'periodo' | 'nao-implementado' => {
+  switch (modalidade?.id) {
     case '1f08fe79-8f99-493b-ade1-fe082b4761e1':
     case 'aab71668-9dfc-46ae-8593-99dcb616a88d': {
-      return 'serie-turma';
+      return 'serie-letra';
     }
 
     case '3ec92df1-1c11-4990-8664-f17fbbd3ca41':
@@ -16,7 +17,7 @@ export const verificarModalidade = (
     }
 
     default: {
-      return 'nao-implementado';
+      return fallbackToPeriodo ? 'periodo' : 'nao-implementado';
     }
   }
 };

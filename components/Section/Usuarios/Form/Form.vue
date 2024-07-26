@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { groupBy } from 'lodash';
+import groupBy from 'lodash/groupBy';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { useApiUsuarioVinculosAtivos } from '../../../../composables/api/usuarios/useApiUsuarioVinculosAtivos';
