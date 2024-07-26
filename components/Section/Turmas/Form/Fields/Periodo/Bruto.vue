@@ -1,14 +1,10 @@
 <script setup lang="ts">
-defineProps({
-  disabled: {
-    type: Boolean,
-    required: false,
-  },
-  isLoading: {
-    type: Boolean,
-    required: false,
-  },
-});
+type Props = {
+  disabled?: boolean;
+  isLoading?: boolean;
+};
+
+defineProps<Props>();
 </script>
 
 <template>

@@ -7,14 +7,15 @@ import type { FormUserOutput, FormUserValues } from './FormUtils';
 
 //
 
-const props = defineProps({
-  //props do modal criar e editar
-  editId: {
-    type: String,
-    required: false,
-    default: null,
-  },
+type Props = {
+  editId?: string | null;
+};
+
+const props = withDefaults(defineProps<Props>(), {
+  editId: null,
 });
+
+//
 
 const editIdRef = toRef(props, 'editId');
 

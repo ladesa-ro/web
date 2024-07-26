@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { ref, toRefs } from 'vue';
 
-const props = defineProps({
-  searchBarText: String,
-});
+//
+
+type Props = {
+  searchBarText?: string;
+};
+
+const props = defineProps<Props>();
+
+//
 
 const $emit = defineEmits(['close', 'back', 'next']);
 
@@ -79,10 +85,7 @@ const selectRole = (role: string) => {
                     </template>
 
                     <template #actions>
-                      <v-radio 
-                        class="detail"
-                        :value="disciplina.id"
-                      ></v-radio>
+                      <v-radio class="detail" :value="disciplina.id"></v-radio>
                     </template>
 
                     <UICardLine>
@@ -96,7 +99,7 @@ const selectRole = (role: string) => {
             </div>
 
             <div v-if="showGroupingSection" class="Seaction-Grouping pt-3">
-              <UIDaySelectionClass/>
+              <UIDaySelectionClass />
             </div>
           </v-expansion-panel-text>
         </v-expansion-panel>
@@ -110,9 +113,9 @@ const selectRole = (role: string) => {
         <UIButtonModalAddNewClassButton />
       </div>
       <div class="button-group">
-        <UIButtonModalBackButton @click="backForm"/>
+        <UIButtonModalBackButton @click="backForm" />
         <UIButtonModalCancelButton @click="closeForm" />
-        <UIButtonModalSaveButton/>
+        <UIButtonModalSaveButton />
       </div>
     </div>
   </v-form>

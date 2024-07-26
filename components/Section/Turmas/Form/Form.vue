@@ -8,13 +8,15 @@ import { useTurmaSubmit } from './-Helpers/useTurmaSubmit';
 
 //
 
-const props = defineProps({
-  editId: {
-    type: String,
-    required: false,
-    default: null,
-  },
+type Props = {
+  editId?: string | null;
+};
+
+const props = withDefaults(defineProps<Props>(), {
+  editId: null,
 });
+
+//
 
 const { editId } = toRefs(props);
 

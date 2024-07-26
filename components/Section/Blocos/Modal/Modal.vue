@@ -1,13 +1,17 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-const props = defineProps({
-  editId: {
-    type: String,
-    default: null,
-    required: false,
-  },
+//
+
+type Props = {
+  editId?: string | null;
+};
+
+const props = withDefaults(defineProps<Props>(), {
+  editId: null,
 });
+
+//
 
 const editId = toRef(props, 'editId');
 
@@ -23,10 +27,7 @@ const isActive = ref(false);
 
     <template v-slot:="{ isActive }">
       <v-card class="dialog-style">
-        <SectionBlocosForm
-          :editId="editId"
-          @close="isActive.value = false"
-        />
+        <SectionBlocosForm :editId="editId" @close="isActive.value = false" />
       </v-card>
     </template>
   </v-dialog>

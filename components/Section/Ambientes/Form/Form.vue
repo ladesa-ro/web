@@ -5,14 +5,17 @@ import { computed } from 'vue';
 import * as yup from 'yup';
 import { useApiAmbienteFindOne, useApiClient } from '~/composables';
 
-const props = defineProps({
-  //props do modal criar e editar
-  editId: {
-    type: String,
-    required: false,
-    default: null,
-  },
+//
+
+type Props = {
+  editId?: string | null;
+};
+
+const props = withDefaults(defineProps<Props>(), {
+  editId: null,
 });
+
+//
 
 const editIdRef = toRef(props, 'editId');
 
@@ -68,12 +71,16 @@ const initialFormValues = reactive({
 });
 
 const handleDelete = async () => {
+  const id = editIdRef.value;
+
+  if (!id) return;
+
   const resposta = window.confirm(
     'Você tem certeza de que deseja deletar esse ambiente?'
   );
 
   if (resposta) {
-    await apiClient.ambientes.ambienteDeleteById({ id: editIdRef.value });
+    await apiClient.ambientes.ambienteDeleteById({ id: id });
     await queryClient.invalidateQueries({ queryKey: ['ambientes'] });
     $emit('close');
   }

@@ -3,16 +3,12 @@ import { useTurmaFormValues } from '../../-Helpers/context';
 import { QuerySuspenseBehaviourMode } from '../../../../../../integrations';
 import { verificarModalidade } from './-Helpers/verificar-modalidade';
 
-const props = defineProps({
-  disabled: {
-    type: Boolean,
-    required: false,
-  },
-  isLoading: {
-    type: Boolean,
-    required: false,
-  },
-});
+type Props = {
+  disabled?: boolean;
+  isLoading?: boolean;
+};
+
+const props = defineProps<Props>();
 
 const formValues = useTurmaFormValues();
 

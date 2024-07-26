@@ -1,8 +1,14 @@
 <script setup lang="ts">
-const props = defineProps({
-  text: String,
-  showBackground: Boolean,
-});
+//
+
+type Props = {
+  text?: string;
+  showBackground?: boolean;
+};
+
+const props = defineProps<Props>();
+
+//
 </script>
 
 <template>

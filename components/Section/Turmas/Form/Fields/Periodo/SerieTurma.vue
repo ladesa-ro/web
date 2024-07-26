@@ -1,16 +1,12 @@
 <script setup lang="ts">
 import { useTurmaFormValues } from '../../-Helpers/context';
 
-defineProps({
-  disabled: {
-    type: Boolean,
-    required: false,
-  },
-  isLoading: {
-    type: Boolean,
-    required: false,
-  },
-});
+type Props = {
+  disabled?: boolean;
+  isLoading?: boolean;
+};
+
+defineProps<Props>();
 
 const formValues = useTurmaFormValues();
 
