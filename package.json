@@ -19,7 +19,7 @@
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@sidebase/nuxt-auth": "^0.8.1",
     "@tanstack/query-persist-client-core": "^5.51.1",
-    "@tanstack/query-sync-storage-persister": "^5.51.9",
+    "@tanstack/query-sync-storage-persister": "^5.51.15",
     "@tanstack/vue-query": "^5.51.9",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/lodash": "^4.17.7",
