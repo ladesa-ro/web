@@ -17,6 +17,7 @@ const props = defineProps({
   startDate: dayjs.Dayjs,
   endDate: dayjs.Dayjs,
   locale: String,
+  notifyStatus: Boolean
 });
 
 const _eventStatus = await eventStatus.startEvent(
@@ -34,7 +35,11 @@ const _eventStatus = await eventStatus.startEvent(
       <!-- Event -->
       <div class="flex flex-row w-full justify-between items-center">
         <p class="font-semibold text-sm sm:text-[16px]">{{ props.name! }}</p>
-        <NotifyEvent />
+        <NotifyEvent
+          v-show="dayjs().isBefore(props.endDate)"
+          :event-id="props.id"
+          :notify-status="props.notifyStatus"
+        />
       </div>
 
       <!-- Infos -->

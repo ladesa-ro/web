@@ -1,17 +1,18 @@
 <script lang="ts" setup>
 // Import
-
-// Import functions
-
-// Interface and types
+import { calendarData } from '../Functions/CalendarData.js';
 
 // Props
-
-const notify = ref<boolean>(false);
+const props = defineProps({
+  eventId: String,
+  notifyStatus: Boolean,
+});
+const notify = ref<boolean>(props.notifyStatus!);
 
 async function enableNotify(v: boolean): Promise<void> {
   try {
     notify.value! = !v!;
+    calendarData.notifyEvent(props.eventId!, notify.value);
   } catch (error) {
     alert('Não foi possível ativar a notificação do evento.');
   }

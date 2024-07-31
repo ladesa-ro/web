@@ -11,6 +11,7 @@ type EventData = {
   startDate: dayjs.Dayjs;
   endDate: dayjs.Dayjs;
   color: string;
+  notifyStatus: boolean;
 };
 
 type Step = EventData & {
@@ -40,6 +41,7 @@ export const getFormattedEvents = {
         StartDate: dayjs.Dayjs,
         EndDate: dayjs.Dayjs,
         Color: string,
+        NotifyStatus: boolean,
         Locale?: string
       ): Promise<void> {
         try {
@@ -50,6 +52,7 @@ export const getFormattedEvents = {
             startDate: StartDate,
             endDate: EndDate,
             locale: Locale,
+            notifyStatus: NotifyStatus,
           };
 
           formattedEvents.push(eventItem);
@@ -66,7 +69,8 @@ export const getFormattedEvents = {
               `${steps![i].number}° Etapa`,
               steps![i].startDate,
               steps![i].endDate,
-              steps![i].color
+              steps![i].color,
+              steps![i].notifyStatus
             );
           }
 
@@ -78,7 +82,7 @@ export const getFormattedEvents = {
               events![i].startDate,
               events![i].endDate,
               events![i].color,
-              events![i].locale
+              events![i].notifyStatus
             );
           }
         } catch (error) {}

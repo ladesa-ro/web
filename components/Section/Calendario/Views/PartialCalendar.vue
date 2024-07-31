@@ -9,6 +9,7 @@ type EventData = {
   startDate: dayjs.Dayjs;
   endDate: dayjs.Dayjs;
   color: string;
+  notifyStatus: boolean;
 };
 
 type Step = EventData & {

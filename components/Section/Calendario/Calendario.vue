@@ -1,32 +1,8 @@
 <script lang="ts" setup>
 // Import
-import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
+import { calendarData } from './Functions/CalendarData.js';
 
-// Interface and types
-type EventData = {
-  id: string;
-  startDate: dayjs.Dayjs;
-  endDate: dayjs.Dayjs;
-  color: string;
-};
-
-type Step = EventData & {
-  number: number;
-};
-
-type Event = EventData & {
-  name: string;
-  locale?: string;
-};
-
-// Props
-// removed due to not being used
-
-// Variables
-
-// Calendar and events
-// Years
 const years = [2024, 2023, 2022, 2021, 2020, 2019];
 const calendars = [
   'Informática 2024',
@@ -37,63 +13,8 @@ const calendars = [
   'Informática 2019',
 ];
 
-// Event and steps (For example. Remove in other moment)
-const stepItems: Array<Step> = [
-  {
-    id: '123452',
-    number: 1,
-    startDate: dayjs('2024-02-08'),
-    endDate: dayjs('2024-03-23'),
-    color: '#0092E4',
-  },
-  {
-    id: '24522',
-    number: 2,
-    startDate: dayjs('2024-03-24'),
-    endDate: dayjs('2024-05-14'),
-    color: '#2DAC0D',
-  },
-  {
-    id: '3456',
-    number: 3,
-    startDate: dayjs('2024-05-15'),
-    endDate: dayjs('2024-07-09'),
-    color: '#D1A300',
-  },
-  {
-    id: '544',
-    number: 4,
-    startDate: dayjs('2024-08-10'),
-    endDate: dayjs('2024-11-28'),
-    color: '#D7004D',
-  },
-];
-const eventItems: Array<Event> = [
-  {
-    id: '121312',
-    name: 'IFRO Party',
-    startDate: dayjs('2024-05-15T00:00:00'),
-    endDate: dayjs('2024-05-22T00:00:00'),
-    locale: 'Refeitório',
-    color: '#B51B2A',
-  },
-  {
-    id: '1242',
-    name: 'IFRO Party 2',
-    startDate: dayjs('2024-05-15T00:00:00'),
-    endDate: dayjs('2024-05-22T00:00:00'),
-    color: '#211F1B',
-  },
-  {
-    id: '12345',
-    name: 'IFRO Party 3',
-    startDate: dayjs('2024-07-16T16:30:00'),
-    endDate: dayjs('2024-07-26T18:20:00'),
-    locale: 'Refeitório',
-    color: '#0092E4',
-  },
-];
-
+const stepItems = await calendarData.getSteps();
+const eventItems = await calendarData.getEvents();
 // Functions
 // Calendar view
 let calendarView = ref<boolean>(false);
@@ -178,6 +99,11 @@ const handleUpdate = (v: boolean) => {
           :steps="stepItems"
           v-show="calendarView !== false"
         />
+
+        <!-- Modals -->
+        <div class="flex items-center flex-shrink-0">
+          <SectionCalendarioModal />
+        </div>
       </div>
     </div>
   </v-container>

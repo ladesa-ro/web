@@ -17,6 +17,7 @@ type EventData = {
   startDate: dayjs.Dayjs;
   endDate: dayjs.Dayjs;
   color: string;
+  notifyStatus: boolean;
 };
 
 type Step = EventData & {
@@ -94,6 +95,7 @@ onMounted(async () => {
       :locale="event.locale"
       :start-date="event.startDate"
       :end-date="event.endDate"
+      :notify-status="event.notifyStatus"
     />
   </div>
 </template>
