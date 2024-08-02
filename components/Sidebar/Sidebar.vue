@@ -15,9 +15,9 @@
     @update:model-value="($val) => (hamburgerActive = $val)"
   >
     <v-list class="flex-column justify-space-between h-full sidebar-list">
-      <v-list-item-group class="flex flex-col gap-3 h-full">
+      <div class="flex flex-col gap-3 h-full">
         <SidebarItem :key="index" :item="item" v-for="(item, index) in items" />
-      </v-list-item-group>
+      </div>
     </v-list>
   </v-navigation-drawer>
 </template>
@@ -42,37 +42,43 @@ const items: ISidebarItem[] = [
     type: 'link',
     title: 'Início',
     icon: iconHome,
-    to: '/',
+    to: '/dape',
+    exact: true,
   },
   {
     type: 'link',
     title: 'Turmas',
     icon: iconTurmas,
-    to: '/dashboard/turmas',
+    to: '/dape/turmas',
+    exact: false,
   },
   {
     type: 'link',
     title: 'Disciplinas',
     icon: iconDisciplina,
-    to: '/dashboard/disciplinas',
+    to: '/dape/disciplinas',
+    exact: false,
   },
   {
     type: 'link',
     title: 'Perfil',
     icon: iconPerfil,
     to: '/perfil',
+    exact: false,
   },
   {
     type: 'link',
     title: 'Diários',
     icon: iconDiario,
     to: '/dashboard/diarios',
+    exact: false,
   },
   {
     type: 'link',
     title: 'Calendário',
     icon: iconCalendario,
     to: '/calendario',
+    exact: false,
   },
   {
     type: 'group',
@@ -83,13 +89,15 @@ const items: ISidebarItem[] = [
         type: 'link',
         title: 'Usuários',
         icon: iconUsuarios,
-        to: '/dashboard/usuarios',
+        to: '/dape/usuarios',
+        exact: false,
       },
       {
         type: 'link',
         title: 'Cursos',
         icon: iconCursos,
-        to: '/dashboard/cursos',
+        to: '/dape/cursos',
+        exact: false,
       },
     ],
   },
@@ -101,6 +109,7 @@ const items: ISidebarItem[] = [
     title: 'Configurações',
     icon: iconConfiguracoes,
     to: '/configuracoes',
+    exact: false,
   },
 ];
 

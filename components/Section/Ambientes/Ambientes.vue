@@ -1,33 +1,30 @@
-<script lang="ts" setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
+import {
+  ambientesBaseQueryKey,
+  useAmbientesRetriever,
+} from '../../../integrations/api/modules/useAmbientesRetriever';
 
-const searchBarText = ref('');
+const ambientesRetriever = useAmbientesRetriever();
+
+const options = createApiListContextOptions({
+  baseQueryKey: ambientesBaseQueryKey,
+  apiBaseResourceListRetriever: ambientesRetriever,
+});
 </script>
 
 <template>
-  <v-container>
-    <div class="container mx-auto max-w-[89%]">
-      <div
-        class="container-header mx-auto justify-between items-center flex mb-5 gap-4 px-3"
-      >
-        <UISearchBar
-          :value="searchBarText"
-          @update:value="searchBarText = $event"
-        />
+  <UIAPIList :options="options">
+    <template #options-actions>
+      <LazySectionAmbientesModal />
+    </template>
 
-        <div class="flex items-center flex-shrink-0">
-          <SectionAmbientesModal />
-        </div>
-      </div>
-      <div>
-        <SectionAmbientesGrid :searchBarText="searchBarText" />
-      </div>
-    </div>
-  </v-container>
+    <template #grid-item="{ item, isLoading }">
+      <SectionAmbientesGridItem :item="item" :isLoading="isLoading" />
+    </template>
+
+    <template #grid-item-skeleton>
+      <SectionAmbientesGridItem :item="null" :isLoading="true" />
+    </template>
+  </UIAPIList>
 </template>
-
-<style scoped>
-.container-header {
-  padding: 50px 0;
-}
-</style>

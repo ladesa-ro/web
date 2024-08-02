@@ -5,14 +5,17 @@ import { computed } from 'vue';
 import * as yup from 'yup';
 import { useApiBlocosFindOne, useApiClient } from '~/composables';
 
-const props = defineProps({
-  //props do modal criar e editar
-  editId: {
-    type: String,
-    required: false,
-    default: null,
-  },
+//
+
+type Props = {
+  editId?: string | null;
+};
+
+const props = withDefaults(defineProps<Props>(), {
+  editId: null,
 });
+
+//
 
 const editIdRef = toRef(props, 'editId');
 
@@ -57,12 +60,16 @@ const initialFormValues = reactive({
 });
 
 const handleDelete = async () => {
+  const id = editIdRef.value;
+
+  if (!id) return;
+
   const resposta = window.confirm(
     'Você tem certeza de que deseja deletar esse bloco?'
   );
 
   if (resposta) {
-    await apiClient.blocos.blocoDeleteById({ id: editIdRef.value });
+    await apiClient.blocos.blocoDeleteById({ id: id });
     await queryClient.invalidateQueries({ queryKey: ['blocos'] });
     $emit('close');
   }
@@ -160,7 +167,7 @@ const codigo = computed({
     <div class="form-body modal-form">
       <VVSelectImage name="imagem" />
 
-      <VVAutocompleteCampus name="campus.id" :disabled="Boolean(editId)" />
+      <VVAutocompleteAPICampus name="campus.id" :disabled="Boolean(editId)" />
 
       <VVTextField
         v-model="nome"

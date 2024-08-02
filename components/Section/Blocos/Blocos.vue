@@ -1,33 +1,27 @@
-<script lang="ts" setup>
-import { ref } from 'vue';
+<script setup lang="ts">
+import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
+import { useBlocosRetriever } from '~/integrations/api';
 
-const searchBarText = ref('');
+const blocosRetriever = useBlocosRetriever();
+
+const options = createApiListContextOptions({
+  baseQueryKey: ['blocos'],
+  apiBaseResourceListRetriever: blocosRetriever,
+});
 </script>
 
 <template>
-  <v-container>
-    <div class="container mx-auto max-w-[89%]">
-      <div
-        class="container-header mx-auto justify-between items-center flex mb-5 gap-4 px-3"
-      >
-        <UISearchBar
-          :value="searchBarText"
-          @update:value="searchBarText = $event"
-        />
+  <UIAPIList :options="options">
+    <template #options-actions>
+      <LazySectionBlocosModal />
+    </template>
 
-        <div class="flex items-center flex-shrink-0">
-          <SectionBlocosModal />
-        </div>
-      </div>
-      <div>
-        <SectionBlocosGrid :searchBarText="searchBarText" />
-      </div>
-    </div>
-  </v-container>
+    <template #grid-item="{ item, isLoading }">
+      <SectionBlocosGridItem :item="item" :isLoading="isLoading" />
+    </template>
+
+    <template #grid-item-skeleton>
+      <SectionBlocosGridItem :item="null" :isLoading="true" />
+    </template>
+  </UIAPIList>
 </template>
-
-<style scoped>
-.container-header {
-  padding: 50px 0;
-}
-</style>

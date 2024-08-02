@@ -7,14 +7,15 @@ import { useApiClient, useApiDisciplinasFindOne } from '~/composables';
 
 //
 
-const props = defineProps({
-  //props do modal criar e editar
-  editId: {
-    type: String,
-    required: false,
-    default: null,
-  },
+type Props = {
+  editId?: string | null;
+};
+
+const props = withDefaults(defineProps<Props>(), {
+  editId: null,
 });
+
+//
 
 const editIdRef = toRef(props, 'editId');
 
@@ -48,12 +49,16 @@ const initialFormValues = reactive({
 });
 
 const handleDelete = async () => {
+  const id = editIdRef.value;
+
+  if (!id) return;
+
   const resposta = window.confirm(
     'Você tem certeza de que deseja deletar esta Disciplina?'
   );
 
   if (resposta) {
-    await apiClient.disciplinas.disciplinaDeleteById({ id: editIdRef.value });
+    await apiClient.disciplinas.disciplinaDeleteById({ id: id });
     await queryClient.invalidateQueries({ queryKey: ['disciplinas'] });
     $emit('close');
   }

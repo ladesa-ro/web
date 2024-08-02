@@ -1,7 +1,6 @@
 <template>
   <VBtn
     type="button"
-    color="#e9001c"
     variant="outlined"
     append-icon="mdi-close"
     class="buttonCancelar"

@@ -1,9 +1,15 @@
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue';
 
-const props = defineProps({
-  value: String,
-});
+//
+
+type Props = {
+  value?: string;
+};
+
+const props = defineProps<Props>();
+
+//
 
 const emits = defineEmits(['update:value']);
 

@@ -47,7 +47,7 @@ useTitle(null, 'Login');
         <span class="block mb-8 text-center">
           Esqueceu a senha?
 
-          <SectionLoginResetPasswordModal />
+          <LazySectionLoginResetPasswordModal />
         </span>
 
         <UIButton
@@ -74,7 +74,7 @@ useTitle(null, 'Login');
     </form>
 
     <div>
-      <NuxtLink tabindex="-1" class="login-alternative-link" to="/aluno">
+      <NuxtLink tabindex="-1" class="login-alternative-link" to="/consulta">
         <UIButton
           :disabled="isBusy"
           type="button"
@@ -85,7 +85,7 @@ useTitle(null, 'Login');
           </template>
 
           <p class="border-l-2 w-full h-full border-solid border-white">
-            Entrar como Aluno
+            Acesso Público
           </p>
         </UIButton>
       </NuxtLink>

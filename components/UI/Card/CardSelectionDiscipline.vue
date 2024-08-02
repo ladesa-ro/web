@@ -47,7 +47,7 @@ const selectedRadio = ref<string>('');
   position: absolute;
   cursor: pointer;
   z-index: 10;
-  margin-left: 80%;
+  margin-left: 88%;
   margin-top: 9%;
 }
 .-card-titulo {

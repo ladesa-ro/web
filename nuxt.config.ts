@@ -58,6 +58,8 @@ export default defineNuxtConfig({
       enablePeriodically: 15 * 1000,
       enableOnWindowFocus: true,
     },
+
+    globalAppMiddleware: true,
   },
 
   // ===========
@@ -80,5 +82,5 @@ export default defineNuxtConfig({
     },
   },
 
-  compatibilityDate: '2024-07-08'
+  compatibilityDate: '2024-07-09',
 });

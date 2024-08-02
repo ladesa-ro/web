@@ -3,8 +3,10 @@ import { inject, provide } from 'vue';
 
 const API_AUTH_TOKEN = Symbol.for('API_AUTH_TOKEN');
 
+export type ApiClient = ReturnType<typeof getApiClient>;
+
 export const getApiClient = () => {
-  const ENPOINT_URL = 'https://luna.sisgha.com/api';
+  const ENPOINT_URL = 'https://dev.ladesa.com.br/api';
 
   const apiClient = new LadesaApiClient({
     BASE: ENPOINT_URL,

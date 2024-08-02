@@ -39,7 +39,13 @@ onMounted(() => {
       <Sidebar v-model="habumguerActive" />
 
       <v-main class="main">
-        <slot></slot>
+        <div class="main-content">
+          <div class="flex-1 flex">
+            <slot></slot>
+          </div>
+
+          <UIFooter />
+        </div>
       </v-main>
     </v-layout>
   </v-app>
@@ -60,14 +66,22 @@ onMounted(() => {
 }
 
 .main {
+  overflow: hidden;
+  display: flex;
+}
+
+.main-content {
+  flex: 1;
+
   overflow: auto;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .layout {
   overflow: hidden;
-
   height: 100vh; /* fallback para caso o dispositivo não suporte dvh */
-
   height: 100dvh;
 }
 </style>

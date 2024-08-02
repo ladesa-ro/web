@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { useElementBounding } from '@vueuse/core';
 
-const props = defineProps<{ notificationsButtonEl: HTMLElement | null }>();
+type Props = {
+  notificationsButtonEl: HTMLElement | null;
+};
+
+const props = defineProps<Props>();
+
 const bubbleEl = ref(null);
 
 const boundingActivator = useElementBounding(props.notificationsButtonEl);

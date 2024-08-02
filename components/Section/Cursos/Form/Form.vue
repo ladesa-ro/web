@@ -5,14 +5,17 @@ import { computed } from 'vue';
 import * as yup from 'yup';
 import { useApiClient, useApiCursosFindOne } from '~/composables';
 
-const props = defineProps({
-  //props do modal criar e editar
-  editId: {
-    type: String,
-    required: false,
-    default: null,
-  },
+//
+
+type Props = {
+  editId?: string | null;
+};
+
+const props = withDefaults(defineProps<Props>(), {
+  editId: null,
 });
+
+//
 
 const editIdRef = toRef(props, 'editId');
 
@@ -67,12 +70,16 @@ const initialFormValues = reactive({
 });
 
 const handleDelete = async () => {
+  const id = editIdRef.value;
+
+  if (!id) return;
+
   const resposta = window.confirm(
     'Você tem certeza de que deseja deletar esse curso?'
   );
 
   if (resposta) {
-    await apiClient.cursos.cursoDeleteById({ id: editIdRef.value });
+    await apiClient.cursos.cursoDeleteById({ id: id });
     await queryClient.invalidateQueries({ queryKey: ['cursos'] });
     $emit('close');
   }
@@ -174,9 +181,9 @@ const nomeAbreviado = computed({
     <div class="form-body modal-form">
       <VVSelectImage name="imagem" />
 
-      <VVAutocompleteModalidades name="modalidade.id" />
+      <VVAutocompleteAPIModalidades name="modalidade.id" />
 
-      <VVAutocompleteCampus name="campus.id" />
+      <VVAutocompleteAPICampus name="campus.id" />
 
       <VVTextField
         v-model="nome"

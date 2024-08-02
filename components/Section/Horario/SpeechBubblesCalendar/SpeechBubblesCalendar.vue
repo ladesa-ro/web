@@ -15,6 +15,8 @@ const computedPinLeft = computed(() => {
     boundingBubble.x.value
   );
 });
+
+const selectedDay = useSelectedDay();
 </script>
 
 <template>
@@ -27,7 +29,13 @@ const computedPinLeft = computed(() => {
     ></div>
 
     <div class="flex flex-col">
-      <PagesDashboardCalendarMonth class="mx-0" />
+      <PagesDashboardCalendarMonth
+        :year="selectedDay.year()"
+        :toggleMonth="false"
+        :steps="[]"
+        :events="[]"
+        class="mx-0"
+      />
     </div>
   </div>
 </template>

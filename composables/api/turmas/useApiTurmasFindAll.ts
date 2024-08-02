@@ -1,26 +1,40 @@
-import { useQuery } from '@tanstack/vue-query';
+import type { TurmaListData } from '@ladesa-ro/api-client-fetch';
+import type {
+  IApiBaseResourceListRetrieverInput,
+  QuerySuspenseBehaviour,
+} from '../../../integrations';
+import { useApiBaseResourceList } from '../../../integrations/api/base/list/composables/useApiBaseResourceList';
 
 export const useApiTurmasFindAll = async (
-  searchTerm: MaybeRef<string | undefined>
+  searchTerm: MaybeRef<string | undefined>,
+  suspenseBehaviour?: QuerySuspenseBehaviour
 ) => {
   const apiClient = useApiClient();
 
-  const query = useQuery({
-    queryKey: ['turmas', searchTerm],
-
-    queryFn: async () => {
-      return apiClient.turmas.turmaList({
-        search: unref(searchTerm),
-      });
-    },
+  const data = computed(() => {
+    return {
+      search: unref(searchTerm),
+    } satisfies IApiBaseResourceListRetrieverInput;
   });
 
-  const turmas = computed(() => unref(query.data)?.data ?? []);
-
-  await query.suspense();
+  const {
+    query,
+    isLoading,
+    //
+    items,
+    previousItems,
+  } = await useApiBaseResourceList(
+    ['turmas'],
+    (data: TurmaListData) => apiClient.turmas.turmaList(data),
+    data,
+    suspenseBehaviour
+  );
 
   return {
     query,
-    turmas,
+    isLoading,
+    //
+    items,
+    previousItems,
   };
 };

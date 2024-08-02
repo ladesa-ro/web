@@ -1,0 +1,9 @@
+.v-btn {
+  grid-template-rows: 1fr;
+}
+
+.v-field__append-inner, .v-field__clearable, .v-field__prepend-inner {
+  /* --v-input-padding-top: 13px; */
+  padding-top: 0 !important;
+  align-self: center;
+}

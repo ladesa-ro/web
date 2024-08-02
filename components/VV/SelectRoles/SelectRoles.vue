@@ -2,12 +2,15 @@
 import { useField } from 'vee-validate';
 import { toRefs } from 'vue';
 
-const props = defineProps({
-  name: {
-    type: String,
-    required: true,
-  },
-});
+//
+
+type Props = {
+  name: string;
+};
+
+const props = defineProps<Props>();
+
+//
 
 const { name } = toRefs(props);
 

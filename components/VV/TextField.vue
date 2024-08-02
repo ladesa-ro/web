@@ -2,41 +2,44 @@
 import { useField } from 'vee-validate';
 import { toRef } from 'vue';
 
-const props = defineProps({
-  type: {
-    type: String,
-    default: 'text',
-  },
-  value: {
-    type: String,
-    default: undefined,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  successMessage: {
-    type: String,
-    default: '',
-  },
+//
+
+type Props = {
+  type: string;
+  value?: string;
+  name: string;
+  successMessage: string;
+};
+
+const props = withDefaults(defineProps<Props>(), {
+  type: 'text',
+  value: undefined,
+  successMessage: '',
 });
+
+//
 
 const name = toRef(props, 'name');
 
-const { errorMessage, handleBlur, handleChange } = useField(name, undefined, {
-  initialValue: props.value,
+const {
+  errorMessage,
+  handleBlur,
+  value: modelValue,
+
+  handleChange,
+} = useField(name, undefined, {
+  initialValue: props.value ?? undefined,
   validateOnValueUpdate: false,
 });
 </script>
 
 <template>
   <UITextFieldBase
-    :id="name"
     v-bind="$attrs"
     :name="name"
     :type="type"
     :error-messages="errorMessage ? [errorMessage] : []"
-    @input="handleChange"
+    v-model:value="modelValue"
     @blur="handleBlur"
     persistent-hint
   />
