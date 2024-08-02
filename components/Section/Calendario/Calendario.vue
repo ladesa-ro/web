@@ -28,77 +28,86 @@ const handleUpdate = (v: boolean) => {
   <v-container>
     <div class="container">
       <div class="flex flex-col justify-center items-center w-max h-auto">
-        <!-- Select calendar -->
-        <div
-          class="flex flex-col xl:flex-row w-full justify-center items-center gap-4 m-auto mb-6 pt-[50px]"
-        >
-          <!-- Select year -->
-          <VVAutocomplete
-            name="year.id"
-            label="Ano letivo"
-            placeholder="Selecione um ano"
-            :items="years"
-            class="xl:max-w-[200px]"
-          />
-
-          <!-- Select modality -->
-          <VVAutocompleteModalidades name="modalidade.id" />
-
+        <!-- Head -->
+        <div>
           <!-- Select calendar -->
-          <div class="flex w-full max-w-[1800px] gap-4">
+          <div
+            class="flex flex-col xl:flex-row w-full justify-center items-center gap-4 m-auto mb-6 pt-[50px]"
+          >
+            <!-- Select year -->
             <VVAutocomplete
-              name="calendar.id"
-              label="Calendários"
-              placeholder="Selecione um calendário"
-              :items="calendars"
-              class="w-full"
+              name="year.id"
+              label="Ano letivo"
+              placeholder="Selecione um ano"
+              :items="years"
+              class="xl:max-w-[200px]"
             />
 
-            <!-- Buttons -->
+            <!-- Select modality -->
+            <VVAutocompleteModalidades name="modalidade.id" />
 
-            <!-- Search -->
-            <div>
-              <UIButtonSearch />
-            </div>
+            <!-- Select calendar -->
+            <div class="flex w-full max-w-[1800px] gap-4">
+              <VVAutocomplete
+                name="calendar.id"
+                label="Calendários"
+                placeholder="Selecione um calendário"
+                :items="calendars"
+                class="w-full"
+              />
 
-            <!-- Add -->
-            <div>
-              <UIButtonAdd />
+              <!-- Buttons -->
+
+              <!-- Search -->
+              <div>
+                <UIButtonSearch />
+              </div>
+
+              <!-- Add -->
+              <div>
+                <UIButtonAdd />
+              </div>
             </div>
+          </div>
+
+          <!-- Calendar preview -->
+          <div
+            class="flex flex-col-reverse gap-6 lg:flex-row justify-between w-full mb-6"
+          >
+            <!-- Event List -->
+            <SectionCalendarioEventsSeeEventsList
+              v-show="calendarView === true"
+            />
+
+            <!-- Preview -->
+            <SectionCalendarioViewsToggleView
+              :class="{
+                'w-full': calendarView === false,
+                'w-full lg:max-w-[500px]': calendarView === true,
+              }"
+              @view:calendar="handleUpdate"
+            />
           </div>
         </div>
 
-        <div
-          class="flex flex-col-reverse gap-6 lg:flex-row justify-between w-full mb-6"
-        >
-          <SectionCalendarioEventsSeeEventsList
-            v-show="calendarView === true"
+        <!-- Content -->
+        <div>
+          <!-- Partial calendar -->
+          <SectionCalendarioViewsPartialCalendar
+            :year="2024"
+            :events="eventItems"
+            :steps="stepItems"
+            v-show="calendarView === false"
           />
-          <SectionCalendarioViewsToggleView
-            :class="{
-              'w-full': calendarView === false,
-              'w-full lg:max-w-[500px]': calendarView === true,
-            }"
-            @view:calendar="handleUpdate"
+
+          <!-- Complete calendar -->
+          <SectionCalendarioViewsCompleteCalendar
+            :year="2024"
+            :events="eventItems"
+            :steps="stepItems"
+            v-show="calendarView !== false"
           />
         </div>
-
-        <!-- Content -->
-        <!-- Partial calendar -->
-        <SectionCalendarioViewsPartialCalendar
-          :year="2024"
-          :events="eventItems"
-          :steps="stepItems"
-          v-show="calendarView === false"
-        />
-
-        <!-- Complete calendar -->
-        <SectionCalendarioViewsCompleteCalendar
-          :year="2024"
-          :events="eventItems"
-          :steps="stepItems"
-          v-show="calendarView !== false"
-        />
 
         <!-- Modals -->
         <div class="flex items-center flex-shrink-0">

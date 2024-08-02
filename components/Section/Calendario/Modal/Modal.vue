@@ -6,7 +6,11 @@ const isActive = ref(false);
 
 <template>
   <v-dialog max-width="500">
-    <p class="text-black text-xl">hello</p>
+    <template>
+      <v-card class="dialog-style">
+        <SectionCalendarioModalEventList />
+      </v-card>
+    </template>
   </v-dialog>
 </template>
 
