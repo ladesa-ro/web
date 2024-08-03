@@ -36,7 +36,7 @@
     "reflect-metadata": "^0.2.1",
     "typescript": "^5.5.3",
     "vee-validate": "^4.13.2",
-    "vue": "^3.4.31",
+    "vue": "^3.4.35",
     "vue-router": "^4.4.0",
     "vue-tsc": "^2.0.26",
     "vue3-carousel": "^0.3.3",
