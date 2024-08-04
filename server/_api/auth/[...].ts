@@ -19,6 +19,8 @@ const serverEnvironmentConfigService = serverInfrastructureContainer.get(
 );
 
 export default NuxtAuthHandler({
+  basePath: '/_api/auth',
+
   secret: serverEnvironmentConfigService.getNuxtAuthSecret(),
 
   pages: {
@@ -36,13 +38,14 @@ export default NuxtAuthHandler({
         password: { label: 'Senha', type: 'password' },
       },
 
-      async authorize(credentials, _req) {
+      async authorize(credentials) {
         const senha = credentials?.password;
         const matriculaSiape = credentials?.username;
 
         if (credentials && isString(matriculaSiape) && isString(senha)) {
           try {
             const apiClient = getApiClient();
+
             const token = await apiClient.autenticacao.authLogin({
               requestBody: {
                 matriculaSiape: matriculaSiape,
