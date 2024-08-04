@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import Appbar from '~/components/Appbar/Appbar.vue';
-import Sidebar from '~/components/Sidebar/Sidebar.vue';
 import { useCustomTheme } from '~/composables/useCustomTheme';
 import { HeadTitleContext } from '../../../infrastructure/HeadTitleContext';
 
@@ -12,6 +11,15 @@ definePageMeta({
 });
 
 useTitle(HeadTitleContext.DASHBOARD);
+
+//
+
+type Slots = {
+  sidebar(props:any): any;
+  default(props:any): any;
+}
+
+defineSlots<Slots>()
 
 //
 
@@ -40,7 +48,7 @@ const habumguerActive = ref(false);
         <Appbar v-model="habumguerActive" />
       </v-app-bar>
 
-      <Sidebar v-model="habumguerActive" />
+      <slot name="sidebar"></slot>
 
       <v-main class="main">
         <div class="main-content">

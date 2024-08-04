@@ -6,7 +6,13 @@ useTitle(HeadTitleContext.DASHBOARD);
 
 <template>
   <LayoutsDashboardBase>
-    <slot></slot>
+    <template #sidebar>
+      <LayoutsDashboardDapeSidebar />
+    </template>
+
+    <template #default>
+      <slot></slot>
+    </template>
   </LayoutsDashboardBase>
 </template>
 
