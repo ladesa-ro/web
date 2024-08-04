@@ -14,7 +14,7 @@ type Props = {
   isLoading?: boolean;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 //
 
