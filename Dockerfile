@@ -1,22 +1,21 @@
 FROM node:22 AS base
-# RUN apt update -y
-# RUN apt install -y git
-WORKDIR /sisgea/sisgha-app
+WORKDIR /app
 
 FROM base AS prod-deps
 COPY package.json package-lock.json ./
-RUN npm install --omit=dev --ignore-scripts
+RUN npm ci --omit=dev --ignore-scripts
 
 FROM prod-deps AS dev-deps
-RUN npm install
+RUN npm ci
 
-FROM dev-deps AS assets
+FROM dev-deps AS builder
 COPY . .
-ARG AUTH_ORIGIN
+ARG NODE_ENV
+# ARG AUTH_ORIGIN
 RUN npm run build
 RUN rm -rf node_modules
 
-FROM prod-deps
-COPY --from=assets /sisgea/sisgha-app /sisgea/sisgha-app
-WORKDIR /sisgea/sisgha-app
-CMD npm run start
+FROM base
+WORKDIR /var/lib/ladesa-ro/cr/web
+COPY --from=builder /app/.output /var/lib/ladesa-ro/cr/web/.output
+CMD node .output/server/index.mjs
