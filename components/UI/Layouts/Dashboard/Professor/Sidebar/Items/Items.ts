@@ -7,7 +7,7 @@ export const useLayoutsDashboardProfessorSidebarItems = () => {
       type: 'link',
       title: 'Início',
       icon: iconHome,
-      to: '/dape',
+      to: '/professor',
       exact: true,
     },
   ];
