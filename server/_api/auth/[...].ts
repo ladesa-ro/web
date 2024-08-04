@@ -1,13 +1,14 @@
 import { NuxtAuthHandler } from '#auth';
 import CredentialsProvider from '@auth/core/providers/credentials';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
-import isString from 'lodash/isString';
 import { getApiClient } from '~/composables';
 import {
   ServerAuthenticationService,
   ServerEnvironmentConfigService,
   serverInfrastructureContainer,
 } from '../../server-infrastructure';
+
+const isString = (data: any): data is string => typeof data === 'string';
 
 const ACCESS_TOKEN_EXPIRATION_TRIM = 1 * 60 * 1000;
 
