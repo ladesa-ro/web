@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { useLayoutsDashboardProfessorSidebarItems } from '../Items/Items';
+import { useLayoutsDashboardContext } from '../../Base/context';
+import { useLayoutsDashboardProfessorSidebarItems } from './Items/Items';
 
-const hamburgerActive = defineModel({
-  required: true,
-  type: Boolean,
-});
-
-const {items} = useLayoutsDashboardProfessorSidebarItems()
+const { hamburguerActive } = useLayoutsDashboardContext();
+const { items } = useLayoutsDashboardProfessorSidebarItems();
 </script>
 
 <template>
-  <Sidebar :items="items" v-model="hamburgerActive" />
+  <Sidebar :items="items" v-model="hamburguerActive" />
 </template>

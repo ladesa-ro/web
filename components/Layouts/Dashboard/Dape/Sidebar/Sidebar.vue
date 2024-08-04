@@ -1,14 +1,11 @@
 <script setup lang="ts">
+import { useLayoutsDashboardContext } from '../../Base/context';
 import { useLayoutsDashboardDapeSidebarItems } from './Items/Items';
 
-const hamburgerActive = defineModel({
-  required: true,
-  type: Boolean,
-});
-
-const {items} = useLayoutsDashboardDapeSidebarItems()
+const { hamburguerActive } = useLayoutsDashboardContext();
+const { items } = useLayoutsDashboardDapeSidebarItems();
 </script>
 
 <template>
-  <Sidebar :items="items" v-model="hamburgerActive" />
+  <Sidebar :items="items" v-model="hamburguerActive" />
 </template>

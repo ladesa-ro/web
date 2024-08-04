@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import Appbar from '~/components/Appbar/Appbar.vue';
 import { useCustomTheme } from '~/composables/useCustomTheme';
-import { HeadTitleContext } from '../../../infrastructure/HeadTitleContext';
+import { HeadTitleContext } from '../../../../infrastructure/HeadTitleContext';
+import { provideLayoutsDashboardContext } from './context';
 
 //
-
-definePageMeta({
-  middleware: 'auth',
-});
 
 useTitle(HeadTitleContext.DASHBOARD);
 
 //
 
-type Slots = {
-  sidebar(props:any): any;
-  default(props:any): any;
-}
+const { hamburguerActive } = provideLayoutsDashboardContext();
 
-defineSlots<Slots>()
+//
+
+type Slots = {
+  sidebar(props: any): any;
+  default(props: any): any;
+};
+
+defineSlots<Slots>();
 
 //
 
@@ -27,7 +27,7 @@ const init = useInit();
 
 const { isDark } = useCustomTheme();
 
-const habumguerActive = ref(false);
+//
 </script>
 
 <template>
@@ -45,7 +45,7 @@ const habumguerActive = ref(false);
         style="box-shadow: 0px 0px 30px 0px rgba(17, 141, 59, 0.15)"
         class="sticky w-full !border-solid !border-[#dddddd] !border-b-[1px]"
       >
-        <Appbar v-model="habumguerActive" />
+        <Appbar v-model="hamburguerActive" />
       </v-app-bar>
 
       <slot name="sidebar"></slot>
