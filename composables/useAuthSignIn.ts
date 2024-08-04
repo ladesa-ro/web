@@ -7,11 +7,15 @@ export const useAuthSignIn = () => {
 
   const callbackUrlRef = useAuthSignInCallbackUrl();
 
+  const redirect = (url: string) => {
+    callWithNuxt(app, () => navigateTo(url, { external: true }));
+  };
+
   watch(
     [status, callbackUrlRef],
-    ([status, callbackUrl]) => {
+    ([status, callback]) => {
       if (status === 'authenticated') {
-        callWithNuxt(app, () => navigateTo(callbackUrl, { external: true }));
+        redirect(callback);
       }
     },
     { immediate: true }
@@ -40,8 +44,8 @@ export const useAuthSignIn = () => {
     isError.value = false;
 
     const result = await signIn('credentials', {
+      redirect: true,
       callbackUrl: unref(callbackUrlRef),
-      redirect: false,
       username: credentials.username,
       password: credentials.password,
     });
@@ -53,7 +57,7 @@ export const useAuthSignIn = () => {
         isError.value = true;
         isLoading.value = false;
       } else {
-        callWithNuxt(app, () => navigateTo(url, { external: true }));
+        redirect(url);
       }
     }
   };

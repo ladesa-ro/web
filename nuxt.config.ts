@@ -50,10 +50,13 @@ export default defineNuxtConfig({
 
   auth: {
     baseURL: process.env.AUTH_ORIGIN ?? '/_api/auth',
+
     provider: {
       type: 'authjs',
       trustHost: true,
+      addDefaultCallbackUrl: false,
     },
+
     sessionRefresh: {
       enablePeriodically: 15 * 1000,
       enableOnWindowFocus: true,

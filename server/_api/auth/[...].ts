@@ -1,17 +1,13 @@
 import { NuxtAuthHandler } from '#auth';
+import CredentialsProvider from '@auth/core/providers/credentials';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
-import type ICredentialsProvider from 'next-auth/providers/credentials';
-import CredentialsProviderModule from 'next-auth/providers/credentials';
+import isString from 'lodash/isString';
 import { getApiClient } from '~/composables';
 import {
   ServerAuthenticationService,
   ServerEnvironmentConfigService,
   serverInfrastructureContainer,
 } from '../../server-infrastructure';
-
-const CredentialsProvider: typeof ICredentialsProvider =
-  /// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
-  CredentialsProviderModule.default;
 
 const ACCESS_TOKEN_EXPIRATION_TRIM = 1 * 60 * 1000;
 
@@ -23,6 +19,8 @@ const serverEnvironmentConfigService = serverInfrastructureContainer.get(
 );
 
 export default NuxtAuthHandler({
+  basePath: '/_api/auth',
+
   secret: serverEnvironmentConfigService.getNuxtAuthSecret(),
 
   pages: {
@@ -40,13 +38,14 @@ export default NuxtAuthHandler({
         password: { label: 'Senha', type: 'password' },
       },
 
-      async authorize(credentials, _req) {
+      async authorize(credentials) {
         const senha = credentials?.password;
         const matriculaSiape = credentials?.username;
 
-        if (credentials && matriculaSiape && senha) {
+        if (credentials && isString(matriculaSiape) && isString(senha)) {
           try {
             const apiClient = getApiClient();
+
             const token = await apiClient.autenticacao.authLogin({
               requestBody: {
                 matriculaSiape: matriculaSiape,
