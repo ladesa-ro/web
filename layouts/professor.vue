@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <LayoutsDashboardProfessor>
+  <UILayoutsDashboardProfessor>
     <slot></slot>
-  </LayoutsDashboardProfessor>
+  </UILayoutsDashboardProfessor>
 </template>

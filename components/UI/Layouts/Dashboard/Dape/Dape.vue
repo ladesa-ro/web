@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import { HeadTitleContext } from '../../../../infrastructure/HeadTitleContext';
+import { HeadTitleContext } from '~/infrastructure/HeadTitleContext';
 
 useTitle(HeadTitleContext.DASHBOARD);
 </script>
 
 <template>
-  <LayoutsDashboardBase>
+  <UILayoutsDashboardBase>
     <template #sidebar>
-      <LayoutsDashboardDapeSidebar />
+      <UILayoutsDashboardDapeSidebar />
     </template>
 
     <template #default>
       <slot></slot>
     </template>
-  </LayoutsDashboardBase>
+  </UILayoutsDashboardBase>
 </template>
 
 <style scoped></style>

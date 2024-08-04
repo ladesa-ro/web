@@ -1,5 +1,5 @@
 import iconHome from '~/assets/icons/Home.svg';
-import type { ISidebarItem } from '../../../../../Sidebar/ISidebarItem';
+import type { ISidebarItem } from '../../../../../../Sidebar/ISidebarItem';
 
 export const useLayoutsDashboardProfessorSidebarItems = () => {
   const items: ISidebarItem[] = [
@@ -10,8 +10,7 @@ export const useLayoutsDashboardProfessorSidebarItems = () => {
       to: '/dape',
       exact: true,
     },
-   
   ];
 
-  return {items}
-}
+  return { items };
+};

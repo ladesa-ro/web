@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Appbar from '~/components/Appbar/Appbar.vue';
 import { useCustomTheme } from '~/composables/useCustomTheme';
-import { HeadTitleContext } from '../../../../infrastructure/HeadTitleContext';
+import { HeadTitleContext } from '~/infrastructure/HeadTitleContext';
 import { provideLayoutsDashboardContext } from './context';
 
 //

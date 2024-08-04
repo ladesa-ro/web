@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <LayoutsDashboardDape>
+  <UILayoutsDashboardDape>
     <slot></slot>
-  </LayoutsDashboardDape>
+  </UILayoutsDashboardDape>
 </template>
