@@ -53,7 +53,7 @@ export default defineNuxtConfig({
 
     provider: {
       type: 'authjs',
-      trustHost: true,
+      trustHost: false,
       addDefaultCallbackUrl: false,
     },
 
