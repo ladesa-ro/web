@@ -14,7 +14,7 @@
     "format:write": "prettier --cache --ignore-unknown \"**/*\" --write"
   },
   "devDependencies": {
-    "@auth/core": "^0.34.1",
+    "@auth/core": "^0.34.2",
     "@ladesa-ro/api-client-fetch": "^1.0.0-alpha.12",
     "@mdi/font": "^7.3.67",
     "@nuxt/devtools": "latest",
