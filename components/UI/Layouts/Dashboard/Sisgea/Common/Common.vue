@@ -7,7 +7,7 @@ useTitle(HeadTitleContext.DASHBOARD);
 <template>
   <UILayoutsDashboardBase>
     <template #sidebar>
-      <UILayoutsDashboardProfessorSidebar />
+      <UILayoutsDashboardSisgeaCommonSidebar />
     </template>
 
     <template #default>

@@ -83,6 +83,7 @@ const notificationsButtonEl = ref(null);
       <!-- modal that will be shown if the icon is clicked -->
       <SpeechBubbles :notificationsButtonEl="notificationsButtonEl" />
     </v-menu>
+
     <!-- ============================================ -->
 
     <div class="mr-3"></div>
