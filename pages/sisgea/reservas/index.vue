@@ -1,10 +1,9 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'sisgha-dape',
-  auth: true,
+  layout: 'sisgea',
 });
 </script>
 
 <template>
-  <NuxtPage />
+  <SectionReservas />
 </template>
