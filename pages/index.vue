@@ -1,5 +1,5 @@
 <script setup lang="ts">
-await navigateTo('/dape');
+await navigateTo('/sisgha/dape');
 </script>
 
 <template>

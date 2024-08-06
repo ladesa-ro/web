@@ -29,6 +29,7 @@
     "@vueuse/nuxt": "^10.11.0",
     "axios": "^1.7.3",
     "dayjs": "^1.11.12",
+    "html2pdf.js": "^0.10.2",
     "inversify": "^6.0.2",
     "jsonwebtoken": "^9.0.2",
     "nuxt": "^3.12.4",

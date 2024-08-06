@@ -70,7 +70,7 @@ const profilePicureUrl = useApiImageRoute(
   <nuxt-link
     @click.capture="handleCardClick"
     class="flex flex-col border-2 border-[#9ab69e] rounded-lg no-underline p-0 m-0 overflow-hidden"
-    :to="`/dape/usuarios/${usuario.id}`"
+    :to="`/sisgha/dape/usuarios/${usuario.id}`"
   >
     <div
       :style="{
