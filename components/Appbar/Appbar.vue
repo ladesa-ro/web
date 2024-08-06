@@ -2,7 +2,11 @@
 // import profilePicture from '~/assets/icons/profilePicture.svg';
 
 import { ref } from 'vue';
+import { ApiImageResource, useApiImageRoute } from '../../integrations';
+import { useApiContext } from '../API/Context/setup-context';
 import SpeechBubbles from './SpeechBubbles/SpeechBubbles.vue';
+
+const { resumoVinculos, usuario, whoAmI } = useApiContext();
 
 const hamburgerActive = defineModel({
   required: true,
@@ -14,6 +18,11 @@ function toggleHamburger() {
 }
 
 const notificationsButtonEl = ref(null);
+
+const profilePicureUrl = useApiImageRoute(
+  ApiImageResource.USUARIO_PROFILE,
+  usuario
+);
 </script>
 
 <template>
@@ -39,13 +48,20 @@ const notificationsButtonEl = ref(null);
           v-bind="props"
           class="flex items-center gap-3 cursor-pointer rounded-lg inset-y-0 w-29 bg-[#EBF8EF] pl-3 pr-6 py-2"
         >
-          <VImg :width="48" :height="48" class="rounded-full bg-green-700" />
+          <VImg
+            :width="48"
+            :height="48"
+            :src="profilePicureUrl ?? ''"
+            class="rounded-full bg-green-700"
+          />
 
           <div>
-            <p class="font-semibold">Danilo Escudero</p>
+            <p class="font-semibold">{{ whoAmI.usuario.nome }}</p>
 
             <p class="font-normal flex flex-row items-center gap-2">
-              DAPE
+              <span>
+                {{ resumoVinculos.cargos.join(', ') }}
+              </span>
 
               <!-- configuration to show the modal-->
               <IconsArrowIconArrow

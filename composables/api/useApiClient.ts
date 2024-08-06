@@ -1,23 +1,36 @@
-import { LadesaApiClient } from '@ladesa-ro/api-client-fetch';
+import {
+  LadesaApiClient,
+  type OpenAPIConfig,
+} from '@ladesa-ro/api-client-fetch';
 import { inject, provide } from 'vue';
 
 const API_AUTH_TOKEN = Symbol.for('API_AUTH_TOKEN');
 
 export type ApiClient = ReturnType<typeof getApiClient>;
 
-export const getApiClient = () => {
-  const ENPOINT_URL = 'https://dev.ladesa.com.br/api';
+const getEndpointUrl = () => {
+  return process.env.NUXT_PUBLIC_ENPOINT_URL ?? 'https://dev.ladesa.com.br/api';
+};
+
+export const getApiClient = (config?: Partial<OpenAPIConfig>) => {
+  const endpointUrl = getEndpointUrl();
 
   const apiClient = new LadesaApiClient({
-    BASE: ENPOINT_URL,
-    CREDENTIALS: 'omit',
+    BASE: endpointUrl,
+    ...config,
   });
 
   return apiClient;
 };
 
 export const setupApiClient = (shouldProvide = true) => {
-  const apiClient = getApiClient();
+  const { getAccessToken } = useAuthAccessToken();
+
+  const options = {
+    TOKEN: getAccessToken,
+  } satisfies Partial<OpenAPIConfig>;
+
+  const apiClient = getApiClient(options);
 
   if (shouldProvide) {
     provide(API_AUTH_TOKEN, apiClient);
@@ -27,11 +40,11 @@ export const setupApiClient = (shouldProvide = true) => {
 };
 
 export const useApiClient = () => {
-  const apiClient = inject<LadesaApiClient>(
-    API_AUTH_TOKEN,
-    () => getApiClient(),
-    true
-  );
+  const apiClient = inject<LadesaApiClient>(API_AUTH_TOKEN);
+
+  if (!apiClient) {
+    throw new Error('useApiClient: context not created');
+  }
 
   return apiClient;
 };

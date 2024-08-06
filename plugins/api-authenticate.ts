@@ -3,21 +3,12 @@ import { OpenAPI as LadesaApiClientOpenAPI } from '@ladesa-ro/api-client-fetch';
 export default defineNuxtPlugin({
   name: 'api-authenticate',
   enforce: 'pre',
-  async setup(nuxtApp) {},
+
+  async setup(_nuxtApp) {},
+
   hooks: {
     'app:created'() {
-      const { data } = useAuthState();
-
-      const getAccessToken = async () => {
-        const accessToken = data.value?.accessToken;
-
-        if (accessToken) {
-          return accessToken;
-        }
-
-        return null;
-      };
-
+      const { getAccessToken } = useAuthAccessToken();
       LadesaApiClientOpenAPI.TOKEN = getAccessToken;
     },
   },

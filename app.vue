@@ -24,9 +24,11 @@ provide('selectedDay', selectedDay);
     class="app"
     :class="isDark ? 'app-color-mode-dark' : 'app-color-mode-light'"
   >
-    <NuxtLayout>
-      <NuxtPage />
-    </NuxtLayout>
+    <APIContext>
+      <NuxtLayout>
+        <NuxtPage />
+      </NuxtLayout>
+    </APIContext>
   </div>
 </template>
 
