@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
+import { useApiContext } from '~/components/API/Context/setup-context';
 
 const classTimings = [
   { startsAt: '08:20:00', endsAt: '09:09:59' },
@@ -21,12 +22,28 @@ const generatedLessons = Array.from({ length: classTimings.length }).map(
       discipline: 'Linguagem de Programação',
       class: '2° A Informática',
       environment: 'Sala 20',
+      campus: 'IFRO - Campus Ji-Paraná',
       teacher: 'Danilo Escudero',
       startsAt,
       endsAt,
     };
   }
 );
+
+const { resumoVinculos } = useApiContext();
+
+//se for professor -> verificar se da aula em mais de um campi -> fornecer nome do campi do lado da aula
+
+
+
+
+const viewFor = computed(() => {
+  if (resumoVinculos.value.cargos.includes('professor')) {
+    return 'teacher';
+  }
+
+  return 'student';
+})
 </script>
 
 <template>
@@ -37,7 +54,7 @@ const generatedLessons = Array.from({ length: classTimings.length }).map(
       <SectionHorarioDailyViewLesson
         v-for="lesson in generatedLessons"
         :lesson="lesson"
-        view-for="teacher"
+        :view-for="viewFor"
       />
     </div>
   </div>
