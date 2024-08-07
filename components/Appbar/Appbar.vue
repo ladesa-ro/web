@@ -2,11 +2,7 @@
 // import profilePicture from '~/assets/icons/profilePicture.svg';
 
 import { ref } from 'vue';
-import { ApiImageResource, useApiImageRoute } from '../../integrations';
-import { useApiContext } from '../API/Context/setup-context';
 import SpeechBubbles from './SpeechBubbles/SpeechBubbles.vue';
-
-const { resumoVinculos, usuario } = useApiContext();
 
 const hamburgerActive = defineModel({
   required: true,
@@ -18,11 +14,6 @@ function toggleHamburger() {
 }
 
 const notificationsButtonEl = ref(null);
-
-const profilePicureUrl = useApiImageRoute(
-  ApiImageResource.USUARIO_PROFILE,
-  usuario
-);
 </script>
 
 <template>
@@ -37,46 +28,7 @@ const profilePicureUrl = useApiImageRoute(
     <!-- =================== user ===================  -->
 
     <!-- configuration to show the modal-->
-    <v-menu
-      origin="auto"
-      location="bottom center"
-      transition="slide-y-transition"
-      :close-on-content-click="false"
-    >
-      <template v-slot:activator="{ props, isActive }">
-        <div
-          v-bind="props"
-          class="flex items-center gap-3 cursor-pointer rounded-lg inset-y-0 w-29 bg-[#EBF8EF] pl-3 pr-6 py-2"
-        >
-          <VImg
-            :width="48"
-            :height="48"
-            :src="profilePicureUrl ?? ''"
-            class="rounded-full bg-green-700"
-          />
-
-          <div>
-            <p class="font-semibold">{{ usuario.nome }}</p>
-
-            <p class="font-normal flex flex-row items-center gap-2">
-              <span>
-                {{ resumoVinculos.cargos.join(', ') }}
-              </span>
-
-              <!-- configuration to show the modal-->
-              <IconsArrowIconArrow
-                ref="notificationsButtonEl"
-                class="arrow -rotate-90 cursor-pointer -icon-green"
-                :class="{ down: isActive }"
-              />
-            </p>
-          </div>
-        </div>
-      </template>
-
-      <!-- modal that will be shown if the arrow icon is clicked -->
-      <SectionUsuariosModalsAccessRole />
-    </v-menu>
+    <AppbarProfileCardChangeProfileCard />
     <!-- ============================================ -->
 
     <div class="flex-1"></div>
@@ -110,17 +62,3 @@ const profilePicureUrl = useApiImageRoute(
     />
   </div>
 </template>
-
-<style scoped>
-.arrow {
-  -moz-transition: all 0.25s ease-in-out;
-  -webkit-transition: all 0.25s ease-in-out;
-  transition: all 0.25s ease-in-out;
-}
-
-.arrow.down {
-  -moz-transform: rotate(90deg);
-  -webkit-transform: rotate(90deg);
-  transform: rotate(90deg);
-}
-</style>

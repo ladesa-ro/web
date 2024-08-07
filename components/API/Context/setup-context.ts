@@ -27,6 +27,7 @@ export const createApiContext = (shouldProvide = true) => {
   });
 
   const whoAmI = computed(() => whoAmIQuery.data.value ?? null);
+
   const usuario = computed(() => whoAmI.value?.usuario ?? null);
   const vinculosAtivos = computed(() => whoAmI.value?.vinculosAtivos ?? []);
 

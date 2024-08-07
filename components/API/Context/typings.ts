@@ -17,7 +17,7 @@ export type IApiContext<
   WhoAmI extends DynamicWhoAmIResult<Strict> = DynamicWhoAmIResult<Strict>,
 > = {
   //
-  resumoVinculos: ResumoVinculos;
+  resumoVinculos: ComputedRef<ResumoVinculos>;
   whoAmI: ComputedRef<WhoAmI>;
   usuario: ComputedRef<WhoAmI['usuario']>;
   vinculosAtivos: ComputedRef<WhoAmI['vinculosAtivos']>;
