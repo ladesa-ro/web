@@ -4,7 +4,7 @@ import type { IApiContext } from './typings';
 
 const ApiContextKey = Symbol();
 
-export const creteApiContext = (shouldProvide = true) => {
+export const createApiContext = (shouldProvide = true) => {
   const apiClient = useApiClient();
 
   const { data, status, lastRefreshedAt } = useAuthState();
@@ -68,9 +68,7 @@ export const creteApiContext = (shouldProvide = true) => {
 export const useApiContext = <
   Strict extends boolean = true,
   ApiContext extends IApiContext<Strict> = IApiContext<Strict>,
->(
-  _strict?: Strict
-) => {
+>() => {
   const apiContext = inject<ApiContext>(ApiContextKey);
 
   if (!apiContext) {
