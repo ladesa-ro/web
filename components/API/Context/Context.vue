@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { creteApiContext } from './setup-context';
+import { createApiContext } from './setup-context';
 
-const { suspense } = creteApiContext();
+const { suspense } = createApiContext();
 
 await suspense();
 </script>
