@@ -18,10 +18,10 @@ function generatePDF() {
   >
     <SectionHorarioHeaderSchedule v-model:option="selectedOption" />
 
-    <section v-if="selectedOption === ViewMode.GENERAL_SCHEDULE" ref="el">
+    <section v-if="selectedOption === ViewMode.GENERAL_SCHEDULE" ref="el" class="flex flex-col items-center gap-8">
       <SectionHorarioGeral />
 
-      <button class="bg-green-600 m-4" @click="generatePDF">Gerar PDF</button>
+      <button class="flex justify-center items-center bg-[#118D3B] h-14 w-40 text-white rounded-lg" @click="generatePDF">Gerar PDF</button>
     </section>
 
     <SectionHorarioDailyViewDaysAndLessons v-else />
