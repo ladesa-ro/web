@@ -11,7 +11,7 @@ const orderType: Array<string> = ['Crescente', 'Decrescente'];
 </script>
 
 <template>
-  <v-form>
+  <v-form class="-form">
     <div>
       <!-- Title -->
       <h1 class="main-title">Todos os eventos</h1>
@@ -27,7 +27,7 @@ const orderType: Array<string> = ['Crescente', 'Decrescente'];
         />
 
         <!-- Order list -->
-        <div>
+        <div class="flex flex-row gap-4">
           <VVAutocomplete
             name="orderBy.id"
             label="Ordenar por"
@@ -38,7 +38,7 @@ const orderType: Array<string> = ['Crescente', 'Decrescente'];
           <VVAutocomplete
             name="orderType.id"
             label="Ordem"
-            placeholder="Selecione opção"
+            placeholder="Selecione uma ordem"
             :items="orderType"
             class="w-full"
           />
@@ -46,12 +46,21 @@ const orderType: Array<string> = ['Crescente', 'Decrescente'];
       </div>
 
       <v-divider class="my-4" />
+
+      <!-- Content -->
+      <div>
+        <SectionCalendarioEventsAccordion />
+      </div>
     </div>
   </v-form>
 </template>
 
 <style scoped>
-.form {
+.-form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  padding: 32px;
   overflow: auto;
 }
 
@@ -64,13 +73,6 @@ const orderType: Array<string> = ['Crescente', 'Decrescente'];
 .main-title {
   font-size: 24px;
   font-weight: 700;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  padding: 32px;
 }
 
 .button-group {

@@ -13,8 +13,7 @@ const calendars = [
   'Informática 2019',
 ];
 
-const stepItems = await calendarData.getSteps();
-const eventItems = await calendarData.getEvents();
+const calendar = await calendarData.getCalendar();
 // Functions
 // Calendar view
 let calendarView = ref<boolean>(false);
@@ -25,115 +24,96 @@ const handleUpdate = (v: boolean) => {
 </script>
 
 <template>
-  <v-container>
-    <div class="container">
-      <div class="flex flex-col justify-center items-center w-max h-auto">
-        <!-- Head -->
-        <div>
+  <div class="container flex justify-center items-center w-screen mx-auto p-10">
+    <!-- Modals -->
+    <div class="flex items-center justify-center flex-shrink-0">
+      <SectionCalendarioModal />
+    </div>
+
+    <!-- Calendar -->
+    <div class="flex flex-col justify-center items-center w-max h-auto">
+      <!-- Head -->
+      <div class="w-full">
+        <!-- Select calendar -->
+        <div
+          class="flex flex-col xl:flex-row w-full justify-center items-center gap-4 m-auto mb-6 pt-[50px]"
+        >
+          <!-- Select year -->
+          <VVAutocomplete
+            name="year.id"
+            label="Ano letivo"
+            placeholder="Selecione um ano"
+            :items="years"
+            class="xl:max-w-[200px]"
+          />
+
+          <!-- Select modality -->
+          <VVAutocompleteAPIModalidade name="modalidade.id" />
+
           <!-- Select calendar -->
-          <div
-            class="flex flex-col xl:flex-row w-full justify-center items-center gap-4 m-auto mb-6 pt-[50px]"
-          >
-            <!-- Select year -->
+          <div class="flex w-full max-w-[1800px] gap-4">
             <VVAutocomplete
-              name="year.id"
-              label="Ano letivo"
-              placeholder="Selecione um ano"
-              :items="years"
-              class="xl:max-w-[200px]"
+              name="calendar.id"
+              label="Calendários"
+              placeholder="Selecione um calendário"
+              :items="calendars"
+              class="w-full"
             />
 
-            <!-- Select modality -->
-            <VVAutocompleteModalidades name="modalidade.id" />
+            <!-- Buttons -->
 
-            <!-- Select calendar -->
-            <div class="flex w-full max-w-[1800px] gap-4">
-              <VVAutocomplete
-                name="calendar.id"
-                label="Calendários"
-                placeholder="Selecione um calendário"
-                :items="calendars"
-                class="w-full"
-              />
+            <!-- Search -->
+            <div>
+              <UIButtonSearch />
+            </div>
 
-              <!-- Buttons -->
-
-              <!-- Search -->
-              <div>
-                <UIButtonSearch />
-              </div>
-
-              <!-- Add -->
-              <div>
-                <UIButtonAdd />
-              </div>
+            <!-- Add -->
+            <div>
+              <UIButtonAdd />
             </div>
           </div>
-
-          <!-- Calendar preview -->
-          <div
-            class="flex flex-col-reverse gap-6 lg:flex-row justify-between w-full mb-6"
-          >
-            <!-- Event List -->
-            <SectionCalendarioEventsSeeEventsList
-              v-show="calendarView === true"
-            />
-
-            <!-- Preview -->
-            <SectionCalendarioViewsToggleView
-              :class="{
-                'w-full': calendarView === false,
-                'w-full lg:max-w-[500px]': calendarView === true,
-              }"
-              @view:calendar="handleUpdate"
-            />
-          </div>
         </div>
 
-        <!-- Content -->
-        <div>
-          <!-- Partial calendar -->
-          <SectionCalendarioViewsPartialCalendar
-            :year="2024"
-            :events="eventItems"
-            :steps="stepItems"
-            v-show="calendarView === false"
+        <!-- Calendar preview -->
+        <div
+          class="flex flex-col-reverse gap-6 lg:flex-row justify-between w-full mb-6"
+        >
+          <!-- Event List -->
+          <SectionCalendarioEventsSeeEventsList
+            v-show="calendarView === true"
           />
 
-          <!-- Complete calendar -->
-          <SectionCalendarioViewsCompleteCalendar
-            :year="2024"
-            :events="eventItems"
-            :steps="stepItems"
-            v-show="calendarView !== false"
+          <!-- Preview -->
+          <SectionCalendarioViewsToggleView
+            :class="{
+              'w-full': calendarView === false,
+              'w-full lg:max-w-[500px]': calendarView === true,
+            }"
+            @view:calendar="handleUpdate"
           />
-        </div>
-
-        <!-- Modals -->
-        <div class="flex items-center flex-shrink-0">
-          <SectionCalendarioModal />
         </div>
       </div>
+
+      <!-- Content -->
+      <div>
+        <!-- Partial calendar -->
+        <SectionCalendarioViewsPartialCalendar
+          :year="calendar?.year"
+          :events="calendar?.events"
+          :steps="calendar?.steps"
+          v-show="calendarView === false"
+        />
+
+        <!-- Complete calendar -->
+        <SectionCalendarioViewsCompleteCalendar
+          :year="calendar?.year"
+          :events="calendar?.events"
+          :steps="calendar?.steps"
+          v-show="calendarView !== false"
+        />
+      </div>
     </div>
-  </v-container>
+  </div>
 </template>
 
-<style scoped>
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
-}
-
-.container-header {
-  padding: 50px 0;
-}
-
-.container-header-actions {
-  flex-shrink: 0;
-
-  display: flex;
-  align-items: center;
-}
-</style>
+<style scoped></style>

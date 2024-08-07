@@ -23,12 +23,22 @@ type Event = EventData & {
 };
 
 type Calendar = {
+  id: string;
+  name: string;
+  year: number;
+  modality: string;
+  course: string;
   steps: Array<Step>;
   events: Array<Event>;
 };
 
 // Event and steps (For example. Remove in other moment)
 const calendar: Calendar = {
+  id: 'sF456',
+  name: 'Informática 2024',
+  year: 2024,
+  modality: 'Técnico Integrado ao Ensino Médio',
+  course: 'Técnico em Informática',
   steps: [
     {
       id: '123452',
@@ -103,21 +113,21 @@ const calendar: Calendar = {
 };
 
 export const calendarData = {
-  // Get all steps
-  async getSteps(): Promise<Step[]> {
+  // Get calendar
+  async getCalendar(
+    year?: string,
+    modality?: string,
+    name?: string
+  ): Promise<Calendar | undefined> {
     try {
-      return calendar.steps;
-    } catch (error) {
-      return [];
-    }
-  },
+      let filterCalendar;
 
-  // Get all events
-  async getEvents(): Promise<Event[]> {
-    try {
-      return calendar.events;
+      if (year || modality || name) {
+      } else {
+        return calendar;
+      }
     } catch (error) {
-      return [];
+      return undefined;
     }
   },
 

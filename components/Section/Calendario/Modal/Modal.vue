@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-const isActive = ref(false);
+const isActive = ref(true);
 </script>
 
 <template>
-  <v-dialog max-width="500">
-    <template>
+  <v-dialog max-width="500" v-model="isActive">
+    <template v-slot="{ isActive }">
       <v-card class="dialog-style">
         <SectionCalendarioModalEventList />
       </v-card>
