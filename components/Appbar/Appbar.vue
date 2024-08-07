@@ -6,7 +6,7 @@ import { ApiImageResource, useApiImageRoute } from '../../integrations';
 import { useApiContext } from '../API/Context/setup-context';
 import SpeechBubbles from './SpeechBubbles/SpeechBubbles.vue';
 
-const { resumoVinculos, usuario, whoAmI } = useApiContext();
+const { resumoVinculos, usuario } = useApiContext();
 
 const hamburgerActive = defineModel({
   required: true,
@@ -56,7 +56,7 @@ const profilePicureUrl = useApiImageRoute(
           />
 
           <div>
-            <p class="font-semibold">{{ whoAmI.usuario.nome }}</p>
+            <p class="font-semibold">{{ usuario.nome }}</p>
 
             <p class="font-normal flex flex-row items-center gap-2">
               <span>
