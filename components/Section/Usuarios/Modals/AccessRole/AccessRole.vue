@@ -15,6 +15,8 @@ const activeProfile = computed(() => {
 
   return null;
 });
+
+defineEmits(['close']);
 </script>
 
 <template>
@@ -47,12 +49,13 @@ const activeProfile = computed(() => {
       <!-- =============================================== -->
     </section>
 
-    <span
-      class="flex flex-row justify-between min-w-24 font-[600] cursor-pointer"
+    <button
+      class="flex flex-row justify-between items-center min-w-24 font-[600] cursor-pointer"
+      @click="$emit('close')"
     >
       Cancelar
       <IconsIconClose width="11" height="10" />
-    </span>
+    </button>
   </div>
 </template>
 

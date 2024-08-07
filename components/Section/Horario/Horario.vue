@@ -10,7 +10,6 @@ const el = ref<HTMLElement | null>(null);
 function generatePDF() {
   generatePdf(el.value);
 }
-
 </script>
 
 <template>
@@ -18,12 +17,14 @@ function generatePDF() {
     class="flex flex-1 overflow-auto flex-col items-center gap-12 pb-14 xl:max-w-screen-2xl xl:mx-auto max-xl:mx-16 max-[900px]:text-sm max-[850px]:mx-7"
   >
     <SectionHorarioHeaderSchedule v-model:option="selectedOption" />
+
     <section v-if="selectedOption === ViewMode.GENERAL_SCHEDULE" ref="el">
-      
       <SectionHorarioGeral />
-      <button class="bg-red-800" @click="generatePDF">OIIIIIII</button>
+
+      <button class="bg-green-600 m-4" @click="generatePDF">Gerar PDF</button>
     </section>
 
-    <SectionHorarioDailyViewDaysAndLessons v-else /> <!--v-else-if="selectedOption === ViewMode.DAILY_SCHEDULE"-->
+    <SectionHorarioDailyViewDaysAndLessons v-else />
+    <!--v-else-if="selectedOption === ViewMode.DAILY_SCHEDULE"-->
   </div>
 </template>
