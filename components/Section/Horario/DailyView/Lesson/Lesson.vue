@@ -31,11 +31,11 @@ const variant = verifyClassStatusByLesson(lesson.value);
           v-if="viewFor === 'student'"
         />
 
-        <LessonInfoEnvironment />
         <!--ambiente-->
+        <LessonInfoEnvironment />
 
-        <SectionHorarioDailyViewLessonInfoTime />
         <!--horário-->
+        <SectionHorarioDailyViewLessonInfoTime />
       </slot>
     </section>
 
