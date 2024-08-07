@@ -6,13 +6,13 @@ import { groupBy, map, mapValues, uniq, type Dictionary } from 'lodash';
 
 export type ResumoVinculos = {
   /**
-   * cargos: ["dape", "professor"]
+   * ["dape", "professor"]
    */
 
   cargos: string[];
 
   /**
-   * mapaCargoVinculos: {
+   * {
    *  dape: CampusFindOneResultDto[],
    *  professor: CampusFindOneResultDto[]
    * }
@@ -22,7 +22,7 @@ export type ResumoVinculos = {
   };
 
   /**
-   * mapaCargoVinculos: {
+   * {
    *  dape: VinculoFindOneResultDto[],
    *  professor: VinculoFindOneResultDto[]
    * }
