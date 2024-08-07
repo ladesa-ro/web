@@ -6,6 +6,7 @@ const genericLesson: ILesson = {
   discipline: 'Linguagem de Programação',
   class: '2° A Informática',
   environment: 'Sala 20',
+  campus: 'IFRO - Campus Ji-Paraná',
   startsAt: '13:50',
   endsAt: '14:40',
 };
@@ -34,22 +35,24 @@ function getVariantForIndex(index: number) {
 </script>
 
 <template>
-  <div class="flex flex-col gap-[15px]">
-    <div class="mt-14">
-      <v-container>
-        <UISearchBar id="size" />
-      </v-container>
+  <div
+    class="flex flex-1 overflow-auto flex-col items-center gap-12 pb-14 xl:max-w-screen-2xl xl:mx-auto max-xl:mx-16 max-[900px]:text-sm max-[850px]:mx-7"
+  >
+    <div class="max-w-screen-lg w-full mx-auto mt-14">
+      <UISearchBar id="size" />
     </div>
 
-    <SectionHorarioDailyViewDaySquareList />
+    <div class="max-w-screen-lg w-full mx-auto">
+      <SectionHorarioDailyViewDaySquareList />
 
-    <v-container class="flex flex-col gap-5">
-      <SectionHorarioDailyViewLesson
-        v-for="(lesson, index) in lessons"
-        :lesson="lesson"
-        :variant="getVariantForIndex(index)"
-      />
-    </v-container>
+      <div class="flex flex-col gap-5 mt-12">
+        <SectionHorarioDailyViewLesson
+          v-for="(lesson, index) in lessons"
+          :lesson="lesson"
+          :variant="getVariantForIndex(index)"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
