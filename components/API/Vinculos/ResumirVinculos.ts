@@ -2,7 +2,11 @@ import type {
   CampusFindOneResultDto,
   VinculoFindOneResultDto,
 } from '@ladesa-ro/api-client-fetch';
-import { groupBy, map, mapValues, uniq, type Dictionary } from 'lodash';
+import { type Dictionary } from 'lodash';
+import groupBy from 'lodash/groupBy';
+import map from 'lodash/map';
+import mapValues from 'lodash/mapValues';
+import uniq from 'lodash/uniq';
 
 export type ResumoVinculos = {
   /**
