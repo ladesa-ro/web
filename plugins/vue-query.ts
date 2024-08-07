@@ -21,6 +21,7 @@ export default defineNuxtPlugin((nuxt) => {
       queries: {
         staleTime: 1 * 60 * 60 * 1000,
         refetchOnMount: 'always',
+        placeholderData: (prev: any) => prev,
       },
     },
   });
