@@ -5,7 +5,6 @@ import { useApiContext } from '~/components/API/Context/setup-context';
 const classTimings = [
   { startsAt: '08:20:00', endsAt: '09:09:59' },
   { startsAt: '09:10:00', endsAt: '09:59:59' },
-  { startsAt: '10:20:00', endsAt: '10:47:59' },
   { startsAt: '19:00:00', endsAt: '19:49:59' },
   { startsAt: '19:50:00', endsAt: '20:39:59' },
   { startsAt: '20:40:00', endsAt: '21:29:59' },
@@ -23,6 +22,7 @@ const generatedLessons = Array.from({ length: classTimings.length }).map(
       discipline: 'Linguagem de Programação',
       class: '2° A Informática',
       environment: 'Sala 20',
+      campus: 'IFRO - Campus Ji-Paraná',
       teacher: 'Danilo Escudero',
       startsAt,
       endsAt,
@@ -30,14 +30,20 @@ const generatedLessons = Array.from({ length: classTimings.length }).map(
   }
 );
 
-const viewFor = () => {
-  const { resumoVinculos } = useApiContext();
+const { resumoVinculos } = useApiContext();
+
+//se for professor -> verificar se da aula em mais de um campi -> fornecer nome do campi do lado da aula
+
+
+
+
+const viewFor = computed(() => {
   if (resumoVinculos.value.cargos.includes('professor')) {
     return 'teacher';
   }
 
   return 'student';
-}
+})
 </script>
 
 <template>
@@ -48,7 +54,7 @@ const viewFor = () => {
       <SectionHorarioDailyViewLesson
         v-for="lesson in generatedLessons"
         :lesson="lesson"
-        :view-for="viewFor()"
+        :view-for="viewFor"
       />
     </div>
   </div>

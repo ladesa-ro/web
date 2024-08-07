@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useApiContext } from '~/components/API/Context/setup-context';
 import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
 import { verifyClassStatusByLesson } from './-Utils';
 import LessonInfoEnvironment from './LessonInfoEnvironment.vue';
@@ -10,10 +11,23 @@ type Props = {
 
 const props = defineProps<Props>();
 const { lesson } = toRefs(props);
+const { viewFor } = toRefs(props);
 
 provide('lesson', lesson);
 
 const variant = verifyClassStatusByLesson(lesson.value);
+
+// #region logic to show the campus only if the teacher teaches on more than one campus
+const { resumoVinculos } = useApiContext();
+
+const campiWhereTeaches = computed(
+  () => resumoVinculos.value.mapaCargoCampi.professor ?? []
+);
+
+const showCampus = computed(() => {
+  return campiWhereTeaches.value.length > 1 && viewFor.value === 'teacher';
+});
+// #endregion
 </script>
 
 <template>
@@ -21,6 +35,10 @@ const variant = verifyClassStatusByLesson(lesson.value);
     class="flex flex-row items-center justify-between border-2 border-[#118D3B] rounded-lg min-[641px]:px-5 min-[641px]:py-3 max-sm:px-4 max-sm:py-2"
     :class="{ completed: variant === 'completed' }"
   >
+    <!-- <pre><code>
+    {{ JSON.stringify(resumoVinculos.mapaCargoCampi.professor, null, 10) }}
+  </code></pre> -->
+
     <section class="flex flex-col justify-between">
       <slot>
         <SectionHorarioDailyViewLessonTeacherView
@@ -32,7 +50,7 @@ const variant = verifyClassStatusByLesson(lesson.value);
         />
 
         <!--ambiente-->
-        <LessonInfoEnvironment />
+        <LessonInfoEnvironment :show-campus="showCampus" />
 
         <!--horário-->
         <SectionHorarioDailyViewLessonInfoTime />
