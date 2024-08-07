@@ -74,7 +74,11 @@ useTitle(null, 'Login');
     </form>
 
     <div class="login-alternative-actions">
-      <NuxtLink tabindex="-1" class="login-alternative-link" to="/consulta">
+      <NuxtLink
+        tabindex="-1"
+        class="login-alternative-link"
+        to="/sisgha/consulta"
+      >
         <UIButton
           type="button"
           :disabled="isBusy"
