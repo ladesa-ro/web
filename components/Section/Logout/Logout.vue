@@ -1,32 +1,43 @@
-<template>
-  <SectionLoading />
-</template>
-
 <script lang="ts" setup>
+import { useMounted } from '@vueuse/core';
 import { callWithNuxt } from 'nuxt/app';
 
 const app = useNuxtApp();
 
+const isMounted = useMounted();
+
 const { signOut, status } = useAuth();
 
 const handleAuthStatus = async () => {
-  const status_value = unref(status);
+  const statusRaw = unref(status);
 
-  switch (status_value) {
+  switch (statusRaw) {
     case 'authenticated': {
       await signOut({ redirect: false });
       break;
     }
   }
 
-  switch (status_value) {
-    case 'unauthenticated':
-    case 'authenticated': {
+  switch (statusRaw) {
+    case 'authenticated':
+    case 'unauthenticated': {
       await callWithNuxt(app, () => navigateTo('/'));
       break;
     }
   }
 };
 
-watch([status], handleAuthStatus, { immediate: true });
+watch(
+  [isMounted, status],
+  ([isMounted]) => {
+    if (isMounted) {
+      handleAuthStatus();
+    }
+  },
+  { immediate: true }
+);
 </script>
+
+<template>
+  <SectionLoading />
+</template>

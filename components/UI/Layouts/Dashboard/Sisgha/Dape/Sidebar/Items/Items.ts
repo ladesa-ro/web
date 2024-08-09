@@ -1,9 +1,9 @@
 import iconCalendario from '~/assets/icons/Calendario.svg';
-import iconConfiguracoes from '~/assets/icons/Configurar.svg';
 import iconCursos from '~/assets/icons/Curso.svg';
 import iconDiario from '~/assets/icons/Diario.svg';
 import iconDisciplina from '~/assets/icons/Disciplina.svg';
 import iconHome from '~/assets/icons/Home.svg';
+import iconLogout from '~/assets/icons/Logout.svg';
 import iconOutros from '~/assets/icons/Mais-Itens.svg';
 import iconTurmas from '~/assets/icons/Turmas.svg';
 import iconPerfil from '~/assets/icons/Usuario.svg';
@@ -75,14 +75,14 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
         },
       ],
     },
-    {
-      type: 'spacer',
-    },
+
+    { type: 'spacer' },
+
     {
       type: 'link',
-      title: 'Configurações',
-      icon: iconConfiguracoes,
-      to: '/configuracoes',
+      title: 'Sair',
+      icon: iconLogout,
+      to: '/logout',
       exact: false,
     },
   ];
