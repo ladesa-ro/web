@@ -69,12 +69,16 @@ const calendars = [
 </script>
 
 <template>
-  <v-expansion-panels multiple v-model="activeCalendar" class="gap-3 px-8 py-8">
+  <v-expansion-panels
+    multiple
+    v-model="activeCalendar"
+    class="calendario-expansion-panels gap-3 px-8 py-8"
+  >
     <v-expansion-panel
       v-for="calendar in calendars"
       :key="calendar.id"
       :value="calendar.id"
-      class="border-2 border-[#B2D2B7] overflow-hidden rounded-lg"
+      class="calendario-expansion-panel border-2 border-[#B2D2B7] overflow-hidden"
     >
       <v-expansion-panel-title
         class="!bg-[#118D3B] !rounded-none"
@@ -123,7 +127,30 @@ const calendars = [
     );
 }
 
- :deep(.v-expansion-panel-text__wrapper) {
+:deep(.v-expansion-panel-text__wrapper) {
   padding: 0;
+}
+</style>
+
+<style>
+.calendario-expansion-panels .calendario-expansion-panel,
+.calendario-expansion-panels.v-expansion-panels:not(
+    .v-expansion-panels--variant-accordion
+  )
+  > :is(
+    :first-child:not(:last-child):not(.v-expansion-panel--active):not(
+        .v-expansion-panel--before-active
+      ),
+    :not(:first-child):not(:last-child):not(.v-expansion-panel--active):not(
+        .v-expansion-panel--after-active
+      ),
+    :last-child:not(:first-child):not(.v-expansion-panel--active):not(
+        .v-expansion-panel--after-active
+      ),
+    :not(:first-child):not(:last-child):not(.v-expansion-panel--active):not(
+        .v-expansion-panel--before-active
+      )
+  ) {
+  border-radius: 0.5rem !important;
 }
 </style>
