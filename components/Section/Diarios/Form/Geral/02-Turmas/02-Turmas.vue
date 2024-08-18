@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref, toRefs } from 'vue';
 
 //
@@ -11,7 +11,7 @@ const props = defineProps<Props>();
 
 //
 
-const $emit = defineEmits(['close', 'back', 'next']);
+const $emit = defineEmits(['close', 'back', 'next', 'add']);
 
 const isFormVisible = ref(false);
 
@@ -32,6 +32,10 @@ const backForm = () => {
 const selectRole = (role: string) => {
   showTeacherSection.value = role === 'Professor';
   showGroupingSection.value = role === 'AGRUPAMENTO';
+};
+
+const goToAdd = () => {
+  $emit('add');
 };
 </script>
 
@@ -110,7 +114,7 @@ const selectRole = (role: string) => {
 
     <div class="form-footer">
       <div class="button-solo">
-        <UIButtonModalAddNewClassButton />
+        <UIButtonModalAddNewClassButton @click="goToAdd" />
       </div>
       <div class="button-group">
         <UIButtonModalBackButton @click="backForm" />
@@ -120,6 +124,7 @@ const selectRole = (role: string) => {
     </div>
   </v-form>
 </template>
+
 
 <style scoped>
 .form {
