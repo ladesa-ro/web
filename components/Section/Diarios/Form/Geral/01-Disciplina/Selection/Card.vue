@@ -7,14 +7,6 @@ type Props = {
 
 const props = defineProps<Props>();
 const disciplina = toRef(props, 'disciplina');
-
-//
-
-type Slots = {
-  actions(props: any): any;
-};
-
-const slots = defineSlots<Slots>();
 </script>
 
 <template>
