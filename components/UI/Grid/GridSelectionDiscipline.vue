@@ -11,11 +11,12 @@ const slots = defineSlots<{
 </script>
 
 <template>
-  <v-container>
-    <v-row v-if="items">
-      <v-col cols="12" class="px-0" v-for="item in items">
-        <slot name="item" v-bind="{ item }"></slot>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div
+    v-if="items"
+    class="flex flex-col gap-4 max-h-[26rem] overflow-y-auto overflow-x-hidden -mr-4"
+  >
+    <div class="px-0 mr-4" v-for="item in items">
+      <slot name="item" v-bind="{ item }"></slot>
+    </div>
+  </div>
 </template>
