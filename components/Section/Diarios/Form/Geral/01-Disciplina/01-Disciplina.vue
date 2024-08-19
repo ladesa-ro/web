@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, computed, unref } from 'vue';
+import { computed, ref, unref } from 'vue';
 import {
   disciplinasBaseQueryKey,
   useApiBaseResourceList,
@@ -31,10 +31,6 @@ const closeForm = () => {
 const nextForm = () => {
   $emit('next');
 };
-
-const onDisciplinaSelect = (disciplinaId: string | null) => {
-  selectedDisciplina.value = disciplinaId;
-};
 </script>
 
 <template>
@@ -57,8 +53,7 @@ const onDisciplinaSelect = (disciplinaId: string | null) => {
         <template #item="{ item: disciplina }">
           <SectionDiariosFormGeral01DisciplinaSelectionCard
             :disciplina="disciplina"
-            :selected-disciplina="selectedDisciplina"
-            :on-disciplina-select="onDisciplinaSelect"
+            v-model:selected-disciplina="selectedDisciplina"
           />
         </template>
       </UIGridSelectionDiscipline>

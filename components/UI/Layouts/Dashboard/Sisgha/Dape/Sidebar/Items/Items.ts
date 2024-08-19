@@ -44,7 +44,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
       type: 'link',
       title: 'Diários',
       icon: iconDiario,
-      to: '/dashboard/diarios',
+      to: '/sisgha/dape/diarios',
       exact: false,
     },
     {
