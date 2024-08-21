@@ -21,15 +21,17 @@ let calendarView = ref<boolean>(false);
 const handleUpdate = (v: boolean) => {
   calendarView.value = v;
 };
+
+let enableEventList = ref<boolean>(false);
+async function showEventsList(value: boolean): Promise<void> {
+  try {
+    enableEventList.value = !value;
+  } catch (error) {}
+}
 </script>
 
 <template>
   <div class="container flex justify-center items-center w-screen mx-auto p-10">
-    <!-- Modals -->
-    <div class="flex items-center justify-center flex-shrink-0">
-      <SectionCalendarioModal />
-    </div>
-
     <!-- Calendar -->
     <div class="flex flex-col justify-center items-center w-max h-auto">
       <!-- Head -->
@@ -79,8 +81,9 @@ const handleUpdate = (v: boolean) => {
           class="flex flex-col-reverse gap-6 lg:flex-row justify-between w-full mb-6"
         >
           <!-- Event List -->
-          <SectionCalendarioEventsSeeEventsList
+          <UIButtonEventsList
             v-show="calendarView === true"
+            @click="showEventsList(enableEventList)"
           />
 
           <!-- Preview -->
@@ -92,6 +95,16 @@ const handleUpdate = (v: boolean) => {
             @view:calendar="handleUpdate"
           />
         </div>
+      </div>
+
+      <!-- Modals -->
+      <div class="flex items-center justify-center flex-shrink-0">
+        <SectionCalendarioModalEventList
+          :year="calendar?.year"
+          :steps="calendar?.steps"
+          :events="calendar?.events"
+          :enable-modal="true"
+        />
       </div>
 
       <!-- Content -->

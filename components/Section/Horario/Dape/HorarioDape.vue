@@ -69,14 +69,21 @@ const calendars = [
 </script>
 
 <template>
-  <v-expansion-panels multiple v-model="activeCalendar" class="gap-3 px-8 mt-8">
+  <v-expansion-panels
+    multiple
+    v-model="activeCalendar"
+    class="calendario-expansion-panels gap-3 px-8 py-8"
+  >
     <v-expansion-panel
       v-for="calendar in calendars"
       :key="calendar.id"
       :value="calendar.id"
-      class="border-2 border-[#B2D2B7] rounded-lg"
+      class="calendario-expansion-panel border-2 border-[#B2D2B7] overflow-hidden"
     >
-      <v-expansion-panel-title class="!bg-[#118D3B]" :hide-actions="true">
+      <v-expansion-panel-title
+        class="!bg-[#118D3B] !rounded-none"
+        :hide-actions="true"
+      >
         <div>
           <p class="text-white">{{ calendar.title }}</p>
           <br /><br />
@@ -85,11 +92,13 @@ const calendars = [
       </v-expansion-panel-title>
 
       <v-expansion-panel-text class="overflow-x-auto overflow-y-hidden">
-        <div class="grade-horario">
-          <SectionHorarioShifts
-            :turnos="turnos"
-            :dias-da-semana="diasDaSemana"
-          />
+        <div class="mx-auto w-max">
+          <div class="grade-horario px-6 mt-2 w-full overflow-visible">
+            <SectionHorarioShifts
+              :turnos="turnos"
+              :dias-da-semana="diasDaSemana"
+            />
+          </div>
         </div>
       </v-expansion-panel-text>
 
@@ -110,8 +119,38 @@ const calendars = [
 <style scoped>
 .grade-horario {
   display: grid;
-  justify-content: center;
+
   column-gap: 1rem;
-  grid-template-columns: max-content max-content repeat(6, 11.25rem);
+  grid-template-columns: max-content max-content repeat(
+      6,
+      minmax(11.25rem, 1fr)
+    );
+}
+
+:deep(.v-expansion-panel-text__wrapper) {
+  padding: 0;
+}
+</style>
+
+<style>
+.calendario-expansion-panels .calendario-expansion-panel,
+.calendario-expansion-panels.v-expansion-panels:not(
+    .v-expansion-panels--variant-accordion
+  )
+  > :is(
+    :first-child:not(:last-child):not(.v-expansion-panel--active):not(
+        .v-expansion-panel--before-active
+      ),
+    :not(:first-child):not(:last-child):not(.v-expansion-panel--active):not(
+        .v-expansion-panel--after-active
+      ),
+    :last-child:not(:first-child):not(.v-expansion-panel--active):not(
+        .v-expansion-panel--after-active
+      ),
+    :not(:first-child):not(:last-child):not(.v-expansion-panel--active):not(
+        .v-expansion-panel--before-active
+      )
+  ) {
+  border-radius: 0.5rem !important;
 }
 </style>

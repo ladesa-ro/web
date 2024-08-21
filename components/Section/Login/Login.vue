@@ -17,16 +17,16 @@ useTitle(null, 'Login');
       <div class="light-1"></div>
       <div class="light-2"></div>
 
-      <div class="login-card">
+      <div class="login-card w-full">
         <LogoSisghaLogomarca class="logo" />
 
         <div class="fields">
           <UITextField
             required
-            class="field"
             type="text"
-            placeholder="Matrícula"
+            class="field"
             :disabled="isBusy"
+            placeholder="Matrícula"
             v-model="credentials.username"
             :input-props="{
               autocapitalize: 'none',
@@ -38,8 +38,8 @@ useTitle(null, 'Login');
             required
             class="field"
             type="password"
-            placeholder="Senha"
             :disabled="isBusy"
+            placeholder="Senha"
             v-model="credentials.password"
           />
         </div>
@@ -51,9 +51,9 @@ useTitle(null, 'Login');
         </span>
 
         <UIButton
-          class="login-form-submit"
           type="submit"
           :disabled="!canSubmit"
+          class="login-form-submit"
         >
           Entrar
         </UIButton>
@@ -62,22 +62,26 @@ useTitle(null, 'Login');
           <VDivider class="my-4"></VDivider>
 
           <VAlert
-            class="error-feedback"
-            v-model="isError"
             closable
-            text="Não foi possível realizar o login."
             type="error"
+            v-model="isError"
+            class="error-feedback"
+            text="Não foi possível realizar o login."
           >
           </VAlert>
         </div>
       </div>
     </form>
 
-    <div>
-      <NuxtLink tabindex="-1" class="login-alternative-link" to="/consulta">
+    <div class="login-alternative-actions">
+      <NuxtLink
+        tabindex="-1"
+        class="login-alternative-link"
+        to="/sisgha/consulta"
+      >
         <UIButton
-          :disabled="isBusy"
           type="button"
+          :disabled="isBusy"
           class="login-alternative-button"
         >
           <template #start-icon>
@@ -85,7 +89,8 @@ useTitle(null, 'Login');
           </template>
 
           <p class="border-l-2 w-full h-full border-solid border-white">
-            Acesso Público
+            <span class="ml-4"></span>
+            <span>Acesso Público</span>
           </p>
         </UIButton>
       </NuxtLink>
@@ -95,6 +100,12 @@ useTitle(null, 'Login');
 
 <style scoped>
 .login {
+  flex-shrink: 0;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
+
   background-image: url('@/assets/decorations/login-bloom-1.svg'),
     url('@/assets/decorations/login-bloom-2.svg');
 
@@ -102,33 +113,39 @@ useTitle(null, 'Login');
     left top,
     right bottom;
 
-  min-height: 100dvh;
-
-  overflow-x: hidden;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   flex-direction: column;
 
-  padding-bottom: 3rem;
-}
-
-@media screen and (max-width: 1070px) {
-  .login {
-    background-size: 18vmax;
-  }
+  padding-bottom: 2rem;
 }
 
 .login-form {
   display: grid;
 
-  grid-template-rows: minmax(0, 3.0625rem) auto minmax(0, 2.8125rem);
-  grid-template-columns: minmax(1rem, 3.1875rem) auto minmax(1rem, 3.25rem);
+  @apply grid-rows-[1rem,_1fr,_1rem] sm:grid-cols-[3.0625rem,_1fr,_2.8125rem];
+  @apply grid-cols-[1rem,_1fr,_1rem] sm:grid-cols-[3.1875rem,_1fr,_3.25rem];
 
   justify-content: center;
   align-content: center;
+
+  overflow: hidden;
+
+  @apply mb-4;
+}
+
+.login-card {
+  @apply max-w-[21.25rem];
+}
+
+.login-alternative-actions {
+  @apply px-4;
+  @apply w-full flex-shrink-0;
+}
+
+.login-alternative-link {
+  @apply max-w-[21.25rem] mx-auto;
 }
 
 .login-card {
@@ -141,7 +158,7 @@ useTitle(null, 'Login');
   border: 1px solid #d6d6d6;
   border-radius: 0.5625rem;
 
-  margin: 1rem 0;
+  @apply mt-8 mb-4;
 
   padding: 2rem;
 }
@@ -200,7 +217,6 @@ useTitle(null, 'Login');
 }
 
 .field {
-  width: 16.9375rem;
   max-width: 100%;
   min-width: 100%;
 }
@@ -211,7 +227,7 @@ useTitle(null, 'Login');
 
 .login-alternative-button {
   max-width: 100%;
-  width: 21.3125rem;
+  width: 100%;
 
   box-shadow: 0 0 0 3px rgb(var(--sisgha-theme-primary-text), 0.5);
 }
@@ -243,5 +259,11 @@ useTitle(null, 'Login');
   width: 16.9375rem;
   max-width: 100%;
   min-width: 100%;
+}
+
+@media screen and (max-width: 1070px) {
+  .login {
+    background-size: 18vmax;
+  }
 }
 </style>

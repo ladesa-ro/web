@@ -49,24 +49,26 @@ watch(monthNumReceived, (newValue: number) => {
 </script>
 
 <template>
-  <!-- Content -->
-  <div
-    class="flex flex-col justify-between w-[328px] sm:w-[408px] lg:w-full h-auto"
-  >
-    <!-- Months -->
+  <div>
+    <!-- Content -->
     <div
-      class="grid grid-cols-1 lg:grid-cols-2 w-max h-auto gap-4 max-w-[944px] mb-6"
+      class="flex flex-col justify-between w-[328px] sm:w-[408px] lg:w-full h-auto"
     >
-      <SectionCalendarioMonth
-        v-for="month in monthNums"
-        :year="2024"
-        :month="month"
-        :steps="props.steps!"
-        :events="props.events!"
-        :toggle-month="false"
-        :select-week="false"
-        @custom:month-num="handleUpdate"
-      />
+      <!-- Months -->
+      <div
+        class="grid grid-cols-1 lg:grid-cols-2 w-max h-auto gap-4 max-w-[944px] mb-6"
+      >
+        <SectionCalendarioMonth
+          v-for="month in monthNums"
+          :year="2024"
+          :month="month"
+          :steps="props.steps!"
+          :events="props.events!"
+          :toggle-month="false"
+          :select-week="false"
+          @custom:month-num="handleUpdate"
+        />
+      </div>
     </div>
   </div>
 </template>

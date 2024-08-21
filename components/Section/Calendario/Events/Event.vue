@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 
 // Import functions
-import { eventStatus } from './Functions/GetEventStatus.js';
+import { eventStatus } from '../Functions/GetEventStatus';
 import NotifyEvent from './NotifyEvent.vue';
 
 // Interface and types
@@ -17,7 +17,7 @@ const props = defineProps({
   startDate: dayjs.Dayjs,
   endDate: dayjs.Dayjs,
   locale: String,
-  notifyStatus: Boolean
+  notifyStatus: Boolean,
 });
 
 const _eventStatus = await eventStatus.startEvent(
@@ -43,34 +43,37 @@ const _eventStatus = await eventStatus.startEvent(
       </div>
 
       <!-- Infos -->
-      <p class="font-medium text-sm sm:text-[16px] mt-2">
-        Início: {{ startDate?.format('DD/MM') }}
-        <span v-show="startDate?.format('HH:mm') !== '00:00'"
-          >às {{ startDate?.format('HH:mm') }}
-        </span>
-      </p>
+      <div class="flex flex-col items-start justify-start">
+        <!-- Days for start -->
+        <p class="font-medium text-sm sm:text-[16px] mt-2">
+          Início: {{ startDate?.format('DD/MM') }}
+          <span v-show="startDate?.format('HH:mm') !== '00:00'"
+            >às {{ startDate?.format('HH:mm') }}
+          </span>
+        </p>
 
-      <!-- Days for start and end -->
-      <p class="font-medium text-sm sm:text-[16px]">
-        Término: {{ endDate?.format('DD/MM') }}
-        <span v-show="endDate?.format('HH:mm') !== '00:00'"
-          >às {{ endDate?.format('HH:mm') }}</span
+        <!-- Days for end -->
+        <p class="font-medium text-sm sm:text-[16px]">
+          Término: {{ endDate?.format('DD/MM') }}
+          <span v-show="endDate?.format('HH:mm') !== '00:00'"
+            >às {{ endDate?.format('HH:mm') }}</span
+          >
+        </p>
+
+        <!-- Event duration -->
+        <p class="font-medium text-sm sm:text-[16px] mt-2">
+          {{ _eventStatus }}
+        </p>
+
+        <!-- Locale -->
+        <p
+          class="font-medium text-sm sm:text-[16px]"
+          v-show="props.locale!"
+          :class="{ 'mt-2': props.locale! !== '' }"
         >
-      </p>
-
-      <!-- Event duration -->
-      <p class="font-medium text-sm sm:text-[16px] mt-2">
-        {{ _eventStatus }}
-      </p>
-
-      <!-- Locale -->
-      <p
-        class="font-medium text-sm sm:text-[16px]"
-        v-show="props.locale!"
-        :class="{ 'mt-2': props.locale! !== '' }"
-      >
-        {{ props.locale! }}
-      </p>
+          {{ props.locale! }}
+        </p>
+      </div>
     </v-container>
   </v-card>
 </template>

@@ -1,3 +1,7 @@
+<script setup lang="ts">
+await navigateTo('/sisgha/dape');
+</script>
+
 <template>
-  <SectionHorario />
+  <div></div>
 </template>

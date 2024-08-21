@@ -2,6 +2,14 @@
 // Import
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
+import isBetween from 'dayjs/plugin/isBetween';
+
+// Import functions
+import { getOrdenedEventList } from '../Functions/GetOrdenedEventList';
+
+// Dayjs config
+dayjs.locale('pt-br');
+dayjs.extend(isBetween);
 
 // Interface and types
 type EventData = {
@@ -29,6 +37,8 @@ const props = defineProps({
 });
 
 // Functions
+// Set event list
+let allEventItems = ref<Event[]>([]);
 
 // Month num (get emitted value)
 let monthNumReceived = ref<number>(0);
@@ -37,11 +47,35 @@ const handleUpdate = (v: number) => {
   monthNumReceived.value = v;
 };
 
-// Watch month for toggle value
-watch(monthNumReceived, (newValue: number) => {
-  if (newValue !== null) {
-    monthNumReceived.value = newValue;
-  }
+onMounted(async () => {
+  allEventItems.value = await getOrdenedEventList(
+    props.steps!,
+    props.events!,
+    props.year!,
+    monthNumReceived.value!,
+    'month'
+  );
+  allEventItems.value = await getOrdenedEventList(
+    props.steps!,
+    props.events!,
+    props.year!,
+    monthNumReceived.value!,
+    'month'
+  );
+
+  // Watch month num
+  watch(monthNumReceived, async (newValue: number) => {
+    if (newValue !== null) {
+      monthNumReceived.value = newValue;
+      allEventItems.value = await getOrdenedEventList(
+        props.steps!,
+        props.events!,
+        props.year!,
+        monthNumReceived.value!,
+        'month'
+      );
+    }
+  });
 });
 </script>
 
@@ -64,14 +98,21 @@ watch(monthNumReceived, (newValue: number) => {
     </div>
 
     <!-- Event list -->
-    <SectionCalendarioEventsList
-      class="max-w-[420px] xl:max-w-[464px] max-h-[432px]"
-      :year="2024"
-      :steps="props.steps!"
-      :events="props.events!"
-      :month-num="monthNumReceived"
-      :list-all-items="false"
-    />
+    <div
+      class="flex flex-col gap-2 w-full -scrollbar overflow-y-auto pr-2 xl:pr-0 max-h-[432px]"
+    >
+      <SectionCalendarioEventsEvent
+        v-for="(event, index) in allEventItems"
+        :id="event.id"
+        :key="event.id"
+        :name="event.name"
+        :color="event.color"
+        :locale="event.locale"
+        :start-date="event.startDate"
+        :end-date="event.endDate"
+        :notify-status="event.notifyStatus"
+      />
+    </div>
   </div>
 </template>
 

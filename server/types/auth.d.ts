@@ -1,10 +1,11 @@
 /* eslint-disable */
-import 'next-auth';
-import 'next-auth/jwt';
+import '@auth/core/jwt';
+import '@auth/core/types';
 /* eslint-enable */
 
-declare module 'next-auth' {
-  interface Session {
+declare module '@auth/core/types' {
+  /* Returned by `useAuth`, `getSession` and `getServerSession` */
+  interface Session extends DefaultSession {
     error?: any;
 
     user?: any;
@@ -13,7 +14,7 @@ declare module 'next-auth' {
   }
 }
 
-declare module 'next-auth/jwt' {
+declare module '@auth/core/jwt' {
   interface JWT {
     accessToken: string;
   }

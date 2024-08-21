@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-const isActive = ref(true);
+const isActive = ref(false);
 </script>
 
 <template>

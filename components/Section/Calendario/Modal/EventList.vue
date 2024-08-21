@@ -1,61 +1,129 @@
 <script lang="ts" setup>
+// Import
+import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
+import isBetween from 'dayjs/plugin/isBetween';
+import { ref } from 'vue';
+import { eventFilters } from '../Functions/EventListFilters';
+
+// Dayjs config
+dayjs.locale('pt-br');
+dayjs.extend(isBetween);
+
+// Interface and types
+type EventData = {
+  id: string;
+  startDate: dayjs.Dayjs;
+  endDate: dayjs.Dayjs;
+  color: string;
+  notifyStatus: boolean;
+};
+
+type Step = EventData & {
+  number: number;
+};
+
+type Event = EventData & {
+  name: string;
+  locale?: string;
+};
+
+// Props
 const props = defineProps({
-  searchBarText: String,
+  year: Number,
+  steps: Array<Step>,
+  events: Array<Event>,
+  enableModal: Boolean,
 });
 
-const { searchBarText } = toRefs(props);
+// Code
+const searchBarText = ref('');
+const isActive = ref<boolean>(props.enableModal!);
 
 // Listing filter
 const orderBy: Array<string> = ['Mês', 'Eventos', 'Bimestre', 'Semestre'];
 const orderType: Array<string> = ['Crescente', 'Decrescente'];
+
+// Select filter
+const filterType = await eventFilters.getFilter('bimonthly', props.year!);
 </script>
 
 <template>
-  <v-form class="-form">
-    <div>
-      <!-- Title -->
-      <h1 class="main-title">Todos os eventos</h1>
+  <v-dialog max-width="500" v-model="isActive">
+    <template v-slot="{ isActive }">
+      <v-card class="dialog-style">
+        <!-- Modal -->
+        <v-form class="-form">
+          <div>
+            <!-- Title -->
+            <h1 class="main-title">Todos os eventos</h1>
 
-      <v-divider class="my-4" />
+            <v-divider class="my-4" />
 
-      <!-- Filter content -->
-      <div class="modal-form">
-        <!-- Search event -->
-        <UISearchBar
-          :value="searchBarText"
-          @update:value="searchBarText = $event"
-        />
+            <!-- Filter content -->
+            <div class="modal-form">
+              <!-- Search event -->
+              <UISearchBar
+                :value="searchBarText"
+                @update:value="searchBarText = $event"
+              />
 
-        <!-- Order list -->
-        <div class="flex flex-row gap-4">
-          <VVAutocomplete
-            name="orderBy.id"
-            label="Ordenar por"
-            placeholder="Selecione uma opção"
-            :items="orderBy"
-            class="w-full"
-          />
-          <VVAutocomplete
-            name="orderType.id"
-            label="Ordem"
-            placeholder="Selecione uma ordem"
-            :items="orderType"
-            class="w-full"
-          />
-        </div>
-      </div>
+              <!-- Order list -->
+              <div class="flex flex-row gap-4">
+                <VVAutocomplete
+                  name="orderBy.id"
+                  label="Ordenar por"
+                  placeholder="Selecione uma opção"
+                  :items="orderBy"
+                  class="w-full"
+                />
+                <VVAutocomplete
+                  name="orderType.id"
+                  label="Ordem"
+                  placeholder="Selecione uma ordem"
+                  :items="orderType"
+                  class="w-full"
+                />
+              </div>
+            </div>
 
-      <v-divider class="my-4" />
+            <v-divider class="my-4" />
 
-      <!-- Content -->
-      <div>
-        <SectionCalendarioEventsAccordion />
-      </div>
-    </div>
-  </v-form>
+            <!-- Content -->
+            <div
+              class="flex flex-col gap-4 w-full -scrollbar overflow-y-auto pr-2 xl:pr-0 max-h-[432px]"
+            >
+              <SectionCalendarioEventsAccordion
+                v-for="(item, index) in filterType"
+                :name="item.name"
+                :year="props.year!"
+                :month-num="index"
+                :steps="props.steps!"
+                :events="props.events!"
+                :between-dates="item"
+                :order-by="'bimonthly'"
+              />
+            </div>
+          </div>
+        </v-form>
+      </v-card>
+    </template>
+  </v-dialog>
 </template>
 
 <style scoped>
+.dialog-style {
+  border-radius: 14px !important;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border: solid 2px #9ab69e;
+}
+
+.detail {
+  cursor: pointer;
+  z-index: 10;
+  margin-right: 16px;
+}
+
 .-form {
   display: flex;
   flex-direction: column;

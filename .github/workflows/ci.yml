@@ -33,6 +33,7 @@ jobs:
         if: ${{ vars.ENABLE_BUILD_IMAGE == 'true' && github.ref_name == vars.CI_DEVELOPMENT_BRANCH }}
         uses: docker/build-push-action@v6
         with:
+          # build-args: 'NODE_ENV=development'
           push: ${{ vars.ENABLE_PUSH_IMAGE == 'true' }}
           tags: ${{ secrets.REGISTRY_URL }}/${{ vars.IMAGE_NAME }}:${{ vars.IMAGE_TAG_DEVELOPMENT }}
           cache-from: type=gha
@@ -42,6 +43,7 @@ jobs:
         if: ${{ vars.ENABLE_BUILD_IMAGE == 'true' && github.ref_name == vars.CI_PRODUCTION_BRANCH }}
         uses: docker/build-push-action@v6
         with:
+          # build-args: 'NODE_ENV=production'
           push: ${{ vars.ENABLE_PUSH_IMAGE == 'true' }}
           tags: ${{ secrets.REGISTRY_URL }}/${{ vars.IMAGE_NAME }}:${{ vars.IMAGE_TAG_PRODUCTION }}
           cache-from: type=gha
