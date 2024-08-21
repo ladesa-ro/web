@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { ref, computed, unref } from 'vue';
+import { ref, computed, unref, watch } from 'vue';
 import {
-    turmasBaseQueryKey,
+  turmasBaseQueryKey,
   useApiBaseResourceList,
   useTurmasRetriever,
 } from '~/integrations';
@@ -9,6 +9,24 @@ import {
 const $emit = defineEmits(['close', 'next', 'back']);
 
 const searchBarText = ref('');
+
+const checkedQuimica = ref<string[]>([]);
+const checkedInformatica = ref<string[]>([]);
+const checkedFloresta = ref<string[]>([]);
+
+const currentPage = ref(1);
+
+const prevPage = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+};
+
+const nextPage = () => {
+  if (currentPage.value < 2) {
+    currentPage.value++;
+  }
+};
 
 const backForm = () => {
   $emit('back');
@@ -32,44 +50,138 @@ const closeForm = () => {
   $emit('close');
 };
 
-const onTurmaSelect = (turmaId: string | null) => {
-  selectedTurma.value = turmaId;
-};
+const allQuimicaOptions = ['Todos', '1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'];
+const allInformaticaOptions = ['Todos', '1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'];
+const allFlorestaOptions = ['Todos', '1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'];
+
+watch(checkedQuimica, (newVal) => {
+  if (newVal.includes('Todos') && newVal.length === 1) {
+    checkedQuimica.value = allQuimicaOptions.slice(1);
+  } else if (!newVal.includes('Todos')) {
+    if (newVal.length === allQuimicaOptions.length - 1) {
+      checkedQuimica.value = allQuimicaOptions;
+    }
+  }
+});
+
+watch(checkedInformatica, (newVal) => {
+  if (newVal.includes('Todos') && newVal.length === 1) {
+    checkedInformatica.value = allInformaticaOptions.slice(1);
+  } else if (!newVal.includes('Todos')) {
+    if (newVal.length === allInformaticaOptions.length - 1) {
+      checkedInformatica.value = allInformaticaOptions;
+    }
+  }
+});
+
+watch(checkedFloresta, (newVal) => {
+  if (newVal.includes('Todos') && newVal.length === 1) {
+    checkedFloresta.value = allFlorestaOptions.slice(1);
+  } else if (!newVal.includes('Todos')) {
+    if (newVal.length === allFlorestaOptions.length - 1) {
+      checkedFloresta.value = allFlorestaOptions;
+    }
+  }
+});
 </script>
 
 <template>
   <v-form class="form">
     <div class="form-header">
       <h1 class="main-title">
-        <span>Adicionar turmas</span>
+        <span>Vincular Turma</span>
       </h1>
     </div>
 
     <v-divider class="my-4" />
 
     <div class="form-body modal-form">
-      <UISearchBar
-        :value="searchBarText"
-        @update:value="searchBarText = $event"
+      <VVAutocompleteAPIModalidade
+        name="modalidade.id"
+        label="Modalidade"
       />
 
-      <UIGridSelectionDiscipline :items="turmas ?? []">
-        <template #item="{ item: turma }">
-          <SectionDiariosFormGeral02TurmasSelectionCardTurmas
-            :turma="turma"
-            :selected-turma="selectedTurma"
-            :on-turma-select="onTurmaSelect"
-          />
+      <v-container>
+        <v-row justify="space-between" class="items-center mb-4">
+          <v-col cols="2" class="text-left">
+            <v-icon @click="prevPage" class="cursor-pointer">mdi-chevron-left</v-icon>
+          </v-col>
+          <v-col cols="8" class="text-center">
+            <h3 class="text-lg font-semibold">Página {{ currentPage }} de 2</h3>
+          </v-col>
+          <v-col cols="2" class="text-right">
+            <v-icon @click="nextPage" class="cursor-pointer">mdi-chevron-right</v-icon>
+          </v-col>
+        </v-row>
+
+        <template v-if="currentPage === 1">
+          <v-row>
+            <v-col cols="4" class="text-center">
+              <h4 class="mb-2 text-base font-medium">Química</h4>
+              <v-checkbox v-model="checkedQuimica" label="Todos" :value="'Todos'"></v-checkbox>
+              <v-checkbox v-model="checkedQuimica" label="1ºA" :value="'1ºA'"></v-checkbox>
+              <v-checkbox v-model="checkedQuimica" label="1ºB" :value="'1ºB'"></v-checkbox>
+              <v-checkbox v-model="checkedQuimica" label="2ºA" :value="'2ºA'"></v-checkbox>
+              <v-checkbox v-model="checkedQuimica" label="2ºB" :value="'2ºB'"></v-checkbox>
+              <v-checkbox v-model="checkedQuimica" label="3ºA" :value="'3ºA'"></v-checkbox>
+              <v-checkbox v-model="checkedQuimica" label="3ºB" :value="'3ºB'"></v-checkbox>
+            </v-col>
+
+            <v-col cols="4" class="text-center">
+              <h4 class="mb-2 text-base font-medium">Informática</h4>
+              <v-checkbox v-model="checkedInformatica" label="Todos" :value="'Todos'"></v-checkbox>
+              <v-checkbox v-model="checkedInformatica" label="1ºA" :value="'1ºA'"></v-checkbox>
+              <v-checkbox v-model="checkedInformatica" label="1ºB" :value="'1ºB'"></v-checkbox>
+              <v-checkbox v-model="checkedInformatica" label="2ºA" :value="'2ºA'"></v-checkbox>
+              <v-checkbox v-model="checkedInformatica" label="2ºB" :value="'2ºB'"></v-checkbox>
+              <v-checkbox v-model="checkedInformatica" label="3ºA" :value="'3ºA'"></v-checkbox>
+              <v-checkbox v-model="checkedInformatica" label="3ºB" :value="'3ºB'"></v-checkbox>
+            </v-col>
+
+            <v-col cols="4" class="text-center">
+              <h4 class="mb-2 text-base font-medium">Floresta</h4>
+              <v-checkbox v-model="checkedFloresta" label="Todos" :value="'Todos'"></v-checkbox>
+              <v-checkbox v-model="checkedFloresta" label="1ºA" :value="'1ºA'"></v-checkbox>
+              <v-checkbox v-model="checkedFloresta" label="1ºB" :value="'1ºB'"></v-checkbox>
+              <v-checkbox v-model="checkedFloresta" label="2ºA" :value="'2ºA'"></v-checkbox>
+              <v-checkbox v-model="checkedFloresta" label="2ºB" :value="'2ºB'"></v-checkbox>
+              <v-checkbox v-model="checkedFloresta" label="3ºA" :value="'3ºA'"></v-checkbox>
+              <v-checkbox v-model="checkedFloresta" label="3ºB" :value="'3ºB'"></v-checkbox>
+            </v-col>
+          </v-row>
         </template>
-      </UIGridSelectionDiscipline>
+
+        <template v-else>
+          <v-row>
+            <v-col cols="4" class="text-center">
+              <h4 class="mb-2 text-base font-medium">Agronomia</h4>
+              <v-checkbox v-model="checkedQuimica" label="1ºA" :value="'1ºA'"></v-checkbox>
+              <v-checkbox v-model="checkedQuimica" label="1ºB" :value="'1ºB'"></v-checkbox>
+            </v-col>
+
+            <v-col cols="4" class="text-center">
+              <h4 class="mb-2 text-base font-medium">Enfermagem</h4>
+              <v-checkbox v-model="checkedInformatica" label="1ºA" :value="'1ºA'"></v-checkbox>
+              <v-checkbox v-model="checkedInformatica" label="1ºB" :value="'1ºB'"></v-checkbox>
+            </v-col>
+
+            <v-col cols="4" class="text-center">
+              <h4 class="mb-2 text-base font-medium">Veterinária</h4>
+              <v-checkbox v-model="checkedFloresta" label="1ºA" :value="'1ºA'"></v-checkbox>
+              <v-checkbox v-model="checkedFloresta" label="1ºB" :value="'1ºB'"></v-checkbox>
+            </v-col>
+          </v-row>
+        </template>
+      </v-container>
     </div>
 
     <v-divider />
-        <div class="button-group">
-        <UIButtonModalBackButton @click="backForm"/>
-        <UIButtonModalCancelButton @click="closeForm" />
-        <UIButtonModalAddClassButton/>
-      </div>
+
+    <div class="button-group">
+      <UIButtonModalBackButton @click="backForm"/>
+      <UIButtonModalCancelButton @click="closeForm" />
+      <UIButtonModalAddClassButton/>
+    </div>
   </v-form>
 </template>
 
