@@ -49,14 +49,15 @@ const nextForm = () => {
         @update:value="searchBarText = $event"
       />
 
-      <UIGridSelectionDiscipline :items="disciplinas ?? []">
-        <template #item="{ item: disciplina }">
-          <SectionDiariosFormGeral01DisciplinaSelectionCard
-            :disciplina="disciplina"
-            v-model:selected-disciplina="selectedDisciplina"
-          />
-        </template>
-      </UIGridSelectionDiscipline>
+      <v-radio-group v-model="selectedDisciplina">
+        <UIGridSelectionDiscipline :items="disciplinas ?? []">
+          <template #item="{ item: disciplina }">
+            <SectionDiariosFormGeral01DisciplinaSelectionCard
+              :disciplina="disciplina"
+            />
+          </template>
+        </UIGridSelectionDiscipline>
+      </v-radio-group>
     </div>
 
     <v-divider />
@@ -82,12 +83,13 @@ const nextForm = () => {
 .main-title {
   font-size: 24px;
   font-weight: 700;
+  text-align: center;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  text-align: center;
+
   padding: 32px;
 }
 
