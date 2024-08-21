@@ -47,6 +47,8 @@ const props = defineProps({
   },
 });
 
+const orderBy = ref<string>(props.orderBy!);
+
 // Functions
 // Set event list
 let allEventItems = ref<Event[]>([]);
@@ -60,6 +62,21 @@ onMounted(async () => {
     props.orderBy!,
     props.betweenDates!
   );
+
+  // Watch
+  watch(orderBy!, async (newValue: string) => {
+    if (newValue !== null) {
+      // Alter value
+      allEventItems.value = await getOrdenedEventList(
+        props.steps!,
+        props.events!,
+        props.year!,
+        props.monthNum!,
+        props.orderBy!,
+        props.betweenDates!
+      );
+    }
+  });
 });
 </script>
 
@@ -78,7 +95,7 @@ onMounted(async () => {
               class="font-medium text-sm sm:text-[16px] no-underline inline-block"
             >
               <!-- Month -->
-              <span v-if="props.orderBy === 'month'">
+              <span v-if="props.orderBy === 'Mês'">
                 {{
                   dayjs(`${props.year!}-${props.monthNum! + 1}-01`)
                     .format('MMMM')[0]
@@ -91,12 +108,12 @@ onMounted(async () => {
               </span>
 
               <!-- Bimonthly -->
-              <span v-else-if="props.orderBy === 'bimonthly'">
+              <span v-else-if="props.orderBy === 'Bimestre'">
                 {{ props.betweenDates!.name }}
               </span>
 
               <!-- Semester -->
-              <span v-else-if="props.orderBy === 'semester'">
+              <span v-else-if="props.orderBy === 'Semestre'">
                 {{ props.betweenDates!.name }}
               </span>
             </p>

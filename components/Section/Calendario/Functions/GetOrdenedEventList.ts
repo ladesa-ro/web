@@ -51,7 +51,7 @@ export async function getOrdenedEventList(
     );
 
     // Order events by month
-    if (orderBy === 'month') {
+    if (orderBy === 'Mês' || orderBy === 'month') {
       const firstDayOfMonth = dayjs(`${year!}-${monthNum! + 1}-01`);
 
       // Filter items
@@ -63,7 +63,12 @@ export async function getOrdenedEventList(
       );
     }
     // Order events by bimonthly or semester
-    else if (orderBy === 'bimonthly' || orderBy === 'semester') {
+    else if (
+      orderBy === 'Bimestre' ||
+      orderBy === 'bimonthly' ||
+      orderBy === 'Semestre' ||
+      orderBy === 'semester'
+    ) {
       // Filter items
       allEventItems.value = allEventItems.value.filter(
         (event) =>

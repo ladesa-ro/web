@@ -28,6 +28,11 @@ type Event = EventData & {
   locale?: string;
 };
 
+// Filter types
+type BetweenDates = Omit<EventData, 'id' | 'color' | 'notifyStatus'> & {
+  name: string;
+};
+
 // Props
 const props = defineProps({
   year: Number,
@@ -45,7 +50,33 @@ const orderBy: Array<string> = ['Mês', 'Eventos', 'Bimestre', 'Semestre'];
 const orderType: Array<string> = ['Crescente', 'Decrescente'];
 
 // Select filter
-const filterType = await eventFilters.getFilter('bimonthly', props.year!);
+let filterType = ref<BetweenDates[]>([]);
+
+// Local filter value
+let localValue = {
+  search: ref<string>(''),
+  _orderBy: ref<string>(orderBy[0]),
+  _orderType: ref<string>(orderType[0]),
+};
+
+onMounted(async () => {
+  // Set value
+  filterType.value = await eventFilters.getFilter(
+    localValue._orderBy.value,
+    props.year!
+  );
+
+  // Watch selected filters
+  watch(localValue._orderBy, async (newValue: string) => {
+    if (newValue !== null) {
+      // Alter value
+      filterType.value = await eventFilters.getFilter(
+        localValue._orderBy.value,
+        props.year!
+      );
+    }
+  });
+});
 </script>
 
 <template>
@@ -75,6 +106,7 @@ const filterType = await eventFilters.getFilter('bimonthly', props.year!);
                   label="Ordenar por"
                   placeholder="Selecione uma opção"
                   :items="orderBy"
+                  v-model:value="localValue._orderBy.value"
                   class="w-full"
                 />
                 <VVAutocomplete
@@ -82,6 +114,7 @@ const filterType = await eventFilters.getFilter('bimonthly', props.year!);
                   label="Ordem"
                   placeholder="Selecione uma ordem"
                   :items="orderType"
+                  v-model:value="localValue._orderType.value"
                   class="w-full"
                 />
               </div>
@@ -101,7 +134,7 @@ const filterType = await eventFilters.getFilter('bimonthly', props.year!);
                 :steps="props.steps!"
                 :events="props.events!"
                 :between-dates="item"
-                :order-by="'bimonthly'"
+                :order-by="localValue._orderBy.value"
               />
             </div>
           </div>

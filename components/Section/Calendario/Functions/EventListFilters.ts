@@ -33,18 +33,67 @@ export const eventFilters = {
       const filterTypes = {
         // Month filter
         months: [
-          'Janeiro',
-          'Fevereiro',
-          'Março',
-          'Abril',
-          'Maio',
-          'Junho',
-          'Julho',
-          'Agosto',
-          'Setembro',
-          'Outubro',
-          'Novembro',
-          'Dezembro',
+          //
+          {
+            name: 'Janeiro',
+            startDate: dayjs(`${year}-01-01`),
+            endDate: dayjs(`${year}-01-01`).endOf('month'),
+          },
+          {
+            name: 'Fevereiro',
+            startDate: dayjs(`${year}-02-01`),
+            endDate: dayjs(`${year}-02-01`).endOf('month'),
+          },
+          {
+            name: 'Março',
+            startDate: dayjs(`${year}-03-01`),
+            endDate: dayjs(`${year}-03-01`).endOf('month'),
+          },
+          {
+            name: 'Abril',
+            startDate: dayjs(`${year}-04-01`),
+            endDate: dayjs(`${year}-04-01`).endOf('month'),
+          },
+          {
+            name: 'Maio',
+            startDate: dayjs(`${year}-05-01`),
+            endDate: dayjs(`${year}-05-01`).endOf('month'),
+          },
+          {
+            name: 'Junho',
+            startDate: dayjs(`${year}-06-01`),
+            endDate: dayjs(`${year}-06-01`).endOf('month'),
+          },
+          {
+            name: 'Julho',
+            startDate: dayjs(`${year}-07-01`),
+            endDate: dayjs(`${year}-07-01`).endOf('month'),
+          },
+          {
+            name: 'Agosto',
+            startDate: dayjs(`${year}-08-01`),
+            endDate: dayjs(`${year}-08-01`).endOf('month'),
+          },
+          {
+            name: 'Setembro',
+            startDate: dayjs(`${year}-09-01`),
+            endDate: dayjs(`${year}-09-01`).endOf('month'),
+          },
+          {
+            name: 'Outubro',
+            startDate: dayjs(`${year}-10-01`),
+            endDate: dayjs(`${year}-10-01`).endOf('month'),
+          },
+          {
+            name: 'Novembro',
+            startDate: dayjs(`${year}-11-01`),
+            endDate: dayjs(`${year}-11-01`).endOf('month'),
+          },
+          {
+            name: 'Dezembro',
+            startDate: dayjs(`${year}-12-01`),
+            endDate: dayjs(`${year}-12-01`).endOf('month'),
+          },
         ],
         // Bimonthly filter
         bimonthlys: ref<BetweenDates[]>([
@@ -96,9 +145,9 @@ export const eventFilters = {
       };
 
       // Return requested filter type
-      // if (type === 'month') return filterTypes.months;
-      if (type === 'bimonthly') return filterTypes.bimonthlys.value;
-      else if (type === 'semester') return filterTypes.semesters.value;
+      if (type === 'Mês') return filterTypes.months;
+      if (type === 'Bimestre') return filterTypes.bimonthlys.value;
+      else if (type === 'Semestre') return filterTypes.semesters.value;
       else return [];
     } catch (error) {
       return [];
