@@ -40,6 +40,7 @@ export default defineNuxtPlugin((nuxt) => {
         queryClient,
 
         persister: createSyncStoragePersister({
+          key: 'LADESA_WEB_QUERY_CACHE',
           storage: storage ?? undefined,
         }),
       });
