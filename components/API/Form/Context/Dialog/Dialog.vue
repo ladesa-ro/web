@@ -34,17 +34,13 @@ const slots = defineSlots<Slots>();
 
 <template>
   <div class="dialog">
-    <div class="grid grid-cols-1 items-center">
-      <h1
-        class="dialog-title justify-self-center row-start-1 col-start-1 col-span-1"
-      >
+    <div class="flex gap-2 items-center">
+      <h1 class="dialog-title text-left flex-1">
         <span v-if="editId">{{ titleEdit }}</span>
         <span v-else>{{ titleCreate }}</span>
       </h1>
 
-      <div
-        class="row-start-1 self-end justify-self-end col-start-1 col-span-1 flex items-center gap-2"
-      >
+      <div class="flex items-center gap-2">
         <v-menu
           :disabled="isLoading || isBusy"
           v-if="editId"
@@ -100,7 +96,11 @@ const slots = defineSlots<Slots>();
 
     <v-divider class="my-4" />
 
-    <div class="form-body modal-form">
+    <div v-if="isLoading">
+      <UILoading />
+    </div>
+
+    <div v-else class="form-body modal-form">
       <slot name="body"></slot>
     </div>
 
