@@ -1,22 +1,23 @@
 <script setup lang="ts">
 import { useMonitorSize } from '~/composables/monitor-size';
 import type { ISidebarItem } from './ISidebarItem';
+import { useInit } from '~/composables/useInit';
 
 //
 
 type Props = {
-  items: ISidebarItem[]
-}
+  items: ISidebarItem[];
+};
 
 const props = defineProps<Props>();
 
 //
 
-const init = useInit()
+const init = useInit();
 
 const { isMobile } = useMonitorSize();
 
-const items = toRef(props, "items");
+const items = toRef(props, 'items');
 
 const hamburgerActive = defineModel({
   required: true,

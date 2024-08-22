@@ -1,4 +1,4 @@
-import iconCalendario from '~/assets/icons/Calendario.svg';
+import iconCalendario from '~/assets/icons/Calendario/Calendario.svg';
 import iconCursos from '~/assets/icons/Curso.svg';
 import iconDiario from '~/assets/icons/Diario.svg';
 import iconDisciplina from '~/assets/icons/Disciplina.svg';
