@@ -1,51 +1,24 @@
 <script lang="ts" setup>
-// Import
-import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
-import isBetween from 'dayjs/plugin/isBetween';
-
-// Import functions
+import type { Dayjs } from 'dayjs';
+import type { Day, Event, Step } from '../Typings';
 import { getEmptyDays } from './Functions/GetEmptyDays';
 import { getMonth } from './Functions/GetMonth';
 
-// Dayjs config
-dayjs.locale('pt-br');
-dayjs.extend(isBetween);
-
-// --- Interface and types ---
-type EventData = {
-  id: string;
-  startDate: dayjs.Dayjs;
-  endDate: dayjs.Dayjs;
-  color: string;
-};
-
-type Step = EventData & {
-  number: number;
-};
-
-type Event = EventData & {
-  name: string;
-  locale?: string;
-};
-
-type Day = {
-  num: number;
-  day: string;
-  date: dayjs.Dayjs;
-  color: string;
-  hoverActive: boolean;
-};
+// Dayjs
+const dayjs = useDayJs();
 
 // --- Props ---
-const props = defineProps({
-  year: Number,
-  month: Number,
-  toggleMonth: Boolean,
-  selectWeek: Boolean,
-  steps: Array<Step>,
-  events: Array<Event>,
-});
+
+type Props = {
+  year: number;
+  month: number;
+  toggleMonth: boolean;
+  selectWeek: boolean;
+  steps?: Step[];
+  events?: Event[];
+};
+
+const props = defineProps<Props>();
 
 //  --- Month ---
 const daysInTheWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -68,13 +41,13 @@ const emitMonthData = defineEmits<{
   // Month number
   (e: 'custom:monthNum', v: number): void;
   // Week of month
-  (e: 'custom:monthWeek', v: dayjs.Dayjs[]): void;
+  (e: 'custom:monthWeek', v: Dayjs[]): void;
 }>();
 
 const callingMonthNum = (v: number) => {
   if (v !== null) emitMonthData('custom:monthNum', v);
 };
-const callingMonthWeek = (v: dayjs.Dayjs[]) => {
+const callingMonthWeek = (v: Dayjs[]) => {
   if (v !== null) emitMonthData('custom:monthWeek', v);
 };
 
@@ -84,31 +57,31 @@ async function setMonth(): Promise<void> {
   try {
     // Set days
     calendarDays.daysInMonth.value = await getMonth.getMonthData(
-      props.year!,
-      monthNum.value!,
-      props.steps!,
-      props.events!
+      props.year,
+      monthNum.value,
+      props.steps,
+      props.events
     );
 
     monthColor.value = await getMonth.getMonthColor(
-      props.steps!,
-      props.year!,
-      monthNum.value!
+      props.steps ?? [],
+      props.year,
+      monthNum.value
     );
 
     // Set empty days
     // before
     calendarDays.emptyDays.before.value = await getEmptyDays(
-      props.year!,
-      monthNum.value!,
+      props.year,
+      monthNum.value,
       calendarDays.daysInMonth.value.length,
       'before'
     );
 
     // after
     calendarDays.emptyDays.after.value = await getEmptyDays(
-      props.year!,
-      monthNum.value!,
+      props.year,
+      monthNum.value,
       calendarDays.daysInMonth.value.length,
       'after'
     );
@@ -133,10 +106,10 @@ async function toggleMonth(num: number): Promise<void> {
 }
 
 // --- Select week ---
-const daysOfWeek = ref<dayjs.Dayjs[]>([]);
+const daysOfWeek = ref<Dayjs[]>([]);
 
 // Get dates of week
-async function getWeek(date: dayjs.Dayjs): Promise<void> {
+async function getWeek(date: Dayjs): Promise<void> {
   try {
     // Check if select week is enable
     if (props.selectWeek! === true) {
@@ -157,10 +130,7 @@ async function emitWeekSelected(): Promise<void> {
 }
 
 // Set hover
-async function hoverInWeek(
-  date: dayjs.Dayjs,
-  enableHover: boolean
-): Promise<void> {
+async function hoverInWeek(date: Dayjs, enableHover: boolean): Promise<void> {
   try {
     // Check if select week is enable
     if (props.selectWeek! === true) {
@@ -308,4 +278,3 @@ onMounted(async () => {
   background-color: #ffffff00;
 }
 </style>
-./Functions/GetEmptyDays

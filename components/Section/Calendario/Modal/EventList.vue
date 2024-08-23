@@ -1,49 +1,24 @@
 <script lang="ts" setup>
-// Import
-import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
-import isBetween from 'dayjs/plugin/isBetween';
 import { ref } from 'vue';
 import { eventFilters } from '../Functions/EventListFilters';
+import type { BetweenDates, Event, Step } from '../Typings';
 
-// Dayjs config
-dayjs.locale('pt-br');
-dayjs.extend(isBetween);
-
-// Interface and types
-type EventData = {
-  id: string;
-  startDate: dayjs.Dayjs;
-  endDate: dayjs.Dayjs;
-  color: string;
-  notifyStatus: boolean;
-};
-
-type Step = EventData & {
-  number: number;
-};
-
-type Event = EventData & {
-  name: string;
-  locale?: string;
-};
-
-// Filter types
-type BetweenDates = Omit<EventData, 'id' | 'color' | 'notifyStatus'> & {
-  name: string;
-};
+// Dayjs
+const dayjs = useDayJs();
 
 // Props
-const props = defineProps({
-  year: Number,
-  steps: Array<Step>,
-  events: Array<Event>,
-  enableModal: Boolean,
-});
+type Props = {
+  year?: number;
+  steps?: Step[];
+  events?: Event[];
+  enableModal?: boolean;
+};
+
+const props = defineProps<Props>();
 
 // Code
 const searchBarText = ref('');
-const isActive = ref<boolean>(props.enableModal!);
+const isActive = ref<boolean>(props.enableModal);
 
 // Listing filter
 const orderBy: Array<string> = ['Mês', 'Eventos', 'Bimestre', 'Semestre'];
@@ -63,7 +38,7 @@ onMounted(async () => {
   // Set value
   filterType.value = await eventFilters.getFilter(
     localValue._orderBy.value,
-    props.year!
+    props.year
   );
 
   // Watch selected filters
@@ -72,7 +47,7 @@ onMounted(async () => {
       // Alter value
       filterType.value = await eventFilters.getFilter(
         localValue._orderBy.value,
-        props.year!
+        props.year
       );
     }
   });
@@ -129,10 +104,10 @@ onMounted(async () => {
               <SectionCalendarioEventsAccordion
                 v-for="(item, index) in filterType"
                 :name="item.name"
-                :year="props.year!"
+                :year="props.year"
                 :month-num="index"
-                :steps="props.steps!"
-                :events="props.events!"
+                :steps="props.steps"
+                :events="props.events"
                 :between-dates="item"
                 :order-by="localValue._orderBy.value"
               />

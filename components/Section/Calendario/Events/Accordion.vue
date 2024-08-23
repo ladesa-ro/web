@@ -1,53 +1,28 @@
 <script lang="ts" setup>
-// Import
-import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
-import isBetween from 'dayjs/plugin/isBetween';
-
-// Import functions
 import { getOrdenedEventList } from '../Functions/GetOrdenedEventList';
+import type { BetweenDates, Event, Step } from '../Typings';
 
-// Dayjs config
-dayjs.locale('pt-br');
-dayjs.extend(isBetween);
+// Dayjs
+const dayjs = useDayJs();
 
 // Interface and types
-type EventData = {
-  id: string;
-  startDate: dayjs.Dayjs;
-  endDate: dayjs.Dayjs;
-  color: string;
-  notifyStatus: boolean;
-};
-
-type Step = EventData & {
-  number: number;
-};
-
-type Event = EventData & {
-  name: string;
-  locale?: string;
-};
-
-// Filter types
-type BetweenDates = Omit<EventData, 'id' | 'color' | 'notifyStatus'> & {
-  name: string;
-};
 
 // Props
-const props = defineProps({
-  year: Number,
-  monthNum: Number,
-  steps: Array<Step>,
-  events: Array<Event>,
-  orderBy: String,
-  betweenDates: {
-    type: Object as PropType<BetweenDates>,
-    required: false,
-  },
-});
 
-const orderBy = ref<string>(props.orderBy!);
+type Props = {
+  year?: number;
+  monthNum: number;
+
+  steps?: Step[];
+  events?: Event[];
+  orderBy: string;
+
+  betweenDates?: BetweenDates;
+};
+
+const props = defineProps<Props>();
+
+const orderBy = ref<string>(props.orderBy);
 
 // Functions
 // Set event list
@@ -55,28 +30,28 @@ let allEventItems = ref<Event[]>([]);
 
 onMounted(async () => {
   allEventItems.value = await getOrdenedEventList(
-    props.steps!,
-    props.events!,
-    props.year!,
-    props.monthNum!,
-    props.orderBy!,
-    props.betweenDates!
+    props.steps,
+    props.events,
+    props.year,
+    props.monthNum,
+    props.orderBy,
+    props.betweenDates
   );
+});
 
-  // Watch
-  watch(orderBy!, async (newValue: string) => {
-    if (newValue !== null) {
-      // Alter value
-      allEventItems.value = await getOrdenedEventList(
-        props.steps!,
-        props.events!,
-        props.year!,
-        props.monthNum!,
-        props.orderBy!,
-        props.betweenDates!
-      );
-    }
-  });
+// Watch
+watch(orderBy, async (newValue: string) => {
+  if (newValue !== null) {
+    // Alter value
+    allEventItems.value = await getOrdenedEventList(
+      props.steps,
+      props.events,
+      props.year,
+      props.monthNum,
+      props.orderBy,
+      props.betweenDates
+    );
+  }
 });
 </script>
 

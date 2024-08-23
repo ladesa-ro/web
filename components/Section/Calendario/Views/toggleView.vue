@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 let calendarView = ref<boolean>(false);
 
-const emitOptionSelected = defineEmits<{
+type Emits = {
   // Option selected
   (e: 'view:calendar', v: boolean): void;
-}>();
+};
+
+const emitOptionSelected = defineEmits<Emits>();
 
 const callingEmit = (v: boolean) => {
   if (v !== null) emitOptionSelected('view:calendar', v);
@@ -35,9 +37,9 @@ onMounted(async () => {
         :class="{ '-selected border-r-2': calendarView === false }"
         @click="toggleView(false)"
       >
-        <span class="text-sm sm:text-[16px] font-semibold w-[120px] lg:w-max"
-          >Calendário parcial</span
-        >
+        <span class="text-sm sm:text-[16px] font-semibold w-[120px] lg:w-max">
+          Calendário parcial
+        </span>
         <IconsCalendarIconPartialCalendar class="w-[18px] sm:w-5" />
       </div>
 
@@ -47,9 +49,9 @@ onMounted(async () => {
         :class="{ '-selected border-l-2': calendarView !== false }"
         @click="toggleView(true)"
       >
-        <span class="text-sm sm:text-[16px] font-semibold w-[120px] lg:w-max"
-          >Calendário completo</span
-        >
+        <span class="text-sm sm:text-[16px] font-semibold w-[120px] lg:w-max">
+          Calendário completo
+        </span>
         <IconsCalendarIconCompleteCalendar class="w-[18px] sm:w-5" />
       </div>
     </section>
