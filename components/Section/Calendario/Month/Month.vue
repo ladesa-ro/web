@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { Dayjs } from 'dayjs';
+import { capitalizeFirst } from '../../Horario/-Helpers/CapitalizeFirst';
 import type { Day, Event, Step } from '../Typings';
 import { getEmptyDays } from './Functions/GetEmptyDays';
 import { getMonth } from './Functions/GetMonth';
@@ -176,18 +177,14 @@ onMounted(async () => {
       <IconsArrowIconArrow
         class="text-white cursor-pointer"
         @click="toggleMonth(-1)"
-        v-show="props.toggleMonth!"
+        v-show="props.toggleMonth"
       />
       <!-- Month name -->
       <h1 class="font-medium text-center text-lg sm:text-xl w-full">
         {{
-          dayjs(`${props.year!}-${monthNum + 1}-01`)
-            .format('MMMM')[0]
-            .toUpperCase() +
-          dayjs(`${props.year!}-${monthNum + 1}-01`)
-            .format('MMMM')
-            .slice(1)
-            .toLowerCase()
+          capitalizeFirst(
+            dayjs(`${props.year}-${monthNum + 1}-01`).format('MMMM')
+          )
         }}
       </h1>
 
@@ -195,7 +192,7 @@ onMounted(async () => {
       <IconsArrowIconArrow
         class="text-white rotate-180 cursor-pointer"
         @click="toggleMonth(1)"
-        v-show="props.toggleMonth!"
+        v-show="props.toggleMonth"
       />
     </div>
 

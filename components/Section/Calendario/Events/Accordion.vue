@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { capitalizeFirst } from '../../Horario/-Helpers/CapitalizeFirst';
 import { getOrdenedEventList } from '../Functions/GetOrdenedEventList';
 import type { BetweenDates, Event, Step } from '../Typings';
 
@@ -72,13 +73,11 @@ watch(orderBy, async (newValue: string) => {
               <!-- Month -->
               <span v-if="props.orderBy === 'Mês'">
                 {{
-                  dayjs(`${props.year!}-${props.monthNum! + 1}-01`)
-                    .format('MMMM')[0]
-                    .toUpperCase() +
-                  dayjs(`${props.year!}-${props.monthNum! + 1}-01`)
-                    .format('MMMM')
-                    .slice(1)
-                    .toLowerCase()
+                  capitalizeFirst(
+                    dayjs(`${props.year!}-${props.monthNum! + 1}-01`).format(
+                      'MMMM'
+                    )
+                  )
                 }}
               </span>
 
