@@ -1,27 +1,10 @@
 // Import
-import dayjs from 'dayjs';
+import { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
+import type { Event, Step } from '../Typings';
 
-// Dayjs config
-dayjs.locale('pt-br');
-
-// Interface and types
-type EventData = {
-  id: string;
-  startDate: dayjs.Dayjs;
-  endDate: dayjs.Dayjs;
-  color: string;
-  notifyStatus: boolean;
-};
-
-type Step = EventData & {
-  number: number;
-};
-
-type Event = EventData & {
-  name: string;
-  locale?: string;
-};
+// Dayjs
+const dayjs = useDayJs();
 
 export const getFormattedEvents = {
   async EventList(
@@ -38,8 +21,8 @@ export const getFormattedEvents = {
       async function pushItemInList(
         Id: string,
         Name: string,
-        StartDate: dayjs.Dayjs,
-        EndDate: dayjs.Dayjs,
+        StartDate: Dayjs,
+        EndDate: Dayjs,
         Color: string,
         NotifyStatus: boolean,
         Locale?: string

@@ -1,24 +1,8 @@
-// Import
-import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
 import { ref } from 'vue';
+import type { BetweenDates } from '../Typings';
 
-// Dayjs config
-dayjs.locale('pt-br');
-
-// Interface and types
-type EventData = {
-  id: string;
-  startDate: dayjs.Dayjs;
-  endDate: dayjs.Dayjs;
-  color: string;
-  notifyStatus: boolean;
-};
-
-// Filter types
-type BetweenDates = Omit<EventData, 'id' | 'color' | 'notifyStatus'> & {
-  name: string;
-};
+// Dayjs
+const dayjs = useDayJs();
 
 export const eventFilters = {
   async getFilter(type: string, setYear?: number): Promise<BetweenDates[]> {

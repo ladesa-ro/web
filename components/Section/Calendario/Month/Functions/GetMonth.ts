@@ -1,36 +1,7 @@
-// Import
-import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
-import isBetween from 'dayjs/plugin/isBetween';
+import type { Day, Event, Step } from '../../Typings';
 
-// Dayjs config
-dayjs.locale('pt-br');
-dayjs.extend(isBetween);
-
-// Interface and types
-type EventData = {
-  id: string;
-  startDate: dayjs.Dayjs;
-  endDate: dayjs.Dayjs;
-  color: string;
-};
-
-type Step = EventData & {
-  number: number;
-};
-
-type Event = EventData & {
-  name: string;
-  locale?: string;
-};
-
-type Day = {
-  num: number;
-  day: string;
-  date: dayjs.Dayjs;
-  color: string;
-  hoverActive: boolean;
-};
+// Dayjs
+const dayjs = useDayJs();
 
 // Functions
 export const getMonth = {
@@ -61,21 +32,21 @@ export const getMonth = {
   },
 
   async setDatesColor(
-    daysInMonth: Array<Day>,
-    steps: Array<Step>,
-    events: Array<Event>
+    daysInMonth: Day[],
+    steps: Step[] = [],
+    events: Event[] = []
   ): Promise<Day[]> {
     try {
       // - Set steps -
-      for (let i = 0; i < steps!.length; i++) {
+      for (let i = 0; i < steps.length; i++) {
         // Check if date is between the start or end of the month
         for (let j = 0; j < daysInMonth.length; j++) {
           // Set start and end day color
           if (
             // Check if the date is between
             dayjs(daysInMonth[j].date).isBetween(
-              steps![i].startDate,
-              steps![i].endDate,
+              steps[i].startDate,
+              steps[i].endDate,
               'date',
               '[]'
             ) === true
@@ -117,8 +88,8 @@ export const getMonth = {
   async getMonthData(
     year: number,
     month: number,
-    steps: Array<Step>,
-    events: Array<Event>
+    steps: Array<Step> | undefined,
+    events: Array<Event> | undefined
   ): Promise<Day[]> {
     try {
       // Set month and days with colors
@@ -144,15 +115,15 @@ export const getMonth = {
         if (
           // Check if month is between the start or end of the step
           dayjs(
-            `${year!}-${month! + 1}-${dayjs(steps![i].startDate).date()}`
-          ).isBetween(steps![i].startDate, steps![i].endDate, 'date', '[]') ===
+            `${year}-${month + 1}-${dayjs(steps[i].startDate).date()}`
+          ).isBetween(steps[i].startDate, steps[i].endDate, 'date', '[]') ===
             true ||
           dayjs(
-            `${year!}-${month! + 1}-${dayjs(steps![i].endDate).date()}`
-          ).isBetween(steps![i].startDate, steps![i].endDate, 'date', '[]') ===
+            `${year}-${month + 1}-${dayjs(steps[i].endDate).date()}`
+          ).isBetween(steps[i].startDate, steps[i].endDate, 'date', '[]') ===
             true
         ) {
-          monthColor = steps![i].color;
+          monthColor = steps[i].color;
           break;
         } else {
           monthColor = '#9ab69e';

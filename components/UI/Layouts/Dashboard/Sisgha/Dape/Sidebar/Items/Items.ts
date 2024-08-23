@@ -51,7 +51,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
       type: 'link',
       title: 'Calendário',
       icon: iconCalendario,
-      to: '/calendario',
+      to: '/sisgha/dape/calendario',
       exact: false,
     },
     {

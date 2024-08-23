@@ -1,34 +1,16 @@
 <script lang="ts" setup>
 // Import
-import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
-
-// Interface and types
-type EventData = {
-  id: string;
-  startDate: dayjs.Dayjs;
-  endDate: dayjs.Dayjs;
-  color: string;
-  notifyStatus: boolean;
-};
-
-type Step = EventData & {
-  number: number;
-};
-
-type Event = EventData & {
-  name: string;
-  startTime?: dayjs.Dayjs;
-  endTime?: dayjs.Dayjs;
-  locale?: string;
-};
+import type { Event, Step } from '../Typings';
 
 // Props
-const props = defineProps({
-  year: Number,
-  steps: Array<Step>,
-  events: Array<Event>,
-});
+type Props = {
+  year?: number;
+  steps?: Step[];
+  events?: Event[];
+};
+
+const props = defineProps<Props>();
 
 // Functions
 const monthNums = ref<number[]>([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]);
@@ -62,8 +44,8 @@ watch(monthNumReceived, (newValue: number) => {
           v-for="month in monthNums"
           :year="2024"
           :month="month"
-          :steps="props.steps!"
-          :events="props.events!"
+          :steps="props.steps"
+          :events="props.events"
           :toggle-month="false"
           :select-week="false"
           @custom:month-num="handleUpdate"

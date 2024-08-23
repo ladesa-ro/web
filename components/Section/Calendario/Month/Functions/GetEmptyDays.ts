@@ -1,9 +1,8 @@
 // Import
-import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 
-// Dayjs config
-dayjs.locale('pt-br');
+// Dayjs
+const dayjs = useDayJs();
 
 // Functions
 export async function getEmptyDays(
