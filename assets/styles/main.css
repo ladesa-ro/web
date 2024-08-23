@@ -7,15 +7,16 @@
 }
 
 /* Scrollbar style */
-.-scrollbar::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
-.-scrollbar::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
   background: #9ab69e;
   border-radius: 50px;
   cursor: pointer;
 }
-.-scrollbar::-webkit-scrollbar-thumb {
+::-webkit-scrollbar-thumb {
   background: rgb(22 163 74);
   border-radius: 50px;
   cursor: pointer;
