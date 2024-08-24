@@ -54,35 +54,44 @@ const allQuimicaOptions = ['Todos', '1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3º
 const allInformaticaOptions = ['Todos', '1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'];
 const allFlorestaOptions = ['Todos', '1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'];
 
-watch(checkedQuimica, (newVal) => {
-  if (newVal.includes('Todos') && newVal.length === 1) {
-    checkedQuimica.value = allQuimicaOptions.slice(1);
-  } else if (!newVal.includes('Todos')) {
-    if (newVal.length === allQuimicaOptions.length - 1) {
-      checkedQuimica.value = allQuimicaOptions;
-    }
+watch(checkedQuimica, (newVal, oldVal) => {
+  if (newVal.includes('Todos') && !oldVal.includes('Todos')) {
+    checkedQuimica.value = allQuimicaOptions;
+  } else if (!newVal.includes('Todos') && oldVal.includes('Todos')) {
+    checkedQuimica.value = [];
+  } else if (newVal.length === allQuimicaOptions.length - 1 && !newVal.includes('Todos')) {
+    checkedQuimica.value = allQuimicaOptions;
+  } else if (newVal.includes('Todos') && newVal.length < oldVal.length) {
+    checkedQuimica.value = newVal.filter(option => option !== 'Todos');
   }
 });
 
-watch(checkedInformatica, (newVal) => {
-  if (newVal.includes('Todos') && newVal.length === 1) {
-    checkedInformatica.value = allInformaticaOptions.slice(1);
-  } else if (!newVal.includes('Todos')) {
-    if (newVal.length === allInformaticaOptions.length - 1) {
-      checkedInformatica.value = allInformaticaOptions;
-    }
+watch(checkedInformatica, (newVal, oldVal) => {
+  if (newVal.includes('Todos') && !oldVal.includes('Todos')) {
+    checkedInformatica.value = allInformaticaOptions;
+  } else if (!newVal.includes('Todos') && oldVal.includes('Todos')) {
+    checkedInformatica.value = [];
+  } else if (newVal.length === allInformaticaOptions.length - 1 && !newVal.includes('Todos')) {
+    checkedInformatica.value = allInformaticaOptions;
+  } else if (newVal.includes('Todos') && newVal.length < oldVal.length) {
+    checkedInformatica.value = newVal.filter(option => option !== 'Todos');
   }
 });
 
-watch(checkedFloresta, (newVal) => {
-  if (newVal.includes('Todos') && newVal.length === 1) {
-    checkedFloresta.value = allFlorestaOptions.slice(1);
-  } else if (!newVal.includes('Todos')) {
-    if (newVal.length === allFlorestaOptions.length - 1) {
-      checkedFloresta.value = allFlorestaOptions;
-    }
+watch(checkedFloresta, (newVal, oldVal) => {
+  if (newVal.includes('Todos') && !oldVal.includes('Todos')) {
+    checkedFloresta.value = allFlorestaOptions;
+  } else if (!newVal.includes('Todos') && oldVal.includes('Todos')) {
+    checkedFloresta.value = [];
+  } else if (newVal.length === allFlorestaOptions.length - 1 && !newVal.includes('Todos')) {
+    checkedFloresta.value = allFlorestaOptions;
+  } else if (newVal.includes('Todos') && newVal.length < oldVal.length) {
+    checkedFloresta.value = newVal.filter(option => option !== 'Todos');
   }
 });
+
+
+
 </script>
 
 <template>
