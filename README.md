@@ -1,4 +1,6 @@
-# web
+# Web
+
+A Aplicação Web é acessada diretamente no navegador e consiste na interação entre dois sistemas: SISGHA e SISGEA.
 
 ## Ambientes
 
@@ -32,13 +34,13 @@ npm run dev
 
 ## Colaboradores
 
-- Anna Isabela B. Pontuschka
+- Anna Isabela Bianchini Pontuschka
 - Danilo Pereira Escudero
-- Gabriel Guedes
-- Gabriel R. Antunes
-- Iury
-- Kauan Marques
-- Vitor Melo
+- Gabriel Guedes Alves de Moura
+- Gabriel Rodrigues Antunes
+- Iury Fim da Silva
+- Kauan Marques da Luz
+- Vitor Daniel Silva Melo
 
 <!-- Badges -->
 
