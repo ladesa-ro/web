@@ -1,4 +1,4 @@
-import iconCalendario from '~/assets/icons/Calendario.svg';
+import iconCalendario from '~/assets/icons/Calendario/Calendario.svg';
 import iconHome from '~/assets/icons/Home.svg';
 import iconLogout from '~/assets/icons/Logout.svg';
 import iconPerfil from '~/assets/icons/Usuario.svg';
