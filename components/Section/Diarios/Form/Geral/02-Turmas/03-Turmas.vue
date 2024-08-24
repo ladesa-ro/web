@@ -125,59 +125,59 @@ watch(checkedFloresta, (newVal, oldVal) => {
 
         <template v-if="currentPage === 1">
           <v-row>
-            <v-col cols="4" class="text-center">
-              <h4 class="mb-2 text-base font-medium">Química</h4>
-              <v-checkbox v-model="checkedQuimica" label="Todos" :value="'Todos'"></v-checkbox>
-              <v-checkbox v-model="checkedQuimica" label="1ºA" :value="'1ºA'"></v-checkbox>
-              <v-checkbox v-model="checkedQuimica" label="1ºB" :value="'1ºB'"></v-checkbox>
-              <v-checkbox v-model="checkedQuimica" label="2ºA" :value="'2ºA'"></v-checkbox>
-              <v-checkbox v-model="checkedQuimica" label="2ºB" :value="'2ºB'"></v-checkbox>
-              <v-checkbox v-model="checkedQuimica" label="3ºA" :value="'3ºA'"></v-checkbox>
-              <v-checkbox v-model="checkedQuimica" label="3ºB" :value="'3ºB'"></v-checkbox>
+            <v-col cols="4" class="text-center space-y-0">
+              <h4 class="mb-2 text-base font-medium text-center">Química</h4>
+              <v-checkbox color="success" v-model="checkedQuimica" label="Todos" :value="'Todos'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedQuimica" label="1ºA" :value="'1ºA'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedQuimica" label="1ºB" :value="'1ºB'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedQuimica" label="2ºA" :value="'2ºA'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedQuimica" label="2ºB" :value="'2ºB'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedQuimica" label="3ºA" :value="'3ºA'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedQuimica" label="3ºB" :value="'3ºB'"></v-checkbox>
             </v-col>
 
-            <v-col cols="4" class="text-center">
-              <h4 class="mb-2 text-base font-medium">Informática</h4>
-              <v-checkbox v-model="checkedInformatica" label="Todos" :value="'Todos'"></v-checkbox>
-              <v-checkbox v-model="checkedInformatica" label="1ºA" :value="'1ºA'"></v-checkbox>
-              <v-checkbox v-model="checkedInformatica" label="1ºB" :value="'1ºB'"></v-checkbox>
-              <v-checkbox v-model="checkedInformatica" label="2ºA" :value="'2ºA'"></v-checkbox>
-              <v-checkbox v-model="checkedInformatica" label="2ºB" :value="'2ºB'"></v-checkbox>
-              <v-checkbox v-model="checkedInformatica" label="3ºA" :value="'3ºA'"></v-checkbox>
-              <v-checkbox v-model="checkedInformatica" label="3ºB" :value="'3ºB'"></v-checkbox>
+            <v-col cols="4" class="text-center space-y-0">
+              <h4 class="mb-2 text-base font-medium text-center">Informática</h4>
+              <v-checkbox color="success" v-model="checkedInformatica" label="Todos" :value="'Todos'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedInformatica" label="1ºA" :value="'1ºA'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedInformatica" label="1ºB" :value="'1ºB'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedInformatica" label="2ºA" :value="'2ºA'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedInformatica" label="2ºB" :value="'2ºB'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedInformatica" label="3ºA" :value="'3ºA'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedInformatica" label="3ºB" :value="'3ºB'"></v-checkbox>
             </v-col>
 
-            <v-col cols="4" class="text-center">
-              <h4 class="mb-2 text-base font-medium">Floresta</h4>
-              <v-checkbox v-model="checkedFloresta" label="Todos" :value="'Todos'"></v-checkbox>
-              <v-checkbox v-model="checkedFloresta" label="1ºA" :value="'1ºA'"></v-checkbox>
-              <v-checkbox v-model="checkedFloresta" label="1ºB" :value="'1ºB'"></v-checkbox>
-              <v-checkbox v-model="checkedFloresta" label="2ºA" :value="'2ºA'"></v-checkbox>
-              <v-checkbox v-model="checkedFloresta" label="2ºB" :value="'2ºB'"></v-checkbox>
-              <v-checkbox v-model="checkedFloresta" label="3ºA" :value="'3ºA'"></v-checkbox>
-              <v-checkbox v-model="checkedFloresta" label="3ºB" :value="'3ºB'"></v-checkbox>
+            <v-col cols="4" class="text-center space-y-0">
+              <h4 class="mb-2 text-base font-medium text-center">Floresta</h4>
+              <v-checkbox color="success" v-model="checkedFloresta" label="Todos" :value="'Todos'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedFloresta" label="1ºA" :value="'1ºA'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedFloresta" label="1ºB" :value="'1ºB'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedFloresta" label="2ºA" :value="'2ºA'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedFloresta" label="2ºB" :value="'2ºB'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedFloresta" label="3ºA" :value="'3ºA'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedFloresta" label="3ºB" :value="'3ºB'"></v-checkbox>
             </v-col>
           </v-row>
         </template>
 
         <template v-else>
           <v-row>
-            <v-col cols="4" class="text-center">
-              <h4 class="mb-2 text-base font-medium">Agronomia</h4>
-              <v-checkbox v-model="checkedQuimica" label="1ºA" :value="'1ºA'"></v-checkbox>
-              <v-checkbox v-model="checkedQuimica" label="1ºB" :value="'1ºB'"></v-checkbox>
+            <v-col cols="4" class="text-center space-y-0">
+              <h4 class="mb-2 text-base font-medium text-center">Agronomia</h4>
+              <v-checkbox color="success" v-model="checkedQuimica" label="1ºA" :value="'1ºA'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedQuimica" label="1ºB" :value="'1ºB'"></v-checkbox>
             </v-col>
 
-            <v-col cols="4" class="text-center">
-              <h4 class="mb-2 text-base font-medium">Enfermagem</h4>
-              <v-checkbox v-model="checkedInformatica" label="1ºA" :value="'1ºA'"></v-checkbox>
-              <v-checkbox v-model="checkedInformatica" label="1ºB" :value="'1ºB'"></v-checkbox>
+            <v-col cols="4" class="text-center space-y-0">
+              <h4 class="mb-2 text-base font-medium text-center">Enfermagem</h4>
+              <v-checkbox color="success" v-model="checkedInformatica" label="1ºA" :value="'1ºA'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedInformatica" label="1ºB" :value="'1ºB'"></v-checkbox>
             </v-col>
 
-            <v-col cols="4" class="text-center">
-              <h4 class="mb-2 text-base font-medium">Veterinária</h4>
-              <v-checkbox v-model="checkedFloresta" label="1ºA" :value="'1ºA'"></v-checkbox>
-              <v-checkbox v-model="checkedFloresta" label="1ºB" :value="'1ºB'"></v-checkbox>
+            <v-col cols="4" class="text-center space-y-0">
+              <h4 class="mb-2 text-base font-medium text-center">Veterinária</h4>
+              <v-checkbox color="success" v-model="checkedFloresta" label="1ºA" :value="'1ºA'"></v-checkbox>
+              <v-checkbox color="success" v-model="checkedFloresta" label="1ºB" :value="'1ºB'"></v-checkbox>
             </v-col>
           </v-row>
         </template>
