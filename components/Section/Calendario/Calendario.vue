@@ -14,6 +14,7 @@ const calendars = [
 ];
 
 const calendar = await calendarData.getCalendar();
+
 // Functions
 // Calendar view
 let calendarView = ref<boolean>(false);

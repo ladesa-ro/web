@@ -1,36 +1,7 @@
 // Import
-import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
+import type { Calendar } from '../Typings';
 
-dayjs.locale('pt-br');
-
-// Interface and types
-type EventData = {
-  id: string;
-  startDate: dayjs.Dayjs;
-  endDate: dayjs.Dayjs;
-  color: string;
-  notifyStatus: boolean;
-};
-
-type Step = EventData & {
-  number: number;
-};
-
-type Event = EventData & {
-  name: string;
-  locale?: string;
-};
-
-type Calendar = {
-  id: string;
-  name: string;
-  year: number;
-  modality: string;
-  course: string;
-  steps: Array<Step>;
-  events: Array<Event>;
-};
+const dayjs = useDayJs();
 
 // Event and steps (For example. Remove in other moment)
 const calendar: Calendar = {

@@ -1,22 +1,16 @@
-// Import
-import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
+import type { Dayjs } from 'dayjs';
 
 // Dayjs config
-dayjs.locale('pt-br');
+const dayjs = useDayJs();
 
 // Methods
 
 // Calc time for start the event
 export const eventStatus = {
-
-  async startEvent(
-    date1: dayjs.Dayjs,
-    date2: dayjs.Dayjs
-  ): Promise<string> {
+  async startEvent(date1: Dayjs, date2: Dayjs): Promise<string> {
     try {
       const diff = date1.diff(dayjs().toDate());
-  
+
       // Verify if event on started
       if (diff <= 0) return await this.endEvent(date2);
       else {
@@ -27,7 +21,7 @@ export const eventStatus = {
           inHours: date1.diff(dayjs().toDate(), 'hour'),
           inDays: date1.diff(dayjs().toDate(), 'day'),
         };
-  
+
         // In seconds
         if (time.inSeconds < 60) return `Começa em ${time.inSeconds} segundos`;
         // In minutes
@@ -36,14 +30,14 @@ export const eventStatus = {
             ? `Começa em ${time.inMinutes} minutos`
             : `Começa em ${time.inMinutes} minuto`;
         }
-  
+
         // In hours
         else if (time.inHours < 24) {
           return time.inHours > 1
             ? `Começa em ${time.inHours} horas`
             : `Começa em ${time.inHours} hora`;
         }
-  
+
         // In days
         else {
           return time.inDays > 1
@@ -55,12 +49,12 @@ export const eventStatus = {
       return '';
     }
   },
-  
+
   //   Calc time for ending the event
-  async endEvent(date: dayjs.Dayjs): Promise<string> {
+  async endEvent(date: Dayjs): Promise<string> {
     try {
       const diff = date.diff(dayjs().toDate());
-  
+
       if (diff <= 0) return 'Encerrado';
       else {
         // Get times
@@ -70,7 +64,7 @@ export const eventStatus = {
           inHours: date.diff(dayjs().toDate(), 'hour'),
           inDays: date.diff(dayjs().toDate(), 'day'),
         };
-  
+
         // In seconds
         if (time.inSeconds < 60) return `Termina em ${time.inSeconds} segundos`;
         // In minutes
@@ -79,14 +73,14 @@ export const eventStatus = {
             ? `Termina em ${time.inMinutes} minutos`
             : `Termina em ${time.inMinutes} minuto`;
         }
-  
+
         // In hours
         else if (time.inHours < 24) {
           return time.inHours > 1
             ? `Termina em ${time.inHours} horas`
             : `Termina em ${time.inHours} hora`;
         }
-  
+
         // In days
         else {
           return time.inDays > 1
@@ -97,6 +91,5 @@ export const eventStatus = {
     } catch (error) {
       return '';
     }
-  }
-}
-
+  },
+};

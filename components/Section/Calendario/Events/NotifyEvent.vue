@@ -3,16 +3,19 @@
 import { calendarData } from '../Functions/CalendarData.js';
 
 // Props
-const props = defineProps({
-  eventId: String,
-  notifyStatus: Boolean,
-});
-const notify = ref<boolean>(props.notifyStatus!);
 
-async function enableNotify(v: boolean): Promise<void> {
+type Props = {
+  eventId: string;
+  notifyStatus: boolean;
+};
+
+const props = defineProps<Props>();
+const notify = ref<boolean>(props.notifyStatus);
+
+async function enableNotify(isEnabled: boolean): Promise<void> {
   try {
-    notify.value! = !v!;
-    calendarData.notifyEvent(props.eventId!, notify.value);
+    notify.value = !isEnabled;
+    calendarData.notifyEvent(props.eventId, notify.value);
   } catch (error) {
     alert('Não foi possível ativar a notificação do evento.');
   }
@@ -26,9 +29,9 @@ async function enableNotify(v: boolean): Promise<void> {
     :class="{ '-enable': notify === true }"
     @click="enableNotify(notify)"
   >
-    <span class="text-sm sm:text-[16px] font-semibold w-max lg:w-max"
-      >Me interessa</span
-    >
+    <span class="text-sm sm:text-[16px] font-semibold w-max lg:w-max">
+      Me interessa
+    </span>
     <IconsIconNotifications class="w-[18px] sm:w-5" v-show="notify === false" />
     <IconsIconConfirm class="w-[18px] sm:w-5" v-show="notify === true" />
   </div>
