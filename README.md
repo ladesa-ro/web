@@ -1,4 +1,37 @@
-# web
+# Web
+
+<!-- #region conteudo -->
+
+[![Repositório Aplicação Web][github-web-application-icon]][github-web-application-href]
+
+A Aplicação Web é acessada diretamente no navegador e consiste na interação entre dois sistemas: SISGHA e SISGEA.
+
+## Linguagens e ferramentas
+
+> Talvez adicionar imagens ou uma tabela nesta seção.
+
+### Frameworks
+
+JavaScript
+
+- Vue.js
+- Nuxt
+- Vuetify
+
+CSS
+
+- Tailwind
+
+### Bibliotecas
+
+JavaScript
+
+- Dayjs
+- Entre outras.
+
+## Organização de pastas
+
+sla uaikkkkkkkkk
 
 ## Ambientes
 
@@ -32,15 +65,20 @@ npm run dev
 
 ## Colaboradores
 
-- Anna Isabela B. Pontuschka
+- Anna Isabela Bianchini Pontuschka
 - Danilo Pereira Escudero
-- Gabriel Guedes
-- Gabriel R. Antunes
-- Iury
-- Kauan Marques
-- Vitor Melo
+- Gabriel Guedes Alves de Moura
+- Gabriel Rodrigues Antunes
+- Iury Fim da Silva
+- Kauan Marques da Luz
+- Vitor Daniel Silva Melo
 
 <!-- Badges -->
+
+<!-- Badges / GitHub -->
+
+[github-web-application-icon]: https://img.shields.io/badge/GitHub-Web-black?style=for-the-badge&logo=GitHub&logoColor=white&labelColor=black&color=white
+[github-web-application-href]: https://github.com/ladesa-ro/web
 
 <!-- Badges / Actions / Production  -->
 
@@ -51,3 +89,5 @@ npm run dev
 
 [action-ci-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/ci.yml?style=flat&logo=github&logoColor=white&label=CI@development&branch=main&labelColor=18181B
 [action-ci-dev-href]: https://github.com/ladesa-ro/web/actions/workflows/ci.yml?query=branch%3Amain
+
+<!-- #endregion conteudo -->
