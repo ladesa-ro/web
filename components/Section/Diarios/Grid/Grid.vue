@@ -14,7 +14,7 @@ const props = defineProps<Props>();
 //
 
 const { searchBarText } = toRefs(props);
-const { diarios } = await useApiDiariosFindAll(searchBarText);
+const { items: diarios } = await useApiDiariosFindAll(searchBarText);
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { computed, ref, unref } from 'vue';
+import {useApiDiariosFindAll} from '~/composables/api/diarios/useApiDiariosFindAll.js'
 import {
   disciplinasBaseQueryKey,
   useApiBaseResourceList,
@@ -31,6 +32,10 @@ const closeForm = () => {
 const nextForm = () => {
   $emit('next');
 };
+
+const { items: diarios } = await useApiDiariosFindAll("", { 
+  filterDisciplinaId: selectedDisciplina.value ? [selectedDisciplina.value] : []
+});
 </script>
 
 <template>
