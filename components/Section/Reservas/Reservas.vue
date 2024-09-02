@@ -1,37 +1,7 @@
 <script setup lang="ts">
-import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
+// import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
 
-const genericLesson: ILesson = {
-  teacher: 'Danilo',
-  discipline: 'Linguagem de Programação',
-  class: '2° A Informática',
-  environment: 'Sala 20',
-  campus: 'IFRO - Campus Ji-Paraná',
-  startsAt: '13:50',
-  endsAt: '14:40',
-};
-
-const lessons: ILesson[] = [
-  genericLesson, // 0 < 2 --- completed
-  genericLesson, // 1 < 2 --- completed
-  genericLesson, // 2 == 2 -- active
-  genericLesson, // 3 > 2 --- default
-  genericLesson, // 4 > 2 --- default
-];
-
-const activeIndex = 2;
-
-function getVariantForIndex(index: number) {
-  if (index < activeIndex) {
-    return 'completed';
-  }
-
-  if (index === activeIndex) {
-    return 'active';
-  }
-
-  return;
-}
+// o componente UIGenericLesson será chamado e tentarei levar a lógica de estilização de acordo com horário para lá.
 </script>
 
 <template>
@@ -45,12 +15,23 @@ function getVariantForIndex(index: number) {
     <div class="max-w-screen-lg w-full mx-auto">
       <SectionHorarioDailyViewDaySquareList />
 
+      
       <div class="flex flex-col gap-5 mt-12">
-        <SectionHorarioDailyViewLesson
+        <!-- este é apenas um código de exemplo. ele será alterado. -->
+        <UIGenericRectangle>
+          <template #title>
+            Nome do ambiente
+          </template>
+          <template #content>
+            <p>Horário: </p>
+            <p>Autor da reserva: </p>
+          </template>
+        </UIGenericRectangle>
+        <!-- <SectionHorarioDailyViewLesson
           v-for="(lesson, index) in lessons"
           :lesson="lesson"
           :variant="getVariantForIndex(index)"
-        />
+        /> -->
       </div>
     </div>
   </div>

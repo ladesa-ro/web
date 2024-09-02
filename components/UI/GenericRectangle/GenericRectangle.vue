@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+// testar colocar a lógica da estilização de acordo com o horário aqui
+</script>
 
 <template>
   <div
