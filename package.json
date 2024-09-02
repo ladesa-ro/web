@@ -44,7 +44,7 @@
     "vue3-carousel": "^0.3.3",
     "vue3-carousel-nuxt": "^1.1.2",
     "vue3-dropzone": "^2.2.1",
-    "vuetify": "^3.6.14",
+    "vuetify": "^3.7.1",
     "vuetify-nuxt-module": "^0.17.0",
     "yup": "^1.4.0"
   }
