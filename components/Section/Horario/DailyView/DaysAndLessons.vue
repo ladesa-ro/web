@@ -32,11 +32,6 @@ const generatedLessons = Array.from({ length: classTimings.length }).map(
 
 const { resumoVinculos } = useApiContext();
 
-//se for professor -> verificar se da aula em mais de um campi -> fornecer nome do campi do lado da aula
-
-
-
-
 const viewFor = computed(() => {
   if (resumoVinculos.value.cargos.includes('professor')) {
     return 'teacher';
