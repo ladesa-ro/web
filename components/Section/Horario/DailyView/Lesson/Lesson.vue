@@ -31,6 +31,9 @@ const showCampus = computed(() => {
 </script>
 
 <template>
+
+<!-- chamar componente UIGenericRectangle aqui ao invés de determinar o estilo aqui -->
+
   <div
     class="flex flex-row items-center justify-between border-2 border-[#118D3B] rounded-lg min-[641px]:px-5 min-[641px]:py-3 max-sm:px-4 max-sm:py-2"
     :class="{ completed: variant === 'completed' }"
