@@ -2,8 +2,17 @@
 definePageMeta({
   layout: 'sisgea',
 });
+
+const apiClient = useApiClient();
+const reservas = await apiClient.reservas.reservaList();
 </script>
 
-<template>
+<template>  
+  <!-- <pre>
+    <code>
+      {{ reservas }}
+    </code>
+  </pre> -->
+
   <SectionReservas />
 </template>

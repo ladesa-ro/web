@@ -24,6 +24,7 @@ export function verifyClassStatusByStartAndEnd(
   });
 }
 
+//mudar a lógica dessa função pra não depender da lesson
 export function verifyClassStatusByLesson(lesson: MaybeRef<ILesson>) {
   const dayjs = useDayJs();
 

@@ -43,21 +43,19 @@ const showCampus = computed(() => {
   </code></pre> -->
 
     <section class="flex flex-col justify-between">
-      <slot>
-        <SectionHorarioDailyViewLessonTeacherView
-          v-if="viewFor === 'teacher'"
-        />
+      <SectionHorarioDailyViewLessonTeacherView
+        v-if="viewFor === 'teacher'"
+      />
 
-        <SectionHorarioDailyViewLessonStudentView
-          v-if="viewFor === 'student'"
-        />
+      <SectionHorarioDailyViewLessonStudentView
+        v-if="viewFor === 'student'"
+      />
 
-        <!--ambiente-->
-        <LessonInfoEnvironment :show-campus="showCampus" />
+      <!--ambiente-->
+      <LessonInfoEnvironment :show-campus="showCampus" />
 
-        <!--horário-->
-        <SectionHorarioDailyViewLessonInfoTime />
-      </slot>
+      <!--horário-->
+      <SectionHorarioDailyViewLessonInfoTime />
     </section>
 
     <IconsIconClock v-if="variant === 'active'" class="icon max-w-8" />

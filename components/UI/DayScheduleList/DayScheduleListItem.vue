@@ -1,5 +1,6 @@
-<script setup>
+<script setup lang="ts">
 // testar colocar a lógica da estilização de acordo com o horário aqui
+
 </script>
 
 <template>
@@ -20,3 +21,7 @@
     </section>
   </div>
 </template>
+
+<style>
+
+</style>

@@ -18,7 +18,7 @@
       
       <div class="flex flex-col gap-5 mt-12">
         <!-- este é apenas um código de exemplo. ele será alterado. -->
-        <UIGenericRectangle>
+        <UIDayScheduleListItem v-for="i in 3">
           <template #title>
             Nome do ambiente
           </template>
@@ -26,8 +26,10 @@
             <p>Horário: </p>
             <p>Autor da reserva: </p>
           </template>
-        </UIGenericRectangle>
-        <!-- <SectionHorarioDailyViewLesson
+        </UIDayScheduleListItem>
+
+        <!-- 
+        <SectionHorarioDailyViewLesson
           v-for="(lesson, index) in lessons"
           :lesson="lesson"
           :variant="getVariantForIndex(index)"
