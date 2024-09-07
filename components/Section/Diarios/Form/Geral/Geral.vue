@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { createAndProvideContextDiariosFormGeral } from './Contexto';
 
 const $emit = defineEmits(['close']);
+
+createAndProvideContextDiariosFormGeral();
 
 const isForm2Visible = ref(false);
 const isForm3Visible = ref(false);
@@ -27,18 +30,26 @@ const goBackToForm2 = () => {
 };
 </script>
 
-
 <template>
   <template v-if="!isForm2Visible && !isForm3Visible">
-    <SectionDiariosFormGeral01Disciplina @close="closeForm" @next="goToForm2" />
+    <SectionDiariosFormGeralDisciplinaSelect
+      @close="closeForm"
+      @next="goToForm2"
+    />
   </template>
 
   <template v-if="isForm2Visible && !isForm3Visible">
-    <SectionDiariosFormGeral02Turmas @close="closeForm" @back="goBackToForm1" @add="goToForm3" />
+    <SectionDiariosFormGeralDisciplinaTurmas
+      @close="closeForm"
+      @back="goBackToForm1"
+      @add="goToForm3"
+    />
   </template>
 
   <template v-if="isForm3Visible">
-    <SectionDiariosFormGeral02Turmas03Turmas @close="closeForm" @back="goBackToForm2" />
+    <SectionDiariosFormGeralDisciplinaTurmasAdd
+      @close="closeForm"
+      @back="goBackToForm2"
+    />
   </template>
 </template>
-

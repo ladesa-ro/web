@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
+import { useContextDiariosFormGeral } from '../../Contexto';
 
 //
 
@@ -8,6 +9,10 @@ type Props = {
 };
 
 const props = defineProps<Props>();
+
+//
+
+const { disciplinaId } = useContextDiariosFormGeral();
 
 //
 
@@ -43,7 +48,7 @@ const goToAdd = () => {
   <v-form v-if="!isFormVisible" class="form">
     <div class="form-header">
       <h1 class="main-title">
-        <span>Turma</span>
+        <span>Turma (disciplina {{ disciplinaId }})</span>
       </h1>
     </div>
 
@@ -124,7 +129,6 @@ const goToAdd = () => {
     </div>
   </v-form>
 </template>
-
 
 <style scoped>
 .form {

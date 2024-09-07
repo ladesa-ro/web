@@ -1,13 +1,19 @@
 <script lang="ts" setup>
 import { computed, ref, unref } from 'vue';
-import {useApiDiariosFindAll} from '~/composables/api/diarios/useApiDiariosFindAll.js'
 import {
   disciplinasBaseQueryKey,
   useApiBaseResourceList,
   useDisciplinasRetriever,
 } from '~/integrations';
+import { useContextDiariosFormGeral } from '../../Contexto';
 
 const $emit = defineEmits(['close', 'next']);
+
+// =====================================================
+
+const selectedDisciplina = useContextDiariosFormGeral().disciplinaId;
+
+// =====================================================
 
 const searchBarText = ref('');
 
@@ -23,8 +29,6 @@ const { previousItems: disciplinas } = await useApiBaseResourceList(
   options
 );
 
-const selectedDisciplina = ref<string | null>(null);
-
 const closeForm = () => {
   $emit('close');
 };
@@ -32,10 +36,6 @@ const closeForm = () => {
 const nextForm = () => {
   $emit('next');
 };
-
-const { items: diarios } = await useApiDiariosFindAll("", { 
-  filterDisciplinaId: selectedDisciplina.value ? [selectedDisciplina.value] : []
-});
 </script>
 
 <template>
@@ -55,9 +55,9 @@ const { items: diarios } = await useApiDiariosFindAll("", {
       />
 
       <v-radio-group v-model="selectedDisciplina">
-        <UIGridSelectionDiscipline :items="disciplinas ?? []">
+        <UIGridSelectionDiscipline class="pb-[4px]" :items="disciplinas ?? []">
           <template #item="{ item: disciplina }">
-            <SectionDiariosFormGeral01DisciplinaSelectionCard
+            <SectionDiariosFormGeralDisciplinaSelectCard
               :disciplina="disciplina"
             />
           </template>
