@@ -48,7 +48,7 @@ const goToAdd = () => {
   <v-form v-if="!isFormVisible" class="form">
     <div class="form-header">
       <h1 class="main-title">
-        <span>Turma (disciplina {{ disciplinaId }})</span>
+        <span>Turma</span>
       </h1>
     </div>
 

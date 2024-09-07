@@ -1,8 +1,14 @@
-type IContextDiariosFormGeral = ReturnType<
-  typeof createContextDiariosFormGeral
->;
+const identificadorContexto = 'contexto-diarios-form-geral';
 
-export const createContextDiariosFormGeral = () => {
+// type IContextDiariosFormGeral = ReturnType<
+//   typeof createContextDiariosFormGeral
+// >;
+
+type IContextDiariosFormGeral = {
+  disciplinaId: Ref<string | null>;
+};
+
+export const createContextDiariosFormGeral = (): IContextDiariosFormGeral => {
   const disciplinaId = ref<string | null>(null);
 
   return {
@@ -12,14 +18,12 @@ export const createContextDiariosFormGeral = () => {
 
 export const createAndProvideContextDiariosFormGeral = () => {
   const contexto = createContextDiariosFormGeral();
-  provide('contexto-diarios-form-geral', contexto);
+  provide(identificadorContexto, contexto);
   return contexto;
 };
 
 export const useContextDiariosFormGeral = () => {
-  const contexto = inject<IContextDiariosFormGeral>(
-    'contexto-diarios-form-geral'
-  );
+  const contexto = inject<IContextDiariosFormGeral>(identificadorContexto);
 
   if (!contexto) {
     throw new Error(

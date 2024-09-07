@@ -11,7 +11,9 @@ const $emit = defineEmits(['close', 'next']);
 
 // =====================================================
 
-const selectedDisciplina = useContextDiariosFormGeral().disciplinaId;
+const { disciplinaId: selectedDisciplina } = useContextDiariosFormGeral();
+// mesma coisa que:
+// const selectedDisciplina = useContextDiariosFormGeral().disciplinaId;
 
 // =====================================================
 
@@ -69,7 +71,10 @@ const nextForm = () => {
 
     <div class="form-footer button-group">
       <UIButtonModalCancelButton @click="closeForm" />
-      <UIButtonModalAdvancedButton @click="nextForm" />
+      <UIButtonModalAdvancedButton
+        :disabled="!selectedDisciplina"
+        @click="nextForm"
+      />
     </div>
   </v-form>
 </template>
