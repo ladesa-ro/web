@@ -42,6 +42,12 @@ const selectRole = (role: string) => {
 const goToAdd = () => {
   $emit('add');
 };
+
+//
+
+const { items: diarios } = await useApiDiariosFindAll('', {
+  filterDisciplinaId: [disciplinaId.value!],
+});
 </script>
 
 <template>
@@ -56,19 +62,27 @@ const goToAdd = () => {
 
     <div class="form-body modal-form">
       <v-expansion-panels>
-        <v-expansion-panel class="border-[#9AB69E] border-2">
+        <v-expansion-panel
+          v-for="diario in diarios"
+          :key="diario.id"
+          :elevation="0"
+          class="custom-panel border-[#9AB69E] border-2"
+        >
           <v-expansion-panel-title
             class="custom-panel-title border-none"
-            collapse-icon=""
-            expand-icon=""
+            :hide-actions="true"
           >
             <div class="title-content">
               <div>
                 <span
                   class="title-espansion mb-2 font-semibold text-black no-underline inline-block"
-                  >3°A Informática</span
                 >
-                <small class="subtitle">Modalidade: Técnico Integrado</small>
+                  {{ diario.turma.periodo }} -
+                  {{ diario.turma.curso.nomeAbreviado }}
+                </span>
+                <small class="subtitle"
+                  >Modalidade: {{ diario.turma.curso.modalidade.nome }}</small
+                >
               </div>
               <div class="icons">
                 <v-icon small class="icon">mdi-trash-can</v-icon>
@@ -78,6 +92,7 @@ const goToAdd = () => {
               </div>
             </div>
           </v-expansion-panel-title>
+
           <v-expansion-panel-text>
             <SectionDiariosModalAccessRole @selectRole="selectRole" />
             <v-divider inset></v-divider>
@@ -168,13 +183,18 @@ const goToAdd = () => {
   gap: 20px;
 }
 
+.custom-panel {
+  border-radius: 0.5rem !important;
+}
+
 .custom-panel-title {
   display: flex;
+
   justify-content: space-between;
   align-items: center;
   padding: 16px;
+
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
 }
 
 .title-content {
