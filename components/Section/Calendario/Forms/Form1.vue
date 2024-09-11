@@ -1,13 +1,4 @@
 <script lang="ts" setup>
-import { useQueryClient } from '@tanstack/vue-query';
-import { useForm } from 'vee-validate';
-import { computed } from 'vue';
-import * as yup from 'yup';
-import { useApiClient, useApiCursosFindOne } from '~/composables';
-
-//
-
-const years = [2024, 2023, 2022, 2021, 2020, 2019];
 
 const closeForm = () => {
   $emit('close');
@@ -17,190 +8,29 @@ const nextForm = () => {
   $emit('next');
 };
 
-type Props = {
-  editId?: string | null;
-};
 
-const props = withDefaults(defineProps<Props>(), {
-  editId: null,
-});
-
-//
-
-const editIdRef = toRef(props, 'editId');
 
 const $emit = defineEmits(['close', 'next']);
-
-const apiClient = useApiClient();
-const queryClient = useQueryClient();
-
-const { curso: currentCurso } = await useApiCursosFindOne(editIdRef);
-
-type FormValues = {
-  imagem: Blob | null | undefined;
-
-  modalidade: {
-    id: string | null;
-  };
-  campus: {
-    id: string | null;
-  };
-
-  nome: string;
-
-  nomeAbreviado: string;
-};
-
-type FormOutput = {
-  imagem: Blob | null | undefined;
-
-  modalidade: {
-    id: string;
-  };
-  campus: {
-    id: string;
-  };
-
-  nome: string;
-
-  nomeAbreviado: string;
-};
-
-const initialFormValues = reactive({
-  imagem: null,
-  modalidade: {
-    id: currentCurso.value?.modalidade?.id ?? null,
-  },
-
-  campus: {
-    id: currentCurso.value?.campus?.id ?? null,
-  },
-  nome: currentCurso.value?.nome ?? '',
-  nomeAbreviado: currentCurso.value?.nomeAbreviado ?? '',
-});
-
-const handleDelete = async () => {
-  const id = editIdRef.value;
-
-  if (!id) return;
-
-  const resposta = window.confirm(
-    'Você tem certeza de que deseja deletar esse curso?'
-  );
-
-  if (resposta) {
-    await apiClient.cursos.cursoDeleteById({ id: id });
-    await queryClient.invalidateQueries({ queryKey: ['cursos'] });
-    $emit('close');
-  }
-};
-
-const schema = yup.object().shape({
-  imagem: yup.mixed().nullable().optional(),
-  modalidade: yup.object().shape({
-    id: yup.string().required('Modalidade é obrigatório!'),
-  }),
-  campus: yup.object().shape({
-    id: yup.string().required('Campus é obrigatório!'),
-  }),
-
-  nome: yup.string().required('Nome do bloco é obrigatório!'),
-  nomeAbreviado: yup
-    .string()
-    .required('Nome abreviado do bloco é obrigatório!'),
-});
-
-const {
-  resetForm,
-  handleSubmit,
-  setFieldValue,
-  values: formValues,
-} = useForm<FormValues, FormOutput>({
-  validationSchema: schema,
-  initialValues: initialFormValues,
-});
-
-const onSubmit = handleSubmit(async (values: FormOutput) => {
-  const editId = editIdRef.value;
-
-  const { imagem, ...data } = values;
-
-  let id;
-
-  if (editId === null) {
-    const cursoCriado = await apiClient.cursos.cursoCreate({
-      requestBody: { ...data },
-    });
-
-    id = cursoCriado.id;
-  } else {
-    await apiClient.cursos.cursoUpdateById({
-      id: editId,
-
-      requestBody: {
-        ...values,
-      },
-    });
-
-    id = editId;
-  }
-
-  if (imagem) {
-    await apiClient.cursos.cursoSetCoverImage({
-      id: id,
-      formData: {
-        file: imagem,
-      },
-    });
-  }
-
-  await queryClient.invalidateQueries({
-    queryKey: ['cursos'],
-  });
-
-  resetForm();
-  $emit('close');
-}, console.error);
-
-const nome = computed({
-  get: () => formValues.nome,
-  set: (value) => {
-    formValues.nome = value;
-  },
-});
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit" class="form">
+  <v-form class="form">
     <div class="form-header">
       <h1 class="main-title">
         <span>Cadastrar novo calendário</span>
       </h1>
     </div>
+    <div class="flex items-center mb-3">
+  <!-- Texto à esquerda -->
+  <span class="font-bold mr-2">Etapa 1</span>
 
-    <v-divider class="my-4" />
+  <!-- Linha à direita -->
+  <hr class="divider flex-grow m-0" />
+</div>
+
 
     <div class="form-body modal-form">
-
-      <VVTextField
-        v-model="nome"
-        type="text"
-        label="Nome"
-        placeholder="Digite aqui"
-        name="nome"
-      />
-
-      <VVAutocomplete
-            name="year.id"
-            label="Ano letivo"
-            placeholder="Selecione um ano"
-            :items="years"
-            class="xl:max-w-[100%]"
-          />
-
-      <VVAutocompleteAPIModalidade name="modalidade.id" />
-
-      <VVAutocompleteAPICurso name="curso.id" />
+      <input type="color">
     </div>
 
     <v-divider />
@@ -225,6 +55,10 @@ const nome = computed({
 
 .form {
   overflow: auto;
+}
+
+.divider{
+  border: 1px solid #9ab69e;
 }
 
 .modal-form {
@@ -280,4 +114,3 @@ const nome = computed({
   }
 }
 </style>
-''

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { ApiImageResource, useApiImageRoute } from '../../../integrations';
 import { useApiContext } from '../../API/Context/setup-context';
 
@@ -8,6 +9,13 @@ const profilePicureUrl = useApiImageRoute(
   ApiImageResource.USUARIO_PROFILE,
   usuario
 );
+
+// Adicionando uma propriedade reativa para o cargo selecionado
+const selectedCargo = ref<string | null>(null);
+
+const handleCargoClick = (cargo: string) => {
+  selectedCargo.value = cargo;
+};
 
 type Props = {
   canChangeProfile: boolean;
@@ -32,8 +40,15 @@ defineProps<Props>();
       <p class="font-semibold">{{ usuario.nome }}</p>
 
       <p class="font-normal flex flex-row items-center gap-2">
-        <span>
-          {{ resumoVinculos.cargos.join(', ') }}
+        <span v-for="cargo in resumoVinculos.cargos" :key="cargo">
+          <!-- Adicionando a classe condicional para o sublinhado verde -->
+          <span
+            @click="handleCargoClick(cargo)"
+            :class="{'underline text-green-500': cargo === selectedCargo}"
+          >
+            {{ cargo }}
+          </span>
+          <span v-if="cargo !== resumoVinculos.cargos[resumoVinculos.cargos.length - 1]">, </span>
         </span>
 
         <slot name="arrowIcon"></slot>
@@ -41,3 +56,4 @@ defineProps<Props>();
     </div>
   </div>
 </template>
+

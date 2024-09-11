@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, computed, unref, watch } from 'vue';
+import { computed, ref, unref, watch } from 'vue';
 import {
   turmasBaseQueryKey,
   useApiBaseResourceList,
@@ -51,7 +51,15 @@ const closeForm = () => {
 };
 
 const allQuimicaOptions = ['Todos', '1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'];
-const allInformaticaOptions = ['Todos', '1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'];
+const allInformaticaOptions = [
+  'Todos',
+  '1ºA',
+  '1ºB',
+  '2ºA',
+  '2ºB',
+  '3ºA',
+  '3ºB',
+];
 const allFlorestaOptions = ['Todos', '1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'];
 
 watch(checkedQuimica, (newVal, oldVal) => {
@@ -59,10 +67,13 @@ watch(checkedQuimica, (newVal, oldVal) => {
     checkedQuimica.value = allQuimicaOptions;
   } else if (!newVal.includes('Todos') && oldVal.includes('Todos')) {
     checkedQuimica.value = [];
-  } else if (newVal.length === allQuimicaOptions.length - 1 && !newVal.includes('Todos')) {
+  } else if (
+    newVal.length === allQuimicaOptions.length - 1 &&
+    !newVal.includes('Todos')
+  ) {
     checkedQuimica.value = allQuimicaOptions;
   } else if (newVal.includes('Todos') && newVal.length < oldVal.length) {
-    checkedQuimica.value = newVal.filter(option => option !== 'Todos');
+    checkedQuimica.value = newVal.filter((option) => option !== 'Todos');
   }
 });
 
@@ -71,10 +82,13 @@ watch(checkedInformatica, (newVal, oldVal) => {
     checkedInformatica.value = allInformaticaOptions;
   } else if (!newVal.includes('Todos') && oldVal.includes('Todos')) {
     checkedInformatica.value = [];
-  } else if (newVal.length === allInformaticaOptions.length - 1 && !newVal.includes('Todos')) {
+  } else if (
+    newVal.length === allInformaticaOptions.length - 1 &&
+    !newVal.includes('Todos')
+  ) {
     checkedInformatica.value = allInformaticaOptions;
   } else if (newVal.includes('Todos') && newVal.length < oldVal.length) {
-    checkedInformatica.value = newVal.filter(option => option !== 'Todos');
+    checkedInformatica.value = newVal.filter((option) => option !== 'Todos');
   }
 });
 
@@ -83,15 +97,15 @@ watch(checkedFloresta, (newVal, oldVal) => {
     checkedFloresta.value = allFlorestaOptions;
   } else if (!newVal.includes('Todos') && oldVal.includes('Todos')) {
     checkedFloresta.value = [];
-  } else if (newVal.length === allFlorestaOptions.length - 1 && !newVal.includes('Todos')) {
+  } else if (
+    newVal.length === allFlorestaOptions.length - 1 &&
+    !newVal.includes('Todos')
+  ) {
     checkedFloresta.value = allFlorestaOptions;
   } else if (newVal.includes('Todos') && newVal.length < oldVal.length) {
-    checkedFloresta.value = newVal.filter(option => option !== 'Todos');
+    checkedFloresta.value = newVal.filter((option) => option !== 'Todos');
   }
 });
-
-
-
 </script>
 
 <template>
@@ -105,21 +119,22 @@ watch(checkedFloresta, (newVal, oldVal) => {
     <v-divider class="my-4" />
 
     <div class="form-body modal-form">
-      <VVAutocompleteAPIModalidade
-        name="modalidade.id"
-        label="Modalidade"
-      />
+      <VVAutocompleteAPIModalidade name="modalidade.id" label="Modalidade" />
 
       <v-container>
         <v-row justify="space-between" class="items-center mb-4">
           <v-col cols="2" class="text-left">
-            <v-icon @click="prevPage" class="cursor-pointer">mdi-chevron-left</v-icon>
+            <v-icon @click="prevPage" class="cursor-pointer"
+              >mdi-chevron-left</v-icon
+            >
           </v-col>
           <v-col cols="8" class="text-center">
             <h3 class="text-lg font-semibold">Página {{ currentPage }} de 2</h3>
           </v-col>
           <v-col cols="2" class="text-right">
-            <v-icon @click="nextPage" class="cursor-pointer">mdi-chevron-right</v-icon>
+            <v-icon @click="nextPage" class="cursor-pointer"
+              >mdi-chevron-right</v-icon
+            >
           </v-col>
         </v-row>
 
@@ -127,35 +142,184 @@ watch(checkedFloresta, (newVal, oldVal) => {
           <v-row>
             <v-col cols="4" class="text-center space-y-0">
               <h4 class="mb-2 text-base font-medium text-center">Química</h4>
-              <v-checkbox density="compact" color="success" v-model="checkedQuimica" label="Todos" :value="'Todos'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedQuimica" label="1ºA" :value="'1ºA'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedQuimica" label="1ºB" :value="'1ºB'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedQuimica" label="2ºA" :value="'2ºA'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedQuimica" label="2ºB" :value="'2ºB'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedQuimica" label="3ºA" :value="'3ºA'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedQuimica" label="3ºB" :value="'3ºB'"></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedQuimica"
+                label="Todos"
+                :value="'Todos'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedQuimica"
+                label="1ºA"
+                :value="'1ºA'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedQuimica"
+                label="1ºB"
+                :value="'1ºB'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedQuimica"
+                label="2ºA"
+                :value="'2ºA'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedQuimica"
+                label="2ºB"
+                :value="'2ºB'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedQuimica"
+                label="3ºA"
+                :value="'3ºA'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedQuimica"
+                label="3ºB"
+                :value="'3ºB'"
+              ></v-checkbox>
             </v-col>
 
             <v-col cols="4" class="text-center space-y-0">
-              <h4 class="mb-2 text-base font-medium text-center">Informática</h4>
-              <v-checkbox density="compact" color="success" v-model="checkedInformatica" label="Todos" :value="'Todos'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedInformatica" label="1ºA" :value="'1ºA'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedInformatica" label="1ºB" :value="'1ºB'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedInformatica" label="2ºA" :value="'2ºA'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedInformatica" label="2ºB" :value="'2ºB'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedInformatica" label="3ºA" :value="'3ºA'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedInformatica" label="3ºB" :value="'3ºB'"></v-checkbox>
+              <h4 class="mb-2 text-base font-medium text-center">
+                Informática
+              </h4>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedInformatica"
+                label="Todos"
+                :value="'Todos'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedInformatica"
+                label="1ºA"
+                :value="'1ºA'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedInformatica"
+                label="1ºB"
+                :value="'1ºB'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedInformatica"
+                label="2ºA"
+                :value="'2ºA'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedInformatica"
+                label="2ºB"
+                :value="'2ºB'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedInformatica"
+                label="3ºA"
+                :value="'3ºA'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedInformatica"
+                label="3ºB"
+                :value="'3ºB'"
+              ></v-checkbox>
             </v-col>
 
             <v-col cols="4" class="text-center space-y-0">
               <h4 class="mb-2 text-base font-medium text-center">Floresta</h4>
-              <v-checkbox density="compact" color="success" v-model="checkedFloresta" label="Todos" :value="'Todos'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedFloresta" label="1ºA" :value="'1ºA'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedFloresta" label="1ºB" :value="'1ºB'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedFloresta" label="2ºA" :value="'2ºA'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedFloresta" label="2ºB" :value="'2ºB'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedFloresta" label="3ºA" :value="'3ºA'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedFloresta" label="3ºB" :value="'3ºB'"></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedFloresta"
+                label="Todos"
+                :value="'Todos'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedFloresta"
+                label="1ºA"
+                :value="'1ºA'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedFloresta"
+                label="1ºB"
+                :value="'1ºB'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedFloresta"
+                label="2ºA"
+                :value="'2ºA'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedFloresta"
+                label="2ºB"
+                :value="'2ºB'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedFloresta"
+                label="3ºA"
+                :value="'3ºA'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedFloresta"
+                label="3ºB"
+                :value="'3ºB'"
+              ></v-checkbox>
             </v-col>
           </v-row>
         </template>
@@ -164,20 +328,64 @@ watch(checkedFloresta, (newVal, oldVal) => {
           <v-row>
             <v-col cols="4" class="text-center space-y-0">
               <h4 class="mb-2 text-base font-medium text-center">Agronomia</h4>
-              <v-checkbox density="compact" color="success" v-model="checkedQuimica" label="1ºA" :value="'1ºA'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedQuimica" label="1ºB" :value="'1ºB'"></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedQuimica"
+                label="1ºA"
+                :value="'1ºA'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedQuimica"
+                label="1ºB"
+                :value="'1ºB'"
+              ></v-checkbox>
             </v-col>
 
             <v-col cols="4" class="text-center space-y-0">
               <h4 class="mb-2 text-base font-medium text-center">Enfermagem</h4>
-              <v-checkbox density="compact" color="success" v-model="checkedInformatica" label="1ºA" :value="'1ºA'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedInformatica" label="1ºB" :value="'1ºB'"></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedInformatica"
+                label="1ºA"
+                :value="'1ºA'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedInformatica"
+                label="1ºB"
+                :value="'1ºB'"
+              ></v-checkbox>
             </v-col>
 
             <v-col cols="4" class="text-center space-y-0">
-              <h4 class="mb-2 text-base font-medium text-center">Veterinária</h4>
-              <v-checkbox density="compact" color="success" v-model="checkedFloresta" label="1ºA" :value="'1ºA'"></v-checkbox>
-              <v-checkbox density="compact" color="success" v-model="checkedFloresta" label="1ºB" :value="'1ºB'"></v-checkbox>
+              <h4 class="mb-2 text-base font-medium text-center">
+                Veterinária
+              </h4>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedFloresta"
+                label="1ºA"
+                :value="'1ºA'"
+              ></v-checkbox>
+              <v-checkbox
+                hide-details
+                density="compact"
+                color="success"
+                v-model="checkedFloresta"
+                label="1ºB"
+                :value="'1ºB'"
+              ></v-checkbox>
             </v-col>
           </v-row>
         </template>
@@ -187,9 +395,9 @@ watch(checkedFloresta, (newVal, oldVal) => {
     <v-divider />
 
     <div class="button-group">
-      <UIButtonModalBackButton @click="backForm"/>
-      <UIButtonModalCancelButton @click="closeForm" />
-      <UIButtonModalAddClassButton/>
+      <UIButtonModalBackButton @click="backForm" />
+
+      <UIButtonModalAddClassButton />
     </div>
   </v-form>
 </template>

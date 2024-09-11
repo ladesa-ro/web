@@ -30,15 +30,15 @@ const goBackToForm2 = () => {
 
 <template>
   <template v-if="!isForm2Visible && !isForm3Visible">
-    <SectionDiariosFormGeral01Disciplina @close="closeForm" @next="goToForm2" />
+    <SectionCalendarioFormsForm1 @close="closeForm" @next="goToForm2" />
   </template>
 
   <template v-if="isForm2Visible && !isForm3Visible">
-    <SectionDiariosFormGeral02Turmas @close="closeForm" @back="goBackToForm1" @add="goToForm3" />
+    <SectionCalendarioFormsForm2 @close="closeForm" @back="goBackToForm1" @add="goToForm3" />
   </template>
 
   <template v-if="isForm3Visible">
-    <SectionDiariosFormGeral02Turmas03Turmas @close="closeForm" @back="goBackToForm2" />
+    <SectionCalendarioFormsForm3 @close="closeForm" @back="goBackToForm2" />
   </template>
 </template>
 

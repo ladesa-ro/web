@@ -138,8 +138,7 @@ const { items: diarios } = await useApiDiariosFindAll('', {
       </div>
       <div class="button-group">
         <UIButtonModalBackButton @click="backForm" />
-        <UIButtonModalCancelButton @click="closeForm" />
-        <UIButtonModalSaveButton />
+        <UIButtonModalFinishButton @click="closeForm" />
       </div>
     </div>
   </v-form>
