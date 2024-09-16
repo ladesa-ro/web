@@ -20,7 +20,7 @@
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@sidebase/nuxt-auth": "^1.0.0-alpha.0",
-    "@tanstack/query-persist-client-core": "^5.53.3",
+    "@tanstack/query-persist-client-core": "^5.56.2",
     "@tanstack/query-sync-storage-persister": "^5.53.3",
     "@tanstack/vue-query": "^5.53.3",
     "@types/jsonwebtoken": "^9.0.6",
