@@ -41,10 +41,8 @@ defineProps<Props>();
 
       <p class="font-normal flex flex-row items-center gap-2">
         <span v-for="cargo in resumoVinculos.cargos" :key="cargo">
-          <!-- Adicionando a classe condicional para o sublinhado verde -->
           <span
             @click="handleCargoClick(cargo)"
-            :class="{'underline text-green-500': cargo === selectedCargo}"
           >
             {{ cargo }}
           </span>
