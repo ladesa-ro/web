@@ -24,7 +24,7 @@
     "@tanstack/query-sync-storage-persister": "^5.56.2",
     "@tanstack/vue-query": "^5.56.2",
     "@types/jsonwebtoken": "^9.0.7",
-    "@types/lodash": "^4.17.7",
+    "@types/lodash": "^4.17.9",
     "@vueuse/core": "^11.1.0",
     "@vueuse/nuxt": "^11.1.0",
     "axios": "^1.7.7",
