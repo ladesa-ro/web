@@ -35,9 +35,12 @@ const { previousItems: turmas } = await useApiBaseResourceList(
 
 const selectedTurma = ref<string | null>(null);
 
-const closeForm = () => {
-  $emit('close');
+
+const backForm = () => {
+  $emit('back');
 };
+
+
 
 
 const checkedQuimica = ref<string[]>([]);
@@ -80,7 +83,7 @@ const checkedQuimica = ref<string[]>([]);
     <v-divider />
 
     <div class="button-group">
-      <UIButtonModalBackButton @click="closeForm" />
+      <UIButtonModalBackButton @click="backForm" />
       <UIButtonModalAddClassButton />
     </div>
   </v-form>

@@ -1,11 +1,13 @@
 <script lang="ts" setup>
-import { ref, toRefs } from 'vue';
+import { ref, defineProps, toRefs } from 'vue';
 import { useContextDiariosFormGeral } from '../../Contexto';
+import type { DiarioFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 
 //
 
 type Props = {
   searchBarText?: string;
+  diario: DiarioFindOneResultDto;
 };
 
 const props = defineProps<Props>();
@@ -13,6 +15,12 @@ const props = defineProps<Props>();
 //
 
 const { disciplinaId } = useContextDiariosFormGeral();
+
+const { diario } = toRefs(props);
+
+const { diariosProfessorList } = await useApiDiariosProfessorFindAllByDiarioId({
+  diario: diario.value,
+});
 
 //
 
@@ -101,20 +109,16 @@ const { items: diarios } = await useApiDiariosFindAll('', {
                 :value="searchBarText"
                 @update:value="searchBarText = $event"
               />
-              <LazyUIGridSelectionUser :items="disciplinas">
-                <template #item="{ item: disciplina }">
+              <LazyUIGridSelectionUser :items="diariosProfessorList">
+                <template #item="{ item: diariosProfessor }">
                   <LazyUICardUser variant="block">
                     <template #title>
-                      {{ disciplina.nome }}
-                    </template>
-
-                    <template #actions>
-                      <v-radio class="detail" :value="disciplina.id"></v-radio>
+                      {{ diariosProfessor.vinculo.usuario.nome }}
                     </template>
 
                     <UICardLine>
                       <span class="text-left w-full block">
-                        Carga Horária: {{ disciplina.cargaHoraria }}
+                        Cargo: {{ diariosProfessor.vinculo.cargo }}
                       </span>
                     </UICardLine>
                   </LazyUICardUser>
