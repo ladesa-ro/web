@@ -6,12 +6,26 @@ const { value: vinculos } = useField<any[]>('vinculos');
 const addField = () => {
   // spread operator
   // rest operator
-  vinculos.value = [...vinculos.value, { campus: { id: null }, cargos: [] }];
+  vinculos.value = [
+    ...vinculos.value,
+    { campus: { id: null }, ativo: true, cargos: [] },
+  ];
 };
 
 const removeField = (targetIndex: number) => {
   if (targetIndex > 0) {
-    vinculos.value = vinculos.value.filter((_, idx) => idx !== targetIndex);
+    vinculos.value = vinculos.value.map((vinculo, idx) => {
+      if (idx === targetIndex) {
+        return {
+          ...vinculo,
+          ativo: false,
+          cargos: [],
+          campus: vinculo.campus,
+        };
+      }
+
+      return vinculo;
+    });
   }
 };
 </script>
@@ -19,8 +33,8 @@ const removeField = (targetIndex: number) => {
 <template>
   <v-divider :thickness="2" color="success" opacity="1" />
 
-  <div v-for="(_, index) in vinculos" :key="index">
-    <div class="flex gap-5 items-start">
+  <div v-for="(vinculo, index) in vinculos" :key="index">
+    <div v-show="vinculo.ativo" class="flex gap-5 items-start">
       <VVAutocompleteAPICampus :name="`vinculos[${index}].campus.id`" />
 
       <VVSelectRoles
