@@ -135,6 +135,18 @@ const slots = defineSlots<Slots>();
 .dialog-title {
   font-size: 24px;
   font-weight: 700;
+
+  display: flex;
+  align-items: center;
+}
+
+.dialog-title::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 0.75lh;
+  background: #15803d;
+  margin-right: 1rem;
 }
 
 .button-group {
