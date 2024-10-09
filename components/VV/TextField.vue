@@ -8,7 +8,7 @@ type Props = {
   type: string;
   value?: string;
   name: string;
-  successMessage: string;
+  successMessage?: string;
 };
 
 const props = withDefaults(defineProps<Props>(), {

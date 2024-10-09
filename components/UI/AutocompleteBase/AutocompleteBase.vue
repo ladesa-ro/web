@@ -1,6 +1,6 @@
 <script setup lang="ts">
-const searchValue = defineModel('search', { default: '' });
-const modelValue = defineModel('value', { default: null });
+const searchValue = defineModel<string | undefined>('search', { default: '' });
+const modelValue = defineModel<string | null>('value', { default: null });
 </script>
 
 <template>
