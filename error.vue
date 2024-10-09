@@ -4,7 +4,7 @@ const error = useError();
 
 <template>
   <NuxtLayout>
-    <template v-if="error.statusCode === 404">
+    <template v-if="error?.statusCode === 404">
       <v-empty-state
         class="empty-state flex-1"
         headline="Oops! 404"
@@ -23,7 +23,7 @@ const error = useError();
       >
         <div class="text-center">
           <p>Pedimos desculpas por este inconveniente.</p>
-          <p>Mensagem do erro: {{ error.message }}</p>
+          <p>Mensagem do erro: {{ error?.message ?? '-' }}</p>
         </div>
       </v-empty-state>
     </template>
