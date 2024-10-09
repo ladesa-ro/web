@@ -47,5 +47,10 @@
     "vuetify": "^3.7.2",
     "vuetify-nuxt-module": "^0.18.3",
     "yup": "^1.4.0"
-  }
+  },
+	"overrides": {
+		"@sidebase/nuxt-auth": {
+      "@auth/core": "$@auth/core"
+    }
+	}
 }
