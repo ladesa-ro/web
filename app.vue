@@ -8,6 +8,7 @@ setupApiClient();
 const dayjs = useDayJs();
 const selectedDay = ref(dayjs());
 provide('selectedDay', selectedDay);
+
 </script>
 
 <template>

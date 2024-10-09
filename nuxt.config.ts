@@ -44,6 +44,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     'vue3-carousel-nuxt',
     'vuetify-nuxt-module',
+    '@nuxtjs/color-mode'
   ],
 
   // ==============================================
