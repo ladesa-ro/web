@@ -2,13 +2,13 @@
 import { ref } from 'vue';
 
 const { isDark } = useCustomTheme();
+const colorMode = useColorMode(); //@nuxtjs/color-mode
 
-setupApiClient();
+setupApiClient(); 
 
 const dayjs = useDayJs();
 const selectedDay = ref(dayjs());
 provide('selectedDay', selectedDay);
-
 </script>
 
 <template>
