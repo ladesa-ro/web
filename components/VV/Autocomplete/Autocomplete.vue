@@ -20,7 +20,7 @@ const {
   handleBlur,
   errorMessage,
   value: modelValue,
-} = useField(name.value, undefined, {
+} = useField<string | null>(name.value, undefined, {
   validateOnValueUpdate: true,
 });
 </script>

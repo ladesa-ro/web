@@ -10,7 +10,6 @@ const $emit = defineEmits(['edit']);
 type Props = {
   src: string | null;
   title?: string;
-
   variant: 'block' | 'inline';
 };
 
@@ -28,11 +27,11 @@ const hasImage = computed(() => {
 
 <template>
   <template v-if="variant === 'block'">
-    <v-card max-width="100%" :elevation="1" class="card">
+    <v-card max-width="100%" :elevation="0" class="card">
       <div
         :style="{
-          backgroundPosition: 'center',
           backgroundSize: 'cover',
+          backgroundPosition: 'center',
           backgroundImage: `url(${props.src})`,
         }"
       >
@@ -65,7 +64,7 @@ const hasImage = computed(() => {
       <div class="textAndButton flex justify-between items-center max-w-full">
         <div class="flex-1 flex-shrink overflow-hidden">
           <v-card-title
-            class="-card-titulo font-semibold text-black no-underline inline-block"
+            class="font-semibold text-black no-underline inline-block"
           >
             <slot name="title">
               {{ props.title }}
@@ -85,9 +84,3 @@ const hasImage = computed(() => {
 </template>
 
 <style scoped src="./Card.css"></style>
-
-<style scoped>
-.-card-titulo {
-  font-weight: 600;
-}
-</style>
