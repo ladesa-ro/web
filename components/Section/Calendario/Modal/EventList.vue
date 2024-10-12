@@ -8,17 +8,17 @@ const dayjs = useDayJs();
 
 // Props
 type Props = {
+  showButton: boolean;
   year?: number;
   steps?: Step[];
   events?: Event[];
-  enableModal?: boolean;
 };
 
 const props = defineProps<Props>();
 
 // Code
 const searchBarText = ref('');
-const isActive = ref<boolean>(props.enableModal);
+const isActive = ref<boolean>(false);
 
 // Listing filter
 const orderBy: Array<string> = ['Mês', 'Eventos', 'Bimestre', 'Semestre'];
@@ -38,7 +38,7 @@ onMounted(async () => {
   // Set value
   filterType.value = await eventFilters.getFilter(
     localValue._orderBy.value,
-    props.year
+    props.year!
   );
 
   // Watch selected filters
@@ -47,7 +47,7 @@ onMounted(async () => {
       // Alter value
       filterType.value = await eventFilters.getFilter(
         localValue._orderBy.value,
-        props.year
+        props.year!
       );
     }
   });
@@ -55,8 +55,12 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-dialog max-width="500" v-model="isActive">
-    <template v-slot="{ isActive }">
+  <v-dialog max-width="500">
+    <template v-slot:activator="{ props: activatorProps }">
+      <UIButtonEventsList v-show="props.showButton" v-bind="activatorProps" />
+    </template>
+
+    <template v-slot:="{ isActive }">
       <v-card class="dialog-style">
         <!-- Modal -->
         <v-form class="-form">
@@ -110,6 +114,14 @@ onMounted(async () => {
                 :events="props.events"
                 :between-dates="item"
                 :order-by="localValue._orderBy.value"
+              />
+            </div>
+
+            <!-- Footer -->
+            <div class="form-footer button-group">
+              <UIButtonModalCancelButton
+                class="w-full"
+                @click="isActive.value = false"
               />
             </div>
           </div>

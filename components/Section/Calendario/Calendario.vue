@@ -82,9 +82,11 @@ async function showEventsList(value: boolean): Promise<void> {
           class="flex flex-col-reverse gap-6 lg:flex-row justify-between w-full mb-6"
         >
           <!-- Event List -->
-          <UIButtonEventsList
-            v-show="calendarView === true"
-            @click="showEventsList(enableEventList)"
+          <SectionCalendarioModalEventList
+            :showButton="calendarView"
+            :year="calendar?.year"
+            :steps="calendar?.steps"
+            :events="calendar?.events"
           />
 
           <!-- Preview -->
@@ -96,16 +98,6 @@ async function showEventsList(value: boolean): Promise<void> {
             @view:calendar="handleUpdate"
           />
         </div>
-      </div>
-
-      <!-- Modals -->
-      <div class="flex items-center justify-center flex-shrink-0">
-        <SectionCalendarioModalEventList
-          :year="calendar?.year"
-          :steps="calendar?.steps"
-          :events="calendar?.events"
-          :enable-modal="true"
-        />
       </div>
 
       <!-- Content -->
