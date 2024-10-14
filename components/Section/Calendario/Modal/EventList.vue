@@ -42,15 +42,52 @@ onMounted(async () => {
   );
 
   // Watch selected filters
-  watch(localValue._orderBy, async (newValue: string) => {
-    if (newValue !== null) {
-      // Alter value
-      filterType.value = await eventFilters.getFilter(
-        localValue._orderBy.value,
-        props.year!
-      );
+  watch(
+    [() => localValue._orderBy.value, () => localValue._orderType.value],
+    async ([newValue1, newValue2]) => {
+      if (newValue1 !== null) {
+        // Alter value
+        filterType.value = await eventFilters.getFilter(newValue1, props.year!);
+      }
+
+      // Order type of list
+      // Decreasing
+      if (newValue2 === 'Decrescente') {
+        // Month
+        if (newValue1 !== null && newValue1 === 'Mês') {
+          filterType.value = filterType.value.sort(
+            (a, b) =>
+              dayjs(b.name, 'MMMM').month() - dayjs(a.name, 'MMMM').month()
+          );
+        }
+        // Bimonthly and Semester
+        else if (
+          newValue1 !== null &&
+          (newValue1 === 'Bimestre' || newValue1 === 'Semestre')
+        ) {
+          filterType.value = filterType.value.sort(
+            (a, b) => Number(b.name.charAt(0)) - Number(a.name.charAt(0))
+          );
+        }
+      }
+      // Increasing
+      else {
+        // Month
+        if (newValue1 === 'Mês') {
+          filterType.value = filterType.value.sort(
+            (a, b) =>
+              dayjs(a.name, 'MMMM').month() - dayjs(b.name, 'MMMM').month()
+          );
+        }
+        // Bimonthly and Semester
+        else if (newValue1 === 'Bimestre' || newValue1 === 'Semestre') {
+          filterType.value = filterType.value.sort(
+            (a, b) => Number(a.name.charAt(0)) - Number(b.name.charAt(0))
+          );
+        }
+      }
     }
-  });
+  );
 });
 </script>
 
@@ -66,7 +103,9 @@ onMounted(async () => {
         <v-form class="-form">
           <div>
             <!-- Title -->
-            <h1 class="main-title">Todos os eventos</h1>
+            <h1 class="dialog-title text-left flex-1 w-full">
+              <span>Todos os Eventos</span>
+            </h1>
 
             <v-divider class="my-4" />
 
@@ -158,9 +197,21 @@ onMounted(async () => {
   gap: 20px;
 }
 
-.main-title {
+.dialog-title {
   font-size: 24px;
   font-weight: 700;
+
+  display: flex;
+  align-items: center;
+}
+
+.dialog-title::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 0.75lh;
+  background: #15803d;
+  margin-right: 1rem;
 }
 
 .button-group {
