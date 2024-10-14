@@ -9,7 +9,6 @@ const dayjs = useDayJs();
 // Interface and types
 
 // Props
-
 type Props = {
   year?: number;
   monthNum: number;
@@ -24,6 +23,12 @@ type Props = {
 const props = defineProps<Props>();
 
 // Functions
+const activeAccordion = ref<boolean>(false);
+
+async function openAccordion(): Promise<void> {
+  activeAccordion.value = !activeAccordion.value;
+}
+
 // Set event list
 let allEventItems = ref<Event[]>([]);
 
@@ -58,7 +63,7 @@ watch(
 </script>
 
 <template>
-  <div>
+  <div @click="openAccordion()">
     <v-expansion-panels>
       <v-expansion-panel class="border-[#9AB69E] border-2 rounded-lg p-2">
         <v-expansion-panel-title
@@ -82,7 +87,13 @@ watch(
               </span>
             </p>
             <div class="icons">
-              <IconsArrowIconArrow class="text-[#118D3B] rotate-[-90deg]" />
+              <IconsArrowIconArrow
+                class="text-[#118D3B]"
+                :class="{
+                  'rotate-90': activeAccordion === true,
+                  '-rotate-90': activeAccordion !== true,
+                }"
+              />
             </div>
           </div>
         </v-expansion-panel-title>
