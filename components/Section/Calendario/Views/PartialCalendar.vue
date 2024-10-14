@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getOrdenedEventList } from '../Functions/GetOrdenedEventList';
+import { getOrdenedItemList } from '../Functions/GetOrdenedList';
 import type { Event, Step } from '../Typings';
 
 // Dayjs
@@ -26,7 +26,7 @@ const handleUpdate = (v: number) => {
 };
 
 onMounted(async () => {
-  allEventItems.value = await getOrdenedEventList(
+  allEventItems.value = await getOrdenedItemList(
     props.steps,
     props.events,
     props.year,
@@ -34,7 +34,7 @@ onMounted(async () => {
     'month'
   );
 
-  allEventItems.value = await getOrdenedEventList(
+  allEventItems.value = await getOrdenedItemList(
     props.steps,
     props.events,
     props.year,
@@ -47,7 +47,7 @@ onMounted(async () => {
 watch(monthNumReceived, async (newValue: number) => {
   if (newValue !== null) {
     monthNumReceived.value = newValue;
-    allEventItems.value = await getOrdenedEventList(
+    allEventItems.value = await getOrdenedItemList(
       props.steps,
       props.events,
       props.year,

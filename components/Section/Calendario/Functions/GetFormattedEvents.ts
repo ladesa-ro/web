@@ -10,8 +10,6 @@ export const getFormattedEvents = {
   async EventList(
     steps: Step[] | undefined,
     events: Event[] | undefined,
-    year: number | undefined,
-    month: number | undefined
   ): Promise<Event[]> {
     try {
       // Variables

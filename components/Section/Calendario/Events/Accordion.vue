@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { capitalizeFirst } from '../../Horario/-Helpers/CapitalizeFirst';
-import { getOrdenedEventList } from '../Functions/GetOrdenedEventList';
+import { getOrdenedItemList } from '../Functions/GetOrdenedList';
 import type { BetweenDates, Event, Step } from '../Typings';
 
 // Dayjs
@@ -28,7 +28,7 @@ const props = defineProps<Props>();
 let allEventItems = ref<Event[]>([]);
 
 onMounted(async () => {
-  allEventItems.value = await getOrdenedEventList(
+  allEventItems.value = await getOrdenedItemList(
     props.steps,
     props.events,
     props.year,
@@ -44,7 +44,7 @@ watch(
   async (newValue1) => {
     if (newValue1 !== null) {
       // Alter value
-      allEventItems.value = await getOrdenedEventList(
+      allEventItems.value = await getOrdenedItemList(
         props.steps,
         props.events,
         props.year,

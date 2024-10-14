@@ -1,6 +1,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { eventFilters } from '../Functions/EventListFilters';
+import {
+  getOrdenedItemList,
+  getOrdenedTypeAccordionList,
+  getOrdenedTypeEventList,
+} from '../Functions/GetOrdenedList';
 import type { BetweenDates, Event, Step } from '../Typings';
 
 // Dayjs
@@ -34,6 +39,8 @@ let localValue = {
   _orderType: ref<string>(orderType[0]),
 };
 
+let allEventItems = ref<Event[]>([]);
+
 onMounted(async () => {
   // Set value
   filterType.value = await eventFilters.getFilter(
@@ -41,54 +48,40 @@ onMounted(async () => {
     props.year!
   );
 
-  // Watch selected filters
-  watch(
-    [() => localValue._orderBy.value, () => localValue._orderType.value],
-    async ([newValue1, newValue2]) => {
-      if (newValue1 !== null) {
-        // Alter value
-        filterType.value = await eventFilters.getFilter(newValue1, props.year!);
-      }
-
-      // Order type of list
-      // Decreasing
-      if (newValue2 === 'Decrescente') {
-        // Month
-        if (newValue1 !== null && newValue1 === 'Mês') {
-          filterType.value = filterType.value.sort(
-            (a, b) =>
-              dayjs(b.name, 'MMMM').month() - dayjs(a.name, 'MMMM').month()
-          );
-        }
-        // Bimonthly and Semester
-        else if (
-          newValue1 !== null &&
-          (newValue1 === 'Bimestre' || newValue1 === 'Semestre')
-        ) {
-          filterType.value = filterType.value.sort(
-            (a, b) => Number(b.name.charAt(0)) - Number(a.name.charAt(0))
-          );
-        }
-      }
-      // Increasing
-      else {
-        // Month
-        if (newValue1 === 'Mês') {
-          filterType.value = filterType.value.sort(
-            (a, b) =>
-              dayjs(a.name, 'MMMM').month() - dayjs(b.name, 'MMMM').month()
-          );
-        }
-        // Bimonthly and Semester
-        else if (newValue1 === 'Bimestre' || newValue1 === 'Semestre') {
-          filterType.value = filterType.value.sort(
-            (a, b) => Number(a.name.charAt(0)) - Number(b.name.charAt(0))
-          );
-        }
-      }
-    }
+  allEventItems.value = await getOrdenedItemList(
+    props.steps,
+    props.events,
+    props.year,
+    undefined
   );
 });
+
+// Watch selected filters
+watch(
+  [() => localValue._orderBy.value, () => localValue._orderType.value],
+  async ([newValue1, newValue2]) => {
+    if (newValue1 !== null) {
+      // Alter value
+      filterType.value = await eventFilters.getFilter(newValue1, props.year!);
+    }
+
+    // Order type of list
+    if (newValue2) {
+      if (newValue1 === 'Eventos') {
+        allEventItems.value = await getOrdenedTypeEventList(
+          newValue2,
+          allEventItems.value
+        );
+      } else {
+        filterType.value = await getOrdenedTypeAccordionList(
+          newValue1,
+          newValue2,
+          filterType.value
+        );
+      }
+    }
+  }
+);
 </script>
 
 <template>
@@ -144,7 +137,9 @@ onMounted(async () => {
             <div
               class="flex flex-col gap-4 w-full -scrollbar overflow-y-auto pr-2 xl:pr-0 max-h-[432px]"
             >
+              <!-- Accordion -->
               <SectionCalendarioEventsAccordion
+                v-show="localValue._orderBy.value !== 'Eventos'"
                 v-for="(item, index) in filterType"
                 :name="item.name"
                 :year="props.year"
@@ -153,6 +148,27 @@ onMounted(async () => {
                 :events="props.events"
                 :between-dates="item"
                 :order-by="localValue._orderBy.value"
+              />
+
+              <!-- Event list -->
+              <p
+                v-if="allEventItems.length === 0"
+                v-show="localValue._orderBy.value === 'Eventos'"
+              >
+                Nenhum evento encontrado.
+              </p>
+              <SectionCalendarioEventsEvent
+                v-else
+                v-show="localValue._orderBy.value === 'Eventos'"
+                v-for="event in allEventItems"
+                :id="event.id"
+                :key="event.id"
+                :name="event.name"
+                :color="event.color"
+                :locale="event.locale"
+                :start-date="event.startDate"
+                :end-date="event.endDate"
+                :notify-status="event.notifyStatus"
               />
             </div>
 
