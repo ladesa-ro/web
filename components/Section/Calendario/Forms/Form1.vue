@@ -1,8 +1,21 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-const cor = ref('#000000'); // Define o model para a cor
 
+interface Calendario {
+  cor: string;
+  inicio: string; 
+  fim: string; 
+}
+
+
+const calendario = ref<Calendario>({
+  cor: '#000000',
+  inicio: '',
+  fim: '',
+});
+
+// Emitindo eventos
 const closeForm = () => {
   $emit('close');
 };
@@ -13,6 +26,7 @@ const nextForm = () => {
 
 const $emit = defineEmits(['close', 'next']);
 </script>
+
 
 <template>
   <v-form class="form">
@@ -28,7 +42,7 @@ const $emit = defineEmits(['close', 'next']);
 
     <div class="form-body modal-form">
       <VVTextField
-        v-model="cor"
+        v-model="calendario.cor"
         type="color"
         label="Cor"
         placeholder="Selecione a cor"
@@ -38,115 +52,22 @@ const $emit = defineEmits(['close', 'next']);
 
       <div class="date-fields">
         <VVTextField
-          v-model="inicio"
+          v-model="calendario.inicio" 
           type="date"
           label="Início"
           placeholder="Selecione a data de início"
           name="inicio"
         />
         <VVTextField
-          v-model="fim"
+          v-model="calendario.fim"  
           type="date"
           label="Término"
           placeholder="Selecione a data de término"
           name="fim"
-        />
+        />    
       </div>
 
-      <div class="flex items-center mt-4">
-      <span class="font-bold mr-2">Etapa 2</span>
-      <hr class="divider flex-grow m-0" />
-    </div>
-
-    <VVTextField
-        v-model="cor"
-        type="color"
-        label="Cor"
-        placeholder="Selecione a cor"
-        name="nome"
-        class="color-picker-square"
-      />
-
-      <div class="date-fields">
-        <VVTextField
-          v-model="inicio"
-          type="date"
-          label="Início"
-          placeholder="Selecione a data de início"
-          name="inicio"
-        />
-        <VVTextField
-          v-model="fim"
-          type="date"
-          label="Término"
-          placeholder="Selecione a data de término"
-          name="fim"
-        />
-      </div>
-
-    <div class="flex items-center mt-4">
-      <span class="font-bold mr-2">Etapa 3</span>
-      <hr class="divider flex-grow m-0" />
-    </div>
-
-
-
-    <VVTextField
-        v-model="cor"
-        type="color"
-        label="Cor"
-        placeholder="Selecione a cor"
-        name="nome"
-        class="color-picker-square"
-      />
-
-      <div class="date-fields">
-        <VVTextField
-          v-model="inicio"
-          type="date"
-          label="Início"
-          placeholder="Selecione a data de início"
-          name="inicio"
-        />
-        <VVTextField
-          v-model="fim"
-          type="date"
-          label="Término"
-          placeholder="Selecione a data de término"
-          name="fim"
-        />
-      </div>
-
-    <div class="flex items-center mt-4">
-      <span class="font-bold mr-2">Etapa 4</span>
-      <hr class="divider flex-grow m-0" />
-    </div>
-
-    <VVTextField
-        v-model="cor"
-        type="color"
-        label="Cor"
-        placeholder="Selecione a cor"
-        name="nome"
-        class="color-picker-square"
-      />
-
-      <div class="date-fields">
-        <VVTextField
-          v-model="inicio"
-          type="date"
-          label="Início"
-          placeholder="Selecione a data de início"
-          name="inicio"
-        />
-        <VVTextField
-          v-model="fim"
-          type="date"
-          label="Término"
-          placeholder="Selecione a data de término"
-          name="fim"
-        />
-      </div>
+      <!-- Repita as etapas 2 a 4 conforme necessário, alterando os modelos se necessário -->
     </div>
 
     <v-divider />
