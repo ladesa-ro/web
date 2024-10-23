@@ -18,6 +18,7 @@
     "@ladesa-ro/api-client-fetch": "^1.0.0-alpha.20",
     "@mdi/font": "^7.3.67",
     "@nuxt/devtools": "latest",
+    "@nuxtjs/color-mode": "^3.5.1",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "@sidebase/nuxt-auth": "^1.0.0-alpha.0",
     "@tanstack/query-persist-client-core": "^5.59.13",
@@ -48,9 +49,9 @@
     "vuetify-nuxt-module": "^0.18.3",
     "yup": "^1.4.0"
   },
-	"overrides": {
-		"@sidebase/nuxt-auth": {
+  "overrides": {
+    "@sidebase/nuxt-auth": {
       "@auth/core": "$@auth/core"
     }
-	}
+  }
 }

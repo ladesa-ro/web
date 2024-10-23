@@ -10,48 +10,50 @@ import iconPerfil from '~/assets/icons/Usuario.svg';
 import iconUsuarios from '~/assets/icons/Usuarios.svg';
 import type { ISidebarItem } from '../../../../../../../Sidebar/ISidebarItem';
 
+const CAMINHO_DAPE: string = '/sisgha/dape';
+
 export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
   const items: ISidebarItem[] = [
     {
       type: 'link',
       title: 'Início',
       icon: iconHome,
-      to: '/sisgha/dape',
+      to: `${CAMINHO_DAPE}/`,
       exact: true,
     },
     {
       type: 'link',
       title: 'Turmas',
       icon: iconTurmas,
-      to: '/sisgha/dape/turmas',
+      to: `${CAMINHO_DAPE}/turmas`,
       exact: false,
     },
     {
       type: 'link',
       title: 'Disciplinas',
       icon: iconDisciplina,
-      to: '/sisgha/dape/disciplinas',
+      to: `${CAMINHO_DAPE}/disciplinas`,
       exact: false,
     },
     {
       type: 'link',
       title: 'Perfil',
       icon: iconPerfil,
-      to: '/perfil',
+      to: `${CAMINHO_DAPE}/perfil`,
       exact: false,
     },
     {
       type: 'link',
       title: 'Diários',
       icon: iconDiario,
-      to: '/dashboard/diarios',
+      to: '/dashboard/diarios', //alterar depois que terminar a configuração da tela
       exact: false,
     },
     {
       type: 'link',
       title: 'Calendário',
       icon: iconCalendario,
-      to: '/sisgha/dape/calendario',
+      to: `${CAMINHO_DAPE}/calendario`,
       exact: false,
     },
     {
@@ -63,14 +65,14 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
           type: 'link',
           title: 'Usuários',
           icon: iconUsuarios,
-          to: '/sisgha/dape/usuarios',
+          to: `${CAMINHO_DAPE}/usuarios`,
           exact: false,
         },
         {
           type: 'link',
           title: 'Cursos',
           icon: iconCursos,
-          to: '/sisgha/dape/cursos',
+          to: `${CAMINHO_DAPE}/cursos`,
           exact: false,
         },
       ],
