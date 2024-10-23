@@ -11,6 +11,8 @@
   --sisgha-theme-primary-half: 156, 207, 163;
 
   --sisgha-theme-divider: 0, 0, 0;
+
+  --ladesa-card: 87, 239, 87; /*57ed57*/
 }
 
 .app-color-mode-dark {
@@ -25,6 +27,8 @@
   --sisgha-theme-primary-half: 37, 90, 45;
 
   --sisgha-theme-divider: 255, 255, 255;
+
+  --ladesa-card: 35, 180, 93; /*23b45d*/
 }
 
 .app {

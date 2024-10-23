@@ -47,12 +47,16 @@ export default defineNuxtConfig({
     'vuetify-nuxt-module',
   ],
 
+  tailwindcss: {
+    configPath: './tailwind.config.mts',
+  },
+
   // ==============================================
 
   colorMode: {
     preference: 'system',
     classPrefix: '',
-    classSuffix: ''
+    classSuffix: '',
   },
 
   // ==============================================

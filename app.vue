@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
-
 const { isDark } = useCustomTheme();
-const colorMode = useColorMode(); //@nuxtjs/color-mode
 
 setupApiClient(); 
 
@@ -35,4 +32,5 @@ provide('selectedDay', selectedDay);
 
 <style>
 @import '~/styles/app.css';
+/* @import '~/assets/styles/themes/theme.css'; */
 </style>
