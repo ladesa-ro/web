@@ -67,7 +67,7 @@ const $emit = defineEmits(['close', 'next', 'back']);
         />
       </div>
 
-      <div class="flex items-center mt-4">
+      <div class="lineup flex items-center mt-4">
         <span class="font-bold mr-2">Recuperação 2</span>
         <hr class="divider flex-grow m-0" />
       </div>
@@ -98,7 +98,7 @@ const $emit = defineEmits(['close', 'next', 'back']);
         />
       </div>
 
-      <div class="flex items-center mt-4">
+      <div class="lineup flex items-center mt-4">
         <span class="font-bold mr-2">Exame</span>
         <hr class="divider flex-grow m-0" />
       </div>
@@ -209,5 +209,9 @@ const $emit = defineEmits(['close', 'next', 'back']);
 
 .date-fields .v-text-field {
   flex: 1; 
+}
+
+.lineup{
+    margin-bottom: -18px;
 }
 </style>

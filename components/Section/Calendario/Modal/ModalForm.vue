@@ -11,7 +11,7 @@ const isActive = ref(false);
 
     <template v-slot:="{ isActive }">
       <v-card class="dialog-style">
-        <SectionCalendarioFormsForm2 @close="isActive.value = false" />
+        <SectionCalendarioFormsForm3 @close="isActive.value = false" />
       </v-card>
     </template>
   </v-dialog>
