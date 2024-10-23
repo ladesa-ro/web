@@ -13,6 +13,10 @@ const calendario = ref<Calendario>({
   fim: '',
 });
 
+const backform = () => {
+  $emit('back'); // Emitir o evento de próximo
+};
+
 const closeForm = () => {
   $emit('close');
 };
@@ -21,7 +25,7 @@ const nextForm = () => {
   $emit('next');
 };
 
-const $emit = defineEmits(['close', 'next']);
+const $emit = defineEmits(['close', 'next', 'back']);
 </script>
 
 <template>
@@ -130,6 +134,7 @@ const $emit = defineEmits(['close', 'next']);
 
     <div class="form-footer button-group">
       <UIButtonModalCancelButton @click="closeForm" />
+      <UIButtonModalBackButton @click="backform" />
       <UIButtonModalAdvancedButton @click="nextForm" />
     </div>
   </v-form>
@@ -167,7 +172,7 @@ const $emit = defineEmits(['close', 'next']);
   justify-content: space-between;
   flex-wrap: wrap;
   margin-top: 20px;
-  gap: 153px;
+  gap: 0px;
 }
 
 .color-picker-square input[type="color"]::-webkit-color-swatch {

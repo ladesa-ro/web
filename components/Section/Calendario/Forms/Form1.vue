@@ -1,91 +1,230 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { useQueryClient } from '@tanstack/vue-query';
+import { useForm } from 'vee-validate';
+import { computed } from 'vue';
+import * as yup from 'yup';
+import { useApiClient, useApiCursosFindOne } from '~/composables';
 
+const $emit = defineEmits(['close', 'next']);
 
-interface Calendario {
-  cor: string;
-  inicio: string; 
-  fim: string; 
-}
+const nextForm = () => {
+  $emit('next'); // Emitir o evento de próximo
+};
 
+const years = [2024, 2023, 2022, 2021, 2020, 2019];
 
-const calendario = ref<Calendario>({
-  cor: '#000000',
-  inicio: '',
-  fim: '',
-});
-
-// Emitindo eventos
 const closeForm = () => {
   $emit('close');
 };
 
-const nextForm = () => {
-  $emit('next');
+
+type Props = {
+  editId?: string | null;
 };
 
-const $emit = defineEmits(['close', 'next']);
+const props = withDefaults(defineProps<Props>(), {
+  editId: null,
+});
+
+//
+
+const editIdRef = toRef(props, 'editId');
+
+
+const apiClient = useApiClient();
+const queryClient = useQueryClient();
+
+const { curso: currentCurso } = await useApiCursosFindOne(editIdRef);
+
+type FormValues = {
+  imagem: Blob | null | undefined;
+
+  modalidade: {
+    id: string | null;
+  };
+  campus: {
+    id: string | null;
+  };
+
+  nome: string;
+
+  nomeAbreviado: string;
+};
+
+type FormOutput = {
+  imagem: Blob | null | undefined;
+
+  modalidade: {
+    id: string;
+  };
+  campus: {
+    id: string;
+  };
+
+  nome: string;
+
+  nomeAbreviado: string;
+};
+
+const initialFormValues = reactive({
+  imagem: null,
+  modalidade: {
+    id: currentCurso.value?.modalidade?.id ?? null,
+  },
+
+  campus: {
+    id: currentCurso.value?.campus?.id ?? null,
+  },
+  nome: currentCurso.value?.nome ?? '',
+  nomeAbreviado: currentCurso.value?.nomeAbreviado ?? '',
+});
+
+const handleDelete = async () => {
+  const id = editIdRef.value;
+
+  if (!id) return;
+
+  const resposta = window.confirm(
+    'Você tem certeza de que deseja deletar esse curso?'
+  );
+
+  if (resposta) {
+    await apiClient.cursos.cursoDeleteById({ id: id });
+    await queryClient.invalidateQueries({ queryKey: ['cursos'] });
+    $emit('close');
+  }
+};
+
+const schema = yup.object().shape({
+  imagem: yup.mixed().nullable().optional(),
+  modalidade: yup.object().shape({
+    id: yup.string().required('Modalidade é obrigatório!'),
+  }),
+  campus: yup.object().shape({
+    id: yup.string().required('Campus é obrigatório!'),
+  }),
+
+  nome: yup.string().required('Nome do bloco é obrigatório!'),
+  nomeAbreviado: yup
+    .string()
+    .required('Nome abreviado do bloco é obrigatório!'),
+});
+
+const {
+  resetForm,
+  handleSubmit,
+  setFieldValue,
+  values: formValues,
+} = useForm<FormValues, FormOutput>({
+  validationSchema: schema,
+  initialValues: initialFormValues,
+});
+
+const onSubmit = handleSubmit(async (values: FormOutput) => {
+  const editId = editIdRef.value;
+
+  const { imagem, ...data } = values;
+
+  let id;
+
+  if (editId === null) {
+    const cursoCriado = await apiClient.cursos.cursoCreate({
+      requestBody: { ...data },
+    });
+
+    id = cursoCriado.id;
+  } else {
+    await apiClient.cursos.cursoUpdateById({
+      id: editId,
+
+      requestBody: {
+        ...values,
+      },
+    });
+
+    id = editId;
+  }
+
+  if (imagem) {
+    await apiClient.cursos.cursoSetCoverImage({
+      id: id,
+      formData: {
+        file: imagem,
+      },
+    });
+  }
+
+  await queryClient.invalidateQueries({
+    queryKey: ['cursos'],
+  });
+
+  resetForm();
+  $emit('close');
+}, console.error);
+
+const nome = computed({
+  get: () => formValues.nome,
+  set: (value) => {
+    formValues.nome = value;
+  },
+});
 </script>
 
-
 <template>
-  <v-form class="form">
+  <v-form @submit.prevent="onSubmit" class="form">
     <div class="form-header">
       <h1 class="main-title">
         <span>Cadastrar novo calendário</span>
       </h1>
     </div>
-    <div class="flex items-center mb-3 mt-4">
-      <span class="font-bold mr-2">Etapa 1</span>
-      <hr class="divider flex-grow m-0" />
-    </div>
+
+    <v-divider class="my-4" />
 
     <div class="form-body modal-form">
+
       <VVTextField
-        v-model="calendario.cor"
-        type="color"
-        label="Cor"
-        placeholder="Selecione a cor"
+        v-model="nome"
+        type="text"
+        label="Nome"
+        placeholder="Digite aqui"
         name="nome"
-        class="color-picker-square"
       />
 
-      <div class="date-fields">
-        <VVTextField
-          v-model="calendario.inicio" 
-          type="date"
-          label="Início"
-          placeholder="Selecione a data de início"
-          name="inicio"
-        />
-        <VVTextField
-          v-model="calendario.fim"  
-          type="date"
-          label="Término"
-          placeholder="Selecione a data de término"
-          name="fim"
-        />    
-      </div>
+      <VVAutocomplete
+            name="year.id"
+            label="Ano letivo"
+            placeholder="Selecione um ano"
+            :items="years"
+            class="xl:max-w-[100%]"
+          />
 
+      <VVAutocompleteAPIModalidade name="modalidade.id" />
+
+      <VVAutocompleteAPICurso name="curso.id" />
     </div>
 
     <v-divider />
 
     <div class="form-footer button-group">
+        <div class="form-footer button-group">
       <UIButtonModalCancelButton @click="closeForm" />
       <UIButtonModalAdvancedButton @click="nextForm" />
+    </div>
     </div>
   </v-form>
 </template>
 
-
 <style scoped>
-.form {
-  overflow: auto;
+/* .form {
+	overflow: hidden;
 }
 
-.divider {
-  border: 1px solid #9ab69e;
+.form-body {
+	overflow: auto;
+} */
+
+.form {
+  overflow: auto;
 }
 
 .modal-form {
@@ -114,19 +253,19 @@ const $emit = defineEmits(['close', 'next']);
   gap: 153px;
 }
 
-.color-picker-square input[type="color"]::-webkit-color-swatch {
-  width: 50px; /* Largura da barra de cor */
-  height: 50px; /* Altura da barra de cor */
-  border: none; /* Remove borda da barra de cor */
-  background: none; /* Remove fundo da barra de cor */
+.button {
+  font-weight: 700;
+  margin-top: 20px;
+  cursor: pointer;
+  border: none;
 }
 
-.color-picker-square input[type="color"] {
-  width: 100%;
-  height: 100%;
-  border: none;
-  padding: 0;
-  cursor: pointer;
+.v-btn.buttonCancelar,
+.v-btn.buttonCadastro {
+  padding: 6px 20px;
+  border-radius: 8px;
+  height: auto;
+  text-transform: none;
 }
 
 @media screen and (max-width: 450px) {
@@ -140,14 +279,4 @@ const $emit = defineEmits(['close', 'next']);
     padding: 6px 20px;
   }
 }
-
-.date-fields {
-  display: flex; /* Habilita o Flexbox */
-  gap: 20px; /* Espaçamento entre os campos */
-}
-
-.date-fields .v-text-field {
-  flex: 1; /* Faz com que cada campo de data ocupe espaço igual */
-}
-
 </style>
