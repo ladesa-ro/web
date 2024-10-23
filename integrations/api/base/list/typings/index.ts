@@ -12,7 +12,7 @@ export type PaginationOptions = {
 };
 
 export type PaginationSortBy<Properties extends string = string> = {
-  sortBy?: Array<`${Properties}:${'ASC' | 'DESC'}`>;
+  sortBy?: Array<`${Properties}:${'ASC' | 'DESC'}` | string>;
 };
 
 export type PaginationFilters<Filters extends string = string> = Record<
