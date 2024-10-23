@@ -67,7 +67,6 @@ const $emit = defineEmits(['close', 'next']);
         />    
       </div>
 
-      <!-- Repita as etapas 2 a 4 conforme necessário, alterando os modelos se necessário -->
     </div>
 
     <v-divider />

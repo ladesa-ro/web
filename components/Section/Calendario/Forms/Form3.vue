@@ -1,7 +1,17 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-const cor = ref('#000000'); // Define o model para a cor
+interface Calendario {
+  cor: string;
+  inicio: string; // trocar para Date dps!
+  fim: string; // trocar para Date dps!
+}
+
+const calendario = ref<Calendario>({
+  cor: '#000000',
+  inicio: '',
+  fim: '',
+});
 
 const closeForm = () => {
   $emit('close');
@@ -28,7 +38,7 @@ const $emit = defineEmits(['close', 'next']);
 
     <div class="form-body modal-form">
       <VVTextField
-        v-model="cor"
+        v-model="calendario.cor"
         type="color"
         label="Cor"
         placeholder="Selecione a cor"
@@ -38,14 +48,14 @@ const $emit = defineEmits(['close', 'next']);
 
       <div class="date-fields">
         <VVTextField
-          v-model="inicio"
+          v-model="calendario.inicio"
           type="date"
           label="Início"
           placeholder="Selecione a data de início"
           name="inicio"
         />
         <VVTextField
-          v-model="fim"
+          v-model="calendario.fim"
           type="date"
           label="Término"
           placeholder="Selecione a data de término"
@@ -54,12 +64,12 @@ const $emit = defineEmits(['close', 'next']);
       </div>
 
       <div class="flex items-center mt-4">
-      <span class="font-bold mr-2">Recuperação 2</span>
-      <hr class="divider flex-grow m-0" />
-    </div>
+        <span class="font-bold mr-2">Recuperação 2</span>
+        <hr class="divider flex-grow m-0" />
+      </div>
 
-    <VVTextField
-        v-model="cor"
+      <VVTextField
+        v-model="calendario.cor"
         type="color"
         label="Cor"
         placeholder="Selecione a cor"
@@ -69,14 +79,14 @@ const $emit = defineEmits(['close', 'next']);
 
       <div class="date-fields">
         <VVTextField
-          v-model="inicio"
+          v-model="calendario.inicio"
           type="date"
           label="Início"
           placeholder="Selecione a data de início"
           name="inicio"
         />
         <VVTextField
-          v-model="fim"
+          v-model="calendario.fim"
           type="date"
           label="Término"
           placeholder="Selecione a data de término"
@@ -84,15 +94,13 @@ const $emit = defineEmits(['close', 'next']);
         />
       </div>
 
-    <div class="flex items-center mt-4">
-      <span class="font-bold mr-2">Exame</span>
-      <hr class="divider flex-grow m-0" />
-    </div>
+      <div class="flex items-center mt-4">
+        <span class="font-bold mr-2">Exame</span>
+        <hr class="divider flex-grow m-0" />
+      </div>
 
-
-
-    <VVTextField
-        v-model="cor"
+      <VVTextField
+        v-model="calendario.cor"
         type="color"
         label="Cor"
         placeholder="Selecione a cor"
@@ -102,14 +110,14 @@ const $emit = defineEmits(['close', 'next']);
 
       <div class="date-fields">
         <VVTextField
-          v-model="inicio"
+          v-model="calendario.inicio"
           type="date"
           label="Início"
           placeholder="Selecione a data de início"
           name="inicio"
         />
         <VVTextField
-          v-model="fim"
+          v-model="calendario.fim"
           type="date"
           label="Término"
           placeholder="Selecione a data de término"
@@ -126,7 +134,6 @@ const $emit = defineEmits(['close', 'next']);
     </div>
   </v-form>
 </template>
-
 
 <style scoped>
 .form {
@@ -164,10 +171,10 @@ const $emit = defineEmits(['close', 'next']);
 }
 
 .color-picker-square input[type="color"]::-webkit-color-swatch {
-  width: 50px; /* Largura da barra de cor */
-  height: 50px; /* Altura da barra de cor */
-  border: none; /* Remove borda da barra de cor */
-  background: none; /* Remove fundo da barra de cor */
+  width: 50px;
+  height: 50px; 
+  border: none; 
+  background: none; 
 }
 
 .color-picker-square input[type="color"] {
@@ -191,12 +198,11 @@ const $emit = defineEmits(['close', 'next']);
 }
 
 .date-fields {
-  display: flex; /* Habilita o Flexbox */
-  gap: 20px; /* Espaçamento entre os campos */
+  display: flex; 
+  gap: 20px; 
 }
 
 .date-fields .v-text-field {
-  flex: 1; /* Faz com que cada campo de data ocupe espaço igual */
+  flex: 1; 
 }
-
 </style>
