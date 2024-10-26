@@ -56,16 +56,29 @@ const schema = yup.object().shape({
     .of(
       yup
         .object({
+          ativo: yup.boolean().default(true),
+
           campus: yup.object({
             id: yup
               .string()
               .required('Informe o campus deste vínculo!')
               .default(null),
           }),
+
           cargos: yup
             .array()
+
             .of(yup.string().oneOf(['dape', 'professor']).required())
-            .min(1, 'O usuário deve possuir ao menos 1 cargo neste vínculo!')
+
+            .when('ativo', {
+              is: true,
+              then: (schema) =>
+                schema.min(
+                  1,
+                  'O usuário deve possuir ao menos 1 cargo neste vínculo!'
+                ),
+              otherwise: (schema) => schema.transform(() => []),
+            })
             .default([]),
         })
         .transform((data) => {

@@ -25,7 +25,7 @@ const selectAgrupamento = () => {
         :class="{'border-green-500': activeButton === 'AGRUPAMENTO', 'border-[#9AB69E]': activeButton !== 'AGRUPAMENTO'}"
         @click="selectAgrupamento"
       >
-        <IconsIconSettings width="38" height="40" />
+        <IconsIconGroup width="42" height="40" />
         <p class="font-[600]">
           Agrupamento
         </p>

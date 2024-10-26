@@ -1,17 +1,30 @@
-<script setup lang="ts">
-import { ref, toRefs } from 'vue';
+<script lang="ts" setup>
+import { ref, defineProps, toRefs } from 'vue';
+import { useContextDiariosFormGeral } from '../../Contexto';
+import type { DiarioFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 
 //
 
 type Props = {
   searchBarText?: string;
+  diario: DiarioFindOneResultDto;
 };
 
 const props = defineProps<Props>();
 
 //
 
-const $emit = defineEmits(['close', 'back', 'next']);
+const { disciplinaId } = useContextDiariosFormGeral();
+
+const { diario } = toRefs(props);
+
+const { diariosProfessorList } = await useApiDiariosProfessorFindAllByDiarioId({
+  diario: diario.value,
+});
+
+//
+
+const $emit = defineEmits(['close', 'back', 'next', 'add']);
 
 const isFormVisible = ref(false);
 
@@ -33,6 +46,17 @@ const selectRole = (role: string) => {
   showTeacherSection.value = role === 'Professor';
   showGroupingSection.value = role === 'AGRUPAMENTO';
 };
+
+const goToAdd = () => {
+  $emit('add');
+};
+
+//
+
+const { items: diarios } = await useApiDiariosFindAll('', {
+  filterDisciplinaId: [disciplinaId.value!],
+});
+
 </script>
 
 <template>
@@ -47,50 +71,63 @@ const selectRole = (role: string) => {
 
     <div class="form-body modal-form">
       <v-expansion-panels>
-        <v-expansion-panel class="border-[#9AB69E] border-2">
+        <v-expansion-panel
+          v-for="diario in diarios"
+          :key="diario.id"
+          :elevation="0"
+          class="custom-panel border-[#9AB69E] border-2"
+        >
           <v-expansion-panel-title
             class="custom-panel-title border-none"
-            collapse-icon=""
-            expand-icon=""
+            :hide-actions="true"
           >
             <div class="title-content">
               <div>
                 <span
                   class="title-espansion mb-2 font-semibold text-black no-underline inline-block"
-                  >3°A Informática</span
                 >
-                <small class="subtitle">Modalidade: Técnico Integrado</small>
+                  {{ diario.turma.periodo }} - {{ diario.turma.curso.nomeAbreviado }}
+                </span>
+                <small class="subtitle">
+                  Modalidade: {{ diario.turma.curso.modalidade.nome }}
+                </small>
               </div>
               <div class="icons">
                 <v-icon small class="icon">mdi-trash-can</v-icon>
-                <v-icon small class="expansion-arrow icon ml-2"
-                  >mdi-menu-down</v-icon
-                >
+                <v-icon small class="expansion-arrow icon ml-2">mdi-menu-down</v-icon>
               </div>
             </div>
           </v-expansion-panel-title>
+
           <v-expansion-panel-text>
             <SectionDiariosModalAccessRole @selectRole="selectRole" />
             <v-divider inset></v-divider>
+
             <div v-if="showTeacherSection" class="Seaction-Teacher pt-3">
               <UISearchBar
                 :value="searchBarText"
                 @update:value="searchBarText = $event"
               />
-              <LazyUIGridSelectionUser :items="disciplinas">
-                <template #item="{ item: disciplina }">
+
+              <v-alert
+                v-if="diariosProfessorList.length === 0"
+                type="warning"
+                class="mt-4 rounded-md"
+              >
+                Nenhum professor encontrado para este diário.
+              </v-alert>
+
+
+              <LazyUIGridSelectionUser v-else :items="diariosProfessorList">
+                <template #item="{ item: diariosProfessor }">
                   <LazyUICardUser variant="block">
                     <template #title>
-                      {{ disciplina.nome }}
-                    </template>
-
-                    <template #actions>
-                      <v-radio class="detail" :value="disciplina.id"></v-radio>
+                      {{ diariosProfessor.vinculo.usuario.nome }}
                     </template>
 
                     <UICardLine>
                       <span class="text-left w-full block">
-                        Carga Horária: {{ disciplina.cargaHoraria }}
+                        Cargo: {{ diariosProfessor.vinculo.cargo }}
                       </span>
                     </UICardLine>
                   </LazyUICardUser>
@@ -110,16 +147,16 @@ const selectRole = (role: string) => {
 
     <div class="form-footer">
       <div class="button-solo">
-        <UIButtonModalAddNewClassButton />
+        <UIButtonModalAddNewClassButton @click="goToAdd" />
       </div>
       <div class="button-group">
         <UIButtonModalBackButton @click="backForm" />
-        <UIButtonModalCancelButton @click="closeForm" />
-        <UIButtonModalSaveButton />
+        <UIButtonModalFinishButton @click="closeForm" />
       </div>
     </div>
   </v-form>
 </template>
+
 
 <style scoped>
 .form {
@@ -159,13 +196,18 @@ const selectRole = (role: string) => {
   gap: 20px;
 }
 
+.custom-panel {
+  border-radius: 0.5rem !important;
+}
+
 .custom-panel-title {
   display: flex;
+
   justify-content: space-between;
   align-items: center;
   padding: 16px;
+
   border: 1px solid #e0e0e0;
-  border-radius: 8px;
 }
 
 .title-content {

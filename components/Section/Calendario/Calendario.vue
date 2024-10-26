@@ -67,12 +67,12 @@ async function showEventsList(value: boolean): Promise<void> {
 
             <!-- Search -->
             <div>
-              <UIButtonSearch />
+              <UIButtonSearch/>
             </div>
 
             <!-- Add -->
             <div>
-              <UIButtonAdd />
+              <SectionCalendarioModalForm/>
             </div>
           </div>
         </div>
@@ -129,5 +129,3 @@ async function showEventsList(value: boolean): Promise<void> {
     </div>
   </div>
 </template>
-
-<style scoped></style>
