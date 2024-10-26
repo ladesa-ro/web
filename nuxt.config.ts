@@ -42,9 +42,22 @@ export default defineNuxtConfig({
   modules: [
     '@sidebase/nuxt-auth',
     '@nuxtjs/tailwindcss',
+    '@nuxtjs/color-mode',
     'vue3-carousel-nuxt',
     'vuetify-nuxt-module',
   ],
+
+  tailwindcss: {
+    configPath: './tailwind.config.mts',
+  },
+
+  // ==============================================
+
+  colorMode: {
+    preference: 'system',
+    classPrefix: '',
+    classSuffix: '',
+  },
 
   // ==============================================
 
