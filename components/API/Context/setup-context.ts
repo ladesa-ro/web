@@ -10,6 +10,7 @@ export const createApiContext = (shouldProvide = true) => {
   const { data, status, lastRefreshedAt } = useAuthState();
 
   const whoAmIQueryKey = computed(() => [
+    'usuarios',
     'who-am-i',
     data.value?.accessTokenExpires,
     unref(status),

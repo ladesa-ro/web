@@ -1,26 +1,44 @@
-import { useQuery } from '@tanstack/vue-query';
+import type { DiarioListData } from '@ladesa-ro/api-client-fetch';
+import type {
+  IApiBaseResourceListRetrieverInput,
+  QuerySuspenseBehaviour,
+} from '../../../integrations';
+import { useApiBaseResourceList } from '../../../integrations/api/base/list/composables/useApiBaseResourceList';
 
 export const useApiDiariosFindAll = async (
-  searchTerm: MaybeRef<string | undefined>
+  searchTerm: MaybeRef<string | undefined>,
+  listData?: DiarioListData,
+  suspenseBehaviour?: QuerySuspenseBehaviour
 ) => {
   const apiClient = useApiClient();
 
-  const query = useQuery({
-    queryKey: ['diarios', searchTerm],
 
-    queryFn: async () => {
-      return apiClient.diarios.diarioList({
-        search: unref(searchTerm),
-      });
-    },
+  const data = computed(() => {
+    const search = unref(searchTerm);
+    return {
+      ...listData,
+      search,
+    } as IApiBaseResourceListRetrieverInput;
   });
 
-  const diarios = computed(() => unref(query.data)?.data ?? []);
-
-  await query.suspense();
+  const {
+    query,
+    isLoading,
+    //
+    items,
+    previousItems,
+  } = await useApiBaseResourceList(
+    ['diarios'],
+    (data: DiarioListData) => apiClient.diarios.diarioList(data),
+    data,
+    suspenseBehaviour
+  );
 
   return {
     query,
-    diarios,
+    isLoading,
+    //
+    items,
+    previousItems,
   };
 };

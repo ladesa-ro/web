@@ -21,6 +21,7 @@ export type FormUserOutput = {
 };
 
 export type Vinculo = {
+  ativo: boolean;
   campus: { id: string };
   cargos: Array<'dape' | 'professor'>;
 };
@@ -30,7 +31,11 @@ export const useFormUser = () => {
 };
 
 export const checkActiveTeacherRole = (vinculo: Vinculo) => {
-  return vinculo.campus.id !== null && vinculo.cargos.includes('professor');
+  return (
+    vinculo?.campus?.id &&
+    vinculo.campus.id !== null &&
+    vinculo.cargos.includes('professor')
+  );
 };
 
 export const checkHasAtLeastOneActiveTeacherRole = (

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { UsuarioFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import { useQuery } from '@tanstack/vue-query';
 import uniq from 'lodash/uniq';
 import { ApiImageResource, useApiImageRoute } from '~/integrations';
 
@@ -19,12 +20,24 @@ const props = defineProps<Props>();
 
 const { usuario } = toRefs(props);
 
-const vinculosResponse = await apiClient.vinculos.vinculoList({
-  filterUsuarioId: [usuario.value.id],
-  filterAtivo: ['true'],
+const vinculosQuery = useQuery({
+  queryKey: [
+    'usuarios',
+    computed(() => `usuario::id::${unref(usuario.value.id)}`),
+    'usuarios::vinculos',
+  ],
+  queryFn: () => {
+    return apiClient.vinculos.vinculoList({
+      filterUsuarioId: [usuario.value.id],
+      filterAtivo: ['true'],
+    });
+  },
 });
 
-const vinculos = vinculosResponse.data;
+await vinculosQuery.suspense();
+
+const vinculosResponse = computed(() => vinculosQuery.data.value);
+const vinculos = computed(() => vinculosResponse.value?.data ?? []);
 
 const getRoleLabel = (role: string) => {
   switch (role.toLowerCase()) {
@@ -43,7 +56,7 @@ const getRoleLabel = (role: string) => {
 };
 
 const vinculosConcatenated = computed(() => {
-  const allVinculosLabels = vinculos.map((vinculo) =>
+  const allVinculosLabels = vinculos.value.map((vinculo) =>
     getRoleLabel(vinculo.cargo)
   );
 

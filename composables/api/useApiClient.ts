@@ -46,5 +46,7 @@ export const useApiClient = () => {
     throw new Error('useApiClient: context not created');
   }
 
+  
+
   return apiClient;
 };

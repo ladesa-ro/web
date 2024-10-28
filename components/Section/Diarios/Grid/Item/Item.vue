@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { DiarioFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 import { defineProps, toRefs } from 'vue';
+import { ApiImageResource, useApiImageRoute } from '~/integrations';
 
 // Definição das props ajustadas
 
@@ -18,13 +19,19 @@ const { diario } = toRefs(props);
 const { diariosProfessorList } = await useApiDiariosProfessorFindAllByDiarioId({
   diario: diario.value,
 });
+
+//
+
+const disciplina = computed(() => diario.value.disciplina);
+
+const coverImageSrc = useApiImageRoute(
+  ApiImageResource.DISCIPLINA_COVER,
+  disciplina
+);
 </script>
 
 <template>
-  <UICard
-    variant="block"
-    :src="`https://luna.sisgha.com/api/disciplinas/${diario.id}/imagem/capa?imgCapa=${diario.imagemCapa?.id}`"
-  >
+  <UICard variant="block" :src="coverImageSrc">
     <template #title>
       {{ diario.disciplina.nome }}
     </template>

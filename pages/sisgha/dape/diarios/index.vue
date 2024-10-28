@@ -1,9 +1,9 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'sisgea',
+  layout: 'sisgha-dape',
 });
 </script>
 
 <template>
-  <SectionReservas />
+  <SectionDiarios />
 </template>
