@@ -1,19 +1,22 @@
-import { useDark, useToggle } from '@vueuse/core';
-
-// composables/useCustomTheme.ts
 export function useCustomTheme() {
   const { $vuetify } = useNuxtApp();
 
-  const isDark = useDark({
-    valueDark: 'dark',
-    valueLight: 'light',
-    initialValue: 'light',
-    onChanged: (dark: boolean) => {
-      $vuetify.theme.global.name.value = dark ? 'dark' : 'light';
-    },
-  });
+  const colorMode = useColorMode();
+  
+  const changeTheme = () => {
+    colorMode.preference = (colorMode.preference === 'dark' ? 'light' : 'dark');
+  }
 
-  const toggle = useToggle(isDark);
+  const isDark = computed(() =>{
+    return colorMode.value === 'dark';
+  })
+  
+  watch(isDark, () => {
+    if (isDark.value)
+      $vuetify.theme.global.name.value = 'dark';
+    else
+      $vuetify.theme.global.name.value = 'light';
+  }, { immediate: true });
 
-  return { isDark, toggle };
+  return { changeTheme, isDark };
 }

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'sisgea',
+  layout: 'sisgha-professor',
+  auth: true,
 });
 </script>
 
 <template>
-  <SectionReservas />
+  <SectionCalendario />
 </template>

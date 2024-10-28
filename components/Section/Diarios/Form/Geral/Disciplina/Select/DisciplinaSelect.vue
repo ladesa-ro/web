@@ -1,12 +1,21 @@
 <script lang="ts" setup>
-import { ref, computed, unref } from 'vue';
+import { computed, ref, unref } from 'vue';
 import {
   disciplinasBaseQueryKey,
   useApiBaseResourceList,
   useDisciplinasRetriever,
 } from '~/integrations';
+import { useContextDiariosFormGeral } from '../../Contexto';
 
 const $emit = defineEmits(['close', 'next']);
+
+// =====================================================
+
+const { disciplinaId: selectedDisciplina } = useContextDiariosFormGeral();
+// mesma coisa que:
+// const selectedDisciplina = useContextDiariosFormGeral().disciplinaId;
+
+// =====================================================
 
 const searchBarText = ref('');
 
@@ -22,18 +31,12 @@ const { previousItems: disciplinas } = await useApiBaseResourceList(
   options
 );
 
-const selectedDisciplina = ref<string | null>(null);
-
 const closeForm = () => {
   $emit('close');
 };
 
 const nextForm = () => {
   $emit('next');
-};
-
-const onDisciplinaSelect = (disciplinaId: string | null) => {
-  selectedDisciplina.value = disciplinaId;
 };
 </script>
 
@@ -53,22 +56,25 @@ const onDisciplinaSelect = (disciplinaId: string | null) => {
         @update:value="searchBarText = $event"
       />
 
-      <UIGridSelectionDiscipline :items="disciplinas ?? []">
-        <template #item="{ item: disciplina }">
-          <SectionDiariosFormGeral01DisciplinaSelectionCard
-            :disciplina="disciplina"
-            :selected-disciplina="selectedDisciplina"
-            :on-disciplina-select="onDisciplinaSelect"
-          />
-        </template>
-      </UIGridSelectionDiscipline>
+      <v-radio-group v-model="selectedDisciplina">
+        <UIGridSelectionDiscipline class="pb-[4px]" :items="disciplinas ?? []">
+          <template #item="{ item: disciplina }">
+            <SectionDiariosFormGeralDisciplinaSelectCard
+              :disciplina="disciplina"
+            />
+          </template>
+        </UIGridSelectionDiscipline>
+      </v-radio-group>
     </div>
 
     <v-divider />
 
     <div class="form-footer button-group">
       <UIButtonModalCancelButton @click="closeForm" />
-      <UIButtonModalAdvancedButton @click="nextForm" />
+      <UIButtonModalAdvancedButton
+        :disabled="!selectedDisciplina"
+        @click="nextForm"
+      />
     </div>
   </v-form>
 </template>
@@ -87,12 +93,13 @@ const onDisciplinaSelect = (disciplinaId: string | null) => {
 .main-title {
   font-size: 24px;
   font-weight: 700;
+  text-align: center;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  text-align: center;
+
   padding: 32px;
 }
 

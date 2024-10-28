@@ -49,6 +49,17 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
   }
 
   for (const vinculo of vinculos) {
+    if (
+      !vinculo.ativo &&
+      vinculos.some(
+        (vinculoLoop) =>
+          vinculoLoop.ativo === true &&
+          vinculoLoop.campus.id === vinculo.campus.id
+      )
+    ) {
+      continue;
+    }
+
     await apiClient.vinculos.vinculoUpdate({
       requestBody: {
         usuario: { id: id },
