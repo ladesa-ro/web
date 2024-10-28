@@ -9,10 +9,9 @@ type Props = {
 
 defineProps<Props>();
 
-// Estado para a linha em hover
 const hoveredRowIndex = ref<number | null>(null);
 
-// Função para definir ou limpar o índice da linha em hover
+
 function setHoveredRow(index: number | null) {
   hoveredRowIndex.value = index;
 }
@@ -35,7 +34,7 @@ function setHoveredRow(index: number | null) {
           'mt-3': index === 0,
           'mb-3': index === turno.horarios.length - 1,
           'bg-[#DDE4DE]': horario.tipo === 'intervalo',
-          'hovered-row': hoveredRowIndex === index, // Classe condicional para o hover
+          'hovered-row': hoveredRowIndex === index, r
         }"
         @mouseover="setHoveredRow(index)" 
         @mouseleave="setHoveredRow(null)" 
@@ -60,7 +59,7 @@ function setHoveredRow(index: number | null) {
           'mt-3': rowIndex === 0,
           'mb-3': rowIndex === turno.horarios.length - 1,
           'bg-[#DDE4DE]': horario.tipo === 'intervalo',
-          'hovered-row': hoveredRowIndex === rowIndex, // Aplica a classe condicional para o hover
+          'hovered-row': hoveredRowIndex === rowIndex,
         }"
         @mouseover="setHoveredRow(rowIndex)"
         @mouseleave="setHoveredRow(null)"
