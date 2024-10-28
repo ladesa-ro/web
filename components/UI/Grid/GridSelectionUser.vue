@@ -14,7 +14,7 @@ const slots = defineSlots<{
   <v-container>
     <v-row v-if="items">
       <v-col cols="12" class="px-0" v-for="item in items">
-        <slot name="item" v-bind="{ item }"></slot>
+        <slot name="item" v-bind="{ item: item as T }"></slot>
       </v-col>
     </v-row>
   </v-container>

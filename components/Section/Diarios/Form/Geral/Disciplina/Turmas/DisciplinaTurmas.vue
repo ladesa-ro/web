@@ -1,13 +1,12 @@
 <script lang="ts" setup>
-import { ref, defineProps, toRefs } from 'vue';
+import { defineProps, ref, toRefs } from 'vue';
 import { useContextDiariosFormGeral } from '../../Contexto';
-import type { DiarioFindOneResultDto } from '@ladesa-ro/api-client-fetch';
 
 //
 
 type Props = {
   searchBarText?: string;
-  diario: DiarioFindOneResultDto;
+  // diario: DiarioFindOneResultDto;
 };
 
 const props = defineProps<Props>();
@@ -16,10 +15,10 @@ const props = defineProps<Props>();
 
 const { disciplinaId } = useContextDiariosFormGeral();
 
-const { diario } = toRefs(props);
+// const { diario } = toRefs(props);
 
 const { diariosProfessorList } = await useApiDiariosProfessorFindAllByDiarioId({
-  diario: diario.value,
+  // diario: diario.value,
 });
 
 //
@@ -56,7 +55,6 @@ const goToAdd = () => {
 const { items: diarios } = await useApiDiariosFindAll('', {
   filterDisciplinaId: [disciplinaId.value!],
 });
-
 </script>
 
 <template>
@@ -86,7 +84,8 @@ const { items: diarios } = await useApiDiariosFindAll('', {
                 <span
                   class="title-espansion mb-2 font-semibold text-black no-underline inline-block"
                 >
-                  {{ diario.turma.periodo }} - {{ diario.turma.curso.nomeAbreviado }}
+                  {{ diario.turma.periodo }} -
+                  {{ diario.turma.curso.nomeAbreviado }}
                 </span>
                 <small class="subtitle">
                   Modalidade: {{ diario.turma.curso.modalidade.nome }}
@@ -94,7 +93,9 @@ const { items: diarios } = await useApiDiariosFindAll('', {
               </div>
               <div class="icons">
                 <v-icon small class="icon">mdi-trash-can</v-icon>
-                <v-icon small class="expansion-arrow icon ml-2">mdi-menu-down</v-icon>
+                <v-icon small class="expansion-arrow icon ml-2"
+                  >mdi-menu-down</v-icon
+                >
               </div>
             </div>
           </v-expansion-panel-title>
@@ -116,7 +117,6 @@ const { items: diarios } = await useApiDiariosFindAll('', {
               >
                 Nenhum professor encontrado para este diário.
               </v-alert>
-
 
               <LazyUIGridSelectionUser v-else :items="diariosProfessorList">
                 <template #item="{ item: diariosProfessor }">
@@ -156,7 +156,6 @@ const { items: diarios } = await useApiDiariosFindAll('', {
     </div>
   </v-form>
 </template>
-
 
 <style scoped>
 .form {

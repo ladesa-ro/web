@@ -46,7 +46,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
       type: 'link',
       title: 'Diários',
       icon: iconDiario,
-      to: '/dashboard/diarios', //alterar depois que terminar a configuração da tela
+      to: `${CAMINHO_DAPE}/diarios`,
       exact: false,
     },
     {
