@@ -34,7 +34,7 @@ function setHoveredRow(index: number | null) {
           'mt-3': index === 0,
           'mb-3': index === turno.horarios.length - 1,
           'bg-[#DDE4DE]': horario.tipo === 'intervalo',
-          'hovered-row': hoveredRowIndex === index, r
+          'hovered-row': hoveredRowIndex === index, 
         }"
         @mouseover="setHoveredRow(index)" 
         @mouseleave="setHoveredRow(null)" 
@@ -78,7 +78,6 @@ function setHoveredRow(index: number | null) {
 </template>
 
 <style scoped>
-/* Estilo para o estado hover na linha */
 .hovered-row {
   background-color: #EBF8EF;
 }
