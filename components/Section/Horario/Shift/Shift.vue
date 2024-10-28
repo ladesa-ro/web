@@ -40,7 +40,7 @@ defineProps<Props>();
       <div
         v-for="(horario, index) in turno.horarios"
         :key="horario.hora"
-        class="text-center border-black m-0 px-2 flex items-center justify-center"
+        class="text-center border-black m-0 px-2 flex items-center justify-center hover:bg-[#EBF8EF]"
         :class="{
           'border-b-2 pb-[2px]': index < turno.horarios.length - 1,
           'mt-3': index === 0,
