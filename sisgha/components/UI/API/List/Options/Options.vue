@@ -6,7 +6,7 @@ const { formOptions } = useUIApiListContext();
 //
 
 type Slots = {
-  'actions'(props: any): any;
+  actions(props: any): any;
 };
 
 const slots = defineSlots<Slots>();

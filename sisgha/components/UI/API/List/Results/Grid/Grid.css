@@ -5,7 +5,7 @@
 }
 
 .ui-api-list-results-grid > * {
-  grid-column: 1/-1;
+  grid-column: 1 / -1;
 }
 
 .ui-api-list-results-grid .ui-api-list-results-grid-item {

@@ -1,9 +1,9 @@
-@import '~/assets/styles/themes/theme.css';
-@import '~/assets/styles/fontePadrao.css';
-@import '~/styles/fixtures/vuetify.fix.css';
+@import "~/assets/styles/themes/theme.css";
+@import "~/assets/styles/fontePadrao.css";
+@import "~/styles/fixtures/vuetify.fix.css";
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 img {
