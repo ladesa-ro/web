@@ -10,7 +10,7 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const selectedRadio = ref<string>(''); 
+const selectedRadio = ref<string>('');
 </script>
 
 <template>
@@ -33,7 +33,7 @@ const selectedRadio = ref<string>('');
         v-model="selectedRadio"
         class="detail"
       >
-    </v-checkbox>
+      </v-checkbox>
     </div>
 
     <slot></slot>

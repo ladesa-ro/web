@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { DiarioFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { DiarioFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { defineProps, toRefs } from 'vue';
 import { ApiImageResource, useApiImageRoute } from '~/integrations';
 
 // Definição das props ajustadas
 
 type Props = {
-  diario: DiarioFindOneResultDto;
+  diario: DiarioFindOneResultView;
 };
 
 const props = defineProps<Props>();
@@ -47,7 +47,7 @@ const coverImageSrc = useApiImageRoute(
           v-for="diarioProfessor in diariosProfessorList"
           :key="diarioProfessor.id"
         >
-          {{ diarioProfessor.vinculo.usuario.nome }}
+          {{ diarioProfessor.perfil.usuario.nome }}
         </template>
       </span>
     </UICardLine>
@@ -55,7 +55,8 @@ const coverImageSrc = useApiImageRoute(
     <UICardLine>
       <span>
         Turmas:
-        {{ diario.turma.periodo }} - {{ diario.turma.curso.modalidade.nome }}
+        {{ diario.turma.periodo }} -
+        {{ diario.turma.curso.ofertaFormacao.nome }}
       </span>
     </UICardLine>
   </UICard>

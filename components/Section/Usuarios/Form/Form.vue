@@ -2,7 +2,7 @@
 import groupBy from 'lodash/groupBy';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { useApiUsuarioVinculosAtivos } from '../../../../composables/api/usuarios/useApiUsuarioVinculosAtivos';
+import { useApiUsuarioPerfisAtivos } from '../../../../composables/api/usuarios/useApiUsuarioPerfisAtivos';
 import type { FormUserOutput, FormUserValues } from './FormUtils';
 
 //
@@ -23,16 +23,16 @@ const editIdRef = toRef(props, 'editId');
 
 const { usuario: currentUsuario } = await useApiUsuariosFindOne(editIdRef);
 
-const { vinculosAtivos } = await useApiUsuarioVinculosAtivos(editIdRef);
+const { perfisAtivos } = await useApiUsuarioPerfisAtivos(editIdRef);
 
-const currentUsuarioVinculos = computed(() => {
-  return Object.entries(groupBy(vinculosAtivos.value, 'campus.id')).map(
-    ([campusId, vinculos]) => {
+const currentUsuarioPerfis = computed(() => {
+  return Object.entries(groupBy(perfisAtivos.value, 'campus.id')).map(
+    ([campusId, perfis]) => {
       return {
         campus: {
           id: campusId,
         },
-        cargos: vinculos.map((vinculo) => vinculo.cargo),
+        cargos: perfis.map((perfil) => perfil.cargo),
       };
     }
   );
@@ -51,7 +51,7 @@ const schema = yup.object().shape({
 
   matriculaSiape: yup.string().required('Matrícula é obrigatório!').default(''),
 
-  vinculos: yup
+  perfis: yup
     .array()
     .of(
       yup
@@ -104,7 +104,7 @@ const initialFormValues = reactive({
   ...schema.cast(
     {
       ...currentUsuario.value,
-      vinculos: currentUsuarioVinculos.value,
+      perfis: currentUsuarioPerfis.value,
     },
     {
       stripUnknown: true,

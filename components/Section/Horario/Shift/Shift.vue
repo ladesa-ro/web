@@ -11,7 +11,6 @@ defineProps<Props>();
 
 const hoveredRowIndex = ref<number | null>(null);
 
-
 function setHoveredRow(index: number | null) {
   hoveredRowIndex.value = index;
 }
@@ -34,10 +33,10 @@ function setHoveredRow(index: number | null) {
           'mt-3': index === 0,
           'mb-3': index === turno.horarios.length - 1,
           'bg-[#DDE4DE]': horario.tipo === 'intervalo',
-          'hovered-row': hoveredRowIndex === index, 
+          'hovered-row': hoveredRowIndex === index,
         }"
-        @mouseover="setHoveredRow(index)" 
-        @mouseleave="setHoveredRow(null)" 
+        @mouseover="setHoveredRow(index)"
+        @mouseleave="setHoveredRow(null)"
       >
         {{ horario.hora }}
       </div>
@@ -79,6 +78,6 @@ function setHoveredRow(index: number | null) {
 
 <style scoped>
 .hovered-row {
-  background-color: #EBF8EF;
+  background-color: #ebf8ef;
 }
 </style>

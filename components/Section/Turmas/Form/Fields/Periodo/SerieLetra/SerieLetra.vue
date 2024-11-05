@@ -5,7 +5,7 @@ import { useSplittedSerieLetra } from './composables/useSplittedSerieLetra';
 type Props = {
   disabled?: boolean;
   isLoading?: boolean;
-}
+};
 
 defineProps<Props>();
 

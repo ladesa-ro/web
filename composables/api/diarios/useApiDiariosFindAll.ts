@@ -12,7 +12,6 @@ export const useApiDiariosFindAll = async (
 ) => {
   const apiClient = useApiClient();
 
-
   const data = computed(() => {
     const search = unref(searchTerm);
     return {

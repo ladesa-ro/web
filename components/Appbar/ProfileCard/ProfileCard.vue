@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { ApiImageResource, useApiImageRoute } from '../../../integrations';
 import { useApiContext } from '../../API/Context/setup-context';
 
-const { resumoVinculos, usuario } = useApiContext();
+const { resumoPerfis, usuario } = useApiContext();
 
 const profilePicureUrl = useApiImageRoute(
   ApiImageResource.USUARIO_PROFILE,
@@ -26,7 +26,7 @@ defineProps<Props>();
 
 <template>
   <div
-    v-if="usuario && resumoVinculos"
+    v-if="usuario && resumoPerfis"
     class="flex items-center gap-3 rounded-lg inset-y-0 w-29 bg-[#EBF8EF] pl-3 pr-6 py-2"
     :class="{ 'cursor-pointer': canChangeProfile }"
   >
@@ -41,14 +41,12 @@ defineProps<Props>();
       <p class="font-semibold">{{ usuario?.nome }}</p>
 
       <p class="font-normal flex flex-row items-center gap-2">
-        <span v-for="cargo in resumoVinculos?.cargos" :key="cargo">
+        <span v-for="cargo in resumoPerfis?.cargos" :key="cargo">
           <span @click="handleCargoClick(cargo)">
             {{ cargo }}
           </span>
           <span
-            v-if="
-              cargo !== resumoVinculos.cargos[resumoVinculos.cargos.length - 1]
-            "
+            v-if="cargo !== resumoPerfis.cargos[resumoPerfis.cargos.length - 1]"
             >,
           </span>
         </span>

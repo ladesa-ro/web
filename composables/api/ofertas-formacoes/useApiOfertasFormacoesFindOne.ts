@@ -1,18 +1,21 @@
 import { useQuery } from '@tanstack/vue-query';
 import { type MaybeRef, computed, unref } from 'vue';
 
-export const useApiBlocosFindOne = async (
+export const useApiOfertasFormacoesFindOne = async (
   idRef: MaybeRef<string | null | undefined>
 ) => {
   const apiClient = useApiClient();
 
   const query = useQuery({
-    queryKey: ['blocos', computed(() => `blocos::id::${unref(idRef)}`)],
+    queryKey: [
+      'ofertasFormacoes',
+      computed(() => `ofertaFormacao::id::${unref(idRef)}`),
+    ],
 
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.blocos.blocoFindOneById({
+        return apiClient.ofertasFormacoes.ofertaFormacaoFindOneById({
           id: id,
         });
       } else {
@@ -21,9 +24,7 @@ export const useApiBlocosFindOne = async (
     },
   });
 
-  const bloco = computed(() => unref(query.data) ?? null);
+  const ofertaFormacao = computed(() => unref(query.data) ?? null);
 
-  await query.suspense();
-
-  return { query, bloco };
+  return { query, ofertaFormacao };
 };

@@ -2,11 +2,9 @@
 import { ref } from 'vue';
 import { useApiContext } from '../../API/Context/setup-context';
 
-const { resumoVinculos } = useApiContext();
+const { resumoPerfis } = useApiContext();
 
-const canChangeProfile = computed(
-  () => resumoVinculos.value.cargos.length >= 2
-);
+const canChangeProfile = computed(() => resumoPerfis.value.cargos.length >= 2);
 
 const isActive = ref(false);
 </script>

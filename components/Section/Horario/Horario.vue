@@ -29,7 +29,7 @@ function generatePDF() {
 
       <div class="flex flex-col items-center">
         <button
-        @click="generatePDF"
+          @click="generatePDF"
           class="flex justify-center items-center bg-[#118D3B] h-14 w-40 text-white rounded-lg"
         >
           Gerar PDF

@@ -26,7 +26,6 @@ defineEmits(['close']);
     <span class="font-[600]">Alternar cargo</span>
 
     <section class="flex flex-row justify-between w-full">
-
       <!-- ================== PROFESSOR ================== -->
       <nuxt-link
         class="flex flex-col justify-end items-center w-28 h-36 border-2 rounded-lg border-[#9AB69E] px-0 py-8 gap-2 text-center cursor-pointer"
@@ -38,8 +37,8 @@ defineEmits(['close']);
       </nuxt-link>
       <!-- =============================================== -->
 
-            <!-- ===================== DAPE ===================== -->
-            <nuxt-link
+      <!-- ===================== DAPE ===================== -->
+      <nuxt-link
         class="flex flex-col justify-end items-center w-28 h-36 border-2 rounded-lg border-[#9AB69E] px-0 py-8 gap-2 text-center cursor-pointer"
         :class="{ active: activeProfile === 'DAPE' }"
         to="/sisgha/dape"

@@ -22,26 +22,28 @@ const selectAgrupamento = () => {
       <!-- ===================== AGRUPAMENTO ===================== -->
       <div
         class="flex flex-col justify-center items-center w-56 h-40 border-2 rounded-lg gap-2 text-center cursor-pointer"
-        :class="{'border-green-500': activeButton === 'AGRUPAMENTO', 'border-[#9AB69E]': activeButton !== 'AGRUPAMENTO'}"
+        :class="{
+          'border-green-500': activeButton === 'AGRUPAMENTO',
+          'border-[#9AB69E]': activeButton !== 'AGRUPAMENTO',
+        }"
         @click="selectAgrupamento"
       >
         <IconsIconGroup width="42" height="40" />
-        <p class="font-[600]">
-          Agrupamento
-        </p>
+        <p class="font-[600]">Agrupamento</p>
       </div>
       <!-- =============================================== -->
 
       <!-- ================== PROFESSOR ================== -->
       <div
         class="flex flex-col justify-center items-center w-56 h-40 border-2 rounded-lg gap-2 text-center cursor-pointer"
-        :class="{'border-green-500': activeButton === 'Professor', 'border-[#9AB69E]': activeButton !== 'Professor'}"
+        :class="{
+          'border-green-500': activeButton === 'Professor',
+          'border-[#9AB69E]': activeButton !== 'Professor',
+        }"
         @click="selectProfessor"
       >
         <IconsIconEducator width="36" height="49" />
-        <p class="font-[600]">
-          Professores
-        </p>
+        <p class="font-[600]">Professores</p>
       </div>
       <!-- =============================================== -->
     </section>

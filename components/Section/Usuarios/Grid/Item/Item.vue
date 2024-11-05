@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { UsuarioFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { UsuarioFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { useQuery } from '@tanstack/vue-query';
 import uniq from 'lodash/uniq';
 import { ApiImageResource, useApiImageRoute } from '~/integrations';
@@ -13,31 +13,31 @@ const _ARBITRARY_UI_CARD_IMAGE_HEIGHT = 90;
 const apiClient = useApiClient();
 
 type Props = {
-  usuario: UsuarioFindOneResultDto;
+  usuario: UsuarioFindOneResultView;
 };
 
 const props = defineProps<Props>();
 
 const { usuario } = toRefs(props);
 
-const vinculosQuery = useQuery({
+const perfisQuery = useQuery({
   queryKey: [
     'usuarios',
     computed(() => `usuario::id::${unref(usuario.value.id)}`),
-    'usuarios::vinculos',
+    'usuarios::perfis',
   ],
   queryFn: () => {
-    return apiClient.vinculos.vinculoList({
+    return apiClient.perfis.perfilList({
       filterUsuarioId: [usuario.value.id],
       filterAtivo: ['true'],
     });
   },
 });
 
-await vinculosQuery.suspense();
+await perfisQuery.suspense();
 
-const vinculosResponse = computed(() => vinculosQuery.data.value);
-const vinculos = computed(() => vinculosResponse.value?.data ?? []);
+const perfisResponse = computed(() => perfisQuery.data.value);
+const perfis = computed(() => perfisResponse.value?.data ?? []);
 
 const getRoleLabel = (role: string) => {
   switch (role.toLowerCase()) {
@@ -55,14 +55,14 @@ const getRoleLabel = (role: string) => {
   }
 };
 
-const vinculosConcatenated = computed(() => {
-  const allVinculosLabels = vinculos.value.map((vinculo) =>
-    getRoleLabel(vinculo.cargo)
+const perfisConcatenated = computed(() => {
+  const allPerfisLabels = perfis.value.map((perfil) =>
+    getRoleLabel(perfil.cargo)
   );
 
-  const uniqueVinculosLabels = uniq(allVinculosLabels);
+  const uniquePerfisLabels = uniq(allPerfisLabels);
 
-  return uniqueVinculosLabels.join(' e ');
+  return uniquePerfisLabels.join(' e ');
 });
 
 const handleCardClick = (e: MouseEvent) => {
@@ -144,13 +144,13 @@ const profilePicureUrl = useApiImageRoute(
 
       <div class="mt-2"></div>
 
-      <template v-if="vinculos.length > 0">
+      <template v-if="perfis.length > 0">
         <div class="flex font-medium text-sm items-center text-[#9ab69e]">
-          {{ vinculosConcatenated }}
+          {{ perfisConcatenated }}
         </div>
       </template>
 
-      <template v-if="vinculos.length === 0">
+      <template v-if="perfis.length === 0">
         <div class="flex text-sm items-center text-[#9ab69e]">Sem vínculos</div>
       </template>
     </div>

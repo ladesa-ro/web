@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { TurmaFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { TurmaFindOneResultView } from '@ladesa-ro/api-client-fetch';
 
 type Props = {
-  turma: TurmaFindOneResultDto;
+  turma: TurmaFindOneResultView;
   selectedTurma: string | null;
   onTurmaSelect: (turmaId: string | null) => void;
 };
@@ -16,15 +16,13 @@ const onTurmaSelect = toRef(props, 'onTurmaSelect');
 <template>
   <UICardSelectionDiscipline variant="block">
     <template #title>
-      <span class="title">{{ turma.periodo }} - {{ turma.curso.modalidade.nome }}</span>
+      <span class="title">
+        {{ turma.periodo }} - {{ turma.curso.ofertaFormacao.nome }}
+      </span>
     </template>
 
     <template #actions>
-      <v-checkbox
-        color="success"
-        value="success"
-        class="detail"
-      />
+      <v-checkbox color="success" value="success" class="detail" />
     </template>
 
     <UICardLine class="card-line">

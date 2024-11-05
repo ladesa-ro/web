@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DisciplinaFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { DisciplinaFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { toRefs } from 'vue';
 import {
   disciplinasBaseQueryKey,
@@ -29,7 +29,7 @@ const options = createUIAutocompleteApiRetrieverOptions({
   apiResourceGetRetriever: disciplinaGetRetriever,
   apiResourceListRetriever: disciplinasRetriever,
 
-  transformer: (item: DisciplinaFindOneResultDto) => ({
+  transformer: (item: DisciplinaFindOneResultView) => ({
     value: item.id,
     label: item.nome,
   }),

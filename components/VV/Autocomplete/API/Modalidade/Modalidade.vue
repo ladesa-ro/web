@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ModalidadeFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { ModalidadeFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { toRefs } from 'vue';
 import {
   modalidadesBaseQueryKey,
@@ -29,9 +29,9 @@ const options = createUIAutocompleteApiRetrieverOptions({
   apiResourceGetRetriever: modalidadeGetRetriever,
   apiResourceListRetriever: modalidadesRetriever,
 
-  transformer: (item: ModalidadeFindOneResultDto) => ({
+  transformer: (item: ModalidadeFindOneResultView) => ({
     value: item.id,
-    label: item.nome,
+    label: item.slug,
   }),
 });
 

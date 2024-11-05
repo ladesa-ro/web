@@ -114,11 +114,10 @@ const calendars = [
         />
       </v-expansion-panel-title>
     </v-expansion-panel>
-    <div class="flex z-50 justify-center items-center col-span-1 ">
-      <UIButtonGenerateShedulesButtonGenerateShedule/>
+    <div class="flex z-50 justify-center items-center col-span-1">
+      <UIButtonGenerateShedulesButtonGenerateShedule />
     </div>
   </v-expansion-panels>
-
 </template>
 <style scoped>
 .grade-horario {

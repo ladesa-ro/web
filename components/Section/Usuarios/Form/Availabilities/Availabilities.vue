@@ -28,13 +28,13 @@ const changeDay = (delta: number) => {
 
 const { values: formValues } = useFormUser();
 
-const vinculosComCargoProfessor = computed(() => {
-  return getActivesTeacherRole(formValues.vinculos);
+const perfisComCargoProfessor = computed(() => {
+  return getActivesTeacherRole(formValues.perfis);
 });
 
-const activePanel = ref(vinculosComCargoProfessor.value[0]?.campus.id);
+const activePanel = ref(perfisComCargoProfessor.value[0]?.campus.id);
 
-watch(vinculosComCargoProfessor, (current, previous) => {
+watch(perfisComCargoProfessor, (current, previous) => {
   const inserted = current.find(
     (i) => previous.findIndex((k) => k.campus.id === i.campus.id) === -1
   );
@@ -76,9 +76,9 @@ watch(vinculosComCargoProfessor, (current, previous) => {
       <div class="flex flex-col gap-5">
         <v-expansion-panels mandatory class="mb-6" v-model="activePanel">
           <SectionUsuariosFormAvailabilitiesAvailability
-            v-for="vinculo in vinculosComCargoProfessor"
-            :key="vinculo.campus.id"
-            :vinculo="vinculo"
+            v-for="perfil in perfisComCargoProfessor"
+            :key="perfil.campus.id"
+            :perfil="perfil"
           />
         </v-expansion-panels>
       </div>
@@ -95,4 +95,3 @@ watch(vinculosComCargoProfessor, (current, previous) => {
   font-weight: 700;
 }
 </style>
-computed, , watch

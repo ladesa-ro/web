@@ -21,7 +21,9 @@ const show = ref(false);
 
 const apiClient = useApiClient();
 
-const usuario = await apiClient.usuarios.usuarioFindById({ id: props.userId });
+const usuario = await apiClient.usuarios.usuarioFindOneById({
+  id: props.userId,
+});
 
 const profilePicureUrl = useApiImageRoute(
   ApiImageResource.USUARIO_PROFILE,

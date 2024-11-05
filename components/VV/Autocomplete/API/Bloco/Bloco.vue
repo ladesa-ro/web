@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BlocoFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { BlocoFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { toRefs } from 'vue';
 import {
   blocosBaseQueryKey,
@@ -29,7 +29,7 @@ const options = createUIAutocompleteApiRetrieverOptions({
   apiResourceGetRetriever: blocoGetRetriever,
   apiResourceListRetriever: blocosRetriever,
 
-  transformer: (item: BlocoFindOneResultDto) => ({
+  transformer: (item: BlocoFindOneResultView) => ({
     value: item.id,
     label: item.nome,
   }),

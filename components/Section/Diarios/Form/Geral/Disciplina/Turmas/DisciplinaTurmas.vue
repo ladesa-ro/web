@@ -6,7 +6,7 @@ import { useContextDiariosFormGeral } from '../../Contexto';
 
 type Props = {
   searchBarText?: string;
-  // diario: DiarioFindOneResultDto;
+  // diario: DiarioFindOneResultView;
 };
 
 const props = defineProps<Props>();
@@ -88,7 +88,8 @@ const { items: diarios } = await useApiDiariosFindAll('', {
                   {{ diario.turma.curso.nomeAbreviado }}
                 </span>
                 <small class="subtitle">
-                  Modalidade: {{ diario.turma.curso.modalidade.nome }}
+                  Oferta de Formação:
+                  {{ diario.turma.curso.ofertaFormacao.nome }}
                 </small>
               </div>
               <div class="icons">
@@ -122,12 +123,12 @@ const { items: diarios } = await useApiDiariosFindAll('', {
                 <template #item="{ item: diariosProfessor }">
                   <LazyUICardUser variant="block">
                     <template #title>
-                      {{ diariosProfessor.vinculo.usuario.nome }}
+                      {{ diariosProfessor.perfil.usuario.nome }}
                     </template>
 
                     <UICardLine>
                       <span class="text-left w-full block">
-                        Cargo: {{ diariosProfessor.vinculo.cargo }}
+                        Cargo: {{ diariosProfessor.perfil.cargo }}
                       </span>
                     </UICardLine>
                   </LazyUICardUser>

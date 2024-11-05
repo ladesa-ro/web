@@ -1,50 +1,50 @@
 import type {
-  AmbienteFindOneResultDto,
-  BlocoFindOneResultDto,
-  CursoFindOneResultDto,
-  DisciplinaFindOneResultDto,
-  TurmaFindOneResultDto,
-  UsuarioFindOneResultDto,
+  AmbienteFindOneResultView,
+  BlocoFindOneResultView,
+  CursoFindOneResultView,
+  DisciplinaFindOneResultView,
+  TurmaFindOneResultView,
+  UsuarioFindOneResultView,
 } from '@ladesa-ro/api-client-fetch';
 
 export enum ApiImageResource {
-  TURMA_COVER,
-  CURSO_COVER,
-  DISCIPLINA_COVER,
-  AMBIENTE_COVER,
-  BLOCO_COVER,
-  USUARIO_PROFILE,
+  TURMA_COVER = 0,
+  CURSO_COVER = 1,
+  DISCIPLINA_COVER = 2,
+  AMBIENTE_COVER = 3,
+  BLOCO_COVER = 4,
+  USUARIO_PROFILE = 5,
 }
 
 type IUseApiImageRouteFunction = {
   (
     resourceImage: ApiImageResource.TURMA_COVER,
-    item: MaybeRef<TurmaFindOneResultDto | null | undefined>
+    item: MaybeRef<TurmaFindOneResultView | null | undefined>
   ): ComputedRef<string | null>;
 
   (
     resourceImage: ApiImageResource.CURSO_COVER,
-    item: MaybeRef<CursoFindOneResultDto | null | undefined>
+    item: MaybeRef<CursoFindOneResultView | null | undefined>
   ): ComputedRef<string | null>;
 
   (
     resourceImage: ApiImageResource.DISCIPLINA_COVER,
-    item: MaybeRef<DisciplinaFindOneResultDto | null | undefined>
+    item: MaybeRef<DisciplinaFindOneResultView | null | undefined>
   ): ComputedRef<string | null>;
 
   (
     resourceImage: ApiImageResource.AMBIENTE_COVER,
-    item: MaybeRef<AmbienteFindOneResultDto | null | undefined>
+    item: MaybeRef<AmbienteFindOneResultView | null | undefined>
   ): ComputedRef<string | null>;
 
   (
     resourceImage: ApiImageResource.BLOCO_COVER,
-    item: MaybeRef<BlocoFindOneResultDto | null | undefined>
+    item: MaybeRef<BlocoFindOneResultView | null | undefined>
   ): ComputedRef<string | null>;
 
   (
     resourceImage: ApiImageResource.USUARIO_PROFILE,
-    item: MaybeRef<UsuarioFindOneResultDto | null | undefined>
+    item: MaybeRef<UsuarioFindOneResultView | null | undefined>
   ): ComputedRef<string | null>;
 };
 
@@ -114,7 +114,7 @@ export const useApiImageRoute: IUseApiImageRouteFunction = (
       }
 
       case ApiImageResource.USUARIO_PROFILE: {
-        const imagemPerfil = (<UsuarioFindOneResultDto>item)?.imagemPerfil;
+        const imagemPerfil = (<UsuarioFindOneResultView>item)?.imagemPerfil;
 
         if (imagemPerfil) {
           return `${base}/usuarios/${item.id}/imagem/perfil?imgCapa=${imagemPerfil.id}`;

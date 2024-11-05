@@ -18,10 +18,10 @@ provide('lesson', lesson);
 const variant = verifyClassStatusByLesson(lesson.value);
 
 // #region logic to show the campus only if the teacher teaches on more than one campus
-const { resumoVinculos } = useApiContext();
+const { resumoPerfis } = useApiContext();
 
 const campiWhereTeaches = computed(
-  () => resumoVinculos.value.mapaCargoCampi.professor ?? []
+  () => resumoPerfis.value.mapaCargoCampi.professor ?? []
 );
 
 const showCampus = computed(() => {
@@ -31,15 +31,14 @@ const showCampus = computed(() => {
 </script>
 
 <template>
-
-<!-- chamar componente UIGenericRectangle aqui ao invés de determinar o estilo aqui -->
+  <!-- chamar componente UIGenericRectangle aqui ao invés de determinar o estilo aqui -->
 
   <div
     class="flex flex-row items-center justify-between border-2 border-[#118D3B] rounded-lg min-[641px]:px-5 min-[641px]:py-3 max-sm:px-4 max-sm:py-2"
     :class="{ completed: variant === 'completed' }"
   >
     <!-- <pre><code>
-    {{ JSON.stringify(resumoVinculos.mapaCargoCampi.professor, null, 10) }}
+    {{ JSON.stringify(resumoPerfis.mapaCargoCampi.professor, null, 10) }}
   </code></pre> -->
 
     <section class="flex flex-col justify-between">

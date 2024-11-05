@@ -1,13 +1,11 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-
 interface Calendario {
   cor: string;
-  inicio: string; 
-  fim: string; 
+  inicio: string;
+  fim: string;
 }
-
 
 const calendario = ref<Calendario>({
   cor: '#000000',
@@ -29,7 +27,6 @@ const backform = () => {
 };
 const $emit = defineEmits(['close', 'next', 'back']);
 </script>
-
 
 <template>
   <v-form class="form">
@@ -55,22 +52,20 @@ const $emit = defineEmits(['close', 'next', 'back']);
 
       <div class="date-fields">
         <VVTextField
-          v-model="calendario.inicio" 
+          v-model="calendario.inicio"
           type="date"
           label="Início"
           placeholder="Selecione a data de início"
           name="inicio"
         />
         <VVTextField
-          v-model="calendario.fim"  
+          v-model="calendario.fim"
           type="date"
           label="Término"
           placeholder="Selecione a data de término"
           name="fim"
-        />    
+        />
       </div>
-
-      
     </div>
 
     <v-divider />
@@ -82,7 +77,6 @@ const $emit = defineEmits(['close', 'next', 'back']);
     </div>
   </v-form>
 </template>
-
 
 <style scoped>
 .form {
@@ -119,14 +113,14 @@ const $emit = defineEmits(['close', 'next', 'back']);
   gap: 0px;
 }
 
-.color-picker-square input[type="color"]::-webkit-color-swatch {
+.color-picker-square input[type='color']::-webkit-color-swatch {
   width: 50px; /* Largura da barra de cor */
   height: 50px; /* Altura da barra de cor */
   border: none; /* Remove borda da barra de cor */
   background: none; /* Remove fundo da barra de cor */
 }
 
-.color-picker-square input[type="color"] {
+.color-picker-square input[type='color'] {
   width: 100%;
   height: 100%;
   border: none;
@@ -154,5 +148,4 @@ const $emit = defineEmits(['close', 'next', 'back']);
 .date-fields .v-text-field {
   flex: 1; /* Faz com que cada campo de data ocupe espaço igual */
 }
-
 </style>

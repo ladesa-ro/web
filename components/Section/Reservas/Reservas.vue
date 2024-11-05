@@ -15,16 +15,13 @@
     <div class="max-w-screen-lg w-full mx-auto">
       <SectionHorarioDailyViewDaySquareList />
 
-      
       <div class="flex flex-col gap-5 mt-12">
         <!-- este é apenas um código de exemplo. ele será alterado. -->
         <UIGenericRectangle>
-          <template #title>
-            Nome do ambiente
-          </template>
+          <template #title> Nome do ambiente </template>
           <template #content>
-            <p>Horário: </p>
-            <p>Autor da reserva: </p>
+            <p>Horário:</p>
+            <p>Autor da reserva:</p>
           </template>
         </UIGenericRectangle>
         <!-- <SectionHorarioDailyViewLesson

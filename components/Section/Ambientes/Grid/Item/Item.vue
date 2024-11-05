@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AmbienteFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { AmbienteFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import {
   ApiImageResource,
   useApiImageRoute,
@@ -7,7 +7,7 @@ import {
 
 type Props = {
   isLoading?: boolean;
-  item?: AmbienteFindOneResultDto | null;
+  item?: AmbienteFindOneResultView | null;
 };
 
 const props = defineProps<Props>();

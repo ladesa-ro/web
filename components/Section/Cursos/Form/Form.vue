@@ -29,7 +29,7 @@ const { curso: currentCurso } = await useApiCursosFindOne(editIdRef);
 type FormValues = {
   imagem: Blob | null | undefined;
 
-  modalidade: {
+  ofertaFormacao: {
     id: string | null;
   };
   campus: {
@@ -44,7 +44,7 @@ type FormValues = {
 type FormOutput = {
   imagem: Blob | null | undefined;
 
-  modalidade: {
+  ofertaFormacao: {
     id: string;
   };
   campus: {
@@ -58,8 +58,8 @@ type FormOutput = {
 
 const initialFormValues = reactive({
   imagem: null,
-  modalidade: {
-    id: currentCurso.value?.modalidade?.id ?? null,
+  ofertaFormacao: {
+    id: currentCurso.value?.ofertaFormacao?.id ?? null,
   },
 
   campus: {
@@ -79,7 +79,7 @@ const handleDelete = async () => {
   );
 
   if (resposta) {
-    await apiClient.cursos.cursoDeleteById({ id: id });
+    await apiClient.cursos.cursoDeleteOneById({ id: id });
     await queryClient.invalidateQueries({ queryKey: ['cursos'] });
     $emit('close');
   }
@@ -124,7 +124,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 
     id = cursoCriado.id;
   } else {
-    await apiClient.cursos.cursoUpdateById({
+    await apiClient.cursos.cursoUpdateOneById({
       id: editId,
 
       requestBody: {
@@ -136,7 +136,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   }
 
   if (imagem) {
-    await apiClient.cursos.cursoSetCoverImage({
+    await apiClient.cursos.cursoSetImagemCapa({
       id: id,
       formData: {
         file: imagem,

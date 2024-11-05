@@ -5,6 +5,7 @@ export * from './cursos';
 export * from './diarios';
 export * from './disciplinas';
 export * from './modalities';
+export * from './ofertas-formacoes';
 export * from './turmas';
 export * from './useApiClient';
 export * from './usuarios';

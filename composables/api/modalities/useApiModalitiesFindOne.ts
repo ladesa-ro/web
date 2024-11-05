@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/vue-query';
-import { computed, unref, type MaybeRef } from 'vue';
+import { type MaybeRef, computed, unref } from 'vue';
 
 export const useApiModalitiesFindOne = async (
   idRef: MaybeRef<string | null | undefined>
@@ -15,7 +15,7 @@ export const useApiModalitiesFindOne = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.modalidades.modalidadeFindById({
+        return apiClient.modalidades.modalidadeFindOneById({
           id: id,
         });
       } else {

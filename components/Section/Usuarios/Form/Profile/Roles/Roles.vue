@@ -1,30 +1,30 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate';
 
-const { value: vinculos } = useField<any[]>('vinculos');
+const { value: perfis } = useField<any[]>('perfis');
 
 const addField = () => {
   // spread operator
   // rest operator
-  vinculos.value = [
-    ...vinculos.value,
+  perfis.value = [
+    ...perfis.value,
     { campus: { id: null }, ativo: true, cargos: [] },
   ];
 };
 
 const removeField = (targetIndex: number) => {
   if (targetIndex > 0) {
-    vinculos.value = vinculos.value.map((vinculo, idx) => {
+    perfis.value = perfis.value.map((perfil, idx) => {
       if (idx === targetIndex) {
         return {
-          ...vinculo,
+          ...perfil,
           ativo: false,
           cargos: [],
-          campus: vinculo.campus,
+          campus: perfil.campus,
         };
       }
 
-      return vinculo;
+      return perfil;
     });
   }
 };
@@ -33,13 +33,13 @@ const removeField = (targetIndex: number) => {
 <template>
   <v-divider :thickness="2" color="success" opacity="1" />
 
-  <div v-for="(vinculo, index) in vinculos" :key="index">
-    <div v-show="vinculo.ativo" class="flex gap-5 items-start">
-      <VVAutocompleteAPICampus :name="`vinculos[${index}].campus.id`" />
+  <div v-for="(perfil, index) in perfis" :key="index">
+    <div v-show="perfil.ativo" class="flex gap-5 items-start">
+      <VVAutocompleteAPICampus :name="`perfis[${index}].campus.id`" />
 
       <VVSelectRoles
         class="w-full max-w-[10.65rem]"
-        :name="`vinculos[${index}].cargos`"
+        :name="`perfis[${index}].cargos`"
       />
 
       <v-btn

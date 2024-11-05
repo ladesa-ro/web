@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/vue-query';
-import { computed, unref, type MaybeRef } from 'vue';
+import { type MaybeRef, computed, unref } from 'vue';
 
 export const useApiCampusFindOne = async (
   idRef: MaybeRef<string | null | undefined>
@@ -12,7 +12,7 @@ export const useApiCampusFindOne = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.campi.campusFindById({
+        return apiClient.campi.campusFindOneById({
           id: id,
         });
       } else {

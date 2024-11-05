@@ -7,7 +7,7 @@ export type FormUserValues = {
   email: string;
   matriculaSiape: string;
 
-  vinculos: Array<Vinculo>;
+  perfis: Array<Perfil>;
 };
 
 export type FormUserOutput = {
@@ -17,10 +17,10 @@ export type FormUserOutput = {
   matriculaSiape: string;
   email: string;
 
-  vinculos: Array<Vinculo>;
+  perfis: Array<Perfil>;
 };
 
-export type Vinculo = {
+export type Perfil = {
   ativo: boolean;
   campus: { id: string };
   cargos: Array<'dape' | 'professor'>;
@@ -30,20 +30,18 @@ export const useFormUser = () => {
   return inject<FormContext<FormUserValues, FormUserOutput>>('FORM_USER')!;
 };
 
-export const checkActiveTeacherRole = (vinculo: Vinculo) => {
+export const checkActiveTeacherRole = (perfil: Perfil) => {
   return (
-    vinculo?.campus?.id &&
-    vinculo.campus.id !== null &&
-    vinculo.cargos.includes('professor')
+    perfil?.campus?.id &&
+    perfil.campus.id !== null &&
+    perfil.cargos.includes('professor')
   );
 };
 
-export const checkHasAtLeastOneActiveTeacherRole = (
-  vinculos: Array<Vinculo>
-) => {
-  return vinculos.some(checkActiveTeacherRole);
+export const checkHasAtLeastOneActiveTeacherRole = (perfis: Array<Perfil>) => {
+  return perfis.some(checkActiveTeacherRole);
 };
 
-export const getActivesTeacherRole = (vinculos: Array<Vinculo>) => {
-  return vinculos.filter(checkActiveTeacherRole);
+export const getActivesTeacherRole = (perfis: Array<Perfil>) => {
+  return perfis.filter(checkActiveTeacherRole);
 };

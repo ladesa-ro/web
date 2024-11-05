@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useQueryClient } from '@tanstack/vue-query';
-import { useFormUser, type FormUserOutput } from '../FormUtils';
+import { type FormUserOutput, useFormUser } from '../FormUtils';
 
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
@@ -26,7 +26,7 @@ const { resetForm, handleSubmit } = useFormUser();
 const onSubmit = handleSubmit(async (values: FormUserOutput) => {
   const editId = editIdRef.value;
 
-  const { imagem, vinculos, ...data } = values;
+  const { imagem, perfis, ...data } = values;
 
   let id;
 
@@ -37,7 +37,7 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
 
     id = usuarioCriado.id;
   } else {
-    await apiClient.usuarios.usuarioUpdateById({
+    await apiClient.usuarios.usuarioUpdateOneById({
       id: editId,
 
       requestBody: {
@@ -48,29 +48,28 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
     id = editId;
   }
 
-  for (const vinculo of vinculos) {
+  for (const perfil of perfis) {
     if (
-      !vinculo.ativo &&
-      vinculos.some(
-        (vinculoLoop) =>
-          vinculoLoop.ativo === true &&
-          vinculoLoop.campus.id === vinculo.campus.id
+      !perfil.ativo &&
+      perfis.some(
+        (perfilLoop) =>
+          perfilLoop.ativo === true && perfilLoop.campus.id === perfil.campus.id
       )
     ) {
       continue;
     }
 
-    await apiClient.vinculos.vinculoUpdate({
+    await apiClient.perfis.perfilUpdateOneById({
       requestBody: {
         usuario: { id: id },
-        campus: { id: vinculo.campus.id },
-        cargos: vinculo.cargos,
+        campus: { id: perfil.campus.id },
+        cargos: perfil.cargos,
       },
     });
   }
 
   if (imagem) {
-    await apiClient.usuarios.usuarioSetProfileImage({
+    await apiClient.usuarios.usuarioSetImagemPerfil({
       id: id,
       formData: {
         file: imagem,

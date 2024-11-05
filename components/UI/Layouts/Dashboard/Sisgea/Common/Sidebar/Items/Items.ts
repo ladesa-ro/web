@@ -1,6 +1,6 @@
-import iconReservas from '~/assets/icons/Reservas.svg'
+import iconReservas from '~/assets/icons/Reservas.svg';
 import iconAmbientes from '~/assets/icons/Ambientes.svg';
-import iconBlocos from '~/assets/icons/Blocos.svg'
+import iconBlocos from '~/assets/icons/Blocos.svg';
 import type { ISidebarItem } from '../../../../../../../Sidebar/ISidebarItem';
 
 export const useLayoutsDashboardSisgeaCommonSidebarItems = () => {

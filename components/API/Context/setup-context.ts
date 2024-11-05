@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/vue-query';
-import { resumirVinculos } from '../Vinculos/ResumirVinculos';
+import { resumirPerfis } from '../Perfis/ResumirPerfis';
 import type { IApiContext } from './typings';
 
 const ApiContextKey = Symbol();
@@ -30,11 +30,11 @@ export const createApiContext = (shouldProvide = true) => {
   const whoAmI = computed(() => whoAmIQuery.data.value ?? null);
 
   const usuario = computed(() => whoAmI.value?.usuario ?? null);
-  const vinculosAtivos = computed(() => whoAmI.value?.vinculosAtivos ?? []);
+  const perfisAtivos = computed(() => whoAmI.value?.perfisAtivos ?? []);
 
-  const resumoVinculos = computed(() => {
-    const todosOsVinculos = vinculosAtivos.value;
-    return resumirVinculos(todosOsVinculos);
+  const resumoPerfis = computed(() => {
+    const todosOsPerfis = perfisAtivos.value;
+    return resumirPerfis(todosOsPerfis);
   });
 
   const suspense = async () => {
@@ -45,8 +45,8 @@ export const createApiContext = (shouldProvide = true) => {
     //
     whoAmI,
     usuario,
-    vinculosAtivos,
-    resumoVinculos,
+    perfisAtivos,
+    resumoPerfis,
     //
     whoAmIQuery,
     //

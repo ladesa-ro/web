@@ -7,7 +7,7 @@ import {
 const { values: formValues } = useFormUser();
 
 const hasAtLeastOneActiveTeacherRole = computed(() => {
-  return checkHasAtLeastOneActiveTeacherRole(formValues.vinculos);
+  return checkHasAtLeastOneActiveTeacherRole(formValues.perfis);
 });
 </script>
 

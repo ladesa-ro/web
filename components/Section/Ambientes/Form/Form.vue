@@ -80,7 +80,7 @@ const handleDelete = async () => {
   );
 
   if (resposta) {
-    await apiClient.ambientes.ambienteDeleteById({ id: id });
+    await apiClient.ambientes.ambienteDeleteOneById({ id: id });
     await queryClient.invalidateQueries({ queryKey: ['ambientes'] });
     $emit('close');
   }
@@ -120,7 +120,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
     });
     id = ambienteCriado.id;
   } else {
-    await apiClient.ambientes.ambienteUpdateById({
+    await apiClient.ambientes.ambienteUpdateOneById({
       id: editId,
 
       requestBody: {
@@ -132,7 +132,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   }
 
   if (imagem) {
-    await apiClient.ambientes.ambienteSetCoverImage({
+    await apiClient.ambientes.ambienteSetImagemCapa({
       id: id,
       formData: {
         file: imagem,

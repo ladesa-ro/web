@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { type Vinculo } from '../../FormUtils';
+import { type Perfil } from '../../FormUtils';
 
-const props = defineProps<{ vinculo: Vinculo }>();
+const props = defineProps<{ perfil: Perfil }>();
 
-const { campus, query } = await useApiCampusFindOne(props.vinculo.campus.id);
+const { campus, query } = await useApiCampusFindOne(props.perfil.campus.id);
 
 await query.suspense();
 </script>
 <template>
-  <v-expansion-panel :value="vinculo.campus.id">
+  <v-expansion-panel :value="perfil.campus.id">
     <v-expansion-panel-title expand-icon="mdi-menu-down" class="font-medium">
       {{ campus?.apelido }}
     </v-expansion-panel-title>

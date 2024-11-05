@@ -58,7 +58,7 @@ const handleDelete = async () => {
   );
 
   if (resposta) {
-    await apiClient.disciplinas.disciplinaDeleteById({ id: id });
+    await apiClient.disciplinas.disciplinaDeleteOneById({ id: id });
     await queryClient.invalidateQueries({ queryKey: ['disciplinas'] });
     $emit('close');
   }
@@ -95,7 +95,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
     });
     id = DisciplinaCriada.id;
   } else {
-    await apiClient.disciplinas.disciplinaUpdateById({
+    await apiClient.disciplinas.disciplinaUpdateOneById({
       id: editId,
 
       requestBody: {
@@ -107,7 +107,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   }
 
   if (imagem) {
-    await apiClient.disciplinas.disciplinaSetCoverImage({
+    await apiClient.disciplinas.disciplinaSetImagemCapa({
       id: id,
       formData: { file: imagem },
     });

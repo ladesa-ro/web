@@ -47,8 +47,9 @@ const turnos: ITurnos = [
 ];
 </script>
 <template>
-	<div class="grade-horario"> <!--max-2xl:ml-20-->
-		<div class="col-start-1 col-span-2"></div>
+  <div class="grade-horario">
+    <!--max-2xl:ml-20-->
+    <div class="col-start-1 col-span-2"></div>
 
     <!-- cédulas verdes dos dias da semana -->
     <div class="grid grid-cols-subgrid col-span-6">

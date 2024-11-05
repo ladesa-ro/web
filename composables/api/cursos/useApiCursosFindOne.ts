@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/vue-query';
-import { computed, unref, type MaybeRef } from 'vue';
+import { type MaybeRef, computed, unref } from 'vue';
 import {
   QuerySuspense,
-  QuerySuspenseBehaviourMode,
   type QuerySuspenseBehaviour,
+  QuerySuspenseBehaviourMode,
 } from '../../../integrations';
 
 export const useApiCursosFindOne = async (
@@ -18,7 +18,7 @@ export const useApiCursosFindOne = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.cursos.cursoFindById({
+        return apiClient.cursos.cursoFindOneById({
           id: id,
         });
       } else {

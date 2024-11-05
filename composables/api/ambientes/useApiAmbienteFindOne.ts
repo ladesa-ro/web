@@ -14,7 +14,7 @@ export const useApiAmbienteFindOne = async (
       const id = unref(idRef);
 
       if (id) {
-        return apiClient.ambientes.ambienteFindById({ id: id });
+        return apiClient.ambientes.ambienteFindOneById({ id: id });
       }
 
       return null;

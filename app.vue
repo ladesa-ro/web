@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const { isDark } = useCustomTheme();
 
-setupApiClient(); 
+setupApiClient();
 
 const dayjs = useDayJs();
 const selectedDay = ref(dayjs());

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
 import { useApiContext } from '~/components/API/Context/setup-context';
+import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
 
 const classTimings = [
   { startsAt: '08:20:00', endsAt: '09:09:59' },
@@ -30,15 +30,15 @@ const generatedLessons = Array.from({ length: classTimings.length }).map(
   }
 );
 
-const { resumoVinculos } = useApiContext();
+const { resumoPerfis } = useApiContext();
 
 const viewFor = computed(() => {
-  if (resumoVinculos.value.cargos.includes('professor')) {
+  if (resumoPerfis.value.cargos.includes('professor')) {
     return 'teacher';
   }
 
   return 'student';
-})
+});
 </script>
 
 <template>

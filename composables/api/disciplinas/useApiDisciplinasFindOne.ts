@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/vue-query';
-import { computed, unref, type MaybeRef } from 'vue';
+import { type MaybeRef, computed, unref } from 'vue';
 
 export const useApiDisciplinasFindOne = async (
   idRef: MaybeRef<string | null | undefined>
@@ -15,7 +15,7 @@ export const useApiDisciplinasFindOne = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.disciplinas.disciplinaFindById({
+        return apiClient.disciplinas.disciplinaFindOneById({
           id: id,
         });
       } else {

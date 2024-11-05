@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/vue-query';
-import { computed, unref, type MaybeRef } from 'vue';
+import { type MaybeRef, computed, unref } from 'vue';
 
 export const useApiUsuariosFindOne = async (
   idRef: MaybeRef<string | null | undefined>
@@ -12,7 +12,7 @@ export const useApiUsuariosFindOne = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.usuarios.usuarioFindById({
+        return apiClient.usuarios.usuarioFindOneById({
           id: id,
         });
       } else {

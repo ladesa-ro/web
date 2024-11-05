@@ -1,10 +1,11 @@
-import type { ModalidadeFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { OfertaFormacaoFindOneResultView } from '@ladesa-ro/api-client-fetch';
 
 export const verificarModalidade = (
-  modalidade: ModalidadeFindOneResultDto | null,
+  ofertaFormacao: OfertaFormacaoFindOneResultView | null,
   fallbackToPeriodo = false
 ): 'serie-letra' | 'periodo' | 'nao-implementado' => {
-  switch (modalidade?.id) {
+  // TODO
+  switch (ofertaFormacao?.id) {
     case '1f08fe79-8f99-493b-ade1-fe082b4761e1':
     case 'aab71668-9dfc-46ae-8593-99dcb616a88d': {
       return 'serie-letra';

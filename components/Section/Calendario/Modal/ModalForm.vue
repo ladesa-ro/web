@@ -6,7 +6,7 @@ const isActive = ref(false);
 <template>
   <v-dialog max-width="500" v-model="isActive">
     <template v-slot:activator="{ props: activatorProps }">
-      <UIButtonAdd v-bind="activatorProps"/>
+      <UIButtonAdd v-bind="activatorProps" />
     </template>
 
     <template v-slot:="{ isActive }">

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/vue-query';
-import { computed, unref, type MaybeRef } from 'vue';
+import { type MaybeRef, computed, unref } from 'vue';
 
-export const useApiUsuarioVinculosAtivos = async (
+export const useApiUsuarioPerfisAtivos = async (
   idRef: MaybeRef<string | null | undefined>
 ) => {
   const apiClient = useApiClient();
@@ -10,13 +10,13 @@ export const useApiUsuarioVinculosAtivos = async (
     queryKey: [
       'usuarios',
       computed(() => `usuario::id::${unref(idRef)}`),
-      'vinculos_ativos',
+      'perfis_ativos',
     ],
 
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.vinculos.vinculoList({
+        return apiClient.perfis.perfilList({
           filterUsuarioId: [id],
           filterAtivo: ['true'],
         });
@@ -26,9 +26,9 @@ export const useApiUsuarioVinculosAtivos = async (
     },
   });
 
-  const vinculosAtivos = computed(() => unref(query.data)?.data ?? null);
+  const perfisAtivos = computed(() => unref(query.data)?.data ?? null);
 
   await query.suspense();
 
-  return { query, vinculosAtivos };
+  return { query, perfisAtivos };
 };
