@@ -35,10 +35,10 @@ sla uaikkkkkkkkk
 
 ## Ambientes
 
-| Estágio         | Devops                                                       | URL                                                      |
-| --------------- | ------------------------------------------------------------ | -------------------------------------------------------- |
-| Produção        | [![CI: Production][action-ci-prod-src]][action-ci-prod-href] | `não disponível`.                                        |
-| Desenvolvimento | [![CI: Development][action-ci-dev-src]][action-ci-dev-href]  | <https://luna.sisgha.com/>; <https://dev.ladesa.com.br/> |
+| Estágio         | Devops                                                       | URL                          |
+| --------------- | ------------------------------------------------------------ | ---------------------------- |
+| Produção        | [![CI: Production][action-ci-prod-src]][action-ci-prod-href] | `não disponível`.            |
+| Desenvolvimento | [![CI: Development][action-ci-dev-src]][action-ci-dev-href]  | <https://dev.ladesa.com.br/> |
 
 ## Configuração Local
 
@@ -52,7 +52,7 @@ cd web
 ### Instalar as dependências do projeto
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### Iniciar servidor de desenvolvimento local
@@ -60,7 +60,7 @@ npm install
 Comece o servidor de desenvolvimento em [`http://localhost:3000`](http://localhost:3000):
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 ## Colaboradores
@@ -82,12 +82,12 @@ npm run dev
 
 <!-- Badges / Actions / Production  -->
 
-[action-ci-prod-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/ci.yml?style=flat&logo=github&logoColor=white&label=CI@production&branch=production&labelColor=18181B
+[action-ci-prod-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/ci.yml?style=flat&logo=github&logoColor=white&label=CI&branch=production&labelColor=18181B
 [action-ci-prod-href]: https://github.com/ladesa-ro/web/actions/workflows/ci.yml?query=branch%3Aproduction
 
 <!-- Badges / Actions / Development  -->
 
-[action-ci-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/ci.yml?style=flat&logo=github&logoColor=white&label=CI@development&branch=main&labelColor=18181B
+[action-ci-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/ci.yml?style=flat&logo=github&logoColor=white&label=CI&branch=main&labelColor=18181B
 [action-ci-dev-href]: https://github.com/ladesa-ro/web/actions/workflows/ci.yml?query=branch%3Amain
 
 <!-- #endregion conteudo -->

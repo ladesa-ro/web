@@ -1,0 +1,23 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.vitest.json"
+    }
+  ],
+
+  "compilerOptions": {
+    "module": "NodeNext",
+
+    "outDir": "dist",
+    "declaration": true
+  },
+
+  "exclude": ["src/App.vue", "playground/main.ts", "**/node_modules", "dist"]
+}
