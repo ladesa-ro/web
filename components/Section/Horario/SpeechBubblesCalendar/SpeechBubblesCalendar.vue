@@ -28,15 +28,15 @@ const selectedDay = useSelectedDay();
       }"
     ></div>
 
-    <div class="flex flex-col">
-      <PagesDashboardCalendarMonth
-        :year="selectedDay.year()"
-        :toggleMonth="false"
-        :steps="[]"
-        :events="[]"
-        class="mx-0"
-      />
-    </div>
+    <SectionCalendarioMonth
+      :year="selectedDay.year()"
+      :month="selectedDay.month()"
+      :toggleMonth="false"
+      :selectWeek="false"
+      :steps="[]"
+      :events="[]"
+      class="mx-0"
+    />
   </div>
 </template>
 
