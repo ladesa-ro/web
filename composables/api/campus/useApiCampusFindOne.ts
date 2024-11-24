@@ -12,7 +12,7 @@ export const useApiCampusFindOne = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.campi.campusFindById({
+        return apiClient.campi.campusFindOneById({
           id: id,
         });
       } else {

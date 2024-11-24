@@ -69,7 +69,7 @@ const handleDelete = async () => {
   );
 
   if (resposta) {
-    await apiClient.blocos.blocoDeleteById({ id: id });
+    await apiClient.blocos.blocoDeleteOneById({ id: id });
     await queryClient.invalidateQueries({ queryKey: ['blocos'] });
     $emit('close');
   }
@@ -110,7 +110,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
     });
     id = blocoCriado.id;
   } else {
-    await apiClient.blocos.blocoUpdateById({
+    await apiClient.blocos.blocoUpdateOneById({
       id: editId,
 
       requestBody: {
@@ -122,7 +122,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   }
 
   if (imagem) {
-    await apiClient.blocos.blocoSetCoverImage({
+    await apiClient.blocos.blocoSetImagemCapa({
       id: id,
       formData: {
         file: imagem,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { BlocoFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { BlocoFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import {
   ApiImageResource,
   useApiImageRoute,
@@ -7,7 +7,7 @@ import {
 
 type Props = {
   isLoading?: boolean;
-  item?: BlocoFindOneResultDto | null;
+  item?: BlocoFindOneResultView | null;
 };
 
 const props = defineProps<Props>();

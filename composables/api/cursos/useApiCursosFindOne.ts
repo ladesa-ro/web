@@ -18,7 +18,7 @@ export const useApiCursosFindOne = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.cursos.cursoFindById({
+        return apiClient.cursos.cursoFindOneById({
           id: id,
         });
       } else {

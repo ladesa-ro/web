@@ -12,7 +12,7 @@ export const useApiBlocosFindOne = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.blocos.blocoFindById({
+        return apiClient.blocos.blocoFindOneById({
           id: id,
         });
       } else {

@@ -1,15 +1,15 @@
 import type {
-  AuthWhoAmIResultDto,
-  UsuarioFindOneResultDto,
+  AuthWhoAmIResponse,
+  UsuarioFindOneResultView,
 } from '@ladesa-ro/api-client-fetch';
 import type { UseQueryReturnType } from '@tanstack/vue-query';
 import type { ResumoVinculos } from '../Vinculos/ResumirVinculos';
 
 export type DynamicWhoAmIResult<Strict extends boolean = true> =
-  AuthWhoAmIResultDto & {
+AuthWhoAmIResponse & {
     usuario: Strict extends true
-      ? UsuarioFindOneResultDto
-      : UsuarioFindOneResultDto | null;
+      ? AuthWhoAmIResponse
+      : UsuarioFindOneResultView | null;
   };
 
 export type IApiContext<
@@ -20,7 +20,7 @@ export type IApiContext<
   resumoVinculos: ComputedRef<ResumoVinculos>;
   whoAmI: ComputedRef<WhoAmI>;
   usuario: ComputedRef<WhoAmI['usuario']>;
-  vinculosAtivos: ComputedRef<WhoAmI['vinculosAtivos']>;
+  vinculosAtivos: ComputedRef<WhoAmI['perfisAtivos']>;
   //
   whoAmIQuery: UseQueryReturnType<WhoAmI, Error>;
 };

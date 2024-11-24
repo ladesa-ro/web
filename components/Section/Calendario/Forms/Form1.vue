@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
-import { computed } from 'vue';
+import { computed, reactive, toRef } from 'vue';
 import * as yup from 'yup';
 import { useApiClient, useApiCursosFindOne } from '~/composables';
 
@@ -17,7 +17,6 @@ const closeForm = () => {
   $emit('close');
 };
 
-
 type Props = {
   editId?: string | null;
 };
@@ -26,10 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
   editId: null,
 });
 
-//
-
 const editIdRef = toRef(props, 'editId');
-
 
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
@@ -38,43 +34,24 @@ const { curso: currentCurso } = await useApiCursosFindOne(editIdRef);
 
 type FormValues = {
   imagem: Blob | null | undefined;
-
-  modalidade: {
-    id: string | null;
-  };
-  campus: {
-    id: string | null;
-  };
-
+  ofertaFormacao: { id: string | null };
+  campus: { id: string | null };
   nome: string;
-
   nomeAbreviado: string;
 };
 
 type FormOutput = {
   imagem: Blob | null | undefined;
-
-  modalidade: {
-    id: string;
-  };
-  campus: {
-    id: string;
-  };
-
+  ofertaFormacao: { id: string };
+  campus: { id: string };
   nome: string;
-
   nomeAbreviado: string;
 };
 
-const initialFormValues = reactive({
+const initialFormValues = reactive<FormValues>({
   imagem: null,
-  modalidade: {
-    id: currentCurso.value?.modalidade?.id ?? null,
-  },
-
-  campus: {
-    id: currentCurso.value?.campus?.id ?? null,
-  },
+  ofertaFormacao: { id: currentCurso.value?.ofertaFormacao?.id ?? null },
+  campus: { id: currentCurso.value?.campus?.id ?? null },
   nome: currentCurso.value?.nome ?? '',
   nomeAbreviado: currentCurso.value?.nomeAbreviado ?? '',
 });
@@ -89,7 +66,7 @@ const handleDelete = async () => {
   );
 
   if (resposta) {
-    await apiClient.cursos.cursoDeleteById({ id: id });
+    await apiClient.cursos.cursoDeleteOneById({ id });
     await queryClient.invalidateQueries({ queryKey: ['cursos'] });
     $emit('close');
   }
@@ -97,13 +74,12 @@ const handleDelete = async () => {
 
 const schema = yup.object().shape({
   imagem: yup.mixed().nullable().optional(),
-  modalidade: yup.object().shape({
-    id: yup.string().required('Modalidade é obrigatório!'),
+  ofertaFormacao: yup.object().shape({
+    id: yup.string().required('Oferta Formação é obrigatória!'),
   }),
   campus: yup.object().shape({
     id: yup.string().required('Campus é obrigatório!'),
   }),
-
   nome: yup.string().required('Nome do bloco é obrigatório!'),
   nomeAbreviado: yup
     .string()
@@ -113,7 +89,6 @@ const schema = yup.object().shape({
 const {
   resetForm,
   handleSubmit,
-  setFieldValue,
   values: formValues,
 } = useForm<FormValues, FormOutput>({
   validationSchema: schema,
@@ -134,11 +109,10 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 
     id = cursoCriado.id;
   } else {
-    await apiClient.cursos.cursoUpdateById({
+    await apiClient.cursos.cursoUpdateOneById({
       id: editId,
-
       requestBody: {
-        ...values,
+        ...data,
       },
     });
 
@@ -146,11 +120,9 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   }
 
   if (imagem) {
-    await apiClient.cursos.cursoSetCoverImage({
-      id: id,
-      formData: {
-        file: imagem,
-      },
+    await apiClient.cursos.cursoSetImagemCapa({
+      id,
+      formData: { file: imagem },
     });
   }
 
@@ -181,7 +153,6 @@ const nome = computed({
     <v-divider class="my-4" />
 
     <div class="form-body modal-form">
-
       <VVTextField
         v-model="nome"
         type="text"
@@ -191,14 +162,18 @@ const nome = computed({
       />
 
       <VVAutocomplete
-            name="year.id"
-            label="Ano letivo"
-            placeholder="Selecione um ano"
-            :items="years"
-            class="xl:max-w-[100%]"
-          />
+        name="year.id"
+        label="Ano letivo"
+        placeholder="Selecione um ano"
+        :items="years"
+        class="xl:max-w-[100%]"
+      />
 
-      <VVAutocompleteAPIModalidade name="modalidade.id" />
+      <VVAutocompleteAPIOfertaFormacao
+        v-model="formValues.ofertaFormacao.id"
+        name="ofertaFormacao.id"
+        label="Oferta de Formação"
+      />
 
       <VVAutocompleteAPICurso name="curso.id" />
     </div>
@@ -206,23 +181,13 @@ const nome = computed({
     <v-divider />
 
     <div class="form-footer button-group">
-        <div class="form-footer button-group">
       <UIButtonModalCancelButton @click="closeForm" />
       <UIButtonModalAdvancedButton @click="nextForm" />
-    </div>
     </div>
   </v-form>
 </template>
 
 <style scoped>
-/* .form {
-	overflow: hidden;
-}
-
-.form-body {
-	overflow: auto;
-} */
-
 .form {
   overflow: auto;
 }

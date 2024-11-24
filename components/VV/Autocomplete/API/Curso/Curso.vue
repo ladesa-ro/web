@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CursoFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { CursoFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { toRefs } from 'vue';
 import {
   cursosBaseQueryKey,
@@ -29,7 +29,7 @@ const options = createUIAutocompleteApiRetrieverOptions({
   apiResourceGetRetriever: cursoGetRetriever,
   apiResourceListRetriever: cursosRetriever,
 
-  transformer: (item: CursoFindOneResultDto) => ({
+  transformer: (item: CursoFindOneResultView) => ({
     value: item.id,
     label: item.nome,
   }),
