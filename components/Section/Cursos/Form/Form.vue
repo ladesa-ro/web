@@ -58,10 +58,9 @@ type FormOutput = {
 
 const initialFormValues = reactive({
   imagem: null,
-  ofertaformacao: {
-    id: currentCurso.value?.ofertaformacao?.id ?? null,
+  ofertaFormacao: {
+    id: currentCurso.value?.ofertaFormacao?.id ?? null,
   },
-
   campus: {
     id: currentCurso.value?.campus?.id ?? null,
   },
@@ -87,18 +86,18 @@ const handleDelete = async () => {
 
 const schema = yup.object().shape({
   imagem: yup.mixed().nullable().optional(),
-  ofertaformacao: yup.object().shape({
+  ofertaFormacao: yup.object().shape({ 
     id: yup.string().required('Oferta de Formação é obrigatório!'),
   }),
   campus: yup.object().shape({
     id: yup.string().required('Campus é obrigatório!'),
   }),
-
   nome: yup.string().required('Nome do bloco é obrigatório!'),
   nomeAbreviado: yup
     .string()
     .required('Nome abreviado do bloco é obrigatório!'),
 });
+
 
 const {
   resetForm,
@@ -113,7 +112,7 @@ const {
 const onSubmit = handleSubmit(async (values: FormOutput) => {
   const editId = editIdRef.value;
 
-  const { imagem, ofertaformacao, ...data } = values;
+  const { imagem, ofertaFormacao, ...data } = values as any;
 
   let id;
 
@@ -121,7 +120,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
     const cursoCriado = await apiClient.cursos.cursoCreate({
       requestBody: { 
         ...data, 
-        ofertaFormacao: ofertaformacao
+        ofertaFormacao
       },
     });
 
@@ -131,7 +130,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
       id: editId,
       requestBody: {
         ...data,
-        ofertaFormacao: ofertaformacao,
+        ofertaFormacao,
       },
     });
 
@@ -154,6 +153,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   resetForm();
   $emit('close');
 }, console.error);
+
 
 
 const nome = computed({
@@ -185,7 +185,7 @@ const nomeAbreviado = computed({
     <div class="form-body modal-form">
       <VVSelectImage name="imagem" />
 
-      <VVAutocompleteAPIOfertaFormacao name="ofertaformacao.id" />
+      <VVAutocompleteAPIOfertaFormacao name="ofertaFormacao.id" />
 
       <VVAutocompleteAPICampus name="campus.id" />
 

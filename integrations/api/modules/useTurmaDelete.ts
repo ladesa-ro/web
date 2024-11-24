@@ -21,7 +21,7 @@ export const useTurmaDelete = (options: IUseTurmaHandleDeleteOptions = {}) => {
   };
 
   const turmaDeleteExecutor = async (id: string) => {
-    return apiClient.turmas.turmaDeleteById({ id: id });
+    return apiClient.turmas.turmaDeleteOneById({ id: id });
   };
 
   return useApiBaseResourceDelete({

@@ -1,7 +1,7 @@
-import type { ModalidadeFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { ModalidadeFindOneResultView } from '@ladesa-ro/api-client-fetch';
 
 export const verificarModalidade = (
-  modalidade: ModalidadeFindOneResultDto | null,
+  modalidade: ModalidadeFindOneResultView | null,
   fallbackToPeriodo = false
 ): 'serie-letra' | 'periodo' | 'nao-implementado' => {
   switch (modalidade?.id) {

@@ -15,7 +15,7 @@ export const createApiContext = (shouldProvide = true) => {
     data.value?.accessTokenExpires,
     unref(status),
     unref(lastRefreshedAt),
-  ]);
+  ]); 
 
   const whoAmIQuery = useQuery({
     queryKey: whoAmIQueryKey,
@@ -30,10 +30,10 @@ export const createApiContext = (shouldProvide = true) => {
   const whoAmI = computed(() => whoAmIQuery.data.value ?? null);
 
   const usuario = computed(() => whoAmI.value?.usuario ?? null);
-  const vinculosAtivos = computed(() => whoAmI.value?.vinculosAtivos ?? []);
+  const perfisAtivos = computed(() => whoAmI.value?.perfisAtivos ?? []);
 
   const resumoVinculos = computed(() => {
-    const todosOsVinculos = vinculosAtivos.value;
+    const todosOsVinculos = perfisAtivos.value;
     return resumirVinculos(todosOsVinculos);
   });
 
@@ -45,7 +45,7 @@ export const createApiContext = (shouldProvide = true) => {
     //
     whoAmI,
     usuario,
-    vinculosAtivos,
+    perfisAtivos,
     resumoVinculos,
     //
     whoAmIQuery,

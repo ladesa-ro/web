@@ -37,7 +37,7 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
 
     id = usuarioCriado.id;
   } else {
-    await apiClient.usuarios.usuarioUpdateById({
+    await apiClient.usuarios.usuarioUpdateOneById({
       id: editId,
 
       requestBody: {
@@ -60,7 +60,7 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
       continue;
     }
 
-    await apiClient.vinculos.vinculoUpdate({
+    await apiClient.perfis.perfilUpdateOneById({
       requestBody: {
         usuario: { id: id },
         campus: { id: vinculo.campus.id },
@@ -70,7 +70,7 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
   }
 
   if (imagem) {
-    await apiClient.usuarios.usuarioSetProfileImage({
+    await apiClient.usuarios.usuarioSetImagemCapa({
       id: id,
       formData: {
         file: imagem,

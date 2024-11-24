@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { UsuarioFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { UsuarioFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { useQuery } from '@tanstack/vue-query';
 import uniq from 'lodash/uniq';
 import { ApiImageResource, useApiImageRoute } from '~/integrations';
@@ -13,7 +13,7 @@ const _ARBITRARY_UI_CARD_IMAGE_HEIGHT = 90;
 const apiClient = useApiClient();
 
 type Props = {
-  usuario: UsuarioFindOneResultDto;
+  usuario: UsuarioFindOneResultView;
 };
 
 const props = defineProps<Props>();
@@ -27,7 +27,7 @@ const vinculosQuery = useQuery({
     'usuarios::vinculos',
   ],
   queryFn: () => {
-    return apiClient.vinculos.vinculoList({
+    return apiClient.perfis.perfilList({
       filterUsuarioId: [usuario.value.id],
       filterAtivo: ['true'],
     });
@@ -158,4 +158,3 @@ const profilePicureUrl = useApiImageRoute(
 </template>
 
 <style></style>
-import { useApiImageRoute, ApiImageResource } from '~/integrations';

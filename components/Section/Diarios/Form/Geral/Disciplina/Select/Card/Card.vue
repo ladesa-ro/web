@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { DisciplinaFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { DisciplinaFindOneResultView } from '@ladesa-ro/api-client-fetch';
 
 type Props = {
-  disciplina: DisciplinaFindOneResultDto;
+  disciplina: DisciplinaFindOneResultView;
 };
 
 const props = defineProps<Props>();

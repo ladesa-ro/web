@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TurmaFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { TurmaFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import {
   ApiImageResource,
   useApiImageRoute,
@@ -7,7 +7,7 @@ import {
 
 type Props = {
   isLoading?: boolean;
-  item?: TurmaFindOneResultDto | null;
+  item?: TurmaFindOneResultView | null;
 };
 
 const props = defineProps<Props>();
@@ -23,7 +23,7 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
   <UICardAutoSkeleton :skeleton="isLoading || !turma">
     <UICard v-if="turma" variant="block" :src="coverImageSrc">
       <template #title>
-        {{ turma.periodo }} - {{ turma.curso.modalidade.nome }}
+        {{ turma.periodo }} - {{ turma.curso.ofertaFormacao.nome }}
       </template>
 
       <template #actions>

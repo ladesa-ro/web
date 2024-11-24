@@ -31,7 +31,7 @@ const isLoading = computed(() => props.isLoading || unref(query.isLoading));
 const estrategiaModalidade = computed(() => {
   if (cursoSelecionado.value) {
     const estrategiaAutomatica = verificarModalidade(
-      cursoSelecionado.value.modalidade,
+      cursoSelecionado.value.ofertaFormacao,
       FALLBACK_TO_PERIODO
     );
 
@@ -65,7 +65,7 @@ const estrategiaModalidade = computed(() => {
   <template v-else-if="cursoSelecionado">
     <v-alert type="warning">
       O sistema ainda não suporta o cadastro de turmas para a modalidade
-      <span>"{{ cursoSelecionado.modalidade.nome }}".</span>
+      <span>"{{ cursoSelecionado.ofertaFormacao.nome }}".</span>
     </v-alert>
   </template>
 </template>
