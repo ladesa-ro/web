@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DisciplinaFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { DisciplinaFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import {
   ApiImageResource,
   useApiImageRoute,
@@ -7,7 +7,7 @@ import {
 
 type Props = {
   isLoading?: boolean;
-  item?: DisciplinaFindOneResultDto | null;
+  item?: DisciplinaFindOneResultView | null;
 };
 
 const props = defineProps<Props>();

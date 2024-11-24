@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CursoFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { CursoFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import {
   ApiImageResource,
   useApiImageRoute,
@@ -7,7 +7,7 @@ import {
 
 type Props = {
   isLoading?: boolean;
-  item?: CursoFindOneResultDto | null;
+  item?: CursoFindOneResultView | null;
 };
 
 const props = defineProps<Props>();
@@ -34,7 +34,7 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, curso);
         <span>Abreviação: {{ curso.nomeAbreviado }}</span>
       </UICardLine>
       <UICardLine>
-        <span>Modalidade: {{ curso.modalidade.nome }}</span>
+        <span>Oferta de Formação: {{ curso.ofertaFormacao.nome }}</span>
       </UICardLine>
     </UICard>
   </UICardAutoSkeleton>

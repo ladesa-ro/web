@@ -12,7 +12,7 @@ export const useApiDiariosFindOne = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.diarios.diarioDeleteById({
+        return apiClient.diarios.diarioDeleteOneById({
           id: id,
         });
       } else {

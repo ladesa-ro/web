@@ -12,7 +12,7 @@ export const useApiUsuariosFindOne = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.usuarios.usuarioFindById({
+        return apiClient.usuarios.usuarioFindOneById({
           id: id,
         });
       } else {

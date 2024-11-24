@@ -16,7 +16,7 @@ export const useApiUsuarioVinculosAtivos = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.vinculos.vinculoList({
+        return apiClient.perfis.perfilList({
           filterUsuarioId: [id],
           filterAtivo: ['true'],
         });

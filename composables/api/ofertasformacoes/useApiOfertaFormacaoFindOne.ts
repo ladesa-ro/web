@@ -1,21 +1,21 @@
 import { useQuery } from '@tanstack/vue-query';
 import { computed, unref, type MaybeRef } from 'vue';
 
-export const useApiModalitiesFindOne = async (
+export const useApiOfertaFormacaoFindOne = async (
   idRef: MaybeRef<string | null | undefined>
 ) => {
   const apiClient = useApiClient();
 
   const query = useQuery({
     queryKey: [
-      'modalidades',
-      computed(() => `modalidade::id::${unref(idRef)}`),
+      'ofertasformacoes',
+      computed(() => `ofertaformacao::id::${unref(idRef)}`),
     ],
 
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.modalidades.modalidadeFindById({
+        return apiClient.ofertasFormacoes.ofertaFormacaoFindOneById({
           id: id,
         });
       } else {
@@ -24,7 +24,7 @@ export const useApiModalitiesFindOne = async (
     },
   });
 
-  const modalidade = computed(() => unref(query.data) ?? null);
+  const ofertaformacao = computed(() => unref(query.data) ?? null);
 
-  return { query, modalidade };
+  return { query, ofertaformacao };
 };

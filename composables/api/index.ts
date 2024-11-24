@@ -4,7 +4,7 @@ export * from './campus';
 export * from './cursos';
 export * from './diarios';
 export * from './disciplinas';
-export * from './modalities';
+export * from './ofertasformacoes';
 export * from './turmas';
 export * from './useApiClient';
 export * from './usuarios';

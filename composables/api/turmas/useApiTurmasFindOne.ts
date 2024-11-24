@@ -12,7 +12,7 @@ export const useApiTurmasFindOne = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.turmas.turmaFindById({
+        return apiClient.turmas.turmaFindOneById({
           id: id,
         });
       } else {

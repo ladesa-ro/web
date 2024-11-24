@@ -15,7 +15,7 @@ export const useApiDisciplinasFindOne = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.disciplinas.disciplinaFindById({
+        return apiClient.disciplinas.disciplinaFindOneById({
           id: id,
         });
       } else {

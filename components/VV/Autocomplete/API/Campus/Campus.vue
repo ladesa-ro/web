@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CampusFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { CampusFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { toRefs } from 'vue';
 import {
   campiBaseQueryKey,
@@ -29,7 +29,7 @@ const options = createUIAutocompleteApiRetrieverOptions({
   apiResourceGetRetriever: campusGetRetriever,
   apiResourceListRetriever: campiRetriever,
 
-  transformer: (item: CampusFindOneResultDto) => ({
+  transformer: (item: CampusFindOneResultView) => ({
     value: item.id,
     label: item.apelido,
   }),

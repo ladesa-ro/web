@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AmbienteFindOneResultDto } from '@ladesa-ro/api-client-fetch';
+import type { AmbienteFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { toRefs } from 'vue';
 import {
   ambientesBaseQueryKey,
@@ -29,7 +29,7 @@ const options = createUIAutocompleteApiRetrieverOptions({
   apiResourceListRetriever: ambientesRetriever,
   apiResourceGetRetriever: ambienteGetRetriever,
 
-  transformer: (item: AmbienteFindOneResultDto) => ({
+  transformer: (item: AmbienteFindOneResultView) => ({
     value: item.id,
     label: item.nome,
   }),

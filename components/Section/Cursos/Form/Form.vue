@@ -29,7 +29,7 @@ const { curso: currentCurso } = await useApiCursosFindOne(editIdRef);
 type FormValues = {
   imagem: Blob | null | undefined;
 
-  modalidade: {
+  ofertaformacao: {
     id: string | null;
   };
   campus: {
@@ -44,7 +44,7 @@ type FormValues = {
 type FormOutput = {
   imagem: Blob | null | undefined;
 
-  modalidade: {
+  ofertaformacao: {
     id: string;
   };
   campus: {
@@ -58,8 +58,8 @@ type FormOutput = {
 
 const initialFormValues = reactive({
   imagem: null,
-  modalidade: {
-    id: currentCurso.value?.modalidade?.id ?? null,
+  ofertaformacao: {
+    id: currentCurso.value?.ofertaformacao?.id ?? null,
   },
 
   campus: {
@@ -79,7 +79,7 @@ const handleDelete = async () => {
   );
 
   if (resposta) {
-    await apiClient.cursos.cursoDeleteById({ id: id });
+    await apiClient.cursos.cursoDeleteOneById({ id: id });
     await queryClient.invalidateQueries({ queryKey: ['cursos'] });
     $emit('close');
   }
@@ -87,8 +87,8 @@ const handleDelete = async () => {
 
 const schema = yup.object().shape({
   imagem: yup.mixed().nullable().optional(),
-  modalidade: yup.object().shape({
-    id: yup.string().required('Modalidade é obrigatório!'),
+  ofertaformacao: yup.object().shape({
+    id: yup.string().required('Oferta de Formação é obrigatório!'),
   }),
   campus: yup.object().shape({
     id: yup.string().required('Campus é obrigatório!'),
@@ -113,22 +113,25 @@ const {
 const onSubmit = handleSubmit(async (values: FormOutput) => {
   const editId = editIdRef.value;
 
-  const { imagem, ...data } = values;
+  const { imagem, ofertaformacao, ...data } = values;
 
   let id;
 
   if (editId === null) {
     const cursoCriado = await apiClient.cursos.cursoCreate({
-      requestBody: { ...data },
+      requestBody: { 
+        ...data, 
+        ofertaFormacao: ofertaformacao
+      },
     });
 
     id = cursoCriado.id;
   } else {
-    await apiClient.cursos.cursoUpdateById({
+    await apiClient.cursos.cursoUpdateOneById({
       id: editId,
-
       requestBody: {
-        ...values,
+        ...data,
+        ofertaFormacao: ofertaformacao,
       },
     });
 
@@ -136,7 +139,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   }
 
   if (imagem) {
-    await apiClient.cursos.cursoSetCoverImage({
+    await apiClient.cursos.cursoSetImagemCapa({
       id: id,
       formData: {
         file: imagem,
@@ -151,6 +154,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   resetForm();
   $emit('close');
 }, console.error);
+
 
 const nome = computed({
   get: () => formValues.nome,
@@ -181,7 +185,7 @@ const nomeAbreviado = computed({
     <div class="form-body modal-form">
       <VVSelectImage name="imagem" />
 
-      <VVAutocompleteAPIModalidades name="modalidade.id" />
+      <VVAutocompleteAPIOfertaFormacao name="ofertaformacao.id" />
 
       <VVAutocompleteAPICampus name="campus.id" />
 
