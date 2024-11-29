@@ -15,7 +15,7 @@ ARG NODE_ENV
 RUN npm run build
 RUN rm -rf node_modules
 
-FROM base
+FROM base AS web-runtime
 WORKDIR /var/lib/ladesa-ro/cr/web
 COPY --from=builder /app/.output /var/lib/ladesa-ro/cr/web/.output
 CMD node .output/server/index.mjs
