@@ -3,7 +3,7 @@ name: Continuos Deployment - Web
 on:
   push:
     branches:
-      - development
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
