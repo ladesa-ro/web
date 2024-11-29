@@ -26,7 +26,7 @@
     "@tanstack/vue-query": "^5.61.5",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/lodash": "^4.17.13",
-    "@vueuse/core": "^11.3.0",
+    "@vueuse/core": "^12.0.0",
     "@vueuse/nuxt": "^11.3.0",
     "axios": "^1.7.8",
     "dayjs": "^1.11.12",
