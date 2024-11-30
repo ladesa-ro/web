@@ -16,7 +16,7 @@ const props = defineProps<Props>();
 
 const { item: curso } = toRefs(props);
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, curso.value);
+const coverImageSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, curso);
 </script>
 
 <template>
