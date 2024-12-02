@@ -66,7 +66,7 @@ function setHoveredRow(index: number | null) {
       >
         <span v-if="horario.tipo === 'aula'">
           {{
-            Math.random() > 0.5
+            Math.random() > 0.7
               ? `Disciplina - Sala ${Math.ceil(Math.random() * 50)}`
               : '-'
           }}
@@ -78,6 +78,11 @@ function setHoveredRow(index: number | null) {
 </template>
 
 <style scoped>
+.turno {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+}
+
 .hovered-row {
   background-color: #EBF8EF;
 }
