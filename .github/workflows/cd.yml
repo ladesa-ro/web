@@ -1,0 +1,64 @@
+name: Continuos Deployment - Web
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  cd_build_push:
+    name: 'Build and Push'
+    runs-on: ubuntu-latest
+
+    environment:
+      name: development
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-build
+      cancel-in-progress: false
+
+    steps:
+      - uses: ladesa-ro/esteira-ci-cd/actions/prepare-images-builder@main
+        with:
+          setup-qemu: 'false'
+          push-image: 'true'
+          push-image-registry-url: ${{ secrets.REGISTRY_URL }}
+          push-image-registry-username: ${{ secrets.REGISTRY_USERNAME }}
+          push-image-registry-token: ${{ secrets.REGISTRY_TOKEN }}
+
+      - name: Build and push @ladesa-ro/web.service
+        uses: ladesa-ro/esteira-ci-cd/actions/image-build-push@main
+        with:
+          image-tag: ${{ vars.IMAGE_TAG }}
+          image-name: ${{ vars.IMAGE_NAME  }}
+
+          build-image: 'true'
+          build-target-tag: 'web-runtime'
+
+          push-image: 'true'
+          push-image-registry-url: ${{ secrets.REGISTRY_URL }}
+
+  cd_deploy:
+    name: Deploy to Cluster @ladesa-ro/web.service
+
+    runs-on: deploy
+    needs: [cd_build_push]
+
+    environment:
+      name: development
+      url: ${{ vars.DEPLOY_URL }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ladesa-ro/esteira-ci-cd/actions/deploy-k8s-stakater-application@main
+        with:
+          helm-values: ${{ vars.DEPLOY_HELM_VALUES }}
+          deployment: ${{ vars.K8S_DEPLOYMENT }}
+          namespace: ${{ vars.K8S_NAMESPACE }}
+          helm-release-name: ${{ vars.K8S_DEPLOYMENT }}
+          helm-release-extra-options: '--values=./.devops/web-service/values.common.yml'
