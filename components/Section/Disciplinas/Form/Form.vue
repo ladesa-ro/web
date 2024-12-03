@@ -24,8 +24,7 @@ const $emit = defineEmits(['close']);
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
 
-const { disciplina: currentDisciplina } =
-  await useApiDisciplinasFindOne(editIdRef);
+const { disciplina: currentDisciplina } = await useApiDisciplinasFindOne(editIdRef);
 
 type FormValues = {
   imagem: Blob | null | undefined;
@@ -66,7 +65,6 @@ const handleDelete = async () => {
 
 const schema = yup.object().shape({
   imagem: yup.mixed().nullable().optional(),
-
   nome: yup.string().required('Nome é obrigatório!'),
   nomeAbreviado: yup.string().required('Nome abreviado é obrigatório!'),
   cargaHoraria: yup.string().required('Carga horária é obrigatória!'),
@@ -97,9 +95,8 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   } else {
     await apiClient.disciplinas.disciplinaUpdateOneById({
       id: editId,
-
       requestBody: {
-        ...values,
+        ...data,
       },
     });
 
@@ -107,8 +104,11 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   }
 
   if (imagem) {
-    await apiClient.disciplinas.disciplinaGetImagemCapa({
+    await apiClient.disciplinas.disciplinaSetImagemCapa({
       id: id,
+      formData: {
+        file: imagem,
+      },
     });
   }
 
