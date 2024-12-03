@@ -95,9 +95,8 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   } else {
     await apiClient.disciplinas.disciplinaUpdateOneById({
       id: editId,
-
       requestBody: {
-        ...values,
+        ...data,
       },
     });
 
