@@ -17,7 +17,7 @@ const { disciplinaId } = useContextDiariosFormGeral();
 
 // const { diario } = toRefs(props);
 
-const { diariosProfessorList } = await useApiDiariosProfessorFindAllByDiarioId({
+const { diariosProfessoresList } = await useApiDiariosProfessoresFindAllByDiarioId({
   // diario: diario.value,
 });
 
@@ -111,23 +111,23 @@ const { items: diarios } = await useApiDiariosFindAll('', {
               />
 
               <v-alert
-                v-if="diariosProfessorList.length === 0"
+                v-if="diariosProfessoresList.length === 0"
                 type="warning"
                 class="mt-4 rounded-md"
               >
                 Nenhum professor encontrado para este diário.
               </v-alert>
 
-              <LazyUIGridSelectionUser v-else :items="diariosProfessorList">
-                <template #item="{ item: diariosProfessor }">
+              <LazyUIGridSelectionUser v-else :items="diariosProfessoresList">
+                <template #item="{ item: diariosProfessores }">
                   <LazyUICardUser variant="block">
                     <template #title>
-                      {{ diariosProfessor.perfil.usuario.nome}}
+                      {{ diariosProfessores.perfil.usuario.nome}}
                     </template>
 
                     <UICardLine>
                       <span class="text-left w-full block">
-                        Cargo: {{ diariosProfessor.perfil.cargo }}
+                        Cargo: {{ diariosProfessores.perfil.cargo }}
                       </span>
                     </UICardLine>
                   </LazyUICardUser>
