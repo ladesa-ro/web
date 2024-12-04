@@ -15,8 +15,8 @@ const props = defineProps<Props>();
 
 const { diario } = toRefs(props);
 
-// Realizei a chamada da ROTA useApiDiariosProfessorFindAllByDiarioId
-const { diariosProfessorList } = await useApiDiariosProfessorFindAllByDiarioId({
+// Realizei a chamada da ROTA useApiDiariosProfessoresFindAllByDiarioId
+const { diariosProfessoresList } = await useApiDiariosProfessoresFindAllByDiarioId({
   diario: diario.value,
 });
 
@@ -44,7 +44,7 @@ const coverImageSrc = useApiImageRoute(
       <span>
         Professores:
         <template
-          v-for="diarioProfessor in diariosProfessorList"
+          v-for="diarioProfessor in diariosProfessoresList"
           :key="diarioProfessor.id"
         >
           {{ diarioProfessor.perfil.usuario.nome }}
