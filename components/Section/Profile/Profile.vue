@@ -46,12 +46,12 @@ const profilePicureUrl = useApiImageRoute(
 
           <div
             v-else
-            class="flex py-6 bg-[#F0F0F0] h-[118px] w-[118px] rounded-lg items-center justify-center"
+            class="flex py-6 bg-[#F0F0F0] h-[118px] w-[118px] rounded-lg items-center justify-center "
           >
             <IconsIconUser class="text-[#9ab69e] w-[54px] h-[54px]" />
           </div>
 
-          <div class="text text-wrap overflow-hidden">
+          <div class="text text-wrap overflow-hidden text-black">
             <p class="font-bold">{{ usuario.nome }}</p>
 
             <p class="email font-medium text-wrap break-words max-w-full">
