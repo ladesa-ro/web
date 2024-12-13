@@ -131,6 +131,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
     id = editId;
   }
 
+  //corrigdo
   if (imagem) {
     await apiClient.ambientes.ambienteSetImagemCapa({
       id: id,
