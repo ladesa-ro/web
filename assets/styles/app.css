@@ -1,0 +1,29 @@
+
+@import '~/assets/styles/themes/theme.css';
+@import '~/assets/styles/fonts/fonts.css';
+@import '~/assets/styles/fixtures/vuetify.fix.css';
+
+/* this file is the only one imported by app.vue, so all the general application styles must be imported here. */
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.svg-fill-text path {
+  fill: rgb(var(--ladesa-text-default-color));
+}
+
+html {
+  overflow: auto;
+}
