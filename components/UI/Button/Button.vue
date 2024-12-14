@@ -29,7 +29,7 @@
 }
 
 .ui-button:disabled {
-  background-color: rgba(var(--ladesa-primary-color), 0.5);
+  background-color: rgba(var(--ladesa-button-background-color), 0.5);
   cursor: not-allowed;
 }
 

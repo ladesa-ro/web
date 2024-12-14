@@ -7,53 +7,58 @@
 :root,
 .app-color-mode-light {
   /* ATTENTION! the colors bellow are the base of the variables used in this project */
-    /* primary */
-    --internal-ladesa-primary-color: 48, 159, 65; /* Green 1 */
+  /* primary */
+  --internal-ladesa-primary-color: 48, 159, 65; /* Green 1 */
 
-    /* secondary */
-    --internal-ladesa-secondary-color: 60, 192, 82; /* Green 2 */
+  /* secondary */
+  --internal-ladesa-secondary-color: 60, 192, 82; /* Green 2 */
 
-    /* tertiary */
-    --internal-ladesa-tertiary-variant-1-color: 125, 208, 139; /* Green 3 */
-    --internal-ladesa-tertiary-variant-2-color: 178, 231, 186; /* Green 4 */
-    --internal-ladesa-tertiary-red-color: 250, 232, 233;/* Red 1 (#fae8e9, atual Red 1 10%) */
-    --internal-ladesa-on-tertiary-red-color: 205, 25, 30; /* Red 2 */
-    --internal-ladesa-tertiary-purple-color: 83, 0, 166; /* Purple */
+  /* tertiary */
+  --internal-ladesa-tertiary-green-1-color: 125, 208, 139; /* Green 3 */
+  --internal-ladesa-tertiary-green-2-color: 178, 231, 186; /* Green 4 */
+  --internal-ladesa-tertiary-red-color: 250, 232, 233; /* Red 1 (#fae8e9, atual Red 1 10%) */
+  --internal-ladesa-on-tertiary-red-color: 205, 25, 30; /* Red 2 */
+  --internal-ladesa-tertiary-purple-color: 83, 0, 166; /* Purple */
 
-    /* surface */
-    --internal-ladesa-surface-color: 255, 255, 255; /* White */
-    --internal-ladesa-on-surface-color: 5, 15, 7; /* Dark green */
-    --internal-ladesa-on-surface-variant-500-color: 159, 159, 159; /* Gray 1 */
-    --internal-ladesa-on-surface-variant-600-color: 230, 231, 231; /* Gray 2 (#e6e7e7, atual Dark green 10%) */
+  /* surface */
+  --internal-ladesa-surface-color: 255, 255, 255; /* White */
+  --internal-ladesa-on-surface-color: 5, 15, 7; /* Dark green */
+  --internal-ladesa-on-surface-variant-500-color: 159, 159, 159; /* Gray 1 */
+  --internal-ladesa-on-surface-variant-600-color: 230, 231, 231; /* Gray 2 (#e6e7e7, atual Dark green 10%) */
 
-    /* error */
-    --internal-ladesa-error-color: var(--internal-ladesa-tertiary-red-color); /* Red 1*/
-    --internal-ladesa-on-error-color: var(--internal-ladesa-on-tertiary-red-color); /* Red 2*/
+  /* error */
+  --internal-ladesa-error-color: var(--internal-ladesa-tertiary-red-color); /* Red 1*/
+  --internal-ladesa-on-error-color: var(--internal-ladesa-on-tertiary-red-color); /* Red 2*/
 
-    /* outline */
-    --internal-ladesa-outline-color: var(--internal-ladesa-on-surface-variant-500-color); /* Gray 1 */
-    --internal-ladesa-shadow-color: var(--internal-ladesa-on-surface-variant-600-color); /* Gray 2*/
+  /* outline */
+  --internal-ladesa-outline-color: var(--internal-ladesa-on-surface-variant-500-color); /* Gray 1 */
+  --internal-ladesa-shadow-color: var(--internal-ladesa-on-surface-variant-600-color); /* Gray 2*/
   /* ------------------------------------------------ */
 
   /*ATTENTION! the variables below are effectively used in this project. be carefull if you change something*/
-    --ladesa-background-color: var(--internal-ladesa-surface-color);
+  /* colors */
+  --ladesa-green-color: var(--internal-ladesa-primary-color);
+  --ladesa-active-greeen-color: var(--internal-ladesa-secondary-color);
 
-    /* text */
-    --ladesa-text-black-color: var(--internal-ladesa-on-surface-color);
-    --ladesa-text-grey-color: var(var(--internal-ladesa-on-surface-variant-500-color));
+  /* background */
+  --ladesa-background-color: var(--internal-ladesa-surface-color);
 
-    /* colors */
-    --ladesa-green-color: var(--internal-ladesa-primary-color);
-    --ladesa-active-greeen-color: var(--internal-ladesa-secondary-color);
+  /* text */
+  --ladesa-text-default-color: var(--internal-ladesa-on-surface-color);
+  --ladesa-text-grey-color: var(--internal-ladesa-on-surface-variant-500-color);
+  --ladesa-text-green-color: var(--internal-ladesa-primary-color);
 
-    /* border */
-    --ladesa-border-color: var(--internal-ladesa-outline-color);
+  /* border */
+  --ladesa-border-color: var(--internal-ladesa-outline-color);
 
-    /* text input */
+  /* text input */
+  --ladesa-input-default-border-color: var(--internal-ladesa-error-color);
+  --ladesa-input-active-border-color: var(--internal-ladesa-secondary-color);
+  --ladesa-input-text-color: var(--internal-ladesa-on-surface-color);
 
-    /* button */
-    --ladesa-button-background-color: var(--internal-ladesa-primary-color);
-    --ladesa-button-text-color: var(--internal-ladesa-surface-color);
+  /* button */
+  --ladesa-button-background-color: var(--internal-ladesa-primary-color);
+  --ladesa-button-text-color: var(--internal-ladesa-surface-color);
   /* ------------------------------------------------ */
 }
 .app-color-mode-dark {
@@ -66,7 +71,7 @@
   /* tertiary */
   --ladesa-tertiary-variant-1-color: 85, 93, 110; /* Light blue 1 */
   --ladesa-tertiary-variant-2-color: var(--ladesa-tertiary-variant-1-color); /* Light blue 1 */
-  --ladesa-tertiary-red-color: 48, 27, 36;/* Red 1 */
+  --ladesa-tertiary-red-color: 48, 27, 36; /* Red 1 */
   --ladesa-on-tertiary-red-color: 160, 15, 37; /* Red 2 */
   --ladesa-tertiary-purple-color: 81, 29, 140; /* Purple */
 
@@ -81,7 +86,7 @@
   --ladesa-on-error-color: var(--ladesa-on-tertiary-red-color); /* Red 2*/
 
   /* outline */
-  --ladesa-outline-color: var( --ladesa-on-surface-variant-500-color); /* Light blue 2 */
+  --ladesa-outline-color: var(--ladesa-on-surface-variant-500-color); /* Light blue 2 */
 }
 
 .app {

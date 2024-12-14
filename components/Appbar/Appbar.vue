@@ -1,8 +1,10 @@
 <script setup lang="ts">
 // import profilePicture from '~/assets/icons/profilePicture.svg';
-
-import { ref } from 'vue';
 import SpeechBubbles from './SpeechBubbles/SpeechBubbles.vue';
+
+let {isDark} = useCustomTheme();
+
+const { changeTheme } = useCustomTheme();
 
 const hamburgerActive = defineModel({
   required: true,
@@ -20,19 +22,29 @@ const notificationsButtonEl = ref(null);
   <div class="flex w-full items-center h-full bg-white">
     <!-- ========== menu icon configurations ========== -->
     <div class="m-[0.34375rem] cursor-pointer" @click="toggleHamburger">
-      <!--m-[5.5px]-->
       <IconsMenuIconHamburgerOn class="pa-3 w-[45px]" v-if="hamburgerActive" />
       <IconsMenuIconHamburgerOff class="pa-3 w-[45px]" v-else />
     </div>
+    <!-- ========= / menu icon configurations ========= -->
 
-    <!-- =================== user ===================  -->
-
+    <!-- =================== user ==================== -->
     <!-- configuration to show the modal-->
     <AppbarProfileCardChangeProfileCard />
-    <!-- ============================================ -->
+    <!-- ================== / user ================== -->
 
     <div class="flex-1"></div>
 
+    <!-- ========= button change color theme ======== -->
+    <button class="mr-2.5" @click="changeTheme">
+      <template v-if="isDark">
+        <IconsColorThemeIconMoon />
+      </template>
+      <template v-else>
+        <IconsColorThemeIconSun />
+      </template>
+    </button>
+    <!-- ======== / button change color theme ======== -->
+    
     <!-- ============ notifications icon ============ -->
     <v-menu
       origin="auto"
@@ -51,8 +63,7 @@ const notificationsButtonEl = ref(null);
       <!-- modal that will be shown if the icon is clicked -->
       <SpeechBubbles :notificationsButtonEl="notificationsButtonEl" />
     </v-menu>
-
-    <!-- ============================================ -->
+    <!-- =========== / notifications icon =========== -->
 
     <div class="mr-3"></div>
 
