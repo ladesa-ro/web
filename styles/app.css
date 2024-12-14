@@ -6,6 +6,7 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+
 img {
   display: block;
   max-width: 100%;
@@ -18,7 +19,7 @@ svg {
 }
 
 .svg-fill-text path {
-  fill: rgb(var(--sisgha-theme-text));
+  fill: rgb(var(--ladesa-on-surface-color));
 }
 
 html {

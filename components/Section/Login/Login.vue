@@ -152,7 +152,7 @@ useTitle(null, 'Login');
   grid-row: 2 / 3;
   grid-column: 2 / 3;
 
-  background: rgb(var(--sisgha-theme-surface));
+  background: rgb(var(--ladesa-background-color));
   box-shadow: 0px 0px 1px rgba(13, 92, 25, 0.25);
 
   border: 1px solid #d6d6d6;
@@ -205,7 +205,7 @@ useTitle(null, 'Login');
   width: 6.4375rem;
   height: 0.125rem;
 
-  background: rgb(var(--sisgha-theme-divider));
+  background: rgb(var(--ladesa-border-color));
 }
 
 .fields {
@@ -229,7 +229,7 @@ useTitle(null, 'Login');
   max-width: 100%;
   width: 100%;
 
-  box-shadow: 0 0 0 3px rgb(var(--sisgha-theme-primary-text), 0.5);
+  box-shadow: 0 0 0 3px rgb(var(--ladesa-green-color), 0.5);
 }
 
 .login-alternative-button .user-icon {
@@ -248,11 +248,11 @@ useTitle(null, 'Login');
   width: 0.125rem;
   height: 2rem;
 
-  background-color: rgb(var(--sisgha-theme-primary-text));
+  background-color: rgb(var(--ladesa-on-surface-color));
 }
 
 .login-alternative-button .user-icon :deep(path) {
-  fill: rgb(var(--sisgha-theme-primary-text));
+  fill: rgb(var(--ladesa-on-surface-color));
 }
 
 .error-feedback {
