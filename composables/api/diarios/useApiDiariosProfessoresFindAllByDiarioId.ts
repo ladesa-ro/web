@@ -18,7 +18,7 @@ export const useApiDiariosProfessoresFindAllByDiarioId = async (filter: any) => 
     queryKey: ['diarios', filter.diario.id], 
 
     queryFn: async () => {
-      return apiClient.diarioProfessor.diarioProfessorList({
+      return apiClient.diariosProfessores.diarioProfessorList({
         filterDiarioId: unref(filter.diario.id),
       });
     },
