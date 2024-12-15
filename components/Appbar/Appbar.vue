@@ -19,7 +19,7 @@ const notificationsButtonEl = ref(null);
 </script>
 
 <template>
-  <div class="flex w-full items-center h-full bg-white">
+  <div class="flex w-full items-center h-full bg-ldsa-bg">
     <!-- ========== menu icon configurations ========== -->
     <div class="m-[0.34375rem] cursor-pointer" @click="toggleHamburger">
       <IconsMenuIconHamburgerOn class="pa-3 w-[45px]" v-if="hamburgerActive" />

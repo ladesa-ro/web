@@ -38,15 +38,15 @@ watch([width, height], debouncedScrollIntoView);
 <template>
   <div
     ref="square"
-    class="flex-1 flex flex-col cursor-pointer justify-center items-center rounded-[10px] border-2 border-[#118D3B] min-w-20 min-[900px]:p-4 min-[900px]:max-w-28 min-[900px]:max-h-28 min-[900px]:gap-2 max-[900px]:p-3 max-[900px]:max-w-20 max-[900px]:gap-1"
+    class="flex-1 flex flex-col cursor-pointer justify-center items-center rounded-[10px] border-2 border-ldsa-green-1 min-w-20 min-[900px]:p-4 min-[900px]:max-w-28 min-[900px]:max-h-28 min-[900px]:gap-2 max-[900px]:p-3 max-[900px]:max-w-20 max-[900px]:gap-1"
     :class="{ active: active }"
   >
     <p
-      class="border-b-2 border-b-[#118D3B] p-0 pb-[5px] font-[600] text-[#118D3B]"
+      class="border-b-2 border-b-ldsa-green-1 p-0 pb-[5px] font-[600] text-ldsa-green-1 dark:text-ldsa-green-2"
     >
       {{ dayWeek }}
     </p>
-    <p class="font-[600] text-[#118D3B]">
+    <p class="font-[600] text-ldsa-green-1 dark:text-ldsa-green-2">
       {{ dayMonth }}
     </p>
   </div>
@@ -54,8 +54,7 @@ watch([width, height], debouncedScrollIntoView);
 
 <style scoped>
 .active {
-  background-color: #118d3b;
-  color: white;
+  @apply bg-ldsa-green-1 text-ldsa-text-default;
 }
 
 div.active p {
