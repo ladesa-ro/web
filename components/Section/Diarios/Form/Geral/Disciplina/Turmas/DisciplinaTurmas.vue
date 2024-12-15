@@ -119,15 +119,15 @@ const { items: diarios } = await useApiDiariosFindAll('', {
               </v-alert>
 
               <LazyUIGridSelectionUser v-else :items="diariosProfessoresList">
-                <template #item="{ item: diariosProfessores }">
+                <template #item="{ item: diarioProfessor }">
                   <LazyUICardUser variant="block">
                     <template #title>
-                      {{ diariosProfessores.perfil.usuario.nome}}
+                      {{ diarioProfessor.perfil.usuario.nome}}
                     </template>
 
                     <UICardLine>
                       <span class="text-left w-full block">
-                        Cargo: {{ diariosProfessores.perfil.cargo }}
+                        Cargo: {{ diarioProfessor.perfil.cargo }}
                       </span>
                     </UICardLine>
                   </LazyUICardUser>
