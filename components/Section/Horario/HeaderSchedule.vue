@@ -95,13 +95,11 @@ const notificationsButtonEl = ref(null);
 
 <style scoped>
 .active {
-  border-color: #118d3b;
-  background-color: #ebf8ef;
-  color: #118d3b;
+  @apply border-ldsa-green-1 text-ldsa-green-1 bg-[#ebf8ef] dark:text-ldsa-green-2 dark:bg-[#182224];
 }
 
 .arrow {
-  color: #118d3b;
+  @apply text-ldsa-green-1 dark:text-ldsa-green-2;
   -moz-transition: all 0.5s linear;
   -webkit-transition: all 0.5s linear;
   transition: all 0.5s linear;

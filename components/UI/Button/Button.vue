@@ -21,15 +21,15 @@
   padding: 0.875rem 1.25rem;
   border-radius: 0.5625rem;
 
-  background-color: rgb(var(--sisgha-theme-primary));
-  color: rgb(var(--sisgha-theme-primary-text));
+  background-color: rgb(var(--ladesa-button-background-color));
+  color: rgb(var(--ladesa-button-text-color));
 
   font-size: 1rem;
   font-weight: 600;
 }
 
 .ui-button:disabled {
-  background-color: rgb(var(--sisgha-theme-primary-half));
+  background-color: rgba(var(--ladesa-button-background-color), 0.5);
   cursor: not-allowed;
 }
 

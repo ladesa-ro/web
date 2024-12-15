@@ -31,6 +31,6 @@ provide('selectedDay', selectedDay);
 </template>
 
 <style>
-@import '~/styles/app.css';
+@import '~/assets/styles/app.css';
 /* @import '~/assets/styles/themes/theme.css'; */
 </style>

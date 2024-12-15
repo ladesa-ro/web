@@ -35,7 +35,7 @@ const showCampus = computed(() => {
 <!-- chamar componente UIGenericRectangle aqui ao invés de determinar o estilo aqui -->
 
   <div
-    class="flex flex-row items-center justify-between border-2 border-[#118D3B] rounded-lg min-[641px]:px-5 min-[641px]:py-3 max-sm:px-4 max-sm:py-2"
+    class="flex flex-row items-center justify-between border-2 border-ldsa-green-1 rounded-lg min-[641px]:px-5 min-[641px]:py-3 max-sm:px-4 max-sm:py-2"
     :class="{ completed: variant === 'completed' }"
   >
     <!-- <pre><code>
@@ -66,7 +66,6 @@ const showCampus = computed(() => {
 
 <style scoped>
 .completed {
-  border-color: #9ab69e;
-  color: #9ab69e;
+  @apply border-ldsa-grey text-ldsa-grey font-[500];
 }
 </style>

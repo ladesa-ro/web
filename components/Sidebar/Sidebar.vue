@@ -71,7 +71,7 @@ span {
 }
 
 .navigation-drawer {
-  @apply bg-green-700 text-white caret-white;
+  @apply bg-ldsa-green-1 text-white caret-white; /* bg-green-700 */
   @apply overflow-auto;
 }
 .navigation-drawer-drawer img {
@@ -79,6 +79,6 @@ span {
 }
 
 .active {
-  @apply bg-green-600 rounded-lg;
+  @apply bg-ldsa-green-2 rounded-lg; /* bg-green-600 */
 }
 </style>
