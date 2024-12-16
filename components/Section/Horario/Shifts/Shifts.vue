@@ -12,8 +12,8 @@ defineProps<Props>();
 // Isso aqui é uma tabela que evidencia as disciplinas e professor, tem um erro Kauan, pq ele ta repetindo em todos os turnos, mais a verificaçaõ ta feita.
 const gradeDisciplinas = [
   { diaDaSemana: 1, horarios: [1], disciplina: 'Matemática', professor: 'Prof. João', turno: 'Matutino' },
-  { diaDaSemana: 3, horarios: [1], disciplina: 'Matemática', professor: 'Prof. João', turno: 'Noturno' },
-  { diaDaSemana: 4, horarios: [1], disciplina: 'Matemática', professor: 'Prof. João', turno: 'Vespertino' },
+  { diaDaSemana: 1, horarios: [2], disciplina: 'Física', professor: 'Prof. João', turno: 'Noturno' },
+  { diaDaSemana: 1, horarios: [3], disciplina: 'Programação Web', professor: 'Prof. João', turno: 'Vespertino' },
 ];
 
 // Faz a verificaçaõ dos professores estão em três turnos simultâneamente, ta fazendo a verificaçao~certinho!
@@ -39,9 +39,7 @@ const showAlert = computed(() => professoresEmTresTurnos.value.length > 0);
 </script>
 
 <template>
-    <v-alert v-if="showAlert" type="warning" class="Alert mr-0!">
-    Professor(es) {{ professoresEmTresTurnos.join(', ') }} cadastrado(s) em três turnos!
-    </v-alert>
+
   <SectionHorarioShift
     v-for="(turno, index) in turnos"
     :key="turno.nome"
