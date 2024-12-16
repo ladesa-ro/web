@@ -6,8 +6,8 @@ const modelValue = defineModel<string | null>('value', { default: null });
   <div class="textField">
     <v-text-field
       hide-details="auto"
-      base-color="#9ab69e"
-      color="#00d047"
+      base-color="rgb(var(--ladesa-grey-color))"
+      color="rgb(var(--ladesa-green-2-color))"
       persistent-hint
       v-model="modelValue"
       variant="outlined"
@@ -53,7 +53,7 @@ const modelValue = defineModel<string | null>('value', { default: null });
 }
 
 .textField .v-field__input::placeholder {
-  color: #c8d7ca;
+  @apply text-ldsa-grey/75   dark:text-ldsa-grey-2/75;
   --v-disabled-opacity: 1 !important;
 }
 </style>

@@ -15,7 +15,7 @@ const { item } = toRefs(props);
     :key="item.title"
     :exact="item.exact ?? false"
     :ripple="false"
-    class="text-white !mt-0 hover:bg-green-600"
+    class="text-white !mt-0 hover:bg-ldsa-green-2/20"
   >
     <template v-slot:prepend>
       <img

@@ -78,10 +78,10 @@ const calendars = [
       v-for="calendar in calendars"
       :key="calendar.id"
       :value="calendar.id"
-      class="calendario-expansion-panel border-2 border-[#B2D2B7] overflow-hidden"
+      class="calendario-expansion-panel !bg-ldsa-bg border-2 border-ldsa-grey overflow-hidden"
     >
       <v-expansion-panel-title
-        class="!bg-[#118D3B] !rounded-none"
+        class="!bg-ldsa-green-1 !rounded-none"
         :hide-actions="true"
       >
         <div>
@@ -104,7 +104,7 @@ const calendars = [
 
       <v-expansion-panel-title
         :hide-actions="true"
-        class="text-[#118D3B] flex justify-center"
+        class="text-ldsa-green-1 flex justify-center"
       >
         <IconsArrowIconArrow
           :class="{
@@ -114,9 +114,11 @@ const calendars = [
         />
       </v-expansion-panel-title>
     </v-expansion-panel>
-    <div class="flex z-50 justify-center items-center col-span-1 ">
+
+    <!-- "Gerar horário" button -->
+    <section class="fixed bottom-16 z-50">
       <UIButtonGenerateShedulesButtonGenerateShedule/>
-    </div>
+    </section>
   </v-expansion-panels>
 
 </template>

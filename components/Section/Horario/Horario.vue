@@ -21,20 +21,15 @@ function generatePDF() {
     <section
       v-if="selectedOption === ViewMode.GENERAL_SCHEDULE"
       ref="el"
-      class="max-w-full overflow-hidden"
+      class="flex flex-col items-center max-w-full overflow-hidden"
     >
       <SectionHorarioGeral class="overflow-auto" />
 
       <div class="mt-8"></div>
-
-      <div class="flex flex-col items-center">
-        <button
-        @click="generatePDF"
-          class="flex justify-center items-center bg-[#118D3B] h-14 w-40 text-white rounded-lg"
-        >
-          Gerar PDF
-        </button>
-      </div>
+      
+      <UIButton class="min-h-14 max-w-40 mb-2" @click="generatePDF">
+        Gerar PDF
+      </UIButton>
     </section>
 
     <SectionHorarioDailyViewDaysAndLessons v-else />
