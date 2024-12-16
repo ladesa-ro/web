@@ -21,13 +21,13 @@ const isActive = ref(false);
     :disabled="!canChangeProfile"
   >
     <!-- configuration to show the modal-->
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <AppbarProfileCard :can-change-profile="canChangeProfile" v-bind="props">
         <template #arrowIcon>
           <ClientOnly>
             <IconsArrowIconArrow
               v-if="canChangeProfile"
-              class="arrow -rotate-90 cursor-pointer -icon-green"
+              class="arrow -rotate-90 cursor-pointer text-ldsa-green-1 dark:text-ldsa-green-2"
               :class="{ down: isActive }"
             />
           </ClientOnly>
@@ -35,7 +35,7 @@ const isActive = ref(false);
       </AppbarProfileCard>
     </template>
 
-    <!-- modal that will be shown if the arrow icon is clicked -->
+    <!-- modal that will be shown if the component is clicked -->
     <ClientOnly>
       <SectionUsuariosModalsAccessRole @close="isActive = false" />
     </ClientOnly>

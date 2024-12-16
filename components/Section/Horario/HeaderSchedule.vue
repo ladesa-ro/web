@@ -54,7 +54,7 @@ const notificationsButtonEl = ref(null);
     <section class="flex cursor-pointer max-[1300px]:hidden">
       <!--left button-->
       <div
-        class="flex gap-2 items-center border-2 p-3 font-[600] rounded-l-lg text-[#9AB69E]"
+        class="flex gap-2 items-center border-2 border-ldsa-grey/75 p-3 font-[600] rounded-l-lg text-ldsa-grey dark:text-ldsa-grey-2"
         :class="{
           active: selectedOption === ViewMode.GENERAL_SCHEDULE,
           'border-r-0': selectedOption !== ViewMode.GENERAL_SCHEDULE,
@@ -73,7 +73,7 @@ const notificationsButtonEl = ref(null);
 
       <!--right button-->
       <div
-        class="flex gap-2 items-center border-2 p-3 font-[600] rounded-r-lg text-[#9AB69E]"
+        class="flex gap-2 items-center border-2 border-ldsa-grey/75 p-3 font-[600] rounded-r-lg text-ldsa-grey dark:text-ldsa-grey-2"
         :class="{
           active: selectedOption === ViewMode.DAILY_SCHEDULE,
           'border-l-0': selectedOption !== ViewMode.DAILY_SCHEDULE,
@@ -95,7 +95,7 @@ const notificationsButtonEl = ref(null);
 
 <style scoped>
 .active {
-  @apply border-ldsa-green-1 text-ldsa-green-1 bg-[#ebf8ef] dark:text-ldsa-green-2 dark:bg-[#182224];
+  @apply border-ldsa-green-1 text-ldsa-green-1 bg-ldsa-green-1/10 dark:text-ldsa-green-2; /* bg-[#ebf8ef] */
 }
 
 .arrow {

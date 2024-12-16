@@ -5,14 +5,17 @@ export default {
   theme: {
     extend: {
       colors: {
+        'ldsa-green-1': 'rgba(var(--ladesa-green-1-color), <alpha-value>)',
+        'ldsa-green-2': 'rgba(var(--ladesa-green-2-color), <alpha-value>)',
+        'ldsa-grey': 'rgba(var(--ladesa-grey-color), <alpha-value>)',
+        'ldsa-grey-2': 'rgba(var(--ladesa-grey-2-color), <alpha-value>)',
+        'ldsa-red': 'rgba(var(--ladesa-red-color), <alpha-value>)',
+        'ldsa-purple': 'rgba(var(--ladesa-purple-color), <alpha-value>)',
+
         'ldsa-bg': 'rgb(var(--ladesa-background-color))',
-        'ldsa-green-1': 'rgb(var(--ladesa-text-green-1-color))',
-        'ldsa-green-2': 'rgb(var(--ladesa-text-green-2-color))',
-        'ldsa-green-3': 'rgb(var(--ladesa-border-color-green-3))',
-        'ldsa-grey': 'rgba(var(--ladesa-border-color-grey), 0.7)',
-        'ldsa-text-default': 'rgb(var(--ladesa-text-default-color))'
-      }
-    }
+        'ldsa-text': 'rgb(var(--ladesa-text-default-color))'
+      },
+    },
   },
   plugins: [],
   darkMode: 'class',

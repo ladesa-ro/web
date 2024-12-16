@@ -4,9 +4,8 @@
   2. the color names in the comments correspond to the color names on Figma prototype
   3. in case of doubts, check the color palette on Figma avaible in https://www.figma.com/design/gwJHnj5RVnjt05AdOQNMy5/SISGHA---V2.0?node-id=7660-18059
 */
-:root,
+
 .app-color-mode-light {
-  /* ATTENTION! the colors bellow are the base of the variables used in this project */
   /* primary */
   --internal-ladesa-primary-color: 47, 158, 65; /* Green 1 */
 
@@ -14,68 +13,43 @@
   --internal-ladesa-secondary-color: 60, 192, 82; /* Green 2 */
 
   /* tertiary */
-  --internal-ladesa-tertiary-green-1-color: 125, 208, 139; /* Green 3 */
-  --internal-ladesa-tertiary-green-2-color: 154, 152, 158; /* Green 4  */
-  --internal-ladesa-tertiary-red-color: 250, 232, 233; /* Red 1 (#fae8e9, atual Red 1 10%) */
-  --internal-ladesa-on-tertiary-red-color: 205, 25, 30; /* Red 2 */
+  --internal-ladesa-tertiary-grey-color: 159, 159, 159;
+  --internal-ladesa-tertiary-red-color: 205, 25, 30; /* Red */
   --internal-ladesa-tertiary-purple-color: 83, 0, 166; /* Purple */
 
   /* surface */
   --internal-ladesa-surface-color: 255, 255, 255; /* White */
   --internal-ladesa-on-surface-color: 5, 15, 7; /* Dark green */
-  --internal-ladesa-on-surface-variant-500-color: 159, 159, 159; /* Gray 1 */
-  --internal-ladesa-on-surface-variant-600-color: 230, 231, 231; /* Gray 2 (#e6e7e7, atual Dark green 10%) */
-
-  /* error */
-  --internal-ladesa-error-color: var(--internal-ladesa-tertiary-red-color); /* Red 1*/
-  --internal-ladesa-on-error-color: var(--internal-ladesa-on-tertiary-red-color); /* Red 2*/
-
-  /* outline */
-  --internal-ladesa-outline-color: var(--internal-ladesa-on-surface-variant-500-color); /* Gray 1 */
-  --internal-ladesa-shadow-color: var(--internal-ladesa-on-surface-variant-600-color); /* Gray 2*/
-  /* ------------------------------------------------ */
-
 
 
   /*ATTENTION! the variables below are effectively used in this project. be carefull if you change something*/
-  /* colors */
-  --ladesa-green-color: var(--internal-ladesa-primary-color);
-  --ladesa-active-greeen-color: var(--internal-ladesa-secondary-color);
+  /* general colors */
+  --ladesa-green-1-color: var(--internal-ladesa-primary-color);
+  --ladesa-green-2-color: var(--internal-ladesa-secondary-color);
+  --ladesa-grey-color: var(--internal-ladesa-tertiary-grey-color);
+  --ladesa-red-color: var(--internal-ladesa-tertiary-red-color);
+  --ladesa-purple-color: var(--internal-ladesa-tertiary-purple-color);
 
+  /* specific colors */
   /* background */
   --ladesa-background-color: var(--internal-ladesa-surface-color);
 
   /* text */
   --ladesa-text-default-color: var(--internal-ladesa-on-surface-color);
-  --ladesa-text-grey-color: var(--internal-ladesa-on-surface-variant-500-color);
-  --ladesa-text-green-1-color: var(--internal-ladesa-primary-color);
-  --ladesa-text-green-2-color: var(--internal-ladesa-secondary-color);
 
-  /* border */
-  --ladesa-border-color-green-1: var(--internal-ladesa-primary-color);
-  --ladesa-border-color-green-2: var(--internal-ladesa-tertiary-green-2-color);
-  --ladesa-border-color-green-3: var(--internal-ladesa-tertiary-green-1-color);
-  --ladesa-border-color-grey: var(--internal-ladesa-outline-color);
+  /* button radio / toggle */
+  --ladesa-toggle-active-background-color: var(--ladesa-green-1-color), 0.1;
+  --ladesa-toggle-active-text-color: var(--ladesa-green-1-color);
 
-  /* text input */
-  --ladesa-input-default-border-color: var(--internal-ladesa-error-color);
-  --ladesa-input-active-border-color: var(--internal-ladesa-secondary-color);
-  --ladesa-input-text-color: var(--internal-ladesa-on-surface-color);
+  /* disabled items */
+  --ladesa-disabled-background-color: var(--ladesa-gray-color);
+  --ladesa-disabled-text-color: var(--ladesa-gray-color);
 
-  /* button */
-  --ladesa-button-background-color: var(--internal-ladesa-primary-color);
-  --ladesa-button-text-color: var(--internal-ladesa-surface-color);
-
-    /* button / button radio */
-    --ladesa-button-radio-text-color: var(--internal-ladesa-tertiary-green-2-color);
-    --ladesa-button-radio-active-text-color: var(--internal-ladesa-secondary-color);
-    --ladesa-button-radio-active-background-color: rgba(var(--internal-ladesa-secondary-color), 0.1);
-
-
-  /* ------------------------------------------------ */
+  /* error */
+  --ladesa-error-background-color: var(--ladesa-red-color), 0.1;
 }
+
 .app-color-mode-dark {
-  /* ATTENTION! the colors bellow are the base of the variables used in this project */
   /* primary */
   --internal-ladesa-primary-color: 6, 100, 54; /* Green 1 */
 
@@ -83,64 +57,46 @@
   --internal-ladesa-secondary-color: 29, 147, 90; /* Green 2 */
 
   /* tertiary */
-  --internal-ladesa-tertiary-light-blue-color: 85, 93, 110; /* Light blue 1 */
-  --internal-ladesa-tertiary-variant-2-color: var(--internal-ladesa-tertiary-light-blue-color); /* Light blue 1 */
-  --internal-ladesa-tertiary-red-color: 48, 27, 36; /* Red 1 */
-  --internal-ladesa-on-tertiary-red-color: 160, 15, 37; /* Red 2 */
+  --internal-ladesa-tertiary-grey-1-color: 72, 83, 105; /* Light blue 1 -> border */
+  --internal-ladesa-tertiary-grey-2-color: 85, 93, 110; /* Light blue 2 -> text */
+  --internal-ladesa-tertiary-red-color: 160, 15, 37; /* Red */
   --internal-ladesa-tertiary-purple-color: 81, 29, 140; /* Purple */
 
   /* surface */
   --internal-ladesa-surface-color: 25, 27, 34; /* Dark blue */
   --internal-ladesa-on-surface-color: 208, 208, 208; /* Light grey */
-  --internal-ladesa-on-surface-variant-500-color: 72, 83, 105; /* Light blue 2 */
-  --internal-ladesa-on-surface-variant-600-color: var(--internal-ladesa-on-surface-variant-500-color); /* Light blue 2 */
 
-  /* error */
-  --internal-ladesa-error-color: var(--ladesa-tertiary-red-color); /* Red 1*/
-  --internal-ladesa-on-error-color: var(--ladesa-on-tertiary-red-color); /* Red 2*/
+  
+  /*ATTENTION! the variables below are effectively used in this project. be carefull if you change something*/
+  /* general colors */
+  --ladesa-green-1-color: var(--internal-ladesa-primary-color);
+  --ladesa-green-2-color: var(--internal-ladesa-secondary-color);
+  --ladesa-grey-color: var(--internal-ladesa-tertiary-grey-1-color); /* 9F9F9F */
+  --ladesa-grey-2-color: var(--internal-ladesa-tertiary-grey-2-color);
+  --ladesa-red-color: var(--internal-ladesa-tertiary-red-color);
+  --ladesa-purple-color: var(--internal-ladesa-tertiary-purple-color);
 
-  /* outline */
-  --internal-ladesa-outline-color: var(--internal-ladesa-on-surface-variant-500-color); /* Light blue 2 */
-/* -------------------- */
-
-
-
-/*ATTENTION! the variables below are effectively used in this project. be carefull if you change something*/
-  /* colors */
-  --ladesa-green-color: var(--internal-ladesa-primary-color);
-  --ladesa-active-greeen-color: var(--internal-ladesa-secondary-color);
-
+  /* specific colors */
   /* background */
   --ladesa-background-color: var(--internal-ladesa-surface-color);
 
   /* text */
   --ladesa-text-default-color: var(--internal-ladesa-on-surface-color);
-  --ladesa-text-grey-color: var(--internal-ladesa-on-surface-variant-500-color);
-  --ladesa-text-green-1-color: var(--internal-ladesa-primary-color);
-  --ladesa-text-green-2-color: var(--internal-ladesa-secondary-color);
 
-  /* border */
-  --ladesa-border-color-grey: var(--internal-ladesa-outline-color);
+  /* button radio / toggle */
+  --ladesa-toggle-active-background-color: var(--ladesa-green-1-color), 0.1;
+  --ladesa-toggle-active-text-color: var(--ladesa-green-2-color);
 
-  /* text input */
-  --ladesa-input-default-border-color: var(--internal-ladesa-error-color);
-  --ladesa-input-active-border-color: var(--internal-ladesa-secondary-color);
-  --ladesa-input-text-color: var(--internal-ladesa-on-surface-color);
+  /* disabled items */
+  --ladesa-disabled-background-color: var(--ladesa-gray-color);
+  --ladesa-disabled-text-color: var(--ladesa-gray-2-color);
 
-  /* button */
-  --ladesa-button-background-color: var(--internal-ladesa-primary-color);
-  --ladesa-button-text-color: var(--internal-ladesa-on-surface-color);
-
-    /* button / button radio */
-    --ladesa-button-radio-text-color: var(--internal-ladesa-tertiary-light-blue-color);
-    --ladesa-button-radio-active-text-color: var(--internal-ladesa-secondary-color);
-    --ladesa-button-radio-active-background-color: rgba(var(--internal-ladesa-primary-color), 0.1);
-
-
+  /* error */
+  --ladesa-error-background-color: var(--ladesa-red-color), 0.1;
 }
 
 .app {
-  @apply !bg-ldsa-bg text-ldsa-text-default;
+  @apply !bg-ldsa-bg !text-ldsa-text;
 
   display: flex;
   flex-direction: column;

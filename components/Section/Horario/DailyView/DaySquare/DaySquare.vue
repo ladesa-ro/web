@@ -54,14 +54,14 @@ watch([width, height], debouncedScrollIntoView);
 
 <style scoped>
 .active {
-  @apply bg-ldsa-green-1 text-ldsa-text-default;
+  @apply bg-ldsa-green-1 text-ldsa-text;
 }
 
 div.active p {
-  color: white;
+  @apply text-ldsa-bg dark:text-[#dfdfdf]
 }
 
 div.active p:first-child {
-  border-bottom-color: white;
+  @apply border-b-ldsa-bg dark:border-b-[#dfdfdf];
 }
 </style>

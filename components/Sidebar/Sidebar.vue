@@ -73,6 +73,7 @@ span {
 .navigation-drawer {
   @apply bg-ldsa-green-1 text-white caret-white; /* bg-green-700 */
   @apply overflow-auto;
+  @apply !border-r-0; /* ! para sobrescrever o estilo vuetify */
 }
 .navigation-drawer-drawer img {
   @apply filter invert;
