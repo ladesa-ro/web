@@ -43,7 +43,7 @@ const { isDark } = useCustomTheme();
         height="72"
         :elevation="0"
         style="box-shadow: 0px 0px 30px 0px rgba(17, 141, 59, 0.15)"
-        class="sticky w-full !border-solid !border-[#dddddd] !border-b-[1px]"
+        class="sticky w-full !border-solid !border-ldsa-grey/50 !border-b-[1px]"
       >
         <Appbar v-model="hamburguerActive" />
       </v-app-bar>

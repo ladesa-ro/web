@@ -12,12 +12,12 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #9ab69e;
+  @apply bg-ldsa-green-1/50;
   border-radius: 50px;
   cursor: pointer;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgb(22 163 74);
+  @apply bg-ldsa-green-1;
   border-radius: 50px;
   cursor: pointer;
 }

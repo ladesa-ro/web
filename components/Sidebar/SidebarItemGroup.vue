@@ -16,7 +16,7 @@ const { item } = toRefs(props);
 
 <template>
   <v-list-group
-    class="group hover:bg-green-600"
+    class="group hover:bg-ldsa-green-2/20" 
     :value="item.title"
     v-if="item.type === 'group'"
   >
