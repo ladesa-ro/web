@@ -1,11 +1,21 @@
 <script lang="ts" setup>
 const { isDark } = useCustomTheme();
 
-setupApiClient(); 
+setupApiClient();
 
 const dayjs = useDayJs();
 const selectedDay = ref(dayjs());
 provide('selectedDay', selectedDay);
+
+const colorModeClass = computed(() => {
+  return isDark.value ? 'app-color-mode-dark' : 'app-color-mode-light';
+});
+
+useHead({
+  bodyAttrs: {
+    class: colorModeClass,
+  },
+});
 </script>
 
 <template>
@@ -18,10 +28,7 @@ provide('selectedDay', selectedDay);
     />
   </Head>
 
-  <div
-    class="app"
-    :class="isDark ? 'app-color-mode-dark' : 'app-color-mode-light'"
-  >
+  <div class="app">
     <APIContext>
       <NuxtLayout>
         <NuxtPage />
@@ -32,5 +39,4 @@ provide('selectedDay', selectedDay);
 
 <style>
 @import '~/assets/styles/app.css';
-/* @import '~/assets/styles/themes/theme.css'; */
 </style>
