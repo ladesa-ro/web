@@ -51,8 +51,6 @@ export default defineNuxtConfig({
     configPath: './tailwind.config.mts',
   },
 
-  // ==============================================
-
   colorMode: {
     preference: 'system',
     fallback: 'light',

@@ -21,7 +21,7 @@
   padding: 0.875rem 1.25rem;
   border-radius: 0.5625rem;
 
-  @apply bg-ldsa-green-1 text-ldsa-bg dark:text-[#dfdfdf];
+  @apply bg-ldsa-green-1 text-ldsa-white;
 
   font-size: 1rem;
   font-weight: 600;

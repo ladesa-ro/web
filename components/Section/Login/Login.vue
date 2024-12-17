@@ -229,7 +229,7 @@ useTitle(null, 'Login');
   max-width: 100%;
   width: 100%;
 
-  box-shadow: 0 0 0 3px rgb(var(--ladesa-green-color), 0.5);
+  /* box-shadow: 0 0 0 3px rgb(var(--ladesa-green-1-color), 0.5); */
 }
 
 .login-alternative-button .user-icon {
@@ -248,11 +248,11 @@ useTitle(null, 'Login');
   width: 0.125rem;
   height: 2rem;
 
-  background-color: rgb(var(--ladesa-on-surface-color));
+  background-color: rgb(var(--ladesa-text-default-color));
 }
 
 .login-alternative-button .user-icon :deep(path) {
-  fill: rgb(var(--ladesa-on-surface-color));
+  fill: rgb(var(--ladesa-text-default-color));
 }
 
 .error-feedback {

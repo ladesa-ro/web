@@ -30,7 +30,7 @@ function getAula(dia: number, horario: number) {
 
 <template>
   <div
-    class="grid mt-4 pr-2 grid-cols-subgrid grid-rows-subgrid col-span-full row-span-6 border-2 border-[#118D3B] overflow-hidden"
+    class="grid mt-4 pr-2 grid-cols-subgrid grid-rows-subgrid col-span-full row-span-6 border-2 border-ldsa-green-1 overflow-hidden"
   >
     <SectionHorarioShiftTag :turno="props.turno" />
 
@@ -39,12 +39,12 @@ function getAula(dia: number, horario: number) {
       <div
         v-for="(horario, index) in props.turno.horarios"
         :key="horario.hora"
-        class="text-center border-black m-0 px-2 flex items-center justify-center"
+        class="text-center border-ldsa-text m-0 px-2 flex items-center justify-center"
         :class="{
           'border-b-2 pb-[2px]': index < props.turno.horarios.length - 1,
           'mt-3': index === 0,
           'mb-3': index === props.turno.horarios.length - 1,
-          'bg-[#DDE4DE]': horario.tipo === 'intervalo',
+          'interval-background': horario.tipo === 'intervalo',
           'hovered-row': hoveredRowIndex === index,
         }"
         @mouseover="setHoveredRow(index)"
@@ -64,12 +64,12 @@ function getAula(dia: number, horario: number) {
       <div
         v-for="(horario, rowIndex) in props.turno.horarios"
         :key="horario.hora"
-        class="text-center border-black m-0 px-2 flex items-center justify-center"
+        class="text-center border-ldsa-text m-0 px-2 flex items-center justify-center"
         :class="{
           'border-b-2 pb-[2px]': rowIndex < props.turno.horarios.length - 1,
           'mt-3': rowIndex === 0,
           'mb-3': rowIndex === props.turno.horarios.length - 1,
-          'bg-[#DDE4DE]': horario.tipo === 'intervalo',
+          'interval-background': horario.tipo === 'intervalo',
           'hovered-row': hoveredRowIndex === rowIndex,
         }"
         @mouseover="setHoveredRow(rowIndex)"
@@ -94,7 +94,11 @@ function getAula(dia: number, horario: number) {
   transform: rotate(180deg);
 }
 
+.interval-background {
+  @apply bg-[#DDE4DE] dark:bg-[#262937];
+}
+
 .hovered-row {
-  background-color: #ebf8ef;
+  @apply bg-ldsa-green-2/15;
 }
 </style>

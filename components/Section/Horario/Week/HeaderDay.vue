@@ -10,7 +10,7 @@ defineProps<Props>();
 
 <template>
   <div
-    class="bg-[#338e52] text-white px-4 py-2 text-center content-center rounded-t-lg"
+    class="bg-ldsa-green-1 text-ldsa-white px-4 py-2 text-center content-center rounded-t-lg"
   >
     <span class="text-nowrap">
       {{ diaDaSemana.nome }}

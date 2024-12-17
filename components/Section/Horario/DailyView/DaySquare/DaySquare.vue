@@ -58,10 +58,10 @@ watch([width, height], debouncedScrollIntoView);
 }
 
 div.active p {
-  @apply text-ldsa-bg dark:text-[#dfdfdf]
+  @apply text-ldsa-white;
 }
 
 div.active p:first-child {
-  @apply border-b-ldsa-bg dark:border-b-[#dfdfdf];
+  @apply border-b-ldsa-white;
 }
 </style>

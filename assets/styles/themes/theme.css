@@ -26,6 +26,7 @@
   /* general colors */
   --ladesa-green-1-color: var(--internal-ladesa-primary-color);
   --ladesa-green-2-color: var(--internal-ladesa-secondary-color);
+  --ladesa-white-color: var(--internal-ladesa-surface-color);
   --ladesa-grey-color: var(--internal-ladesa-tertiary-grey-color);
   --ladesa-red-color: var(--internal-ladesa-tertiary-red-color);
   --ladesa-purple-color: var(--internal-ladesa-tertiary-purple-color);
@@ -71,8 +72,9 @@
   /* general colors */
   --ladesa-green-1-color: var(--internal-ladesa-primary-color);
   --ladesa-green-2-color: var(--internal-ladesa-secondary-color);
-  --ladesa-grey-color: var(--internal-ladesa-tertiary-grey-1-color); /* 9F9F9F */
-  --ladesa-grey-2-color: var(--internal-ladesa-tertiary-grey-2-color);
+  --ladesa-white-color: var(--internal-ladesa-on-surface-color);
+  --ladesa-grey-color: var(--internal-ladesa-tertiary-grey-1-color);
+  --ladesa-grey-2-color: var(--internal-ladesa-tertiary-grey-2-color); /* exists only in dark mode -> used on texts */
   --ladesa-red-color: var(--internal-ladesa-tertiary-red-color);
   --ladesa-purple-color: var(--internal-ladesa-tertiary-purple-color);
 
