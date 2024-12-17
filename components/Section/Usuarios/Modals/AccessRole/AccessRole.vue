@@ -29,7 +29,7 @@ defineEmits(['close']);
 
       <!-- ================== PROFESSOR ================== -->
       <nuxt-link
-        class="flex flex-col justify-end items-center w-28 h-36 border-2 rounded-lg border-ldsa-grey/50 px-0 py-8 gap-2 text-center cursor-pointer"
+        class="button-cargo"
         :class="{ active: activeProfile === 'Professor' }"
         to="/sisgha/professor"
       >
@@ -40,7 +40,7 @@ defineEmits(['close']);
 
       <!-- ===================== DAPE ===================== -->
       <nuxt-link
-        class="flex flex-col justify-end items-center w-28 h-36 border-2 rounded-lg border-ldsa-grey/50 px-0 py-8 gap-2 text-center cursor-pointer"
+        class="button-cargo"
         :class="{ active: activeProfile === 'DAPE' }"
         to="/sisgha/dape"
       >
@@ -61,8 +61,12 @@ defineEmits(['close']);
 </template>
 
 <style scoped>
+.button-cargo {
+  @apply flex flex-col justify-end items-center w-28 h-36 border-2 rounded-lg border-ldsa-grey/50 px-0 py-8 gap-2 text-center cursor-pointer;
+}
+
 .active {
   @apply bg-ldsa-green-1 border-ldsa-green-1;
-  @apply text-ldsa-bg dark:text-[#dfdfdf];
+  @apply text-ldsa-white
 }
 </style>

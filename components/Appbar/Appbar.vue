@@ -2,7 +2,7 @@
 // import profilePicture from '~/assets/icons/profilePicture.svg';
 import SpeechBubbles from './SpeechBubbles/SpeechBubbles.vue';
 
-let {isDark} = useCustomTheme();
+let { isDark } = useCustomTheme();
 
 const { changeTheme } = useCustomTheme();
 
