@@ -26,7 +26,6 @@ defineEmits(['close']);
     <span class="font-[600]">Alternar cargo</span>
 
     <section class="flex flex-row justify-between w-full">
-
       <!-- ================== PROFESSOR ================== -->
       <nuxt-link
         class="button-cargo"
@@ -67,6 +66,6 @@ defineEmits(['close']);
 
 .active {
   @apply bg-ldsa-green-1 border-ldsa-green-1;
-  @apply text-ldsa-white
+  @apply text-ldsa-white;
 }
 </style>

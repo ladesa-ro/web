@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <main class="main">
-      <slot></slot>
+      <slot />
     </main>
   </div>
 </template>

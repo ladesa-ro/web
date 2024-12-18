@@ -6,7 +6,7 @@ import type { UseQueryReturnType } from '@tanstack/vue-query';
 import type { ResumoVinculos } from '../Vinculos/ResumirVinculos';
 
 export type DynamicWhoAmIResult<Strict extends boolean = true> =
-AuthWhoAmIResponse & {
+  AuthWhoAmIResponse & {
     usuario: Strict extends true
       ? AuthWhoAmIResponse
       : UsuarioFindOneResultView | null;

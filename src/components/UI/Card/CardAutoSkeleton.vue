@@ -38,7 +38,7 @@ watch([cardElBoundingHeight], ([height]) => {
 
 <template>
   <UICardSkeleton v-if="skeleton" :style="{ height: skeletonHeight }" />
-  <div ref="cardElRef" v-else>
-    <slot></slot>
+  <div v-else ref="cardElRef">
+    <slot />
   </div>
 </template>

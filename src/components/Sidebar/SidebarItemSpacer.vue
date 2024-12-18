@@ -15,5 +15,5 @@ const { item } = toRefs(props);
 </script>
 
 <template>
-  <div v-if="item.type === 'spacer'" class="flex-1"></div>
+  <div v-if="item.type === 'spacer'" class="flex-1" />
 </template>

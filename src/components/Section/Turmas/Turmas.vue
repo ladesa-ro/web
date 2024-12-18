@@ -17,11 +17,11 @@ const options = createApiListContextOptions({
     </template>
 
     <template #grid-item="{ item, isLoading }">
-      <SectionTurmasGridItem :item="item" :isLoading="isLoading" />
+      <SectionTurmasGridItem :item="item" :is-loading="isLoading" />
     </template>
 
     <template #grid-item-skeleton>
-      <SectionTurmasGridItem :item="null" :isLoading="true" />
+      <SectionTurmasGridItem :item="null" :is-loading="true" />
     </template>
   </UIAPIList>
 </template>

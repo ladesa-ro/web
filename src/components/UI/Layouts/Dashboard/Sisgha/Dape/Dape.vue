@@ -11,7 +11,7 @@ useTitle(HeadTitleContext.DASHBOARD);
     </template>
 
     <template #default>
-      <slot></slot>
+      <slot />
     </template>
   </UILayoutsDashboardBase>
 </template>

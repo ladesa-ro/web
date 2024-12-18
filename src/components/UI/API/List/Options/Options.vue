@@ -15,14 +15,16 @@ const slots = defineSlots<Slots>();
 </script>
 
 <template>
-  <div class="mt-[50px] mb-[10px] w-full justify-between items-center flex gap-4 px-3">
+  <div
+    class="mt-[50px] mb-[10px] w-full justify-between items-center flex gap-4 px-3"
+  >
     <UISearchBar
       :value="formOptions.search"
       @update:value="formOptions.search = $event"
     />
 
     <div class="flex items-center flex-shrink-0">
-      <slot name="actions"></slot>
+      <slot name="actions" />
     </div>
   </div>
 </template>

@@ -1,5 +1,5 @@
 // Import
-import { Dayjs } from 'dayjs';
+import type { Dayjs } from 'dayjs';
 import 'dayjs/locale/pt-br';
 import type { Event, Step } from '../Typings';
 

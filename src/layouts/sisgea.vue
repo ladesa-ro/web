@@ -2,6 +2,6 @@
 
 <template>
   <UILayoutsDashboardSisgeaCommon>
-    <slot></slot>
+    <slot />
   </UILayoutsDashboardSisgeaCommon>
 </template>

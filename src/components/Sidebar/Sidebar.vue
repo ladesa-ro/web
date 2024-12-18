@@ -43,7 +43,7 @@ const hamburgerActive = defineModel({
   >
     <v-list class="flex-column justify-space-between h-full sidebar-list">
       <div class="flex flex-col gap-3 h-full">
-        <SidebarItem :key="index" :item="item" v-for="(item, index) in items" />
+        <SidebarItem v-for="(item, index) in items" :key="index" :item="item" />
       </div>
     </v-list>
   </v-navigation-drawer>

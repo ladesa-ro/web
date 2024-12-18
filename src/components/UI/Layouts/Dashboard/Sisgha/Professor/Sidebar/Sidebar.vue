@@ -7,5 +7,5 @@ const { items } = useLayoutsDashboardSisghaProfessorSidebarItems();
 </script>
 
 <template>
-  <Sidebar :items="items" v-model="hamburguerActive" />
+  <Sidebar v-model="hamburguerActive" :items="items" />
 </template>

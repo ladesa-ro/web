@@ -11,7 +11,7 @@ import 'vue3-carousel/dist/carousel.css';
     <template #titulo>Ensino</template>
 
     <div class="ml-[20px] mr-[30px] slid w-auto">
-      <Carousel snapAlign="start" :items-to-show="2.5" :wrap-around="true">
+      <Carousel snap-align="start" :items-to-show="2.5" :wrap-around="true">
         <Slide v-for="slide in 10" :key="slide">
           <div class="carousel__item border-card">
             <div class="content block w-full">
@@ -28,7 +28,7 @@ import 'vue3-carousel/dist/carousel.css';
                   </span>
                 </div>
 
-                <div class="mt-3"></div>
+                <div class="mt-3" />
 
                 <div class="flex flex-wrap justify-center gap-2">
                   <div

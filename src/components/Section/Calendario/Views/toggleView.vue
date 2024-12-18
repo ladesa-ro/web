@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-let calendarView = ref<boolean>(false);
+const calendarView = ref<boolean>(false);
 
 type Emits = {
   // Option selected

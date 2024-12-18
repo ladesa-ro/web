@@ -103,11 +103,11 @@ const resultsMeta = computed(() => {
 <template>
   <div class="flex-1">
     <v-container class="flex-1">
-      <v-infinite-scroll class="ui-api-list-results-grid" :onLoad="load">
+      <v-infinite-scroll class="ui-api-list-results-grid" :on-load="load">
         <template v-if="items && items.length > 0">
           <template v-for="item in items" :key="item.id">
             <div class="ui-api-list-results-grid-item">
-              <slot name="item" v-bind="{ item, isLoading }"></slot>
+              <slot name="item" v-bind="{ item, isLoading }" />
             </div>
           </template>
         </template>
@@ -115,7 +115,7 @@ const resultsMeta = computed(() => {
         <template v-else-if="isLoading">
           <template v-for="item in 10" :key="item">
             <div class="ui-api-list-results-grid-item">
-              <slot name="item-skeleton"></slot>
+              <slot name="item-skeleton" />
             </div>
           </template>
         </template>
@@ -128,7 +128,7 @@ const resultsMeta = computed(() => {
           <template v-if="!isLoading && totalItems > 0">
             <div class="w-full">
               <v-empty-state>
-                <template v-slot:text>
+                <template #text>
                   <div class="text-medium-emphasis text-caption">
                     <p>Você chegou ao fim dos resultados.</p>
                     <p>{{ resultsMeta }}</p>
@@ -148,7 +148,7 @@ const resultsMeta = computed(() => {
           </template>
         </template>
 
-        <template v-slot:error="{ props }">
+        <template #error="{ props }">
           <v-alert type="error">
             <div class="d-flex justify-space-between align-center">
               Não foi possível buscar mais conteúdo...

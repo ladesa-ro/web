@@ -8,11 +8,9 @@
   >
     <section class="flex flex-col justify-between">
       <h1 class="font-semibold">
-        <slot name="title">
-          Título
-        </slot>
+        <slot name="title"> Título </slot>
       </h1>
-      
+
       <slot name="content">
         <p>Descrição 1</p>
         <p>Descrição 2</p>

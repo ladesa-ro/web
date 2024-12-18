@@ -5,14 +5,14 @@ const modelValue = defineModel('value', { default: null });
 <template>
   <div class="selectBaseField">
     <v-select
+      v-bind="$attrs"
+      v-model:model-value="modelValue"
       clearable
       color="#00d047"
-      v-bind="$attrs"
       variant="outlined"
       hide-details="auto"
       base-color="#9ab69e"
       persistent-placeholder
-      v-model:model-value="modelValue"
     />
   </div>
 </template>

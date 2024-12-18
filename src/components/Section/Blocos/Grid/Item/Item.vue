@@ -27,7 +27,7 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.BLOCO_COVER, bloco);
       </template>
 
       <template #actions>
-        <LazySectionBlocosModal :editId="bloco.id" />
+        <LazySectionBlocosModal :edit-id="bloco.id" />
       </template>
 
       <UICardLine>

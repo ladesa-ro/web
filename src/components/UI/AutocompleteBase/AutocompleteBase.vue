@@ -6,15 +6,15 @@ const modelValue = defineModel<string | null>('value', { default: null });
 <template>
   <div class="autoCompleteField">
     <v-autocomplete
+      v-bind="$attrs"
+      v-model:search="searchValue"
+      v-model:model-value="modelValue"
       clearable
       color="#00d047"
-      v-bind="$attrs"
       variant="outlined"
       hide-details="auto"
       base-color="#9ab69e"
       persistent-placeholder
-      v-model:search="searchValue"
-      v-model:model-value="modelValue"
     />
   </div>
 </template>

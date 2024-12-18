@@ -5,7 +5,7 @@ const lesson = inject<ILesson>('lesson')!;
 
 type Props = {
   showCampus?: boolean;
-}
+};
 
 defineProps<Props>();
 </script>

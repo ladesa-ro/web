@@ -5,7 +5,7 @@ import { useSplittedSerieLetra } from './composables/useSplittedSerieLetra';
 type Props = {
   disabled?: boolean;
   isLoading?: boolean;
-}
+};
 
 defineProps<Props>();
 
@@ -37,20 +37,20 @@ onMounted(() => {
 <template>
   <div class="grid grid-cols-[2fr,1fr] gap-4">
     <VVTextField
+      v-model="serie"
       type="text"
       name="_.serie"
       :disabled="isLoading || disabled"
-      v-model="serie"
       label="Série"
       placeholder="1°, 2°, 3°..."
     />
 
     <VVTextField
+      v-model="letra"
       type="text"
       name="_.letra"
       :disabled="isLoading || disabled"
       label="Letra"
-      v-model="letra"
       placeholder="A, B, C..."
     />
   </div>

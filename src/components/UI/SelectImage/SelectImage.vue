@@ -31,11 +31,11 @@ const imageSrc = computed(() => {
       >
         <IconsIconFilePicker />
 
-        <div class="dropzone-info-message" v-if="isDragActive">
+        <div v-if="isDragActive" class="dropzone-info-message">
           Solte sua imagem aqui.
         </div>
 
-        <div class="dropzone-info-message" v-else>
+        <div v-else class="dropzone-info-message">
           Arraste e solte uma imagem ou escolha uma de até 500 KB .jpeg ou .png.
         </div>
       </div>

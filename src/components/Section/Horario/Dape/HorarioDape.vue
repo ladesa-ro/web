@@ -71,8 +71,8 @@ const calendars = [
 <template>
   <section class="flex flex-col items-center w-[100%]">
     <v-expansion-panels
-      multiple
       v-model="activeCalendar"
+      multiple
       class="calendario-expansion-panels gap-7 px-8 py-8"
     >
       <v-expansion-panel

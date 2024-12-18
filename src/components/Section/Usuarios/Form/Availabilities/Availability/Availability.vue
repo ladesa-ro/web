@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Vinculo } from '../../FormUtils';
+import type { Vinculo } from '../../FormUtils';
 
 const props = defineProps<{ vinculo: Vinculo }>();
 
@@ -18,33 +18,33 @@ await query.suspense();
         <div class="text-left">
           <span class="p-1">Matutino</span>
           <v-checkbox
+            v-for="i in 7"
             hide-details
             density="compact"
             color="success"
             label="Manhã"
-            v-for="i in 7"
             name="disponibilidade"
           />
         </div>
         <div class="text-left">
           <span class="p-1">Vespertino</span>
           <v-checkbox
+            v-for="i in 7"
             hide-details
             density="compact"
             color="success"
             label="Manhã"
-            v-for="i in 7"
             name="disponibilidade"
           />
         </div>
         <div class="text-left">
           <span class="p-1">Noturno</span>
           <v-checkbox
+            v-for="i in 7"
             hide-details
             density="compact"
             color="success"
             label="Manhã"
-            v-for="i in 7"
             name="disponibilidade"
           />
         </div>

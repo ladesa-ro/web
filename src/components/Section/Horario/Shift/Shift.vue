@@ -22,8 +22,8 @@ function setHoveredRow(index: number | null) {
 }
 
 function getAula(dia: number, horario: number) {
-  return props.gradeDisciplinas.find((aula) =>
-    aula.diaDaSemana === dia && aula.horarios.includes(horario)
+  return props.gradeDisciplinas.find(
+    (aula) => aula.diaDaSemana === dia && aula.horarios.includes(horario)
   );
 }
 </script>
@@ -75,9 +75,9 @@ function getAula(dia: number, horario: number) {
         @mouseover="setHoveredRow(rowIndex)"
         @mouseleave="setHoveredRow(null)"
       >
-      <template v-if="horario.tipo === 'aula'">
+        <template v-if="horario.tipo === 'aula'">
           <span v-if="getAula(colIndex + 1, rowIndex + 1)">
-            {{ getAula(colIndex + 1, rowIndex + 1)?.disciplina }} - 
+            {{ getAula(colIndex + 1, rowIndex + 1)?.disciplina }} -
             {{ getAula(colIndex + 1, rowIndex + 1)?.professor }}
           </span>
           <span v-else>-</span>

@@ -2,7 +2,7 @@
 // import profilePicture from '~/assets/icons/profilePicture.svg';
 import SpeechBubbles from './SpeechBubbles/SpeechBubbles.vue';
 
-let { isDark } = useCustomTheme();
+const { isDark } = useCustomTheme();
 
 const { changeTheme } = useCustomTheme();
 
@@ -22,8 +22,8 @@ const notificationsButtonEl = ref(null);
   <div class="flex w-full items-center h-full bg-ldsa-bg">
     <!-- ========== menu icon configurations ========== -->
     <div class="m-[0.34375rem] cursor-pointer" @click="toggleHamburger">
-      <IconsMenuIconHamburgerOn class="pa-3 w-[45px]" v-if="hamburgerActive" />
-      <IconsMenuIconHamburgerOff class="pa-3 w-[45px]" v-else />
+      <IconsMenuIconHamburgerOn v-if="hamburgerActive" class="pa-3 w-[45px]" />
+      <IconsMenuIconHamburgerOff v-else class="pa-3 w-[45px]" />
     </div>
     <!-- ========= / menu icon configurations ========= -->
 
@@ -32,7 +32,7 @@ const notificationsButtonEl = ref(null);
     <AppbarProfileCardChangeProfileCard />
     <!-- ================== / user ================== -->
 
-    <div class="flex-1"></div>
+    <div class="flex-1" />
 
     <!-- ========= button change color theme ======== -->
     <button class="mr-2.5" @click="changeTheme">
@@ -44,7 +44,7 @@ const notificationsButtonEl = ref(null);
       </template>
     </button>
     <!-- ======== / button change color theme ======== -->
-    
+
     <!-- ============ notifications icon ============ -->
     <v-menu
       origin="auto"
@@ -52,7 +52,7 @@ const notificationsButtonEl = ref(null);
       transition="slide-y-transition"
       :close-on-content-click="false"
     >
-      <template v-slot:activator="{ props }">
+      <template #activator="{ props }">
         <IconsIconNotifications
           v-bind="props"
           ref="notificationsButtonEl"
@@ -61,11 +61,11 @@ const notificationsButtonEl = ref(null);
       </template>
 
       <!-- modal that will be shown if the icon is clicked -->
-      <SpeechBubbles :notificationsButtonEl="notificationsButtonEl" />
+      <SpeechBubbles :notifications-button-el="notificationsButtonEl" />
     </v-menu>
     <!-- =========== / notifications icon =========== -->
 
-    <div class="mr-3"></div>
+    <div class="mr-3" />
 
     <!-- SISGHA logo-->
     <LogoSisghaLogomarca

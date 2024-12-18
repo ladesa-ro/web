@@ -5,11 +5,11 @@ const modelValue = defineModel<string | null>('value', { default: null });
 <template>
   <div class="textField">
     <v-text-field
+      v-model="modelValue"
       hide-details="auto"
       base-color="rgb(var(--ladesa-grey-color))"
       color="rgb(var(--ladesa-green-2-color))"
       persistent-hint
-      v-model="modelValue"
       variant="outlined"
       persistent-placeholder
       v-bind="$attrs"

@@ -16,9 +16,10 @@ const props = defineProps<Props>();
 const { diario } = toRefs(props);
 
 // Realizei a chamada da ROTA useApiDiariosProfessoresFindAllByDiarioId
-const { diariosProfessoresList } = await useApiDiariosProfessoresFindAllByDiarioId({
-  diario: diario.value,
-});
+const { diariosProfessoresList } =
+  await useApiDiariosProfessoresFindAllByDiarioId({
+    diario: diario.value,
+  });
 
 //
 
@@ -37,7 +38,7 @@ const coverImageSrc = useApiImageRoute(
     </template>
 
     <template #actions>
-      <LazySectionDiariosModal :editId="diario.id" />
+      <LazySectionDiariosModal :edit-id="diario.id" />
     </template>
 
     <UICardLine>
@@ -55,7 +56,8 @@ const coverImageSrc = useApiImageRoute(
     <UICardLine>
       <span>
         Turmas:
-        {{ diario.turma.periodo }} - {{ diario.turma.curso.ofertaFormacao.nome }}
+        {{ diario.turma.periodo }} -
+        {{ diario.turma.curso.ofertaFormacao.nome }}
       </span>
     </UICardLine>
   </UICard>

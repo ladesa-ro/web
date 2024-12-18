@@ -25,12 +25,12 @@ const {
 
 <template>
   <UISelectRoles
-    :name="name"
     v-bind="$attrs"
-    @blur="handleBlur"
+    v-model:value="modelValue"
+    :name="name"
     hide-details="auto"
     persistent-placeholder
-    v-model:value="modelValue"
     :error-messages="errorMessage ? [errorMessage] : []"
+    @blur="handleBlur"
   />
 </template>

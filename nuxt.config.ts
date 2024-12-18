@@ -11,6 +11,8 @@ export default defineNuxtConfig({
     typeCheck: true,
   },
 
+  eslint: {},
+
   // ===========
 
   devtools: {
@@ -47,6 +49,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     'vue3-carousel-nuxt',
     'vuetify-nuxt-module',
+    '@nuxt/eslint',
   ],
 
   tailwindcss: {

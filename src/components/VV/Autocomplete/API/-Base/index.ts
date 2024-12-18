@@ -2,8 +2,8 @@ import type { IApiBaseResourceListRetriever } from '../../../../../integrations/
 import type { MaybePromise } from '../../../../../typings';
 
 export type IUIAutocompleteApiRetrieverOptions<
-  Value extends any = any,
-  ResultItemDto extends any = any,
+  Value = any,
+  ResultItemDto = any,
 > = {
   baseQueryKey: MaybeRef<any>[] | MaybeRef<any>;
 
@@ -14,8 +14,8 @@ export type IUIAutocompleteApiRetrieverOptions<
 };
 
 export const createUIAutocompleteApiRetrieverOptions = <
-  Value extends any = any,
-  ResultItemDto extends any = any,
+  Value = any,
+  ResultItemDto = any,
   T extends IUIAutocompleteApiRetrieverOptions<
     Value,
     ResultItemDto

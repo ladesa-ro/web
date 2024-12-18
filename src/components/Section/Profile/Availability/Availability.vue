@@ -13,7 +13,7 @@ const options = [
 
 selectedOptions.value = options[1];
 
-let currentDayIndex = ref(1);
+const currentDayIndex = ref(1);
 
 const changeDay = (delta) => {
   currentDayIndex.value =
@@ -55,7 +55,7 @@ const changeDay = (delta) => {
         >
           <div>
             <h5>Matutino</h5>
-            <span class="element"></span>
+            <span class="element" />
             <ul class="list-hours">
               <li class="hour">08:00 - 09:00</li>
               <li class="hour">08:00 - 09:00</li>
@@ -65,7 +65,7 @@ const changeDay = (delta) => {
           </div>
           <div>
             <h5 style="padding-left: 15%">Vespertino</h5>
-            <span class="element"></span>
+            <span class="element" />
             <ul class="list-hours">
               <li class="hour">08:00 - 09:00</li>
               <li class="hour">08:00 - 09:00</li>
@@ -75,7 +75,7 @@ const changeDay = (delta) => {
           </div>
           <div>
             <h5>Nortuno</h5>
-            <span class="element"></span>
+            <span class="element" />
             <ul class="list-hours sm-text-wrap">
               <li class="hour">08:00 - 09:00</li>
               <li class="hour">08:00 - 09:00</li>

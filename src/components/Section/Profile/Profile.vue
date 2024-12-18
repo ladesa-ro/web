@@ -21,7 +21,9 @@ const show = ref(false);
 
 const apiClient = useApiClient();
 
-const usuario = await apiClient.usuarios.usuarioFindOneById({ id: props.userId });
+const usuario = await apiClient.usuarios.usuarioFindOneById({
+  id: props.userId,
+});
 
 const profilePicureUrl = useApiImageRoute(
   ApiImageResource.USUARIO_PROFILE,
@@ -35,18 +37,17 @@ const profilePicureUrl = useApiImageRoute(
       <div class="card-profile ml-5 mt-5 md:ml-8 md:mt-8">
         <div class="container-content items-center overflow-hidden gap-5">
           <v-img
+            v-if="profilePicureUrl"
             :width="118"
             aspect-ratio="1/1"
             cover
             class="rounded-lg"
-            v-if="profilePicureUrl"
             :src="profilePicureUrl ?? ''"
-          >
-          </v-img>
+          />
 
           <div
             v-else
-            class="flex py-6 bg-[#F0F0F0] h-[118px] w-[118px] rounded-lg items-center justify-center "
+            class="flex py-6 bg-[#F0F0F0] h-[118px] w-[118px] rounded-lg items-center justify-center"
           >
             <IconsIconUser class="text-[#9ab69e] w-[54px] h-[54px]" />
           </div>

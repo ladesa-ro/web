@@ -4,9 +4,9 @@ const isActive = ref(false);
 </script>
 
 <template>
-  <v-dialog max-width="500" v-model="isActive">
-    <template v-slot:activator="{ props: activatorProps }">
-      <UIButtonAdd v-bind="activatorProps"/>
+  <v-dialog v-model="isActive" max-width="500">
+    <template #activator="{ props: activatorProps }">
+      <UIButtonAdd v-bind="activatorProps" />
     </template>
 
     <template v-slot:="{ isActive }">

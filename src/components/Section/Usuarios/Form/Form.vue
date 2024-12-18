@@ -122,5 +122,5 @@ provide('FORM_USER', form);
 </script>
 
 <template>
-  <slot></slot>
+  <slot />
 </template>

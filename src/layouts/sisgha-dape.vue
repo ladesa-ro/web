@@ -2,6 +2,6 @@
 
 <template>
   <UILayoutsDashboardSisghaDape>
-    <slot></slot>
+    <slot />
   </UILayoutsDashboardSisghaDape>
 </template>

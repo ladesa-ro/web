@@ -19,8 +19,8 @@ const isActive = ref(false);
 </script>
 
 <template>
-  <v-dialog max-width="500" v-model="isActive">
-    <template v-slot:activator="{ props: activatorProps }">
+  <v-dialog v-model="isActive" max-width="500">
+    <template #activator="{ props: activatorProps }">
       <UIButtonAdd v-if="editId === null" v-bind="activatorProps" />
       <UIButtonEdit v-else v-bind="activatorProps" />
     </template>
@@ -28,7 +28,7 @@ const isActive = ref(false);
     <template v-slot:="{ isActive }">
       <v-card class="dialog-style">
         <SectionDisciplinasForm
-          :editId="editId"
+          :edit-id="editId"
           @close="isActive.value = false"
         />
       </v-card>

@@ -13,21 +13,21 @@ useTitle(null, 'Login');
 
 <template>
   <div class="login">
-    <form @submit.prevent="signInWithCredentials" class="login-form">
-      <div class="light-1"></div>
-      <div class="light-2"></div>
+    <form class="login-form" @submit.prevent="signInWithCredentials">
+      <div class="light-1" />
+      <div class="light-2" />
 
       <div class="login-card w-full">
         <LogoSisghaLogomarca class="logo" />
 
         <div class="fields">
           <UITextField
+            v-model="credentials.username"
             required
             type="text"
             class="field"
             :disabled="isBusy"
             placeholder="Matrícula"
-            v-model="credentials.username"
             :input-props="{
               autocapitalize: 'none',
               autocorrect: 'off',
@@ -35,12 +35,12 @@ useTitle(null, 'Login');
           />
 
           <UITextField
+            v-model="credentials.password"
             required
             class="field"
             type="password"
             :disabled="isBusy"
             placeholder="Senha"
-            v-model="credentials.password"
           />
         </div>
 
@@ -59,16 +59,15 @@ useTitle(null, 'Login');
         </UIButton>
 
         <div v-if="isError">
-          <VDivider class="my-4"></VDivider>
+          <VDivider class="my-4" />
 
           <VAlert
+            v-model="isError"
             closable
             type="error"
-            v-model="isError"
             class="error-feedback"
             text="Não foi possível realizar o login."
-          >
-          </VAlert>
+          />
         </div>
       </div>
     </form>
@@ -89,7 +88,7 @@ useTitle(null, 'Login');
           </template>
 
           <p class="border-l-2 w-full h-full border-solid border-white">
-            <span class="ml-4"></span>
+            <span class="ml-4" />
             <span>Acesso Público</span>
           </p>
         </UIButton>

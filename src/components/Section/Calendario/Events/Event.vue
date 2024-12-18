@@ -74,8 +74,8 @@ const _eventStatus = await eventStatus.startEvent(
 
         <!-- Locale -->
         <p
-          class="font-medium text-sm sm:text-[16px]"
           v-show="props.locale"
+          class="font-medium text-sm sm:text-[16px]"
           :class="{ 'mt-2': props.locale !== '' }"
         >
           {{ props.locale }}

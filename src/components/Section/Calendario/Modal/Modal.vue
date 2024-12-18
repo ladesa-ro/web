@@ -5,8 +5,8 @@ const isActive = ref(false);
 </script>
 
 <template>
-  <v-dialog max-width="500" v-model="isActive">
-    <template v-slot="{ isActive }">
+  <v-dialog v-model="isActive" max-width="500">
+    <template #default="{}">
       <v-card class="dialog-style">
         <SectionCalendarioModalEventList />
       </v-card>

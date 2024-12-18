@@ -2,7 +2,9 @@ import { useQuery } from '@tanstack/vue-query';
 
 import { refDebounced } from '@vueuse/core';
 
-export const useApiOfertaFormacaoFindAll = async (searchTerm: MaybeRef<string>) => {
+export const useApiOfertaFormacaoFindAll = async (
+  searchTerm: MaybeRef<string>
+) => {
   const apiClient = useApiClient();
   const query = useQuery({
     queryKey: ['ofertaformacao', searchTerm],

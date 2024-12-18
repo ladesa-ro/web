@@ -1,5 +1,5 @@
 import { useForm, type GenericObject } from 'vee-validate';
-import * as yup from 'yup';
+import type * as yup from 'yup';
 import { useApiBaseResourceGet } from '../../../../integrations';
 import type { MaybePromise } from '../../../../typings';
 
@@ -15,7 +15,7 @@ export type APIFormContext = {
 
 export type APIFormContextProps<
   FormValues extends yup.Maybe<yup.AnyObject>,
-  FormOutput extends any,
+  FormOutput,
   FormSchema extends yup.ObjectSchema<FormValues, any, any, any>,
   Id = string,
 > = {

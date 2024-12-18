@@ -13,8 +13,8 @@ const isActive = ref(false);
 
 <template>
   <v-menu
-    origin="auto"
     v-model="isActive"
+    origin="auto"
     location="bottom center"
     transition="slide-y-transition"
     :close-on-content-click="false"

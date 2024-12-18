@@ -27,15 +27,15 @@ const isLoading = computed(() => props.isLoading ?? false);
       <v-container key="items">
         <v-row>
           <v-col
+            v-for="item in items"
+            :key="item.id"
             sm="12"
             md="6"
             lg="4"
             cols="12"
             class="px-2"
-            :key="item.id"
-            v-for="item in items"
           >
-            <slot name="item" v-bind="{ item, isLoading }"></slot>
+            <slot name="item" v-bind="{ item, isLoading }" />
           </v-col>
         </v-row>
       </v-container>
@@ -45,15 +45,15 @@ const isLoading = computed(() => props.isLoading ?? false);
       <v-container key="items-skeleton">
         <v-row>
           <v-col
+            v-for="item in 10"
+            :key="item"
             sm="12"
             md="6"
             lg="4"
             cols="12"
             class="px-2"
-            v-for="item in 10"
-            :key="item"
           >
-            <slot name="item-skeleton"></slot>
+            <slot name="item-skeleton" />
           </v-col>
         </v-row>
       </v-container>
@@ -69,6 +69,6 @@ const isLoading = computed(() => props.isLoading ?? false);
       />
     </template>
 
-    <slot></slot>
+    <slot />
   </div>
 </template>

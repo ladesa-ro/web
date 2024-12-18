@@ -25,8 +25,8 @@ function generatePDF() {
     >
       <SectionHorarioGeral class="overflow-auto" />
 
-      <div class="mt-8"></div>
-      
+      <div class="mt-8" />
+
       <UIButton class="min-h-14 max-w-40 mb-2" @click="generatePDF">
         Gerar PDF
       </UIButton>

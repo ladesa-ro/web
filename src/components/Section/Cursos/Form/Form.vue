@@ -86,7 +86,7 @@ const handleDelete = async () => {
 
 const schema = yup.object().shape({
   imagem: yup.mixed().nullable().optional(),
-  ofertaFormacao: yup.object().shape({ 
+  ofertaFormacao: yup.object().shape({
     id: yup.string().required('Oferta de Formação é obrigatório!'),
   }),
   campus: yup.object().shape({
@@ -97,7 +97,6 @@ const schema = yup.object().shape({
     .string()
     .required('Nome abreviado do bloco é obrigatório!'),
 });
-
 
 const {
   resetForm,
@@ -118,9 +117,9 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 
   if (editId === null) {
     const cursoCriado = await apiClient.cursos.cursoCreate({
-      requestBody: { 
-        ...data, 
-        ofertaFormacao
+      requestBody: {
+        ...data,
+        ofertaFormacao,
       },
     });
 
@@ -154,8 +153,6 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   $emit('close');
 }, console.error);
 
-
-
 const nome = computed({
   get: () => formValues.nome,
   set: (value) => {
@@ -172,7 +169,7 @@ const nomeAbreviado = computed({
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit" class="form">
+  <v-form class="form" @submit.prevent="onSubmit">
     <div class="form-header">
       <h1 class="main-title">
         <span v-if="editId">Editar Curso</span>
@@ -211,7 +208,7 @@ const nomeAbreviado = computed({
     <div class="form-footer button-group">
       <UIButtonModalCancelButton @click="$emit('close')" />
 
-      <UIButtonModalDeleteButton @click.prevent="handleDelete" v-if="editId" />
+      <UIButtonModalDeleteButton v-if="editId" @click.prevent="handleDelete" />
 
       <UIButtonModalEditButton v-if="editId" />
       <UIButtonModalSaveButton v-else />

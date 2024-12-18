@@ -33,7 +33,7 @@ const onSubmit = handleSubmit(
 );
 </script>
 <template>
-  <v-form @submit.prevent="onSubmit" class="form">
+  <v-form class="form" @submit.prevent="onSubmit">
     <div class="form-header">
       <h1 class="main-title text-center">
         <span>Redefinir Senha</span>
@@ -52,12 +52,12 @@ const onSubmit = handleSubmit(
       />
 
       <v-alert
+        v-if="showAlert"
         class="text-sm"
         variant="flat"
         density="compact"
         type="info"
         text="Se o endereço de e-mail existir, você receberá as instruções para a redefinição de senha em sua caixa de entrada."
-        v-if="showAlert"
       />
     </div>
 
@@ -76,8 +76,8 @@ const onSubmit = handleSubmit(
       <UIButtonModalOkButton
         v-if="showAlert"
         type="button"
-        @click="$emit('close')"
         class="!px-10"
+        @click="$emit('close')"
       />
 
       <UIButtonModalResetButton v-if="!showAlert" type="submit" />

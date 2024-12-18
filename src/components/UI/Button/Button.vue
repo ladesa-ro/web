@@ -1,6 +1,6 @@
 <template>
   <button class="ui-button">
-    <div class="start-icon" v-show="$slots['start-icon']">
+    <div v-show="$slots['start-icon']" class="start-icon">
       <slot name="start-icon" />
     </div>
 

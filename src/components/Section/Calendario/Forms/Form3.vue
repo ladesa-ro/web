@@ -175,14 +175,14 @@ const $emit = defineEmits(['close', 'next', 'back']);
   gap: 0px;
 }
 
-.color-picker-square input[type="color"]::-webkit-color-swatch {
+.color-picker-square input[type='color']::-webkit-color-swatch {
   width: 50px;
-  height: 50px; 
-  border: none; 
-  background: none; 
+  height: 50px;
+  border: none;
+  background: none;
 }
 
-.color-picker-square input[type="color"] {
+.color-picker-square input[type='color'] {
   width: 100%;
   height: 100%;
   border: none;
@@ -203,15 +203,15 @@ const $emit = defineEmits(['close', 'next', 'back']);
 }
 
 .date-fields {
-  display: flex; 
-  gap: 20px; 
+  display: flex;
+  gap: 20px;
 }
 
 .date-fields .v-text-field {
-  flex: 1; 
+  flex: 1;
 }
 
-.lineup{
-    margin-bottom: -18px;
+.lineup {
+  margin-bottom: -18px;
 }
 </style>

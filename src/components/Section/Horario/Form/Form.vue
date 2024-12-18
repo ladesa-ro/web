@@ -33,7 +33,7 @@ const onSubmit = handleSubmit(
 );
 </script>
 <template>
-  <v-form @submit.prevent="onSubmit" class="form">
+  <v-form class="form" @submit.prevent="onSubmit">
     <div class="form-header">
       <h1 class="main-title text-center">
         <span>Adicionar aula</span>

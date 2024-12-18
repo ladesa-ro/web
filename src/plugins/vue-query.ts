@@ -12,7 +12,7 @@ import {
   hydrate,
 } from '@tanstack/vue-query';
 
-export default defineNuxtPlugin(nuxt => {
+export default defineNuxtPlugin((nuxt) => {
   const vueQueryState = useState<DehydratedState | null>('vue-query');
 
   // Modify your Vue Query global settings here

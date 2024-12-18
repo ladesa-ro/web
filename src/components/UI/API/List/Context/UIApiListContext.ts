@@ -9,7 +9,7 @@ export enum UIApiListViewMode {
 
 export type UIApiListContext = ReturnType<typeof createUIApiListContext>;
 
-export type ICreateUIApiListContextOptions<ResultItemDto extends any = any> = {
+export type ICreateUIApiListContextOptions<ResultItemDto = any> = {
   baseQueryKey: MaybeRef<any>[] | MaybeRef<any>;
   apiBaseResourceListRetriever: IApiBaseResourceListRetriever<ResultItemDto>;
 };

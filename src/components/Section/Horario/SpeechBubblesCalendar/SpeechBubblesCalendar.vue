@@ -26,13 +26,13 @@ const selectedDay = useSelectedDay();
       :style="{
         left: `${computedPinLeft}px`,
       }"
-    ></div>
+    />
 
     <SectionCalendarioMonth
       :year="selectedDay.year()"
       :month="selectedDay.month()"
-      :toggleMonth="false"
-      :selectWeek="false"
+      :toggle-month="false"
+      :select-week="false"
       :steps="[]"
       :events="[]"
       class="mx-0"

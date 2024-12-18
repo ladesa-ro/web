@@ -35,7 +35,7 @@ const removeField = (targetIndex: number) => {
 
   <div v-for="(vinculo, index) in vinculos" :key="index">
     <div v-show="vinculo.ativo" class="flex gap-5 items-start">
-      <VVAutocompleteAPICampus :name="`vinculos[${index}].campus.id`"/>
+      <VVAutocompleteAPICampus :name="`vinculos[${index}].campus.id`" />
 
       <VVSelectRoles
         class="w-full max-w-[10.65rem]"
@@ -55,8 +55,8 @@ const removeField = (targetIndex: number) => {
 
   <button
     type="button"
-    @click="addField"
     class="border-dotted border-[3px] rounded-lg pa-4 border-[#9ab69e] hover:bg-[#f1fdf2] ease-in"
+    @click="addField"
   >
     Novo Vínculo
   </button>

@@ -15,8 +15,8 @@ const weekDays = getWeekDays(selectedDay.value); //array com dias da semana
     <SectionHorarioDailyViewDaySquare
       v-for="weekDay in weekDays"
       :active="weekDay.dayMonth === activeDayMonth"
-      :dayWeek="weekDay.dayWeek"
-      :dayMonth="weekDay.dayMonth"
+      :day-week="weekDay.dayWeek"
+      :day-month="weekDay.dayMonth"
       @click="selectedDay = weekDay.dayAsDayJs"
     />
   </div>

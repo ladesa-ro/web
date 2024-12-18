@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/vue-query';
 import { computed, unref } from 'vue';
 
-export const useApiDiariosProfessoresFindAllByDiarioId = async (filter: any) => {
+export const useApiDiariosProfessoresFindAllByDiarioId = async (
+  filter: any
+) => {
   const apiClient = useApiClient();
-
 
   if (!filter || !filter.diario || !filter.diario.id) {
     console.error('Diário ou ID do diário não está definido');
@@ -13,9 +14,8 @@ export const useApiDiariosProfessoresFindAllByDiarioId = async (filter: any) => 
     };
   }
 
-
   const query = useQuery({
-    queryKey: ['diarios', filter.diario.id], 
+    queryKey: ['diarios', filter.diario.id],
 
     queryFn: async () => {
       return apiClient.diariosProfessores.diarioProfessorList({
@@ -24,9 +24,7 @@ export const useApiDiariosProfessoresFindAllByDiarioId = async (filter: any) => 
     },
   });
 
-
   const diariosProfessoresList = computed(() => unref(query.data)?.data ?? []);
-
 
   await query.suspense();
 

@@ -15,7 +15,7 @@ export const createApiContext = (shouldProvide = true) => {
     data.value?.accessTokenExpires,
     unref(status),
     unref(lastRefreshedAt),
-  ]); 
+  ]);
 
   const whoAmIQuery = useQuery({
     queryKey: whoAmIQueryKey,

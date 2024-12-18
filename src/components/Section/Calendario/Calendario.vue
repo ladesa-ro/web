@@ -17,13 +17,13 @@ const calendar = await calendarData.getCalendar();
 
 // Functions
 // Calendar view
-let calendarView = ref<boolean>(false);
+const calendarView = ref<boolean>(false);
 
 const handleUpdate = (v: boolean) => {
   calendarView.value = v;
 };
 
-let enableEventList = ref<boolean>(false);
+const enableEventList = ref<boolean>(false);
 async function showEventsList(value: boolean): Promise<void> {
   try {
     enableEventList.value = !value;
@@ -67,12 +67,12 @@ async function showEventsList(value: boolean): Promise<void> {
 
             <!-- Search -->
             <div>
-              <UIButtonSearch/>
+              <UIButtonSearch />
             </div>
 
             <!-- Add -->
             <div>
-              <SectionCalendarioModalForm/>
+              <SectionCalendarioModalForm />
             </div>
           </div>
         </div>
@@ -112,18 +112,18 @@ async function showEventsList(value: boolean): Promise<void> {
       <div>
         <!-- Partial calendar -->
         <SectionCalendarioViewsPartialCalendar
+          v-show="calendarView === false"
           :year="calendar?.year"
           :events="calendar?.events"
           :steps="calendar?.steps"
-          v-show="calendarView === false"
         />
 
         <!-- Complete calendar -->
         <SectionCalendarioViewsCompleteCalendar
+          v-show="calendarView !== false"
           :year="calendar?.year"
           :events="calendar?.events"
           :steps="calendar?.steps"
-          v-show="calendarView !== false"
         />
       </div>
     </div>

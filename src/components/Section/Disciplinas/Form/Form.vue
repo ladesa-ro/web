@@ -24,7 +24,8 @@ const $emit = defineEmits(['close']);
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
 
-const { disciplina: currentDisciplina } = await useApiDisciplinasFindOne(editIdRef);
+const { disciplina: currentDisciplina } =
+  await useApiDisciplinasFindOne(editIdRef);
 
 type FormValues = {
   imagem: Blob | null | undefined;
@@ -143,7 +144,7 @@ const cargaHoraria = computed({
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit" class="form">
+  <v-form class="form" @submit.prevent="onSubmit">
     <div class="form-header">
       <h1 class="main-title">
         <span v-if="editId">Editar Disciplina</span>
@@ -157,24 +158,24 @@ const cargaHoraria = computed({
       <VVSelectImage name="imagem" />
 
       <VVTextField
-        type="text"
         v-model="nome"
+        type="text"
         label="Nome"
         placeholder="Digite aqui"
         name="nome"
       />
 
       <VVTextField
-        type="text"
         v-model="nomeAbreviado"
+        type="text"
         label="Nome Abreviado"
         placeholder="Digite aqui"
         name="nomeAbreviado"
       />
 
       <VVTextField
-        type="number"
         v-model="cargaHoraria"
+        type="number"
         label="Carga Horária"
         placeholder="Digite aqui"
         name="cargaHoraria"
@@ -186,7 +187,7 @@ const cargaHoraria = computed({
     <div class="form-footer button-group">
       <UIButtonModalCancelButton @click="$emit('close')" />
 
-      <UIButtonModalDeleteButton @click.prevent="handleDelete" v-if="editId" />
+      <UIButtonModalDeleteButton v-if="editId" @click.prevent="handleDelete" />
 
       <UIButtonModalEditButton v-if="editId" />
       <UIButtonModalSaveButton v-else />

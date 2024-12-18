@@ -21,7 +21,6 @@
   --internal-ladesa-surface-color: 255, 255, 255; /* White */
   --internal-ladesa-on-surface-color: 5, 15, 7; /* Dark green */
 
-
   /*ATTENTION! the variables below are effectively used in this project. be carefull if you change something*/
   /* general colors */
   --ladesa-green-1-color: var(--internal-ladesa-primary-color);
@@ -67,14 +66,15 @@
   --internal-ladesa-surface-color: 25, 27, 34; /* Dark blue */
   --internal-ladesa-on-surface-color: 208, 208, 208; /* Light grey */
 
-  
   /*ATTENTION! the variables below are effectively used in this project. be carefull if you change something*/
   /* general colors */
   --ladesa-green-1-color: var(--internal-ladesa-primary-color);
   --ladesa-green-2-color: var(--internal-ladesa-secondary-color);
   --ladesa-white-color: var(--internal-ladesa-on-surface-color);
   --ladesa-grey-color: var(--internal-ladesa-tertiary-grey-1-color);
-  --ladesa-grey-2-color: var(--internal-ladesa-tertiary-grey-2-color); /* exists only in dark mode -> used on texts */
+  --ladesa-grey-2-color: var(
+    --internal-ladesa-tertiary-grey-2-color
+  ); /* exists only in dark mode -> used on texts */
   --ladesa-red-color: var(--internal-ladesa-tertiary-red-color);
   --ladesa-purple-color: var(--internal-ladesa-tertiary-purple-color);
 

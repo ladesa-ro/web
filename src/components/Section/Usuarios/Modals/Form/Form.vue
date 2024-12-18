@@ -20,13 +20,14 @@ const isActive = ref(false);
 
 <template>
   <v-dialog v-model="isActive">
-    <template v-slot:activator="{ props: activatorProps }">
+    <template #activator="{ props: activatorProps }">
       <UIButtonAdd v-if="editId === null" v-bind="activatorProps" />
       <UIButtonEdit v-else v-bind="activatorProps" />
     </template>
 
     <template v-slot:="{ isActive }">
       <div
+        class="flex flex-row justify-center p-1 gap-[16px] overflow-hidden"
         @click="
           (e) => {
             if (e.target === e.currentTarget) {
@@ -34,12 +35,11 @@ const isActive = ref(false);
             }
           }
         "
-        class="flex flex-row justify-center p-1 gap-[16px] overflow-hidden"
       >
-        <SectionUsuariosForm :editId="editId">
+        <SectionUsuariosForm :edit-id="editId">
           <v-card class="dialog-style p-1 overflow-auto max-w-[500px]">
             <SectionUsuariosFormProfile
-              :editId="editId"
+              :edit-id="editId"
               @close="isActive.value = false"
             />
           </v-card>

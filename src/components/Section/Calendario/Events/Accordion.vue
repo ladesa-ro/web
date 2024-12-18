@@ -27,7 +27,7 @@ const orderBy = ref<string>(props.orderBy);
 
 // Functions
 // Set event list
-let allEventItems = ref<Event[]>([]);
+const allEventItems = ref<Event[]>([]);
 
 onMounted(async () => {
   allEventItems.value = await getOrdenedEventList(

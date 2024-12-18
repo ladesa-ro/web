@@ -19,11 +19,11 @@ const props = defineProps<Props>();
           </slot>
         </v-card-title>
 
-        <slot></slot>
+        <slot />
       </div>
 
       <div class="mr-2">
-        <slot name="actions"></slot>
+        <slot name="actions" />
       </div>
     </div>
   </v-card>

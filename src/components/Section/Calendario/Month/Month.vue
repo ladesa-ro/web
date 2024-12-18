@@ -24,10 +24,10 @@ const props = defineProps<Props>();
 //  --- Month ---
 const daysInTheWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
-let monthNum = ref<number>(props.month!);
-let monthColor = ref<string>('#9ab69e');
+const monthNum = ref<number>(props.month!);
+const monthColor = ref<string>('#9ab69e');
 
-let calendarDays = {
+const calendarDays = {
   daysInMonth: ref<Day[]>([]),
   emptyDays: {
     before: ref<number>(0),
@@ -175,9 +175,9 @@ onMounted(async () => {
     >
       <!-- Toggle for before month -->
       <IconsArrowIconArrow
+        v-show="props.toggleMonth"
         class="text-white cursor-pointer"
         @click="toggleMonth(-1)"
-        v-show="props.toggleMonth"
       />
       <!-- Month name -->
       <h1 class="font-medium text-center text-lg sm:text-xl w-full">
@@ -190,9 +190,9 @@ onMounted(async () => {
 
       <!-- Toggle for after month -->
       <IconsArrowIconArrow
+        v-show="props.toggleMonth"
         class="text-white rotate-180 cursor-pointer"
         @click="toggleMonth(1)"
-        v-show="props.toggleMonth"
       />
     </div>
 
@@ -202,8 +202,8 @@ onMounted(async () => {
     >
       <!-- Days of the week -->
       <p
-        class="text-center text-sm sm:text-[16px] font-semibold"
         v-for="dayInTheWeek in daysInTheWeek"
+        class="text-center text-sm sm:text-[16px] font-semibold"
       >
         {{ dayInTheWeek }}
       </p>
@@ -211,10 +211,10 @@ onMounted(async () => {
       <!-- Days -->
       <!-- Before -->
       <div
-        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#9ab69e]"
         v-for="daysBefore in calendarDays.emptyDays.before.value"
         :key="daysBefore"
-      ></div>
+        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#9ab69e]"
+      />
 
       <!-- In month -->
       <div
@@ -249,10 +249,10 @@ onMounted(async () => {
       </div>
       <!-- After -->
       <div
-        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#9ab69e]"
         v-for="daysAfter in calendarDays.emptyDays.after.value"
         :key="daysAfter"
-      ></div>
+        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#9ab69e]"
+      />
     </v-container>
   </v-card>
 </template>

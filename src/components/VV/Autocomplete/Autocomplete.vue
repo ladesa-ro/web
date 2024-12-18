@@ -28,15 +28,15 @@ const {
 <template>
   <div class="autoCompleteField">
     <UIAutocompleteBase
-      clearable
-      :name="name"
-      @blur="handleBlur"
-      hide-details="auto"
-      persistent-placeholder
       v-model:value="modelValue"
       v-model:search="searchValue"
+      clearable
+      :name="name"
+      hide-details="auto"
+      persistent-placeholder
       :error-messages="errorMessage ? [errorMessage] : []"
       v-bind="$attrs"
+      @blur="handleBlur"
     />
   </div>
 </template>

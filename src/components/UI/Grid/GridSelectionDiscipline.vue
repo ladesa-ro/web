@@ -15,8 +15,8 @@ const slots = defineSlots<{
     v-if="items"
     class="flex flex-col gap-4 max-h-[26rem] overflow-y-auto overflow-x-hidden -mr-4"
   >
-    <div class="px-0 mr-4" v-for="item in items">
-      <slot name="item" v-bind="{ item: item as T }"></slot>
+    <div v-for="item in items" class="px-0 mr-4">
+      <slot name="item" v-bind="{ item: item as T }" />
     </div>
   </div>
 </template>

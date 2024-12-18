@@ -11,13 +11,16 @@
     "postinstall": "nuxt prepare",
     "start": "node .output/server/index.mjs",
     "format:check": "prettier --cache --ignore-unknown \"**/*\" --check",
-    "format:write": "prettier --cache --ignore-unknown \"**/*\" --write"
+    "format:write": "prettier --cache --ignore-unknown \"**/*\" --write",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@auth/core": "^0.37.4",
     "@ladesa-ro/api-client-fetch": "^1.0.0-next.30",
     "@mdi/font": "^7.3.67",
     "@nuxt/devtools": "latest",
+    "@nuxt/eslint": "^0.7.3",
     "@nuxtjs/color-mode": "^3.5.2",
     "@nuxtjs/tailwindcss": "^6.12.2",
     "@sidebase/nuxt-auth": "^1.0.0-alpha.0",
@@ -53,5 +56,6 @@
     "@sidebase/nuxt-auth": {
       "@auth/core": "$@auth/core"
     }
-  }
+  },
+  "packageManager": "pnpm@9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c"
 }

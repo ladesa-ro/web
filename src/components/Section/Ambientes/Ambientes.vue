@@ -20,11 +20,11 @@ const options = createApiListContextOptions({
     </template>
 
     <template #grid-item="{ item, isLoading }">
-      <SectionAmbientesGridItem :item="item" :isLoading="isLoading" />
+      <SectionAmbientesGridItem :item="item" :is-loading="isLoading" />
     </template>
 
     <template #grid-item-skeleton>
-      <SectionAmbientesGridItem :item="null" :isLoading="true" />
+      <SectionAmbientesGridItem :item="null" :is-loading="true" />
     </template>
   </UIAPIList>
 </template>

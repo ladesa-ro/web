@@ -33,7 +33,7 @@ setupUIApiListContext(props.options);
     <div class="flex-1 h-full flex flex-col container mx-auto max-w-[89%]">
       <UIAPIListOptions>
         <template #actions>
-          <slot name="options-actions"></slot>
+          <slot name="options-actions" />
         </template>
       </UIAPIListOptions>
 
@@ -42,12 +42,11 @@ setupUIApiListContext(props.options);
           <slot
             name="grid-item"
             v-bind="{ ...options, item: options.item as T }"
-          >
-          </slot>
+          />
         </template>
 
         <template #grid-item-skeleton>
-          <slot name="grid-item-skeleton"></slot>
+          <slot name="grid-item-skeleton" />
         </template>
       </UIAPIListResults>
     </div>

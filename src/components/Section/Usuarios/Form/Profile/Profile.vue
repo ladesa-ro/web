@@ -88,7 +88,7 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit" class="p-5 overflow-auto">
+  <v-form class="p-5 overflow-auto" @submit.prevent="onSubmit">
     <div class="modal">
       <div class="form-header">
         <h1 class="main-title">

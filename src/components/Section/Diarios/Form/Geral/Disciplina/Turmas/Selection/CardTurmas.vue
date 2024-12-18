@@ -16,15 +16,13 @@ const onTurmaSelect = toRef(props, 'onTurmaSelect');
 <template>
   <UICardSelectionDiscipline variant="block">
     <template #title>
-      <span class="title">{{ turma.periodo }} - {{ turma.curso.ofertaFormacao.nome }}</span>
+      <span class="title"
+        >{{ turma.periodo }} - {{ turma.curso.ofertaFormacao.nome }}</span
+      >
     </template>
 
     <template #actions>
-      <v-checkbox
-        color="success"
-        value="success"
-        class="detail"
-      />
+      <v-checkbox color="success" value="success" class="detail" />
     </template>
 
     <UICardLine class="card-line">

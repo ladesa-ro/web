@@ -17,7 +17,7 @@ const options = [
 
 selectedOptions.value = options[1];
 
-let currentDayIndex = ref(1);
+const currentDayIndex = ref(1);
 
 const changeDay = (delta: number) => {
   currentDayIndex.value =
@@ -74,7 +74,7 @@ watch(vinculosComCargoProfessor, (current, previous) => {
       <v-divider class="my-4" />
 
       <div class="flex flex-col gap-5">
-        <v-expansion-panels mandatory class="mb-6" v-model="activePanel">
+        <v-expansion-panels v-model="activePanel" mandatory class="mb-6">
           <SectionUsuariosFormAvailabilitiesAvailability
             v-for="vinculo in vinculosComCargoProfessor"
             :key="vinculo.campus.id"

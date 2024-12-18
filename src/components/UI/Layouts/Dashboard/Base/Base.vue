@@ -48,12 +48,12 @@ const { isDark } = useCustomTheme();
         <Appbar v-model="hamburguerActive" />
       </v-app-bar>
 
-      <slot name="sidebar"></slot>
+      <slot name="sidebar" />
 
       <v-main class="main">
         <div class="main-content">
           <div class="flex-1 flex">
-            <slot></slot>
+            <slot />
           </div>
 
           <UIFooter />

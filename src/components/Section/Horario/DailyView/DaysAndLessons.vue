@@ -38,7 +38,7 @@ const viewFor = computed(() => {
   }
 
   return 'student';
-})
+});
 </script>
 
 <template>

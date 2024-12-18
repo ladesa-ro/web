@@ -22,11 +22,11 @@ const { viewMode } = useUIApiListContext();
   <template v-if="viewMode === UIApiListViewMode.CARDS">
     <UIAPIListResultsGrid>
       <template #item="options">
-        <slot name="grid-item" v-bind="options"> </slot>
+        <slot name="grid-item" v-bind="options" />
       </template>
 
       <template #item-skeleton>
-        <slot name="grid-item-skeleton"></slot>
+        <slot name="grid-item-skeleton" />
       </template>
     </UIAPIListResultsGrid>
   </template>

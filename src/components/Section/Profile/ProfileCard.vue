@@ -1,16 +1,16 @@
 <template>
   <div class="border-card">
     <h4 class="asdfg pt-[20px] px-[20px]">
-      <slot name="icone"></slot>
+      <slot name="icone" />
 
       <span>
-        <slot name="titulo"></slot>
+        <slot name="titulo" />
       </span>
     </h4>
 
-    <div class="mt-6"></div>
+    <div class="mt-6" />
 
-    <slot></slot>
+    <slot />
   </div>
 </template>
 

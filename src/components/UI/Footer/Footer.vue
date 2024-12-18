@@ -63,7 +63,7 @@ const footerLinks = [
           </p>
         </div>
 
-        <div class="flex-1"></div>
+        <div class="flex-1" />
 
         <div class="flex flex-wrap items-center justify-center">
           <v-btn

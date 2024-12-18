@@ -1,29 +1,44 @@
 <template>
   <div>
     <!-- Cards de dias -->
-    <div v-for="(day, index) in days" :key="index" class="flex flex-col items-center justify-between border border-gray-300 rounded-lg mb-4">
+    <div
+      v-for="(day, index) in days"
+      :key="index"
+      class="flex flex-col items-center justify-between border border-gray-300 rounded-lg mb-4"
+    >
       <div class="flex items-center justify-between w-full">
-        <div class="GreenBox flex items-center justify-center bg-green-600 text-white p-5 w-24">
+        <div
+          class="GreenBox flex items-center justify-center bg-green-600 text-white p-5 w-24"
+        >
           <span class="text-base">{{ day.name }}</span>
         </div>
         <div class="flex items-center">
-          <button @click.prevent="prevDay(index)" class="focus:outline-none mx-4">
-            <IconsArrowIconArrow class="Icon h-6 w-6 rotate-0"/>
+          <button
+            class="focus:outline-none mx-4"
+            @click.prevent="prevDay(index)"
+          >
+            <IconsArrowIconArrow class="Icon h-6 w-6 rotate-0" />
           </button>
           <span class="text-sm font-bold flex items-center">
             Total de aulas:&nbsp;<span class="">{{ day.totalClasses }}</span>
           </span>
-          <button @click.prevent="nextDay(index)" class="focus:outline-none mx-4">
-            <IconsArrowIconArrow class="Icon h-6 w-6 rotate-180"/>
+          <button
+            class="focus:outline-none mx-4"
+            @click.prevent="nextDay(index)"
+          >
+            <IconsArrowIconArrow class="Icon h-6 w-6 rotate-180" />
           </button>
-          <button @click.prevent="removeDay(index)" class="focus:outline-none mx-4">
+          <button
+            class="focus:outline-none mx-4"
+            @click.prevent="removeDay(index)"
+          >
             <v-icon small class="IconTrash h-6 w-6">mdi-trash-can</v-icon>
           </button>
         </div>
       </div>
     </div>
     <div class="mt-4">
-      <UIButtonModalAddDayClassButton @click.prevent="addDay"/>
+      <UIButtonModalAddDayClassButton @click.prevent="addDay" />
     </div>
   </div>
 </template>
@@ -32,9 +47,7 @@
 export default {
   data() {
     return {
-      days: [
-        { name: 'Dia 1', totalClasses: 1 }
-      ]
+      days: [{ name: 'Dia 1', totalClasses: 1 }],
     };
   },
   methods: {
@@ -54,9 +67,9 @@ export default {
       if (this.days.length > 1) {
         this.days.splice(index, 1);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

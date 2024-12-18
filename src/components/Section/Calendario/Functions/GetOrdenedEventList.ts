@@ -15,7 +15,7 @@ export async function getOrdenedEventList(
   betweenDates?: BetweenDates
 ): Promise<Event[]> {
   try {
-    let allEventItems = ref<Event[]>([]);
+    const allEventItems = ref<Event[]>([]);
     allEventItems.value = await getFormattedEvents.EventList(
       steps,
       events,

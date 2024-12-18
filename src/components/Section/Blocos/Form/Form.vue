@@ -154,7 +154,7 @@ const codigo = computed({
 </script>
 
 <template>
-  <v-form @submit.prevent="onSubmit" class="form">
+  <v-form class="form" @submit.prevent="onSubmit">
     <div class="form-header">
       <h1 class="main-title">
         <span v-if="editId">Editar Bloco</span>
@@ -191,7 +191,7 @@ const codigo = computed({
     <div class="form-footer button-group">
       <UIButtonModalCancelButton @click="$emit('close')" />
 
-      <UIButtonModalDeleteButton @click.prevent="handleDelete" v-if="editId" />
+      <UIButtonModalDeleteButton v-if="editId" @click.prevent="handleDelete" />
 
       <UIButtonModalEditButton v-if="editId" />
       <UIButtonModalSaveButton v-else />

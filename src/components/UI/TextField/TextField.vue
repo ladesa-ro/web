@@ -79,12 +79,12 @@ const handleContainerClick = () => {
       v-bind="inputAttributes"
     />
 
-    <div class="toggle-password-visibility" v-if="isTogglePasswordEnabled">
+    <div v-if="isTogglePasswordEnabled" class="toggle-password-visibility">
       <button
         :disabled="disabled"
         title="Alterar visibilidade deste campo."
-        @click="togglePasswordVisibility"
         type="button"
+        @click="togglePasswordVisibility"
       >
         <IconsEyesEyeOff
           v-if="showPassword"

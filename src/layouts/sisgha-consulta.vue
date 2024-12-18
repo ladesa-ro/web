@@ -2,7 +2,7 @@
   <div class="layout">
     <main class="main">
       <div class="flex-1 flex">
-        <slot></slot>
+        <slot />
       </div>
       <div>
         <UIFooter />

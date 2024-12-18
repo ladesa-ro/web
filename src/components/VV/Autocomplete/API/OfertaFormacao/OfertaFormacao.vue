@@ -48,5 +48,3 @@ const options = createUIAutocompleteApiRetrieverOptions({
     v-bind="$attrs"
   />
 </template>
-
-

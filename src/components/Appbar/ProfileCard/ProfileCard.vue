@@ -53,7 +53,7 @@ defineProps<Props>();
           </span>
         </span>
 
-        <slot name="arrowIcon"></slot>
+        <slot name="arrowIcon" />
       </p>
     </div>
   </div>

@@ -43,14 +43,14 @@ const hasImage = computed(() => {
           :height="`${_ARBITRARY_UI_CARD_IMAGE_HEIGHT}px`"
           style="backdrop-filter: blur(10px) brightness(70%)"
         >
-          <template v-slot:placeholder>
+          <template #placeholder>
             <div class="d-flex align-center justify-center fill-height">
-              <v-progress-circular indeterminate v-if="Boolean(hasImage)" />
+              <v-progress-circular v-if="Boolean(hasImage)" indeterminate />
               <v-empty-state v-else icon="mdi-cancel" />
             </div>
           </template>
 
-          <template v-slot:error>
+          <template #error>
             <div class="d-flex align-center justify-center fill-height">
               <v-empty-state
                 icon="mdi-alert-circle-outline"
@@ -78,7 +78,7 @@ const hasImage = computed(() => {
         </div>
       </div>
 
-      <slot></slot>
+      <slot />
     </v-card>
   </template>
 </template>

@@ -16,13 +16,13 @@ const { item } = toRefs(props);
 
 <template>
   <v-list-group
-    class="group hover:bg-ldsa-green-2/20" 
-    :value="item.title"
     v-if="item.type === 'group'"
+    class="group hover:bg-ldsa-green-2/20"
+    :value="item.title"
   >
-    <template v-slot:activator="{ props }">
+    <template #activator="{ props }">
       <v-list-item v-bind="props" :ripple="false" class="!mt-0">
-        <template v-slot:prepend>
+        <template #prepend>
           <img
             :width="24"
             class="mr-4 -icon-white"
@@ -41,10 +41,10 @@ const { item } = toRefs(props);
 
     <div :style="{ '--indent-padding': '0px' }">
       <SidebarItem
-        child
-        :key="index"
-        :item="item"
         v-for="(item, index) in item.items"
+        :key="index"
+        child
+        :item="item"
       />
     </div>
   </v-list-group>

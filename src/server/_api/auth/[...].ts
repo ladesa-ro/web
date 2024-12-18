@@ -68,7 +68,7 @@ export default NuxtAuthHandler({
                 token,
               };
             }
-          } catch (error) {}
+          } catch {}
         }
 
         return null;

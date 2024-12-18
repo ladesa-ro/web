@@ -11,7 +11,6 @@ const $emit = defineEmits(['close', 'next', 'back']);
 const searchBarText = ref('');
 const currentPage = ref(1);
 
-
 const prevPage = () => {
   if (currentPage.value > 1) currentPage.value--;
 };
@@ -19,7 +18,6 @@ const prevPage = () => {
 const nextPage = () => {
   if (currentPage.value < 2) currentPage.value++;
 };
-
 
 const options = computed(() => ({
   search: unref(searchBarText),
@@ -35,20 +33,12 @@ const { previousItems: turmas } = await useApiBaseResourceList(
 
 const selectedTurma = ref<string | null>(null);
 
-
 const backForm = () => {
   $emit('back');
 };
 
-
-
-
 const checkedQuimica = ref<string[]>([]);
-
-
-
 </script>
-
 
 <template>
   <v-form class="form">
@@ -65,13 +55,20 @@ const checkedQuimica = ref<string[]>([]);
 
       <v-container>
         <v-row v-if="turmas && turmas.length">
-          <v-col cols="4" v-for="turma in turmas" :key="turma.id" class="text-center space-y-0">
-            <h4 class="mb-2 text-base font-medium text-center">{{ turma.curso.nome }}</h4>
+          <v-col
+            v-for="turma in turmas"
+            :key="turma.id"
+            cols="4"
+            class="text-center space-y-0"
+          >
+            <h4 class="mb-2 text-base font-medium text-center">
+              {{ turma.curso.nome }}
+            </h4>
             <v-checkbox
+              v-model="checkedQuimica"
               hide-details
               density="compact"
               color="success"
-              v-model="checkedQuimica"
               :label="turma.periodo"
               :value="turma.periodo"
             />
@@ -88,7 +85,6 @@ const checkedQuimica = ref<string[]>([]);
     </div>
   </v-form>
 </template>
-
 
 <style scoped>
 .form {

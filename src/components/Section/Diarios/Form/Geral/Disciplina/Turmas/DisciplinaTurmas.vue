@@ -17,9 +17,10 @@ const { disciplinaId } = useContextDiariosFormGeral();
 
 // const { diario } = toRefs(props);
 
-const { diariosProfessoresList } = await useApiDiariosProfessoresFindAllByDiarioId({
-  // diario: diario.value,
-});
+const { diariosProfessoresList } =
+  await useApiDiariosProfessoresFindAllByDiarioId({
+    // diario: diario.value,
+  });
 
 //
 
@@ -101,8 +102,8 @@ const { items: diarios } = await useApiDiariosFindAll('', {
           </v-expansion-panel-title>
 
           <v-expansion-panel-text>
-            <SectionDiariosModalAccessRole @selectRole="selectRole" />
-            <v-divider inset></v-divider>
+            <SectionDiariosModalAccessRole @select-role="selectRole" />
+            <v-divider inset />
 
             <div v-if="showTeacherSection" class="Seaction-Teacher pt-3">
               <UISearchBar
@@ -122,7 +123,7 @@ const { items: diarios } = await useApiDiariosFindAll('', {
                 <template #item="{ item: diarioProfessor }">
                   <LazyUICardUser variant="block">
                     <template #title>
-                      {{ diarioProfessor.perfil.usuario.nome}}
+                      {{ diarioProfessor.perfil.usuario.nome }}
                     </template>
 
                     <UICardLine>

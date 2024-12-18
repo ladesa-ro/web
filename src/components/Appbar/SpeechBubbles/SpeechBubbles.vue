@@ -29,7 +29,7 @@ const computedPinLeft = computed(() => {
       :style="{
         left: `${computedPinLeft}px`,
       }"
-    ></div>
+    />
 
     <div class="flex flex-col">
       <div class="py-2 px-4">Novo evento gerado.</div>

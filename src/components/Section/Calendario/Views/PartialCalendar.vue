@@ -16,10 +16,10 @@ const props = defineProps<Props>();
 
 // Functions
 // Set event list
-let allEventItems = ref<Event[]>([]);
+const allEventItems = ref<Event[]>([]);
 
 // Month num (get emitted value)
-let monthNumReceived = ref<number>(0);
+const monthNumReceived = ref<number>(0);
 
 const handleUpdate = (v: number) => {
   monthNumReceived.value = v;

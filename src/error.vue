@@ -11,7 +11,7 @@ const error = useError();
         icon="mdi-alert-circle-outline"
         title="Página não encontrada"
         text="A página que você está procurando não existe."
-      ></v-empty-state>
+      />
     </template>
 
     <template v-else>

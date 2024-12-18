@@ -3,5 +3,5 @@ await navigateTo('/sisgha/dape');
 </script>
 
 <template>
-  <div></div>
+  <div />
 </template>

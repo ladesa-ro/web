@@ -11,13 +11,13 @@ const { item } = toRefs(props);
 <template>
   <v-list-item
     v-if="item.type === 'link'"
-    :to="item.to"
     :key="item.title"
+    :to="item.to"
     :exact="item.exact ?? false"
     :ripple="false"
     class="text-white !mt-0 hover:bg-ldsa-green-2/20"
   >
-    <template v-slot:prepend>
+    <template #prepend>
       <img
         :width="24"
         class="mr-4 -icon-white"

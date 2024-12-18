@@ -25,10 +25,10 @@ const orderBy: Array<string> = ['Mês', 'Eventos', 'Bimestre', 'Semestre'];
 const orderType: Array<string> = ['Crescente', 'Decrescente'];
 
 // Select filter
-let filterType = ref<BetweenDates[]>([]);
+const filterType = ref<BetweenDates[]>([]);
 
 // Local filter value
-let localValue = {
+const localValue = {
   search: ref<string>(''),
   _orderBy: ref<string>(orderBy[0]),
   _orderType: ref<string>(orderType[0]),
@@ -55,8 +55,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-dialog max-width="500" v-model="isActive">
-    <template v-slot="{ isActive }">
+  <v-dialog v-model="isActive" max-width="500">
+    <template #default="{ isActive }">
       <v-card class="dialog-style">
         <!-- Modal -->
         <v-form class="-form">
@@ -77,19 +77,19 @@ onMounted(async () => {
               <!-- Order list -->
               <div class="flex flex-row gap-4">
                 <VVAutocomplete
+                  v-model:value="localValue._orderBy.value"
                   name="orderBy.id"
                   label="Ordenar por"
                   placeholder="Selecione uma opção"
                   :items="orderBy"
-                  v-model:value="localValue._orderBy.value"
                   class="w-full"
                 />
                 <VVAutocomplete
+                  v-model:value="localValue._orderType.value"
                   name="orderType.id"
                   label="Ordem"
                   placeholder="Selecione uma ordem"
                   :items="orderType"
-                  v-model:value="localValue._orderType.value"
                   class="w-full"
                 />
               </div>

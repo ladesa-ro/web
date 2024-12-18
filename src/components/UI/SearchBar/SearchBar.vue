@@ -32,9 +32,9 @@ watch(
 <template>
   <div class="searchField">
     <UITextFieldBase
+      v-model="localValue"
       clearable
       label="Pesquisar"
-      v-model="localValue"
       placeholder="Digite Aqui"
       append-inner-icon="mdi-magnify"
     />

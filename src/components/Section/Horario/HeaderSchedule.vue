@@ -36,7 +36,7 @@ const notificationsButtonEl = ref(null);
         transition="slide-y-transition"
         :close-on-content-click="false"
       >
-        <template v-slot:activator="{ props, isActive }">
+        <template #activator="{ props, isActive }">
           <IconsArrowIconArrow
             v-bind="props"
             ref="notificationsButtonEl"
@@ -47,7 +47,9 @@ const notificationsButtonEl = ref(null);
           />
         </template>
 
-        <SpeechBubblesCalendar :notificationsButtonEl="notificationsButtonEl" />
+        <SpeechBubblesCalendar
+          :notifications-button-el="notificationsButtonEl"
+        />
       </v-menu>
     </div>
 

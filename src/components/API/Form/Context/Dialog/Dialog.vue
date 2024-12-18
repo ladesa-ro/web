@@ -27,7 +27,7 @@ type Slots = {
   body(props: any): any;
 };
 
-const slots = defineSlots<Slots>();
+defineSlots<Slots>();
 
 //
 </script>
@@ -42,22 +42,21 @@ const slots = defineSlots<Slots>();
 
       <div class="flex items-center gap-2">
         <v-menu
-          :disabled="isLoading || isBusy"
           v-if="editId"
+          :disabled="isLoading || isBusy"
           location="bottom end"
           :close-on-content-click="true"
         >
-          <template v-slot:activator="{ props: menu }">
+          <template #activator="{ props: menu }">
             <v-tooltip location="bottom">
-              <template v-slot:activator="{ props: tooltip }">
+              <template #activator="{ props: tooltip }">
                 <v-btn
                   :disabled="isLoading || isBusy"
                   size="small"
                   variant="text"
                   icon="mdi-dots-vertical"
                   v-bind="mergeProps(menu, tooltip)"
-                >
-                </v-btn>
+                />
               </template>
 
               <span>Opções</span>
@@ -74,8 +73,8 @@ const slots = defineSlots<Slots>();
               density="compact"
               @click.prevent="onDelete(editId)"
             >
-              <template v-slot:prepend>
-                <v-icon icon="mdi-delete"></v-icon>
+              <template #prepend>
+                <v-icon icon="mdi-delete" />
               </template>
 
               <v-list-item-title>Deletar</v-list-item-title>
@@ -101,7 +100,7 @@ const slots = defineSlots<Slots>();
     </div>
 
     <div v-else class="form-body modal-form">
-      <slot name="body"></slot>
+      <slot name="body" />
     </div>
 
     <v-divider />

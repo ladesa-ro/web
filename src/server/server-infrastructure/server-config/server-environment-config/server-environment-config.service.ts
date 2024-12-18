@@ -1,6 +1,6 @@
 import { injectable } from 'inversify';
 import { withoutTrailingSlash } from 'ufo';
-import { type IConfig } from '../../../domain/config/IConfig';
+import type { IConfig } from '../../../domain/config/IConfig';
 
 @injectable()
 export class ServerEnvironmentConfigService implements IConfig {

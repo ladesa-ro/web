@@ -8,7 +8,7 @@ export const getMonth = {
   async setMonthData(year: number, month: number): Promise<Day[]> {
     try {
       // Clear array
-      let daysInMonth: Array<Day> = [];
+      const daysInMonth: Array<Day> = [];
 
       // Repeat loop
       for (
@@ -93,7 +93,7 @@ export const getMonth = {
   ): Promise<Day[]> {
     try {
       // Set month and days with colors
-      let daysInMonth: Array<Day> = await this.setMonthData(year, month);
+      const daysInMonth: Array<Day> = await this.setMonthData(year, month);
       await this.setDatesColor(daysInMonth, steps, events);
 
       // Return days in month

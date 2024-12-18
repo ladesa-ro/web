@@ -25,8 +25,6 @@ const {
   errorMessage,
   handleBlur,
   value: modelValue,
-
-  handleChange,
 } = useField(name, undefined, {
   initialValue: props.value ?? undefined,
   validateOnValueUpdate: false,
@@ -36,12 +34,12 @@ const {
 <template>
   <UITextFieldBase
     v-bind="$attrs"
+    v-model:value="modelValue"
     :name="name"
     :type="type"
     :error-messages="errorMessage ? [errorMessage] : []"
-    v-model:value="modelValue"
-    @blur="handleBlur"
     persistent-hint
+    @blur="handleBlur"
   />
 </template>
 
