@@ -1,6 +1,8 @@
 export default defineNuxtConfig({
   // ==============================================
 
+  srcDir: './src',
+
   ssr: true,
 
   // ===========
@@ -55,7 +57,7 @@ export default defineNuxtConfig({
     preference: 'system',
     fallback: 'light',
     classPrefix: '',
-    classSuffix: ''
+    classSuffix: '',
   },
 
   // ==============================================
