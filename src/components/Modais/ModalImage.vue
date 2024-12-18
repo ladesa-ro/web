@@ -26,7 +26,6 @@ defineEmits(['close']);
             >
               <path
                 d="M1.23291 11.8824L10.9209 2.11755M10.9209 11.8824L1.23291 2.11755"
-                :stroke="svgCancelColor"
                 stroke-width="2.46588"
                 stroke-linecap="round"
               />
@@ -48,7 +47,6 @@ defineEmits(['close']);
             >
               <path
                 d="M1.4082 6.63384L6.59038 11.647L15.7719 2.35291"
-                :stroke="svgColor"
                 stroke-width="2.8164"
                 stroke-linecap="round"
                 stroke-linejoin="round"

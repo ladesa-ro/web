@@ -13,7 +13,8 @@
     "format:check": "prettier --cache --ignore-unknown \"**/*\" --check",
     "format:write": "prettier --cache --ignore-unknown \"**/*\" --write",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@auth/core": "^0.37.4",
@@ -34,6 +35,7 @@
     "axios": "^1.7.9",
     "dayjs": "^1.11.12",
     "html2pdf.js": "^0.10.2",
+    "husky": "^9.1.7",
     "inversify": "^6.2.0",
     "jsonwebtoken": "^9.0.2",
     "nuxt": "^3.14.1592",
@@ -50,6 +52,7 @@
     "vue3-dropzone": "^2.2.1",
     "vuetify": "^3.7.5",
     "vuetify-nuxt-module": "^0.18.3",
+    "yarnhook": "^0.6.2",
     "yup": "^1.5.0"
   },
   "overrides": {
