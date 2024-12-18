@@ -1,21 +1,26 @@
 FROM node:23 AS base
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
+
 WORKDIR /app
 
+
 FROM base AS prod-deps
-COPY package.json package-lock.json ./
-RUN npm ci --omit=dev --ignore-scripts
+COPY package.json pnpm-lock.yaml .npmrc ./
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile --ignore-scripts
 
 FROM prod-deps AS dev-deps
-RUN npm ci
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile --ignore-scripts
 
 FROM dev-deps AS builder
 COPY . .
 ARG NODE_ENV
-# ARG AUTH_ORIGIN
-RUN npm run build
-RUN rm -rf node_modules
+RUN pnpm run build
 
 FROM base AS web-runtime
-WORKDIR /var/lib/ladesa-ro/cr/web
-COPY --from=builder /app/.output /var/lib/ladesa-ro/cr/web/.output
+WORKDIR /opt/@ladesa/web
+COPY --from=builder /app/.output /opt/@ladesa/web/.output
 CMD node .output/server/index.mjs
