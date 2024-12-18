@@ -41,6 +41,7 @@
     "nuxt": "^3.14.1592",
     "openid-client": "^6.1.7",
     "prettier": "^3.4.2",
+    "radix-vue": "^1.9.11",
     "reflect-metadata": "^0.2.1",
     "typescript": "5.6.3",
     "vee-validate": "^4.14.7",
