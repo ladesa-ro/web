@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import Appbar from '~/components/Appbar/Appbar.vue';
-import { useCustomTheme } from '~/composables/useCustomTheme';
 import { HeadTitleContext } from '~/infrastructure/HeadTitleContext';
 import { provideLayoutsDashboardContext } from './context';
 
@@ -24,43 +22,33 @@ defineSlots<Slots>();
 //
 
 const init = useInit();
-
-const { isDark } = useCustomTheme();
-
-//
 </script>
 
 <template>
-  <v-app
-    class="app"
-    style="z-index: 1"
-    :class="{ initializing: !init }"
-    :theme="isDark ? 'dark' : 'light'"
-  >
-    <v-layout class="layout">
-      <v-app-bar
-        app
-        height="72"
-        :elevation="0"
-        style="box-shadow: 0px 0px 30px 0px rgba(17, 141, 59, 0.15)"
-        class="sticky w-full !border-solid !border-ldsa-grey/50 !border-b-[1px]"
+  <div class="app" :class="{ initializing: !init }">
+    <div class="layout">
+      <!-- Appbar -->
+      <section
+        class="sticky w-full h-[77px] border-solid border-ldsa-grey/50 border-b-[1px]"
       >
         <Appbar v-model="hamburguerActive" />
-      </v-app-bar>
+      </section>
 
+      <!-- Sidebar -->
       <slot name="sidebar" />
 
-      <v-main class="main">
-        <div class="main-content">
+      <!-- Page content + footer -->
+      <main class="main">
+        <section class="main-content">
           <div class="flex-1 flex">
             <slot />
           </div>
 
           <UIFooter />
-        </div>
-      </v-main>
-    </v-layout>
-  </v-app>
+        </section>
+      </main>
+    </div>
+  </div>
 </template>
 
 <style scoped>
