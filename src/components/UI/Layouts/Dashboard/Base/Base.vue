@@ -38,7 +38,7 @@ const init = useInit();
       <slot name="sidebar" />
 
       <!-- Page content + footer -->
-      <main class="main">
+      <main class="flex">
         <section class="main-content">
           <div class="flex-1 flex">
             <slot />
@@ -52,36 +52,15 @@ const init = useInit();
 </template>
 
 <style scoped>
-@media (max-width: 600px) {
-  .initializing .main {
-    --v-layout-left: 0 !important;
-  }
-}
-
-.initializing .main {
-  flex: 1 0 auto;
-  max-width: 100%;
-  padding: var(--v-layout-top) var(--v-layout-right) var(--v-layout-bottom)
-    var(--v-layout-left);
-}
-
-.main {
-  overflow: hidden;
-  display: flex;
+.layout {
+  @apply overflow-auto;
+  @apply h-[100vh]  /* fallback para caso o dispositivo não suporte dvh */
+        h-[100dvh];
 }
 
 .main-content {
-  flex: 1;
+  @apply flex-1;
 
-  overflow: auto;
-
-  display: flex;
-  flex-direction: column;
-}
-
-.layout {
-  overflow: hidden;
-  height: 100vh; /* fallback para caso o dispositivo não suporte dvh */
-  height: 100dvh;
+  @apply flex flex-col;
 }
 </style>

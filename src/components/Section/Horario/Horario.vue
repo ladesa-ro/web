@@ -8,7 +8,7 @@ const selectedOption = ref(ViewMode.DAILY_SCHEDULE);
 const el = ref<HTMLElement | null>(null);
 
 function generatePDF() {
-  generatePdf(el.value);
+  generatePdf(el.value as any);
 }
 </script>
 
