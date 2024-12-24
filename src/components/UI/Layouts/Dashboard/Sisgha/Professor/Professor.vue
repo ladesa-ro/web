@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { HeadTitleContext } from '~/infrastructure/HeadTitleContext';
 
-useTitle(HeadTitleContext.DASHBOARD);
+// useTitle(HeadTitleContext.DASHBOARD);
 </script>
 
 <template>
   <UILayoutsDashboardBase>
     <template #sidebar>
-      <!-- <UILayoutsDashboardSisghaProfessorSidebar /> -->
+      <UILayoutsDashboardSisghaProfessorSidebar />
     </template>
 
     <template #default>

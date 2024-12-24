@@ -6,7 +6,7 @@ definePageMeta({
   auth: true,
 });
 
-useTitle(HeadTitleContext.DASHBOARD, 'Perfil');
+// useTitle(HeadTitleContext.DASHBOARD, 'Perfil');
 </script>
 
 <template>
