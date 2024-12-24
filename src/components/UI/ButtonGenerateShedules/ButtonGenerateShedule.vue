@@ -1,13 +1,11 @@
-<script lang="ts" setup>
-import Button from '../Button/Button.vue';
-</script>
+<script setup></script>
 <template>
-  <Button
+  <UIButton
     class="h-20 border-solid border-[2px] border-ldsa-green-2/65 dark:border-ldsa-green-2/45"
   >
     <span class="flex">
       <IconsIconGenerate class="flex text-center w-5 mr-2" />
       Gerar horário
     </span>
-  </Button>
+  </UIButton>
 </template>

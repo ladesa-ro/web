@@ -2,6 +2,8 @@ import type { MaybeArray } from 'vee-validate';
 import { HeadTitleContext } from '~/infrastructure/HeadTitleContext';
 import { ensureArray } from '../infrastructure/ensure-array';
 
+// this composable defines the tab name. for example: "Painel - SISGHA" or "Perfil - SISGHA"
+
 const SEPARATOR = ' — ';
 
 export const buildTitle = (
