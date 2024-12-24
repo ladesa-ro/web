@@ -41,7 +41,7 @@ const notificationsButtonEl = ref(null);
             v-bind="props"
             ref="notificationsButtonEl"
             :class="[
-              'arrow -rotate-90 cursor-pointer -icon-green',
+              'arrow -rotate-90 cursor-pointer',
               { down: isActive },
             ]"
           />
@@ -66,10 +66,6 @@ const notificationsButtonEl = ref(null);
         <span>Horário geral</span>
         <IconsIconMoreItems
           class="w-5"
-          :class="{
-            '-icon-green': selectedOption === ViewMode.GENERAL_SCHEDULE,
-            '-icon-light-green': selectedOption !== ViewMode.GENERAL_SCHEDULE,
-          }"
         />
       </div>
 
@@ -85,10 +81,6 @@ const notificationsButtonEl = ref(null);
         <span>Horário do dia</span>
         <IconsIconClock
           class="w-5"
-          :class="{
-            '-icon-green': selectedOption === ViewMode.DAILY_SCHEDULE,
-            '-icon-light-green': selectedOption !== ViewMode.DAILY_SCHEDULE,
-          }"
         />
       </div>
     </section>
