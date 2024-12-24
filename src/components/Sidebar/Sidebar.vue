@@ -1,24 +1,19 @@
 <script setup lang="ts">
 import { useMonitorSize } from '~/composables/monitor-size';
 import type { ISidebarItem } from './ISidebarItem';
-import { useInit } from '~/composables/useInit';
-
-//
 
 type Props = {
   items: ISidebarItem[];
 };
 
 const props = defineProps<Props>();
+const items = toRef(props, 'items');
 
 //
 
-const init = useInit();
-
 const { isMobile } = useMonitorSize();
 
-const items = toRef(props, 'items');
-
+//defines if the sidebar is active
 const hamburgerActive = defineModel({
   required: true,
   type: Boolean,
@@ -26,7 +21,14 @@ const hamburgerActive = defineModel({
 </script>
 
 <template>
-  <v-navigation-drawer
+  <!-- tornar o template dos itens da sidebar em componente que será chamado em sidebaritemlink e sidebaritemgroup!! -->
+  <nav class="sidebar">
+    <SidebarItem v-for="(item, index) in items" :key="index" :item="item" />
+  </nav>
+
+
+
+  <!-- <v-navigation-drawer
     app
     absolute
     clipped="true"
@@ -46,10 +48,22 @@ const hamburgerActive = defineModel({
         <SidebarItem v-for="(item, index) in items" :key="index" :item="item" />
       </div>
     </v-list>
-  </v-navigation-drawer>
+  </v-navigation-drawer> -->
 </template>
 
 <style scoped>
+.sidebar {
+  @apply flex flex-col gap-[12px];
+  @apply overflow-hidden z-20;
+  @apply w-[56px] py-[7px] border-r-[2px] border-r-ldsa-green-2/ bg-ldsa-green-1;
+}
+
+.sidebar:hover {
+  @apply w-[256px] fixed top-[72px] bottom-0;
+}
+
+/*classes de antes*/
+
 span {
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
@@ -71,7 +85,7 @@ span {
 }
 
 .navigation-drawer {
-  @apply bg-ldsa-green-1 text-white caret-white; /* bg-green-700 */
+  @apply bg-ldsa-green-1 text-ldsa-white caret-ldsa-white; /* bg-green-700 */
   @apply overflow-auto;
   @apply !border-r-0; /* ! para sobrescrever o estilo vuetify */
 }
