@@ -1,57 +1,40 @@
 <script setup lang="ts">
-import type { ISidebarItem } from './ISidebarItem';
+import { CollapsibleContent, CollapsibleRoot } from 'radix-vue';
+import type { ISidebarItemGroup } from './ISidebarItem';
 
-//
-
-type Props = {
-  item: ISidebarItem;
-};
-
+type Props = { item: ISidebarItemGroup };
 const props = defineProps<Props>();
-
-//
-
 const { item } = toRefs(props);
+
+const open = ref(false);
 </script>
 
 <template>
-  <v-list-group
-    v-if="item.type === 'group'"
-    class="group hover:bg-ldsa-green-2/20"
-    :value="item.title"
+  <CollapsibleRoot
+    :class="{ open: open }"
+    :open="open"
   >
-    <template #activator="{ props }">
-      <v-list-item v-bind="props" :ripple="false" class="!mt-0">
-        <template #prepend>
-          <img
-            :width="24"
-            class="mr-4 -icon-white"
-            :src="item.icon"
-            alt="Ícone da funcionalidade."
-          />
-        </template>
+    <button
+      class="flex flex-row items-center px-[16px] w-[256px] min-h-[48px] text-ldsa-white hover:bg-ldsa-white/[0.08]"
+      @click="open = !open"
+    >
+      <img class="w-[24px] mr-[16px] -icon-white" :src="item.icon" alt="Ícone da funcionalidade." />
+      <span> {{ item.title }} </span>
+    </button>
 
-        <v-list-item-title class="link">
-          <span>{{ item.title }}</span>
-        </v-list-item-title>
-      </v-list-item>
-    </template>
-
-    <v-divider class="my-2" />
-
-    <div :style="{ '--indent-padding': '0px' }">
+    <CollapsibleContent>
       <SidebarItem
         v-for="(item, index) in item.items"
-        :key="index"
-        child
+        :class="{ open: open, 'hover:bg-ldsa-white/[0.18]': open }"
         :item="item"
+        :key="index"
       />
-    </div>
-  </v-list-group>
+    </CollapsibleContent>
+  </CollapsibleRoot>
 </template>
 
 <style scoped>
-.group :global(.v-list-group--open) {
-  @apply bg-green-600;
+.open {
+  @apply bg-ldsa-white/[0.12];
 }
 </style>
