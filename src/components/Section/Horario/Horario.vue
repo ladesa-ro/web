@@ -14,11 +14,17 @@ function generatePDF() {
 
 <template>
   <div
-    class="flex flex-1 overflow-auto flex-col items-center gap-12 pb-14 xl:max-w-screen-2xl xl:mx-auto max-xl:mx-16 max-[900px]:text-sm max-[850px]:mx-7"
+    class="flex flex-col items-center gap-12 overflow-auto w-full pb-14
+          xl:max-w-screen-2xl xl:mx-auto
+          max-xl:mx-16
+          max-[900px]:text-sm
+          max-[850px]:mx-7"
   >
+    <!-- Cabeçalho -->
     <SectionHorarioHeaderSchedule v-model:option="selectedOption" />
 
-    <section
+    <!-- Opção "Horário geral" -->
+    <template
       v-if="selectedOption === ViewMode.GENERAL_SCHEDULE"
       ref="el"
       class="flex flex-col items-center max-w-full overflow-hidden"
@@ -27,12 +33,13 @@ function generatePDF() {
 
       <div class="mt-8" />
 
+      <!-- Botão "Gerar PDF" -->
       <UIButton class="min-h-14 max-w-40 mb-2" @click="generatePDF">
         Gerar PDF
       </UIButton>
-    </section>
+    </template>
 
+    <!-- Opção "Horário do dia" -->
     <SectionHorarioDailyViewDaysAndLessons v-else />
-    <!--v-else-if="selectedOption === ViewMode.DAILY_SCHEDULE"-->
   </div>
 </template>
