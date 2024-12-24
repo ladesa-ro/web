@@ -55,7 +55,7 @@ const hamburgerActive = defineModel({
 .sidebar {
   @apply flex flex-col gap-[12px];
   @apply overflow-hidden z-20;
-  @apply w-[56px] py-[7px] border-r-[2px] border-r-ldsa-green-2/ bg-ldsa-green-1;
+  @apply w-[56px] py-[7px] border-r-[2px] border-r-ldsa-green-2/50 bg-ldsa-green-1;
 }
 
 .sidebar:hover {

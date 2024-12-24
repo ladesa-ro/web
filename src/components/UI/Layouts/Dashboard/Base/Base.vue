@@ -30,7 +30,7 @@ defineSlots<Slots>();
 
       <main class="flex-1 flex flex-col overflow-auto">
         <!-- main content -->
-        <section class="flex-1 flex flex-col">
+        <section class="flex-1 flex flex-col pt-14">
           <slot />
         </section>
 

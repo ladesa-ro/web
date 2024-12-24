@@ -1,21 +1,13 @@
 <script setup lang="ts">
 import Availability from '@/components/Section/Profile/Availability/Availability.vue';
 import Teaching from '@/components/Section/Profile/Teaching/Teaching.vue';
-import { ref } from 'vue';
 import ModalImage from '~/components/Modais/ModalImage.vue';
 import { ApiImageResource, useApiImageRoute } from '~/integrations';
-
-//
 
 type Props = {
   userId: string;
 };
-
 const props = defineProps<Props>();
-
-//
-
-const show = ref(false);
 
 //
 
@@ -29,58 +21,75 @@ const profilePicureUrl = useApiImageRoute(
   ApiImageResource.USUARIO_PROFILE,
   usuario
 );
+
+//
+
+const show = ref(false);
 </script>
 
 <template>
-  <div class="py-14 px-4">
-    <v-container class="container-image pa-0 gap-5">
+  <div class="flex flex-col justify-center px-20">
+
+    <!-- cabeçalho do perfil -->
+    <section class="container-image">
+
       <div class="card-profile ml-5 mt-5 md:ml-8 md:mt-8">
         <div class="container-content items-center overflow-hidden gap-5">
+
+          <!-- show profile picture -->
           <v-img
-            v-if="profilePicureUrl"
-            :width="118"
+            v-if="!profilePicureUrl"
+            class="profile-card-style"
+            :src="profilePicureUrl ?? ''"
             aspect-ratio="1/1"
             cover
-            class="rounded-lg"
-            :src="profilePicureUrl ?? ''"
           />
 
           <div
             v-else
-            class="flex py-6 bg-[#F0F0F0] h-[118px] w-[118px] rounded-lg items-center justify-center"
+            class="flex items-center justify-center profile-card-style py-6 bg-ldsa-green-1/10"
           >
-            <IconsIconUser class="text-[#9ab69e] w-[54px] h-[54px]" />
+            <IconsIconUser class="text-ldsa-green-1/50 w-[54px] h-[54px]" />
           </div>
 
-          <div class="text text-wrap overflow-hidden text-black">
-            <p class="font-bold">{{ usuario.nome }}</p>
 
-            <p class="email font-medium text-wrap break-words max-w-full">
-              {{ usuario.email }}
-            </p>
+          <!-- profile's metadata -->
+          <section class="flex flex-col gap-2.5 overflow-hidden font-medium">
+            <span class="font-bold">{{ usuario.nome }}</span>
 
-            <p class="font-medium">Professor</p>
-          </div>
+            <span class="text-ldsa-grey dark:ldsa-grey-2"> {{ usuario.email }} </span>
+
+            <span>Professor</span> <!-- usar rota de perfil para puxar da api!! -->
+          </section>
+
+
         </div>
         <IconsIconEdit
           class="cursor-pointer flex-shrink-0 mt-4 mr-5 self-start"
         />
       </div>
+
+
       <div
-        class="self-start flex-shrink-0 flex items-center justify-center ml-auto mr-4 mt-4 cursor-pointer bg-[#00000030] h-8 w-8 rounded-full"
+        class="self-start flex-shrink-0 flex items-center justify-center ml-auto mr-4 mt-4 cursor-pointer bg-black/35 h-8 w-8 rounded-full"
       >
-        <IconsIconEdit class="text-white" />
+        <IconsIconEdit class="text-ldsa-white" />
         <ModalImage v-if="show" />
       </div>
-    </v-container>
 
-    <v-container
+    </section>
+
+
+
+    <!-- disponibilidade + ensino -->
+    <section
       class="my-7 pa-0 flex-col lg:flex-row flex items-stretch gap-x-[12px] gap-y-11"
     >
       <Availability />
       <Teaching class="flex-1" />
-    </v-container>
+    </section>
   </div>
+
 </template>
 
 <style>
@@ -92,6 +101,25 @@ const profilePicureUrl = useApiImageRoute(
 </style>
 
 <style scoped>
+.profile-card-style {
+  @apply h-[118px] w-[118px] rounded-lg;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .container-image {
   display: flex;
   align-items: flex-end;
@@ -116,7 +144,7 @@ const profilePicureUrl = useApiImageRoute(
 
   overflow: hidden;
 
-  background-color: #fff;
+  @apply bg-ldsa-bg;
 
   box-sizing: border-box;
   border-radius: 10px 10px 0px 0px;
@@ -145,7 +173,8 @@ const profilePicureUrl = useApiImageRoute(
 }
 
 .text .email {
-  color: #9ab69e;
+  @apply text-ldsa-grey dark:text-ldsa-grey-2;
+  /* color: #9ab69e; */
 }
 
 .cont {
