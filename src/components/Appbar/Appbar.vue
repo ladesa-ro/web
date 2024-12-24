@@ -2,9 +2,12 @@
 // import profilePicture from '~/assets/icons/profilePicture.svg';
 import SpeechBubbles from './SpeechBubbles/SpeechBubbles.vue';
 
-const { isDark } = useCustomTheme();
+//
 
+const { isDark } = useCustomTheme();
 const { changeTheme } = useCustomTheme();
+
+// 
 
 const hamburgerActive = defineModel({
   required: true,
@@ -15,11 +18,20 @@ function toggleHamburger() {
   hamburgerActive.value = !hamburgerActive.value;
 }
 
+//
+
 const notificationsButtonEl = ref(null);
 </script>
 
 <template>
-  <div class="flex w-full items-center h-full bg-ldsa-bg">
+  <div class="flex items-center w-full h-[73px] border-b-[1px] border-ldsa-grey/50 bg-ldsa-bg">
+
+
+
+
+
+
+
     <!-- ========== menu icon configurations ========== -->
     <div class="m-[0.34375rem] cursor-pointer" @click="toggleHamburger">
       <IconsMenuIconHamburgerOn v-if="hamburgerActive" class="pa-3 w-[45px]" />
