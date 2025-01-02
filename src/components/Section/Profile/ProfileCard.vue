@@ -1,29 +1,17 @@
 <template>
-  <div class="border-card">
-    <h4 class="asdfg pt-[20px] px-[20px]">
-      <slot name="icone" />
-
-      <span>
-        <slot name="titulo" />
-      </span>
-    </h4>
-
-    <div class="mt-6" />
+  <div class="border-card"> <!--class provided by parent-->
+    <span class="title">
+      <slot name="icon" />
+      <slot name="title" />
+    </span>
 
     <slot />
   </div>
 </template>
 
 <style scoped>
-.asdfg {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  gap: 10px;
-}
-
-.asdfg span {
-  font-weight: 600;
+.title {
+  @apply flex flex-row items-center gap-[0.625rem];
+  @apply mb-6 p-5 pb-0 font-[600];
 }
 </style>
