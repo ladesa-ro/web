@@ -21,7 +21,7 @@ defineEmits(['close']);
 
 <template>
   <div
-    class="flex flex-col justify-between items-center w-[19.75rem] h-[18.125rem] px-8 py-6 border-2 border-ldsa-grey/50 rounded-lg text-ldsa-text bg-ldsa-bg"
+    class="flex flex-col justify-between items-center w-[19.75rem] h-[18.125rem] px-8 py-6 border-2 border-ldsa-grey/50 rounded-lg text-ldsa-text-default bg-ldsa-bg"
   >
     <span class="font-[600]">Alternar cargo</span>
 

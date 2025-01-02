@@ -65,6 +65,6 @@ const showCampus = computed(() => {
 
 <style scoped>
 .completed {
-  @apply border-ldsa-grey/75 text-ldsa-grey/85 dark:text-ldsa-grey-2 font-[400];
+  @apply border-ldsa-grey/75 text-ldsa-grey font-[400];
 }
 </style>

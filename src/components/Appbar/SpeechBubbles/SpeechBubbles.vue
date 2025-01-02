@@ -52,7 +52,7 @@ const computedPinLeft = computed(() => {
   border: 0.125rem;
   border-radius: 0.625rem;
   font-weight: bold;
-  @apply bg-ldsa-bg border-solid border-ldsa-green-1 text-ldsa-text;
+  @apply bg-ldsa-bg border-solid border-ldsa-green-1 text-ldsa-text-default;
 }
 
 .pin {

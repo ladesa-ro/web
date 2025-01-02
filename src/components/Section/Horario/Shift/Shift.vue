@@ -39,7 +39,7 @@ function getAula(dia: number, horario: number) {
       <div
         v-for="(horario, index) in props.turno.horarios"
         :key="horario.hora"
-        class="text-center border-ldsa-text m-0 px-2 flex items-center justify-center"
+        class="text-center border-ldsa-text-default m-0 px-2 flex items-center justify-center"
         :class="{
           'border-b-2 pb-[2px]': index < props.turno.horarios.length - 1,
           'mt-3': index === 0,
@@ -64,7 +64,7 @@ function getAula(dia: number, horario: number) {
       <div
         v-for="(horario, rowIndex) in props.turno.horarios"
         :key="horario.hora"
-        class="text-center border-ldsa-text m-0 px-2 flex items-center justify-center"
+        class="text-center border-ldsa-text-default m-0 px-2 flex items-center justify-center"
         :class="{
           'border-b-2 pb-[2px]': rowIndex < props.turno.horarios.length - 1,
           'mt-3': rowIndex === 0,

@@ -54,7 +54,7 @@ watch([width, height], debouncedScrollIntoView);
 
 <style scoped>
 .active {
-  @apply bg-ldsa-green-1 text-ldsa-text;
+  @apply bg-ldsa-green-1 text-ldsa-text-default;
 }
 
 div.active p {

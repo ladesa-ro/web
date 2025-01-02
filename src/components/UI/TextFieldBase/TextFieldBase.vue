@@ -53,7 +53,7 @@ const modelValue = defineModel<string | null>('value', { default: null });
 }
 
 .textField .v-field__input::placeholder {
-  @apply text-ldsa-grey/75   dark:text-ldsa-grey-2/75;
+  @apply text-ldsa-grey;
   --v-disabled-opacity: 1 !important;
 }
 </style>
