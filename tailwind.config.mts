@@ -11,12 +11,10 @@ export default {
         'ldsa-green-1': 'rgba(var(--ladesa-green-1-color), <alpha-value>)',
         'ldsa-green-2': 'rgba(var(--ladesa-green-2-color), <alpha-value>)',
         'ldsa-red': 'rgba(var(--ladesa-red-color), <alpha-value>)',
-        'ldsa-purple': 'rgba(var(--ladesa-purple-color), <alpha-value>)',
-        
-        'ldsa-bg': 'rgb(var(--ladesa-background-color))',
-        'ldsa-text': 'rgb(var(--ladesa-text-default-color))',
 
-        'ldsa-grey-2': 'rgba(var(--ladesa-grey-2-color), <alpha-value>)' /* TENTAR REMOVER ISSO AQUI */,
+        'ldsa-bg': 'rgb(var(--ladesa-background-color))',
+        'ldsa-text-default': 'rgb(var(--ladesa-text-default-color))',
+        'ldsa-text-green': 'rgb(var(--ladesa-text-green-color))',
       },
     },
   },

@@ -11,10 +11,10 @@
   --ladesa-green-1-color: 47, 158, 65; /* Green 1*/
   --ladesa-green-2-color: 60, 192, 82; /* Green 2 */
   --ladesa-red-color: 205, 25, 30; /* Red */
-  --ladesa-purple-color: 83, 0, 166; /* Purple */
 
   --ladesa-background-color: var(--ladesa-white-color);
   --ladesa-text-default-color: var(--ladesa-black-color);
+  --ladesa-text-green-color: var(--ladesa-green-1-color);
 }
 
 /* =================================================== */
@@ -22,7 +22,7 @@
 .app-color-mode-dark {
   --ladesa-white-color: 212, 222, 222; /* White */
   --ladesa-black-color: 25, 27, 34; /* Black */
-  --ladesa-grey-color: 85, 93, 110; /* Grey */ 
+  --ladesa-grey-color: 72, 83, 105; /* Grey */ 
   --ladesa-green-1-color: 6, 100, 54; /* Green 1 */
   --ladesa-green-2-color: 29, 147, 90; /* Green 2 */
   --ladesa-red-color:  160, 15, 37; /* Red */
@@ -30,8 +30,7 @@
   
   --ladesa-background-color: var(--ladesa-black-color);
   --ladesa-text-default-color: var(--ladesa-white-color);
-
-  --ladesa-grey-2-color: 85, 93, 110; /* TODO: TENTAR REMOVER ISSO AQUI DEPOIS */
+  --ladesa-text-green-color: var(--ladesa-green-2-color);
 }
 
 /* TODO: VERIFICAR SE A CLASSE ABAIXO É REALMENTE NECESSÁRIA!!!!!!!!!!!!!!! */
@@ -39,7 +38,7 @@
   @apply flex flex-col;
   @apply h-[100vh] /* fallback para caso o dispositivo não suporte dvh */
     h-[100dvh];
-  @apply !bg-ldsa-bg !text-ldsa-text;
+  @apply !bg-ldsa-bg !text-ldsa-text-default;
 }
 
 input {
