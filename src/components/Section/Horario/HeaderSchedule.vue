@@ -89,7 +89,7 @@ const notificationsButtonEl = ref(null);
 
 <style scoped>
 .active {
-  @apply border-ldsa-green-1 text-ldsa-green-1 bg-ldsa-green-1/10 dark:text-ldsa-green-2; /* bg-[#ebf8ef] */
+  @apply border-ldsa-green-1 text-ldsa-green-1 bg-ldsa-green-1/10 dark:text-ldsa-green-2;
 }
 
 .arrow {

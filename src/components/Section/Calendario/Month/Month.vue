@@ -170,7 +170,7 @@ onMounted(async () => {
 <template>
   <v-card class="-month mx-auto rounded-lg w-max h-max">
     <div
-      class="text-white flex justify-between items-center p-3 pl-6 pr-6 w-full bg-[#9ab69e]"
+      class="text-ldsa-white flex justify-between items-center p-3 pl-6 pr-6 w-full bg-ldsa-grey"
       :style="{ backgroundColor: monthColor }"
     >
       <!-- Toggle for before month -->
@@ -191,7 +191,7 @@ onMounted(async () => {
       <!-- Toggle for after month -->
       <IconsArrowIconArrow
         v-show="props.toggleMonth"
-        class="text-white rotate-180 cursor-pointer"
+        class="text-ldsa-white rotate-180 cursor-pointer"
         @click="toggleMonth(1)"
       />
     </div>
@@ -213,7 +213,7 @@ onMounted(async () => {
       <div
         v-for="daysBefore in calendarDays.emptyDays.before.value"
         :key="daysBefore"
-        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#9ab69e]"
+        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-ldsa-grey"
       />
 
       <!-- In month -->
@@ -237,11 +237,11 @@ onMounted(async () => {
         >
           <p
             :class="{
-              'border-2 border-solid border-white rounded-md':
+              'border-2 border-solid border-ldsa-white rounded-md':
                 dayjs(dayjs().toDate()).format('YYYY-MM-DD') ==
                 dayjs(dayjs(dayInMonth.date)).format('YYYY-MM-DD'),
             }"
-            class="mx-auto w-8 h-8 sm:w-10 sm:h-10 flex justify-center items-center text-center text-white font-semibold text-sm sm:text-[16px]"
+            class="mx-auto w-8 h-8 sm:w-10 sm:h-10 flex justify-center items-center text-center text-ldsa-white font-semibold text-sm sm:text-[16px]"
           >
             {{ dayjs(dayInMonth.date).format('D') }}
           </p>
@@ -251,7 +251,7 @@ onMounted(async () => {
       <div
         v-for="daysAfter in calendarDays.emptyDays.after.value"
         :key="daysAfter"
-        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-[#9ab69e]"
+        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-ldsa-grey"
       />
     </v-container>
   </v-card>
@@ -259,7 +259,7 @@ onMounted(async () => {
 
 <style scoped>
 .-month {
-  border: solid 2px #9ab69e;
+  @apply border-2 border-ldsa-grey;
   box-shadow: none;
   margin: 0;
 }

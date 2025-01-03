@@ -3,7 +3,6 @@
 import { calendarData } from '../Functions/CalendarData.js';
 
 // Props
-
 type Props = {
   eventId: string;
   notifyStatus: boolean;
@@ -25,7 +24,7 @@ async function enableNotify(isEnabled: boolean): Promise<void> {
 <template>
   <!-- Enable notify-->
   <div
-    class="flex cursor-pointer w-max gap-3 items-center justify-center border-2 border-[#118D3B] bg-[#118D3B] p-3 font-[600] rounded-lg text-[#FFFFFF]"
+    class="flex cursor-pointer w-max gap-3 items-center justify-center border-2 border-ldsa-green-1 bg-ldsa-green-1 p-3 font-[600] rounded-lg text-ldsa-white"
     :class="{ '-enable': notify === true }"
     @click="enableNotify(notify)"
   >
@@ -39,8 +38,6 @@ async function enableNotify(isEnabled: boolean): Promise<void> {
 
 <style>
 .-enable {
-  border-color: #118d3b;
-  background-color: #ebf8ef;
-  color: #118d3b;
+  @apply border-ldsa-green-1 bg-ldsa-green-1/10 text-ldsa-text-green;
 }
 </style>

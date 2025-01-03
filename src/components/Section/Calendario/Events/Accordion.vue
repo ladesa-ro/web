@@ -59,7 +59,7 @@ watch(orderBy, async (newValue: string) => {
 <template>
   <div>
     <v-expansion-panels>
-      <v-expansion-panel class="border-[#9AB69E] border-2 rounded-lg p-2">
+      <v-expansion-panel class="border-ldsa-grey border-2 rounded-lg p-2">
         <v-expansion-panel-title
           class="border-none"
           collapse-icon=""
@@ -92,7 +92,7 @@ watch(orderBy, async (newValue: string) => {
               </span>
             </p>
             <div class="icons">
-              <IconsArrowIconArrow class="text-[#118D3B] rotate-[-90deg]" />
+              <IconsArrowIconArrow class="text-ldsa-text-green rotate-[-90deg]" />
             </div>
           </div>
         </v-expansion-panel-title>

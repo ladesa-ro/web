@@ -45,7 +45,7 @@ const {
 
 <style>
 .help-message {
-  color: #f44336;
+  @apply text-ldsa-red;
   font-size: 12px;
   font-weight: 500;
   text-align: start;
