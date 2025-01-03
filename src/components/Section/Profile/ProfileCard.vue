@@ -1,7 +1,9 @@
 <template>
-  <div class="border-card"> <!--class provided by parent-->
+  <div class="border-card p-5"> <!--border-card is a class provided by parent-->
     <span class="title">
-      <slot name="icon" />
+      <span class="icon"> <!-- element used for apply class to slot content -->
+        <slot name="icon"/>
+      </span>
       <slot name="title" />
     </span>
 
@@ -11,7 +13,11 @@
 
 <style scoped>
 .title {
-  @apply flex flex-row items-center gap-[0.625rem];
-  @apply mb-6 p-5 pb-0 font-[600];
+  @apply flex items-center gap-[0.625rem];
+  @apply mb-5 font-[600];
+}
+
+.icon {
+  @apply w-[1.375rem] h-[1.375rem];
 }
 </style>
