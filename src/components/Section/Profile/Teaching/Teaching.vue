@@ -1,106 +1,52 @@
 <script setup>
-import 'vue3-carousel/dist/carousel.css';
+const subjects = [
+  'Matemática',
+  'Biologia',
+  'Banco de Dados I',
+  'História II',
+  'Instação e Manutenção de Computadores',
+];
 </script>
 
 <template>
   <SectionProfileCard>
-    <template #icone>
-      <IconsIconDiscipline class="icon w-[22px] h-[22px]" />
+    <template #icon>
+      <IconsIconDiscipline />
     </template>
 
-    <template #titulo>Ensino</template>
+    <template #title>Ensino</template>
 
-    <div class="ml-[20px] mr-[30px] slid w-auto">
-      <Carousel snap-align="start" :items-to-show="2.5" :wrap-around="true">
-        <Slide v-for="slide in 10" :key="slide">
-          <div class="carousel__item border-card">
-            <div class="content block w-full">
-              <img
-                alt="Capa do Curso Técnico"
-                class="image w-full object-cover"
-                src="@/imgs/Foto-Curso.png"
-              />
+    <!-- teaching cards carousel -->
+    <Carousel snap-align="start" :items-to-show="2.5" :wrap-around="true">
+      <Slide v-for="subject in subjects" :key="subject">
+        <SectionProfileTeachingCarouselItem :subject-name="subject" />
+      </Slide>
 
-              <div class="my-4 px-5">
-                <div class="text-start">
-                  <span class="block text-sm text-center font-semibold">
-                    Técnico em Informática {{ slide }}
-                  </span>
-                </div>
-
-                <div class="mt-3" />
-
-                <div class="flex flex-wrap justify-center gap-2">
-                  <div
-                    v-for="disciplina in 2"
-                    class="block justify-center gap-7 w-max text-nowrap text-xs border-2 border-[#9ab69e] rounded-lg overflow-hidden"
-                  >
-                    <div
-                      class="block h-3/6 w-full px-4 bg-[#9ab69e] text-white py-1"
-                    >
-                      <span>Redes</span>
-                    </div>
-                    <div class="block h-3/6 w-full px-4 py-1">
-                      <span>3°A, 3°B</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </Slide>
-        <!-- so um text para commitar teste -->
-        <template #addons>
-          <Navigation />
-          <Pagination />
-        </template>
-      </Carousel>
-    </div>
+      <template #addons>
+        <Navigation />
+        <Pagination />
+      </template>
+    </Carousel>
   </SectionProfileCard>
 </template>
 
 <style>
-.card-container {
-  min-height: 300px;
-  background-color: #fff;
-  border: 2px solid #9ab69e;
-  border-radius: 8px;
-  overflow: hidden;
-}
+/* TODO: encontrar outra lib para carrossel, se possível */
+@import 'vue3-carousel/dist/carousel.css';
 
-.slid {
-  min-height: 257px;
-  background-color: #fff;
-  margin-top: 40px;
-}
-
-.carousel__item {
-  min-height: 200px;
-  width: 100%;
-  font-size: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: start;
+:root {
+  --vc-pgn-margin: 30px 8px 0 0 !important;
 }
 
 .carousel__slide {
-  padding: 10px;
-}
-
-.carousel__prev,
-.carousel__next {
-  box-sizing: content-box;
+  @apply p-2.5;
 }
 
 .carousel__prev {
-  margin-left: -20px;
+  @apply -ml-5;
 }
 
 .carousel__next {
-  margin-right: -30px;
-}
-
-.image {
-  height: 70px;
+  @apply -mr-5;
 }
 </style>
