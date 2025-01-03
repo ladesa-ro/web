@@ -1,4 +1,6 @@
 <script setup>
+import dayPeriods from './dayPeriods';
+
 const selectedOptions = ref();
 
 const options = [
@@ -22,113 +24,55 @@ const changeDay = (delta) => {
   selectedOptions.value = options[currentDayIndex.value];
 };
 </script>
+
 <template>
-  <SectionProfileCard class="pb-[20px]">
-    <template #icone>
-      <LogoSisghaLogo class="flex w-[22px] h-[22px]" />
+  <SectionProfileCard>
+    <template #icon>
+      <LogoSisghaLogo />
     </template>
 
-    <template #titulo>Disponibilidade</template>
+    <template #title>Disponibilidade</template>
 
-    <div class="border-card mx-[20px] pb-[20px] min-h-[300px] flex flex-col">
-      <div class="hours-availability flex-1 flex flex-col">
-        <div class="top-availability">
-          <IconsArrowIconArrow
-            class="cursor-pointer text-white -icons"
-            @click="changeDay(-1)"
-          />
+    <!-- hours card -->
+    <div class="border-card">
+      <section class="card-header">
+        <IconsArrowIconArrow
+          class="cursor-pointer text-ldsa-white"
+          @click="changeDay(-1)"
+        />
 
-          <div>
-            <span class="font-medium">
-              {{ selectedOptions?.value }}
-            </span>
-          </div>
-
-          <IconsArrowIconArrow
-            class="rotate-180 cursor-pointer text-white -icons"
-            @click="changeDay(1)"
-          />
+        <div>
+          <span class="font-medium">
+            {{ selectedOptions?.value }}
+          </span>
         </div>
 
-        <div
-          class="hours flex-1 flex-col sm:flex-row items-center justify-center overflow-x-auto whitespace-nowrap"
-        >
-          <div>
-            <h5>Matutino</h5>
-            <span class="element" />
-            <ul class="list-hours">
-              <li class="hour">08:00 - 09:00</li>
-              <li class="hour">08:00 - 09:00</li>
-              <li class="hour">08:00 - 09:00</li>
-              <li class="hour">08:00 - 09:00</li>
-            </ul>
-          </div>
-          <div>
-            <h5 style="padding-left: 15%">Vespertino</h5>
-            <span class="element" />
-            <ul class="list-hours">
-              <li class="hour">08:00 - 09:00</li>
-              <li class="hour">08:00 - 09:00</li>
-              <li class="hour">08:00 - 09:00</li>
-              <li class="hour">08:00 - 09:00</li>
-            </ul>
-          </div>
-          <div>
-            <h5>Nortuno</h5>
-            <span class="element" />
-            <ul class="list-hours sm-text-wrap">
-              <li class="hour">08:00 - 09:00</li>
-              <li class="hour">08:00 - 09:00</li>
-              <li class="hour">08:00 - 09:00</li>
-              <li class="hour">08:00 - 09:00</li>
-            </ul>
-          </div>
+        <IconsArrowIconArrow
+          class="rotate-180 cursor-pointer text-ldsa-white"
+          @click="changeDay(1)"
+        />
+      </section>
+
+      <section class="card-content">
+        <div v-for="(period, periodName) in dayPeriods">
+          <SectionProfileAvailabilityDayPeriod
+            :period="period"
+            :period-name="periodName"
+          />
         </div>
-      </div>
+      </section>
     </div>
   </SectionProfileCard>
 </template>
 
 <style>
-.top-availability {
-  display: flex;
-  background-color: #278935;
-
-  justify-content: center;
-  align-items: center;
-  height: 35px;
-  gap: 40px;
-  color: #fff;
-  justify-content: space-between;
+.card-header {
+  @apply flex justify-between items-center gap-10;
+  @apply h-9 px-5;
+  @apply bg-ldsa-green-1 text-ldsa-white;
 }
 
-.-icons {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-
-.hours {
-  display: flex;
-  gap: 18px;
-
-  margin: 12px 22px;
-}
-
-.hours h5 {
-  padding-left: 20%;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #9ab69e;
-}
-
-.list-hours {
-  font-weight: 500;
-  margin-top: 10px;
-  list-style: none;
-}
-
-.hour {
-  display: flex;
-  margin-top: 2px;
-  text-wrap: nowrap;
+.card-content {
+  @apply flex flex-row gap-5 p-7;
 }
 </style>
