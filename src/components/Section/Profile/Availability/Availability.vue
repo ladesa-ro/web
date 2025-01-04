@@ -4,7 +4,6 @@ import dayPeriods from './dayPeriods';
 const selectedOptions = ref();
 
 const options = [
-  { value: 'Domingo' },
   { value: 'Segunda' },
   { value: 'Terça' },
   { value: 'Quarta' },
@@ -13,9 +12,9 @@ const options = [
   { value: 'Sábado' },
 ];
 
-selectedOptions.value = options[1];
+selectedOptions.value = options[0];
 
-const currentDayIndex = ref(1);
+const currentDayIndex = ref(0);
 
 const changeDay = (delta) => {
   currentDayIndex.value =
@@ -26,7 +25,7 @@ const changeDay = (delta) => {
 </script>
 
 <template>
-  <SectionProfileCard>
+  <SectionProfileSectionsLayout>
     <template #icon>
       <LogoSisghaLogo />
     </template>
@@ -35,7 +34,8 @@ const changeDay = (delta) => {
 
     <!-- hours card -->
     <div class="border-card">
-      <section class="card-header">
+
+      <section class="day-week-navigator">
         <IconsArrowIconArrow
           class="cursor-pointer text-ldsa-white"
           @click="changeDay(-1)"
@@ -62,11 +62,11 @@ const changeDay = (delta) => {
         </div>
       </section>
     </div>
-  </SectionProfileCard>
+  </SectionProfileSectionsLayout>
 </template>
 
 <style>
-.card-header {
+.day-week-navigator {
   @apply flex justify-between items-center gap-10;
   @apply h-9 px-5;
   @apply bg-ldsa-green-1 text-ldsa-white;
