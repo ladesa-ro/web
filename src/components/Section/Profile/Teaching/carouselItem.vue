@@ -37,6 +37,7 @@ function goAhead(advance: boolean) {
     />
 
     <!-- card body -->
+    <!-- TODO: discutir sobre a melhor aparência para esse card -->
     <main class="p-4">
       <h1>{{ subjectName }}</h1> <!--min-h-[3rem]-->
 
@@ -59,7 +60,7 @@ function goAhead(advance: boolean) {
 
 <style scoped>
 .card-style {
-  @apply mb-5 text-left font-semibold;
+  @apply mb-3 text-left font-semibold;
 }
 
 .icon {
@@ -71,7 +72,7 @@ function goAhead(advance: boolean) {
 }
 
 .navigation-course {
-  @apply flex justify-between items-center;
+  @apply flex justify-between items-center text-center;
   @apply pb-2 mb-2 border-b-2 border-b-ldsa-grey;
 }
 </style>
