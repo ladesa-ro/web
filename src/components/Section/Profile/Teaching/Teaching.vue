@@ -9,7 +9,7 @@ const subjects = [
 </script>
 
 <template>
-  <SectionProfileCard>
+  <SectionProfileSectionsLayout>
     <template #icon>
       <IconsIconDiscipline />
     </template>
@@ -27,7 +27,7 @@ const subjects = [
         <Pagination />
       </template>
     </Carousel>
-  </SectionProfileCard>
+  </SectionProfileSectionsLayout>
 </template>
 
 <style>

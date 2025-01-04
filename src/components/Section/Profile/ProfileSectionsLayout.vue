@@ -1,5 +1,5 @@
 <template>
-  <div class="border-card p-5"> <!--border-card is a class provided by parent-->
+  <div class="border-card p-5">
     <span class="title">
       <span class="icon"> <!-- element used for apply class to slot content -->
         <slot name="icon"/>
