@@ -55,30 +55,10 @@ const removeField = (targetIndex: number) => {
 
   <button
     type="button"
-    class="border-dotted border-[3px] rounded-lg pa-4 border-[#9ab69e] hover:bg-[#f1fdf2] ease-in"
+    class="border-dotted border-[3px] rounded-lg pa-4 border-ldsa-grey hover:bg-ldsa-green-1/10 ease-in"
     @click="addField"
   >
     Novo Vínculo
   </button>
   <v-divider :thickness="2" color="success" opacity="1" />
 </template>
-
-<!-- <script>
-export default {
-	data() {
-		return {
-			fields: [{ value: '' }], // Initialize with an empty field
-		};
-	},
-	methods: {
-		addField() {
-			this.fields.push({ value: '' });
-		},
-		removeField() {
-			if (this.fields.length > 1) {
-				this.fields.pop();
-			}
-		},
-	},
-};
-</script> -->

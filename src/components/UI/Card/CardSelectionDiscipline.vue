@@ -31,7 +31,7 @@ const props = defineProps<Props>();
 
 <style scoped>
 .card {
-  @apply border-[2px] border-solid border-[#9ab69e];
+  @apply border-2 border-ldsa-grey;
   @apply rounded-lg overflow-hidden;
 }
 </style>

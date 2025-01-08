@@ -95,7 +95,7 @@ function getAula(dia: number, horario: number) {
 }
 
 .interval-background {
-  @apply bg-[#DDE4DE] dark:bg-[#262937];
+  @apply bg-ldsa-grey/35;
 }
 
 .hovered-row {

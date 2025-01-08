@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import type { UsuarioFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { ApiImageResource, useApiImageRoute } from '~/integrations';
 
 type Props = {
-  user: any;
+  user: UsuarioFindOneResultView;
 };
 const props = defineProps<Props>();
-const { user } = toRef(props.user);
+const { user } = toRefs(props);
 
 const profilePicureUrl = useApiImageRoute(
   ApiImageResource.USUARIO_PROFILE,
@@ -28,12 +29,12 @@ const profilePicureUrl = useApiImageRoute(
       </div>
 
       <section class="profile-metadata text-xs font-medium">
-        <!-- TODO: puxar os dois valores abaixo da api -->
         <span>
-          <h1 class="font-semibold text-base">Danilo Escudero</h1>
-          <p class="text-ldsa-grey">danilo.escudero@ifro.edu.br</p>
+          <h1 class="font-semibold text-base">{{ user.nome }}</h1>
+          <p class="text-ldsa-grey">{{ user.email }}</p>
         </span>
         <span class="leading-5">
+          <!-- TODO: puxar os dois valores abaixo da api -->
           <p>Campus Ji-Paraná</p>
           <p>Professor</p>
         </span>

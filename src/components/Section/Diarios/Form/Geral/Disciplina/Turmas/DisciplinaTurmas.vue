@@ -74,7 +74,7 @@ const { items: diarios } = await useApiDiariosFindAll('', {
           v-for="diario in diarios"
           :key="diario.id"
           :elevation="0"
-          class="custom-panel border-[#9AB69E] border-2"
+          class="custom-panel border-ldsa-grey border-2"
         >
           <v-expansion-panel-title
             class="custom-panel-title border-none"

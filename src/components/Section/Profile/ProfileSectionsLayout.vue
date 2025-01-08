@@ -1,6 +1,6 @@
 <template>
   <div class="border-card p-5">
-    <span class="title">
+    <span class="section-title">
       <span class="icon"> <!-- element used for apply class to slot content -->
         <slot name="icon"/>
       </span>
@@ -12,7 +12,7 @@
 </template>
 
 <style scoped>
-.title {
+.section-title {
   @apply flex items-center gap-[0.625rem];
   @apply mb-5 font-[600];
 }

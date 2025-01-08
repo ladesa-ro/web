@@ -4,21 +4,19 @@ import { useQuery } from '@tanstack/vue-query';
 import uniq from 'lodash/uniq';
 import { ApiImageResource, useApiImageRoute } from '~/integrations';
 
-//
-
 const _ARBITRARY_UI_CARD_IMAGE_HEIGHT = 90;
 
 //
 
-const apiClient = useApiClient();
-
 type Props = {
   usuario: UsuarioFindOneResultView;
 };
-
 const props = defineProps<Props>();
-
 const { usuario } = toRefs(props);
+
+//
+
+const apiClient = useApiClient();
 
 const vinculosQuery = useQuery({
   queryKey: [
@@ -82,7 +80,7 @@ const profilePicureUrl = useApiImageRoute(
 <template>
   <nuxt-link
     @click.capture="handleCardClick"
-    class="flex flex-col border-2 border-[#9ab69e] rounded-lg no-underline p-0 m-0 overflow-hidden"
+    class="flex flex-col border-2 border-ldsa-grey rounded-lg no-underline p-0 m-0 overflow-hidden"
     :to="`/sisgha/dape/usuarios/${usuario.id}`"
   >
     <div
@@ -91,7 +89,7 @@ const profilePicureUrl = useApiImageRoute(
         backgroundPosition: 'center',
         backgroundImage: `url(${profilePicureUrl})`,
       }"
-      class="flex bg-[#F0F0F0] h-max rounded-t-lg items-center justify-center"
+      class="flex bg-ldsa-grey/20 h-max rounded-t-lg items-center justify-center"
     >
       <v-img
         contain
@@ -109,7 +107,7 @@ const profilePicureUrl = useApiImageRoute(
             />
 
             <div v-else class="py-6">
-              <IconsIconUser class="text-[#9ab69e] w-[42px] h-[42px]" />
+              <IconsIconUser class="text-ldsa-grey w-[42px] h-[42px]" />
             </div>
           </div>
         </template>
@@ -125,7 +123,7 @@ const profilePicureUrl = useApiImageRoute(
       </v-img>
 
       <div v-else class="py-6">
-        <IconsIconUser class="text-[#9ab69e] w-[42px] h-[42px]" />
+        <IconsIconUser class="text-ldsa-grey w-[42px] h-[42px]" />
       </div>
     </div>
 
@@ -145,13 +143,13 @@ const profilePicureUrl = useApiImageRoute(
       <div class="mt-2"></div>
 
       <template v-if="vinculos.length > 0">
-        <div class="flex font-medium text-sm items-center text-[#9ab69e]">
+        <div class="flex font-medium text-sm items-center text-ldsa-grey">
           {{ vinculosConcatenated }}
         </div>
       </template>
 
       <template v-if="vinculos.length === 0">
-        <div class="flex text-sm items-center text-[#9ab69e]">Sem vínculos</div>
+        <div class="flex text-sm items-center text-ldsa-grey">Sem vínculos</div>
       </template>
     </div>
   </nuxt-link>

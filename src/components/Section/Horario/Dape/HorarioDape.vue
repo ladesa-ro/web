@@ -88,7 +88,7 @@ const calendars = [
           <div>
             <p class="text-ldsa-white">{{ calendar.title }}</p>
             <br /><br />
-            <p class="text-[#b7d1b8]">Editado há 3 horas</p>
+            <p class="text-ldsa-white/60">Editado há 3 horas</p>
           </div>
         </v-expansion-panel-title>
 
