@@ -4,8 +4,7 @@ import SpeechBubbles from './SpeechBubbles/SpeechBubbles.vue';
 
 //
 
-const { isDark } = useCustomTheme();
-const { changeTheme } = useCustomTheme();
+const { isDark, changeTheme } = useCustomTheme();
 
 // 
 
@@ -25,12 +24,6 @@ const notificationsButtonEl = ref(null);
 
 <template>
   <div class="flex items-center w-full h-[73px] border-b-[1px] border-ldsa-grey/50 bg-ldsa-bg">
-
-
-
-
-
-
 
     <!-- ========== menu icon configurations ========== -->
     <div class="m-[0.34375rem] cursor-pointer" @click="toggleHamburger">

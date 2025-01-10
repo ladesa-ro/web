@@ -43,7 +43,7 @@ const modelValue = defineModel<string | null>('value', { default: null });
   padding: 4px 16px;
   font-size: 14px;
   font-weight: 550;
-  color: black;
+  @apply text-ldsa-text-default;
 }
 
 .autoCompleteField .v-label {
@@ -55,7 +55,7 @@ const modelValue = defineModel<string | null>('value', { default: null });
 }
 
 .autoCompleteField .v-field__input::placeholder {
-  color: #c8d7ca;
+  @apply text-ldsa-grey;
   --v-disabled-opacity: 1 !important;
 }
 
@@ -65,7 +65,7 @@ const modelValue = defineModel<string | null>('value', { default: null });
 }
 
 .autoCompleteField .v-field:not(.v-field--error) .v-field__outline {
-  --v-border-color: #9ab69e;
-  color: #9ab69e;
+  --v-border-color: var(--ladesa-grey-color);
+  @apply text-ldsa-grey;
 }
 </style>

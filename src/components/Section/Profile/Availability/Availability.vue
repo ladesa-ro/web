@@ -1,8 +1,6 @@
 <script setup>
 import dayPeriods from './dayPeriods';
 
-const selectedOptions = ref();
-
 const options = [
   { value: 'Segunda' },
   { value: 'Terça' },
@@ -12,6 +10,7 @@ const options = [
   { value: 'Sábado' },
 ];
 
+const selectedOptions = ref();
 selectedOptions.value = options[0];
 
 const currentDayIndex = ref(0);
@@ -34,26 +33,18 @@ const changeDay = (delta) => {
 
     <!-- hours card -->
     <div class="border-card">
-
       <section class="day-week-navigator">
-        <IconsArrowIconArrow
-          class="cursor-pointer text-ldsa-white"
-          @click="changeDay(-1)"
-        />
+        <IconsArrowIconArrow class="arrow" @click="changeDay(-1)" />
 
-        <div>
-          <span class="font-medium">
-            {{ selectedOptions?.value }}
-          </span>
-        </div>
+        <span class="font-medium">
+          {{ selectedOptions?.value }}
+        </span>
 
-        <IconsArrowIconArrow
-          class="rotate-180 cursor-pointer text-ldsa-white"
-          @click="changeDay(1)"
-        />
+        <IconsArrowIconArrow class="arrow rotate-180" @click="changeDay(1)" />
       </section>
 
-      <section class="card-content">
+      <!-- card content with day periods -->
+      <section class="flex flex-row gap-5 p-7">
         <div v-for="(period, periodName) in dayPeriods">
           <SectionProfileAvailabilityDayPeriod
             :period="period"
@@ -72,7 +63,7 @@ const changeDay = (delta) => {
   @apply bg-ldsa-green-1 text-ldsa-white;
 }
 
-.card-content {
-  @apply flex flex-row gap-5 p-7;
+.arrow {
+  @apply text-ldsa-white cursor-pointer;
 }
 </style>

@@ -6,7 +6,7 @@
 
 <style scped>
 .edit-02 {
-  color: #9ab69e;
+  @apply text-ldsa-grey;
   font-weight: 500;
 }
 </style>

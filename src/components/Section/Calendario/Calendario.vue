@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-// Import
 import 'dayjs/locale/pt-br';
 import { calendarData } from './Functions/CalendarData.js';
 
@@ -15,7 +14,6 @@ const calendars = [
 
 const calendar = await calendarData.getCalendar();
 
-// Functions
 // Calendar view
 const calendarView = ref<boolean>(false);
 

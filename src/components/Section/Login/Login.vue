@@ -46,7 +46,6 @@ useTitle(null, 'Login');
 
         <span class="block mb-8 text-center">
           Esqueceu a senha?
-
           <LazySectionLoginResetPasswordModal />
         </span>
 
@@ -87,9 +86,9 @@ useTitle(null, 'Login');
             <IconsIconUser class="flex w-6 h-6 mr-4" />
           </template>
 
-          <p class="border-l-2 w-full h-full border-solid border-white">
-            <span class="ml-4" />
-            <span>Acesso Público</span>
+          <p class="w-full h-full border-l-2 ">
+            <div class="ml-4" />
+            <span>Entrar como aluno</span>
           </p>
         </UIButton>
       </NuxtLink>
@@ -153,12 +152,9 @@ useTitle(null, 'Login');
 
   background: rgb(var(--ladesa-background-color));
   box-shadow: 0px 0px 1px rgba(13, 92, 25, 0.25);
-
-  border: 1px solid #d6d6d6;
-  border-radius: 0.5625rem;
+  @apply border border-ldsa-grey/45 rounded-[0.5625rem];
 
   @apply mt-8 mb-4;
-
   padding: 2rem;
 }
 

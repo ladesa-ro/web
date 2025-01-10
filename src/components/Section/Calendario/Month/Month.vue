@@ -5,10 +5,9 @@ import type { Day, Event, Step } from '../Typings';
 import { getEmptyDays } from './Functions/GetEmptyDays';
 import { getMonth } from './Functions/GetMonth';
 
-// Dayjs
 const dayjs = useDayJs();
 
-// --- Props ---
+//
 
 type Props = {
   year: number;
@@ -18,14 +17,13 @@ type Props = {
   steps?: Step[];
   events?: Event[];
 };
-
 const props = defineProps<Props>();
 
 //  --- Month ---
 const daysInTheWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 const monthNum = ref<number>(props.month!);
-const monthColor = ref<string>('#9ab69e');
+const monthColor = ref<string>('var(--ladesa-grey-color)');
 
 const calendarDays = {
   daysInMonth: ref<Day[]>([]),
@@ -35,7 +33,7 @@ const calendarDays = {
   },
 };
 
-// Functions
+//* Functions
 
 //  --- Month data (emit values)  ---
 const emitMonthData = defineEmits<{
@@ -176,7 +174,7 @@ onMounted(async () => {
       <!-- Toggle for before month -->
       <IconsArrowIconArrow
         v-show="props.toggleMonth"
-        class="text-white cursor-pointer"
+        class="text-ldsa-white cursor-pointer"
         @click="toggleMonth(-1)"
       />
       <!-- Month name -->
@@ -213,7 +211,7 @@ onMounted(async () => {
       <div
         v-for="daysBefore in calendarDays.emptyDays.before.value"
         :key="daysBefore"
-        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-ldsa-grey"
+        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-ldsa-grey bg-ldsa-grey/50"
       />
 
       <!-- In month -->
@@ -251,7 +249,7 @@ onMounted(async () => {
       <div
         v-for="daysAfter in calendarDays.emptyDays.after.value"
         :key="daysAfter"
-        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-ldsa-grey"
+        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-ldsa-grey/50"
       />
     </v-container>
   </v-card>
@@ -268,10 +266,10 @@ onMounted(async () => {
   padding: 10px;
 }
 
-.-hover-on {
-  background-color: #ffffff40;
+/* .-hover-on {
+  @apply bg-ldsa-grey rounded-lg;
 }
 .-hover-off {
-  background-color: #ffffff00;
-}
+  @apply bg-ldsa-grey rounded-lg;
+} */
 </style>

@@ -68,7 +68,7 @@ h1 {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  @apply bg-ldsa-bg;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,8 +77,7 @@ h1 {
 }
 
 .modal {
-  background-color: white;
-  color: black;
+  @apply bg-ldsa-bg text-ldsa-text-default;
   border-radius: 0.5rem;
   text-align: center;
   box-shadow:
@@ -91,8 +90,7 @@ h1 {
 }
 
 .modal2 {
-  background-color: white;
-  color: black;
+  @apply bg-ldsa-bg text-ldsa-text-default;
   border-radius: 0.5rem;
   text-align: center;
   box-shadow:
@@ -100,7 +98,7 @@ h1 {
     0 8px 10px -6px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
   width: 390px;
-  z-index: 10000;
+  z-index: 1000;
   margin-left: 20px;
   height: 600px;
 }
@@ -119,30 +117,30 @@ h1 {
 }
 
 .Cad:hover {
-  color: #00d047;
+  @apply text-ldsa-green-2;
   transition: stroke 0.3s ease;
 }
 
 .Cad:hover .svgCad {
-  stroke: #00d047;
+  @apply stroke-ldsa-green-2;
   transition: stroke 0.2s ease;
 }
 
 .svgCad,
 .svgCancel {
-  stroke: black;
+  @apply stroke-ldsa-text-default;
   vertical-align: middle;
   margin-bottom: 2px;
   margin-left: 8px;
 }
 
 .Cancel:hover {
-  color: #e9001c;
+  @apply text-ldsa-red;
   transition: stroke 0.2s ease;
 }
 
 .Cancel:hover .svgCancel {
-  stroke: #e9001c;
+  @apply text-ldsa-red;
   transition: stroke 0.2s ease;
 }
 

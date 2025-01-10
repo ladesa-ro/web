@@ -8,6 +8,8 @@ const canChangeProfile = computed(
   () => resumoVinculos.value.cargos.length >= 2
 );
 
+//
+
 const isActive = ref(false);
 </script>
 
@@ -27,7 +29,7 @@ const isActive = ref(false);
           <ClientOnly>
             <IconsArrowIconArrow
               v-if="canChangeProfile"
-              class="arrow -rotate-90 cursor-pointer text-ldsa-green-1 dark:text-ldsa-green-2"
+              class="arrow -rotate-90"
               :class="{ down: isActive }"
             />
           </ClientOnly>
@@ -44,6 +46,7 @@ const isActive = ref(false);
 
 <style scoped>
 .arrow {
+  @apply text-ldsa-text-green;
   -moz-transition: all 0.25s ease-in-out;
   -webkit-transition: all 0.25s ease-in-out;
   transition: all 0.25s ease-in-out;

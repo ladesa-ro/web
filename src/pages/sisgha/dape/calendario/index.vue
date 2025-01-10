@@ -7,5 +7,3 @@ definePageMeta({
 <template>
   <SectionCalendario />
 </template>
-
-<style></style>

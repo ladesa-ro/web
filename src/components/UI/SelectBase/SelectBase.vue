@@ -8,10 +8,10 @@ const modelValue = defineModel('value', { default: null });
       v-bind="$attrs"
       v-model:model-value="modelValue"
       clearable
-      color="#00d047"
+      color="var(--ladesa-green-2-color)"
       variant="outlined"
       hide-details="auto"
-      base-color="#9ab69e"
+      base-color="var(--ladesa-grey-color)"
       persistent-placeholder
     />
   </div>
@@ -41,7 +41,7 @@ const modelValue = defineModel('value', { default: null });
   padding: 13px 0 13px 16px;
   font-size: 14px;
   font-weight: 550;
-  color: black;
+  @apply text-ldsa-text-default;
 }
 
 .selectBaseField input {
@@ -57,7 +57,7 @@ const modelValue = defineModel('value', { default: null });
 }
 
 .selectBaseField .v-field__input::placeholder {
-  color: #c8d7ca;
+  @apply text-ldsa-grey;
   --v-disabled-opacity: 1 !important;
 }
 
@@ -67,7 +67,7 @@ const modelValue = defineModel('value', { default: null });
 }
 
 .selectBaseField .v-field:not(.v-field--error) .v-field__outline {
-  --v-border-color: #9ab69e;
-  color: #9ab69e;
+  --v-border-color: var(--ladesa-grey-color);
+  @apply text-ldsa-grey;
 }
 </style>

@@ -2,11 +2,8 @@
 import { defineProps, ref, toRefs } from 'vue';
 import { useContextDiariosFormGeral } from '../../Contexto';
 
-//
-
 type Props = {
   searchBarText?: string;
-  // diario: DiarioFindOneResultDto;
 };
 
 const props = defineProps<Props>();
@@ -15,24 +12,22 @@ const props = defineProps<Props>();
 
 const { disciplinaId } = useContextDiariosFormGeral();
 
-// const { diario } = toRefs(props);
-
 const { diariosProfessoresList } =
   await useApiDiariosProfessoresFindAllByDiarioId({
-    // diario: diario.value,
   });
 
 //
 
-const $emit = defineEmits(['close', 'back', 'next', 'add']);
-
 const isFormVisible = ref(false);
 
 const { searchBarText } = toRefs(props);
-const { disciplinas } = await useApiDisciplinasFindAll(searchBarText);
 
 const showTeacherSection = ref(false);
 const showGroupingSection = ref(false);
+
+//
+
+const $emit = defineEmits(['close', 'back', 'next', 'add']);
 
 const closeForm = () => {
   $emit('close');
@@ -62,7 +57,7 @@ const { items: diarios } = await useApiDiariosFindAll('', {
   <v-form v-if="!isFormVisible" class="form">
     <div class="form-header">
       <h1 class="main-title">
-        <span>Turma</span>
+        Turma
       </h1>
     </div>
 
@@ -83,7 +78,7 @@ const { items: diarios } = await useApiDiariosFindAll('', {
             <div class="title-content">
               <div>
                 <span
-                  class="title-espansion mb-2 font-semibold text-black no-underline inline-block"
+                  class="title-espansion mb-2 font-semibold text-ldsa-text-default no-underline inline-block"
                 >
                   {{ diario.turma.periodo }} -
                   {{ diario.turma.curso.nomeAbreviado }}
@@ -94,9 +89,7 @@ const { items: diarios } = await useApiDiariosFindAll('', {
               </div>
               <div class="icons">
                 <v-icon small class="icon">mdi-trash-can</v-icon>
-                <v-icon small class="expansion-arrow icon ml-2"
-                  >mdi-menu-down</v-icon
-                >
+                <v-icon small class="expansion-arrow icon ml-2">mdi-menu-down</v-icon>
               </div>
             </div>
           </v-expansion-panel-title>
@@ -207,7 +200,7 @@ const { items: diarios } = await useApiDiariosFindAll('', {
   align-items: center;
   padding: 16px;
 
-  border: 1px solid #e0e0e0;
+  @apply border-[1px] border-ldsa-grey;
 }
 
 .title-content {
@@ -219,7 +212,7 @@ const { items: diarios } = await useApiDiariosFindAll('', {
 .subtitle {
   display: block;
   font-size: 15px;
-  color: #9ab69e;
+  @apply text-ldsa-grey;
   font-weight: 500;
 }
 
@@ -234,7 +227,7 @@ const { items: diarios } = await useApiDiariosFindAll('', {
 }
 
 .expansion-arrow {
-  color: #00a000;
+  @apply text-ldsa-green-1;
   transform: rotate(0deg);
   transition: transform 0.3s ease;
 }

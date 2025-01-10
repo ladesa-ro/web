@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-interface Props {
+type Props = {
   type?: string;
 
   placeholder?: string;
@@ -16,6 +16,8 @@ interface Props {
 const props = defineProps<Props>();
 
 const emit = defineEmits(['update:modelValue']);
+
+//
 
 const showPassword = ref(false);
 
@@ -104,13 +106,11 @@ const handleContainerClick = () => {
   display: flex;
   flex-direction: row;
   align-items: center;
-
   gap: 0.5rem;
 
   padding: 0 1.125rem;
 
-  border-radius: 0.5625rem;
-  border: 2px solid #adc5b1;
+  @apply border-2 border-ldsa-grey/60 rounded-[0.5625rem];
 
   cursor: text;
 
@@ -129,10 +129,13 @@ const handleContainerClick = () => {
 .ui-text-field input:focus {
   outline: none;
 }
+.ui-text-field input::placeholder {
+  @apply text-ldsa-grey;
+}
 
 .ui-text-field:focus-within {
-  border-color: #39a048;
-  box-shadow: 0px 0px 0.5px 5px #39a0482e;
+  @apply border-ldsa-green-1;
+  @apply shadow-[0_0_0.5px_5px_rgba(var(--ladesa-green-1-color),0.2)];
 }
 
 .toggle-password-visibility {

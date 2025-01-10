@@ -19,7 +19,6 @@ const imageSrc = computed(() => {
 });
 </script>
 <template>
-  <div>
     <div
       class="drop-area"
       :class="{ selected: imageSrc !== null }"
@@ -31,18 +30,17 @@ const imageSrc = computed(() => {
       >
         <IconsIconFilePicker />
 
-        <div v-if="isDragActive" class="dropzone-info-message">
+        <span v-if="isDragActive" class="dropzone-info-message">
           Solte sua imagem aqui.
-        </div>
+        </span>
 
-        <div v-else class="dropzone-info-message">
+        <span v-else class="dropzone-info-message">
           Arraste e solte uma imagem ou escolha uma de até 500 KB .jpeg ou .png.
-        </div>
+        </span>
       </div>
 
       <input v-bind="getInputProps()" accept=".jpeg, .jpg, .png" />
     </div>
-  </div>
 </template>
 
 <style scoped>
@@ -67,13 +65,14 @@ const imageSrc = computed(() => {
   width: 100%;
   height: 200px;
 
-  border: 2px solid #9ab69e;
-  border-radius: 8px;
+  @apply border-2 border-ldsa-grey rounded-lg;
 
   text-align: center;
   cursor: pointer;
 
   overflow: hidden;
+
+  @apply text-ldsa-grey;
 }
 
 .drop-area input[type='file'] {
@@ -83,11 +82,9 @@ const imageSrc = computed(() => {
 .drop-area .dropzone-info {
   width: 100%;
   padding: 0px 50px;
-
-  color: #777777;
 }
 
-.drop-area .dropzone-info .dropzone-info-message {
+.drop-area .dropzone-info .dropzone-info-message {  
   margin-top: 20px;
   font-weight: 500;
 }
@@ -99,9 +96,8 @@ const imageSrc = computed(() => {
 
 .drop-area:hover .dropzone-info {
   opacity: 1;
-  color: black;
   backdrop-filter: blur(4px);
-  background-color: rgba(240, 240, 240, 0.9);
+  @apply bg-ldsa-grey/10;
 }
 
 @media screen and (max-width: 600px) {

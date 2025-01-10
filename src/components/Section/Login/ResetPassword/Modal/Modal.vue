@@ -22,10 +22,10 @@ const isActive = ref(false);
 .dialog-style {
   border-radius: 14px !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border: solid 2px #9ab69e;
+  @apply border-2 border-ldsa-grey;
 }
 
 .description {
-  color: #118d3b;
+  @apply text-ldsa-green-1;
 }
 </style>

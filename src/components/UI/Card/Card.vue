@@ -64,7 +64,7 @@ const hasImage = computed(() => {
       <div class="textAndButton flex justify-between items-center max-w-full">
         <div class="flex-1 flex-shrink overflow-hidden">
           <v-card-title
-            class="font-semibold text-black no-underline inline-block"
+            class="font-semibold text-ldsa-text-default no-underline inline-block"
           >
             <slot name="title">
               {{ props.title }}

@@ -9,12 +9,10 @@ const searchValue = defineModel('search', { default: '' });
 type Props = {
   name: string;
 };
-
 const props = defineProps<Props>();
+const name = toRef(props, 'name');
 
 //
-
-const name = toRef(props, 'name');
 
 const {
   handleBlur,

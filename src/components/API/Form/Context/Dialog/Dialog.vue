@@ -2,8 +2,6 @@
 import { mergeProps } from 'vue';
 import { useAPIFormContext } from '../Context';
 
-//
-
 const { editId } = useAPIFormContext();
 
 //
@@ -28,8 +26,6 @@ type Slots = {
 };
 
 defineSlots<Slots>();
-
-//
 </script>
 
 <template>
@@ -144,7 +140,7 @@ defineSlots<Slots>();
   display: block;
   width: 6px;
   height: 0.75lh;
-  background: #15803d;
+  @apply bg-ldsa-green-1;
   margin-right: 1rem;
 }
 

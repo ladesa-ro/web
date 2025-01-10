@@ -45,6 +45,7 @@
 <script>
 export default {};
 </script>
+
 <style scoped>
 .modal-overlay {
   position: fixed;
@@ -52,23 +53,23 @@ export default {};
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: #00000999;
+  @apply bg-ldsa-bg;
 }
 
 .modal {
   position: absolute;
   margin-left: 700px;
   margin-top: 110px;
-  background: white;
+  @apply bg-ldsa-bg;
   height: 600px;
   width: 445px;
   border-radius: 10px;
-  border: 2.3px solid #9ab69e;
+  @apply border-[2.3px] border-ldsa-grey;
   box-shadow: 0px 0px 33.5px 0px rgba(17, 141, 59, 0.15);
 }
 
 .title {
-  color: #000;
+  @apply text-ldsa-text-default;
   text-align: center;
   font-family: Poppins;
   font-size: 18px;
@@ -83,8 +84,8 @@ export default {};
   position: absolute;
   margin-left: 8%;
   border-radius: 10px;
-  border: 2.3px solid #9ab69e;
-  background: #f0f0f0;
+  @apply border-[2.3px] border-ldsa-grey;
+  @apply bg-ldsa-grey/20;
   width: 370px;
   height: 150px;
   margin-top: 20px;
@@ -100,7 +101,7 @@ export default {};
   margin-left: 0px;
   margin-top: 10px;
   border-radius: 10px;
-  border: 2.5px solid #b2d2b7;
+  @apply border-[2.5px] border-ldsa-grey;
   width: 345px;
   height: 50px;
 }
@@ -108,7 +109,7 @@ export default {};
   cursor: pointer;
 }
 .legenda1 {
-  color: #9ab69e;
+  @apply text-ldsa-grey;
   font-family: Poppins;
   font-size: 13px;
   font-style: normal;
@@ -117,7 +118,7 @@ export default {};
   margin-left: 6px;
 }
 .placeholder1 {
-  color: black;
+  @apply text-ldsa-text-default;
   font-family: Poppins;
   font-size: 15px;
   font-style: normal;
@@ -136,7 +137,7 @@ export default {};
   margin-left: 0px;
   margin-top: 90px;
   border-radius: 10px;
-  border: 2.5px solid #b2d2b7;
+  @apply border-[2.5px] border-ldsa-grey;
   width: 345px;
   height: 50px;
 }
@@ -144,7 +145,7 @@ export default {};
   cursor: pointer;
 }
 .legenda2 {
-  color: #9ab69e;
+  @apply text-ldsa-grey;
   font-family: Poppins;
   font-size: 13px;
   font-style: normal;
@@ -153,7 +154,7 @@ export default {};
   margin-left: 6px;
 }
 .placeholder2 {
-  color: black;
+  @apply text-ldsa-text-default;
   font-family: Poppins;
   font-size: 18px;
   font-style: normal;
@@ -172,7 +173,7 @@ export default {};
   margin-left: 0px;
   margin-top: 170px;
   border-radius: 10px;
-  border: 2.5px solid #b2d2b7;
+  @apply border-[2.5px] border-ldsa-grey;
   width: 345px;
   height: 50px;
 }
@@ -180,7 +181,7 @@ export default {};
   cursor: pointer;
 }
 .legenda3 {
-  color: #9ab69e;
+  @apply text-ldsa-grey;
   font-family: Poppins;
   font-size: 13px;
   font-style: normal;
@@ -189,7 +190,7 @@ export default {};
   margin-left: 6px;
 }
 .placeholder3 {
-  color: black;
+  @apply text-ldsa-text-default;
   font-family: Poppins;
   font-size: 15px;
   font-style: normal;
@@ -203,7 +204,7 @@ export default {};
   cursor: pointer;
 }
 .cance {
-  color: #000;
+  @apply text-ldsa-text-default;
   font-family: Poppins;
   font-size: 18px;
   font-style: normal;
@@ -216,7 +217,7 @@ export default {};
 }
 
 .cadas {
-  color: #000;
+  @apply text-ldsa-text-default;
   font-family: Poppins;
   font-size: 18px;
   font-style: normal;
@@ -242,17 +243,18 @@ export default {};
   width: 24px;
   height: 20px;
 }
+
 .grupX:hover,
 .cance:hover,
 .x:hover {
   cursor: pointer;
-  color: red;
+  @apply text-ldsa-red;
 }
 
 .grupV:hover,
 .cadas:hover,
 .v:hover {
   cursor: pointer;
-  color: green;
+  @apply text-ldsa-green-1;
 }
 </style>
