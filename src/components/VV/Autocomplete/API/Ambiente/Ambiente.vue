@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { AmbienteFindOneResultView } from '@ladesa-ro/api-client-fetch';
-import { toRefs } from 'vue';
 import {
   ambientesBaseQueryKey,
   useAmbienteGetRetriever,

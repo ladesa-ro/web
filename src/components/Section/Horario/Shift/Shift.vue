@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import type { IDiasDaSemana, ITurno } from '../IGradeHorario';
 
 type Props = {

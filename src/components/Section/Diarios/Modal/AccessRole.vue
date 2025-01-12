@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref, defineEmits } from 'vue';
-
 const emit = defineEmits(['selectRole']);
 
 const activeButton = ref<string>('DAPE');

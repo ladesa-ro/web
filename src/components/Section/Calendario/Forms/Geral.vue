@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
 const $emit = defineEmits(['close']);
 
 const isForm2Visible = ref(false);

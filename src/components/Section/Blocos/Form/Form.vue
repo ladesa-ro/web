@@ -1,11 +1,8 @@
 <script lang="ts" setup>
 import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
-import { computed } from 'vue';
 import * as yup from 'yup';
 import { useApiBlocosFindOne, useApiClient } from '~/composables';
-
-//
 
 type Props = {
   editId?: string | null;
@@ -14,8 +11,6 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), {
   editId: null,
 });
-
-//
 
 const editIdRef = toRef(props, 'editId');
 

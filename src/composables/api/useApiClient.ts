@@ -2,7 +2,6 @@ import {
   LadesaApiClient,
   type OpenAPIConfig,
 } from '@ladesa-ro/api-client-fetch';
-import { inject, provide } from 'vue';
 
 const API_AUTH_TOKEN = Symbol.for('API_AUTH_TOKEN');
 

@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
-const $emit = defineEmits(['edit']);
-
 type Props = {
   title?: string;
   variant: 'block' | 'inline';
 };
 
 const props = defineProps<Props>();
+
+//
+
+const $emit = defineEmits(['edit']);
+
+//
 
 const selectedRadio = ref<string>('');
 </script>

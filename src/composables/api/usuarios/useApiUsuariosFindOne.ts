@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/vue-query';
-import { computed, unref, type MaybeRef } from 'vue';
 
 export const useApiUsuariosFindOne = async (
   idRef: MaybeRef<string | null | undefined>

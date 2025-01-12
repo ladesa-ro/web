@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { computed, ref, unref, watch } from 'vue';
 import {
   turmasBaseQueryKey,
   useApiBaseResourceList,

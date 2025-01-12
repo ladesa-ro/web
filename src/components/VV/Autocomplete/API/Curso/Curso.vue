@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { CursoFindOneResultView } from '@ladesa-ro/api-client-fetch';
-import { toRefs } from 'vue';
 import {
   cursosBaseQueryKey,
   useCursoGetRetriever,
@@ -8,13 +7,10 @@ import {
 } from '~/integrations/api';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
-//
-
 type Props = {
   isLoading?: boolean;
   name: string;
 };
-
 const props = defineProps<Props>();
 const { name } = toRefs(props);
 

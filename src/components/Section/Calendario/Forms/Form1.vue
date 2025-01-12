@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
-import { computed, reactive, toRef } from 'vue';
 import * as yup from 'yup';
 import { useApiClient, useApiCursosFindOne } from '~/composables';
 

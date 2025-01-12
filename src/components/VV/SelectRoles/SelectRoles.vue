@@ -1,18 +1,13 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate';
-import { toRefs } from 'vue';
-
-//
 
 type Props = {
   name: string;
 };
-
 const props = defineProps<Props>();
+const { name } = toRefs(props);
 
 //
-
-const { name } = toRefs(props);
 
 const {
   handleBlur,

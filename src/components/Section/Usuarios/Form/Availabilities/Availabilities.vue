@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import IconArrow from '~/components/Icons/Arrow/IconArrow.vue';
 import { getActivesTeacherRole, useFormUser } from '../FormUtils';
 
@@ -95,4 +94,3 @@ watch(vinculosComCargoProfessor, (current, previous) => {
   font-weight: 700;
 }
 </style>
-computed, , watch

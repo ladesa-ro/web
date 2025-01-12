@@ -87,7 +87,7 @@ useTitle(null, 'Login');
           </template>
 
           <p class="w-full h-full border-l-2 ">
-            <div class="ml-4" />
+            <span class="ml-4" />
             <span>Entrar como aluno</span>
           </p>
         </UIButton>

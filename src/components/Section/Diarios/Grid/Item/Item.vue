@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { DiarioFindOneResultView } from '@ladesa-ro/api-client-fetch';
-import { defineProps, toRefs } from 'vue';
 import { ApiImageResource, useApiImageRoute } from '~/integrations';
 
 // Definição das props ajustadas
@@ -10,8 +9,6 @@ type Props = {
 };
 
 const props = defineProps<Props>();
-
-//
 
 const { diario } = toRefs(props);
 

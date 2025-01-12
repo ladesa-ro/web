@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate';
-import { defineEmits } from 'vue';
 import * as yup from 'yup';
 
 const $emit = defineEmits(['close']);

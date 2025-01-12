@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
 import { eventFilters } from '../Functions/EventListFilters';
 import type { BetweenDates, Event, Step } from '../Typings';
 

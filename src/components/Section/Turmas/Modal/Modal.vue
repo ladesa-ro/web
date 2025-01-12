@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
-
 type Props = {
   editId?: string | null;
 };
@@ -8,8 +6,6 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), {
   editId: null,
 });
-
-//
 
 const editId = toRef(props, 'editId');
 

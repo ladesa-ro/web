@@ -1,11 +1,8 @@
 <script lang="ts" setup>
 import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
-import { computed } from 'vue';
 import * as yup from 'yup';
 import { useApiAmbienteFindOne, useApiClient } from '~/composables';
-
-//
 
 type Props = {
   editId?: string | null;
@@ -15,9 +12,9 @@ const props = withDefaults(defineProps<Props>(), {
   editId: null,
 });
 
-//
-
 const editIdRef = toRef(props, 'editId');
+
+//
 
 const $emit = defineEmits(['close']);
 

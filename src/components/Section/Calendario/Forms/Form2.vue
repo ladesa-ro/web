@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
-
 interface Calendario {
   cor: string;
   inicio: string;

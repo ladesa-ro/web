@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { capitalizeFirst } from './-Helpers/CapitalizeFirst';
 import { getWeekDays } from './-Helpers/GetWeekDays';
 import SpeechBubblesCalendar from './SpeechBubblesCalendar/SpeechBubblesCalendar.vue';

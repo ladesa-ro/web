@@ -1,14 +1,11 @@
 <script setup lang="ts">
 import type { BlocoFindOneResultView } from '@ladesa-ro/api-client-fetch';
-import { toRefs } from 'vue';
 import {
   blocosBaseQueryKey,
   useBlocoGetRetriever,
   useBlocosRetriever,
 } from '~/integrations/api';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
-
-//
 
 type Props = {
   isLoading?: boolean;

@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/vue-query';
-import { computed, unref } from 'vue';
 
 export const useApiDiariosProfessoresFindAllByDiarioId = async (
   filter: any

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
-import { toRef } from 'vue';
 
 const searchValue = defineModel('search', { default: '' });
 

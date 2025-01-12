@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-import { ref } from 'vue';
-
-//
-
 type Props = {
   editId?: string | null;
 };
@@ -11,9 +7,10 @@ const props = withDefaults(defineProps<Props>(), {
   editId: null,
 });
 
-//
 
 const editId = toRef(props, 'editId');
+
+//
 
 const isActive = ref(false);
 </script>

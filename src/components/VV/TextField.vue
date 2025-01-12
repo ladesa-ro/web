@@ -1,8 +1,5 @@
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
-import { toRef } from 'vue';
-
-//
 
 type Props = {
   type: string;

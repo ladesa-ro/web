@@ -16,7 +16,6 @@ type Props = {
   onClose: () => void;
   onDelete?: (id: any) => Promise<void>;
 };
-
 defineProps<Props>();
 
 //
@@ -24,7 +23,6 @@ defineProps<Props>();
 type Slots = {
   body(props: any): any;
 };
-
 defineSlots<Slots>();
 </script>
 

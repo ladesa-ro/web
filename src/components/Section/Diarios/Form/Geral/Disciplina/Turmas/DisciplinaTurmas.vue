@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-import { defineProps, ref, toRefs } from 'vue';
 import { useContextDiariosFormGeral } from '../../Contexto';
 
 type Props = {
   searchBarText?: string;
 };
-
 const props = defineProps<Props>();
 
 //

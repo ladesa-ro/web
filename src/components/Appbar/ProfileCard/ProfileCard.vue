@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { ApiImageResource, useApiImageRoute } from '../../../integrations';
 import { useApiContext } from '../../API/Context/setup-context';
 
