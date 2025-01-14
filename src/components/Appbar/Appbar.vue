@@ -1,16 +1,12 @@
 <script setup lang="ts">
-// import profilePicture from '~/assets/icons/profilePicture.svg';
 import SpeechBubbles from './SpeechBubbles/SpeechBubbles.vue';
-
-//
 
 const { isDark, changeTheme } = useCustomTheme();
 
 // 
 
-const hamburgerActive = defineModel({
+const hamburgerActive = defineModel<boolean>({
   required: true,
-  type: Boolean,
 });
 
 function toggleHamburger() {
@@ -23,7 +19,7 @@ const notificationsButtonEl = ref(null);
 </script>
 
 <template>
-  <div class="flex items-center w-full h-[73px] border-b-[1px] border-ldsa-grey/50 bg-ldsa-bg">
+  <div class="flex items-center w-full h-[4.563rem] border-b-[1px] border-ldsa-grey/50 bg-ldsa-bg">
 
     <!-- ========== menu icon configurations ========== -->
     <div class="m-[0.34375rem] cursor-pointer" @click="toggleHamburger">

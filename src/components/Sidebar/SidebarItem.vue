@@ -9,6 +9,7 @@ const { item } = toRefs(props);
 </script>
 
 <template>
+  <!-- TODO: tornar o template dos itens da sidebar em componente que será chamado em sidebaritemlink e sidebaritemgroup!! -->
   <SidebarItemLink v-if="item.type === 'link'" :item="item" v-bind="$attrs" />
 
   <SidebarItemGroup v-if="item.type === 'group'" :item="item" v-bind="$attrs" />
