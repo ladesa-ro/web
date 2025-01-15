@@ -8,7 +8,6 @@ type Props = {
   lesson: ILesson;
   viewFor?: 'teacher' | 'student';
 };
-
 const props = defineProps<Props>();
 const { lesson } = toRefs(props);
 const { viewFor } = toRefs(props);
@@ -31,16 +30,7 @@ const showCampus = computed(() => {
 </script>
 
 <template>
-  <!-- chamar componente UIGenericRectangle aqui ao invés de determinar o estilo aqui -->
-
-  <div
-    class="flex flex-row items-center justify-between border-2 border-ldsa-green-1 rounded-lg min-[641px]:px-5 min-[641px]:py-3 max-sm:px-4 max-sm:py-2"
-    :class="{ completed: variant === 'completed' }"
-  >
-    <!-- <pre><code>
-    {{ JSON.stringify(resumoVinculos.mapaCargoCampi.professor, null, 10) }}
-  </code></pre> -->
-
+  <div class="lesson" :class="{ completed: variant === 'completed' }">
     <section class="flex flex-col justify-between">
       <slot>
         <SectionHorarioDailyViewLessonTeacherView
@@ -59,11 +49,23 @@ const showCampus = computed(() => {
       </slot>
     </section>
 
-    <IconsIconClock v-if="variant === 'active'" class="icon max-w-8" />
+    <IconsIconClock v-if="variant === 'active'" class="icon" />
   </div>
 </template>
 
 <style scoped>
+.lesson {
+  @apply flex items-center justify-between;
+  @apply border-2 border-ldsa-green-1 rounded-lg;
+  @apply min-[641px]:px-5 min-[641px]:py-3;
+  @apply max-sm:px-4 max-sm:py-2;
+}
+.icon {
+  @apply max-w-7 text-ldsa-text-green;
+}
+
+/* --- */
+
 .completed {
   @apply border-ldsa-grey/75 text-ldsa-grey font-[400];
 }

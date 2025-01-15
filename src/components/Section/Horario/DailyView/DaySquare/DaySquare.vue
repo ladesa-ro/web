@@ -7,10 +7,13 @@ type Props = {
   dayMonth: string;
 };
 const props = defineProps<Props>();
+const { active } = toRefs(props);
+
+//
 
 const square = ref<HTMLDivElement>();
 
-const { active } = toRefs(props);
+//scrollIntoView in mobile
 
 const scrollIntoViewIfActive = () => {
   const isActive = active.value;
@@ -36,29 +39,29 @@ watch([width, height], debouncedScrollIntoView);
 </script>
 
 <template>
-  <div
-    ref="square"
-    class="flex-1 flex flex-col cursor-pointer justify-center items-center rounded-[10px] border-2 border-ldsa-green-1 min-w-20 min-[900px]:p-4 min-[900px]:max-w-28 min-[900px]:max-h-28 min-[900px]:gap-2 max-[900px]:p-3 max-[900px]:max-w-20 max-[900px]:gap-1"
-    :class="{ active: active }"
-  >
-    <p
-      class="border-b-2 border-b-ldsa-green-1 p-0 pb-[5px] font-[600] text-ldsa-green-1 dark:text-ldsa-green-2"
-    >
-      {{ dayWeek }}
-    </p>
-    <p class="font-[600] text-ldsa-green-1 dark:text-ldsa-green-2">
-      {{ dayMonth }}
-    </p>
+  <div ref="square" class="day-square" :class="{ active: active }">
+    <p class="day-week">{{ dayWeek }}</p>
+    <p>{{ dayMonth }}</p>
   </div>
 </template>
 
 <style scoped>
-.active {
-  @apply bg-ldsa-green-1 text-ldsa-text-default;
+.day-square {
+  @apply flex-1 flex flex-col justify-center items-center;
+  @apply rounded-[0.625rem] border-2 border-ldsa-green-1;
+  @apply min-w-20 cursor-pointer font-[600] text-ldsa-text-green;
+  @apply min-[900px]:p-4 min-[900px]:max-w-28 min-[900px]:max-h-28 min-[900px]:gap-2;
+  @apply max-[900px]:p-3 max-[900px]:max-w-20 max-[900px]:gap-1;
 }
 
-div.active p {
-  @apply text-ldsa-white;
+.day-week {
+  @apply p-0 pb-[0.313rem] border-b-2 border-b-ldsa-green-1;
+}
+
+/* --- */
+
+.active {
+  @apply bg-ldsa-green-1 text-ldsa-white;
 }
 
 div.active p:first-child {
