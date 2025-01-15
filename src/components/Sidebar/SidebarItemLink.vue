@@ -8,23 +8,17 @@ const { item } = toRefs(props);
 
 <template>
   <nuxt-link
-    class="flex flex-row items-center px-[16px] w-[256px] h-[48px] text-ldsa-white hover:bg-ldsa-white/[0.08]"
     exact-active-class="active"
     :active-class="props.item.exact ? '' : 'active'"
     :key="item.title"
     :to="item.to"
   >
-    <img
-      class="w-[24px] mr-[16px] -icon-white"
-      :src="item.icon"
-      alt="Ícone da funcionalidade."
-    />
-    <span> {{ item.title }}</span>
+    <SidebarItemTemplate :icon="item.icon" :title="item.title"/>
   </nuxt-link>
 </template>
 
 <style scoped>
 .active {
-  @apply bg-ldsa-white/[0.12] hover:bg-ldsa-white/20;
+  @apply bg-ldsa-white/[0.12] hover:bg-ldsa-white/[0.18];
 }
 </style>
