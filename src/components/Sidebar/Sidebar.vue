@@ -31,7 +31,7 @@ const { isMobile } = useMonitorSize();
   @apply flex flex-col gap-3;
   @apply w-14 py-[0.438rem];
   @apply border-r-2 border-r-ldsa-green-2/50 bg-ldsa-green-1;
-  @apply transition-[width] duration-[0.19s];
+  @apply transition-[width] duration-200;
 }
 
 .sidebar:hover,

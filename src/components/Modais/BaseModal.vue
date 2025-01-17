@@ -14,22 +14,26 @@ defineEmits<Emits>();
 
 <template>
   <Transition name="modal">
-    <div v-if="show" class="backdrop">
-      <main class="modal-layout">
-        <h1 class="font-bold text-lg">{{ title }}</h1>
+    <section v-if="show" class="backdrop">
+      <div class="modal-layout">
+        <header class="header">
+          <h1 class="title">{{ title }}</h1>
 
-        <section class="overflow-auto">
-          <slot name="content">Conteúdo do modal</slot>
-        </section>
+          <button class="close-button" @click="$emit('close')">
+            <IconsIconClose class="close-icon" />
+          </button>
+        </header>
 
-        <div class="min-h-5">
+        <main class="content">
+          <slot name="content">Conteúdo</slot>
+        </main>
+
+        <nav class="options">
           <!-- this slot is used for closing buttons, changing page buttons etc -->
-          <slot name="options">
-            <UIButtonModalCancelButton @click="$emit('close')" />
-          </slot>
-        </div>
-      </main>
-    </div>
+          <slot name="options" />
+        </nav>
+      </div>
+    </section>
   </Transition>
 </template>
 
@@ -42,9 +46,35 @@ defineEmits<Emits>();
 
 .modal-layout {
   @apply transition-[all_0.3s_ease];
-  @apply m-auto min-w-80 max-w-96 min-h-[18.938rem] max-h-[37.5rem] shadow-xl;
-  @apply flex flex-col justify-between items-center p-5;
-  @apply border-[3px] border-ldsa-grey rounded-lg bg-ldsa-bg;
+  @apply m-auto min-w-80 max-w-[32rem] min-h-[19rem] max-h-[38rem] shadow-xl;
+  @apply flex flex-col justify-between items-center p-7;
+  @apply border-[3px] border-ldsa-grey rounded-2xl bg-ldsa-bg;
+}
+
+.header {
+  @apply w-full flex items-center justify-between;
+}
+
+.title {
+  @apply flex items-center w-full text-xl font-bold;
+  @apply before:inline-block before:w-1 before:h-[1em] before:mr-2 before:bg-ldsa-text-green;
+}
+
+.close-button {
+  @apply flex items-center justify-center rounded-full;
+  @apply hover:bg-ldsa-grey/30 transition-[background_0.5s_linear];
+}
+
+.close-icon {
+  @apply text-ldsa-text-default w-3 h-2.5 m-2.5;
+}
+
+.content {
+  @apply flex-1 overflow-y-auto my-5 w-full text-wrap;
+}
+
+.options {
+  @apply flex justify-between gap-3 w-auto;
 }
 
 /* 
@@ -59,23 +89,22 @@ defineEmits<Emits>();
 
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.25s ease-in-out;
+  @apply transition-[opacity] duration-[0.25s] ease-in-out;
+
 }
 
 .modal-enter-from .modal-layout,
 .modal-leave-to .modal-layout {
-  transform: translateY(1.5rem) scale(0.9);
+  @apply translate-y-6 scale-90;
 }
 
 .modal-enter-to .modal-layout,
 .modal-leave-from .modal-layout {
-  transform: translateY(0rem) scale(1);
+  @apply translate-y-0 scale-100;
 }
 
-.modal-enter-active .modal-layout {
-  transition: all 0.3s ease-out;
-}
+.modal-enter-active .modal-layout,
 .modal-leave-active .modal-layout {
-  transition: all 0.3s ease-out;
+  @apply transition-[all] duration-300 ease-out;
 }
 </style>

@@ -75,6 +75,6 @@ main {
 
 .content-sidebar-active,
 .content-default {
-  @apply transition-[margin] duration-[0.19s];
+  @apply transition-[margin] duration-200;
 }
 </style>
