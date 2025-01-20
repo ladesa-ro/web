@@ -1,54 +1,44 @@
 <script setup lang="ts">
 type Props = {
-  show: boolean;
   title?: string;
+  onClose: () => any;
 };
 
-type Emits = {
-  close: void;
+type Slots = {
+  default: () => any;
+  'button-group': () => void;
 };
 
 const { title = 'Título' } = defineProps<Props>();
-defineEmits<Emits>();
+defineSlots<Slots>();
 </script>
 
 <template>
-  <Transition name="modal">
-    <section v-if="show" class="backdrop">
-      <div class="modal-layout">
-        <header class="header">
-          <h1 class="title">{{ title }}</h1>
+  <div class="modal-layout">
+    <header class="header">
+      <h1 class="title">{{ title }}</h1>
 
-          <button class="close-button" @click="$emit('close')">
-            <IconsIconClose class="close-icon" />
-          </button>
-        </header>
+      <button class="close-button" @click="onClose">
+        <IconsIconClose class="close-icon" />
+      </button>
+    </header>
 
-        <main class="content">
-          <slot name="content">Conteúdo</slot>
-        </main>
+    <main class="content">
+      <slot>Conteúdo</slot>
+    </main>
 
-        <nav class="options">
-          <!-- this slot is used for closing buttons, changing page buttons etc -->
-          <slot name="options" />
-        </nav>
-      </div>
-    </section>
-  </Transition>
+    <footer class="button-group">
+      <!-- this slot is used for closing buttons, changing page buttons etc -->
+      <slot name="button-group" />
+    </footer>
+  </div>
 </template>
 
 <style scoped>
-.backdrop {
-  @apply fixed top-0 left-0 z-[999] w-full h-full;
-  @apply flex bg-ldsa-black/35 dark:bg-ldsa-white/25;
-  @apply transition-[opacity_0.3s_ease];
-}
-
 .modal-layout {
-  @apply transition-[all_0.3s_ease];
-  @apply m-auto min-w-80 max-w-[32rem] min-h-[19rem] max-h-[38rem] shadow-xl;
+  @apply min-w-80 max-w-[32rem] min-h-[19rem] max-h-[38rem];
   @apply flex flex-col justify-between items-center p-7;
-  @apply border-[3px] border-ldsa-grey rounded-2xl bg-ldsa-bg;
+  @apply shadow-xl border-[3px] border-ldsa-grey rounded-2xl bg-ldsa-bg;
 }
 
 .header {
@@ -62,7 +52,7 @@ defineEmits<Emits>();
 
 .close-button {
   @apply flex items-center justify-center rounded-full;
-  @apply hover:bg-ldsa-grey/30 transition-[background_0.5s_linear];
+  @apply hover:bg-ldsa-grey/30 transition-[background-color] duration-[225ms];
 }
 
 .close-icon {
@@ -73,38 +63,7 @@ defineEmits<Emits>();
   @apply flex-1 overflow-y-auto my-5 w-full text-wrap;
 }
 
-.options {
+.button-group {
   @apply flex justify-between gap-3 w-auto;
-}
-
-/* 
- * bellow is the animation to open and close the modal
- * see the vue transition component documentation to learn more
- */
-
-.modal-enter-from,
-.modal-leave-to {
-  @apply opacity-0;
-}
-
-.modal-enter-active,
-.modal-leave-active {
-  @apply transition-[opacity] duration-[0.25s] ease-in-out;
-
-}
-
-.modal-enter-from .modal-layout,
-.modal-leave-to .modal-layout {
-  @apply translate-y-6 scale-90;
-}
-
-.modal-enter-to .modal-layout,
-.modal-leave-from .modal-layout {
-  @apply translate-y-0 scale-100;
-}
-
-.modal-enter-active .modal-layout,
-.modal-leave-active .modal-layout {
-  @apply transition-[all] duration-300 ease-out;
 }
 </style>
