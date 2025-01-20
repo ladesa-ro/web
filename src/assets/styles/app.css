@@ -23,6 +23,7 @@ svg {
   fill: rgb(var(--ladesa-text-default-color));
 }
 
+/* FIXME: remover após retirar o vuetify */
 html {
-  overflow: auto;
+  overflow-y: hidden !important;
 }
