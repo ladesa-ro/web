@@ -1,10 +1,8 @@
 <script setup lang="ts">
-type Props = {
-  isActive: boolean;
-  onClose: () => any;
-  onOpen: () => any;
-};
-defineProps<Props>();
+const isActive = defineModel({default: false});
+
+const onOpen = () => isActive.value = true;
+const onClose = () => isActive.value = false;
 </script>
 
 <template>
