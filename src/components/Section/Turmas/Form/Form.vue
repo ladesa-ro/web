@@ -6,18 +6,12 @@ import type { TurmaFormOutput } from './-Helpers/typings';
 import { useTurmaFormExistentDataRetriever } from './-Helpers/useTurmaFormExistentDataRetriever';
 import { useTurmaSubmit } from './-Helpers/useTurmaSubmit';
 
-//
-
 type Props = {
   editId?: string | null;
 };
-
 const props = withDefaults(defineProps<Props>(), {
   editId: null,
 });
-
-//
-
 const { editId } = toRefs(props);
 
 //
@@ -69,27 +63,25 @@ const { isBusy, isLoading, formOnSubmit } = createAPIFormContext({
       title-edit="Editar Turma"
       title-create="Cadastrar Nova Turma"
     >
-      <template #body>
-        <VVSelectImage :disabled="isLoading || isBusy" name="imagem" />
+      <VVSelectImage :disabled="isLoading || isBusy" name="imagem" />
 
-        <VVAutocompleteAPICurso
-          :is-loading="isLoading"
-          :disabled="isLoading || isBusy"
-          name="curso.id"
-        />
+      <VVAutocompleteAPICurso
+        :is-loading="isLoading"
+        :disabled="isLoading || isBusy"
+        name="curso.id"
+      />
 
-        <VVAutocompleteAPIAmbiente
-          :is-loading="isLoading"
-          :disabled="isLoading || isBusy"
-          name="ambientePadraoAula.id"
-          label="Sala de Aula"
-        />
+      <VVAutocompleteAPIAmbiente
+        :is-loading="isLoading"
+        :disabled="isLoading || isBusy"
+        name="ambientePadraoAula.id"
+        label="Sala de Aula"
+      />
 
-        <SectionTurmasFormFieldsPeriodo
-          :is-loading="isLoading"
-          :disabled="isLoading || isBusy"
-        />
-      </template>
+      <SectionTurmasFormFieldsPeriodo
+        :is-loading="isLoading"
+        :disabled="isLoading || isBusy"
+      />
     </APIFormContextDialog>
   </form>
 </template>

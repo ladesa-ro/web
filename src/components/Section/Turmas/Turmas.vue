@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 import { turmasBaseQueryKey, useTurmasRetriever } from '~/integrations/api';
+import TurmasForm from './Form/Form.vue';
 
 const turmasRetriever = useTurmasRetriever();
 
@@ -13,7 +14,7 @@ const options = createApiListContextOptions({
 <template>
   <UIAPIList :options="options">
     <template #options-actions>
-      <LazySectionTurmasModal />
+      <DialogModalEditOrCreateModal :form-component="TurmasForm" />
     </template>
 
     <template #grid-item="{ item, isLoading }">

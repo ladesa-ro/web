@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import TurmasForm from '../../Form/Form.vue';
 import type { TurmaFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import {
   ApiImageResource,
   useApiImageRoute,
 } from '../../../../../integrations/api/RoutesUtil';
+import EditOrCreateModal from '~/components/Dialog/Modal/EditOrCreateModal.vue';
 
 type Props = {
   isLoading?: boolean;
@@ -27,7 +29,10 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
       </template>
 
       <template #actions>
-        <LazySectionTurmasModal :edit-id="turma.id" />
+        <EditOrCreateModal
+          :edit-id="turma.id"
+          :formComponent="TurmasForm"
+        />
       </template>
 
       <UICardLine>
