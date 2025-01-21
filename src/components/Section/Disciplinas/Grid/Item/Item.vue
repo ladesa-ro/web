@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import DisciplinasForm from '../../Form/Form.vue';
+
 import type { DisciplinaFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import {
   ApiImageResource,
@@ -30,7 +32,7 @@ const coverImageSrc = useApiImageRoute(
       </template>
 
       <template #actions>
-        <LazySectionDisciplinasModal :edit-id="disciplina.id" />
+        <DialogModalEditOrCreateModal :form-component="DisciplinasForm" :edit-id="disciplina.id" />
       </template>
 
       <UICardLine>

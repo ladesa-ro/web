@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DisciplinasForm from './Form/Form.vue';
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 import {
   disciplinasBaseQueryKey,
@@ -16,7 +17,7 @@ const options = createApiListContextOptions({
 <template>
   <UIAPIList :options="options">
     <template #options-actions>
-      <LazySectionDisciplinasModal />
+      <DialogModalEditOrCreateModal :form-component="DisciplinasForm"  />
     </template>
 
     <template #grid-item="{ item, isLoading }">
