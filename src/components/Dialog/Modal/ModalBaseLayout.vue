@@ -17,7 +17,8 @@ defineSlots<Slots>();
   <div class="modal-layout">
     <header class="header">
       <h1 class="title">{{ title }}</h1>
-
+      
+      <!-- TODO: adicionar opção de ter os 3 pontinhos (v-if="editId")-->
       <button class="close-button" @click="onClose">
         <IconsIconClose class="close-icon" />
       </button>
@@ -28,6 +29,7 @@ defineSlots<Slots>();
     </main>
 
     <footer class="button-group">
+      <!-- TODO: adicionar has() no css -->
       <!-- this slot is used for closing buttons, changing page buttons etc -->
       <slot name="button-group" />
     </footer>
@@ -36,7 +38,7 @@ defineSlots<Slots>();
 
 <style scoped>
 .modal-layout {
-  @apply min-w-80 max-w-[32rem] min-h-[19rem] max-h-[38rem];
+  @apply min-w-80 max-w-[31.5rem] min-h-[19rem] max-h-[39rem];
   @apply flex flex-col justify-between items-center p-7;
   @apply shadow-xl border-[3px] border-ldsa-grey rounded-2xl bg-ldsa-bg;
 }
@@ -60,10 +62,10 @@ defineSlots<Slots>();
 }
 
 .content {
-  @apply flex-1 overflow-y-auto my-5 w-full text-wrap;
+  @apply flex-1 flex flex-col gap-6 overflow-y-auto my-5 w-full text-wrap;
 }
 
 .button-group {
-  @apply flex justify-between gap-3 w-auto;
+  @apply flex justify-between gap-3 w-full;
 }
 </style>
