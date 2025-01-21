@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import CursosForm from '../../Form/Form.vue'
+
 import type { CursoFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import {
   ApiImageResource,
@@ -27,7 +29,7 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, curso);
       </template>
 
       <template #actions>
-        <LazySectionCursosModal :edit-id="curso.id" />
+        <DialogModalEditOrCreateModal :form-component="CursosForm" :edit-id="curso.id"/>
       </template>
 
       <UICardLine>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CursosForm from './Form/Form.vue'
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 import { cursosBaseQueryKey, useCursosRetriever } from '~/integrations/api';
 const cursosRetriever = useCursosRetriever();
@@ -12,7 +13,7 @@ const options = createApiListContextOptions({
 <template>
   <UIAPIList :options="options">
     <template #options-actions>
-      <LazySectionCursosModal />
+      <DialogModalEditOrCreateModal :form-component="CursosForm" />
     </template>
 
     <template #grid-item="{ item, isLoading }">
