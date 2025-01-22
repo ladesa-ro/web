@@ -12,10 +12,5 @@ const hasAtLeastOneActiveTeacherRole = computed(() => {
 </script>
 
 <template>
-  <v-card
-    v-if="hasAtLeastOneActiveTeacherRole"
-    class="dialog-style overflow-auto max-w-[500px]"
-  >
-    <SectionUsuariosFormAvailabilities />
-  </v-card>
+  <SectionUsuariosFormAvailabilities v-if="hasAtLeastOneActiveTeacherRole"/>
 </template>

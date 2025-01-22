@@ -1,11 +1,7 @@
 <script setup lang="ts">
-import IconArrow from '~/components/Icons/Arrow/IconArrow.vue';
 import { getActivesTeacherRole, useFormUser } from '../FormUtils';
 
-const selectedOptions = ref();
-
 const options = [
-  { value: 'Domingo' },
   { value: 'Segunda' },
   { value: 'Terça' },
   { value: 'Quarta' },
@@ -14,16 +10,19 @@ const options = [
   { value: 'Sábado' },
 ];
 
+const selectedOptions = ref();
+
 selectedOptions.value = options[1];
 
 const currentDayIndex = ref(1);
-
 const changeDay = (delta: number) => {
   currentDayIndex.value =
     (currentDayIndex.value + delta + options.length) % options.length;
 
   selectedOptions.value = options[currentDayIndex.value];
 };
+
+//
 
 const { values: formValues } = useFormUser();
 
@@ -50,47 +49,37 @@ watch(vinculosComCargoProfessor, (current, previous) => {
     }
   }
 });
+
+const $emit = defineEmits(['close']);
+
+function onClose() {
+  $emit('close');
+}
 </script>
 <template>
-  <v-form class="p-5 overflow-auto">
-    <div class="modal">
-      <div class="form-header">
-        <h1 class="main-title">
-          <span>Disponibilidade</span>
-        </h1>
-      </div>
-      <div class="flex justify-between items-center mt-5">
-        <IconArrow class="cursor-pointer" @click="changeDay(-1)" />
-        <div>
-          <span class="font-bold">
-            {{ selectedOptions?.value }}
-          </span>
-        </div>
-
-        <IconArrow class="cursor-pointer rotate-180" @click="changeDay(1)" />
-      </div>
-
-      <v-divider class="my-4" />
-
-      <div class="flex flex-col gap-5">
-        <v-expansion-panels v-model="activePanel" mandatory class="mb-6">
-          <SectionUsuariosFormAvailabilitiesAvailability
-            v-for="vinculo in vinculosComCargoProfessor"
-            :key="vinculo.campus.id"
-            :vinculo="vinculo"
-          />
-        </v-expansion-panels>
-      </div>
+  <DialogModalBaseLayout
+    :on-close="onClose"
+    title="Disponibilidade"
+    :close-button="false"
+  >
+    <!-- TODO: substituir por componente de matemática modular -->
+    <div class="flex justify-between items-center">
+      <IconsArrowIconArrow class="cursor-pointer" @click="changeDay(-1)" />
+      <span class="font-bold">
+        {{ selectedOptions?.value }}
+      </span>
+      <IconsArrowIconArrow
+        class="cursor-pointer rotate-180"
+        @click="changeDay(1)"
+      />
     </div>
-  </v-form>
-</template>
 
-<style scoped>
-.modal {
-  text-align: center;
-}
-.main-title {
-  font-size: 24px;
-  font-weight: 700;
-}
-</style>
+    <v-expansion-panels v-model="activePanel" mandatory class="">
+      <SectionUsuariosFormAvailabilitiesAvailability
+        v-for="vinculo in vinculosComCargoProfessor"
+        :key="vinculo.campus.id"
+        :vinculo="vinculo"
+      />
+    </v-expansion-panels>
+  </DialogModalBaseLayout>
+</template>

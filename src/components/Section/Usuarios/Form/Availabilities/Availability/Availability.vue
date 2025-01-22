@@ -16,13 +16,15 @@ const selecionados = ref<string[]>([]);
 </script>
 
 <template>
-  <v-expansion-panel :value="vinculo.campus.id">
+  <v-expansion-panel :value="vinculo.campus.id" class="h-full">
     <v-expansion-panel-title expand-icon="mdi-menu-down" class="font-medium">
       {{ campus?.apelido }}
     </v-expansion-panel-title>
 
     <v-expansion-panel-text>
-      <section class="flex gap-6 justify-between">
+      <section class="flex gap-6 justify-between">  
+        <!-- TODO: substituir por componente -->
+        
         <!-- Matutino -->
         <div class="text-left">
           <span class="p-1 font-semibold">Matutino</span>
@@ -75,13 +77,4 @@ const selecionados = ref<string[]>([]);
   </v-expansion-panel>
 </template>
 
-<style scoped>
-.text-left {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.font-semibold {
-  font-weight: 600;
-}
-</style>
+<style scoped></style>
