@@ -1,27 +1,11 @@
 <template>
-  <VBtn
+  <UIButtonModalBaseButtonLayout
     type="button"
-    color="#ffc52c"
-    variant="outlined"
-    append-icon="mdi-arrow-left"
-    class="buttonBack"
+    color="rgb(var(--ladesa-grey-color))"
   >
-    <span>Voltar</span>
-  </VBtn>
+    Voltar
+    <template #icon>
+      <IconsArrowIconArrowAlt />
+    </template>
+  </UIButtonModalBaseButtonLayout>
 </template>
-
-<style>
-.button {
-  font-weight: 700;
-  margin-top: 20px;
-  cursor: pointer;
-  border: none;
-}
-
-.v-btn.buttonBack {
-  padding: 6px 20px;
-  border-radius: 8px;
-  height: auto;
-  text-transform: none;
-}
-</style>

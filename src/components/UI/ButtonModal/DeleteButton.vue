@@ -1,20 +1,12 @@
 <template>
-  <VBtn
+  <UIButtonModalBaseButtonLayout
     type="button"
-    color="black"
-    variant="outlined"
-    append-icon="mdi-delete"
-    class="buttonDelete"
+    color="rgb(var(--ladesa-red-color))"
+    :opacity="85"
   >
     Deletar
-  </VBtn>
+    <template #icon>
+      <IconsIconExclude />
+    </template>
+  </UIButtonModalBaseButtonLayout>
 </template>
-
-<style>
-.v-btn.buttonDelete {
-  padding: 6px 20px;
-  border-radius: 8px;
-  height: auto;
-  text-transform: none;
-}
-</style>

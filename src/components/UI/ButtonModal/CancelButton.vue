@@ -1,26 +1,11 @@
 <template>
-  <VBtn
+  <UIButtonModalBaseButtonLayout
     type="button"
-    variant="outlined"
-    append-icon="mdi-close"
-    class="buttonCancelar"
+    color="rgb(var(--ladesa-grey-color))"
   >
-    <span>Cancelar</span>
-  </VBtn>
+    Cancelar
+    <template #icon>
+      <IconsIconClose />
+    </template>
+  </UIButtonModalBaseButtonLayout>
 </template>
-
-<style>
-.button {
-  font-weight: 700;
-  margin-top: 20px;
-  cursor: pointer;
-  border: none;
-}
-
-.v-btn.buttonCancelar {
-  padding: 6px 20px;
-  border-radius: 8px;
-  height: auto;
-  text-transform: none;
-}
-</style>
