@@ -11,8 +11,7 @@ const props = defineProps<Props>();
 const { disciplinaId } = useContextDiariosFormGeral();
 
 const { diariosProfessoresList } =
-  await useApiDiariosProfessoresFindAllByDiarioId({
-  });
+  await useApiDiariosProfessoresFindAllByDiarioId({});
 
 //
 
@@ -40,6 +39,10 @@ const selectRole = (role: string) => {
   showGroupingSection.value = role === 'AGRUPAMENTO';
 };
 
+function onClose() {
+  $emit('close');
+}
+
 const goToAdd = () => {
   $emit('add');
 };
@@ -52,16 +55,8 @@ const { items: diarios } = await useApiDiariosFindAll('', {
 </script>
 
 <template>
-  <v-form v-if="!isFormVisible" class="form">
-    <div class="form-header">
-      <h1 class="main-title">
-        Turma
-      </h1>
-    </div>
-
-    <v-divider class="my-4" />
-
-    <div class="form-body modal-form">
+  <form v-if="!isFormVisible">
+    <DialogModalBaseLayout :on-close="onClose" title="Selecione uma turma">
       <v-expansion-panels>
         <v-expansion-panel
           v-for="diario in diarios"
@@ -87,7 +82,9 @@ const { items: diarios } = await useApiDiariosFindAll('', {
               </div>
               <div class="icons">
                 <v-icon small class="icon">mdi-trash-can</v-icon>
-                <v-icon small class="expansion-arrow icon ml-2">mdi-menu-down</v-icon>
+                <v-icon small class="expansion-arrow icon ml-2"
+                  >mdi-menu-down</v-icon
+                >
               </div>
             </div>
           </v-expansion-panel-title>
@@ -133,53 +130,19 @@ const { items: diarios } = await useApiDiariosFindAll('', {
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
-    </div>
-
-    <v-divider />
-
-    <div class="form-footer">
       <div class="button-solo">
         <UIButtonModalAddNewClassButton @click="goToAdd" />
       </div>
-      <div class="button-group">
+
+      <template #button-group>
         <UIButtonModalBackButton @click="backForm" />
         <UIButtonModalFinishButton @click="closeForm" />
-      </div>
-    </div>
-  </v-form>
+      </template>
+    </DialogModalBaseLayout>
+  </form>
 </template>
 
 <style scoped>
-.form {
-  overflow: auto;
-}
-
-.modal-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.main-title {
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  padding: 32px;
-}
-
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  flex-wrap: nowrap;
-  gap: 10px;
-}
-
 .button-solo {
   display: flex;
   justify-content: flex-start;

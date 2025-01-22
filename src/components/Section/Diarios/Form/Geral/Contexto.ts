@@ -1,9 +1,5 @@
 const identificadorContexto = 'contexto-diarios-form-geral';
 
-// type IContextDiariosFormGeral = ReturnType<
-//   typeof createContextDiariosFormGeral
-// >;
-
 type IContextDiariosFormGeral = {
   disciplinaId: Ref<string | null>;
 };

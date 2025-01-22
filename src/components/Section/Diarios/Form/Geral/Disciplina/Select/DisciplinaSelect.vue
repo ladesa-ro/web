@@ -40,110 +40,29 @@ const nextForm = () => {
 </script>
 
 <template>
-  <v-form class="form">
-    <div class="form-header">
-      <h1 class="main-title">
-        <span>Disciplina</span>
-      </h1>
-    </div>
-
-    <v-divider class="my-4" />
-
-    <div class="form-body modal-form">
+  <form>
+    <DialogModalBaseLayout
+      :on-close="closeForm"
+      title="Selecione uma Disciplina"
+    >
       <UISearchBar
         :value="searchBarText"
         @update:value="searchBarText = $event"
+        class="mt-[0.313rem]"
       />
 
-      <v-radio-group v-model="selectedDisciplina">
-        <UIGridSelectionDiscipline class="pb-[4px]" :items="disciplinas ?? []">
+      <v-radio-group v-model="selectedDisciplina" class="!overflow-x-hidden">
+        <UIGridSelectionDiscipline :items="disciplinas ?? []">
           <template #item="{ item: disciplina }">
-            <SectionDiariosFormGeralDisciplinaSelectCard
-              :disciplina="disciplina"
-            />
+            <SectionDiariosFormGeralDisciplinaSelectCard :disciplina="disciplina" />
           </template>
         </UIGridSelectionDiscipline>
       </v-radio-group>
-    </div>
 
-    <v-divider />
-
-    <div class="form-footer button-group">
-      <UIButtonModalCancelButton @click="closeForm" />
-      <UIButtonModalAdvancedButton
-        :disabled="!selectedDisciplina"
-        @click="nextForm"
-      />
-    </div>
-  </v-form>
+      <template #button-group>
+        <UIButtonModalCancelButton @click="closeForm" />
+        <UIButtonModalAdvancedButton :disabled="!selectedDisciplina" @click="nextForm" />
+      </template>
+    </DialogModalBaseLayout>
+  </form>
 </template>
-
-<style scoped>
-.form {
-  overflow: auto;
-}
-
-.modal-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.main-title {
-  font-size: 24px;
-  font-weight: 700;
-  text-align: center;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-
-  padding: 32px;
-}
-
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-top: 20px;
-  gap: 20px;
-}
-
-.button {
-  font-weight: 700;
-  margin-top: 20px;
-  cursor: pointer;
-  border: none;
-}
-
-.v-btn.buttonCancelar,
-.v-btn.buttonCadastro {
-  padding: 6px 20px;
-  border-radius: 8px;
-  height: auto;
-  text-transform: none;
-}
-
-@media screen and (max-width: 450px) {
-  .button-group {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .v-btn.buttonCancelar,
-  .v-btn.buttonCadastro {
-    padding: 6px 20px;
-  }
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>

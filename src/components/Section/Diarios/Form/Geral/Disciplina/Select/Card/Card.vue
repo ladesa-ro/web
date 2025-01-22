@@ -4,9 +4,7 @@ import type { DisciplinaFindOneResultView } from '@ladesa-ro/api-client-fetch';
 type Props = {
   disciplina: DisciplinaFindOneResultView;
 };
-
-const props = defineProps<Props>();
-const disciplina = toRef(props, 'disciplina');
+const { disciplina } = defineProps<Props>();
 </script>
 
 <template>
@@ -20,7 +18,7 @@ const disciplina = toRef(props, 'disciplina');
     </template>
 
     <UICardLine>
-      <span class="text-left w-full block">
+      <span class="block w-full text-left">
         Carga Horária: {{ disciplina.cargaHoraria }}
       </span>
     </UICardLine>
