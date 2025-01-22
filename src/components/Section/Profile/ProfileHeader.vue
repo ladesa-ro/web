@@ -22,7 +22,7 @@ const profilePicureUrl = useApiImageRoute(
         <img
           v-if="profilePicureUrl"
           :src="profilePicureUrl ?? ''"
-          class="bg-cover"
+          class="h-full"
           alt="Foto de perfil do usuário."
         />
         <IconsIconUser v-else class="text-ldsa-grey/75 m-7" />
