@@ -1,22 +1,27 @@
 <script setup lang="ts" generic="T">
-const props = defineProps<{
+type Props = {
   items: T[];
-}>();
+};
+const { items } = defineProps<Props>();
 
-const items = toRef(props, 'items');
+//
 
-const slots = defineSlots<{
+type Slots = {
   item(props: { item: T }): any;
-}>();
+};
+const slots = defineSlots<Slots>();
 </script>
 
 <template>
-  <div
-    v-if="items"
-    class="flex flex-col gap-4 max-h-[26rem] overflow-y-auto overflow-x-hidden -mr-4"
-  >
-    <div v-for="item in items" class="px-0 mr-4">
+  <section v-if="items" class="selection-discipline">
+    <div v-for="item in items" class="px-0 w-full">
       <slot name="item" v-bind="{ item: item as T }" />
     </div>
-  </div>
+  </section>
 </template>
+
+<style scoped>
+.selection-discipline {
+  @apply flex flex-col gap-4 overflow-y-auto overflow-x-hidden mr-2;
+}
+</style>
