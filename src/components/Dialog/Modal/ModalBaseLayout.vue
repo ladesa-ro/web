@@ -28,7 +28,7 @@ defineSlots<Slots>();
       <slot>Conteúdo</slot>
     </main>
 
-    <footer class="button-group">
+    <footer v-if="$slots['button-group']" class="button-group">
       <!-- TODO: adicionar has() no css -->
       <!-- this slot is used for closing buttons, changing page buttons etc -->
       <slot name="button-group" />
@@ -62,10 +62,10 @@ defineSlots<Slots>();
 }
 
 .content {
-  @apply flex-1 flex flex-col gap-6 overflow-y-auto my-5 w-full text-wrap;
+  @apply flex-1 flex flex-col gap-6 overflow-y-auto mt-5 w-full text-wrap;
 }
 
 .button-group {
-  @apply flex justify-between gap-3 w-full;
+  @apply flex justify-between gap-3 w-full mt-6;
 }
 </style>
