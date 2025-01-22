@@ -1,6 +1,7 @@
 <script setup lang="ts">
 type Props = {
   title?: string;
+  closeButton?: boolean;
   onClose: () => any;
 };
 
@@ -9,7 +10,7 @@ type Slots = {
   'button-group': () => void;
 };
 
-const { title = 'Título' } = defineProps<Props>();
+const { title = 'Título', closeButton = true } = defineProps<Props>();
 defineSlots<Slots>();
 </script>
 
@@ -18,8 +19,7 @@ defineSlots<Slots>();
     <header class="header">
       <h1 class="title">{{ title }}</h1>
       
-      <!-- TODO: adicionar opção de ter os 3 pontinhos (v-if="editId")-->
-      <button class="close-button" @click="onClose">
+      <button v-if="closeButton" class="close-button" @click="onClose">
         <IconsIconClose class="close-icon" />
       </button>
     </header>
