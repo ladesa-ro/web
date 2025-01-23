@@ -19,6 +19,6 @@ const { item } = toRefs(props);
 
 <style scoped>
 .active {
-  @apply bg-ldsa-white/[0.12] hover:bg-ldsa-white/[0.18];
+  @apply bg-ldsa-white/[0.12] hover:bg-ldsa-white/[0.16];
 }
 </style>

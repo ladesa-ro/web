@@ -42,11 +42,12 @@ const open = ref(false);
 /* Collapsible animation */
 
 .collapsible-animation[data-state='open'] {
-  @apply animate-[slideDown_0.2s];
+  @apply animate-[slideDown_0.3s];
 }
 
 .collapsible-animation[data-state='closed'] {
-  @apply animate-[slideUp_0.2s];
+  @apply animate-[slideUp_0.3s];
+  @apply open;
 }
 
 @keyframes slideDown {
