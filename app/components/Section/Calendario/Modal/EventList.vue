@@ -13,11 +13,12 @@ type Props = {
   enableModal?: boolean;
 };
 
-const props = defineProps<Props>();
+const { enableModal = false, year, events } = defineProps<Props>();
 
 // Code
 const searchBarText = ref('');
-const isActive = ref<boolean>(props.enableModal);
+const isActive = ref<boolean>(enableModal);
+const onClose = () => (isActive.value = false);
 
 // Listing filter
 const orderBy: Array<string> = ['Mês', 'Eventos', 'Bimestre', 'Semestre'];
@@ -37,7 +38,7 @@ onMounted(async () => {
   // Set value
   filterType.value = await eventFilters.getFilter(
     localValue._orderBy.value,
-    props.year
+    year
   );
 
   // Watch selected filters
@@ -46,7 +47,7 @@ onMounted(async () => {
       // Alter value
       filterType.value = await eventFilters.getFilter(
         localValue._orderBy.value,
-        props.year
+        year
       );
     }
   });
@@ -54,109 +55,78 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-dialog v-model="isActive" max-width="500">
-    <template #default="{ isActive }">
-      <v-card class="dialog-style">
-        <!-- Modal -->
-        <v-form class="-form">
-          <div>
-            <!-- Title -->
-            <h1 class="main-title">Todos os eventos</h1>
+  <DialogSkeleton v-model="isActive">
+    <DialogModalBaseLayout title="Listagem de Eventos" :on-close="onClose">
+      <form class="form">
+        <!-- Filter content -->
+        <div class="modal-form">
+          <!-- Search event -->
+          <UISearchBar
+            :value="searchBarText"
+            @update:value="searchBarText = $event"
+          />
 
-            <v-divider class="my-4" />
-
-            <!-- Filter content -->
-            <div class="modal-form">
-              <!-- Search event -->
-              <UISearchBar
-                :value="searchBarText"
-                @update:value="searchBarText = $event"
-              />
-
-              <!-- Order list -->
-              <div class="flex flex-row gap-4">
-                <VVAutocomplete
-                  v-model:value="localValue._orderBy.value"
-                  name="orderBy.id"
-                  label="Ordenar por"
-                  placeholder="Selecione uma opção"
-                  :items="orderBy"
-                  class="w-full"
-                />
-                <VVAutocomplete
-                  v-model:value="localValue._orderType.value"
-                  name="orderType.id"
-                  label="Ordem"
-                  placeholder="Selecione uma ordem"
-                  :items="orderType"
-                  class="w-full"
-                />
-              </div>
-            </div>
-
-            <v-divider class="my-4" />
-
-            <!-- Content -->
-            <div
-              class="flex flex-col gap-4 w-full -scrollbar overflow-y-auto pr-2 xl:pr-0 max-h-[432px]"
-            >
-              <SectionCalendarioEventsAccordion
-                v-for="(item, index) in filterType"
-                :name="item.name"
-                :year="props.year"
-                :month-num="index"
-                :steps="props.steps"
-                :events="props.events"
-                :between-dates="item"
-                :order-by="localValue._orderBy.value"
-              />
-            </div>
+          <!-- Order list -->
+          <div class="flex flex-row gap-4">
+            <VVAutocomplete
+              v-model:value="localValue._orderBy.value"
+              name="orderBy.id"
+              label="Ordenar por"
+              placeholder="Selecione uma opção"
+              :items="orderBy"
+              class="w-full"
+            />
+            <VVAutocomplete
+              v-model:value="localValue._orderType.value"
+              name="orderType.id"
+              label="Ordem"
+              placeholder="Selecione uma ordem"
+              :items="orderType"
+              class="w-full"
+            />
           </div>
-        </v-form>
-      </v-card>
-    </template>
-  </v-dialog>
+        </div>
+
+        <!-- Content -->
+        <div
+          class="flex flex-col gap-4 w-full -scrollbar overflow-y-auto pr-2 xl:pr-0 max-h-[432px]"
+        >
+          <SectionCalendarioEventsAccordion
+            v-for="(item, index) in filterType"
+            :name="item.name"
+            :year="year"
+            :month-num="index"
+            :steps="steps"
+            :events="events"
+            :between-dates="item"
+            :order-by="localValue._orderBy.value"
+          />
+        </div>
+      </form>
+    </DialogModalBaseLayout>
+  </DialogSkeleton>
 </template>
 
 <style scoped>
-.dialog-style {
-  border-radius: 14px !important;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border: solid 2px #9ab69e;
-}
-
-.detail {
-  cursor: pointer;
-  z-index: 10;
-  margin-right: 16px;
-}
-
-.-form {
+.form {
   display: flex;
   flex-direction: column;
   text-align: center;
   padding: 32px;
-  overflow: auto;
+  overflow: hidden;
+  @apply w-full min-w-[24.375rem] p-0 pt-[0.313rem];
 }
 
 .modal-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  @apply mb-6;
 }
 
 .main-title {
   font-size: 24px;
   font-weight: 700;
-}
-
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-
-  margin-top: 20px;
-  gap: 20px;
 }
 
 .button {
@@ -172,17 +142,5 @@ onMounted(async () => {
   border-radius: 8px;
   height: auto;
   text-transform: none;
-}
-
-@media screen and (max-width: 450px) {
-  .button-group {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .v-btn.buttonCancelar,
-  .v-btn.buttonCadastro {
-    padding: 6px 20px;
-  }
 }
 </style>

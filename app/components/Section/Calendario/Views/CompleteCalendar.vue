@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-// Import
 import 'dayjs/locale/pt-br';
 import type { Event, Step } from '../Typings';
 
@@ -31,7 +30,6 @@ watch(monthNumReceived, (newValue: number) => {
 </script>
 
 <template>
-  <div>
     <!-- Content -->
     <div
       class="flex flex-col justify-between w-[328px] sm:w-[408px] lg:w-full h-auto"
@@ -52,7 +50,4 @@ watch(monthNumReceived, (newValue: number) => {
         />
       </div>
     </div>
-  </div>
 </template>
-
-<style scoped></style>
