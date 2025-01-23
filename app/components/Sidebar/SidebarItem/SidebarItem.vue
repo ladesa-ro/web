@@ -7,11 +7,11 @@ const { item } = toRefs(props);
 </script>
 
 <template>
-  <SidebarItemLink v-if="item.type === 'link'" :item="item" v-bind="$attrs" />
+  <SidebarSidebarItemLink v-if="item.type === 'link'" :item="item" v-bind="$attrs" />
 
-  <SidebarItemGroup v-if="item.type === 'group'" :item="item" v-bind="$attrs" />
+  <SidebarSidebarItemGroup v-if="item.type === 'group'" :item="item" v-bind="$attrs" />
 
-  <SidebarItemSpacer
+  <SidebarSidebarItemSpacer
     v-if="item.type === 'spacer'"
     :item="item"
     v-bind="$attrs"

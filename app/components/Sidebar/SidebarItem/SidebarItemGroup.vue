@@ -13,14 +13,14 @@ const open = ref(false);
 
 <template>
   <CollapsibleRoot v-model:open="open" :class="{ open: open }">
-    <SidebarItemTemplate :item="item" @click="open = !open" :open="open" />
+    <SidebarSidebarItemTemplate :item="item" @click="open = !open" :open="open" />
 
     <CollapsibleContent
       class="collapsible-animation flex flex-col overflow-hidden"
     >
       <div class="divider" />
 
-      <SidebarItem
+      <SidebarSidebarItem
         v-for="(item, index) in item.items"
         :item="item"
         :key="index"
@@ -51,20 +51,12 @@ const open = ref(false);
 }
 
 @keyframes slideDown {
-  from {
-    height: 0;
-  }
-  to {
-    height: var(--radix-collapsible-content-height);
-  }
+  from { height: 0; }
+  to { height: var(--radix-collapsible-content-height); }
 }
 
 @keyframes slideUp {
-  from {
-    height: var(--radix-collapsible-content-height);
-  }
-  to {
-    height: 0;
-  }
+  from { height: var(--radix-collapsible-content-height); }
+  to { height: 0; }
 }
 </style>

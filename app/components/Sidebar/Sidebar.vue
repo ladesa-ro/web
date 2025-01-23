@@ -20,7 +20,7 @@ const { isMobile } = useMonitorSize();
 
 <template>
   <nav class="sidebar" :class="{ active: hamburgerActive }">
-    <SidebarItem v-for="(item, index) in items" :key="index" :item="item" />
+    <SidebarSidebarItem v-for="(item, index) in items" :key="index" :item="item" />
   </nav>
 </template>
 
