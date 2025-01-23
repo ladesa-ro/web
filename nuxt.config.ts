@@ -1,7 +1,11 @@
 export default defineNuxtConfig({
+  future: {
+    compatibilityVersion: 4,
+  },
+
   // ==============================================
 
-  srcDir: './src',
+  srcDir: './app',
 
   ssr: true,
 
@@ -22,7 +26,7 @@ export default defineNuxtConfig({
   // ===========
 
   features: {
-    inlineStyles: true,
+    inlineStyles: false,
   },
 
   // ==============================================
@@ -30,7 +34,7 @@ export default defineNuxtConfig({
   css: [
     '@mdi/font/css/materialdesignicons.min.css',
     'vuetify/lib/styles/main.css',
-    '@/assets/styles/main.css',
+    '~/assets/styles/main.css',
   ],
 
   build: {
@@ -38,7 +42,7 @@ export default defineNuxtConfig({
   },
 
   serverHandlers: [
-    { route: '/_api/auth/**', handler: '~/server/_api/auth/[...].ts' },
+    { route: '/_api/auth/**', handler: './server/_api/auth/[...].ts' },
   ],
 
   // ==============================================
