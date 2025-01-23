@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMonitorSize } from '~~/app/composables/monitor-size';
-import type { ISidebarItem } from './ISidebarItem';
+import type { ISidebarItem } from './SidebarItem/ISidebarItem';
 
 type Props = {
   items: ISidebarItem[];
@@ -27,7 +27,7 @@ const { isMobile } = useMonitorSize();
 <style scoped>
 .sidebar {
   @apply fixed top-[4.563rem] bottom-0;
-  @apply overflow-hidden z-20;
+  @apply overflow-auto z-20;
   @apply flex flex-col gap-3;
   @apply w-14 py-[0.438rem];
   @apply border-r-2 border-r-ldsa-green-2/50 bg-ldsa-green-1;

@@ -51,12 +51,20 @@ const open = ref(false);
 }
 
 @keyframes slideDown {
-  from { height: 0; }
-  to { height: var(--radix-collapsible-content-height); }
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-collapsible-content-height);
+  }
 }
 
 @keyframes slideUp {
-  from { height: var(--radix-collapsible-content-height); }
-  to { height: 0; }
+  from {
+    height: var(--radix-collapsible-content-height);
+  }
+  to {
+    height: 0;
+  }
 }
 </style>

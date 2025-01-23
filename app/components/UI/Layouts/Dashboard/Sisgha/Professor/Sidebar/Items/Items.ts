@@ -2,7 +2,7 @@ import iconCalendario from '~/assets/icons/Calendario/Calendario.svg';
 import iconHome from '~/assets/icons/Home.svg';
 import iconLogout from '~/assets/icons/Logout.svg';
 import iconPerfil from '~/assets/icons/Usuario.svg';
-import type { ISidebarItem } from '../../../../../../../Sidebar/ISidebarItem';
+import type { ISidebarItem } from '../../../../../../../Sidebar/SidebarItem/ISidebarItem';
 
 const CAMINHO_PROFESSOR: string = '/sisgha/professor';
 

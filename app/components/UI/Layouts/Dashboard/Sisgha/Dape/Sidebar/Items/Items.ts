@@ -8,7 +8,7 @@ import iconOutros from '~/assets/icons/Mais-Itens.svg';
 import iconTurmas from '~/assets/icons/Turmas.svg';
 import iconPerfil from '~/assets/icons/Usuario.svg';
 import iconUsuarios from '~/assets/icons/Usuarios.svg';
-import type { ISidebarItem } from '../../../../../../../Sidebar/ISidebarItem';
+import type { ISidebarItem } from '../../../../../../../Sidebar/SidebarItem/ISidebarItem';
 
 const CAMINHO_DAPE: string = '/sisgha/dape';
 
