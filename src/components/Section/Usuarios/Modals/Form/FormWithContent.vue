@@ -9,7 +9,7 @@ const { editId = null } = defineProps<Props>();
 const $emit = defineEmits(['close']);
 
 function onClose() {
-  $emit("close");
+  $emit('close');
 }
 </script>
 
