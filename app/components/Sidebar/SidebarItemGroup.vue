@@ -13,16 +13,11 @@ const open = ref(false);
 
 <template>
   <CollapsibleRoot v-model:open="open" :class="{ open: open }">
-    <SidebarItemTemplate
-      :icon="item.icon"
-      :title="item.title"
-      @click="open = !open"
-    />
+    <SidebarItemTemplate :item="item" @click="open = !open" :open="open" />
 
     <CollapsibleContent
       class="collapsible-animation flex flex-col overflow-hidden"
     >
-      <!-- this line uses min and max height to avoid conflict with the radix variables -->
       <div class="divider" />
 
       <SidebarItem
@@ -36,10 +31,11 @@ const open = ref(false);
 
 <style scoped>
 .open {
-  @apply bg-ldsa-white/[0.08];
+  @apply bg-ldsa-green-2/25;
 }
 
 .divider {
+  /* this class uses min and max height and not height to avoid conflict with the radix variable */
   @apply min-h-[1px] max-h-[1px] bg-ldsa-white/10 my-1.5;
 }
 
@@ -51,7 +47,6 @@ const open = ref(false);
 
 .collapsible-animation[data-state='closed'] {
   @apply animate-[slideUp_0.2s];
-  @apply open; /* guarantees the correct color will remain during the slideUp animation */
 }
 
 @keyframes slideDown {
@@ -61,6 +56,6 @@ const open = ref(false);
 
 @keyframes slideUp {
   from { height: var(--radix-collapsible-content-height); }
-  to { height: 0;}
+  to { height: 0; }
 }
 </style>

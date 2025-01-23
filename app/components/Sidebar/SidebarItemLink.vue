@@ -13,7 +13,7 @@ const { item } = toRefs(props);
     :key="item.title"
     :to="item.to"
   >
-    <SidebarItemTemplate :icon="item.icon" :title="item.title"/>
+    <SidebarItemTemplate :item="item"/>
   </nuxt-link>
 </template>
 

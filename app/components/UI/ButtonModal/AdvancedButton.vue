@@ -5,7 +5,7 @@
   >
     Avançar
     <template #icon>
-      <IconsArrowIconArrowAlt class="-rotate-180" />
+      <IconsArrowIconArrowAlt class="rotate-180" />
     </template>
   </UIButtonModalBaseButtonLayout>
 </template>
