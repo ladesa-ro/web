@@ -3,6 +3,10 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
 
+  experimental: {
+    normalizeComponentNames: true,
+  },
+
   // ==============================================
 
   srcDir: './app',
