@@ -27,7 +27,7 @@ const $emit = defineEmits(['close', 'next', 'back']);
 </script>
 
 <template>
-  <v-form class="form">
+  <form class="form">
     <div class="form-header">
       <h1 class="main-title">
         <span>Cadastrar novo calendário</span>
@@ -73,7 +73,7 @@ const $emit = defineEmits(['close', 'next', 'back']);
       <UIButtonModalBackButton @click="backform" />
       <UIButtonModalAdvancedButton @click="nextForm" />
     </div>
-  </v-form>
+  </form>
 </template>
 
 <style scoped>

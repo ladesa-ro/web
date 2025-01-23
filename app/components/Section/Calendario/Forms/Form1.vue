@@ -142,7 +142,7 @@ const nome = computed({
 </script>
 
 <template>
-  <v-form class="form" @submit.prevent="onSubmit">
+  <form class="form" @submit.prevent="onSubmit">
     <div class="form-header">
       <h1 class="main-title">
         <span>Cadastrar novo calendário</span>
@@ -183,7 +183,7 @@ const nome = computed({
       <UIButtonModalCancelButton @click="closeForm" />
       <UIButtonModalAdvancedButton @click="nextForm" />
     </div>
-  </v-form>
+  </form>
 </template>
 
 <style scoped>
