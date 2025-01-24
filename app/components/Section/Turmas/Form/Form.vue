@@ -61,7 +61,7 @@ const { isBusy, isLoading, formOnSubmit } = createAPIFormContext({
       :on-close="onClose"
       :on-delete="turmaDelete"
       title-edit="Editar Turma"
-      title-create="Cadastrar Nova Turma"
+      title-create="Cadastrar Turma"
     >
       <VVSelectImage :disabled="isLoading || isBusy" name="imagem" />
 

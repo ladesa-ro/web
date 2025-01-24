@@ -15,11 +15,13 @@ const props = withDefaults(defineProps<Props>(), {
   editId: null,
 });
 
-//
-
 const editIdRef = toRef(props, 'editId');
 
+//
+
 const $emit = defineEmits(['close']);
+
+//
 
 const { resetForm, handleSubmit } = useFormUser();
 

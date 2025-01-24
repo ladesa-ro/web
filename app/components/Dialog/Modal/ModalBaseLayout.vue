@@ -29,7 +29,6 @@ defineSlots<Slots>();
     </main>
 
     <footer v-if="$slots['button-group']" class="button-group">
-      <!-- TODO: adicionar has() no css -->
       <!-- this slot is used for closing buttons, changing page buttons etc -->
       <slot name="button-group" />
     </footer>

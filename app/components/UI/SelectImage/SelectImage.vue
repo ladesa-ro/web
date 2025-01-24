@@ -20,13 +20,13 @@ const imageSrc = computed(() => {
 </script>
 <template>
     <div
-      class="drop-area"
+      class="drop-area flex"
       :class="{ selected: imageSrc !== null }"
       v-bind="getRootProps()"
       :style="{ backgroundImage: `url(${imageSrc})` }"
     >
       <div
-        class="dropzone-info flex flex-col h-full items-center justify-center"
+        class="dropzone-info flex-1 flex flex-col items-center justify-center gap-3"
       >
         <IconsIconFilePicker />
 
@@ -44,34 +44,20 @@ const imageSrc = computed(() => {
 </template>
 
 <style scoped>
-.image-container {
-  width: 415px;
-  height: 198px;
-  margin-top: -41px;
-  border-radius: 8px;
-}
-
-.image-dropzone {
-  border-radius: 8px;
-  width: 100%;
-}
-
 .drop-area {
   background: no-repeat center/cover;
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  width: 100%;
-  height: 200px;
-
-  @apply border-2 border-ldsa-grey rounded-lg;
-
-  text-align: center;
-  cursor: pointer;
-
   overflow: hidden;
 
+  width: 100%;
+  @apply min-h-36;
+
+  @apply border-2 border-ldsa-grey rounded-lg;
+  
+  cursor: pointer;
+  text-align: center;
   @apply text-ldsa-grey;
 }
 
@@ -85,7 +71,6 @@ const imageSrc = computed(() => {
 }
 
 .drop-area .dropzone-info .dropzone-info-message {  
-  margin-top: 20px;
   font-weight: 500;
 }
 

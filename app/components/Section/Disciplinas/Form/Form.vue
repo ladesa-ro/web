@@ -148,7 +148,7 @@ function onClose() {
   <form class="form" @submit.prevent="onSubmit">
     <DialogModalBaseLayout
       :on-close="onClose"
-      :title="editId ? 'Editar Disciplina' : 'Cadastrar Nova Disciplina'"
+      :title="editId ? 'Editar Disciplina' : 'Cadastrar Disciplina'"
     >
       <VVSelectImage name="imagem" />
 
