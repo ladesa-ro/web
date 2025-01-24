@@ -19,23 +19,23 @@ const selectAgrupamento = () => {
     <section class="flex flex-row justify-between w-full gap-4">
       <!-- ===================== AGRUPAMENTO ===================== -->
       <div
-        class="flex flex-col justify-center items-center w-56 h-40 border-2 rounded-lg gap-2 text-center cursor-pointer"
+        class="toggle-option"
         :class="{
-          'border-ldsa-green': activeButton === 'AGRUPAMENTO',
+          'active': activeButton === 'AGRUPAMENTO',
           'border-ldsa-grey': activeButton !== 'AGRUPAMENTO',
         }"
         @click="selectAgrupamento"
       >
         <IconsIconGroup width="42" height="40" />
-        <p class="font-[600]">Agrupamento</p>
+        <p class="font-[600]">Aulas por dia</p>
       </div>
       <!-- =============================================== -->
 
       <!-- ================== PROFESSOR ================== -->
       <div
-        class="flex flex-col justify-center items-center w-56 h-40 border-2 rounded-lg gap-2 text-center cursor-pointer"
+        class="toggle-option"
         :class="{
-          'border-ldsa-green': activeButton === 'Professor',
+          'active': activeButton === 'Professor',
           'border-ldsa-grey': activeButton !== 'Professor',
         }"
         @click="selectProfessor"
@@ -47,3 +47,14 @@ const selectAgrupamento = () => {
     </section>
   </div>
 </template>
+
+<style scoped>
+.toggle-option {
+  @apply flex flex-col justify-center items-center gap-2;
+  @apply w-56 h-40 border-2 rounded-lg text-center cursor-pointer;
+}
+
+.active {
+  @apply bg-ldsa-green-1 border-ldsa-green-1 text-ldsa-white;
+}
+</style>

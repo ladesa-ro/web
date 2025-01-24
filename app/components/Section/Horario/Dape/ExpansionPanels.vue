@@ -35,7 +35,7 @@ const open = ref(false);
 
 <style scoped>
 .collapsible-root {
-  @apply w-full border-2 border-ldsa-grey rounded-lg text-ldsa-white text-[0.938rem];
+  @apply overflow-hidden w-full border-2 border-ldsa-grey rounded-lg text-ldsa-white text-[0.938rem];
 }
 
 .collapsible-header {

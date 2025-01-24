@@ -40,7 +40,7 @@ const nextForm = () => {
 </script>
 
 <template>
-  <form>
+  <form class="min-w-[28.125rem]">
     <DialogModalBaseLayout
       :on-close="closeForm"
       title="Selecione uma Disciplina"

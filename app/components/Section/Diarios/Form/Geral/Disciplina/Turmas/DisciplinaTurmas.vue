@@ -55,7 +55,7 @@ const { items: diarios } = await useApiDiariosFindAll('', {
 </script>
 
 <template>
-  <form v-if="!isFormVisible">
+  <div v-if="!isFormVisible">
     <DialogModalBaseLayout :on-close="onClose" title="Selecione uma turma">
       <v-expansion-panels>
         <v-expansion-panel
@@ -139,7 +139,7 @@ const { items: diarios } = await useApiDiariosFindAll('', {
         <UIButtonModalFinishButton @click="closeForm" />
       </template>
     </DialogModalBaseLayout>
-  </form>
+  </div>
 </template>
 
 <style scoped>
