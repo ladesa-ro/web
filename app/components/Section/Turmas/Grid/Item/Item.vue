@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import TurmasForm from '../../Form/Form.vue';
 import type { TurmaFindOneResultView } from '@ladesa-ro/api-client-fetch';
+import EditOrCreateModal from '~/components/Dialog/Modal/EditOrCreateModal.vue';
 import {
   ApiImageResource,
   useApiImageRoute,
 } from '../../../../../integrations/api/RoutesUtil';
-import EditOrCreateModal from '~/components/Dialog/Modal/EditOrCreateModal.vue';
+import TurmasForm from '../../Form/Form.vue';
 
 type Props = {
   isLoading?: boolean;
@@ -23,24 +23,18 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
 
 <template>
   <UICardAutoSkeleton :skeleton="isLoading || !turma">
-    <UICard v-if="turma" variant="block" :src="coverImageSrc">
-      <template #title>
-        {{ turma.periodo }} - {{ turma.curso.ofertaFormacao.nome }}
-      </template>
-
+    <UICard
+      v-if="turma"
+      :title="`${turma.periodo} - ${turma.curso.ofertaFormacao.nome}`"
+      variant="block"
+      :src="coverImageSrc"
+    >
       <template #actions>
-        <EditOrCreateModal
-          :edit-id="turma.id"
-          :formComponent="TurmasForm"
-        />
+        <EditOrCreateModal :edit-id="turma.id" :formComponent="TurmasForm" />
       </template>
 
-      <UICardLine>
-        <span>Curso: {{ turma.curso.nomeAbreviado }}</span>
-      </UICardLine>
-      <UICardLine>
-        <span>Turno: Matutino e Vespertino</span>
-      </UICardLine>
+      <UICardLine :text="`Curso: ${turma.curso.nomeAbreviado}`" />
+      <UICardLine :text="`Turno: Matutino e Vespertino`" />
     </UICard>
   </UICardAutoSkeleton>
 </template>

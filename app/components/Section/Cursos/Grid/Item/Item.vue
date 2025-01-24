@@ -14,30 +14,22 @@ type Props = {
 
 const props = defineProps<Props>();
 
-//
-
 const { item: curso } = toRefs(props);
+
+//
 
 const coverImageSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, curso);
 </script>
 
 <template>
   <UICardAutoSkeleton :skeleton="isLoading || !curso">
-    <UICard v-if="curso" variant="block" :src="coverImageSrc">
-      <template #title>
-        {{ curso.nome }}
-      </template>
-
+    <UICard v-if="curso" :title="curso.nome" variant="block" :src="coverImageSrc">
       <template #actions>
         <DialogModalEditOrCreateModal :form-component="CursosForm" :edit-id="curso.id"/>
       </template>
 
-      <UICardLine>
-        <span>Abreviação: {{ curso.nomeAbreviado }}</span>
-      </UICardLine>
-      <UICardLine>
-        <span>Oferta de Formação: {{ curso.ofertaFormacao.nome }}</span>
-      </UICardLine>
+      <UICardLine :text="`Abreviação: ${curso.nomeAbreviado}`" />
+      <UICardLine :text="`Formação: ${curso.ofertaFormacao.nome}`" />
     </UICard>
   </UICardAutoSkeleton>
 </template>

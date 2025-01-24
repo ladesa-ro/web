@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import DisciplinasForm from '../../Form/Form.vue';
-
 import type { DisciplinaFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import {
   ApiImageResource,
@@ -26,21 +25,13 @@ const coverImageSrc = useApiImageRoute(
 
 <template>
   <UICardAutoSkeleton :skeleton="isLoading || !disciplina">
-    <UICard v-if="disciplina" variant="block" :src="coverImageSrc">
-      <template #title>
-        {{ disciplina.nome }}
-      </template>
-
+    <UICard v-if="disciplina" :title="disciplina.nome" variant="block" :src="coverImageSrc">
       <template #actions>
         <DialogModalEditOrCreateModal :form-component="DisciplinasForm" :edit-id="disciplina.id" />
       </template>
 
-      <UICardLine>
-        <span>Carga Horária: {{ disciplina.cargaHoraria }} horas.</span>
-      </UICardLine>
-      <UICardLine>
-        <span>Abreviação: {{ disciplina.nomeAbreviado }}</span>
-      </UICardLine>
+      <UICardLine :text="`Carga Horária: ${disciplina.cargaHoraria} horas`" />
+      <UICardLine :text="`Abreviação: ${disciplina.nomeAbreviado}`" />
     </UICard>
   </UICardAutoSkeleton>
 </template>

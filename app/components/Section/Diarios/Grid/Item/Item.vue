@@ -29,11 +29,7 @@ const coverImageSrc = useApiImageRoute(
 </script>
 
 <template>
-  <UICard variant="block" :src="coverImageSrc">
-    <template #title>
-      {{ diario.disciplina.nome }}
-    </template>
-
+  <UICard :title="diario.disciplina.nome" variant="block" :src="coverImageSrc">
     <template #actions>
       <LazySectionDiariosModal :edit-id="diario.id" />
     </template>
@@ -50,12 +46,9 @@ const coverImageSrc = useApiImageRoute(
       </span>
     </UICardLine>
 
-    <UICardLine>
-      <span>
-        Turmas:
-        {{ diario.turma.periodo }} -
-        {{ diario.turma.curso.ofertaFormacao.nome }}
-      </span>
+    <UICardLine
+      :text="`Turmas: ${diario.turma.periodo} - ${diario.turma.curso.ofertaFormacao.nome}`"
+    >
     </UICardLine>
   </UICard>
 </template>
