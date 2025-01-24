@@ -17,15 +17,22 @@ const profilePicureUrl = useApiImageRoute(
 <template>
   <!-- TODO: adicionar ícones de edição -->
   <section class="banner">
-    <div class="profile-card overflow-visible">
-      <div class="profile-photo">
-        <img
-          v-if="profilePicureUrl"
-          :src="profilePicureUrl ?? ''"
-          class="h-full"
-          alt="Foto de perfil do usuário."
-        />
-        <IconsIconUser v-else class="text-ldsa-grey/75 m-7" />
+    <div class="profile-card">
+      <div
+        class="profile-picture"
+        :style="{ backgroundImage: `url(${profilePicureUrl})` }"
+      >
+        <div v-if="profilePicureUrl" class="img-backdrop">
+          <img
+            :src="profilePicureUrl"
+            class="max-h-full"
+            alt="Foto de perfil do usuário."
+          />
+        </div>
+
+        <div v-else class="img-fallback">
+          <IconsIconUser class="text-ldsa-grey/75 m-7" />
+        </div>
       </div>
 
       <section class="profile-metadata text-xs font-medium">
@@ -34,7 +41,7 @@ const profilePicureUrl = useApiImageRoute(
           <p class="text-ldsa-grey">{{ user.email }}</p>
         </span>
         <span class="leading-5">
-          <!-- TODO: puxar os dois valores abaixo da api -->
+          <!-- TODO: puxar os valores abaixo da api -->
           <p>Campus Ji-Paraná</p>
           <p>Professor</p>
         </span>
@@ -51,14 +58,22 @@ const profilePicureUrl = useApiImageRoute(
 }
 
 .profile-card {
-  @apply flex overflow-hidden;
+  @apply flex  overflow-visible;
   @apply ml-8 p-5 min-w-[22.5rem] h-40 rounded-t-[0.625rem] bg-ldsa-bg;
 }
 
-.profile-photo {
-  @apply flex justify-center items-center;
+.profile-picture {
+  @apply flex justify-center items-center overflow-hidden;
   @apply w-[7.375rem] h-[7.375rem] rounded-lg;
-  @apply border-2 border-ldsa-grey/40 bg-ldsa-grey/15;
+  @apply border-2 border-ldsa-grey bg-cover bg-center;
+}
+
+.img-backdrop {
+  @apply flex justify-center w-full h-full backdrop-blur-sm backdrop-brightness-75;
+}
+
+.img-fallback {
+  @apply w-full h-full bg-ldsa-grey/15;
 }
 
 .profile-metadata {

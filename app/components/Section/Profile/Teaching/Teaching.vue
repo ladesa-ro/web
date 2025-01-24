@@ -4,7 +4,7 @@ const subjects = [
   'Biologia',
   'Banco de Dados I',
   'História II',
-  'Instação e Manutenção de Computadores',
+  'Filosofia'
 ];
 </script>
 
