@@ -1,12 +1,13 @@
-<template>
-  <v-card-subtitle class="edit-02 block font-medium !opacity-100">
-    <slot />
-  </v-card-subtitle>
-</template>
+<script setup lang="ts">
+  type Props = {
+    text?: string;
+  };
 
-<style scped>
-.edit-02 {
-  @apply text-ldsa-grey;
-  font-weight: 500;
-}
-</style>
+  defineProps<Props>();
+</script>
+
+<template>
+  <p class="truncate">
+    <slot>{{ text }}</slot>
+  </p>
+</template>

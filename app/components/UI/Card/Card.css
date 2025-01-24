@@ -1,3 +1,4 @@
 .card {
-  @apply border-2 divide-solid border-ldsa-grey rounded-lg overflow-hidden pb-5 mx-auto cursor-default;
+  @apply overflow-hidden mx-auto pb-5 cursor-default;
+  @apply border-2 border-ldsa-grey divide-solid rounded-lg;
 }

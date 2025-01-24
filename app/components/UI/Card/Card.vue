@@ -1,86 +1,89 @@
 <script setup lang="ts">
-//
+import IconImage from '~/components/Icons/IconImage.vue';
 
-const _ARBITRARY_UI_CARD_IMAGE_HEIGHT = 180;
+type Props = {
+  src: string | null;
+  variant: 'block' | 'inline';
+  title?: string;
+  fallbackIcon?: Component | (HTMLElement & SVGElement);
+};
+
+const { src, variant, title, fallbackIcon = IconImage } = defineProps<Props>();
 
 //
 
 const $emit = defineEmits(['edit']);
-
-type Props = {
-  src: string | null;
-  title?: string;
-  variant: 'block' | 'inline';
-};
-
-const props = defineProps<Props>();
-
-//
-
-const hasImage = computed(() => {
-  const src = unref(props.src);
-  return src && !src.endsWith('undefined') && !src.endsWith('null');
-});
-
-//
 </script>
 
 <template>
   <template v-if="variant === 'block'">
-    <v-card max-width="100%" :elevation="0" class="card">
-      <div
-        :style="{
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundImage: `url(${props.src})`,
-        }"
-      >
-        <v-img
-          eager
-          contain
-          width="100%"
-          :src="props.src ?? undefined"
-          :height="`${_ARBITRARY_UI_CARD_IMAGE_HEIGHT}px`"
-          style="backdrop-filter: blur(10px) brightness(70%)"
-        >
-          <template #placeholder>
-            <div class="d-flex align-center justify-center fill-height">
-              <v-progress-circular v-if="Boolean(hasImage)" indeterminate />
-              <v-empty-state v-else icon="mdi-cancel" />
-            </div>
-          </template>
-
-          <template #error>
-            <div class="d-flex align-center justify-center fill-height">
-              <v-empty-state
-                icon="mdi-alert-circle-outline"
-                text="Não foi possível buscar esta foto"
-              />
-            </div>
-          </template>
-        </v-img>
-      </div>
-
-      <div class="textAndButton flex justify-between items-center max-w-full">
-        <div class="flex-1 flex-shrink overflow-hidden">
-          <v-card-title
-            class="font-semibold text-ldsa-text-default no-underline inline-block"
-          >
-            <slot name="title">
-              {{ props.title }}
-            </slot>
-          </v-card-title>
+    <div class="card-layout">
+      <!-- card image -->
+      <section class="card-img" :style="{ backgroundImage: `url(${src})` }">
+        <div v-if="src" class="img-backdrop">
+          <img :src="src" class="max-h-full" />
         </div>
-        <div class="flex-shrink-0 mr-3">
-          <slot name="actions">
-            <UIButtonEdit @click="$emit('edit')" />
-          </slot>
-        </div>
-      </div>
 
-      <slot />
-    </v-card>
+        <div v-else class="fallback-img">
+          <component :is="fallbackIcon" class="fallback-icon" />
+        </div>
+      </section>
+
+      <main class="p-3 pl-4">
+        <!-- title and actions -->
+        <section class="title-and-actions">
+          <h1 class="title">
+            <slot name="title">{{ title }}</slot>
+          </h1>
+
+          <div class="flex-shrink-0">
+            <slot name="actions" />
+          </div>
+        </section>
+
+        <!-- description -->
+        <div class="description">
+          <slot />
+        </div>
+      </main>
+    </div>
   </template>
 </template>
 
-<style scoped src="./Card.css"></style>
+<style scoped>
+.card-layout {
+  @apply rounded-lg border-2 border-ldsa-grey overflow-hidden;
+}
+
+/* -- image -- */
+
+.card-img {
+  @apply h-[11rem] bg-cover bg-center;
+}
+
+.img-backdrop {
+  @apply h-full flex items-center justify-center backdrop-blur-sm	backdrop-brightness-75;
+}
+
+.fallback-img {
+  @apply w-full h-full bg-ldsa-grey/30 flex justify-center items-center;
+}
+
+.fallback-icon {
+  @apply w-20 text-ldsa-grey opacity-75;
+}
+
+/* ----------- */
+
+.title-and-actions {
+  @apply w-full flex justify-between items-center mb-1;
+}
+
+.title {
+  @apply text-[1.063rem] font-semibold truncate;
+}
+
+.description {
+  @apply flex flex-col text-sm font-medium text-ldsa-grey;
+}
+</style>
