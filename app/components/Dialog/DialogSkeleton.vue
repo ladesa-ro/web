@@ -6,7 +6,7 @@ const onClose = () => isActive.value = false;
 </script>
 
 <template>
-  <nav @click="onOpen">
+  <nav class="inline-block" @click="onOpen">
     <slot name="activator" />
   </nav>
 
