@@ -32,7 +32,7 @@ const _eventStatus = await eventStatus.startEvent(
 </script>
 
 <template>
-  <v-card class="-event flex-shrink-0 mx-auto rounded-lg w-full">
+  <v-card class="-event shrink-0 mx-auto rounded-lg w-full">
     <v-container
       class="flex flex-col w-full h-full border-l-8"
       :style="{ borderLeftColor: props.color }"

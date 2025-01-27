@@ -32,7 +32,7 @@ const onClose = () => isActive.value = false;
 
 .backdrop {
   @apply fixed z-[998] w-full h-full;
-  @apply bg-ldsa-black/35 dark:bg-ldsa-white/25;
+  @apply bg-ldsa-bg/35;
   @apply transition-[opacity] duration-300;
 }
 

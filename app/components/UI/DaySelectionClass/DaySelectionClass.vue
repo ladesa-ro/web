@@ -14,7 +14,7 @@
         </div>
         <div class="flex items-center">
           <button
-            class="focus:outline-none mx-4"
+            class="focus:outline-hidden mx-4"
             @click.prevent="prevDay(index)"
           >
             <IconsArrowIconArrow class="Icon h-6 w-6 rotate-0" />
@@ -23,13 +23,13 @@
             Total de aulas:&nbsp;<span class="">{{ day.totalClasses }}</span>
           </span>
           <button
-            class="focus:outline-none mx-4"
+            class="focus:outline-hidden mx-4"
             @click.prevent="nextDay(index)"
           >
             <IconsArrowIconArrow class="Icon h-6 w-6 rotate-180" />
           </button>
           <button
-            class="focus:outline-none mx-4"
+            class="focus:outline-hidden mx-4"
             @click.prevent="removeDay(index)"
           >
             <v-icon small class="IconTrash h-6 w-6">mdi-trash-can</v-icon>

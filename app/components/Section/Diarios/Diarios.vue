@@ -13,7 +13,7 @@ const searchBarText = ref('');
           @update:value="searchBarText = $event"
         />
 
-        <div class="flex items-center flex-shrink-0">
+        <div class="flex items-center shrink-0">
           <LazySectionDiariosModal />
         </div>
       </div>

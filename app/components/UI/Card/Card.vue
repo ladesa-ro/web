@@ -36,7 +36,7 @@ const $emit = defineEmits(['edit']);
             <slot name="title">{{ title }}</slot>
           </h1>
 
-          <div class="flex-shrink-0">
+          <div class="shrink-0">
             <slot name="actions" />
           </div>
         </section>
@@ -62,7 +62,7 @@ const $emit = defineEmits(['edit']);
 }
 
 .img-backdrop {
-  @apply h-full flex items-center justify-center backdrop-blur-sm	backdrop-brightness-75;
+  @apply h-full flex items-center justify-center backdrop-blur-xs	backdrop-brightness-75;
 }
 
 .fallback-img {

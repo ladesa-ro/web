@@ -1,46 +1,43 @@
 /*
-  1. the color names in the comments correspond to the color names on Figma prototype
-  2. check the color palette on Figma avaible in https://www.figma.com/design/gwJHnj5RVnjt05AdOQNMy5/SISGHA---V2.0?node-id=7660-18059
-  3. these variables are called in tailwind.config.mts
+  the color names in the comments correspond to the color names on Figma prototype
+  check the color palette on Figma avaible in https://www.figma.com/design/gwJHnj5RVnjt05AdOQNMy5/SISGHA---V2.0?node-id=7660-18059
 */
 
 .app-color-mode-light {
-  --ladesa-white-color: 255, 255, 255; /* White */
-  --ladesa-black-color: 5, 15, 7; /* Black */
-  --ladesa-grey-color: 159, 159, 159; /* Grey */
-  --ladesa-green-1-color: 47, 158, 65; /* Green 1*/
-  --ladesa-green-2-color: 60, 192, 82; /* Green 2 */
-  --ladesa-red-color: 205, 25, 30; /* Red */
+  --ladesa-white-color: rgb(255, 255, 255); /* White */
+  --ladesa-black-color: rgb(5, 15, 7); /* Black */
+  --ladesa-grey-color: rgb(159, 159, 159); /* Grey */
+  --ladesa-green-1-color: rgb(47, 158, 65); /* Green 1*/
+  --ladesa-green-2-color: rgb(60, 192, 82); /* Green 2 */
+  --ladesa-red-color: rgb(205, 25, 30); /* Red */
 
   --ladesa-background-color: var(--ladesa-white-color);
   --ladesa-text-default-color: var(--ladesa-black-color);
   --ladesa-text-green-color: var(--ladesa-green-1-color);
 }
 
-/* =================================================== */
-
 .app-color-mode-dark {
-  --ladesa-white-color: 212, 222, 222; /* White */
-  --ladesa-black-color: 25, 27, 34; /* Black */
-  --ladesa-grey-color: 72, 83, 105; /* Grey */ 
-  --ladesa-green-1-color: 6, 100, 54; /* Green 1 */
-  --ladesa-green-2-color: 29, 147, 90; /* Green 2 */
-  --ladesa-red-color:  160, 15, 37; /* Red */
-  --ladesa-purple-color: 81, 29, 140; /* Purple */
-  
+  --ladesa-white-color: rgb(212, 222, 222); /* White */
+  --ladesa-black-color: rgb(25, 27, 34); /* Black */
+  --ladesa-grey-color: rgb(72, 83, 105); /* Grey */
+  --ladesa-green-1-color: rgb(6, 100, 54); /* Green 1 */
+  --ladesa-green-2-color: rgb(29, 147, 90); /* Green 2 */
+  --ladesa-red-color: rgb(160, 15, 37); /* Red */
+
   --ladesa-background-color: var(--ladesa-black-color);
   --ladesa-text-default-color: var(--ladesa-white-color);
   --ladesa-text-green-color: var(--ladesa-green-2-color);
 }
 
-/* TODO: VERIFICAR SE A CLASSE ABAIXO É REALMENTE NECESSÁRIA!!!!!!!!!!!!!!! */
-.app {
-  @apply flex flex-col;
-  @apply h-[100vh] /* fallback para caso o dispositivo não suporte dvh */
-    h-[100dvh];
-  @apply !bg-ldsa-bg !text-ldsa-text-default;
-}
+@theme inline {
+  --color-ldsa-white: var(--ladesa-white-color);
+  --color-ldsa-black: var(--ladesa-black-color);
+  --color-ldsa-grey: var(--ladesa-grey-color);
+  --color-ldsa-green-1: var(--ladesa-green-1-color);
+  --color-ldsa-green-2: var(--ladesa-green-2-color);
+  --color-ldsa-red: var(--ladesa-red-color);
 
-input {
-  @apply text-inherit;
+  --color-ldsa-bg: var(--ladesa-background-color);
+  --color-ldsa-text-default: var(--ladesa-text-default-color);
+  --color-ldsa-text-green: var(--ladesa-text-green-color);
 }

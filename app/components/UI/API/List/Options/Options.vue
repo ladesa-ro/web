@@ -23,7 +23,7 @@ const slots = defineSlots<Slots>();
       @update:value="formOptions.search = $event"
     />
 
-    <div class="flex items-center flex-shrink-0">
+    <div class="flex items-center shrink-0">
       <slot name="actions" />
     </div>
   </div>

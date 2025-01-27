@@ -86,7 +86,7 @@ useTitle(null, 'Login');
             <IconsIconUser class="flex w-6 h-6 mr-4" />
           </template>
 
-          <p class="w-full h-full border-l-2 ">
+          <p class="w-full h-full border-l-2">
             <span class="ml-4" />
             <span>Entrar como aluno</span>
           </p>
@@ -139,7 +139,7 @@ useTitle(null, 'Login');
 
 .login-alternative-actions {
   @apply px-4;
-  @apply w-full flex-shrink-0;
+  @apply w-full shrink-0;
 }
 
 .login-alternative-link {

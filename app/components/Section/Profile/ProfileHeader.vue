@@ -69,7 +69,7 @@ const profilePicureUrl = useApiImageRoute(
 }
 
 .img-backdrop {
-  @apply flex justify-center w-full h-full backdrop-blur-sm backdrop-brightness-75;
+  @apply flex justify-center w-full h-full backdrop-blur-xs backdrop-brightness-75;
 }
 
 .img-fallback {

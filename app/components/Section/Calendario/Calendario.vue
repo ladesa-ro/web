@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import 'dayjs/locale/pt-br';
-import { calendarData } from './Functions/CalendarData.js';
 import CalendarioForm3 from './Forms/Form3.vue';
+import { calendarData } from './Functions/CalendarData.js';
 
 const years = [2024, 2023, 2022, 2021, 2020, 2019];
 const calendars = [
@@ -32,7 +32,7 @@ async function showEventsList(value: boolean): Promise<void> {
 //
 
 const isActive = ref(false);
-const onClose = () => isActive.value = false
+const onClose = () => (isActive.value = false);
 </script>
 
 <template>
@@ -76,7 +76,10 @@ const onClose = () => isActive.value = false
 
             <!-- Add -->
             <div>
-              <DialogModalEditOrCreateModal :form-component="CalendarioForm3" @close="onClose"/>
+              <DialogModalEditOrCreateModal
+                :form-component="CalendarioForm3"
+                @close="onClose"
+              />
             </div>
           </div>
         </div>
@@ -103,7 +106,7 @@ const onClose = () => isActive.value = false
       </div>
 
       <!-- Modals -->
-      <div class="flex items-center justify-center flex-shrink-0">
+      <div class="flex items-center justify-center shrink-0">
         <SectionCalendarioModalEventList
           :year="calendar?.year"
           :steps="calendar?.steps"

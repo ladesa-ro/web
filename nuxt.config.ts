@@ -1,3 +1,5 @@
+import tailwindcss from "@tailwindcss/vite";
+
 export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
@@ -27,6 +29,12 @@ export default defineNuxtConfig({
     enabled: true,
   },
 
+  vite: {
+    plugins: [
+      tailwindcss(),
+    ],
+  },
+
   // ===========
 
   features: {
@@ -38,7 +46,7 @@ export default defineNuxtConfig({
   css: [
     '@mdi/font/css/materialdesignicons.min.css',
     'vuetify/lib/styles/main.css',
-    '~/assets/styles/main.css',
+    '~/assets/styles/app.css',
   ],
 
   build: {
@@ -53,16 +61,11 @@ export default defineNuxtConfig({
 
   modules: [
     '@sidebase/nuxt-auth',
-    '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     'vue3-carousel-nuxt',
     'vuetify-nuxt-module',
     '@nuxt/eslint',
   ],
-
-  tailwindcss: {
-    configPath: './tailwind.config.mts',
-  },
 
   colorMode: {
     preference: 'system',
@@ -110,5 +113,5 @@ export default defineNuxtConfig({
     },
   },
 
-  compatibilityDate: '2024-07-09',
+  compatibilityDate: "2024-11-01",
 });

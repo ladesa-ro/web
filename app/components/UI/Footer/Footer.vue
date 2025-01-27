@@ -85,7 +85,7 @@ const footerLinks = [
 
 <style scoped>
 .footer-root {
-  @apply w-full flex-grow-0 flex-shrink-0;
+  @apply w-full grow-0 shrink-0;
   @apply flex flex-col justify-stretch;
 
   @apply bg-ldsa-grey/10;
