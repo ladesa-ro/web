@@ -18,7 +18,7 @@ defineSlots<Slots>();
   <div class="modal-layout">
     <header class="header">
       <h1 class="title">{{ title }}</h1>
-      
+
       <button v-if="closeButton" class="close-button" @click="onClose">
         <IconsIconClose class="close-icon" />
       </button>
@@ -37,7 +37,7 @@ defineSlots<Slots>();
 
 <style scoped>
 .modal-layout {
-  @apply min-w-80 max-w-[31.5rem] min-h-[19rem] max-h-[39rem];
+  @apply min-w-80 max-w-[31.5rem] min-h-[15rem] max-h-[39rem];
   @apply flex flex-col justify-between items-center p-7;
   @apply shadow-xl border-[3px] border-ldsa-grey rounded-2xl bg-ldsa-bg;
 }
@@ -65,6 +65,16 @@ defineSlots<Slots>();
 }
 
 .button-group {
-  @apply flex justify-between gap-3 w-full mt-6;
+  @apply flex gap-3 w-full mt-6;
+}
+
+/* style applied when the class has just one child */
+.button-group:has(*):has(> :first-child:last-child) {
+  @apply justify-center;
+}
+
+/* style applied when the class has more than one child */
+.button-group:has(*):not(:has(> :first-child:last-child)) {
+  @apply justify-between;
 }
 </style>
