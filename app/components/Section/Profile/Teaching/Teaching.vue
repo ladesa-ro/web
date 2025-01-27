@@ -1,4 +1,6 @@
 <script setup>
+import IconDiscipline from '~/components/Icons/IconDiscipline.vue';
+
 const subjects = [
   'Matemática',
   'Biologia',
@@ -9,13 +11,7 @@ const subjects = [
 </script>
 
 <template>
-  <SectionProfileSectionsLayout>
-    <template #icon>
-      <IconsIconDiscipline />
-    </template>
-
-    <template #title>Ensino</template>
-
+  <SectionProfileSectionsLayout :icon="IconDiscipline" title="Ensino">
     <!-- teaching cards carousel -->
     <Carousel snap-align="start" :items-to-show="2.5" :wrap-around="true">
       <Slide v-for="subject in subjects" :key="subject">

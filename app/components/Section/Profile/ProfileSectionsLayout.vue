@@ -1,14 +1,26 @@
-<template>
-  <div class="border-card p-5">
-    <span class="section-title">
-      <span class="icon"> <!-- element used for apply class to slot content -->
-        <slot name="icon"/>
-      </span>
-      <slot name="title" />
-    </span>
+<script setup lang="ts">
+type Props = {
+  icon: Component | (HTMLElement & SVGElement);
+  title: string;
+};
 
-    <slot />
-  </div>
+type Slots = {
+  default: () => any;
+}
+
+defineProps<Props>();
+defineSlots<Slots>();
+</script>
+
+<template>
+  <section class="border-card p-5">
+    <p class="section-title">
+      <icon class="icon" />
+      {{ title }}
+    </p>
+
+    <slot /> <!-- content -->
+  </section>
 </template>
 
 <style scoped>

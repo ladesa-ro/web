@@ -1,4 +1,5 @@
 <script setup>
+import SisghaLogo from '~/components/Logo/Sisgha/Logo.vue';
 import dayPeriods from './dayPeriods';
 
 const options = [
@@ -24,13 +25,7 @@ const changeDay = (delta) => {
 </script>
 
 <template>
-  <SectionProfileSectionsLayout>
-    <template #icon>
-      <LogoSisghaLogo />
-    </template>
-
-    <template #title>Disponibilidade</template>
-
+  <SectionProfileSectionsLayout :icon="SisghaLogo" title="Disponibilidade">
     <!-- hours card -->
     <div class="border-card">
       <section class="day-week-navigator">
