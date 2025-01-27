@@ -5,8 +5,7 @@ import type { ISidebarItem } from './SidebarItem/ISidebarItem';
 type Props = {
   items: ISidebarItem[];
 };
-const props = defineProps<Props>();
-const items = toRef(props, 'items');
+const { items } = defineProps<Props>();
 
 //
 

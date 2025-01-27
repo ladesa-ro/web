@@ -33,10 +33,10 @@ const { item, open } = defineProps<Props>();
 }
 
 .icon-arrow {
-  @apply w-3 mr-1 transition-transform text-ldsa-white/60;
+  @apply w-3 mr-1 transition-transform text-ldsa-white opacity-60;
 }
 
 .arrow-active {
-  @apply rotate-180 text-ldsa-white;
+  @apply rotate-180 text-ldsa-white opacity-100;
 }
 </style>

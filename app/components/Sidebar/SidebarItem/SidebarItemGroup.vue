@@ -3,8 +3,7 @@ import { CollapsibleContent, CollapsibleRoot } from 'radix-vue';
 import type { ISidebarItemGroup } from './ISidebarItem';
 
 type Props = { item: ISidebarItemGroup };
-const props = defineProps<Props>();
-const { item } = toRefs(props);
+const { item } = defineProps<Props>();
 
 //
 
@@ -21,8 +20,8 @@ const open = ref(false);
       <div class="divider" />
 
       <SidebarSidebarItem
-        v-for="(item, index) in item.items"
-        :item="item"
+        v-for="(sidebarItem, index) in item.items"
+        :item="sidebarItem"
         :key="index"
       />
     </CollapsibleContent>
@@ -35,8 +34,8 @@ const open = ref(false);
 }
 
 .divider {
-  /* this class uses min and max height and not height to avoid conflict with the radix variable */
-  @apply min-h-[1px] max-h-[1px] bg-ldsa-white/10 my-1.5;
+  /* uses min and max height and not just height to avoid conflict with the radix variable */
+  @apply min-h-px max-h-px bg-ldsa-white/10 my-1.5;
 }
 
 /* Collapsible animation */
