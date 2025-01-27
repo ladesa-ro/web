@@ -8,19 +8,14 @@ const { disciplina } = defineProps<Props>();
 </script>
 
 <template>
-  <UICardSelectionDiscipline variant="block">
-    <template #title>
-      {{ disciplina.nome }}
-    </template>
-
+  <UICardSelectionDiscipline :title="disciplina.nome" variant="block">
     <template #actions>
       <v-radio color="success" :value="disciplina.id" />
     </template>
 
-    <UICardLine>
-      <span class="block w-full text-left">
-        Carga Horária: {{ disciplina.cargaHoraria }}
-      </span>
-    </UICardLine>
+    <UICardLine
+      class="block w-full text-left"
+      :text="`Carga horária: ${disciplina.cargaHoraria}`"
+    />
   </UICardSelectionDiscipline>
 </template>
