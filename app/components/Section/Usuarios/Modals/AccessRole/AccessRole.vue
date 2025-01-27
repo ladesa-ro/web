@@ -60,6 +60,8 @@ defineEmits(['close']);
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .button-cargo {
   @apply flex flex-col justify-end items-center w-28 h-36 border-2 rounded-lg border-ldsa-grey/50 px-0 py-8 gap-2 text-center cursor-pointer;
 }

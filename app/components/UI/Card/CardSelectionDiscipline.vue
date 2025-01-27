@@ -30,6 +30,8 @@ const props = defineProps<Props>();
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .card {
   @apply border-2 border-ldsa-grey;
   @apply rounded-lg overflow-hidden;

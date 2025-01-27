@@ -1,3 +1,5 @@
+@reference "~/assets/styles/app.css";
+
 .ui-api-list-results-grid {
   display: grid;
   gap: 1rem;

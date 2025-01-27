@@ -52,6 +52,8 @@ const changeDay = (delta) => {
 </template>
 
 <style>
+@reference "~/assets/styles/app.css";
+
 .day-week-navigator {
   @apply flex justify-between items-center gap-10;
   @apply h-9 px-5;

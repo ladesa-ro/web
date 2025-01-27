@@ -46,6 +46,8 @@ watch([width, height], debouncedScrollIntoView);
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .day-square {
   @apply flex-1 flex flex-col justify-center items-center;
   @apply rounded-[0.625rem] border-2 border-ldsa-green-1;

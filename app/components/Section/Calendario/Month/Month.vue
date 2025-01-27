@@ -256,6 +256,8 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .-month {
   @apply border-2 border-ldsa-grey;
   box-shadow: none;

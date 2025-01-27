@@ -6,7 +6,7 @@ const error = useError();
   <NuxtLayout>
     <template v-if="error?.statusCode === 404">
       <v-empty-state
-        class="empty-state flex-1"
+        class="min-h-min flex-1"
         headline="Oops! 404"
         icon="mdi-alert-circle-outline"
         title="Página não encontrada"
@@ -16,7 +16,7 @@ const error = useError();
 
     <template v-else>
       <v-empty-state
-        class="empty-state flex-1"
+        class="min-h-min flex-1"
         headline="Oops!"
         icon="mdi-alert-circle-outline"
         title="Houve um comportamento não esperado em nossa aplicação."
@@ -29,9 +29,3 @@ const error = useError();
     </template>
   </NuxtLayout>
 </template>
-
-<style scoped>
-.empty-state {
-  @apply min-h-min;
-}
-</style>

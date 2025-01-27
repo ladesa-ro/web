@@ -135,6 +135,8 @@ const $emit = defineEmits(['close', 'next', 'back']);
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .divider {
   @apply border-solid border-[1px] border-ldsa-grey;
 }

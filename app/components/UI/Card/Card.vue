@@ -51,6 +51,8 @@ const $emit = defineEmits(['edit']);
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .card-layout {
   @apply rounded-lg border-2 border-ldsa-grey overflow-hidden;
 }

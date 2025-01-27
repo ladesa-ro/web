@@ -16,7 +16,7 @@ const open = ref(false);
       <span class="text-ldsa-white/60">Editado há 3 horas</span>
     </div>
 
-    <CollapsibleContent class="collapsible-content">
+    <CollapsibleContent class="collapsible-content collapsible-animation">
       <section class="mx-auto w-max px-6 py-3">
         <main class="w-full overflow-x-auto">
           <slot />
@@ -34,6 +34,8 @@ const open = ref(false);
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .collapsible-root {
   @apply overflow-hidden w-full border-2 border-ldsa-grey rounded-lg text-ldsa-white text-[0.938rem];
 }
@@ -43,7 +45,7 @@ const open = ref(false);
 }
 
 .collapsible-content {
-  @apply collapsible-animation overflow-x-auto overflow-y-hidden;
+  @apply  overflow-x-auto overflow-y-hidden;
 }
 
 .collapsible-footer {

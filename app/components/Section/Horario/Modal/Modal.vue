@@ -19,6 +19,8 @@ const isActive = ref(false);
 </script>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .dialog-style {
   border-radius: 14px !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);

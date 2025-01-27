@@ -41,6 +41,8 @@ const {
 </template>
 
 <style>
+@reference "~/assets/styles/app.css";
+
 .help-message {
   @apply text-ldsa-red;
   font-size: 12px;

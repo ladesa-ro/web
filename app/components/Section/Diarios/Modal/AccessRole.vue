@@ -49,6 +49,8 @@ const selectAgrupamento = () => {
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .toggle-option {
   @apply flex flex-col justify-center items-center gap-2;
   @apply w-56 h-40 border-2 rounded-lg text-center cursor-pointer;

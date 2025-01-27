@@ -36,6 +36,8 @@ defineSlots<Slots>();
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .modal-layout {
   @apply min-w-80 max-w-[31.5rem] min-h-[15rem] max-h-[39rem];
   @apply flex flex-col justify-between items-center p-7;

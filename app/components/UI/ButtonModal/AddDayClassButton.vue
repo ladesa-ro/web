@@ -11,6 +11,8 @@
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .buttonAddClassDay {
   width: 100%;
   padding: 18px 20px;

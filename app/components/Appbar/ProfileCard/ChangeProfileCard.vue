@@ -44,6 +44,8 @@ const isActive = ref(false);
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .arrow {
   @apply text-ldsa-text-green;
   -moz-transition: all 0.25s ease-in-out;

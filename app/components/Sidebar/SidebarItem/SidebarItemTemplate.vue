@@ -26,6 +26,8 @@ const { item, open } = defineProps<Props>();
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .template-base {
   @apply flex items-center justify-between;
   @apply w-64 min-h-12 px-4;

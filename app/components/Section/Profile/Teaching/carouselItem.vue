@@ -59,6 +59,8 @@ function goAhead(advance: boolean) {
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .card-style {
   @apply mb-3 text-left font-semibold;
 }

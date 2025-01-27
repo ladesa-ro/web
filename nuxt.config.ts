@@ -1,4 +1,4 @@
-import tailwindcss from "@tailwindcss/vite";
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineNuxtConfig({
   future: {
@@ -30,9 +30,7 @@ export default defineNuxtConfig({
   },
 
   vite: {
-    plugins: [
-      tailwindcss(),
-    ],
+    plugins: [tailwindcss()],
   },
 
   // ===========
@@ -46,7 +44,7 @@ export default defineNuxtConfig({
   css: [
     '@mdi/font/css/materialdesignicons.min.css',
     'vuetify/lib/styles/main.css',
-    '~/assets/styles/app.css',
+    '~/assets/styles/app.css', // ta travando pera 
   ],
 
   build: {
@@ -113,5 +111,5 @@ export default defineNuxtConfig({
     },
   },
 
-  compatibilityDate: "2024-11-01",
+  compatibilityDate: '2024-11-01',
 });

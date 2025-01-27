@@ -54,6 +54,8 @@ const showCampus = computed(() => {
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .lesson {
   @apply flex items-center justify-between;
   @apply border-2 border-ldsa-green-1 rounded-lg;

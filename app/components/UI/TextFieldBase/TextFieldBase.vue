@@ -18,6 +18,8 @@ const modelValue = defineModel<string | null>('value', { default: null });
 </template>
 
 <style>
+@reference "~/assets/styles/app.css";
+
 .textField {
   display: block;
   width: 100%;

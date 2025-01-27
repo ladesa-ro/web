@@ -24,6 +24,8 @@ const { isMobile } = useMonitorSize();
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .sidebar {
   @apply fixed top-[4.563rem] bottom-0;
   @apply overflow-auto z-20;

@@ -51,6 +51,8 @@ const profilePicureUrl = useApiImageRoute(
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .banner {
   @apply flex justify-start items-end;
   @apply h-[12.5rem] rounded-lg;

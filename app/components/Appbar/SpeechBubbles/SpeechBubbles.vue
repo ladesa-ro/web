@@ -45,6 +45,8 @@ const computedPinLeft = computed(() => {
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .chat-bubble {
   position: relative;
   width: 35rem;

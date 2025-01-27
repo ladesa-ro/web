@@ -41,3 +41,7 @@
   --color-ldsa-text-default: var(--ladesa-text-default-color);
   --color-ldsa-text-green: var(--ladesa-text-green-color);
 }
+
+@theme {
+  --spacing: 0.25rem;
+}

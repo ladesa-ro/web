@@ -11,7 +11,7 @@ type Props = {
   inputProps?: any;
 
   disableTogglePasswordVisibility?: boolean;
-}
+};
 
 const props = defineProps<Props>();
 
@@ -102,6 +102,8 @@ const handleContainerClick = () => {
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .ui-text-field {
   display: flex;
   flex-direction: row;

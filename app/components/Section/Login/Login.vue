@@ -44,7 +44,7 @@ useTitle(null, 'Login');
           />
         </div>
 
-        <span class="block mb-8 text-center">
+        <span class="block mb-8 text-center"> 
           Esqueceu a senha?
           <LazySectionLoginResetPasswordModal />
         </span>
@@ -97,6 +97,8 @@ useTitle(null, 'Login');
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .login {
   flex-shrink: 0;
 

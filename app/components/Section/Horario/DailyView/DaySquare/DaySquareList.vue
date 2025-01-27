@@ -24,6 +24,8 @@ const weekDays = getWeekDays(selectedDay.value);
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .layout-size {
   @apply flex flex-row justify-between w-full mx-auto;
   @apply max-w-screen-2xl;

@@ -84,6 +84,8 @@ const footerLinks = [
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .footer-root {
   @apply w-full grow-0 shrink-0;
   @apply flex flex-col justify-stretch;

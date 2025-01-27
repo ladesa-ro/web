@@ -59,6 +59,8 @@ onMounted(async () => {
 </template>
 
 <style>
+@reference "~/assets/styles/app.css";
+
 .-selected {
   @apply border-ldsa-green-1;
   @apply bg-ldsa-green-1/20 text-ldsa-text-green;

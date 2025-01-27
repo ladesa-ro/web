@@ -39,6 +39,8 @@ const selectedDay = useSelectedDay();
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .chat-bubble {
   font-weight: bold;
   @apply bg-ldsa-bg;

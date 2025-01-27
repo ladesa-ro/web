@@ -143,6 +143,8 @@ const { items: diarios } = await useApiDiariosFindAll('', {
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .button-solo {
   display: flex;
   justify-content: flex-start;

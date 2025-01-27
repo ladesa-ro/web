@@ -108,6 +108,8 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .form {
   display: flex;
   flex-direction: column;

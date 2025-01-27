@@ -87,6 +87,8 @@ const notificationsButtonEl = ref(null);
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .active {
   @apply border-ldsa-green-1 text-ldsa-green-1 bg-ldsa-green-1/10 dark:text-ldsa-green-2;
 }

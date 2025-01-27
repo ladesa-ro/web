@@ -29,6 +29,8 @@ const open = ref(false);
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 .open {
   @apply bg-ldsa-green-2/25;
 }
@@ -46,7 +48,7 @@ const open = ref(false);
 
 .collapsible-animation[data-state='closed'] {
   @apply animate-[slideUp_0.3s];
-  @apply open;
+  @apply bg-ldsa-green-2/25;
 }
 
 @keyframes slideDown {

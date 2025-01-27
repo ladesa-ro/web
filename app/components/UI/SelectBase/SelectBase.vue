@@ -18,6 +18,8 @@ const modelValue = defineModel('value', { default: null });
 </template>
 
 <style>
+@reference "~/assets/styles/app.css";
+
 .v-input__details {
   text-align: start !important;
   padding-left: 0px !important;
