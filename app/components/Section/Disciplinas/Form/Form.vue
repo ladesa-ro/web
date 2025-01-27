@@ -145,7 +145,7 @@ function onClose() {
 </script>
 
 <template>
-  <form class="form" @submit.prevent="onSubmit">
+  <form @submit.prevent="onSubmit">
     <DialogModalBaseLayout
       :on-close="onClose"
       :title="editId ? 'Editar Disciplina' : 'Cadastrar Disciplina'"
