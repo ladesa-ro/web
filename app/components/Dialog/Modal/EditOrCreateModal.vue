@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import UIButtonAdd from '~/components/UI/ButtonAdd/ButtonAdd.vue';
-import UIButtonEdit from '~/components/UI/ButtonEdit/ButtonEdit.vue';
+import ButtonAdd from '~/components/UI/ButtonAdd/ButtonAdd.vue';
+import ButtonEdit from '~/components/UI/ButtonEdit/ButtonEdit.vue';
 import type { FormComponent } from './FormComponent';
 
 type Props = {
@@ -19,9 +19,9 @@ const onClose = () => isActive.value = false;
 <template>
   <DialogSkeleton v-model="isActive">
     <template #activator>
-      <component :is="editId ? UIButtonEdit : UIButtonAdd" />
+      <component :is="editId ? ButtonEdit : ButtonAdd" />
     </template>
 
-    <component :is="formComponent" :edit-id="editId" @close="onClose" />
+    <formComponent :edit-id="editId" @close="onClose" />
   </DialogSkeleton>
 </template>

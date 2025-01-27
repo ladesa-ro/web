@@ -25,7 +25,7 @@ const $emit = defineEmits(['edit']);
         </div>
 
         <div v-else class="fallback-img">
-          <component :is="fallbackIcon" class="fallback-icon" />
+          <fallbackIcon class="fallback-icon" />
         </div>
       </section>
 
