@@ -37,7 +37,7 @@ const notificationsButtonEl = ref(null);
     <div class="flex-1" />
 
     <!-- ========= button change color theme ======== -->
-    <button class="mr-2.5" @click="changeTheme">
+    <button class="mr-2.5 cursor-pointer" @click="changeTheme">
       <template v-if="isDark">
         <IconsColorThemeIconMoon />
       </template>

@@ -48,14 +48,12 @@ const isActive = ref(false);
 
 .arrow {
   @apply text-ldsa-text-green;
-  -moz-transition: all 0.25s ease-in-out;
-  -webkit-transition: all 0.25s ease-in-out;
-  transition: all 0.25s ease-in-out;
+  @apply transition-transform duration-300;
 }
 
 .arrow.down {
-  -moz-transform: rotate(90deg);
-  -webkit-transform: rotate(90deg);
-  transform: rotate(90deg);
+  transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  -moz-transform: rotate(180deg);
 }
 </style>

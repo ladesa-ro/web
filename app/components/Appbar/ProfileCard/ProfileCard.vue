@@ -26,7 +26,7 @@ defineProps<Props>();
 <template>
   <div
     v-if="usuario && resumoVinculos"
-    class="flex items-center gap-3 rounded-lg inset-y-0 w-29 bg-ldsa-green-1/10 dark:bg-ldsa-grey/30 pl-3 pr-6 py-2"
+    class="flex items-center gap-3 w-max rounded-lg inset-y-0 bg-ldsa-green-1/10 dark:bg-ldsa-grey/30 pl-3 pr-6 py-2"
     :class="{ 'cursor-pointer': canChangeProfile }"
   >
     <VImg

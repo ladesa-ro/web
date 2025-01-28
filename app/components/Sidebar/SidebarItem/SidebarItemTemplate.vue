@@ -30,7 +30,7 @@ const { item, open } = defineProps<Props>();
 
 .template-base {
   @apply flex items-center justify-between;
-  @apply w-64 min-h-12 px-4;
+  @apply w-64 min-h-12 px-4 cursor-pointer;
   @apply text-ldsa-white hover:bg-ldsa-white/[0.07];
 }
 

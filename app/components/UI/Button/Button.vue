@@ -14,7 +14,7 @@
 @reference "~/assets/styles/app.css";
 
 .ui-button {
-  @apply flex items-center w-full px-5 py-[0.875rem];
+  @apply flex items-center w-full px-5 py-[0.875rem] cursor-pointer;
   @apply rounded-[0.5625rem] bg-ldsa-green-1 font-semibold text-ldsa-white;
   @apply disabled:bg-ldsa-green-1/50 disabled:cursor-not-allowed;
   @apply focus:outline-hidden;

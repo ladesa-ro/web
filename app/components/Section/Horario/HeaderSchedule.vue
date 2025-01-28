@@ -95,14 +95,12 @@ const notificationsButtonEl = ref(null);
 
 .arrow {
   @apply text-ldsa-green-1 dark:text-ldsa-green-2;
-  -moz-transition: all 0.5s linear;
-  -webkit-transition: all 0.5s linear;
-  transition: all 0.5s linear;
+  @apply transition-transform duration-[400ms];
 }
 
 .arrow.down {
-  -moz-transform: rotate(90deg);
-  -webkit-transform: rotate(90deg);
-  transform: rotate(90deg);
+  -moz-transform: rotate(180deg);
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 </style>
