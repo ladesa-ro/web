@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import AccessRoleButton from './AccessRoleButton.vue';
+
 const route = useRoute();
 
 enum Profile {
@@ -21,53 +23,34 @@ defineEmits(['close']);
 
 <template>
   <div
-    class="flex flex-col justify-between items-center w-[19.75rem] h-[18.125rem] px-8 py-6 border-2 border-ldsa-grey/50 rounded-lg text-ldsa-text-default bg-ldsa-bg"
+    class="flex flex-col justify-between items-center w-[19.75rem] h-[18.125rem] px-8 py-6 border-2 border-ldsa-grey/50 rounded-lg bg-ldsa-bg font-semibold text-ldsa-text-default"
   >
-    <span class="font-[600]">Alternar cargo</span>
+    <h1>Alternar cargo</h1>
 
-    <section class="flex flex-row justify-between w-full">
-      <!-- ================== PROFESSOR ================== -->
-      <nuxt-link
-        class="button-cargo"
-        :class="{ active: activeProfile === 'Professor' }"
+    <section class="flex justify-between w-full">
+      <AccessRoleButton
+        :position-name="Profile.PROFESSOR"
+        :active="activeProfile === Profile.PROFESSOR"
         to="/sisgha/professor"
       >
         <IconsIconEducator width="36" height="49" />
-        <p class="font-[600]">Professor</p>
-      </nuxt-link>
-      <!-- =============================================== -->
+      </AccessRoleButton>
 
-      <!-- ===================== DAPE ===================== -->
-      <nuxt-link
-        class="button-cargo"
-        :class="{ active: activeProfile === 'DAPE' }"
+      <AccessRoleButton
+        :position-name="Profile.DAPE"
+        :active="activeProfile === Profile.DAPE"
         to="/sisgha/dape"
       >
         <IconsIconUser width="38" height="40" />
-        <p class="font-[600]">DAPE</p>
-      </nuxt-link>
-      <!-- =============================================== -->
+      </AccessRoleButton>
     </section>
 
     <button
-      class="flex flex-row justify-between items-center min-w-24 font-[600] cursor-pointer"
+      class="flex justify-between items-center gap-2.5"
       @click="$emit('close')"
     >
       Cancelar
-      <IconsIconClose width="11" height="10" />
+      <IconsIconClose width="11" height="10" class="mt-px" />
     </button>
   </div>
 </template>
-
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-.button-cargo {
-  @apply flex flex-col justify-end items-center w-28 h-36 border-2 rounded-lg border-ldsa-grey/50 px-0 py-8 gap-2 text-center cursor-pointer;
-}
-
-.active {
-  @apply bg-ldsa-green-1 border-ldsa-green-1;
-  @apply text-ldsa-white;
-}
-</style>
