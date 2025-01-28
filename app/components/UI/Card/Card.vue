@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import IconImage from '~/components/Icons/IconImage.vue';
-
 type Props = {
-  src: string | null;
   variant: 'block' | 'inline';
   title?: string;
-  fallbackIcon?: Component | (HTMLElement & SVGElement);
+  src: string | null;
 };
 
-const { src, variant, title, fallbackIcon = IconImage } = defineProps<Props>();
+const { src, variant, title } = defineProps<Props>();
 
 //
 
@@ -18,16 +15,15 @@ const $emit = defineEmits(['edit']);
 <template>
   <template v-if="variant === 'block'">
     <div class="card-layout">
-      <!-- card image -->
-      <section class="card-img" :style="{ backgroundImage: `url(${src})` }">
-        <div v-if="src" class="img-backdrop">
-          <img :src="src" class="max-h-full" />
-        </div>
-
-        <div v-else class="fallback-img">
-          <fallbackIcon class="fallback-icon" />
-        </div>
-      </section>
+      <UIImg
+        :src="src"
+        class="h-[11rem]"
+        fallbackBgColor="rgb(from var(--ladesa-grey-color) R G B / 40%)"
+      >
+        <template #fallbackIcon>
+          <slot name="fallbackIcon" />
+        </template>
+      </UIImg>
 
       <main class="p-3 pl-4">
         <!-- title and actions -->
@@ -56,26 +52,6 @@ const $emit = defineEmits(['edit']);
 .card-layout {
   @apply rounded-lg border-2 border-ldsa-grey overflow-hidden;
 }
-
-/* -- image -- */
-
-.card-img {
-  @apply h-[11rem] bg-cover bg-center;
-}
-
-.img-backdrop {
-  @apply h-full flex items-center justify-center backdrop-blur-xs	backdrop-brightness-75;
-}
-
-.fallback-img {
-  @apply w-full h-full bg-ldsa-grey/30 flex justify-center items-center;
-}
-
-.fallback-icon {
-  @apply w-20 text-ldsa-grey opacity-75;
-}
-
-/* ----------- */
 
 .title-and-actions {
   @apply w-full flex justify-between items-center mb-1;

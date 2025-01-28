@@ -3,13 +3,11 @@ import type { UsuarioFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { useQuery } from '@tanstack/vue-query';
 import uniq from 'lodash/uniq';
 import { ApiImageResource, useApiImageRoute } from '~~/app/integrations';
-import IconUser from '~/components/Icons/IconUser.vue';
 
 type Props = {
   usuario: UsuarioFindOneResultView;
 };
-const props = defineProps<Props>();
-const { usuario } = toRefs(props);
+const { usuario } = defineProps<Props>();
 
 //
 
@@ -18,12 +16,12 @@ const apiClient = useApiClient();
 const vinculosQuery = useQuery({
   queryKey: [
     'usuarios',
-    computed(() => `usuario::id::${unref(usuario.value.id)}`),
+    computed(() => `usuario::id::${unref(usuario.id)}`),
     'usuarios::vinculos',
   ],
   queryFn: () => {
     return apiClient.perfis.perfilList({
-      filterUsuarioId: [usuario.value.id],
+      filterUsuarioId: [usuario.id],
       filterAtivo: ['true'],
     });
   },
@@ -78,14 +76,17 @@ const profilePicureUrl = useApiImageRoute(
   <nuxt-link
     @click.capture="handleCardClick"
     :to="`/sisgha/dape/usuarios/${usuario.id}`"
-    >
+  >
     <UICard
       v-if="usuario"
       :title="usuario.nome"
       variant="block"
       :src="profilePicureUrl"
-      :fallback-icon="IconUser"
     >
+      <template #fallbackIcon>
+        <IconsIconUser class="w-1/3 text-ldsa-grey" />
+      </template>
+
       <template #actions>
         <SectionUsuariosModalsForm :editId="usuario.id" />
       </template>

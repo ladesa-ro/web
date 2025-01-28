@@ -9,7 +9,6 @@ const profilePicureUrl = useApiImageRoute(
   usuario
 );
 
-// Adicionando uma propriedade reativa para o cargo selecionado
 const selectedCargo = ref<string | null>(null);
 
 const handleCargoClick = (cargo: string) => {
@@ -29,15 +28,19 @@ defineProps<Props>();
     class="flex items-center gap-3 w-max rounded-lg inset-y-0 bg-ldsa-green-1/10 dark:bg-ldsa-grey/30 pl-3 pr-6 py-2"
     :class="{ 'cursor-pointer': canChangeProfile }"
   >
-    <VImg
-      :width="48"
-      :height="48"
-      :src="profilePicureUrl ?? ''"
-      class="rounded-full bg-ldsa-green-1"
-    />
+    <UIImg
+      :src="profilePicureUrl"
+      alt="Foto de perfil."
+      fallbackBgColor="var(--ladesa-green-1-color)"
+      class="w-12 h-12 rounded-full"
+    >
+      <template #fallbackIcon>
+        <IconsIconUser class="text-ldsa-white w-5 mb-px" />
+      </template>
+    </UIImg>
 
     <div>
-      <p class="font-semibold">{{ usuario?.nome }}</p>
+      <p class="font-semibold text-left">{{ usuario?.nome }}</p>
 
       <p class="font-normal flex flex-row items-center gap-2">
         <span v-for="cargo in resumoVinculos?.cargos" :key="cargo">

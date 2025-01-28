@@ -5,10 +5,9 @@ import { ApiImageResource, useApiImageRoute } from '~~/app/integrations';
 type Props = {
   user: UsuarioFindOneResultView;
 };
-const props = defineProps<Props>();
-const { user } = toRefs(props);
+const { user } = defineProps<Props>();
 
-const profilePicureUrl = useApiImageRoute(
+const profilePictureUrl = useApiImageRoute(
   ApiImageResource.USUARIO_PROFILE,
   user
 );
@@ -18,22 +17,15 @@ const profilePicureUrl = useApiImageRoute(
   <!-- TODO: adicionar ícones de edição -->
   <section class="banner">
     <div class="profile-card">
-      <div
-        class="profile-picture"
-        :style="{ backgroundImage: `url(${profilePicureUrl})` }"
+      <UIImg
+        :src="profilePictureUrl"
+        alt="Foto de perfil do usuário."
+        class="w-[7.375rem] h-[7.375rem] border-2 border-ldsa-grey rounded-lg"
       >
-        <div v-if="profilePicureUrl" class="img-backdrop">
-          <img
-            :src="profilePicureUrl"
-            class="max-h-full"
-            alt="Foto de perfil do usuário."
-          />
-        </div>
-
-        <div v-else class="img-fallback">
-          <IconsIconUser class="text-ldsa-grey/75 m-7" />
-        </div>
-      </div>
+        <template #fallbackIcon>
+          <IconsIconUser class="w-2/5" />
+        </template>
+      </UIImg>
 
       <section class="profile-metadata text-xs font-medium">
         <span>
@@ -62,20 +54,6 @@ const profilePicureUrl = useApiImageRoute(
 .profile-card {
   @apply flex  overflow-visible;
   @apply ml-8 p-5 min-w-[22.5rem] h-40 rounded-t-[0.625rem] bg-ldsa-bg;
-}
-
-.profile-picture {
-  @apply flex justify-center items-center overflow-hidden;
-  @apply w-[7.375rem] h-[7.375rem] rounded-lg;
-  @apply border-2 border-ldsa-grey bg-cover bg-center;
-}
-
-.img-backdrop {
-  @apply flex justify-center w-full h-full backdrop-blur-xs backdrop-brightness-75;
-}
-
-.img-fallback {
-  @apply w-full h-full bg-ldsa-grey/15;
 }
 
 .profile-metadata {
