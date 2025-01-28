@@ -55,7 +55,7 @@ const removeField = (targetIndex: number) => {
 
   <button
     type="button"
-    class="border-dotted border-[3px] rounded-lg pa-4 border-ldsa-grey hover:bg-ldsa-green-1/10 ease-in"
+    class="border-dotted border-[3px] rounded-lg p-4 border-ldsa-grey hover:bg-ldsa-green-1/10 ease-in"
     @click="addField"
   >
     Novo Vínculo

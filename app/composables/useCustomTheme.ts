@@ -1,7 +1,9 @@
-export function useCustomTheme() {
-  const { $vuetify } = useNuxtApp();
+import { useTheme } from 'vuetify';
 
+export function useCustomTheme() {
   const colorMode = useColorMode();
+
+  const theme = useTheme();
 
   const changeTheme = () => {
     colorMode.preference = colorMode.preference === 'dark' ? 'light' : 'dark';
@@ -14,8 +16,8 @@ export function useCustomTheme() {
   watch(
     isDark,
     () => {
-      if (isDark.value) $vuetify.theme.global.name.value = 'dark';
-      else $vuetify.theme.global.name.value = 'light';
+      if (isDark.value) theme.global.name.value = 'dark';
+      else theme.global.name.value = 'light';
     },
     { immediate: true }
   );

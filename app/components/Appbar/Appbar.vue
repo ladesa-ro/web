@@ -3,7 +3,7 @@ import SpeechBubbles from './SpeechBubbles/SpeechBubbles.vue';
 
 const { isDark, changeTheme } = useCustomTheme();
 
-// 
+//
 
 const hamburgerActive = defineModel<boolean>({
   required: true,
@@ -19,12 +19,13 @@ const notificationsButtonEl = ref(null);
 </script>
 
 <template>
-  <div class="flex items-center w-full h-[4.563rem] border-b-[1px] border-ldsa-grey/50 bg-ldsa-bg">
-
+  <div
+    class="flex items-center w-full h-[4.563rem] border-b-[1px] border-ldsa-grey/50 bg-ldsa-bg"
+  >
     <!-- ========== menu icon configurations ========== -->
     <div class="m-[0.34375rem] cursor-pointer" @click="toggleHamburger">
-      <IconsMenuIconHamburgerOn v-if="hamburgerActive" class="pa-3 w-[45px]" />
-      <IconsMenuIconHamburgerOff v-else class="pa-3 w-[45px]" />
+      <IconsMenuIconHamburgerOn v-if="hamburgerActive" class="p-3 w-[45px]" />
+      <IconsMenuIconHamburgerOff v-else class="p-3 w-[45px]" />
     </div>
     <!-- ========= / menu icon configurations ========= -->
 
@@ -57,7 +58,7 @@ const notificationsButtonEl = ref(null);
         <IconsIconNotifications
           v-bind="props"
           ref="notificationsButtonEl"
-          class="cursor-pointer pa-2 w-[38px] h-[38px]"
+          class="cursor-pointer p-2 w-[38px] h-[38px]"
         />
       </template>
 

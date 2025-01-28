@@ -15,12 +15,12 @@ const user = await apiClient.usuarios.usuarioFindOneById({
 
 <template>
   <div class="flex flex-col justify-center py-7 px-20">
-    <SectionProfileHeader :user="user"/>
+    <SectionProfileHeader :user="user" />
 
     <!-- disponibilidade + ensino -->
     <section class="flex gap-4 mt-8">
-      <SectionProfileAvailability class="flex-2" />
-      <SectionProfileTeaching class="flex-1" />
+      <SectionProfileAvailability class="flex-1" />
+      <SectionProfileTeaching class="flex-2" />
     </section>
   </div>
 </template>

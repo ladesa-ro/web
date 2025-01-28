@@ -1,11 +1,6 @@
 <script setup lang="ts">
-const {
-  isBusy,
-  isError,
-  canSubmit,
-  credentials,
-  signInWithCredentials,
-} = useAuthSignIn();
+const { isBusy, isError, canSubmit, credentials, signInWithCredentials } =
+  useAuthSignIn();
 
 useTitle(null, 'Login');
 </script>
@@ -43,7 +38,7 @@ useTitle(null, 'Login');
           />
         </div>
 
-        <span class="block mb-8 text-center"> 
+        <span class="block mb-8 text-center">
           Esqueceu a senha?
           <LazySectionLoginResetPasswordModal />
         </span>
@@ -104,6 +99,8 @@ useTitle(null, 'Login');
   min-height: 100vh;
   min-height: 100dvh;
   overflow-x: hidden;
+
+  background-repeat: no-repeat;
 
   background-image: url('@/assets/decorations/login-bloom-1.svg'),
     url('@/assets/decorations/login-bloom-2.svg');

@@ -1,4 +1,5 @@
 import tailwindcss from '@tailwindcss/vite';
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
 
 export default defineNuxtConfig({
   future: {
@@ -31,6 +32,11 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    vue: {
+      template: {
+        transformAssetUrls,
+      },
+    },
   },
 
   // ===========
@@ -43,8 +49,7 @@ export default defineNuxtConfig({
 
   css: [
     '@mdi/font/css/materialdesignicons.min.css',
-    'vuetify/lib/styles/main.css',
-    '~/assets/styles/app.css', // ta travando pera 
+    '~/assets/styles/app.css',
   ],
 
   build: {
@@ -61,7 +66,11 @@ export default defineNuxtConfig({
     '@sidebase/nuxt-auth',
     '@nuxtjs/color-mode',
     'vue3-carousel-nuxt',
-    'vuetify-nuxt-module',
+    (_options, nuxt) => {
+      nuxt.hooks.hook('vite:extendConfig', (config) => {
+        config.plugins.push(vuetify({ autoImport: true }));
+      });
+    },
     '@nuxt/eslint',
   ],
 
