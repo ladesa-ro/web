@@ -1,7 +1,7 @@
 <template>
   <UIButtonModalBaseButtonLayout
     type="button"
-    color="rgb(var(--ladesa-red-color))"
+    color="var(--ladesa-red-color)"
     :opacity="85"
   >
     Deletar

@@ -48,7 +48,7 @@ svg {
 }
 
 .svg-fill-text path {
-  fill: rgb(var(--ladesa-text-default-color));
+  fill: var(--ladesa-text-default-color);
 }
 
 .-icon-black {

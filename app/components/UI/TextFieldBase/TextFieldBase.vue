@@ -7,8 +7,8 @@ const modelValue = defineModel<string | null>('value', { default: null });
     <v-text-field
       v-model="modelValue"
       hide-details="auto"
-      base-color="rgb(var(--ladesa-grey-color))"
-      color="rgb(var(--ladesa-green-2-color))"
+      base-color="var(--ladesa-grey-color)"
+      color="var(--ladesa-green-2-color)"
       persistent-hint
       variant="outlined"
       persistent-placeholder

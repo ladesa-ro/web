@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const {
-  //
   isBusy,
   isError,
   canSubmit,
@@ -124,8 +123,8 @@ useTitle(null, 'Login');
 .login-form {
   display: grid;
 
-  @apply grid-rows-[1rem,_1fr,_1rem] sm:grid-cols-[3.0625rem,_1fr,_2.8125rem];
-  @apply grid-cols-[1rem,_1fr,_1rem] sm:grid-cols-[3.1875rem,_1fr,_3.25rem];
+  @apply grid-rows-[1rem_1fr_1rem] sm:grid-cols-[3.0625rem_1fr_2.8125rem];
+  @apply grid-cols-[1rem_1fr_1rem] sm:grid-cols-[3.1875rem_1fr_3.25rem];
 
   justify-content: center;
   align-content: center;
@@ -152,7 +151,7 @@ useTitle(null, 'Login');
   grid-row: 2 / 3;
   grid-column: 2 / 3;
 
-  background: rgb(var(--ladesa-background-color));
+  background: var(--ladesa-background-color);
   box-shadow: 0px 0px 1px rgba(13, 92, 25, 0.25);
   @apply border border-ldsa-grey/45 rounded-[0.5625rem];
 
@@ -202,7 +201,7 @@ useTitle(null, 'Login');
   width: 6.4375rem;
   height: 0.125rem;
 
-  background: rgb(var(--ladesa-border-color));
+  background: var(--ladesa-border-color);
 }
 
 .fields {
@@ -225,8 +224,6 @@ useTitle(null, 'Login');
 .login-alternative-button {
   max-width: 100%;
   width: 100%;
-
-  /* box-shadow: 0 0 0 3px rgb(var(--ladesa-green-1-color), 0.5); */
 }
 
 .login-alternative-button .user-icon {
@@ -245,11 +242,11 @@ useTitle(null, 'Login');
   width: 0.125rem;
   height: 2rem;
 
-  background-color: rgb(var(--ladesa-text-default-color));
+  background-color: var(--ladesa-text-default-color);
 }
 
 .login-alternative-button .user-icon :deep(path) {
-  fill: rgb(var(--ladesa-text-default-color));
+  fill: var(--ladesa-text-default-color);
 }
 
 .error-feedback {

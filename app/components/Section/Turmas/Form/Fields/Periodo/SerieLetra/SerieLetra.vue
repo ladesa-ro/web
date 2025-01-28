@@ -35,7 +35,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-[2fr,1fr] gap-4">
+  <div class="grid grid-cols-[2fr_1fr] gap-4">
     <VVTextField
       v-model="serie"
       type="text"
