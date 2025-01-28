@@ -23,7 +23,7 @@ const computedPinLeft = computed(() => {
 </script>
 
 <template>
-  <div ref="bubbleEl" class="chat-bubble bg-ldsa-bg shadow-lg mt-2">
+  <div ref="bubbleEl" class="chat-bubble bg-ldsa-bg shadow-lg mt-2 mr-3.5">
     <div
       class="pin"
       :style="{
