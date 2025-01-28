@@ -54,7 +54,7 @@ defineSlots<Slots>();
 }
 
 .close-button {
-  @apply flex items-center justify-center rounded-full;
+  @apply flex items-center justify-center rounded-full cursor-pointer;
   @apply hover:bg-ldsa-grey/30 transition-[background-color] duration-[225ms];
 }
 

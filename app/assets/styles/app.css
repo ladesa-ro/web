@@ -1,34 +1,25 @@
 /*
   ABOUT app.css:
-  this file is the only one imported by nuxt.config and app.vue, so all the general application styles must be imported here. 
+  this file is the only one imported by nuxt.config, so all the general application styles must be imported here. 
 */
 
 @import 'tailwindcss';
-@import './themes/theme.css' layer(theme); /*oi*/
+@import './themes/theme.css' layer(theme);
 @import '~/assets/styles/fonts/fonts.css';
 @import '~/assets/styles/fixtures/vuetify.fix.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
-
-/* FIXME: remover após retirar o vuetify */
-html {
-  overflow-y: hidden !important;
-}
-/* ------------------------------------- */
 
 body {
   font-family: 'Poppins', sans-serif;
 }
 
 .app {
-  display: flex;
-  flex-direction: column;
-  height: 100vh; /* fallback para caso o dispositivo não suporte dvh */
-  height: 100dvh;
-
   background-color: var(--ladesa-background-color);
   color: var(--ladesa-text-default-color);
 }
+
+/* ----------- */
 
 input {
   color: inherit;
@@ -39,12 +30,12 @@ img {
   max-width: 100%;
 }
 
-/* icons style */
+/* Icons style */
 
 svg {
+  display: block;
   max-width: 100%;
   height: auto;
-  display: block;
 }
 
 .svg-fill-text path {
@@ -60,19 +51,21 @@ svg {
 }
 
 /* Scrollbar style */
+
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background-color: var(--ladesa-green-1-color);
-  opacity: 0.5;
-  border-radius: 50px;
-  cursor: pointer;
+  width: 0.4rem;
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: var(--ladesa-green-1-color);
-  border-radius: 50px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 50%);
+}
+
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-track {
+  border-radius: 3.125rem;
   cursor: pointer;
 }

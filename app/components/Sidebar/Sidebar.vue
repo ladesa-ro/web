@@ -30,7 +30,7 @@ const { isMobile } = useMonitorSize();
   @apply fixed top-[4.563rem] bottom-0;
   @apply overflow-auto z-20;
   @apply flex flex-col gap-3;
-  @apply w-14 py-[0.438rem];
+  @apply w-14 pt-[0.438rem];
   @apply border-r-2 border-r-ldsa-green-2/50 bg-ldsa-green-1;
   @apply transition-[width] duration-200;
 }

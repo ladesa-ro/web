@@ -36,7 +36,3 @@ useHead({
     </APIContext>
   </div>
 </template>
-
-<style>
-/* @import '~/assets/styles/app.css'; */
-</style>
