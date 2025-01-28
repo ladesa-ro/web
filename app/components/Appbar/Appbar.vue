@@ -1,10 +1,4 @@
 <script setup lang="ts">
-import SpeechBubbles from './SpeechBubbles/SpeechBubbles.vue';
-
-const { isDark, changeTheme } = useCustomTheme();
-
-//
-
 const hamburgerActive = defineModel<boolean>({
   required: true,
 });
@@ -19,59 +13,38 @@ const notificationsButtonEl = ref(null);
 </script>
 
 <template>
-  <div
-    class="flex items-center w-full h-[4.563rem] border-b-[1px] border-ldsa-grey/50 bg-ldsa-bg"
+  <header
+    class="flex items-center w-full h-[4.563rem] border-b border-ldsa-grey/50 bg-ldsa-bg"
   >
-    <!-- ========== menu icon configurations ========== -->
     <div class="m-[0.34375rem] cursor-pointer" @click="toggleHamburger">
-      <IconsMenuIconHamburgerOn v-if="hamburgerActive" class="p-3 w-[45px]" />
-      <IconsMenuIconHamburgerOff v-else class="p-3 w-[45px]" />
+      <IconsMenuIconHamburgerOn
+        v-if="hamburgerActive"
+        class="p-3 w-[2.813rem]"
+      />
+      <IconsMenuIconHamburgerOff v-else class="p-3 w-[2.813rem]" />
     </div>
-    <!-- ========= / menu icon configurations ========= -->
 
-    <!-- =================== user ==================== -->
-    <!-- configuration to show the modal-->
     <AppbarProfileCardChangeProfileCard />
-    <!-- ================== / user ================== -->
 
     <div class="flex-1" />
 
-    <!-- ========= button change color theme ======== -->
-    <button class="mr-2.5 cursor-pointer" @click="changeTheme">
-      <template v-if="isDark">
-        <IconsColorThemeIconMoon />
-      </template>
-      <template v-else>
-        <IconsColorThemeIconSun />
-      </template>
-    </button>
-    <!-- ======== / button change color theme ======== -->
+    <AppbarChangeThemeVueChangeTheme />
 
-    <!-- ============ notifications icon ============ -->
-    <v-menu
-      origin="auto"
-      location="bottom center"
-      transition="slide-y-transition"
-      :close-on-content-click="false"
-    >
-      <template #activator="{ props }">
+    <UIPopover>
+      <template #activator>
         <IconsIconNotifications
-          v-bind="props"
           ref="notificationsButtonEl"
-          class="cursor-pointer p-2 w-[38px] h-[38px]"
+          class="w-[2.25rem] p-2 cursor-pointer"
         />
       </template>
 
-      <!-- modal that will be shown if the icon is clicked -->
-      <SpeechBubbles :notifications-button-el="notificationsButtonEl" />
-    </v-menu>
-    <!-- =========== / notifications icon =========== -->
+      <AppbarSpeechBubbles :notifications-button-el="notificationsButtonEl" />
+    </UIPopover>
 
     <div class="mr-3" />
 
-    <!-- SISGHA logo-->
     <LogoSisghaLogomarca
-      class="cursor-pointer mr-8 w-[140px] hidden sm:block"
+      class="mr-8 w-[8.75rem] hidden sm:block cursor-pointer"
     />
-  </div>
+  </header>
 </template>
