@@ -3,23 +3,23 @@ updates:
   - package-ecosystem: docker
     directory: '/'
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
     open-pull-requests-limit: 10
 
   - package-ecosystem: docker
     directory: '/.devops'
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
 
   - package-ecosystem: github-actions
     directory: '/.github/workflows'
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
 
   - package-ecosystem: npm
     directory: '/'
     schedule:
-      interval: 'weekly'
+      interval: 'monthly'
     groups:
       dev-dependencies:
         applies-to: version-updates
