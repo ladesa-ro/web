@@ -1,0 +1,76 @@
+/*
+  ABOUT app.css:
+  this file is the only one imported by nuxt.config, so all the general application styles must be imported here. 
+*/
+
+@import 'tailwindcss';
+@import './themes/theme.css' layer(theme);
+@import '~/assets/styles/fonts/fonts.css';
+@import '~/assets/styles/fixtures/vuetify.fix.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+.app {
+  background-color: var(--ladesa-background-color);
+  color: var(--ladesa-text-default-color);
+}
+
+/* ----------- */
+
+button {
+  cursor: pointer;
+}
+
+input {
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* Icons style */
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.svg-fill-text path {
+  fill: var(--ladesa-text-default-color);
+}
+
+.-icon-black {
+  filter: invert(0%);
+}
+
+.-icon-white {
+  filter: invert(100%);
+}
+
+/* Scrollbar style */
+
+::-webkit-scrollbar {
+  width: 0.4rem;
+  height: 0.4rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--ladesa-green-1-color);
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 50%);
+}
+
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-track {
+  border-radius: 3.125rem;
+  cursor: pointer;
+}

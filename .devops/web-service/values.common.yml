@@ -14,8 +14,8 @@ deployment:
 
   resources:
     requests:
-      cpu: "50m"
-      memory: "1Gi"
+      cpu: '50m'
+      memory: '1Gi'
 
   readinessProbe:
     httpGet:

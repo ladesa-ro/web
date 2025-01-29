@@ -1,0 +1,27 @@
+<script lang="ts" setup>
+import ButtonAdd from '~/components/UI/ButtonAdd/ButtonAdd.vue';
+import ButtonEdit from '~/components/UI/ButtonEdit/ButtonEdit.vue';
+import type { FormComponent } from './FormComponent';
+
+type Props = {
+  editId?: string | null;
+  formComponent: FormComponent;
+};
+
+const { editId = null } = defineProps<Props>();
+
+//
+
+const isActive = ref(false); 
+const onClose = () => isActive.value = false;
+</script>
+
+<template>
+  <DialogSkeleton v-model="isActive">
+    <template #activator>
+      <component :is="editId ? ButtonEdit : ButtonAdd" />
+    </template>
+
+    <formComponent :edit-id="editId" @close="onClose" />
+  </DialogSkeleton>
+</template>

@@ -1,7 +1,7 @@
 import { NuxtAuthHandler } from '#auth';
 import CredentialsProvider from '@auth/core/providers/credentials';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
-import { getApiClient } from '~/composables';
+import { getApiClient } from '~~/app/composables';
 import {
   ServerAuthenticationService,
   ServerEnvironmentConfigService,
@@ -68,7 +68,7 @@ export default NuxtAuthHandler({
                 token,
               };
             }
-          } catch (error) {}
+          } catch {}
         }
 
         return null;

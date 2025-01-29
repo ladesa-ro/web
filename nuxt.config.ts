@@ -1,5 +1,18 @@
+import tailwindcss from '@tailwindcss/vite';
+import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
+
 export default defineNuxtConfig({
+  future: {
+    compatibilityVersion: 4,
+  },
+
+  experimental: {
+    normalizeComponentNames: true,
+  },
+
   // ==============================================
+
+  srcDir: './app',
 
   ssr: true,
 
@@ -9,24 +22,34 @@ export default defineNuxtConfig({
     typeCheck: true,
   },
 
+  eslint: {},
+
   // ===========
 
   devtools: {
     enabled: true,
   },
 
+  vite: {
+    plugins: [tailwindcss()],
+    vue: {
+      template: {
+        transformAssetUrls,
+      },
+    },
+  },
+
   // ===========
 
   features: {
-    inlineStyles: true,
+    inlineStyles: false,
   },
 
   // ==============================================
 
   css: [
     '@mdi/font/css/materialdesignicons.min.css',
-    'vuetify/lib/styles/main.css',
-    '@/assets/styles/main.css',
+    '~/assets/styles/app.css',
   ],
 
   build: {
@@ -34,28 +57,28 @@ export default defineNuxtConfig({
   },
 
   serverHandlers: [
-    { route: '/_api/auth/**', handler: '~/server/_api/auth/[...].ts' },
+    { route: '/_api/auth/**', handler: './server/_api/auth/[...].ts' },
   ],
 
   // ==============================================
 
   modules: [
     '@sidebase/nuxt-auth',
-    '@nuxtjs/tailwindcss',
     '@nuxtjs/color-mode',
     'vue3-carousel-nuxt',
-    'vuetify-nuxt-module',
+    (_options, nuxt) => {
+      nuxt.hooks.hook('vite:extendConfig', (config) => {
+        config.plugins.push(vuetify({ autoImport: true }));
+      });
+    },
+    '@nuxt/eslint',
   ],
-
-  tailwindcss: {
-    configPath: './tailwind.config.mts',
-  },
 
   colorMode: {
     preference: 'system',
     fallback: 'light',
     classPrefix: '',
-    classSuffix: ''
+    classSuffix: '',
   },
 
   // ==============================================
@@ -97,5 +120,5 @@ export default defineNuxtConfig({
     },
   },
 
-  compatibilityDate: '2024-07-09',
+  compatibilityDate: '2024-11-01',
 });

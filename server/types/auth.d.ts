@@ -1,7 +1,5 @@
-/* eslint-disable */
 import '@auth/core/jwt';
 import '@auth/core/types';
-/* eslint-enable */
 
 declare module '@auth/core/types' {
   /* Returned by `useAuth`, `getSession` and `getServerSession` */

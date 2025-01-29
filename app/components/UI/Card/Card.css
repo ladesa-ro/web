@@ -1,0 +1,6 @@
+@reference "~/assets/styles/app.css";
+
+.card {
+  @apply overflow-hidden mx-auto pb-5 cursor-default;
+  @apply border-2 border-ldsa-grey divide-solid rounded-lg;
+}

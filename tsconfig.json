@@ -5,6 +5,7 @@
     "lib": ["ESNext", "dom"],
     "types": ["reflect-metadata"],
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "strict": false
   }
 }
