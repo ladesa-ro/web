@@ -11,14 +11,18 @@ type Props = {
   popoverArrow?: boolean;
 };
 
+defineProps<Props>();
+
+//
+
 type Slots = {
   activator: () => any;
   default: () => any;
-  close: () => any;
 };
 
-defineProps<Props>();
 defineSlots<Slots>();
+
+//
 
 const open = defineModel({ required: false, default: false });
 </script>
@@ -29,12 +33,48 @@ const open = defineModel({ required: false, default: false });
       <slot name="activator" />
     </PopoverTrigger>
 
-    <PopoverPortal to="body">
-      <PopoverArrow v-if="popoverArrow" />
+    <PopoverPortal>
+      <PopoverContent class="popover-content z-[21]" side="bottom">
+        <PopoverArrow v-if="popoverArrow" />
 
-      <PopoverContent class="z-[21]">
         <slot />
       </PopoverContent>
     </PopoverPortal>
   </PopoverRoot>
 </template>
+
+<style>
+.popover-content {
+  transform-origin: var(--radix-popover-content-transform-origin);
+}
+
+.popover-content[data-state='open'] {
+  animation: enter 0.23s ease-out;
+}
+
+.popover-content[data-state='closed'] {
+  animation: exit 0.23s ease-in;
+}
+
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(-17px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-17px);
+  }
+}
+</style>
