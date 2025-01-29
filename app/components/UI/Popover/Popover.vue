@@ -49,11 +49,11 @@ const open = defineModel({ required: false, default: false });
 }
 
 .popover-content[data-state='open'] {
-  animation: enter 0.23s ease-out;
+  animation: enter 0.2s ease-out;
 }
 
 .popover-content[data-state='closed'] {
-  animation: exit 0.23s ease-in;
+  animation: exit 0.2s ease-in;
 }
 
 @keyframes enter {
