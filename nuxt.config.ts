@@ -47,10 +47,7 @@ export default defineNuxtConfig({
 
   // ==============================================
 
-  css: [
-    '@mdi/font/css/materialdesignicons.min.css',
-    '~/assets/styles/app.css',
-  ],
+  css: ['@mdi/font/css/materialdesignicons.min.css', '~/assets/styles/app.css'],
 
   build: {
     transpile: ['vuetify'],
@@ -66,19 +63,40 @@ export default defineNuxtConfig({
     '@sidebase/nuxt-auth',
     '@nuxtjs/color-mode',
     'vue3-carousel-nuxt',
+    '@nuxt/eslint',
+    '@primevue/nuxt-module',
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
         config.plugins.push(vuetify({ autoImport: true }));
       });
     },
-    '@nuxt/eslint',
   ],
+
+  //
 
   colorMode: {
     preference: 'system',
     fallback: 'light',
     classPrefix: '',
     classSuffix: '',
+  },
+
+  //
+
+  primevue: {
+    usePrimeVue: true,
+
+    autoImport: false,
+
+    components: {
+      prefix: 'Prime',
+      include: [],
+      exclude: ['*'],
+    },
+
+    options: {
+      unstyled: true,
+    },
   },
 
   // ==============================================
