@@ -6,7 +6,7 @@ type Props = {
 
 type Slots = {
   default: () => any;
-}
+};
 
 defineProps<Props>();
 defineSlots<Slots>();
@@ -15,7 +15,9 @@ defineSlots<Slots>();
 <template>
   <section class="border-card p-5">
     <p class="section-title">
-      <icon class="icon" />
+      <span class="icon">
+        <component :is="icon" />
+      </span>
       {{ title }}
     </p>
 
