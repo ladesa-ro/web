@@ -16,7 +16,7 @@ JavaScript
 
 - Vue.js
 - Nuxt
-- Vuetify
+- ~Vuetify~
 
 CSS
 
@@ -52,7 +52,7 @@ cd web
 ### Instalar as dependências do projeto
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### Iniciar servidor de desenvolvimento local
@@ -60,7 +60,7 @@ npm install
 Comece o servidor de desenvolvimento em [`http://localhost:3000`](http://localhost:3000):
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 ## Colaboradores
