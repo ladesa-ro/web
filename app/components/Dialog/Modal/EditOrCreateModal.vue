@@ -12,8 +12,8 @@ const { editId = null } = defineProps<Props>();
 
 //
 
-const isActive = ref(false); 
-const onClose = () => isActive.value = false;
+const isActive = ref(false);
+const onClose = () => (isActive.value = false);
 </script>
 
 <template>
@@ -22,6 +22,6 @@ const onClose = () => isActive.value = false;
       <component :is="editId ? ButtonEdit : ButtonAdd" />
     </template>
 
-    <formComponent :edit-id="editId" @close="onClose" />
+    <component :is="formComponent" :edit-id="editId" @close="onClose" />
   </DialogSkeleton>
 </template>
