@@ -8,7 +8,7 @@ const API_AUTH_TOKEN = Symbol.for('API_AUTH_TOKEN');
 export type ApiClient = ReturnType<typeof getApiClient>;
 
 const getEndpointUrl = () => {
-  return process.env.NUXT_PUBLIC_ENPOINT_URL ?? 'https://dev.ladesa.com.br/api';
+  return process.env.NUXT_PUBLIC_ENPOINT_URL ?? 'https://dev.ladesa.com.br/api/v1';
 };
 
 export const getApiClient = (config?: Partial<OpenAPIConfig>) => {
