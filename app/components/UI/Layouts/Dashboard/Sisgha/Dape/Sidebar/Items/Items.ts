@@ -21,34 +21,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
       to: `${CAMINHO_DAPE}/`,
       exact: true,
     },
-    {
-      type: 'link',
-      title: 'Turmas',
-      icon: iconTurmas,
-      to: `${CAMINHO_DAPE}/turmas`,
-      exact: false,
-    },
-    {
-      type: 'link',
-      title: 'Disciplinas',
-      icon: iconDisciplina,
-      to: `${CAMINHO_DAPE}/disciplinas`,
-      exact: false,
-    },
-    {
-      type: 'link',
-      title: 'Perfil',
-      icon: iconPerfil,
-      to: `${CAMINHO_DAPE}/perfil`,
-      exact: false,
-    },
-    {
-      type: 'link',
-      title: 'Diários',
-      icon: iconDiario,
-      to: `${CAMINHO_DAPE}/diarios`,
-      exact: false,
-    },
+
     {
       type: 'link',
       title: 'Calendário',
@@ -56,16 +29,46 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
       to: `${CAMINHO_DAPE}/calendario`,
       exact: false,
     },
+
     {
       type: 'group',
-      title: 'Outros',
+      title: 'Gestão',
       icon: iconOutros,
       items: [
+        {
+          type: 'link',
+          title: 'Diários',
+          icon: iconDiario,
+          to: `${CAMINHO_DAPE}/diarios`,
+          exact: false,
+        },
+        {
+          type: 'link',
+          title: 'Turmas',
+          icon: iconTurmas,
+          to: `${CAMINHO_DAPE}/turmas`,
+          exact: false,
+        },
         {
           type: 'link',
           title: 'Usuários',
           icon: iconUsuarios,
           to: `${CAMINHO_DAPE}/usuarios`,
+          exact: false,
+        },
+      ],
+    },
+
+    {
+      type: 'group',
+      title: 'Ensino',
+      icon: iconOutros,
+      items: [
+        {
+          type: 'link',
+          title: 'Disciplinas',
+          icon: iconDisciplina,
+          to: `${CAMINHO_DAPE}/disciplinas`,
           exact: false,
         },
         {
@@ -79,6 +82,14 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
     },
 
     { type: 'spacer' },
+
+    {
+      type: 'link',
+      title: 'Perfil',
+      icon: iconPerfil,
+      to: `${CAMINHO_DAPE}/perfil`,
+      exact: false,
+    },
 
     {
       type: 'link',

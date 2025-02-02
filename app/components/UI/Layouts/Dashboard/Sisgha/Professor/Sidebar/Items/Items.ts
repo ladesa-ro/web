@@ -18,14 +18,6 @@ export const useLayoutsDashboardSisghaProfessorSidebarItems = () => {
 
     {
       type: 'link',
-      title: 'Perfil',
-      icon: iconPerfil,
-      to: `${CAMINHO_PROFESSOR}/perfil`,
-      exact: false,
-    },
-
-    {
-      type: 'link',
       title: 'Calendário',
       icon: iconCalendario,
       to: `${CAMINHO_PROFESSOR}/calendario`,
@@ -33,6 +25,14 @@ export const useLayoutsDashboardSisghaProfessorSidebarItems = () => {
     },
 
     { type: 'spacer' },
+
+    {
+      type: 'link',
+      title: 'Perfil',
+      icon: iconPerfil,
+      to: `${CAMINHO_PROFESSOR}/perfil`,
+      exact: false,
+    },
 
     {
       type: 'link',

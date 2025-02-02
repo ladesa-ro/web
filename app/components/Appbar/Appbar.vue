@@ -16,7 +16,10 @@ const notificationsButtonEl = ref(null);
   <header
     class="flex items-center w-full h-[4.563rem] border-b border-ldsa-grey/50 bg-ldsa-bg"
   >
-    <div class="m-[0.34375rem] cursor-pointer" @click="toggleHamburger">
+    <div
+      class="m-[0.34375rem] cursor-pointer shrink-0"
+      @click="toggleHamburger"
+    >
       <IconsMenuIconHamburgerOn
         v-if="hamburgerActive"
         class="p-3 w-[2.813rem]"
@@ -44,7 +47,7 @@ const notificationsButtonEl = ref(null);
     <div class="mr-3" />
 
     <LogoSisghaLogomarca
-      class="mr-8 w-[8.75rem] hidden sm:block cursor-pointer"
+      class="mr-8 w-[8.75rem] hidden sm:block cursor-pointer shrink-0"
     />
   </header>
 </template>
