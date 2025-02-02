@@ -23,7 +23,7 @@
 .ui-button:focus,
 .ui-button:focus-within {
   @apply border-ldsa-green-2/50;
-  @apply shadow-[0_0_0.5px_5px_rgba(var(--ladesa-green-1-color),0.3)];
+  box-shadow: 0 0 0.5px 5px rgb(from var(--ladesa-green-1-color) R G B / 30%);
 }
 
 .text {
