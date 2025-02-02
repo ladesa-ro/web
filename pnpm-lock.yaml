@@ -19,8 +19,8 @@ importers:
         specifier: ^0.37.4
         version: 0.37.4
       '@ladesa-ro/api-client-fetch':
-        specifier: 1.0.0-next.30
-        version: 1.0.0-next.30
+        specifier: 1.0.0-next.31
+        version: 1.0.0-next.31
       '@mdi/font':
         specifier: ^7.4.47
         version: 7.4.47
@@ -752,8 +752,8 @@ packages:
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
 
-  '@ladesa-ro/api-client-fetch@1.0.0-next.30':
-    resolution: {integrity: sha512-4Zv0R1QXZATxyYf1nMM6h6+lGpnqX+f2fYrJVr+GMBSG+7hqL4eFXA5zd0uuEom6Hjh3XOXuSe3G8IY0EX1Eqw==}
+  '@ladesa-ro/api-client-fetch@1.0.0-next.31':
+    resolution: {integrity: sha512-3I4GycfOlf+MVDMCiZMca3TDjGND5sDDYrKDPxSMrciAe7V+nJnPw9LHjPUxHMxNGuFR0LrqrCttznKhzxbc2Q==}
 
   '@mapbox/node-pre-gyp@2.0.0':
     resolution: {integrity: sha512-llMXd39jtP0HpQLVI37Bf1m2ADlEb35GYSh1SDSLsBhR+5iCxiNGlT31yqbNtVHygHAtMy6dWFERpU2JgufhPg==}
@@ -5211,7 +5211,7 @@ snapshots:
 
   '@kwsites/promise-deferred@1.1.1': {}
 
-  '@ladesa-ro/api-client-fetch@1.0.0-next.30': {}
+  '@ladesa-ro/api-client-fetch@1.0.0-next.31': {}
 
   '@mapbox/node-pre-gyp@2.0.0':
     dependencies:

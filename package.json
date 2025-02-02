@@ -18,7 +18,7 @@
   },
   "devDependencies": {
     "@auth/core": "^0.37.4",
-    "@ladesa-ro/api-client-fetch": "1.0.0-next.30",
+    "@ladesa-ro/api-client-fetch": "1.0.0-next.31",
     "@mdi/font": "^7.4.47",
     "@nuxt/devtools": "2.0.0-beta.4",
     "@nuxt/eslint": "^1.0.0",
