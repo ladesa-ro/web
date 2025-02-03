@@ -37,7 +37,6 @@ sla uaikkkkkkkkk
 
 | Estágio         | Devops                                                       | URL                                                      |
 | --------------- | ------------------------------------------------------------ | -------------------------------------------------------- |
-| Produção        | [![CI: Production][action-ci-prod-src]][action-ci-prod-href] | `não disponível`.                                        |
 | Desenvolvimento | [![CI: Development][action-ci-dev-src]][action-ci-dev-href]  | <https://luna.sisgha.com/>; <https://dev.ladesa.com.br/> |
 
 ## Configuração Local
