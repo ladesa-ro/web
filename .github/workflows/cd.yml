@@ -62,4 +62,4 @@ jobs:
           deployment: ${{ vars.K8S_DEPLOYMENT }}
           namespace: ${{ vars.K8S_NAMESPACE }}
           helm-release-name: ${{ vars.K8S_DEPLOYMENT }}
-          helm-release-extra-options: '--values=./.devops/web-service/values.common.yml'
+          helm-release-extra-options: '--values=./sistemas/principal/examples/k8s/helm/values.common.yml'
