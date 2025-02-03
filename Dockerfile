@@ -4,9 +4,7 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
-
-WORKDIR /app
-
+WORKDIR /sources
 
 FROM base AS prod-deps
 COPY package.json pnpm-lock.yaml .npmrc ./
@@ -22,5 +20,5 @@ RUN pnpm run build
 
 FROM base AS web-runtime
 WORKDIR /opt/@ladesa/web
-COPY --from=builder /app/.output /opt/@ladesa/web/.output
+COPY --from=builder /sources/.output /opt/@ladesa/web/.output
 CMD node .output/server/index.mjs

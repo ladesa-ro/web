@@ -1,0 +1,63 @@
+{
+  "name": "@ladesa-ro/web.service",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "debug": "nuxt dev --inspect",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "start": "node .output/server/index.mjs",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.0.3",
+    "tailwindcss": "^4.0.3",
+    "@auth/core": "^0.37.4",
+    "@ladesa-ro/api-client-fetch": "1.0.0-next.31",
+    "@mdi/font": "^7.4.47",
+    "@nuxtjs/color-mode": "^3.5.2",
+    "@sidebase/nuxt-auth": "1.0.0-alpha.0",
+    "@tanstack/query-persist-client-core": "^5.66.0",
+    "@tanstack/query-sync-storage-persister": "^5.66.0",
+    "@tanstack/vue-query": "^5.66.0",
+    "@types/jsonwebtoken": "^9.0.8",
+    "@types/lodash": "^4.17.15",
+    "@vueuse/core": "^12.5.0",
+    "@vueuse/nuxt": "^12.5.0",
+    "axios": "^1.7.9",
+    "dayjs": "^1.11.13",
+    "husky": "^9.1.7",
+    "jsonwebtoken": "^9.0.2",
+    "nuxt": "^3.15.4",
+    "openid-client": "^6.1.7",
+    "radix-vue": "^1.9.13",
+    "reflect-metadata": "^0.2.2",
+    "vee-validate": "^4.15.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0",
+    "vue3-carousel": "^0.13.0",
+    "vue3-carousel-nuxt": "^1.1.5",
+    "vue3-dropzone": "^2.2.1",
+    "vuetify": "^3.7.9",
+    "yarnhook": "^0.6.2",
+    "yup": "^1.6.1"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "2.0.0-beta.4",
+    "@nuxt/eslint": "^1.0.0",
+    "typescript": "5.7.3",
+    "vite-plugin-vuetify": "^2.0.4",
+    "vue-tsc": "2.2.0"
+  },
+  "overrides": {
+    "@sidebase/nuxt-auth": {
+      "@auth/core": "$@auth/core"
+    }
+  },
+  "packageManager": "pnpm@9.15.0+sha512.76e2379760a4328ec4415815bcd6628dee727af3779aaa4c914e3944156c4299921a89f976381ee107d41f12cfa4b66681ca9c718f0668fa0831ed4c6d8ba56c"
+}

@@ -1,5 +1,4 @@
 Dockerfile @ladesa-ro/security
-captain-definition @ladesa-ro/security
 
 CODEOWNERS @ladesa-ro/security
 .github/**/* @ladesa-ro/security
