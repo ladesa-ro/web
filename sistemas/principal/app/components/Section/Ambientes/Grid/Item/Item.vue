@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import type { AmbienteFindOneResultView } from '@ladesa-ro/api-client-fetch';
-import {
-  ApiImageResource,
-  useApiImageRoute,
-} from '../../../../../integrations/api/RoutesUtil';
+import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {
   isLoading?: boolean;

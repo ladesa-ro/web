@@ -4,7 +4,7 @@ import {
   disciplinasBaseQueryKey,
   useDisciplinaGetRetriever,
   useDisciplinasRetriever,
-} from '~~/app/integrations/api';
+} from '~/utils';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 type Props = {

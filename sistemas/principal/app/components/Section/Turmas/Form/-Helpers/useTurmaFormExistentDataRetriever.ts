@@ -1,4 +1,4 @@
-import { useTurmaGetRetriever } from '../../../../../integrations';
+import { useTurmaGetRetriever } from '../../../../../utils/integrations';
 import type { TurmaFormValues } from './typings';
 
 export const useTurmaFormExistentDataRetriever = () => {

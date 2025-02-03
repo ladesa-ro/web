@@ -1,7 +1,7 @@
 import { NuxtAuthHandler } from '#auth';
 import CredentialsProvider from '@auth/core/providers/credentials';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
-import { getApiClient } from '~~/app/composables';
+import { getApiClient } from '~/composables';
 import {
   ServerAuthenticationService,
   ServerEnvironmentConfigService,
@@ -20,7 +20,7 @@ const serverEnvironmentConfigService = serverInfrastructureContainer.get(
 );
 
 export default NuxtAuthHandler({
-  basePath: '/_api/auth',
+  basePath: '/api/nuxt/auth',
 
   secret: serverEnvironmentConfigService.getNuxtAuthSecret(),
 

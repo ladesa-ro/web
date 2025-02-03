@@ -4,7 +4,7 @@ import {
   blocosBaseQueryKey,
   useBlocoGetRetriever,
   useBlocosRetriever,
-} from '~~/app/integrations/api';
+} from '~/utils';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 type Props = {

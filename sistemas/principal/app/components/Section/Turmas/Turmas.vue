@@ -1,9 +1,6 @@
 <script setup lang="ts">
+import { turmasBaseQueryKey, useTurmasRetriever } from '~/utils';
 import { createApiListContextOptions } from '~~/app/components/UI/API/List/Context/UIApiListContext';
-import {
-  turmasBaseQueryKey,
-  useTurmasRetriever,
-} from '~~/app/integrations/api';
 import TurmasForm from './Form/Form.vue';
 
 const turmasRetriever = useTurmasRetriever();

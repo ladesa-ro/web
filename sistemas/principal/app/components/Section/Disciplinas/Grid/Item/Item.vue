@@ -1,10 +1,7 @@
 <script setup lang="ts">
-import DisciplinasForm from '../../Form/Form.vue';
 import type { DisciplinaFindOneResultView } from '@ladesa-ro/api-client-fetch';
-import {
-  ApiImageResource,
-  useApiImageRoute,
-} from '../../../../../integrations/api/RoutesUtil';
+import { ApiImageResource, useApiImageRoute } from '~/utils';
+import DisciplinasForm from '../../Form/Form.vue';
 
 type Props = {
   isLoading?: boolean;

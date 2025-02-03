@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { UsuarioFindOneResultView } from '@ladesa-ro/api-client-fetch';
-import { ApiImageResource, useApiImageRoute } from '~~/app/integrations';
+import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {
   user: UsuarioFindOneResultView;
@@ -48,7 +48,7 @@ const profilePictureUrl = useApiImageRoute(
 .banner {
   @apply flex justify-start items-end;
   @apply h-[12.5rem] rounded-lg;
-  @apply bg-[url('@/imgs/Usuario.jpg')] bg-cover;
+  @apply bg-[url('@/assets/imgs/Usuario.jpg')] bg-cover;
 }
 
 .profile-card {

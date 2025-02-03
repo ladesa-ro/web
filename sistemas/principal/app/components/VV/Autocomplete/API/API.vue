@@ -6,7 +6,7 @@ import {
   QuerySuspenseBehaviourMode,
   useApiBaseResourceGet,
   useApiBaseResourceList,
-} from '../../../../integrations';
+} from '~/utils';
 import type { IUIAutocompleteApiRetrieverOptions } from './-Base';
 
 //

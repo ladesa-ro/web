@@ -1,8 +1,5 @@
 import type { AmbienteListData } from '@ladesa-ro/api-client-fetch';
-import {
-  useApiBaseResourceList,
-  type QuerySuspenseBehaviour,
-} from '../../../integrations';
+import { useApiBaseResourceList, type QuerySuspenseBehaviour } from '~/utils';
 
 export const useApiAmbientesFindAll = async (
   searchTerm: MaybeRef<string>,

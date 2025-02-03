@@ -2,8 +2,7 @@ import type { TurmaListData } from '@ladesa-ro/api-client-fetch';
 import type {
   IApiBaseResourceListRetrieverInput,
   QuerySuspenseBehaviour,
-} from '../../../integrations';
-import { useApiBaseResourceList } from '../../../integrations/api/base/list/composables/useApiBaseResourceList';
+} from '~/utils';
 
 export const useApiTurmasFindAll = async (
   searchTerm: MaybeRef<string | undefined>,

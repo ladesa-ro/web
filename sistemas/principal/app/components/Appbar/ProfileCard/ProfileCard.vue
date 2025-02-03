@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ApiImageResource, useApiImageRoute } from '../../../integrations';
+import { ApiImageResource, useApiImageRoute } from '~/utils';
 import { useApiContext } from '../../API/Context/setup-context';
 
 const { resumoVinculos, usuario } = useApiContext();

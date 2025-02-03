@@ -1,6 +1,6 @@
 import type { MaybeArray } from 'vee-validate';
-import { HeadTitleContext } from '~~/app/infrastructure/HeadTitleContext';
-import { ensureArray } from '../infrastructure/ensure-array';
+import { HeadTitleContext } from '~/utils/head-title-context';
+import { castArray } from '../utils';
 
 // this composable defines the tab name. for example: "Painel - SISGHA" or "Perfil - SISGHA"
 
@@ -12,7 +12,7 @@ export const buildTitle = (
 ): string => {
   const elements = [];
 
-  for (const item of ensureArray(title).flat(4)) {
+  for (const item of castArray(title).flat(4)) {
     if (item) {
       elements.push(item);
     }

@@ -33,7 +33,7 @@ function goAhead(advance: boolean) {
     <img
       alt="Capa do curso."
       class="image w-full max-h-14"
-      src="@/imgs/Foto-Curso.png"
+      src="@/assets/imgs/Foto-Curso.png"
     />
 
     <!-- card body -->

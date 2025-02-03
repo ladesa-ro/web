@@ -3,7 +3,7 @@ import {
   disciplinasBaseQueryKey,
   useApiBaseResourceList,
   useDisciplinasRetriever,
-} from '~~/app/integrations';
+} from '~/utils';
 import { useContextDiariosFormGeral } from '../../Contexto';
 
 const $emit = defineEmits(['close', 'next']);

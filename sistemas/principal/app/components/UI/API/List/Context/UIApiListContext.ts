@@ -1,4 +1,4 @@
-import type { IApiBaseResourceListRetriever } from '../../../../../integrations';
+import type { IApiBaseResourceListRetriever } from '../../../../../utils/integrations';
 
 const SYMBOL_EMPTY = Symbol.for('empty');
 const STORE_KEY = 'UI_API_LIST_CONTEXT';

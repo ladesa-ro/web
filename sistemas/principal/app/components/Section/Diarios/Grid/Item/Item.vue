@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DiarioFindOneResultView } from '@ladesa-ro/api-client-fetch';
-import { ApiImageResource, useApiImageRoute } from '~~/app/integrations';
+import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 // Definição das props ajustadas
 

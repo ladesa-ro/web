@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { getApiClient } from '~~/app/composables';
+import { getApiClient } from '~/composables';
 
 @injectable()
 export class ServerAuthenticationService {

@@ -4,7 +4,7 @@ import {
   cursosBaseQueryKey,
   useCursoGetRetriever,
   useCursosRetriever,
-} from '~~/app/integrations/api';
+} from '~/utils';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 type Props = {

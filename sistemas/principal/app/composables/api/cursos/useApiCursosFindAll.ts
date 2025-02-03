@@ -1,8 +1,5 @@
 import type { CursoListData } from '@ladesa-ro/api-client-fetch';
-import {
-  useApiBaseResourceList,
-  type QuerySuspenseBehaviour,
-} from '../../../integrations';
+import { useApiBaseResourceList, type QuerySuspenseBehaviour } from '~/utils';
 
 export const useApiCursosFindAll = async (
   searchTerm: MaybeRef<string>,

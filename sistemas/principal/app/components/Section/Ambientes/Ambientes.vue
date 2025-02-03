@@ -1,9 +1,6 @@
 <script setup lang="ts">
+import { ambientesBaseQueryKey, useAmbientesRetriever } from '~/utils';
 import { createApiListContextOptions } from '~~/app/components/UI/API/List/Context/UIApiListContext';
-import {
-  ambientesBaseQueryKey,
-  useAmbientesRetriever,
-} from '../../../integrations/api/modules/useAmbientesRetriever';
 
 const ambientesRetriever = useAmbientesRetriever();
 

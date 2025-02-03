@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { HeadTitleContext } from '~~/app/infrastructure/HeadTitleContext';
+import { HeadTitleContext } from '~/utils';
 
 definePageMeta({
   layout: 'sisgha-professor',

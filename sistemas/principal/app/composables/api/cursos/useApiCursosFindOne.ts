@@ -3,7 +3,7 @@ import {
   QuerySuspense,
   QuerySuspenseBehaviourMode,
   type QuerySuspenseBehaviour,
-} from '../../../integrations';
+} from '~/utils';
 
 export const useApiCursosFindOne = async (
   idRef: MaybeRef<string | null | undefined>,

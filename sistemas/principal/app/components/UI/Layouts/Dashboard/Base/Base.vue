@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { HeadTitleContext } from '~~/app/infrastructure/HeadTitleContext';
+import { HeadTitleContext } from '~/utils';
 import { provideLayoutsDashboardContext } from './context';
 
 type Slots = {

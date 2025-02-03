@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useMonitorSize } from '~~/app/composables/monitor-size';
+import { useMonitorSize } from '~/composables/useMonitorSize';
 import type { ISidebarItem } from './SidebarItem/ISidebarItem';
 
 type Props = {

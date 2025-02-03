@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import type { TurmaFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import EditOrCreateModal from '~/components/Dialog/Modal/EditOrCreateModal.vue';
-import {
-  ApiImageResource,
-  useApiImageRoute,
-} from '../../../../../integrations/api/RoutesUtil';
+import { ApiImageResource, useApiImageRoute } from '~/utils';
 import TurmasForm from '../../Form/Form.vue';
 
 type Props = {

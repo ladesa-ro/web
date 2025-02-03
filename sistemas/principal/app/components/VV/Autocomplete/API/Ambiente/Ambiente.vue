@@ -4,7 +4,7 @@ import {
   ambientesBaseQueryKey,
   useAmbienteGetRetriever,
   useAmbientesRetriever,
-} from '~~/app/integrations/api';
+} from '~/utils';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 //

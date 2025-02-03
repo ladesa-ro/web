@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate';
-import { QuerySuspenseBehaviourMode } from '../../../../../../integrations';
+import { QuerySuspenseBehaviourMode } from '~/utils';
 import { verificarModalidade } from './-Helpers/verificar-modalidade';
 
 //

@@ -2,7 +2,7 @@
 import type { UsuarioFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { useQuery } from '@tanstack/vue-query';
 import uniq from 'lodash/uniq';
-import { ApiImageResource, useApiImageRoute } from '~~/app/integrations';
+import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {
   usuario: UsuarioFindOneResultView;

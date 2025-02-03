@@ -3,7 +3,7 @@ import {
   turmasBaseQueryKey,
   useApiBaseResourceList,
   useTurmasRetriever,
-} from '~~/app/integrations';
+} from '~/utils';
 
 const $emit = defineEmits(['close', 'next', 'back']);
 
