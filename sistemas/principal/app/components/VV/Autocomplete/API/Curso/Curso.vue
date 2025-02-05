@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import type { CursoFindOneResultView } from '@ladesa-ro/api-client-fetch';
-import {
-  cursosBaseQueryKey,
-  useCursoGetRetriever,
-  useCursosRetriever,
-} from '~/utils';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 type Props = {

@@ -1,5 +1,4 @@
 import type { MaybePromise } from '../../../../../typings';
-import type { IApiBaseResourceListRetriever } from '../../../../../utils';
 
 export type IUIAutocompleteApiRetrieverOptions<
   Value = any,
@@ -13,6 +12,9 @@ export type IUIAutocompleteApiRetrieverOptions<
   transformer: (item: ResultItemDto) => { label: string; value: Value };
 };
 
+/**
+ * @deprecated
+ */
 export const createUIAutocompleteApiRetrieverOptions = <
   Value = any,
   ResultItemDto = any,

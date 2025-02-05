@@ -1,5 +1,4 @@
 <script setup lang="ts" generic="T = any">
-import { useApiBaseResourceInfinityList } from '~/utils';
 import { useUIApiListContext } from '../../Context/UIApiListContext';
 import type { IGridItemSlotProps } from './Typings';
 

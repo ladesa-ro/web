@@ -2,7 +2,6 @@
 import groupBy from 'lodash/groupBy';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { useApiUsuarioPerfisAtivos } from '../../../../composables/integrations/ladesa-api/modules/useApiUsuarioPerfisAtivos';
 import type { FormUserOutput, FormUserValues } from './FormUtils';
 
 //

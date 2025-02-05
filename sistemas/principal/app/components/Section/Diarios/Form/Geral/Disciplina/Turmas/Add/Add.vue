@@ -1,10 +1,4 @@
 <script lang="ts" setup>
-import {
-  turmasBaseQueryKey,
-  useApiBaseResourceList,
-  useTurmasRetriever,
-} from '~/utils';
-
 const $emit = defineEmits(['close', 'next', 'back']);
 
 const searchBarText = ref('');

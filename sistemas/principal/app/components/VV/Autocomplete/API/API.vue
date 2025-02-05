@@ -2,11 +2,7 @@
 import filter from 'lodash/filter';
 import uniqBy from 'lodash/uniqBy';
 import { useField } from 'vee-validate';
-import {
-  QuerySuspenseBehaviourMode,
-  useApiBaseResourceGet,
-  useApiBaseResourceList,
-} from '~/utils';
+import { QuerySuspenseBehaviourMode } from '~/utils';
 import type { IUIAutocompleteApiRetrieverOptions } from './-Base';
 
 //

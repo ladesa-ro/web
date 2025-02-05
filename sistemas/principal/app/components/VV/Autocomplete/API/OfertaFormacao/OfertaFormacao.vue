@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import type { OfertaFormacaoFindOneResultView } from '@ladesa-ro/api-client-fetch';
-import {
-  ofertasformacoesBaseQueryKey,
-  useOfertaFormacaoGetRetriever,
-  useOfertasFormacoesRetriever,
-} from '~/utils';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 //

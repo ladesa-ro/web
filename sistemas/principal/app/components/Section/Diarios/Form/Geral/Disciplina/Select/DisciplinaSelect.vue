@@ -1,9 +1,4 @@
 <script lang="ts" setup>
-import {
-  disciplinasBaseQueryKey,
-  useApiBaseResourceList,
-  useDisciplinasRetriever,
-} from '~/utils';
 import { useContextDiariosFormGeral } from '../../Contexto';
 
 const $emit = defineEmits(['close', 'next']);

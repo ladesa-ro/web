@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useBlocosRetriever } from '~/utils';
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 
 const blocosRetriever = useBlocosRetriever();

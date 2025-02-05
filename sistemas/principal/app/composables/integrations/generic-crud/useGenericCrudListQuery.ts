@@ -36,7 +36,10 @@ export const useGenericCrudListQuery = <Types extends IGenericCrudModuleTypes>(
 
     const paginatedResponse = query.data;
 
-    const items = computed(() => unref(paginatedResponse)?.data ?? null);
+    const items = computed(
+      () => unref(paginatedResponse)?.data ?? null
+    ) as ComputedRef<PaginatedItem[] | null>;
+
     const previousItems = ref(unref(items)) as Ref<PaginatedItem[] | null>;
 
     //

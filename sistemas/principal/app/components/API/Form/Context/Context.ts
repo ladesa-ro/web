@@ -1,7 +1,6 @@
 import { useForm, type GenericObject } from 'vee-validate';
 import type * as yup from 'yup';
 import type { MaybePromise } from '../../../../typings';
-import { useApiBaseResourceGet } from '../../../../utils/integrations';
 
 export const API_FORM_CONTEXT = Symbol();
 

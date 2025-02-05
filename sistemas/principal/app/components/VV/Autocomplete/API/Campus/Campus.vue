@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import type { CampusFindOneResultView } from '@ladesa-ro/api-client-fetch';
-import {
-  campiBaseQueryKey,
-  useCampiRetriever,
-  useCampusGetRetriever,
-} from '~/utils';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 type Props = {

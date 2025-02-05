@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import type { BlocoFindOneResultView } from '@ladesa-ro/api-client-fetch';
-import {
-  blocosBaseQueryKey,
-  useBlocoGetRetriever,
-  useBlocosRetriever,
-} from '~/utils';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 type Props = {
