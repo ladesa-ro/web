@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/vue-query';
 
-export const useApiUsuarioVinculosAtivos = async (
+export const useApiUsuarioPerfisAtivos = async (
   idRef: MaybeRef<string | null | undefined>
 ) => {
   const apiClient = useApiClient();
