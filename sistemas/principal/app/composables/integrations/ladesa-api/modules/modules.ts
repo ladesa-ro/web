@@ -16,6 +16,10 @@ export const useLadesaApiCrudCursos = () => {
   return useLadesaApiCrudComposables(createCursosCrudModule);
 };
 
+export const useLadesaApiCrudDiarios = () => {
+  return useLadesaApiCrudComposables(createDiariosCrudModule);
+};
+
 export const useLadesaApiCrudDisciplinas = () => {
   return useLadesaApiCrudComposables(createDisciplinasCrudModule);
 };

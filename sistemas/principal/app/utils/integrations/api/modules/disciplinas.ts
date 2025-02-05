@@ -1,5 +1,5 @@
 import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
-import { createLadesaApiClientCrudModule } from '../generic';
+import { createLadesaApiClientCrudModule } from '../core/generic';
 
 export type IDisciplinaApiModuleTypings = {
   CompleteView: ApiClientTypings.DisciplinaFindOneResultView;
@@ -42,7 +42,10 @@ export const createDisciplinasCrudModule =
       },
 
       updateOne(id, requestBody) {
-        return apiClient.disciplinas.disciplinaUpdateOneById({ id, requestBody });
+        return apiClient.disciplinas.disciplinaUpdateOneById({
+          id,
+          requestBody,
+        });
       },
 
       deleteOne(id) {

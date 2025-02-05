@@ -8,7 +8,7 @@ import type { MaybePromise } from '../../../../../../typings';
 import type {
   IApiCoreListInput,
   IApiCoreListOutput,
-} from '../../../core/typings';
+} from '../../../../../../utils/integrations/api/core/typings';
 
 export type IGenericListItem = {
   id: string | number;
@@ -21,6 +21,9 @@ export type IApiBaseResourceListRetriever<
   data: SearchInputDto
 ) => MaybePromise<IApiCoreListOutput<ListRetrieverResultItemDto>>;
 
+/**
+ * @deprecated
+ */
 export const useApiBaseResourceInfinityList = async <ResultItemDto = unknown>(
   baseQueryKey: MaybeRef<any>[] | MaybeRef<any>,
 

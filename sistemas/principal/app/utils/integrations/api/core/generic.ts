@@ -1,6 +1,6 @@
 import type { LadesaApiClient } from '@ladesa-ro/api-client-fetch';
-import type { IGenericCrudModule } from '../generic-crud/IGenericCrudModule';
-import { type IGenericCrudModuleTypes } from '../generic-crud/IGenericCrudModuleTypes';
+import type { IGenericCrudModule } from '../../generic-crud/IGenericCrudModule';
+import { type IGenericCrudModuleTypes } from '../../generic-crud/IGenericCrudModuleTypes';
 
 export type ILadesaApiCrudModuleFactory<
   Typings extends IGenericCrudModuleTypes,

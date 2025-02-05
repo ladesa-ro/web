@@ -1,4 +1,2 @@
-export * from './core/typings';
-export * from './depreacted';
-export * from './images-util';
+export * from './core';
 export * from './modules';

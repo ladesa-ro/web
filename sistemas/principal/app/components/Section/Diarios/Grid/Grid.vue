@@ -9,12 +9,15 @@ type Props = {
   searchBarText?: string;
 };
 
-const props = defineProps<Props>();
+const { searchBarText } = defineProps<Props>();
 
-//
+const {
+  composables: { useListQuery },
+} = useLadesaApiCrudDiarios();
 
-const { searchBarText } = toRefs(props);
-const { items: diarios } = await useApiDiariosFindAll(searchBarText);
+const queries = computed(() => ({ search: searchBarText }));
+
+const { items: diarios } = await useListQuery()(queries);
 </script>
 
 <template>

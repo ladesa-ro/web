@@ -13,7 +13,13 @@ const $emit = defineEmits(['edit']);
 
 const { searchBarText } = toRefs(props);
 
-const { usuarios } = await useApiUsuariosFindAll(searchBarText);
+const {
+  composables: { useListQuery },
+} = useLadesaApiCrudUsuarios();
+
+const queries = computed(() => ({ search: searchBarText.value }));
+
+const { items: usuarios } = await useListQuery()(queries);
 </script>
 
 <template>

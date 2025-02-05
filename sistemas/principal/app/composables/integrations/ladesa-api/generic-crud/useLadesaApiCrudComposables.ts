@@ -1,4 +1,4 @@
-import type { ILadesaApiCrudModuleFactory } from '../../../../utils/integrations/api/generic';
+import type { ILadesaApiCrudModuleFactory } from '../../../../utils/integrations/api/core/generic';
 import type { IGenericCrudModuleTypes } from '../../../../utils/integrations/generic-crud/IGenericCrudModuleTypes';
 import { useGenericCrudComposables } from '../../generic-crud';
 

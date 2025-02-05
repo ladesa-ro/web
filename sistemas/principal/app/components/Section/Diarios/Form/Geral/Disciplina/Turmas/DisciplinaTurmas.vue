@@ -49,9 +49,15 @@ const goToAdd = () => {
 
 //
 
-const { items: diarios } = await useApiDiariosFindAll('', {
+const {
+  composables: { useListQuery },
+} = useLadesaApiCrudDiarios();
+
+const queries = computed(() => ({
   filterDisciplinaId: [disciplinaId.value!],
-});
+}));
+
+const { items: diarios } = await useListQuery()(queries);
 </script>
 
 <template>

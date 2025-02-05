@@ -1,3 +1,5 @@
+import type { IApiCoreListInput } from '../api';
+
 export type IGenericCrudModuleTypes = {
   CompleteView: {
     id: any;
@@ -13,7 +15,7 @@ export type IGenericCrudModuleTypes = {
   };
 
   List: {
-    Queries: any;
+    Queries: IApiCoreListInput;
     Result: any;
   };
 

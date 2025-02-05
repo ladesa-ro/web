@@ -1,2 +1,2 @@
-export * from './api';
 export * from './generic-crud';
+export * from './ladesa-api';

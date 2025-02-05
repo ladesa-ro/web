@@ -35,9 +35,9 @@ sla uaikkkkkkkkk
 
 ## Ambientes
 
-| Estágio         | Devops                                                       | URL                                                      |
-| --------------- | ------------------------------------------------------------ | -------------------------------------------------------- |
-| Desenvolvimento | [![CI: Development][action-ci-dev-src]][action-ci-dev-href]  | <https://luna.sisgha.com/>; <https://dev.ladesa.com.br/> |
+| Estágio         | Devops                                                      | URL                                                      |
+| --------------- | ----------------------------------------------------------- | -------------------------------------------------------- |
+| Desenvolvimento | [![CI: Development][action-ci-dev-src]][action-ci-dev-href] | <https://luna.sisgha.com/>; <https://dev.ladesa.com.br/> |
 
 ## Configuração Local
 
