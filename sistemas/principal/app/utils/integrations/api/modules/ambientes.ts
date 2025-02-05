@@ -1,32 +1,52 @@
-import type { AmbienteListData } from '@ladesa-ro/api-client-fetch';
-import { useApiBaseResourceGet } from '../base';
+import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
+import { createLadesaApiClientCrudModule } from './generic';
 
-export const ambientesBaseQueryKey = ['ambientes'];
+export type IAmbienteApiModuleTypings = {
+  CompleteView: ApiClientTypings.AmbienteFindOneResultView;
 
-export const useAmbientesRetriever = () => {
-  const apiClient = useApiClient();
+  Create: {
+    Data: ApiClientTypings.AmbienteInputCreateView;
+    Result: ApiClientTypings.AmbienteCreateResponse;
+  };
 
-  return (data: AmbienteListData) => {
-    return apiClient.ambientes.ambienteList(data);
+  GetOne: {
+    Result: ApiClientTypings.AmbienteFindOneResultView;
+  };
+
+  List: {
+    Result: ApiClientTypings.AmbienteListResultView;
+    Queries: ApiClientTypings.AmbienteListData;
+  };
+
+  Update: {
+    Data: ApiClientTypings.AmbienteInputUpdateView;
+    Result: ApiClientTypings.AmbienteUpdateOneByIdResponse;
   };
 };
 
-export const useAmbienteGetRetriever = () => {
-  const apiClient = useApiClient();
+export const createAmbientesCrudModule =
+  createLadesaApiClientCrudModule<IAmbienteApiModuleTypings>((apiClient) => {
+    return {
+      baseQueryKeys: ['ambientes'],
 
-  return (id: string) => {
-    return apiClient.ambientes.ambienteFindOneById({ id });
-  };
-};
+      create(requestBody) {
+        return apiClient.ambientes.ambienteCreate({ requestBody });
+      },
 
-export const useAmbienteGet = async (
-  idRef: MaybeRef<string | null | undefined>
-) => {
-  const ambienteGetRetriever = useAmbienteGetRetriever();
+      list(data) {
+        return apiClient.ambientes.ambienteList(data);
+      },
 
-  return useApiBaseResourceGet({
-    id: idRef,
-    baseQueryKey: ambientesBaseQueryKey,
-    apiResourceGetRetriever: ambienteGetRetriever,
+      getOne(id) {
+        return apiClient.ambientes.ambienteFindOneById({ id });
+      },
+
+      updateOne(id, requestBody) {
+        return apiClient.ambientes.ambienteUpdateOneById({ id, requestBody });
+      },
+
+      deleteOne(id) {
+        return apiClient.ambientes.ambienteDeleteOneById({ id });
+      },
+    };
   });
-};

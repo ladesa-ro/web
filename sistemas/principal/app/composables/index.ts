@@ -1,1 +1,1 @@
-export * from './api';
+export * from './integrations/ladesa-api';

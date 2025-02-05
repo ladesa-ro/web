@@ -1,22 +1,20 @@
-import type { DiarioListData } from '@ladesa-ro/api-client-fetch';
+import type { TurmaListData } from '@ladesa-ro/api-client-fetch';
 import type {
-  IApiBaseResourceListRetrieverInput,
+  
   QuerySuspenseBehaviour,
 } from '~/utils';
+import type { IApiCoreListInput } from '../../../core/typings';
 
-export const useApiDiariosFindAll = async (
+export const useApiTurmasFindAll = async (
   searchTerm: MaybeRef<string | undefined>,
-  listData?: DiarioListData,
   suspenseBehaviour?: QuerySuspenseBehaviour
 ) => {
   const apiClient = useApiClient();
 
   const data = computed(() => {
-    const search = unref(searchTerm);
     return {
-      ...listData,
-      search,
-    } as IApiBaseResourceListRetrieverInput;
+      search: unref(searchTerm),
+    } satisfies IApiCoreListInput;
   });
 
   const {
@@ -26,8 +24,8 @@ export const useApiDiariosFindAll = async (
     items,
     previousItems,
   } = await useApiBaseResourceList(
-    ['diarios'],
-    (data: DiarioListData) => apiClient.diarios.diarioList(data),
+    ['turmas'],
+    (data: TurmaListData) => apiClient.turmas.turmaList(data),
     data,
     suspenseBehaviour
   );

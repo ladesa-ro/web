@@ -1,5 +1,5 @@
 import type { MaybePromise } from '../../../../../typings';
-import type { IApiBaseResourceListRetriever } from '../../../../../utils/integrations/api/base/list.base';
+import type { IApiBaseResourceListRetriever } from '../../../../../utils';
 
 export type IUIAutocompleteApiRetrieverOptions<
   Value = any,

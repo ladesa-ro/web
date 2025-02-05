@@ -1,6 +1,6 @@
 import type { TurmaListData } from '@ladesa-ro/api-client-fetch';
-import type { MaybePromise } from '../../../../typings';
 import { useApiBaseResourceDelete, useApiBaseResourceGet } from '../base';
+import type { MaybePromise } from '~/typings';
 
 export const turmasBaseQueryKey = ['turmas'];
 

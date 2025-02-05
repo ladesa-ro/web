@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { ambientesBaseQueryKey, useAmbientesRetriever } from '~/utils';
-import { createApiListContextOptions } from '~~/app/components/UI/API/List/Context/UIApiListContext';
+import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
+import { useLadesaApiCrudAmbientes } from '../../../composables/integrations/ladesa-api/modules/modules';
 
-const ambientesRetriever = useAmbientesRetriever();
+const {
+  crudModule,
+  composables: { useList },
+} = useLadesaApiCrudAmbientes();
 
 const options = createApiListContextOptions({
-  baseQueryKey: ambientesBaseQueryKey,
-  apiBaseResourceListRetriever: ambientesRetriever,
+  baseQueryKey: crudModule.baseQueryKeys,
+  apiBaseResourceListRetriever: useList(),
 });
 </script>
 

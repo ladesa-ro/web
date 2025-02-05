@@ -2,7 +2,7 @@
 import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { useApiClient, useApiCursosFindOne } from '~~/app/composables';
+import { useApiClient, useApiCursosFindOne } from '~/composables';
 
 const $emit = defineEmits(['close', 'next']);
 

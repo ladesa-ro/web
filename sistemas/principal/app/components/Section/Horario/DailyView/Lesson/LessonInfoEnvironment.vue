@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ILesson } from '~~/app/components/Section/Horario/-Helpers/ILesson';
+import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
 
 const lesson = inject<ILesson>('lesson')!;
 

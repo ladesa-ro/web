@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/vue-query';
 import { castArray, filter } from 'lodash';
-import type { MaybePromise } from '../../../../typings';
+import type { MaybePromise } from '../../../../../../typings';
 import type { MaybeRefDeep } from './delete.base';
 
 export type IUseApiBaseResourceGetRetrivever<
@@ -28,10 +28,8 @@ export const useApiBaseResourceGet = <
   options: ProvidedOptions
 ) => {
   const {
-    //
     id,
     baseQueryKey,
-
     apiResourceGetRetriever,
     itemQueryKeyResolver = (id) => JSON.stringify(unref(id)),
   } = options;

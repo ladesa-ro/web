@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { cursosBaseQueryKey, useCursosRetriever } from '~/utils';
-import { createApiListContextOptions } from '~~/app/components/UI/API/List/Context/UIApiListContext';
+import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 import CursosForm from './Form/Form.vue';
 const cursosRetriever = useCursosRetriever();
 

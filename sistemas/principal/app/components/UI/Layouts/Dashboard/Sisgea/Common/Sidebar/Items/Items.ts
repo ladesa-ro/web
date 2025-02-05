@@ -29,6 +29,8 @@ export const useLayoutsDashboardSisgeaCommonSidebarItems = () => {
       exact: false,
     },
 
+    { type: 'spacer' },
+
     {
       type: 'link',
       title: 'Perfil',

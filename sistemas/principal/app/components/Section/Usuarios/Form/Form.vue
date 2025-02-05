@@ -2,8 +2,8 @@
 import groupBy from 'lodash/groupBy';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { useApiUsuarioVinculosAtivos } from '../../../../composables/api/usuarios/useApiUsuarioVinculosAtivos';
 import type { FormUserOutput, FormUserValues } from './FormUtils';
+import { useApiUsuarioVinculosAtivos } from '../../../../utils/integrations/api/depreacted/v1/usuarios/useApiUsuarioVinculosAtivos';
 
 //
 

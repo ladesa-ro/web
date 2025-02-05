@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import type { AmbienteFindOneResultView } from '@ladesa-ro/api-client-fetch';
-import {
-  ambientesBaseQueryKey,
-  useAmbienteGetRetriever,
-  useAmbientesRetriever,
-} from '~/utils';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
+import { useLadesaApiCrudAmbientes } from '../../../../../composables/integrations/ladesa-api/modules/modules';
 
 //
 
@@ -19,14 +15,16 @@ const { name } = toRefs(props);
 
 //
 
-const ambientesRetriever = useAmbientesRetriever();
-const ambienteGetRetriever = useAmbienteGetRetriever();
+const {
+  crudModule,
+  composables: { useList, useGetOne },
+} = useLadesaApiCrudAmbientes();
 
 const options = createUIAutocompleteApiRetrieverOptions({
-  baseQueryKey: ambientesBaseQueryKey,
+  baseQueryKey: crudModule.baseQueryKeys,
 
-  apiResourceListRetriever: ambientesRetriever,
-  apiResourceGetRetriever: ambienteGetRetriever,
+  apiResourceListRetriever: useList(),
+  apiResourceGetRetriever: useGetOne(),
 
   transformer: (item: AmbienteFindOneResultView) => ({
     value: item.id,

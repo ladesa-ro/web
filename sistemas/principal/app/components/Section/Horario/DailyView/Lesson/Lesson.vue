@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useApiContext } from '~~/app/components/API/Context/setup-context';
-import type { ILesson } from '~~/app/components/Section/Horario/-Helpers/ILesson';
+import { useApiContext } from '~/components/API/Context/setup-context';
+import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
 import { verifyClassStatusByLesson } from './-Utils';
 import LessonInfoEnvironment from './LessonInfoEnvironment.vue';
 

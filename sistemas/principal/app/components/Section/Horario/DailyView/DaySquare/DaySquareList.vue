@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getWeekDays } from '~~/app/components/Section/Horario/-Helpers/GetWeekDays';
+import { getWeekDays } from '~/components/Section/Horario/-Helpers/GetWeekDays';
 
 //by default, the selected day is the current day
 const selectedDay = useSelectedDay();

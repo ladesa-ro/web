@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { disciplinasBaseQueryKey, useDisciplinasRetriever } from '~/utils';
-import { createApiListContextOptions } from '~~/app/components/UI/API/List/Context/UIApiListContext';
+import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 import DisciplinasForm from './Form/Form.vue';
 
 const disciplinasRetriever = useDisciplinasRetriever();

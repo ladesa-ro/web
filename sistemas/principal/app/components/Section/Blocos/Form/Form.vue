@@ -2,7 +2,7 @@
 import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { useApiBlocosFindOne, useApiClient } from '~~/app/composables';
+import { useApiBlocosFindOne, useApiClient } from '~/composables';
 
 type Props = {
   editId?: string | null;
