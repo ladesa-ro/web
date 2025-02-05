@@ -12,11 +12,14 @@ const props = defineProps<Props>();
 
 const { diario } = toRefs(props);
 
-// Realizei a chamada da ROTA useApiDiariosProfessoresFindAllByDiarioId
-const { diariosProfessoresList } =
-  await useApiDiariosProfessoresFindAllByDiarioId({
-    diario: diario.value,
-  });
+const {
+  composables: { useListQuery: useListQueryDiariosProfessores },
+} = useLadesaApiCrudDiariosProfessores();
+
+const options = computed(() => ({ filterDiarioId: [diario.value.id] }));
+
+const { items: diariosProfessoresList } =
+  await useListQueryDiariosProfessores()(options);
 
 //
 

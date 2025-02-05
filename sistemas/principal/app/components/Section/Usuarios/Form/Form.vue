@@ -2,7 +2,7 @@
 import groupBy from 'lodash/groupBy';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { useApiUsuarioVinculosAtivos } from '../../../../utils/integrations/api/depreacted/v1/usuarios/useApiUsuarioVinculosAtivos';
+import { useApiUsuarioPerfisAtivos } from '../../../../composables/integrations/ladesa-api/modules/useApiUsuarioPerfisAtivos';
 import type { FormUserOutput, FormUserValues } from './FormUtils';
 
 //
@@ -27,7 +27,7 @@ const {
 
 const { data: currentUsuario } = await useFindOneQuery()(editIdRef);
 
-const { vinculosAtivos } = await useApiUsuarioVinculosAtivos(editIdRef);
+const { vinculosAtivos } = await useApiUsuarioPerfisAtivos(editIdRef);
 
 const currentUsuarioVinculos = computed(() => {
   return Object.entries(groupBy(vinculosAtivos.value, 'campus.id')).map(

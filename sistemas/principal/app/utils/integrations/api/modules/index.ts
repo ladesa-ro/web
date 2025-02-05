@@ -3,5 +3,7 @@ export * from './blocos';
 export * from './campi';
 export * from './cursos';
 export * from './diarios';
+export * from './diarios-professores';
 export * from './disciplinas';
+export * from './ofertas-formacoes';
 export * from './usuarios';

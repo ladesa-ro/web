@@ -10,8 +10,12 @@ const props = defineProps<Props>();
 
 const { disciplinaId } = useContextDiariosFormGeral();
 
-const { diariosProfessoresList } =
-  await useApiDiariosProfessoresFindAllByDiarioId({});
+const {
+  composables: { useListQuery: useListQueryDiariosProfessores },
+} = useLadesaApiCrudDiariosProfessores();
+
+const { items: diariosProfessoresList } =
+  await useListQueryDiariosProfessores()({});
 
 //
 

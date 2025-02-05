@@ -1,4 +1,3 @@
-import { createUsuariosCrudModule } from '../../../../utils';
 
 export const useLadesaApiCrudAmbientes = () => {
   return useLadesaApiCrudComposables(createAmbientesCrudModule);
@@ -20,10 +19,19 @@ export const useLadesaApiCrudDiarios = () => {
   return useLadesaApiCrudComposables(createDiariosCrudModule);
 };
 
+export const useLadesaApiCrudDiariosProfessores = () => {
+  return useLadesaApiCrudComposables(createDiariosProfessoresCrudModule);
+};
+
 export const useLadesaApiCrudDisciplinas = () => {
   return useLadesaApiCrudComposables(createDisciplinasCrudModule);
 };
 
 export const useLadesaApiCrudUsuarios = () => {
   return useLadesaApiCrudComposables(createUsuariosCrudModule);
+};
+
+
+export const useLadesaApiCrudOfertasFormacoes = () => {
+  return useLadesaApiCrudComposables(createOfertasFormacoesCrudModule);
 };
