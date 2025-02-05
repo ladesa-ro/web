@@ -1,5 +1,9 @@
 import { useQuery } from '@tanstack/vue-query';
 import type { Ref } from 'vue';
+import {
+  QuerySuspenseBehaviourMode,
+  type QuerySuspenseBehaviour,
+} from '../../../utils';
 import type { IGenericCrudModule } from '../../../utils/integrations/generic-crud/IGenericCrudModule';
 import type { IGenericCrudModuleTypes } from '../../../utils/integrations/generic-crud/IGenericCrudModuleTypes';
 
@@ -12,7 +16,7 @@ export const useGenericCrudFindOneQuery = <
   type InputId = MaybeRef<Id>;
   type GetOneResult = Types['GetOne']['Result'];
 
-  return (id: InputId) => {
+  return async (id: InputId, suspenseBehaviour?: QuerySuspenseBehaviour) => {
     const queryKey = computed(() => [
       ...crudModule.baseQueryKeys,
       { id: unref(id) },
@@ -54,6 +58,11 @@ export const useGenericCrudFindOneQuery = <
       { immediate: true }
     );
 
+    //
+    await QuerySuspense(
+      query,
+      suspenseBehaviour ?? { mode: QuerySuspenseBehaviourMode.ALWAYS_WAIT }
+    );
     //
 
     return {

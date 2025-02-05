@@ -4,7 +4,7 @@ import { wait } from './wait';
 const __ARBITRARY_MAX_SILENT_WAIT = 30;
 
 export enum QuerySuspenseBehaviourMode {
-  AWALWAYS_WAIT,
+  ALWAYS_WAIT,
   NEVER_WAIT,
   SILENT_WAIT,
   AUTO,
@@ -26,14 +26,14 @@ export const QuerySuspense = async (
 
   if (consideredMode === QuerySuspenseBehaviourMode.AUTO) {
     if (import.meta.server) {
-      consideredMode = QuerySuspenseBehaviourMode.AWALWAYS_WAIT;
+      consideredMode = QuerySuspenseBehaviourMode.ALWAYS_WAIT;
     } else {
       consideredMode = QuerySuspenseBehaviourMode.SILENT_WAIT;
     }
   }
 
   switch (consideredMode) {
-    case QuerySuspenseBehaviourMode.AWALWAYS_WAIT: {
+    case QuerySuspenseBehaviourMode.ALWAYS_WAIT: {
       await doSuspense();
       break;
     }

@@ -3,8 +3,11 @@ import type { Vinculo } from '../../FormUtils';
 
 const props = defineProps<{ vinculo: Vinculo }>();
 
-const { campus, query } = await useApiCampusFindOne(props.vinculo.campus.id);
-await query.suspense();
+const {
+  composables: { useFindOneQuery },
+} = useLadesaApiCrudCampi();
+
+const { data: campus } = await useFindOneQuery()(props.vinculo.campus.id);
 
 const horarios = {
   matutino: ['07:30', '08:20', '09:10', '10:00', '10:20', '11:10'],

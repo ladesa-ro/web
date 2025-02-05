@@ -2,7 +2,7 @@
 import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { useApiClient, useApiDisciplinasFindOne } from '~/composables';
+import { useApiClient } from '~/composables';
 
 type Props = {
   editId?: string | null;
@@ -21,8 +21,11 @@ const $emit = defineEmits(['close']);
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
 
-const { disciplina: currentDisciplina } =
-  await useApiDisciplinasFindOne(editIdRef);
+const {
+  composables: { useFindOneQuery },
+} = useLadesaApiCrudDisciplinas();
+
+const { data: currentDisciplina } = await useFindOneQuery()(editIdRef);
 
 type FormValues = {
   imagem: Blob | null | undefined;

@@ -20,7 +20,9 @@ const props = defineProps<Props>();
 
 const { value: cursoId } = useField<string | null>('curso.id');
 
-const { curso: cursoSelecionado, query } = await useApiCursosFindOne(cursoId, {
+const { composables: { useFindOneQuery } } = useLadesaApiCrudCursos()
+
+const { data: cursoSelecionado, query } = await useFindOneQuery()(cursoId, {
   mode: QuerySuspenseBehaviourMode.NEVER_WAIT,
 });
 

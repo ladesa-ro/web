@@ -2,7 +2,7 @@
 import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { useApiAmbienteFindOne, useApiClient } from '~/composables';
+import { useApiClient } from '~/composables';
 
 type Props = {
   editId?: string | null;
@@ -21,7 +21,11 @@ const $emit = defineEmits(['close']);
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
 
-const { ambiente: currentAmbiente } = await useApiAmbienteFindOne(editIdRef);
+const {
+  composables: { useFindOneQuery },
+} = useLadesaApiCrudAmbientes();
+
+const { data: currentAmbiente } = await useFindOneQuery()(editIdRef);
 
 type FormValues = {
   imagem: Blob | null | undefined;
@@ -119,7 +123,6 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   } else {
     await apiClient.ambientes.ambienteUpdateOneById({
       id: editId,
-
       requestBody: {
         ...data,
       },
@@ -254,11 +257,11 @@ const tipo = computed({
 
 <style scoped>
 /* .form {
-	overflow: hidden;
+  overflow: hidden;
 }
 
 .form-body {
-	overflow: auto;
+  overflow: auto;
 } */
 
 .form {

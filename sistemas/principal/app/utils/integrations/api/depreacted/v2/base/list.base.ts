@@ -157,6 +157,9 @@ export const useApiBaseResourceInfinityList = async <ResultItemDto = unknown>(
   };
 };
 
+/**
+ * @deprecated
+ */
 export const useApiBaseResourceList = async <ResultItemDto = unknown>(
   baseQueryKey: MaybeRef<any>[] | MaybeRef<any>,
 

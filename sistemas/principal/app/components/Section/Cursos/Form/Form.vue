@@ -2,7 +2,7 @@
 import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { useApiClient, useApiCursosFindOne } from '~/composables';
+import { useApiClient } from '~/composables';
 
 type Props = {
   editId?: string | null;
@@ -21,7 +21,11 @@ const $emit = defineEmits(['close']);
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
 
-const { curso: currentCurso } = await useApiCursosFindOne(editIdRef);
+const {
+  composables: { useFindOneQuery },
+} = useLadesaApiCrudCursos();
+
+const { data: currentCurso } = await useFindOneQuery()(editIdRef);
 
 type FormValues = {
   imagem: Blob | null | undefined;

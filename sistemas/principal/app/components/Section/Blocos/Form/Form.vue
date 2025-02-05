@@ -2,7 +2,7 @@
 import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { useApiBlocosFindOne, useApiClient } from '~/composables';
+import { useApiClient } from '~/composables';
 
 type Props = {
   editId?: string | null;
@@ -19,7 +19,11 @@ const $emit = defineEmits(['close']);
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
 
-const { bloco: currentBloco } = await useApiBlocosFindOne(editIdRef);
+const {
+  composables: { useFindOneQuery },
+} = useLadesaApiCrudBlocos();
+
+const { data: currentBloco } = await useFindOneQuery()(editIdRef);
 
 type FormValues = {
   imagem: Blob | null | undefined;

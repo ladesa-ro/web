@@ -2,8 +2,8 @@
 import groupBy from 'lodash/groupBy';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import type { FormUserOutput, FormUserValues } from './FormUtils';
 import { useApiUsuarioVinculosAtivos } from '../../../../utils/integrations/api/depreacted/v1/usuarios/useApiUsuarioVinculosAtivos';
+import type { FormUserOutput, FormUserValues } from './FormUtils';
 
 //
 
@@ -21,7 +21,11 @@ const editIdRef = toRef(props, 'editId');
 
 //
 
-const { usuario: currentUsuario } = await useApiUsuariosFindOne(editIdRef);
+const {
+  composables: { useFindOneQuery },
+} = useLadesaApiCrudUsuarios();
+
+const { data: currentUsuario } = await useFindOneQuery()(editIdRef);
 
 const { vinculosAtivos } = await useApiUsuarioVinculosAtivos(editIdRef);
 

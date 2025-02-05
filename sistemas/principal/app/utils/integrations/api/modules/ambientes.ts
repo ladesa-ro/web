@@ -1,5 +1,5 @@
 import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
-import { createLadesaApiClientCrudModule } from './generic';
+import { createLadesaApiClientCrudModule } from '../generic';
 
 export type IAmbienteApiModuleTypings = {
   CompleteView: ApiClientTypings.AmbienteFindOneResultView;
