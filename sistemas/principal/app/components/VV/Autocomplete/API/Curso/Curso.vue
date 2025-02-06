@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { CursoFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 type Props = {
@@ -11,16 +10,12 @@ const { name } = toRefs(props);
 
 //
 
-const cursosRetriever = useCursosRetriever();
-const cursoGetRetriever = useCursoGetRetriever();
+const { crudModule } = useLadesaApiCrudCursos();
 
 const options = createUIAutocompleteApiRetrieverOptions({
-  baseQueryKey: cursosBaseQueryKey,
+  crudModule,
 
-  apiResourceGetRetriever: cursoGetRetriever,
-  apiResourceListRetriever: cursosRetriever,
-
-  transformer: (item: CursoFindOneResultView) => ({
+  transformer: (item) => ({
     value: item.id,
     label: item.nome,
   }),

@@ -16,6 +16,7 @@ export type IOfertaFormacaoApiModuleTypings = {
   List: {
     Result: ApiClientTypings.OfertaFormacaoListResultView;
     Queries: ApiClientTypings.OfertaFormacaoListData;
+    ResultItem: ApiClientTypings.OfertaFormacaoListResultView['data'][number];
   };
 
   Update: {

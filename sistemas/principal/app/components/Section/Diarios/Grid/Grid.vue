@@ -17,7 +17,7 @@ const {
 
 const queries = computed(() => ({ search: searchBarText }));
 
-const { items: diarios } = await useListQuery()(queries);
+const { items: diarios } = await useListQuery(queries);
 </script>
 
 <template>

@@ -2,15 +2,9 @@
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 import { useLadesaApiCrudAmbientes } from '../../../composables/integrations/ladesa-api/modules/modules';
 
-const {
-  crudModule,
-  composables: { useList },
-} = useLadesaApiCrudAmbientes();
+const { crudModule } = useLadesaApiCrudAmbientes();
 
-const options = createApiListContextOptions({
-  baseQueryKey: crudModule.baseQueryKeys,
-  apiBaseResourceListRetriever: useList(),
-});
+const options = createApiListContextOptions({ crudModule });
 </script>
 
 <template>

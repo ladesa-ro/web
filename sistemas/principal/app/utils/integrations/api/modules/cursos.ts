@@ -16,6 +16,7 @@ export type ICursoApiModuleTypings = {
   List: {
     Result: ApiClientTypings.CursoListResultView;
     Queries: ApiClientTypings.CursoListData;
+    ResultItem: ApiClientTypings.CursoListResultView['data'][number];
   };
 
   Update: {

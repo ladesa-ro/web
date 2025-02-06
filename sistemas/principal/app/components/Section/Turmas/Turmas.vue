@@ -2,12 +2,9 @@
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 import TurmasForm from './Form/Form.vue';
 
-const turmasRetriever = useTurmasRetriever();
+const { crudModule } = useLadesaApiCrudTurmas();
 
-const options = createApiListContextOptions({
-  baseQueryKey: turmasBaseQueryKey,
-  apiBaseResourceListRetriever: turmasRetriever,
-});
+const options = createApiListContextOptions({ crudModule });
 </script>
 
 <template>

@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 
-const blocosRetriever = useBlocosRetriever();
+const { crudModule } = useLadesaApiCrudBlocos();
 
-const options = createApiListContextOptions({
-  baseQueryKey: ['blocos'],
-  apiBaseResourceListRetriever: blocosRetriever,
-});
+const options = createApiListContextOptions({ crudModule });
 </script>
 
 <template>

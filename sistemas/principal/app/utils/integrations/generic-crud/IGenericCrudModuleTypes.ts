@@ -17,6 +17,8 @@ export type IGenericCrudModuleTypes = {
   List: {
     Queries: IApiCoreListInput;
     Result: any;
+
+    ResultItem: any;
   };
 
   Update: {

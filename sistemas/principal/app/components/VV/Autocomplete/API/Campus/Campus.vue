@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { CampusFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 type Props = {
@@ -11,18 +10,14 @@ const { name } = toRefs(props);
 
 //
 
-const campiRetriever = useCampiRetriever();
-const campusGetRetriever = useCampusGetRetriever();
+const { crudModule } = useLadesaApiCrudCampi();
 
 const options = createUIAutocompleteApiRetrieverOptions({
-  baseQueryKey: campiBaseQueryKey,
+  crudModule,
 
-  apiResourceGetRetriever: campusGetRetriever,
-  apiResourceListRetriever: campiRetriever,
-
-  transformer: (item: CampusFindOneResultView) => ({
+  transformer: (item) => ({
     value: item.id,
-    label: item.apelido,
+    label: item.nome,
   }),
 });
 

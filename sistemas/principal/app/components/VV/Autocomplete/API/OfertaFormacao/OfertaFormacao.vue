@@ -14,16 +14,12 @@ const { name } = toRefs(props);
 
 //
 
-const OfertasFormacoesRetriever = useOfertasFormacoesRetriever();
-const OfertaFormacaoGetRetriever = useOfertaFormacaoGetRetriever();
+const { crudModule } = useLadesaApiCrudOfertasFormacoes();
 
 const options = createUIAutocompleteApiRetrieverOptions({
-  baseQueryKey: ofertasformacoesBaseQueryKey,
+  crudModule,
 
-  apiResourceGetRetriever: OfertaFormacaoGetRetriever,
-  apiResourceListRetriever: OfertasFormacoesRetriever,
-
-  transformer: (item: OfertaFormacaoFindOneResultView) => ({
+  transformer: (item) => ({
     value: item.id,
     label: item.nome,
   }),

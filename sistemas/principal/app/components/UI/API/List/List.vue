@@ -1,4 +1,4 @@
-<script lang="ts" setup generic="T = any">
+<script lang="ts" setup generic="Typings extends IGenericCrudModuleTypes">
 import {
   setupUIApiListContext,
   type ICreateUIApiListContextOptions,
@@ -8,7 +8,7 @@ import type { IGridItemSlotProps } from './Results/Grid/Typings';
 //
 
 type Props = {
-  options: ICreateUIApiListContextOptions<T>;
+  options: ICreateUIApiListContextOptions<Typings>;
 };
 
 const props = defineProps<Props>();
@@ -17,7 +17,9 @@ const props = defineProps<Props>();
 
 type Slots = {
   'options-actions'(props: any): any;
-  'grid-item'(props: IGridItemSlotProps<T>): any;
+
+  'grid-item'(props: IGridItemSlotProps<Typings['List']['ResultItem']>): any;
+
   'grid-item-skeleton'(props: any): any;
 };
 
@@ -39,10 +41,7 @@ setupUIApiListContext(props.options);
 
       <UIAPIListResults>
         <template #grid-item="options">
-          <slot
-            name="grid-item"
-            v-bind="{ ...options, item: options.item as T }"
-          />
+          <slot name="grid-item" v-bind="{ ...options, item: options.item }" />
         </template>
 
         <template #grid-item-skeleton>

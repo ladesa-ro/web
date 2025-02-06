@@ -20,8 +20,8 @@ const {
   isLoading,
   previousItems: items,
 } = await useApiBaseResourceInfinityList<T>(
-  options.baseQueryKey,
-  options.apiBaseResourceListRetriever,
+  options.crudModule.baseQueryKeys,
+  options.crudModule.list,
   formOptions
 );
 

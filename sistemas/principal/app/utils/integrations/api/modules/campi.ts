@@ -16,6 +16,7 @@ export type ICampusApiModuleTypings = {
   List: {
     Result: ApiClientTypings.CampusListResultView;
     Queries: ApiClientTypings.CampusListData;
+    ResultItem: ApiClientTypings.CampusListResultView['data'][number];
   };
 
   Update: {

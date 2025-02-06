@@ -16,6 +16,7 @@ export type IAmbienteApiModuleTypings = {
   List: {
     Result: ApiClientTypings.AmbienteListResultView;
     Queries: ApiClientTypings.AmbienteListData;
+    ResultItem: ApiClientTypings.AmbienteListResultView['data'][number];
   };
 
   Update: {

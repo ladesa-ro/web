@@ -19,7 +19,7 @@ const {
 const options = computed(() => ({ filterDiarioId: [diario.value.id] }));
 
 const { items: diariosProfessoresList } =
-  await useListQueryDiariosProfessores()(options);
+  await useListQueryDiariosProfessores(options);
 
 //
 

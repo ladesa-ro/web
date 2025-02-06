@@ -25,7 +25,7 @@ const {
   composables: { useFindOneQuery },
 } = useLadesaApiCrudDisciplinas();
 
-const { data: currentDisciplina } = await useFindOneQuery()(editIdRef);
+const { data: currentDisciplina } = await useFindOneQuery(editIdRef);
 
 type FormValues = {
   imagem: Blob | null | undefined;

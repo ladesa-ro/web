@@ -24,7 +24,7 @@ const {
   composables: { useFindOneQuery },
 } = useLadesaApiCrudCursos();
 
-const { data: cursoSelecionado, query } = await useFindOneQuery()(cursoId, {
+const { data: cursoSelecionado, query } = await useFindOneQuery(cursoId, {
   mode: QuerySuspenseBehaviourMode.NEVER_WAIT,
 });
 

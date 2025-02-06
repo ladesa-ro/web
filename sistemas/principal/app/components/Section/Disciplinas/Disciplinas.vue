@@ -2,12 +2,9 @@
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 import DisciplinasForm from './Form/Form.vue';
 
-const disciplinasRetriever = useDisciplinasRetriever();
+const { crudModule } = useLadesaApiCrudDisciplinas();
 
-const options = createApiListContextOptions({
-  baseQueryKey: disciplinasBaseQueryKey,
-  apiBaseResourceListRetriever: disciplinasRetriever,
-});
+const options = createApiListContextOptions({ crudModule });
 </script>
 
 <template>

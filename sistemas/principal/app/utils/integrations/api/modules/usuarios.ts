@@ -16,6 +16,7 @@ export type IUsuarioApiModuleTypings = {
   List: {
     Result: ApiClientTypings.UsuarioListResultView;
     Queries: ApiClientTypings.UsuarioListData;
+    ResultItem: ApiClientTypings.UsuarioListResultView['data'][number];
   };
 
   Update: {

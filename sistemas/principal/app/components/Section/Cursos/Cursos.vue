@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 import CursosForm from './Form/Form.vue';
-const cursosRetriever = useCursosRetriever();
 
-const options = createApiListContextOptions({
-  baseQueryKey: cursosBaseQueryKey,
-  apiBaseResourceListRetriever: cursosRetriever,
-});
+const { crudModule } = useLadesaApiCrudCursos();
+
+const options = createApiListContextOptions({ crudModule });
 </script>
 
 <template>

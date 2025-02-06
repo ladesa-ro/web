@@ -17,6 +17,9 @@ type IUseApiBaseResourceGetOptions<Id = any, ResultItemDto = unknown> = {
   itemQueryKeyResolver?: (id: Id) => MaybeRefDeep<any>;
 };
 
+/**
+ * @deprecated
+ */
 export const useApiBaseResourceGet = <
   Id = any,
   ResultItemDto = unknown,

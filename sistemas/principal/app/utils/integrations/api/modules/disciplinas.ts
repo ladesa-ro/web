@@ -16,6 +16,7 @@ export type IDisciplinaApiModuleTypings = {
   List: {
     Result: ApiClientTypings.DisciplinaListResultView;
     Queries: ApiClientTypings.DisciplinaListData;
+    ResultItem: ApiClientTypings.DisciplinaListResultView['data'][number];
   };
 
   Update: {

@@ -13,8 +13,10 @@ export const useLadesaApiCrudComposables = <
     return crudModule;
   };
 
+  const crudModule = useCrudModule();
+
   return {
-    crudModule: useCrudModule(),
-    composables: useGenericCrudComposables(useCrudModule),
+    crudModule,
+    composables: useGenericCrudComposables(crudModule),
   };
 };

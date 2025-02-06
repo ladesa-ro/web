@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { BlocoFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 type Props = {
@@ -12,16 +11,12 @@ const { name } = toRefs(props);
 
 //
 
-const blocosRetriever = useBlocosRetriever();
-const blocoGetRetriever = useBlocoGetRetriever();
+const { crudModule } = useLadesaApiCrudBlocos();
 
 const options = createUIAutocompleteApiRetrieverOptions({
-  baseQueryKey: blocosBaseQueryKey,
+  crudModule,
 
-  apiResourceGetRetriever: blocoGetRetriever,
-  apiResourceListRetriever: blocosRetriever,
-
-  transformer: (item: BlocoFindOneResultView) => ({
+  transformer: (item) => ({
     value: item.id,
     label: item.nome,
   }),

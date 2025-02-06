@@ -1,27 +1,24 @@
-import type { MaybePromise } from '../../../../../typings';
+import type {
+  IGenericCrudModule,
+  IGenericCrudModuleTypes,
+} from '../../../../../utils';
 
 export type IUIAutocompleteApiRetrieverOptions<
+  Typings extends IGenericCrudModuleTypes,
   Value = any,
-  ResultItemDto = any,
 > = {
-  baseQueryKey: MaybeRef<any>[] | MaybeRef<any>;
+  crudModule: IGenericCrudModule<Typings>;
 
-  apiResourceGetRetriever: (value: Value) => MaybePromise<ResultItemDto | null>;
-  apiResourceListRetriever: IApiBaseResourceListRetriever<ResultItemDto>;
-
-  transformer: (item: ResultItemDto) => { label: string; value: Value };
+  transformer: (item: Typings['GetOne']['Result']) => {
+    label: string;
+    value: Value;
+  };
 };
 
-/**
- * @deprecated
- */
 export const createUIAutocompleteApiRetrieverOptions = <
-  Value = any,
-  ResultItemDto = any,
-  T extends IUIAutocompleteApiRetrieverOptions<
-    Value,
-    ResultItemDto
-  > = IUIAutocompleteApiRetrieverOptions<Value, ResultItemDto>,
+  Typings extends IGenericCrudModuleTypes,
+  Value extends any,
+  T extends IUIAutocompleteApiRetrieverOptions<Typings, Value>,
 >(
   options: T
 ) => options;

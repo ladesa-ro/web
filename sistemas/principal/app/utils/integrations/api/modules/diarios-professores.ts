@@ -16,6 +16,7 @@ export type IDiarioProfessorApiModuleTypings = {
   List: {
     Result: ApiClientTypings.DiarioProfessorListResultView;
     Queries: ApiClientTypings.DiarioProfessorListData;
+    ResultItem: ApiClientTypings.DiarioProfessorListResultView['data'][number];
   };
 
   Update: {

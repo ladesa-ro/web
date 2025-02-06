@@ -16,6 +16,7 @@ export type IDiarioApiModuleTypings = {
   List: {
     Result: ApiClientTypings.DiarioListResultView;
     Queries: ApiClientTypings.DiarioListData;
+    ResultItem: ApiClientTypings.DiarioListResultView['data'][number];
   };
 
   Update: {

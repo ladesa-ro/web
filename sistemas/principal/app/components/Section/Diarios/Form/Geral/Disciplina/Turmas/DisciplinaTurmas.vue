@@ -14,8 +14,9 @@ const {
   composables: { useListQuery: useListQueryDiariosProfessores },
 } = useLadesaApiCrudDiariosProfessores();
 
-const { items: diariosProfessoresList } =
-  await useListQueryDiariosProfessores()({});
+const { items: diariosProfessoresList } = await useListQueryDiariosProfessores(
+  {}
+);
 
 //
 
@@ -61,7 +62,7 @@ const queries = computed(() => ({
   filterDisciplinaId: [disciplinaId.value!],
 }));
 
-const { items: diarios } = await useListQuery()(queries);
+const { items: diarios } = await useListQuery(queries);
 </script>
 
 <template>

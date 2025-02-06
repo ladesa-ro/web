@@ -6,27 +6,13 @@ import { useGenericCrudListQuery } from './useGenericCrudListQuery';
 export const useGenericCrudComposables = <
   Types extends IGenericCrudModuleTypes,
 >(
-  useCrudModule: () => IGenericCrudModule<Types>
+  crudModule: IGenericCrudModule<Types>
 ) => {
   return {
-    useCrudModule,
+    useList: crudModule.list,
+    useGetOne: crudModule.getOne,
 
-    useList: () => {
-      const crudModule = useCrudModule();
-      return crudModule.list;
-    },
-
-    useListQuery: () => {
-      return useGenericCrudListQuery(useCrudModule());
-    },
-
-    useGetOne: () => {
-      const crudModule = useCrudModule();
-      return crudModule.getOne;
-    },
-
-    useFindOneQuery: () => {
-      return useGenericCrudFindOneQuery(useCrudModule());
-    },
+    useListQuery: useGenericCrudListQuery(crudModule),
+    useFindOneQuery: useGenericCrudFindOneQuery(crudModule),
   };
 };

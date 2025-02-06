@@ -1,4 +1,4 @@
-<script lang="ts" setup generic="T = any">
+<script lang="ts" setup generic="Typings extends IGenericCrudModuleTypes">
 import filter from 'lodash/filter';
 import uniqBy from 'lodash/uniqBy';
 import { useField } from 'vee-validate';
@@ -10,7 +10,7 @@ import type { IUIAutocompleteApiRetrieverOptions } from './-Base';
 type Props = {
   name: string;
   isLoading?: boolean;
-  options: IUIAutocompleteApiRetrieverOptions<T>;
+  options: IUIAutocompleteApiRetrieverOptions<Typings>;
 };
 
 const props = defineProps<Props>();
@@ -22,11 +22,13 @@ const apiRetrieverOptions = props.options;
 
 const { value } = useField(name);
 
-const { response: activeResourceData } = useApiBaseResourceGet({
-  id: computed(() => unref(value)),
-  baseQueryKey: apiRetrieverOptions.baseQueryKey,
-  apiResourceGetRetriever: apiRetrieverOptions.apiResourceGetRetriever,
-});
+const { useListQuery, useFindOneQuery } = useGenericCrudComposables(
+  apiRetrieverOptions.crudModule
+);
+
+const { data: activeResourceData } = await useFindOneQuery(
+  computed(() => unref(value))
+);
 
 const activeItem = computed(() => {
   if (activeResourceData.value) {
@@ -54,13 +56,10 @@ const searchOptions = computed(() => {
   };
 });
 
-const { isLoading: listIsLoading, previousItems } =
-  await useApiBaseResourceList(
-    apiRetrieverOptions.baseQueryKey,
-    apiRetrieverOptions.apiResourceListRetriever,
-    searchOptions,
-    { mode: QuerySuspenseBehaviourMode.NEVER_WAIT }
-  );
+const { isLoading: listIsLoading, previousItems } = await useListQuery(
+  searchOptions,
+  { mode: QuerySuspenseBehaviourMode.NEVER_WAIT }
+);
 
 //
 

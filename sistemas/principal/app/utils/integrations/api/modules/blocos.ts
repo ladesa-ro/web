@@ -16,6 +16,7 @@ export type IBlocoApiModuleTypings = {
   List: {
     Result: ApiClientTypings.BlocoListResultView;
     Queries: ApiClientTypings.BlocoListData;
+    ResultItem: ApiClientTypings.BlocoListResultView['data'][number];
   };
 
   Update: {

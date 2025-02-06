@@ -1,4 +1,3 @@
-
 export const useLadesaApiCrudAmbientes = () => {
   return useLadesaApiCrudComposables(createAmbientesCrudModule);
 };
@@ -31,6 +30,9 @@ export const useLadesaApiCrudUsuarios = () => {
   return useLadesaApiCrudComposables(createUsuariosCrudModule);
 };
 
+export const useLadesaApiCrudTurmas = () => {
+  return useLadesaApiCrudComposables(createTurmasCrudModule);
+};
 
 export const useLadesaApiCrudOfertasFormacoes = () => {
   return useLadesaApiCrudComposables(createOfertasFormacoesCrudModule);

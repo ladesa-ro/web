@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { DisciplinaFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 type Props = {
@@ -11,16 +10,12 @@ const { name } = toRefs(props);
 
 //
 
-const disciplinasRetriever = useDisciplinasRetriever();
-const disciplinaGetRetriever = useDisciplinaGetRetriever();
+const { crudModule } = useLadesaApiCrudDisciplinas();
 
 const options = createUIAutocompleteApiRetrieverOptions({
-  baseQueryKey: disciplinasBaseQueryKey,
+  crudModule,
 
-  apiResourceGetRetriever: disciplinaGetRetriever,
-  apiResourceListRetriever: disciplinasRetriever,
-
-  transformer: (item: DisciplinaFindOneResultView) => ({
+  transformer: (item) => ({
     value: item.id,
     label: item.nome,
   }),
