@@ -24,7 +24,8 @@ const {
   composables: { useFindOneQuery },
 } = useLadesaApiCrudUsuarios();
 
-const { data: currentUsuario } = await useFindOneQuery(editIdRef);
+const { data: currentUsuario, suspense } = useFindOneQuery(editIdRef);
+await suspense();
 
 const { vinculosAtivos } = await useApiUsuarioPerfisAtivos(editIdRef);
 

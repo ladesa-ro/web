@@ -7,7 +7,9 @@ const {
   composables: { useFindOneQuery },
 } = useLadesaApiCrudCampi();
 
-const { data: campus } = await useFindOneQuery(props.vinculo.campus.id);
+const { data: campus, suspense } = useFindOneQuery(props.vinculo.campus.id);
+
+await suspense();
 
 const horarios = {
   matutino: ['07:30', '08:20', '09:10', '10:00', '10:20', '11:10'],

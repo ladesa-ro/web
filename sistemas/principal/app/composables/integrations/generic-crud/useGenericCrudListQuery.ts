@@ -10,10 +10,7 @@ export const useGenericCrudListQuery = <Types extends IGenericCrudModuleTypes>(
   type SearchOptions = Types['List']['Queries'];
   type PaginatedItem = Types['GetOne']['Result'];
 
-  return async (
-    input: MaybeRef<SearchOptions>,
-    suspenseBehaviour?: QuerySuspenseBehaviour
-  ) => {
+  return (input: MaybeRef<SearchOptions>) => {
     const queryKey = computed(() => [
       ...crudModule.baseQueryKeys,
       JSON.stringify(unref(input)),
@@ -28,11 +25,7 @@ export const useGenericCrudListQuery = <Types extends IGenericCrudModuleTypes>(
       },
     });
 
-    //
-
     const isLoading = query.isLoading;
-
-    //
 
     const paginatedResponse = query.data;
 
@@ -41,8 +34,6 @@ export const useGenericCrudListQuery = <Types extends IGenericCrudModuleTypes>(
     ) as ComputedRef<PaginatedItem[] | null>;
 
     const previousItems = ref(unref(items)) as Ref<PaginatedItem[] | null>;
-
-    //
 
     watch(
       [items],
@@ -54,23 +45,22 @@ export const useGenericCrudListQuery = <Types extends IGenericCrudModuleTypes>(
       { immediate: true }
     );
 
-    //
-
-    await QuerySuspense(
-      query,
-      suspenseBehaviour ?? { mode: QuerySuspenseBehaviourMode.ALWAYS_WAIT }
-    );
-
-    //
+    const suspense = (suspenseBehaviour?: QuerySuspenseBehaviour) => {
+      return QuerySuspense(
+        query,
+        suspenseBehaviour ?? { mode: QuerySuspenseBehaviourMode.ALWAYS_WAIT }
+      );
+    };
 
     return {
-      //
+      suspense,
+
       query,
-      //
+
       items,
       paginatedResponse,
       previousItems,
-      //
+
       isLoading,
     };
   };

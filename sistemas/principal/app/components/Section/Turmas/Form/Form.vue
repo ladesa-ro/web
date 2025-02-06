@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-import { createAPIFormContext } from '../../../API/Form/Context/Context';
+import { CRUD_FORM_QUERY_CONTEXT } from '../../../Integrations/Crud/Form/Context/Typings';
+import { useCrudFormQuery } from '../../../Integrations/Crud/Form/useCrudFormQuery';
 import { useTurmaFormSchema } from './-Helpers/schema';
 import type { TurmaFormOutput } from './-Helpers/typings';
 import { useTurmaSubmit } from './-Helpers/useTurmaSubmit';
@@ -7,10 +8,8 @@ import { useTurmaSubmit } from './-Helpers/useTurmaSubmit';
 type Props = {
   editId?: string | null;
 };
-const props = withDefaults(defineProps<Props>(), {
-  editId: null,
-});
-const { editId } = toRefs(props);
+
+const { editId = null } = defineProps<Props>();
 
 //
 
@@ -41,23 +40,23 @@ const onSubmit = async (values: TurmaFormOutput) => {
 
 //
 
-const { isBusy, isLoading, formOnSubmit } = createAPIFormContext({
-  schema,
-  //
+const crudFormQuery = useCrudFormQuery({
   editId,
+  crudModule,
   onSubmit,
-  //
-  baseQueryKey: crudModule.baseQueryKeys,
-  //
-  formExistentDataRetriever: crudModule.getOne,
+  schema,
 });
 
-//
+const { isBusy, isLoading, formOnSubmit } = crudFormQuery;
+
+provide(CRUD_FORM_QUERY_CONTEXT, crudFormQuery);
+
+await crudFormQuery.suspense();
 </script>
 
 <template>
   <form @submit.prevent="formOnSubmit">
-    <APIFormContextDialog
+    <IntegrationsCrudFormDialog
       :is-busy="isBusy"
       :is-loading="isLoading"
       :on-close="onClose"
@@ -84,6 +83,6 @@ const { isBusy, isLoading, formOnSubmit } = createAPIFormContext({
         :is-loading="isLoading"
         :disabled="isLoading || isBusy"
       />
-    </APIFormContextDialog>
+    </IntegrationsCrudFormDialog>
   </form>
 </template>

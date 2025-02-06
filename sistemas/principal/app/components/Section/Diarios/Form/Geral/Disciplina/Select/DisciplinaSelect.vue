@@ -17,13 +17,11 @@ const options = computed(() => ({
   search: unref(searchBarText),
 }));
 
-const { crudModule } = useLadesaApiCrudDisciplinas();
+const {
+  composables: { useListQuery },
+} = useLadesaApiCrudDisciplinas();
 
-const { previousItems: disciplinas } = await useApiBaseResourceList(
-  crudModule.baseQueryKeys,
-  crudModule.list,
-  options
-);
+const { previousItems: disciplinas } = await useListQuery(options);
 
 const closeForm = () => {
   $emit('close');

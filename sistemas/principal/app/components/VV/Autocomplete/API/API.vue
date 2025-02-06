@@ -2,7 +2,6 @@
 import filter from 'lodash/filter';
 import uniqBy from 'lodash/uniqBy';
 import { useField } from 'vee-validate';
-import { QuerySuspenseBehaviourMode } from '~/utils';
 import type { IUIAutocompleteApiRetrieverOptions } from './-Base';
 
 //
@@ -26,9 +25,11 @@ const { useListQuery, useFindOneQuery } = useGenericCrudComposables(
   apiRetrieverOptions.crudModule
 );
 
-const { data: activeResourceData } = await useFindOneQuery(
+const { data: activeResourceData, suspense } = useFindOneQuery(
   computed(() => unref(value))
 );
+
+await suspense();
 
 const activeItem = computed(() => {
   if (activeResourceData.value) {
@@ -56,10 +57,7 @@ const searchOptions = computed(() => {
   };
 });
 
-const { isLoading: listIsLoading, previousItems } = await useListQuery(
-  searchOptions,
-  { mode: QuerySuspenseBehaviourMode.NEVER_WAIT }
-);
+const { isLoading: listIsLoading, previousItems } = useListQuery(searchOptions);
 
 //
 
@@ -104,6 +102,7 @@ const isFilterEnabled = computed(() => {
 const isFilterDisabled = computed(() => !isFilterEnabled.value);
 
 //
+
 </script>
 
 <template>

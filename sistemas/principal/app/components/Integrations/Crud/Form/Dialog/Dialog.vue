@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useAPIFormContext } from '../Context';
+import { useCrudFormQueryContext } from '../Context/useCrudFormQueryContext';
 
 type Props = {
   isBusy?: boolean;
@@ -24,7 +24,7 @@ defineSlots<Slots>();
 
 //
 
-const { editId } = useAPIFormContext();
+const { editId } = useCrudFormQueryContext();
 </script>
 
 <template>

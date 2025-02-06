@@ -16,7 +16,7 @@ export const useGenericCrudFindOneQuery = <
   type InputId = MaybeRef<Id>;
   type GetOneResult = Types['GetOne']['Result'];
 
-  return async (id: InputId, suspenseBehaviour?: QuerySuspenseBehaviour) => {
+  return (id: InputId) => {
     const queryKey = computed(() => [
       ...crudModule.baseQueryKeys,
       { id: unref(id) },
@@ -59,14 +59,18 @@ export const useGenericCrudFindOneQuery = <
     );
 
     //
-    await QuerySuspense(
-      query,
-      suspenseBehaviour ?? { mode: QuerySuspenseBehaviourMode.ALWAYS_WAIT }
-    );
+    const suspense = (suspenseBehaviour?: QuerySuspenseBehaviour) => {
+      return QuerySuspense(
+        query,
+        suspenseBehaviour ?? { mode: QuerySuspenseBehaviourMode.ALWAYS_WAIT }
+      );
+    };
     //
 
     return {
       query,
+
+      suspense,
 
       isLoading,
 

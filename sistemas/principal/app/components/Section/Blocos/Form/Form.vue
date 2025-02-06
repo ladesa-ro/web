@@ -23,7 +23,8 @@ const {
   composables: { useFindOneQuery },
 } = useLadesaApiCrudBlocos();
 
-const { data: currentBloco } = await useFindOneQuery(editIdRef);
+const { data: currentBloco, suspense } = useFindOneQuery(editIdRef);
+await suspense();
 
 type FormValues = {
   imagem: Blob | null | undefined;

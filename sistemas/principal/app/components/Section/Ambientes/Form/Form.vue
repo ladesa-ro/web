@@ -25,7 +25,8 @@ const {
   composables: { useFindOneQuery },
 } = useLadesaApiCrudAmbientes();
 
-const { data: currentAmbiente } = await useFindOneQuery(editIdRef);
+const { data: currentAmbiente, suspense } = useFindOneQuery(editIdRef);
+await suspense();
 
 type FormValues = {
   imagem: Blob | null | undefined;
@@ -183,6 +184,7 @@ const tipo = computed({
     formValues.tipo = value;
   },
 });
+
 </script>
 
 <template>

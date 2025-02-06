@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useField } from 'vee-validate';
-import { QuerySuspenseBehaviourMode } from '~/utils';
 import { verificarModalidade } from './-Helpers/verificar-modalidade';
 
 //
@@ -24,9 +23,7 @@ const {
   composables: { useFindOneQuery },
 } = useLadesaApiCrudCursos();
 
-const { data: cursoSelecionado, query } = await useFindOneQuery(cursoId, {
-  mode: QuerySuspenseBehaviourMode.NEVER_WAIT,
-});
+const { data: cursoSelecionado, query } = useFindOneQuery(cursoId);
 
 //
 

@@ -16,13 +16,11 @@ const options = computed(() => ({
   search: unref(searchBarText),
 }));
 
-const { crudModule } = useLadesaApiCrudTurmas();
+const {
+  composables: { useListQuery },
+} = useLadesaApiCrudTurmas();
 
-const { previousItems: turmas } = await useApiBaseResourceList(
-  crudModule.baseQueryKeys,
-  crudModule.list,
-  options
-);
+const { previousItems: turmas } = await useListQuery(options);
 
 const selectedTurma = ref<string | null>(null);
 
