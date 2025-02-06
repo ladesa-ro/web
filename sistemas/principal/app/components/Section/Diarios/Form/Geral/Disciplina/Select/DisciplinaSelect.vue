@@ -17,11 +17,11 @@ const options = computed(() => ({
   search: unref(searchBarText),
 }));
 
-const disciplinasRetriever = useDisciplinasRetriever();
+const { crudModule } = useLadesaApiCrudDisciplinas();
 
 const { previousItems: disciplinas } = await useApiBaseResourceList(
-  disciplinasBaseQueryKey,
-  disciplinasRetriever,
+  crudModule.baseQueryKeys,
+  crudModule.list,
   options
 );
 

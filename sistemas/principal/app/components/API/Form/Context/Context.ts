@@ -28,6 +28,9 @@ export type APIFormContextProps<
   formExistentDataRetriever(id: Id): MaybePromise<FormValues>;
 };
 
+/**
+ * @deprecated
+ */
 export const createAPIFormContext = <
   FormValues extends yup.AnyObject,
   FormOutput extends GenericObject,

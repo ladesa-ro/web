@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/vue-query';
 import { castArray, filter } from 'lodash';
-import type { MaybePromise } from '../../../../../../typings';
-import type { MaybeRefDeep } from './delete.base';
+import type { MaybePromise, MaybeRefDeep } from '../../../../../../typings';
 
 export type IUseApiBaseResourceGetRetrivever<
   Id = any,

@@ -16,11 +16,11 @@ const options = computed(() => ({
   search: unref(searchBarText),
 }));
 
-const turmasRetriever = useTurmasRetriever();
+const { crudModule } = useLadesaApiCrudTurmas();
 
 const { previousItems: turmas } = await useApiBaseResourceList(
-  turmasBaseQueryKey,
-  turmasRetriever,
+  crudModule.baseQueryKeys,
+  crudModule.list,
   options
 );
 

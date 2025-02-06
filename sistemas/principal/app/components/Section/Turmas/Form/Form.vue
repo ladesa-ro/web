@@ -2,7 +2,6 @@
 import { createAPIFormContext } from '../../../API/Form/Context/Context';
 import { useTurmaFormSchema } from './-Helpers/schema';
 import type { TurmaFormOutput } from './-Helpers/typings';
-import { useTurmaFormExistentDataRetriever } from './-Helpers/useTurmaFormExistentDataRetriever';
 import { useTurmaSubmit } from './-Helpers/useTurmaSubmit';
 
 type Props = {
@@ -21,9 +20,13 @@ const onClose = () => $emit('close');
 //
 
 const schema = useTurmaFormSchema();
-const formExistentDataRetrieverTurma = useTurmaFormExistentDataRetriever();
 
-const { handleDelete: turmaDelete } = useTurmaDelete({
+const {
+  crudModule,
+  composables: { useDeleteMutation },
+} = useLadesaApiCrudTurmas();
+
+const { handleDelete: turmaDelete } = useDeleteMutation({
   afterSuccess: () => onClose(),
 });
 
@@ -44,9 +47,9 @@ const { isBusy, isLoading, formOnSubmit } = createAPIFormContext({
   editId,
   onSubmit,
   //
-  baseQueryKey: ['turmas'],
+  baseQueryKey: crudModule.baseQueryKeys,
   //
-  formExistentDataRetriever: formExistentDataRetrieverTurma,
+  formExistentDataRetriever: crudModule.getOne,
 });
 
 //

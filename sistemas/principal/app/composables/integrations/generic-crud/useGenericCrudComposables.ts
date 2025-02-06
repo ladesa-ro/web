@@ -1,5 +1,6 @@
 import type { IGenericCrudModule } from '../../../utils/integrations/generic-crud/IGenericCrudModule';
 import type { IGenericCrudModuleTypes } from '../../../utils/integrations/generic-crud/IGenericCrudModuleTypes';
+import { useGenericCrudDelete } from './useGenericCrudDelete';
 import { useGenericCrudFindOneQuery } from './useGenericCrudFindOneQuery';
 import { useGenericCrudListQuery } from './useGenericCrudListQuery';
 
@@ -14,5 +15,7 @@ export const useGenericCrudComposables = <
 
     useListQuery: useGenericCrudListQuery(crudModule),
     useFindOneQuery: useGenericCrudFindOneQuery(crudModule),
+
+    useDeleteMutation: useGenericCrudDelete(crudModule),
   };
 };
