@@ -1,5 +1,6 @@
 import type { ModalidadeFindOneResultView } from '@ladesa-ro/api-client-fetch';
 
+// TODO: não depender dos ids
 export const verificarModalidade = (
   modalidade: ModalidadeFindOneResultView | null,
   fallbackToPeriodo = false

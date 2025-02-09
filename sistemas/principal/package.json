@@ -14,14 +14,14 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@nuxt/devtools": "2.0.0-beta.4",
-    "@nuxt/eslint": "^1.0.0",
     "@auth/core": "^0.37.4",
     "@ladesa-ro/api-client-fetch": "1.0.0-next.31",
     "@mdi/font": "^7.4.47",
+    "@nuxt/devtools": "2.0.0-beta.4",
+    "@nuxt/eslint": "^1.0.1",
     "@nuxtjs/color-mode": "^3.5.2",
     "@sidebase/nuxt-auth": "1.0.0-alpha.0",
-    "@tailwindcss/vite": "^4.0.3",
+    "@tailwindcss/vite": "^4.0.4",
     "@tanstack/query-persist-client-core": "^5.66.0",
     "@tanstack/query-sync-storage-persister": "^5.66.0",
     "@tanstack/vue-query": "^5.66.0",
@@ -37,20 +37,20 @@
     "openid-client": "^6.1.7",
     "radix-vue": "^1.9.13",
     "reflect-metadata": "^0.2.2",
-    "tailwindcss": "^4.0.3",
+    "tailwindcss": "^4.0.4",
     "vee-validate": "^4.15.0",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0",
     "vue3-carousel": "^0.13.0",
     "vue3-carousel-nuxt": "^1.1.5",
     "vue3-dropzone": "^2.2.1",
-    "vuetify": "^3.7.9",
+    "vuetify": "^3.7.11",
     "yarnhook": "^0.6.2",
     "yup": "^1.6.1"
   },
   "devDependencies": {
     "typescript": "5.7.3",
-    "vite-plugin-vuetify": "^2.0.4",
+    "vite-plugin-vuetify": "^2.1.0",
     "vue-tsc": "2.2.0"
   },
   "overrides": {

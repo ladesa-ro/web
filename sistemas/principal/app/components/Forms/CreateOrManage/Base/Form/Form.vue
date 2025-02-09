@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useCrudFormQueryContext } from '../Context/useCrudFormQueryContext';
-
 type Props = {
+  mode: 'manage' | 'create';
+
   isBusy?: boolean;
   isLoading?: boolean;
 
@@ -9,28 +9,16 @@ type Props = {
   titleCreate: string;
 
   onClose: () => void;
-  onDelete?: (id: any) => Promise<void>;
+  onDelete: () => void;
 };
 
 defineProps<Props>();
-
-//
-
-type Slots = {
-  default(props: any): any;
-};
-
-defineSlots<Slots>();
-
-//
-
-const { editId } = useCrudFormQueryContext();
 </script>
 
 <template>
   <DialogModalBaseLayout
     :on-close="onClose"
-    :title="editId ? titleEdit : titleCreate"
+    :title="mode === 'manage' ? titleEdit : titleCreate"
   >
     <UILoading v-if="isLoading" />
     <slot v-else />
@@ -38,8 +26,18 @@ const { editId } = useCrudFormQueryContext();
     <template #button-group>
       <UIButtonModalCancelButton :disabled="isBusy" @click="onClose" />
 
-      <UIButtonModalEditButton v-if="editId" :disabled="isLoading || isBusy" />
-      <UIButtonModalSaveButton v-else :disabled="isLoading || isBusy" />
+      <template v-if="mode === 'manage'">
+        <UIButtonModalDeleteButton
+          :disabled="isBusy"
+          @click.prevent="onDelete"
+        />
+
+        <UIButtonModalEditButton :disabled="isBusy" />
+      </template>
+
+      <template v-else>
+        <UIButtonModalSaveButton :disabled="isBusy" />
+      </template>
     </template>
   </DialogModalBaseLayout>
 </template>
