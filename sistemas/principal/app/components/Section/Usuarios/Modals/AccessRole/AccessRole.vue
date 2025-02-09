@@ -23,7 +23,7 @@ defineEmits(['close']);
 
 <template>
   <div
-    class="flex flex-col justify-between items-center w-[19.75rem] h-[18.125rem] px-8 py-6 border-2 border-ldsa-grey/50 rounded-lg bg-ldsa-bg font-semibold text-ldsa-text-default"
+    class="flex flex-col justify-between items-center w-[19.75rem] h-[18.125rem] px-8 py-6 shadow-lg border-2 border-ldsa-grey/50 rounded-lg bg-ldsa-bg font-semibold text-ldsa-text-default"
   >
     <h1>Alternar cargo</h1>
 

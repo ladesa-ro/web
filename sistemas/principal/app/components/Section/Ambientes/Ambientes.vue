@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
-import { useLadesaApiCrudAmbientes } from '../../../composables/integrations/ladesa-api/modules/modules';
+import { createApiListContextOptions } from '~~/app/components/UI/API/List/Context/UIApiListContext';
+import {
+  ambientesBaseQueryKey,
+  useAmbientesRetriever,
+} from '../../../integrations/api/modules/useAmbientesRetriever';
+import AmbientesForm from '~/components/Section/Ambientes/Form/Form.vue';
 
 const { crudModule } = useLadesaApiCrudAmbientes();
 
@@ -10,7 +14,7 @@ const options = createApiListContextOptions({ crudModule });
 <template>
   <UIAPIList :options="options">
     <template #options-actions>
-      <LazySectionAmbientesModal />
+      <DialogModalEditOrCreateModal :form-component="AmbientesForm" />
     </template>
 
     <template #grid-item="{ item, isLoading }">

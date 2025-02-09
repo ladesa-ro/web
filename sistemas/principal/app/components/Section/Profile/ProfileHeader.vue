@@ -23,7 +23,7 @@ const profilePictureUrl = useApiImageRoute(
         class="w-[7.375rem] h-[7.375rem] border-2 border-ldsa-grey rounded-lg"
       >
         <template #fallbackIcon>
-          <IconsIconUser class="w-2/5" />
+          <IconsIconUser class="w-1/2 text-ldsa-grey" />
         </template>
       </UIImg>
 

@@ -18,7 +18,7 @@ const $emit = defineEmits(['edit']);
       <UIImg
         :src="src"
         class="h-[11rem]"
-        fallbackBgColor="rgb(from var(--ladesa-grey-color) R G B / 40%)"
+        fallbackBgColor="rgb(from var(--ladesa-grey-color) R G B / 30%)"
       >
         <template #fallbackIcon>
           <slot name="fallbackIcon" />
@@ -32,7 +32,8 @@ const $emit = defineEmits(['edit']);
             <slot name="title">{{ title }}</slot>
           </h1>
 
-          <div class="shrink-0">
+          <!-- this .stop.prevent prevents scenarios that the click on the father takes to another page, for example -->
+          <div class="shrink-0" @click.stop.prevent="() => {}">
             <slot name="actions" />
           </div>
         </section>

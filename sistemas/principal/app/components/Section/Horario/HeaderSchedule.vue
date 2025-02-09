@@ -14,42 +14,45 @@ const weekDays = getWeekDays(selectedDay.value);
 const firstWeekDay = weekDays[0];
 const lastWeekDay = weekDays[5];
 
+//
+
 const selectedOption = defineModel('option', {
   default: ViewMode.DAILY_SCHEDULE,
 });
+
+//
+
 const notificationsButtonEl = ref(null);
+
+const open = ref(false);
 </script>
 
 <template>
   <div
     class="flex justify-between w-full mt-14 max-[1400px]:px-8 xl:max-w-screen-xl xl:mx-auto max-xl:px-0"
   >
-    <div class="flex font-[600] items-center gap-2">
+    <div class="flex font-[600] items-center">
       <span>
         {{ month }} - Dias {{ firstWeekDay.day }} a {{ lastWeekDay.day }}
       </span>
 
-      <v-menu
-        origin="auto"
-        location="bottom center"
-        transition="slide-y-transition"
-        :close-on-content-click="false"
-      >
-        <template #activator="{ props, isActive }">
+      <UIPopover v-model="open">
+        <template #activator>
           <IconsArrowIconArrow
-            v-bind="props"
             ref="notificationsButtonEl"
-            :class="['arrow -rotate-90 cursor-pointer', { down: isActive }]"
+            class="arrow cursor-pointer m-3"
+            :class="open ? 'rotate-90' : '-rotate-90'"
           />
         </template>
 
         <SpeechBubblesCalendar
           :notifications-button-el="notificationsButtonEl"
         />
-      </v-menu>
+      </UIPopover>
     </div>
 
     <section class="flex cursor-pointer max-[1300px]:hidden">
+      <!-- TODO: transformar em componente -->
       <!--left button-->
       <div
         class="flex gap-2 items-center border-2 border-ldsa-grey/75 p-3 font-[600] rounded-l-lg text-ldsa-grey"
@@ -83,12 +86,11 @@ const notificationsButtonEl = ref(null);
 @reference "~/assets/styles/app.css";
 
 .active {
-  @apply border-ldsa-green-1 text-ldsa-green-1 bg-ldsa-green-1/10 dark:text-ldsa-green-2;
+  @apply border-ldsa-green-1 bg-ldsa-green-1/10 text-ldsa-text-green;
 }
 
 .arrow {
-  @apply text-ldsa-green-1 dark:text-ldsa-green-2;
-  @apply transition-transform duration-[400ms];
+  @apply text-ldsa-text-green transition-transform duration-300;
 }
 
 .arrow.down {
