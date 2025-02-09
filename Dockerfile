@@ -17,5 +17,5 @@ RUN pnpm run -w build:all
 
 FROM base AS web-runtime
 WORKDIR /opt/ladesa/web
-COPY --from=builder /sources/sistemas/principal/.output /opt/ladesa/web/.output
+COPY --from=builder /sources/sisgha-sisgea/.output /opt/ladesa/web/.output
 CMD node .output/server/index.mjs
