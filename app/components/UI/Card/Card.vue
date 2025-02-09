@@ -18,7 +18,7 @@ const $emit = defineEmits(['edit']);
       <UIImg
         :src="src"
         class="h-[11rem]"
-        fallbackBgColor="rgb(from var(--ladesa-grey-color) R G B / 40%)"
+        fallbackBgColor="rgb(from var(--ladesa-grey-color) R G B / 30%)"
       >
         <template #fallbackIcon>
           <slot name="fallbackIcon" />

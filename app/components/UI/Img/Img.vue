@@ -8,7 +8,7 @@ type Props = {
 const {
   src,
   alt,
-  fallbackBgColor = 'rgb(from var(--ladesa-grey-color) R G B / 40%)',
+  fallbackBgColor = 'rgb(from var(--ladesa-grey-color) R G B / 30%)',
 } = defineProps<Props>();
 
 //
