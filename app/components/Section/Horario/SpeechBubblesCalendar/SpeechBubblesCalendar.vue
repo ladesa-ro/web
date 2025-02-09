@@ -1,10 +1,15 @@
 <script setup lang="ts">
 import { useElementBounding } from '@vueuse/core';
 
-const props = defineProps<{ notificationsButtonEl: HTMLElement | null }>();
+type Props = { notificationsButtonEl: HTMLElement | null };
+
+const { notificationsButtonEl } = defineProps<Props>();
+
+//
+
 const bubbleEl = ref(null);
 
-const boundingActivator = useElementBounding(props.notificationsButtonEl);
+const boundingActivator = useElementBounding(notificationsButtonEl);
 
 const boundingBubble = useElementBounding(bubbleEl);
 
@@ -16,14 +21,21 @@ const computedPinLeft = computed(() => {
   );
 });
 
+//
+
 const selectedDay = useSelectedDay();
 </script>
 
 <template>
-  <div ref="bubbleEl" class="chat-bubble bg-ldsa-bg shadow-lg mt-2">
+  <!-- chat bubble -->
+  <div
+    ref="bubbleEl"
+    class="relative max-w-[90vw] shadow-xl border-2 border-ldsa-green-1 rounded-md bg-ldsa-bg"
+  >
+    <!-- pin -->
     <div
-      class="pin"
-      :style="{ left: `${computedPinLeft}px`}"
+      class="content-none absolute -top-5 w-5 border-solid border-[0.635rem] border-transparent border-b-[0.635rem] border-b-ldsa-green-1 -translate-x-3"
+      :style="{ left: `${computedPinLeft}px` }"
     />
 
     <SectionCalendarioMonth
@@ -33,30 +45,6 @@ const selectedDay = useSelectedDay();
       :select-week="false"
       :steps="[]"
       :events="[]"
-      class="mx-0"
     />
   </div>
 </template>
-
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-.chat-bubble {
-  font-weight: bold;
-  @apply bg-ldsa-bg;
-  @apply border-[0.125rem] border-ldsa-green-1;
-  max-width: 90vw;
-  border-radius: 0.625rem;
-  position: relative;
-}
-
-.pin {
-  content: '';
-  position: absolute;
-  border: 0.635rem solid transparent;
-  @apply border-b-[0.635rem] border-b-ldsa-green-1;
-  top: -1.25rem;
-  transform: translateX(-0.75rem);
-  width: 1.25rem;
-}
-</style>
