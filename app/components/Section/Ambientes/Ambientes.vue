@@ -4,6 +4,7 @@ import {
   ambientesBaseQueryKey,
   useAmbientesRetriever,
 } from '../../../integrations/api/modules/useAmbientesRetriever';
+import AmbientesForm from '~/components/Section/Ambientes/Form/Form.vue';
 
 const ambientesRetriever = useAmbientesRetriever();
 
@@ -16,7 +17,7 @@ const options = createApiListContextOptions({
 <template>
   <UIAPIList :options="options">
     <template #options-actions>
-      <LazySectionAmbientesModal />
+      <DialogModalEditOrCreateModal :form-component="AmbientesForm" />
     </template>
 
     <template #grid-item="{ item, isLoading }">
