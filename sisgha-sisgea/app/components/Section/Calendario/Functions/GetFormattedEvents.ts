@@ -47,25 +47,29 @@ export const getFormattedEvents = {
         try {
           // Set steps
           for (let i = 0; i < steps!.length; i++) {
+            const step = steps![i]!;
+
             await pushItemInList(
-              steps![i].id,
-              `${steps![i].number}° Etapa`,
-              steps![i].startDate,
-              steps![i].endDate,
-              steps![i].color,
-              steps![i].notifyStatus
+              step.id,
+              `${step.number}° Etapa`,
+              step.startDate,
+              step.endDate,
+              step.color,
+              step.notifyStatus
             );
           }
 
           // Set events
           for (let i = 0; i < events!.length; i++) {
+            const event = events![i]!;
+
             await pushItemInList(
-              events![i].id,
-              events![i].name,
-              events![i].startDate,
-              events![i].endDate,
-              events![i].color,
-              events![i].notifyStatus
+              event.id,
+              event.name,
+              event.startDate,
+              event.endDate,
+              event.color,
+              event.notifyStatus
             );
           }
         } catch (error) {}

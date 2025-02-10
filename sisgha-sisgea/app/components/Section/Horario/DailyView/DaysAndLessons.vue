@@ -11,7 +11,7 @@ const classTimings = [
 ];
 
 const getTimeForIndex = (index: number) => {
-  return classTimings[index];
+  return classTimings[index]!;
 };
 
 const generatedLessons = Array.from({ length: classTimings.length }).map(

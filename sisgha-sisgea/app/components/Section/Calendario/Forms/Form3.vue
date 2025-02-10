@@ -1,4 +1,10 @@
 <script lang="ts" setup>
+type Props = {
+  editId?: string | null;
+};
+
+const { editId = null } = defineProps<Props>();
+
 type Calendario = {
   cor: string;
   inicio: string; // trocar para Date dps!
@@ -24,6 +30,7 @@ const nextForm = () => {
 };
 
 const $emit = defineEmits(['close', 'next', 'back']);
+
 </script>
 
 <template>

@@ -6,6 +6,7 @@ import {
 } from '../../../utils';
 import type { IGenericCrudModule } from '../../../utils/integrations/generic-crud/IGenericCrudModule';
 import type { IGenericCrudModuleTypes } from '../../../utils/integrations/generic-crud/IGenericCrudModuleTypes';
+import { getQueryKeyForCrudModuleFindOne } from './utils/get-query-key';
 
 export const useGenericCrudFindOneQuery = <
   Types extends IGenericCrudModuleTypes,
@@ -13,14 +14,11 @@ export const useGenericCrudFindOneQuery = <
   crudModule: IGenericCrudModule<Types>
 ) => {
   type Id = Types['CompleteView']['id'];
-  type InputId = MaybeRef<Id>;
+  type InputId = MaybeRef<Id | null>;
   type GetOneResult = Types['GetOne']['Result'];
 
   return (id: InputId) => {
-    const queryKey = computed(() => [
-      ...crudModule.baseQueryKeys,
-      { id: unref(id) },
-    ]);
+    const queryKey = getQueryKeyForCrudModuleFindOne<Types>(crudModule, id);
 
     const query = useQuery({
       queryKey: queryKey,
@@ -72,7 +70,10 @@ export const useGenericCrudFindOneQuery = <
 
       suspense,
 
-      isLoading,
+      state: {
+        isLoading,
+        queryKey,
+      },
 
       data,
       previousData,

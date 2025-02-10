@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import { createApiListContextOptions } from '~~/app/components/UI/API/List/Context/UIApiListContext';
-import {
-  ambientesBaseQueryKey,
-  useAmbientesRetriever,
-} from '../../../integrations/api/modules/useAmbientesRetriever';
 import AmbientesForm from '~/components/Section/Ambientes/Form/Form.vue';
 
 const { crudModule } = useLadesaApiCrudAmbientes();

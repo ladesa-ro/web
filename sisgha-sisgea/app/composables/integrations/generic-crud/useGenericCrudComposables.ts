@@ -6,12 +6,13 @@ import { useGenericCrudListQuery } from './useGenericCrudListQuery';
 
 export const useGenericCrudComposables = <
   Types extends IGenericCrudModuleTypes,
+  CrudModule extends IGenericCrudModule<Types>,
 >(
-  crudModule: IGenericCrudModule<Types>
+  crudModule: CrudModule
 ) => {
   return {
     useList: crudModule.list,
-    useGetOne: crudModule.getOne,
+    useFindOne: crudModule.getOne,
 
     useListQuery: useGenericCrudListQuery(crudModule),
     useFindOneQuery: useGenericCrudFindOneQuery(crudModule),

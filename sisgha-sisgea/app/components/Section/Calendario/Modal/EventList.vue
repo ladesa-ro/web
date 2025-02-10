@@ -30,8 +30,8 @@ const filterType = ref<BetweenDates[]>([]);
 // Local filter value
 const localValue = {
   search: ref<string>(''),
-  _orderBy: ref<string>(orderBy[0]),
-  _orderType: ref<string>(orderType[0]),
+  _orderBy: ref<string>(orderBy[0]!),
+  _orderType: ref<string>(orderType[0]!),
 };
 
 onMounted(async () => {

@@ -39,41 +39,49 @@ export const getMonth = {
     try {
       // - Set steps -
       for (let i = 0; i < steps.length; i++) {
+        const step = steps[i]!;
+
         // Check if date is between the start or end of the month
         for (let j = 0; j < daysInMonth.length; j++) {
           // Set start and end day color
+          const dayInMonth = daysInMonth[j]!;
+
           if (
             // Check if the date is between
-            dayjs(daysInMonth[j].date).isBetween(
-              steps[i].startDate,
-              steps[i].endDate,
+            dayjs(dayInMonth.date).isBetween(
+              step.startDate,
+              step.endDate,
               'date',
               '[]'
             ) === true
           ) {
             // Set color
-            daysInMonth[j].color = steps![i].color;
+            dayInMonth.color = step.color;
           } else {
           }
         }
       }
 
       // Set events
-      for (let i = 0; i < events!.length; i++) {
+      for (let i = 0; i < events.length; i++) {
+        const event = events[i]!;
+
         // Check if date is between the start or end of the month
         for (let j = 0; j < daysInMonth.length; j++) {
+          const dayInMonth = daysInMonth[j]!;
+
           // Set start and end day color
           if (
             // Check if the date is between
-            dayjs(daysInMonth[j].date).isBetween(
-              events![i].startDate,
-              events![i].endDate,
+            dayjs(dayInMonth.date).isBetween(
+              event.startDate,
+              event.endDate,
               'date',
               '[]'
             )
           ) {
             // Set color
-            daysInMonth[j].color = events![i].color;
+            dayInMonth.color = event.color;
           } else {
           }
         }
@@ -111,19 +119,22 @@ export const getMonth = {
     try {
       let monthColor: string = '';
 
-      for (let i = 0; i < steps!.length; i++) {
+      for (let i = 0; i < steps.length; i++) {
+        const step = steps[i]!;
+
         if (
           // Check if month is between the start or end of the step
           dayjs(
-            `${year}-${month + 1}-${dayjs(steps[i].startDate).date()}`
-          ).isBetween(steps[i].startDate, steps[i].endDate, 'date', '[]') ===
-            true ||
-          dayjs(
-            `${year}-${month + 1}-${dayjs(steps[i].endDate).date()}`
-          ).isBetween(steps[i].startDate, steps[i].endDate, 'date', '[]') ===
-            true
+            `${year}-${month + 1}-${dayjs(step.startDate).date()}`
+          ).isBetween(step.startDate, step.endDate, 'date', '[]') === true ||
+          dayjs(`${year}-${month + 1}-${dayjs(step.endDate).date()}`).isBetween(
+            step.startDate,
+            step.endDate,
+            'date',
+            '[]'
+          ) === true
         ) {
-          monthColor = steps[i].color;
+          monthColor = step.color;
           break;
         } else {
           monthColor = '#9ab69e';

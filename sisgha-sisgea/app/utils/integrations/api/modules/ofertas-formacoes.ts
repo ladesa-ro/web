@@ -1,5 +1,6 @@
 import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
-import { createLadesaApiClientCrudModule } from '../core/generic';
+import type { IGenericCrudModule } from '../../generic-crud';
+import { withApiClient } from '../core/generic';
 
 export type IOfertaFormacaoApiModuleTypings = {
   CompleteView: ApiClientTypings.OfertaFormacaoFindOneResultView;
@@ -25,40 +26,37 @@ export type IOfertaFormacaoApiModuleTypings = {
   };
 };
 
-export const createOfertasFormacoesCrudModule =
-  createLadesaApiClientCrudModule<IOfertaFormacaoApiModuleTypings>(
-    (apiClient) => {
-      return {
-        baseQueryKeys: ['ofertas-formacoes'],
+export const createOfertasFormacoesCrudModule = withApiClient((apiClient) => {
+  return {
+    baseQueryKeys: ['ofertas-formacoes'],
 
-        create(requestBody) {
-          return apiClient.ofertasFormacoes.ofertaFormacaoCreate({
-            requestBody,
-          });
-        },
+    create(requestBody) {
+      return apiClient.ofertasFormacoes.ofertaFormacaoCreate({
+        requestBody,
+      });
+    },
 
-        list(data) {
-          return apiClient.ofertasFormacoes.ofertaFormacaoList(data);
-        },
+    list(data) {
+      return apiClient.ofertasFormacoes.ofertaFormacaoList(data);
+    },
 
-        getOne(id) {
-          return apiClient.ofertasFormacoes.ofertaFormacaoFindOneById({
-            id,
-          });
-        },
+    getOne(id) {
+      return apiClient.ofertasFormacoes.ofertaFormacaoFindOneById({
+        id,
+      });
+    },
 
-        updateOne(id, requestBody) {
-          return apiClient.ofertasFormacoes.ofertaFormacaoUpdateOneById({
-            id,
-            requestBody,
-          });
-        },
+    updateOne(id, requestBody) {
+      return apiClient.ofertasFormacoes.ofertaFormacaoUpdateOneById({
+        id,
+        requestBody,
+      });
+    },
 
-        deleteOne(id) {
-          return apiClient.ofertasFormacoes.ofertaFormacaoDeleteOneById({
-            id,
-          });
-        },
-      };
-    }
-  );
+    deleteOne(id) {
+      return apiClient.ofertasFormacoes.ofertaFormacaoDeleteOneById({
+        id,
+      });
+    },
+  } satisfies IGenericCrudModule<IOfertaFormacaoApiModuleTypings>;
+});

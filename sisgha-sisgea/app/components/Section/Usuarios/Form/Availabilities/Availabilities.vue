@@ -44,8 +44,10 @@ watch(vinculosComCargoProfessor, (current, previous) => {
       (i) => i.campus.id === activePanel.value
     );
 
-    if (!activeExistsInCurrent) {
-      activePanel.value = current[current.length - 1].campus.id;
+    const lastItem = current[current.length - 1];
+    
+    if (!activeExistsInCurrent && lastItem) {
+      activePanel.value = lastItem.campus.id;
     }
   }
 });

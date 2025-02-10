@@ -1,5 +1,5 @@
 import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
-import { createLadesaApiClientCrudModule } from '../core/generic';
+import { withApiClient } from '../core/generic';
 
 export type IAmbienteApiModuleTypings = {
   CompleteView: ApiClientTypings.AmbienteFindOneResultView;
@@ -25,29 +25,28 @@ export type IAmbienteApiModuleTypings = {
   };
 };
 
-export const createAmbientesCrudModule =
-  createLadesaApiClientCrudModule<IAmbienteApiModuleTypings>((apiClient) => {
-    return {
-      baseQueryKeys: ['ambientes'],
+export const createAmbientesCrudModule = withApiClient((apiClient) => {
+  return {
+    baseQueryKeys: ['ambientes'],
 
-      create(requestBody) {
-        return apiClient.ambientes.ambienteCreate({ requestBody });
-      },
+    create(requestBody) {
+      return apiClient.ambientes.ambienteCreate({ requestBody });
+    },
 
-      list(data) {
-        return apiClient.ambientes.ambienteList(data);
-      },
+    list(data) {
+      return apiClient.ambientes.ambienteList(data);
+    },
 
-      getOne(id) {
-        return apiClient.ambientes.ambienteFindOneById({ id });
-      },
+    getOne(id) {
+      return apiClient.ambientes.ambienteFindOneById({ id });
+    },
 
-      updateOne(id, requestBody) {
-        return apiClient.ambientes.ambienteUpdateOneById({ id, requestBody });
-      },
+    updateOne(id, requestBody) {
+      return apiClient.ambientes.ambienteUpdateOneById({ id, requestBody });
+    },
 
-      deleteOne(id) {
-        return apiClient.ambientes.ambienteDeleteOneById({ id });
-      },
-    };
-  });
+    deleteOne(id) {
+      return apiClient.ambientes.ambienteDeleteOneById({ id });
+    },
+  } satisfies IGenericCrudModule<IAmbienteApiModuleTypings>;
+});

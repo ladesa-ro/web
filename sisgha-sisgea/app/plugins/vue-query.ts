@@ -30,7 +30,7 @@ export default defineNuxtPlugin((nuxt) => {
     queryClient,
 
     clientPersister: (queryClient: any) => {
-      let storage = undefined;
+      let storage: Storage | null = null;
 
       if (typeof window !== 'undefined') {
         storage = localStorage;

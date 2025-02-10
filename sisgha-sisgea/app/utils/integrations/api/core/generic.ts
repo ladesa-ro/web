@@ -4,12 +4,21 @@ import { type IGenericCrudModuleTypes } from '../../generic-crud/IGenericCrudMod
 
 export type ILadesaApiCrudModuleFactory<
   Typings extends IGenericCrudModuleTypes,
-> = (apiClient: LadesaApiClient) => IGenericCrudModule<Typings>;
+  CrudModule extends IGenericCrudModule<Typings>,
+> = (apiClient: LadesaApiClient) => CrudModule;
 
+/**
+ * @deprecated
+ */
 export const createLadesaApiClientCrudModule = <
   Typings extends IGenericCrudModuleTypes,
+  CrudModule extends IGenericCrudModule<Typings> = IGenericCrudModule<Typings>,
 >(
-  factory: ILadesaApiCrudModuleFactory<Typings>
+  factory: ILadesaApiCrudModuleFactory<Typings, CrudModule>
+) => factory;
+
+export const withApiClient = <T>(
+  factory: (apiClient: LadesaApiClient) => T
 ) => {
   return factory;
 };

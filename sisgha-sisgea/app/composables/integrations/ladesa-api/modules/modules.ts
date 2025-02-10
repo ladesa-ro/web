@@ -31,7 +31,9 @@ export const useLadesaApiCrudUsuarios = () => {
 };
 
 export const useLadesaApiCrudTurmas = () => {
-  return useLadesaApiCrudComposables(createTurmasCrudModule);
+  return useLadesaApiCrudComposables<ITurmaApiModuleTypings, ITurmaApiModule>(
+    createTurmasCrudModule
+  );
 };
 
 export const useLadesaApiCrudOfertasFormacoes = () => {

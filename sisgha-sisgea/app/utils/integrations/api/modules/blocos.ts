@@ -1,5 +1,6 @@
 import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
-import { createLadesaApiClientCrudModule } from '../core/generic';
+import type { IGenericCrudModule } from '../../generic-crud';
+import { withApiClient } from '../core/generic';
 
 export type IBlocoApiModuleTypings = {
   CompleteView: ApiClientTypings.BlocoFindOneResultView;
@@ -25,29 +26,28 @@ export type IBlocoApiModuleTypings = {
   };
 };
 
-export const createBlocosCrudModule =
-  createLadesaApiClientCrudModule<IBlocoApiModuleTypings>((apiClient) => {
-    return {
-      baseQueryKeys: ['blocos'],
+export const createBlocosCrudModule = withApiClient((apiClient) => {
+  return {
+    baseQueryKeys: ['blocos'],
 
-      create(requestBody) {
-        return apiClient.blocos.blocoCreate({ requestBody });
-      },
+    create(requestBody) {
+      return apiClient.blocos.blocoCreate({ requestBody });
+    },
 
-      list(data) {
-        return apiClient.blocos.blocoList(data);
-      },
+    list(data) {
+      return apiClient.blocos.blocoList(data);
+    },
 
-      getOne(id) {
-        return apiClient.blocos.blocoFindOneById({ id });
-      },
+    getOne(id) {
+      return apiClient.blocos.blocoFindOneById({ id });
+    },
 
-      updateOne(id, requestBody) {
-        return apiClient.blocos.blocoUpdateOneById({ id, requestBody });
-      },
+    updateOne(id, requestBody) {
+      return apiClient.blocos.blocoUpdateOneById({ id, requestBody });
+    },
 
-      deleteOne(id) {
-        return apiClient.blocos.blocoDeleteOneById({ id });
-      },
-    };
-  });
+    deleteOne(id) {
+      return apiClient.blocos.blocoDeleteOneById({ id });
+    },
+  } satisfies IGenericCrudModule<IBlocoApiModuleTypings>;
+});

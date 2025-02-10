@@ -11,7 +11,9 @@
     "postinstall": "nuxt prepare",
     "start": "node .output/server/index.mjs",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "types:check": "vue-tsc --noEmit",
+    "types:watch": "vue-tsc --noEmit --watch"
   },
   "dependencies": {
     "@auth/core": "^0.37.4",
@@ -49,6 +51,7 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
+    "type-fest": "^4.34.1",
     "typescript": "5.7.3",
     "vite-plugin-vuetify": "^2.1.0",
     "vue-tsc": "2.2.0"

@@ -1,5 +1,6 @@
 import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
-import { createLadesaApiClientCrudModule } from '../core/generic';
+import type { IGenericCrudModule } from '../../generic-crud';
+import { withApiClient } from '../core/generic';
 
 export type ICampusApiModuleTypings = {
   CompleteView: ApiClientTypings.CampusFindOneResultView;
@@ -25,29 +26,28 @@ export type ICampusApiModuleTypings = {
   };
 };
 
-export const createCampiCrudModule =
-  createLadesaApiClientCrudModule<ICampusApiModuleTypings>((apiClient) => {
-    return {
-      baseQueryKeys: ['campi'],
+export const createCampiCrudModule = withApiClient((apiClient) => {
+  return {
+    baseQueryKeys: ['campi'],
 
-      create(requestBody) {
-        return apiClient.campi.campusCreate({ requestBody });
-      },
+    create(requestBody) {
+      return apiClient.campi.campusCreate({ requestBody });
+    },
 
-      list(data) {
-        return apiClient.campi.campusList(data);
-      },
+    list(data) {
+      return apiClient.campi.campusList(data);
+    },
 
-      getOne(id) {
-        return apiClient.campi.campusFindOneById({ id });
-      },
+    getOne(id) {
+      return apiClient.campi.campusFindOneById({ id });
+    },
 
-      updateOne(id, requestBody) {
-        return apiClient.campi.campusUpdateOneById({ id, requestBody });
-      },
+    updateOne(id, requestBody) {
+      return apiClient.campi.campusUpdateOneById({ id, requestBody });
+    },
 
-      deleteOne(id) {
-        return apiClient.campi.campusDeleteOneById({ id });
-      },
-    };
-  });
+    deleteOne(id) {
+      return apiClient.campi.campusDeleteOneById({ id });
+    },
+  } satisfies IGenericCrudModule<ICampusApiModuleTypings>;
+});

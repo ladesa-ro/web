@@ -1,8 +1,8 @@
+import type { ICreateOrManageConfig } from '../Base/Control/config';
 import {
   initCreateOrManageControl,
-  type ICreateOrManageConfig,
   type ICreateOrManageControl,
-} from '../Base/Control/useCreateOrManageControl';
+} from '../Base/Control/control';
 
 const KEY = Symbol.for('CreateOrManageControlContext');
 
@@ -11,20 +11,20 @@ export const setupCreateOrManageControlContext = <
 >(
   config: Config
 ) => {
-  const form = initCreateOrManageControl(config);
+  const form = initCreateOrManageControl<Config>(config);
   provide(KEY, form);
   return form;
 };
 
 export const useCreateOrManageControlContext = <
   Config extends ICreateOrManageConfig,
-  Context extends ICreateOrManageControl<Config>,
+  Control extends ICreateOrManageControl<Config>,
 >() => {
-  const createOrManageContext = inject<Context>(KEY);
+  const control = inject<Control>(KEY);
 
-  if (!createOrManageContext) {
+  if (!control) {
     throw new Error();
   }
 
-  return createOrManageContext;
+  return control;
 };

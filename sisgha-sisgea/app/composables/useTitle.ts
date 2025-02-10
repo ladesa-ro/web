@@ -10,7 +10,7 @@ export const buildTitle = (
   title: MaybeArray<string | null>,
   context: HeadTitleContext | null = null
 ): string => {
-  const elements = [];
+  const elements: string[] = [];
 
   for (const item of castArray(title).flat(4)) {
     if (item) {

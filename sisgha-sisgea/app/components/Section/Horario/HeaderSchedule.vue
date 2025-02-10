@@ -11,8 +11,8 @@ const month = capitalizeFirst(selectedDay.value.format('MMMM'));
 
 const weekDays = getWeekDays(selectedDay.value);
 
-const firstWeekDay = weekDays[0];
-const lastWeekDay = weekDays[5];
+const firstWeekDay = weekDays[0]!;
+const lastWeekDay = weekDays[5]!;
 
 //
 

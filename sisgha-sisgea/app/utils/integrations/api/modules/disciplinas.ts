@@ -1,5 +1,6 @@
 import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
-import { createLadesaApiClientCrudModule } from '../core/generic';
+import type { IGenericCrudModule } from '../../generic-crud';
+import { withApiClient } from '../core/generic';
 
 export type IDisciplinaApiModuleTypings = {
   CompleteView: ApiClientTypings.DisciplinaFindOneResultView;
@@ -25,32 +26,31 @@ export type IDisciplinaApiModuleTypings = {
   };
 };
 
-export const createDisciplinasCrudModule =
-  createLadesaApiClientCrudModule<IDisciplinaApiModuleTypings>((apiClient) => {
-    return {
-      baseQueryKeys: ['disciplinas'],
+export const createDisciplinasCrudModule = withApiClient((apiClient) => {
+  return {
+    baseQueryKeys: ['disciplinas'],
 
-      create(requestBody) {
-        return apiClient.disciplinas.disciplinaCreate({ requestBody });
-      },
+    create(requestBody) {
+      return apiClient.disciplinas.disciplinaCreate({ requestBody });
+    },
 
-      list(data) {
-        return apiClient.disciplinas.disciplinaList(data);
-      },
+    list(data) {
+      return apiClient.disciplinas.disciplinaList(data);
+    },
 
-      getOne(id) {
-        return apiClient.disciplinas.disciplinaFindOneById({ id });
-      },
+    getOne(id) {
+      return apiClient.disciplinas.disciplinaFindOneById({ id });
+    },
 
-      updateOne(id, requestBody) {
-        return apiClient.disciplinas.disciplinaUpdateOneById({
-          id,
-          requestBody,
-        });
-      },
+    updateOne(id, requestBody) {
+      return apiClient.disciplinas.disciplinaUpdateOneById({
+        id,
+        requestBody,
+      });
+    },
 
-      deleteOne(id) {
-        return apiClient.disciplinas.disciplinaDeleteOneById({ id });
-      },
-    };
-  });
+    deleteOne(id) {
+      return apiClient.disciplinas.disciplinaDeleteOneById({ id });
+    },
+  } satisfies IGenericCrudModule<IDisciplinaApiModuleTypings>;
+});

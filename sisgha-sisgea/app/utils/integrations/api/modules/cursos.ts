@@ -1,5 +1,6 @@
 import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
-import { createLadesaApiClientCrudModule } from '../core/generic';
+import type { IGenericCrudModule } from '../../generic-crud';
+import { withApiClient } from '../core/generic';
 
 export type ICursoApiModuleTypings = {
   CompleteView: ApiClientTypings.CursoFindOneResultView;
@@ -25,29 +26,28 @@ export type ICursoApiModuleTypings = {
   };
 };
 
-export const createCursosCrudModule =
-  createLadesaApiClientCrudModule<ICursoApiModuleTypings>((apiClient) => {
-    return {
-      baseQueryKeys: ['cursos'],
+export const createCursosCrudModule = withApiClient((apiClient) => {
+  return {
+    baseQueryKeys: ['cursos'],
 
-      create(requestBody) {
-        return apiClient.cursos.cursoCreate({ requestBody });
-      },
+    create(requestBody) {
+      return apiClient.cursos.cursoCreate({ requestBody });
+    },
 
-      list(data) {
-        return apiClient.cursos.cursoList(data);
-      },
+    list(data) {
+      return apiClient.cursos.cursoList(data);
+    },
 
-      getOne(id) {
-        return apiClient.cursos.cursoFindOneById({ id });
-      },
+    getOne(id) {
+      return apiClient.cursos.cursoFindOneById({ id });
+    },
 
-      updateOne(id, requestBody) {
-        return apiClient.cursos.cursoUpdateOneById({ id, requestBody });
-      },
+    updateOne(id, requestBody) {
+      return apiClient.cursos.cursoUpdateOneById({ id, requestBody });
+    },
 
-      deleteOne(id) {
-        return apiClient.cursos.cursoDeleteOneById({ id });
-      },
-    };
-  });
+    deleteOne(id) {
+      return apiClient.cursos.cursoDeleteOneById({ id });
+    },
+  } satisfies IGenericCrudModule<ICursoApiModuleTypings>;
+});

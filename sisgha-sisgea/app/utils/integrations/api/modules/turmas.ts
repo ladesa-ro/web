@@ -1,5 +1,6 @@
 import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
-import { createLadesaApiClientCrudModule } from '../core/generic';
+import type { IGenericCrudModule } from '../../generic-crud';
+import { withApiClient } from '../core/generic';
 
 export type ITurmaApiModuleTypings = {
   CompleteView: ApiClientTypings.TurmaFindOneResultView;
@@ -25,29 +26,32 @@ export type ITurmaApiModuleTypings = {
   };
 };
 
-export const createTurmasCrudModule =
-  createLadesaApiClientCrudModule<ITurmaApiModuleTypings>((apiClient) => {
-    return {
-      baseQueryKeys: ['turmas'],
+export type ITurmaApiModule = ReturnType<typeof createTurmasCrudModule>;
 
-      create(requestBody) {
-        return apiClient.turmas.turmaCreate({ requestBody });
-      },
+export const createTurmasCrudModule = withApiClient((apiClient) => {
+  return {
+    baseQueryKeys: ['turmas'],
 
-      list(data) {
-        return apiClient.turmas.turmaList(data);
-      },
+    create(requestBody) {
+      return apiClient.turmas.turmaCreate({ requestBody });
+    },
 
-      getOne(id) {
-        return apiClient.turmas.turmaFindOneById({ id });
-      },
+    list(data) {
+      return apiClient.turmas.turmaList(data);
+    },
 
-      updateOne(id, requestBody) {
-        return apiClient.turmas.turmaUpdateOneById({ id, requestBody });
-      },
+    getOne(id) {
+      return apiClient.turmas.turmaFindOneById({ id });
+    },
 
-      deleteOne(id) {
-        return apiClient.turmas.turmaDeleteOneById({ id });
-      },
-    };
-  });
+    updateOne(id, requestBody) {
+      return apiClient.turmas.turmaUpdateOneById({ id, requestBody });
+    },
+
+    deleteOne(id) {
+      return apiClient.turmas.turmaDeleteOneById({ id });
+    },
+
+    extra: true,
+  } satisfies IGenericCrudModule<ITurmaApiModuleTypings>;
+});

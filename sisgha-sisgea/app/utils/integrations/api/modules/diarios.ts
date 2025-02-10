@@ -1,5 +1,6 @@
 import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
-import { createLadesaApiClientCrudModule } from '../core/generic';
+import type { IGenericCrudModule } from '../../generic-crud';
+import { withApiClient } from '../core/generic';
 
 export type IDiarioApiModuleTypings = {
   CompleteView: ApiClientTypings.DiarioFindOneResultView;
@@ -25,29 +26,28 @@ export type IDiarioApiModuleTypings = {
   };
 };
 
-export const createDiariosCrudModule =
-  createLadesaApiClientCrudModule<IDiarioApiModuleTypings>((apiClient) => {
-    return {
-      baseQueryKeys: ['diarios'],
+export const createDiariosCrudModule = withApiClient((apiClient) => {
+  return {
+    baseQueryKeys: ['diarios'],
 
-      create(requestBody) {
-        return apiClient.diarios.diarioCreate({ requestBody });
-      },
+    create(requestBody) {
+      return apiClient.diarios.diarioCreate({ requestBody });
+    },
 
-      list(data) {
-        return apiClient.diarios.diarioList(data);
-      },
+    list(data) {
+      return apiClient.diarios.diarioList(data);
+    },
 
-      getOne(id) {
-        return apiClient.diarios.diarioFindOneById({ id });
-      },
+    getOne(id) {
+      return apiClient.diarios.diarioFindOneById({ id });
+    },
 
-      updateOne(id, requestBody) {
-        return apiClient.diarios.diarioUpdateOneById({ id, requestBody });
-      },
+    updateOne(id, requestBody) {
+      return apiClient.diarios.diarioUpdateOneById({ id, requestBody });
+    },
 
-      deleteOne(id) {
-        return apiClient.diarios.diarioDeleteOneById({ id });
-      },
-    };
-  });
+    deleteOne(id) {
+      return apiClient.diarios.diarioDeleteOneById({ id });
+    },
+  } satisfies IGenericCrudModule<IDiarioApiModuleTypings>;
+});

@@ -1,5 +1,5 @@
 export const splitPeriodo = (periodo: string) => {
-  const [serie, letra] = periodo.split(' ');
+  const [serie = '', letra = ''] = periodo.split(' ');
 
   return {
     serie,
@@ -59,7 +59,7 @@ export const useSplittedSerieLetra = (periodo: Ref<string>) => {
     },
 
     set: (value) => {
-      modifySerie(value);
+      modifySerie(value ?? '');
     },
   });
 
@@ -68,7 +68,7 @@ export const useSplittedSerieLetra = (periodo: Ref<string>) => {
       return unref(splittedSerieLetra).letra;
     },
     set: (value) => {
-      modifyLetra(value);
+      modifyLetra(value ?? '');
     },
   });
 

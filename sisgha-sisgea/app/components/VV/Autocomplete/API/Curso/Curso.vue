@@ -5,6 +5,7 @@ type Props = {
   isLoading?: boolean;
   name: string;
 };
+
 const props = defineProps<Props>();
 const { name } = toRefs(props);
 

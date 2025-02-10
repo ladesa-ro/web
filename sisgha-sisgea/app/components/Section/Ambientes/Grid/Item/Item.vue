@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import type { AmbienteFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import AmbientesForm from '~/components/Section/Ambientes/Form/Form.vue';
-import {
-  ApiImageResource,
-  useApiImageRoute,
-} from '../../../../../integrations/api/RoutesUtil';
 
 type Props = {
   isLoading?: boolean;

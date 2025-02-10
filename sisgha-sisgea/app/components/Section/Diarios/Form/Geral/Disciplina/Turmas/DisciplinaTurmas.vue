@@ -14,7 +14,7 @@ const {
   composables: { useListQuery: useListQueryDiariosProfessores },
 } = useLadesaApiCrudDiariosProfessores();
 
-const { items: diariosProfessoresList } = await useListQueryDiariosProfessores(
+const { items: diariosProfessoresList } = useListQueryDiariosProfessores(
   {}
 );
 
@@ -111,14 +111,14 @@ const { items: diarios } = await useListQuery(queries);
               />
 
               <v-alert
-                v-if="diariosProfessoresList.length === 0"
+                v-if="!diariosProfessoresList || diariosProfessoresList.length === 0"
                 type="warning"
                 class="mt-4 rounded-md"
               >
                 Nenhum professor encontrado para este diário.
               </v-alert>
 
-              <LazyUIGridSelectionUser v-else :items="diariosProfessoresList">
+              <LazyUIGridSelectionUser v-else :items="diariosProfessoresList ??[]">
                 <template #item="{ item: diarioProfessor }">
                   <LazyUICardUser variant="block">
                     <template #title>

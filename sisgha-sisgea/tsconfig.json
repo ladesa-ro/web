@@ -6,6 +6,9 @@
     "types": ["reflect-metadata"],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "strict": false
+    
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strict": true
   }
 }

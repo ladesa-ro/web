@@ -3,6 +3,8 @@ import type { IGenericCrudModuleTypes } from './IGenericCrudModuleTypes';
 export type IGenericCrudModule<
   Types extends IGenericCrudModuleTypes = IGenericCrudModuleTypes,
 > = {
+  [key: string]: unknown;
+
   baseQueryKeys: MaybeRef<string>[];
 
   create(

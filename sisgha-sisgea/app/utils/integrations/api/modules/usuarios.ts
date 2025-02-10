@@ -1,5 +1,6 @@
 import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
-import { createLadesaApiClientCrudModule } from '../core/generic';
+import type { IGenericCrudModule } from '../../generic-crud';
+import { withApiClient } from '../core/generic';
 
 export type IUsuarioApiModuleTypings = {
   CompleteView: ApiClientTypings.UsuarioFindOneResultView;
@@ -25,29 +26,28 @@ export type IUsuarioApiModuleTypings = {
   };
 };
 
-export const createUsuariosCrudModule =
-  createLadesaApiClientCrudModule<IUsuarioApiModuleTypings>((apiClient) => {
-    return {
-      baseQueryKeys: ['usuarios'],
+export const createUsuariosCrudModule = withApiClient((apiClient) => {
+  return {
+    baseQueryKeys: ['usuarios'],
 
-      create(requestBody) {
-        return apiClient.usuarios.usuarioCreate({ requestBody });
-      },
+    create(requestBody) {
+      return apiClient.usuarios.usuarioCreate({ requestBody });
+    },
 
-      list(data) {
-        return apiClient.usuarios.usuarioList(data);
-      },
+    list(data) {
+      return apiClient.usuarios.usuarioList(data);
+    },
 
-      getOne(id) {
-        return apiClient.usuarios.usuarioFindOneById({ id });
-      },
+    getOne(id) {
+      return apiClient.usuarios.usuarioFindOneById({ id });
+    },
 
-      updateOne(id, requestBody) {
-        return apiClient.usuarios.usuarioUpdateOneById({ id, requestBody });
-      },
+    updateOne(id, requestBody) {
+      return apiClient.usuarios.usuarioUpdateOneById({ id, requestBody });
+    },
 
-      deleteOne(id) {
-        return apiClient.usuarios.usuarioDeleteOneById({ id });
-      },
-    };
-  });
+    deleteOne(id) {
+      return apiClient.usuarios.usuarioDeleteOneById({ id });
+    },
+  } satisfies IGenericCrudModule<IUsuarioApiModuleTypings>;
+});

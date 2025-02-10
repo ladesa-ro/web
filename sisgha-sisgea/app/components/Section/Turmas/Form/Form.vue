@@ -1,5 +1,17 @@
 <script lang="ts" setup>
+import type {
+  TurmaInputCreateView,
+  TurmaInputUpdateView,
+} from '@ladesa-ro/api-client-fetch';
+import { useQuery } from '@tanstack/vue-query';
+import { getQueryKeyForCrudModuleQueryState } from '../../../../composables/integrations/generic-crud/utils/get-query-key';
+import { type ICreateOrManageConfig } from '../../../Forms/CreateOrManage/Base/Control/config';
 import { setupCreateOrManageControlContext } from '../../../Forms/CreateOrManage/Contextual/useCreateOrManageControlContext';
+import {
+  useTurmaFormSchema,
+  type ITurmaFormOutput,
+  type ITurmaFormSchema,
+} from './-Helpers/schema';
 
 type Props = {
   editId?: string | null;
@@ -12,47 +24,102 @@ const { editId = null } = defineProps<Props>();
 const $emit = defineEmits(['close']);
 const onClose = () => $emit('close');
 
-//
-// ///#region  a
+const schema = useTurmaFormSchema();
 
-// const schema = useTurmaFormSchema();
+const {
+  crudModule,
+  composables: { useFindOneQuery },
+} = useLadesaApiCrudTurmas();
 
-// const {
-//   crudModule,
-//   composables: { useDeleteMutation },
-// } = useLadesaApiCrudTurmas();
+const { query: findOneQuery } = useFindOneQuery(editId);
 
-// const { handleDelete: turmaDelete } = useDeleteMutation({
-//   afterSuccess: () => onClose(),
-// });
+const formStateQuery = useQuery({
+  queryKey: getQueryKeyForCrudModuleQueryState(crudModule, editId),
 
-// //
+  queryFn: async (): Promise<ITurmaFormOutput | null> => {
+    const { data } = await findOneQuery.suspense();
 
-// const { turmaSubmit } = useTurmaSubmit();
+    if (data) {
+      return {
+        curso: data.curso,
+        periodo: data.periodo,
+        ambientePadraoAula: data.ambientePadraoAula,
 
-// const performSubmit = async (values: TurmaFormOutput) => {
-//   await turmaSubmit({ editId: unref(editId), values });
-//   onClose();
-// };
-// ///#endregion
+        imagem: null,
+        _: {} as any,
+      };
+    }
 
-//
+    return null;
+  },
+});
 
-// const {
-//   state: { isLoading, isBusy },
-//   methods: { onSubmit },
-// } = setupCreateOrManageControlContext({
-//   editId,
-//   schema,
-  
-// });
+const config = {
+  state: {
+    editId: computed(() => editId),
+  },
+
+  schema,
+
+  methods: {
+    onFinish: onClose,
+  },
+
+  crud: {
+    baseQueryKeys: crudModule.baseQueryKeys,
+
+    create: {
+      perform: async (formData) => {
+        const data: TurmaInputCreateView = {
+          curso: formData.curso,
+          periodo: formData.periodo,
+          ambientePadraoAula: formData.ambientePadraoAula,
+        };
+
+        await crudModule.create(data);
+
+        return true;
+      },
+    },
+
+    get: {
+      query: formStateQuery,
+    },
+
+    delete: {
+      perform: async (id) => {
+        await crudModule.deleteOne(id);
+        return true;
+      },
+    },
+
+    update: {
+      perform: async (id, formData) => {
+        const data: TurmaInputUpdateView = {
+          curso: formData.curso,
+          periodo: formData.periodo,
+          ambientePadraoAula: formData.ambientePadraoAula,
+        };
+
+        await crudModule.updateOne(id, data);
+
+        return true;
+      },
+    },
+  },
+} satisfies ICreateOrManageConfig<
+  ITurmaApiModuleTypings['CompleteView']['id'],
+  ITurmaFormSchema
+>;
+
+const {
+  methods: { onSubmit },
+  state: { isLoading, isBusy },
+} = setupCreateOrManageControlContext(config);
 </script>
 
 <template>
-  <div>
-    carai sumiu o form de turmaskkkkkkkkkkkkkkkkkkkkkkkkkkk
-  </div>
-  <!-- <form @submit.prevent="onSubmit">
+  <form @submit.prevent="onSubmit">
     <FormsCreateOrManageContextualForm
       title-edit="Editar Turma"
       title-create="Cadastrar Turma"
@@ -77,5 +144,5 @@ const onClose = () => $emit('close');
         :disabled="isBusy"
       />
     </FormsCreateOrManageContextualForm>
-  </form> -->
+  </form>
 </template>

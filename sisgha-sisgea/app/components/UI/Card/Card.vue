@@ -1,8 +1,8 @@
 <script setup lang="ts">
 type Props = {
   variant: 'block' | 'inline';
-  title?: string;
   src: string | null;
+  title: string | null;
 };
 
 const { src, variant, title } = defineProps<Props>();
@@ -29,7 +29,7 @@ const $emit = defineEmits(['edit']);
         <!-- title and actions -->
         <section class="title-and-actions">
           <h1 class="title">
-            <slot name="title">{{ title }}</slot>
+            <slot name="title">{{ title ?? '-' }}</slot>
           </h1>
 
           <!-- this .stop.prevent prevents scenarios that the click on the father takes to another page, for example -->

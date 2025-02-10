@@ -12,10 +12,11 @@ type Props = {
   options: IUIAutocompleteApiRetrieverOptions<Typings>;
 };
 
-const props = defineProps<Props>();
-
-const name = toRef(props, 'name');
-const apiRetrieverOptions = props.options;
+const {
+  name,
+  isLoading: propIsLoading,
+  options: apiRetrieverOptions,
+} = defineProps<Props>();
 
 //
 
@@ -85,9 +86,7 @@ const items = computed(() => {
 
 //
 
-const isLoading = computed(
-  () => unref(props.isLoading) || unref(listIsLoading)
-);
+const isLoading = computed(() => unref(propIsLoading) || unref(listIsLoading));
 
 const isFilterEnabled = computed(() => {
   if (activeItem.value) {
@@ -102,7 +101,6 @@ const isFilterEnabled = computed(() => {
 const isFilterDisabled = computed(() => !isFilterEnabled.value);
 
 //
-
 </script>
 
 <template>

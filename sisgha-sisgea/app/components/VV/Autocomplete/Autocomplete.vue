@@ -1,23 +1,23 @@
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
 
-const searchValue = defineModel('search', { default: '' });
-
 //
 
 type Props = {
   name: string;
 };
-const props = defineProps<Props>();
-const name = toRef(props, 'name');
+
+const { name } = defineProps<Props>();
 
 //
+
+const searchValue = defineModel('search', { default: '' });
 
 const {
   handleBlur,
   errorMessage,
   value: modelValue,
-} = useField<string | null>(name.value, undefined, {
+} = useField<string | null>(name, undefined, {
   validateOnValueUpdate: true,
 });
 </script>

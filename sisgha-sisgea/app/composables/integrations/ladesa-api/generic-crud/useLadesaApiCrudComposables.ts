@@ -1,15 +1,15 @@
-import type { ILadesaApiCrudModuleFactory } from '../../../../utils/integrations/api/core/generic';
-import type { IGenericCrudModuleTypes } from '../../../../utils/integrations/generic-crud/IGenericCrudModuleTypes';
+import type { LadesaApiClient } from '@ladesa-ro/api-client-fetch';
 import { useGenericCrudComposables } from '../../generic-crud';
 
 export const useLadesaApiCrudComposables = <
-  Typings extends IGenericCrudModuleTypes,
+  Types extends IGenericCrudModuleTypes,
+  CrudModule extends IGenericCrudModule<Types>,
 >(
-  factory: ILadesaApiCrudModuleFactory<Typings>
+  crudModuleFactory: (apiClient: LadesaApiClient) => CrudModule
 ) => {
   const useCrudModule = () => {
     const apiClient = useApiClient();
-    const crudModule = factory(apiClient);
+    const crudModule = crudModuleFactory(apiClient);
     return crudModule;
   };
 
@@ -17,6 +17,6 @@ export const useLadesaApiCrudComposables = <
 
   return {
     crudModule,
-    composables: useGenericCrudComposables(crudModule),
+    composables: useGenericCrudComposables<Types, CrudModule>(crudModule),
   };
 };

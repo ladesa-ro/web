@@ -115,14 +115,17 @@ export const calendarData = {
         itemIndex = calendar.events.findIndex((event) => event.id === itemId);
       }
 
-      // Set notification status
-      // For step
-      if (calendar.steps.find((step) => step.id === itemId)) {
-        calendar.steps[itemIndex].notifyStatus = notify;
-      }
-      // For event
-      else {
-        calendar.events[itemIndex].notifyStatus = notify;
+      const itemAtIndex = calendar.steps[itemIndex];
+      if (itemAtIndex) {
+        // Set notification status
+        // For step
+        if (calendar.steps.find((step) => step.id === itemId)) {
+          itemAtIndex.notifyStatus = notify;
+        }
+        // For event
+        else {
+          itemAtIndex.notifyStatus = notify;
+        }
       }
     } catch (error) {}
   },

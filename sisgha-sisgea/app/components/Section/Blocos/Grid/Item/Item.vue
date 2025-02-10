@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import type { BlocoFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import fodase from '~/components/Section/Blocos/Form/Form.vue';
-import {
-  ApiImageResource,
-  useApiImageRoute,
-} from '../../../../../integrations/api/RoutesUtil';
 
 type Props = {
   isLoading?: boolean;

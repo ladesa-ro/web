@@ -58,8 +58,10 @@ export const useGenericCrudDelete = <Typings extends IGenericCrudModuleTypes>(
         queryKey: crudModule.baseQueryKeys,
       });
 
-      for (const invalidator of invalidators) {
-        await queryClient.invalidateQueries(invalidator.filter);
+      if (invalidators) {
+        for (const invalidator of invalidators) {
+          await queryClient.invalidateQueries(invalidator.filter);
+        }
       }
 
       if (afterSuccess) {
