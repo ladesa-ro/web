@@ -1,6 +1,7 @@
-Dockerfile @ladesa-ro/security
-captain-definition @ladesa-ro/security
+Dockerfile                          @ladesa-ro/security
+CODEOWNERS                          @ladesa-ro/security
 
-CODEOWNERS @ladesa-ro/security
-.github/**/* @ladesa-ro/security
-package.json @ladesa-ro/security
+.github/**/*                        @ladesa-ro/security
+
+.husky/**/*                        @ladesa-ro/security
+package.json                       @ladesa-ro/security
