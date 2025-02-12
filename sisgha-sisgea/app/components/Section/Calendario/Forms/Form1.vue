@@ -159,24 +159,24 @@ const nome = computed({
     <div class="form-body modal-form">
       <VVTextField
         v-model="nome"
-        type="text"
         label="Nome"
-        placeholder="Digite aqui"
         name="nome"
+        placeholder="Digite aqui"
+        type="text"
       />
 
       <VVAutocomplete
-        name="year.id"
-        label="Ano letivo"
-        placeholder="Selecione um ano"
         :items="years"
         class="xl:max-w-[100%]"
+        label="Ano letivo"
+        name="year.id"
+        placeholder="Selecione um ano"
       />
 
       <VVAutocompleteAPIOfertaFormacao
         v-model="formValues.ofertaFormacao.id"
-        name="ofertaFormacao.id"
         label="Oferta de Formação"
+        name="ofertaFormacao.id"
       />
 
       <VVAutocompleteAPICurso name="curso.id" />

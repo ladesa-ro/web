@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useField } from 'vee-validate';
 
 defineProps({
@@ -21,11 +21,11 @@ onMounted(() => {
 
 <template>
   <VVTextField
-    type="text"
-    name="periodo"
-    label="Período"
     :disabled="isLoading || disabled"
+    label="Período"
+    name="periodo"
     placeholder="1° Período, 2° Período, 3° Período..."
+    type="text"
     v-bind="$attrs"
   />
 </template>

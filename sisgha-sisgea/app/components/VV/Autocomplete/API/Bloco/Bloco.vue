@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 type Props = {
@@ -27,9 +27,9 @@ const options = createUIAutocompleteApiRetrieverOptions({
 
 <template>
   <VVAutocompleteAPI
+    :is-loading="isLoading"
     :name="name"
     :options="options"
-    :is-loading="isLoading"
     label="Bloco"
     placeholder="Selecione um bloco"
     v-bind="$attrs"

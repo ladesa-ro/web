@@ -14,9 +14,7 @@ const {
   composables: { useListQuery: useListQueryDiariosProfessores },
 } = useLadesaApiCrudDiariosProfessores();
 
-const { items: diariosProfessoresList } = useListQueryDiariosProfessores(
-  {}
-);
+const { items: diariosProfessoresList } = useListQueryDiariosProfessores({});
 
 //
 
@@ -76,8 +74,8 @@ const { items: diarios } = await useListQuery(queries);
           class="custom-panel border-ldsa-grey border-2"
         >
           <v-expansion-panel-title
-            class="custom-panel-title border-none"
             :hide-actions="true"
+            class="custom-panel-title border-none"
           >
             <div class="title-content">
               <div>
@@ -92,10 +90,10 @@ const { items: diarios } = await useListQuery(queries);
                 </small>
               </div>
               <div class="icons">
-                <v-icon small class="icon">mdi-trash-can</v-icon>
-                <v-icon small class="expansion-arrow icon ml-2"
-                  >mdi-menu-down</v-icon
-                >
+                <v-icon class="icon" small>mdi-trash-can</v-icon>
+                <v-icon class="expansion-arrow icon ml-2" small
+                  >mdi-menu-down
+                </v-icon>
               </div>
             </div>
           </v-expansion-panel-title>
@@ -111,14 +109,19 @@ const { items: diarios } = await useListQuery(queries);
               />
 
               <v-alert
-                v-if="!diariosProfessoresList || diariosProfessoresList.length === 0"
-                type="warning"
+                v-if="
+                  !diariosProfessoresList || diariosProfessoresList.length === 0
+                "
                 class="mt-4 rounded-md"
+                type="warning"
               >
                 Nenhum professor encontrado para este diário.
               </v-alert>
 
-              <LazyUIGridSelectionUser v-else :items="diariosProfessoresList ??[]">
+              <LazyUIGridSelectionUser
+                v-else
+                :items="diariosProfessoresList ?? []"
+              >
                 <template #item="{ item: diarioProfessor }">
                   <LazyUICardUser variant="block">
                     <template #title>

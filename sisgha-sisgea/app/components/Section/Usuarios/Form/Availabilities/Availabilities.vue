@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { getActivesTeacherRole, useFormUser } from '../FormUtils';
 
 const options = [
@@ -45,7 +45,7 @@ watch(vinculosComCargoProfessor, (current, previous) => {
     );
 
     const lastItem = current[current.length - 1];
-    
+
     if (!activeExistsInCurrent && lastItem) {
       activePanel.value = lastItem.campus.id;
     }
@@ -60,9 +60,9 @@ function onClose() {
 </script>
 <template>
   <DialogModalBaseLayout
+    :close-button="false"
     :on-close="onClose"
     title="Disponibilidade"
-    :close-button="false"
   >
     <!-- TODO: substituir por componente de matemática modular -->
     <div class="flex justify-between items-center">
@@ -76,7 +76,7 @@ function onClose() {
       />
     </div>
 
-    <v-expansion-panels v-model="activePanel" mandatory class="">
+    <v-expansion-panels v-model="activePanel" class="" mandatory>
       <SectionUsuariosFormAvailabilitiesAvailability
         v-for="vinculo in vinculosComCargoProfessor"
         :key="vinculo.campus.id"

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useDropzone } from 'vue3-dropzone';
 
 const model = defineModel<File | Blob | null | undefined>();
@@ -9,6 +9,7 @@ function onDrop(acceptedFiles: any) {
 
 const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
   onDrop,
+  accept: ".jpeg, .jpg, .png"
 });
 
 const imageSrc = computed(() => {
@@ -20,10 +21,10 @@ const imageSrc = computed(() => {
 </script>
 <template>
   <div
-    class="drop-area flex"
     :class="{ selected: imageSrc !== null }"
-    v-bind="getRootProps()"
     :style="{ backgroundImage: `url(${imageSrc})` }"
+    class="drop-area flex"
+    v-bind="getRootProps()"
   >
     <div
       class="dropzone-info flex-1 flex flex-col items-center justify-center gap-3"
@@ -39,7 +40,7 @@ const imageSrc = computed(() => {
       </span>
     </div>
 
-    <input v-bind="getInputProps()" accept=".jpeg, .jpg, .png" />
+    <input v-bind="getInputProps()" />
   </div>
 </template>
 

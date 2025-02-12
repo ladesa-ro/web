@@ -1,8 +1,11 @@
 import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
-import type { IGenericCrudModule } from '../../generic-crud';
+import type {
+  IGenericCrudModule,
+  IGenericCrudModuleTypes,
+} from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
-export type IBlocoApiModuleTypings = {
+export type IBlocosApiModuleTypings = IGenericCrudModuleTypes<{
   CompleteView: ApiClientTypings.BlocoFindOneResultView;
 
   Create: {
@@ -24,7 +27,9 @@ export type IBlocoApiModuleTypings = {
     Data: ApiClientTypings.BlocoInputUpdateView;
     Result: ApiClientTypings.BlocoUpdateOneByIdResponse;
   };
-};
+}>;
+
+export type IBlocosApiModule = ReturnType<typeof createBlocosCrudModule>;
 
 export const createBlocosCrudModule = withApiClient((apiClient) => {
   return {
@@ -49,5 +54,5 @@ export const createBlocosCrudModule = withApiClient((apiClient) => {
     deleteOne(id) {
       return apiClient.blocos.blocoDeleteOneById({ id });
     },
-  } satisfies IGenericCrudModule<IBlocoApiModuleTypings>;
+  } satisfies IGenericCrudModule<IBlocosApiModuleTypings>;
 });

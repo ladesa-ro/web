@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useDebounceFn, useWindowSize } from '@vueuse/core';
 
 type Props = {
@@ -39,7 +39,7 @@ watch([width, height], debouncedScrollIntoView);
 </script>
 
 <template>
-  <div ref="square" class="day-square" :class="{ active: active }">
+  <div ref="square" :class="{ active: active }" class="day-square">
     <p class="day-week">{{ dayWeek }}</p>
     <p>{{ dayMonth }}</p>
   </div>

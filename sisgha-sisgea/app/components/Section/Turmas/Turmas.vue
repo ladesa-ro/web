@@ -1,10 +1,11 @@
-<script setup lang="ts">
-import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
+<script lang="ts" setup>
 import TurmasForm from './Form/Form.vue';
 
 const { crudModule } = useLadesaApiCrudTurmas();
 
-const options = createApiListContextOptions({ crudModule });
+const options = {
+  crudModule,
+};
 </script>
 
 <template>
@@ -14,11 +15,11 @@ const options = createApiListContextOptions({ crudModule });
     </template>
 
     <template #grid-item="{ item, isLoading }">
-      <SectionTurmasGridItem :item="item" :is-loading="isLoading" />
+      <SectionTurmasGridItem :is-loading="isLoading" :item="item" />
     </template>
 
     <template #grid-item-skeleton>
-      <SectionTurmasGridItem :item="null" :is-loading="true" />
+      <SectionTurmasGridItem :is-loading="true" :item="null" />
     </template>
   </UIAPIList>
 </template>

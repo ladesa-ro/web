@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 type Props = {
   text?: string;
   showBackground?: boolean;
@@ -8,12 +8,12 @@ const props = defineProps<Props>();
 
 <template>
   <button
-    class="flex w-full h-[48px] justify-center items-center cursor-pointer rounded-lg"
     :class="{
       'bg-ldsa-green-1 text-ldsa-white': props.showBackground,
       'border-x-ldsa-grey border-solid border-2 bg-ldsa-bg':
         props.showBackground !== true,
     }"
+    class="flex w-full h-[48px] justify-center items-center cursor-pointer rounded-lg"
   >
     <p class="font-semibold text-center text-sm sm:text-[16px]">
       {{ props.text }}

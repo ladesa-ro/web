@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { HeadTitleContext } from '~/utils';
 import { provideLayoutsDashboardContext } from './context';
 
@@ -17,17 +17,17 @@ const { hamburguerActive } = provideLayoutsDashboardContext();
 
 <template>
   <div class="layout-grid layout-height">
-    <Appbar v-model="hamburguerActive" class="sticky" id="appbar" />
+    <Appbar id="appbar" v-model="hamburguerActive" class="sticky" />
 
-    <slot name="sidebar" id="sidebar" />
+    <slot id="sidebar" name="sidebar" />
 
     <main class="flex flex-col overflow-auto">
       <!-- main content -->
       <section
-        class="flex-1 flex flex-col"
         :class="[
           hamburguerActive ? 'content-sidebar-active' : 'content-default',
         ]"
+        class="flex-1 flex flex-col"
       >
         <slot />
       </section>
@@ -42,7 +42,7 @@ const { hamburguerActive } = provideLayoutsDashboardContext();
 
 .layout-height {
   @apply h-[100vh]  /* fallback caso o dispositivo não suporte dvh */
-        h-[100dvh];
+  h-[100dvh];
 }
 
 /* Grid layout */

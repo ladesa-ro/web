@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 const emit = defineEmits(['selectRole']);
 
 const activeButton = ref<string>('DAPE');
@@ -19,28 +19,28 @@ const selectAgrupamento = () => {
     <section class="flex flex-row justify-between w-full gap-4">
       <!-- ===================== AGRUPAMENTO ===================== -->
       <div
-        class="toggle-option"
         :class="{
           active: activeButton === 'AGRUPAMENTO',
           'border-ldsa-grey': activeButton !== 'AGRUPAMENTO',
         }"
+        class="toggle-option"
         @click="selectAgrupamento"
       >
-        <IconsIconGroup width="42" height="40" />
+        <IconsIconGroup height="40" width="42" />
         <p class="font-[600]">Aulas por dia</p>
       </div>
       <!-- =============================================== -->
 
       <!-- ================== PROFESSOR ================== -->
       <div
-        class="toggle-option"
         :class="{
           active: activeButton === 'Professor',
           'border-ldsa-grey': activeButton !== 'Professor',
         }"
+        class="toggle-option"
         @click="selectProfessor"
       >
-        <IconsIconEducator width="36" height="49" />
+        <IconsIconEducator height="49" width="36" />
         <p class="font-[600]">Professores</p>
       </div>
       <!-- =============================================== -->

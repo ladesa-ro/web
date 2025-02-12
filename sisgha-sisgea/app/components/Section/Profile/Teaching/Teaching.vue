@@ -13,7 +13,7 @@ const subjects = [
 <template>
   <SectionProfileSectionsLayout :icon="IconDiscipline" title="Ensino">
     <!-- teaching cards carousel -->
-    <Carousel snap-align="start" :items-to-show="2.5" :wrap-around="true">
+    <Carousel :items-to-show="2.5" :wrap-around="true" snap-align="start">
       <Slide v-for="subject in subjects" :key="subject">
         <SectionProfileTeachingCarouselItem :subject-name="subject" />
       </Slide>

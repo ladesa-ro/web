@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import SelectBase from '~/components/UI/SelectBase/SelectBase.vue';
 
 const roles = [
@@ -9,12 +9,12 @@ const roles = [
 
 <template>
   <SelectBase
-    multiple
-    :items="roles"
-    item-value="value"
-    item-title="label"
-    label="Função"
-    placeholder="Selecione"
     :clearable="false"
+    :items="roles"
+    item-title="label"
+    item-value="value"
+    label="Função"
+    multiple
+    placeholder="Selecione"
   />
 </template>

@@ -1,9 +1,9 @@
-<script setup lang="ts" generic="Typings extends IGenericCrudModuleTypes">
+<script generic="Typings extends IGenericCrudModuleTypesBase" lang="ts" setup>
 import {
   UIApiListViewMode,
   useUIApiListContext,
 } from '../Context/UIApiListContext';
-import type { IGridItemSlotProps } from './Grid/Typings';
+import type { IGridItemSlotProps } from './Grid/Typings/IGridItemSlotProps';
 
 //
 

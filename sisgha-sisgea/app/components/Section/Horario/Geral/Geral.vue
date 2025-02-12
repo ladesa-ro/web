@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { IDiasDaSemana, ITurnos } from '../IGradeHorario';
 
 const diasDaSemana: IDiasDaSemana = [
@@ -56,7 +56,7 @@ const turnos: ITurnos = [
       <SectionHorarioWeekHeaderDays :dias-da-semana="diasDaSemana" />
     </div>
 
-    <SectionHorarioShifts :turnos="turnos" :dias-da-semana="diasDaSemana" />
+    <SectionHorarioShifts :dias-da-semana="diasDaSemana" :turnos="turnos" />
   </div>
 </template>
 

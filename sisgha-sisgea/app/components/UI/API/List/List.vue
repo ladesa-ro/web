@@ -1,24 +1,32 @@
-<script lang="ts" setup generic="Typings extends IGenericCrudModuleTypes">
+<script
+  generic="
+    Typings extends IGenericCrudModuleTypesBase,
+    CrudModule extends IGenericCrudModule<Typings>
+  "
+  lang="ts"
+  setup
+>
 import {
-  setupUIApiListContext,
   type ICreateUIApiListContextOptions,
+  setupUIApiListContext,
 } from './Context/UIApiListContext';
-import type { IGridItemSlotProps } from './Results/Grid/Typings';
+import type { IGridItemSlotProps } from './Results/Grid/Typings/IGridItemSlotProps';
 
 //
 
 type Props = {
-  options: ICreateUIApiListContextOptions<Typings>;
+  options: ICreateUIApiListContextOptions<Typings, CrudModule>;
 };
 
 const props = defineProps<Props>();
 
-//
+// TODO: retrieve from Typings
+type Item = any;
 
 type Slots = {
   'options-actions'(props: any): any;
 
-  'grid-item'(props: IGridItemSlotProps<Typings['List']['ResultItem']>): any;
+  'grid-item'(props: IGridItemSlotProps<Item>): any;
 
   'grid-item-skeleton'(props: any): any;
 };

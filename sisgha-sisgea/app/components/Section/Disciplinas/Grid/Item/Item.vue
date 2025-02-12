@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { DisciplinaFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 import DisciplinasForm from '../../Form/Form.vue';
@@ -24,14 +24,14 @@ const coverImageSrc = useApiImageRoute(
   <UICardAutoSkeleton :skeleton="isLoading || !disciplina">
     <UICard
       v-if="disciplina"
+      :src="coverImageSrc"
       :title="disciplina.nome"
       variant="block"
-      :src="coverImageSrc"
     >
       <template #actions>
         <DialogModalEditOrCreateModal
-          :form-component="DisciplinasForm"
           :edit-id="disciplina.id"
+          :form-component="DisciplinasForm"
         />
       </template>
 

@@ -11,16 +11,16 @@ const { item, open } = defineProps<Props>();
     <span class="flex items-center gap-4">
       <img
         :src="item.icon"
-        class="w-6 -icon-white"
         alt="Ícone da funcionalidade."
+        class="w-6 -icon-white"
       />
       <p>{{ item.title }}</p>
     </span>
 
     <IconsArrowIconArrowSidebar
       v-if="item.type === 'group'"
-      class="icon-arrow"
       :class="{ 'arrow-active': open }"
+      class="icon-arrow"
     />
   </button>
 </template>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useCreateOrManageControlContext } from '../useCreateOrManageControlContext';
 
 type Props = {
@@ -16,13 +16,13 @@ const {
 
 <template>
   <FormsCreateOrManageBaseForm
-    :titleEdit="titleEdit"
-    :titleCreate="titleCreate"
-    :mode="mode"
     :isBusy="isBusy"
     :isLoading="isLoading"
+    :mode="mode"
     :onClose="onFinish"
     :onDelete="onDelete"
+    :titleCreate="titleCreate"
+    :titleEdit="titleEdit"
   >
     <slot />
   </FormsCreateOrManageBaseForm>

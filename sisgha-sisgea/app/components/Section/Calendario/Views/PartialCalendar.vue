@@ -66,12 +66,12 @@ watch(monthNumReceived, async (newValue: number) => {
     <!-- Month selected -->
     <div class="flex flex-col w-max h-auto gap-6 mb-6 lg:mr-4 lg:mb-0">
       <SectionCalendarioMonth
-        :year="2024"
-        :month="dayjs().month()"
-        :steps="props.steps"
         :events="props.events"
-        :toggle-month="true"
+        :month="dayjs().month()"
         :select-week="false"
+        :steps="props.steps"
+        :toggle-month="true"
+        :year="2024"
         @custom:month-num="handleUpdate"
       />
     </div>
@@ -84,12 +84,12 @@ watch(monthNumReceived, async (newValue: number) => {
         v-for="(event, index) in allEventItems"
         :id="event.id"
         :key="event.id"
-        :name="event.name"
         :color="event.color"
-        :locale="event.locale"
-        :start-date="event.startDate"
         :end-date="event.endDate"
+        :locale="event.locale"
+        :name="event.name"
         :notify-status="event.notifyStatus"
+        :start-date="event.startDate"
       />
     </div>
   </div>

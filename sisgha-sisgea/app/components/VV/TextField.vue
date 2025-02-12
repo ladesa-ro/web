@@ -30,12 +30,12 @@ const {
 
 <template>
   <UITextFieldBase
-    v-bind="$attrs"
     v-model:value="modelValue"
+    :error-messages="errorMessage ? [errorMessage] : []"
     :name="name"
     :type="type"
-    :error-messages="errorMessage ? [errorMessage] : []"
     persistent-hint
+    v-bind="$attrs"
     @blur="handleBlur"
   />
 </template>

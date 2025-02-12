@@ -1,10 +1,10 @@
 <template>
   <VBtn
-    type="submit"
-    color="#00d047"
-    variant="outlined"
     append-icon="mdi-check-all"
     class="buttonCadastro"
+    color="#00d047"
+    type="submit"
+    variant="outlined"
   >
     Adicionar
   </VBtn>

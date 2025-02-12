@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { IDiasDaSemana, ITurnos } from '../IGradeHorario';
 
 const calendars = [
@@ -60,13 +60,13 @@ const turnos: ITurnos = [
   <div class="flex flex-col items-center w-full gap-8 p-8">
     <SectionHorarioDapeExpansionPanels
       v-for="calendar in calendars"
-      :title="calendar.title"
       :key="calendar.id"
+      :title="calendar.title"
     >
       <!-- TODO: retirar componente temporário -->
       <SectionHorarioShiftsStyled
-        :turnos="turnos"
         :dias-da-semana="diasDaSemana"
+        :turnos="turnos"
       />
     </SectionHorarioDapeExpansionPanels>
 

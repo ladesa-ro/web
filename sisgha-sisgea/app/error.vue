@@ -9,8 +9,8 @@ const error = useError();
         class="min-h-min flex-1"
         headline="Oops! 404"
         icon="mdi-alert-circle-outline"
-        title="Página não encontrada"
         text="A página que você está procurando não existe."
+        title="Página não encontrada"
       />
     </template>
 

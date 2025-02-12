@@ -1,29 +1,30 @@
 import {
+  type InvalidateQueryFilters,
   useMutation,
   useQueryClient,
-  type InvalidateQueryFilters,
 } from '@tanstack/vue-query';
 import type { MaybePromise } from 'vee-validate';
 import type { MaybeRefDeep } from '../../../typings';
 import type {
   IGenericCrudModule,
-  IGenericCrudModuleTypes,
+  IGenericCrudModuleTypesBase,
 } from '../../../utils';
 
-export type IGenericCrudDeleteOptions<Typings extends IGenericCrudModuleTypes> =
-  {
-    invalidators?: {
-      filter: MaybeRefDeep<InvalidateQueryFilters>;
-    }[];
+export type IGenericCrudDeleteOptions<
+  Typings extends IGenericCrudModuleTypesBase,
+> = {
+  invalidators?: {
+    filter: MaybeRefDeep<InvalidateQueryFilters>;
+  }[];
 
-    afterSuccess?: (id: Typings['CompleteView']['id']) => MaybePromise<void>;
+  afterSuccess?: (id: Typings['CompleteView']['id']) => MaybePromise<void>;
 
-    canDeleteCheck?: (
-      id: Typings['CompleteView']['id']
-    ) => MaybePromise<boolean>;
-  };
+  canDeleteCheck?: (id: Typings['CompleteView']['id']) => MaybePromise<boolean>;
+};
 
-export const useGenericCrudDelete = <Typings extends IGenericCrudModuleTypes>(
+export const useGenericCrudDelete = <
+  Typings extends IGenericCrudModuleTypesBase,
+>(
   crudModule: IGenericCrudModule<Typings>
 ) => {
   return (options: IGenericCrudDeleteOptions<Typings>) => {

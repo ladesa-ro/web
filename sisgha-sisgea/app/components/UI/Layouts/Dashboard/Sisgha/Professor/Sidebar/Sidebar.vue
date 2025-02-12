@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useLayoutsDashboardContext } from '../../../Base/context';
 import { useLayoutsDashboardSisghaProfessorSidebarItems } from './Items/Items';
 

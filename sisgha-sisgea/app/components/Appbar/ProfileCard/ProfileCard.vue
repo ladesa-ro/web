@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 import { useApiContext } from '../../API/Context/setup-context';
 
@@ -25,14 +25,14 @@ defineProps<Props>();
 <template>
   <div
     v-if="usuario && resumoVinculos"
-    class="flex items-center gap-3 w-max rounded-lg inset-y-0 bg-ldsa-green-1/[.125] dark:bg-ldsa-grey/30 pl-3 pr-6 py-2"
     :class="{ 'cursor-pointer': canChangeProfile }"
+    class="flex items-center gap-3 w-max rounded-lg inset-y-0 bg-ldsa-green-1/[.125] dark:bg-ldsa-grey/30 pl-3 pr-6 py-2"
   >
     <UIImg
       :src="profilePicureUrl"
       alt="Foto de perfil."
-      fallbackBgColor="var(--ladesa-green-1-color)"
       class="w-12 h-12 rounded-full"
+      fallbackBgColor="var(--ladesa-green-1-color)"
     >
       <template #fallbackIcon>
         <IconsIconUser class="text-ldsa-white w-5 mb-px" />

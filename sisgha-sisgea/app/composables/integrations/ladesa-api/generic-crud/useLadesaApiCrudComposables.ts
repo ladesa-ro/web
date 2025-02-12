@@ -2,7 +2,7 @@ import type { LadesaApiClient } from '@ladesa-ro/api-client-fetch';
 import { useGenericCrudComposables } from '../../generic-crud';
 
 export const useLadesaApiCrudComposables = <
-  Types extends IGenericCrudModuleTypes,
+  Types extends IGenericCrudModuleTypesBase,
   CrudModule extends IGenericCrudModule<Types>,
 >(
   crudModuleFactory: (apiClient: LadesaApiClient) => CrudModule

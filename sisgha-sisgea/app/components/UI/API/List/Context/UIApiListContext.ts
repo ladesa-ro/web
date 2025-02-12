@@ -1,6 +1,6 @@
 import type {
   IGenericCrudModule,
-  IGenericCrudModuleTypes,
+  IGenericCrudModuleTypesBase,
 } from '../../../../../utils';
 
 const SYMBOL_EMPTY = Symbol.for('empty');
@@ -13,22 +13,25 @@ export enum UIApiListViewMode {
 export type UIApiListContext = ReturnType<typeof createUIApiListContext>;
 
 export type ICreateUIApiListContextOptions<
-  Typings extends IGenericCrudModuleTypes,
+  Typings extends IGenericCrudModuleTypesBase,
+  CrudModule extends IGenericCrudModule<Typings>,
 > = {
-  crudModule: IGenericCrudModule<Typings>;
+  crudModule: CrudModule;
 };
 
 export const createApiListContextOptions = <
-  Typings extends IGenericCrudModuleTypes,
-  T extends ICreateUIApiListContextOptions<Typings>,
+  Typings extends IGenericCrudModuleTypesBase,
+  CrudModule extends IGenericCrudModule<Typings>,
+  Options extends ICreateUIApiListContextOptions<Typings, CrudModule>,
 >(
-  options: T
-) => {
-  return options;
-};
+  options: Options
+) => options;
 
-export const createUIApiListContext = <Typings extends IGenericCrudModuleTypes>(
-  options: ICreateUIApiListContextOptions<Typings>
+export const createUIApiListContext = <
+  Typings extends IGenericCrudModuleTypesBase,
+  CrudModule extends IGenericCrudModule<Typings>,
+>(
+  options: ICreateUIApiListContextOptions<Typings, CrudModule>
 ) => {
   const viewMode = ref(UIApiListViewMode.CARDS);
 
@@ -57,8 +60,11 @@ export const useUIApiListContext = (): UIApiListContext => {
   return apiListContext;
 };
 
-export const setupUIApiListContext = <Typings extends IGenericCrudModuleTypes>(
-  options: ICreateUIApiListContextOptions<Typings>
+export const setupUIApiListContext = <
+  Typings extends IGenericCrudModuleTypesBase,
+  CrudModule extends IGenericCrudModule<Typings>,
+>(
+  options: ICreateUIApiListContextOptions<Typings, CrudModule>
 ) => {
   const apiListContext = createUIApiListContext(options);
   provide(STORE_KEY, apiListContext);

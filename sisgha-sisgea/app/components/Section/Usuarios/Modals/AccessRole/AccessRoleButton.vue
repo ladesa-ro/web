@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 type Props = {
   positionName: string;
   to: string;
@@ -10,9 +10,9 @@ const { positionName, to, active } = defineProps<Props>();
 
 <template>
   <nuxt-link
-    class="flex flex-col justify-end items-center gap-2 w-28 h-36 px-0 py-8 border-2 rounded-lg border-ldsa-grey/50 text-center font-semibold cursor-pointer"
     :class="{ active: active }"
     :to="to"
+    class="flex flex-col justify-end items-center gap-2 w-28 h-36 px-0 py-8 border-2 rounded-lg border-ldsa-grey/50 text-center font-semibold cursor-pointer"
   >
     <slot />
     <!-- icon -->

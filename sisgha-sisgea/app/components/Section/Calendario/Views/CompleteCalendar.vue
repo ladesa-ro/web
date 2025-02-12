@@ -40,12 +40,12 @@ watch(monthNumReceived, (newValue: number) => {
     >
       <SectionCalendarioMonth
         v-for="month in monthNums"
-        :year="2024"
-        :month="month"
-        :steps="props.steps"
         :events="props.events"
-        :toggle-month="false"
+        :month="month"
         :select-week="false"
+        :steps="props.steps"
+        :toggle-month="false"
+        :year="2024"
         @custom:month-num="handleUpdate"
       />
     </div>

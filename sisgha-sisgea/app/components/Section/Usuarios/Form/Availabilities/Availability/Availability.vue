@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { Vinculo } from '../../FormUtils';
 
 const props = defineProps<{ vinculo: Vinculo }>();
@@ -22,7 +22,7 @@ const selecionados = ref<string[]>([]);
 
 <template>
   <v-expansion-panel :value="vinculo.campus.id" class="h-full">
-    <v-expansion-panel-title expand-icon="mdi-menu-down" class="font-medium">
+    <v-expansion-panel-title class="font-medium" expand-icon="mdi-menu-down">
       {{ campus?.apelido }}
     </v-expansion-panel-title>
 
@@ -36,12 +36,12 @@ const selecionados = ref<string[]>([]);
           <v-checkbox
             v-for="(horario, index) in horarios.matutino"
             :key="`matutino-${index}`"
-            hide-details
-            density="compact"
-            color="success"
+            v-model="selecionados"
             :label="horario"
             :value="horario"
-            v-model="selecionados"
+            color="success"
+            density="compact"
+            hide-details
             name="disponibilidade"
           />
         </div>
@@ -52,12 +52,12 @@ const selecionados = ref<string[]>([]);
           <v-checkbox
             v-for="(horario, index) in horarios.vespertino"
             :key="`vespertino-${index}`"
-            hide-details
-            density="compact"
-            color="success"
+            v-model="selecionados"
             :label="horario"
             :value="horario"
-            v-model="selecionados"
+            color="success"
+            density="compact"
+            hide-details
             name="disponibilidade"
           />
         </div>
@@ -68,12 +68,12 @@ const selecionados = ref<string[]>([]);
           <v-checkbox
             v-for="(horario, index) in horarios.noturno"
             :key="`noturno-${index}`"
-            hide-details
-            density="compact"
-            color="success"
+            v-model="selecionados"
             :label="horario"
             :value="horario"
-            v-model="selecionados"
+            color="success"
+            density="compact"
+            hide-details
             name="disponibilidade"
           />
         </div>

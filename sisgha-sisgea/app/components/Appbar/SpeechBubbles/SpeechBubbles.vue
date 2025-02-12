@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useElementBounding } from '@vueuse/core';
 
 type Props = {
@@ -25,10 +25,10 @@ const computedPinLeft = computed(() => {
 <template>
   <div ref="bubbleEl" class="chat-bubble bg-ldsa-bg shadow-lg mt-2 mr-3.5">
     <div
-      class="pin"
       :style="{
         left: `${computedPinLeft}px`,
       }"
+      class="pin"
     />
 
     <div class="flex flex-col">

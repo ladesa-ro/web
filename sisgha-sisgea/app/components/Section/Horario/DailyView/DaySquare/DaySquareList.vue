@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { getWeekDays } from '~/components/Section/Horario/-Helpers/GetWeekDays';
 
 //by default, the selected day is the current day
@@ -16,8 +16,8 @@ const weekDays = getWeekDays(selectedDay.value);
     <SectionHorarioDailyViewDaySquare
       v-for="weekDay in weekDays"
       :active="weekDay.dayMonth === activeDayMonth"
-      :day-week="weekDay.dayWeek"
       :day-month="weekDay.dayMonth"
+      :day-week="weekDay.dayWeek"
       @click="selectedDay = weekDay.dayAsDayJs"
     />
   </div>

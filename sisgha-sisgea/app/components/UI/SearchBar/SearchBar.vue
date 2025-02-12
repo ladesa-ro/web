@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 type Props = {
   value?: string;
 };
@@ -29,10 +29,10 @@ watch(
   <div class="searchField">
     <UITextFieldBase
       v-model="localValue"
+      append-inner-icon="mdi-magnify"
       clearable
       label="Pesquisar"
       placeholder="Digite Aqui"
-      append-inner-icon="mdi-magnify"
     />
   </div>
 </template>

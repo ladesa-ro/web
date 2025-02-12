@@ -1,9 +1,9 @@
-<script setup lang="ts" />
+<script lang="ts" setup />
 
 <template>
   <UIButtonModalBaseButtonLayout
-    type="submit"
     color="var(--ladesa-green-2-color)"
+    type="submit"
   >
     Cadastrar
     <template #icon>

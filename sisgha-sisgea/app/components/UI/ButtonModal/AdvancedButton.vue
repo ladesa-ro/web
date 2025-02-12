@@ -1,7 +1,7 @@
 <template>
   <UIButtonModalBaseButtonLayout
-    type="button"
     color="var(--ladesa-green-2-color)"
+    type="button"
   >
     Avançar
     <template #icon>

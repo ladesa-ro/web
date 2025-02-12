@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 const $emit = defineEmits(['edit']);
 
 type Props = {
@@ -10,11 +10,11 @@ const props = defineProps<Props>();
 </script>
 
 <template>
-  <v-card :elevation="0" max-width="100%" class="card">
+  <v-card :elevation="0" class="card" max-width="100%">
     <div class="flex items-center h-full">
       <div class="flex-1 w-full mt-2 mb-3">
         <v-card-title class="font-semibold pt-0 max-w-[100%] overflow-hidden">
-          <slot name="title" class="title">
+          <slot class="title" name="title">
             {{ props.title }}
           </slot>
         </v-card-title>

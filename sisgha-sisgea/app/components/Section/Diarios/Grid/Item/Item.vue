@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { DiarioFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
@@ -32,7 +32,7 @@ const coverImageSrc = useApiImageRoute(
 </script>
 
 <template>
-  <UICard :title="diario.disciplina.nome" variant="block" :src="coverImageSrc">
+  <UICard :src="coverImageSrc" :title="diario.disciplina.nome" variant="block">
     <template #actions>
       <LazySectionDiariosModal :edit-id="diario.id" />
     </template>

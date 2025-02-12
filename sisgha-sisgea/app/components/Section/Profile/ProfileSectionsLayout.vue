@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 type Props = {
   icon: Component | (HTMLElement & SVGElement);
   title: string;

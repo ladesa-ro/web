@@ -1,6 +1,6 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useQueryClient } from '@tanstack/vue-query';
-import { useFormUser, type FormUserOutput } from '../FormUtils';
+import { type FormUserOutput, useFormUser } from '../FormUtils';
 
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
@@ -102,24 +102,24 @@ function onClose() {
       <VVSelectImage name="imagem" />
 
       <VVTextField
-        type="text"
         label="Nome"
-        placeholder="Digite aqui"
         name="nome"
+        placeholder="Digite aqui"
+        type="text"
       />
 
       <VVTextField
-        type="text"
         label="Email"
-        placeholder="Digite aqui"
         name="email"
+        placeholder="Digite aqui"
+        type="text"
       />
 
       <VVTextField
-        type="text"
         label="Matrícula"
-        placeholder="Digite aqui"
         name="matriculaSiape"
+        placeholder="Digite aqui"
+        type="text"
       />
 
       <SectionUsuariosFormProfileRoles />

@@ -32,7 +32,7 @@
             class="focus:outline-hidden mx-4"
             @click.prevent="removeDay(index)"
           >
-            <v-icon small class="IconTrash h-6 w-6">mdi-trash-can</v-icon>
+            <v-icon class="IconTrash h-6 w-6" small>mdi-trash-can</v-icon>
           </button>
         </div>
       </div>

@@ -1,7 +1,8 @@
 import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
-import { withApiClient } from '../core/generic';
+import type { IGenericCrudModuleTypes } from '~/utils/integrations/generic-crud/IGenericCrudModuleTypes';
+import { withApiClient } from '~/utils/integrations/api/core/generic';
 
-export type IAmbienteApiModuleTypings = {
+export type IAmbientesApiModuleTypings = IGenericCrudModuleTypes<{
   CompleteView: ApiClientTypings.AmbienteFindOneResultView;
 
   Create: {
@@ -23,10 +24,14 @@ export type IAmbienteApiModuleTypings = {
     Data: ApiClientTypings.AmbienteInputUpdateView;
     Result: ApiClientTypings.AmbienteUpdateOneByIdResponse;
   };
-};
+}>;
+
+export type IAmbientesApiModule = ReturnType<typeof createAmbientesCrudModule>;
 
 export const createAmbientesCrudModule = withApiClient((apiClient) => {
   return {
+    __types: {} as IAmbientesApiModuleTypings,
+
     baseQueryKeys: ['ambientes'],
 
     create(requestBody) {
@@ -48,5 +53,5 @@ export const createAmbientesCrudModule = withApiClient((apiClient) => {
     deleteOne(id) {
       return apiClient.ambientes.ambienteDeleteOneById({ id });
     },
-  } satisfies IGenericCrudModule<IAmbienteApiModuleTypings>;
+  } satisfies IGenericCrudModule<IAmbientesApiModuleTypings>;
 });

@@ -1,26 +1,28 @@
 import { useQuery } from '@tanstack/vue-query';
 import type { Ref } from 'vue';
-import { type QuerySuspenseBehaviour } from '../../../utils';
 import type { IGenericCrudModule } from '../../../utils/integrations/generic-crud/IGenericCrudModule';
-import type { IGenericCrudModuleTypes } from '../../../utils/integrations/generic-crud/IGenericCrudModuleTypes';
+import type { IGenericCrudModuleTypesBase } from '../../../utils/integrations/generic-crud/IGenericCrudModuleTypesBase';
+import { useGenericCrudFindOneAheadOfTime } from './useGenericCrudFindOneAheadOfTime';
 
-export const useGenericCrudListQuery = <Types extends IGenericCrudModuleTypes>(
+export const useGenericCrudListQuery = <
+  Types extends IGenericCrudModuleTypesBase,
+>(
   crudModule: IGenericCrudModule<Types>
 ) => {
   type SearchOptions = Types['List']['Queries'];
-  type PaginatedItem = Types['GetOne']['Result'];
+  type PaginatedItem = Types['List']['ResultItem'];
 
-  return (input: MaybeRef<SearchOptions>) => {
+  return (searchOptions: MaybeRef<SearchOptions>) => {
     const queryKey = computed(() => [
       ...crudModule.baseQueryKeys,
-      JSON.stringify(unref(input)),
+      JSON.stringify(unref(searchOptions)),
     ]);
 
     const query = useQuery({
       queryKey: queryKey,
 
       queryFn: async () => {
-        const inputUnwrapped = unref(input);
+        const inputUnwrapped = unref(searchOptions);
         return crudModule.list(inputUnwrapped);
       },
     });
@@ -38,22 +40,18 @@ export const useGenericCrudListQuery = <Types extends IGenericCrudModuleTypes>(
     watch(
       [items],
       ([currentItems]) => {
-        if (currentItems) {
-          previousItems.value = currentItems;
-        }
+        if (!currentItems) return;
+        previousItems.value = currentItems;
       },
       { immediate: true }
     );
 
-    const suspense = (suspenseBehaviour?: QuerySuspenseBehaviour) => {
-      return QuerySuspense(
-        query,
-        suspenseBehaviour ?? { mode: QuerySuspenseBehaviourMode.ALWAYS_WAIT }
-      );
-    };
+    const suspend = useQuerySuspend(query);
+
+    useGenericCrudFindOneAheadOfTime(crudModule, items);
 
     return {
-      suspense,
+      suspend,
 
       query,
 

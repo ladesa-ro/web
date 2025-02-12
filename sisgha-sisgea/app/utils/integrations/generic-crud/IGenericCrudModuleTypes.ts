@@ -1,28 +1,3 @@
-import type { IApiCoreListInput } from '../api';
+import type { IGenericCrudModuleTypesBase } from './IGenericCrudModuleTypesBase';
 
-export type IGenericCrudModuleTypes = {
-  CompleteView: {
-    id: any;
-  };
-
-  GetOne: {
-    Result: any;
-  };
-
-  Create: {
-    Data: any;
-    Result: any;
-  };
-
-  List: {
-    Queries: IApiCoreListInput;
-    Result: any;
-
-    ResultItem: any;
-  };
-
-  Update: {
-    Data: any;
-    Result: any;
-  };
-};
+export type IGenericCrudModuleTypes<T extends IGenericCrudModuleTypesBase> = T;

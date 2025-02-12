@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 const searchValue = defineModel<string | undefined>('search', { default: '' });
 const modelValue = defineModel<string | null>('value', { default: null });
 </script>
@@ -6,15 +6,15 @@ const modelValue = defineModel<string | null>('value', { default: null });
 <template>
   <div class="autoCompleteField">
     <v-autocomplete
-      v-bind="$attrs"
-      v-model:search="searchValue"
       v-model:model-value="modelValue"
+      v-model:search="searchValue"
+      base-color="#9ab69e"
       clearable
       color="#00d047"
-      variant="outlined"
       hide-details="auto"
-      base-color="#9ab69e"
       persistent-placeholder
+      v-bind="$attrs"
+      variant="outlined"
     />
   </div>
 </template>

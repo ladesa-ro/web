@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 // import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
 
 // o componente UIGenericLesson será chamado e tentarei levar a lógica de estilização de acordo com horário para lá.
@@ -18,7 +18,7 @@
       <div class="flex flex-col gap-5 mt-12">
         <!-- este é apenas um código de exemplo. ele será alterado. -->
         <UIGenericRectangle>
-          <template #title> Nome do ambiente </template>
+          <template #title> Nome do ambiente</template>
           <template #content>
             <p>Horário:</p>
             <p>Autor da reserva:</p>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { createAndProvideContextDiariosFormGeral } from './Contexto';
 
 const $emit = defineEmits(['close']);
@@ -39,16 +39,16 @@ const goBackToForm2 = () => {
 
   <template v-if="isForm2Visible && !isForm3Visible">
     <SectionDiariosFormGeralDisciplinaTurmas
-      @close="closeForm"
-      @back="goBackToForm1"
       @add="goToForm3"
+      @back="goBackToForm1"
+      @close="closeForm"
     />
   </template>
 
   <template v-if="isForm3Visible">
     <SectionDiariosFormGeralDisciplinaTurmasAdd
-      @close="closeForm"
       @back="goBackToForm2"
+      @close="closeForm"
     />
   </template>
 </template>

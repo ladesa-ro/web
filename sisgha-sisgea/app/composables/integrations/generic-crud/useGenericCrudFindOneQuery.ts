@@ -1,15 +1,10 @@
 import { useQuery } from '@tanstack/vue-query';
-import type { Ref } from 'vue';
-import {
-  QuerySuspenseBehaviourMode,
-  type QuerySuspenseBehaviour,
-} from '../../../utils';
 import type { IGenericCrudModule } from '../../../utils/integrations/generic-crud/IGenericCrudModule';
-import type { IGenericCrudModuleTypes } from '../../../utils/integrations/generic-crud/IGenericCrudModuleTypes';
+import type { IGenericCrudModuleTypesBase } from '../../../utils/integrations/generic-crud/IGenericCrudModuleTypesBase';
 import { getQueryKeyForCrudModuleFindOne } from './utils/get-query-key';
 
 export const useGenericCrudFindOneQuery = <
-  Types extends IGenericCrudModuleTypes,
+  Types extends IGenericCrudModuleTypesBase,
 >(
   crudModule: IGenericCrudModule<Types>
 ) => {
@@ -42,27 +37,8 @@ export const useGenericCrudFindOneQuery = <
 
     //
 
-    const previousData = ref(unref(data)) as Ref<GetOneResult | null>;
+    const suspense = useQuerySuspend(query);
 
-    //
-
-    watch(
-      [data],
-      ([currentData]) => {
-        if (currentData) {
-          previousData.value = currentData;
-        }
-      },
-      { immediate: true }
-    );
-
-    //
-    const suspense = (suspenseBehaviour?: QuerySuspenseBehaviour) => {
-      return QuerySuspense(
-        query,
-        suspenseBehaviour ?? { mode: QuerySuspenseBehaviourMode.ALWAYS_WAIT }
-      );
-    };
     //
 
     return {
@@ -76,7 +52,6 @@ export const useGenericCrudFindOneQuery = <
       },
 
       data,
-      previousData,
     };
   };
 };

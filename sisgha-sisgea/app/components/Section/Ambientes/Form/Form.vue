@@ -191,57 +191,60 @@ const onClose = () => $emit('close');
 <template>
   <form @submit.prevent="onSubmit">
     <DialogModalBaseLayout
-      :title="editId ? 'Editar Ambiente' : 'Cadastrar Ambiente'"
       :on-close="onClose"
+      :title="editId ? 'Editar Ambiente' : 'Cadastrar Ambiente'"
     >
       <VVSelectImage name="imagem" />
 
-      <VVAutocompleteAPIBloco name="bloco.id" :disabled="editId !== null" />
+      <VVAutocompleteAPIBloco :disabled="editId !== null" name="bloco.id" />
 
       <VVTextField
         v-model="nome"
-        type="text"
         label="Nome"
-        placeholder="Digite aqui"
         name="nome"
+        placeholder="Digite aqui"
+        type="text"
       />
 
       <VVTextField
         v-model="descricao"
-        type="text"
         label="Descrição"
-        placeholder="Digite aqui"
         name="descricao"
+        placeholder="Digite aqui"
+        type="text"
       />
 
       <VVTextField
         v-model="codigo"
-        type="text"
         label="Código"
-        placeholder="Digite aqui"
         name="codigo"
+        placeholder="Digite aqui"
+        type="text"
       />
 
       <VVTextField
         v-model="capacidade"
-        type="number"
         label="Capacidade"
-        placeholder="Digite aqui"
         name="capacidade"
+        placeholder="Digite aqui"
+        type="number"
       />
 
       <VVTextField
         v-model="tipo"
-        type="text"
         label="Tipo"
-        placeholder="Digite aqui"
         name="tipo"
+        placeholder="Digite aqui"
+        type="text"
       />
 
       <template #button-group>
         <UIButtonModalCancelButton @click="$emit('close')" />
 
-        <UIButtonModalDeleteButton v-if="editId" @click.prevent="handleDelete" />
+        <UIButtonModalDeleteButton
+          v-if="editId"
+          @click.prevent="handleDelete"
+        />
         <UIButtonModalEditButton v-if="editId" />
         <UIButtonModalSaveButton v-else />
       </template>

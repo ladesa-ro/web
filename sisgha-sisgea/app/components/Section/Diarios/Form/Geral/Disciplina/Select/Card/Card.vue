@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { DisciplinaFindOneResultView } from '@ladesa-ro/api-client-fetch';
 
 type Props = {
@@ -10,12 +10,12 @@ const { disciplina } = defineProps<Props>();
 <template>
   <UICardSelectionDiscipline :title="disciplina.nome" variant="block">
     <template #actions>
-      <v-radio color="success" :value="disciplina.id" />
+      <v-radio :value="disciplina.id" color="success" />
     </template>
 
     <UICardLine
-      class="block w-full text-left"
       :text="`Carga horária: ${disciplina.cargaHoraria}`"
+      class="block w-full text-left"
     />
   </UICardSelectionDiscipline>
 </template>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import fodase from '~/components/Section/Blocos/Form/Form.vue';
 import { createApiListContextOptions } from '~~/app/components/UI/API/List/Context/UIApiListContext';
 
@@ -14,11 +14,11 @@ const options = createApiListContextOptions({ crudModule });
     </template>
 
     <template #grid-item="{ item, isLoading }">
-      <SectionBlocosGridItem :item="item" :is-loading="isLoading" />
+      <SectionBlocosGridItem :is-loading="isLoading" :item="item" />
     </template>
 
     <template #grid-item-skeleton>
-      <SectionBlocosGridItem :item="null" :is-loading="true" />
+      <SectionBlocosGridItem :is-loading="true" :item="null" />
     </template>
   </UIAPIList>
 </template>

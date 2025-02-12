@@ -188,18 +188,18 @@ function onClose() {
 
       <VVTextField
         v-model="nome"
-        type="text"
         label="Nome"
-        placeholder="Digite aqui"
         name="nome"
+        placeholder="Digite aqui"
+        type="text"
       />
 
       <VVTextField
         v-model="nomeAbreviado"
-        type="text"
         label="Nome Abreviado"
-        placeholder="Digite aqui"
         name="nomeAbreviado"
+        placeholder="Digite aqui"
+        type="text"
       />
 
       <template #button-group>

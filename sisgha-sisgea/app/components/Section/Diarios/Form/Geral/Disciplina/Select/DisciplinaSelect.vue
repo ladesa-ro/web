@@ -21,7 +21,7 @@ const {
   composables: { useListQuery },
 } = useLadesaApiCrudDisciplinas();
 
-const { previousItems: disciplinas } = await useListQuery(options);
+const { previousItems: disciplinas } = useListQuery(options);
 
 const closeForm = () => {
   $emit('close');
@@ -40,8 +40,8 @@ const nextForm = () => {
     >
       <UISearchBar
         :value="searchBarText"
-        @update:value="searchBarText = $event"
         class="mt-[0.313rem]"
+        @update:value="searchBarText = $event"
       />
 
       <v-radio-group v-model="selectedDisciplina" class="!overflow-x-hidden">

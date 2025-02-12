@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useField } from 'vee-validate';
 import { verificarModalidade } from './-Helpers/verificar-modalidade';
 
@@ -52,14 +52,14 @@ const estrategiaModalidade = computed(() => {
 <template>
   <SectionTurmasFormFieldsPeriodoSerieLetra
     v-if="estrategiaModalidade === 'serie-letra'"
-    :is-loading="isLoading"
     :disabled="disabled"
+    :is-loading="isLoading"
   />
 
   <template v-else-if="estrategiaModalidade === 'periodo'">
     <SectionTurmasFormFieldsPeriodoBruto
-      :is-loading="isLoading"
       :disabled="disabled"
+      :is-loading="isLoading"
     />
   </template>
 

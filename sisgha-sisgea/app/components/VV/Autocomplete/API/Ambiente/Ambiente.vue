@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 import { useLadesaApiCrudAmbientes } from '../../../../../composables/integrations/ladesa-api/modules/modules';
 
@@ -30,9 +30,9 @@ const options = createUIAutocompleteApiRetrieverOptions({
 
 <template>
   <VVAutocompleteAPI
+    :is-loading="isLoading"
     :name="name"
     :options="options"
-    :is-loading="isLoading"
     label="Ambiente"
     placeholder="Selecione um ambiente"
     v-bind="$attrs"

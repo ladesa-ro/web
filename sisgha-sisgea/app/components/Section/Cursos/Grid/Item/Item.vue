@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import CursosForm from '../../Form/Form.vue';
 
 import type { CursoFindOneResultView } from '@ladesa-ro/api-client-fetch';
@@ -22,14 +22,14 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, curso);
   <UICardAutoSkeleton :skeleton="isLoading || !curso">
     <UICard
       v-if="curso"
+      :src="coverImageSrc"
       :title="curso.nome"
       variant="block"
-      :src="coverImageSrc"
     >
       <template #actions>
         <DialogModalEditOrCreateModal
-          :form-component="CursosForm"
           :edit-id="curso.id"
+          :form-component="CursosForm"
         />
       </template>
 

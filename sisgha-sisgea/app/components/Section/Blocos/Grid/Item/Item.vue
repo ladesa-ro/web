@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { BlocoFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import fodase from '~/components/Section/Blocos/Form/Form.vue';
 
@@ -18,14 +18,14 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.BLOCO_COVER, bloco);
   <UICardAutoSkeleton :skeleton="isLoading || !bloco">
     <UICard
       v-if="bloco"
-      variant="block"
-      :title="bloco.nome"
       :src="coverImageSrc"
+      :title="bloco.nome"
+      variant="block"
     >
       <template #actions>
         <DialogModalEditOrCreateModal
-          :form-component="fodase"
           :edit-id="bloco.id"
+          :form-component="fodase"
         />
       </template>
 

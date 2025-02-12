@@ -1,5 +1,5 @@
 <template>
-  <UIButtonModalBaseButtonLayout type="button" color="var(--ladesa-grey-color)">
+  <UIButtonModalBaseButtonLayout color="var(--ladesa-grey-color)" type="button">
     Cancelar
     <template #icon>
       <IconsIconClose />

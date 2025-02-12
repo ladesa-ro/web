@@ -23,6 +23,7 @@ const handleUpdate = (v: boolean) => {
 };
 
 const enableEventList = ref<boolean>(false);
+
 async function showEventsList(value: boolean): Promise<void> {
   try {
     enableEventList.value = !value;
@@ -47,11 +48,11 @@ const onClose = () => (isActive.value = false);
         >
           <!-- Select year -->
           <VVAutocomplete
-            name="year.id"
-            label="Ano letivo"
-            placeholder="Selecione um ano"
             :items="years"
             class="xl:max-w-[200px]"
+            label="Ano letivo"
+            name="year.id"
+            placeholder="Selecione um ano"
           />
 
           <!-- Select modality -->
@@ -60,11 +61,11 @@ const onClose = () => (isActive.value = false);
           <!-- Select calendar -->
           <div class="flex w-full max-w-[1800px] gap-4">
             <VVAutocomplete
-              name="calendar.id"
-              label="Calendários"
-              placeholder="Selecione um calendário"
               :items="calendars"
               class="w-full"
+              label="Calendários"
+              name="calendar.id"
+              placeholder="Selecione um calendário"
             />
 
             <!-- Buttons -->
@@ -108,10 +109,10 @@ const onClose = () => (isActive.value = false);
       <!-- Modals -->
       <div class="flex items-center justify-center shrink-0">
         <SectionCalendarioModalEventList
-          :year="calendar?.year"
-          :steps="calendar?.steps"
-          :events="calendar?.events"
           :enable-modal="true"
+          :events="calendar?.events"
+          :steps="calendar?.steps"
+          :year="calendar?.year"
         />
       </div>
 
@@ -120,17 +121,17 @@ const onClose = () => (isActive.value = false);
         <!-- Partial calendar -->
         <SectionCalendarioViewsPartialCalendar
           v-show="calendarView === false"
-          :year="calendar?.year"
           :events="calendar?.events"
           :steps="calendar?.steps"
+          :year="calendar?.year"
         />
 
         <!-- Complete calendar -->
         <SectionCalendarioViewsCompleteCalendar
           v-show="calendarView !== false"
-          :year="calendar?.year"
           :events="calendar?.events"
           :steps="calendar?.steps"
+          :year="calendar?.year"
         />
       </div>
     </div>

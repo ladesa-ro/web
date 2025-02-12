@@ -6,10 +6,10 @@ import type {
   VueQueryPluginOptions,
 } from '@tanstack/vue-query';
 import {
-  QueryClient,
-  VueQueryPlugin,
   dehydrate,
   hydrate,
+  QueryClient,
+  VueQueryPlugin,
 } from '@tanstack/vue-query';
 
 export default defineNuxtPlugin((nuxt) => {
@@ -22,6 +22,7 @@ export default defineNuxtPlugin((nuxt) => {
         staleTime: 1 * 60 * 60 * 1000,
         refetchOnMount: 'always',
         placeholderData: (prev: any) => prev,
+        experimental_prefetchInRender: true,
       },
     },
   });

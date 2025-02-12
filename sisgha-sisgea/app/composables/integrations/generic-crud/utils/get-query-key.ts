@@ -1,10 +1,10 @@
 import type {
   IGenericCrudModule,
-  IGenericCrudModuleTypes,
+  IGenericCrudModuleTypesBase,
 } from '../../../../utils';
 
 export function getQueryKeyForCrudModuleFindOne<
-  Types extends IGenericCrudModuleTypes,
+  Types extends IGenericCrudModuleTypesBase,
 >(
   crudModule: IGenericCrudModule<Types>,
   id: MaybeRef<Types['CompleteView']['id'] | null>
@@ -13,7 +13,7 @@ export function getQueryKeyForCrudModuleFindOne<
 }
 
 export function getQueryKeyForCrudModuleQueryState<
-  Types extends IGenericCrudModuleTypes,
+  Types extends IGenericCrudModuleTypesBase,
 >(
   crudModule: IGenericCrudModule<Types>,
   id: MaybeRef<Types['CompleteView']['id'] | null>

@@ -142,8 +142,7 @@ async function hoverInWeek(date: Dayjs, enableHover: boolean): Promise<void> {
           // Find day
           const dayOfWeek = daysOfWeek.value[i]!;
           const dayItem = calendarDays.daysInMonth.value.find(
-            (item) =>
-              item.date.format('MM-DD') === dayOfWeek.format('MM-DD')
+            (item) => item.date.format('MM-DD') === dayOfWeek.format('MM-DD')
           );
 
           // Active hover
@@ -169,8 +168,8 @@ onMounted(async () => {
 <template>
   <v-card class="-month mx-auto rounded-lg w-max h-max">
     <div
-      class="text-ldsa-white flex justify-between items-center p-3 pl-6 pr-6 w-full bg-ldsa-grey"
       :style="{ backgroundColor: monthColor }"
+      class="text-ldsa-white flex justify-between items-center p-3 pl-6 pr-6 w-full bg-ldsa-grey"
     >
       <!-- Toggle for before month -->
       <IconsArrowIconArrow
@@ -219,20 +218,20 @@ onMounted(async () => {
       <div
         v-for="(dayInMonth, index) in calendarDays.daysInMonth.value"
         :key="index"
-        class="flex w-10 h-10 sm:w-12 sm:h-12 border-solid rounded-lg"
         :class="{ 'cursor-pointer': props.selectWeek }"
         :style="{ backgroundColor: dayInMonth.color }"
+        class="flex w-10 h-10 sm:w-12 sm:h-12 border-solid rounded-lg"
+        @click="emitWeekSelected()"
         @mouseenter="hoverInWeek(dayInMonth.date, true)"
         @mouseleave="hoverInWeek(dayInMonth.date, false)"
-        @click="emitWeekSelected()"
       >
         <!-- Hover -->
         <div
-          class="flex w-full h-full justify-center items-center"
           :class="{
             '-hover-off ': dayInMonth.hoverActive !== true,
             '-hover-on ': dayInMonth.hoverActive === true,
           }"
+          class="flex w-full h-full justify-center items-center"
         >
           <p
             :class="{

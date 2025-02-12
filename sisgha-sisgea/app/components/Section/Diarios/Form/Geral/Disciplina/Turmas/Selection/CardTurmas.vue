@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { TurmaFindOneResultView } from '@ladesa-ro/api-client-fetch';
 
 type Props = {
@@ -22,7 +22,7 @@ const onTurmaSelect = toRef(props, 'onTurmaSelect');
     </template>
 
     <template #actions>
-      <v-checkbox color="success" value="success" class="detail" />
+      <v-checkbox class="detail" color="success" value="success" />
     </template>
 
     <UICardLine class="card-line">

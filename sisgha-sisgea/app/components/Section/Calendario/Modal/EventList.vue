@@ -56,7 +56,7 @@ onMounted(async () => {
 
 <template>
   <DialogSkeleton v-model="isActive">
-    <DialogModalBaseLayout title="Listagem de Eventos" :on-close="onClose">
+    <DialogModalBaseLayout :on-close="onClose" title="Listagem de Eventos">
       <form class="form">
         <!-- Filter content -->
         <div class="modal-form">
@@ -70,19 +70,19 @@ onMounted(async () => {
           <div class="flex flex-row gap-4">
             <VVAutocomplete
               v-model:value="localValue._orderBy.value"
-              name="orderBy.id"
-              label="Ordenar por"
-              placeholder="Selecione uma opção"
               :items="orderBy"
               class="w-full"
+              label="Ordenar por"
+              name="orderBy.id"
+              placeholder="Selecione uma opção"
             />
             <VVAutocomplete
               v-model:value="localValue._orderType.value"
-              name="orderType.id"
-              label="Ordem"
-              placeholder="Selecione uma ordem"
               :items="orderType"
               class="w-full"
+              label="Ordem"
+              name="orderType.id"
+              placeholder="Selecione uma ordem"
             />
           </div>
         </div>
@@ -93,13 +93,13 @@ onMounted(async () => {
         >
           <SectionCalendarioEventsAccordion
             v-for="(item, index) in filterType"
-            :name="item.name"
-            :year="year"
-            :month-num="index"
-            :steps="steps"
-            :events="events"
             :between-dates="item"
+            :events="events"
+            :month-num="index"
+            :name="item.name"
             :order-by="localValue._orderBy.value"
+            :steps="steps"
+            :year="year"
           />
         </div>
       </form>

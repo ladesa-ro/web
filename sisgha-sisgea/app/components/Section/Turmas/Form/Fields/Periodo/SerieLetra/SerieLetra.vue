@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useField } from 'vee-validate';
 import { useSplittedSerieLetra } from './composables/useSplittedSerieLetra';
 
@@ -38,20 +38,20 @@ onMounted(() => {
   <div class="grid grid-cols-[2fr_1fr] gap-4">
     <VVTextField
       v-model="serie"
-      type="text"
-      name="_.serie"
       :disabled="isLoading || disabled"
       label="Série"
+      name="_.serie"
       placeholder="1°, 2°, 3°..."
+      type="text"
     />
 
     <VVTextField
       v-model="letra"
-      type="text"
-      name="_.letra"
       :disabled="isLoading || disabled"
       label="Letra"
+      name="_.letra"
       placeholder="A, B, C..."
+      type="text"
     />
   </div>
 </template>

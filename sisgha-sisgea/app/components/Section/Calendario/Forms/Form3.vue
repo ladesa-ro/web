@@ -30,12 +30,11 @@ const nextForm = () => {
 };
 
 const $emit = defineEmits(['close', 'next', 'back']);
-
 </script>
 
 <template>
   <!-- <form> -->
-  <DialogModalBaseLayout title="Cadastrar Calendário" :on-close="closeForm">
+  <DialogModalBaseLayout :on-close="closeForm" title="Cadastrar Calendário">
     <!-- TODO: transformar cada evento em componente -->
     <div class="flex items-center mr-3">
       <span class="font-bold mr-2">Recuperação 1</span>
@@ -45,27 +44,27 @@ const $emit = defineEmits(['close', 'next', 'back']);
     <div class="form-body modal-form">
       <VVTextField
         v-model="calendario.cor"
-        type="color"
-        label="Cor"
-        placeholder="Selecione a cor"
-        name="nome"
         class="color-picker-square"
+        label="Cor"
+        name="nome"
+        placeholder="Selecione a cor"
+        type="color"
       />
 
       <div class="date-fields">
         <VVTextField
           v-model="calendario.inicio"
-          type="date"
           label="Início"
-          placeholder="Selecione a data de início"
           name="inicio"
+          placeholder="Selecione a data de início"
+          type="date"
         />
         <VVTextField
           v-model="calendario.fim"
-          type="date"
           label="Término"
-          placeholder="Selecione a data de término"
           name="fim"
+          placeholder="Selecione a data de término"
+          type="date"
         />
       </div>
 
@@ -76,27 +75,27 @@ const $emit = defineEmits(['close', 'next', 'back']);
 
       <VVTextField
         v-model="calendario.cor"
-        type="color"
-        label="Cor"
-        placeholder="Selecione a cor"
-        name="nome"
         class="color-picker-square"
+        label="Cor"
+        name="nome"
+        placeholder="Selecione a cor"
+        type="color"
       />
 
       <div class="date-fields">
         <VVTextField
           v-model="calendario.inicio"
-          type="date"
           label="Início"
-          placeholder="Selecione a data de início"
           name="inicio"
+          placeholder="Selecione a data de início"
+          type="date"
         />
         <VVTextField
           v-model="calendario.fim"
-          type="date"
           label="Término"
-          placeholder="Selecione a data de término"
           name="fim"
+          placeholder="Selecione a data de término"
+          type="date"
         />
       </div>
 
@@ -107,27 +106,27 @@ const $emit = defineEmits(['close', 'next', 'back']);
 
       <VVTextField
         v-model="calendario.cor"
-        type="color"
-        label="Cor"
-        placeholder="Selecione a cor"
-        name="nome"
         class="color-picker-square"
+        label="Cor"
+        name="nome"
+        placeholder="Selecione a cor"
+        type="color"
       />
 
       <div class="date-fields">
         <VVTextField
           v-model="calendario.inicio"
-          type="date"
           label="Início"
-          placeholder="Selecione a data de início"
           name="inicio"
+          placeholder="Selecione a data de início"
+          type="date"
         />
         <VVTextField
           v-model="calendario.fim"
-          type="date"
           label="Término"
-          placeholder="Selecione a data de término"
           name="fim"
+          placeholder="Selecione a data de término"
+          type="date"
         />
       </div>
     </div>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import AccessRoleButton from './AccessRoleButton.vue';
 
 const route = useRoute();
@@ -29,19 +29,19 @@ defineEmits(['close']);
 
     <section class="flex justify-between w-full">
       <AccessRoleButton
-        :position-name="Profile.PROFESSOR"
         :active="activeProfile === Profile.PROFESSOR"
+        :position-name="Profile.PROFESSOR"
         to="/sisgha/professor"
       >
-        <IconsIconEducator width="36" height="49" />
+        <IconsIconEducator height="49" width="36" />
       </AccessRoleButton>
 
       <AccessRoleButton
-        :position-name="Profile.DAPE"
         :active="activeProfile === Profile.DAPE"
+        :position-name="Profile.DAPE"
         to="/sisgha/dape"
       >
-        <IconsIconUser width="38" height="40" />
+        <IconsIconUser height="40" width="38" />
       </AccessRoleButton>
     </section>
 
@@ -50,7 +50,7 @@ defineEmits(['close']);
       @click="$emit('close')"
     >
       Cancelar
-      <IconsIconClose width="11" height="10" class="mt-px" />
+      <IconsIconClose class="mt-px" height="10" width="11" />
     </button>
   </div>
 </template>

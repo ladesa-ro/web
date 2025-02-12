@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 type Props = {
   title?: string;
   variant: 'block' | 'inline';
@@ -17,23 +17,23 @@ const selectedRadio = ref<string>('');
 
 <template>
   <v-card
-    max-width="100%"
     class="-card-bloco border-2 divide-solid border-lime-500 rounded-lg overflow-hidden pb-5 mx-auto"
+    max-width="100%"
   >
     <div class="textAndButton flex items-center justify-between max-w-full">
       <v-card-title
         class="-card-titulo font-semibold text-black no-underline inline-block max-w-[100%] overflow-hidden"
       >
-        <slot name="title" class="title">
+        <slot class="title" name="title">
           {{ props.title }}
         </slot>
       </v-card-title>
 
       <v-checkbox
         v-model="selectedRadio"
+        class="detail"
         color="success"
         value="success"
-        class="detail"
       />
     </div>
 
@@ -45,6 +45,7 @@ const selectedRadio = ref<string>('');
 .-card-bloco {
   border: 2px solid #9ab69e;
 }
+
 .detail {
   position: absolute;
   cursor: pointer;
@@ -53,9 +54,11 @@ const selectedRadio = ref<string>('');
   margin-top: 18%;
   font-size: 1.3rem;
 }
+
 .-card-titulo {
   font-weight: 600;
 }
+
 .textAndButton {
   display: flex;
   justify-content: space-between;

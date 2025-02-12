@@ -1,4 +1,4 @@
-<script lang="ts" setup generic="Typings extends IGenericCrudModuleTypes">
+<script generic="Typings extends IGenericCrudModuleTypesBase" lang="ts" setup>
 import filter from 'lodash/filter';
 import uniqBy from 'lodash/uniqBy';
 import { useField } from 'vee-validate';
@@ -108,13 +108,13 @@ const isFilterDisabled = computed(() => !isFilterEnabled.value);
     <div class="autoCompleteField">
       <UIAutocompleteBase
         v-model:search="searchValue"
+        :name="name"
         clearable
+        disabled=""
         hide-details="auto"
         persistent-placeholder
-        :name="name"
-        v-bind="$attrs"
-        disabled=""
         placeholder="Carregando..."
+        v-bind="$attrs"
       />
     </div>
   </template>
@@ -122,24 +122,24 @@ const isFilterDisabled = computed(() => !isFilterEnabled.value);
   <template v-else-if="!items">
     <UIAutocompleteBase
       v-model:search="searchValue"
+      :name="name"
       clearable
+      disabled=""
       hide-details="auto"
       persistent-placeholder
-      :name="name"
-      v-bind="$attrs"
-      disabled=""
       placeholder="Carregando..."
+      v-bind="$attrs"
     />
   </template>
 
   <template v-else>
     <VVAutocomplete
       v-model:search="searchValue"
-      :name="name"
       :items="items"
-      item-value="value"
-      item-title="label"
+      :name="name"
       :no-filter="isFilterDisabled"
+      item-title="label"
+      item-value="value"
       v-bind="$attrs"
     />
   </template>

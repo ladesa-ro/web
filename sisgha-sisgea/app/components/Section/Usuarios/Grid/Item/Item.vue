@@ -74,14 +74,14 @@ const profilePicureUrl = useApiImageRoute(
 
 <template>
   <nuxt-link
-    @click.capture="handleCardClick"
     :to="`/sisgha/dape/usuarios/${usuario.id}`"
+    @click.capture="handleCardClick"
   >
     <UICard
       v-if="usuario"
+      :src="profilePicureUrl"
       :title="usuario.nome"
       variant="block"
-      :src="profilePicureUrl"
     >
       <template #fallbackIcon>
         <IconsIconUser class="w-1/3 text-ldsa-grey" />

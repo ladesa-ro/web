@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { CollapsibleContent, CollapsibleRoot } from 'radix-vue';
 
 type Props = { title: string };
@@ -11,7 +11,7 @@ const open = ref(false);
 
 <template>
   <CollapsibleRoot v-model:open="open" class="collapsible-root">
-    <div @click="open = !open" class="collapsible-header">
+    <div class="collapsible-header" @click="open = !open">
       <h1>{{ title }}</h1>
       <span class="text-ldsa-white/60">Editado há 3 horas</span>
     </div>
@@ -24,10 +24,10 @@ const open = ref(false);
       </section>
     </CollapsibleContent>
 
-    <div @click="open = !open" class="collapsible-footer">
+    <div class="collapsible-footer" @click="open = !open">
       <IconsArrowIconArrow
-        class="text-ldsa-green-1"
         :class="open ? 'rotate-90' : '-rotate-90'"
+        class="text-ldsa-green-1"
       />
     </div>
   </CollapsibleRoot>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 const { isBusy, isError, canSubmit, credentials, signInWithCredentials } =
   useAuthSignIn();
 
@@ -17,24 +17,24 @@ useTitle(null, 'Login');
         <div class="fields">
           <UITextField
             v-model="credentials.username"
-            required
-            type="text"
-            class="field"
             :disabled="isBusy"
-            placeholder="Matrícula"
             :input-props="{
               autocapitalize: 'none',
               autocorrect: 'off',
             }"
+            class="field"
+            placeholder="Matrícula"
+            required
+            type="text"
           />
 
           <UITextField
             v-model="credentials.password"
-            required
-            class="field"
-            type="password"
             :disabled="isBusy"
+            class="field"
             placeholder="Senha"
+            required
+            type="password"
           />
         </div>
 
@@ -44,9 +44,9 @@ useTitle(null, 'Login');
         </span>
 
         <UIButton
-          type="submit"
           :disabled="!canSubmit"
           class="login-form-submit"
+          type="submit"
         >
           Entrar
         </UIButton>
@@ -56,10 +56,10 @@ useTitle(null, 'Login');
 
           <VAlert
             v-model="isError"
-            closable
-            type="error"
             class="error-feedback"
+            closable
             text="Não foi possível realizar o login."
+            type="error"
           />
         </div>
       </div>
@@ -67,14 +67,14 @@ useTitle(null, 'Login');
 
     <div class="login-alternative-actions">
       <NuxtLink
-        tabindex="-1"
         class="login-alternative-link"
+        tabindex="-1"
         to="/sisgha/consulta"
       >
         <UIButton
-          type="button"
           :disabled="isBusy"
           class="login-alternative-button"
+          type="button"
         >
           <template #start-icon>
             <IconsIconUser class="flex w-6 h-6 mr-4" />

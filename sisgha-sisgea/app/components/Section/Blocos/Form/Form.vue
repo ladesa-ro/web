@@ -157,31 +157,37 @@ const onClose = () => $emit('close');
 
 <template>
   <form @submit.prevent="onSubmit">
-    <DialogModalBaseLayout :title="editId ? 'Editar Bloco' : 'Cadastrar Bloco'" :on-close="onClose">
+    <DialogModalBaseLayout
+      :on-close="onClose"
+      :title="editId ? 'Editar Bloco' : 'Cadastrar Bloco'"
+    >
       <VVSelectImage name="imagem" />
 
-      <VVAutocompleteAPICampus name="campus.id" :disabled="Boolean(editId)" />
+      <VVAutocompleteAPICampus :disabled="Boolean(editId)" name="campus.id" />
 
       <VVTextField
         v-model="nome"
-        type="text"
         label="Nome"
-        placeholder="Digite aqui"
         name="nome"
+        placeholder="Digite aqui"
+        type="text"
       />
 
       <VVTextField
         v-model="codigo"
-        type="text"
         label="Código"
-        placeholder="Digite aqui"
         name="codigo"
+        placeholder="Digite aqui"
+        type="text"
       />
 
       <template #button-group>
         <UIButtonModalCancelButton @click="onClose" />
 
-        <UIButtonModalDeleteButton v-if="editId" @click.prevent="handleDelete" />
+        <UIButtonModalDeleteButton
+          v-if="editId"
+          @click.prevent="handleDelete"
+        />
 
         <UIButtonModalEditButton v-if="editId" />
         <UIButtonModalSaveButton v-else />

@@ -14,13 +14,18 @@ export type QuerySuspenseBehaviour = {
   mode?: QuerySuspenseBehaviourMode;
 };
 
-export const QuerySuspense = async (
+export const suspendQuery = async (
   query: UseQueryReturnType<any, any>,
   suspenseBehaviour: QuerySuspenseBehaviour = {}
 ) => {
   const { mode = QuerySuspenseBehaviourMode.AUTO } = suspenseBehaviour;
 
-  const doSuspense = () => query.suspense().finally(() => {});
+  const doSuspense = () => {
+    return query.suspense().catch((err) => {
+      console.trace();
+      console.error('err', err);
+    });
+  };
 
   let consideredMode = mode;
 

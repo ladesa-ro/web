@@ -1,10 +1,10 @@
 <template>
   <VBtn
-    type="button"
-    color="#1d5e82"
-    variant="outlined"
     append-icon="mdi-plus"
     class="buttonAdd"
+    color="#1d5e82"
+    type="button"
+    variant="outlined"
   >
     <span>Adicionar Nova Turma</span>
   </VBtn>

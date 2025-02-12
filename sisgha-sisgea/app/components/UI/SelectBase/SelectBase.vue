@@ -1,18 +1,18 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 const modelValue = defineModel('value', { default: null });
 </script>
 
 <template>
   <div class="selectBaseField">
     <v-select
-      v-bind="$attrs"
       v-model:model-value="modelValue"
+      base-color="var(--ladesa-grey-color)"
       clearable
       color="var(--ladesa-green-2-color)"
-      variant="outlined"
       hide-details="auto"
-      base-color="var(--ladesa-grey-color)"
       persistent-placeholder
+      v-bind="$attrs"
+      variant="outlined"
     />
   </div>
 </template>

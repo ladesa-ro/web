@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { capitalizeFirst } from './-Helpers/CapitalizeFirst';
 import { getWeekDays } from './-Helpers/GetWeekDays';
 import SpeechBubblesCalendar from './SpeechBubblesCalendar/SpeechBubblesCalendar.vue';
@@ -40,8 +40,8 @@ const open = ref(false);
         <template #activator>
           <IconsArrowIconArrow
             ref="notificationsButtonEl"
-            class="arrow cursor-pointer m-3"
             :class="open ? 'rotate-90' : '-rotate-90'"
+            class="arrow cursor-pointer m-3"
           />
         </template>
 
@@ -55,11 +55,11 @@ const open = ref(false);
       <!-- TODO: transformar em componente -->
       <!--left button-->
       <div
-        class="flex gap-2 items-center border-2 border-ldsa-grey/75 p-3 font-[600] rounded-l-lg text-ldsa-grey"
         :class="{
           active: selectedOption === ViewMode.GENERAL_SCHEDULE,
           'border-r-0': selectedOption !== ViewMode.GENERAL_SCHEDULE,
         }"
+        class="flex gap-2 items-center border-2 border-ldsa-grey/75 p-3 font-[600] rounded-l-lg text-ldsa-grey"
         @click="selectedOption = ViewMode.GENERAL_SCHEDULE"
       >
         <span>Horário geral</span>
@@ -68,11 +68,11 @@ const open = ref(false);
 
       <!--right button-->
       <div
-        class="flex gap-2 items-center border-2 border-ldsa-grey/75 p-3 font-[600] rounded-r-lg text-ldsa-grey"
         :class="{
           active: selectedOption === ViewMode.DAILY_SCHEDULE,
           'border-l-0': selectedOption !== ViewMode.DAILY_SCHEDULE,
         }"
+        class="flex gap-2 items-center border-2 border-ldsa-grey/75 p-3 font-[600] rounded-r-lg text-ldsa-grey"
         @click="selectedOption = ViewMode.DAILY_SCHEDULE"
       >
         <span>Horário do dia</span>

@@ -41,26 +41,26 @@ const onClose = () => {
       :on-close="onClose"
       title="Vincule o diário a uma turma"
     >
-      <VVAutocompleteAPIModalidade name="modalidade.id" label="Modalidade" />
+      <VVAutocompleteAPIModalidade label="Modalidade" name="modalidade.id" />
 
       <v-container>
         <v-row v-if="turmas && turmas.length">
           <v-col
             v-for="turma in turmas"
             :key="turma.id"
-            cols="4"
             class="text-center space-y-0"
+            cols="4"
           >
             <h4 class="mb-2 text-base font-medium text-center">
               {{ turma.curso.nome }}
             </h4>
             <v-checkbox
               v-model="checkedQuimica"
-              hide-details
-              density="compact"
-              color="success"
               :label="turma.periodo"
               :value="turma.periodo"
+              color="success"
+              density="compact"
+              hide-details
             />
           </v-col>
         </v-row>

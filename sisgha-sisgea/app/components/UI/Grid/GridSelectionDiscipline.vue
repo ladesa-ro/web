@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T">
+<script generic="T" lang="ts" setup>
 type Props = {
   items: T[];
 };

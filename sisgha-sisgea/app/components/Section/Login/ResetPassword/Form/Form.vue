@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 
@@ -36,27 +36,27 @@ const onSubmit = handleSubmit(
 <template>
   <form @submit.prevent="onSubmit">
     <DialogModalBaseLayout
-      title="Redefinir Senha"
-      :on-close="onClose"
       :close-button="false"
+      :on-close="onClose"
+      title="Redefinir Senha"
     >
       <VVTextField
         v-if="!showAlert"
-        type="email"
-        name="email"
-        label="E-mail"
         :disabled="showAlert"
-        placeholder="Digite aqui seu email"
         class="mt-1 min-w-96"
+        label="E-mail"
+        name="email"
+        placeholder="Digite aqui seu email"
+        type="email"
       />
 
       <v-alert
         v-if="showAlert"
         class="text-sm max-w-96"
-        variant="flat"
         density="compact"
-        type="info"
         text="Se o endereço de e-mail existir, você receberá as instruções para a redefinição de senha em sua caixa de entrada."
+        type="info"
+        variant="flat"
       />
 
       <template #button-group>
@@ -68,8 +68,8 @@ const onSubmit = handleSubmit(
 
         <UIButtonModalOkButton
           v-if="showAlert"
-          type="button"
           class="!px-10"
+          type="button"
           @click="$emit('close')"
         />
 

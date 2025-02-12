@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T">
+<script generic="T" lang="ts" setup>
 const props = defineProps<{
   items: T[];
 }>();
@@ -13,7 +13,7 @@ const slots = defineSlots<{
 <template>
   <v-container>
     <v-row v-if="items">
-      <v-col v-for="item in items" cols="12" class="px-0">
+      <v-col v-for="item in items" class="px-0" cols="12">
         <slot name="item" v-bind="{ item: item as T }" />
       </v-col>
     </v-row>

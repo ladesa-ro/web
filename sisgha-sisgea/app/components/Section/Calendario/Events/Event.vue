@@ -34,8 +34,8 @@ const _eventStatus = await eventStatus.startEvent(
 <template>
   <v-card class="-event shrink-0 mx-auto rounded-lg w-full">
     <v-container
-      class="flex flex-col w-full h-full border-l-8"
       :style="{ borderLeftColor: props.color }"
+      class="flex flex-col w-full h-full border-l-8"
     >
       <!-- Event -->
       <div class="flex flex-row w-full justify-between items-center">
@@ -75,8 +75,8 @@ const _eventStatus = await eventStatus.startEvent(
         <!-- Locale -->
         <p
           v-show="props.locale"
-          class="font-medium text-sm sm:text-[16px]"
           :class="{ 'mt-2': props.locale !== '' }"
+          class="font-medium text-sm sm:text-[16px]"
         >
           {{ props.locale }}
         </p>

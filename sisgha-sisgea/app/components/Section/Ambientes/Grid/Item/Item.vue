@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { AmbienteFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import AmbientesForm from '~/components/Section/Ambientes/Form/Form.vue';
 
@@ -21,14 +21,14 @@ const coverImageSrc = useApiImageRoute(
   <UICardAutoSkeleton :skeleton="isLoading || !ambiente">
     <UICard
       v-if="ambiente"
-      variant="block"
-      :title="ambiente.nome"
       :src="coverImageSrc"
+      :title="ambiente.nome"
+      variant="block"
     >
       <template #actions>
         <DialogModalEditOrCreateModal
-          :form-component="AmbientesForm"
           :edit-id="ambiente.id"
+          :form-component="AmbientesForm"
         />
       </template>
 

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { generatePdf } from './GeneratePdf/generatePdf';
 import { ViewMode } from './ViewMode';
 

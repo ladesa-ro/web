@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { ITurno } from '../IGradeHorario';
 
 type Props = {

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { ISidebarItemLink } from './ISidebarItem';
 
 type Props = { item: ISidebarItemLink };
@@ -7,10 +7,10 @@ const { item } = defineProps<Props>();
 
 <template>
   <nuxt-link
-    exact-active-class="active"
-    :active-class="item.exact ? '' : 'active'"
     :key="item.title"
+    :active-class="item.exact ? '' : 'active'"
     :to="item.to"
+    exact-active-class="active"
   >
     <SidebarSidebarItemTemplate :item="item" />
   </nuxt-link>

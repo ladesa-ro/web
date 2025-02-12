@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useApiContext } from '../../API/Context/setup-context';
 
 const { resumoVinculos } = useApiContext();
@@ -20,8 +20,8 @@ const open = ref(false);
           <ClientOnly>
             <IconsArrowIconArrow
               v-if="canChangeProfile"
-              class="arrow -rotate-90"
               :class="{ down: open }"
+              class="arrow -rotate-90"
             />
           </ClientOnly>
         </template>

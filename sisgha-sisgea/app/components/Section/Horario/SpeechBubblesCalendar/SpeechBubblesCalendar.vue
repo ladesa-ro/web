@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useElementBounding } from '@vueuse/core';
 
 type Props = { notificationsButtonEl: HTMLElement | null };
@@ -34,17 +34,17 @@ const selectedDay = useSelectedDay();
   >
     <!-- pin -->
     <div
-      class="content-none absolute -top-5 w-5 border-solid border-[0.635rem] border-transparent border-b-[0.635rem] border-b-ldsa-green-1 -translate-x-3"
       :style="{ left: `${computedPinLeft}px` }"
+      class="content-none absolute -top-5 w-5 border-solid border-[0.635rem] border-transparent border-b-[0.635rem] border-b-ldsa-green-1 -translate-x-3"
     />
 
     <SectionCalendarioMonth
-      :year="selectedDay.year()"
+      :events="[]"
       :month="selectedDay.month()"
-      :toggle-month="false"
       :select-week="false"
       :steps="[]"
-      :events="[]"
+      :toggle-month="false"
+      :year="selectedDay.year()"
     />
   </div>
 </template>

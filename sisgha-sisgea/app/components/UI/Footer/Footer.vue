@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useNow } from '@vueuse/core';
 
 const now = useNow();
@@ -69,11 +69,11 @@ const footerLinks = [
           <v-btn
             v-for="link in footerLinks.filter((i) => i.href !== '#')"
             :key="link.href"
-            variant="text"
-            target="_blank"
             :href="link.href"
             :prepend-icon="link.icon"
             append-icon="mdi-open-in-new"
+            target="_blank"
+            variant="text"
           >
             {{ link.label }}
           </v-btn>

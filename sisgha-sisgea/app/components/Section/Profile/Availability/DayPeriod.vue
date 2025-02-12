@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 type Props = {
   period: Object[] | any;
   periodName: string;
@@ -14,8 +14,8 @@ defineProps<Props>();
 
     <SectionProfileAvailabilityHour
       v-for="hora in period"
-      :initial-hour="hora.initialHour"
       :end-hour="hora.endHour"
+      :initial-hour="hora.initialHour"
     />
   </div>
 </template>

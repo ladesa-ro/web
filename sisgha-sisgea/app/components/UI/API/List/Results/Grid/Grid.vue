@@ -1,6 +1,7 @@
-<script setup lang="ts" generic="T = any">
+<script generic="T = any" lang="ts" setup>
+import { useGenericCrudInfinityListQuery } from '../../../../../../composables/integrations/generic-crud/useGenericCrudInfinityListQuery';
 import { useUIApiListContext } from '../../Context/UIApiListContext';
-import type { IGridItemSlotProps } from './Typings';
+import type { IGridItemSlotProps } from './Typings/IGridItemSlotProps';
 
 //
 
@@ -17,15 +18,11 @@ const { formOptions, options } = useUIApiListContext();
 
 const {
   query,
-  isLoading,
-  previousItems: items,
-} = await useApiBaseResourceInfinityList<T>(
-  options.crudModule.baseQueryKeys,
-  options.crudModule.list,
-  formOptions
-);
-
-//
+  items,
+  suspense,
+  paginationMeta,
+  status: { isLoading, isFetching },
+} = useGenericCrudInfinityListQuery(options.crudModule)(formOptions);
 
 type InfiniteScrollSide = 'start' | 'end' | 'both';
 type InfiniteScrollStatus = 'ok' | 'empty' | 'loading' | 'error';
@@ -77,32 +74,13 @@ const load = async ({ done, side }: LoadOptions) => {
   }
 };
 
-const lastPage = computed(() => {
-  const pages = query.data.value?.pages ?? [];
-  return pages[pages.length - 1] ?? null;
-});
-
-const totalItems = computed(() => {
-  return lastPage.value?.meta?.totalItems ?? 0;
-});
-
-const currentPage = computed(() => {
-  return lastPage.value?.meta?.currentPage ?? 1;
-});
-
-const totalPages = computed(() => {
-  return lastPage.value?.meta?.totalPages ?? 1;
-});
-
-const resultsMeta = computed(() => {
-  return `Página: ${currentPage.value} de ${totalPages.value}. Total: ${totalItems.value} registros. `;
-});
+await suspense();
 </script>
 
 <template>
   <div class="flex-1">
     <v-container class="flex-1">
-      <v-infinite-scroll class="ui-api-list-results-grid" :on-load="load">
+      <v-infinite-scroll class="ui-api-list-results-grid" @load="load">
         <template v-if="items && items.length > 0">
           <template v-for="item in items" :key="item.id">
             <div class="ui-api-list-results-grid-item">
@@ -112,7 +90,7 @@ const resultsMeta = computed(() => {
         </template>
 
         <template v-else-if="isLoading">
-          <template v-for="item in 10" :key="item">
+          <template v-for="item in formOptions.limit" :key="item">
             <div class="ui-api-list-results-grid-item">
               <slot name="item-skeleton" />
             </div>
@@ -121,25 +99,30 @@ const resultsMeta = computed(() => {
 
         <template #loading>
           <ClientOnly>
-            <v-progress-circular v-if="isLoading" indeterminate />
+            <v-progress-circular indeterminate />
           </ClientOnly>
         </template>
 
         <template #empty>
-          <template v-if="!isLoading && totalItems > 0">
+          <template v-if="!isFetching && paginationMeta.totalItems > 0">
             <div class="w-full">
               <v-empty-state>
                 <template #text>
                   <div class="text-medium-emphasis text-caption">
                     <p>Você chegou ao fim dos resultados.</p>
-                    <p>{{ resultsMeta }}</p>
+                    <p>
+                      <span>Página: {{ paginationMeta.currentPage }} de
+                      {{ paginationMeta.totalPages }}.</span>
+                      <span> </span>
+                      <span>Total: {{ paginationMeta.totalItems }} registros.</span>
+                    </p>
                   </div>
                 </template>
               </v-empty-state>
             </div>
           </template>
 
-          <template v-else-if="!isLoading">
+          <template v-else-if="!isFetching">
             <v-empty-state
               key="no-results"
               icon="mdi-magnify"
@@ -155,8 +138,8 @@ const resultsMeta = computed(() => {
               Não foi possível buscar mais conteúdo...
 
               <v-btn
-                size="small"
                 color="white"
+                size="small"
                 v-bind="props"
                 variant="outlined"
               >
@@ -170,4 +153,4 @@ const resultsMeta = computed(() => {
   </div>
 </template>
 
-<style src="./Grid.css" scoped></style>
+<style scoped src="./Grid.css"></style>

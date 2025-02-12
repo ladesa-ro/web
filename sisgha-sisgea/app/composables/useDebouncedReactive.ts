@@ -1,7 +1,7 @@
 import {
+  type DebounceFilterOptions,
   toReactive,
   useDebounceFn,
-  type DebounceFilterOptions,
 } from '@vueuse/core';
 
 export const useDebouncedReactive = <T>(

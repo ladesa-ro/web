@@ -10,7 +10,7 @@ const { editId = null } = defineProps<Props>();
 
 <template>
   <DialogModalEditOrCreateModal
-    :form-component="FormWithContent"
     :edit-id="editId"
+    :form-component="FormWithContent"
   />
 </template>

@@ -24,8 +24,8 @@ async function enableNotify(isEnabled: boolean): Promise<void> {
 <template>
   <!-- Enable notify-->
   <div
-    class="flex cursor-pointer w-max gap-3 items-center justify-center border-2 border-ldsa-green-1 bg-ldsa-green-1 p-3 font-[600] rounded-lg text-ldsa-white"
     :class="{ '-enable': notify === true }"
+    class="flex cursor-pointer w-max gap-3 items-center justify-center border-2 border-ldsa-green-1 bg-ldsa-green-1 p-3 font-[600] rounded-lg text-ldsa-white"
     @click="enableNotify(notify)"
   >
     <span class="text-sm sm:text-[16px] font-semibold w-max lg:w-max">

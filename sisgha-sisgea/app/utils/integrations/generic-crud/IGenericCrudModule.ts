@@ -1,8 +1,10 @@
-import type { IGenericCrudModuleTypes } from './IGenericCrudModuleTypes';
+import type { IGenericCrudModuleTypesBase } from '~/utils';
 
 export type IGenericCrudModule<
-  Types extends IGenericCrudModuleTypes = IGenericCrudModuleTypes,
+  Types extends IGenericCrudModuleTypesBase = IGenericCrudModuleTypesBase,
 > = {
+  __types?: Types;
+
   [key: string]: unknown;
 
   baseQueryKeys: MaybeRef<string>[];

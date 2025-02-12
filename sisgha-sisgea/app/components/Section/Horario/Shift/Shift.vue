@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { IDiasDaSemana, ITurno } from '../IGradeHorario';
 
 type Props = {
@@ -38,7 +38,6 @@ function getAula(dia: number, horario: number) {
       <div
         v-for="(horario, index) in props.turno.horarios"
         :key="horario.hora"
-        class="text-center border-ldsa-text-default m-0 px-2 flex items-center justify-center"
         :class="{
           'border-b-2 pb-[2px]': index < props.turno.horarios.length - 1,
           'mt-3': index === 0,
@@ -46,8 +45,9 @@ function getAula(dia: number, horario: number) {
           'interval-background': horario.tipo === 'intervalo',
           'hovered-row': hoveredRowIndex === index,
         }"
-        @mouseover="setHoveredRow(index)"
+        class="text-center border-ldsa-text-default m-0 px-2 flex items-center justify-center"
         @mouseleave="setHoveredRow(null)"
+        @mouseover="setHoveredRow(index)"
       >
         {{ horario.hora }}
       </div>
@@ -57,13 +57,12 @@ function getAula(dia: number, horario: number) {
     <div
       v-for="(diaDaSemana, colIndex) in props.diasDaSemana"
       :key="diaDaSemana.nome"
-      class="grid grid-rows-subgrid col-start-3 row-start-1 row-span-full"
       :style="{ gridColumnStart: 3 + colIndex }"
+      class="grid grid-rows-subgrid col-start-3 row-start-1 row-span-full"
     >
       <div
         v-for="(horario, rowIndex) in props.turno.horarios"
         :key="horario.hora"
-        class="text-center border-ldsa-text-default m-0 px-2 flex items-center justify-center"
         :class="{
           'border-b-2 pb-[2px]': rowIndex < props.turno.horarios.length - 1,
           'mt-3': rowIndex === 0,
@@ -71,8 +70,9 @@ function getAula(dia: number, horario: number) {
           'interval-background': horario.tipo === 'intervalo',
           'hovered-row': hoveredRowIndex === rowIndex,
         }"
-        @mouseover="setHoveredRow(rowIndex)"
+        class="text-center border-ldsa-text-default m-0 px-2 flex items-center justify-center"
         @mouseleave="setHoveredRow(null)"
+        @mouseover="setHoveredRow(rowIndex)"
       >
         <template v-if="horario.tipo === 'aula'">
           <span v-if="getAula(colIndex + 1, rowIndex + 1)">

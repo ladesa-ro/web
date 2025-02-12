@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useField } from 'vee-validate';
 
 const { value: vinculos } = useField<any[]>('vinculos');
@@ -38,24 +38,24 @@ const removeField = (targetIndex: number) => {
       <VVAutocompleteAPICampus :name="`vinculos[${index}].campus.id`" />
 
       <VVSelectRoles
-        class="w-full max-w-[10.65rem]"
         :name="`vinculos[${index}].cargos`"
+        class="w-full max-w-[10.65rem]"
       />
 
       <v-btn
         v-if="index > 0"
         class="my-[0.625rem]"
-        variant="flat"
-        icon="mdi-delete"
         density="compact"
+        icon="mdi-delete"
+        variant="flat"
         @click="removeField(index)"
       />
     </div>
   </div>
 
   <button
-    type="button"
     class="border-dotted border-[3px] rounded-lg p-4 border-ldsa-grey hover:bg-ldsa-green-1/10 ease-in"
+    type="button"
     @click="addField"
   >
     Novo Vínculo

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { UsuarioFindOneResultView } from '@ladesa-ro/api-client-fetch';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 

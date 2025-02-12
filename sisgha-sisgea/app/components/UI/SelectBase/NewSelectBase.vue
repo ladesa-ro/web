@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import {
   SelectContent as Content,
   SelectPortal as Portal,
@@ -35,12 +35,12 @@ const triggerFocus = ref(false);
         'font-medium text-left text-ldsa-text-default data-[placeholder]:text-ldsa-grey focus:border-ldsa-green-2',
         open ? 'border-ldsa-green-2' : 'border-ldsa-grey',
       ]"
-      @focus="triggerFocus = true"
       @blur="triggerFocus = false"
+      @focus="triggerFocus = true"
     >
       <label
-        class="absolute inline bottom-9 bg-ldsa-bg px-1.5 text-[0.813rem] font-medium"
         :class="triggerFocus || open ? 'text-ldsa-green-2' : 'text-ldsa-grey'"
+        class="absolute inline bottom-9 bg-ldsa-bg px-1.5 text-[0.813rem] font-medium"
       >
         {{ label }}
       </label>
@@ -48,21 +48,21 @@ const triggerFocus = ref(false);
       <Value :placeholder="placeholder" />
 
       <IconsArrowIconArrow
-        class="mr-1 p-[0.063rem] text-ldsa-text-green transition-transform duration-[250ms]"
         :class="open ? 'rotate-90' : '-rotate-90'"
+        class="mr-1 p-[0.063rem] text-ldsa-text-green transition-transform duration-[250ms]"
       />
     </Trigger>
 
     <Portal>
       <Content
-        position="popper"
         class="overflow-hidden w-(--radix-select-trigger-width) shadow-[0_0_10px_rgba(0,0,0,0.4)] rounded-lg bg-ldsa-bg"
+        position="popper"
       >
         <Viewport>
           <UISelectBaseSelectItem
             v-for="(option, index) in options"
-            :value="option"
             :key="index"
+            :value="option"
           />
         </Viewport>
       </Content>

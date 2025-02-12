@@ -67,17 +67,17 @@ const handleContainerClick = () => {
 <template>
   <div
     ref="containerRef"
-    role="textbox"
     class="ui-text-field"
+    role="textbox"
     @click="handleContainerClick"
   >
     <input
       ref="inputRef"
       v-model="value"
-      :placeholder="placeholder"
-      :type="type"
       :disabled="disabled"
+      :placeholder="placeholder"
       :required="required"
+      :type="type"
       v-bind="inputAttributes"
     />
 
@@ -131,6 +131,7 @@ const handleContainerClick = () => {
 .ui-text-field input:focus {
   outline: none;
 }
+
 .ui-text-field input::placeholder {
   @apply text-ldsa-grey;
 }

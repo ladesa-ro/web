@@ -1,5 +1,4 @@
-<script setup lang="ts">
-import type { OfertaFormacaoFindOneResultView } from '@ladesa-ro/api-client-fetch';
+<script lang="ts" setup>
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 //
@@ -30,9 +29,9 @@ const options = createUIAutocompleteApiRetrieverOptions({
 
 <template>
   <VVAutocompleteAPI
+    :is-loading="isLoading"
     :name="name"
     :options="options"
-    :is-loading="isLoading"
     label="Oferta de Formação"
     placeholder="Selecione uma oferta de formação"
     v-bind="$attrs"

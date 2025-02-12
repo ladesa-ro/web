@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 import DisciplinasForm from './Form/Form.vue';
 
@@ -14,11 +14,11 @@ const options = createApiListContextOptions({ crudModule });
     </template>
 
     <template #grid-item="{ item, isLoading }">
-      <SectionDisciplinasGridItem :item="item" :is-loading="isLoading" />
+      <SectionDisciplinasGridItem :is-loading="isLoading" :item="item" />
     </template>
 
     <template #grid-item-skeleton>
-      <SectionDisciplinasGridItem :item="null" :is-loading="true" />
+      <SectionDisciplinasGridItem :is-loading="true" :item="null" />
     </template>
   </UIAPIList>
 </template>

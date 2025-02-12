@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 const $emit = defineEmits(['close']);
 
 const isForm2Visible = ref(false);
@@ -32,13 +32,13 @@ const goBackToForm2 = () => {
 
   <template v-if="isForm2Visible && !isForm3Visible">
     <SectionCalendarioFormsForm2
-      @close="closeForm"
-      @back="goBackToForm1"
       @add="goToForm3"
+      @back="goBackToForm1"
+      @close="closeForm"
     />
   </template>
 
   <template v-if="isForm3Visible">
-    <SectionCalendarioFormsForm3 @close="closeForm" @back="goBackToForm2" />
+    <SectionCalendarioFormsForm3 @back="goBackToForm2" @close="closeForm" />
   </template>
 </template>

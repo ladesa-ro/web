@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useField } from 'vee-validate';
 
 type Props = {
@@ -17,7 +17,7 @@ const { errorMessage, value: modelValue } = useField<FieldType>(
 </script>
 
 <template>
-  <UISelectImage v-bind="$attrs" v-model="modelValue" />
+  <UISelectImage v-model="modelValue" v-bind="$attrs" />
 
   <div v-if="errorMessage">
     {{ errorMessage }}

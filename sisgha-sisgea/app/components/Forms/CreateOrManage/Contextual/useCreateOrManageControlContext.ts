@@ -1,7 +1,7 @@
 import type { ICreateOrManageConfig } from '../Base/Control/config';
 import {
-  initCreateOrManageControl,
   type ICreateOrManageControl,
+  initCreateOrManageControl,
 } from '../Base/Control/control';
 
 const KEY = Symbol.for('CreateOrManageControlContext');

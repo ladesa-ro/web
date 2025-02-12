@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { CollapsibleContent, CollapsibleRoot } from 'radix-vue';
 import type { ISidebarItemGroup } from './ISidebarItem';
 
@@ -14,8 +14,8 @@ const open = ref(false);
   <CollapsibleRoot v-model:open="open" :class="{ open: open }">
     <SidebarSidebarItemTemplate
       :item="item"
-      @click="open = !open"
       :open="open"
+      @click="open = !open"
     />
 
     <CollapsibleContent
@@ -25,8 +25,8 @@ const open = ref(false);
 
       <SidebarSidebarItem
         v-for="(sidebarItem, index) in item.items"
-        :item="sidebarItem"
         :key="index"
+        :item="sidebarItem"
       />
     </CollapsibleContent>
   </CollapsibleRoot>

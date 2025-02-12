@@ -1,5 +1,5 @@
-<script setup lang="ts" generic="T = any">
-import type { IGridItemSlotProps } from '../API/List/Results/Grid/Typings';
+<script generic="T = any" lang="ts" setup>
+import type { IGridItemSlotProps } from '../API/List/Results/Grid/Typings/IGridItemSlotProps';
 
 type Props = {
   isLoading?: boolean;
@@ -29,11 +29,11 @@ const isLoading = computed(() => props.isLoading ?? false);
           <v-col
             v-for="item in items"
             :key="item.id"
-            sm="12"
-            md="6"
-            lg="4"
-            cols="12"
             class="px-2"
+            cols="12"
+            lg="4"
+            md="6"
+            sm="12"
           >
             <slot name="item" v-bind="{ item, isLoading }" />
           </v-col>
@@ -47,11 +47,11 @@ const isLoading = computed(() => props.isLoading ?? false);
           <v-col
             v-for="item in 10"
             :key="item"
-            sm="12"
-            md="6"
-            lg="4"
-            cols="12"
             class="px-2"
+            cols="12"
+            lg="4"
+            md="6"
+            sm="12"
           >
             <slot name="item-skeleton" />
           </v-col>

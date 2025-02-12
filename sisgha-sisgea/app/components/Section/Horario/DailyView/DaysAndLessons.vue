@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useApiContext } from '~/components/API/Context/setup-context';
 import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
 

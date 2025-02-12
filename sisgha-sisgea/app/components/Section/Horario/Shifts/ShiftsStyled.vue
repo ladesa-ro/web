@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { IDiasDaSemana, ITurnos } from '../IGradeHorario';
 
 type Props = {
@@ -11,7 +11,7 @@ defineProps<Props>();
 
 <template>
   <div class="grade-horario text-ldsa-text-default">
-    <SectionHorarioShifts :turnos="turnos" :dias-da-semana="diasDaSemana" />
+    <SectionHorarioShifts :dias-da-semana="diasDaSemana" :turnos="turnos" />
   </div>
 </template>
 

@@ -8,9 +8,9 @@ import { getQueryKeyForCrudModuleQueryState } from '../../../../composables/inte
 import { type ICreateOrManageConfig } from '../../../Forms/CreateOrManage/Base/Control/config';
 import { setupCreateOrManageControlContext } from '../../../Forms/CreateOrManage/Contextual/useCreateOrManageControlContext';
 import {
-  useTurmaFormSchema,
   type ITurmaFormOutput,
   type ITurmaFormSchema,
+  useTurmaFormSchema,
 } from './-Helpers/schema';
 
 type Props = {
@@ -121,27 +121,27 @@ const {
 <template>
   <form @submit.prevent="onSubmit">
     <FormsCreateOrManageContextualForm
-      title-edit="Editar Turma"
       title-create="Cadastrar Turma"
+      title-edit="Editar Turma"
     >
       <VVSelectImage :disabled="isBusy" name="imagem" />
 
       <VVAutocompleteAPICurso
-        :is-loading="isLoading"
         :disabled="isBusy"
+        :is-loading="isLoading"
         name="curso.id"
       />
 
       <VVAutocompleteAPIAmbiente
-        :is-loading="isLoading"
         :disabled="isBusy"
-        name="ambientePadraoAula.id"
+        :is-loading="isLoading"
         label="Sala de Aula"
+        name="ambientePadraoAula.id"
       />
 
       <SectionTurmasFormFieldsPeriodo
-        :is-loading="isLoading"
         :disabled="isBusy"
+        :is-loading="isLoading"
       />
     </FormsCreateOrManageContextualForm>
   </form>

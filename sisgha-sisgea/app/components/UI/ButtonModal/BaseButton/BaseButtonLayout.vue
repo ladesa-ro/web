@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 type Props = {
   type: 'button' | 'submit' | 'reset' | undefined;
   color?: string;
@@ -13,7 +13,7 @@ const defineColor = {
 </script>
 
 <template>
-  <button :type="type" class="modal-button" :style="defineColor">
+  <button :style="defineColor" :type="type" class="modal-button">
     <p class="font-medium">
       <slot>Texto</slot>
     </p>

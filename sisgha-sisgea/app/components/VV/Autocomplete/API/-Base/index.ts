@@ -1,10 +1,10 @@
 import type {
   IGenericCrudModule,
-  IGenericCrudModuleTypes,
+  IGenericCrudModuleTypesBase,
 } from '../../../../../utils';
 
 export type IUIAutocompleteApiRetrieverOptions<
-  Typings extends IGenericCrudModuleTypes,
+  Typings extends IGenericCrudModuleTypesBase,
   Value = any,
 > = {
   crudModule: IGenericCrudModule<Typings>;
@@ -16,7 +16,7 @@ export type IUIAutocompleteApiRetrieverOptions<
 };
 
 export const createUIAutocompleteApiRetrieverOptions = <
-  Typings extends IGenericCrudModuleTypes,
+  Typings extends IGenericCrudModuleTypesBase,
   Value extends any,
   T extends IUIAutocompleteApiRetrieverOptions<Typings, Value>,
 >(

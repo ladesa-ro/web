@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 type Props = {
   src: any;
   alt?: string;
@@ -22,21 +22,21 @@ defineSlots<Slots>();
 
 <template>
   <div
-    class="overflow-hidden bg-cover bg-center"
     :style="{ backgroundImage: `url(${src})` }"
+    class="overflow-hidden bg-cover bg-center"
   >
     <div
       v-if="src"
       class="flex justify-center w-full h-full backdrop-blur-xs backdrop-brightness-75"
     >
-      <img :src="src" :alt="alt" class="max-h-full object-contain" />
+      <img :alt="alt" :src="src" class="max-h-full object-contain" />
     </div>
 
     <!-- fallback -->
     <div
       v-else
-      class="w-full h-full flex justify-center items-center"
       :style="{ 'background-color': fallbackBgColor }"
+      class="w-full h-full flex justify-center items-center"
     >
       <!-- fallback icon -->
       <slot name="fallbackIcon">

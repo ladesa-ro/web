@@ -110,12 +110,12 @@ watch(orderBy, async (newValue: string) => {
               v-for="event in allEventItems"
               :id="event.id"
               :key="event.id"
-              :name="event.name"
               :color="event.color"
-              :locale="event.locale"
-              :start-date="event.startDate"
               :end-date="event.endDate"
+              :locale="event.locale"
+              :name="event.name"
               :notify-status="event.notifyStatus"
+              :start-date="event.startDate"
             />
           </div>
         </v-expansion-panel-text>

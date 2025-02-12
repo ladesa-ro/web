@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 const modelValue = defineModel<string | null>('value', { default: null });
 </script>
 
@@ -6,13 +6,13 @@ const modelValue = defineModel<string | null>('value', { default: null });
   <div class="textField">
     <v-text-field
       v-model="modelValue"
-      hide-details="auto"
       base-color="var(--ladesa-grey-color)"
       color="var(--ladesa-green-2-color)"
+      hide-details="auto"
       persistent-hint
-      variant="outlined"
       persistent-placeholder
       v-bind="$attrs"
+      variant="outlined"
     />
   </div>
 </template>

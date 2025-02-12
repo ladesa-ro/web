@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { Dayjs } from 'dayjs';
 import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
 

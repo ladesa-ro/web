@@ -33,8 +33,8 @@ onMounted(async () => {
     <section class="flex w-full cursor-pointer">
       <!-- View partial calendar-->
       <div
-        class="flex w-full gap-2 items-center justify-center border-2 border-r-0 border-ldsa-grey p-3 font-[600] rounded-l-lg text-ldsa-grey"
         :class="{ '-selected border-r-2': calendarView === false }"
+        class="flex w-full gap-2 items-center justify-center border-2 border-r-0 border-ldsa-grey p-3 font-[600] rounded-l-lg text-ldsa-grey"
         @click="toggleView(false)"
       >
         <span class="text-sm sm:text-[16px] font-semibold w-[120px] lg:w-max">
@@ -45,8 +45,8 @@ onMounted(async () => {
 
       <!-- View complete calendar -->
       <div
-        class="flex w-full gap-2 items-center justify-center border-2 border-l-0 border-ldsa-grey p-3 font-[600] rounded-r-lg text-ldsa-grey"
         :class="{ '-selected border-l-2': calendarView !== false }"
+        class="flex w-full gap-2 items-center justify-center border-2 border-l-0 border-ldsa-grey p-3 font-[600] rounded-r-lg text-ldsa-grey"
         @click="toggleView(true)"
       >
         <span class="text-sm sm:text-[16px] font-semibold w-[120px] lg:w-max">

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 type Props = {
   variant: 'block' | 'inline';
   src: string | null;

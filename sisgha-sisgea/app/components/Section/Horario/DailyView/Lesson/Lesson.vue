@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useApiContext } from '~/components/API/Context/setup-context';
 import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
 import { verifyClassStatusByLesson } from './-Utils';
@@ -30,7 +30,7 @@ const showCampus = computed(() => {
 </script>
 
 <template>
-  <div class="lesson" :class="{ completed: variant === 'completed' }">
+  <div :class="{ completed: variant === 'completed' }" class="lesson">
     <section class="flex flex-col justify-between">
       <slot>
         <SectionHorarioDailyViewLessonTeacherView
@@ -62,6 +62,7 @@ const showCampus = computed(() => {
   @apply min-[641px]:px-5 min-[641px]:py-3;
   @apply max-sm:px-4 max-sm:py-2;
 }
+
 .icon {
   @apply max-w-7 text-ldsa-text-green;
 }

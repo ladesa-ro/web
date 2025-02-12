@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import groupBy from 'lodash/groupBy';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';

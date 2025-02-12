@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useMonitorSize } from '~/composables/useMonitorSize';
 import type { ISidebarItem } from './SidebarItem/ISidebarItem';
 
@@ -18,7 +18,7 @@ const { isMobile } = useMonitorSize();
 </script>
 
 <template>
-  <nav class="sidebar" :class="{ active: hamburgerActive }">
+  <nav :class="{ active: hamburgerActive }" class="sidebar">
     <SidebarSidebarItem
       v-for="(item, index) in items"
       :key="index"

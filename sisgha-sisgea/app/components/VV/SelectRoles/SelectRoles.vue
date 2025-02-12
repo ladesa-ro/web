@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useField } from 'vee-validate';
 
 type Props = {
@@ -20,12 +20,12 @@ const {
 
 <template>
   <UISelectRoles
-    v-bind="$attrs"
     v-model:value="modelValue"
+    :error-messages="errorMessage ? [errorMessage] : []"
     :name="name"
     hide-details="auto"
     persistent-placeholder
-    :error-messages="errorMessage ? [errorMessage] : []"
+    v-bind="$attrs"
     @blur="handleBlur"
   />
 </template>
