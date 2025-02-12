@@ -58,20 +58,23 @@ const searchOptions = computed(() => {
   };
 });
 
-const { isLoading: listIsLoading, previousItems } = useListQuery(searchOptions);
+const {
+  queryStatus: { isLoading: listIsLoading },
+  data: { items: listItems },
+} = useListQuery(searchOptions);
 
 //
 
-const items = computed(() => {
-  const rawPreviousItems = unref(previousItems);
+const selectItems = computed(() => {
+  const listItemsValue = unref(listItems);
   const rawActiveResourceData = unref(activeResourceData);
 
-  if (!rawPreviousItems && !rawActiveResourceData) {
+  if (!listItemsValue && !rawActiveResourceData) {
     return null;
   }
 
   const combinedItems = filter(
-    [rawActiveResourceData, ...(rawPreviousItems ?? [])],
+    [rawActiveResourceData, ...(listItemsValue ?? [])],
     Boolean
   );
 
@@ -104,7 +107,7 @@ const isFilterDisabled = computed(() => !isFilterEnabled.value);
 </script>
 
 <template>
-  <template v-if="isLoading && !items">
+  <template v-if="isLoading && !selectItems">
     <div class="autoCompleteField">
       <UIAutocompleteBase
         v-model:search="searchValue"
@@ -119,7 +122,7 @@ const isFilterDisabled = computed(() => !isFilterEnabled.value);
     </div>
   </template>
 
-  <template v-else-if="!items">
+  <template v-else-if="!selectItems">
     <UIAutocompleteBase
       v-model:search="searchValue"
       :name="name"
@@ -135,7 +138,7 @@ const isFilterDisabled = computed(() => !isFilterEnabled.value);
   <template v-else>
     <VVAutocomplete
       v-model:search="searchValue"
-      :items="items"
+      :items="selectItems"
       :name="name"
       :no-filter="isFilterDisabled"
       item-title="label"

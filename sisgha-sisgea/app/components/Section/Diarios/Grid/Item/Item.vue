@@ -18,8 +18,10 @@ const {
 
 const options = computed(() => ({ filterDiarioId: [diario.value.id] }));
 
-const { items: diariosProfessoresList } =
-  await useListQueryDiariosProfessores(options);
+const {
+  data: { items: diariosProfessoresList },
+  methods: { suspend },
+} = useListQueryDiariosProfessores(options);
 
 //
 
@@ -29,6 +31,8 @@ const coverImageSrc = useApiImageRoute(
   ApiImageResource.DISCIPLINA_COVER,
   disciplina
 );
+
+await suspend();
 </script>
 
 <template>

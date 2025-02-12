@@ -3,6 +3,7 @@ import type { Ref } from 'vue';
 import type { IGenericCrudModule } from '../../../utils/integrations/generic-crud/IGenericCrudModule';
 import type { IGenericCrudModuleTypesBase } from '../../../utils/integrations/generic-crud/IGenericCrudModuleTypesBase';
 import { useGenericCrudFindOneAheadOfTime } from './useGenericCrudFindOneAheadOfTime';
+import { getQueryKeyForCrudModuleList } from '~/composables/integrations/generic-crud/utils/get-query-key';
 
 export const useGenericCrudListQuery = <
   Types extends IGenericCrudModuleTypesBase,
@@ -13,17 +14,14 @@ export const useGenericCrudListQuery = <
   type PaginatedItem = Types['List']['ResultItem'];
 
   return (searchOptions: MaybeRef<SearchOptions>) => {
-    const queryKey = computed(() => [
-      ...crudModule.baseQueryKeys,
-      JSON.stringify(unref(searchOptions)),
-    ]);
+    const queryKey = getQueryKeyForCrudModuleList(crudModule, searchOptions);
 
     const query = useQuery({
       queryKey: queryKey,
 
       queryFn: async () => {
-        const inputUnwrapped = unref(searchOptions);
-        return crudModule.list(inputUnwrapped);
+        const searchOptionsValue = unref(searchOptions);
+        return crudModule.list(searchOptionsValue);
       },
     });
 
@@ -31,35 +29,36 @@ export const useGenericCrudListQuery = <
 
     const paginatedResponse = query.data;
 
-    const items = computed(
-      () => unref(paginatedResponse)?.data ?? null
-    ) as ComputedRef<PaginatedItem[] | null>;
+    const items = computed(() => {
+      const paginatedResponseValue = unref(paginatedResponse);
 
-    const previousItems = ref(unref(items)) as Ref<PaginatedItem[] | null>;
+      const paginatedResponseData = paginatedResponseValue?.data;
 
-    watch(
-      [items],
-      ([currentItems]) => {
-        if (!currentItems) return;
-        previousItems.value = currentItems;
-      },
-      { immediate: true }
-    );
+      if (paginatedResponseValue) {
+        return paginatedResponseData as PaginatedItem[];
+      }
 
-    const suspend = useQuerySuspend(query);
+      return null;
+    });
 
     useGenericCrudFindOneAheadOfTime(crudModule, items);
 
-    return {
-      suspend,
+    const suspend = useQuerySuspend(query);
 
+    return {
       query,
 
-      items,
-      paginatedResponse,
-      previousItems,
+      data: {
+        items,
+        paginatedResponse,
+      },
 
-      isLoading,
+      queryStatus: {
+        isLoading,
+      },
+      methods: {
+        suspend,
+      },
     };
   };
 };

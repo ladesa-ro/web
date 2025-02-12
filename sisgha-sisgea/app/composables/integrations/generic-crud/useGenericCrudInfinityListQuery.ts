@@ -2,6 +2,7 @@ import { useInfiniteQuery } from '@tanstack/vue-query';
 import type { IGenericCrudModule } from '../../../utils/integrations/generic-crud/IGenericCrudModule';
 import type { IGenericCrudModuleTypesBase } from '../../../utils/integrations/generic-crud/IGenericCrudModuleTypesBase';
 import { useGenericCrudFindOneAheadOfTime } from './useGenericCrudFindOneAheadOfTime';
+import { getQueryKeyForCrudModuleList } from '~/composables/integrations/generic-crud/utils/get-query-key';
 
 export const useGenericCrudInfinityListQuery = <
   Types extends IGenericCrudModuleTypesBase,
@@ -12,10 +13,7 @@ export const useGenericCrudInfinityListQuery = <
   type SearchOptions = Types['List']['Queries'];
 
   return (searchOptions: MaybeRef<SearchOptions>) => {
-    const queryKey = computed(() => [
-      ...crudModule.baseQueryKeys,
-      JSON.stringify(unref(searchOptions)),
-    ]);
+    const queryKey = getQueryKeyForCrudModuleList(crudModule, searchOptions);
 
     const query = useInfiniteQuery({
       initialPageParam: 1,
@@ -70,16 +68,25 @@ export const useGenericCrudInfinityListQuery = <
 
     //
     const data = query.data;
+
+    const pages = computed(() => {
+      const dataRaw = unref(data);
+      const pages = dataRaw?.pages;
+
+      if (pages) {
+        return pages.sort((a, b) => a.meta.currentPage - b.meta.currentPage);
+      }
+
+      return null;
+    });
     //
 
     const items = computed(() => {
-      const dataRaw = unref(data);
+      const pagesValue = unref(pages);
 
-      const pages = dataRaw?.pages;
+      if (!pagesValue) return null;
 
-      if (!pages) return null;
-
-      const pagesDatas = pages.map((page) => page.data);
+      const pagesDatas = pagesValue.map((page) => page.data);
       return pagesDatas.flat();
     });
 
@@ -107,7 +114,6 @@ export const useGenericCrudInfinityListQuery = <
       query,
 
       data,
-
       items,
 
       status: {

@@ -21,7 +21,12 @@ const {
   composables: { useListQuery },
 } = useLadesaApiCrudDisciplinas();
 
-const { previousItems: disciplinas } = useListQuery(options);
+const {
+  data: { items: disciplinas },
+  methods: { suspend },
+} = useListQuery(options);
+
+await suspend();
 
 const closeForm = () => {
   $emit('close');

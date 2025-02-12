@@ -19,7 +19,12 @@ const {
 
 const queries = computed(() => ({ search: searchBarText.value }));
 
-const { items: usuarios } = await useListQuery(queries);
+const {
+  data: { items: usuarios },
+  methods: { suspend },
+} = useListQuery(queries);
+
+await suspend();
 </script>
 
 <template>

@@ -20,7 +20,12 @@ const {
   composables: { useListQuery },
 } = useLadesaApiCrudTurmas();
 
-const { previousItems: turmas } = await useListQuery(options);
+const {
+  data: { items: turmas },
+  methods: { suspend },
+} = useListQuery(options);
+
+await suspend();
 
 const selectedTurma = ref<string | null>(null);
 

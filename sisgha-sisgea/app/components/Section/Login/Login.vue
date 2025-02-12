@@ -102,7 +102,8 @@ useTitle(null, 'Login');
 
   background-repeat: no-repeat;
 
-  background-image: url('@/assets/decorations/login-bloom-1.svg'),
+  background-image:
+    url('@/assets/decorations/login-bloom-1.svg'),
     url('@/assets/decorations/login-bloom-2.svg');
 
   background-position:

@@ -111,10 +111,14 @@ await suspense();
                   <div class="text-medium-emphasis text-caption">
                     <p>Você chegou ao fim dos resultados.</p>
                     <p>
-                      <span>Página: {{ paginationMeta.currentPage }} de
-                      {{ paginationMeta.totalPages }}.</span>
+                      <span
+                        >Página: {{ paginationMeta.currentPage }} de
+                        {{ paginationMeta.totalPages }}.</span
+                      >
                       <span> </span>
-                      <span>Total: {{ paginationMeta.totalItems }} registros.</span>
+                      <span
+                        >Total: {{ paginationMeta.totalItems }} registros.</span
+                      >
                     </p>
                   </div>
                 </template>

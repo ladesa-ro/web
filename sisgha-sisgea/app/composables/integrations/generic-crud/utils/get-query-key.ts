@@ -23,3 +23,16 @@ export function getQueryKeyForCrudModuleQueryState<
     'form-state',
   ]);
 }
+
+export function getQueryKeyForCrudModuleList<
+  Types extends IGenericCrudModuleTypesBase,
+>(
+  crudModule: IGenericCrudModule<Types>,
+  searchOptions: MaybeRef<Types['List']['Queries']>
+) {
+  return computed(() => [
+    ...crudModule.baseQueryKeys,
+    'queries@list',
+    JSON.stringify(unref(searchOptions)),
+  ]);
+}

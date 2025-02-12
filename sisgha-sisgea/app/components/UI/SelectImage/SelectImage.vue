@@ -9,7 +9,7 @@ function onDrop(acceptedFiles: any) {
 
 const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
   onDrop,
-  accept: ".jpeg, .jpg, .png"
+  accept: '.jpeg, .jpg, .png',
 });
 
 const imageSrc = computed(() => {
