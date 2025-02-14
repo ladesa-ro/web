@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useNow } from '@vueuse/core';
-import IconGitHub from '~/components/Icons/IconGitHub.vue';
-import IconDiscipline from '~/components/Icons/IconDiscipline.vue';
+import IconDiscipline from '~/components/Icons/Footer/IconBook.vue';
+import IconGitHub from '~/components/Icons/Footer/IconGitHub.vue';
 
 const now = useNow();
 
@@ -38,7 +38,7 @@ const footerLinks = [
     class="flex-1 flex flex-col justify-stretch border-solid border-t border-t-ldsa-grey/20 bg-ldsa-grey/10"
   >
     <div
-      class="w-full justify-center md:justify-start flex flex-wrap items-center flex-col-reverse gap-2 lg:flex-row max-w-[89%] mx-auto px-7 py-3"
+      class="flex flex-col-reverse lg:flex-row flex-wrap justify-center md:justify-start items-center gap-2 min-xl:px-24 max-lg:px-16 py-3 w-full max-w-[89%] mx-auto"
     >
       <p
         class="block"
