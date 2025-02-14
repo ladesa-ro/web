@@ -20,12 +20,16 @@ const { link } = defineProps<Props>();
     ]"
     :key="link.href"
     :href="link.href"
+    target="_blank"
+    rel="noopener noreferrer"
   >
     <component :is="link.icon" class="icon" />
 
-    {{ link.label.toUpperCase() }}
+    <span class="py-0 mt-px">
+      {{ link.label.toUpperCase() }}
+    </span>
 
-    <IconsFooterIconHRef class="icon mb-px" />
+    <IconsFooterIconHRef class="icon" />
   </a>
 </template>
 
@@ -33,6 +37,6 @@ const { link } = defineProps<Props>();
 @reference "~/assets/styles/app.css";
 
 .icon {
-  @apply w-[1.125rem] h-[1.125rem];
+  @apply w-4 h-4 shrink-0;
 }
 </style>
