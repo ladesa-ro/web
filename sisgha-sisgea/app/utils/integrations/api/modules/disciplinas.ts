@@ -26,7 +26,7 @@ export type IDisciplinaApiModuleTypings = {
   };
 };
 
-export const createDisciplinasCrudModule = withApiClient((apiClient) => {
+export const createDisciplinasCrudModule = withApiClient(apiClient => {
   return {
     baseQueryKeys: ['disciplinas'],
 

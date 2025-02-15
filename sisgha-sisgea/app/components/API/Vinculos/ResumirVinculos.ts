@@ -37,12 +37,9 @@ export type ResumoVinculos = {
 export const resumirVinculos = (todosOsVinculos: PerfilFindOneResultView[]) => {
   const cargos = uniq(map(todosOsVinculos, 'cargo'));
 
-  const mapaCargoVinculos = groupBy(
-    todosOsVinculos,
-    (vinculo) => vinculo.cargo
-  );
+  const mapaCargoVinculos = groupBy(todosOsVinculos, vinculo => vinculo.cargo);
 
-  const mapaCargoCampi = mapValues(mapaCargoVinculos, (vinculos) =>
+  const mapaCargoCampi = mapValues(mapaCargoVinculos, vinculos =>
     map(vinculos, 'campus')
   );
 

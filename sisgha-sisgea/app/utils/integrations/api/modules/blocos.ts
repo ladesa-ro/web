@@ -31,7 +31,7 @@ export type IBlocosApiModuleTypings = IGenericCrudModuleTypes<{
 
 export type IBlocosApiModule = ReturnType<typeof createBlocosCrudModule>;
 
-export const createBlocosCrudModule = withApiClient((apiClient) => {
+export const createBlocosCrudModule = withApiClient(apiClient => {
   return {
     baseQueryKeys: ['blocos'],
 

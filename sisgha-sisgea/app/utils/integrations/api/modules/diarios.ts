@@ -26,7 +26,7 @@ export type IDiarioApiModuleTypings = {
   };
 };
 
-export const createDiariosCrudModule = withApiClient((apiClient) => {
+export const createDiariosCrudModule = withApiClient(apiClient => {
   return {
     baseQueryKeys: ['diarios'],
 

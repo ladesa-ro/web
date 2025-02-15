@@ -28,7 +28,7 @@ export type ITurmaApiModuleTypings = {
 
 export type ITurmaApiModule = ReturnType<typeof createTurmasCrudModule>;
 
-export const createTurmasCrudModule = withApiClient((apiClient) => {
+export const createTurmasCrudModule = withApiClient(apiClient => {
   return {
     baseQueryKeys: ['turmas'],
 

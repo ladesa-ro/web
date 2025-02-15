@@ -64,7 +64,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     'vue3-carousel-nuxt',
     (_options, nuxt) => {
-      nuxt.hooks.hook('vite:extendConfig', (config) => {
+      nuxt.hooks.hook('vite:extendConfig', config => {
         config.plugins ??= [];
         config.plugins.push(vuetify({ autoImport: true }));
       });

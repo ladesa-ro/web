@@ -26,7 +26,7 @@ export type IUsuarioApiModuleTypings = {
   };
 };
 
-export const createUsuariosCrudModule = withApiClient((apiClient) => {
+export const createUsuariosCrudModule = withApiClient(apiClient => {
   return {
     baseQueryKeys: ['usuarios'],
 

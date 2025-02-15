@@ -15,7 +15,7 @@ const { crudModule } = useLadesaApiCrudDisciplinas();
 const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,
 
-  transformer: (item) => ({
+  transformer: item => ({
     value: item.id,
     label: item.nome,
   }),
