@@ -1,5 +1,6 @@
 import { useQueryClient } from '@tanstack/vue-query';
-import { difference, map } from 'lodash';
+import difference from 'lodash/difference';
+import map from 'lodash/map';
 import Mutex from 'p-mutex';
 import PQueue from 'p-queue';
 import { getQueryKeyForCrudModuleFindOne } from './utils/get-query-key';
