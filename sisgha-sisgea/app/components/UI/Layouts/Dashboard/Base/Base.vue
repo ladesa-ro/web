@@ -21,14 +21,12 @@ const { hamburguerActive } = provideLayoutsDashboardContext();
 
     <slot id="sidebar" name="sidebar" />
 
-    <main class="flex flex-col overflow-auto">
+    <main
+      class="flex flex-col overflow-auto"
+      :class="[hamburguerActive ? 'content-sidebar-active' : 'content-default']"
+    >
       <!-- main content -->
-      <section
-        :class="[
-          hamburguerActive ? 'content-sidebar-active' : 'content-default',
-        ]"
-        class="flex-1 flex flex-col"
-      >
+      <section class="flex-1 flex flex-col">
         <slot />
       </section>
 

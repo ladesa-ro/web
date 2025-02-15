@@ -1,5 +1,7 @@
 <script lang="ts" setup>
 import { useNow } from '@vueuse/core';
+import IconDiscipline from '~/components/Icons/Footer/IconBook.vue';
+import IconGitHub from '~/components/Icons/Footer/IconGitHub.vue';
 
 const now = useNow();
 
@@ -18,91 +20,58 @@ const copyrightOwners = computed(() => {
 
 const footerLinks = [
   {
-    icon: 'mdi-heart-pulse',
-    href: '#',
-    label: 'Status',
-  },
-
-  {
-    icon: 'mdi-github',
-    href: 'https://github.com/ladesa-ro',
     label: 'GitHub',
+    icon: IconGitHub,
+    href: 'https://github.com/ladesa-ro/web',
   },
 
   {
-    icon: 'mdi-book',
-    href: 'https://docs.ladesa.com.br/user-guides/',
     label: 'Documentação',
+    icon: IconDiscipline,
+    href: 'https://docs.ladesa.com.br/user-guides/',
   },
 ];
 </script>
 
 <template>
-  <footer class="footer-root">
-    <v-container class="footer-container">
-      <div class="footer-body">
-        <div>
-          <p v-for="copyrightOwner of copyrightOwners" :key="copyrightOwner.id">
-            <span>© </span>
+  <footer
+    class="flex-1 flex flex-col justify-stretch lg:max-h-[3.75rem] border-solid border-t border-t-ldsa-grey/20 bg-ldsa-grey/10"
+  >
+    <div
+      class="flex flex-col-reverse lg:flex-row flex-wrap justify-center md:justify-start items-center gap-2 min-xl:px-24 max-lg:px-16 py-3 w-full max-w-[89%] mx-auto"
+    >
+      <p
+        class="block"
+        v-for="copyrightOwner of copyrightOwners"
+        :key="copyrightOwner.id"
+      >
+        <span>© </span>
 
-            <span>{{ ' ' }}</span>
+        <span>{{ ' ' }}</span>
 
-            <span v-if="copyrightOwner.yearStart !== copyrightOwner.yearEnd">
-              {{ copyrightOwner.yearStart }} – {{ copyrightOwner.yearEnd }}
-            </span>
+        <span v-if="copyrightOwner.yearStart !== copyrightOwner.yearEnd">
+          {{ copyrightOwner.yearStart }} – {{ copyrightOwner.yearEnd }}
+        </span>
 
-            <span>{{ ' ' }}</span>
+        <span>{{ ' ' }}</span>
 
-            <span>
-              <strong>
-                {{ copyrightOwner.owner }}
-              </strong>
-            </span>
+        <span>
+          <strong>
+            {{ copyrightOwner.owner }}
+          </strong>
+        </span>
 
-            <span>.</span>
-          </p>
-        </div>
+        <span>.</span>
+      </p>
 
-        <div class="flex-1" />
+      <div class="flex-1" />
 
-        <div class="flex flex-wrap items-center justify-center">
-          <v-btn
-            v-for="link in footerLinks.filter((i) => i.href !== '#')"
-            :key="link.href"
-            :href="link.href"
-            :prepend-icon="link.icon"
-            append-icon="mdi-open-in-new"
-            target="_blank"
-            variant="text"
-          >
-            {{ link.label }}
-          </v-btn>
-        </div>
+      <div class="flex flex-wrap items-center justify-center">
+        <UIFooterButton
+          v-for="link in footerLinks.filter((i) => i.href !== '#')"
+          :link="link"
+        />
       </div>
-    </v-container>
+    </div>
   </footer>
 </template>
-
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-.footer-root {
-  @apply w-full grow-0 shrink-0;
-  @apply flex flex-col justify-stretch;
-
-  @apply bg-ldsa-grey/10;
-  @apply border-t-[1px] border-solid border-t-ldsa-grey/20;
-}
-
-.footer-body {
-  @apply w-full;
-
-  @apply justify-center md:justify-start flex flex-wrap items-center flex-col-reverse gap-2 lg:flex-row;
-
-  @apply max-w-[89%] mx-auto px-7 py-3;
-}
-
-.footer-container {
-  @apply p-0;
-}
-</style>
