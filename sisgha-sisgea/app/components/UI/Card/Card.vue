@@ -14,7 +14,8 @@ const $emit = defineEmits(['edit']);
 
 <template>
   <template v-if="variant === 'block'">
-    <div class="card-layout">
+    <!-- card layout -->
+    <div class="rounded-lg border-2 border-ldsa-grey overflow-hidden">
       <UIImg
         :src="src"
         class="h-[11rem]"
@@ -27,8 +28,9 @@ const $emit = defineEmits(['edit']);
 
       <main class="p-3 pl-4">
         <!-- title and actions -->
-        <section class="title-and-actions">
-          <h1 class="title">
+        <section class="w-full flex justify-between items-center mb-1">
+          <!-- title -->
+          <h1 class="text-[1.063rem] font-semibold truncate">
             <slot name="title">{{ title ?? '-' }}</slot>
           </h1>
 
@@ -39,30 +41,10 @@ const $emit = defineEmits(['edit']);
         </section>
 
         <!-- description -->
-        <div class="description">
+        <div class="flex flex-col text-sm font-medium text-ldsa-grey">
           <slot />
         </div>
       </main>
     </div>
   </template>
 </template>
-
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-.card-layout {
-  @apply rounded-lg border-2 border-ldsa-grey overflow-hidden;
-}
-
-.title-and-actions {
-  @apply w-full flex justify-between items-center mb-1;
-}
-
-.title {
-  @apply text-[1.063rem] font-semibold truncate;
-}
-
-.description {
-  @apply flex flex-col text-sm font-medium text-ldsa-grey;
-}
-</style>
