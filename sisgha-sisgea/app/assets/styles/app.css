@@ -29,6 +29,10 @@ input {
   color: inherit;
 }
 
+input:focus-visible {
+  outline: none;
+}
+
 img {
   display: block;
   max-width: 100%;

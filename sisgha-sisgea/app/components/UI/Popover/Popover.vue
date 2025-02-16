@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import {
-  PopoverArrow,
-  PopoverContent,
-  PopoverPortal,
+  PopoverArrow as Arrow,
+  PopoverContent as Content,
+  PopoverPortal as Portal,
   PopoverRoot,
-  PopoverTrigger,
+  PopoverTrigger as Trigger,
 } from 'radix-vue';
 
 type Props = {
@@ -29,17 +29,20 @@ const open = defineModel({ required: false, default: false });
 
 <template>
   <PopoverRoot :open="open">
-    <PopoverTrigger @click="open = !open">
+    <Trigger @click="open = !open">
       <slot name="activator" />
-    </PopoverTrigger>
+    </Trigger>
 
-    <PopoverPortal>
-      <PopoverContent class="popover-content z-[21]" side="bottom">
-        <PopoverArrow v-if="popoverArrow" />
+    <Portal>
+      <Content
+        class="popover-content z-[21]"
+        side="bottom"
+      >
+        <Arrow v-if="popoverArrow" />
 
         <slot />
-      </PopoverContent>
-    </PopoverPortal>
+      </Content>
+    </Portal>
   </PopoverRoot>
 </template>
 
