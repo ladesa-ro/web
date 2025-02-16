@@ -29,7 +29,7 @@ export async function getOrdenedEventList(
 
       // Filter items
       allEventItems.value = allEventItems.value.filter(
-        (event) =>
+        event =>
           (dayjs(event.endDate) >= firstDayOfMonth.startOf('month') ||
             dayjs(event.startDate) >= firstDayOfMonth.startOf('month')) &&
           dayjs(event.startDate) <= firstDayOfMonth.endOf('month')
@@ -44,7 +44,7 @@ export async function getOrdenedEventList(
     ) {
       // Filter items
       allEventItems.value = allEventItems.value.filter(
-        (event) =>
+        event =>
           // Check start date
           dayjs(event.startDate).isBetween(
             betweenDates!.startDate,

@@ -68,7 +68,7 @@ const footerLinks = [
 
       <div class="flex flex-wrap items-center justify-center">
         <UIFooterButton
-          v-for="link in footerLinks.filter((i) => i.href !== '#')"
+          v-for="link in footerLinks.filter(i => i.href !== '#')"
           :link="link"
         />
       </div>

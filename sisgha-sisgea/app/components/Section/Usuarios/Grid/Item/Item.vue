@@ -49,7 +49,7 @@ const getRoleLabel = (role: string) => {
 };
 
 const vinculosConcatenated = computed(() => {
-  const allVinculosLabels = vinculos.value.map((vinculo) =>
+  const allVinculosLabels = vinculos.value.map(vinculo =>
     getRoleLabel(vinculo.cargo)
   );
 

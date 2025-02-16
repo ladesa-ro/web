@@ -36,7 +36,7 @@ const currentUsuarioVinculos = computed(() => {
         campus: {
           id: campusId,
         },
-        cargos: vinculos.map((vinculo) => vinculo.cargo),
+        cargos: vinculos.map(vinculo => vinculo.cargo),
       };
     }
   );
@@ -76,16 +76,16 @@ const schema = yup.object().shape({
 
             .when('ativo', {
               is: true,
-              then: (schema) =>
+              then: schema =>
                 schema.min(
                   1,
                   'O usuário deve possuir ao menos 1 cargo neste vínculo!'
                 ),
-              otherwise: (schema) => schema.transform(() => []),
+              otherwise: schema => schema.transform(() => []),
             })
             .default([]),
         })
-        .transform((data) => {
+        .transform(data => {
           if (typeof data.cargo === 'string') {
             return {
               ...data,

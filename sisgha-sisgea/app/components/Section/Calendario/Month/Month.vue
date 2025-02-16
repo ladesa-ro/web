@@ -142,7 +142,7 @@ async function hoverInWeek(date: Dayjs, enableHover: boolean): Promise<void> {
           // Find day
           const dayOfWeek = daysOfWeek.value[i]!;
           const dayItem = calendarDays.daysInMonth.value.find(
-            (item) => item.date.format('MM-DD') === dayOfWeek.format('MM-DD')
+            item => item.date.format('MM-DD') === dayOfWeek.format('MM-DD')
           );
 
           // Active hover

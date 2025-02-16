@@ -34,14 +34,14 @@ const activePanel = ref(vinculosComCargoProfessor.value[0]?.campus.id);
 
 watch(vinculosComCargoProfessor, (current, previous) => {
   const inserted = current.find(
-    (i) => previous.findIndex((k) => k.campus.id === i.campus.id) === -1
+    i => previous.findIndex(k => k.campus.id === i.campus.id) === -1
   );
 
   if (inserted) {
     activePanel.value = inserted.campus.id;
   } else {
     const activeExistsInCurrent = current.some(
-      (i) => i.campus.id === activePanel.value
+      i => i.campus.id === activePanel.value
     );
 
     const lastItem = current[current.length - 1];

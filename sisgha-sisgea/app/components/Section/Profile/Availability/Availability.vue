@@ -16,7 +16,7 @@ selectedOptions.value = options[0];
 
 const currentDayIndex = ref(0);
 
-const changeDay = (delta) => {
+const changeDay = delta => {
   currentDayIndex.value =
     (currentDayIndex.value + delta + options.length) % options.length;
 

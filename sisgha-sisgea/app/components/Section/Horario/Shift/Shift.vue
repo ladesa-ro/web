@@ -22,7 +22,7 @@ function setHoveredRow(index: number | null) {
 
 function getAula(dia: number, horario: number) {
   return props.gradeDisciplinas.find(
-    (aula) => aula.diaDaSemana === dia && aula.horarios.includes(horario)
+    aula => aula.diaDaSemana === dia && aula.horarios.includes(horario)
   );
 }
 </script>

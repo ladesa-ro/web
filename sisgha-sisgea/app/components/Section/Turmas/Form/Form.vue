@@ -69,7 +69,7 @@ const config = {
     baseQueryKeys: crudModule.baseQueryKeys,
 
     create: {
-      perform: async (formData) => {
+      perform: async formData => {
         const data: TurmaInputCreateView = {
           curso: formData.curso,
           periodo: formData.periodo,
@@ -87,7 +87,7 @@ const config = {
     },
 
     delete: {
-      perform: async (id) => {
+      perform: async id => {
         await crudModule.deleteOne(id);
         return true;
       },

@@ -24,11 +24,11 @@ const { handleSubmit } = useForm({
 const showAlert = ref(false);
 
 const onSubmit = handleSubmit(
-  (formData) => {
+  formData => {
     console.log('Formulário válido, pronto para enviar!', { formData });
     showAlert.value = true;
   },
-  (errors) => {
+  errors => {
     console.error('Erro de validação:', errors);
   }
 );

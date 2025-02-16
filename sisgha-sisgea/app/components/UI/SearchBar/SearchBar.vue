@@ -11,13 +11,13 @@ const emits = defineEmits(['update:value']);
 
 const localValue = ref(props.value);
 
-watch(localValue, (newValue) => {
+watch(localValue, newValue => {
   emits('update:value', newValue);
 });
 
 watch(
   () => props.value,
-  (newValue) => {
+  newValue => {
     if (newValue !== localValue.value) {
       localValue.value = newValue;
     }
