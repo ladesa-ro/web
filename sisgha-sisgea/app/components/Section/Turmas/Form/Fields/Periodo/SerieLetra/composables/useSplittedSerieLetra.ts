@@ -58,7 +58,7 @@ export const useSplittedSerieLetra = (periodo: Ref<string>) => {
       return unref(splittedSerieLetra).serie;
     },
 
-    set: (value) => {
+    set: value => {
       modifySerie(value ?? '');
     },
   });
@@ -67,7 +67,7 @@ export const useSplittedSerieLetra = (periodo: Ref<string>) => {
     get: () => {
       return unref(splittedSerieLetra).letra;
     },
-    set: (value) => {
+    set: value => {
       modifyLetra(value ?? '');
     },
   });

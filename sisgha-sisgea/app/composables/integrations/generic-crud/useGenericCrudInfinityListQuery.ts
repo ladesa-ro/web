@@ -31,7 +31,7 @@ export const useGenericCrudInfinityListQuery = <
         return response ?? null;
       },
 
-      getPreviousPageParam: (lastPage) => {
+      getPreviousPageParam: lastPage => {
         if (lastPage) {
           const currentPage = lastPage.meta.currentPage;
           const totalPages = lastPage.meta.totalPages;
@@ -44,7 +44,7 @@ export const useGenericCrudInfinityListQuery = <
         return null;
       },
 
-      getNextPageParam: (lastPage) => {
+      getNextPageParam: lastPage => {
         if (lastPage) {
           const currentPage = lastPage.meta.currentPage;
           const totalPages = lastPage.meta.totalPages;
@@ -86,7 +86,7 @@ export const useGenericCrudInfinityListQuery = <
 
       if (!pagesValue) return null;
 
-      const pagesDatas = pagesValue.map((page) => page.data);
+      const pagesDatas = pagesValue.map(page => page.data);
       return pagesDatas.flat();
     });
 

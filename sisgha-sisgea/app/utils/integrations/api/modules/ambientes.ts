@@ -28,7 +28,7 @@ export type IAmbientesApiModuleTypings = IGenericCrudModuleTypes<{
 
 export type IAmbientesApiModule = ReturnType<typeof createAmbientesCrudModule>;
 
-export const createAmbientesCrudModule = withApiClient((apiClient) => {
+export const createAmbientesCrudModule = withApiClient(apiClient => {
   return {
     __types: {} as IAmbientesApiModuleTypings,
 

@@ -26,7 +26,7 @@ export type IOfertaFormacaoApiModuleTypings = {
   };
 };
 
-export const createOfertasFormacoesCrudModule = withApiClient((apiClient) => {
+export const createOfertasFormacoesCrudModule = withApiClient(apiClient => {
   return {
     baseQueryKeys: ['ofertas-formacoes'],
 

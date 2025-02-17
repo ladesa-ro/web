@@ -64,7 +64,7 @@ export const initCreateOrManageControl = <Config extends ICreateOrManageConfig>(
     }
   };
 
-  const onSubmit = form.handleSubmit(async (data) => {
+  const onSubmit = form.handleSubmit(async data => {
     const id = unref(config.state.editId);
 
     if (id) {

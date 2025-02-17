@@ -21,7 +21,7 @@ export const suspendQuery = async (
   const { mode = QuerySuspenseBehaviourMode.AUTO } = suspenseBehaviour;
 
   const doSuspense = () => {
-    return query.suspense().catch((err) => {
+    return query.suspense().catch(err => {
       console.trace();
       console.error('err', err);
     });

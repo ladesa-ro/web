@@ -54,7 +54,7 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
     if (
       !vinculo.ativo &&
       vinculos.some(
-        (vinculoLoop) =>
+        vinculoLoop =>
           vinculoLoop.ativo === true &&
           vinculoLoop.campus.id === vinculo.campus.id
       )

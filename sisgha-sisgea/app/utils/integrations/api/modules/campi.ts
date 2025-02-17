@@ -26,7 +26,7 @@ export type ICampusApiModuleTypings = {
   };
 };
 
-export const createCampiCrudModule = withApiClient((apiClient) => {
+export const createCampiCrudModule = withApiClient(apiClient => {
   return {
     baseQueryKeys: ['campi'],
 

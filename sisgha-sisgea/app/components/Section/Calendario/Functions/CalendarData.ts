@@ -108,18 +108,18 @@ export const calendarData = {
       let itemIndex;
 
       // Get step
-      itemIndex = calendar.steps.findIndex((step) => step.id === itemId);
+      itemIndex = calendar.steps.findIndex(step => step.id === itemId);
 
       // Get event
       if (itemIndex <= 0) {
-        itemIndex = calendar.events.findIndex((event) => event.id === itemId);
+        itemIndex = calendar.events.findIndex(event => event.id === itemId);
       }
 
       const itemAtIndex = calendar.steps[itemIndex];
       if (itemAtIndex) {
         // Set notification status
         // For step
-        if (calendar.steps.find((step) => step.id === itemId)) {
+        if (calendar.steps.find(step => step.id === itemId)) {
           itemAtIndex.notifyStatus = notify;
         }
         // For event

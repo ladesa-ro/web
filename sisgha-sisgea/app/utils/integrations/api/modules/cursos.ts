@@ -26,7 +26,7 @@ export type ICursoApiModuleTypings = {
   };
 };
 
-export const createCursosCrudModule = withApiClient((apiClient) => {
+export const createCursosCrudModule = withApiClient(apiClient => {
   return {
     baseQueryKeys: ['cursos'],
 

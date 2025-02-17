@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { BlocoFindOneResultView } from '@ladesa-ro/api-client-fetch';
-import fodase from '~/components/Section/Blocos/Form/Form.vue';
+import BlocosForm from '~/components/Section/Blocos/Form/Form.vue';
 
 type Props = {
   isLoading?: boolean;
@@ -25,7 +25,7 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.BLOCO_COVER, bloco);
       <template #actions>
         <DialogModalEditOrCreateModal
           :edit-id="bloco.id"
-          :form-component="fodase"
+          :form-component="BlocosForm"
         />
       </template>
 

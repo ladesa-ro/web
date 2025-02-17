@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import fodase from '~/components/Section/Blocos/Form/Form.vue';
+import BlocosForm from '~/components/Section/Blocos/Form/Form.vue';
 import { createApiListContextOptions } from '~~/app/components/UI/API/List/Context/UIApiListContext';
 
 const { crudModule } = useLadesaApiCrudBlocos();
@@ -10,7 +10,7 @@ const options = createApiListContextOptions({ crudModule });
 <template>
   <UIAPIList :options="options">
     <template #options-actions>
-      <DialogModalEditOrCreateModal :form-component="fodase" />
+      <DialogModalEditOrCreateModal :form-component="BlocosForm" />
     </template>
 
     <template #grid-item="{ item, isLoading }">

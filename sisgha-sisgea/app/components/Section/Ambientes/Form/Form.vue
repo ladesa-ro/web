@@ -152,35 +152,35 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 
 const nome = computed({
   get: () => formValues.nome,
-  set: (value) => {
+  set: value => {
     formValues.nome = value;
   },
 });
 
 const descricao = computed({
   get: () => formValues.descricao,
-  set: (value) => {
+  set: value => {
     formValues.descricao = value;
   },
 });
 
 const codigo = computed({
   get: () => formValues.codigo,
-  set: (value) => {
+  set: value => {
     formValues.codigo = value;
   },
 });
 
 const capacidade = computed({
   get: () => formValues.capacidade,
-  set: (value) => {
+  set: value => {
     formValues.capacidade = value;
   },
 });
 
 const tipo = computed({
   get: () => formValues.tipo,
-  set: (value) => {
+  set: value => {
     formValues.tipo = value;
   },
 });

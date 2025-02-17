@@ -1,0 +1,39 @@
+@reference "~/assets/styles/app.css";
+
+.input-base-root {
+  @apply w-full overflow-hidden;
+}
+
+.input-base {
+  @apply relative flex justify-between items-center px-3 w-full h-12 border-2 rounded-lg;
+  @apply font-medium text-left text-ldsa-text-default data-[placeholder]:text-ldsa-grey/90;
+  @apply focus-within:border-ldsa-green-2 focus-visible:outline-none;
+}
+
+.input-base {
+  @apply border-ldsa-grey;
+
+  label {
+    @apply text-ldsa-grey;
+  }
+}
+
+.input-base:is([data-open], [data-state='open'], :focus-within) {
+  @apply border-ldsa-green-2;
+
+  label {
+    @apply text-ldsa-green-2;
+  }
+}
+
+.input-base label {
+  @apply absolute inline bottom-9 left-5 bg-ldsa-bg px-1 text-[0.813rem] font-semibold;
+}
+
+.input-base ::placeholder {
+  @apply font-medium text-ldsa-grey;
+}
+
+.input-base-content {
+  @apply overflow-hidden shadow-[0_0_10px_rgba(0,0,0,0.4)] rounded-lg bg-ldsa-bg;
+}

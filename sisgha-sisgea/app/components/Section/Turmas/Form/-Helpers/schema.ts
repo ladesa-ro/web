@@ -32,8 +32,8 @@ const schema = yup
 
         serie: yup.string().when('modoPeriodo', {
           is: 'serie-letra',
-          then: (schema) => schema.required('Série é obrigatória!'),
-          otherwise: (schema) =>
+          then: schema => schema.required('Série é obrigatória!'),
+          otherwise: schema =>
             schema
               .transform(() => null)
               .optional()
@@ -41,8 +41,8 @@ const schema = yup
         }),
         letra: yup.string().when('modoPeriodo', {
           is: 'serie-letra',
-          then: (schema) => schema.required('Letra é obrigatória!'),
-          otherwise: (schema) =>
+          then: schema => schema.required('Letra é obrigatória!'),
+          otherwise: schema =>
             schema
               .transform(() => null)
               .optional()

@@ -124,21 +124,21 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 
 const nome = computed({
   get: () => formValues.nome,
-  set: (value) => {
+  set: value => {
     formValues.nome = value;
   },
 });
 
 const nomeAbreviado = computed({
   get: () => formValues.nomeAbreviado,
-  set: (value) => {
+  set: value => {
     formValues.nomeAbreviado = value;
   },
 });
 
 const cargaHoraria = computed({
   get: () => formValues.cargaHoraria,
-  set: (value) => {
+  set: value => {
     formValues.cargaHoraria = Number(value);
   },
 });

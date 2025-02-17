@@ -140,14 +140,14 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 
 const nome = computed({
   get: () => formValues.nome,
-  set: (value) => {
+  set: value => {
     formValues.nome = value;
   },
 });
 
 const codigo = computed({
   get: () => formValues.codigo,
-  set: (value) => {
+  set: value => {
     formValues.codigo = value;
   },
 });
