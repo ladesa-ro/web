@@ -90,7 +90,7 @@ await suspense();
         </template>
 
         <template v-else-if="isLoading">
-          <template v-for="item in formOptions.limit" :key="item">
+          <template v-for="item in 3" :key="item">
             <div class="ui-api-list-results-grid-item">
               <slot name="item-skeleton" />
             </div>
