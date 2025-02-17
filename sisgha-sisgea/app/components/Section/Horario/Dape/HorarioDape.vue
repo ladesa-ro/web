@@ -71,7 +71,7 @@ const turnos: ITurnos = [
     </SectionHorarioDapeExpansionPanels>
 
     <!-- "Gerar horário" button -->
-    <section class="fixed bottom-16 z-50">
+    <section class="sticky bottom-16 z-50">
       <UIButtonGenerateShedulesButtonGenerateShedule />
     </section>
   </div>
