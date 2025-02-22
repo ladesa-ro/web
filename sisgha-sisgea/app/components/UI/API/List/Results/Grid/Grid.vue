@@ -74,6 +74,9 @@ const load = async ({ done, side }: LoadOptions) => {
   }
 };
 
+// TODO: paginationMeta.limit ?? 3 * 6
+const skeletonItemsCount = 3 * 6;  
+
 await suspense();
 </script>
 
@@ -90,7 +93,7 @@ await suspense();
         </template>
 
         <template v-else-if="isLoading">
-          <template v-for="item in 3" :key="item">
+          <template v-for="item in skeletonItemsCount" :key="item">
             <div class="ui-api-list-results-grid-item">
               <slot name="item-skeleton" />
             </div>
