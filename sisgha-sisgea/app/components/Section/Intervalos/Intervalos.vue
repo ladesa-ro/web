@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import IntervalosForm from './Form/Form.vue';
 // validacao de formulario
 // importar api
 
@@ -20,11 +21,15 @@ const abrirEdicao = (intervalo: {
 
 const periodos = ['Todos', 'Matutino', 'Vespertino', 'Noturno'];
 const ordem = ['Crescente', 'Decrescente'];
+
+//
+const isActive = ref(false);
+const onClose = () => (isActive.value = false);
 </script>
 
 <template>
-  <div class="container py-6 max-w-[89%] mx-auto p-10">
-    <div class="flex justify-between w-screen mx-6">
+  <div class="container py-6 max-w-[70%] mx-auto p-10 justify-center items-center w-screen">
+    <div class="top-section flex justify-between mx-6 min-w-0">
       <!-- filtros -->
       <div class="filtros flex w-screen">
         <VVAutocomplete
@@ -44,12 +49,12 @@ const ordem = ['Crescente', 'Decrescente'];
 
       <div class="buttons">
         <!-- botão de excluir -->
-        
 
         <!-- botão de adicionar intervalo -->
-        <div class="flex items-center shrink-0">
-          <SectionIntervalosModalsForm />
-        </div>
+        <DialogModalEditOrCreateModal
+          :form-component="IntervalosForm"
+          @close="onClose"
+        />
       </div>
     </div>
 
