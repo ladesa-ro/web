@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import DeleteButton from '~/components/UI/ButtonModal/DeleteButton.vue';
 import IntervalosFormAdd from './Form/FormAdd.vue';
-import IntervalosFormEdit from './Form/FormEdit.vue';
-import IntervalosDelete from './Form/FormDelete.vue';
+
 // validacao de formulario
 // importar api
 
@@ -38,7 +38,7 @@ const onClose = () => (isActive.value = false);
       <div class="filtros flex w-screen">
         <VVAutocomplete
           :items="periodos"
-          class="xl:max-w-[200px] mr-4"
+          class="xl:max-w-[280px] mr-4"
           label="Classificar"
           name="periodo.id"
         />
@@ -51,8 +51,12 @@ const onClose = () => (isActive.value = false);
         />
       </div>
 
-      <div class="buttons">
+      <div class="buttons flex gap-4">
         <!-- botão de excluir -->
+        <DeleteButton
+        class="min-h-12 mb-2"
+        >
+        </DeleteButton>
 
         <!-- botão de adicionar intervalo -->
         <DialogModalEditOrCreateModal
