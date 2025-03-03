@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import IntervalosForm from './Form/Form.vue';
+import IntervalosFormAdd from './Form/FormAdd.vue';
+import IntervalosFormEdit from './Form/FormEdit.vue';
+import IntervalosDelete from './Form/FormDelete.vue';
 // validacao de formulario
 // importar api
 
@@ -28,7 +30,9 @@ const onClose = () => (isActive.value = false);
 </script>
 
 <template>
-  <div class="container py-6 max-w-[70%] mx-auto p-10 justify-center items-center w-screen">
+  <div
+    class="container py-6 max-w-[70%] mx-auto p-10 justify-center items-center w-screen"
+  >
     <div class="top-section flex justify-between mx-6 min-w-0">
       <!-- filtros -->
       <div class="filtros flex w-screen">
@@ -52,7 +56,7 @@ const onClose = () => (isActive.value = false);
 
         <!-- botão de adicionar intervalo -->
         <DialogModalEditOrCreateModal
-          :form-component="IntervalosForm"
+          :form-component="IntervalosFormAdd"
           @close="onClose"
         />
       </div>
