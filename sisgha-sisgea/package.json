@@ -35,7 +35,7 @@
     "dayjs": "^1.11.13",
     "inversify": "^6.2.2",
     "jsonwebtoken": "^9.0.2",
-    "nuxt": "^3.15.4",
+    "nuxt": "^3.16.0",
     "openid-client": "^6.1.7",
     "p-mutex": "^0.1.0",
     "p-queue": "^8.1.0",
