@@ -31,7 +31,7 @@
     "@types/lodash": "^4.17.15",
     "@vueuse/core": "^12.7.0",
     "@vueuse/nuxt": "^12.7.0",
-    "axios": "^1.7.9",
+    "axios": "^1.8.2",
     "dayjs": "^1.11.13",
     "inversify": "^6.2.2",
     "jsonwebtoken": "^9.0.2",
