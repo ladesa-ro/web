@@ -4,7 +4,6 @@ import {
   useQueryClient,
 } from '@tanstack/vue-query';
 import type { MaybePromise } from 'vee-validate';
-import type { MaybeRefDeep } from '../../../typings';
 import type {
   IGenericCrudModule,
   IGenericCrudModuleTypesBase,
@@ -14,7 +13,7 @@ export type IGenericCrudDeleteOptions<
   Typings extends IGenericCrudModuleTypesBase,
 > = {
   invalidators?: {
-    filter: MaybeRefDeep<InvalidateQueryFilters>;
+    filter: InvalidateQueryFilters;
   }[];
 
   afterSuccess?: (id: Typings['CompleteView']['id']) => MaybePromise<void>;

@@ -37,7 +37,7 @@ export const useGenericCrudFindOneAheadOfTime = <
                 const count = queryClient.isFetching({ queryKey });
 
                 if (count === 0) {
-                  queryClient.cancelQueries({ queryKey });
+                  queryClient.cancelQueries({ queryKey: queryKey.value });
                 }
               });
             }
@@ -50,7 +50,7 @@ export const useGenericCrudFindOneAheadOfTime = <
 
               queryClient.setQueryData(queryKey, data);
             } catch {
-              queryClient.removeQueries({ queryKey });
+              queryClient.removeQueries({ queryKey: queryKey.value });
             }
           },
           { signal: abortController.signal }
