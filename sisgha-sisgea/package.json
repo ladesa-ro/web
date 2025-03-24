@@ -33,7 +33,7 @@
     "@vueuse/nuxt": "^12.7.0",
     "axios": "^1.8.4",
     "dayjs": "^1.11.13",
-    "inversify": "^6.2.2",
+    "inversify": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
     "nuxt": "^3.16.1",
     "openid-client": "^6.3.4",
