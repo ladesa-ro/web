@@ -14,15 +14,15 @@ const mergedProps = mergeProps(attrs, props) as Record<string, unknown> & Props;
 
 //
 
-// model used for textfield's and autocomplete's text input
+  // model used for textfield's and autocomplete's text input
 const inputTextValue = defineModel<string>('inputText', {
-  required: mergedProps.type !== 'select',
+  required: false,
   default: '',
 });
 
-// model used just for select
+  // model used just for select
 const selectItem = defineModel<any>('select', {
-  required: mergedProps.type === 'select',
+  required: false,
 });
 </script>
 
@@ -30,18 +30,18 @@ const selectItem = defineModel<any>('select', {
   <TextField
     v-if="mergedProps.type === 'textfield'"
     v-bind="mergedProps"
-    v-model:inputText="inputTextValue"
+    v-model="inputTextValue"
   />
 
   <Select
     v-else-if="mergedProps.type === 'select'"
     v-bind="mergedProps"
-    v-model:select="selectItem"
+    v-model="selectItem"
   />
 
   <Autocomplete
     v-else-if="mergedProps.type === 'autocomplete'"
     v-bind="mergedProps"
-    v-model:inputText="inputTextValue"
+    v-model="inputTextValue"
   />
 </template>

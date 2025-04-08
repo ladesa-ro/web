@@ -11,7 +11,9 @@ type SelectAndAutocompleteOptions = {
 
 type InputTypeTextField = { type: 'textfield' };
 type InputTypeSelect = { type: 'select' } & SelectAndAutocompleteOptions;
-type InputTypeAutocomplete = { type: 'autocomplete' } & SelectAndAutocompleteOptions;
+type InputTypeAutocomplete = {
+  type: 'autocomplete';
+} & SelectAndAutocompleteOptions;
 
 export type InputTypes =
   | InputTypeTextField
