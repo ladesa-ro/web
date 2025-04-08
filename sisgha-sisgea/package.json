@@ -39,7 +39,6 @@
     "openid-client": "^6.3.4",
     "p-mutex": "^0.1.0",
     "p-queue": "^8.1.0",
-    "radix-vue": "^1.9.17",
     "reflect-metadata": "^0.2.2",
     "tailwindcss": "^4.0.15",
     "vee-validate": "^4.15.0",
