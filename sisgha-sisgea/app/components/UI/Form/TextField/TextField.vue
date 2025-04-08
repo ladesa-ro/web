@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { TextFieldProps } from '../InputTypes';
+import type { FieldMeta } from '../-Utils/inputTypes';
 
-defineProps<TextFieldProps>();
+defineProps<FieldMeta>();
+// TODO: adicionar type password e type number
 
-const inputValue = defineModel<string>({ required: false, default: '' });
+const inputValue = defineModel<string>({ required: true, default: '' });
 </script>
 
 <template>
@@ -19,7 +20,7 @@ const inputValue = defineModel<string>({ required: false, default: '' });
   </div>
 </template>
 
-<style scoped src="../styles/InputBase.css"></style>
+<style scoped src="../-Utils/style/inputStyles.css"></style>
 
 <style scoped>
 .input-base {

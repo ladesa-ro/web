@@ -7,19 +7,16 @@ import {
   SelectValue as Value,
   SelectViewport as Viewport,
 } from 'reka-ui';
-import type { SelectProps } from '../InputTypes';
-import Arrow from './IconArrow/IconArrow.vue';
-import SelectItem from './ItemList/ItemList.vue';
+import type { SelectProps } from '../../-Utils/inputTypes';
+import Arrow from '../IconArrow.vue';
+import SelectItem from '../Item.vue';
 
 type Props = SelectProps;
-
 defineProps<Props>();
 
 //
 
-const selectedItem = ref();
-
-//
+const selectedItem = defineModel<any>({ required: false });
 
 const open = ref(false);
 </script>
@@ -50,4 +47,4 @@ const open = ref(false);
   </SelectRoot>
 </template>
 
-<style src="../styles/InputBase.css"></style>
+<style src="../../-Utils/style/inputStyles.css"></style>

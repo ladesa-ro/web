@@ -10,16 +10,16 @@ import {
   ComboboxTrigger as Trigger,
   ComboboxViewport as Viewport,
 } from 'reka-ui';
-import type { AutocompleteProps } from '../InputTypes';
-import Arrow from './IconArrow/IconArrow.vue';
-import AutocompleteItem from './ItemList/ItemList.vue';
+import type { AutocompleteProps } from '../../-Utils/inputTypes';
+import Arrow from '../IconArrow.vue';
+import AutocompleteItem from '../Item.vue';
 
 type Props = AutocompleteProps;
 defineProps<Props>();
 
 //
 
-const autocompleteValue = defineModel({ required: false, default: '' });
+const autocompleteValue = defineModel({ required: true, default: '' });
 
 //
 
@@ -74,7 +74,7 @@ const open = ref(false);
   </AutocompleteRoot>
 </template>
 
-<style src="../styles/InputBase.css" />
+<style src="../../-Utils/style/inputStyles.css" />
 
 <style scoped>
 .input-base {
