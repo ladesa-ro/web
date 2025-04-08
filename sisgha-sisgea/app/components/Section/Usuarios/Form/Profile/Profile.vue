@@ -125,10 +125,10 @@ function onClose() {
       <SectionUsuariosFormProfileRoles />
 
       <template #button-group>
-        <UIButtonModalCancelButton @click="$emit('close')" />
+        <UIButtonModalCancel @click="$emit('close')" />
 
-        <UIButtonModalEditButton v-if="editId" />
-        <UIButtonModalSaveButton v-else />
+        <UIButtonModalEdit v-if="editId" />
+        <UIButtonModalSave v-else />
       </template>
     </DialogModalBaseLayout>
   </form>

@@ -24,19 +24,19 @@ defineProps<Props>();
     <slot v-else />
 
     <template #button-group>
-      <UIButtonModalCancelButton :disabled="isBusy" @click="onClose" />
+      <UIButtonModalCancel :disabled="isBusy" @click="onClose" />
 
       <template v-if="mode === 'manage'">
-        <UIButtonModalDeleteButton
+        <UIButtonModalDelete
           :disabled="isBusy"
           @click.prevent="onDelete"
         />
 
-        <UIButtonModalEditButton :disabled="isBusy" />
+        <UIButtonModalEdit :disabled="isBusy" />
       </template>
 
       <template v-else>
-        <UIButtonModalSaveButton :disabled="isBusy" />
+        <UIButtonModalSave :disabled="isBusy" />
       </template>
     </template>
   </DialogModalBaseLayout>

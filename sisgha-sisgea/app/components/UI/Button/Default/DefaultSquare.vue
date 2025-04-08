@@ -1,0 +1,9 @@
+<template>
+  <button
+    class="flex justify-center items-center w-12 h-12 rounded-lg bg-ldsa-green-1"
+  >
+    <div class="text-ldsa-white w-6 h-6">
+      <slot />
+    </div>
+  </button>
+</template>

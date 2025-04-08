@@ -182,15 +182,15 @@ const onClose = () => $emit('close');
       />
 
       <template #button-group>
-        <UIButtonModalCancelButton @click="onClose" />
+        <UIButtonModalCancel @click="onClose" />
 
-        <UIButtonModalDeleteButton
+        <UIButtonModalDelete
           v-if="editId"
           @click.prevent="handleDelete"
         />
 
-        <UIButtonModalEditButton v-if="editId" />
-        <UIButtonModalSaveButton v-else />
+        <UIButtonModalEdit v-if="editId" />
+        <UIButtonModalSave v-else />
       </template>
     </DialogModalBaseLayout>
   </form>

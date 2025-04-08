@@ -72,8 +72,8 @@ const onClose = () => {
       </v-container>
 
       <template #button-group>
-        <UIButtonModalBackButton @click="backForm" />
-        <UIButtonModalAddClassButton />
+        <UIButtonModalBack @click="backForm" />
+        <UIButtonModalAddClass />
       </template>
     </DialogModalBaseLayout>
   </form>

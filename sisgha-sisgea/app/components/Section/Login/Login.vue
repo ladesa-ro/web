@@ -43,13 +43,13 @@ useTitle(null, 'Login');
           <LazySectionLoginResetPasswordModal />
         </span>
 
-        <UIButton
+        <UIButtonDefault
           :disabled="!canSubmit"
           class="login-form-submit"
           type="submit"
         >
           Entrar
-        </UIButton>
+        </UIButtonDefault>
 
         <div v-if="isError">
           <VDivider class="my-4" />
@@ -71,7 +71,7 @@ useTitle(null, 'Login');
         tabindex="-1"
         to="/sisgha/consulta"
       >
-        <UIButton
+        <UIButtonDefault
           :disabled="isBusy"
           class="login-alternative-button"
           type="button"
@@ -84,7 +84,7 @@ useTitle(null, 'Login');
             <span class="ml-4" />
             <span>Entrar como aluno</span>
           </p>
-        </UIButton>
+        </UIButtonDefault>
       </NuxtLink>
     </div>
   </div>

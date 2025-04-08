@@ -60,20 +60,20 @@ const onSubmit = handleSubmit(
       />
 
       <template #button-group>
-        <UIButtonModalCancelButton
+        <UIButtonModalCancel
           v-if="!showAlert"
           type="button"
           @click="$emit('close')"
         />
 
-        <UIButtonModalOkButton
+        <UIButtonModalOk
           v-if="showAlert"
           class="!px-10"
           type="button"
           @click="$emit('close')"
         />
 
-        <UIButtonModalResetButton v-if="!showAlert" type="submit" />
+        <UIButtonModalReset v-if="!showAlert" type="submit" />
       </template>
     </DialogModalBaseLayout>
   </form>

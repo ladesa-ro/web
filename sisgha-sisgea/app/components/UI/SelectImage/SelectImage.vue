@@ -1,3 +1,5 @@
+<!-- TODO: mover para UI/Form -->
+
 <script lang="ts" setup>
 import { useDropzone } from 'vue3-dropzone';
 
