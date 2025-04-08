@@ -151,12 +151,12 @@ await suspend();
         </v-expansion-panel>
       </v-expansion-panels>
       <div class="button-solo">
-        <UIButtonButtonModalAddNewClassButton @click="goToAdd" />
+        <UIButtonModalAddNewClass @click="goToAdd" />
       </div>
 
       <template #button-group>
-        <UIButtonButtonModalBackButton @click="backForm" />
-        <UIButtonButtonModalFinishButton @click="closeForm" />
+        <UIButtonModalBack @click="backForm" />
+        <UIButtonModalFinish @click="closeForm" />
       </template>
     </DialogModalBaseLayout>
   </div>

@@ -69,9 +69,9 @@ const $emit = defineEmits(['close', 'next', 'back']);
     <v-divider />
 
     <div class="form-footer button-group">
-      <UIButtonButtonModalCancelButton @click="closeForm" />
-      <UIButtonButtonModalBackButton @click="backform" />
-      <UIButtonButtonModalAdvancedButton @click="nextForm" />
+      <UIButtonModalCancel @click="closeForm" />
+      <UIButtonModalBack @click="backform" />
+      <UIButtonModalAdvance @click="nextForm" />
     </div>
   </form>
 </template>

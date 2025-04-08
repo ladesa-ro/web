@@ -30,9 +30,9 @@ function generatePDF() {
       <div class="mt-8" />
 
       <!-- Botão "Gerar PDF" -->
-      <UIButton class="min-h-14 max-w-40 mb-2" @click="generatePDF">
+      <UIButtonDefault class="min-h-14 max-w-40 mb-2" @click="generatePDF">
         Gerar PDF
-      </UIButton>
+      </UIButtonDefault>
     </template>
 
     <!-- Opção "Horário do dia" -->

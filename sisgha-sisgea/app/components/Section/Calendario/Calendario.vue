@@ -72,7 +72,7 @@ const onClose = () => (isActive.value = false);
 
             <!-- Search -->
             <div>
-              <UIButtonButtonSearch />
+              <UIButtonSearch />
             </div>
 
             <!-- Add -->
@@ -90,7 +90,7 @@ const onClose = () => (isActive.value = false);
           class="flex flex-col-reverse gap-6 lg:flex-row justify-between w-full mb-6"
         >
           <!-- Event List -->
-          <UIButtonButtonEventsList
+          <UIButtonEventsList
             v-show="calendarView === true"
             @click="showEventsList(enableEventList)"
           />

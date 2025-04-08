@@ -185,8 +185,8 @@ const nome = computed({
     <v-divider />
 
     <div class="form-footer button-group">
-      <UIButtonButtonModalCancelButton @click="closeForm" />
-      <UIButtonButtonModalAdvancedButton @click="nextForm" />
+      <UIButtonModalCancel @click="closeForm" />
+      <UIButtonModalAdvance @click="nextForm" />
     </div>
   </form>
 </template>

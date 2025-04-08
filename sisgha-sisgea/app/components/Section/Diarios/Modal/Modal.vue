@@ -15,8 +15,8 @@ const onClose = () => (isActive.value = false);
 <template>
   <DialogSkeleton v-model="isActive">
     <template #activator>
-      <UIButtonButtonAdd v-if="!editId" />
-      <UIButtonButtonEdit v-else />
+      <UIButtonAdd v-if="!editId" />
+      <UIButtonEdit v-else />
     </template>
     <SectionDiariosFormGeral @close="onClose" />
   </DialogSkeleton>
