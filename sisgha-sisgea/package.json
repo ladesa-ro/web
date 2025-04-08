@@ -29,7 +29,7 @@
     "@tanstack/vue-query": "^5.72.1",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/lodash": "^4.17.16",
-    "@vueuse/core": "^12.7.0",
+    "@vueuse/core": "^13.1.0",
     "@vueuse/nuxt": "^12.7.0",
     "axios": "^1.8.4",
     "dayjs": "^1.11.13",
