@@ -6,10 +6,10 @@ import {
   SelectTrigger as Trigger,
   SelectValue as Value,
   SelectViewport as Viewport,
-} from 'radix-vue';
+} from 'reka-ui';
+import type { CommonProps, SelectOrAutocompleteProps } from '../CommonProps';
 import Arrow from './IconArrow/IconArrow.vue';
 import SelectItem from './ItemList/ItemList.vue';
-import type { CommonProps, SelectOrAutocompleteProps } from '../CommonProps';
 
 type Props = CommonProps & SelectOrAutocompleteProps;
 
@@ -32,7 +32,7 @@ const open = ref(false);
 
     <Portal>
       <Content
-        class="input-base-content w-(--radix-select-trigger-width)"
+        class="input-base-content w-(--reka-select-trigger-width)"
         position="popper"
       >
         <Viewport>

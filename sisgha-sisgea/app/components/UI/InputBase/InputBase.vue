@@ -10,6 +10,8 @@ type Props = CommonProps &
   };
 
 const props = defineProps<Props>();
+
+// TODO: adicionar v-model para lidar com o valor de textfield
 </script>
 
 <template>

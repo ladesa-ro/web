@@ -2,10 +2,10 @@
 import {
   PopoverArrow as Arrow,
   PopoverContent as Content,
-  PopoverPortal as Portal,
   PopoverRoot,
+  PopoverPortal as Portal,
   PopoverTrigger as Trigger,
-} from 'radix-vue';
+} from 'reka-ui';
 
 type Props = {
   popoverArrow?: boolean;
@@ -34,10 +34,7 @@ const open = defineModel({ required: false, default: false });
     </Trigger>
 
     <Portal>
-      <Content
-        class="popover-content z-[21]"
-        side="bottom"
-      >
+      <Content class="popover-content z-[21]" side="bottom">
         <Arrow v-if="popoverArrow" />
 
         <slot />
@@ -48,7 +45,7 @@ const open = defineModel({ required: false, default: false });
 
 <style>
 .popover-content {
-  transform-origin: var(--radix-popover-content-transform-origin);
+  transform-origin: var(--reka-popover-content-transform-origin);
 }
 
 .popover-content[data-state='open'] {

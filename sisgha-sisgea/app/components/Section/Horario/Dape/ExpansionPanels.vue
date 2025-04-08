@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { CollapsibleContent, CollapsibleRoot } from 'radix-vue';
+import { CollapsibleContent, CollapsibleRoot } from 'reka-ui';
 
 type Props = { title: string };
 defineProps<Props>();
@@ -67,13 +67,13 @@ const open = ref(false);
     height: 0;
   }
   to {
-    height: var(--radix-collapsible-content-height);
+    height: var(--reka-collapsible-content-height);
   }
 }
 
 @keyframes slideUp {
   from {
-    height: var(--radix-collapsible-content-height);
+    height: var(--reka-collapsible-content-height);
   }
   to {
     height: 0;
