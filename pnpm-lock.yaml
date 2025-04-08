@@ -14,9 +14,6 @@ importers:
       prettier:
         specifier: ^3.5.3
         version: 3.5.3
-      reka-ui:
-        specifier: ^2.2.0
-        version: 2.2.0(typescript@5.8.2)(vue@3.5.13(typescript@5.8.2))
 
   sisgha-sisgea:
     dependencies:
@@ -92,6 +89,9 @@ importers:
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
+      reka-ui:
+        specifier: ^2.2.0
+        version: 2.2.0(typescript@5.8.2)(vue@3.5.13(typescript@5.8.2))
       tailwindcss:
         specifier: ^4.0.15
         version: 4.0.15
@@ -1645,8 +1645,8 @@ packages:
   '@tanstack/query-sync-storage-persister@5.69.0':
     resolution: {integrity: sha512-oD/GuT2C+3wQaNV3WLGoprJUaS/a10JlqDhjUvN3SCxwxQ24vxSlZFvDifjHNqw4OE3ldDb0mZeeQ/HeXHg1Tw==}
 
-  '@tanstack/virtual-core@3.13.4':
-    resolution: {integrity: sha512-fNGO9fjjSLns87tlcto106enQQLycCKR4DPNpgq3djP5IdcPFdPAmaKjsgzIeRhH7hWrELgW12hYnRthS5kLUw==}
+  '@tanstack/virtual-core@3.13.6':
+    resolution: {integrity: sha512-cnQUeWnhNP8tJ4WsGcYiX24Gjkc9ALstLbHcBj1t3E7EimN6n6kHH+DPV4PpDnuw00NApQp+ViojMj1GRdwYQg==}
 
   '@tanstack/vue-query@5.69.0':
     resolution: {integrity: sha512-JZecDd0b+hZChqV5O1wXBfKoxlEj3aGvRj7upuqWei+oGrT+ERuOU4uQn7/DDVA5TouIt88G3oMFBjE2wKO/6A==}
@@ -1657,8 +1657,8 @@ packages:
       '@vue/composition-api':
         optional: true
 
-  '@tanstack/vue-virtual@3.13.4':
-    resolution: {integrity: sha512-1fPrd3hE1SS4R/9JbX1AlzueY4duCK7ixuLcMW5GMnk9N6WbLo9MioNKiv22V+UaXKOLNy8tLdzT8NYerOFTOQ==}
+  '@tanstack/vue-virtual@3.13.6':
+    resolution: {integrity: sha512-GYdZ3SJBQPzgxhuCE2fvpiH46qzHiVx5XzBSdtESgiqh4poj8UgckjGWYEhxaBbcVt1oLzh1m3Ql4TyH32TOzQ==}
     peerDependencies:
       vue: ^2.7.0 || ^3.0.0
 
@@ -6609,7 +6609,7 @@ snapshots:
       '@tanstack/query-core': 5.69.0
       '@tanstack/query-persist-client-core': 5.69.0
 
-  '@tanstack/virtual-core@3.13.4': {}
+  '@tanstack/virtual-core@3.13.6': {}
 
   '@tanstack/vue-query@5.69.0(vue@3.5.13(typescript@5.8.2))':
     dependencies:
@@ -6619,9 +6619,9 @@ snapshots:
       vue: 3.5.13(typescript@5.8.2)
       vue-demi: 0.14.10(vue@3.5.13(typescript@5.8.2))
 
-  '@tanstack/vue-virtual@3.13.4(vue@3.5.13(typescript@5.8.2))':
+  '@tanstack/vue-virtual@3.13.6(vue@3.5.13(typescript@5.8.2))':
     dependencies:
-      '@tanstack/virtual-core': 3.13.4
+      '@tanstack/virtual-core': 3.13.6
       vue: 3.5.13(typescript@5.8.2)
 
   '@trysound/sax@0.2.0': {}
@@ -9568,7 +9568,7 @@ snapshots:
       '@floating-ui/vue': 1.1.6(vue@3.5.13(typescript@5.8.2))
       '@internationalized/date': 3.7.0
       '@internationalized/number': 3.6.0
-      '@tanstack/vue-virtual': 3.13.4(vue@3.5.13(typescript@5.8.2))
+      '@tanstack/vue-virtual': 3.13.6(vue@3.5.13(typescript@5.8.2))
       '@vueuse/core': 12.7.0(typescript@5.8.2)
       '@vueuse/shared': 12.7.0(typescript@5.8.2)
       aria-hidden: 1.2.4
