@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { CommonProps } from '../CommonProps';
+import type { TextFieldProps } from '../InputTypes';
 
-defineProps<CommonProps>();
+defineProps<TextFieldProps>();
 
 const inputValue = defineModel<string>({ required: false, default: '' });
 </script>

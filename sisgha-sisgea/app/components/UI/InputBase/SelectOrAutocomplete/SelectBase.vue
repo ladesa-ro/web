@@ -7,11 +7,11 @@ import {
   SelectValue as Value,
   SelectViewport as Viewport,
 } from 'reka-ui';
-import type { CommonProps, SelectOrAutocompleteProps } from '../CommonProps';
+import type { SelectProps } from '../InputTypes';
 import Arrow from './IconArrow/IconArrow.vue';
 import SelectItem from './ItemList/ItemList.vue';
 
-type Props = CommonProps & SelectOrAutocompleteProps;
+type Props = SelectProps;
 
 defineProps<Props>();
 

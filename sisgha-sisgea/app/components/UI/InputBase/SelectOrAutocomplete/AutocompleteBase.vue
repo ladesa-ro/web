@@ -10,11 +10,11 @@ import {
   ComboboxTrigger as Trigger,
   ComboboxViewport as Viewport,
 } from 'reka-ui';
-import type { CommonProps, SelectOrAutocompleteProps } from '../CommonProps';
+import type { AutocompleteProps } from '../InputTypes';
 import Arrow from './IconArrow/IconArrow.vue';
 import AutocompleteItem from './ItemList/ItemList.vue';
 
-type Props = CommonProps & SelectOrAutocompleteProps;
+type Props = AutocompleteProps;
 defineProps<Props>();
 
 //
