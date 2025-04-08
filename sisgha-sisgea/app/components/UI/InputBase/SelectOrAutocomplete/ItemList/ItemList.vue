@@ -10,7 +10,7 @@ type Props = {
   value: string;
 };
 
-const { value } = defineProps<Props>();
+defineProps<Props>();
 </script>
 
 <template>
