@@ -10,15 +10,11 @@ import {
   ComboboxTrigger as Trigger,
   ComboboxViewport as Viewport,
 } from 'radix-vue';
+import type { CommonProps, SelectOrAutocompleteProps } from '../CommonProps';
 import Arrow from './IconArrow/IconArrow.vue';
 import AutocompleteItem from './ItemList/ItemList.vue';
 
-type Props = {
-  options: any[];
-  placeholder: string;
-  label: string;
-};
-
+type Props = CommonProps & SelectOrAutocompleteProps;
 defineProps<Props>();
 
 const autocompleteValue = ref('');

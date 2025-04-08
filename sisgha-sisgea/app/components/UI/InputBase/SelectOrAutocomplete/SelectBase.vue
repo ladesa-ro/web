@@ -9,12 +9,9 @@ import {
 } from 'radix-vue';
 import Arrow from './IconArrow/IconArrow.vue';
 import SelectItem from './ItemList/ItemList.vue';
+import type { CommonProps, SelectOrAutocompleteProps } from '../CommonProps';
 
-type Props = {
-  options: any[];
-  placeholder: string;
-  label: string;
-};
+type Props = CommonProps & SelectOrAutocompleteProps;
 
 defineProps<Props>();
 
@@ -26,10 +23,7 @@ const open = ref(false);
 </script>
 
 <template>
-  <SelectRoot
-    v-model="selectedItem"
-    v-model:open="open"
-  >
+  <SelectRoot v-model="selectedItem" v-model:open="open">
     <Trigger class="input-base">
       <label>{{ label }}</label>
       <Value :placeholder="placeholder" />
