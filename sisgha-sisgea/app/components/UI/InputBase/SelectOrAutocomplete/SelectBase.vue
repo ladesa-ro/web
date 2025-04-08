@@ -19,12 +19,14 @@ defineProps<Props>();
 
 const selectedItem = ref();
 
+//
+
 const open = ref(false);
 </script>
 
 <template>
   <SelectRoot v-model="selectedItem" v-model:open="open">
-    <Trigger class="input-base">
+    <Trigger class="input-base" v-bind="$attrs">
       <label>{{ label }}</label>
       <Value :placeholder="placeholder" />
       <Arrow :open="open" />

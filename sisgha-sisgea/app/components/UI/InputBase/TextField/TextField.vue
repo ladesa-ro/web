@@ -3,18 +3,18 @@ import type { CommonProps } from '../CommonProps';
 
 defineProps<CommonProps>();
 
-const inputValue = defineModel<string>({ required: false });
+const inputValue = defineModel<string>({ required: false, default: '' });
 </script>
 
 <template>
   <div class="input-base">
-    <label for="input">{{label}}</label>
+    <label for="input">{{ label }}</label>
     <input
       id="input"
       type="text"
       class="w-full h-full px-3"
       :placeholder="placeholder"
-      :value="inputValue"
+      v-model="inputValue"
     />
   </div>
 </template>

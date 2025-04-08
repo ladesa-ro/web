@@ -17,7 +17,11 @@ import AutocompleteItem from './ItemList/ItemList.vue';
 type Props = CommonProps & SelectOrAutocompleteProps;
 defineProps<Props>();
 
-const autocompleteValue = ref('');
+//
+
+const autocompleteValue = defineModel({ required: false, default: '' });
+
+//
 
 const open = ref(false);
 </script>
