@@ -60,8 +60,8 @@ const nextForm = () => {
       </v-radio-group>
 
       <template #button-group>
-        <UIButtonModalCancelButton @click="closeForm" />
-        <UIButtonModalAdvancedButton
+        <UIButtonButtonModalCancelButton @click="closeForm" />
+        <UIButtonButtonModalAdvancedButton
           :disabled="!selectedDisciplina"
           @click="nextForm"
         />

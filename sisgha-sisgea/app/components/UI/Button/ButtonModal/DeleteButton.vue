@@ -1,5 +1,5 @@
 <template>
-  <UIButtonModalBaseButtonLayout
+  <UIButtonButtonModalBaseButtonLayout
     :opacity="85"
     color="var(--ladesa-red-color)"
     type="button"
@@ -8,5 +8,5 @@
     <template #icon>
       <IconsIconExclude />
     </template>
-  </UIButtonModalBaseButtonLayout>
+  </UIButtonButtonModalBaseButtonLayout>
 </template>

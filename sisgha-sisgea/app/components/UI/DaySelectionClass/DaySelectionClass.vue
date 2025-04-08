@@ -38,7 +38,7 @@
       </div>
     </div>
     <div class="mt-4">
-      <UIButtonModalAddDayClassButton @click.prevent="addDay" />
+      <UIButtonButtonModalAddDayClassButton @click.prevent="addDay" />
     </div>
   </div>
 </template>

@@ -1,3 +1,5 @@
+<!-- TODO: atualizar essa searchbar e remover vuetify -->
+
 <script lang="ts" setup>
 type Props = {
   value?: string;

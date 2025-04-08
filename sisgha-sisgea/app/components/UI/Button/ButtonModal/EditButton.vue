@@ -1,11 +1,11 @@
 <template>
-  <UIButtonModalBaseButtonLayout
+  <UIButtonButtonModalBaseButtonLayout
     color="var(--ladesa-green-2-color)"
     type="submit"
   >
-    Concluir
+    Editar
     <template #icon>
       <IconsIconConfirm />
     </template>
-  </UIButtonModalBaseButtonLayout>
+  </UIButtonButtonModalBaseButtonLayout>
 </template>

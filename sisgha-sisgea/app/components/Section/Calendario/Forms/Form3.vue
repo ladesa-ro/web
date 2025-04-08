@@ -132,9 +132,9 @@ const $emit = defineEmits(['close', 'next', 'back']);
     </div>
 
     <template #button-group>
-      <UIButtonModalCancelButton @click="closeForm" />
-      <!-- <UIButtonModalBackButton @click="backform" /> -->
-      <UIButtonModalAdvancedButton @click="nextForm" />
+      <UIButtonButtonModalCancelButton @click="closeForm" />
+      <!-- <UIButtonButtonModalBackButton @click="backform" /> -->
+      <UIButtonButtonModalAdvancedButton @click="nextForm" />
     </template>
   </DialogModalBaseLayout>
   <!-- </form> -->

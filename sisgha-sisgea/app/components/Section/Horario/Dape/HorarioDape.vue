@@ -72,7 +72,7 @@ const turnos: ITurnos = [
 
     <!-- "Gerar horário" button -->
     <section class="sticky bottom-16 z-50">
-      <UIButtonGenerateShedulesButtonGenerateShedule />
+      <UIButtonButtonGenerateShedulesButtonGenerateShedule />
     </section>
   </div>
 </template>

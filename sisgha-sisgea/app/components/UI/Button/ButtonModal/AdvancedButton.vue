@@ -1,5 +1,5 @@
 <template>
-  <UIButtonModalBaseButtonLayout
+  <UIButtonButtonModalBaseButtonLayout
     color="var(--ladesa-green-2-color)"
     type="button"
   >
@@ -7,5 +7,5 @@
     <template #icon>
       <IconsArrowIconArrowAlt class="rotate-180" />
     </template>
-  </UIButtonModalBaseButtonLayout>
+  </UIButtonButtonModalBaseButtonLayout>
 </template>

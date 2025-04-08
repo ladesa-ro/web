@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import ButtonAdd from '~/components/UI/ButtonAdd/ButtonAdd.vue';
-import ButtonEdit from '~/components/UI/ButtonEdit/ButtonEdit.vue';
+import ButtonAdd from '~/components/UI/Button/ButtonAdd/ButtonAdd.vue';
+import ButtonEdit from '~/components/UI/Button/ButtonEdit/ButtonEdit.vue';
 import type { FormComponent } from './FormComponent';
 
 type Props = {
