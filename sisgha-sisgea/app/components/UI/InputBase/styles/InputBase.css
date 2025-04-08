@@ -1,9 +1,5 @@
 @reference "~/assets/styles/app.css";
 
-.input-base-root {
-  @apply w-full overflow-hidden;
-}
-
 .input-base {
   @apply relative flex justify-between items-center px-3 w-full h-12 border-2 rounded-lg;
   @apply font-medium text-left text-ldsa-text-default data-[placeholder]:text-ldsa-grey/90;
