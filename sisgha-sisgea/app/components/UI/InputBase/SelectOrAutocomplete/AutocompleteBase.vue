@@ -9,16 +9,12 @@ import {
   ComboboxPortal as Portal,
   ComboboxTrigger as Trigger,
   ComboboxViewport as Viewport,
-} from 'radix-vue';
+} from 'reka-ui';
+import type { CommonProps, SelectOrAutocompleteProps } from '../CommonProps';
 import Arrow from './IconArrow/IconArrow.vue';
 import AutocompleteItem from './ItemList/ItemList.vue';
 
-type Props = {
-  options: any[];
-  placeholder: string;
-  label: string;
-};
-
+type Props = CommonProps & SelectOrAutocompleteProps;
 defineProps<Props>();
 
 const autocompleteValue = ref('');
@@ -52,12 +48,12 @@ const open = ref(false);
 
     <Portal>
       <Content
-        class="input-base-content w-(--radix-combobox-trigger-width)"
+        class="input-base-content w-(--reka-combobox-trigger-width)"
         position="popper"
       >
         <Viewport>
           <NoResultsState
-            class="flex items-center px-3 font-normal text-ldsa-grey h-(--radix-combobox-trigger-height)"
+            class="flex items-center px-3 font-normal text-ldsa-grey h-(--reka-combobox-trigger-height)"
           >
             Nenhum resultado encontrado
           </NoResultsState>

@@ -3,27 +3,27 @@ import {
   ComboboxItem as AutocompleteItem,
   SelectItem,
   SelectItemText as Text,
-} from 'radix-vue';
+} from 'reka-ui';
 
 type Props = {
   mode: 'autocomplete' | 'select';
   value: string;
 };
 
-const { value } = defineProps<Props>();
+defineProps<Props>();
 </script>
 
 <template>
   <AutocompleteItem
     v-if="mode === 'autocomplete'"
     :value="value"
-    class="item h-(--radix-combobox-trigger-height)"
-  />  
+    class="item h-(--reka-combobox-trigger-height)"
+  />
 
   <SelectItem
     v-else-if="mode === 'select'"
     :value="value"
-    class="item h-(--radix-select-trigger-height)"
+    class="item h-(--reka-select-trigger-height)"
   >
     <Text>{{ value }}</Text>
   </SelectItem>
