@@ -2,14 +2,14 @@ type Option = Record<string, any>;
 
 type SelectAndAutocompleteOptions = {
   /**
-   * Specify the available options by offering an array
+   * Specify the options by offering an array of objects
    */
   options: Option[];
 
   /**
-   * Specify the name that will appear for each option
-  */
-  optionsDisplayValue: string;
+   * Specify the object property that will define the name for each option
+   */
+  optionTitle: string;
 };
 
 //

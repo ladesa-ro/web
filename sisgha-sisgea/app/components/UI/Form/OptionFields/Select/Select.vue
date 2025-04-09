@@ -37,7 +37,7 @@ const open = ref(false);
           <SelectItem
             mode="select"
             v-for="(option, index) of options"
-            :value="option[optionsDisplayValue]"
+            :name="option[optionTitle]"
             :key="index"
           />
         </Viewport>
