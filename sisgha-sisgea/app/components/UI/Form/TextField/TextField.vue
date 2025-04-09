@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import type { FieldMeta } from '../-Utils/inputTypes';
+import type { TextFieldProps } from '../-Utils/inputTypes';
 
-defineProps<FieldMeta>();
-// TODO: adicionar type password e type number
+const { type = 'text' } = defineProps<TextFieldProps>();
 
-const inputValue = defineModel<string>({ required: true, default: '' });
+const inputValue = defineModel<string>({ required: false, default: '' });
 </script>
 
 <template>
@@ -12,7 +11,7 @@ const inputValue = defineModel<string>({ required: true, default: '' });
     <label for="input">{{ label }}</label>
     <input
       id="input"
-      type="text"
+      :type="type"
       class="w-full h-full px-3"
       :placeholder="placeholder"
       v-model="inputValue"
