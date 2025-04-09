@@ -1,16 +1,23 @@
-export type FieldMeta = {
-  placeholder?: string;
-  label?: string;
+type Option = Record<string, any>;
+
+type SelectAndAutocompleteOptions = {
+  /**
+   * Specify the available options by offering an array
+   */
+  options: Option[];
+
+  /**
+   * Specify the name that will appear for each option
+  */
+  optionsDisplayValue: string;
 };
 
 //
 
-type SelectAndAutocompleteOptions = {
-  options: any[]; // TODO: especificar melhor a tipagem
-};
-
 type InputTypeTextField = { type: 'textfield' };
+
 type InputTypeSelect = { type: 'select' } & SelectAndAutocompleteOptions;
+
 type InputTypeAutocomplete = {
   type: 'autocomplete';
 } & SelectAndAutocompleteOptions;
@@ -22,7 +29,16 @@ export type InputTypes =
 
 //
 
-export type TextFieldProps = FieldMeta;
+type FieldMeta = {
+  placeholder?: string;
+  label?: string;
+};
+
+//
+
+export type TextFieldProps = FieldMeta & {
+  type?: 'text' | 'number' | 'password';
+};
 
 export type SelectProps = FieldMeta & SelectAndAutocompleteOptions;
 
