@@ -14,12 +14,11 @@ import type { AutocompleteProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
 import AutocompleteItem from '../Item.vue';
 
-type Props = AutocompleteProps;
-defineProps<Props>();
+defineProps<AutocompleteProps>();
 
 //
 
-const autocompleteValue = defineModel({ required: true, default: '' });
+const autocompleteValue = defineModel({ required: false, default: '' });
 
 //
 
@@ -65,7 +64,7 @@ const open = ref(false);
           <AutocompleteItem
             mode="autocomplete"
             v-for="(option, index) in options"
-            :value="option"
+            :value="option[optionsDisplayValue]"
             :key="index"
           />
         </Viewport>

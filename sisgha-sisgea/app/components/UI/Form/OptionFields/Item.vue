@@ -7,7 +7,7 @@ import {
 
 type Props = {
   mode: 'autocomplete' | 'select';
-  value: string;
+  value: string | number;
 };
 
 defineProps<Props>();
