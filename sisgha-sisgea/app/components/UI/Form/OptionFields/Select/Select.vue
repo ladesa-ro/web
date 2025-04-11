@@ -11,8 +11,7 @@ import type { SelectProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
 import SelectItem from '../Item.vue';
 
-type Props = SelectProps;
-defineProps<Props>();
+defineProps<SelectProps>();
 
 //
 
@@ -36,9 +35,9 @@ const open = ref(false);
       >
         <Viewport>
           <SelectItem
-            v-for="(option, index) in options"
             mode="select"
-            :value="option"
+            v-for="(option, index) of options"
+            :name="option[optionTitle]"
             :key="index"
           />
         </Viewport>
