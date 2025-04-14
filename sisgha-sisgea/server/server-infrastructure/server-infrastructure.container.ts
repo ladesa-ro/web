@@ -3,9 +3,9 @@ import 'reflect-metadata';
 import { ServerAuthenticationModule } from './server-authentication';
 import { ServerEnvironmentConfigModule } from './server-config';
 
-const serverInfrastructureContainer = new Container();
+const serverInfrastructureContainer = new Container({ autobind: true });
 
-serverInfrastructureContainer.load(ServerAuthenticationModule);
-serverInfrastructureContainer.load(ServerEnvironmentConfigModule);
+serverInfrastructureContainer.loadSync(ServerAuthenticationModule);
+serverInfrastructureContainer.loadSync(ServerEnvironmentConfigModule);
 
 export { serverInfrastructureContainer };
