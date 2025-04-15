@@ -14,12 +14,19 @@ import type { AutocompleteProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
 import AutocompleteItem from '../Item.vue';
 
-type Props = AutocompleteProps;
-defineProps<Props>();
+defineProps<AutocompleteProps>();
 
 //
 
-const autocompleteValue = defineModel({ required: true, default: '' });
+const selectedOption = defineModel('selectedOption', {
+  required: false,
+  default: '',
+});
+
+const search = defineModel<string>('searchTerm', {
+  required: false,
+  default: '',
+});
 
 //
 
@@ -27,19 +34,20 @@ const open = ref(false);
 </script>
 
 <template>
-  <AutocompleteRoot v-model="autocompleteValue" v-model:open="open">
+  <AutocompleteRoot v-model="selectedOption" v-model:open="open">
     <Anchor class="input-base flex justify-between">
       <label>{{ label }}</label>
 
       <Input
+        v-model="search"
         class="w-full h-full"
         :placeholder="placeholder"
         @click="open = !open"
       />
 
       <Cancel
-        v-if="autocompleteValue !== ''"
-        @click="autocompleteValue = ''"
+        v-if="selectedOption"
+        @click="selectedOption = ''"
         class="p-1.5 bg-ldsa-grey/20 rounded-full"
       >
         <IconsIconClose class="w-2.5 h-2.5 text-ldsa-text-default/50" />
@@ -65,7 +73,7 @@ const open = ref(false);
           <AutocompleteItem
             mode="autocomplete"
             v-for="(option, index) in options"
-            :value="option"
+            :name="option[optionTitle]"
             :key="index"
           />
         </Viewport>

@@ -6,6 +6,7 @@ import {
   PopoverPortal as Portal,
   PopoverTrigger as Trigger,
 } from 'reka-ui';
+import { onClickOutside } from '@vueuse/core';
 
 type Props = {
   popoverArrow?: boolean;
@@ -25,16 +26,22 @@ defineSlots<Slots>();
 //
 
 const open = defineModel({ required: false, default: false });
+
+// close popover when user clicks outside
+const content = useTemplateRef<HTMLElement | null>('content');
+const trigger = useTemplateRef<HTMLElement | null>('trigger');
+
+onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
 </script>
 
 <template>
   <PopoverRoot :open="open">
-    <Trigger @click="open = !open">
+    <Trigger ref="trigger" @click="open = !open">
       <slot name="activator" />
     </Trigger>
 
     <Portal>
-      <Content class="popover-content z-[21]" side="bottom">
+      <Content ref="content" class="popover-content z-[21]" side="bottom">
         <Arrow v-if="popoverArrow" />
 
         <slot />
