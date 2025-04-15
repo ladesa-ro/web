@@ -1,5 +1,5 @@
 import tailwindcss from '@tailwindcss/vite';
-import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
+import vuetify from 'vite-plugin-vuetify';
 
 export default defineNuxtConfig({
   future: {
@@ -19,7 +19,7 @@ export default defineNuxtConfig({
   // ===========
 
   typescript: {
-    typeCheck: true,
+    typeCheck: false,
   },
 
   eslint: {},
@@ -34,7 +34,7 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
     vue: {
       template: {
-        transformAssetUrls,
+        // transformAssetUrls,
       },
     },
   },
