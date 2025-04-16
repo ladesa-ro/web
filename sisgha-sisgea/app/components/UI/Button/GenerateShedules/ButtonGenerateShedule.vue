@@ -1,4 +1,3 @@
-<script setup></script>
 <template>
   <UIButtonDefault
     class="h-20 border-solid border-2 border-ldsa-green-2/65 dark:border-ldsa-green-2/45"

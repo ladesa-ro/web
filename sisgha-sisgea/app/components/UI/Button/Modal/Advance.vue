@@ -1,8 +1,9 @@
 <template>
-  <UIButtonModalBaseLayout color="var(--ladesa-green-2-color)" type="button">
-    Avançar
-    <template #icon>
-      <IconsArrowIconArrowAlt class="rotate-180" />
-    </template>
+  <UIButtonModalBaseLayout
+    text="Avançar"
+    color="var(--ladesa-green-2-color)"
+    type="button"
+  >
+    <IconsArrowIconArrowAlt class="rotate-180" />
   </UIButtonModalBaseLayout>
 </template>

@@ -27,8 +27,6 @@
   </svg>
 </template>
 
-<script setup></script>
-
 <style scoped>
 svg {
   fill: currentColor;

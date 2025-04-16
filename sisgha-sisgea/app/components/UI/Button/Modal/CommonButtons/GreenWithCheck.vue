@@ -4,10 +4,11 @@ defineProps<Props>();
 </script>
 
 <template>
-  <UIButtonModalBaseLayout color="var(--ladesa-green-2-color)" type="submit">
-    {{ text }}
-    <template #icon>
-      <IconsIconConfirm />
-    </template>
+  <UIButtonModalBaseLayout
+    :text="text"
+    color="var(--ladesa-green-2-color)"
+    type="submit"
+  >
+    <IconsIconConfirm />
   </UIButtonModalBaseLayout>
 </template>
