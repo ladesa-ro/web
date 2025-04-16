@@ -3,19 +3,33 @@ import type { TextFieldProps } from '../-Utils/inputTypes';
 
 const { type = 'text' } = defineProps<TextFieldProps>();
 
-const inputValue = defineModel<string>({ required: false, default: '' });
+//
+
+type Slots = { default(): any };
+
+defineSlots<Slots>();
+
+//
+
+const inputValue = defineModel<string | number>({ required: false, default: '' });
 </script>
 
 <template>
-  <div class="input-base">
+  <div class="input-base min-h-4">
     <label for="input">{{ label }}</label>
     <input
       id="input"
       :type="type"
-      class="w-full h-full px-3"
+      class="w-full h-full"
+      :class="$slots['default'] ? 'pl-3' : 'px-3'"
       :placeholder="placeholder"
       v-model="inputValue"
     />
+
+    <div v-if="$slots['default']" class="w-4 h-4 text-ldsa-grey mx-3">
+      <!-- this slot suports an icon -->
+      <slot />
+    </div>
   </div>
 </template>
 
