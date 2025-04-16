@@ -15,7 +15,10 @@ defineProps<SelectProps>();
 
 //
 
-const selectedItem = defineModel<any>({ required: false });
+const selectedItem = defineModel<string | number | null>({
+  required: false,
+  default: null,
+});
 
 const open = ref(false);
 </script>
@@ -34,12 +37,13 @@ const open = ref(false);
         position="popper"
       >
         <Viewport>
-          <SelectItem
+          <!-- TODO: abstrair a lógica de item do autocomplete e o select em um componente -->
+          <!-- <SelectItem
             mode="select"
-            v-for="(option, index) of options"
-            :name="option[optionTitle]"
+            v-for="(item, index) of items"
+            :item="item"
             :key="index"
-          />
+          /> -->
         </Viewport>
       </Content>
     </Portal>

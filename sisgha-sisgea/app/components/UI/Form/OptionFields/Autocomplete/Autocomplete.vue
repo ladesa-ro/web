@@ -16,21 +16,45 @@ import AutocompleteItem from '../Item.vue';
 
 defineProps<AutocompleteProps>();
 
+const { items } = defineProps<AutocompleteProps>();
+
 //
 
-const selectedOption = defineModel('selectedOption', {
+const selectedOption = defineModel<string | number | null>('selectedOption', {
   required: false,
-  default: '',
+  default: null,
 });
 
-const search = defineModel<string>('searchTerm', {
+const search = defineModel<string | null>('searchTerm', {
   required: false,
-  default: '',
+  default: null,
 });
 
 //
 
 const open = ref(false);
+
+const parsedItems = computed(() => {
+  return items.map(item => {
+    if (typeof item === 'string' || typeof item === 'number') {
+      return {
+        label: String(item),
+        value: item,
+      };
+    }
+
+    return {
+      label: String(item.label),
+      value: item.value,
+    };
+  });
+});
+
+const getDisplayValue = (value: string) => {
+  const item = parsedItems.value.find(item => item.value === value);
+
+  return item ? item.label : '';
+};
 </script>
 
 <template>
@@ -39,15 +63,16 @@ const open = ref(false);
       <label>{{ label }}</label>
 
       <Input
-        v-model="search"
-        class="w-full h-full"
+        :v-model="search ?? undefined"
         :placeholder="placeholder"
         @click="open = !open"
+        class="w-full h-full"
+        :display-value="value => getDisplayValue(value)"
       />
 
       <Cancel
         v-if="selectedOption"
-        @click="selectedOption = ''"
+        @click="selectedOption = null"
         class="p-1.5 bg-ldsa-grey/20 rounded-full"
       >
         <IconsIconClose class="w-2.5 h-2.5 text-ldsa-text-default/50" />
@@ -60,7 +85,7 @@ const open = ref(false);
 
     <Portal>
       <Content
-        class="input-base-content w-(--reka-combobox-trigger-width)"
+        class="input-base-content w-(--reka-combobox-trigger-width) z-[10000]"
         position="popper"
       >
         <Viewport>
@@ -72,9 +97,9 @@ const open = ref(false);
 
           <AutocompleteItem
             mode="autocomplete"
-            v-for="(option, index) in options"
-            :name="option[optionTitle]"
-            :key="index"
+            v-for="item in parsedItems"
+            :item="item"
+            :key="item.value"
           />
         </Viewport>
       </Content>
