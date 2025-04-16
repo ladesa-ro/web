@@ -1,39 +1,30 @@
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
+import type { Item } from '~/components/UI/Form/-Utils/inputTypes';
+
+type Props = { name: string; items: Item[] };
+const { name, items } = defineProps<Props>();
 
 //
 
-type Props = {
-  name: string;
-};
-
-const { name } = defineProps<Props>();
+const searchValue = defineModel<string>('search', { default: '' });
 
 //
 
-const searchValue = defineModel('search', { default: '' });
-
-const {
-  handleBlur,
-  errorMessage,
-  value: modelValue,
-} = useField<string | null>(name, undefined, {
-  validateOnValueUpdate: true,
-});
+const { value: modelValue, errorMessage } = useField<string | null>(
+  name,
+  undefined,
+  {
+    validateOnValueUpdate: true,
+  }
+);
 </script>
 
 <template>
-  <div class="autoCompleteField">
-    <UIAutocompleteBase
-      v-model:search="searchValue"
-      v-model:value="modelValue"
-      :error-messages="errorMessage ? [errorMessage] : []"
-      :name="name"
-      clearable
-      hide-details="auto"
-      persistent-placeholder
-      v-bind="$attrs"
-      @blur="handleBlur"
-    />
-  </div>
+  <UIFormOptionFieldsAutocomplete
+    :items="items"
+    v-model:searchTerm="searchValue"
+    v-model:selectedOption="modelValue"
+    v-bind="$attrs"
+  />
 </template>
