@@ -1,48 +1,9 @@
-<!-- TODO: atualizar essa searchbar e remover vuetify -->
-
 <script lang="ts" setup>
-type Props = {
-  value?: string;
-};
-
-const props = defineProps<Props>();
-
-//
-
-const emits = defineEmits(['update:value']);
-
-const localValue = ref(props.value);
-
-watch(localValue, newValue => {
-  emits('update:value', newValue);
-});
-
-watch(
-  () => props.value,
-  newValue => {
-    if (newValue !== localValue.value) {
-      localValue.value = newValue;
-    }
-  }
-);
+const value = defineModel<string>({ required: false, default: '' });
 </script>
 
 <template>
-  <div class="searchField">
-    <UITextFieldBase
-      v-model="localValue"
-      append-inner-icon="mdi-magnify"
-      clearable
-      label="Pesquisar"
-      placeholder="Digite Aqui"
-    />
-  </div>
+  <UIFormTextField v-model="value" label="Pesquisar" placeholder="Digite aqui" class="max-w-[30rem]">
+    <IconsIconSearch />
+  </UIFormTextField>
 </template>
-
-<style>
-.searchField {
-  display: block;
-  max-width: 480px;
-  width: 100%;
-}
-</style>
