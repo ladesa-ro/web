@@ -26,6 +26,7 @@ const inputValue = defineModel<string | number>({
       :type="type"
       :placeholder="placeholder"
       v-model="inputValue"
+      min="0"
     />
 
     <div v-if="$slots['default']" class="w-4 h-4 text-ldsa-grey mx-3">

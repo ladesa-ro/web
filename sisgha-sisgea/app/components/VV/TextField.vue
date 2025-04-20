@@ -2,7 +2,7 @@
 import { useField } from 'vee-validate';
 
 type Props = {
-  type: string;
+  type?: string;
   value?: string;
   name: string;
   successMessage?: string;
