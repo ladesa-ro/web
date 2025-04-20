@@ -1,8 +1,9 @@
 <template>
-  <UIButtonModalBaseLayout color="var(--ladesa-grey-color)" type="button">
-    Cancelar
-    <template #icon>
-      <IconsIconClose />
-    </template>
+  <UIButtonModalBaseLayout
+    text="Cancelar"
+    color="var(--ladesa-grey-color)"
+    type="button"
+  >
+    <IconsIconClose />
   </UIButtonModalBaseLayout>
 </template>

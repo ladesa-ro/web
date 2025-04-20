@@ -15,7 +15,7 @@ useTitle(null, 'Login');
         <LogoSisghaLogomarca class="logo" />
 
         <div class="fields">
-          <UITextField
+          <SectionLoginTextField
             v-model="credentials.username"
             :disabled="isBusy"
             :input-props="{
@@ -28,7 +28,7 @@ useTitle(null, 'Login');
             type="text"
           />
 
-          <UITextField
+          <SectionLoginTextField
             v-model="credentials.password"
             :disabled="isBusy"
             class="field"

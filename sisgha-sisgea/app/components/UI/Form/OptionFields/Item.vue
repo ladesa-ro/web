@@ -7,28 +7,26 @@ import {
 
 type Props = {
   mode: 'autocomplete' | 'select';
-  /**
-   * The name that will be shown to the user
-   */
-  name: string | number;
+  item: { value: string | number; label: string };
 };
-
 defineProps<Props>();
 </script>
 
 <template>
   <AutocompleteItem
     v-if="mode === 'autocomplete'"
-    :value="name"
+    :value="item.value"
     class="item h-(--reka-combobox-trigger-height)"
-  />
+  >
+    {{ item.label }}
+  </AutocompleteItem>
 
   <SelectItem
     v-else-if="mode === 'select'"
-    :value="name"
+    :value="item.value"
     class="item h-(--reka-select-trigger-height)"
   >
-    <Text>{{ name }}</Text>
+    <Text>{{ item.label }}</Text>
   </SelectItem>
 </template>
 

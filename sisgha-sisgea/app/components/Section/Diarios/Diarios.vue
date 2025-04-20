@@ -8,10 +8,7 @@ const searchBarText = ref('');
       <div
         class="container-header mx-auto justify-between items-center flex mb-5 gap-4 px-3"
       >
-        <UISearchBar
-          :value="searchBarText"
-          @update:value="searchBarText = $event"
-        />
+        <UISearchBar v-model="searchBarText" />
 
         <div class="flex items-center shrink-0">
           <LazySectionDiariosModal />

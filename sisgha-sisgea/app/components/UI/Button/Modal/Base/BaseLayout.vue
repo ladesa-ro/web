@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 type Props = {
+  text: string;
   type: 'button' | 'submit' | 'reset' | undefined;
   color?: string;
   opacity?: number;
 };
-const { color = 'black', opacity = 100 } = defineProps<Props>();
+const { text = 'Texto', color = 'black', opacity = 100 } = defineProps<Props>();
 
 const defineColor = {
   '--current-button-color': color,
@@ -14,12 +15,11 @@ const defineColor = {
 
 <template>
   <button :style="defineColor" :type="type" class="modal-button">
-    <p class="font-medium">
-      <slot>Texto</slot>
-    </p>
+    <p class="font-medium">{{ text }}</p>
 
     <span class="w-3 opacity-85">
-      <slot name="icon" />
+      <!-- slot that acepts an icon -->
+      <slot />
     </span>
   </button>
 </template>
@@ -46,5 +46,6 @@ const defineColor = {
   background-color: transparent;
   border-color: rgb(from var(--current-button-color) R G B / 40%);
   color: rgb(from var(--current-button-color) R G B / 40%);
+  cursor: not-allowed;
 }
 </style>

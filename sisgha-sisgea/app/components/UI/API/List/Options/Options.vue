@@ -5,9 +5,7 @@ const { formOptions } = useUIApiListContext();
 
 //
 
-type Slots = {
-  'actions'(props: any): any;
-};
+type Slots = { actions(): any };
 
 const slots = defineSlots<Slots>();
 
@@ -18,10 +16,7 @@ const slots = defineSlots<Slots>();
   <div
     class="mt-[50px] mb-[10px] w-full justify-between items-center flex gap-4 px-3"
   >
-    <UISearchBar
-      :value="formOptions.search"
-      @update:value="formOptions.search = $event"
-    />
+    <UISearchBar v-model="formOptions.search" />
 
     <div class="flex items-center shrink-0">
       <slot name="actions" />

@@ -1,26 +1,16 @@
-type Option = Record<string, any>;
+export type Item = string | number | { value: string | number; label: string };
 
-type SelectAndAutocompleteOptions = {
-  /**
-   * Specify the options by offering an array of objects
-   */
-  options: Option[];
-
-  /**
-   * Specify the object property that will define the name for each option
-   */
-  optionTitle: string;
-};
+type OptionFieldsItems = { items: Item[] };
 
 //
 
 type InputTypeTextField = { type: 'textfield' };
 
-type InputTypeSelect = { type: 'select' } & SelectAndAutocompleteOptions;
+type InputTypeSelect = { type: 'select' } & OptionFieldsItems;
 
 type InputTypeAutocomplete = {
   type: 'autocomplete';
-} & SelectAndAutocompleteOptions;
+} & OptionFieldsItems;
 
 export type InputTypes =
   | InputTypeTextField
@@ -37,9 +27,9 @@ type FieldMeta = {
 //
 
 export type TextFieldProps = FieldMeta & {
-  type?: 'text' | 'number' | 'password';
+  type?: string;
 };
 
-export type SelectProps = FieldMeta & SelectAndAutocompleteOptions;
+export type SelectProps = FieldMeta & OptionFieldsItems;
 
-export type AutocompleteProps = FieldMeta & SelectAndAutocompleteOptions;
+export type AutocompleteProps = FieldMeta & OptionFieldsItems;

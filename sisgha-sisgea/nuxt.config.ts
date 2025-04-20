@@ -1,4 +1,5 @@
 import tailwindcss from '@tailwindcss/vite';
+import { fileURLToPath, URL } from 'node:url';
 import vuetify from 'vite-plugin-vuetify';
 
 export default defineNuxtConfig({
@@ -19,7 +20,7 @@ export default defineNuxtConfig({
   // ===========
 
   typescript: {
-    typeCheck: false,
+    typeCheck: true,
   },
 
   eslint: {},
@@ -32,9 +33,11 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [tailwindcss()],
-    vue: {
-      template: {
-        // transformAssetUrls,
+
+    resolve: {
+      alias: {
+        '~': fileURLToPath(new URL('./app', import.meta.url)),
+        '@': fileURLToPath(new URL('./app', import.meta.url)),
       },
     },
   },
@@ -47,7 +50,7 @@ export default defineNuxtConfig({
 
   // ==============================================
 
-  css: ['@mdi/font/css/materialdesignicons.min.css', '~/assets/styles/app.css'],
+  css: ['~/assets/styles/app.css'],
 
   build: {
     transpile: ['vuetify'],

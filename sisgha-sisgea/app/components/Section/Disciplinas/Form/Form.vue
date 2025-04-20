@@ -157,23 +157,18 @@ function onClose() {
       <VVSelectImage name="imagem" />
 
       <VVTextField
-        v-model="nome"
         label="Nome"
         name="nome"
         placeholder="Digite aqui"
-        type="text"
       />
 
       <VVTextField
-        v-model="nomeAbreviado"
         label="Nome Abreviado"
         name="nomeAbreviado"
         placeholder="Digite aqui"
-        type="text"
       />
 
       <VVTextField
-        v-model="cargaHoraria"
         label="Carga Horária"
         name="cargaHoraria"
         placeholder="Digite aqui"
