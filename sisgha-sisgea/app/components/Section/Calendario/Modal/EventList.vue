@@ -61,10 +61,7 @@ onMounted(async () => {
         <!-- Filter content -->
         <div class="modal-form">
           <!-- Search event -->
-          <UISearchBar
-            :value="searchBarText"
-            @update:value="searchBarText = $event"
-          />
+          <UISearchBar v-model="searchBarText" />
 
           <!-- Order list -->
           <div class="flex flex-row gap-4">

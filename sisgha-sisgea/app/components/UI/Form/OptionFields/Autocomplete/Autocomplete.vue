@@ -14,8 +14,6 @@ import type { AutocompleteProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
 import AutocompleteItem from '../Item.vue';
 
-defineProps<AutocompleteProps>();
-
 const { items } = defineProps<AutocompleteProps>();
 
 //

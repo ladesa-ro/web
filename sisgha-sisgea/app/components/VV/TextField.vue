@@ -26,5 +26,10 @@ const {
 </script>
 
 <template>
-  <UIFormTextField v-model="modelValue" :type="type" v-bind="$attrs" />
+  <UIFormTextField
+    v-model="modelValue"
+    :name="name"
+    :type="type"
+    v-bind="$attrs"
+  />
 </template>

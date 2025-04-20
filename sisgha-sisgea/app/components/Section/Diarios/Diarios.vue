@@ -8,7 +8,7 @@ const searchBarText = ref('');
       <div
         class="container-header mx-auto justify-between items-center flex mb-5 gap-4 px-3"
       >
-        <UISearchBar v-model="searchBarText"/>
+        <UISearchBar v-model="searchBarText" />
 
         <div class="flex items-center shrink-0">
           <LazySectionDiariosModal />

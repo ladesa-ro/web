@@ -6,12 +6,14 @@ const { type = 'text' } = defineProps<TextFieldProps>();
 //
 
 type Slots = { default(): any };
-
 defineSlots<Slots>();
 
 //
 
-const inputValue = defineModel<string | number>({ required: false, default: '' });
+const inputValue = defineModel<string | number>({
+  required: false,
+  default: '',
+});
 </script>
 
 <template>
@@ -19,9 +21,9 @@ const inputValue = defineModel<string | number>({ required: false, default: '' }
     <label for="input">{{ label }}</label>
     <input
       id="input"
-      :type="type"
       class="w-full h-full"
       :class="$slots['default'] ? 'pl-3' : 'px-3'"
+      :type="type"
       :placeholder="placeholder"
       v-model="inputValue"
     />

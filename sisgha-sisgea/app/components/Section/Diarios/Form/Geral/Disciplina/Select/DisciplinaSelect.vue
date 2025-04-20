@@ -43,11 +43,7 @@ const nextForm = () => {
       :on-close="closeForm"
       title="Selecione uma Disciplina"
     >
-      <UISearchBar
-        :value="searchBarText"
-        class="mt-[0.313rem]"
-        @update:value="searchBarText = $event"
-      />
+      <UISearchBar v-model="searchBarText" />
 
       <v-radio-group v-model="selectedDisciplina" class="!overflow-x-hidden">
         <UIGridSelectionDiscipline :items="disciplinas ?? []">

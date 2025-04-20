@@ -47,10 +47,8 @@ const searchValue = defineModel('search', { default: '' });
 const searchOptions = computed(() => {
   let consideredSearch = unref(searchValue);
 
-  if (activeItem.value) {
-    if (activeItem.value.label === consideredSearch) {
+  if (activeItem.value && activeItem.value.label === consideredSearch) {
       consideredSearch = '';
-    }
   }
 
   return {
@@ -107,43 +105,30 @@ const isFilterDisabled = computed(() => !isFilterEnabled.value);
 </script>
 
 <template>
-  <template v-if="isLoading && !selectItems">
-    <div class="autoCompleteField">
-      <UIAutocompleteBase
-        v-model:search="searchValue"
-        :name="name"
-        clearable
-        disabled=""
-        hide-details="auto"
-        persistent-placeholder
-        placeholder="Carregando..."
-        v-bind="$attrs"
-      />
-    </div>
-  </template>
+  <UIFormOptionFieldsAutocomplete
+    v-if="isLoading && !selectItems"
+    v-model:search="searchValue"
+    v-bind="$attrs"
+    placeholder="Carregando..."
+    :items="[]"
+  />
 
-  <template v-else-if="!selectItems">
-    <UIAutocompleteBase
-      v-model:search="searchValue"
-      :name="name"
-      clearable
-      disabled=""
-      hide-details="auto"
-      persistent-placeholder
-      placeholder="Carregando..."
-      v-bind="$attrs"
-    />
-  </template>
+  <UIFormOptionFieldsAutocomplete
+    v-else-if="!selectItems"
+    v-model:search="searchValue"
+    v-bind="$attrs"
+    placeholder="Carregando..."
+    :items="[]"
+  />
 
-  <template v-else>
-    <VVAutocomplete
-      v-model:search="searchValue"
-      :items="selectItems"
-      :name="name"
-      :no-filter="isFilterDisabled"
-      item-title="label"
-      item-value="value"
-      v-bind="$attrs"
-    />
-  </template>
+  <VVAutocomplete
+    v-else
+    v-model:search="searchValue"
+    :items="selectItems"
+    :name="name"
+    :no-filter="isFilterDisabled"
+    item-title="label"
+    item-value="value"
+    v-bind="$attrs"
+  />
 </template>

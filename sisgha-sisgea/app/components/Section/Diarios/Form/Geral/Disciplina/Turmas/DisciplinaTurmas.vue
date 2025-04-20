@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import { useContextDiariosFormGeral } from '../../Contexto';
 
-type Props = {
-  searchBarText?: string;
-};
+type Props = { searchBarText?: string };
+
 const props = defineProps<Props>();
+
+const searchBarText = ref(props.searchBarText ?? '');
 
 //
 
@@ -21,8 +22,6 @@ const {
 //
 
 const isFormVisible = ref(false);
-
-const { searchBarText } = toRefs(props);
 
 const showTeacherSection = ref(false);
 const showGroupingSection = ref(false);
@@ -109,10 +108,7 @@ await suspend();
             <v-divider inset />
 
             <div v-if="showTeacherSection" class="Seaction-Teacher pt-3">
-              <UISearchBar
-                :value="searchBarText"
-                @update:value="searchBarText = $event"
-              />
+              <UISearchBar v-model="searchBarText" />
 
               <v-alert
                 v-if="
