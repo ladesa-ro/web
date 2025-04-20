@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import SelectBase from '~/components/UI/SelectBase/SelectBase.vue';
-
 const roles = [
   { value: 'professor', label: 'Professor' },
   { value: 'dape', label: 'DAPE' },
@@ -8,13 +6,9 @@ const roles = [
 </script>
 
 <template>
-  <SelectBase
-    :clearable="false"
-    :items="roles"
-    item-title="label"
-    item-value="value"
+  <UIFormOptionFieldsAutocomplete
     label="Função"
-    multiple
     placeholder="Selecione"
+    :items="roles"
   />
 </template>
