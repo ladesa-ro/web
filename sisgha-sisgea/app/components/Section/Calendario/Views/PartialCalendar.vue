@@ -2,10 +2,10 @@
 import { getOrdenedEventList } from '../Functions/GetOrdenedEventList';
 import type { Event, Step } from '../Typings';
 
-// Dayjs
 const dayjs = useDayJs();
 
-// Props
+//
+
 type Props = {
   year?: number;
   steps?: Step[];
@@ -59,7 +59,6 @@ watch(monthNumReceived, async (newValue: number) => {
 </script>
 
 <template>
-  <!-- Content -->
   <div
     class="flex flex-col lg:flex-row justify-between w-[328px] sm:w-[408px] lg:w-[844px] h-auto"
   >
@@ -95,4 +94,3 @@ watch(monthNumReceived, async (newValue: number) => {
   </div>
 </template>
 
-<style scoped></style>

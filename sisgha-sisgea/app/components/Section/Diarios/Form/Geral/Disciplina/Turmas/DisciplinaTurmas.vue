@@ -28,28 +28,20 @@ const showGroupingSection = ref(false);
 
 //
 
-const $emit = defineEmits(['close', 'back', 'next', 'add']);
 
-const closeForm = () => {
-  $emit('close');
-};
-
-const backForm = () => {
-  $emit('back');
-};
 
 const selectRole = (role: string) => {
   showTeacherSection.value = role === 'Professor';
   showGroupingSection.value = role === 'AGRUPAMENTO';
 };
 
-function onClose() {
-  $emit('close');
-}
+//
 
-const goToAdd = () => {
-  $emit('add');
-};
+const $emit = defineEmits(['close', 'back', 'next', 'add']);
+
+const closeForm = () => $emit('close');
+const backForm = () => $emit('back');
+const goToAdd = () => $emit('add');
 
 //
 
@@ -70,7 +62,7 @@ await suspend();
 
 <template>
   <div v-if="!isFormVisible">
-    <DialogModalBaseLayout :on-close="onClose" title="Selecione uma turma">
+    <DialogModalBaseLayout :on-close="closeForm" title="Selecione uma turma">
       <v-expansion-panels>
         <v-expansion-panel
           v-for="diario in diarios"
@@ -110,7 +102,7 @@ await suspend();
             <div v-if="showTeacherSection" class="Seaction-Teacher pt-3">
               <UISearchBar v-model="searchBarText" />
 
-              <v-alert
+              <div
                 v-if="
                   !diariosProfessoresList || diariosProfessoresList.length === 0
                 "
@@ -118,7 +110,7 @@ await suspend();
                 type="warning"
               >
                 Nenhum professor encontrado para este diário.
-              </v-alert>
+              </div>
 
               <LazyUIGridSelectionUser
                 v-else

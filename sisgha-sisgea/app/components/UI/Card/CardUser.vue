@@ -16,18 +16,17 @@ const selectedRadio = ref<string>('');
 </script>
 
 <template>
-  <v-card
-    class="-card-bloco border-2 divide-solid border-lime-500 rounded-lg overflow-hidden pb-5 mx-auto"
-    max-width="100%"
+  <div
+    class="border-ldsa-grey border-2 divide-solid rounded-lg overflow-hidden pb-5 mx-auto max-w-full"
   >
     <div class="textAndButton flex items-center justify-between max-w-full">
-      <v-card-title
-        class="-card-titulo font-semibold text-black no-underline inline-block max-w-[100%] overflow-hidden"
+      <div
+        class="-card-titulo font-semibold text-ldsa-text-default no-underline inline-block max-w-full overflow-hidden"
       >
         <slot class="title" name="title">
           {{ props.title }}
         </slot>
-      </v-card-title>
+      </div>
 
       <v-checkbox
         v-model="selectedRadio"
@@ -38,14 +37,10 @@ const selectedRadio = ref<string>('');
     </div>
 
     <slot />
-  </v-card>
+  </div>
 </template>
 
 <style scoped>
-.-card-bloco {
-  border: 2px solid #9ab69e;
-}
-
 .detail {
   position: absolute;
   cursor: pointer;
