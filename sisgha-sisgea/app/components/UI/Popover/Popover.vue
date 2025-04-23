@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { onClickOutside } from '@vueuse/core';
 import {
   PopoverArrow as Arrow,
   PopoverContent as Content,
@@ -6,7 +7,6 @@ import {
   PopoverPortal as Portal,
   PopoverTrigger as Trigger,
 } from 'reka-ui';
-import { onClickOutside } from '@vueuse/core';
 
 type Props = {
   popoverArrow?: boolean;
@@ -36,7 +36,7 @@ onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
 
 <template>
   <PopoverRoot :open="open">
-    <Trigger ref="trigger" @click="open = !open">
+    <Trigger ref="trigger" @click="open = !open" class="shrink-0">
       <slot name="activator" />
     </Trigger>
 

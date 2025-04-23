@@ -15,6 +15,7 @@ const open = ref(false);
 <template>
   <UIPopover v-model="open">
     <template #activator>
+
       <AppbarProfileCard :can-change-profile="canChangeProfile">
         <template #arrowIcon>
           <ClientOnly>
@@ -26,6 +27,7 @@ const open = ref(false);
           </ClientOnly>
         </template>
       </AppbarProfileCard>
+      
     </template>
 
     <ClientOnly>
