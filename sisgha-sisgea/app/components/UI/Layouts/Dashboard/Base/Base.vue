@@ -3,8 +3,8 @@ import { HeadTitleContext } from '~/utils';
 import { provideLayoutsDashboardContext } from './context';
 
 type Slots = {
-  sidebar(props: any): any;
-  default(props: any): any;
+  default(): any;
+  sidebar(): any;
 };
 defineSlots<Slots>();
 
@@ -13,6 +13,10 @@ useTitle(HeadTitleContext.DASHBOARD);
 
 //defines if the hamburguer sidebar is active
 const { hamburguerActive } = provideLayoutsDashboardContext();
+
+//
+
+const isMobile = useMonitorSize();
 </script>
 
 <template>
@@ -23,7 +27,13 @@ const { hamburguerActive } = provideLayoutsDashboardContext();
 
     <main
       class="flex flex-col overflow-auto"
-      :class="[hamburguerActive ? 'content-sidebar-active' : 'content-default']"
+      :class="[
+        isMobile
+          ? 'm-0'
+          : hamburguerActive
+            ? 'content-sidebar-active'
+            : 'content-default',
+      ]"
     >
       <!-- main content -->
       <section class="flex-1 flex flex-col">
