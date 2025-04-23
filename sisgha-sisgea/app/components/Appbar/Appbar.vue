@@ -14,24 +14,23 @@ const notificationsButtonEl = ref(null);
 
 <template>
   <header
-    class="flex items-center w-full h-[4.563rem] border-b border-ldsa-grey/50 bg-ldsa-bg"
+    class="flex items-center w-full max-[345px]:pr-2 max-[600px]:pr-4 min-[600px]:pr-7 h-[4.563rem] border-b border-ldsa-grey/50 bg-ldsa-bg"
   >
-    <div
-      class="m-[0.34375rem] cursor-pointer shrink-0"
-      @click="toggleHamburger"
-    >
+    <button class="m-[0.34375rem] shrink-0" @click="toggleHamburger">
       <IconsMenuIconHamburgerOn
         v-if="hamburgerActive"
         class="p-3 w-[2.813rem]"
       />
-      <IconsMenuIconHamburgerOff v-else class="p-3 w-[2.813rem]" />
-    </div>
+      <IconsMenuIconHamburgerOff v-else class="p-3 w-[2.813rem] h-full" />
+    </button>
 
     <AppbarProfileCardChangeProfileCard />
 
     <div class="flex-1" />
 
-    <AppbarChangeThemeVueChangeTheme />
+    <AppbarChangeThemeVueChangeTheme
+      class="shrink-0 max-[345px]:mr-0.5 max-[600px]:mr-2"
+    />
 
     <UIPopover>
       <template #activator>
@@ -44,10 +43,10 @@ const notificationsButtonEl = ref(null);
       <AppbarSpeechBubbles :notifications-button-el="notificationsButtonEl" />
     </UIPopover>
 
-    <div class="mr-3" />
+    <div class="min-[600px]:mr-3" />
 
-    <LogoSisghaLogomarca
-      class="mr-8 w-[8.75rem] hidden sm:block cursor-pointer shrink-0"
-    />
+    <div class="hidden min-[600px]:block">
+      <LogoSisghaLogomarca class="w-[8.75rem] cursor-pointer shrink-0" />
+    </div>
   </header>
 </template>

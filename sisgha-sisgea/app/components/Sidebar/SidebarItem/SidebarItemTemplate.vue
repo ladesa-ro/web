@@ -12,7 +12,7 @@ const { item, open } = defineProps<Props>();
       <img
         :src="item.icon"
         alt="Ícone da funcionalidade."
-        class="w-6 -icon-white"
+        class="max-[600px]:w-5 min-[600px]:w-6 -icon-white"
       />
       <p>{{ item.title }}</p>
     </span>
@@ -30,7 +30,7 @@ const { item, open } = defineProps<Props>();
 
 .template-base {
   @apply flex items-center justify-between;
-  @apply w-64 min-h-12 px-4 cursor-pointer;
+  @apply w-full max-sm:min-h-11.5 sm:min-h-12 px-4;
   @apply text-ldsa-white hover:bg-ldsa-white/[0.07];
 }
 

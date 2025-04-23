@@ -10,7 +10,7 @@ type Slots = {
   'item-skeleton'(props: any): any;
 };
 
-const slots = defineSlots<Slots>();
+defineSlots<Slots>();
 
 //
 

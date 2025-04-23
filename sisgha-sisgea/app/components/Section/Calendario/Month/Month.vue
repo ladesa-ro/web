@@ -166,17 +166,19 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-card class="-month mx-auto rounded-lg w-max h-max">
+  <div
+    class="border-2 border-ldsa-grey shadow-none m-0 mx-auto rounded-lg w-max h-max"
+  >
+    <!-- calendar header -->
     <div
       :style="{ backgroundColor: monthColor }"
-      class="text-ldsa-white flex justify-between items-center p-3 pl-6 pr-6 w-full bg-ldsa-grey"
+      class="text-ldsa-white flex justify-between items-center p-2.5 w-full"
     >
-      <!-- Toggle for before month -->
-      <IconsArrowIconArrow
-        v-show="props.toggleMonth"
-        class="text-ldsa-white cursor-pointer"
-        @click="toggleMonth(-1)"
-      />
+      <button class="px-3.5 py-2" @click="toggleMonth(-1)">
+        <!-- Toggle for before month -->
+        <IconsArrowIconArrow v-if="props.toggleMonth" class="text-ldsa-white" />
+      </button>
+
       <!-- Month name -->
       <h1 class="font-medium text-center text-lg sm:text-xl w-full">
         {{
@@ -186,23 +188,20 @@ onMounted(async () => {
         }}
       </h1>
 
-      <!-- Toggle for after month -->
-      <IconsArrowIconArrow
-        v-show="props.toggleMonth"
-        class="text-ldsa-white rotate-180 cursor-pointer"
-        @click="toggleMonth(1)"
-      />
+      <button class="px-3.5 py-2" @click="toggleMonth(1)">
+        <IconsArrowIconArrow
+          v-if="props.toggleMonth"
+          class="text-ldsa-white rotate-180"
+        />
+      </button>
     </div>
 
     <!-- Calendar -->
-    <v-container
-      class="-month-content grid grid-cols-7 gap-1 sm:gap-2 justify-center items-center"
+    <section
+      class="p-2.5 grid grid-cols-7 gap-1 sm:gap-2 justify-center items-center"
     >
       <!-- Days of the week -->
-      <p
-        v-for="dayInTheWeek in daysInTheWeek"
-        class="text-center text-sm sm:text-[16px] font-semibold"
-      >
+      <p v-for="dayInTheWeek in daysInTheWeek" class="calendar-text">
         {{ dayInTheWeek }}
       </p>
 
@@ -211,7 +210,7 @@ onMounted(async () => {
       <div
         v-for="daysBefore in calendarDays.emptyDays.before.value"
         :key="daysBefore"
-        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-ldsa-grey bg-ldsa-grey/50"
+        class="day"
       />
 
       <!-- In month -->
@@ -225,21 +224,14 @@ onMounted(async () => {
         @mouseenter="hoverInWeek(dayInMonth.date, true)"
         @mouseleave="hoverInWeek(dayInMonth.date, false)"
       >
-        <!-- Hover -->
-        <div
-          :class="{
-            '-hover-off ': dayInMonth.hoverActive !== true,
-            '-hover-on ': dayInMonth.hoverActive === true,
-          }"
-          class="flex w-full h-full justify-center items-center"
-        >
+        <div class="flex w-full h-full justify-center items-center">
           <p
             :class="{
               'border-2 border-solid border-ldsa-white rounded-md':
                 dayjs(dayjs().toDate()).format('YYYY-MM-DD') ==
                 dayjs(dayjs(dayInMonth.date)).format('YYYY-MM-DD'),
             }"
-            class="mx-auto w-8 h-8 sm:w-10 sm:h-10 flex justify-center items-center text-center text-ldsa-white font-semibold text-sm sm:text-[16px]"
+            class="mx-auto w-8 h-8 sm:w-10 sm:h-10 flex justify-center items-center text-ldsa-white calendar-text"
           >
             {{ dayjs(dayInMonth.date).format('D') }}
           </p>
@@ -249,29 +241,20 @@ onMounted(async () => {
       <div
         v-for="daysAfter in calendarDays.emptyDays.after.value"
         :key="daysAfter"
-        class="-empty-day w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-ldsa-grey/50"
+        class="day"
       />
-    </v-container>
-  </v-card>
+    </section>
+  </div>
 </template>
 
 <style scoped>
 @reference "~/assets/styles/app.css";
 
-.-month {
-  @apply border-2 border-ldsa-grey;
-  box-shadow: none;
-  margin: 0;
+.day {
+  @apply w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-ldsa-grey/50;
 }
 
-.-month-content {
-  padding: 10px;
+.calendar-text {
+  @apply text-center text-sm sm:text-base font-semibold;
 }
-
-/* .-hover-on {
-  @apply bg-ldsa-grey rounded-lg;
-}
-.-hover-off {
-  @apply bg-ldsa-grey rounded-lg;
-} */
 </style>

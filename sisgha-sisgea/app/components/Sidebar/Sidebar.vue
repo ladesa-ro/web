@@ -14,11 +14,24 @@ const hamburgerActive = defineModel<boolean>({
   required: true,
 });
 
-const { isMobile } = useMonitorSize();
+const isMobile = useMonitorSize();
+
+// this watch makes a smoother transition when the screen changes size
+watch(isMobile, () => {
+  if (hamburgerActive.value) {
+    hamburgerActive.value = !hamburgerActive.value;
+  }
+});
 </script>
 
 <template>
-  <nav :class="{ active: hamburgerActive }" class="sidebar">
+  <nav
+    :class="{
+      active: hamburgerActive,
+      '-left-20': isMobile && !hamburgerActive,
+    }"
+    class="sidebar"
+  >
     <SidebarSidebarItem
       v-for="(item, index) in items"
       :key="index"
@@ -33,7 +46,7 @@ const { isMobile } = useMonitorSize();
 .sidebar {
   @apply fixed top-[4.563rem] bottom-0;
   @apply overflow-hidden z-20;
-  @apply flex flex-col gap-3;
+  @apply flex flex-col gap-2.5 lg:gap-3;
   @apply w-14 py-[0.438rem];
   @apply border-r-2 border-r-ldsa-green-2/50 bg-ldsa-green-1;
   @apply transition-[width] duration-200;
@@ -41,8 +54,6 @@ const { isMobile } = useMonitorSize();
 
 .sidebar:hover,
 .active {
-  @apply w-64;
+  @apply max-[345px]:w-56 min-[345px]:w-64;
 }
-
-/* TODO: adicionar classe para mobile */
 </style>

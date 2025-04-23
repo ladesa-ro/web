@@ -6,18 +6,18 @@ type Props = {
   variant: 'block' | 'inline';
 };
 
-const props = defineProps<Props>();
+defineProps<Props>();
 </script>
 
 <template>
-  <v-card :elevation="0" class="card" max-width="100%">
+  <div class="card max-w-full">
     <div class="flex items-center h-full">
       <div class="flex-1 w-full mt-2 mb-3">
-        <v-card-title class="font-semibold pt-0 max-w-[100%] overflow-hidden">
-          <slot class="title" name="title">
-            {{ props.title }}
+        <h1 class="font-semibold pt-0 max-w-full overflow-hidden">
+          <slot name="title">
+            {{ title }}
           </slot>
-        </v-card-title>
+        </h1>
 
         <slot />
       </div>
@@ -26,7 +26,7 @@ const props = defineProps<Props>();
         <slot name="actions" />
       </div>
     </div>
-  </v-card>
+  </div>
 </template>
 
 <style scoped>

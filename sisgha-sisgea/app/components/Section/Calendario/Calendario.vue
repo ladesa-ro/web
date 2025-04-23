@@ -37,8 +37,7 @@ const onClose = () => (isActive.value = false);
 </script>
 
 <template>
-  <div class="container flex justify-center items-center w-screen mx-auto p-10">
-    <!-- Calendar -->
+  <div class="flex justify-center items-center w-screen mx-auto p-10">
     <div class="flex flex-col justify-center items-center w-max h-auto">
       <!-- Head -->
       <div class="w-full">

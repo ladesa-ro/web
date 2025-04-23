@@ -28,7 +28,7 @@ const defineColor = {
 @reference "~/assets/styles/app.css";
 
 .modal-button {
-  @apply flex items-center justify-evenly h-9 min-w-[8.438rem] cursor-pointer;
+  @apply flex items-center justify-evenly h-9 min-w-[8.438rem];
   @apply border-solid border-2 rounded-lg;
   @apply border-[var(--current-button-color)] text-[var(--current-button-color)];
   @apply transition-[all] duration-200;
@@ -46,6 +46,5 @@ const defineColor = {
   background-color: transparent;
   border-color: rgb(from var(--current-button-color) R G B / 40%);
   color: rgb(from var(--current-button-color) R G B / 40%);
-  cursor: not-allowed;
 }
 </style>

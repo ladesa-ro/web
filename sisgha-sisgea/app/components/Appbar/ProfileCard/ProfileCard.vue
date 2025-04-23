@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useMediaQuery } from '@vueuse/core';
+import { useMonitorSize } from '~/composables/useMonitorSize';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 import { useApiContext } from '../../API/Context/setup-context';
 
@@ -15,20 +17,25 @@ const handleCargoClick = (cargo: string) => {
   selectedCargo.value = cargo;
 };
 
-type Props = {
-  canChangeProfile: boolean;
-};
+//
 
+type Props = { canChangeProfile: boolean };
 defineProps<Props>();
+
+//
+
+const isMobile = useMonitorSize();
+const isScreenSmallerThan345px = useMediaQuery('(max-width: 345px)');
 </script>
 
 <template>
   <div
     v-if="usuario && resumoVinculos"
     :class="{ 'cursor-pointer': canChangeProfile }"
-    class="flex items-center gap-3 w-max rounded-lg inset-y-0 bg-ldsa-green-1/[.125] dark:bg-ldsa-grey/30 pl-3 pr-6 py-2"
+    class="flex items-center gap-3 w-max min-h-16 rounded-lg inset-y-0 bg-ldsa-green-1/[.125] dark:bg-ldsa-grey/30 pl-3 max-[600px]:pr-4 min-[600px]:pr-6 py-2"
   >
     <UIImg
+      v-if="!isScreenSmallerThan345px"
       :src="profilePicureUrl"
       alt="Foto de perfil."
       class="w-12 h-12 rounded-full"
@@ -39,7 +46,12 @@ defineProps<Props>();
       </template>
     </UIImg>
 
-    <div>
+    <p v-if="isMobile" class="font-semibold text-left">
+      {{ usuario?.nome?.split(' ')[0] }}
+    </p>
+    <slot v-if="isMobile" name="arrowIcon" />
+
+    <div v-else>
       <p class="font-semibold text-left">{{ usuario?.nome }}</p>
 
       <p class="font-normal flex flex-row items-center gap-2">
