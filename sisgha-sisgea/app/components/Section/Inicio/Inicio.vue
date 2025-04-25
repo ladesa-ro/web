@@ -10,6 +10,12 @@ import { ref } from 'vue';
         <h1 class="main-title font-semibold">
           Início - Acesso Rápido
         </h1>
+        <hr class="divider flex-grow" />
+      </div>
+      <div class="content">
+        <div class="horario-academico">
+          
+        </div>
       </div>
     </div>
   </v-container>
