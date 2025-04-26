@@ -10,7 +10,7 @@ import { IconsIconClockView, IconsIconClockGenerate, IconsIconReport } from '#co
 </script>
 
 <template>
-  <v-container>
+  <div class="container mx-auto px-4">
     <div class="mx-auto max-w-[80%] p-10">
       
       <div class="container-header">
@@ -23,22 +23,22 @@ import { IconsIconClockView, IconsIconClockGenerate, IconsIconReport } from '#co
       <div class="content">
 
         <Section title="Horário Acadêmico">
-          <CardLink :icon="IconsIconClockView" title="Visualizar Horário" />
-          <CardLink :icon="IconsIconClockGenerate" title="Gerar Horário" />
+          <CardLink :icon="IconsIconClockView" title="Visualizar Horário" class="text-ldsa-text-green" />
+          <CardLink :icon="IconsIconClockGenerate" title="Gerar Horário" class="text-ldsa-text-green" />
         </Section>
 
         <Section title="Relatórios">
-          <CardLink :icon="IconsIconReport" title="Aulas Ministradas" />
+          <CardLink :icon="IconsIconReport" title="Aulas Ministradas" class="text-ldsa-text-green" />
         </Section>
 
         <Section title="Diários">
-          <CardLink :icon="IconsIconReport" title="Diários" />
+          <CardLink :icon="IconsIconReport" title="Diários" class="text-ldsa-text-green" />
         </Section>
 
       </div>
 
     </div>
-  </v-container>
+  </div>
 </template>
 
 <style scoped>
