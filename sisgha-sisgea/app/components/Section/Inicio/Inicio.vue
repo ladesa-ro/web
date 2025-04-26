@@ -18,6 +18,7 @@ import { IconsIconClock } from '#components';
           <h2 class="font-medium mb-3 text-[18px]">Horário Acadêmico</h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-green-50 border border-[color:#2F9E41] rounded-md p-6 flex flex-col items-center max-w-xs">
+              <IconsIconClockView class="w-16 h-16 mb-4" />
               <span class="text-green-600 font-bold">Visualizar Horário</span>
             </div>
           </div>
