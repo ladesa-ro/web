@@ -21,18 +21,23 @@ import { IconsIconClockView, IconsIconClockGenerate, IconsIconReport } from '#co
       </div>
 
       <div class="content">
-
+       
         <Section title="Horário Acadêmico">
-          <CardLink :icon="IconsIconClockView" title="Visualizar Horário" class="text-ldsa-text-green" />
+          <NuxtLink to="/sisgha/dape">
+            <CardLink :icon="IconsIconClockView" title="Visualizar Horário" class="text-ldsa-text-green" />
+          </NuxtLink>          
           <CardLink :icon="IconsIconClockGenerate" title="Gerar Horário" class="text-ldsa-text-green" />
         </Section>
+
 
         <Section title="Relatórios">
           <CardLink :icon="IconsIconReport" title="Aulas Ministradas" class="text-ldsa-text-green" />
         </Section>
 
         <Section title="Diários">
-          <CardLink :icon="IconsIconReport" title="Diários" class="text-ldsa-text-green" />
+          <NuxtLink to="/sisgha/dape/diarios">
+            <CardLink :icon="IconsIconReport" title="Diários" class="text-ldsa-text-green" />
+          </NuxtLink>
         </Section>
 
       </div>
