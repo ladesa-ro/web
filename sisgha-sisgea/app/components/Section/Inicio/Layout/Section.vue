@@ -10,6 +10,6 @@ defineProps<{
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <slot />
     </div>
-    <hr class="divider flex-grow pt-5 border-t border-[rgba(159,159,159,0.5)]" />
+    <hr class="divider flex-grow pt-5 border-t border-ldsa-grey" />
   </div>
 </template>

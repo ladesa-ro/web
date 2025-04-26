@@ -17,7 +17,7 @@ import { IconsIconClockView, IconsIconClockGenerate, IconsIconReport } from '#co
         <h1 class="main-title font-semibold pb-5 text-[20px]">
           Início - Acesso Rápido
         </h1>
-        <hr class="divider flex-grow pt-5 border-t border-[rgba(159,159,159,0.5)]" />
+        <hr class="divider flex-grow pt-5 border-t border-ldsa-grey" />
       </div>
 
       <div class="content">
