@@ -133,17 +133,17 @@ const gerarPDF = () => {
 
         <!-- botoes -->
         <div class="flex w-full justify-center items-center gap-4 mt-4">
-          <UIButtonDefault @click="visualizarRelatorio">
+          <UIButtonDefault @click="visualizarRelatorio" class="text-[12px]">
             Visualizar relatório
             <template #end-icon>
               <IconsEyesEyeOn class="flex w-6 h-6 ml-4" />
             </template>
           </UIButtonDefault>
 
-          <UIButtonDefault @click="gerarPDF">
-            Gerar PDF
+          <UIButtonDefault @click="gerarPDF" class="text-[12px]">
+            Gerar PDF do Relatório
             <template #end-icon>
-              <IconsIconFilePicker class="flex w-6 h-6 mr-4" />
+              <IconsIconPdf class="flex w-6 h-6 mr-4" />
             </template>
           </UIButtonDefault>
         </div>
