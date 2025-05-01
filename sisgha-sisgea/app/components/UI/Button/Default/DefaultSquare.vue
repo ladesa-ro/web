@@ -1,6 +1,6 @@
 <template>
   <button
-    class="flex justify-center items-center w-12 h-12 rounded-lg bg-ldsa-green-1"
+    class="flex justify-center items-center shrink-0 w-12 h-12 rounded-lg bg-ldsa-green-1"
   >
     <div class="text-ldsa-white w-6 h-6">
       <slot />
