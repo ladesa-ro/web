@@ -24,14 +24,12 @@ const DAPE_PATH = '/sisgha/dape';
         :to="`${DAPE_PATH}/horario`"
         :icon="IconsIconClockView"
         title="Visualizar Horário"
-        class="text-ldsa-text-green"
       />
 
       <CardLink
         :to="`${DAPE_PATH}/horario`"
         :icon="IconsIconClockGenerate"
         title="Gerar Horário"
-        class="text-ldsa-text-green"
       />
     </Section>
 
@@ -40,7 +38,6 @@ const DAPE_PATH = '/sisgha/dape';
         :to="DAPE_PATH"
         :icon="IconsIconReport"
         title="Aulas Ministradas"
-        class="text-ldsa-text-green"
       />
     </Section>
 
@@ -49,7 +46,6 @@ const DAPE_PATH = '/sisgha/dape';
         :to="`${DAPE_PATH}/diarios`"
         :icon="IconsIconReport"
         title="Diários"
-        class="text-ldsa-text-green"
       />
     </Section>
   </UIContainer>
