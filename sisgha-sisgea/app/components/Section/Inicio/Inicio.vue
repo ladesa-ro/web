@@ -12,7 +12,7 @@ const DAPE_PATH = '/sisgha/dape';
 </script>
 
 <template>
-  <UIContainer class="flex flex-col mt-10">
+  <UIContainer class="flex flex-col">
     <h1
       class="flex font-semibold text-xl mb-7 before:content-[''] before:border-[0.219rem] before:border-ldsa-green-1 before:mr-3"
     >
