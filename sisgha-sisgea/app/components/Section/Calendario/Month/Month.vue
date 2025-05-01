@@ -167,7 +167,7 @@ onMounted(async () => {
 
 <template>
   <div
-    class="border-2 border-ldsa-grey shadow-none m-0 mx-auto rounded-lg w-max h-max"
+    class="border-2 border-ldsa-grey rounded-lg min-w-max overflow-hidden"
   >
     <!-- calendar header -->
     <div
