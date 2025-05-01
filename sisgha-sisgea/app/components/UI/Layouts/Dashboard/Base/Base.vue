@@ -26,7 +26,7 @@ const { hamburguerActive } = provideLayoutsDashboardContext();
       :data-hamburger-active="hamburguerActive"
     >
       <!-- main content -->
-      <section class="flex-1 flex flex-col pt-10">
+      <section class="flex-1 flex flex-col py-10">
         <slot />
       </section>
 
