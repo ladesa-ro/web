@@ -59,11 +59,9 @@ watch(monthNumReceived, async (newValue: number) => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col lg:flex-row justify-between w-[328px] sm:w-[408px] lg:w-[844px] h-auto"
-  >
+  <div class="flex flex-col lg:flex-row justify-between gap-4">
     <!-- Month selected -->
-    <div class="flex flex-col w-max h-auto gap-6 mb-6 lg:mr-4 lg:mb-0">
+    <div class="flex flex-col w-max h-auto gap-6">
       <SectionCalendarioMonth
         :events="props.events"
         :month="dayjs().month()"
@@ -77,10 +75,10 @@ watch(monthNumReceived, async (newValue: number) => {
 
     <!-- Event list -->
     <div
-      class="flex flex-col gap-2 w-full -scrollbar overflow-y-auto pr-2 xl:pr-0 max-h-[432px]"
+      class="flex flex-col gap-2 w-full overflow-y-auto max-h-[27rem] 2xl:max-h-[531.25rem]"
     >
       <SectionCalendarioEventsEvent
-        v-for="(event, index) in allEventItems"
+        v-for="event in allEventItems"
         :id="event.id"
         :key="event.id"
         :color="event.color"
@@ -93,4 +91,3 @@ watch(monthNumReceived, async (newValue: number) => {
     </div>
   </div>
 </template>
-
