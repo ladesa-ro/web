@@ -1,10 +1,7 @@
 <script lang="ts" setup>
-import { useMonitorSize } from '~/composables/useMonitorSize';
 import type { ISidebarItem } from './SidebarItem/ISidebarItem';
 
-type Props = {
-  items: ISidebarItem[];
-};
+type Props = { items: ISidebarItem[] };
 const { items } = defineProps<Props>();
 
 //
@@ -13,22 +10,13 @@ const { items } = defineProps<Props>();
 const hamburgerActive = defineModel<boolean>({
   required: true,
 });
-
-const isMobile = useMonitorSize();
-
-// this watch makes a smoother transition when the screen changes size
-watch(isMobile, () => {
-  if (hamburgerActive.value) {
-    hamburgerActive.value = !hamburgerActive.value;
-  }
-});
 </script>
 
 <template>
   <nav
     :class="{
       active: hamburgerActive,
-      '-left-20': isMobile && !hamburgerActive,
+      'max-sm:-translate-x-full': !hamburgerActive,
     }"
     class="sidebar"
   >
@@ -49,7 +37,7 @@ watch(isMobile, () => {
   @apply flex flex-col gap-2.5 lg:gap-3;
   @apply w-14 py-[0.438rem];
   @apply border-r-2 border-r-ldsa-green-2/50 bg-ldsa-green-1;
-  @apply transition-[width] duration-200;
+  @apply transition-[all] duration-200;
 }
 
 .sidebar:hover,

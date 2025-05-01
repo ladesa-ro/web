@@ -1,9 +1,5 @@
 <template>
-  <div class="flex flex-col gap-[15px]">
-    <!-- <SectionHorarioHeaderSchedule  /> -->
-
+  <div class="flex flex-col gap-3.5">
     <SectionHorarioDailyViewDaysAndLessons />
   </div>
 </template>
-
-<style scoped></style>

@@ -5,6 +5,7 @@ import iconDisciplina from '~/assets/icons/Disciplina.svg';
 import iconHome from '~/assets/icons/Home.svg';
 import iconLogout from '~/assets/icons/Logout.svg';
 import iconOutros from '~/assets/icons/Mais-Itens.svg';
+import iconClock from '~/assets/icons/Relogio.svg';
 import iconTurmas from '~/assets/icons/Turmas.svg';
 import iconPerfil from '~/assets/icons/Usuario.svg';
 import iconUsuarios from '~/assets/icons/Usuarios.svg';
@@ -20,6 +21,14 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
       icon: iconHome,
       to: `${CAMINHO_DAPE}/`,
       exact: true,
+    },
+
+    {
+      type: 'link',
+      title: 'Horário',
+      icon: iconClock,
+      to: `${CAMINHO_DAPE}/horario`,
+      exact: false,
     },
 
     {
