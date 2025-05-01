@@ -23,46 +23,47 @@ async function toggleView(v: boolean): Promise<void> {
 }
 
 onMounted(async () => {
-  // Calling functions
   await toggleView(calendarView.value);
 });
 </script>
 
 <template>
-  <div>
-    <section class="flex w-full cursor-pointer">
-      <!-- View partial calendar-->
-      <div
-        :class="{ '-selected border-r-2': calendarView === false }"
-        class="flex w-full gap-2 items-center justify-center border-2 border-r-0 border-ldsa-grey p-3 font-[600] rounded-l-lg text-ldsa-grey"
-        @click="toggleView(false)"
-      >
-        <span class="text-sm sm:text-[16px] font-semibold w-[120px] lg:w-max">
-          Calendário parcial
-        </span>
-        <IconsCalendarIconPartialCalendar class="w-[18px] sm:w-5" />
-      </div>
+  <section class="flex w-full">
+    <!-- View partial calendar-->
+    <button
+      :class="{ 'selected border-r-2': !calendarView }"
+      class="toggle-button border-2 rounded-l-lg border-r-0"
+      @click="toggleView(false)"
+    >
+      Calendário parcial
+      <IconsCalendarIconPartialCalendar class="icon" />
+    </button>
 
-      <!-- View complete calendar -->
-      <div
-        :class="{ '-selected border-l-2': calendarView !== false }"
-        class="flex w-full gap-2 items-center justify-center border-2 border-l-0 border-ldsa-grey p-3 font-[600] rounded-r-lg text-ldsa-grey"
-        @click="toggleView(true)"
-      >
-        <span class="text-sm sm:text-[16px] font-semibold w-[120px] lg:w-max">
-          Calendário completo
-        </span>
-        <IconsCalendarIconCompleteCalendar class="w-[18px] sm:w-5" />
-      </div>
-    </section>
-  </div>
+    <!-- View complete calendar -->
+    <button
+      :class="{ 'selected border-l-2': calendarView }"
+      class="toggle-button border-2 rounded-r-lg border-l-0"
+      @click="toggleView(true)"
+    >
+      Calendário completo
+      <IconsCalendarIconCompleteCalendar class="icon" />
+    </button>
+  </section>
 </template>
 
 <style>
 @reference "~/assets/styles/app.css";
 
-.-selected {
-  @apply border-ldsa-green-1;
-  @apply bg-ldsa-green-1/20 text-ldsa-text-green;
+.toggle-button {
+  @apply flex w-full gap-2 items-center justify-center border-ldsa-grey p-3 text-ldsa-grey;
+  @apply text-sm sm:text-base font-semibold;
+}
+
+.selected {
+  @apply bg-ldsa-green-1/10 border-ldsa-green-1 text-ldsa-text-green;
+}
+
+.icon {
+  @apply w-[1.125rem] sm:w-5;
 }
 </style>

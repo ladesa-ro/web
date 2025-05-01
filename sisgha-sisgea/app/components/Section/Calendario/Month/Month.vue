@@ -33,7 +33,7 @@ const calendarDays = {
   },
 };
 
-//* Functions
+// Functions
 
 //  --- Month data (emit values)  ---
 const emitMonthData = defineEmits<{
@@ -167,16 +167,20 @@ onMounted(async () => {
 
 <template>
   <div
-    class="border-2 border-ldsa-grey shadow-none m-0 mx-auto rounded-lg w-max h-max"
+    class="border-2 border-ldsa-grey rounded-lg min-w-max max-[440px]:w-full min-[440px]:max-w-lg max-h-max overflow-hidden"
   >
-    <!-- calendar header -->
+    <!-- header -->
     <div
       :style="{ backgroundColor: monthColor }"
-      class="text-ldsa-white flex justify-between items-center p-2.5 w-full"
+      class="text-ldsa-bg flex justify-between items-center p-2.5 w-full"
     >
-      <button class="px-3.5 py-2" @click="toggleMonth(-1)">
+      <button
+        v-if="props.toggleMonth"
+        class="px-3.5 py-2"
+        @click="toggleMonth(-1)"
+      >
         <!-- Toggle for before month -->
-        <IconsArrowIconArrow v-if="props.toggleMonth" class="text-ldsa-white" />
+        <IconsArrowIconArrow />
       </button>
 
       <!-- Month name -->
@@ -188,60 +192,62 @@ onMounted(async () => {
         }}
       </h1>
 
-      <button class="px-3.5 py-2" @click="toggleMonth(1)">
-        <IconsArrowIconArrow
-          v-if="props.toggleMonth"
-          class="text-ldsa-white rotate-180"
-        />
+      <button
+        v-if="props.toggleMonth"
+        class="px-3.5 py-2"
+        @click="toggleMonth(1)"
+      >
+        <IconsArrowIconArrow class="rotate-180" />
       </button>
     </div>
 
-    <!-- Calendar -->
+    <!-- weeks -->
     <section
-      class="p-2.5 grid grid-cols-7 gap-1 sm:gap-2 justify-center items-center"
+      class="p-2.5 grid grid-cols-7 max-[440px]:gap-1 min-[440px]:gap-2 sm:gap-3 justify-center items-center"
     >
-      <!-- Days of the week -->
-      <p v-for="dayInTheWeek in daysInTheWeek" class="calendar-text">
+      <!-- name of the days of the week -->
+      <p
+        v-for="dayInTheWeek in daysInTheWeek"
+        class="calendar-text flex justify-center items-center"
+      >
         {{ dayInTheWeek }}
       </p>
 
-      <!-- Days -->
-      <!-- Before -->
+      <!-- days before current month -->
       <div
         v-for="daysBefore in calendarDays.emptyDays.before.value"
         :key="daysBefore"
-        class="day"
+        class="day-of-other-month"
       />
 
-      <!-- In month -->
+      <!-- days in current month -->
       <div
         v-for="(dayInMonth, index) in calendarDays.daysInMonth.value"
         :key="index"
         :class="{ 'cursor-pointer': props.selectWeek }"
         :style="{ backgroundColor: dayInMonth.color }"
-        class="flex w-10 h-10 sm:w-12 sm:h-12 border-solid rounded-lg"
+        class="day flex border-solid"
         @click="emitWeekSelected()"
         @mouseenter="hoverInWeek(dayInMonth.date, true)"
         @mouseleave="hoverInWeek(dayInMonth.date, false)"
       >
-        <div class="flex w-full h-full justify-center items-center">
-          <p
-            :class="{
-              'border-2 border-solid border-ldsa-white rounded-md':
-                dayjs(dayjs().toDate()).format('YYYY-MM-DD') ==
-                dayjs(dayjs(dayInMonth.date)).format('YYYY-MM-DD'),
-            }"
-            class="mx-auto w-8 h-8 sm:w-10 sm:h-10 flex justify-center items-center text-ldsa-white calendar-text"
-          >
-            {{ dayjs(dayInMonth.date).format('D') }}
-          </p>
-        </div>
+        <p
+          :class="{
+            'border-2 border-solid border-ldsa-bg rounded-md':
+              dayjs(dayjs().toDate()).format('YYYY-MM-DD') ===
+              dayjs(dayjs(dayInMonth.date)).format('YYYY-MM-DD'),
+          }"
+          class="flex-1 m-1 flex justify-center items-center text-ldsa-bg calendar-text"
+        >
+          {{ dayjs(dayInMonth.date).format('D') }}
+        </p>
       </div>
-      <!-- After -->
+
+      <!-- days after current month -->
       <div
         v-for="daysAfter in calendarDays.emptyDays.after.value"
         :key="daysAfter"
-        class="day"
+        class="day-of-other-month"
       />
     </section>
   </div>
@@ -250,8 +256,13 @@ onMounted(async () => {
 <style scoped>
 @reference "~/assets/styles/app.css";
 
-.day {
-  @apply w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-ldsa-grey/50;
+.day,
+.day-of-other-month {
+  @apply max-[440px]:min-w-8 max-[440px]:min-h-8 min-[440px]:min-w-10 min-[440px]:min-h-10 sm:min-w-12 sm:min-h-12 rounded-sm sm:rounded-lg;
+}
+
+.day-of-other-month {
+  @apply bg-ldsa-grey/50;
 }
 
 .calendar-text {

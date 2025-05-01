@@ -14,7 +14,7 @@ const notificationsButtonEl = ref(null);
 
 <template>
   <header
-    class="flex items-center w-full max-[345px]:pr-2 max-[600px]:pr-4 min-[600px]:pr-7 h-[4.563rem] border-b border-ldsa-grey/50 bg-ldsa-bg"
+    class="flex items-center w-full max-[345px]:pr-2 max-sm:pr-4 min-sm:pr-7 h-[4.563rem] border-b border-ldsa-grey/50 bg-ldsa-bg"
   >
     <button class="m-[0.34375rem] shrink-0" @click="toggleHamburger">
       <IconsMenuIconHamburgerOn
@@ -29,7 +29,7 @@ const notificationsButtonEl = ref(null);
     <div class="flex-1" />
 
     <AppbarChangeThemeVueChangeTheme
-      class="shrink-0 max-[345px]:mr-0.5 max-[600px]:mr-2"
+      class="shrink-0 max-[345px]:mr-0.5 max-sm:mr-2"
     />
 
     <UIPopover>
@@ -43,9 +43,9 @@ const notificationsButtonEl = ref(null);
       <AppbarSpeechBubbles :notifications-button-el="notificationsButtonEl" />
     </UIPopover>
 
-    <div class="min-[600px]:mr-3" />
+    <div class="min-sm:mr-3" />
 
-    <div class="hidden min-[600px]:block">
+    <div class="hidden min-sm:block">
       <LogoSisghaLogomarca class="w-[8.75rem] cursor-pointer shrink-0" />
     </div>
   </header>

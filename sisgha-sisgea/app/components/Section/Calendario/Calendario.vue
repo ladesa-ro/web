@@ -22,117 +22,68 @@ const handleUpdate = (v: boolean) => {
   calendarView.value = v;
 };
 
-const enableEventList = ref<boolean>(false);
-
-async function showEventsList(value: boolean): Promise<void> {
-  try {
-    enableEventList.value = !value;
-  } catch (error) {}
-}
-
-//
-
 const isActive = ref(false);
 const onClose = () => (isActive.value = false);
 </script>
 
 <template>
-  <div class="flex justify-center items-center w-screen mx-auto p-10">
-    <div class="flex flex-col justify-center items-center w-max h-auto">
-      <!-- Head -->
-      <div class="w-full">
+  <UIContainer variant="tight" class="flex flex-col gap-5">
+    <!-- header -->
+    <div class="flex flex-col lg:flex-row w-full justify-between gap-5">
+      <!-- Select year -->
+      <VVAutocomplete
+        :items="years"
+        class="max-lg:w-full lg:max-w-56"
+        label="Ano letivo"
+        name="year.id"
+        placeholder="Ano"
+      />
+
+      <span class="flex gap-5 w-full">
         <!-- Select calendar -->
-        <div
-          class="flex flex-col xl:flex-row w-full justify-center items-center gap-4 m-auto mb-6 pt-[50px]"
-        >
-          <!-- Select year -->
-          <VVAutocomplete
-            :items="years"
-            class="xl:max-w-[200px]"
-            label="Ano letivo"
-            name="year.id"
-            placeholder="Selecione um ano"
-          />
-
-          <!-- Select modality -->
-          <VVAutocompleteAPIModalidade name="modalidade.id" />
-
-          <!-- Select calendar -->
-          <div class="flex w-full max-w-[1800px] gap-4">
-            <VVAutocomplete
-              :items="calendars"
-              class="w-full"
-              label="Calendários"
-              name="calendar.id"
-              placeholder="Selecione um calendário"
-            />
-
-            <!-- Buttons -->
-
-            <!-- Search -->
-            <div>
-              <UIButtonSearch />
-            </div>
-
-            <!-- Add -->
-            <div>
-              <DialogModalEditOrCreateModal
-                :form-component="CalendarioForm3"
-                @close="onClose"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Calendar preview -->
-        <div
-          class="flex flex-col-reverse gap-6 lg:flex-row justify-between w-full mb-6"
-        >
-          <!-- Event List -->
-          <UIButtonEventsList
-            v-show="calendarView === true"
-            @click="showEventsList(enableEventList)"
-          />
-
-          <!-- Preview -->
-          <SectionCalendarioViewsToggleView
-            :class="{
-              'w-full': calendarView === false,
-              'w-full lg:max-w-[500px]': calendarView === true,
-            }"
-            @view:calendar="handleUpdate"
-          />
-        </div>
-      </div>
-
-      <!-- Modals -->
-      <div class="flex items-center justify-center shrink-0">
-        <SectionCalendarioModalEventList
-          :enable-modal="true"
-          :events="calendar?.events"
-          :steps="calendar?.steps"
-          :year="calendar?.year"
-        />
-      </div>
-
-      <!-- Content -->
-      <div>
-        <!-- Partial calendar -->
-        <SectionCalendarioViewsPartialCalendar
-          v-show="calendarView === false"
-          :events="calendar?.events"
-          :steps="calendar?.steps"
-          :year="calendar?.year"
+        <VVAutocomplete
+          :items="calendars"
+          class="w-full"
+          label="Calendários"
+          name="calendar.id"
+          placeholder="Selecione um calendário"
         />
 
-        <!-- Complete calendar -->
-        <SectionCalendarioViewsCompleteCalendar
-          v-show="calendarView !== false"
-          :events="calendar?.events"
-          :steps="calendar?.steps"
-          :year="calendar?.year"
+        <!-- button add -->
+        <DialogModalEditOrCreateModal
+          :form-component="CalendarioForm3"
+          @close="onClose"
         />
-      </div>
+      </span>
     </div>
-  </div>
+
+    <SectionCalendarioViewsToggleView @view:calendar="handleUpdate" />
+
+    <span v-show="calendarView === true">
+      <SectionCalendarioModalEventList
+        :enable-modal="true"
+        :events="calendar?.events"
+        :steps="calendar?.steps"
+        :year="calendar?.year"
+      />
+    </span>
+
+    <!-- Content -->
+
+    <!-- Partial calendar -->
+    <SectionCalendarioViewsPartialCalendar
+      v-show="!calendarView"
+      :events="calendar?.events"
+      :steps="calendar?.steps"
+      :year="calendar?.year"
+    />
+
+    <!-- Complete calendar -->
+    <SectionCalendarioViewsCompleteCalendar
+      v-show="calendarView"
+      :events="calendar?.events"
+      :steps="calendar?.steps"
+      :year="calendar?.year"
+    />
+  </UIContainer>
 </template>
