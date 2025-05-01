@@ -33,26 +33,28 @@ const onClose = () => (isActive.value = false);
       <!-- Select year -->
       <VVAutocomplete
         :items="years"
-        class="max-w-36 lg:max-w-56"
+        class="max-lg:w-full lg:max-w-56"
         label="Ano letivo"
         name="year.id"
         placeholder="Ano"
       />
 
-      <!-- Select calendar -->
-      <VVAutocomplete
-        :items="calendars"
-        class="w-full"
-        label="Calendários"
-        name="calendar.id"
-        placeholder="Selecione um calendário"
-      />
+      <span class="flex gap-5 w-full">
+        <!-- Select calendar -->
+        <VVAutocomplete
+          :items="calendars"
+          class="w-full"
+          label="Calendários"
+          name="calendar.id"
+          placeholder="Selecione um calendário"
+        />
 
-      <!-- button add -->
-      <DialogModalEditOrCreateModal
-        :form-component="CalendarioForm3"
-        @close="onClose"
-      />
+        <!-- button add -->
+        <DialogModalEditOrCreateModal
+          :form-component="CalendarioForm3"
+          @close="onClose"
+        />
+      </span>
     </div>
 
     <SectionCalendarioViewsToggleView @view:calendar="handleUpdate" />
@@ -70,7 +72,7 @@ const onClose = () => (isActive.value = false);
 
     <!-- Partial calendar -->
     <SectionCalendarioViewsPartialCalendar
-      v-show="calendarView === false"
+      v-show="!calendarView"
       :events="calendar?.events"
       :steps="calendar?.steps"
       :year="calendar?.year"
@@ -78,7 +80,7 @@ const onClose = () => (isActive.value = false);
 
     <!-- Complete calendar -->
     <SectionCalendarioViewsCompleteCalendar
-      v-show="calendarView !== false"
+      v-show="calendarView"
       :events="calendar?.events"
       :steps="calendar?.steps"
       :year="calendar?.year"

@@ -59,23 +59,24 @@ watch(monthNumReceived, async (newValue: number) => {
 </script>
 
 <template>
-  <div class="flex flex-col lg:flex-row justify-between gap-4">
+  <div
+    class="flex flex-col lg:flex-row justify-between items-center gap-5 sm:gap-4"
+  >
     <!-- Month selected -->
-    <div class="flex flex-col w-max h-auto gap-6">
-      <SectionCalendarioMonth
-        :events="props.events"
-        :month="dayjs().month()"
-        :select-week="false"
-        :steps="props.steps"
-        :toggle-month="true"
-        :year="2024"
-        @custom:month-num="handleUpdate"
-      />
-    </div>
+    <SectionCalendarioMonth
+      class="flex-1/2 w-full"
+      :events="props.events"
+      :month="dayjs().month()"
+      :select-week="false"
+      :steps="props.steps"
+      :toggle-month="true"
+      :year="dayjs().year()"
+      @custom:month-num="handleUpdate"
+    />
 
-    <!-- Event list -->
+    <!-- Month's event list -->
     <div
-      class="flex flex-col gap-2 w-full overflow-y-auto max-h-[27rem] 2xl:max-h-[531.25rem]"
+      class="flex-1/2 w-full flex flex-col gap-2 overflow-y-auto h-max lg:max-h-[28.5rem] 2xl:max-h-[50rem]"
     >
       <SectionCalendarioEventsEvent
         v-for="event in allEventItems"

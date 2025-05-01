@@ -30,7 +30,7 @@ watch(monthNumReceived, (newValue: number) => {
 </script>
 
 <template>
-  <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-4">
+  <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
     <SectionCalendarioMonth
       v-for="month in monthNums"
       :events="props.events"
