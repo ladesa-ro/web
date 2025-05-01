@@ -46,7 +46,7 @@ watch([width, height], debouncedScrollIntoView);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .day-square {
   @apply flex-1 flex flex-col justify-center items-center;

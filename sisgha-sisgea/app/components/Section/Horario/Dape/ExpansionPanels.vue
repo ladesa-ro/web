@@ -34,7 +34,7 @@ const open = ref(false);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .collapsible-root {
   @apply overflow-hidden w-full border-2 border-ldsa-grey rounded-lg text-ldsa-white text-[0.938rem];

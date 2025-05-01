@@ -31,7 +31,7 @@ defineProps<Props>();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .item {
   @apply flex items-center px-3 font-medium cursor-pointer;

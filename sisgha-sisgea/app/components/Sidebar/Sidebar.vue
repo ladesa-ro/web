@@ -29,7 +29,7 @@ const hamburgerActive = defineModel<boolean>({
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .sidebar {
   @apply fixed top-[4.563rem] bottom-0;

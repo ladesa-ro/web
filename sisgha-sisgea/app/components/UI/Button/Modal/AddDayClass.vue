@@ -11,7 +11,7 @@
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .buttonAddClassDay {
   width: 100%;

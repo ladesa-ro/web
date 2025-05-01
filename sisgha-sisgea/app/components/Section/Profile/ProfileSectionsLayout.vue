@@ -27,7 +27,7 @@ defineSlots<Slots>();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .section-title {
   @apply flex items-center gap-[0.625rem];

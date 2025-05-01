@@ -7,14 +7,13 @@ type Props = {
   year?: number;
   steps?: Step[];
   events?: Event[];
-  enableModal?: boolean;
 };
 
-const { enableModal = false, year, events } = defineProps<Props>();
+const { year, events } = defineProps<Props>();
 
 // Code
 const searchBarText = ref('');
-const isActive = ref<boolean>(enableModal);
+const isActive = ref(false);
 const onClose = () => (isActive.value = false);
 
 // Listing filter

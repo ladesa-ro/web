@@ -54,7 +54,7 @@ const showCampus = computed(() => {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .lesson {
   @apply flex items-center justify-between;
