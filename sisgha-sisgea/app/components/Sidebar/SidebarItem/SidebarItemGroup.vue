@@ -33,7 +33,7 @@ const open = ref(false);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .open {
   @apply bg-ldsa-green-2/25;

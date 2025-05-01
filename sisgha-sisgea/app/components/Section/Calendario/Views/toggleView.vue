@@ -52,7 +52,7 @@ onMounted(async () => {
 </template>
 
 <style>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .toggle-button {
   @apply flex w-full gap-2 items-center justify-center border-ldsa-grey p-3 text-ldsa-grey;

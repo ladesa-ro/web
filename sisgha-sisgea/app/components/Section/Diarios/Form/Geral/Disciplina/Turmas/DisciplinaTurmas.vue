@@ -28,8 +28,6 @@ const showGroupingSection = ref(false);
 
 //
 
-
-
 const selectRole = (role: string) => {
   showTeacherSection.value = role === 'Professor';
   showGroupingSection.value = role === 'AGRUPAMENTO';
@@ -151,7 +149,7 @@ await suspend();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .button-solo {
   display: flex;

@@ -26,7 +26,7 @@ const user = await apiClient.usuarios.usuarioFindOneById({
 </template>
 
 <style>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 /* class provided for the child components */
 .border-card {

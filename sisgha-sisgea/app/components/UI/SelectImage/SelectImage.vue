@@ -47,7 +47,7 @@ const imageSrc = computed(() => {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .drop-area {
   background: no-repeat center/cover;

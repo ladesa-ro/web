@@ -59,9 +59,9 @@ const onClose = () => (isActive.value = false);
 
     <SectionCalendarioViewsToggleView @view:calendar="handleUpdate" />
 
-    <span v-show="calendarView === true">
+    <span v-show="calendarView">
       <SectionCalendarioModalEventList
-        :enable-modal="true"
+        :enable-modal="false"
         :events="calendar?.events"
         :steps="calendar?.steps"
         :year="calendar?.year"

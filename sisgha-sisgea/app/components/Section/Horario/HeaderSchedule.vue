@@ -83,7 +83,7 @@ const open = ref(false);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .active {
   @apply border-ldsa-green-1 bg-ldsa-green-1/10 text-ldsa-text-green;

@@ -25,7 +25,7 @@ const onClose = () => (isActive.value = false);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .overlay-layout {
   @apply fixed top-0 left-0 z-[997];

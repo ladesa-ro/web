@@ -27,7 +27,7 @@ const subjects = [
 </template>
 
 <style>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 /* TODO: encontrar outra lib para carrossel, se possível */
 @import 'vue3-carousel/dist/carousel.css';

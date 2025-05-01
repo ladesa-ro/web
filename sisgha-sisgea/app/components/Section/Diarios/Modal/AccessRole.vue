@@ -49,7 +49,7 @@ const selectAgrupamento = () => {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .toggle-option {
   @apply flex flex-col justify-center items-center gap-2;

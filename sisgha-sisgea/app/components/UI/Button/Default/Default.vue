@@ -11,7 +11,7 @@
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .ui-button {
   @apply flex items-center w-full px-5 py-[0.875rem] cursor-pointer;
