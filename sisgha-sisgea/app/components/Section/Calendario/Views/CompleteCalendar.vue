@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import type { Event, Step } from '../Typings';
 
@@ -20,17 +21,12 @@ const monthNumReceived = ref<number>(0);
 const handleUpdate = (v: number) => {
   monthNumReceived.value = v;
 };
-
-// Watch month for toggle value
-watch(monthNumReceived, (newValue: number) => {
-  if (newValue !== null) {
-    monthNumReceived.value = newValue;
-  }
-});
 </script>
 
 <template>
-  <div class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
+  <div
+    class="flex-1 grid grid-cols-[repeat(auto-fit,minmax(25rem,1fr))] justify-content-stretch justify-items-center gap-4 sm:gap-6"
+  >
     <SectionCalendarioMonth
       v-for="month in monthNums"
       :events="props.events"
@@ -38,7 +34,7 @@ watch(monthNumReceived, (newValue: number) => {
       :select-week="false"
       :steps="props.steps"
       :toggle-month="false"
-      :year="2024"
+      :year="dayjs().year()"
       @custom:month-num="handleUpdate"
     />
   </div>
