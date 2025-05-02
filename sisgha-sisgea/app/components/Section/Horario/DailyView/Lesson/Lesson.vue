@@ -56,14 +56,14 @@ const showCampus = computed(() => {
 @reference "~/assets/styles/app-reference.css";
 
 .lesson {
-  @apply flex items-center justify-between;
+  @apply flex items-center justify-between max-md:gap-2.5;
   @apply border-2 border-ldsa-green-1 rounded-lg;
   @apply px-4 sm:px-5 py-2 sm:py-3;
   @apply text-sm lg:text-base;
 }
 
 .icon {
-  @apply max-w-7 shrink-0 text-ldsa-text-green;
+  @apply max-w-5.5 lg:max-w-7 shrink-0 text-ldsa-text-green;
 }
 
 /* --- */
