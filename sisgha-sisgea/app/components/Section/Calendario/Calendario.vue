@@ -15,15 +15,14 @@ const calendars = [
 
 const calendar = await calendarData.getCalendar();
 
-// Calendar view
-const calendarView = ref<boolean>(false);
-
-const handleUpdate = (v: boolean) => {
-  calendarView.value = v;
-};
+//
 
 const isActive = ref(false);
 const onClose = () => (isActive.value = false);
+
+//
+
+const visualizacao = ref<'parcial' | 'completo'>('parcial');
 </script>
 
 <template>
@@ -57,9 +56,9 @@ const onClose = () => (isActive.value = false);
       </span>
     </div>
 
-    <SectionCalendarioViewsToggleView @view:calendar="handleUpdate" />
+    <SectionCalendarioViewsToggleView v-model="visualizacao" />
 
-    <span v-show="calendarView">
+    <span v-show="visualizacao === 'completo'">
       <SectionCalendarioModalEventList
         :enable-modal="false"
         :events="calendar?.events"
@@ -72,7 +71,7 @@ const onClose = () => (isActive.value = false);
 
     <!-- Partial calendar -->
     <SectionCalendarioViewsPartialCalendar
-      v-show="!calendarView"
+      v-show="visualizacao === 'parcial'"
       :events="calendar?.events"
       :steps="calendar?.steps"
       :year="calendar?.year"
@@ -80,7 +79,7 @@ const onClose = () => (isActive.value = false);
 
     <!-- Complete calendar -->
     <SectionCalendarioViewsCompleteCalendar
-      v-show="calendarView"
+      v-show="visualizacao === 'completo'"
       :events="calendar?.events"
       :steps="calendar?.steps"
       :year="calendar?.year"
