@@ -36,10 +36,8 @@ const open = ref(false);
 
 <template>
   <div class="flex flex-col max-lg:gap-4 lg:flex-row items-center justify-between">
-    <p class="flex items-center font-semibold max-lg:gap-2">
-      <span class="text-sm lg:text-base">
-        {{ month }} - Dias {{ firstWeekDay.day }} a {{ lastWeekDay.day }}
-      </span>
+    <p class="flex items-center font-semibold max-lg:gap-2 text-sm lg:text-base">
+      {{ month }} - Dias {{ firstWeekDay.day }} a {{ lastWeekDay.day }}
 
       <UIPopover v-model="open">
         <template #activator>

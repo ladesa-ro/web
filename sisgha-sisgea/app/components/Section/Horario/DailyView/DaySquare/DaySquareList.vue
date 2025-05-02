@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getWeekDays } from '~/components/Section/Horario/-Helpers/GetWeekDays';
+import { getWeekDays } from '../../-Helpers/GetWeekDays';
 
 //by default, the selected day is the current day. if today is sunday, the selected day will be monday
 const selectedDay =
@@ -18,7 +18,7 @@ const weekDays = getWeekDays(selectedDay.value);
   <div class="layout-size">
     <SectionHorarioDailyViewDaySquare
       v-for="weekDay in weekDays"
-      :active="weekDay.dayMonth === activeDayMonth"
+      :selected="weekDay.dayMonth === activeDayMonth"
       :day-month="weekDay.dayMonth"
       :day-week="weekDay.dayWeek"
       @click="selectedDay = weekDay.dayAsDayJs"
@@ -30,7 +30,7 @@ const weekDays = getWeekDays(selectedDay.value);
 @reference "~/assets/styles/app-reference.css";
 
 .layout-size {
-  @apply flex justify-between gap-4 lg:gap-6 xl:gap-12;
+  @apply flex justify-between gap-2 min-[502px]:gap-4 lg:gap-6 xl:gap-12;
   @apply w-full max-w-screen-2xl overflow-x-auto;
 }
 </style>

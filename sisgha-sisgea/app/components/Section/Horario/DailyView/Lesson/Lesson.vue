@@ -9,8 +9,7 @@ type Props = {
   viewFor?: 'teacher' | 'student';
 };
 const props = defineProps<Props>();
-const { lesson } = toRefs(props);
-const { viewFor } = toRefs(props);
+const { lesson, viewFor } = toRefs(props);
 
 provide('lesson', lesson);
 
@@ -38,7 +37,7 @@ const showCampus = computed(() => {
         />
 
         <SectionHorarioDailyViewLessonStudentView
-          v-if="viewFor === 'student'"
+          v-else-if="viewFor === 'student'"
         />
 
         <!--ambiente-->
