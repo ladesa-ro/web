@@ -33,10 +33,9 @@ const generatedLessons = Array.from({ length: classTimings.length }).map(
 const { resumoVinculos } = useApiContext();
 
 const viewFor = computed(() => {
-  if (resumoVinculos.value.cargos.includes('professor')) {
+  if (resumoVinculos.value.cargos.includes('professor'))
     return 'teacher';
-  }
-
+  
   return 'student';
 });
 </script>
@@ -45,7 +44,7 @@ const viewFor = computed(() => {
   <div class="max-w-screen-lg w-full">
     <SectionHorarioDailyViewDaySquareList />
 
-    <div class="flex flex-col gap-5 mt-12">
+    <div class="flex flex-col gap-5 mt-6 lg:mt-12">
       <SectionHorarioDailyViewLesson
         v-for="lesson in generatedLessons"
         :lesson="lesson"

@@ -27,10 +27,7 @@ defineProps<Props>();
       <UIButtonModalCancel :disabled="isBusy" @click="onClose" />
 
       <template v-if="mode === 'manage'">
-        <UIButtonModalDelete
-          :disabled="isBusy"
-          @click.prevent="onDelete"
-        />
+        <UIButtonModalDelete :disabled="isBusy" @click.prevent="onDelete" />
 
         <UIButtonModalEdit :disabled="isBusy" />
       </template>

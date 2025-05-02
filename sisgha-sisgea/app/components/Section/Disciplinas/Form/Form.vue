@@ -17,7 +17,9 @@ const $emit = defineEmits(['close']);
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
 
-const { composables: { useFindOneQuery }, } = useLadesaApiCrudDisciplinas();
+const {
+  composables: { useFindOneQuery },
+} = useLadesaApiCrudDisciplinas();
 
 const { data: currentDisciplina, suspense } = useFindOneQuery(editId);
 await suspense();
@@ -130,13 +132,7 @@ function onClose() {
     >
       <VVSelectImage name="imagem" />
 
-
-      
-      <VVTextField
-        label="Nome"
-        name="nome"
-        placeholder="Digite aqui"
-      />
+      <VVTextField label="Nome" name="nome" placeholder="Digite aqui" />
 
       <VVTextField
         label="Nome Abreviado"

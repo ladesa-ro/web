@@ -10,8 +10,8 @@ const props = defineProps<Props>();
 
 type Slots = {
   item(props: IGridItemSlotProps): any;
-  'item-skeleton'(props: any): any;
-  default(props: any): any;
+  'item-skeleton'(): any;
+  default(): any;
 };
 
 const slots = defineSlots<Slots>();

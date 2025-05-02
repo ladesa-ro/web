@@ -75,7 +75,7 @@ const load = async ({ done, side }: LoadOptions) => {
 };
 
 // TODO: paginationMeta.limit ?? 3 * 6
-const skeletonItemsCount = 3 * 6;  
+const skeletonItemsCount = 3 * 6;
 
 await suspense();
 </script>

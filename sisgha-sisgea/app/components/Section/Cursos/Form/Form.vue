@@ -205,10 +205,7 @@ function onClose() {
       <template #button-group>
         <UIButtonModalCancel @click="$emit('close')" />
 
-        <UIButtonModalDelete
-          v-if="editId"
-          @click.prevent="handleDelete"
-        />
+        <UIButtonModalDelete v-if="editId" @click.prevent="handleDelete" />
         <UIButtonModalEdit v-if="editId" />
         <UIButtonModalSave v-else />
       </template>
