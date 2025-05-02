@@ -172,7 +172,7 @@ onMounted(async () => {
     <!-- header -->
     <div
       :style="{ backgroundColor: monthColor }"
-      class="text-ldsa-bg flex justify-between items-center p-2.5 w-full"
+      class="text-white flex justify-between items-center p-2.5 w-full"
     >
       <button
         v-if="props.toggleMonth"
@@ -203,7 +203,7 @@ onMounted(async () => {
 
     <!-- weeks -->
     <section
-      class="p-2.5 grid grid-cols-7 max-[440px]:gap-1 min-[440px]:gap-2 sm:gap-3 justify-center items-center"
+      class="p-2.5 grid grid-cols-7 justify-items-center max-[440px]:gap-1 min-[440px]:gap-2 sm:gap-3 justify-center items-center"
     >
       <!-- name of the days of the week -->
       <p
@@ -233,11 +233,11 @@ onMounted(async () => {
       >
         <p
           :class="{
-            'border-2 border-solid border-ldsa-bg rounded-md':
+            'border-2 border-solid border-white rounded-sm sm:rounded-md':
               dayjs(dayjs().toDate()).format('YYYY-MM-DD') ===
               dayjs(dayjs(dayInMonth.date)).format('YYYY-MM-DD'),
           }"
-          class="flex-1 m-1 flex justify-center items-center text-ldsa-bg calendar-text"
+          class="flex-1 m-1 flex justify-center items-center text-white calendar-text"
         >
           {{ dayjs(dayInMonth.date).format('D') }}
         </p>

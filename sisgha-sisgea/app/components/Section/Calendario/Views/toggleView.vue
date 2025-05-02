@@ -17,5 +17,5 @@ const visualizacao = defineModel<'parcial' | 'completo'>({
 </script>
 
 <template>
-  <UIToggle class="w-full" :items="toggleItems" v-model="visualizacao" />
+  <UIToggle class="w-full" :items="toggleItems" v-model:model-value="visualizacao" />
 </template>
