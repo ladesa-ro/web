@@ -18,14 +18,14 @@ defineProps<{
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 w-full mt-4 m-auto mb-6">
       <VVAutocomplete
         :items="bimestres"
-        class="w-full"
+        class="w-full mb-3"
         label="Bimestre"
         name="bimestre.id"
         placeholder="Selecione um bimestre"
       />
       <VVAutocomplete
         :items="disciplinas"
-        class="w-full"
+        class="w-full mb-3"
         label="Disciplina"
         name="disciplina.id"
         placeholder="Selecione uma disciplina"
