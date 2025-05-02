@@ -16,7 +16,7 @@ const { variant = 'default' } = defineProps<Props>();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .default {
   @apply md:mx-32 lg:mx-40 xl:mx-56 2xl:mx-72;
