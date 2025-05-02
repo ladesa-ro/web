@@ -1,8 +1,11 @@
 <script lang="ts" setup>
 import { getWeekDays } from '~/components/Section/Horario/-Helpers/GetWeekDays';
 
-//by default, the selected day is the current day
-const selectedDay = useSelectedDay();
+//by default, the selected day is the current day. if today is sunday, the selected day will be monday
+const selectedDay =
+  useSelectedDay().value.day() !== 0
+    ? useSelectedDay()
+    : ref(useSelectedDay().value.day(1));
 
 //formats the selected day
 const activeDayMonth = computed(() => selectedDay.value.format('DD/MM'));
@@ -27,8 +30,7 @@ const weekDays = getWeekDays(selectedDay.value);
 @reference "~/assets/styles/app-reference.css";
 
 .layout-size {
-  @apply flex flex-row justify-between w-full mx-auto;
-  @apply max-w-screen-2xl;
-  @apply max-sm:gap-3 max-sm:overflow-x-auto;
+  @apply flex justify-between gap-4 lg:gap-6 xl:gap-12;
+  @apply w-full max-w-screen-2xl overflow-x-auto;
 }
 </style>

@@ -1,5 +1,5 @@
 export type Item = {
   text: string;
   value: string | number;
-  icon: Component;
+  icon: Component | SVGElement & HTMLElement;
 };

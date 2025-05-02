@@ -45,6 +45,6 @@ defineProps<Props>();
 }
 
 .icon {
-  @apply w-[1.125rem] sm:w-5;
+  @apply w-[1.125rem] sm:w-5 shrink-0;
 }
 </style>

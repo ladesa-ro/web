@@ -59,17 +59,17 @@ const showCampus = computed(() => {
 .lesson {
   @apply flex items-center justify-between;
   @apply border-2 border-ldsa-green-1 rounded-lg;
-  @apply min-[641px]:px-5 min-[641px]:py-3;
-  @apply max-sm:px-4 max-sm:py-2;
+  @apply max-sm:px-4 sm:px-5 max-sm:py-2 sm:py-3;
+  @apply text-sm lg:text-base;
 }
 
 .icon {
-  @apply max-w-7 text-ldsa-text-green;
+  @apply max-w-7 shrink-0 text-ldsa-text-green;
 }
 
 /* --- */
 
 .completed {
-  @apply border-ldsa-grey/75 text-ldsa-grey font-[400];
+  @apply border-ldsa-grey/75 text-ldsa-grey font-normal;
 }
 </style>

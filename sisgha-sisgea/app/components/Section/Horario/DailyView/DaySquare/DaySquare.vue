@@ -11,10 +11,9 @@ const { active } = toRefs(props);
 
 //
 
-const square = ref<HTMLDivElement>();
+const square = ref<HTMLButtonElement>();
 
 //scrollIntoView in mobile
-
 const scrollIntoViewIfActive = () => {
   const isActive = active.value;
   const squareElement = square.value;
@@ -39,21 +38,20 @@ watch([width, height], debouncedScrollIntoView);
 </script>
 
 <template>
-  <div ref="square" :class="{ active: active }" class="day-square">
+  <button ref="square" :class="{ active: active }" class="day-square">
     <p class="day-week">{{ dayWeek }}</p>
     <p>{{ dayMonth }}</p>
-  </div>
+  </button>
 </template>
 
 <style scoped>
 @reference "~/assets/styles/app-reference.css";
 
 .day-square {
-  @apply flex-1 flex flex-col justify-center items-center;
-  @apply rounded-[0.625rem] border-2 border-ldsa-green-1;
-  @apply min-w-20 cursor-pointer font-[600] text-ldsa-text-green;
-  @apply min-[900px]:p-4 min-[900px]:max-w-28 min-[900px]:max-h-28 min-[900px]:gap-2;
-  @apply max-[900px]:p-3 max-[900px]:max-w-20 max-[900px]:gap-1;
+  @apply w-full flex flex-col justify-center items-center gap-1 lg:gap-2;
+  @apply min-w-20 max-w-16 lg:max-w-28 lg:max-h-28 p-3 lg:p-4;
+  @apply border-2 border-ldsa-green-1 rounded-[0.625rem] ;
+  @apply text-sm lg:text-base font-semibold text-ldsa-text-green;
 }
 
 .day-week {
@@ -66,7 +64,7 @@ watch([width, height], debouncedScrollIntoView);
   @apply bg-ldsa-green-1 text-ldsa-white;
 }
 
-div.active p:first-child {
+.active .day-week {
   @apply border-b-ldsa-white;
 }
 </style>
