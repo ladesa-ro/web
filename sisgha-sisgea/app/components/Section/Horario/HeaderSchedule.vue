@@ -1,8 +1,9 @@
 <script lang="ts" setup>
+import IconClock from '~/components/Icons/IconClock.vue';
+import IconMoreItems from '~/components/Icons/IconMoreItems.vue';
 import { capitalizeFirst } from './-Helpers/CapitalizeFirst';
 import { getWeekDays } from './-Helpers/GetWeekDays';
 import SpeechBubblesCalendar from './SpeechBubblesCalendar/SpeechBubblesCalendar.vue';
-import { ViewMode } from './ViewMode';
 
 // set month and week
 const selectedDay = useSelectedDay();
@@ -16,8 +17,14 @@ const lastWeekDay = weekDays[5]!;
 
 //
 
-const selectedOption = defineModel('option', {
-  default: ViewMode.DAILY_SCHEDULE,
+const toggleItems = [
+  { text: 'Horário da semana', value: 'semana', icon: IconMoreItems },
+  { text: 'Horário do dia', value: 'dia', icon: IconClock },
+];
+
+const toggleSelectedItem = defineModel<string | number>('toggleOption', {
+  required: true,
+  default: 'dia',
 });
 
 //
@@ -28,11 +35,9 @@ const open = ref(false);
 </script>
 
 <template>
-  <div
-    class="flex justify-between w-full mt-14 max-[1400px]:px-8 xl:max-w-screen-xl xl:mx-auto max-xl:px-0"
-  >
-    <div class="flex font-[600] items-center">
-      <span>
+  <div class="flex flex-col max-lg:gap-4 lg:flex-row items-center justify-between">
+    <p class="flex items-center font-semibold max-lg:gap-2">
+      <span class="text-sm lg:text-base">
         {{ month }} - Dias {{ firstWeekDay.day }} a {{ lastWeekDay.day }}
       </span>
 
@@ -41,7 +46,7 @@ const open = ref(false);
           <IconsArrowIconArrow
             ref="notificationsButtonEl"
             :class="open ? 'rotate-90' : '-rotate-90'"
-            class="arrow cursor-pointer m-3"
+            class="text-ldsa-text-green transition-transform duration-300 cursor-pointer m-3"
           />
         </template>
 
@@ -49,53 +54,12 @@ const open = ref(false);
           :notifications-button-el="notificationsButtonEl"
         />
       </UIPopover>
-    </div>
+    </p>
 
-    <section class="flex cursor-pointer max-[1300px]:hidden">
-      <!-- TODO: transformar em componente -->
-      <!--left button-->
-      <div
-        :class="{
-          active: selectedOption === ViewMode.GENERAL_SCHEDULE,
-          'border-r-0': selectedOption !== ViewMode.GENERAL_SCHEDULE,
-        }"
-        class="flex gap-2 items-center border-2 border-ldsa-grey/75 p-3 font-[600] rounded-l-lg text-ldsa-grey"
-        @click="selectedOption = ViewMode.GENERAL_SCHEDULE"
-      >
-        <span>Horário geral</span>
-        <IconsIconMoreItems class="w-5" />
-      </div>
-
-      <!--right button-->
-      <div
-        :class="{
-          active: selectedOption === ViewMode.DAILY_SCHEDULE,
-          'border-l-0': selectedOption !== ViewMode.DAILY_SCHEDULE,
-        }"
-        class="flex gap-2 items-center border-2 border-ldsa-grey/75 p-3 font-[600] rounded-r-lg text-ldsa-grey"
-        @click="selectedOption = ViewMode.DAILY_SCHEDULE"
-      >
-        <span>Horário do dia</span>
-        <IconsIconClock class="w-5" />
-      </div>
-    </section>
+    <UIToggle
+      class="min-w-full lg:min-w-[26.5rem]"
+      :items="toggleItems"
+      v-model="toggleSelectedItem"
+    />
   </div>
 </template>
-
-<style scoped>
-@reference "~/assets/styles/app-reference.css";
-
-.active {
-  @apply border-ldsa-green-1 bg-ldsa-green-1/10 text-ldsa-text-green;
-}
-
-.arrow {
-  @apply text-ldsa-text-green transition-transform duration-300;
-}
-
-.arrow.down {
-  -moz-transform: rotate(180deg);
-  -webkit-transform: rotate(180deg);
-  transform: rotate(180deg);
-}
-</style>
