@@ -25,10 +25,20 @@ async function toggleView(v: boolean): Promise<void> {
 onMounted(async () => {
   await toggleView(calendarView.value);
 });
+
+const visualizacao = ref<'parcial' | 'completa'>();
 </script>
 
 <template>
   <section class="flex w-full">
+    <div>
+      <div>
+        <ToggleButtons
+          v-model="visualizacao"
+          :items="[{ text: 'Calendário Parcial', value: 'parcial' }]"
+        />
+      </div>
+    </div>
     <!-- View partial calendar-->
     <button
       :class="{ 'selected border-r-2': !calendarView }"
