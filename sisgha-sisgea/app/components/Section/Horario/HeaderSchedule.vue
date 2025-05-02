@@ -40,12 +40,12 @@ const open = ref(false);
     >
       {{ month }} - Dias {{ firstWeekDay.day }} a {{ lastWeekDay.day }}
 
-      <UIPopoverCalendary v-model="open">
+      <UIPopoverCalendar v-model="open">
         <IconsArrowIconArrow
           :class="open ? 'rotate-90' : '-rotate-90'"
           class="text-ldsa-text-green transition-transform duration-300 m-3"
         />
-      </UIPopoverCalendary>
+      </UIPopoverCalendar>
     </p>
 
     <UIToggle

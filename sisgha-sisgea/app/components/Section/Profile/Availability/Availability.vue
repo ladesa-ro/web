@@ -39,13 +39,14 @@ const changeDay = delta => {
       </section>
 
       <!-- card content with day periods -->
-      <section class="flex flex-row gap-5 p-7">
-        <div v-for="(period, periodName) in dayPeriods">
-          <SectionProfileAvailabilityDayPeriod
-            :period="period"
-            :period-name="periodName"
-          />
-        </div>
+      <section
+        class="flex justify-center gap-2 lg:gap-3 max-[1130px]:gap-4 min-[1130px]:gap-5 p-3 lg:p-7"
+      >
+        <SectionProfileAvailabilityDayPeriod
+          v-for="(period, periodName) in dayPeriods"
+          :period="period"
+          :period-name="periodName"
+        />
       </section>
     </div>
   </SectionProfileSectionsLayout>

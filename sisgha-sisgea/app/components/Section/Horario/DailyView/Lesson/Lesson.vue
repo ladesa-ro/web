@@ -58,7 +58,7 @@ const showCampus = computed(() => {
 .lesson {
   @apply flex items-center justify-between;
   @apply border-2 border-ldsa-green-1 rounded-lg;
-  @apply max-sm:px-4 sm:px-5 max-sm:py-2 sm:py-3;
+  @apply px-4 sm:px-5 py-2 sm:py-3;
   @apply text-sm lg:text-base;
 }
 

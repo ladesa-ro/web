@@ -3,9 +3,9 @@ import { getWeekDays } from '../../-Helpers/GetWeekDays';
 
 //by default, the selected day is the current day. if today is sunday, the selected day will be monday
 const selectedDay =
-  useSelectedDay().value.day() !== 0
-    ? useSelectedDay()
-    : ref(useSelectedDay().value.day(1));
+  useCurrentDay().value.day() !== 0
+    ? useCurrentDay()
+    : ref(useCurrentDay().value.day(1));
 
 //formats the selected day
 const activeDayMonth = computed(() => selectedDay.value.format('DD/MM'));
