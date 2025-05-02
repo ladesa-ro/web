@@ -79,7 +79,7 @@ const aulasRedes = [
 
     <button
       @click="onClose"
-      class="mt-4 px-4 py-2 bg-ldsa-green-1 text-white rounded"
+      class="mt-4 px-4 py-2 bg-ldsa-green-1 text-white rounded text-[12px]"
     >
       Fechar
     </button>
