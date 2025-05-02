@@ -1,79 +1,21 @@
 <script lang="ts" setup>
-const calendarView = ref<boolean>(false);
+import IconCompleteCalendar from '~/components/Icons/Calendar/IconCompleteCalendar.vue';
+import IconPartialCalendar from '~/components/Icons/Calendar/IconPartialCalendar.vue';
 
-type Emits = {
-  // Option selected
-  (e: 'view:calendar', v: boolean): void;
-};
+const toggleItems = [
+  { text: 'Calendário parcial', value: 'parcial', icon: IconPartialCalendar },
+  {
+    text: 'Calendário completo',
+    value: 'completo',
+    icon: IconCompleteCalendar,
+  },
+];
 
-const emitOptionSelected = defineEmits<Emits>();
-
-const callingEmit = (v: boolean) => {
-  if (v !== null) emitOptionSelected('view:calendar', v);
-};
-
-// Toggle calendar view
-async function toggleView(v: boolean): Promise<void> {
-  try {
-    calendarView.value! = v!;
-    callingEmit(calendarView.value);
-  } catch (error) {
-    alert('Não foi possível alterar a visualização.');
-  }
-}
-
-onMounted(async () => {
-  await toggleView(calendarView.value);
+const visualizacao = defineModel<'parcial' | 'completo'>({
+  required: true,
 });
-
-const visualizacao = ref<'parcial' | 'completa'>();
 </script>
 
 <template>
-  <section class="flex w-full">
-    <div>
-      <div>
-        <ToggleButtons
-          v-model="visualizacao"
-          :items="[{ text: 'Calendário Parcial', value: 'parcial' }]"
-        />
-      </div>
-    </div>
-    <!-- View partial calendar-->
-    <button
-      :class="{ 'selected border-r-2': !calendarView }"
-      class="toggle-button border-2 rounded-l-lg border-r-0"
-      @click="toggleView(false)"
-    >
-      Calendário parcial
-      <IconsCalendarIconPartialCalendar class="icon" />
-    </button>
-
-    <!-- View complete calendar -->
-    <button
-      :class="{ 'selected border-l-2': calendarView }"
-      class="toggle-button border-2 rounded-r-lg border-l-0"
-      @click="toggleView(true)"
-    >
-      Calendário completo
-      <IconsCalendarIconCompleteCalendar class="icon" />
-    </button>
-  </section>
+  <UIToggle class="w-full" :items="toggleItems" v-model="visualizacao" />
 </template>
-
-<style>
-@reference "~/assets/styles/app-reference.css";
-
-.toggle-button {
-  @apply flex w-full gap-2 items-center justify-center border-ldsa-grey p-3 text-ldsa-grey;
-  @apply text-sm sm:text-base font-semibold;
-}
-
-.selected {
-  @apply bg-ldsa-green-1/10 border-ldsa-green-1 text-ldsa-text-green;
-}
-
-.icon {
-  @apply w-[1.125rem] sm:w-5;
-}
-</style>
