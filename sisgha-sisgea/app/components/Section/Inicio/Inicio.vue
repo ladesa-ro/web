@@ -5,7 +5,7 @@ import Section from '@/components/Section/Inicio/Section/Section.vue';
 import {
   IconsIconClockGenerate,
   IconsIconClockView,
-  IconsIconReport,
+  IconsIconTeacherLesson,
 } from '#components';
 
 const DAPE_PATH = '/sisgha/dape';
@@ -36,7 +36,7 @@ const DAPE_PATH = '/sisgha/dape';
     <Section title="Relatórios">
       <CardLink
         :to="DAPE_PATH"
-        :icon="IconsIconReport"
+        :icon="IconsIconTeacherLesson"
         title="Aulas Ministradas"
       />
     </Section>
@@ -44,7 +44,7 @@ const DAPE_PATH = '/sisgha/dape';
     <Section title="Diários">
       <CardLink
         :to="`${DAPE_PATH}/diarios`"
-        :icon="IconsIconReport"
+        :icon="IconsIconTeacherLesson"
         title="Diários"
       />
     </Section>
