@@ -1,11 +1,15 @@
 <script lang="ts" setup>
-const { isDark } = useCustomTheme();
-
 setupApiClient();
 
+//
+
 const dayjs = useDayJs();
-const selectedDay = ref(dayjs());
-provide('selectedDay', selectedDay);
+const currentDay = ref(dayjs());
+provide('currentDay', currentDay);
+
+//
+
+const { isDark } = useCustomTheme();
 
 const colorModeClass = computed(() => {
   return isDark.value ? 'app-color-mode-dark' : 'app-color-mode-light';

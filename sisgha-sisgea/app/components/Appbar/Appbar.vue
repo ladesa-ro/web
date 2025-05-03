@@ -9,12 +9,12 @@ function toggleHamburger() {
 
 //
 
-const notificationsButtonEl = ref(null);
+const notificationsOpen = ref(false);
 </script>
 
 <template>
   <header
-    class="flex items-center w-full max-[345px]:pr-2 max-sm:pr-4 min-sm:pr-7 h-[4.563rem] border-b border-ldsa-grey/50 bg-ldsa-bg"
+    class="flex items-center w-full max-[345px]:pr-2 max-sm:pr-4 sm:pr-7 h-[4.563rem] border-b border-ldsa-grey/50 bg-ldsa-bg"
   >
     <button class="m-[0.34375rem] shrink-0" @click="toggleHamburger">
       <IconsMenuIconHamburgerOn
@@ -32,20 +32,20 @@ const notificationsButtonEl = ref(null);
       class="shrink-0 max-[345px]:mr-0.5 max-sm:mr-2"
     />
 
-    <UIPopover>
+    <UIPopover popover-arrow v-model="notificationsOpen">
       <template #activator>
         <IconsIconNotifications
           ref="notificationsButtonEl"
-          class="w-[2.25rem] p-2 cursor-pointer"
+          class="w-[2.25rem] p-2"
         />
       </template>
 
-      <AppbarSpeechBubbles :notifications-button-el="notificationsButtonEl" />
+      <AppbarNotifications />
     </UIPopover>
 
-    <div class="min-sm:mr-3" />
+    <div class="sm:mr-3" />
 
-    <div class="hidden min-sm:block">
+    <div class="hidden sm:block">
       <LogoSisghaLogomarca class="w-[8.75rem] cursor-pointer shrink-0" />
     </div>
   </header>

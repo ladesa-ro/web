@@ -3,10 +3,9 @@ import IconClock from '~/components/Icons/IconClock.vue';
 import IconMoreItems from '~/components/Icons/IconMoreItems.vue';
 import { capitalizeFirst } from './-Helpers/CapitalizeFirst';
 import { getWeekDays } from './-Helpers/GetWeekDays';
-import SpeechBubblesCalendar from './SpeechBubblesCalendar/SpeechBubblesCalendar.vue';
 
 // set month and week
-const selectedDay = useSelectedDay();
+const selectedDay = useCurrentDay();
 
 const month = capitalizeFirst(selectedDay.value.format('MMMM'));
 
@@ -29,31 +28,24 @@ const toggleSelectedItem = defineModel<string | number>('toggleOption', {
 
 //
 
-const notificationsButtonEl = ref(null);
-
 const open = ref(false);
 </script>
 
 <template>
-  <div class="flex flex-col max-lg:gap-4 lg:flex-row items-center justify-between">
-    <p class="flex items-center font-semibold max-lg:gap-2">
-      <span class="text-sm lg:text-base">
-        {{ month }} - Dias {{ firstWeekDay.day }} a {{ lastWeekDay.day }}
-      </span>
+  <div
+    class="flex flex-col max-lg:gap-4 lg:flex-row items-center justify-between"
+  >
+    <p
+      class="flex items-center font-semibold max-lg:gap-2 text-sm lg:text-base"
+    >
+      {{ month }} - Dias {{ firstWeekDay.day }} a {{ lastWeekDay.day }}
 
-      <UIPopover v-model="open">
-        <template #activator>
-          <IconsArrowIconArrow
-            ref="notificationsButtonEl"
-            :class="open ? 'rotate-90' : '-rotate-90'"
-            class="text-ldsa-text-green transition-transform duration-300 cursor-pointer m-3"
-          />
-        </template>
-
-        <SpeechBubblesCalendar
-          :notifications-button-el="notificationsButtonEl"
+      <UIPopoverCalendar v-model="open">
+        <IconsArrowIconArrow
+          :class="open ? 'rotate-90' : '-rotate-90'"
+          class="text-ldsa-text-green transition-transform duration-300 m-3"
         />
-      </UIPopover>
+      </UIPopoverCalendar>
     </p>
 
     <UIToggle

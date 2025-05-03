@@ -11,7 +11,7 @@ defineProps<Props>();
 
 <template>
   <button class="toggle-button" :class="{ selected: selected }">
-    {{ item.text }}
+    <p class="leading-4.5">{{ item.text }}</p>
     <component :is="item.icon" class="icon" />
   </button>
 </template>
@@ -20,8 +20,8 @@ defineProps<Props>();
 @reference "~/assets/styles/app-reference.css";
 
 .toggle-button {
-  @apply flex w-full gap-2 items-center justify-center p-3 text-ldsa-grey border-2 border-r-0;
-  @apply text-sm sm:text-base font-semibold;
+  @apply flex w-full gap-1.5 lg:gap-2 items-center justify-center p-2 lg:p-3 text-ldsa-grey border-2 border-r-0;
+  @apply text-sm lg:text-base font-semibold;
 }
 
 .toggle-button:first-child {
@@ -45,6 +45,6 @@ defineProps<Props>();
 }
 
 .icon {
-  @apply w-[1.125rem] sm:w-5 shrink-0;
+  @apply h-[1.125rem] sm:h-5 shrink-0;
 }
 </style>

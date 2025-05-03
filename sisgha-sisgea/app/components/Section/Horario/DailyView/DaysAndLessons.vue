@@ -44,7 +44,7 @@ const viewFor = computed(() => {
   <div class="max-w-screen-lg w-full">
     <SectionHorarioDailyViewDaySquareList />
 
-    <div class="flex flex-col gap-5 mt-6 lg:mt-12">
+    <div class="flex flex-col gap-5 mt-8 lg:mt-12">
       <SectionHorarioDailyViewLesson
         v-for="lesson in generatedLessons"
         :lesson="lesson"

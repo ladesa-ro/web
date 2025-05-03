@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
-//
-
 type Props = {
   isLoading?: boolean;
   name: string;
@@ -23,8 +21,6 @@ const options = createUIAutocompleteApiRetrieverOptions({
     label: item.nome,
   }),
 });
-
-//
 </script>
 
 <template>
@@ -32,8 +28,8 @@ const options = createUIAutocompleteApiRetrieverOptions({
     :is-loading="isLoading"
     :name="name"
     :options="options"
-    label="Oferta de Formação"
-    placeholder="Selecione uma oferta de formação"
+    label="Formação"
+    placeholder="Selecione uma formação"
     v-bind="$attrs"
   />
 </template>

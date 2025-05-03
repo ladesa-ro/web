@@ -3,7 +3,7 @@ const selectedOption = ref<'dia' | 'semana'>('dia');
 </script>
 
 <template>
-  <UIContainer class="flex flex-col gap-6 lg:gap-12">
+  <UIContainer class="flex flex-col gap-8 lg:gap-12">
     <!-- Cabeçalho -->
     <SectionHorarioHeaderSchedule
       class="w-full"

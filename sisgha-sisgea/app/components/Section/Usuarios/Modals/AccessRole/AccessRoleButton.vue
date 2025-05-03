@@ -5,7 +5,7 @@ type Props = {
   active: boolean;
 };
 
-const { positionName, to, active } = defineProps<Props>();
+defineProps<Props>();
 </script>
 
 <template>
@@ -14,10 +14,10 @@ const { positionName, to, active } = defineProps<Props>();
     :to="to"
     class="flex flex-col justify-end items-center gap-2 w-28 h-36 px-0 py-8 border-2 rounded-lg border-ldsa-grey/50 text-center font-semibold cursor-pointer"
   >
-    <slot />
     <!-- icon -->
+    <slot />
 
-    <span>{{ positionName }}</span>
+    {{ positionName }}
   </nuxt-link>
 </template>
 

@@ -16,15 +16,6 @@ defineProps<Props>();
 
 //
 
-type Slots = {
-  activator: () => any;
-  default: () => any;
-};
-
-defineSlots<Slots>();
-
-//
-
 const open = defineModel({ required: false, default: false });
 
 // close popover when user clicks outside
@@ -36,13 +27,13 @@ onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
 
 <template>
   <PopoverRoot :open="open">
-    <Trigger ref="trigger" @click="open = !open" class="shrink-0">
+    <Trigger ref="trigger" @click="open = !open" class="shrink-0 cursor-pointer">
       <slot name="activator" />
     </Trigger>
 
     <Portal>
-      <Content ref="content" class="popover-content z-[21]" side="bottom">
-        <Arrow v-if="popoverArrow" />
+      <Content ref="content" class="popover-content z-[21] shadow-lg" side="bottom">
+        <Arrow class="w-5 fill-ldsa-green-1" v-if="popoverArrow" />
 
         <slot />
       </Content>
