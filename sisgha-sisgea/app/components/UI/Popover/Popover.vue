@@ -27,12 +27,21 @@ onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
 
 <template>
   <PopoverRoot :open="open">
-    <Trigger ref="trigger" @click="open = !open" class="shrink-0 cursor-pointer">
+    <Trigger
+      ref="trigger"
+      @click="open = !open"
+      class="shrink-0 cursor-pointer"
+    >
       <slot name="activator" />
     </Trigger>
 
     <Portal>
-      <Content ref="content" class="popover-content z-[21] shadow-lg" side="bottom">
+      <Content
+        ref="content"
+        class="popover-content z-[21] shadow-lg"
+        @escape-key-down="open = false"
+        side="bottom"
+      >
         <Arrow class="w-5 fill-ldsa-green-1" v-if="popoverArrow" />
 
         <slot />
