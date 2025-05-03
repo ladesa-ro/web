@@ -2,8 +2,7 @@
 import type { ISidebarItem } from './ISidebarItem';
 
 type Props = { item: ISidebarItem };
-const props = defineProps<Props>();
-const { item } = toRefs(props);
+const { item } = defineProps<Props>();
 </script>
 
 <template>
@@ -14,13 +13,13 @@ const { item } = toRefs(props);
   />
 
   <SidebarSidebarItemGroup
-    v-if="item.type === 'group'"
+    v-else-if="item.type === 'group'"
     :item="item"
     v-bind="$attrs"
   />
 
   <SidebarSidebarItemSpacer
-    v-if="item.type === 'spacer'"
+    v-else-if="item.type === 'spacer'"
     :item="item"
     v-bind="$attrs"
   />

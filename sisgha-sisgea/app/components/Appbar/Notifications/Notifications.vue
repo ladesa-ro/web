@@ -1,13 +1,13 @@
 <script setup lang="ts">
 const notifications = [
   {
-    id: 2,
+    id: 1,
     title: 'O evento IFRO Party foi agendado',
     description:
       'O evento IFRO Party, do calendário Superior 2025, foi agendado para 12/05 a 22/05.',
   },
   {
-    id: 1,
+    id: 2,
     title: 'Novo evento cadastrado',
     description:
       'O evento IFRO Party foi cadastrado no calendário Superior 2025.',

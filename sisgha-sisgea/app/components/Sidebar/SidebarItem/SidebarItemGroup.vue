@@ -1,21 +1,38 @@
 <script lang="ts" setup>
 import { CollapsibleContent, CollapsibleRoot } from 'reka-ui';
-import type { ISidebarItemGroup } from './ISidebarItem';
+import type { ISidebarItemGroup, ISidebarItem } from './ISidebarItem';
 
 type Props = { item: ISidebarItemGroup };
 const { item } = defineProps<Props>();
 
-//
+// #region logic used to only have one group open at a time
+const selectedItem = inject('selectedItem') as Ref<ISidebarItem | undefined>;
 
-const open = ref(false);
+const thisGroupIsSelected = computed({
+  get() {
+    return (
+      selectedItem.value &&
+      selectedItem.value.type === 'group' &&
+      selectedItem.value.title === item.title
+    );
+  },
+
+  set(newValue: boolean) {
+    newValue ? (selectedItem.value = item) : (selectedItem.value = undefined);
+  },
+});
+// #endregion
 </script>
 
 <template>
-  <CollapsibleRoot v-model:open="open" :class="{ open: open }">
+  <CollapsibleRoot
+    v-model:open="thisGroupIsSelected"
+    :class="{ open: thisGroupIsSelected }"
+  >
     <SidebarSidebarItemTemplate
       :item="item"
-      :open="open"
-      @click="open = !open"
+      :open="thisGroupIsSelected"
+      @click.stop="thisGroupIsSelected = !thisGroupIsSelected"
     />
 
     <CollapsibleContent
