@@ -25,9 +25,9 @@ const changeDay = delta => {
 </script>
 
 <template>
-  <SectionProfileSectionsLayout :icon="SisghaLogo" title="Disponibilidade">
+  <SectionProfileSectionsLayout class="max-[900px]:max-h-max" :icon="SisghaLogo" title="Disponibilidade">
     <!-- hours card -->
-    <div class="border-card">
+    <div class="border-card min-w-75">
       <section class="day-week-navigator">
         <IconsArrowIconArrow class="arrow" @click="changeDay(-1)" />
 
@@ -40,7 +40,7 @@ const changeDay = delta => {
 
       <!-- card content with day periods -->
       <section
-        class="flex justify-center gap-2 lg:gap-3 max-[1130px]:gap-4 min-[1130px]:gap-5 p-3 lg:p-7"
+        class="flex justify-center gap-2 lg:gap-3 xl:gap-4 2xl:gap-5 p-3 px-2.5 lg:p-4 xl:p-7"
       >
         <SectionProfileAvailabilityDayPeriod
           v-for="(period, periodName) in dayPeriods"

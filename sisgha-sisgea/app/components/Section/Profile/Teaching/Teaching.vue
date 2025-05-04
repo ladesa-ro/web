@@ -1,6 +1,19 @@
 <script setup>
 import IconDiscipline from '~/components/Icons/IconDiscipline.vue';
 
+const config = {
+  wrapAround: true,
+  snapAlign: 'start',
+  breakpointMode: 'viewport',
+  breakpoints: {
+    100: { itemsToShow: 1 },
+    770: { itemsToShow: 2 },
+    900: { itemsToShow: 1 },
+    1000: { itemsToShow: 2 },
+    1100: { itemsToShow: 2.5 },
+  },
+};
+
 const subjects = [
   'Matemática',
   'Biologia',
@@ -13,7 +26,7 @@ const subjects = [
 <template>
   <SectionProfileSectionsLayout :icon="IconDiscipline" title="Ensino">
     <!-- teaching cards carousel -->
-    <Carousel :items-to-show="2.5" :wrap-around="true" snap-align="start">
+    <Carousel v-bind="config">
       <Slide v-for="subject in subjects" :key="subject">
         <SectionProfileTeachingCarouselItem :subject-name="subject" />
       </Slide>
@@ -32,12 +45,12 @@ const subjects = [
 /* TODO: encontrar outra lib para carrossel, se possível */
 @import 'vue3-carousel/dist/carousel.css';
 
-:root {
+/* :root {
   --vc-pgn-margin: 30px 8px 0 0 !important;
-}
+} */
 
 .carousel__slide {
-  @apply p-2.5;
+  @apply pb-4 px-1 md:px-2 lg:px-2.5;
 }
 
 .carousel__prev {
