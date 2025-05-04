@@ -4,7 +4,7 @@ const { outlineOnClink = true } = defineProps<Props>();
 </script>
 
 <template>
-  <button class="ui-button" :class="{ outline: outlineOnClink }">
+  <button class="ui-button" :class="{ 'button-outline': outlineOnClink }">
     <span v-if="$slots['start-icon']" class="w-5">
       <slot name="start-icon" />
     </span>
@@ -24,8 +24,8 @@ const { outlineOnClink = true } = defineProps<Props>();
   @apply disabled:bg-ldsa-green-1/50;
 }
 
-.outline:focus,
-.outline:focus-within {
+.button-outline:focus,
+.button-outline:focus-within {
   box-shadow: 0 0 0.5px 5px rgb(from var(--ladesa-green-1-color) R G B / 30%);
 }
 
