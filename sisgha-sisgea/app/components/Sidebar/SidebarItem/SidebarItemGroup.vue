@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { CollapsibleContent, CollapsibleRoot } from 'reka-ui';
-import type { ISidebarItemGroup, ISidebarItem } from './ISidebarItem';
+import type { ISidebarItem, ISidebarItemGroup } from './ISidebarItem';
 
 type Props = { item: ISidebarItemGroup };
 const { item } = defineProps<Props>();
@@ -57,7 +57,7 @@ const thisGroupIsSelected = computed({
 }
 
 .divider {
-  /* uses min and max height and not just height to avoid conflict with the reka variable */
+  /* uses min and max height and not just height to avoid conflict with the reka-ui variable */
   @apply min-h-px max-h-px bg-ldsa-white/10 my-1.5;
 }
 
@@ -69,7 +69,6 @@ const thisGroupIsSelected = computed({
 
 .collapsible-animation[data-state='closed'] {
   @apply animate-[slideUp_0.3s];
-  @apply bg-ldsa-green-2/25;
 }
 
 @keyframes slideDown {
