@@ -8,11 +8,7 @@ type Props = {
   editId?: string | null;
 };
 
-const props = withDefaults(defineProps<Props>(), {
-  editId: null,
-});
-
-const editIdRef = toRef(props, 'editId');
+const { editId = null } = defineProps<Props>();
 
 //
 
@@ -25,7 +21,7 @@ const {
   composables: { useFindOneQuery },
 } = useLadesaApiCrudDisciplinas();
 
-const { data: currentDisciplina, suspense } = useFindOneQuery(editIdRef);
+const { data: currentDisciplina, suspense } = useFindOneQuery(editId);
 await suspense();
 
 type FormValues = {
@@ -50,7 +46,7 @@ const initialFormValues = reactive({
 });
 
 const handleDelete = async () => {
-  const id = editIdRef.value;
+  const id = editId;
 
   if (!id) return;
 
@@ -75,7 +71,6 @@ const schema = yup.object().shape({
 const {
   resetForm,
   handleSubmit,
-  setFieldValue,
   values: formValues,
 } = useForm<FormValues, FormOutput>({
   validationSchema: schema,
@@ -83,8 +78,6 @@ const {
 });
 
 const onSubmit = handleSubmit(async (values: FormOutput) => {
-  const editId = editIdRef.value;
-
   const { imagem, ...data } = values;
 
   let id;
@@ -122,26 +115,9 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   $emit('close');
 }, console.error);
 
-const nome = computed({
-  get: () => formValues.nome,
-  set: value => {
-    formValues.nome = value;
-  },
-});
-
-const nomeAbreviado = computed({
-  get: () => formValues.nomeAbreviado,
-  set: value => {
-    formValues.nomeAbreviado = value;
-  },
-});
-
-const cargaHoraria = computed({
-  get: () => formValues.cargaHoraria,
-  set: value => {
-    formValues.cargaHoraria = Number(value);
-  },
-});
+const nome = ref(formValues.nome);
+const nomeAbreviado = ref(formValues.nomeAbreviado);
+const cargaHoraria = ref(formValues.cargaHoraria);
 
 function onClose() {
   $emit('close');
@@ -156,11 +132,7 @@ function onClose() {
     >
       <VVSelectImage name="imagem" />
 
-      <VVTextField
-        label="Nome"
-        name="nome"
-        placeholder="Digite aqui"
-      />
+      <VVTextField label="Nome" name="nome" placeholder="Digite aqui" />
 
       <VVTextField
         label="Nome Abreviado"
@@ -178,10 +150,7 @@ function onClose() {
       <template #button-group>
         <UIButtonModalCancel @click="$emit('close')" />
 
-        <UIButtonModalDelete
-          v-if="editId"
-          @click.prevent="handleDelete"
-        />
+        <UIButtonModalDelete v-if="editId" @click.prevent="handleDelete" />
         <UIButtonModalEdit v-if="editId" />
         <UIButtonModalSave v-else />
       </template>

@@ -3,8 +3,8 @@ import { HeadTitleContext } from '~/utils';
 import { provideLayoutsDashboardContext } from './context';
 
 type Slots = {
-  default(): any;
   sidebar(): any;
+  default(): any;
 };
 defineSlots<Slots>();
 
@@ -13,10 +13,6 @@ useTitle(HeadTitleContext.DASHBOARD);
 
 //defines if the hamburguer sidebar is active
 const { hamburguerActive } = provideLayoutsDashboardContext();
-
-//
-
-const isMobile = useMonitorSize();
 </script>
 
 <template>
@@ -26,17 +22,11 @@ const isMobile = useMonitorSize();
     <slot id="sidebar" name="sidebar" />
 
     <main
-      class="flex flex-col overflow-auto"
-      :class="[
-        isMobile
-          ? 'm-0'
-          : hamburguerActive
-            ? 'content-sidebar-active'
-            : 'content-default',
-      ]"
+      class="flex flex-col overflow-auto max-sm:ml-0 min-sm:ml-0"
+      :data-hamburger-active="hamburguerActive"
     >
       <!-- main content -->
-      <section class="flex-1 flex flex-col">
+      <section class="flex-1 flex flex-col py-10">
         <slot />
       </section>
 
@@ -46,7 +36,7 @@ const isMobile = useMonitorSize();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .layout-height {
   @apply h-[100vh]  /* fallback caso o dispositivo não suporte dvh */
@@ -77,16 +67,15 @@ main {
 
 /* Transition */
 
-.content-default {
-  @apply ml-14;
-}
-
-.content-sidebar-active {
-  @apply ml-64;
-}
-
-.content-sidebar-active,
-.content-default {
+main {
   @apply transition-[margin] duration-200;
+}
+
+main[data-hamburger-active='true'] {
+  @apply min-sm:ml-64;
+}
+
+main[data-hamburger-active='false'] {
+  @apply min-sm:ml-14;
 }
 </style>

@@ -1,6 +1,11 @@
+<script setup lang="ts">
+type Props = { outlineOnClink?: boolean };
+const { outlineOnClink = true } = defineProps<Props>();
+</script>
+
 <template>
-  <button class="ui-button">
-    <span v-show="$slots['start-icon']" class="start-icon">
+  <button class="ui-button" :class="{ outline: outlineOnClink }">
+    <span v-if="$slots['start-icon']" class="w-5">
       <slot name="start-icon" />
     </span>
 
@@ -15,18 +20,16 @@
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .ui-button {
-  @apply flex items-center w-full px-5 py-[0.875rem] cursor-pointer;
+  @apply flex items-center gap-4 w-full px-5 py-[0.875rem];
   @apply rounded-[0.5625rem] bg-ldsa-green-1 font-semibold text-ldsa-white;
-  @apply disabled:bg-ldsa-green-1/50 disabled:cursor-not-allowed;
-  @apply focus:outline-hidden;
+  @apply disabled:bg-ldsa-green-1/50;
 }
 
-.ui-button:focus,
-.ui-button:focus-within {
-  @apply border-ldsa-green-2/50;
+.outline:focus,
+.outline:focus-within {
   box-shadow: 0 0 0.5px 5px rgb(from var(--ladesa-green-1-color) R G B / 30%);
 }
 

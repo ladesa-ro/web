@@ -1,8 +1,11 @@
 <script lang="ts" setup>
-import { getWeekDays } from '~/components/Section/Horario/-Helpers/GetWeekDays';
+import { getWeekDays } from '../../-Helpers/GetWeekDays';
 
-//by default, the selected day is the current day
-const selectedDay = useSelectedDay();
+//by default, the selected day is the current day. if today is sunday, the selected day will be monday
+const selectedDay =
+  useCurrentDay().value.day() !== 0
+    ? useCurrentDay()
+    : ref(useCurrentDay().value.day(1));
 
 //formats the selected day
 const activeDayMonth = computed(() => selectedDay.value.format('DD/MM'));
@@ -15,7 +18,7 @@ const weekDays = getWeekDays(selectedDay.value);
   <div class="layout-size">
     <SectionHorarioDailyViewDaySquare
       v-for="weekDay in weekDays"
-      :active="weekDay.dayMonth === activeDayMonth"
+      :selected="weekDay.dayMonth === activeDayMonth"
       :day-month="weekDay.dayMonth"
       :day-week="weekDay.dayWeek"
       @click="selectedDay = weekDay.dayAsDayJs"
@@ -24,11 +27,10 @@ const weekDays = getWeekDays(selectedDay.value);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .layout-size {
-  @apply flex flex-row justify-between w-full mx-auto;
-  @apply max-w-screen-2xl;
-  @apply max-sm:gap-3 max-sm:overflow-x-auto;
+  @apply flex justify-between gap-2 min-[502px]:gap-4 lg:gap-6 xl:gap-12;
+  @apply w-full max-w-screen-2xl overflow-x-auto;
 }
 </style>

@@ -21,9 +21,9 @@ defineProps<Props>();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .periodName {
-  @apply pb-2.5 mb-2.5 border-b-[2px] border-b-ldsa-grey text-center;
+  @apply pb-2.5 mb-2.5 border-b-2 border-b-ldsa-grey text-center;
 }
 </style>

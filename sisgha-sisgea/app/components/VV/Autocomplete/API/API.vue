@@ -48,7 +48,7 @@ const searchOptions = computed(() => {
   let consideredSearch = unref(searchValue);
 
   if (activeItem.value && activeItem.value.label === consideredSearch) {
-      consideredSearch = '';
+    consideredSearch = '';
   }
 
   return {

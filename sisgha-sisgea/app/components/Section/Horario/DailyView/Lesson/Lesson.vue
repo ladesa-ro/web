@@ -9,8 +9,7 @@ type Props = {
   viewFor?: 'teacher' | 'student';
 };
 const props = defineProps<Props>();
-const { lesson } = toRefs(props);
-const { viewFor } = toRefs(props);
+const { lesson, viewFor } = toRefs(props);
 
 provide('lesson', lesson);
 
@@ -38,7 +37,7 @@ const showCampus = computed(() => {
         />
 
         <SectionHorarioDailyViewLessonStudentView
-          v-if="viewFor === 'student'"
+          v-else-if="viewFor === 'student'"
         />
 
         <!--ambiente-->
@@ -54,22 +53,22 @@ const showCampus = computed(() => {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .lesson {
-  @apply flex items-center justify-between;
+  @apply flex items-center justify-between max-md:gap-2.5;
   @apply border-2 border-ldsa-green-1 rounded-lg;
-  @apply min-[641px]:px-5 min-[641px]:py-3;
-  @apply max-sm:px-4 max-sm:py-2;
+  @apply px-4 sm:px-5 py-2 sm:py-3;
+  @apply text-sm lg:text-base;
 }
 
 .icon {
-  @apply max-w-7 text-ldsa-text-green;
+  @apply max-w-5.5 lg:max-w-7 shrink-0 text-ldsa-text-green;
 }
 
 /* --- */
 
 .completed {
-  @apply border-ldsa-grey/75 text-ldsa-grey font-[400];
+  @apply border-ldsa-grey/75 text-ldsa-grey font-normal;
 }
 </style>

@@ -34,7 +34,7 @@ const { link } = defineProps<Props>();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .icon {
   @apply w-4 h-4 shrink-0;

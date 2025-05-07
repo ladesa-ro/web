@@ -2,22 +2,18 @@
 import { eventFilters } from '../Functions/EventListFilters';
 import type { BetweenDates, Event, Step } from '../Typings';
 
-// Dayjs
-const dayjs = useDayJs();
-
 // Props
 type Props = {
   year?: number;
   steps?: Step[];
   events?: Event[];
-  enableModal?: boolean;
 };
 
-const { enableModal = false, year, events } = defineProps<Props>();
+const { year, events } = defineProps<Props>();
 
 // Code
 const searchBarText = ref('');
-const isActive = ref<boolean>(enableModal);
+const isActive = ref(false);
 const onClose = () => (isActive.value = false);
 
 // Listing filter
@@ -56,90 +52,47 @@ onMounted(async () => {
 
 <template>
   <DialogSkeleton v-model="isActive">
+    <template #activator>
+      <UIButtonEventsList />
+    </template>
+
     <DialogModalBaseLayout :on-close="onClose" title="Listagem de Eventos">
-      <form class="form">
-        <!-- Filter content -->
-        <div class="modal-form">
-          <!-- Search event -->
-          <UISearchBar v-model="searchBarText" />
+      <div class="flex flex-col gap-3.5 mt-1.5">
+        <UISearchBar v-model="searchBarText" />
 
-          <!-- Order list -->
-          <div class="flex flex-row gap-4">
-            <VVAutocomplete
-              v-model:value="localValue._orderBy.value"
-              :items="orderBy"
-              class="w-full"
-              label="Ordenar por"
-              name="orderBy.id"
-              placeholder="Selecione uma opção"
-            />
-            <VVAutocomplete
-              v-model:value="localValue._orderType.value"
-              :items="orderType"
-              class="w-full"
-              label="Ordem"
-              name="orderType.id"
-              placeholder="Selecione uma ordem"
-            />
-          </div>
-        </div>
-
-        <!-- Content -->
-        <div
-          class="flex flex-col gap-4 w-full -scrollbar overflow-y-auto pr-2 xl:pr-0 max-h-[432px]"
-        >
-          <SectionCalendarioEventsAccordion
-            v-for="(item, index) in filterType"
-            :between-dates="item"
-            :events="events"
-            :month-num="index"
-            :name="item.name"
-            :order-by="localValue._orderBy.value"
-            :steps="steps"
-            :year="year"
+        <!-- Order list -->
+        <div class="flex flex-row gap-4">
+          <VVAutocomplete
+            v-model:value="localValue._orderBy.value"
+            :items="orderBy"
+            class="w-full"
+            label="Ordenar por"
+            name="orderBy.id"
+            placeholder="Mês, eventos..."
+          />
+          <VVAutocomplete
+            v-model:value="localValue._orderType.value"
+            :items="orderType"
+            class="w-full"
+            label="Ordem"
+            name="orderType.id"
+            placeholder="Ordem"
           />
         </div>
-      </form>
+      </div>
+      <!-- Content -->
+      <div class="flex flex-col gap-4 w-full overflow-y-auto">
+        <SectionCalendarioEventsAccordion
+          v-for="(item, index) in filterType"
+          :between-dates="item"
+          :events="events"
+          :month-num="index"
+          :name="item.name"
+          :order-by="localValue._orderBy.value"
+          :steps="steps"
+          :year="year"
+        />
+      </div>
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
-
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-.form {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  padding: 32px;
-  overflow: hidden;
-  @apply w-full min-w-[24.375rem] p-0 pt-[0.313rem];
-}
-
-.modal-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  @apply mb-6;
-}
-
-.main-title {
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.button {
-  font-weight: 700;
-  margin-top: 20px;
-  cursor: pointer;
-  border: none;
-}
-
-.v-btn.buttonCancelar,
-.v-btn.buttonCadastro {
-  padding: 6px 20px;
-  border-radius: 8px;
-  height: auto;
-  text-transform: none;
-}
-</style>

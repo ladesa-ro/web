@@ -4,37 +4,21 @@ type Props = {
   title: string;
 };
 
-type Slots = {
-  default: () => any;
-};
-
 defineProps<Props>();
-defineSlots<Slots>();
 </script>
 
 <template>
-  <section class="border-card p-5">
-    <p class="section-title">
-      <span class="icon">
+  <section class="border-card p-3.5 lg:p-4 xl:p-5">
+    <!-- section title -->
+    <p class="flex items-center gap-2.5 mb-4 font-semibold">
+      <span class="w-[1.375rem] h-[1.375rem]">
         <component :is="icon" />
       </span>
       {{ title }}
     </p>
 
-    <slot />
     <!-- content -->
+    <slot />
   </section>
 </template>
 
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-.section-title {
-  @apply flex items-center gap-[0.625rem];
-  @apply mb-5 font-[600];
-}
-
-.icon {
-  @apply w-[1.375rem] h-[1.375rem];
-}
-</style>

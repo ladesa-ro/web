@@ -15,7 +15,6 @@ const open = ref(false);
 <template>
   <UIPopover v-model="open">
     <template #activator>
-
       <AppbarProfileCard :can-change-profile="canChangeProfile">
         <template #arrowIcon>
           <ClientOnly>
@@ -27,7 +26,6 @@ const open = ref(false);
           </ClientOnly>
         </template>
       </AppbarProfileCard>
-      
     </template>
 
     <ClientOnly>
@@ -37,7 +35,7 @@ const open = ref(false);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .arrow {
   @apply text-ldsa-text-green;

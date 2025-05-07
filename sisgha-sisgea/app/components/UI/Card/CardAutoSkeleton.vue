@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { useElementBounding } from '@vueuse/core';
 
-//
-
 const _ARBITRARY_UI_CARD_SKELETON_INITIAL_HEIGHT = `18.15rem`;
 
 //
@@ -14,19 +12,20 @@ type Props = {
   skeletonInitialHeight?: string;
 };
 
-const props = defineProps<Props>();
+const { skeleton: skeletonProps, skeletonInitialHeight } = defineProps<Props>();
 
 //
 
-const skeleton = computed(() => props.skeleton ?? false);
+const skeleton = skeletonProps ?? false;
 
 const cardElRef = ref(null);
+
 const { height: cardElBoundingHeight } = useElementBounding(cardElRef, {
   immediate: false,
 });
 
 const skeletonHeight = ref(
-  props.skeletonInitialHeight ?? _ARBITRARY_UI_CARD_SKELETON_INITIAL_HEIGHT
+  skeletonInitialHeight ?? _ARBITRARY_UI_CARD_SKELETON_INITIAL_HEIGHT
 );
 
 watch([cardElBoundingHeight], ([height]) => {

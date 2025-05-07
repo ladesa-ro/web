@@ -5,6 +5,9 @@ import iconDisciplina from '~/assets/icons/Disciplina.svg';
 import iconHome from '~/assets/icons/Home.svg';
 import iconLogout from '~/assets/icons/Logout.svg';
 import iconOutros from '~/assets/icons/Mais-Itens.svg';
+import iconManagement from '~/assets/icons/Management.svg';
+import iconClock from '~/assets/icons/Relogio.svg';
+import iconReport from '~/assets/icons/TeacherLesson.svg';
 import iconTurmas from '~/assets/icons/Turmas.svg';
 import iconPerfil from '~/assets/icons/Usuario.svg';
 import iconUsuarios from '~/assets/icons/Usuarios.svg';
@@ -24,6 +27,14 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
 
     {
       type: 'link',
+      title: 'Horário',
+      icon: iconClock,
+      to: `${CAMINHO_DAPE}/horario`,
+      exact: false,
+    },
+
+    {
+      type: 'link',
       title: 'Calendário',
       icon: iconCalendario,
       to: `${CAMINHO_DAPE}/calendario`,
@@ -33,7 +44,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
     {
       type: 'group',
       title: 'Gestão',
-      icon: iconOutros,
+      icon: iconManagement,
       items: [
         {
           type: 'link',
@@ -76,6 +87,35 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
           title: 'Cursos',
           icon: iconCursos,
           to: `${CAMINHO_DAPE}/cursos`,
+          exact: false,
+        },
+      ],
+    },
+
+    {
+      type: 'group',
+      title: 'Relatórios',
+      icon: iconOutros,
+      items: [
+        {
+          type: 'link',
+          title: 'Aulas ministradas',
+          icon: iconReport,
+          to: `${CAMINHO_DAPE}/relatorios/aulasMinistradas`,
+          exact: false,
+        },
+        {
+          type: 'link',
+          title: 'Relatório 2',
+          icon: iconOutros,
+          to: '${CAMINHO_DAPE}/relatorios/relatorio2',
+          exact: false,
+        },
+        {
+          type: 'link',
+          title: 'Relatório 3',
+          icon: iconOutros,
+          to: '${CAMINHO_DAPE}/relatorios/relatorio3',
           exact: false,
         },
       ],

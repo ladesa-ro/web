@@ -60,27 +60,26 @@ watch(monthNumReceived, async (newValue: number) => {
 
 <template>
   <div
-    class="flex flex-col lg:flex-row justify-between w-[328px] sm:w-[408px] lg:w-[844px] h-auto"
+    class="flex flex-col lg:flex-row justify-between items-center gap-5 sm:gap-4"
   >
     <!-- Month selected -->
-    <div class="flex flex-col w-max h-auto gap-6 mb-6 lg:mr-4 lg:mb-0">
-      <SectionCalendarioMonth
-        :events="props.events"
-        :month="dayjs().month()"
-        :select-week="false"
-        :steps="props.steps"
-        :toggle-month="true"
-        :year="2024"
-        @custom:month-num="handleUpdate"
-      />
-    </div>
+    <SectionCalendarioMonth
+      class="flex-1/2 w-full"
+      :events="props.events"
+      :month="dayjs().month()"
+      :select-week="false"
+      :steps="props.steps"
+      :toggle-month="true"
+      :year="dayjs().year()"
+      @custom:month-num="handleUpdate"
+    />
 
-    <!-- Event list -->
+    <!-- Month's event list -->
     <div
-      class="flex flex-col gap-2 w-full -scrollbar overflow-y-auto pr-2 xl:pr-0 max-h-[432px]"
+      class="flex-1/2 w-full flex flex-col gap-2 overflow-y-auto h-max lg:max-h-[28.5rem] 2xl:max-h-[50rem]"
     >
       <SectionCalendarioEventsEvent
-        v-for="(event, index) in allEventItems"
+        v-for="event in allEventItems"
         :id="event.id"
         :key="event.id"
         :color="event.color"
@@ -93,4 +92,3 @@ watch(monthNumReceived, async (newValue: number) => {
     </div>
   </div>
 </template>
-

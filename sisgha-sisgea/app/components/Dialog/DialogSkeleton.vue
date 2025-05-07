@@ -1,7 +1,17 @@
 <script lang="ts" setup>
 const isActive = defineModel({ default: false });
 
-const onOpen = () => (isActive.value = true);
+const modal = useTemplateRef('modal');
+
+const onOpen = async () => {
+  isActive.value = true;
+
+  // wait the modal is mounted before focus it
+  await nextTick();
+
+  if (modal.value) modal.value.focus();
+};
+
 const onClose = () => (isActive.value = false);
 </script>
 
@@ -16,7 +26,12 @@ const onClose = () => (isActive.value = false);
       <section v-if="isActive" class="overlay-layout">
         <div class="backdrop" @click="onClose" />
 
-        <div class="modal-container">
+        <div
+          class="modal-container"
+          ref="modal"
+          tabindex="0"
+          @keyup.esc="onClose"
+        >
           <slot />
         </div>
       </section>
@@ -25,7 +40,7 @@ const onClose = () => (isActive.value = false);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .overlay-layout {
   @apply fixed top-0 left-0 z-[997];

@@ -25,9 +25,9 @@ const changeDay = delta => {
 </script>
 
 <template>
-  <SectionProfileSectionsLayout :icon="SisghaLogo" title="Disponibilidade">
+  <SectionProfileSectionsLayout class="max-[900px]:max-h-max" :icon="SisghaLogo" title="Disponibilidade">
     <!-- hours card -->
-    <div class="border-card">
+    <div class="border-card min-w-75">
       <section class="day-week-navigator">
         <IconsArrowIconArrow class="arrow" @click="changeDay(-1)" />
 
@@ -39,20 +39,21 @@ const changeDay = delta => {
       </section>
 
       <!-- card content with day periods -->
-      <section class="flex flex-row gap-5 p-7">
-        <div v-for="(period, periodName) in dayPeriods">
-          <SectionProfileAvailabilityDayPeriod
-            :period="period"
-            :period-name="periodName"
-          />
-        </div>
+      <section
+        class="flex justify-center gap-2 lg:gap-3 xl:gap-4 2xl:gap-5 p-3 px-2.5 lg:p-4 xl:p-7"
+      >
+        <SectionProfileAvailabilityDayPeriod
+          v-for="(period, periodName) in dayPeriods"
+          :period="period"
+          :period-name="periodName"
+        />
       </section>
     </div>
   </SectionProfileSectionsLayout>
 </template>
 
 <style>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .day-week-navigator {
   @apply flex justify-between items-center gap-10;

@@ -1,25 +1,24 @@
 <script lang="ts" setup>
 import { useDebounceFn, useWindowSize } from '@vueuse/core';
+import { useMediaQuery } from '@vueuse/core';
+
 
 type Props = {
-  active: boolean;
+  selected: boolean;
   dayWeek: string;
   dayMonth: string;
 };
-const props = defineProps<Props>();
-const { active } = toRefs(props);
+const { selected } = defineProps<Props>();
 
 //
 
-const square = ref<HTMLDivElement>();
+const square = ref<HTMLButtonElement>();
 
 //scrollIntoView in mobile
-
 const scrollIntoViewIfActive = () => {
-  const isActive = active.value;
   const squareElement = square.value;
 
-  if (isActive && squareElement) {
+  if (selected && squareElement) {
     squareElement.scrollIntoView({
       behavior: 'smooth',
       block: 'center',
@@ -36,24 +35,27 @@ const debouncedScrollIntoView = useDebounceFn(scrollIntoViewIfActive, 150);
 
 const { width, height } = useWindowSize();
 watch([width, height], debouncedScrollIntoView);
+
+//
+
+const screenSmallerThan820 = useMediaQuery('(max-width: 820px)');
 </script>
 
 <template>
-  <div ref="square" :class="{ active: active }" class="day-square">
-    <p class="day-week">{{ dayWeek }}</p>
+  <button ref="square" :class="{ selected: selected }" class="day-square">
+    <p class="day-week">{{ screenSmallerThan820 ? dayWeek.slice(0, 3) : dayWeek }}</p>
     <p>{{ dayMonth }}</p>
-  </div>
+  </button>
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@reference "~/assets/styles/app-reference.css";
 
 .day-square {
-  @apply flex-1 flex flex-col justify-center items-center;
-  @apply rounded-[0.625rem] border-2 border-ldsa-green-1;
-  @apply min-w-20 cursor-pointer font-[600] text-ldsa-text-green;
-  @apply min-[900px]:p-4 min-[900px]:max-w-28 min-[900px]:max-h-28 min-[900px]:gap-2;
-  @apply max-[900px]:p-3 max-[900px]:max-w-20 max-[900px]:gap-1;
+  @apply w-full flex flex-col justify-center items-center gap-1 lg:gap-2 overflow-hidden;
+  @apply min-w-14 lg:max-w-28 lg:max-h-28 p-1 py-2.5 min-[462px]:p-2 sm:p-3 lg:p-4;
+  @apply border-2 border-ldsa-green-1 rounded-[0.625rem];
+  @apply text-xs sm:text-sm lg:text-base font-semibold text-ldsa-text-green;
 }
 
 .day-week {
@@ -62,11 +64,11 @@ watch([width, height], debouncedScrollIntoView);
 
 /* --- */
 
-.active {
+.selected {
   @apply bg-ldsa-green-1 text-ldsa-white;
 }
 
-div.active p:first-child {
+.selected .day-week {
   @apply border-b-ldsa-white;
 }
 </style>
