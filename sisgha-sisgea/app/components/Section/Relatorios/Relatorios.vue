@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { VVAutocompleteAPIDisciplina } from '#components';
 import RelatorioBotoes from '@/components//Section/Relatorios/Buttons/Buttons.vue';
 import DialogSkeleton from '@/components/Dialog/DialogSkeleton.vue';
 import RelatorioFiltrosOpcionais from '@/components/Section/Relatorios/Filters/FiltrosOpcionais.vue';
@@ -7,15 +8,9 @@ import RelatorioModal from '@/components/Section/Relatorios/Modal/Modal.vue';
 import { ref } from 'vue';
 
 const data = {
-  professores: ['albanita', 'xurrasco', 'boliro', 'bolzani', 'ana castela'],
+  professores: ['albanita', 'xurrasco', 'boliro', 'bolzani', 'ana castela', 'manu', 'mariluz',],
   semestres: ['2024.1', '2024.2', '2023.1', '2023.2', '2022.1', '2022.2'],
   bimestres: ['1º Bimestre', '2º Bimestre', '3º Bimestre', '4º Bimestre'],
-  disciplinas: ['Matemática', 'Português', 'História', 'Geografia'],
-  cursos: [
-    'Técnico em Informática',
-    'Técnico em Química',
-    'Técnico em Florestas',
-  ],
   turmas: ['1º Ano', '2º Ano', '3º Ano'],
 };
 
@@ -41,7 +36,7 @@ const gerarPDF = () => {
 </script>
 
 <template>
-  <div class="container mx-auto px-4">
+  <div class="container mx-auto px-4 ">
     <div class="mx-auto max-w-[55%] p-10">
       <div class="container-header">
         <h1 class="main-title font-semibold pb-5 text-[1.25rem]">
@@ -56,8 +51,6 @@ const gerarPDF = () => {
 
       <RelatorioFiltrosOpcionais
         :bimestres="data.bimestres"
-        :disciplinas="data.disciplinas"
-        :cursos="data.cursos"
         :turmas="data.turmas"
       />
 

@@ -1,8 +1,6 @@
 <script setup lang="ts">
 defineProps<{
   bimestres: string[],
-  disciplinas: string[],
-  cursos: string[],
   turmas: string[],
 }>();
 </script>
@@ -23,20 +21,11 @@ defineProps<{
         name="bimestre.id"
         placeholder="Selecione um bimestre"
       />
-      <VVAutocomplete
-        :items="disciplinas"
-        class="w-full mb-3"
-        label="Disciplina"
-        name="disciplina.id"
-        placeholder="Selecione uma disciplina"
-      />
-      <VVAutocomplete
-        :items="cursos"
-        class="w-full"
-        label="Curso"
-        name="curso.id"
-        placeholder="Selecione um curso"
-      />
+
+      <VVAutocompleteAPIDisciplina name="disciplina.id" />
+
+      <VVAutocompleteAPICurso name="curso.id" />
+
       <VVAutocomplete
         :items="turmas"
         class="w-full"
