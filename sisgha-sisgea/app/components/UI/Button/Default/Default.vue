@@ -12,6 +12,10 @@ const { outlineOnClink = true } = defineProps<Props>();
     <p class="text">
       <slot />
     </p>
+
+    <span v-show="$slots['end-icon']" class="end-icon">
+      <slot name="end-icon" />
+    </span>
   </button>
 </template>
 
