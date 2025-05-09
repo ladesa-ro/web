@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import RelatorioAulaLinha from './Line/Line.vue'
+import RelatorioAulaLinha from './Line/Line.vue';
 import { ref } from 'vue';
 
 const props = defineProps<{
@@ -17,15 +17,17 @@ const carregarMais = () => {
 
 <template>
   <div class="aula mb-5">
-    <div class="aula-header bg-ldsa-green-1 text-ldsa-white border-2 border-ldsa-grey rounded-t-lg p-[1.06rem] gap-1">
+    <div
+      class="aula-header bg-ldsa-green-1 text-ldsa-white border-2 border-ldsa-grey rounded-t-lg p-[1.06rem] gap-1"
+    >
       <h6 class="title font-semibold text-[11px]">{{ titulo }}</h6>
       <p class="quantidade text-[10px] text-ldsa-white-1/25">{{ subtitulo }}</p>
     </div>
 
     <div class="aula-content">
       <RelatorioAulaLinha
-        v-for="(item, index) in aulas.slice(0, aulasExibidas)"
-        :key="index"
+        v-for="item in aulas.slice(0, aulasExibidas)"
+        :key="`${item.data}-${item.horario}`"
         :data="item.data"
         :horario="item.horario"
       />
