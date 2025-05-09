@@ -50,6 +50,7 @@ const aulasRedes = [
   { data: '26/04/2024', horario: '8:20 - 9:10' },
   { data: '26/04/2024', horario: '7:20 - 8:20' },
   { data: '26/04/2024', horario: '8:20 - 9:10' },
+  { data: '26/04/2024', horario: '8:20 - 9:10' },
 ];
 </script>
 
@@ -83,19 +84,19 @@ const aulasRedes = [
     <div class="content">
       <RelatorioAula
         titulo="Matemática - 1º A Informática"
-        subtitulo="Possui 4 aulas"
+        :subtitulo="`Possui ${aulasMatematica.length} aulas`"
         :aulas="aulasMatematica"
       />
 
       <RelatorioAula
         titulo="Programação Orientada a Objetos - 2º A Informática"
-        subtitulo="Possui 120 aulas"
+        :subtitulo="`Possui ${aulasRedes.length} aulas`"
         :aulas="aulasPOO"
       />
 
       <RelatorioAula
         titulo="Redes de Computadores - 3º A Informática"
-        subtitulo="Possui 54 aulas"
+        :subtitulo="`Possui ${aulasPOO.length} aulas`"
         :aulas="aulasRedes"
       />
     </div>
