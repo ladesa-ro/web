@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import RelatorioAulaLinha from './Line/Line.vue'
+import { ref } from 'vue';
 
-defineProps<{
-  titulo: string
-  subtitulo: string
-  aulas: { data: string; horario: string }[]
-}>()
+const props = defineProps<{
+  titulo: string;
+  subtitulo: string;
+  aulas: { data: string; horario: string }[];
+}>();
+
+const aulasExibidas = ref(4);
+
+const carregarMais = () => {
+  aulasExibidas.value += 2;
+};
 </script>
 
 <template>
@@ -17,7 +24,7 @@ defineProps<{
 
     <div class="aula-content">
       <RelatorioAulaLinha
-        v-for="(item, index) in aulas"
+        v-for="(item, index) in aulas.slice(0, aulasExibidas)"
         :key="index"
         :data="item.data"
         :horario="item.horario"
@@ -25,6 +32,8 @@ defineProps<{
     </div>
 
     <div
+      v-if="aulasExibidas < aulas.length"
+      @click="carregarMais"
       class="aula-more bg-ldsa-white-1/25 flex items-center justify-center border-ldsa-grey border-x-2 border-b-2 rounded-b-lg p-[0.4rem] cursor-pointer bg-ldsa-grey/25"
     >
       <p class="text-medium text-[11px]">Ver Mais +</p>
