@@ -56,7 +56,7 @@ const aulasRedes = [
 
 <template>
   <div
-    class="bg-ldsa-bg text-ldsa-text-default p-10 rounded shadow max-w-xl w-full max-h-[80vh] overflow-y-auto"
+    class="bg-ldsa-bg text-ldsa-text-default p-12 rounded shadow w-[120vh] max-h-[80vh] overflow-y-auto"
   >
     <h2 class="text-lg font-semibold mb-4 flex items-center justify-center">
       Relatório de Aulas Ministradas
