@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { VVAutocompleteAPIDisciplina } from '#components';
 import RelatorioBotoes from '@/components//Section/Relatorios/Buttons/Buttons.vue';
 import DialogSkeleton from '@/components/Dialog/DialogSkeleton.vue';
 import RelatorioFiltrosOpcionais from '@/components/Section/Relatorios/Filters/FiltrosOpcionais.vue';
@@ -8,13 +7,28 @@ import RelatorioModal from '@/components/Section/Relatorios/Modal/Modal.vue';
 import { ref } from 'vue';
 
 const data = {
-  professores: ['albanita', 'xurrasco', 'boliro', 'bolzani', 'ana castela', 'manu', 'mariluz',],
+  professores: [
+    'albanita',
+    'xurrasco',
+    'boliro',
+    'bolzani',
+    'ana castela',
+    'manu',
+    'mariluz',
+  ],
   semestres: ['2024.1', '2024.2', '2023.1', '2023.2', '2022.1', '2022.2'],
   bimestres: ['1º Bimestre', '2º Bimestre', '3º Bimestre', '4º Bimestre'],
   turmas: ['1º Ano', '2º Ano', '3º Ano'],
 };
 
-const form = ref({
+const form = ref<{
+  professor: string | null;
+  semestre: string | null;
+  bimestre: string | null;
+  disciplina: string | null;
+  curso: string | null;
+  turma: string | null;
+}>({
   professor: 'Danilo',
   semestre: null,
   bimestre: null,
@@ -36,7 +50,7 @@ const gerarPDF = () => {
 </script>
 
 <template>
-  <div class="container mx-auto px-4 ">
+  <div class="container">
     <div class="mx-auto max-w-[55%] p-10">
       <div class="container-header">
         <h1 class="main-title font-semibold pb-5 text-[1.25rem]">
@@ -47,11 +61,19 @@ const gerarPDF = () => {
       <RelatorioFiltrosPrincipais
         :professores="data.professores"
         :semestres="data.semestres"
+        :professor="form.professor"
+        :semestre="form.semestre"
+        @update:professor="form.professor = $event"
+        @update:semestre="form.semestre = $event"
       />
 
       <RelatorioFiltrosOpcionais
         :bimestres="data.bimestres"
         :turmas="data.turmas"
+        :bimestre="form.bimestre"
+        :turma="form.turma"
+        @update:bimestre="form.bimestre = $event"
+        @update:turma="form.turma = $event"
       />
 
       <hr class="divider flex-grow pt-5 border-t border-ldsa-grey" />

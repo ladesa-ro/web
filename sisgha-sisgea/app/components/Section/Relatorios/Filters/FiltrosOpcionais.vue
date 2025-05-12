@@ -1,7 +1,14 @@
 <script setup lang="ts">
-defineProps<{
+const props = defineProps<{
   bimestres: string[],
   turmas: string[],
+  bimestre: string | null,
+  turma: string | null,
+}>();
+
+const emit = defineEmits<{
+  (e: 'update:bimestre', value: string | null): void,
+  (e: 'update:turma', value: string | null): void,
 }>();
 </script>
 
@@ -16,6 +23,8 @@ defineProps<{
     <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 w-full mt-4 m-auto mb-6">
       <VVAutocomplete
         :items="bimestres"
+        :model-value="bimestre"
+        @update:modelValue="emit('update:bimestre', $event)"
         class="w-full mb-3"
         label="Bimestre"
         name="bimestre.id"
@@ -28,6 +37,8 @@ defineProps<{
 
       <VVAutocomplete
         :items="turmas"
+        :model-value="turma"
+        @update:modelValue="emit('update:turma', $event)"
         class="w-full"
         label="Turma"
         name="turma.id"
@@ -36,15 +47,3 @@ defineProps<{
     </div>
   </div>
 </template>
-
-<style scoped>
-.divisor::before {
-  position: absolute;
-  top: 50%;
-  content: '';
-  display: block;
-  width: 100%;
-  border-bottom: 0.07rem solid var(--ladesa-grey-color);
-  z-index: 1;
-}
-</style>
