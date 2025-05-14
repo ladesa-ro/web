@@ -72,7 +72,7 @@ function removerIntervalo(periodoIndex: number, intervaloIndex: number) {
     <div class="mx-auto max-w-[80%] p-10">
       <!-- seçao de selects -->
       <div class="w-2/3">
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 w-full m-auto mb-6">
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 w-full m-auto mb-9">
           <VVAutocomplete
             :items="fusoHorario"
             class="w-full xl:col-span-2"
