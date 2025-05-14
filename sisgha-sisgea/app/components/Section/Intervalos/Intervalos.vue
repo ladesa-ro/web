@@ -33,7 +33,7 @@ const periodos = ref<Periodo[]>([
 
 <template>
   <div class="container">
-    <div class="mx-auto max-w-[55%] p-10">
+    <div class="mx-auto max-w-[80%] p-10">
       <!-- seçao de selects -->
       <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 w-full m-auto mb-6">
         <VVAutocomplete
@@ -53,7 +53,7 @@ const periodos = ref<Periodo[]>([
       </div>
 
       <!-- grid  -->
-      <div class="grid grid-cols-1 md:grid-cols-3 divide-x divide-ldsa-grey">
+      <div class="grid grid-cols-1 md:grid-cols-3 divide-x divide-ldsa-grey w-full">
         <div v-for="(periodo, i) in periodos" :key="i" class="px-4">
           <div class="flex justify-between items-center mb-3">
             <h2
@@ -61,14 +61,27 @@ const periodos = ref<Periodo[]>([
             >
               {{ periodo.nome }}
             </h2>
-            <button
-              @click="periodo.intervalos = []"
-              class="text-ldsa-grey"
-            >
+            <button @click="periodo.intervalos = []" class="text-ldsa-grey">
               lixo
             </button>
           </div>
           <!-- intervalos -->
+          <div
+            v-for="(intervalo, j) in periodo.intervalos"
+            :key="j"
+            class="flex items-center justify-between mb-2"
+          >
+            <div class="text-sm whitespace-nowrap">
+              {{ intervalo.inicio }} - {{ intervalo.fim }}
+            </div>
+            <div class="flex gap-2 text-sm">
+              <button>caneta</button>
+              <button>lixo</button>
+            </div>
+          </div>
+          <button class="text-gray-600 text-sm flex items-center gap-1 mt-4">
+            Adicionar intervalo +
+          </button>
         </div>
       </div>
     </div>
