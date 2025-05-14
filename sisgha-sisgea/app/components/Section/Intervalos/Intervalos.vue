@@ -26,9 +26,30 @@ interface Periodo {
 }
 
 const periodos = ref<Periodo[]>([
-  { nome: 'Matutino', intervalos: [{ inicio: '00:00', fim: '00:00' }] },
-  { nome: 'Vespertino', intervalos: [{ inicio: '00:00', fim: '00:00' }] },
-  { nome: 'Noturno', intervalos: [{ inicio: '00:00', fim: '00:00' }] },
+  {
+    nome: 'Matutino',
+    intervalos: [
+      { inicio: '00:00', fim: '00:00' },
+      { inicio: '00:00', fim: '00:00' },
+      { inicio: '00:00', fim: '00:00' },
+    ],
+  },
+  {
+    nome: 'Vespertino',
+    intervalos: [
+      { inicio: '00:00', fim: '00:00' },
+      { inicio: '00:00', fim: '00:00' },
+      { inicio: '00:00', fim: '00:00' },
+    ],
+  },
+  {
+    nome: 'Noturno',
+    intervalos: [
+      { inicio: '00:00', fim: '00:00' },
+      { inicio: '00:00', fim: '00:00' },
+      { inicio: '00:00', fim: '00:00' },
+    ],
+  },
 ]);
 
 function adicionarIntervalo(index: number) {
@@ -80,7 +101,7 @@ function removerIntervalo(periodoIndex: number, intervaloIndex: number) {
             </h2>
             <button
               @click="periodo.intervalos = []"
-              class="w-[0.9rem] text-ldsa-text-default"
+              class="w-[0.9rem] text-ldsa-text-default hover:text-ldsa-red"
             >
               <IconsIconExclude />
             </button>
@@ -95,12 +116,14 @@ function removerIntervalo(periodoIndex: number, intervaloIndex: number) {
               {{ intervalo.inicio }} - {{ intervalo.fim }}
             </div>
             <div class="flex gap-4 text-sm">
-              <button class="w-[0.9rem] text-ldsa-text-default">
+              <button
+                class="w-[0.9rem] text-ldsa-text-default hover:text-ldsa-green-1"
+              >
                 <IconsIconEdit />
               </button>
               <button
                 @click="removerIntervalo(i, j)"
-                class="w-[0.9rem] text-ldsa-text-default"
+                class="w-[0.9rem] text-ldsa-text-default hover:text-ldsa-red"
               >
                 <IconsIconExclude />
               </button>
