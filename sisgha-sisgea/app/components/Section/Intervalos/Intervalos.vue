@@ -7,14 +7,11 @@ const fusoHorario = ref([
   'Acre (UTC-05:00)',
 ]);
 
-const ordem = ref([
-  'Crescente',
-  'Decrescente'
-]);
+const ordem = ref(['Crescente', 'Decrescente']);
 
 const form = ref({
   fusoHorario: null,
-  ordem: null
+  ordem: null,
 });
 
 interface Intervalo {
@@ -30,7 +27,7 @@ interface Periodo {
 const periodos = ref<Periodo[]>([
   { nome: 'Matutino', intervalos: [{ inicio: '00:00', fim: '00:00' }] },
   { nome: 'Vespertino', intervalos: [{ inicio: '00:00', fim: '00:00' }] },
-  { nome: 'Noturno', intervalos: [{ inicio: '00:00', fim: '00:00' }] }
+  { nome: 'Noturno', intervalos: [{ inicio: '00:00', fim: '00:00' }] },
 ]);
 </script>
 
@@ -54,7 +51,26 @@ const periodos = ref<Periodo[]>([
           placeholder="Selecione uma ordem"
         />
       </div>
-      <!-- intervalos  -->
+
+      <!-- grid  -->
+      <div class="grid grid-cols-1 md:grid-cols-3 divide-x divide-ldsa-grey">
+        <div v-for="(periodo, i) in periodos" :key="i" class="px-4">
+          <div class="flex justify-between items-center mb-3">
+            <h2
+              class="font-semibold text-ldsa-text-default text-[13px] border-l-4 border-ldsa-green-1 pl-2"
+            >
+              {{ periodo.nome }}
+            </h2>
+            <button
+              @click="periodo.intervalos = []"
+              class="text-ldsa-grey"
+            >
+              lixo
+            </button>
+          </div>
+          <!-- intervalos -->
+        </div>
+      </div>
     </div>
   </div>
 </template>
