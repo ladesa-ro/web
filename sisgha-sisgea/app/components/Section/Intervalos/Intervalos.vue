@@ -50,7 +50,7 @@ function removerIntervalo(periodoIndex: number, intervaloIndex: number) {
   <div class="container">
     <div class="mx-auto max-w-[80%] p-10">
       <!-- seçao de selects -->
-      <div class="w-1/2">
+      <div class="w-2/3">
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 w-full m-auto mb-6">
           <VVAutocomplete
             :items="fusoHorario"
@@ -89,12 +89,12 @@ function removerIntervalo(periodoIndex: number, intervaloIndex: number) {
           <div
             v-for="(intervalo, j) in periodo.intervalos"
             :key="j"
-            class="flex items-center justify-between mb-2 p-1 border-b-2 border-ldsa-grey/50"
+            class="flex items-center justify-between mb-2 p-3 border-b-2 border-ldsa-grey/50"
           >
-            <div class="text-sm whitespace-nowrap">
+            <div class="font-medium text-[11px] whitespace-nowrap">
               {{ intervalo.inicio }} - {{ intervalo.fim }}
             </div>
-            <div class="flex gap-2 text-sm">
+            <div class="flex gap-4 text-sm">
               <button class="w-[0.9rem] text-ldsa-text-default">
                 <IconsIconEdit />
               </button>
