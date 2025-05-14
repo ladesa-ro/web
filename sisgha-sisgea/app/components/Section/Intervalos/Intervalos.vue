@@ -16,6 +16,22 @@ const form = ref({
   fusoHorario: null,
   ordem: null
 });
+
+interface Intervalo {
+  inicio: string;
+  fim: string;
+}
+
+interface Periodo {
+  nome: string;
+  intervalos: Intervalo[];
+}
+
+const periodos = ref<Periodo[]>([
+  { nome: 'Matutino', intervalos: [{ inicio: '00:00', fim: '00:00' }] },
+  { nome: 'Vespertino', intervalos: [{ inicio: '00:00', fim: '00:00' }] },
+  { nome: 'Noturno', intervalos: [{ inicio: '00:00', fim: '00:00' }] }
+]);
 </script>
 
 <template>
