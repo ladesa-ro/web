@@ -35,7 +35,7 @@ const DAPE_PATH = '/sisgha/dape';
 
     <Section title="Relatórios">
       <CardLink
-        :to="DAPE_PATH"
+        :to="`${DAPE_PATH}/relatorios/aulas-ministradas`"
         :icon="IconsIconTeacherLesson"
         title="Aulas Ministradas"
       />
