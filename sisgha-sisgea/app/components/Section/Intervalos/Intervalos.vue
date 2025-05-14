@@ -50,21 +50,23 @@ function removerIntervalo(periodoIndex: number, intervaloIndex: number) {
   <div class="container">
     <div class="mx-auto max-w-[80%] p-10">
       <!-- seçao de selects -->
-      <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 w-full m-auto mb-6">
-        <VVAutocomplete
-          :items="fusoHorario"
-          class="w-full xl:col-span-2"
-          label="Fuso Horário"
-          name="fusoHorario.id"
-          placeholder="Selecione um fuso horário"
-        />
-        <VVAutocomplete
-          :items="ordem"
-          class="w-full xl:col-span-1"
-          label="Ordem"
-          name="ordem.id"
-          placeholder="Selecione uma ordem"
-        />
+      <div class="w-1/2">
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 w-full m-auto mb-6">
+          <VVAutocomplete
+            :items="fusoHorario"
+            class="w-full xl:col-span-2"
+            label="Fuso Horário"
+            name="fusoHorario.id"
+            placeholder="Selecione um fuso horário"
+          />
+          <VVAutocomplete
+            :items="ordem"
+            class="w-full xl:col-span-1"
+            label="Ordem"
+            name="ordem.id"
+            placeholder="Selecione uma ordem"
+          />
+        </div>
       </div>
 
       <!-- grid  -->
