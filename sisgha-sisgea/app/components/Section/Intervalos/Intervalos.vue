@@ -30,6 +30,20 @@ const periodos = ref<Periodo[]>([
   { nome: 'Vespertino', intervalos: [{ inicio: '00:00', fim: '00:00' }] },
   { nome: 'Noturno', intervalos: [{ inicio: '00:00', fim: '00:00' }] },
 ]);
+
+function adicionarIntervalo(index: number) {
+  const periodo = periodos.value[index];
+  if (periodo) {
+    periodo.intervalos.push({ inicio: '00:00', fim: '00:00' });
+  }
+}
+
+function removerIntervalo(periodoIndex: number, intervaloIndex: number) {
+  const periodo = periodos.value[periodoIndex];
+  if (periodo) {
+    periodo.intervalos.splice(intervaloIndex, 1);
+  }
+}
 </script>
 
 <template>
@@ -82,12 +96,16 @@ const periodos = ref<Periodo[]>([
               <button class="w-[0.9rem] text-ldsa-text-default">
                 <IconsIconEdit />
               </button>
-              <button class="w-[0.9rem] text-ldsa-text-default">
+              <button
+                @click="removerIntervalo(i, j)"
+                class="w-[0.9rem] text-ldsa-text-default"
+              >
                 <IconsIconExclude />
               </button>
             </div>
           </div>
           <button
+            @click="adicionarIntervalo(i)"
             class="mx-auto text-ldsa-grey font-semibold text-[12px] flex items-center gap-1 mt-4"
           >
             Adicionar intervalo
