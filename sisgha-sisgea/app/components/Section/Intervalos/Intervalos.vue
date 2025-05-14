@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconsIconExclude, IconsIconEdit, IconsIconAdd } from '#components';
+import { IconsIconAdd, IconsIconEdit, IconsIconExclude } from '#components';
 import { ref } from 'vue';
 
 const fusoHorario = ref([
@@ -54,9 +54,7 @@ const periodos = ref<Periodo[]>([
       </div>
 
       <!-- grid  -->
-      <div
-        class="grid grid-cols-1 md:grid-cols-3 divide-x divide-ldsa-grey w-full"
-      >
+      <div class="grid grid-cols-1 md:grid-cols-3 divide-x divide-ldsa-grey">
         <div v-for="(periodo, i) in periodos" :key="i" class="px-4">
           <div class="flex justify-between items-center mb-3">
             <h2
@@ -75,22 +73,25 @@ const periodos = ref<Periodo[]>([
           <div
             v-for="(intervalo, j) in periodo.intervalos"
             :key="j"
-            class="flex items-center justify-between mb-2"
+            class="flex items-center justify-between mb-2 p-1 border-b-2 border-ldsa-grey/50"
           >
             <div class="text-sm whitespace-nowrap">
               {{ intervalo.inicio }} - {{ intervalo.fim }}
             </div>
             <div class="flex gap-2 text-sm">
               <button class="w-[0.9rem] text-ldsa-text-default">
-                <IconsIconEdit/>
+                <IconsIconEdit />
               </button>
               <button class="w-[0.9rem] text-ldsa-text-default">
                 <IconsIconExclude />
               </button>
             </div>
           </div>
-          <button class="text-ldsa-grey font-semibold text-[12px] flex items-center gap-1 mt-4">
-            Adicionar intervalo <div class="w-[0.7rem] text-ldsa-grey mb-0.5"><IconsIconAdd/></div>
+          <button
+            class="mx-auto text-ldsa-grey font-semibold text-[12px] flex items-center gap-1 mt-4"
+          >
+            Adicionar intervalo
+            <div class="w-[0.7rem] text-ldsa-grey mb-0.5"><IconsIconAdd /></div>
           </button>
         </div>
       </div>
