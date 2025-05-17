@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import type { Item } from '~/composables/useOptionItems';
+
 type Props = {
   /** List of items */
-  items: Array<any>;
+  items: Item[];
 
   /** The index selected when the component initializes */
   selectedItemDefaultIndex?: number;
@@ -11,14 +13,20 @@ type Props = {
 };
 
 const {
-  items,
+  items: itemsProps,
   selectedItemDefaultIndex = 0,
   toggleButtonsPadding = '0',
 } = defineProps<Props>();
 
+const items = getParsedItems(itemsProps);
+
 const togglePadding = {
   padding: toggleButtonsPadding,
 };
+
+//
+
+const selectedItem = defineModel<Item>();
 
 //
 
@@ -28,13 +36,14 @@ let selectedIndex = ref(selectedItemDefaultIndex);
 function navigate(num: number) {
   selectedIndex.value =
     (selectedIndex.value + num + items.length) % items.length;
+
+  selectedItem.value = items[selectedIndex.value]?.value;
 }
 
 //
 
-const selectedItem = defineModel<any>({
-  required: false,
-  default: '',
+onMounted(() => {
+  selectedItem.value = items[selectedIndex.value]?.value;
 });
 </script>
 
@@ -44,7 +53,7 @@ const selectedItem = defineModel<any>({
       <slot name="toggleButton" />
     </button>
 
-    <span class="truncate">{{ items[selectedIndex] }}</span>
+    <span class="truncate">{{ items[selectedIndex]?.label }}</span>
 
     <button :style="togglePadding" class="rotate-180" @click="navigate(1)">
       <slot name="toggleButton" />

@@ -9,7 +9,7 @@ const { items } = defineProps<Props>();
 type Slots = {
   item(props: { item: T }): any;
 };
-const slots = defineSlots<Slots>();
+defineSlots<Slots>();
 </script>
 
 <template>

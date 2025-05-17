@@ -53,12 +53,12 @@ const searchBarValue = defineModel<string | undefined>('searchBar', {
       />
     </section>
 
-    <section class="flex justify-between">
+    <section class="flex justify-between max-h-5">
       <SearchBar class="search-bar-width" v-model="searchBarValue" />
 
       <div
         v-show="selectedToggleItem === 'turma'"
-        class="flex gap-3 w-full max-w-[23.3rem]"
+        class="flex gap-3 w-full search-bar-width"
       >
         <VVAutocompleteAPIOfertaFormacao class="flex-1" name="formacao" />
         <VVAutocompleteAPICurso class="flex-1" name="curso" />

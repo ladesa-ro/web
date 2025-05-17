@@ -59,6 +59,7 @@ const onClose = () => {
             <h4 class="mb-2 text-base font-medium text-center">
               {{ turma.curso.nome }}
             </h4>
+            
             <v-checkbox
               v-model="checkedQuimica"
               :label="turma.periodo"
