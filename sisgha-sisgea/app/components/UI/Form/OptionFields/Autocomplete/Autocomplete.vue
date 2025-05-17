@@ -13,8 +13,17 @@ import {
 import type { AutocompleteProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
 import AutocompleteItem from '../Item.vue';
+import { getParsedItems } from '~/composables/useOptionItems';
 
-const { items } = defineProps<AutocompleteProps>();
+const { items: itemsProps } = defineProps<AutocompleteProps>();
+
+const items = getParsedItems(itemsProps);
+
+const getDisplayValue = (value: string) => {
+  const item = items.find(item => item.value === value);
+  
+  return item ? item.label : '';
+};
 
 //
 
@@ -31,28 +40,6 @@ const search = defineModel<string | null>('searchTerm', {
 //
 
 const open = ref(false);
-
-const parsedItems = computed(() => {
-  return items.map(item => {
-    if (typeof item === 'string' || typeof item === 'number') {
-      return {
-        label: String(item),
-        value: item,
-      };
-    }
-
-    return {
-      label: String(item.label),
-      value: item.value,
-    };
-  });
-});
-
-const getDisplayValue = (value: string) => {
-  const item = parsedItems.value.find(item => item.value === value);
-
-  return item ? item.label : '';
-};
 </script>
 
 <template>
@@ -95,7 +82,7 @@ const getDisplayValue = (value: string) => {
 
           <AutocompleteItem
             mode="autocomplete"
-            v-for="item in parsedItems"
+            v-for="item in items"
             :item="item"
             :key="item.value"
           />

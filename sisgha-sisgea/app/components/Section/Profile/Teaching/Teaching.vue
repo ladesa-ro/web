@@ -9,8 +9,10 @@ const config = {
     100: { itemsToShow: 1 },
     770: { itemsToShow: 2 },
     900: { itemsToShow: 1 },
-    1000: { itemsToShow: 2 },
-    1100: { itemsToShow: 2.5 },
+    1144: { itemsToShow: 1.8 },
+    1400: { itemsToShow: 2.1 },
+    1500: { itemsToShow: 2.5 },
+    1750: { itemsToShow: 'auto' },
   },
 };
 
@@ -42,12 +44,8 @@ const subjects = [
 <style>
 @reference "~/assets/styles/app-reference.css";
 
-/* TODO: encontrar outra lib para carrossel, se possível */
 @import 'vue3-carousel/dist/carousel.css';
 
-/* :root {
-  --vc-pgn-margin: 30px 8px 0 0 !important;
-} */
 
 .carousel__slide {
   @apply pb-4 px-1 md:px-2 lg:px-2.5;

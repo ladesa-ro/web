@@ -101,7 +101,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
           type: 'link',
           title: 'Aulas ministradas',
           icon: iconReport,
-          to: `${CAMINHO_DAPE}/relatorios/aulasMinistradas`,
+          to: `${CAMINHO_DAPE}/relatorios/aulas-ministradas`,
           exact: false,
         },
         {

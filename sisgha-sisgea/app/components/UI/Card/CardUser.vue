@@ -4,11 +4,11 @@ type Props = {
   variant: 'block' | 'inline';
 };
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
 //
 
-const $emit = defineEmits(['edit']);
+defineEmits(['edit']);
 
 //
 
@@ -21,10 +21,10 @@ const selectedRadio = ref<string>('');
   >
     <div class="textAndButton flex items-center justify-between max-w-full">
       <div
-        class="-card-titulo font-semibold text-ldsa-text-default no-underline inline-block max-w-full overflow-hidden"
+        class="font-semibold text-ldsa-text-default no-underline inline-block max-w-full overflow-hidden"
       >
         <slot class="title" name="title">
-          {{ props.title }}
+          {{ title }}
         </slot>
       </div>
 
@@ -48,10 +48,6 @@ const selectedRadio = ref<string>('');
   margin-left: 83%;
   margin-top: 18%;
   font-size: 1.3rem;
-}
-
-.-card-titulo {
-  font-weight: 600;
 }
 
 .textAndButton {

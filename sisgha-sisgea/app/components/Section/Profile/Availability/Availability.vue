@@ -1,42 +1,30 @@
 <script setup>
 import SisghaLogo from '~/components/Logo/Sisgha/Logo.vue';
+import { getWeekDays } from '../../Horario/-Helpers/GetWeekDays';
 import dayPeriods from './dayPeriods';
 
-const options = [
-  { value: 'Segunda' },
-  { value: 'Terça' },
-  { value: 'Quarta' },
-  { value: 'Quinta' },
-  { value: 'Sexta' },
-  { value: 'Sábado' },
-];
-
-const selectedOptions = ref();
-selectedOptions.value = options[0];
-
-const currentDayIndex = ref(0);
-
-const changeDay = delta => {
-  currentDayIndex.value =
-    (currentDayIndex.value + delta + options.length) % options.length;
-
-  selectedOptions.value = options[currentDayIndex.value];
-};
+const currentDay = useCurrentDay();
+const week = getWeekDays(currentDay.value);
+const weekDays = week.map(day => day.dayWeek);
 </script>
 
 <template>
-  <SectionProfileSectionsLayout class="max-[900px]:max-h-max" :icon="SisghaLogo" title="Disponibilidade">
+  <SectionProfileSectionsLayout
+    title="Disponibilidade"
+    class="max-[900px]:max-h-max"
+    :icon="SisghaLogo"
+  >
     <!-- hours card -->
     <div class="border-card min-w-75">
-      <section class="day-week-navigator">
-        <IconsArrowIconArrow class="arrow" @click="changeDay(-1)" />
-
-        <span class="font-medium">
-          {{ selectedOptions?.value }}
-        </span>
-
-        <IconsArrowIconArrow class="arrow rotate-180" @click="changeDay(1)" />
-      </section>
+      <UIOptionsCarousel
+        toggle-buttons-padding="0.75rem"
+        class="bg-ldsa-green-1 px-1 text-ldsa-white font-medium"
+        :items="weekDays"
+      >
+        <template #toggleButton>
+          <IconsArrowIconArrow class="text-ldsa-white" />
+        </template>
+      </UIOptionsCarousel>
 
       <!-- card content with day periods -->
       <section
@@ -52,16 +40,15 @@ const changeDay = delta => {
   </SectionProfileSectionsLayout>
 </template>
 
-<style>
+<style scoped>
 @reference "~/assets/styles/app-reference.css";
 
 .day-week-navigator {
   @apply flex justify-between items-center gap-10;
-  @apply h-9 px-5;
-  @apply bg-ldsa-green-1 text-ldsa-white;
+  @apply h-9 px-1 bg-ldsa-green-1 text-ldsa-white;
 }
 
 .arrow {
-  @apply text-ldsa-white cursor-pointer;
+  @apply px-3 py-2.5 text-ldsa-white;
 }
 </style>
