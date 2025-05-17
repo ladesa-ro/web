@@ -1,4 +1,4 @@
-export type Item = string | number | { value: string | number; label: string };
+import { type Item } from "~/composables/useOptionItems";
 
 type OptionFieldsItems = { items: Item[] };
 
