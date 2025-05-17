@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
-import type { Item } from '~/components/UI/Form/-Utils/inputTypes';
+import type { Item } from '~/composables/useOptionItems';
 
 type Props = { name: string; items: Item[] };
 const { name, items } = defineProps<Props>();
