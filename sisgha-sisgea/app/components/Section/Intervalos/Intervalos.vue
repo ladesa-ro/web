@@ -40,7 +40,9 @@ const periodos = ref([
   },
 ]);
 
-const novosIntervalos = ref<( { inicio: string; fim: string } | null )[]>(periodos.value.map(() => null));
+const novosIntervalos = ref<({ inicio: string; fim: string } | null)[]>(
+  periodos.value.map(() => null)
+);
 
 function confirmarIntervalo(index: number) {
   const intervalo = novosIntervalos.value[index];
@@ -69,18 +71,19 @@ function limparPeriodos(index: number) {
   if (!periodo) return;
   periodo.intervalos = [];
 }
-
 </script>
 
 <template>
-  <IntervaloSelectForm :fusoHorario="fusoHorario" :ordem="ordem" />
+  <div class="mx-auto max-w-[85%] p-10">
+    <IntervaloSelectForm :fusoHorario="fusoHorario" :ordem="ordem" />
 
-  <PeriodosGrid
-    :periodos="periodos"
-    :novos-intervalos="novosIntervalos"
-    @confirmNovo="confirmarIntervalo"
-    @removeIntervalo="removerIntervalo"
-    @add="adicionarIntervalo"
-    @limparPeriodos="limparPeriodos"
-  />
+    <PeriodosGrid
+      :periodos="periodos"
+      :novos-intervalos="novosIntervalos"
+      @confirmNovo="confirmarIntervalo"
+      @removeIntervalo="removerIntervalo"
+      @add="adicionarIntervalo"
+      @limparPeriodos="limparPeriodos"
+    />
+  </div>
 </template>
