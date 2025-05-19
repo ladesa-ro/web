@@ -102,7 +102,7 @@ const handleContainerClick = () => {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .ui-text-field {
   display: flex;

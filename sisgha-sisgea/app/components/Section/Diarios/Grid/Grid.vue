@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-//
-
 const $emit = defineEmits(['edit']);
 
 //

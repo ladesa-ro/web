@@ -25,7 +25,7 @@ const defineColor = {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .modal-button {
   @apply flex items-center justify-evenly h-9 min-w-[8.438rem];

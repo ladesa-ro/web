@@ -5,11 +5,6 @@ const { type = 'text' } = defineProps<TextFieldProps>();
 
 //
 
-type Slots = { default(): any };
-defineSlots<Slots>();
-
-//
-
 const inputValue = defineModel<string | number>({
   required: false,
   default: '',

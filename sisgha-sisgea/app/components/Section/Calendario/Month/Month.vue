@@ -254,7 +254,7 @@ onMounted(async () => {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .day,
 .day-of-other-month {

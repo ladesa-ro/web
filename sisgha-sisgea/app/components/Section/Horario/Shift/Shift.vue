@@ -88,7 +88,7 @@ function getAula(dia: number, horario: number) {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .turno {
   writing-mode: vertical-lr;

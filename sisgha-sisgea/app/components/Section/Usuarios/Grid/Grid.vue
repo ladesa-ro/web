@@ -11,9 +11,7 @@ const $emit = defineEmits(['edit']);
 
 //
 
-const {
-  composables: { useListQuery },
-} = useLadesaApiCrudUsuarios();
+const { composables: { useListQuery } } = useLadesaApiCrudUsuarios();
 
 const queries = computed(() => ({ search: searchBarText.value }));
 
@@ -34,11 +32,3 @@ await suspend();
     />
   </div>
 </template>
-
-<style>
-.detail {
-  cursor: pointer;
-  z-index: 1000;
-  margin-right: 10px;
-}
-</style>

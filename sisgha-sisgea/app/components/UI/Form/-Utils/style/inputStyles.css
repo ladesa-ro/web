@@ -1,4 +1,4 @@
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .input-base {
   @apply relative flex justify-between items-center px-3 w-full min-h-12 border-2 rounded-lg;

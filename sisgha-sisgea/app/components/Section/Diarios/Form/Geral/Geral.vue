@@ -37,7 +37,7 @@ const goBackToForm2 = () => {
     />
   </template>
 
-  <template v-if="isForm2Visible && !isForm3Visible">
+  <!-- <template v-if="isForm2Visible && !isForm3Visible">
     <SectionDiariosFormGeralDisciplinaTurmas
       @add="goToForm3"
       @back="goBackToForm1"
@@ -50,5 +50,5 @@ const goBackToForm2 = () => {
       @back="goBackToForm2"
       @close="closeForm"
     />
-  </template>
+  </template> -->
 </template>

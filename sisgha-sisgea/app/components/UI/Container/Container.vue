@@ -7,16 +7,13 @@ const { variant = 'default' } = defineProps<Props>();
 </script>
 
 <template>
-  <div
-    class="flex-1 mx-5 min-[385px]:mx-10 sm:mx-20"
-    :class="variant"
-  >
+  <div class="flex-1 mx-5 min-[385px]:mx-10 sm:mx-20" :class="variant">
     <slot />
   </div>
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .tight {
   @apply md:mx-36 lg:mx-48 xl:mx-72 2xl:mx-96;

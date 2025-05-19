@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-type Props = {
-  subjectName: string;
-};
+type Props = { subjectName: string };
 defineProps<Props>();
+
+//
 
 const classes = ['1°A', '1°B', '2°A', '2°B', '3°A', '3°B'];
 
@@ -15,17 +15,7 @@ const courses = [
   'Engenharia Florestal',
 ];
 
-let selectedCourseIndex = ref(0);
-
-function goAhead(advance: boolean) {
-  if (advance) {
-    if (selectedCourseIndex.value < 5) selectedCourseIndex.value++;
-    else selectedCourseIndex.value = 0;
-  } else {
-    if (selectedCourseIndex.value === 0) selectedCourseIndex.value = 5;
-    else selectedCourseIndex.value--;
-  }
-}
+const selectedCouse = ref(courses[0]);
 </script>
 
 <template>
@@ -37,20 +27,20 @@ function goAhead(advance: boolean) {
     />
 
     <!-- card body -->
-    <!-- TODO: discutir sobre a melhor aparência para esse card -->
     <main class="p-4">
       <h1>{{ subjectName }}</h1>
-      <!--min-h-[3rem]-->
 
       <div class="course-and-classes border-card">
         <!-- navigation -->
-        <section class="navigation-course">
-          <IconsArrowIconArrow class="icon" @click="goAhead(false)" />
-
-          {{ courses[selectedCourseIndex] }}
-
-          <IconsArrowIconArrow class="icon rotate-180" @click="goAhead(true)" />
-        </section>
+        <UIOptionsCarousel
+          class="pb-2 mb-2 border-b-2 border-b-ldsa-grey"
+          :items="courses"
+          v-model="selectedCouse"
+        >
+          <template #toggleButton>
+            <IconsArrowIconArrow class="text-ldsa-text-green" />
+          </template>
+        </UIOptionsCarousel>
 
         <!-- classes list -->
         <span class="font-medium">{{ classes.join(', ') }}</span>
@@ -60,22 +50,17 @@ function goAhead(advance: boolean) {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .card-style {
   @apply mb-3 text-left font-semibold;
 }
 
 .icon {
-  @apply cursor-pointer text-ldsa-text-green max-h-3;
+  @apply max-h-3 text-ldsa-text-green;
 }
 
 .course-and-classes {
-  @apply rounded-lg mt-3 py-3 px-5 text-sm;
-}
-
-.navigation-course {
-  @apply flex justify-between items-center text-center;
-  @apply pb-2 mb-2 border-b-2 border-b-ldsa-grey;
+  @apply rounded-lg mt-3 py-3 px-3 lg:px-4 text-sm;
 }
 </style>

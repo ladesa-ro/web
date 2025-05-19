@@ -2,7 +2,7 @@ import type { MaybeArray } from 'vee-validate';
 import { HeadTitleContext } from '~/utils/head-title-context';
 import { castArray } from '../utils';
 
-// this composable defines the tab name. for example: "Painel - SISGHA" or "Perfil - SISGHA"
+// this composable defines the tab name (the <title>). for example: "Painel - SISGHA" or "Perfil - SISGHA"
 
 const SEPARATOR = ' — ';
 

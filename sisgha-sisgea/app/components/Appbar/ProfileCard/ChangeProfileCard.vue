@@ -35,7 +35,7 @@ const open = ref(false);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .arrow {
   @apply text-ldsa-text-green;

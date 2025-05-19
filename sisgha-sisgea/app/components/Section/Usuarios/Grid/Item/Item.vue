@@ -34,17 +34,14 @@ const vinculos = computed(() => vinculosResponse.value?.data ?? []);
 
 const getRoleLabel = (role: string) => {
   switch (role.toLowerCase()) {
-    case 'dape': {
+    case 'dape':
       return 'DAPE';
-    }
 
-    case 'professor': {
+    case 'professor':
       return 'Professor';
-    }
 
-    default: {
+    default:
       return role;
-    }
   }
 };
 
@@ -74,15 +71,11 @@ const profilePicureUrl = useApiImageRoute(
 
 <template>
   <nuxt-link
+    v-if="usuario"
     :to="`/sisgha/dape/usuarios/${usuario.id}`"
     @click.capture="handleCardClick"
   >
-    <UICard
-      v-if="usuario"
-      :src="profilePicureUrl"
-      :title="usuario.nome"
-      variant="block"
-    >
+    <UICard :src="profilePicureUrl" :title="usuario.nome" variant="block">
       <template #fallbackIcon>
         <IconsIconUser class="w-1/3 text-ldsa-grey" />
       </template>

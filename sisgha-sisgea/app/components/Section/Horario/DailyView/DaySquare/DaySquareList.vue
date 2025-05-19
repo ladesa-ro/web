@@ -27,7 +27,7 @@ const weekDays = getWeekDays(selectedDay.value);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .layout-size {
   @apply flex justify-between gap-2 min-[502px]:gap-4 lg:gap-6 xl:gap-12;

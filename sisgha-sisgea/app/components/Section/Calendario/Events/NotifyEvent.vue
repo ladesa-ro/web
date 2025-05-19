@@ -37,7 +37,7 @@ async function enableNotify(isEnabled: boolean): Promise<void> {
 </template>
 
 <style>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .-enable {
   @apply border-ldsa-green-1 bg-ldsa-green-1/10 text-ldsa-text-green;

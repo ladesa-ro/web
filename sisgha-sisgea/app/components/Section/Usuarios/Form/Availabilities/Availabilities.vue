@@ -1,26 +1,12 @@
 <script lang="ts" setup>
+import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
 import { getActivesTeacherRole, useFormUser } from '../FormUtils';
 
-const options = [
-  { value: 'Segunda' },
-  { value: 'Terça' },
-  { value: 'Quarta' },
-  { value: 'Quinta' },
-  { value: 'Sexta' },
-  { value: 'Sábado' },
-];
+const currentDay = useCurrentDay();
+const week = getWeekDays(currentDay.value);
+const weekDays = week.map(day => day.dayWeek);
 
-const selectedOptions = ref();
-
-selectedOptions.value = options[0];
-
-const currentDayIndex = ref(0);
-const changeDay = (delta: number) => {
-  currentDayIndex.value =
-    (currentDayIndex.value + delta + options.length) % options.length;
-
-  selectedOptions.value = options[currentDayIndex.value];
-};
+const selectedDayWeek = ref();
 
 //
 
@@ -52,11 +38,11 @@ watch(vinculosComCargoProfessor, (current, previous) => {
   }
 });
 
+//
+
 const $emit = defineEmits(['close']);
 
-function onClose() {
-  $emit('close');
-}
+const onClose = () => $emit('close');
 </script>
 <template>
   <DialogModalBaseLayout
@@ -64,19 +50,13 @@ function onClose() {
     :on-close="onClose"
     title="Disponibilidade"
   >
-    <!-- TODO: substituir por componente de matemática modular -->
-    <div class="flex justify-between items-center">
-      <IconsArrowIconArrow class="cursor-pointer" @click="changeDay(-1)" />
-      <span class="font-bold">
-        {{ selectedOptions?.value }}
-      </span>
-      <IconsArrowIconArrow
-        class="cursor-pointer rotate-180"
-        @click="changeDay(1)"
-      />
-    </div>
+    <UIOptionsCarousel :items="weekDays" v-model="selectedDayWeek" class="font-semibold">
+      <template #toggleButton>
+        <IconsArrowIconArrow />
+      </template>
+    </UIOptionsCarousel>
 
-    <v-expansion-panels v-model="activePanel" class="" mandatory>
+    <v-expansion-panels v-model="activePanel" mandatory>
       <SectionUsuariosFormAvailabilitiesAvailability
         v-for="vinculo in vinculosComCargoProfessor"
         :key="vinculo.campus.id"

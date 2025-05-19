@@ -36,7 +36,7 @@ const { hamburguerActive } = provideLayoutsDashboardContext();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .layout-height {
   @apply h-[100vh]  /* fallback caso o dispositivo não suporte dvh */

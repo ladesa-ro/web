@@ -69,7 +69,7 @@ const visualizacao = ref<'parcial' | 'completo'>('parcial');
 
     <!-- Content -->
 
-    <!-- Partial calendar -->
+    <!-- Content / Partial calendar -->
     <SectionCalendarioViewsPartialCalendar
       v-show="visualizacao === 'parcial'"
       :events="calendar?.events"
@@ -77,7 +77,7 @@ const visualizacao = ref<'parcial' | 'completo'>('parcial');
       :year="calendar?.year"
     />
 
-    <!-- Complete calendar -->
+    <!-- Content / Complete calendar -->
     <SectionCalendarioViewsCompleteCalendar
       v-show="visualizacao === 'completo'"
       :events="calendar?.events"

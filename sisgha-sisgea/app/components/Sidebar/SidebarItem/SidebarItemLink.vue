@@ -17,7 +17,7 @@ const { item } = defineProps<Props>();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .active {
   @apply bg-ldsa-white/[0.12] hover:bg-ldsa-white/[0.16];
