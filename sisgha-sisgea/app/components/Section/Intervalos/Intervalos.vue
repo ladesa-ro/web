@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { IconsIconAdd, IconsIconEdit, IconsIconExclude } from '#components';
 import { ref } from 'vue';
+import PeriodosGrid from '@/components/Section/Intervalos/Layout/Grid.vue';
+import IntervaloSelectForm from '@/components/Section/Intervalos/Form/SelectForm.vue';
 
 const fusoHorario = ref([
   'Amazonas - Manaus (GMT-04:00)',
@@ -10,134 +11,79 @@ const fusoHorario = ref([
 
 const ordem = ref(['Crescente', 'Decrescente']);
 
-const form = ref({
-  fusoHorario: null,
-  ordem: null,
-});
+const form = ref({ fusoHorario: null, ordem: null });
 
-interface Intervalo {
-  inicio: string;
-  fim: string;
-}
-
-interface Periodo {
-  nome: string;
-  intervalos: Intervalo[];
-}
-
-const periodos = ref<Periodo[]>([
+const periodos = ref([
   {
     nome: 'Matutino',
     intervalos: [
-      { inicio: '00:00', fim: '00:00' },
-      { inicio: '00:00', fim: '00:00' },
-      { inicio: '00:00', fim: '00:00' },
+      { inicio: '07:00', fim: '08:30' },
+      { inicio: '08:40', fim: '10:10' },
+      { inicio: '10:20', fim: '11:50' },
     ],
   },
   {
     nome: 'Vespertino',
     intervalos: [
-      { inicio: '00:00', fim: '00:00' },
-      { inicio: '00:00', fim: '00:00' },
-      { inicio: '00:00', fim: '00:00' },
+      { inicio: '13:00', fim: '14:30' },
+      { inicio: '14:40', fim: '16:10' },
+      { inicio: '16:20', fim: '17:50' },
     ],
   },
   {
     nome: 'Noturno',
     intervalos: [
-      { inicio: '00:00', fim: '00:00' },
-      { inicio: '00:00', fim: '00:00' },
-      { inicio: '00:00', fim: '00:00' },
+      { inicio: '18:30', fim: '20:00' },
+      { inicio: '20:10', fim: '21:40' },
+      { inicio: '21:50', fim: '23:20' },
     ],
   },
 ]);
 
-function adicionarIntervalo(index: number) {
+const novosIntervalos = ref<({ inicio: string; fim: string } | null)[]>(
+  periodos.value.map(() => null)
+);
+
+function confirmarIntervalo(index: number) {
+  const intervalo = novosIntervalos.value[index];
   const periodo = periodos.value[index];
-  if (periodo) {
-    periodo.intervalos.push({ inicio: '00:00', fim: '00:00' });
+  if (!intervalo || !periodo) return;
+  if (intervalo.inicio && intervalo.fim) {
+    periodo.intervalos.push({ ...intervalo });
+    novosIntervalos.value[index] = null;
   }
 }
 
-function removerIntervalo(periodoIndex: number, intervaloIndex: number) {
-  const periodo = periodos.value[periodoIndex];
-  if (periodo) {
-    periodo.intervalos.splice(intervaloIndex, 1);
+function removerIntervalo(i: number, j: number) {
+  const periodo = periodos.value[i];
+  if (!periodo) return;
+  periodo.intervalos.splice(j, 1);
+}
+
+function adicionarIntervalo(index: number) {
+  if (novosIntervalos.value[index] == null) {
+    novosIntervalos.value[index] = { inicio: '', fim: '' };
   }
+}
+
+function limparPeriodos(index: number) {
+  const periodo = periodos.value[index];
+  if (!periodo) return;
+  periodo.intervalos = [];
 }
 </script>
 
 <template>
-  <div class="container">
-    <div class="mx-auto max-w-[80%] p-10">
-      <!-- seçao de selects -->
-      <div class="w-2/3">
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 w-full m-auto mb-9">
-          <VVAutocomplete
-            :items="fusoHorario"
-            class="w-full xl:col-span-2"
-            label="Fuso Horário"
-            name="fusoHorario.id"
-            placeholder="Selecione um fuso horário"
-          />
-          <VVAutocomplete
-            :items="ordem"
-            class="w-full xl:col-span-1"
-            label="Ordem"
-            name="ordem.id"
-            placeholder="Selecione uma ordem"
-          />
-        </div>
-      </div>
+  <div class="mx-auto max-w-[85%] p-10">
+    <IntervaloSelectForm :fusoHorario="fusoHorario" :ordem="ordem" />
 
-      <!-- grid  -->
-      <div class="grid grid-cols-1 md:grid-cols-3 divide-x divide-ldsa-grey">
-        <div v-for="(periodo, i) in periodos" :key="i" class="px-4">
-          <div class="flex justify-between items-center mb-3">
-            <h2
-              class="font-semibold text-ldsa-text-default text-[13px] border-l-4 border-ldsa-green-1 pl-2"
-            >
-              {{ periodo.nome }}
-            </h2>
-            <button
-              @click="periodo.intervalos = []"
-              class="w-[0.9rem] text-ldsa-text-default hover:text-ldsa-red"
-            >
-              <IconsIconExclude />
-            </button>
-          </div>
-          <!-- intervalos -->
-          <div
-            v-for="(intervalo, j) in periodo.intervalos"
-            :key="j"
-            class="flex items-center justify-between mb-2 p-3 border-b-2 border-ldsa-grey/50"
-          >
-            <div class="font-medium text-[11px] whitespace-nowrap">
-              {{ intervalo.inicio }} - {{ intervalo.fim }}
-            </div>
-            <div class="flex gap-4 text-sm">
-              <button
-                class="w-[0.9rem] text-ldsa-text-default hover:text-ldsa-green-1"
-              >
-                <IconsIconEdit />
-              </button>
-              <button
-                @click="removerIntervalo(i, j)"
-                class="w-[0.9rem] text-ldsa-text-default hover:text-ldsa-red"
-              >
-                <IconsIconExclude />
-              </button>
-            </div>
-          </div>
-          <button
-            @click="adicionarIntervalo(i)"
-            class="mx-auto text-ldsa-grey font-semibold text-[12px] flex items-center gap-1 mt-4"
-          >
-            Adicionar intervalo
-            <div class="w-[0.7rem] text-ldsa-grey mb-0.5"><IconsIconAdd /></div>
-          </button>
-        </div>
-      </div>
-    </div>
+    <PeriodosGrid
+      :periodos="periodos"
+      :novos-intervalos="novosIntervalos"
+      @confirmNovo="confirmarIntervalo"
+      @removeIntervalo="removerIntervalo"
+      @add="adicionarIntervalo"
+      @limparPeriodos="limparPeriodos"
+    />
   </div>
 </template>
