@@ -29,33 +29,40 @@ const periodos = ref<Periodo[]>([
   {
     nome: 'Matutino',
     intervalos: [
-      { inicio: '00:00', fim: '00:00' },
-      { inicio: '00:00', fim: '00:00' },
-      { inicio: '00:00', fim: '00:00' },
+      { inicio: '07:00', fim: '08:30' },
+      { inicio: '08:40', fim: '10:10' },
+      { inicio: '10:20', fim: '11:50' },
     ],
   },
   {
     nome: 'Vespertino',
     intervalos: [
-      { inicio: '00:00', fim: '00:00' },
-      { inicio: '00:00', fim: '00:00' },
-      { inicio: '00:00', fim: '00:00' },
+      { inicio: '07:00', fim: '08:30' },
+      { inicio: '08:40', fim: '10:10' },
+      { inicio: '10:20', fim: '11:50' },
     ],
   },
   {
     nome: 'Noturno',
     intervalos: [
-      { inicio: '00:00', fim: '00:00' },
-      { inicio: '00:00', fim: '00:00' },
-      { inicio: '00:00', fim: '00:00' },
+      { inicio: '07:00', fim: '08:30' },
+      { inicio: '08:40', fim: '10:10' },
+      { inicio: '10:20', fim: '11:50' },
     ],
   },
 ]);
 
-function adicionarIntervalo(index: number) {
-  const periodo = periodos.value[index];
-  if (periodo) {
-    periodo.intervalos.push({ inicio: '00:00', fim: '00:00' });
+const novosIntervalos = ref<Record<number, Intervalo | null>>({});
+
+function confirmarIntervalo(index: number) {
+  const intervalo = novosIntervalos.value[index];
+  if (intervalo?.inicio && intervalo?.fim) {
+    const periodo = periodos.value[index];
+    if (periodo) {
+      periodo.intervalos.push({ ...intervalo });
+      novosIntervalos.value[index] = null;
+    }
+    novosIntervalos.value[index] = null;
   }
 }
 
@@ -72,10 +79,10 @@ function removerIntervalo(periodoIndex: number, intervaloIndex: number) {
     <div class="mx-auto max-w-[80%] p-10">
       <!-- seçao de selects -->
       <div class="w-2/3">
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 w-full m-auto mb-9">
+        <div class="grid grid-cols-1 xl:grid-cols-5 gap-4 w-full m-auto mb-9">
           <VVAutocomplete
             :items="fusoHorario"
-            class="w-full xl:col-span-2"
+            class="w-full xl:col-span-3"
             label="Fuso Horário"
             name="fusoHorario.id"
             placeholder="Selecione um fuso horário"
@@ -106,11 +113,12 @@ function removerIntervalo(periodoIndex: number, intervaloIndex: number) {
               <IconsIconExclude />
             </button>
           </div>
-          <!-- intervalos -->
+
+          <!-- intervalos existentes -->
           <div
             v-for="(intervalo, j) in periodo.intervalos"
             :key="j"
-            class="flex items-center justify-between mb-2 p-3 border-b-2 border-ldsa-grey/50"
+            class="flex items-center justify-between mb-2 p-3 border-b-2 border-ldsa-grey/20"
           >
             <div class="font-medium text-[11px] whitespace-nowrap">
               {{ intervalo.inicio }} - {{ intervalo.fim }}
@@ -129,15 +137,53 @@ function removerIntervalo(periodoIndex: number, intervaloIndex: number) {
               </button>
             </div>
           </div>
+
+          <!-- inputs para novo intervalo -->
+          <div v-if="novosIntervalos[i]" class="flex gap-2 mt-3 pb-3 border-b border-ldsa-grey">
+            <VVTextField
+              v-model="novosIntervalos[i].inicio"
+              type="time"
+              label="Início"
+              name="inicio"
+              placeholder="00:00"
+            />
+            <VVTextField
+              v-model="novosIntervalos[i].fim"
+              type="time"
+              label="Término"
+              name="fim"
+              placeholder="00:00"
+            />
+            <button
+              @click="confirmarIntervalo(i)"
+              class="bg-ldsa-green-1 text-white text-[12px] px-3 py-1 rounded"
+            >
+              <div class="w-[0.7rem] text-ldsa-text-white mb-0.5 font-bold">
+                <IconsIconConfirm />
+              </div>
+            </button>            
+          </div>
+
+          <!-- botão novo intervalo -->
           <button
-            @click="adicionarIntervalo(i)"
+            v-else
+            @click="novosIntervalos[i] = { inicio: '', fim: '' }"
             class="mx-auto text-ldsa-grey font-semibold text-[12px] flex items-center gap-1 mt-4"
           >
             Adicionar intervalo
-            <div class="w-[0.7rem] text-ldsa-grey mb-0.5"><IconsIconAdd /></div>
+            <div class="w-[0.7rem] text-ldsa-grey mb-0.5">
+              <IconsIconAdd />
+            </div>
           </button>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+:deep(input[type='time']::-webkit-calendar-picker-indicator) {
+  display: none;
+  -webkit-appearance: none;
+}
+</style>
