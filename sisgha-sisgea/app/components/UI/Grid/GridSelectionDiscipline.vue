@@ -21,7 +21,7 @@ defineSlots<Slots>();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .selection-discipline {
   @apply flex flex-col gap-4 overflow-y-auto overflow-x-hidden mr-2;

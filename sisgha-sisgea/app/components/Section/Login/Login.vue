@@ -91,7 +91,7 @@ useTitle(null, 'Login');
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .login {
   flex-shrink: 0;

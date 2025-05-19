@@ -35,7 +35,7 @@ provide('selectedItem', selectedItem);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .sidebar {
   @apply fixed top-[4.563rem] bottom-0;

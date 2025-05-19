@@ -53,7 +53,7 @@ const showCampus = computed(() => {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .lesson {
   @apply flex items-center justify-between max-md:gap-2.5;

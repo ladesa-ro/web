@@ -42,10 +42,9 @@ const subjects = [
 </template>
 
 <style>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 @import 'vue3-carousel/dist/carousel.css';
-
 
 .carousel__slide {
   @apply pb-4 px-1 md:px-2 lg:px-2.5;

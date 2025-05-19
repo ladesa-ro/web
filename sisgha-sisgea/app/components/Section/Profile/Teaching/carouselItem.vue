@@ -50,7 +50,7 @@ const selectedCouse = ref(courses[0]);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .card-style {
   @apply mb-3 text-left font-semibold;

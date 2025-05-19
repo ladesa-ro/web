@@ -41,7 +41,7 @@ const profilePictureUrl = useApiImageRoute(
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .banner {
   @apply flex max-sm:justify-center sm:justify-start items-end;

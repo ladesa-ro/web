@@ -20,7 +20,7 @@ const { outlineOnClink = true } = defineProps<Props>();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .ui-button {
   @apply flex items-center gap-4 w-full px-5 py-3.5;

@@ -50,7 +50,7 @@ const thisGroupIsSelected = computed({
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .open {
   @apply bg-ldsa-green-2/25;

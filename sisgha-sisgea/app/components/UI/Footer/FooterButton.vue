@@ -5,11 +5,8 @@ type Link = {
   href: string;
 };
 
-type Props = {
-  link: Link;
-};
-
-const { link } = defineProps<Props>();
+type Props = { link: Link };
+defineProps<Props>();
 </script>
 
 <template>
@@ -34,7 +31,7 @@ const { link } = defineProps<Props>();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .icon {
   @apply w-4 h-4 shrink-0;

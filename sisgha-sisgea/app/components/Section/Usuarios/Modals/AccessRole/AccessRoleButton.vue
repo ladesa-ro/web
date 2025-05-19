@@ -22,7 +22,7 @@ defineProps<Props>();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .active {
   @apply bg-ldsa-green-1 border-ldsa-green-1 text-ldsa-white;

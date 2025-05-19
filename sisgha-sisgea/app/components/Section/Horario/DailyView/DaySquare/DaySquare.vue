@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import { useDebounceFn, useWindowSize } from '@vueuse/core';
-import { useMediaQuery } from '@vueuse/core';
-
+import { useDebounceFn, useMediaQuery, useWindowSize } from '@vueuse/core';
 
 type Props = {
   selected: boolean;
@@ -43,13 +41,15 @@ const screenSmallerThan820 = useMediaQuery('(max-width: 820px)');
 
 <template>
   <button ref="square" :class="{ selected: selected }" class="day-square">
-    <p class="day-week">{{ screenSmallerThan820 ? dayWeek.slice(0, 3) : dayWeek }}</p>
+    <p class="day-week">
+      {{ screenSmallerThan820 ? dayWeek.slice(0, 3) : dayWeek }}
+    </p>
     <p>{{ dayMonth }}</p>
   </button>
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .day-square {
   @apply w-full flex flex-col justify-center items-center gap-1 lg:gap-2 overflow-hidden;

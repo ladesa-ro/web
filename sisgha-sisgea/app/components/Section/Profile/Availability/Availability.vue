@@ -41,7 +41,7 @@ const weekDays = week.map(day => day.dayWeek);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app-reference.css";
+@reference "~/assets/styles/app.css";
 
 .day-week-navigator {
   @apply flex justify-between items-center gap-10;
