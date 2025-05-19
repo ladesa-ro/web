@@ -19,11 +19,20 @@ const checkedItems = defineModel<AcceptableValue[]>();
 
 <template>
   <CheckboxGroupRoot v-model="checkedItems">
-    <label v-for="item in items" class="flex items-center gap-1 cursor-pointer">
+    <label
+      v-for="item in items"
+      :key="item.value"
+      class="flex items-center gap-1 cursor-pointer"
+    >
       <span class="hover:bg-ldsa-green-2/10 content-box p-1.5 rounded-full">
         <Checkbox
           :value="item.value"
-          class="flex border-2 border-ldsa-grey rounded-sm w-5.5 h-5.5"
+          :class="
+            checkedItems?.includes(item.value)
+              ? 'border-ldsa-green-2'
+              : 'border-ldsa-grey'
+          "
+          class="flex border-2 rounded-sm w-5.5 h-5.5"
         >
           <Check class="flex-1 bg-ldsa-green-2 p-1 pt-1.5">
             <IconsIconConfirm class="text-ldsa-white" />

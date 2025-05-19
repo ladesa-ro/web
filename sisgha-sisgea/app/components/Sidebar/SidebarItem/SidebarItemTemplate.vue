@@ -12,7 +12,7 @@ const { item, open } = defineProps<Props>();
       <img
         :src="item.icon"
         alt="Ícone da funcionalidade."
-        class="min-w-5 w-5 sm:min-w-6 sm:w-6 -icon-white"
+        class="min-w-5 w-5 sm:min-w-5.5 sm:w-5.5 -icon-white"
       />
       <p class="text-nowrap">{{ item.title }}</p>
     </span>
