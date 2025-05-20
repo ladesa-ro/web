@@ -22,9 +22,11 @@ const checkedItems = defineModel<AcceptableValue[]>();
     <label
       v-for="item in items"
       :key="item.value"
-      class="flex items-center gap-1 cursor-pointer"
+      class="flex items-center gap-1.5 cursor-pointer mb-1.5 last:mb-0"
     >
-      <span class="hover:bg-ldsa-green-2/10 content-box p-1.5 rounded-full">
+      <span
+        class="rounded-full hover:shadow-[0_0_0_0.35rem_rgb(from_var(--ladesa-green-2-color)_R_G_B_/_10%)]"
+      >
         <Checkbox
           :value="item.value"
           :class="
@@ -32,7 +34,7 @@ const checkedItems = defineModel<AcceptableValue[]>();
               ? 'border-ldsa-green-2'
               : 'border-ldsa-grey'
           "
-          class="flex border-2 rounded-sm w-5.5 h-5.5"
+          class="flex border-2 hover:bg-ldsa-green-2/10 rounded-sm w-5.5 h-5.5"
         >
           <Check class="flex-1 bg-ldsa-green-2 p-1 pt-1.5">
             <IconsIconConfirm class="text-ldsa-white" />
