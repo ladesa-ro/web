@@ -5,11 +5,18 @@ const selectedToggleItem = ref<'professor' | 'turma' | 'mesclado'>('professor');
 </script>
 
 <template>
-  <UIContainer variant="large" class="flex flex-col gap-19">
+  <UIContainer
+    variant="large"
+    class="flex flex-col"
+    :class="selectedToggleItem !== 'mesclado' ? 'gap-19' : 'gap-6'"
+  >
+    <!-- header -->
     <SectionHorarioDapeVisualizationVisualizationHeader
       v-model:search-bar="searchBarValue"
       v-model:toggle="selectedToggleItem"
     />
+
+    <!-- content -->
 
     <SectionUsuariosGrid
       items-link="/sisgha/dape"
@@ -17,8 +24,12 @@ const selectedToggleItem = ref<'professor' | 'turma' | 'mesclado'>('professor');
       :search-bar-text="searchBarValue"
     />
 
-    <SectionHorarioDapeVisualizationMesclado
-      v-show="selectedToggleItem === 'mesclado'"
-    />
+    <!-- TODO: adicionar listagem de turmas -->
+
+    <KeepAlive>
+      <SectionHorarioDapeVisualizationMesclado
+        v-if="selectedToggleItem === 'mesclado'"
+      />
+    </KeepAlive>
   </UIContainer>
 </template>
