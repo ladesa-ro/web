@@ -20,6 +20,7 @@ const searchBarText = ref('');
     </div>
   </v-container>
 </template>
+
 <style scoped>
 .container-header {
   padding: 50px 0;
