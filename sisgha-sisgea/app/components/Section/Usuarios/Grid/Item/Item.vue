@@ -84,7 +84,7 @@ const profilePicureUrl = useApiImageRoute(
           v-if="link === `usuarios/${usuario.id}`"
           :editId="usuario.id"
         />
-        <IconsArrowIconArrowAlt v-else class="w-5 rotate-180 mr-1" />
+        <IconsArrowIconArrowAlt v-else class="w-4.5 rotate-180 mr-1" />
       </template>
 
       <UICardLine v-if="vinculos.length === 0" text="Sem vínculos" />
