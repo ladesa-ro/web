@@ -12,8 +12,10 @@ const { usuario, link: linkProps } = defineProps<Props>();
 
 let link =
   linkProps === undefined || linkProps === ''
-    ? `usuarios/${usuario.id}`
+    ? 'usuarios'
     : linkProps;
+
+// TODO: adicionar lógica para deixar o link mais dinâmico
 
 //
 
@@ -73,7 +75,7 @@ const profilePicureUrl = useApiImageRoute(
 </script>
 
 <template>
-  <nuxt-link v-if="usuario" :to="link" @click.capture="handleCardClick">
+  <nuxt-link v-if="usuario" :to="link + `/${usuario.id}`" @click.capture="handleCardClick">
     <UICard :src="profilePicureUrl" :title="usuario.nome" variant="block">
       <template #fallbackIcon>
         <IconsIconUser class="w-1/3 2xl:w-1/4 text-ldsa-grey" />
@@ -81,7 +83,7 @@ const profilePicureUrl = useApiImageRoute(
 
       <template #actions>
         <SectionUsuariosModalsForm
-          v-if="link === `usuarios/${usuario.id}`"
+          v-if="link === 'usuarios'"
           :editId="usuario.id"
         />
         <IconsArrowIconArrowAlt v-else class="w-4.5 rotate-180 mr-1" />
