@@ -14,7 +14,7 @@ const {
 
 const queries = computed(() => ({ search: searchBarText }));
 
-// TODO: filtrar para ter apenas professores
+// TODO: adicionar opção para filtrar para ter apenas professores
 const {
   data: { items: usuarios },
   methods: { suspend },
