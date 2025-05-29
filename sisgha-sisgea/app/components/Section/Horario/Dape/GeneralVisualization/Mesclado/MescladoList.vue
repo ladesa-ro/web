@@ -9,10 +9,10 @@ type Props = {
 
 const { items: itemsProps, searchBarValue = '' } = defineProps<Props>();
 
-const parsedItemsList = getParsedItems(itemsProps);
+const parsedItems = getParsedItems(itemsProps);
 
 const filtredItems = computed(() => {
-  return parsedItemsList.filter(item => item.label.includes(searchBarValue));
+  return parsedItems.filter(item => item.label.includes(searchBarValue));
 });
 
 //
@@ -25,9 +25,9 @@ const selectedCheckboxes = defineModel<AcceptableValue[]>();
     <li
       v-for="item in filtredItems"
       :key="item.value"
-      class="border-t-1 border-t-ldsa-grey/30 last:border-b-1 last:border-b-ldsa-grey/30"
+      class="border-t-1 border-t-ldsa-grey/50 last:border-b-1 last:border-b-ldsa-grey/50"
     >
-      <UICheckbox class="p-3" :items="[item]" v-model="selectedCheckboxes" />
+      <UICheckbox class="p-3 font-medium" :items="[item]" v-model="selectedCheckboxes" />
     </li>
 
     <span v-if="filtredItems.length === 0" class="text-ldsa-grey text-center">

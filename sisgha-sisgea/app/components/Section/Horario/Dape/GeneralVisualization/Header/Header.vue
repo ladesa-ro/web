@@ -48,7 +48,7 @@ const searchBarValue = defineModel<string | undefined>('searchBar', {
         :items="toggleItems"
       />
 
-      <SectionHorarioDapeVisualizationVisualizationHeaderSelectWeek
+      <SectionHorarioDapeGeneralVisualizationHeaderSelectWeek
         v-model="popoverOpen"
       />
     </section>

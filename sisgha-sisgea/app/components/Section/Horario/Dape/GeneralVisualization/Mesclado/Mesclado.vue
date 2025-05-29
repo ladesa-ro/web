@@ -42,14 +42,14 @@ const selectedCheckboxes = ref([]);
 
       <UISearchBar v-model="searchBarValue" />
 
-      <SectionHorarioDapeVisualizationMescladoList
+      <SectionHorarioDapeGeneralVisualizationMescladoList
         v-show="toggleValue === 'professor'"
         :items="checkboxItemsProfessor"
         v-model="selectedCheckboxes"
         :search-bar-value="searchBarValue"
       />
 
-      <SectionHorarioDapeVisualizationMescladoList
+      <SectionHorarioDapeGeneralVisualizationMescladoList
         v-show="toggleValue === 'turma'"
         :items="checkboxItemsTurma"
         v-model="selectedCheckboxes"
