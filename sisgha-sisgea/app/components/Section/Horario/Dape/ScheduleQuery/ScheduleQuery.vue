@@ -12,8 +12,7 @@ defineProps<Props>();
           <IconsArrowIconArrowAlt class="w-6 text-ldsa-grey" />
         </NuxtLink>
 
-        <!-- TODO: transformar título padrão em componente -->
-        <h1>Visualização de Horário - Técnico em Informática - 3° A</h1>
+        <UITitle text="Visualização de Horário - Técnico em Informática - 3° A" />
       </span>
 
 

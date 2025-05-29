@@ -13,11 +13,7 @@ const DAPE_PATH = '/sisgha/dape';
 
 <template>
   <UIContainer class="flex flex-col">
-    <h1
-      class="flex font-semibold text-xl mb-7 before:content-[''] before:border-[0.219rem] before:border-ldsa-green-1 before:mr-3"
-    >
-      Início - Acesso Rápido
-    </h1>
+    <UITitle text="Início - Acesso Rápido" />
 
     <Section title="Horário Acadêmico">
       <CardLink
@@ -35,7 +31,7 @@ const DAPE_PATH = '/sisgha/dape';
 
     <Section title="Relatórios">
       <CardLink
-        :to="`${DAPE_PATH}/relatorios/aulas-ministradas`"
+        :to="`${DAPE_PATH}/relatorios/aulasMinistradas`"
         :icon="IconsIconTeacherLesson"
         title="Aulas Ministradas"
       />
