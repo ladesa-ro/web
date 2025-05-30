@@ -9,7 +9,13 @@ defineProps<{
   novoIntervalo: { inicio: string; fim: string } | null;
 }>();
 
-const emit = defineEmits(['add', 'removeIntervalo', 'confirmNovo', 'limparPeriodos']);
+const emit = defineEmits([
+  'add',
+  'removeIntervalo',
+  'confirmNovo',
+  'limparPeriodos',
+  'updateNovoIntervalo'
+]);
 </script>
 
 <template>
@@ -29,6 +35,7 @@ const emit = defineEmits(['add', 'removeIntervalo', 'confirmNovo', 'limparPeriod
     <IntervaloForm
       v-if="novoIntervalo"
       :model-value="novoIntervalo"
+      @update:modelValue="val => emit('updateNovoIntervalo', index, val)"
       :on-confirm="() => emit('confirmNovo', index)"
     />
 

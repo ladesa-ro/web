@@ -6,7 +6,13 @@ defineProps<{
   novosIntervalos: ({ inicio: string; fim: string } | null)[];
 }>();
 
-defineEmits(['add', 'removeIntervalo', 'confirmNovo', 'limparPeriodos']);
+defineEmits([
+  'add',
+  'removeIntervalo',
+  'confirmNovo',
+  'limparPeriodos',
+  'updateNovoIntervalo',
+]);
 </script>
 
 <template>
@@ -21,6 +27,7 @@ defineEmits(['add', 'removeIntervalo', 'confirmNovo', 'limparPeriodos']);
       @removeIntervalo="j => $emit('removeIntervalo', i, j)"
       @confirmNovo="$emit('confirmNovo', i)"
       @limparPeriodos="$emit('limparPeriodos', i)"
+      @updateNovoIntervalo="(i, val) => $emit('updateNovoIntervalo', i, val)"
     />
   </div>
 </template>

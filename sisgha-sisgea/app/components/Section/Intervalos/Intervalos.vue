@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import PeriodosGrid from '@/components/Section/Intervalos/Layout/Grid.vue';
 import IntervaloSelectForm from '@/components/Section/Intervalos/Form/SelectForm.vue';
+import PeriodosGrid from '@/components/Section/Intervalos/Layout/Grid.vue';
+import { ref } from 'vue';
 
 const fusoHorario = ref([
   'Amazonas - Manaus (GMT-04:00)',
@@ -71,6 +71,13 @@ function limparPeriodos(index: number) {
   if (!periodo) return;
   periodo.intervalos = [];
 }
+
+function atualizarNovoIntervalo(
+  index: number,
+  val: { inicio: string; fim: string }
+) {
+  novosIntervalos.value[index] = val;
+}
 </script>
 
 <template>
@@ -84,6 +91,7 @@ function limparPeriodos(index: number) {
       @removeIntervalo="removerIntervalo"
       @add="adicionarIntervalo"
       @limparPeriodos="limparPeriodos"
+      @updateNovoIntervalo="atualizarNovoIntervalo"
     />
   </div>
 </template>
