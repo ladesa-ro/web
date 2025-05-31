@@ -66,12 +66,6 @@ function adicionarIntervalo(index: number) {
   }
 }
 
-function limparPeriodos(index: number) {
-  const periodo = periodos.value[index];
-  if (!periodo) return;
-  periodo.intervalos = [];
-}
-
 function atualizarNovoIntervalo(
   index: number,
   val: { inicio: string; fim: string }
@@ -90,7 +84,6 @@ function atualizarNovoIntervalo(
       @confirmNovo="confirmarIntervalo"
       @removeIntervalo="removerIntervalo"
       @add="adicionarIntervalo"
-      @limparPeriodos="limparPeriodos"
       @updateNovoIntervalo="atualizarNovoIntervalo"
     />
   </div>

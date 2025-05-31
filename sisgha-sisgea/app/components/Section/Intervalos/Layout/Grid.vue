@@ -10,7 +10,6 @@ defineEmits([
   'add',
   'removeIntervalo',
   'confirmNovo',
-  'limparPeriodos',
   'updateNovoIntervalo',
 ]);
 </script>
@@ -26,7 +25,6 @@ defineEmits([
       @add="$emit('add', i)"
       @removeIntervalo="j => $emit('removeIntervalo', i, j)"
       @confirmNovo="$emit('confirmNovo', i)"
-      @limparPeriodos="$emit('limparPeriodos', i)"
       @updateNovoIntervalo="(i, val) => $emit('updateNovoIntervalo', i, val)"
     />
   </div>
