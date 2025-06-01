@@ -4,6 +4,11 @@ import PeriodoCard from './Card.vue';
 defineProps<{
   periodos: { nome: string; intervalos: { inicio: string; fim: string }[] }[];
   novosIntervalos: ({ inicio: string; fim: string } | null)[];
+  intervaloEditando: {
+    periodoIndex: number;
+    intervaloIndex: number;
+    dados: { inicio: string; fim: string };
+  } | null;
 }>();
 
 defineEmits([
@@ -11,6 +16,10 @@ defineEmits([
   'removeIntervalo',
   'confirmNovo',
   'updateNovoIntervalo',
+  'edit',
+  'cancelEdit',
+  'updateEdit',
+  'confirmEdit',
 ]);
 </script>
 
@@ -22,10 +31,15 @@ defineEmits([
       :periodo="periodo"
       :index="i"
       :novo-intervalo="novosIntervalos[i] ?? null"
+      :editando="intervaloEditando && intervaloEditando.periodoIndex === i ? intervaloEditando : null"
       @add="$emit('add', i)"
       @removeIntervalo="j => $emit('removeIntervalo', i, j)"
       @confirmNovo="$emit('confirmNovo', i)"
-      @updateNovoIntervalo="(i, val) => $emit('updateNovoIntervalo', i, val)"
+      @updateNovoIntervalo="(val) => $emit('updateNovoIntervalo', i, val)"
+      @edit="j => $emit('edit', i, j)"
+      @cancelEdit="$emit('cancelEdit')"
+      @updateEdit="$emit('updateEdit', $event)"
+      @confirmEdit="$emit('confirmEdit')"
     />
   </div>
 </template>

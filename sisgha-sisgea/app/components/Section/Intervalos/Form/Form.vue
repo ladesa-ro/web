@@ -4,6 +4,7 @@ import { computed } from 'vue';
 const props = defineProps<{
   modelValue: { inicio: string; fim: string };
   onConfirm: () => void;
+  onCancel?: () => void;
 }>();
 
 function handleConfirm() {
@@ -26,7 +27,7 @@ const fim = computed({
 </script>
 
 <template>
-  <div class="flex gap-2 mt-3 pb-3 border-b border-ldsa-grey">
+  <div class="flex gap-2 mt-3 pb-3 border-b border-ldsa-grey items-center">
     <VVTextField v-model="inicio" type="time" label="Início" name="inicio" />
     <VVTextField v-model="fim" type="time" label="Término" name="fim" />
     <button
@@ -34,6 +35,13 @@ const fim = computed({
       class="bg-ldsa-green-1 px-2 py-1 rounded text-[0.75rem] text-ldsa-white"
     >
       <IconsIconConfirm class="flex w-6 h-6 mr-4" />
+    </button>
+    <button
+      v-if="props.onCancel"
+      @click="props.onCancel"
+      class="bg-gray-400 px-2 py-1 rounded text-[0.75rem] text-white"
+    >
+      Cancelar
     </button>
   </div>
 </template>

@@ -7,6 +7,11 @@ defineProps<{
   periodo: { nome: string; intervalos: { inicio: string; fim: string }[] };
   index: number;
   novoIntervalo: { inicio: string; fim: string } | null;
+  editando: {
+    periodoIndex: number;
+    intervaloIndex: number;
+    dados: { inicio: string; fim: string };
+  } | null;
 }>();
 
 const emit = defineEmits([
@@ -14,6 +19,10 @@ const emit = defineEmits([
   'removeIntervalo',
   'confirmNovo',
   'updateNovoIntervalo',
+  'edit',
+  'cancelEdit',
+  'updateEdit',
+  'confirmEdit',
 ]);
 </script>
 
@@ -23,23 +32,34 @@ const emit = defineEmits([
       <h2 class="font-semibold text-[13px] border-l-4 border-ldsa-green-1 pl-2">{{ periodo.nome }}</h2>
     </div>
 
-    <IntervaloItem
-      v-for="(intervalo, j) in periodo.intervalos"
-      :key="j"
-      :intervalo="intervalo"
-      :onRemove="() => emit('removeIntervalo', index, j)"
-    />
+    <div v-for="(intervalo, j) in periodo.intervalos" :key="j">
+      <template v-if="editando && editando.intervaloIndex === j">
+        <IntervaloForm
+          :model-value="editando.dados"
+          @update:modelValue="val => emit('updateEdit', val)"
+          :on-confirm="() => emit('confirmEdit')"
+        />
+        <button @click="() => emit('cancelEdit')" class="text-xs text-ldsa-grey">Cancelar</button>
+      </template>
+      <template v-else>
+        <IntervaloItem
+          :intervalo="intervalo"
+          :onRemove="() => emit('removeIntervalo', j)"
+          :onEdit="() => emit('edit', j)"
+        />
+      </template>
+    </div>
 
     <IntervaloForm
       v-if="novoIntervalo"
       :model-value="novoIntervalo"
-      @update:modelValue="val => emit('updateNovoIntervalo', index, val)"
-      :on-confirm="() => emit('confirmNovo', index)"
+      @update:modelValue="val => emit('updateNovoIntervalo', val)"
+      :on-confirm="() => emit('confirmNovo')"
     />
 
     <button
       v-else
-      @click="emit('add', index)"
+      @click="emit('add')"
       class="mx-auto text-ldsa-grey font-semibold text-[12px] flex items-center gap-1 mt-4"
     >
       Adicionar intervalo

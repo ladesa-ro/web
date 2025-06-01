@@ -44,10 +44,17 @@ const novosIntervalos = ref<({ inicio: string; fim: string } | null)[]>(
   periodos.value.map(() => null)
 );
 
+const intervaloEditando = ref<{
+  periodoIndex: number;
+  intervaloIndex: number;
+  dados: { inicio: string; fim: string };
+} | null>(null);
+
 function confirmarIntervalo(index: number) {
   const intervalo = novosIntervalos.value[index];
   const periodo = periodos.value[index];
   if (!intervalo || !periodo) return;
+
   if (intervalo.inicio && intervalo.fim) {
     periodo.intervalos.push({ ...intervalo });
     novosIntervalos.value[index] = null;
@@ -72,6 +79,37 @@ function atualizarNovoIntervalo(
 ) {
   novosIntervalos.value[index] = val;
 }
+
+function editarIntervalo(i: number, j: number) {
+  const periodo = periodos.value[i];
+  const intervalo = periodo?.intervalos?.[j];
+  if (!intervalo) return;
+  intervaloEditando.value = {
+    periodoIndex: i,
+    intervaloIndex: j,
+    dados: { ...intervalo },
+  };
+}
+
+function cancelarEdicao() {
+  intervaloEditando.value = null;
+}
+
+function atualizarEdicao(val: { inicio: string; fim: string }) {
+  if (!intervaloEditando.value) return;
+  intervaloEditando.value.dados = val;
+}
+
+function confirmarEdicao() {
+  const edit = intervaloEditando.value;
+  if (!edit) return;
+
+  const periodo = periodos.value[edit.periodoIndex];
+  if (!periodo?.intervalos?.[edit.intervaloIndex]) return;
+
+  periodo.intervalos[edit.intervaloIndex] = { ...edit.dados };
+  intervaloEditando.value = null;
+}
 </script>
 
 <template>
@@ -81,10 +119,15 @@ function atualizarNovoIntervalo(
     <PeriodosGrid
       :periodos="periodos"
       :novos-intervalos="novosIntervalos"
+      :intervalo-editando="intervaloEditando"
       @confirmNovo="confirmarIntervalo"
       @removeIntervalo="removerIntervalo"
       @add="adicionarIntervalo"
       @updateNovoIntervalo="atualizarNovoIntervalo"
+      @edit="editarIntervalo"
+      @cancelEdit="cancelarEdicao"
+      @updateEdit="atualizarEdicao"
+      @confirmEdit="confirmarEdicao"
     />
   </div>
 </template>
