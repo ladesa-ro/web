@@ -123,7 +123,7 @@ function confirmarEdicao() {
 
 
 <template>
-  <div class="mx-auto max-w-[85%] p-10">
+  <div class="mx-auto max-w-full px-4 sm:px-6 md:max-w-[85%] md:px-10 py-6">
     <IntervaloSelectForm :fusoHorario="fusoHorario" :ordem="ordem" />
 
     <PeriodosGrid

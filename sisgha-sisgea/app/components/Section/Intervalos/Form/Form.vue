@@ -27,7 +27,7 @@ const fim = computed({
 </script>
 
 <template>
-  <div class="flex gap-2 mt-3 pb-3 border-b border-ldsa-grey items-center">
+  <div class="flex flex-wrap gap-2 mt-3 pb-3 border-b border-ldsa-grey items-center">
     <VVTextField v-model="inicio" type="time" label="Início" name="inicio" />
     <VVTextField v-model="fim" type="time" label="Término" name="fim" />
     <button

@@ -24,7 +24,7 @@ defineEmits([
 </script>
 
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-3 divide-x divide-ldsa-grey">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:divide-x md:divide-ldsa-grey">
     <PeriodoCard
       v-for="(periodo, i) in periodos"
       :key="i"

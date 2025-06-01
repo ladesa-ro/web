@@ -7,7 +7,7 @@ defineProps<{
 
 <template>
   <div class="w-2/3">
-    <div class="grid grid-cols-1 xl:grid-cols-5 gap-4 w-full m-auto mb-9">
+    <div class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-5 gap-4 w-full mb-9">
       <VVAutocomplete
         :items="fusoHorario"
         class="w-full xl:col-span-3"

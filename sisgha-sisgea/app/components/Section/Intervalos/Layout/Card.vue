@@ -27,7 +27,7 @@ const emit = defineEmits([
 </script>
 
 <template>
-  <div class="px-4">
+  <div class="px-4 py-4 md:py-6">
     <div class="flex justify-between items-center mb-3">
       <h2 class="font-semibold text-[13px] border-l-4 border-ldsa-green-1 pl-2">{{ periodo.nome }}</h2>
     </div>
