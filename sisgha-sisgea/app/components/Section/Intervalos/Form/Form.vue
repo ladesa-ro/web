@@ -32,7 +32,7 @@ const fim = computed({
     <VVTextField v-model="fim" type="time" label="Término" name="fim" />
     <button
       @click="handleConfirm"
-      class="bg-ldsa-green-1 px-2 py-1 rounded text-[0.75rem] text-ldsa-white"
+      class="bg-ldsa-green-1 px-2 py-3 rounded text-[0.75rem] text-ldsa-white"
     >
       <IconsIconConfirm class="flex w-6 h-6 mr-4" />
     </button>
