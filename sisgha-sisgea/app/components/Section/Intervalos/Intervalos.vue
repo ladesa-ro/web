@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import PeriodosGrid from '@/components/Section/Intervalos/Layout/Grid.vue';
 import IntervaloSelectForm from '@/components/Section/Intervalos/Form/SelectForm.vue';
+import PeriodosGrid from '@/components/Section/Intervalos/Layout/Grid.vue';
+import { ref } from 'vue';
 
 const fusoHorario = ref([
   'Amazonas - Manaus (GMT-04:00)',
@@ -44,10 +44,17 @@ const novosIntervalos = ref<({ inicio: string; fim: string } | null)[]>(
   periodos.value.map(() => null)
 );
 
+const intervaloEditando = ref<{
+  periodoIndex: number;
+  intervaloIndex: number;
+  dados: { inicio: string; fim: string };
+} | null>(null);
+
 function confirmarIntervalo(index: number) {
   const intervalo = novosIntervalos.value[index];
   const periodo = periodos.value[index];
   if (!intervalo || !periodo) return;
+
   if (intervalo.inicio && intervalo.fim) {
     periodo.intervalos.push({ ...intervalo });
     novosIntervalos.value[index] = null;
@@ -61,29 +68,76 @@ function removerIntervalo(i: number, j: number) {
 }
 
 function adicionarIntervalo(index: number) {
+  const algumAberto = novosIntervalos.value.some((intervalo, idx) => intervalo !== null && idx !== index);
+
+  if (algumAberto) {
+    novosIntervalos.value = novosIntervalos.value.map(() => null);
+  }
+
   if (novosIntervalos.value[index] == null) {
     novosIntervalos.value[index] = { inicio: '', fim: '' };
   }
 }
 
-function limparPeriodos(index: number) {
-  const periodo = periodos.value[index];
-  if (!periodo) return;
-  periodo.intervalos = [];
+function atualizarNovoIntervalo(
+  index: number,
+  val: { inicio: string; fim: string }
+) {
+  novosIntervalos.value[index] = val;
+}
+
+function editarIntervalo(i: number, j: number) {
+  if (intervaloEditando.value !== null) {
+    return;
+  }
+  const periodo = periodos.value[i];
+  const intervalo = periodo?.intervalos?.[j];
+  if (!intervalo) return;
+  intervaloEditando.value = {
+    periodoIndex: i,
+    intervaloIndex: j,
+    dados: { ...intervalo },
+  };
+}
+
+function cancelarEdicao() {
+  intervaloEditando.value = null;
+}
+
+function atualizarEdicao(val: { inicio: string; fim: string }) {
+  if (!intervaloEditando.value) return;
+  intervaloEditando.value.dados = val;
+}
+
+function confirmarEdicao() {
+  const edit = intervaloEditando.value;
+  if (!edit) return;
+
+  const periodo = periodos.value[edit.periodoIndex];
+  if (!periodo?.intervalos?.[edit.intervaloIndex]) return;
+
+  periodo.intervalos[edit.intervaloIndex] = { ...edit.dados };
+  intervaloEditando.value = null;
 }
 </script>
 
+
 <template>
-  <div class="mx-auto max-w-[85%] p-10">
+  <div class="mx-auto w-full max-w-[85%] px-4 sm:px-6 md:px-10 py-6">
     <IntervaloSelectForm :fusoHorario="fusoHorario" :ordem="ordem" />
 
     <PeriodosGrid
       :periodos="periodos"
       :novos-intervalos="novosIntervalos"
+      :intervalo-editando="intervaloEditando"
       @confirmNovo="confirmarIntervalo"
       @removeIntervalo="removerIntervalo"
       @add="adicionarIntervalo"
-      @limparPeriodos="limparPeriodos"
+      @updateNovoIntervalo="atualizarNovoIntervalo"
+      @edit="editarIntervalo"
+      @cancelEdit="cancelarEdicao"
+      @updateEdit="atualizarEdicao"
+      @confirmEdit="confirmarEdicao"
     />
   </div>
 </template>
