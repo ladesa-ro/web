@@ -68,6 +68,12 @@ function removerIntervalo(i: number, j: number) {
 }
 
 function adicionarIntervalo(index: number) {
+  const algumAberto = novosIntervalos.value.some((intervalo, idx) => intervalo !== null && idx !== index);
+
+  if (algumAberto) {
+    novosIntervalos.value = novosIntervalos.value.map(() => null);
+  }
+
   if (novosIntervalos.value[index] == null) {
     novosIntervalos.value[index] = { inicio: '', fim: '' };
   }
@@ -81,6 +87,9 @@ function atualizarNovoIntervalo(
 }
 
 function editarIntervalo(i: number, j: number) {
+  if (intervaloEditando.value !== null) {
+    return;
+  }
   const periodo = periodos.value[i];
   const intervalo = periodo?.intervalos?.[j];
   if (!intervalo) return;
@@ -111,6 +120,7 @@ function confirmarEdicao() {
   intervaloEditando.value = null;
 }
 </script>
+
 
 <template>
   <div class="mx-auto max-w-[85%] p-10">

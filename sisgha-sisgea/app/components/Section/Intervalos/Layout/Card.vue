@@ -58,12 +58,14 @@ const emit = defineEmits([
     />
 
     <button
-      v-else
-      @click="emit('add')"
-      class="mx-auto text-ldsa-grey font-semibold text-[12px] flex items-center gap-1 mt-4"
-    >
-      Adicionar intervalo
-      <IconsIconAdd class="w-[0.7rem] mb-0.5" />
-    </button>
+  v-else
+  @click="emit('add')"
+  :disabled="!!editando || !!novoIntervalo"
+  class="mx-auto text-ldsa-grey font-semibold text-[12px] flex items-center gap-1 mt-4 disabled:opacity-40 disabled:cursor-not-allowed"
+>
+  Adicionar intervalo
+  <IconsIconAdd class="w-[0.7rem] mb-0.5" />
+</button>
+
   </div>
 </template>
