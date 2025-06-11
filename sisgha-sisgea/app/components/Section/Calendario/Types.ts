@@ -1,12 +1,6 @@
-type MonthDays = {
-  before: number;
-  month: number;
-  after: number;
-}
-
 // API - Calendar Types
 
-type AcademicCalendar = {
+type APIAcademicCalendar = {
     id: string;
     name: string;
     year: number;
@@ -18,7 +12,7 @@ type AcademicCalendar = {
     };
 }
 
-type CalendarDay = {
+type APICalendarDay = {
     id: string;
     data: string;
     holiday: boolean;
@@ -28,7 +22,7 @@ type CalendarDay = {
     };
 }
 
-type Stages = {
+type APIStage = {
     id: string;
     number: number;
     startDate: string;
@@ -39,7 +33,7 @@ type Stages = {
     };
 }
 
-type Events = {
+type APIEvent = {
     id: string;
     name: string;
     startDate: string;
@@ -49,3 +43,17 @@ type Events = {
         id: string;
     };
 }
+
+// COMPONENTS - Calendar Types
+
+type Day = Omit <APICalendarDay, 'id' | 'holiday' | 'schoolday' | 'academicCalendar'> & {
+    number: number;
+    color: string;
+};
+
+type MonthDays = {
+  before: number;
+  month: number;
+  after: number;
+}
+
