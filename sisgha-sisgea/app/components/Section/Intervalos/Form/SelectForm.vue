@@ -19,12 +19,12 @@ watch(ordemSelecionada, (val) => emit('update:ordemSelecionada', val));
 </script>
 
 <template>
-  <div class="w-2/3">
+  <div class="w-4/5">
     <div class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-5 gap-4 w-full mb-9">
       <VVAutocomplete
         v-model="fusoHorarioSelecionado"
         :items="fusoHorario"
-        class="w-full xl:col-span-3"
+        class="w-full xl:col-span-5"
         label="Fuso Horário"
         name="fusoHorario.id"
         placeholder="Selecione um fuso horário"
