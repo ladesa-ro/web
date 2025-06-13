@@ -1,10 +1,4 @@
 <script lang="ts" setup>
-type Props = {
-  variant?: 'default' | 'sheet';
-};
-
-const { variant = 'default' } = defineProps<Props>();
-
 const isActive = defineModel({ default: false });
 
 const modal = useTemplateRef('modal');
@@ -14,6 +8,7 @@ const onOpen = async () => {
 
   // wait the modal is mounted before focus it
   await nextTick();
+
   if (modal.value) modal.value.focus();
 };
 
@@ -30,8 +25,9 @@ const onClose = () => (isActive.value = false);
     <Teleport to="body">
       <section v-if="isActive" class="overlay-layout">
         <div class="backdrop" @click="onClose" />
+
         <div
-          :class="['modal-container', variant]"
+          class="modal-container"
           ref="modal"
           tabindex="0"
           @keyup.esc="onClose"
@@ -60,17 +56,12 @@ const onClose = () => (isActive.value = false);
 .modal-container {
   @apply z-[999];
   @apply transition-[all] duration-300;
-  @apply bg-white dark:bg-neutral-900 rounded-lg shadow-lg;
-  @apply p-6;
 }
 
-.default {
-  @apply w-[90vw] max-w-md h-auto;
-}
-
-.sheet {
-  @apply w-[794px] h-[1123px];
-}
+/* 
+ * bellow is the animation to open and close the modal
+ * see the vue transition component documentation to learn more
+ */
 
 .modal-enter-from,
 .modal-leave-to {
