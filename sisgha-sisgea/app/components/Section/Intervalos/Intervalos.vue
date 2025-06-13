@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import IntervaloSelectForm from '@/components/Section/Intervalos/Form/SelectForm.vue';
 import PeriodosGrid from '@/components/Section/Intervalos/Layout/Grid.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const fusoHorario = ref([
   'Amazonas - Manaus (GMT-04:00)',
@@ -49,6 +49,23 @@ const intervaloEditando = ref<{
   intervaloIndex: number;
   dados: { inicio: string; fim: string };
 } | null>(null);
+
+watch(
+  () => form.value.ordem,
+  (novaOrdem) => {
+    if (!novaOrdem) return;
+
+    periodos.value.forEach((periodo) => {
+      periodo.intervalos.sort((a, b) => {
+        const horaA = a.inicio;
+        const horaB = b.inicio;
+        return novaOrdem === 'Crescente'
+          ? horaA.localeCompare(horaB)
+          : horaB.localeCompare(horaA);
+      });
+    });
+  }
+);
 
 function confirmarIntervalo(index: number) {
   const intervalo = novosIntervalos.value[index];
@@ -121,10 +138,13 @@ function confirmarEdicao() {
 }
 </script>
 
-
 <template>
   <div class="mx-auto w-full max-w-[85%] px-4 sm:px-6 md:px-10 py-6">
-    <IntervaloSelectForm :fusoHorario="fusoHorario" :ordem="ordem" />
+    <IntervaloSelectForm
+      :fusoHorario="fusoHorario"
+      :ordem="ordem"
+      v-model:ordem-selecionada="form.ordem"
+    />
 
     <PeriodosGrid
       :periodos="periodos"
