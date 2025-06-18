@@ -1,13 +1,23 @@
 <script lang="ts" setup>
-import type { Dayjs } from 'dayjs';
-import Day from './Day.vue';
+// # Import Libs & Others
+import 'dayjs/locale/pt-br';
+
+// # Import Types
+import type { EmptyDays } from '../Types';
+
+// # Import Functions
+import { renderDays } from './RenderMonthDays';
+
+// # Code
 
 const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+let emptyDays = ref<EmptyDays>(renderDays.EmptyDays(2025, 'julho'));
 </script>
 
 <template>
   <div
-    class="flex flex-col border-2 border-ldsa-grey rounded-lg overflow-hidden"
+    class="flex flex-col border-2 border-ldsa-grey rounded-lg overflow-hidden h-min"
   >
     <!-- Month Head -->
     <div class="flex w-full justify-between items-center bg-purple-600 p-4">
@@ -26,13 +36,11 @@ const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
       </p>
 
       <!-- Days -->
-      <Day />
-      <Day />
-      <Day />
-      <Day />
-      <Day />
-      <Day />
-      <Day />
+      <SectionCalendarioMonthDay v-for="firstEmptyDay in emptyDays.before" />
+
+      <SectionCalendarioMonthDay v-for="monthDay in 31" :number="monthDay" />
+
+      <SectionCalendarioMonthDay v-for="lastEmptyDay in emptyDays.after" />
     </div>
   </div>
 </template>

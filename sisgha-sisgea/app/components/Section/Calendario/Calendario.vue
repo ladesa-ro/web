@@ -3,7 +3,7 @@ import 'dayjs/locale/pt-br';
 </script>
 
 <template>
-  <div>
-    <SectionCalendarioMonth />
-  </div>
+  <UIContainer>
+    <SectionCalendarioViewsType1 />
+  </UIContainer>
 </template>
