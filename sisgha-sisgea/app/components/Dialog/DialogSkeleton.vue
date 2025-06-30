@@ -5,10 +5,7 @@ const modal = useTemplateRef('modal');
 
 const onOpen = async () => {
   isActive.value = true;
-
-  // wait the modal is mounted before focus it
   await nextTick();
-
   if (modal.value) modal.value.focus();
 };
 
@@ -21,7 +18,6 @@ const onClose = () => (isActive.value = false);
   </nav>
 
   <Transition name="modal">
-    <!-- dialog content -->
     <Teleport to="body">
       <section v-if="isActive" class="overlay-layout">
         <div class="backdrop" @click="onClose" />
@@ -54,14 +50,11 @@ const onClose = () => (isActive.value = false);
 }
 
 .modal-container {
-  @apply z-[999];
+  @apply z-[999] w-full h-full max-h-screen max-w-[95%] overflow-y-auto p-4;
+  @apply flex items-center justify-center;
+  @apply rounded-2xl;
   @apply transition-[all] duration-300;
 }
-
-/* 
- * bellow is the animation to open and close the modal
- * see the vue transition component documentation to learn more
- */
 
 .modal-enter-from,
 .modal-leave-to {
