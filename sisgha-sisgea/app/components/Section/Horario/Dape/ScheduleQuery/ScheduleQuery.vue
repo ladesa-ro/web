@@ -1,5 +1,11 @@
 <script setup lang="ts">
-const id = useRoute().params.id;
+import { useQuery } from '@tanstack/vue-query';
+
+const id = useRoute().params.id as string;
+
+const { data, isLoading, isError } = useQuery(findUserById({ id: id }));
+
+//
 
 const editMode = ref(false);
 </script>
@@ -15,7 +21,11 @@ const editMode = ref(false);
         <UITitle class="default" text="Técnico em Informática - 3° A" />
       </span>
 
-      <UITitle class="default" text="Modo Edição - Técnico em Informática - 3° A" v-if="editMode" />
+      <UITitle
+        class="default"
+        text="Modo Edição - Técnico em Informática - 3° A"
+        v-if="editMode"
+      />
       <button
         class="border-ldsa-text-green text-ldsa-text-green hover:bg-ldsa-text-green/10"
         v-show="!editMode"
