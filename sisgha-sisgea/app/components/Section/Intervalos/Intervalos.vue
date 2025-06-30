@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import IntervaloSelectForm from '@/components/Section/Intervalos/Form/SelectForm.vue';
 import PeriodosGrid from '@/components/Section/Intervalos/Layout/Grid.vue';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
+
+const userId = '17ed5d7e-79d4-4cfd-811c-263247dc4511';
 
 const fusoHorario = ref([
   'Amazonas - Manaus (GMT-04:00)',
@@ -50,12 +52,34 @@ const intervaloEditando = ref<{
   dados: { inicio: string; fim: string };
 } | null>(null);
 
+const campusDoUsuario = ref<string | null>(null);
+
+const apiClient = useApiClient();
+
+onMounted(async () => {
+  try {
+    const perfilResponse = await apiClient.perfis.perfilList({
+      filterUsuarioId: [userId],
+    });
+    const perfis = perfilResponse.data;
+
+    if (perfis && perfis.length > 0) {
+      const perfil = perfis[0];
+      campusDoUsuario.value = perfil?.campus?.apelido || null;
+    } else {
+      campusDoUsuario.value = null;
+    }
+  } catch (error) {
+    console.error('Erro ao carregar perfil:', error);
+  }
+});
+
 watch(
   () => form.value.ordem,
-  (novaOrdem) => {
+  novaOrdem => {
     if (!novaOrdem) return;
 
-    periodos.value.forEach((periodo) => {
+    periodos.value.forEach(periodo => {
       periodo.intervalos.sort((a, b) => {
         const horaA = a.inicio;
         const horaB = b.inicio;
@@ -85,7 +109,9 @@ function removerIntervalo(i: number, j: number) {
 }
 
 function adicionarIntervalo(index: number) {
-  const algumAberto = novosIntervalos.value.some((intervalo, idx) => intervalo !== null && idx !== index);
+  const algumAberto = novosIntervalos.value.some(
+    (intervalo, idx) => intervalo !== null && idx !== index
+  );
 
   if (algumAberto) {
     novosIntervalos.value = novosIntervalos.value.map(() => null);
@@ -143,7 +169,9 @@ function confirmarEdicao() {
     <IntervaloSelectForm
       :fusoHorario="fusoHorario"
       :ordem="ordem"
-      v-model:ordem-selecionada="form.ordem"
+      :campusUsuario="campusDoUsuario"
+      v-model:fusoHorarioSelecionado="form.fusoHorario"
+      v-model:ordemSelecionada="form.ordem"
     />
 
     <PeriodosGrid
