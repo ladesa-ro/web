@@ -4,6 +4,7 @@ import { ref, watch } from 'vue';
 const props = defineProps<{
   fusoHorario: string[];
   ordem: string[];
+  campusUsuario?: string | null;
 }>();
 
 const emit = defineEmits([
@@ -14,13 +15,20 @@ const emit = defineEmits([
 const fusoHorarioSelecionado = ref<string | null>(null);
 const ordemSelecionada = ref<string | null>(null);
 
-watch(fusoHorarioSelecionado, (val) => emit('update:fusoHorarioSelecionado', val));
-watch(ordemSelecionada, (val) => emit('update:ordemSelecionada', val));
+watch(fusoHorarioSelecionado, val =>
+  emit('update:fusoHorarioSelecionado', val)
+);
+watch(ordemSelecionada, val => emit('update:ordemSelecionada', val));
 </script>
 
 <template>
   <div class="w-2/3">
-    <div class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-5 gap-4 w-full mb-9">
+    <div v-if="campusUsuario" class="mt-2 text-ldsa-grey font-medium border border-ldsa-grey-2 rounded px-2 py-1">
+      Campus: {{ campusUsuario }}
+    </div>
+    <div
+      class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-5 gap-4 w-full mb-9 mt-5"
+    >
       <VVAutocomplete
         v-model="fusoHorarioSelecionado"
         :items="fusoHorario"
