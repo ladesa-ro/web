@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import AppbarCampus from './AppBarCampus/AppBarCampus.vue';
+import AppbarCampus from './AppBarCampus/AppbarCampus.vue';
 
 const hamburgerActive = defineModel<boolean>({
   required: true,
