@@ -11,8 +11,8 @@ import {
   getParsedItems,
 } from '~/composables/useOptionItems';
 
-type Props = { items: Item[] };
-const { items: itemsProps } = defineProps<Props>();
+type Props = { items: Item[], truncateText?: boolean };
+const { items: itemsProps, truncateText = false } = defineProps<Props>();
 
 const items = getParsedItems(itemsProps);
 
@@ -58,7 +58,7 @@ const invertItem = (item: ParsedItem) => {
         </Checkbox>
       </span>
 
-      {{ item.label }}
+      <span :class="truncateText ? 'truncate' : ''"> {{ item.label }} </span>
     </label>
   </CheckboxGroupRoot>
 </template>

@@ -7,12 +7,23 @@ import type {
 } from '@ladesa-ro/api-client-fetch';
 import { queryOptions } from '@tanstack/vue-query';
 
+// usuários
+
 export const findUserById = (id: UsuarioFindOneByIdData) => {
   return queryOptions({
     queryKey: ['user', 'user::id', id],
     queryFn: async () => await useApiClient().usuarios.usuarioFindOneById(id),
   });
 };
+
+export const listUsers = () => {
+  return queryOptions({
+    queryKey: ['user', 'users-list'],
+    queryFn: async () => await useApiClient().usuarios.usuarioList(),
+  });
+}
+
+// turmas
 
 export const findTurmaById = (id: TurmaFindOneByIdData) => {
   return queryOptions({

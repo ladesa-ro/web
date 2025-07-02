@@ -12,6 +12,7 @@ const { items: itemsProps, searchBarValue = '' } = defineProps<Props>();
 const parsedItems = getParsedItems(itemsProps);
 
 const filtredItems = computed(() => {
+  // TODO: usar regex p/ filtrar resultados
   return parsedItems.filter(item => item.label.includes(searchBarValue));
 });
 
@@ -27,7 +28,7 @@ const selectedCheckboxes = defineModel<AcceptableValue[]>();
       :key="item.value"
       class="border-t-1 border-t-ldsa-grey/50 last:border-b-1 last:border-b-ldsa-grey/50"
     >
-      <UICheckbox class="p-3 font-medium" :items="[item]" v-model="selectedCheckboxes" />
+      <UICheckbox truncate-text class="p-3 font-medium" :items="[item]" v-model="selectedCheckboxes" />
     </li>
 
     <span v-if="filtredItems.length === 0" class="text-ldsa-grey text-center">
