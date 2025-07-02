@@ -11,6 +11,7 @@ type Props = {
   events: Array<CalendarEvent>;
   toggleMonth: boolean;
   calendarId: string;
+  monthNum?: number;
 };
 
 const props = defineProps<Props>();
@@ -19,14 +20,18 @@ const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 // Current month
 let currentMonth = ref<number>(
-  Number(dayjs(`${props.year}-${dayjs().format('MM')}-01`).format('MM'))
+  props.monthNum
+    ? props.monthNum!
+    : Number(dayjs(`${props.year}-${dayjs().format('MM')}-01`).format('MM'))
 );
 
-// Empty days
+// Empty Days
 let emptyDays = ref<EmptyDays>({ before: 0, after: 0 });
-// Month days
+
+// Month Days
 let monthDays = ref<Day[]>();
 
+// Set Month
 async function setMonthDays() {
   monthDays.value = await renderDays.MonthDays(
     props.year,
@@ -38,6 +43,7 @@ async function setMonthDays() {
   emptyDays.value = renderDays.EmptyDays(props.year, currentMonth.value);
 }
 
+// Toggle Month
 async function toggleMonth(number: number) {
   monthDays.value = [];
   currentMonth.value = currentMonth.value + number;
@@ -46,7 +52,6 @@ async function toggleMonth(number: number) {
 
   await setMonthDays();
 }
-
 onMounted(async () => {
   await setMonthDays();
 });
@@ -87,6 +92,7 @@ onMounted(async () => {
       <SectionCalendarioMonthDay
         v-for="monthDay in monthDays"
         :date="monthDay.date"
+        :color="monthDay.color"
       />
 
       <SectionCalendarioMonthDay

@@ -1,6 +1,7 @@
 // # IMPORT
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
+import isBetween from 'dayjs/plugin/isBetween';
 import type { CalendarEvent, Day, EmptyDays } from '../Types';
 
 // # CODE
@@ -20,7 +21,7 @@ export const renderDays = {
       );
 
       // Calc Empty Days
-      emptyDays.before = Number(firstDayOfMonth.day()) + 1;
+      emptyDays.before = Number(firstDayOfMonth.day());
       emptyDays.after = 7 * 6 - (emptyDays.before + lastDayOfMonth);
 
       return emptyDays;
@@ -49,6 +50,7 @@ export const renderDays = {
           calendarDayFilter
         ).promise
        ); */
+
       for (
         let i = 0;
         i <
@@ -57,45 +59,43 @@ export const renderDays = {
       ) {
         let day: Day = {
           date: dayjs(`${year}-${currentMonth}-${i + 1}`).format('YYYY-MM-DD'),
-          color: '',
+          color: 'none',
         };
 
         // Set Colors
-        /* if (events) {
+        if (events) {
           dayjs.extend(isBetween);
 
-          // Dates for Check
-          const startOfMonth = dayjs(`${year}-${currentMonth}-01`).format(
-            'YYYY-MM-DD'
+          for (let j = 0; j < events.length; j++) {
+            // Check Between Date
+            // Dates for Check
+            const startOfEvent = dayjs(events[j]!.startDate).format(
+              'YYYY-MM-DD'
             );
-          const endOfMonth = dayjs(`${year}-${currentMonth}-01`)
-            .endOf('month')
-            .format('YYYY-MM-DD');
-
-            for (let j = 0; j < events.length; j++) {
-              // Check Between Date
-              if (
-                dayjs(events[j]!.startDate).isBetween(
-                  startOfMonth,
-                  endOfMonth,
-                  undefined,
-                  '()'
-                  ) ||
-              dayjs(events[j]!.endDate).isBetween(
-                startOfMonth,
-                endOfMonth,
+            const endOfEvent = dayjs(events[j]!.endDate).format('YYYY-MM-DD');
+            if (
+              dayjs(day.date).isBetween(
+                startOfEvent,
+                endOfEvent,
                 undefined,
-                '()'
+                '[]'
+              ) ||
+              dayjs(day.date).isBetween(
+                startOfEvent,
+                endOfEvent,
+                undefined,
+                '[]'
               )
             ) {
               day.color = `${events[j]!.color}`;
             }
           }
-        }*/
+        }
 
         // Push in Array
         days.push(day);
       }
+      console.log(days);
       return days;
     } catch (error) {
       console.error('Erro: ', error);

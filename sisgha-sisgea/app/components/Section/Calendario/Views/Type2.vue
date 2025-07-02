@@ -14,20 +14,7 @@ type Props = {
 const props = defineProps<Props>();
 
 // Variables
-const months = [
-  'Janeiro',
-  'Fevereiro',
-  'Março',
-  'Abril',
-  'Maio',
-  'Junho',
-  'Julho',
-  'Agosto',
-  'Setembro',
-  'Outubro',
-  'Novembro',
-  'Dezembro',
-];
+const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 let events = ref<CalendarEvent[]>([]);
 
 if (props.calendarId) {
@@ -46,12 +33,12 @@ if (props.calendarId) {
 <template>
   <div class="flex flex-wrap w-full h-max justify-center gap-6">
     <SectionCalendarioMonth
-      v-for="(month, index) in months"
+      v-for="month in months"
       :toggle-month="false"
       :year="props.year"
       :events="events"
-      :month-name="month"
-      :month-num="index"
+      :month-num="month"
+      :calendar-id="props.calendarId"
     />
   </div>
 </template>

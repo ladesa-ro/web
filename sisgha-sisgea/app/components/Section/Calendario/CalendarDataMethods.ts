@@ -52,6 +52,8 @@ export const calendarDataMethods = {
           const steps =
             await getApiClient().etapas.etapaList(stepFilter).promise;
 
+          console.log(steps);
+
           // Remodel step object
           for (let i = 0; i < steps.data!.length; i++) {
             const step: CalendarEvent = {
