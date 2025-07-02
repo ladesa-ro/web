@@ -4,7 +4,6 @@ import { ref, watch } from 'vue';
 const props = defineProps<{
   fusoHorario: string[];
   ordem: string[];
-  campusUsuario?: string | null;
 }>();
 
 const emit = defineEmits([
@@ -23,9 +22,6 @@ watch(ordemSelecionada, val => emit('update:ordemSelecionada', val));
 
 <template>
   <div class="w-2/3">
-    <div v-if="campusUsuario" class="mt-2 text-ldsa-grey font-medium border border-ldsa-grey-2 rounded px-2 py-1">
-      Campus: {{ campusUsuario }}
-    </div>
     <div
       class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-5 gap-4 w-full mb-9 mt-5"
     >

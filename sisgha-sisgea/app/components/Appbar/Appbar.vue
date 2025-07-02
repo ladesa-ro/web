@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import AppbarCampus from './AppBarCampus/AppbarCampus.vue';
+
 const hamburgerActive = defineModel<boolean>({
   required: true,
 });
@@ -27,6 +29,8 @@ const notificationsOpen = ref(false);
     <AppbarProfileCardChangeProfileCard />
 
     <div class="flex-1" />
+
+    <AppbarCampus />
 
     <AppbarChangeThemeVueChangeTheme
       class="shrink-0 max-[345px]:mr-0.5 max-sm:mr-2"
