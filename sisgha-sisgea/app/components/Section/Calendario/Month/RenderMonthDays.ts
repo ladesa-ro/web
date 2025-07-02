@@ -1,12 +1,10 @@
-// # Import Libs & Others
+// # IMPORT
+import type { DiaCalendarioListData } from '@ladesa-ro/api-client-fetch';
 import dayjs from 'dayjs';
-import type { EmptyDays } from '../Types';
+import 'dayjs/locale/pt-br';
+import type { CalendarEvent, Day, EmptyDays } from '../Types';
 
-// # Import Types
-
-// # Import Functions
-
-// # Code
+// # CODE
 
 export const renderDays = {
   EmptyDays: (year: number, month: string): EmptyDays => {
@@ -28,8 +26,82 @@ export const renderDays = {
 
       return emptyDays;
     } catch (error) {
-      console.error('Error rendering empty days:', error);
+      console.error('Erro: ', error);
       return emptyDays;
+    }
+  },
+  MonthDays: async (
+    year: number,
+    currentMonth: number,
+    events: Array<CalendarEvent>,
+    calendarId: string
+  ): Promise<Day[]> => {
+    let days: Array<Day> = [];
+
+    try {
+      // Formatting Days
+
+      const calendarDayFilter: DiaCalendarioListData = {
+        filterCalendarioId: [calendarId],
+      };
+
+      const daysAPI = ref(
+        await getApiClient().diasCalendarios.diaCalendarioList(
+          calendarDayFilter
+        ).promise
+      );
+
+      for (
+        let i = 0;
+        i <
+        Number(dayjs(`${year}-${currentMonth}-01`).endOf('month').format('D'));
+        i++
+      ) {
+        let day: Day = {
+          date: dayjs(`${year}-${currentMonth}-${i + 1}`).format('YYYY-MM-DD'),
+          color: '',
+        };
+
+        // Set Colors
+        /* if (events) {
+          dayjs.extend(isBetween);
+
+          // Dates for Check
+          const startOfMonth = dayjs(`${year}-${currentMonth}-01`).format(
+            'YYYY-MM-DD'
+          );
+          const endOfMonth = dayjs(`${year}-${currentMonth}-01`)
+            .endOf('month')
+            .format('YYYY-MM-DD');
+
+          for (let j = 0; j < events.length; j++) {
+            // Check Between Date
+            if (
+              dayjs(events[j]!.startDate).isBetween(
+                startOfMonth,
+                endOfMonth,
+                undefined,
+                '()'
+              ) ||
+              dayjs(events[j]!.endDate).isBetween(
+                startOfMonth,
+                endOfMonth,
+                undefined,
+                '()'
+              )
+            ) {
+              day.color = `${events[j]!.color}`;
+            }
+          }
+        }*/
+
+        // Push in Array
+        days.push(day);
+      }
+      return days;
+    } catch (error) {
+      console.error('Erro: ', error);
+      return days;
     }
   },
 };

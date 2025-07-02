@@ -1,18 +1,45 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+// # IMPORT
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import type { CalendarEvent } from '../Types';
+
+// # CODE
+type Props = CalendarEvent;
+const props = defineProps<Props>();
+
+// Remaining time
+let remainingDays: number = 0;
+let remainingText: string = '';
+
+// Formatting dates
+dayjs.extend(relativeTime);
+
+const currentDate = dayjs();
+const _startDate = dayjs(props.startDate);
+const _endDate = dayjs(props.endDate);
+
+if (currentDate.isAfter(_startDate))
+  remainingDays = Number(_endDate.diff(currentDate, 'day'));
+else remainingDays = Number(_startDate.diff(currentDate, 'day'));
+</script>
 
 <template>
   <div
-    class="flex flex-col border-2 border-ldsa-grey rounded-lg overflow-hidden p-5"
+    class="flex flex-col h-min border-2 border-ldsa-grey rounded-lg overflow-hidden p-5"
   >
     <!-- Head -->
     <div class="flex justify-between items-center">
       <!-- Color & Name -->
       <div class="flex gap-2 items-center">
         <!-- Color -->
-        <div class="w-3 h-3 rounded-full bg-purple-600"></div>
+        <div
+          class="w-3 h-3 rounded-full bg-ldsa-green-1"
+          :style="{ backgroundColor: props.color! }"
+        ></div>
 
         <!-- Name -->
-        <h2 class="font-bold">Title</h2>
+        <h2 class="font-bold">{{ props.name }}</h2>
       </div>
 
       <!-- Notification Button -->
@@ -23,17 +50,27 @@
     <ul>
       <!-- Start and End Date -->
       <li>
-        <p>Início: <span>00/00</span> às <span>00:00</span></p>
+        <p>
+          Início: <span>{{ dayjs(props.startDate).format('DD/MM') }}</span>
+        </p>
       </li>
       <li>
-        <p>Término: <span>00/00</span> às <span>00:00</span></p>
+        <p>
+          Término: <span>{{ dayjs(props.endDate).format('DD/MM') }}</span>
+        </p>
       </li>
     </ul>
 
-    <p class="my-5">Começa em <span>0</span> dias.</p>
+    <!-- Remaining time for start/end -->
+    <p class="my-5" v-show="currentDate.isAfter(_startDate)">
+      Começa em <span>{{ remainingDays }}</span> dias.
+    </p>
+    <p class="my-5" v-show="!currentDate.isAfter(_startDate)">
+      Termina em <span>{{ remainingDays }}</span> dias.
+    </p>
 
     <!-- Locale -->
-    <SectionCalendarioEventLocale />
+    <SectionCalendarioEventLocale v-show="props.locale" />
   </div>
 </template>
 
