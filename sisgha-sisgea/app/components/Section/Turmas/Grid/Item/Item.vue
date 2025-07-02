@@ -26,7 +26,7 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
     <nuxt-link v-if="turma" :to="link + `/${turma.id}`">
       <UICard
         :src="coverImageSrc"
-        :title="`${turma.periodo} - ${turma.curso.ofertaFormacao.nome}`"
+        :title="`${turma.periodo} - ${turma.curso.nomeAbreviado}`"
         variant="block"
       >
         <template #actions>
@@ -38,7 +38,7 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
           <IconsArrowIconArrowAlt v-else class="w-4.5 rotate-180 mr-1" />
         </template>
 
-        <UICardLine :text="`Curso: ${turma.curso.nomeAbreviado}`" />
+        <UICardLine :text="`Formação: ${turma.curso.ofertaFormacao.nome}`" />
         <UICardLine :text="`Turno: Matutino e Vespertino`" />
       </UICard>
     </nuxt-link>

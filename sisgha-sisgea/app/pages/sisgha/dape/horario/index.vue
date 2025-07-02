@@ -6,12 +6,6 @@ const searchBarValue = ref<string>('');
 const selectedToggleItem = ref<'professor' | 'turma' | 'mesclado'>('professor');
 
 const { data: turmas, isLoading, isError } = useQuery(listTurmas());
-
-// if (turmas.value) {
-//   turmas.value.data.forEach(turma => {
-
-//   });
-// }
 </script>
 
 <template>
@@ -34,7 +28,6 @@ const { data: turmas, isLoading, isError } = useQuery(listTurmas());
       :search-bar-text="searchBarValue"
     />
 
-    <!-- TODO: adicionar listagem de turmas -->
     <div
       v-show="selectedToggleItem === 'turma'"
       class="ui-api-list-results-grid"
