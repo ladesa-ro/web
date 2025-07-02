@@ -10,7 +10,6 @@
   --ladesa-green-1-color: rgb(47, 158, 65); /* Green 1*/
   --ladesa-green-2-color: rgb(60, 192, 82); /* Green 2 */
   --ladesa-red-color: rgb(205, 25, 30); /* Red */
-  --ladesa-purple-color: rgb(103,19,187); /* Purple */
 
   --ladesa-background-color: var(--ladesa-white-color);
   --ladesa-text-default-color: var(--ladesa-black-color);
@@ -24,7 +23,6 @@
   --ladesa-green-1-color: rgb(6, 100, 54); /* Green 1 */
   --ladesa-green-2-color: rgb(29, 147, 90); /* Green 2 */
   --ladesa-red-color: rgb(160, 15, 37); /* Red */
-  --ladesa-purple-color: rgb(129, 40, 217); /* Purple */
 
   --ladesa-background-color: var(--ladesa-black-color);
   --ladesa-text-default-color: var(--ladesa-white-color);
@@ -38,7 +36,6 @@
   --color-ldsa-green-1: var(--ladesa-green-1-color);
   --color-ldsa-green-2: var(--ladesa-green-2-color);
   --color-ldsa-red: var(--ladesa-red-color);
-  --color-ldsa-purple: var(--ladesa-purple-color);
 
   --color-ldsa-bg: var(--ladesa-background-color);
   --color-ldsa-text-default: var(--ladesa-text-default-color);
