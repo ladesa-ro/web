@@ -41,7 +41,9 @@ const searchBarValue = defineModel<string | undefined>('searchBar', {
 
 <template>
   <div class="flex flex-col gap-6">
-    <section class="flex justify-between pb-6 border-b border-b-ldsa-grey">
+    <section
+      class="flex max-md:flex-col justify-between max-md:gap-4 pb-6 border-b border-b-ldsa-grey"
+    >
       <UIToggle
         class="h-max"
         v-model="selectedToggleItem"

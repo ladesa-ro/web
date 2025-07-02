@@ -60,7 +60,7 @@ watch(monthNumReceived, async (newValue: number) => {
 
 <template>
   <div
-    class="flex flex-col lg:flex-row justify-between items-center gap-5 sm:gap-4"
+    class="flex flex-col lg:flex-row justify-between items-start max-lg:items-center gap-5 sm:gap-4"
   >
     <!-- Month selected -->
     <SectionCalendarioMonth

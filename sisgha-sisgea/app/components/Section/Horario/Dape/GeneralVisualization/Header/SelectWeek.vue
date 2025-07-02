@@ -14,9 +14,9 @@ const popoverOpen = defineModel<boolean>({ required: true, default: false });
 
 <template>
   <UIPopoverCalendar v-model="popoverOpen">
-    <UIButtonDefault :outline-on-clink="false" class="max-w-max button-height">
+    <UIButtonDefault :outline-on-clink="false" class="lg:max-w-max max-lg:py-3 button-height">
       <template #start-icon>
-        <IconsCalendarIconCalendar />
+        <IconsCalendarIconCalendar class="max-lg:w-4.5" />
       </template>
 
       {{ weekFirstDay }} - {{ weekLastDay }}
@@ -25,10 +25,10 @@ const popoverOpen = defineModel<boolean>({ required: true, default: false });
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 /* used to win the specifity of UIButtonDefault classes */
 button.button-height {
-  padding-top: 0;
-  padding-bottom: 0;
-  height: 100%;
+  @apply py-2 lg:py-0 h-full;
 }
 </style>

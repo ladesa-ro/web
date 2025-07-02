@@ -167,7 +167,7 @@ onMounted(async () => {
 
 <template>
   <div
-    class="border-2 border-ldsa-grey rounded-lg min-w-max max-[440px]:w-full min-[440px]:max-w-lg max-h-max overflow-hidden"
+    class="border-2 border-ldsa-grey rounded-lg min-w-max max-[440px]:w-full min-[440px]:max-w-lg max-h-max overflow-hidden min-h-max"
   >
     <!-- header -->
     <div
