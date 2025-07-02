@@ -33,7 +33,7 @@ const ownerName = computed(() => {
     return (
       (scheduleOwner.value.periodo ?? 'Período não disponível') +
       ' - ' +
-      (scheduleOwner.value.curso ?? 'Curso não disponível')
+      (scheduleOwner.value.curso.nomeAbreviado ?? 'Curso não disponível')
     );
   }
 });

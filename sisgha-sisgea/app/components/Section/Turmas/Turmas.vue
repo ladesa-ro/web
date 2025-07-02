@@ -3,9 +3,7 @@ import TurmasForm from './Form/Form.vue';
 
 const { crudModule } = useLadesaApiCrudTurmas();
 
-const options = {
-  crudModule,
-};
+const options = { crudModule };
 </script>
 
 <template>

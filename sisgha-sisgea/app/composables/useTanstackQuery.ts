@@ -20,3 +20,10 @@ export const findTurmaById = (id: TurmaFindOneByIdData) => {
     queryFn: async () => await useApiClient().turmas.turmaFindOneById(id),
   });
 };
+
+export const listTurmas = () => {
+  return queryOptions({
+    queryKey: ['turma', 'turmas-list'],
+    queryFn: async () => await useApiClient().turmas.turmaList(),
+  });
+};

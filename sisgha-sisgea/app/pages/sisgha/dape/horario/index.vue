@@ -1,7 +1,17 @@
 <script setup lang="ts">
+import { useQuery } from '@tanstack/vue-query';
+
 const searchBarValue = ref<string>('');
 
 const selectedToggleItem = ref<'professor' | 'turma' | 'mesclado'>('professor');
+
+const { data: turmas, isLoading, isError } = useQuery(listTurmas());
+
+// if (turmas.value) {
+//   turmas.value.data.forEach(turma => {
+
+//   });
+// }
 </script>
 
 <template>
@@ -25,6 +35,18 @@ const selectedToggleItem = ref<'professor' | 'turma' | 'mesclado'>('professor');
     />
 
     <!-- TODO: adicionar listagem de turmas -->
+    <div
+      v-show="selectedToggleItem === 'turma'"
+      class="ui-api-list-results-grid"
+    >
+      <SectionTurmasGridItem
+        v-for="turma in turmas?.data"
+        class="ui-api-list-results-grid-item"
+        :is-loading="isLoading"
+        :item="turma"
+        link="horario/turma"
+      />
+    </div>
 
     <KeepAlive>
       <SectionHorarioDapeGeneralVisualizationMesclado
@@ -33,3 +55,5 @@ const selectedToggleItem = ref<'professor' | 'turma' | 'mesclado'>('professor');
     </KeepAlive>
   </UIContainer>
 </template>
+
+<style scoped src="~/components/UI/API/List/Results/Grid/Grid.css"></style>
