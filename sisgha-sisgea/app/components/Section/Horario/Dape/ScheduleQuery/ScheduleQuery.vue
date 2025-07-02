@@ -3,7 +3,40 @@ import { useQuery } from '@tanstack/vue-query';
 
 const id = useRoute().params.id as string;
 
-const { data, isLoading, isError } = useQuery(findUserById({ id: id }));
+const isProfessor = useRoute().path.includes('professor');
+
+const {
+  data: scheduleOwner,
+  isLoading,
+  isError,
+} = isProfessor
+  ? useQuery(findUserById({ id }))
+  : useQuery(findTurmaById({ id }));
+
+const ownerName = computed(() => {
+  if (
+    !isLoading.value &&
+    isProfessor &&
+    scheduleOwner.value !== undefined &&
+    'nome' in scheduleOwner.value
+  ) {
+    return scheduleOwner.value.nome ?? 'Nome não disponível';
+  }
+  
+  else if (
+    !isLoading.value &&
+    !isProfessor &&
+    scheduleOwner.value !== undefined &&
+    'periodo' in scheduleOwner.value &&
+    'curso' in scheduleOwner.value
+  ) {
+    return (
+      (scheduleOwner.value.periodo ?? 'Período não disponível') +
+      ' - ' +
+      (scheduleOwner.value.curso ?? 'Curso não disponível')
+    );
+  }
+});
 
 //
 
@@ -13,19 +46,36 @@ const editMode = ref(false);
 <template>
   <UIContainer variant="large">
     <header class="flex justify-between items-center">
-      <span class="flex gap-6 font-semibold text-lg" v-show="!editMode">
-        <NuxtLink to="../horario" class="flex items-center justify-center">
+      <span class="flex gap-6 font-semibold text-lg">
+        <NuxtLink
+          v-show="!editMode"
+          to="../../horario"
+          class="flex items-center justify-center"
+        >
           <IconsArrowIconArrowAlt class="w-5 text-ldsa-grey" />
         </NuxtLink>
 
-        <UITitle class="default" text="Técnico em Informática - 3° A" />
+        <UITitle
+          v-if="isError"
+          class="default"
+          text="Não foi possível buscar os dados"
+        />
+
+        <UITitle v-else-if="isLoading" class="default" text="Carregando..." />
+
+        <UITitle
+          v-else-if="!editMode"
+          class="default"
+          :text="ownerName ?? 'ownerName deu undefined'"
+        />
+
+        <UITitle
+          v-if="editMode"
+          class="default"
+          :text="'Modo Edição - ' + ownerName"
+        />
       </span>
 
-      <UITitle
-        class="default"
-        text="Modo Edição - Técnico em Informática - 3° A"
-        v-if="editMode"
-      />
       <button
         class="border-ldsa-text-green text-ldsa-text-green hover:bg-ldsa-text-green/10"
         v-show="!editMode"

@@ -2,7 +2,7 @@
 import type { ISidebarItem } from './ISidebarItem';
 
 type Props = { item: ISidebarItem };
-const { item } = defineProps<Props>();
+defineProps<Props>();
 </script>
 
 <template>

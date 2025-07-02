@@ -10,7 +10,7 @@ defineProps<Props>();
 
 <template>
   <!-- card layout -->
-  <div class="overflow-hidden border-2 border-ldsa-grey rounded-lg hover:bg-ldsa-grey/10 transition-[background-color]">
+  <div class="overflow-hidden border-2 border-ldsa-grey rounded-lg hover:brightness-90 hover:bg-ldsa-grey/10">
     <UIImg
       :src="src"
       class="h-44"
