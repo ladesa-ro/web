@@ -32,13 +32,13 @@ const isScreenSmallerThan345px = useMediaQuery('(max-width: 345px)');
   <div
     v-if="usuario && resumoVinculos"
     :class="{ 'cursor-pointer': canChangeProfile }"
-    class="flex items-center gap-3 w-max min-h-16 rounded-lg inset-y-0 bg-ldsa-green-1/[.125] dark:bg-ldsa-grey/30 pl-3 max-[600px]:pr-4 min-[600px]:pr-6 py-2"
+    class="flex items-center gap-3 w-max max-w-48 sm:max-w-50 min-h-16 rounded-lg inset-y-0 bg-ldsa-green-1/[.125] dark:bg-ldsa-grey/30 pl-3 max-[600px]:pr-4 min-[600px]:pr-6 py-2"
   >
     <UIImg
       v-if="!isScreenSmallerThan345px"
       :src="profilePicureUrl"
       alt="Foto de perfil."
-      class="w-12 h-12 rounded-full"
+      class="w-10 h-10 sm:w-12 sm:h-12 rounded-full"
       fallbackBgColor="var(--ladesa-green-1-color)"
     >
       <template #fallbackIcon>
@@ -46,7 +46,7 @@ const isScreenSmallerThan345px = useMediaQuery('(max-width: 345px)');
       </template>
     </UIImg>
 
-    <p v-if="isMobile" class="font-semibold text-left">
+    <p v-if="isMobile" class="font-semibold text-left truncate text-sm">
       {{ usuario?.nome?.split(' ')[0] }}
     </p>
     <slot v-if="isMobile" name="arrowIcon" />
