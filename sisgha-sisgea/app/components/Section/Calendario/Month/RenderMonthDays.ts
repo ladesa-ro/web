@@ -1,5 +1,4 @@
 // # IMPORT
-import type { DiaCalendarioListData } from '@ladesa-ro/api-client-fetch';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import type { CalendarEvent, Day, EmptyDays } from '../Types';
@@ -7,7 +6,7 @@ import type { CalendarEvent, Day, EmptyDays } from '../Types';
 // # CODE
 
 export const renderDays = {
-  EmptyDays: (year: number, month: string): EmptyDays => {
+  EmptyDays: (year: number, month: number): EmptyDays => {
     let emptyDays: EmptyDays = {
       before: 0,
       after: 0,
@@ -21,7 +20,7 @@ export const renderDays = {
       );
 
       // Calc Empty Days
-      emptyDays.before = Number(firstDayOfMonth.format('d'));
+      emptyDays.before = Number(firstDayOfMonth.day()) + 1;
       emptyDays.after = 7 * 6 - (emptyDays.before + lastDayOfMonth);
 
       return emptyDays;
@@ -41,16 +40,15 @@ export const renderDays = {
     try {
       // Formatting Days
 
-      const calendarDayFilter: DiaCalendarioListData = {
-        filterCalendarioId: [calendarId],
-      };
-
-      const daysAPI = ref(
+      /* const daysAPI = ref(
+        const calendarDayFilter: DiaCalendarioListData = {
+          filterCalendarioId: [calendarId],
+        };
+          
         await getApiClient().diasCalendarios.diaCalendarioList(
           calendarDayFilter
         ).promise
-      );
-
+       ); */
       for (
         let i = 0;
         i <
@@ -69,20 +67,20 @@ export const renderDays = {
           // Dates for Check
           const startOfMonth = dayjs(`${year}-${currentMonth}-01`).format(
             'YYYY-MM-DD'
-          );
+            );
           const endOfMonth = dayjs(`${year}-${currentMonth}-01`)
             .endOf('month')
             .format('YYYY-MM-DD');
 
-          for (let j = 0; j < events.length; j++) {
-            // Check Between Date
-            if (
-              dayjs(events[j]!.startDate).isBetween(
-                startOfMonth,
-                endOfMonth,
-                undefined,
-                '()'
-              ) ||
+            for (let j = 0; j < events.length; j++) {
+              // Check Between Date
+              if (
+                dayjs(events[j]!.startDate).isBetween(
+                  startOfMonth,
+                  endOfMonth,
+                  undefined,
+                  '()'
+                  ) ||
               dayjs(events[j]!.endDate).isBetween(
                 startOfMonth,
                 endOfMonth,

@@ -24,7 +24,7 @@ const props = defineProps<Day>();
         'flex ': props.date,
       }"
     >
-      {{ dayjs(props.date).format('D') }}
+      {{ props.date ? dayjs(props.date).format('D') : '' }}
     </p>
   </div>
 </template>
