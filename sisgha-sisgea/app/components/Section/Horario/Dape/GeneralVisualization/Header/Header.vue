@@ -48,12 +48,15 @@ const searchBarValue = defineModel<string | undefined>('searchBar', {
         :items="toggleItems"
       />
 
-      <SectionHorarioDapeVisualizationVisualizationHeaderSelectWeek
+      <SectionHorarioDapeGeneralVisualizationHeaderSelectWeek
         v-model="popoverOpen"
       />
     </section>
 
-    <section class="flex justify-between max-h-5">
+    <section
+      class="flex justify-between max-h-5"
+      v-show="selectedToggleItem !== 'mesclado'"
+    >
       <SearchBar class="search-bar-width" v-model="searchBarValue" />
 
       <div

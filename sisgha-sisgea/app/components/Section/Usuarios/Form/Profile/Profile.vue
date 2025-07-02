@@ -2,32 +2,21 @@
 import { useQueryClient } from '@tanstack/vue-query';
 import { type FormUserOutput, useFormUser } from '../FormUtils';
 
-const apiClient = useApiClient();
-const queryClient = useQueryClient();
-
-//
-
-type Props = {
-  editId?: string | null;
-};
-
-const props = withDefaults(defineProps<Props>(), {
-  editId: null,
-});
-
-const editIdRef = toRef(props, 'editId');
-
-//
+type Props = { editId?: string | null };
+const { editId = null } = defineProps<Props>();
 
 const $emit = defineEmits(['close']);
+
+//
+
+const apiClient = useApiClient();
+const queryClient = useQueryClient();
 
 //
 
 const { resetForm, handleSubmit } = useFormUser();
 
 const onSubmit = handleSubmit(async (values: FormUserOutput) => {
-  const editId = editIdRef.value;
-
   const { imagem, vinculos, ...data } = values;
 
   let id;
@@ -88,16 +77,16 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
   $emit('close');
 }, console.error);
 
-function onClose() {
-  $emit('close');
-}
+//
+
+const onClose = () => $emit('close');
 </script>
 
 <template>
   <form @submit.prevent="onSubmit">
     <DialogModalBaseLayout
       :on-close="onClose"
-      :title="editIdRef ? 'Editar Usuário' : 'Cadastrar Usuário'"
+      :title="editId ? 'Editar Usuário' : 'Cadastrar Usuário'"
     >
       <VVSelectImage name="imagem" />
 

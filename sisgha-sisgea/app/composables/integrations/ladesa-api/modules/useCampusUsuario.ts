@@ -1,6 +1,3 @@
-import { ref, onMounted } from 'vue';
-import { useApiClient } from '~/composables/integrations/ladesa-api/useApiClient';
-
 export function useCampusDoUsuario(userId: string) {
   const campus = ref<string | null>(null);
   const apiClient = useApiClient();

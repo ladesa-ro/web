@@ -5,29 +5,26 @@ type Props = {
   onClose: () => any;
 };
 
-type Slots = {
-  default: () => any;
-  'button-group': () => void;
-};
-
 const { title = 'Título', closeButton = true } = defineProps<Props>();
-defineSlots<Slots>();
 </script>
 
 <template>
   <div class="modal-layout">
     <header class="header">
-      <h1 class="title">{{ title }}</h1>
+      <UITitle variant="small" :text="title" />
+      
       <button v-if="closeButton" class="close-button" @click="onClose">
         <IconsIconClose class="close-icon" />
       </button>
     </header>
+    
 
     <main class="content">
       <slot>Conteúdo</slot>
     </main>
 
     <footer v-if="$slots['button-group']" class="button-group">
+      <!-- this slot is used for closing buttons, changing page buttons etc -->
       <slot name="button-group" />
     </footer>
   </div>
@@ -37,21 +34,15 @@ defineSlots<Slots>();
 @reference "~/assets/styles/app.css";
 
 .modal-layout {
-  @apply w-full h-full max-w-[95%] max-h-[80vh];
-  @apply p-4 rounded-2xl;
+  @apply w-full h-full max-w-[95%] max-h-[80vh] p-4;
   @apply flex flex-col justify-between items-center;
-  @apply shadow-xl border-[3px] border-ldsa-grey bg-ldsa-bg;
+  @apply shadow-xl border-3 border-ldsa-grey rounded-2xl bg-ldsa-bg;
 
   @apply sm:max-w-[31.5rem] sm:max-h-[39rem] sm:p-7;
 }
 
 .header {
   @apply w-full flex items-center justify-between;
-}
-
-.title {
-  @apply flex items-center w-full text-xl font-bold;
-  @apply before:inline-block before:w-1 before:h-[1em] before:mr-2 before:bg-ldsa-text-green;
 }
 
 .close-button {

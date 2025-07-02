@@ -1,20 +1,20 @@
 <script lang="ts" setup>
-type Props = { searchBarText?: string };
+type Props = {
+  searchBarText?: string;
+  itemsLink?: string;
+};
 
-const props = defineProps<Props>();
-
-const { searchBarText } = toRefs(props);
-
-//
-
-const $emit = defineEmits(['edit']);
+const { searchBarText } = defineProps<Props>();
 
 //
 
-const { composables: { useListQuery } } = useLadesaApiCrudUsuarios();
+const {
+  composables: { useListQuery },
+} = useLadesaApiCrudUsuarios();
 
-const queries = computed(() => ({ search: searchBarText.value }));
+const queries = computed(() => ({ search: searchBarText }));
 
+// TODO: adicionar opção para filtrar para ter apenas professores
 const {
   data: { items: usuarios },
   methods: { suspend },
@@ -29,6 +29,7 @@ await suspend();
       v-for="usuario in usuarios"
       :key="usuario.id"
       :usuario="usuario"
+      :link="itemsLink"
     />
   </div>
 </template>

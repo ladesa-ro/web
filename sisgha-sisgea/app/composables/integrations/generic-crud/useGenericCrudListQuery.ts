@@ -1,5 +1,4 @@
 import { useQuery } from '@tanstack/vue-query';
-import type { Ref } from 'vue';
 import type { IGenericCrudModule } from '../../../utils/integrations/generic-crud/IGenericCrudModule';
 import type { IGenericCrudModuleTypesBase } from '../../../utils/integrations/generic-crud/IGenericCrudModuleTypesBase';
 import { useGenericCrudFindOneAheadOfTime } from './useGenericCrudFindOneAheadOfTime';

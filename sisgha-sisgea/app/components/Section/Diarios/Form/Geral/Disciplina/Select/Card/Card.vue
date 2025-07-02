@@ -5,12 +5,14 @@ type Props = {
   disciplina: DisciplinaFindOneResultView;
 };
 const { disciplina } = defineProps<Props>();
+
+const selectedRadio = ref(null);
 </script>
 
 <template>
   <UICardSelectionDiscipline :title="disciplina.nome" variant="block">
     <template #actions>
-      <v-radio :value="disciplina.id" color="success" />
+      <UIRadio :items="[disciplina.nome]" v-model="selectedRadio"/>
     </template>
 
     <UICardLine

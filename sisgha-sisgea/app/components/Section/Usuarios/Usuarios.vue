@@ -3,25 +3,13 @@ const searchBarText = ref('');
 </script>
 
 <template>
-  <v-container>
-    <!-- TODO: transformar esse layout em componente -->
-    <div class="container mx-auto py-4 max-w-[89%]">
-      <div
-        class="flex container-header mx-auto justify-between items-center mb-5 gap-4 px-3"
-      >
-        <UISearchBar v-model="searchBarText" />
-
-        <div class="flex items-center shrink-0">
-          <SectionUsuariosModalsForm />
-        </div>
-      </div>
-
-      <SectionUsuariosGrid :search-bar-text="searchBarText" />
+  <!-- TODO: transformar esse layout em componente -->
+  <UIContainer class="flex flex-col gap-11">
+    <div class="flex justify-between">
+      <UISearchBar v-model="searchBarText" />
+      <SectionUsuariosModalsForm />
     </div>
-  </v-container>
+
+    <SectionUsuariosGrid :search-bar-text="searchBarText" />
+  </UIContainer>
 </template>
-<style scoped>
-.container-header {
-  padding: 50px 0;
-}
-</style>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import IntervaloSelectForm from '@/components/Section/Intervalos/Form/SelectForm.vue';
 import PeriodosGrid from '@/components/Section/Intervalos/Layout/Grid.vue';
-import { ref, watch } from 'vue';
 
 const fusoHorario = ref([
   'Amazonas - Manaus (GMT-04:00)',

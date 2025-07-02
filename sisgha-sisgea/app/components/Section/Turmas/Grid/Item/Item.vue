@@ -7,31 +7,40 @@ import TurmasForm from '../../Form/Form.vue';
 type Props = {
   isLoading?: boolean;
   item?: TurmaFindOneResultView | null;
+  link?: string;
 };
-
-const props = defineProps<Props>();
 
 //
 
-const { item: turma } = toRefs(props);
+const { item: turma, link: linkProps } = defineProps<Props>();
+
+let link = linkProps === undefined || linkProps === '' ? 'turmas' : linkProps;
+
+//
 
 const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
 </script>
 
 <template>
   <UICardAutoSkeleton :skeleton="isLoading || !turma">
-    <UICard
-      v-if="turma"
-      :src="coverImageSrc"
-      :title="`${turma.periodo} - ${turma.curso.ofertaFormacao.nome}`"
-      variant="block"
-    >
-      <template #actions>
-        <EditOrCreateModal :edit-id="turma.id" :formComponent="TurmasForm" />
-      </template>
+    <nuxt-link v-if="turma" :to="link + `/${turma.id}`">
+      <UICard
+        :src="coverImageSrc"
+        :title="`${turma.periodo} - ${turma.curso.nomeAbreviado}`"
+        variant="block"
+      >
+        <template #actions>
+          <EditOrCreateModal
+            v-if="link === 'turmas'"
+            :edit-id="turma.id"
+            :formComponent="TurmasForm"
+          />
+          <IconsArrowIconArrowAlt v-else class="w-4.5 rotate-180 mr-1" />
+        </template>
 
-      <UICardLine :text="`Curso: ${turma.curso.nomeAbreviado}`" />
-      <UICardLine :text="`Turno: Matutino e Vespertino`" />
-    </UICard>
+        <UICardLine :text="`Formação: ${turma.curso.ofertaFormacao.nome}`" />
+        <UICardLine :text="`Turno: Matutino e Vespertino`" />
+      </UICard>
+    </nuxt-link>
   </UICardAutoSkeleton>
 </template>

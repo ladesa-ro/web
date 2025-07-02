@@ -5,7 +5,10 @@ const modal = useTemplateRef('modal');
 
 const onOpen = async () => {
   isActive.value = true;
+
+  // wait the modal is mounted before focus it
   await nextTick();
+  
   if (modal.value) modal.value.focus();
 };
 
