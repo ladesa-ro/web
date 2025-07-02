@@ -19,7 +19,7 @@ const selectedToggleItem = ref<'professor' | 'turma' | 'mesclado'>('professor');
     <!-- content -->
 
     <SectionUsuariosGrid
-      items-link="horario"
+      items-link="horario/professor"
       v-show="selectedToggleItem === 'professor'"
       :search-bar-text="searchBarValue"
     />
