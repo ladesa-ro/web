@@ -51,7 +51,7 @@ const splitUserName = computed(() => {
       fallbackBgColor="var(--ladesa-green-1-color)"
     >
       <template #fallbackIcon>
-        <IconsIconUser class="text-ldsa-white w-5 mb-px" />
+        <IconsUser class="text-ldsa-white w-5 mb-px" />
       </template>
     </UIImg>
 

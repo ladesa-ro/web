@@ -6,11 +6,11 @@ const editMode = defineModel<boolean>({ default: false });
 <template>
   <span class="flex gap-2.5">
     <Button text="Indisponibilidades">
-      <IconsEyesEyeOn class="w-5" />
+      <IconsEyeOn class="w-5" />
     </Button>
 
     <Button text="Intervalos">
-      <IconsEyesEyeOn class="w-5" />
+      <IconsEyeOn class="w-5" />
     </Button>
 
     <Button
@@ -18,7 +18,7 @@ const editMode = defineModel<boolean>({ default: false });
       color="var(--ladesa-text-green-color)"
       @click="editMode = true"
     >
-      <IconsIconEdit class="mb-0.5" />
+      <IconsEdit class="mb-0.5" />
     </Button>
   </span>
 </template>

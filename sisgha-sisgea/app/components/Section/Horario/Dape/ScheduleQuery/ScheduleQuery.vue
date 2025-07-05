@@ -32,7 +32,7 @@ const editMode = ref(false);
           to="../../horario"
           class="flex items-center justify-center"
         >
-          <IconsArrowIconArrowAlt class="w-5 text-ldsa-grey" />
+          <IconsArrowAlt class="w-5 text-ldsa-grey" />
         </NuxtLink>
 
         <UITitle

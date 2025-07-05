@@ -4,6 +4,6 @@
     color="var(--ladesa-grey-color)"
     type="button"
   >
-    <IconsIconClose />
+    <IconsClose />
   </UIButtonModalBaseLayout>
 </template>

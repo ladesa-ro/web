@@ -12,12 +12,11 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
   <div class="modal-layout">
     <header class="header">
       <UITitle variant="small" :text="title" />
-      
+
       <button v-if="closeButton" class="close-button" @click="onClose">
-        <IconsIconClose class="close-icon" />
+        <IconsClose class="close-icon" />
       </button>
     </header>
-    
 
     <main class="content">
       <slot>Conteúdo</slot>

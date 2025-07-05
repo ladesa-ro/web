@@ -10,10 +10,7 @@ type Props = {
 };
 const { usuario, link: linkProps } = defineProps<Props>();
 
-let link =
-  linkProps === undefined || linkProps === ''
-    ? 'usuarios'
-    : linkProps;
+let link = linkProps === undefined || linkProps === '' ? 'usuarios' : linkProps;
 
 // TODO: adicionar lógica para deixar o link mais dinâmico
 
@@ -75,10 +72,14 @@ const profilePicureUrl = useApiImageRoute(
 </script>
 
 <template>
-  <nuxt-link v-if="usuario" :to="link + `/${usuario.id}`" @click.capture="handleCardClick">
+  <nuxt-link
+    v-if="usuario"
+    :to="link + `/${usuario.id}`"
+    @click.capture="handleCardClick"
+  >
     <UICard :src="profilePicureUrl" :title="usuario.nome" variant="block">
       <template #fallbackIcon>
-        <IconsIconUser class="w-1/3 2xl:w-1/4 text-ldsa-grey" />
+        <IconsUser class="w-1/3 2xl:w-1/4 text-ldsa-grey" />
       </template>
 
       <template #actions>
@@ -86,7 +87,7 @@ const profilePicureUrl = useApiImageRoute(
           v-if="link === 'usuarios'"
           :editId="usuario.id"
         />
-        <IconsArrowIconArrowAlt v-else class="w-4.5 rotate-180 mr-1" />
+        <IconsArrowAlt v-else class="w-4.5 rotate-180 mr-1" />
       </template>
 
       <UICardLine v-if="vinculos.length === 0" text="Sem vínculos" />

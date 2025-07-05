@@ -18,7 +18,7 @@ const open = ref(false);
       <AppbarProfileCard :can-change-profile="canChangeProfile">
         <template #arrowIcon>
           <ClientOnly>
-            <IconsArrowIconArrow
+            <IconsArrow
               v-if="canChangeProfile"
               :class="{ down: open }"
               class="arrow -rotate-90"

@@ -31,7 +31,7 @@ const imageSrc = computed(() => {
     <div
       class="dropzone-info flex-1 flex flex-col items-center justify-center gap-3"
     >
-      <IconsIconFilePicker />
+      <IconsFilePicker />
 
       <span v-if="isDragActive" class="dropzone-info-message">
         Solte sua imagem aqui.

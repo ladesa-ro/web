@@ -1,5 +1,5 @@
 <template>
   <UIButtonDefaultSquare>
-    <IconsIconAdd />
+    <IconsAdd />
   </UIButtonDefaultSquare>
 </template>

@@ -35,7 +35,7 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
             :edit-id="turma.id"
             :formComponent="TurmasForm"
           />
-          <IconsArrowIconArrowAlt v-else class="w-4.5 rotate-180 mr-1" />
+          <IconsArrowAlt v-else class="w-4.5 rotate-180 mr-1" />
         </template>
 
         <UICardLine :text="`Formação: ${turma.curso.ofertaFormacao.nome}`" />

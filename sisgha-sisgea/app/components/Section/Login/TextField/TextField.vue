@@ -88,11 +88,11 @@ const handleContainerClick = () => {
         type="button"
         @click="togglePasswordVisibility"
       >
-        <IconsEyesEyeOff
+        <IconsEyeOff
           v-if="showPassword"
           class="visibility-icon flex items-center"
         />
-        <IconsEyesEyeOn
+        <IconsEyeOn
           v-if="!showPassword"
           class="visibility-icon flex items-center"
         />

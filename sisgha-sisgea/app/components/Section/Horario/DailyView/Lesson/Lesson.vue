@@ -48,7 +48,7 @@ const showCampus = computed(() => {
       </slot>
     </section>
 
-    <IconsIconClock v-if="variant === 'active'" class="icon" />
+    <IconsClock v-if="variant === 'active'" class="icon" />
   </div>
 </template>
 

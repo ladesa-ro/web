@@ -10,14 +10,14 @@ const emit = defineEmits<{
     <UIButtonDefault @click="emit('visualizar')" class="text-sm">
       Visualizar relatório
       <template #end-icon>
-        <IconsEyesEyeOn />
+        <IconsEyeOn />
       </template>
     </UIButtonDefault>
 
     <UIButtonDefault @click="emit('gerarPdf')" class="text-sm">
       Gerar PDF do Relatório
       <template #end-icon>
-        <IconsIconPdf />
+        <IconsPdf />
       </template>
     </UIButtonDefault>
   </div>

@@ -3,9 +3,9 @@ import CardLink from '@/components/Section/Inicio/CardLink/CardLink.vue';
 import Section from '@/components/Section/Inicio/Section/Section.vue';
 
 import {
-  IconsIconClockGenerate,
-  IconsIconClockView,
-  IconsIconTeacherLesson,
+  IconsClockGenerate,
+  IconsClockView,
+  IconsTeacherLesson,
 } from '#components';
 
 const DAPE_PATH = '/sisgha/dape';
@@ -18,13 +18,13 @@ const DAPE_PATH = '/sisgha/dape';
     <Section title="Horário Acadêmico">
       <CardLink
         :to="`${DAPE_PATH}/horario`"
-        :icon="IconsIconClockView"
+        :icon="IconsClockView"
         title="Visualizar Horário"
       />
 
       <CardLink
         :to="`${DAPE_PATH}/horario`"
-        :icon="IconsIconClockGenerate"
+        :icon="IconsClockGenerate"
         title="Gerar Horário"
       />
     </Section>
@@ -32,7 +32,7 @@ const DAPE_PATH = '/sisgha/dape';
     <Section title="Relatórios">
       <CardLink
         :to="`${DAPE_PATH}/relatorios/aulasMinistradas`"
-        :icon="IconsIconTeacherLesson"
+        :icon="IconsTeacherLesson"
         title="Aulas Ministradas"
       />
     </Section>
@@ -40,7 +40,7 @@ const DAPE_PATH = '/sisgha/dape';
     <Section title="Diários">
       <CardLink
         :to="`${DAPE_PATH}/diarios`"
-        :icon="IconsIconTeacherLesson"
+        :icon="IconsTeacherLesson"
         title="Diários"
       />
     </Section>

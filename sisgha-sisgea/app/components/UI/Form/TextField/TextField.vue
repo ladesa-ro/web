@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { TextFieldProps } from '../-Utils/inputTypes';
 
+// TODO: adicionar suporte para error message
+// TODO: adicionar o tal do emit blur (verificar na docs do radix)
+
 const { type = 'text' } = defineProps<TextFieldProps>();
 
 //

@@ -20,11 +20,11 @@ const editMode = defineModel<boolean>({ default: false });
     <Button text="Grade de grupos [ ]" />
 
     <Button @click="editMode = false" color="var(--ladesa-red-color)">
-      <IconsIconClose class="w-4" />
+      <IconsClose class="w-4" />
     </Button>
 
     <Button @click="editMode = false" color="var(--ladesa-text-green-color)">
-      <IconsIconConfirm class="w-5" />
+      <IconsConfirm class="w-5" />
     </Button>
   </span>
 </template>

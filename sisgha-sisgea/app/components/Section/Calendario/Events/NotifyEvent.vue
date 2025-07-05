@@ -31,8 +31,8 @@ async function enableNotify(isEnabled: boolean): Promise<void> {
     <span class="text-sm sm:text-[16px] font-semibold w-max lg:w-max">
       Me interessa
     </span>
-    <IconsIconNotifications v-show="notify === false" class="w-[18px] sm:w-5" />
-    <IconsIconConfirm v-show="notify === true" class="w-[18px] sm:w-5" />
+    <IconsNotifications v-show="notify === false" class="w-[18px] sm:w-5" />
+    <IconsConfirm v-show="notify === true" class="w-[18px] sm:w-5" />
   </div>
 </template>
 

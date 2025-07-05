@@ -2,7 +2,7 @@ export type ISidebarItemLink = {
   type: 'link';
   title: string;
 
-  icon: any;
+  icon: Component;
 
   to: string;
   exact?: boolean;
@@ -12,7 +12,7 @@ export type ISidebarItemGroup = {
   type: 'group';
 
   title: string;
-  icon: any;
+  icon: Component;
 
   items: ISidebarItem[];
 };

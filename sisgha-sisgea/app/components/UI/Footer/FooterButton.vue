@@ -26,7 +26,7 @@ defineProps<Props>();
       {{ link.label.toUpperCase() }}
     </span>
 
-    <IconsFooterIconHRef class="icon" />
+    <IconsFooterHRef class="icon" />
   </a>
 </template>
 

@@ -10,10 +10,13 @@ import {
   ComboboxTrigger as Trigger,
   ComboboxViewport as Viewport,
 } from 'reka-ui';
+import { getParsedItems } from '~/composables/useOptionItems';
 import type { AutocompleteProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
 import AutocompleteItem from '../Item.vue';
-import { getParsedItems } from '~/composables/useOptionItems';
+
+// TODO: adicionar suporte para error message
+// TODO: adicionar o tal do emit blur (verificar na docs do radix)
 
 const { items: itemsProps } = defineProps<AutocompleteProps>();
 
@@ -21,7 +24,7 @@ const items = getParsedItems(itemsProps);
 
 const getDisplayValue = (value: string) => {
   const item = items.find(item => item.value === value);
-  
+
   return item ? item.label : '';
 };
 
@@ -60,7 +63,7 @@ const open = ref(false);
         @click="selectedOption = null"
         class="p-1.5 bg-ldsa-grey/20 rounded-full"
       >
-        <IconsIconClose class="w-2.5 h-2.5 text-ldsa-text-default/50" />
+        <IconsClose class="w-2.5 h-2.5 text-ldsa-text-default/50" />
       </Cancel>
 
       <Trigger class="px-3 py-4 shrink-0">
