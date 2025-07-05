@@ -4,7 +4,7 @@ const editMode = defineModel<boolean>({ default: false });
 </script>
 
 <template>
-  <span class="flex gap-2">
+  <span class="flex gap-2.5">
     <Button>
       <IconsSwap class="w-4" />
     </Button>
