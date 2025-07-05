@@ -13,10 +13,15 @@ const parsedItems = computed(() => {
   return getParsedItems(itemsProps);
 });
 
+const filterText = (text: string) =>
+  text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+
 const filtredItems = computed(() => {
-  // TODO: usar regex p/ filtrar resultados
   return parsedItems.value.filter(item =>
-    item.label.toLowerCase().includes(searchBarValue.toLocaleLowerCase())
+    filterText(item.label).includes(filterText(searchBarValue))
   );
 });
 
@@ -34,7 +39,7 @@ const selectedCheckboxes = defineModel<AcceptableValue[]>();
     >
       <UICheckbox
         truncate-text
-        class="p-3 font-medium"
+        class="p-3 font-medium text-sm"
         :items="[item]"
         v-model="selectedCheckboxes"
       />
