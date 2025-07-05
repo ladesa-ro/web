@@ -22,7 +22,7 @@ const weekDays = week.map(day => day.dayWeek);
         :items="weekDays"
       >
         <template #toggleButton>
-          <IconsArrowIconArrow class="text-ldsa-white" />
+          <IconsArrow class="text-ldsa-white" />
         </template>
       </UIOptionsCarousel>
 

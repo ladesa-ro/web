@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import IntervaloItem from '@/components/Section/Intervalos/Items/Item.vue';
 import IntervaloForm from '@/components/Section/Intervalos/Form/Form.vue';
-import { IconsIconAdd } from '#components';
+import IntervaloItem from '@/components/Section/Intervalos/Items/Item.vue';
 
 defineProps<{
   periodo: { nome: string; intervalos: { inicio: string; fim: string }[] };
@@ -29,7 +28,9 @@ const emit = defineEmits([
 <template>
   <div class="px-4 py-4 md:py-6">
     <div class="flex justify-between items-center mb-3">
-      <h2 class="font-semibold text-[16px] border-l-4 border-ldsa-green-1 pl-2">{{ periodo.nome }}</h2>
+      <h2 class="font-semibold text-[16px] border-l-4 border-ldsa-green-1 pl-2">
+        {{ periodo.nome }}
+      </h2>
     </div>
 
     <div v-for="(intervalo, j) in periodo.intervalos" :key="j">
@@ -39,7 +40,12 @@ const emit = defineEmits([
           @update:modelValue="val => emit('updateEdit', val)"
           :on-confirm="() => emit('confirmEdit')"
         />
-        <button @click="() => emit('cancelEdit')" class="text-xs text-ldsa-grey">Cancelar</button>
+        <button
+          @click="() => emit('cancelEdit')"
+          class="text-xs text-ldsa-grey"
+        >
+          Cancelar
+        </button>
       </template>
       <template v-else>
         <IntervaloItem
@@ -58,14 +64,13 @@ const emit = defineEmits([
     />
 
     <button
-  v-else
-  @click="emit('add')"
-  :disabled="!!editando || !!novoIntervalo"
-  class="mx-auto text-ldsa-grey font-semibold text-[14px] flex items-center gap-1 mt-4 disabled:opacity-40 disabled:cursor-not-allowed"
->
-  Adicionar intervalo
-  <IconsIconAdd class="w-[0.7rem] mb-0.5" />
-</button>
-
+      v-else
+      @click="emit('add')"
+      :disabled="!!editando || !!novoIntervalo"
+      class="mx-auto text-ldsa-grey font-semibold text-[14px] flex items-center gap-1 mt-4 disabled:opacity-40 disabled:cursor-not-allowed"
+    >
+      Adicionar intervalo
+      <IconsAdd class="w-[0.7rem] mb-0.5" />
+    </button>
   </div>
 </template>

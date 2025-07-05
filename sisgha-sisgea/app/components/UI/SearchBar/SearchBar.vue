@@ -9,6 +9,6 @@ const value = defineModel<string>({ required: false, default: '' });
     placeholder="Digite aqui"
     class="max-w-[30rem]"
   >
-    <IconsIconSearch />
+    <IconsSearch />
   </UIFormTextField>
 </template>

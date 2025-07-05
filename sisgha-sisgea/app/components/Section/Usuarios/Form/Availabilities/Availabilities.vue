@@ -50,9 +50,13 @@ const onClose = () => $emit('close');
     :on-close="onClose"
     title="Disponibilidade"
   >
-    <UIOptionsCarousel :items="weekDays" v-model="selectedDayWeek" class="font-semibold">
+    <UIOptionsCarousel
+      :items="weekDays"
+      v-model="selectedDayWeek"
+      class="font-semibold"
+    >
       <template #toggleButton>
-        <IconsArrowIconArrow />
+        <IconsArrow />
       </template>
     </UIOptionsCarousel>
 

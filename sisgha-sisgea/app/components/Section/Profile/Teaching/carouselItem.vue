@@ -38,7 +38,7 @@ const selectedCouse = ref(courses[0]);
           v-model="selectedCouse"
         >
           <template #toggleButton>
-            <IconsArrowIconArrow class="text-ldsa-text-green" />
+            <IconsArrow class="text-ldsa-text-green" />
           </template>
         </UIOptionsCarousel>
 

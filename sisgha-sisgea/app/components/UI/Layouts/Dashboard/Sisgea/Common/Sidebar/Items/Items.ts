@@ -1,30 +1,31 @@
-import iconAmbientes from '~/assets/icons/Ambientes.svg';
-import iconBlocos from '~/assets/icons/Blocos.svg';
-import iconLogout from '~/assets/icons/Logout.svg';
-import iconReservas from '~/assets/icons/Reservas.svg';
-import iconPerfil from '~/assets/icons/Usuario.svg';
-import type { ISidebarItem } from '../../../../../../../Sidebar/SidebarItem/ISidebarItem';
+import Blocks from '~/components/Icons/Blocks.vue';
+import Environment from '~/components/Icons/Environment.vue';
+import Logout from '~/components/Icons/Logout.vue';
+import Reserve from '~/components/Icons/Reserve.vue';
+import User from '~/components/Icons/User.vue';
+
+import type { ISidebarItem } from '~/components/Sidebar/SidebarItem/ISidebarItem';
 
 export const useLayoutsDashboardSisgeaCommonSidebarItems = () => {
   const items: ISidebarItem[] = [
     {
       type: 'link',
       title: 'Reservas',
-      icon: iconReservas,
+      icon: Reserve,
       to: '/sisgea/reservas',
       exact: false,
     },
     {
       type: 'link',
       title: 'Ambientes',
-      icon: iconAmbientes,
+      icon: Environment,
       to: '/sisgea/ambientes',
       exact: false,
     },
     {
       type: 'link',
       title: 'Blocos',
-      icon: iconBlocos,
+      icon: Blocks,
       to: '/sisgea/blocos',
       exact: false,
     },
@@ -34,7 +35,7 @@ export const useLayoutsDashboardSisgeaCommonSidebarItems = () => {
     {
       type: 'link',
       title: 'Perfil',
-      icon: iconPerfil,
+      icon: User,
       to: `/sisgea/perfil`,
       exact: false,
     },
@@ -42,7 +43,7 @@ export const useLayoutsDashboardSisgeaCommonSidebarItems = () => {
     {
       type: 'link',
       title: 'Sair',
-      icon: iconLogout,
+      icon: Logout,
       to: '/logout',
       exact: false,
     },

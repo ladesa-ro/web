@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import IconCompleteCalendar from '~/components/Icons/Calendar/IconCompleteCalendar.vue';
-import IconPartialCalendar from '~/components/Icons/Calendar/IconPartialCalendar.vue';
+import IconCompleteCalendar from '~/components/Icons/Calendar/CompleteCalendar.vue';
+import IconPartialCalendar from '~/components/Icons/Calendar/PartialCalendar.vue';
 
 const toggleItems = [
   { text: 'Calendário parcial', value: 'parcial', icon: IconPartialCalendar },
@@ -17,5 +17,9 @@ const visualizacao = defineModel<'parcial' | 'completo'>({
 </script>
 
 <template>
-  <UIToggle class="w-full" :items="toggleItems" v-model:model-value="visualizacao" />
+  <UIToggle
+    class="w-full"
+    :items="toggleItems"
+    v-model:model-value="visualizacao"
+  />
 </template>

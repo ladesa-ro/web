@@ -1,5 +1,5 @@
 <script setup>
-import IconDiscipline from '~/components/Icons/IconDiscipline.vue';
+import IconDiscipline from '~/components/Icons/Discipline.vue';
 
 const config = {
   wrapAround: true,

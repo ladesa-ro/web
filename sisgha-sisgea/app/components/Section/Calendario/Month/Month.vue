@@ -180,7 +180,7 @@ onMounted(async () => {
         @click="toggleMonth(-1)"
       >
         <!-- Toggle for before month -->
-        <IconsArrowIconArrow />
+        <IconsArrow />
       </button>
 
       <!-- Month name -->
@@ -197,7 +197,7 @@ onMounted(async () => {
         class="px-3.5 py-2"
         @click="toggleMonth(1)"
       >
-        <IconsArrowIconArrow class="rotate-180" />
+        <IconsArrow class="rotate-180" />
       </button>
     </div>
 

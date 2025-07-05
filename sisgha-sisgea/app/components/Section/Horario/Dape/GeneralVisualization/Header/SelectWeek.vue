@@ -14,9 +14,12 @@ const popoverOpen = defineModel<boolean>({ required: true, default: false });
 
 <template>
   <UIPopoverCalendar v-model="popoverOpen">
-    <UIButtonDefault :outline-on-clink="false" class="lg:max-w-max max-lg:py-3 button-height">
+    <UIButtonDefault
+      :outline-on-clink="false"
+      class="lg:max-w-max max-lg:py-3 button-height"
+    >
       <template #start-icon>
-        <IconsCalendarIconCalendar class="max-lg:w-4.5" />
+        <IconsCalendar class="max-lg:w-4.5" />
       </template>
 
       {{ weekFirstDay }} - {{ weekLastDay }}

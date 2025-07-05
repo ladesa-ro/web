@@ -4,7 +4,7 @@ const { isDark, changeTheme } = useCustomTheme();
 
 <template>
   <button class="p-2.5" @click="changeTheme">
-    <IconsColorThemeIconMoon v-if="isDark" />
-    <IconsColorThemeIconSun v-else />
+    <IconsColorThemeMoon v-if="isDark" />
+    <IconsColorThemeSun v-else />
   </button>
 </template>

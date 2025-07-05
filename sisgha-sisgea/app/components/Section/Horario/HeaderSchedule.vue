@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import IconClock from '~/components/Icons/IconClock.vue';
-import IconMoreItems from '~/components/Icons/IconMoreItems.vue';
+import IconClock from '~/components/Icons/Clock.vue';
+import IconMoreItems from '~/components/Icons/MoreItems.vue';
 import { capitalizeFirst } from './-Helpers/CapitalizeFirst';
 import { getWeekDays } from './-Helpers/GetWeekDays';
 
@@ -41,7 +41,7 @@ const open = ref(false);
       {{ month }} - Dias {{ firstWeekDay.day }} a {{ lastWeekDay.day }}
 
       <UIPopoverCalendar v-model="open">
-        <IconsArrowIconArrow
+        <IconsArrow
           :class="open ? 'rotate-90' : '-rotate-90'"
           class="text-ldsa-text-green transition-transform duration-300 m-3"
         />

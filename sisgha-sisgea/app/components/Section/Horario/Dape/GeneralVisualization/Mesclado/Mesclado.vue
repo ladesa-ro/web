@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
-import IconClass from '~/components/Icons/IconClass.vue';
-import IconEducator from '~/components/Icons/IconEducator.vue';
+import IconClass from '~/components/Icons/Class.vue';
+import IconEducator from '~/components/Icons/Educator.vue';
 
 const toggleItems = [
   { text: 'Professor', value: 'professor', icon: IconEducator },

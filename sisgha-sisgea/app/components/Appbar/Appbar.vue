@@ -19,11 +19,11 @@ const notificationsOpen = ref(false);
     class="flex items-center w-full max-[345px]:pr-2 max-sm:pr-4 sm:pr-7 h-[4.563rem] border-b border-ldsa-grey/50 bg-ldsa-bg"
   >
     <button class="m-[0.34375rem] shrink-0" @click="toggleHamburger">
-      <IconsMenuIconHamburgerOn
+      <IconsMenuHamburgerOn
         v-if="hamburgerActive"
         class="p-3 w-[2.813rem]"
       />
-      <IconsMenuIconHamburgerOff v-else class="p-3 w-[2.813rem] h-full" />
+      <IconsMenuHamburgerOff v-else class="p-3 w-[2.813rem] h-full" />
     </button>
 
     <AppbarProfileCardChangeProfileCard />
@@ -38,7 +38,7 @@ const notificationsOpen = ref(false);
 
     <UIPopover popover-arrow v-model="notificationsOpen">
       <template #activator>
-        <IconsIconNotifications
+        <IconsNotifications
           ref="notificationsButtonEl"
           class="w-[2.25rem] p-2"
         />

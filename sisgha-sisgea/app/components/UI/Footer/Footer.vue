@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useNow } from '@vueuse/core';
-import IconDiscipline from '~/components/Icons/Footer/IconBook.vue';
-import IconGitHub from '~/components/Icons/Footer/IconGitHub.vue';
+import Discipline from '~/components/Icons/Footer/Book.vue';
+import GitHub from '~/components/Icons/Footer/GitHub.vue';
 
 const now = useNow();
 
@@ -21,13 +21,13 @@ const copyrightOwners = computed(() => {
 const footerLinks = [
   {
     label: 'GitHub',
-    icon: IconGitHub,
+    icon: GitHub,
     href: 'https://github.com/ladesa-ro/web',
   },
 
   {
     label: 'Documentação',
-    icon: IconDiscipline,
+    icon: Discipline,
     href: 'https://docs.ladesa.com.br/user-guides/',
   },
 ];

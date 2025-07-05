@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import IconClass from '~/components/Icons/IconClass.vue';
-import IconEducator from '~/components/Icons/IconEducator.vue';
-import IconOthers from '~/components/Icons/IconOthers.vue';
+import IconClass from '~/components/Icons/Class.vue';
+import IconEducator from '~/components/Icons/Educator.vue';
+import IconOthers from '~/components/Icons/Others.vue';
 import SearchBar from '~/components/UI/SearchBar/SearchBar.vue';
 
 const toggleItems = [
