@@ -59,19 +59,43 @@ const selectedCheckboxes = ref([]);
 
       <UISearchBar v-model="searchBarValue" />
 
-      <!-- TODO: add carregamento para quando isLoading = true e mensagem de erro para isError -->
+      <!-- professor -->
+
+      <span
+        v-if="isLoadingProfs && toggleValue === 'professor'"
+        class="text-center text-ldsa-grey"
+        >Carregando...</span
+      >
+      <span
+        v-if="isErrorProfs && toggleValue === 'professor'"
+        class="text-center text-ldsa-grey"
+        >Não foi possível carregar a listagem de professores.</span
+      >
 
       <SectionHorarioDapeGeneralVisualizationMescladoList
-        v-show="toggleValue === 'professor'"
-        :items="professoresParsedItems ?? []"
+        v-show="toggleValue === 'professor' && !isLoadingProfs && !isErrorProfs"
         v-model="selectedCheckboxes"
+        :items="professoresParsedItems ?? []"
         :search-bar-value="searchBarValue"
       />
 
+      <!-- turma -->
+
+      <span
+        v-if="isLoadingProfs && toggleValue === 'turma'"
+        class="text-center text-ldsa-grey"
+        >Carregando...</span
+      >
+      <span
+        v-if="isErrorProfs && toggleValue === 'turma'"
+        class="text-center text-ldsa-grey"
+        >Não foi possível carregar a listagem de turmas.</span
+      >
+
       <SectionHorarioDapeGeneralVisualizationMescladoList
-        v-show="toggleValue === 'turma'"
-        :items="turmasParsedItems ?? []"
+        v-show="toggleValue === 'turma' && !isLoadingTurmas && !isErrorTurmas"
         v-model="selectedCheckboxes"
+        :items="turmasParsedItems ?? []"
         :search-bar-value="searchBarValue"
       />
     </div>
