@@ -37,7 +37,6 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
   @apply w-full h-full max-w-[95%] max-h-[80vh] p-4;
   @apply flex flex-col justify-between items-center;
   @apply shadow-xl border-3 border-ldsa-grey rounded-2xl bg-ldsa-bg;
-
   @apply sm:max-w-[31.5rem] sm:max-h-[39rem] sm:p-7;
 }
 

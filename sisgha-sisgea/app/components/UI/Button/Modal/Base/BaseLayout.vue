@@ -30,6 +30,6 @@ button {
   @apply flex items-center justify-evenly h-9 min-w-[8.438rem];
   @apply border-solid border-2 rounded-lg border-(--color) text-(--color);
   @apply transition-[background-color] duration-200;
-  @apply hover:bg-(--color)/15 active:bg-(--color)/30 disabled:bg-transparent disabled:border-(--color)/40 disabled:text-(--color)/40;
+  @apply hover:bg-(--color)/15 focus-visible:bg-(--color)/15 active:bg-(--color)/30 disabled:bg-transparent disabled:border-(--color)/40 disabled:text-(--color)/40;
 }
 </style>

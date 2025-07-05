@@ -50,7 +50,7 @@ const invertItem = (item: ParsedItem) => {
               ? 'border-ldsa-green-2'
               : 'border-ldsa-grey'
           "
-          class="flex border-2 hover:bg-ldsa-green-2/10 rounded-sm w-5.5 h-5.5 focus:outline-ldsa-green-2"
+          class="flex border-2 hover:bg-ldsa-green-2/10 rounded-sm w-5.5 h-5.5 focus-visible:outline-ldsa-green-2"
         >
           <Check class="flex-1 bg-ldsa-green-2 p-1 pt-1.5">
             <IconsIconConfirm class="text-ldsa-white" />
