@@ -35,12 +35,20 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
             :edit-id="turma.id"
             :formComponent="TurmasForm"
           />
-          <IconsArrowAlt v-else class="w-4.5 rotate-180 mr-1" />
+          <IconsArrowAlt v-else class="w-4.5 rotate-180 mr-1.5 arrow-behaviour transition-transform" />
         </template>
 
         <UICardLine :text="`Formação: ${turma.curso.ofertaFormacao.nome}`" />
-        <UICardLine :text="`Turno: Matutino e Vespertino`" />
+        <UICardLine text="Turno: Matutino e Vespertino" />
       </UICard>
     </nuxt-link>
   </UICardAutoSkeleton>
 </template>
+
+<style scoped>
+@reference "~/assets/styles/app.css";
+
+a:hover .arrow-behaviour {
+  @apply translate-x-1; 
+}
+</style>

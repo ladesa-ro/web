@@ -12,7 +12,7 @@ const { data: turmas, isLoading, isError } = useQuery(listTurmas());
   <UIContainer
     variant="large"
     class="flex flex-col"
-    :class="selectedToggleItem !== 'mesclado' ? 'gap-19' : 'gap-6'"
+    :class="selectedToggleItem !== 'mesclado' ? 'gap-[3.06rem]' : 'gap-6'"
   >
     <!-- header -->
     <SectionHorarioDapeGeneralVisualizationHeader

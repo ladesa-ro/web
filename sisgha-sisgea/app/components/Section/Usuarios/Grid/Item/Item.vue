@@ -87,7 +87,10 @@ const profilePicureUrl = useApiImageRoute(
           v-if="link === 'usuarios'"
           :editId="usuario.id"
         />
-        <IconsArrowAlt v-else class="w-4.5 rotate-180 mr-1" />
+        <IconsArrowAlt
+          v-else
+          class="w-4.5 rotate-180 mr-1 arrow-behaviour transition-transform"
+        />
       </template>
 
       <UICardLine v-if="vinculos.length === 0" text="Sem vínculos" />
@@ -95,3 +98,11 @@ const profilePicureUrl = useApiImageRoute(
     </UICard>
   </nuxt-link>
 </template>
+
+<style scoped>
+@reference "~/assets/styles/app.css";
+
+a:hover .arrow-behaviour {
+  @apply translate-x-1;
+}
+</style>

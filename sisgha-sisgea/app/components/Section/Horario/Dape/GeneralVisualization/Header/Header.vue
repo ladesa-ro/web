@@ -56,14 +56,14 @@ const searchBarValue = defineModel<string | undefined>('searchBar', {
     </section>
 
     <section
-      class="flex justify-between max-h-5"
+      class="flex max-lg:flex-col gap-4 lg:gap-3 justify-between max-lg:w-full"
       v-show="selectedToggleItem !== 'mesclado'"
     >
       <SearchBar class="search-bar-width" v-model="searchBarValue" />
 
       <div
         v-show="selectedToggleItem === 'turma'"
-        class="flex gap-3 w-full search-bar-width"
+        class="flex max-sm:flex-col gap-4 sm:gap-3 w-full lg:max-w-135 lg:max-h-12"
       >
         <VVAutocompleteAPIOfertaFormacao class="flex-1" name="formacao" />
         <VVAutocompleteAPICurso class="flex-1" name="curso" />
@@ -73,8 +73,10 @@ const searchBarValue = defineModel<string | undefined>('searchBar', {
 </template>
 
 <style scoped>
+@reference "~/assets/styles/app.css";
+
 /* class used to win the specifity of max-w class in search bar component */
 section > .search-bar-width {
-  max-width: 23.3rem;
+  @apply max-w-full lg:max-w-[23.313rem];
 }
 </style>

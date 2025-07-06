@@ -6,11 +6,11 @@ import Diary from '~/components/Icons/Diary.vue';
 import Discipline from '~/components/Icons/Discipline.vue';
 import Home from '~/components/Icons/Home.vue';
 import Logout from '~/components/Icons/Logout.vue';
+import Management from '~/components/Icons/Management.vue';
 import Others from '~/components/Icons/Others.vue';
 import TeacherLesson from '~/components/Icons/TeacherLesson.vue';
 import User from '~/components/Icons/User.vue';
 import Users from '~/components/Icons/Users.vue';
-import Management from '~/components/Icons/Management.vue';
 
 import type { ISidebarItem } from '~/components/Sidebar/SidebarItem/ISidebarItem';
 
@@ -22,7 +22,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
       type: 'link',
       title: 'Início',
       icon: Home,
-      to: `${CAMINHO_DAPE}/`,
+      to: CAMINHO_DAPE,
       exact: true,
     },
 
@@ -102,21 +102,21 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
           type: 'link',
           title: 'Aulas ministradas',
           icon: TeacherLesson,
-          to: `${CAMINHO_DAPE}/relatorios/aulas-ministradas`,
+          to: `${CAMINHO_DAPE}/relatorios/aulasMinistradas`,
           exact: false,
         },
         {
           type: 'link',
           title: 'Relatório 2',
           icon: Others,
-          to: '${CAMINHO_DAPE}/relatorios/relatorio2',
+          to: `${CAMINHO_DAPE}/relatorios/relatorio2`,
           exact: false,
         },
         {
           type: 'link',
           title: 'Relatório 3',
           icon: Others,
-          to: '${CAMINHO_DAPE}/relatorios/relatorio3',
+          to: `${CAMINHO_DAPE}/relatorios/relatorio3`,
           exact: false,
         },
       ],
