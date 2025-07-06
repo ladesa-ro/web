@@ -1,20 +1,16 @@
 <script generic="T = any" lang="ts" setup>
 import type { IGridItemSlotProps } from '../API/List/Results/Grid/Typings/IGridItemSlotProps';
 
-type Props = {
+const props = defineProps<{
   isLoading?: boolean;
   items?: IGridItemSlotProps['item'][] | null;
-};
+}>();
 
-const props = defineProps<Props>();
-
-type Slots = {
+const slots = defineSlots<{
   item(props: IGridItemSlotProps): any;
   'item-skeleton'(): any;
   default(): any;
-};
-
-const slots = defineSlots<Slots>();
+}>();
 
 const items = toRef(props, 'items');
 
