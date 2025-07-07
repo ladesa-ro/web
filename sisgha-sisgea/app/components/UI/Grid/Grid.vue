@@ -20,49 +20,32 @@ const isLoading = computed(() => props.isLoading ?? false);
 <template>
   <div class="flex-1">
     <template v-if="items && items.length > 0">
-      <v-container key="items">
-        <v-row>
-          <v-col
-            v-for="item in items"
-            :key="item.id"
-            class="px-2"
-            cols="12"
-            lg="4"
-            md="6"
-            sm="12"
-          >
-            <slot name="item" v-bind="{ item, isLoading }" />
-          </v-col>
-        </v-row>
-      </v-container>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-4">
+        <template v-for="item in items" :key="item.id">
+          <slot name="item" v-bind="{ item, isLoading }" />
+        </template>
+      </div>
     </template>
 
     <template v-else-if="isLoading">
-      <v-container key="items-skeleton">
-        <v-row>
-          <v-col
-            v-for="item in 10"
-            :key="item"
-            class="px-2"
-            cols="12"
-            lg="4"
-            md="6"
-            sm="12"
-          >
-            <slot name="item-skeleton" />
-          </v-col>
-        </v-row>
-      </v-container>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-4">
+        <template v-for="item in 10" :key="item">
+          <slot name="item-skeleton" />
+        </template>
+      </div>
     </template>
 
     <template v-else>
-      <v-empty-state
+      <div
         key="no-results"
-        class="flex-1"
-        icon="mdi-magnify"
-        text="Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos menos específicos ou consultas mais amplas podem ajudá-lo a encontrar o que procura."
-        title="Nenhum resultado encontrado."
-      />
+        class="flex flex-1 flex-col items-center justify-center text-center p-8"
+      >
+        <span class="mdi mdi-magnify text-5xl mb-4"></span>
+        <h3 class="text-lg font-semibold">Nenhum resultado encontrado.</h3>
+        <p class="text-sm">
+          Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos menos específicos ou consultas mais amplas podem ajudá-lo a encontrar o que procura.
+        </p>
+      </div>
     </template>
 
     <slot />
