@@ -12,28 +12,15 @@ import {
 } from './Context/UIApiListContext';
 import type { IGridItemSlotProps } from './Results/Grid/Typings/IGridItemSlotProps';
 
-//
-
-type Props = {
+const props = defineProps<{
   options: ICreateUIApiListContextOptions<Typings, CrudModule>;
-};
+}>();
 
-const props = defineProps<Props>();
-
-// TODO: retrieve from Typings
-type Item = any;
-
-type Slots = {
+const slots = defineSlots<{
   'options-actions'(props: any): any;
-
-  'grid-item'(props: IGridItemSlotProps<Item>): any;
-
+  'grid-item'(props: IGridItemSlotProps<any>): any;
   'grid-item-skeleton'(props: any): any;
-};
-
-const slots = defineSlots<Slots>();
-
-//
+}>();
 
 setupUIApiListContext(props.options);
 </script>
