@@ -33,7 +33,7 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
 @reference "~/assets/styles/app.css";
 
 .modal-layout {
-  @apply w-full h-full max-w-[95%] max-h-[10vh] p-4;
+  @apply w-full h-full max-w-[95%] max-h-[90vh] p-4;
   @apply flex flex-col justify-between items-center;
   @apply shadow-xl border-3 border-ldsa-grey rounded-2xl bg-ldsa-bg;
   @apply sm:max-w-[31.5rem] sm:min-h-[32rem] sm:p-5;
