@@ -12,9 +12,7 @@ const slots = defineSlots<{
   default(): any;
 }>();
 
-const items = toRef(props, 'items');
-
-const isLoading = computed(() => props.isLoading ?? false);
+const isLoading = computed(() => isLoadingProps ?? false);
 </script>
 
 <template>
@@ -49,5 +47,5 @@ const isLoading = computed(() => props.isLoading ?? false);
     </template>
 
     <slot />
-  </div>
+  </ul>
 </template>

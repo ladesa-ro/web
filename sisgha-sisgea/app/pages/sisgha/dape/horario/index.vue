@@ -1,11 +1,18 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
+import { filterTurmaResultsBySearch } from '~/components/Section/Horario/Dape/GeneralVisualization/filterTurmaResults';
 
 const searchBarValue = ref<string>('');
 
 const selectedToggleItem = ref<'professor' | 'turma' | 'mesclado'>('professor');
 
-const { data: turmas, isLoading, isError } = useQuery(listTurmas());
+// filter only Turmas searched by user
+const { data: turmasCompleteList, isLoading, isError } = useQuery(listTurmas());
+
+const filteredTurmas = filterTurmaResultsBySearch(
+  turmasCompleteList,
+  searchBarValue
+);
 </script>
 
 <template>
@@ -33,7 +40,7 @@ const { data: turmas, isLoading, isError } = useQuery(listTurmas());
       class="ui-api-list-results-grid"
     >
       <SectionTurmasGridItem
-        v-for="turma in turmas?.data"
+        v-for="turma in filteredTurmas"
         class="ui-api-list-results-grid-item"
         :is-loading="isLoading"
         :item="turma"
