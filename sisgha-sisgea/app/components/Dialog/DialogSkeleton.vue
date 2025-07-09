@@ -53,7 +53,7 @@ const onClose = () => (isActive.value = false);
 }
 
 .modal-container {
-  @apply z-[999] w-full h-full max-h-screen max-w-[95%] overflow-y-auto p-4;
+  @apply z-[999] max-h-screen max-w-[95%] p-7;
   @apply flex items-center justify-center;
   @apply rounded-2xl;
   @apply transition-[all] duration-300;

@@ -5,7 +5,7 @@ defineProps<Props>();
 
 <template>
   <div class="card max-w-full flex items-center">
-    <div class="flex-1 w-full mt-2 mb-3">
+    <div class="flex-1 w-full mt-2 mb-3 ml-2">
       <h1 class="font-semibold pt-0 max-w-full overflow-hidden">
         <slot name="title">
           {{ title }}
