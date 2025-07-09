@@ -29,7 +29,7 @@ const imageSrc = computed(() => {
     v-bind="getRootProps()"
   >
     <div
-      class="dropzone-info flex-1 flex flex-col items-center justify-center gap-3"
+      class="dropzone-info flex-1 flex flex-col items-center justify-center gap-3 mt-1"
     >
       <IconsFilePicker />
 
@@ -55,9 +55,10 @@ const imageSrc = computed(() => {
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  font-size: 14px;
 
   width: 100%;
-  @apply min-h-36;
+  @apply min-h-42;
 
   @apply border-2 border-ldsa-grey rounded-lg;
 
@@ -90,7 +91,7 @@ const imageSrc = computed(() => {
   @apply bg-ldsa-grey/10;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
   .dropzone-info-message {
     margin-top: 10px;
     font-size: 12px;
