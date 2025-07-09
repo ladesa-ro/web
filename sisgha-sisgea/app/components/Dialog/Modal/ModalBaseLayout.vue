@@ -53,7 +53,7 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
 }
 
 .content {
-  @apply flex-1 flex flex-col gap-6 overflow-y-auto mt-5 w-full break-words;
+  @apply flex-1 flex flex-col gap-6 overflow-y-auto mt-5 w-full break-words p-2;
   @apply max-h-[70vh];
 }
 
