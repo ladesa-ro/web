@@ -1,13 +1,11 @@
 <template>
-  <VBtn
-    append-icon="mdi-plus"
+  <button
     class="buttonAddClassDay"
-    color="#00d047"
     type="button"
-    variant="outlined"
   >
+    <i class="mdi mdi-plus mr-2"></i>
     Adicionar
-  </VBtn>
+  </button>
 </template>
 
 <style scoped>
@@ -15,18 +13,15 @@
 
 .buttonAddClassDay {
   width: 100%;
-  padding: 18px 20px;
-  border-radius: 8px;
+  padding: 1.12rem 1.25rem;
+  border-radius: .5rem;
   height: auto;
   text-transform: none;
-  border: 2px dashed #00d047; /* Borda pontilhada com a cor do botão */
-  background-color: transparent; /* Para garantir que o fundo seja transparente */
+  border: 2px dashed #00d047;
+  background-color: transparent;
+  color: #00d047;
+  font-weight: 700;
   @apply text-ldsa-green-2;
   /* Cor do texto para combinar com a borda */
-}
-
-.buttonAddClassDay .v-btn__icon {
-  @apply text-ldsa-green-2;
-  /* Cor do ícone para combinar com a borda */
 }
 </style>

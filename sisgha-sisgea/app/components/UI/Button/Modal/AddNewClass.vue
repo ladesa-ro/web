@@ -1,28 +1,23 @@
 <template>
-  <VBtn
-    append-icon="mdi-plus"
-    class="buttonAdd"
-    color="#1d5e82"
+  <button
+    class="buttonAdd border border-[#1d5e82] text-[#1d5e82] hover:bg-[#1d5e82]/10"
     type="button"
-    variant="outlined"
   >
+    <i class="mdi mdi-plus mr-2"></i>
     <span>Adicionar Nova Turma</span>
-  </VBtn>
+  </button>
 </template>
 
 <style>
-.button {
-  font-weight: 700;
-  margin-top: 20px;
-  cursor: pointer;
-  border: none;
-}
-
-.v-btn.buttonAdd {
+.buttonAdd {
   width: 100%;
-  padding: 9px 20px;
-  border-radius: 8px;
+  padding: .56rem 1.25rem;
+  border-radius: .5rem;
   height: auto;
+  font-weight: 700;
+  margin-top: 1.25rem;
+  cursor: pointer;
   text-transform: none;
+  border: none;
 }
 </style>
