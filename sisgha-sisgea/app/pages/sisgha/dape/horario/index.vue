@@ -7,12 +7,14 @@ const searchBarValue = ref<string>('');
 const selectedToggleItem = ref<'professor' | 'turma' | 'mesclado'>('professor');
 
 // filter only Turmas searched by user
-const { data: turmasCompleteList, isLoading, isError } = useQuery(listTurmas());
+const { data: turmasCompleteList, isLoading } = useQuery(listTurmas());
 
 const filteredTurmas = filterTurmaResultsBySearch(
   turmasCompleteList,
   searchBarValue
 );
+
+const turmasFilters = ref({});
 </script>
 
 <template>
@@ -25,6 +27,7 @@ const filteredTurmas = filterTurmaResultsBySearch(
     <SectionHorarioDapeGeneralVisualizationHeader
       v-model:search-bar="searchBarValue"
       v-model:toggle="selectedToggleItem"
+      v-model:turmas-filters="turmasFilters"
     />
 
     <!-- content -->
