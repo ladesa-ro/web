@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { IconsAdd, IconsEyeOn } from '#components';
-import { computed, ref } from 'vue';
+import { IconsAdd, IconsEdit, IconsEyeOn } from '#components';
+import { computed, ref, watch } from 'vue';
 import { capitalizeFirst } from '../../../../Horario/-Helpers/CapitalizeFirst';
 import type { Vinculo } from '../../FormUtils';
 
@@ -30,8 +30,9 @@ const dayShifts = [
 ];
 
 const selectedTimes = ref<string[]>([]);
-
 const motivosIndisponibilidade = ref<{ horario: string; motivo: string }[]>([]);
+
+const modalAberto = ref<'cadastrar' | 'consultar' | 'editar' | null>(null);
 
 const allTimes = dayShifts.flatMap(shift => shift.times);
 
@@ -49,22 +50,46 @@ const mostrarBotaoCadastrarMotivo = computed(
   () => horariosSemMotivo.value.length > 0
 );
 
-const showModalCadastrarMotivo = ref(false);
-
 function abrirModalCadastrarMotivo() {
-  showModalCadastrarMotivo.value = true;
+  modalAberto.value = 'cadastrar';
 }
 
-function fecharModalCadastrarMotivo() {
-  showModalCadastrarMotivo.value = false;
+function abrirModalConsultarMotivo() {
+  modalAberto.value = 'consultar';
+}
+
+function abrirModalEditarMotivo() {
+  modalAberto.value = 'editar';
+}
+
+function fecharModal() {
+  modalAberto.value = null;
 }
 
 function adicionarMotivo(horario: string, motivo: string) {
-  motivosIndisponibilidade.value.push({ horario, motivo });
-  fecharModalCadastrarMotivo();
+  const index = motivosIndisponibilidade.value.findIndex(
+    m => m.horario === horario
+  );
 
-  emit('atualizarMotivos', motivosIndisponibilidade.value);
+  if (index !== -1) {
+    const motivoExistente = motivosIndisponibilidade.value[index];
+    if (motivoExistente) {
+      motivoExistente.motivo = motivo;
+    }
+  } else {
+    motivosIndisponibilidade.value.push({ horario, motivo });
+  }
+
+  fecharModal();
 }
+
+watch(
+  motivosIndisponibilidade,
+  novosMotivos => {
+    emit('atualizarMotivos', novosMotivos);
+  },
+  { deep: true }
+);
 </script>
 
 <template>
@@ -91,7 +116,6 @@ function adicionarMotivo(horario: string, motivo: string) {
               {{ time }}
             </label>
 
-            <!-- Mostrar motivo cadastrado para o horário indisponível -->
             <p
               v-if="
                 motivosIndisponibilidade.find(m => m.horario === time) &&
@@ -109,7 +133,6 @@ function adicionarMotivo(horario: string, motivo: string) {
       </section>
 
       <div class="mb-9">
-        <!-- mensagem acima do botao -->
         <p
           v-if="mostrarBotaoCadastrarMotivo"
           class="mt-6 mb-2 text-ldsa-grey font-medium text-[12px] text-center"
@@ -118,49 +141,45 @@ function adicionarMotivo(horario: string, motivo: string) {
           justificada
         </p>
 
-        <!-- botao de cadastrar motivo -->
         <button
           v-if="mostrarBotaoCadastrarMotivo"
-          class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-9 py-3 rounded-lg w-full text-sm font-semibold"
+          class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-9 py-3 rounded-lg w-full text-sm font-semibold hover:bg-ldsa-green-1/10"
           @click="abrirModalCadastrarMotivo"
         >
-          Cadastrar motivo de indisponibilidade
+        Cadastrar motivos de indisponibilidade
           <IconsAdd class="w-4 h-4" />
         </button>
       </div>
-      <!-- Modal para cadastrar motivo -->
+
       <ModalCadastrarMotivo
-        v-if="showModalCadastrarMotivo"
+        v-if="modalAberto === 'cadastrar'"
         :horariosSemMotivo="horariosSemMotivo"
-        @fechar="fecharModalCadastrarMotivo"
+        @fechar="fecharModal"
         @cadastrar="adicionarMotivo"
       />
 
-      <!-- seção motivos de indisponibilidade -->
       <div>
         <p class="main-title font-semibold pb-5 text-[12px]">
-        Motivos de indisponibilidade
-      </p>
+          Motivos de indisponibilidade
+        </p>
 
-      <!-- botoes de consultar e editar -->
+        <div class="flex gap-5 justify-between">
+          <button
+            class="flex justify-between items-center gap-2 border-2 border-ldsa-grey text-ldsa-black px-12 py-3 rounded-lg w-full text-[12px] font-semibold hover:bg-gray-100"
+            @click="abrirModalConsultarMotivo"
+          >
+            Consultar
+            <IconsEyeOn class="w-4 h-4" />
+          </button>
 
-      <div class="flex gap-5 justify-between">
-        <button        
-          class="flex justify-between items-center gap-2 border-2 border-ldsa-grey text-ldsa-black px-12 py-3 rounded-lg w-full text-[12px] font-semibold"
-          @click=""
-        >
-          Consultar
-          <IconsEyeOn class="w-4 h-4" />
-        </button>
-
-        <button        
-          class="flex justify-between items-center gap-2 border-2 border-ldsa-grey text-ldsa-black px-12 py-3 rounded-lg w-full text-[12px] font-semibold"
-          @click=""
-        >
-          Editar
-          <IconsEdit class="w-3 h-3" />
-        </button>
-      </div>
+          <button
+            class="flex justify-between items-center gap-2 border-2 border-ldsa-grey text-ldsa-black px-12 py-3 rounded-lg w-full text-[12px] font-semibold hover:bg-gray-100"
+            @click="abrirModalEditarMotivo"
+          >
+            Editar
+            <IconsEdit class="w-3 h-3" />
+          </button>
+        </div>
       </div>
     </v-expansion-panel-text>
   </v-expansion-panel>
