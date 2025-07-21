@@ -1,15 +1,17 @@
 <script lang="ts" setup>
+import { IconsAdd, IconsEyeOn } from '#components';
+import { computed, ref } from 'vue';
 import { capitalizeFirst } from '../../../../Horario/-Helpers/CapitalizeFirst';
 import type { Vinculo } from '../../FormUtils';
 
 const { vinculo } = defineProps<{ vinculo: Vinculo }>();
+const emit = defineEmits(['atualizarMotivos']);
 
 const {
   composables: { useFindOneQuery },
 } = useLadesaApiCrudCampi();
 
 const { data: campus, suspense } = useFindOneQuery(vinculo.campus.id);
-
 await suspense();
 
 const dayShifts = [
@@ -27,9 +29,42 @@ const dayShifts = [
   },
 ];
 
-//
+const selectedTimes = ref<string[]>([]);
 
-const selectedTimes = ref([]);
+const motivosIndisponibilidade = ref<{ horario: string; motivo: string }[]>([]);
+
+const allTimes = dayShifts.flatMap(shift => shift.times);
+
+const horariosIndisponiveis = computed(() =>
+  allTimes.filter(time => !selectedTimes.value.includes(time))
+);
+
+const horariosSemMotivo = computed(() =>
+  horariosIndisponiveis.value.filter(
+    time => !motivosIndisponibilidade.value.some(m => m.horario === time)
+  )
+);
+
+const mostrarBotaoCadastrarMotivo = computed(
+  () => horariosSemMotivo.value.length > 0
+);
+
+const showModalCadastrarMotivo = ref(false);
+
+function abrirModalCadastrarMotivo() {
+  showModalCadastrarMotivo.value = true;
+}
+
+function fecharModalCadastrarMotivo() {
+  showModalCadastrarMotivo.value = false;
+}
+
+function adicionarMotivo(horario: string, motivo: string) {
+  motivosIndisponibilidade.value.push({ horario, motivo });
+  fecharModalCadastrarMotivo();
+
+  emit('atualizarMotivos', motivosIndisponibilidade.value);
+}
 </script>
 
 <template>
@@ -40,12 +75,101 @@ const selectedTimes = ref([]);
 
     <v-expansion-panel-text>
       <section class="flex gap-6 justify-between">
-        <div v-for="shift in dayShifts">
+        <div v-for="shift in dayShifts" :key="shift.title">
           <h1>{{ capitalizeFirst(shift.title) }}</h1>
 
-          <UICheckbox :items="shift.times" v-model="selectedTimes" />
+          <div v-for="time in shift.times" :key="time" class="mb-2">
+            <label
+              class="inline-flex items-center gap-2 cursor-pointer select-none"
+            >
+              <input
+                type="checkbox"
+                :value="time"
+                v-model="selectedTimes"
+                class="form-checkbox"
+              />
+              {{ time }}
+            </label>
+
+            <!-- Mostrar motivo cadastrado para o horário indisponível -->
+            <p
+              v-if="
+                motivosIndisponibilidade.find(m => m.horario === time) &&
+                !selectedTimes.includes(time)
+              "
+              class="text-sm text-red-600 italic ml-6"
+            >
+              Motivo:
+              {{
+                motivosIndisponibilidade.find(m => m.horario === time)?.motivo
+              }}
+            </p>
+          </div>
         </div>
       </section>
+
+      <div class="mb-9">
+        <!-- mensagem acima do botao -->
+        <p
+          v-if="mostrarBotaoCadastrarMotivo"
+          class="mt-6 mb-2 text-ldsa-grey font-medium text-[12px] text-center"
+        >
+          Há horários não selecionados cuja indisponibilidade ainda não foi
+          justificada
+        </p>
+
+        <!-- botao de cadastrar motivo -->
+        <button
+          v-if="mostrarBotaoCadastrarMotivo"
+          class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-9 py-3 rounded-lg w-full text-sm font-semibold"
+          @click="abrirModalCadastrarMotivo"
+        >
+          Cadastrar motivo de indisponibilidade
+          <IconsAdd class="w-4 h-4" />
+        </button>
+      </div>
+      <!-- Modal para cadastrar motivo -->
+      <ModalCadastrarMotivo
+        v-if="showModalCadastrarMotivo"
+        :horariosSemMotivo="horariosSemMotivo"
+        @fechar="fecharModalCadastrarMotivo"
+        @cadastrar="adicionarMotivo"
+      />
+
+      <!-- seção motivos de indisponibilidade -->
+      <div>
+        <p class="main-title font-semibold pb-5 text-[12px]">
+        Motivos de indisponibilidade
+      </p>
+
+      <!-- botoes de consultar e editar -->
+
+      <div class="flex gap-5 justify-between">
+        <button        
+          class="flex justify-between items-center gap-2 border-2 border-ldsa-grey text-ldsa-black px-12 py-3 rounded-lg w-full text-[12px] font-semibold"
+          @click=""
+        >
+          Consultar
+          <IconsEyeOn class="w-4 h-4" />
+        </button>
+
+        <button        
+          class="flex justify-between items-center gap-2 border-2 border-ldsa-grey text-ldsa-black px-12 py-3 rounded-lg w-full text-[12px] font-semibold"
+          @click=""
+        >
+          Editar
+          <IconsEdit class="w-3 h-3" />
+        </button>
+      </div>
+      </div>
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
+
+<style scoped>
+.main-title::before {
+  content: '';
+  border: 2px solid var(--ladesa-green-1-color);
+  margin-right: 0.5rem;
+}
+</style>
