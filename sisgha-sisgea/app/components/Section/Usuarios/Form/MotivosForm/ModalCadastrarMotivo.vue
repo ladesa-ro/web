@@ -58,7 +58,7 @@ function submit() {
 
 <template>
   <div
-    class="bg-ldsa-white text-ldsa-black p-8 rounded-lg shadow w-[60vh] h-[80vh] overflow-y-auto mr-10"
+    class="bg-ldsa-white text-ldsa-black p-8 rounded-lg shadow w-[65vh] h-[80vh] overflow-y-auto mr-10"
   >
     <h2 class="main-title text-sm font-semibold mb-4 pr-3">
       Cadastrar Motivos de Indisponibilidade
@@ -78,25 +78,13 @@ function submit() {
     >
       <!-- checkbox de horarios -->
       <v-expansion-panel-text>
-        <section class="flex justify-between">
-          <div v-for="shift in dayShifts" :key="shift.title">
-            <h1>{{ capitalizeFirst(shift.title) }}</h1>
+        <section class="flex gap-6 justify-between">
+        <div v-for="shift in dayShifts" :key="shift.title">
+          <h1>{{ capitalizeFirst(shift.title) }}</h1>
 
-            <div v-for="time in shift.times" :key="time" class="mb-2">
-              <label
-                class="inline-flex items-center gap-2 cursor-pointer select-none"
-              >
-                <input
-                  type="checkbox"
-                  :value="time"
-                  v-model="selectedTimes"
-                  class="form-checkbox"
-                />
-                {{ time }}
-              </label>
-            </div>
-          </div>
-        </section>
+          <UICheckbox :items="shift.times" v-model="selectedTimes" />          
+        </div>
+      </section>
       </v-expansion-panel-text>
 
       <!-- select de motivo -->
@@ -109,16 +97,16 @@ function submit() {
           <VVAutocomplete
             :items="motivosDisponiveis"
             v-model="motivos[horario]"
-            placeholder="Selecione um motivo"
+            placeholder="Digite ou selecione um motivo"
             label="Motivo"
             name="motivo"
-            class="w-full"
+            class="w-full text-[12px]"
           />
         </div>
         <button
           type="submit"
           :disabled="!podeCadastrar"          
-          class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-10 py-3 rounded-lg w-full text-sm font-semibold hover:bg-ldsa-green-1/10 disabled:opacity-50 disabled:cursor-not-allowed"
+          class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-5 py-3.5 rounded-lg w-full text-[12px] font-medium hover:bg-ldsa-green-1/10 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Registrar motivo para horário selecionado
           <IconsConfirm class="w-4 h-4" />
