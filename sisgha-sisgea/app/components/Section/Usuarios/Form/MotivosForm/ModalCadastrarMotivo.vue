@@ -138,7 +138,7 @@ function excluirMotivo(horario: string) {
             <button
               type="submit"
               :disabled="!podeRegistrar"
-              class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-5 py-3.5 rounded-lg w-full text-[12px] font-medium hover:bg-ldsa-green-1/10 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-3 py-3.5 rounded-lg w-full text-[12px] font-medium hover:bg-ldsa-green-1/10 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Registrar motivo para horário selecionado
               <IconsConfirm class="w-4 h-4" />
