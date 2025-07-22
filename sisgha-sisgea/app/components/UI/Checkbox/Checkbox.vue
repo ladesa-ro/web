@@ -11,17 +11,21 @@ import {
   getParsedItems,
 } from '~/composables/useOptionItems';
 
-type Props = { items: Item[]; truncateText?: boolean };
-const { items: itemsProps, truncateText = false } = defineProps<Props>();
+type Props = {
+  items: Item[];
+  truncateText?: boolean;
+  disabledItems?: AcceptableValue[];
+};
+
+const { items: itemsProps, truncateText = false, disabledItems = [] } =
+  defineProps<Props>();
 
 const items = getParsedItems(itemsProps);
-
-//
-
 const checkedItems = defineModel<AcceptableValue[]>({ default: [] });
 
-// logic to make the enter key work
 const invertItem = (item: ParsedItem) => {
+  if (disabledItems.includes(item.value)) return; // impede ação se estiver desabilitado
+
   if (checkedItems.value.includes(item.value)) {
     checkedItems.value = checkedItems.value.filter(
       value => value !== item.value
@@ -38,19 +42,23 @@ const invertItem = (item: ParsedItem) => {
       v-for="item in items"
       :key="item.value"
       class="flex items-center gap-1.5 cursor-pointer mb-1.5 last:mb-0"
+      :class="{
+        'opacity-50 cursor-not-allowed': disabledItems.includes(item.value),
+      }"
     >
       <span
         class="rounded-full checkbox-shadow focus-within:shadow-(--green-shadow) hover:shadow-(--green-shadow)"
       >
         <Checkbox
-          @keyup.enter="invertItem(item)"
           :value="item.value"
-          :class="
+          :disabled="disabledItems.includes(item.value)"
+          :class="[
             checkedItems?.includes(item.value)
               ? 'border-ldsa-green-2'
-              : 'border-ldsa-grey'
-          "
+              : 'border-ldsa-grey',
+          ]"
           class="flex border-2 hover:bg-ldsa-green-2/10 rounded-sm w-5.5 h-5.5 focus-visible:outline-ldsa-green-2"
+          @keyup.enter="invertItem(item)"
         >
           <Check class="flex-1 bg-ldsa-green-2 p-1 pt-1.5">
             <IconsConfirm class="text-ldsa-white" />
