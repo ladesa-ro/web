@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
 import { IconsConfirm } from '#components';
+import { UIButtonModalGoBack } from '#components';
 
 const props = defineProps<{
   horariosSemMotivo: string[];
@@ -113,14 +114,8 @@ function submit() {
         </button>
       </div>
 
-      <div class="flex justify-start gap-3 pt-4">
-        <button
-          type="button"
-          @click="emit('fechar')"
-          class="px-4 py-2 text-sm rounded border border-gray-400 hover:bg-gray-100"
-        >
-          Voltar
-        </button>
+      <div class="flex justify-start gap-3">
+        <UIButtonModalGoBack @click="emit('fechar')" />
       </div>
     </form>
   </div>
@@ -139,6 +134,7 @@ function submit() {
     </div>
 
     <!-- seção de botões -->
+     
   </div>
 </template>
 
