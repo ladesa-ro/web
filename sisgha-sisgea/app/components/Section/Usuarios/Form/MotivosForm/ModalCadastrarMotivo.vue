@@ -3,7 +3,7 @@ import {
   IconsConfirm,
   UIButtonModalDelete,
   UIButtonModalGoBack,
-  UIButtonModalSave
+  UIButtonModalSave,
 } from '#components';
 import { computed, ref } from 'vue';
 import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
@@ -77,11 +77,7 @@ function submit() {
         Todos os horários já possuem um motivo.
       </div>
 
-      <form
-        v-else
-        @submit.prevent="submit"
-        class="flex flex-col gap-6"
-      >
+      <form v-else @submit.prevent="submit" class="flex flex-col gap-6">
         <!-- checkbox de horarios -->
         <v-expansion-panel-text>
           <section class="flex gap-6 justify-between">
@@ -129,17 +125,16 @@ function submit() {
   <div
     class="bg-ldsa-white text-ldsa-black p-8 rounded-lg shadow w-[70vh] h-[80vh] flex flex-col justify-between"
   >
-    <div class="flex-grow overflow-y-auto">
-      <h2 class="main-title text-lg font-semibold mb-4">
-        Motivos pendentes de confirmação
-      </h2>
+    <h2 class="main-title text-lg font-semibold mb-4">
+      Motivos pendentes de confirmação
+    </h2>
 
+    <div class="flex-grow overflow-y-auto flex items-center justify-center">
       <div class="text-center text-sm text-ldsa-grey">
         Ainda não há motivos pendentes de confirmação
       </div>
     </div>
 
-    <!-- seção de botoes -->
     <div class="flex justify-between gap-3 pt-6">
       <UIButtonModalDelete :disabled="!podeCadastrar" @click="emit('fechar')" />
       <UIButtonModalSave :disabled="!podeCadastrar" @click="submit" />
