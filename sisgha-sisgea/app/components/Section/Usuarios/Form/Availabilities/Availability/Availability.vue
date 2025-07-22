@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { capitalizeFirst } from '../../../../Horario/-Helpers/CapitalizeFirst';
 import { IconsAdd, IconsEdit, IconsEyeOn } from '#components';
 import DialogSkeleton from '@/components/Dialog/DialogSkeleton.vue';
-import ModalCadastrarMotivo from '../../MotivosForm/ModalCadastrarMotivo.vue';
+import { capitalizeFirst } from '../../../../Horario/-Helpers/CapitalizeFirst';
 import type { Vinculo } from '../../FormUtils';
+import ModalCadastrarMotivo from '../../MotivosForm/ModalCadastrarMotivo.vue';
+import ModalConsultarMotivo from '../../MotivosForm/ModalConsultarMotivo.vue';
 
 const { vinculo } = defineProps<{ vinculo: Vinculo }>();
 const emit = defineEmits(['atualizarMotivos']);
@@ -16,9 +17,18 @@ const { data: campus, suspense } = useFindOneQuery(vinculo.campus.id);
 await suspense();
 
 const dayShifts = [
-  { title: 'matutino', times: ['07:30', '08:20', '09:10', '10:00', '10:20', '11:10'] },
-  { title: 'vespertino', times: ['13:00', '13:50', '14:40', '15:30', '15:50', '16:40'] },
-  { title: 'noturno', times: ['19:00', '19:50', '20:40', '21:30', '21:50', '22:40'] },
+  {
+    title: 'matutino',
+    times: ['07:30', '08:20', '09:10', '10:00', '10:20', '11:10'],
+  },
+  {
+    title: 'vespertino',
+    times: ['13:00', '13:50', '14:40', '15:30', '15:50', '16:40'],
+  },
+  {
+    title: 'noturno',
+    times: ['19:00', '19:50', '20:40', '21:30', '21:50', '22:40'],
+  },
 ];
 
 const selectedTimes = ref<string[]>([]);
@@ -39,7 +49,9 @@ const horariosSemMotivo = computed(() =>
   )
 );
 
-const mostrarBotaoCadastrarMotivo = computed(() => horariosSemMotivo.value.length > 0);
+const mostrarBotaoCadastrarMotivo = computed(
+  () => horariosSemMotivo.value.length > 0
+);
 
 function abrirModalCadastrarMotivo() {
   modalAbertoCadastrar.value = true;
@@ -59,7 +71,9 @@ function fecharModal() {
 }
 
 function adicionarMotivo(horario: string, motivo: string) {
-  const index = motivosIndisponibilidade.value.findIndex(m => m.horario === horario);
+  const index = motivosIndisponibilidade.value.findIndex(
+    m => m.horario === horario
+  );
   if (index !== -1) {
     const motivoExistente = motivosIndisponibilidade.value[index];
     if (motivoExistente) {
@@ -93,10 +107,16 @@ watch(
 
           <div v-for="time in shift.times" :key="time">
             <p
-              v-if="motivosIndisponibilidade.find(m => m.horario === time) && !selectedTimes.includes(time)"
+              v-if="
+                motivosIndisponibilidade.find(m => m.horario === time) &&
+                !selectedTimes.includes(time)
+              "
               class="text-sm text-red-600 italic ml-6"
             >
-              Motivo: {{ motivosIndisponibilidade.find(m => m.horario === time)?.motivo }}
+              Motivo:
+              {{
+                motivosIndisponibilidade.find(m => m.horario === time)?.motivo
+              }}
             </p>
           </div>
         </div>
@@ -107,7 +127,8 @@ watch(
           v-if="mostrarBotaoCadastrarMotivo"
           class="mt-6 mb-2 text-ldsa-grey font-medium text-[12px] text-center"
         >
-          Há horários não selecionados cuja indisponibilidade ainda não foi justificada
+          Há horários não selecionados cuja indisponibilidade ainda não foi
+          justificada
         </p>
 
         <button
@@ -125,6 +146,13 @@ watch(
           :horariosSemMotivo="horariosSemMotivo"
           @fechar="fecharModal"
           @cadastrar="adicionarMotivo"
+        />
+      </DialogSkeleton>
+
+      <DialogSkeleton :model-value="modalAberto === 'consultar'" @update:model-value="fecharModal">
+        <ModalConsultarMotivo
+          :motivosConfirmados="motivosIndisponibilidade"
+          @fechar="fecharModal"
         />
       </DialogSkeleton>
 
