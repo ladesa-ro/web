@@ -102,7 +102,7 @@ watch(
         </div>
       </section>
 
-      <div class="mb-9">
+      <div class="mb-9 mt-9">
         <p
           v-if="mostrarBotaoCadastrarMotivo"
           class="mt-6 mb-2 text-ldsa-grey font-medium text-[12px] text-center"
