@@ -80,9 +80,9 @@ function excluirMotivo(horario: string) {
   <div class="flex">
     <!-- Primeira Div -->
     <div
-      class="flex flex-col justify-between bg-ldsa-white text-ldsa-black p-8 rounded-lg shadow w-[60vh] h-[80vh] mr-10"
+      class="flex flex-col justify-between bg-ldsa-white text-ldsa-black p-7 rounded-lg shadow w-[60vh] h-[80vh] mr-10"
     >
-      <div class="overflow-y-auto">
+      <div class="overflow-y-auto pr-2">
         <h2 class="main-title text-sm font-semibold mb-4 pr-3">
           Cadastrar Motivos de Indisponibilidade
         </h2>
@@ -101,7 +101,7 @@ function excluirMotivo(horario: string) {
         >
           <!-- checkbox de horários -->
           <v-expansion-panel-text>
-            <section class="flex gap-6 justify-between">
+            <section class="flex gap-3">
               <div v-for="shift in dayShifts" :key="shift.title">
                 <h1>{{ capitalizeFirst(shift.title) }}</h1>
 
@@ -147,13 +147,11 @@ function excluirMotivo(horario: string) {
         </form>
       </div>
 
-      <!-- Rodapé fixo da primeira div -->
       <div class="pt-6">
         <UIButtonModalGoBack @click="emit('fechar')" />
       </div>
     </div>
 
-    <!-- Segunda Div -->
     <div
       class="flex flex-col justify-between bg-ldsa-white text-ldsa-black p-8 rounded-lg shadow w-[60vh] h-[80vh]"
     >
@@ -164,7 +162,7 @@ function excluirMotivo(horario: string) {
 
         <div
           v-if="pendentes.length === 0"
-          class="flex items-center justify-center text-center text-sm text-ldsa-grey h-[calc(100%-2rem)]"
+          class="flex items-center justify-center text-center text-sm text-ldsa-grey"
         >
           Ainda não há motivos pendentes de confirmação
         </div>
