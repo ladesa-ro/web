@@ -78,7 +78,6 @@ function excluirMotivo(horario: string) {
 
 <template>
   <div class="flex">
-    <!-- Primeira Div -->
     <div
       class="flex flex-col justify-between bg-ldsa-white text-ldsa-black p-7 rounded-lg shadow w-[60vh] h-[80vh] mr-10"
     >
@@ -125,6 +124,10 @@ function excluirMotivo(horario: string) {
               :key="horario"
               class="flex flex-col gap-2"
             >
+              <label class="text-[12px] font-medium text-ldsa-grey"
+                >Motivo para {{ horario }}</label
+              >
+
               <VVAutocomplete
                 :items="motivosDisponiveis"
                 v-model="motivos[horario]"
@@ -153,10 +156,10 @@ function excluirMotivo(horario: string) {
     </div>
 
     <div
-      class="flex flex-col justify-between bg-ldsa-white text-ldsa-black p-8 rounded-lg shadow w-[60vh] h-[80vh]"
+      class="flex flex-col justify-between bg-ldsa-white text-ldsa-black p-7 rounded-lg shadow w-[60vh] h-[80vh]"
     >
       <div class="overflow-y-auto">
-        <h2 class="main-title text-lg font-semibold mb-4">
+        <h2 class="main-title text-sm font-semibold mb-4">
           Motivos pendentes de confirmação
         </h2>
 
@@ -171,16 +174,24 @@ function excluirMotivo(horario: string) {
           <li
             v-for="m in pendentes"
             :key="m.horario"
-            class="flex justify-between items-center border p-2 rounded"
+            class="flex justify-between items-center py-3 border-b-1 border-ldsa-grey"
           >
-            <span>{{ m.horario }} — {{ m.motivo }}</span>
-            <button
-              @click="excluirMotivo(m.horario)"
-              class="text-red-500 hover:text-red-700"
-              aria-label="Excluir motivo"
-            >
-              <IconsExclude class="w-4 h-4" />
-            </button>
+            <div class="flex justify-between w-full items-center">
+              <span class="font-semibold text-[12px]">{{ m.motivo }}</span>
+
+              <div class="flex items-center gap-2">
+                <span class="font-medium text-[12px] text-ldsa-grey">{{
+                  m.horario
+                }}</span>
+                <button
+                  @click="excluirMotivo(m.horario)"
+                  class="text-red-500 hover:text-red-700"
+                  aria-label="Excluir motivo"
+                >
+                  <IconsExclude class="w-3 h-3" />
+                </button>
+              </div>
+            </div>
           </li>
         </ul>
       </div>
