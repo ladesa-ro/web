@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {
   IconsConfirm,
-  UIButtonModalCancel,
+  UIButtonModalDelete,
   UIButtonModalGoBack,
   UIButtonModalSave
 } from '#components';
@@ -140,8 +140,8 @@ function submit() {
     </div>
 
     <!-- seção de botoes -->
-    <div class="flex justify-end gap-3 pt-6">
-      <UIButtonModalCancel @click="emit('fechar')" />
+    <div class="flex justify-between gap-3 pt-6">
+      <UIButtonModalDelete :disabled="!podeCadastrar" @click="emit('fechar')" />
       <UIButtonModalSave :disabled="!podeCadastrar" @click="submit" />
     </div>
   </div>
