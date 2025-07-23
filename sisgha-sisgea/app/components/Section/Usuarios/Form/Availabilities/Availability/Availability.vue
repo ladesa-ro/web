@@ -120,6 +120,23 @@ function deletarMotivo(horario: string) {
   );
 }
 
+function atualizarMotivoEditadoComHorarios(payload: { horarios: string[]; motivo: string }) {
+  // Remove os horários antigos associados ao motivo
+  motivosIndisponibilidade.value = motivosIndisponibilidade.value.filter(
+    m => m.horario !== motivoSelecionado.value?.horario
+  );
+
+  // Adiciona os novos horários com o novo motivo
+  payload.horarios.forEach(horario => {
+    motivosIndisponibilidade.value.push({
+      horario,
+      motivo: payload.motivo,
+    });
+  });
+
+  modalAbertoEditar.value = false;
+}
+
 watch(
   motivosIndisponibilidade,
   novosMotivos => emit('atualizarMotivos', novosMotivos),
@@ -211,7 +228,7 @@ watch(
           v-if="motivoSelecionado"
           :motivoAtual="motivoSelecionado"
           @fechar="modalAbertoEditar = false"
-          @atualizar="atualizarMotivoEditado"
+          @atualizarComHorarios="atualizarMotivoEditadoComHorarios"
           @deletar="deletarMotivo"
         />
       </DialogSkeleton>
