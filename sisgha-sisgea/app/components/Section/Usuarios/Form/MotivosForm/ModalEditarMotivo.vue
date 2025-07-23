@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { IconsConfirm, UIButtonModalGoBack, UIButtonModalSave } from '#components';
+import { UIButtonModalGoBack, UIButtonModalSave } from '#components';
 import { ref } from 'vue';
 
 const props = defineProps<{
@@ -19,6 +19,25 @@ const motivosDisponiveis = [
   'Reunião',
   'Outro',
 ];
+
+const horariosPorDia: Record<string, string[]> = {
+  Segunda: ['07:30', '08:20', '13:00', '13:50'],
+  Terça: ['09:10', '10:00', '14:40', '15:30'],
+  Quarta: ['10:20', '11:10', '15:50', '16:40'],
+  Quinta: ['19:00', '19:50', '20:40'],
+  Sexta: ['21:30', '21:50', '22:40'],
+};
+
+function getDiaDaSemanaPorHorario(horario: string): string | null {
+  for (const [dia, horarios] of Object.entries(horariosPorDia)) {
+    if (horarios.includes(horario)) {
+      return dia;
+    }
+  }
+  return null;
+}
+
+const diaDaSemana = getDiaDaSemanaPorHorario(props.motivoAtual.horario);
 </script>
 
 <template>
@@ -28,11 +47,6 @@ const motivosDisponiveis = [
     <div>
       <h2 class="main-title text-[14px] font-semibold mb-6">Editar motivo</h2>
 
-      <div class="mb-4 text-sm">
-        <span class="font-medium text-ldsa-grey">Horário:</span>
-        <span class="ml-2">{{ motivoAtual.horario }}</span>
-      </div>
-
       <VVAutocomplete
         :items="motivosDisponiveis"
         v-model="novoMotivo"
@@ -41,13 +55,25 @@ const motivosDisponiveis = [
         name="motivo"
         class="w-full text-[12px]"
       />
+
+    <div class="flex justify-between items-center border-b border-ldsa-grey py-2 text-[12px] font-semibold mt-4">
+      <span class="">{{
+        diaDaSemana ? `${diaDaSemana}-feira` : 'Desconhecido'
+      }}</span>
+      <span class="border-b border-ldsa-green-1 px-1">{{ motivoAtual.horario }}</span>
+    </div>
     </div>
 
     <div class="flex justify-between gap-3 pt-6">
       <UIButtonModalGoBack @click="emit('fechar')" />
       <UIButtonModalSave
         :disabled="!novoMotivo.trim()"
-        @click="emit('atualizar', { horario: motivoAtual.horario, motivo: novoMotivo.trim() })"
+        @click="
+          emit('atualizar', {
+            horario: motivoAtual.horario,
+            motivo: novoMotivo.trim(),
+          })
+        "
       />
     </div>
   </div>
