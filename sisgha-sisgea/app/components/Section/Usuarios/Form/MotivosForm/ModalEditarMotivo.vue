@@ -4,7 +4,8 @@ import {
   UIButtonModalDelete,
   UIButtonModalSave,
 } from '#components';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
+import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
 
 const props = defineProps<{
   motivoAtual: { horario: string; motivo: string };
@@ -14,6 +15,10 @@ const emit = defineEmits<{
   (e: 'fechar'): void;
   (e: 'atualizar', motivoAtualizado: { horario: string; motivo: string }): void;
   (e: 'deletar', horario: string): void;
+  (
+    e: 'atualizarComHorarios',
+    payload: { horarios: string[]; motivo: string }
+  ): void;
 }>();
 
 const novoMotivo = ref(props.motivoAtual.motivo);
@@ -32,6 +37,27 @@ const horariosPorDia: Record<string, string[]> = {
   Quinta: ['19:00', '19:50', '20:40'],
   Sexta: ['21:30', '21:50', '22:40'],
 };
+
+const dayShifts = [
+  {
+    title: 'matutino',
+    times: ['07:30', '08:20', '09:10', '10:00', '10:20', '11:10'],
+  },
+  {
+    title: 'vespertino',
+    times: ['13:00', '13:50', '14:40', '15:30', '15:50', '16:40'],
+  },
+  {
+    title: 'noturno',
+    times: ['19:00', '19:50', '20:40', '21:30', '21:50', '22:40'],
+  },
+];
+
+const selectedTimes = ref<string[]>([props.motivoAtual.horario]); // inicia com o horário atual
+
+const podeSalvar = computed(
+  () => !!novoMotivo.value.trim() && selectedTimes.value.length > 0
+);
 
 function getDiaDaSemanaPorHorario(horario: string): string | null {
   for (const [dia, horarios] of Object.entries(horariosPorDia)) {
@@ -79,10 +105,10 @@ const diaDaSemana = getDiaDaSemanaPorHorario(props.motivoAtual.horario);
       <UIButtonModalCancel @click="emit('fechar')" />
       <UIButtonModalDelete @click="emit('deletar', motivoAtual.horario)" />
       <UIButtonModalSave
-        :disabled="!novoMotivo.trim()"
+        :disabled="!podeSalvar"
         @click="
-          emit('atualizar', {
-            horario: motivoAtual.horario,
+          emit('atualizarComHorarios', {
+            horarios: selectedTimes,
             motivo: novoMotivo.trim(),
           })
         "
@@ -97,7 +123,17 @@ const diaDaSemana = getDiaDaSemanaPorHorario(props.motivoAtual.horario);
       <h2 class="main-title text-[14px] font-semibold mb-6">
         Editar horários do motivo
       </h2>
-    </div>    
+
+      <section class="flex gap-6 justify-between">
+        <div v-for="shift in dayShifts" :key="shift.title">
+          <h1 class="text-[12px] font-medium text-ldsa-black mb-2">
+            {{ capitalizeFirst(shift.title) }}
+          </h1>
+
+          <UICheckbox :items="shift.times" v-model="selectedTimes" />
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 
