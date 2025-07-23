@@ -158,7 +158,7 @@ function excluirMotivo(horario: string) {
     <div
       class="flex flex-col justify-between bg-ldsa-white text-ldsa-black p-7 rounded-lg shadow w-[60vh] h-[80vh]"
     >
-      <div class="overflow-y-auto">
+      <div class="overflow-y-auto pr-3">
         <h2 class="main-title text-sm font-semibold mb-4">
           Motivos pendentes de confirmação
         </h2>

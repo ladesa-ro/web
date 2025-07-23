@@ -5,6 +5,8 @@ import { capitalizeFirst } from '../../../../Horario/-Helpers/CapitalizeFirst';
 import type { Vinculo } from '../../FormUtils';
 import ModalCadastrarMotivo from '../../MotivosForm/ModalCadastrarMotivo.vue';
 import ModalConsultarMotivo from '../../MotivosForm/ModalConsultarMotivo.vue';
+import ModalEditarMotivo from '../../MotivosForm/ModalEditarMotivo.vue';
+import ModalListarMotivos from '../../MotivosForm/ModalListarMotivo.vue';
 
 const { vinculo } = defineProps<{ vinculo: Vinculo }>();
 const emit = defineEmits(['atualizarMotivos']);
@@ -52,6 +54,33 @@ const horariosSemMotivo = computed(() =>
 const mostrarBotaoCadastrarMotivo = computed(
   () => horariosSemMotivo.value.length > 0
 );
+
+const modalAbertoEditar = ref(false);
+const motivoSelecionado = ref<{ horario: string; motivo: string } | null>(null);
+
+function abrirModalEdicaoMotivoSelecionado(m: {
+  horario: string;
+  motivo: string;
+}) {
+  motivoSelecionado.value = m;
+  modalAbertoEditar.value = true;
+}
+
+function atualizarMotivoEditado(motivoAtualizado: {
+  horario: string;
+  motivo: string;
+}) {
+  const index = motivosIndisponibilidade.value.findIndex(
+    m => m.horario === motivoAtualizado.horario
+  );
+  if (index !== -1) {
+  const motivo = motivosIndisponibilidade.value[index];
+  if (motivo) {
+    motivo.motivo = motivoAtualizado.motivo;
+  }
+}
+  modalAbertoEditar.value = false;
+}
 
 function abrirModalCadastrarMotivo() {
   modalAbertoCadastrar.value = true;
@@ -105,20 +134,20 @@ watch(
 
           <UICheckbox :items="shift.times" v-model="selectedTimes" />
 
-          <div v-for="time in shift.times" :key="time">
+          <!-- <div v-for="time in shift.times" :key="time">
             <p
               v-if="
                 motivosIndisponibilidade.find(m => m.horario === time) &&
                 !selectedTimes.includes(time)
               "
-              class="text-sm text-red-600 italic ml-6"
+              class="text-[10px] text-ldsa-red/65 ml-6"
             >
               Motivo:
               {{
                 motivosIndisponibilidade.find(m => m.horario === time)?.motivo
               }}
             </p>
-          </div>
+          </div> -->
         </div>
       </section>
 
@@ -149,10 +178,33 @@ watch(
         />
       </DialogSkeleton>
 
-      <DialogSkeleton :model-value="modalAberto === 'consultar'" @update:model-value="fecharModal">
+      <DialogSkeleton
+        :model-value="modalAberto === 'consultar'"
+        @update:model-value="fecharModal"
+      >
         <ModalConsultarMotivo
           :motivosConfirmados="motivosIndisponibilidade"
           @fechar="fecharModal"
+        />
+      </DialogSkeleton>
+
+      <DialogSkeleton
+        :model-value="modalAberto === 'editar'"
+        @update:model-value="fecharModal"
+      >
+        <ModalListarMotivos
+          :motivosConfirmados="motivosIndisponibilidade"
+          @fechar="fecharModal"
+          @editar="abrirModalEdicaoMotivoSelecionado"
+        />
+      </DialogSkeleton>
+
+      <DialogSkeleton v-model="modalAbertoEditar">
+        <ModalEditarMotivo
+          v-if="motivoSelecionado"
+          :motivoAtual="motivoSelecionado"
+          @fechar="modalAbertoEditar = false"
+          @atualizar="atualizarMotivoEditado"
         />
       </DialogSkeleton>
 
