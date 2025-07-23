@@ -74,11 +74,11 @@ function atualizarMotivoEditado(motivoAtualizado: {
     m => m.horario === motivoAtualizado.horario
   );
   if (index !== -1) {
-  const motivo = motivosIndisponibilidade.value[index];
-  if (motivo) {
-    motivo.motivo = motivoAtualizado.motivo;
+    const motivo = motivosIndisponibilidade.value[index];
+    if (motivo) {
+      motivo.motivo = motivoAtualizado.motivo;
+    }
   }
-}
   modalAbertoEditar.value = false;
 }
 
@@ -112,6 +112,12 @@ function adicionarMotivo(horario: string, motivo: string) {
     motivosIndisponibilidade.value.push({ horario, motivo });
   }
   fecharModal();
+}
+
+function deletarMotivo(horario: string) {
+  motivosIndisponibilidade.value = motivosIndisponibilidade.value.filter(
+    m => m.horario !== horario
+  );
 }
 
 watch(
@@ -196,6 +202,7 @@ watch(
           :motivosConfirmados="motivosIndisponibilidade"
           @fechar="fecharModal"
           @editar="abrirModalEdicaoMotivoSelecionado"
+          @deletar="deletarMotivo"
         />
       </DialogSkeleton>
 
@@ -205,6 +212,7 @@ watch(
           :motivoAtual="motivoSelecionado"
           @fechar="modalAbertoEditar = false"
           @atualizar="atualizarMotivoEditado"
+          @deletar="deletarMotivo"
         />
       </DialogSkeleton>
 
