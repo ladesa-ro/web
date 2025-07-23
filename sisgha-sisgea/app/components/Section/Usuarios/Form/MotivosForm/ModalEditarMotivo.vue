@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-import { UIButtonModalGoBack, UIButtonModalSave } from '#components';
+import {
+  UIButtonModalCancel,
+  UIButtonModalDelete,
+  UIButtonModalSave,
+} from '#components';
 import { ref } from 'vue';
 
 const props = defineProps<{
@@ -9,6 +13,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'fechar'): void;
   (e: 'atualizar', motivoAtualizado: { horario: string; motivo: string }): void;
+  (e: 'deletar', horario: string): void;
 }>();
 
 const novoMotivo = ref(props.motivoAtual.motivo);
@@ -42,10 +47,12 @@ const diaDaSemana = getDiaDaSemanaPorHorario(props.motivoAtual.horario);
 
 <template>
   <div
-    class="bg-ldsa-white text-ldsa-black p-7 rounded-lg shadow w-[60vh] h-[60vh] flex flex-col justify-between"
+    class="bg-ldsa-white text-ldsa-black p-7 rounded-lg shadow w-full max-w-[30rem] h-[80vh] flex flex-col justify-between"
   >
     <div>
-      <h2 class="main-title text-[14px] font-semibold mb-6">Editar motivo</h2>
+      <h2 class="main-title text-[14px] font-semibold mb-6">
+        Editar motivos de indisponibilidade
+      </h2>
 
       <VVAutocomplete
         :items="motivosDisponiveis"
@@ -56,16 +63,21 @@ const diaDaSemana = getDiaDaSemanaPorHorario(props.motivoAtual.horario);
         class="w-full text-[12px]"
       />
 
-    <div class="flex justify-between items-center border-b border-ldsa-grey py-2 text-[12px] font-semibold mt-4">
-      <span class="">{{
-        diaDaSemana ? `${diaDaSemana}-feira` : 'Desconhecido'
-      }}</span>
-      <span class="border-b border-ldsa-green-1 px-1">{{ motivoAtual.horario }}</span>
-    </div>
+      <div
+        class="flex justify-between items-center border-b border-ldsa-grey py-2 text-[12px] font-semibold mt-4"
+      >
+        <span class="">{{
+          diaDaSemana ? `${diaDaSemana}-feira` : 'Desconhecido'
+        }}</span>
+        <span class="border-b-2 border-ldsa-green-1 px-1">{{
+          motivoAtual.horario
+        }}</span>
+      </div>
     </div>
 
-    <div class="flex justify-between gap-3 pt-6">
-      <UIButtonModalGoBack @click="emit('fechar')" />
+    <div class="flex justify-between gap-1 pt-6 w-full">
+      <UIButtonModalCancel @click="emit('fechar')" />
+      <UIButtonModalDelete @click="emit('deletar', motivoAtual.horario)" />
       <UIButtonModalSave
         :disabled="!novoMotivo.trim()"
         @click="
@@ -76,6 +88,16 @@ const diaDaSemana = getDiaDaSemanaPorHorario(props.motivoAtual.horario);
         "
       />
     </div>
+  </div>
+
+  <div
+    class="bg-ldsa-white text-ldsa-black p-7 rounded-lg shadow w-[60vh] h-[80vh] flex flex-col justify-between ml-5"
+  >
+    <div>
+      <h2 class="main-title text-[14px] font-semibold mb-6">
+        Editar horários do motivo
+      </h2>
+    </div>    
   </div>
 </template>
 
