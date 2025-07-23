@@ -9,6 +9,7 @@ const props = defineProps<{
 const emit = defineEmits<{
   (e: 'fechar'): void;
   (e: 'editar', motivo: { horario: string; motivo: string }): void;
+  (e: 'deletar', horario: string): void;
 }>();
 
 const motivosOrdenados = computed(() =>
@@ -42,7 +43,9 @@ const motivosOrdenados = computed(() =>
         >
           <span class="font-semibold text-[12px]">{{ m.motivo }}</span>
           <div class="flex items-center gap-2">
-            <span class="text-[11px] font-medium text-ldsa-grey/85">{{ m.horario }}</span>
+            <span class="text-[11px] font-medium text-ldsa-grey/85">{{
+              m.horario
+            }}</span>
             <button
               @click="emit('editar', m)"
               class="flex gap-2"
@@ -50,7 +53,10 @@ const motivosOrdenados = computed(() =>
             >
               <IconsEdit class="text-ldsa-black hover:text-ldsa-green-1" />
             </button>
-            <button @click="" aria-label="Excluir motivo">
+            <button
+              @click="emit('deletar', m.horario)"
+              aria-label="Excluir motivo"
+            >
               <IconsExclude
                 class="w-3 h-3 text-ldsa-red hover:text-ldsa-red/60"
               />
