@@ -8,13 +8,11 @@ const weekDays = week.map(day => day.dayWeek);
 
 const selectedDayWeek = ref();
 
-//
-
 const { values: formValues } = useFormUser();
 
-const vinculosComCargoProfessor = computed(() => {
-  return getActivesTeacherRole(formValues.vinculos);
-});
+const vinculosComCargoProfessor = computed(() =>
+  getActivesTeacherRole(formValues.vinculos)
+);
 
 const activePanel = ref(vinculosComCargoProfessor.value[0]?.campus.id);
 
@@ -38,12 +36,10 @@ watch(vinculosComCargoProfessor, (current, previous) => {
   }
 });
 
-//
-
 const $emit = defineEmits(['close']);
-
 const onClose = () => $emit('close');
 </script>
+
 <template>
   <DialogModalBaseLayout
     :close-button="false"
@@ -65,6 +61,7 @@ const onClose = () => $emit('close');
         v-for="vinculo in vinculosComCargoProfessor"
         :key="vinculo.campus.id"
         :vinculo="vinculo"
+        :selectedDayWeek="selectedDayWeek"
       />
     </v-expansion-panels>
   </DialogModalBaseLayout>
