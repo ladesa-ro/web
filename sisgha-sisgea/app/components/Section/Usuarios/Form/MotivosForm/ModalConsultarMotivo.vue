@@ -16,8 +16,6 @@ const diasDaSemana = [
   'quarta',
   'quinta',
   'sexta',
-  'sábado',
-  'domingo',
 ];
 
 function normalizarChave(str: string): string {
