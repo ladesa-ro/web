@@ -206,7 +206,7 @@ const motivosFormatadosPorDia = computed(() => {
         @update:model-value="fecharModal"
       >
         <ModalConsultarMotivo
-          :motivosConfirmados="motivosDoDia"
+          :motivosConfirmados="motivosIndisponibilidade"
           @fechar="fecharModal"
         />
       </DialogSkeleton>
