@@ -10,11 +10,37 @@ const emit = defineEmits<{
   (e: 'fechar'): void;
 }>();
 
+const diasDaSemana = [
+  'segunda',
+  'terça',
+  'quarta',
+  'quinta',
+  'sexta',
+  'sábado',
+  'domingo',
+];
+
+function normalizarChave(str: string): string {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
 const motivosFormatadosPorDia = computed(() => {
-  return Object.entries(props.motivosConfirmados).map(([dia, motivos]) => ({
-    dia,
-    motivos,
-  }));
+  const chavesNormalizadas = Object.keys(props.motivosConfirmados).reduce(
+    (acc, chaveOriginal) => {
+      const chaveNormalizada = normalizarChave(chaveOriginal);
+      acc[chaveNormalizada] = props.motivosConfirmados[chaveOriginal] ?? [];
+      return acc;
+    },
+    {} as Record<string, { horario: string; motivo: string }[]>
+  );
+
+  return diasDaSemana.map((dia) => {
+    const chave = normalizarChave(dia);
+    return {
+      dia,
+      motivos: chavesNormalizadas[chave] ?? [],
+    };
+  });
 });
 </script>
 
@@ -26,25 +52,20 @@ const motivosFormatadosPorDia = computed(() => {
       <h2 class="main-title text-[14px] font-semibold mb-4">
         Consultar motivos de indisponibilidade
       </h2>
-      
+
       <div v-for="item in motivosFormatadosPorDia" :key="item.dia" class="mb-8">
-        <h3
-          class="main-title font-semibold text-[12px] mb-2 capitalize text-ldsa-black"
-        >
+        <h3 class="main-title font-semibold text-[12px] mb-2 capitalize text-ldsa-black">
           {{ item.dia }}-feira
         </h3>
 
-        <div
-          v-if="item.motivos.length === 0"
-          class="text-[12px] text-ldsa-grey"
-        >
+        <div v-if="item.motivos.length === 0" class="text-[12px] text-ldsa-grey">
           Não há indisponibilidade neste dia
         </div>
 
         <ul v-else class="space-y-1 text-sm">
           <li
             v-for="motivo in item.motivos"
-            :key="motivo.horario"
+            :key="motivo.horario + motivo.motivo"
             class="flex justify-between items-center border-b border-ldsa-grey py-2"
           >
             <span class="font-semibold text-[12px]">{{ motivo.motivo }}</span>
