@@ -73,14 +73,20 @@ const motivoSelecionado = ref<{
   horariosPorDia: Record<string, string[]>;
 } | null>(null);
 
+function abrirModalEditarLista() {
+  modalAberto.value = 'editar';
+  modalAbertoEditar.value = false;
+  motivoSelecionado.value = null;
+}
+
 function abrirModalEdicaoMotivoSelecionado(payload: {
   motivo: string;
   dias: string[];
   horariosPorDia: Record<string, string[]>;
 }) {
   motivoSelecionado.value = payload;
-  modalAbertoEditar.value = true;  
-  modalAberto.value = null;         
+  modalAbertoEditar.value = true;
+  modalAberto.value = null;
 }
 
 function atualizarMotivoEditadoComHorarios(payload: {
@@ -106,8 +112,10 @@ function atualizarMotivoEditadoComHorarios(payload: {
       }
     }
   }
-}
 
+  modalAbertoEditar.value = false;
+  motivoSelecionado.value = null;
+}
 
 function adicionarMotivo(horario: string, motivo: string) {
   const dia = props.selectedDayWeek;
@@ -130,26 +138,29 @@ function adicionarMotivo(horario: string, motivo: string) {
   fecharModal();
 }
 
-function deletarMotivo(horario: string) {
-  const dia = props.selectedDayWeek;
+function deletarMotivo(motivo: string) {
+  for (const dia in motivosIndisponibilidade.value) {
+    motivosIndisponibilidade.value[dia] =
+      motivosIndisponibilidade.value[dia]?.filter(m => m.motivo !== motivo) || [];
+  }
 
-  motivosIndisponibilidade.value[dia] =
-    motivosIndisponibilidade.value[dia]?.filter(m => m.horario !== horario) ||
-    [];
+  modalAbertoEditar.value = false;
+  motivoSelecionado.value = null;
 }
 
 function abrirModalCadastrarMotivo() {
   modalAbertoCadastrar.value = true;
 }
+
 function abrirModalConsultarMotivo() {
   modalAberto.value = 'consultar';
 }
-function abrirModalEditarMotivo() {
-  modalAberto.value = 'editar';
-}
+
 function fecharModal() {
   modalAberto.value = null;
   modalAbertoCadastrar.value = false;
+  modalAbertoEditar.value = false;
+  motivoSelecionado.value = null;
 }
 
 watch(
@@ -241,19 +252,6 @@ const motivosFormatadosPorDia = computed(() => {
         />
       </DialogSkeleton>
 
-      <!-- BLOCO VISUALIZAR MOTIVOS POR DIA + HORARIO -->
-      <!-- <div class="mt-6 p-4 border rounded bg-gray-50 text-sm font-mono max-h-48 overflow-auto">
-        <h2 class="font-bold mb-2">Indisponibilidades cadastradas:</h2>
-        <div v-for="item in motivosFormatadosPorDia" :key="item.dia" class="mb-3">
-          <p class="underline font-semibold">{{ item.dia }}</p>
-          <ul class="list-disc list-inside ml-4">
-            <li v-for="motivo in item.motivos" :key="motivo.horario">
-              {{ motivo.horario }}: {{ motivo.motivo }}
-            </li>
-          </ul>
-        </div>
-      </div> -->
-
       <div>
         <p class="main-title font-semibold pb-5 text-[12px]">
           Motivos de indisponibilidade
@@ -270,7 +268,7 @@ const motivosFormatadosPorDia = computed(() => {
 
           <button
             class="flex justify-between items-center gap-2 border-2 border-ldsa-grey text-ldsa-black px-12 py-3 rounded-lg w-full text-[12px] font-semibold hover:bg-gray-100"
-            @click="abrirModalEditarMotivo"
+            @click="abrirModalEditarLista"
           >
             Editar
             <IconsEdit class="w-3 h-3" />
