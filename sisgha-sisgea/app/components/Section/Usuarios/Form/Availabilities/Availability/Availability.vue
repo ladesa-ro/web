@@ -216,7 +216,7 @@ const motivosFormatadosPorDia = computed(() => {
         @update:model-value="fecharModal"
       >
         <ModalListarMotivos
-          :motivosConfirmados="motivosDoDia"
+          :motivosConfirmados="motivosIndisponibilidade"
           @fechar="fecharModal"
           @editar="abrirModalEdicaoMotivoSelecionado"
           @deletar="deletarMotivo"
