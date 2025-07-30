@@ -67,39 +67,47 @@ const mostrarBotaoCadastrarMotivo = computed(
 const modalAbertoCadastrar = ref(false);
 const modalAberto = ref<'consultar' | 'editar' | null>(null);
 const modalAbertoEditar = ref(false);
-const motivoSelecionado = ref<{ horario: string; motivo: string } | null>(null);
-
-function abrirModalEdicaoMotivoSelecionado(m: {
-  horario: string;
+const motivoSelecionado = ref<{
   motivo: string;
+  dias: string[];
+  horariosPorDia: Record<string, string[]>;
+} | null>(null);
+
+function abrirModalEdicaoMotivoSelecionado(payload: {
+  motivo: string;
+  dias: string[];
+  horariosPorDia: Record<string, string[]>;
 }) {
-  motivoSelecionado.value = m;
-  modalAbertoEditar.value = true;
+  motivoSelecionado.value = payload;
+  modalAbertoEditar.value = true;  
+  modalAberto.value = null;         
 }
 
 function atualizarMotivoEditadoComHorarios(payload: {
-  horarios: string[];
+  horariosPorDia: Record<string, string[]>;
   motivo: string;
 }) {
-  const dia = props.selectedDayWeek;
+  const { horariosPorDia, motivo } = payload;
 
-  motivosIndisponibilidade.value[dia] =
-    motivosIndisponibilidade.value[dia]?.filter(
-      m => m.horario !== motivoSelecionado.value?.horario
-    ) || [];
+  for (const dia in horariosPorDia) {
+    const horariosNovos = horariosPorDia[dia];
 
-  payload.horarios.forEach(horario => {
     if (!motivosIndisponibilidade.value[dia]) {
       motivosIndisponibilidade.value[dia] = [];
     }
-    motivosIndisponibilidade.value[dia].push({
-      horario,
-      motivo: payload.motivo,
-    });
-  });
 
-  modalAbertoEditar.value = false;
+    motivosIndisponibilidade.value[dia] = motivosIndisponibilidade.value[dia].filter(
+      m => m.motivo !== motivoSelecionado.value?.motivo
+    );
+
+    if (horariosNovos?.length) {
+      for (const horario of horariosNovos) {
+        motivosIndisponibilidade.value[dia]!.push({ horario, motivo });
+      }
+    }
+  }
 }
+
 
 function adicionarMotivo(horario: string, motivo: string) {
   const dia = props.selectedDayWeek;
