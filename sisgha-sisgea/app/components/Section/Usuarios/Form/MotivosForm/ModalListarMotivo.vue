@@ -1,22 +1,66 @@
 <script lang="ts" setup>
-import { IconsEdit, UIButtonModalGoBack } from '#components';
+import { IconsEdit, IconsExclude, UIButtonModalGoBack } from '#components';
 import { computed } from 'vue';
 
 const props = defineProps<{
-  motivosConfirmados: { horario: string; motivo: string }[];
+  motivosConfirmados: Record<string, { horario: string; motivo: string }[]>;
 }>();
 
 const emit = defineEmits<{
   (e: 'fechar'): void;
-  (e: 'editar', motivo: { horario: string; motivo: string }): void;
-  (e: 'deletar', horario: string): void;
+  (
+    e: 'editar',
+    payload: {
+      motivo: string;
+      dias: string[];
+      horariosPorDia: Record<string, string[]>;
+    }
+  ): void;
+  (e: 'deletar', motivo: string): void;
 }>();
 
-const motivosOrdenados = computed(() =>
-  [...props.motivosConfirmados].sort((a, b) =>
-    a.horario.localeCompare(b.horario)
-  )
-);
+const motivosAgrupados = computed(() => {
+  const agrupamento: Record<
+    string,
+    {
+      dias: Set<string>;
+      horariosPorDia: Record<string, Set<string>>;
+    }
+  > = {};
+
+  for (const [dia, motivos] of Object.entries(props.motivosConfirmados)) {
+    for (const { motivo, horario } of motivos) {
+      if (!agrupamento[motivo]) {
+        agrupamento[motivo] = { dias: new Set(), horariosPorDia: {} };
+      }
+      agrupamento[motivo].dias.add(dia);
+      if (!agrupamento[motivo].horariosPorDia[dia]) {
+        agrupamento[motivo].horariosPorDia[dia] = new Set();
+      }
+      agrupamento[motivo].horariosPorDia[dia].add(horario);
+    }
+  }
+
+  return Object.entries(agrupamento).map(([motivo, data]) => ({
+    motivo,
+    dias: Array.from(data.dias).sort(),
+    horariosPorDia: Object.fromEntries(
+      Object.entries(data.horariosPorDia).map(([dia, horariosSet]) => [
+        dia,
+        Array.from(horariosSet).sort(),
+      ])
+    ),
+  }));
+});
+
+function formatarTooltip(item: any): string {
+  return item.dias
+    .map((dia: string) => {
+      const horarios = item.horariosPorDia[dia].join(' ')
+      return `${dia}-feira: ${horarios}`
+    })
+    .join(' | ')
+}
 </script>
 
 <template>
@@ -35,32 +79,50 @@ const motivosOrdenados = computed(() =>
         Selecione um motivo para editá-lo.
       </p>
 
-      <ul v-if="motivosOrdenados.length" class="space-y-2 text-sm">
+      <ul v-if="motivosAgrupados.length" class="space-y-4 text-sm">
         <li
-          v-for="m in motivosOrdenados"
-          :key="m.horario"
-          class="flex justify-between items-center border-b border-ldsa-grey py-2"
+          v-for="item in motivosAgrupados"
+          :key="item.motivo"
+          class="border-b border-ldsa-grey flex items-center justify-between pb-2"
         >
-          <span class="font-semibold text-[12px]">{{ m.motivo }}</span>
-          <div class="flex items-center gap-2">
-            <span class="text-[11px] font-medium text-ldsa-grey/85">{{
-              m.horario
-            }}</span>
-            <button
-              @click="emit('editar', m)"
-              class="flex gap-2"
-              aria-label="Editar motivo"
+          <span class="font-semibold text-[12px] whitespace-nowrap mr-4">
+            {{ item.motivo }}
+          </span>
+
+          <div class="flex items-center gap-4 min-w-0">
+            <div
+              class="text-[10px] text-ldsa-grey text-right truncate max-w-[28vh] overflow-hidden whitespace-nowrap"
+              :title="formatarTooltip(item)"
             >
-              <IconsEdit class="text-ldsa-black hover:text-ldsa-green-1" />
-            </button>
-            <button
-              @click="emit('deletar', m.horario)"
-              aria-label="Excluir motivo"
-            >
-              <IconsExclude
-                class="w-3 h-3 text-ldsa-red hover:text-ldsa-red/60"
-              />
-            </button>
+              <template v-for="(dia, index) in item.dias" :key="dia">
+                <span class="capitalize font-medium">{{ dia }}-feira:</span>
+                <span
+                  v-for="(horario, i) in item.horariosPorDia[dia]"
+                  :key="horario + i"
+                  class="ml-1"
+                >
+                  {{ horario }}
+                </span>
+                <span v-if="index < item.dias.length - 1" class="mr-1">,</span>
+              </template>
+            </div>
+
+            <div class="flex gap-2 items-center shrink-0">
+              <button
+                @click="emit('editar', item)"
+                aria-label="Editar motivo"
+                class="hover:text-ldsa-green-1"
+              >
+                <IconsEdit class="text-ldsa-black w-4 h-4" />
+              </button>
+              <button
+                @click="emit('deletar', item.motivo)"
+                aria-label="Excluir motivo"
+                class="hover:text-ldsa-red"
+              >
+                <IconsExclude class="text-ldsa-red w-3 h-3" />
+              </button>
+            </div>
           </div>
         </li>
       </ul>

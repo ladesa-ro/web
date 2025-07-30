@@ -3,31 +3,42 @@ import { UIButtonModalGoBack } from '#components';
 import { computed } from 'vue';
 
 const props = defineProps<{
-  motivosConfirmados: { horario: string; motivo: string }[];
+  motivosConfirmados: Record<string, { horario: string; motivo: string }[]>;
 }>();
 
 const emit = defineEmits<{
   (e: 'fechar'): void;
 }>();
 
-const diasDaSemana = ['segunda', 'terça', 'quarta', 'quinta', 'sexta'];
+const diasDaSemana = [
+  'segunda',
+  'terça',
+  'quarta',
+  'quinta',
+  'sexta',
+];
 
-const horariosPorDia: Record<string, string[]> = {
-  segunda: ['07:30', '08:20', '13:00', '13:50'],
-  terça: ['09:10', '10:00', '14:40', '15:30'],
-  quarta: ['10:20', '11:10', '15:50', '16:40'],
-  quinta: ['19:00', '19:50', '20:40'],
-  sexta: ['21:30', '21:50', '22:40'],
-};
+function normalizarChave(str: string): string {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
 
-const motivosPorDia = computed<Record<string, { horario: string; motivo: string }[]>>(() => {
-  const agrupado: Record<string, { horario: string; motivo: string }[]> = {};
-  for (const dia of diasDaSemana) {
-    agrupado[dia] = props.motivosConfirmados.filter(m =>
-      horariosPorDia[dia]?.includes(m.horario)
-    );
-  }
-  return agrupado;
+const motivosFormatadosPorDia = computed(() => {
+  const chavesNormalizadas = Object.keys(props.motivosConfirmados).reduce(
+    (acc, chaveOriginal) => {
+      const chaveNormalizada = normalizarChave(chaveOriginal);
+      acc[chaveNormalizada] = props.motivosConfirmados[chaveOriginal] ?? [];
+      return acc;
+    },
+    {} as Record<string, { horario: string; motivo: string }[]>
+  );
+
+  return diasDaSemana.map((dia) => {
+    const chave = normalizarChave(dia);
+    return {
+      dia,
+      motivos: chavesNormalizadas[chave] ?? [],
+    };
+  });
 });
 </script>
 
@@ -40,26 +51,23 @@ const motivosPorDia = computed<Record<string, { horario: string; motivo: string 
         Consultar motivos de indisponibilidade
       </h2>
 
-      <div v-for="dia in diasDaSemana" :key="dia" class="mb-8">
+      <div v-for="item in motivosFormatadosPorDia" :key="item.dia" class="mb-8">
         <h3 class="main-title font-semibold text-[12px] mb-2 capitalize text-ldsa-black">
-          {{ dia }}-feira
+          {{ item.dia }}-feira
         </h3>
 
-        <div
-          v-if="motivosPorDia[dia]?.length === 0"
-          class="text-[12px] text-ldsa-grey"
-        >
+        <div v-if="item.motivos.length === 0" class="text-[12px] text-ldsa-grey">
           Não há indisponibilidade neste dia
         </div>
 
         <ul v-else class="space-y-1 text-sm">
           <li
-            v-for="m in motivosPorDia[dia]"
-            :key="m.horario"
+            v-for="motivo in item.motivos"
+            :key="motivo.horario + motivo.motivo"
             class="flex justify-between items-center border-b border-ldsa-grey py-2"
           >
-            <span class="font-semibold text-[12px]">{{ m.motivo }}</span>
-            <span class="text-[12px] text-ldsa-grey">{{ m.horario }}</span>
+            <span class="font-semibold text-[12px]">{{ motivo.motivo }}</span>
+            <span class="text-[12px] text-ldsa-grey">{{ motivo.horario }}</span>
           </li>
         </ul>
       </div>

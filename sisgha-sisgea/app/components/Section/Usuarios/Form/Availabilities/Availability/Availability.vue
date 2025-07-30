@@ -8,14 +8,18 @@ import ModalConsultarMotivo from '../../MotivosForm/ModalConsultarMotivo.vue';
 import ModalEditarMotivo from '../../MotivosForm/ModalEditarMotivo.vue';
 import ModalListarMotivos from '../../MotivosForm/ModalListarMotivo.vue';
 
-const { vinculo } = defineProps<{ vinculo: Vinculo }>();
+const props = defineProps<{
+  vinculo: Vinculo;
+  selectedDayWeek: string;
+}>();
+
 const emit = defineEmits(['atualizarMotivos']);
 
 const {
   composables: { useFindOneQuery },
 } = useLadesaApiCrudCampi();
 
-const { data: campus, suspense } = useFindOneQuery(vinculo.campus.id);
+const { data: campus, suspense } = useFindOneQuery(props.vinculo.campus.id);
 await suspense();
 
 const dayShifts = [
@@ -34,12 +38,17 @@ const dayShifts = [
 ];
 
 const selectedTimes = ref<string[]>([]);
-const motivosIndisponibilidade = ref<{ horario: string; motivo: string }[]>([]);
 
-const modalAbertoCadastrar = ref(false);
-const modalAberto = ref<'consultar' | 'editar' | null>(null);
+// objeto para associar dias aos motivos
+const motivosIndisponibilidade = ref<
+  Record<string, { horario: string; motivo: string }[]>
+>({});
 
 const allTimes = dayShifts.flatMap(s => s.times);
+
+const motivosDoDia = computed(() => {
+  return motivosIndisponibilidade.value[props.selectedDayWeek] || [];
+});
 
 const horariosIndisponiveis = computed(() =>
   allTimes.filter(time => !selectedTimes.value.includes(time))
@@ -47,7 +56,7 @@ const horariosIndisponiveis = computed(() =>
 
 const horariosSemMotivo = computed(() =>
   horariosIndisponiveis.value.filter(
-    time => !motivosIndisponibilidade.value.some(m => m.horario === time)
+    time => !motivosDoDia.value.some(m => m.horario === time)
   )
 );
 
@@ -55,31 +64,88 @@ const mostrarBotaoCadastrarMotivo = computed(
   () => horariosSemMotivo.value.length > 0
 );
 
+const modalAbertoCadastrar = ref(false);
+const modalAberto = ref<'consultar' | 'editar' | null>(null);
 const modalAbertoEditar = ref(false);
-const motivoSelecionado = ref<{ horario: string; motivo: string } | null>(null);
-
-function abrirModalEdicaoMotivoSelecionado(m: {
-  horario: string;
+const motivoSelecionado = ref<{
   motivo: string;
-}) {
-  motivoSelecionado.value = m;
-  modalAbertoEditar.value = true;
+  dias: string[];
+  horariosPorDia: Record<string, string[]>;
+} | null>(null);
+
+function abrirModalEditarLista() {
+  modalAberto.value = 'editar';
+  modalAbertoEditar.value = false;
+  motivoSelecionado.value = null;
 }
 
-function atualizarMotivoEditado(motivoAtualizado: {
-  horario: string;
+function abrirModalEdicaoMotivoSelecionado(payload: {
+  motivo: string;
+  dias: string[];
+  horariosPorDia: Record<string, string[]>;
+}) {
+  motivoSelecionado.value = payload;
+  modalAbertoEditar.value = true;
+  modalAberto.value = null;
+}
+
+function atualizarMotivoEditadoComHorarios(payload: {
+  horariosPorDia: Record<string, string[]>;
   motivo: string;
 }) {
-  const index = motivosIndisponibilidade.value.findIndex(
-    m => m.horario === motivoAtualizado.horario
-  );
-  if (index !== -1) {
-    const motivo = motivosIndisponibilidade.value[index];
-    if (motivo) {
-      motivo.motivo = motivoAtualizado.motivo;
+  const { horariosPorDia, motivo } = payload;
+
+  for (const dia in horariosPorDia) {
+    const horariosNovos = horariosPorDia[dia];
+
+    if (!motivosIndisponibilidade.value[dia]) {
+      motivosIndisponibilidade.value[dia] = [];
+    }
+
+    motivosIndisponibilidade.value[dia] = motivosIndisponibilidade.value[dia].filter(
+      m => m.motivo !== motivoSelecionado.value?.motivo
+    );
+
+    if (horariosNovos?.length) {
+      for (const horario of horariosNovos) {
+        motivosIndisponibilidade.value[dia]!.push({ horario, motivo });
+      }
     }
   }
+
   modalAbertoEditar.value = false;
+  motivoSelecionado.value = null;
+}
+
+function adicionarMotivo(horario: string, motivo: string) {
+  const dia = props.selectedDayWeek;
+
+  if (!motivosIndisponibilidade.value[dia]) {
+    motivosIndisponibilidade.value[dia] = [];
+  }
+
+  const index = motivosIndisponibilidade.value[dia].findIndex(
+    m => m.horario === horario
+  );
+
+  if (index !== -1) {
+    motivosIndisponibilidade.value[dia]?.[index] &&
+      (motivosIndisponibilidade.value[dia][index].motivo = motivo);
+  } else {
+    motivosIndisponibilidade.value[dia].push({ horario, motivo });
+  }
+
+  fecharModal();
+}
+
+function deletarMotivo(motivo: string) {
+  for (const dia in motivosIndisponibilidade.value) {
+    motivosIndisponibilidade.value[dia] =
+      motivosIndisponibilidade.value[dia]?.filter(m => m.motivo !== motivo) || [];
+  }
+
+  modalAbertoEditar.value = false;
+  motivoSelecionado.value = null;
 }
 
 function abrirModalCadastrarMotivo() {
@@ -90,51 +156,11 @@ function abrirModalConsultarMotivo() {
   modalAberto.value = 'consultar';
 }
 
-function abrirModalEditarMotivo() {
-  modalAberto.value = 'editar';
-}
-
 function fecharModal() {
   modalAberto.value = null;
   modalAbertoCadastrar.value = false;
-}
-
-function adicionarMotivo(horario: string, motivo: string) {
-  const index = motivosIndisponibilidade.value.findIndex(
-    m => m.horario === horario
-  );
-  if (index !== -1) {
-    const motivoExistente = motivosIndisponibilidade.value[index];
-    if (motivoExistente) {
-      motivoExistente.motivo = motivo;
-    }
-  } else {
-    motivosIndisponibilidade.value.push({ horario, motivo });
-  }
-  fecharModal();
-}
-
-function deletarMotivo(horario: string) {
-  motivosIndisponibilidade.value = motivosIndisponibilidade.value.filter(
-    m => m.horario !== horario
-  );
-}
-
-function atualizarMotivoEditadoComHorarios(payload: { horarios: string[]; motivo: string }) {
-  // Remove os horários antigos associados ao motivo
-  motivosIndisponibilidade.value = motivosIndisponibilidade.value.filter(
-    m => m.horario !== motivoSelecionado.value?.horario
-  );
-
-  // Adiciona os novos horários com o novo motivo
-  payload.horarios.forEach(horario => {
-    motivosIndisponibilidade.value.push({
-      horario,
-      motivo: payload.motivo,
-    });
-  });
-
   modalAbertoEditar.value = false;
+  motivoSelecionado.value = null;
 }
 
 watch(
@@ -142,6 +168,15 @@ watch(
   novosMotivos => emit('atualizarMotivos', novosMotivos),
   { deep: true }
 );
+
+const motivosFormatadosPorDia = computed(() => {
+  return Object.entries(motivosIndisponibilidade.value).map(
+    ([dia, motivos]) => ({
+      dia,
+      motivos,
+    })
+  );
+});
 </script>
 
 <template>
@@ -154,23 +189,7 @@ watch(
       <section class="flex gap-6 justify-between">
         <div v-for="shift in dayShifts" :key="shift.title">
           <h1>{{ capitalizeFirst(shift.title) }}</h1>
-
           <UICheckbox :items="shift.times" v-model="selectedTimes" />
-
-          <!-- <div v-for="time in shift.times" :key="time">
-            <p
-              v-if="
-                motivosIndisponibilidade.find(m => m.horario === time) &&
-                !selectedTimes.includes(time)
-              "
-              class="text-[10px] text-ldsa-red/65 ml-6"
-            >
-              Motivo:
-              {{
-                motivosIndisponibilidade.find(m => m.horario === time)?.motivo
-              }}
-            </p>
-          </div> -->
         </div>
       </section>
 
@@ -249,7 +268,7 @@ watch(
 
           <button
             class="flex justify-between items-center gap-2 border-2 border-ldsa-grey text-ldsa-black px-12 py-3 rounded-lg w-full text-[12px] font-semibold hover:bg-gray-100"
-            @click="abrirModalEditarMotivo"
+            @click="abrirModalEditarLista"
           >
             Editar
             <IconsEdit class="w-3 h-3" />
