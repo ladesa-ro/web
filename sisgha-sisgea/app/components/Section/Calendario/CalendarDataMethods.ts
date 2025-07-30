@@ -5,39 +5,6 @@ import type { CalendarEvent } from './Types';
 // # CODE
 
 export const calendarDataMethods = {
-  // Events
-  // events: {
-  //   async getEvents(calendarId?: string) {
-  //     let remodelEvents: Array<CalendarEvent> = [];
-
-  //     try {
-  //       if (calendarId) {
-  //         // Get steps in API
-  //         const eventFilter: EventoListData = {
-  //           filterCalendarioId: [calendarId],
-  //         };
-  //         const events =
-  //           await getApiClient().eventos.eventoList(eventFilter).promise;
-
-  //         // Remodel step object
-  //         for (let i = 0; i < events.data!.length; i++) {
-  //           const event: CalendarEvent = {
-  //             name: `${events.data[i]!.nome}`,
-  //             startDate: events.data[i]!.,
-  //             endDate: events.data[i]!.dataTermino,
-  //             color: events.data[i]!.cor,
-  //           };
-  //           remodelEvents.push(event);
-  //         }
-  //       }
-  //     } catch (e) {
-  //       console.log(`Erro: ${e}`);
-  //     }
-
-  //     return remodelEvents;
-  //   },
-  // },
-
   // Steps
   steps: {
     async getSteps(calendarId?: string): Promise<CalendarEvent[]> {
@@ -46,13 +13,10 @@ export const calendarDataMethods = {
       try {
         if (calendarId) {
           // Get steps in API
-          const stepFilter: EtapaListData = {
-            filterCalendarioId: [calendarId],
-          };
           const steps =
-            await getApiClient().etapas.etapaList(stepFilter).promise;
-
-          console.log(steps);
+            await getApiClient().etapas.etapaList({
+            filterCalendarioId: [calendarId],
+          }).promise;
 
           // Remodel step object
           for (let i = 0; i < steps.data!.length; i++) {
@@ -66,10 +30,42 @@ export const calendarDataMethods = {
           }
         }
       } catch (e) {
-        console.log(`Erro: ${e}`);
+        console.error(`Erro: ${e}`);
       }
 
       return remodelSteps;
+    },
+  },
+
+  // Events
+  events: {
+    async getEvents(calendarId?: string): Promise<CalendarEvent[]> {
+      let remodelEvents: Array<CalendarEvent> = [];
+
+      try {
+        if (calendarId) {
+          // Get events in API
+          const events = await getApiClient().eventos.eventoList({
+            filterCalendarioId: [calendarId],
+          }).promise;
+
+          // Remodel event object
+          for (let i = 0; i < events.data!.length; i++) {
+            const event: CalendarEvent = {
+              name: `${events.data[i]!.nome}`,
+              color: events.data[i]!.cor,
+              // ALERT: The events in API dont have start and end dates
+              startDate: '',
+              endDate: '',
+            };
+            remodelEvents.push(event);
+          }
+        }
+      } catch (e) {
+        console.error(`Erro: ${e}`);
+      }
+
+      return remodelEvents;
     },
   },
 };

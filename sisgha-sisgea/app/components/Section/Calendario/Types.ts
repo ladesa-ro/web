@@ -7,6 +7,7 @@ export type CalendarEvent = {
   endDate: string;
   color: string | null;
   locale?: string;
+  calendar?: { id: string };
 };
 
 export type Day = {

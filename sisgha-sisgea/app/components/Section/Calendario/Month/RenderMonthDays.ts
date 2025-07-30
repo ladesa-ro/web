@@ -95,7 +95,6 @@ export const renderDays = {
         // Push in Array
         days.push(day);
       }
-      console.log(days);
       return days;
     } catch (error) {
       console.error('Erro: ', error);
