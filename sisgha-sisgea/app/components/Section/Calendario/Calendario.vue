@@ -16,7 +16,7 @@ const toggleItems = [
   { text: 'Calendário parcial', value: 0, icon: IconPartialCalendar },
   { text: 'Calendário completo', value: 1, icon: IconCompleteCalendar },
 ];
-</script>
+</script> 
 
 <template>
   <UIContainer>
