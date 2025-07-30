@@ -56,10 +56,15 @@ const motivosAgrupados = computed(() => {
 function formatarTooltip(item: any): string {
   return item.dias
     .map((dia: string) => {
-      const horarios = item.horariosPorDia[dia].join(' ')
-      return `${dia}-feira: ${horarios}`
+      const horarios = item.horariosPorDia[dia].join(' ');
+      return `${formatarDia(dia)}: ${horarios}`;
     })
-    .join(' | ')
+    .join(' | ');
+}
+
+function formatarDia(dia: string): string {
+  const diasComFeira = ['segunda', 'terca', 'quarta', 'quinta', 'sexta'];
+  return diasComFeira.includes(dia.toLowerCase()) ? `${dia}-feira` : dia;
 }
 </script>
 
@@ -95,7 +100,9 @@ function formatarTooltip(item: any): string {
               :title="formatarTooltip(item)"
             >
               <template v-for="(dia, index) in item.dias" :key="dia">
-                <span class="capitalize font-medium">{{ dia }}-feira:</span>
+                <span class="capitalize font-medium"
+                  >{{ formatarDia(dia) }}:</span
+                >
                 <span
                   v-for="(horario, i) in item.horariosPorDia[dia]"
                   :key="horario + i"

@@ -26,7 +26,6 @@ const emit = defineEmits<{
 }>();
 
 const novoMotivo = ref(props.motivoAtual.motivo);
-
 const selectedDayWeek = ref(props.motivoAtual.dias[0] || '');
 
 const horariosSelecionados = ref<string[]>([
@@ -58,7 +57,6 @@ const podeSalvar = computed(() => !!novoMotivo.value.trim());
 
 function salvarAlteracoes() {
   const horariosPorDiaAtualizado = { ...props.motivoAtual.horariosPorDia };
-
   horariosPorDiaAtualizado[selectedDayWeek.value] = [
     ...horariosSelecionados.value,
   ];
@@ -101,6 +99,11 @@ function getProximoHorario(horario: string) {
 const currentDay = useCurrentDay();
 const week = getWeekDays(currentDay.value);
 const weekDays = week.map(day => day.dayWeek);
+
+function formatarDia(dia: string): string {
+  const diasComFeira = ['segunda', 'terça', 'quarta', 'quinta', 'sexta'];
+  return diasComFeira.includes(dia.toLowerCase()) ? `${dia}-feira` : dia;
+}
 </script>
 
 <template>
@@ -128,7 +131,9 @@ const weekDays = week.map(day => day.dayWeek);
             :key="dia"
             class="flex justify-between border-b border-ldsa-grey py-2"
           >
-            <span class="capitalize font-semibold"> {{ dia }}-feira </span>
+            <span class="capitalize font-semibold">
+              {{ formatarDia(dia) }}
+            </span>
             <span class="text-right">
               {{
                 agruparHorarios(
