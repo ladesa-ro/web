@@ -23,7 +23,7 @@ const { outlineOnClink = true } = defineProps<Props>();
 @reference "~/assets/styles/app.css";
 
 .ui-button {
-  @apply flex items-center gap-4 w-full px-2.5 lg:px-5 py-3.5;
+  @apply flex items-center gap-4 px-2.5 lg:px-5 py-3.5;
   @apply rounded-[0.5625rem] bg-ldsa-green-1 font-semibold text-ldsa-white max-lg:text-sm;
   @apply disabled:bg-ldsa-green-1/50;
 }

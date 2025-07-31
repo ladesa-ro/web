@@ -3,7 +3,7 @@
 .input-base {
   @apply relative flex justify-between items-center px-3 w-full min-h-12 border-2 rounded-lg;
   @apply font-medium text-left text-ldsa-text-default data-[placeholder]:text-ldsa-grey/90;
-  @apply focus-within:border-ldsa-green-2 focus-visible:outline-none;
+  @apply focus-within:border-ldsa-green-2 focus-visible:outline-none disabled:cursor-not-allowed;
 }
 
 .input-base {
@@ -32,4 +32,8 @@
 
 .input-base-content {
   @apply overflow-hidden shadow-[0_0_10px_rgba(0,0,0,0.4)] rounded-lg bg-ldsa-bg;
+}
+
+.input-base:has(input[disabled]) {
+  @apply opacity-60;
 }

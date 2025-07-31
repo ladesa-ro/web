@@ -15,10 +15,10 @@ const { variant = 'default' } = defineProps<Props>();
 @reference "~/assets/styles/app.css";
 
 .default {
-  @apply flex mb-7 font-semibold text-xl before:w-1.5 before:bg-ldsa-text-green before:mr-3;
+  @apply flex mb-7 font-semibold text-lg sm:text-xl before:w-1.5 before:bg-ldsa-text-green before:mr-3;
 }
 
 .small {
-  @apply flex items-center text-xl font-bold before:inline-block before:w-1 before:h-[1em] before:mr-2 before:bg-ldsa-text-green;
+  @apply flex items-center text-lg sm:text-xl font-bold before:inline-block before:w-1 before:h-[1em] before:mr-2 before:bg-ldsa-text-green;
 }
 </style>

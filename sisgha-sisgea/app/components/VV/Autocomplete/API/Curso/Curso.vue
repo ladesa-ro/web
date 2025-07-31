@@ -6,8 +6,7 @@ type Props = {
   name: string;
 };
 
-const props = defineProps<Props>();
-const { name } = toRefs(props);
+const { name } = defineProps<Props>();
 
 //
 

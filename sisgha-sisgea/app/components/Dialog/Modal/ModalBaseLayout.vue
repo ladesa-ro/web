@@ -34,9 +34,9 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
 
 .modal-layout {
   @apply w-full max-w-[95%] max-h-[85vh] min-h-[20vh] p-4;
+  @apply sm:max-w-[31.5rem] sm:min-h-[30rem] sm:p-6;
   @apply flex flex-col justify-between items-center;
   @apply shadow-xl border-3 border-ldsa-grey rounded-2xl bg-ldsa-bg;
-  @apply sm:max-w-[31.5rem] sm:min-h-[30rem] sm:p-5;
 }
 
 .header {
@@ -53,12 +53,12 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
 }
 
 .content {
-  @apply flex-1 flex flex-col gap-6 overflow-y-auto mt-5 w-full break-words p-2;
+  @apply flex-1 flex flex-col gap-6 overflow-y-auto mt-5 w-full break-words;
   @apply max-h-[70vh];
 }
 
 .button-group {
-  @apply flex gap-3 w-full mt-6 mx-3 px-2;
+  @apply flex max-sm:flex-col gap-3 w-full mt-6 mx-3;
 }
 
 .button-group:has(*):has(> :first-child:last-child) {
