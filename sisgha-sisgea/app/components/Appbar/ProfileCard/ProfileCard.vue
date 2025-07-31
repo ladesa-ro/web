@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { useMediaQuery } from '@vueuse/core';
-import { useMonitorSize } from '~/composables/useMonitorSize';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 import { useApiContext } from '../../API/Context/setup-context';
 
@@ -24,11 +22,6 @@ defineProps<Props>();
 
 //
 
-const isMobile = useMonitorSize();
-const isScreenSmallerThan345px = useMediaQuery('(max-width: 345px)');
-
-//
-
 const splitUserName = computed(() => {
   if (usuario.value.nome) {
     return usuario.value.nome?.split(' ');
@@ -41,13 +34,12 @@ const splitUserName = computed(() => {
   <div
     v-if="usuario && resumoVinculos"
     :class="{ 'cursor-pointer': canChangeProfile }"
-    class="flex items-center gap-3 w-max max-w-48 sm:max-w-62 min-h-16 rounded-lg inset-y-0 bg-ldsa-green-1/[.125] dark:bg-ldsa-grey/30 pl-3 max-[600px]:pr-4 min-[600px]:pr-6 py-2"
+    class="flex items-center gap-3 w-max max-w-48 min-[600px]:max-w-62 max-sm:h-12 rounded-lg inset-y-0 bg-ldsa-green-1/[.125] dark:bg-ldsa-grey/30 px-3 sm:pr-4 py-2"
   >
     <UIImg
-      v-if="!isScreenSmallerThan345px"
       :src="profilePicureUrl"
       alt="Foto de perfil."
-      class="min-w-10 h-10 sm:min-w-12 sm:h-12 rounded-full"
+      class="max-[345px]:hidden min-w-9 h-9 sm:min-w-12 sm:h-12 rounded-full"
       fallbackBgColor="var(--ladesa-green-1-color)"
     >
       <template #fallbackIcon>
@@ -55,12 +47,16 @@ const splitUserName = computed(() => {
       </template>
     </UIImg>
 
-    <p v-if="isMobile" class="font-semibold text-left truncate text-sm">
+    <!-- if is mobile -->
+    <p class="inline sm:hidden font-semibold text-left truncate text-sm">
       {{ usuario?.nome?.split(' ')[0] }}
     </p>
-    <slot v-if="isMobile" name="arrowIcon" />
+    <span class="inline sm:hidden">
+      <slot name="arrowIcon" />
+    </span>
 
-    <div v-else class="overflow-hidden">
+    <!-- if is not mobile -->
+    <div class="max-sm:hidden overflow-hidden">
       <p class="font-semibold text-left truncate">
         {{ splitUserName[0] }}
         {{
