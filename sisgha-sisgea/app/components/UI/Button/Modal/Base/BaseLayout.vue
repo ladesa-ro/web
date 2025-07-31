@@ -27,7 +27,7 @@ const defineColor = {
 @reference "~/assets/styles/app.css";
 
 button {
-  @apply flex items-center justify-evenly h-9 min-w-28 sm:min-w-[8.438rem];
+  @apply flex items-center justify-center max-sm:gap-2 sm:justify-evenly h-9 min-w-28 sm:min-w-[8.438rem];
   @apply border-solid border-2 rounded-lg border-(--color) text-(--color) max-sm:text-sm;
   @apply transition-[background-color] duration-200;
   @apply hover:bg-(--color)/15 focus-visible:bg-(--color)/15 active:bg-(--color)/30 disabled:bg-transparent disabled:border-(--color)/40 disabled:text-(--color)/40;
