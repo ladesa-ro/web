@@ -15,8 +15,9 @@ import type { AutocompleteProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
 import AutocompleteItem from '../Item.vue';
 
-// TODO: adicionar suporte para error message
-// TODO: adicionar o tal do emit blur (verificar na docs do radix)
+// TODO: adicionar suporte para error message (vee-validate)
+// TODO: adicionar o tal do emit blur (verificar na docs do reka)
+// TODO: adicionar suporte para varias opcoes
 
 const { items: itemsProps } = defineProps<AutocompleteProps>();
 
