@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import ClockGenerate from '~/components/Icons/ClockGenerate.vue';
 import ClockPermanent from '~/components/Icons/ClockPermanent.vue';
 import ClockTemporary from '~/components/Icons/ClockTemporary.vue';
 
-defineProps<{ selectedToggleItem: 'mesclado' | 'professor' | 'turma' }>();
+const { mode = 'green' } = defineProps<{
+  selectedToggleItem?: 'mesclado' | 'professor' | 'turma';
+  mode?: 'green' | 'white';
+}>();
 
 const isModalActive = ref(false);
 
@@ -32,6 +36,7 @@ const finalDate = ref(dayjs().add(1, 'week').format('DD/MM/YYYY'));
   >
     <template #activator>
       <UIButtonDefault
+        v-if="mode === 'green'"
         outlineOnClink
         ref="generateButton"
         class="fixed bottom-14 sm:bottom-16 md:bottom-18 2xl:bottom-26 z-10 w-max shadow-[0_7.5px_15px_rgba(0,0,0,0.2)] transition-[translate,filter,scale] duration-[400ms,200ms,100ms] ease-in-out will-change-[transform,filter] hover:brightness-95 active:scale-97"
@@ -46,6 +51,13 @@ const finalDate = ref(dayjs().add(1, 'week').format('DD/MM/YYYY'));
 
         Gerar Horário
       </UIButtonDefault>
+
+      <SectionInicioCardLink
+        v-else
+        class="w-full"
+        :icon="ClockGenerate"
+        title="Gerar Horário"
+      />
     </template>
 
     <DialogModalBaseLayout title="Gerar Horário Acadêmico" :onClose="onClose">
