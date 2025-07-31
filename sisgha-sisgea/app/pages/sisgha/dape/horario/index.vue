@@ -15,6 +15,8 @@ const filteredTurmas = filterTurmaResultsBySearch(
 );
 
 const turmasFilters = ref({});
+
+//
 </script>
 
 <template>
@@ -57,20 +59,9 @@ const turmasFilters = ref({});
       />
     </KeepAlive>
 
-    <UIButtonDefault
-      outlineOnClink
-      ref="generateButton"
-      class="fixed bottom-14 sm:bottom-16 md:bottom-18 2xl:bottom-26 z-10 w-max self-center shadow-[0_7.5px_15px_rgba(0,0,0,0.3)] transition-[translate] duration-400 ease-in-out will-change-transform"
-      :class="{
-        'translate-y-[100vh] duration-1200': selectedToggleItem === 'mesclado',
-      }"
-    >
-      <template #start-icon>
-        <IconsGenerate />
-      </template>
-
-      Gerar Horário
-    </UIButtonDefault>
+    <SectionHorarioDapeGenerateModal
+      :selected-toggle-item="selectedToggleItem"
+    />
   </UIContainer>
 </template>
 
