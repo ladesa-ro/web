@@ -1,9 +1,27 @@
 <script setup lang="ts">
+import ClockPermanent from '~/components/Icons/ClockPermanent.vue';
+import ClockTemporary from '~/components/Icons/ClockTemporary.vue';
+
 defineProps<{ selectedToggleItem: 'mesclado' | 'professor' | 'turma' }>();
 
 const isModalActive = ref(false);
 
 const onClose = () => (isModalActive.value = false);
+
+//
+
+const toggleItems = [
+  { value: 'permanente', text: 'Permanente', icon: ClockPermanent },
+  { value: 'temporario', text: 'Temporário', icon: ClockTemporary },
+];
+
+const toggleValue = ref('permanente');
+
+//
+
+const dayjs = useDayJs();
+const initialDate = ref(dayjs().format('DD/MM/YYYY'));
+const finalDate = ref(dayjs().add(1, 'week').format('DD/MM/YYYY'));
 </script>
 
 <template>
@@ -31,7 +49,45 @@ const onClose = () => (isModalActive.value = false);
     </template>
 
     <DialogModalBaseLayout title="Gerar Horário Acadêmico" :onClose="onClose">
-      <!-- TODO: adicionar conteúdo do modal -->
+      <VVAutocompleteAPIOfertaFormacao name="ofertaFormacao" class="mt-1" />
+
+      <hr class="border border-ldsa-grey" />
+
+      <span class="font-semibold text-center text-ldsa-grey leading-2.5">
+        O horário deve ser...
+      </span>
+
+      <UIToggle :items="toggleItems" v-model="toggleValue" />
+
+      <div class="flex max-sm:flex-col gap-5">
+        <!-- TODO: implementar date picker do reka-ui nesses dois textfields -->
+
+        <UIFormTextField
+          v-model="initialDate"
+          label="Data de Início"
+          placeholder="25/12/2025"
+        />
+
+        <UIFormTextField
+          v-model="finalDate"
+          label="Data de Término"
+          placeholder="25/12/2025"
+          :disabled="toggleValue === 'permanente'"
+        />
+      </div>
+
+      <span
+        v-if="toggleValue === 'permanente'"
+        class="text-sm text-ldsa-grey text-center sm:mb-20"
+      >
+        Este horário pode ser sobreposto por um horário temporário ou
+        substituído por outro horário permanente gerado no futuro.
+      </span>
+
+      <span v-else class="text-sm text-ldsa-grey text-center sm:mb-20">
+        Ao passar a data de término, este horário temporário será substituído
+        pelo horário permanente atualmente utilizado.
+      </span>
 
       <template #button-group>
         <UIButtonModalCancel @click="onClose" />
