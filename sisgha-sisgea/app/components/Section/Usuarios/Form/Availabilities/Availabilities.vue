@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { useCurrentDay } from '#imports';
+import { computed, ref, watch } from 'vue';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
 import { getActivesTeacherRole, useFormUser } from '../FormUtils';
 
@@ -6,7 +8,7 @@ const currentDay = useCurrentDay();
 const week = getWeekDays(currentDay.value);
 const weekDays = week.map(day => day.dayWeek);
 
-const selectedDayWeek = ref();
+const selectedDayWeek = ref<string>(weekDays[0] ?? '');
 
 const { values: formValues } = useFormUser();
 
@@ -14,7 +16,9 @@ const vinculosComCargoProfessor = computed(() =>
   getActivesTeacherRole(formValues.vinculos)
 );
 
-const activePanel = ref(vinculosComCargoProfessor.value[0]?.campus.id);
+const activePanel = ref<string | null>(
+  vinculosComCargoProfessor.value[0]?.campus.id || null
+);
 
 watch(vinculosComCargoProfessor, (current, previous) => {
   const inserted = current.find(
@@ -36,8 +40,21 @@ watch(vinculosComCargoProfessor, (current, previous) => {
   }
 });
 
-const $emit = defineEmits(['close']);
-const onClose = () => $emit('close');
+const emit = defineEmits<{
+  (
+    e: 'abrir-modal',
+    tipo: 'cadastrar' | 'consultar' | 'listar' | 'editar',
+    payload?: any
+  ): void;
+  (e: 'atualizar-horarios-sem-motivo', horarios: string[]): void;
+  (
+    e: 'atualizar-motivos',
+    motivos: Record<string, { horario: string; motivo: string }[]>
+  ): void;
+  (e: 'close'): void;
+}>();
+
+const onClose = () => emit('close');
 </script>
 
 <template>
@@ -62,6 +79,11 @@ const onClose = () => $emit('close');
         :key="vinculo.campus.id"
         :vinculo="vinculo"
         :selectedDayWeek="selectedDayWeek"
+         @abrir-modal="(...args) => $emit('abrir-modal', ...args)"
+        @atualizar-horarios-sem-motivo="
+          $emit('atualizar-horarios-sem-motivo', $event)
+        "
+        @atualizar-motivos="$emit('atualizar-motivos', $event)"
       />
     </v-expansion-panels>
   </DialogModalBaseLayout>

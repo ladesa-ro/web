@@ -8,10 +8,19 @@ import {
 } from '#components';
 import { computed, ref } from 'vue';
 import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
-
 const props = defineProps<{
   horariosSemMotivo: string[];
 }>();
+
+import { watch } from 'vue';
+
+watch(
+  () => props.horariosSemMotivo,
+  val => {
+    console.log('horariosSemMotivo:', val);
+  },
+  { immediate: true }
+);
 
 const emit = defineEmits<{
   (e: 'fechar'): void;
@@ -99,11 +108,13 @@ function excluirMotivo(horario: string) {
           class="flex flex-col gap-6"
         >
           <!-- checkbox de horários -->
-          <v-expansion-panel-text>
-            <section class="flex gap-3">
-              <div v-for="shift in dayShifts" :key="shift.title">
-                <h1>{{ capitalizeFirst(shift.title) }}</h1>
+          <v-expansion-panels model-value="0">
+            <v-expansion-panel v-for="shift in dayShifts" :key="shift.title">
+              <v-expansion-panel-title>
+                {{ capitalizeFirst(shift.title) }}
+              </v-expansion-panel-title>
 
+              <v-expansion-panel-text>
                 <UICheckbox
                   :items="shift.times"
                   v-model="selectedTimes"
@@ -113,9 +124,9 @@ function excluirMotivo(horario: string) {
                     )
                   "
                 />
-              </div>
-            </section>
-          </v-expansion-panel-text>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
 
           <!-- inputs de motivo -->
           <div v-if="selectedTimes.length > 0" class="flex flex-col gap-4">

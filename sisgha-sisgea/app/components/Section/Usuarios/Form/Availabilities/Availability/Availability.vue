@@ -1,19 +1,18 @@
 <script lang="ts" setup>
-import { IconsAdd, IconsEdit, IconsEyeOn } from '#components';
-import DialogSkeleton from '@/components/Dialog/DialogSkeleton.vue';
 import { capitalizeFirst } from '../../../../Horario/-Helpers/CapitalizeFirst';
+import { getWeekDays } from '../../../../Horario/-Helpers/GetWeekDays';
 import type { Vinculo } from '../../FormUtils';
-import ModalCadastrarMotivo from '../../MotivosForm/ModalCadastrarMotivo.vue';
-import ModalConsultarMotivo from '../../MotivosForm/ModalConsultarMotivo.vue';
-import ModalEditarMotivo from '../../MotivosForm/ModalEditarMotivo.vue';
-import ModalListarMotivos from '../../MotivosForm/ModalListarMotivo.vue';
 
 const props = defineProps<{
   vinculo: Vinculo;
   selectedDayWeek: string;
 }>();
 
-const emit = defineEmits(['atualizarMotivos']);
+const emit = defineEmits<{
+  (e: 'abrir-modal', tipo: 'cadastrar' | 'consultar' | 'listar' | 'editar', payload?: any): void;
+  (e: 'atualizar-horarios-sem-motivo', horarios: string[]): void;
+  (e: 'atualizar-motivos', motivos: Record<string, { horario: string; motivo: string }[]>): void;
+}>();
 
 const {
   composables: { useFindOneQuery },
@@ -38,11 +37,7 @@ const dayShifts = [
 ];
 
 const selectedTimes = ref<string[]>([]);
-
-// objeto para associar dias aos motivos
-const motivosIndisponibilidade = ref<
-  Record<string, { horario: string; motivo: string }[]>
->({});
+const motivosIndisponibilidade = ref<Record<string, { horario: string; motivo: string }[]>>({});
 
 const allTimes = dayShifts.flatMap(s => s.times);
 
@@ -64,19 +59,28 @@ const mostrarBotaoCadastrarMotivo = computed(
   () => horariosSemMotivo.value.length > 0
 );
 
-const modalAbertoCadastrar = ref(false);
-const modalAberto = ref<'consultar' | 'editar' | null>(null);
-const modalAbertoEditar = ref(false);
-const motivoSelecionado = ref<{
-  motivo: string;
-  dias: string[];
-  horariosPorDia: Record<string, string[]>;
-} | null>(null);
+watch(
+  motivosIndisponibilidade,
+  novosMotivos => emit('atualizar-motivos', novosMotivos),
+  { deep: true }
+);
+
+watch(
+  horariosSemMotivo,
+  novos => emit('atualizar-horarios-sem-motivo', novos),
+  { immediate: true }
+);
+
+function abrirModalCadastrarMotivo() {
+  emit('abrir-modal', 'cadastrar');
+}
+
+function abrirModalConsultarMotivo() {
+  emit('abrir-modal', 'consultar');
+}
 
 function abrirModalEditarLista() {
-  modalAberto.value = 'editar';
-  modalAbertoEditar.value = false;
-  motivoSelecionado.value = null;
+  emit('abrir-modal', 'listar');
 }
 
 function abrirModalEdicaoMotivoSelecionado(payload: {
@@ -84,99 +88,8 @@ function abrirModalEdicaoMotivoSelecionado(payload: {
   dias: string[];
   horariosPorDia: Record<string, string[]>;
 }) {
-  motivoSelecionado.value = payload;
-  modalAbertoEditar.value = true;
-  modalAberto.value = null;
+  emit('abrir-modal', 'editar', payload);
 }
-
-function atualizarMotivoEditadoComHorarios(payload: {
-  horariosPorDia: Record<string, string[]>;
-  motivo: string;
-}) {
-  const { horariosPorDia, motivo } = payload;
-
-  for (const dia in horariosPorDia) {
-    const horariosNovos = horariosPorDia[dia];
-
-    if (!motivosIndisponibilidade.value[dia]) {
-      motivosIndisponibilidade.value[dia] = [];
-    }
-
-    motivosIndisponibilidade.value[dia] = motivosIndisponibilidade.value[dia].filter(
-      m => m.motivo !== motivoSelecionado.value?.motivo
-    );
-
-    if (horariosNovos?.length) {
-      for (const horario of horariosNovos) {
-        motivosIndisponibilidade.value[dia]!.push({ horario, motivo });
-      }
-    }
-  }
-
-  modalAbertoEditar.value = false;
-  motivoSelecionado.value = null;
-}
-
-function adicionarMotivo(horario: string, motivo: string) {
-  const dia = props.selectedDayWeek;
-
-  if (!motivosIndisponibilidade.value[dia]) {
-    motivosIndisponibilidade.value[dia] = [];
-  }
-
-  const index = motivosIndisponibilidade.value[dia].findIndex(
-    m => m.horario === horario
-  );
-
-  if (index !== -1) {
-    motivosIndisponibilidade.value[dia]?.[index] &&
-      (motivosIndisponibilidade.value[dia][index].motivo = motivo);
-  } else {
-    motivosIndisponibilidade.value[dia].push({ horario, motivo });
-  }
-
-  fecharModal();
-}
-
-function deletarMotivo(motivo: string) {
-  for (const dia in motivosIndisponibilidade.value) {
-    motivosIndisponibilidade.value[dia] =
-      motivosIndisponibilidade.value[dia]?.filter(m => m.motivo !== motivo) || [];
-  }
-
-  modalAbertoEditar.value = false;
-  motivoSelecionado.value = null;
-}
-
-function abrirModalCadastrarMotivo() {
-  modalAbertoCadastrar.value = true;
-}
-
-function abrirModalConsultarMotivo() {
-  modalAberto.value = 'consultar';
-}
-
-function fecharModal() {
-  modalAberto.value = null;
-  modalAbertoCadastrar.value = false;
-  modalAbertoEditar.value = false;
-  motivoSelecionado.value = null;
-}
-
-watch(
-  motivosIndisponibilidade,
-  novosMotivos => emit('atualizarMotivos', novosMotivos),
-  { deep: true }
-);
-
-const motivosFormatadosPorDia = computed(() => {
-  return Object.entries(motivosIndisponibilidade.value).map(
-    ([dia, motivos]) => ({
-      dia,
-      motivos,
-    })
-  );
-});
 </script>
 
 <template>
@@ -198,8 +111,7 @@ const motivosFormatadosPorDia = computed(() => {
           v-if="mostrarBotaoCadastrarMotivo"
           class="mt-6 mb-2 text-ldsa-grey font-medium text-[12px] text-center"
         >
-          Há horários não selecionados cuja indisponibilidade ainda não foi
-          justificada
+          Há horários não selecionados cuja indisponibilidade ainda não foi justificada
         </p>
 
         <button
@@ -211,46 +123,6 @@ const motivosFormatadosPorDia = computed(() => {
           <IconsAdd class="w-4 h-4" />
         </button>
       </div>
-
-      <DialogSkeleton v-model="modalAbertoCadastrar">
-        <ModalCadastrarMotivo
-          :horariosSemMotivo="horariosSemMotivo"
-          @fechar="fecharModal"
-          @cadastrar="adicionarMotivo"
-        />
-      </DialogSkeleton>
-
-      <DialogSkeleton
-        :model-value="modalAberto === 'consultar'"
-        @update:model-value="fecharModal"
-      >
-        <ModalConsultarMotivo
-          :motivosConfirmados="motivosIndisponibilidade"
-          @fechar="fecharModal"
-        />
-      </DialogSkeleton>
-
-      <DialogSkeleton
-        :model-value="modalAberto === 'editar'"
-        @update:model-value="fecharModal"
-      >
-        <ModalListarMotivos
-          :motivosConfirmados="motivosIndisponibilidade"
-          @fechar="fecharModal"
-          @editar="abrirModalEdicaoMotivoSelecionado"
-          @deletar="deletarMotivo"
-        />
-      </DialogSkeleton>
-
-      <DialogSkeleton v-model="modalAbertoEditar">
-        <ModalEditarMotivo
-          v-if="motivoSelecionado"
-          :motivoAtual="motivoSelecionado"
-          @fechar="modalAbertoEditar = false"
-          @atualizarComHorarios="atualizarMotivoEditadoComHorarios"
-          @deletar="deletarMotivo"
-        />
-      </DialogSkeleton>
 
       <div>
         <p class="main-title font-semibold pb-5 text-[12px]">
