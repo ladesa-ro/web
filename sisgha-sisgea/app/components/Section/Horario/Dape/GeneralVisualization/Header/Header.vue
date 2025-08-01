@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { useForm, type FormContext } from 'vee-validate';
 import IconClass from '~/components/Icons/Class.vue';
 import IconEducator from '~/components/Icons/Educator.vue';
 import IconOthers from '~/components/Icons/Others.vue';
-import SearchBar from '~/components/UI/SearchBar/SearchBar.vue';
 
 const toggleItems = [
   {
@@ -37,6 +37,16 @@ const searchBarValue = defineModel<string | undefined>('searchBar', {
   required: false,
   default: '',
 });
+
+//
+
+const turmasFilters = defineModel<FormContext | {}>('turmasFilters', {
+  default: {},
+});
+
+const turmasAutocompleteValues = useForm();
+
+onMounted(() => turmasFilters.value = turmasAutocompleteValues)
 </script>
 
 <template>
@@ -59,7 +69,7 @@ const searchBarValue = defineModel<string | undefined>('searchBar', {
       class="flex max-lg:flex-col gap-4 lg:gap-3 justify-between max-lg:w-full"
       v-show="selectedToggleItem !== 'mesclado'"
     >
-      <SearchBar class="search-bar-width" v-model="searchBarValue" />
+      <UISearchBar class="search-bar-width" v-model="searchBarValue" />
 
       <div
         v-show="selectedToggleItem === 'turma'"

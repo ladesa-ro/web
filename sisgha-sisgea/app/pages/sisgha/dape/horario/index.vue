@@ -1,11 +1,22 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
+import { filterTurmaResultsBySearch } from '~/components/Section/Horario/Dape/GeneralVisualization/filterTurmaResults';
 
 const searchBarValue = ref<string>('');
 
 const selectedToggleItem = ref<'professor' | 'turma' | 'mesclado'>('professor');
 
-const { data: turmas, isLoading, isError } = useQuery(listTurmas());
+// filter only Turmas searched by user
+const { data: turmasCompleteList, isLoading } = useQuery(listTurmas());
+
+const filteredTurmas = filterTurmaResultsBySearch(
+  turmasCompleteList,
+  searchBarValue
+);
+
+const turmasFilters = ref({});
+
+//
 </script>
 
 <template>
@@ -18,6 +29,7 @@ const { data: turmas, isLoading, isError } = useQuery(listTurmas());
     <SectionHorarioDapeGeneralVisualizationHeader
       v-model:search-bar="searchBarValue"
       v-model:toggle="selectedToggleItem"
+      v-model:turmas-filters="turmasFilters"
     />
 
     <!-- content -->
@@ -33,7 +45,7 @@ const { data: turmas, isLoading, isError } = useQuery(listTurmas());
       class="ui-api-list-results-grid"
     >
       <SectionTurmasGridItem
-        v-for="turma in turmas?.data"
+        v-for="turma in filteredTurmas"
         class="ui-api-list-results-grid-item"
         :is-loading="isLoading"
         :item="turma"
@@ -46,6 +58,10 @@ const { data: turmas, isLoading, isError } = useQuery(listTurmas());
         v-if="selectedToggleItem === 'mesclado'"
       />
     </KeepAlive>
+
+    <SectionHorarioDapeGenerateModal
+      :selected-toggle-item="selectedToggleItem"
+    />
   </UIContainer>
 </template>
 

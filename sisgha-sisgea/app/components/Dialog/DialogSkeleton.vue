@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-const isActive = defineModel({ default: false });
+const isActive = defineModel<boolean>({ default: false });
+
+const { disableInlineBlock = false } = defineProps<{
+  disableInlineBlock?: boolean;
+}>();
 
 const modal = useTemplateRef('modal');
 
@@ -8,7 +12,7 @@ const onOpen = async () => {
 
   // wait the modal is mounted before focus it
   await nextTick();
-  
+
   if (modal.value) modal.value.focus();
 };
 
@@ -16,7 +20,11 @@ const onClose = () => (isActive.value = false);
 </script>
 
 <template>
-  <nav class="inline-block" @click="onOpen">
+  <nav
+    :class="[!disableInlineBlock && 'inline-block']"
+    v-bind="$attrs"
+    @click="onOpen"
+  >
     <slot name="activator" />
   </nav>
 
@@ -58,6 +66,8 @@ const onClose = () => (isActive.value = false);
   @apply rounded-2xl;
   @apply transition-[all] duration-300;
 }
+
+/* see the Vue documentation to learn more about Transition and Teleport animations. that's what the classes below do! */
 
 .modal-enter-from,
 .modal-leave-to {
