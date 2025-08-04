@@ -109,21 +109,25 @@ function excluirMotivo(horario: string) {
         >
           <!-- checkbox de horários -->
           <v-expansion-panels model-value="0">
-            <v-expansion-panel v-for="shift in dayShifts" :key="shift.title">
-              <v-expansion-panel-title>
-                {{ capitalizeFirst(shift.title) }}
-              </v-expansion-panel-title>
+            <v-expansion-panel class="h-full">
 
               <v-expansion-panel-text>
-                <UICheckbox
-                  :items="shift.times"
-                  v-model="selectedTimes"
-                  :disabled-items="
-                    shift.times.filter(
-                      time => !props.horariosSemMotivo.includes(time)
-                    )
-                  "
-                />
+                <section class="flex gap-6 justify-between">
+                  <div v-for="shift in dayShifts" :key="shift.title">
+                    <h1 class="mb-2">
+                      {{ capitalizeFirst(shift.title) }}
+                    </h1>
+                    <UICheckbox
+                      :items="shift.times"
+                      v-model="selectedTimes"
+                      :disabled-items="
+                        shift.times.filter(
+                          time => !props.horariosSemMotivo.includes(time)
+                        )
+                      "
+                    />
+                  </div>
+                </section>
               </v-expansion-panel-text>
             </v-expansion-panel>
           </v-expansion-panels>
