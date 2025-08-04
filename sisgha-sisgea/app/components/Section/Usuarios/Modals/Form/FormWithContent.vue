@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import DialogSkeleton from '@/components/Dialog/DialogSkeleton.vue';
-import { onMounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import ModalCadastrarMotivo from '../../Form/MotivosForm/ModalCadastrarMotivo.vue';
 import ModalConsultarMotivo from '../../Form/MotivosForm/ModalConsultarMotivo.vue';
 import ModalEditarMotivo from '../../Form/MotivosForm/ModalEditarMotivo.vue';
@@ -20,7 +20,7 @@ const activeModal = ref<'cadastrar' | 'consultar' | 'listar' | 'editar' | null>(
   null
 );
 
-const principaisAbertos = ref(true);
+const diaSelecionado = ref<string>('segunda');
 
 type HorarioMotivo = { horario: string; motivo: string };
 type MotivoSelecionado = {
@@ -30,14 +30,14 @@ type MotivoSelecionado = {
 } | null;
 
 const motivoSelecionado = ref<MotivoSelecionado>(null);
-const horariosSemMotivo = ref<string[]>([]);
 const motivosConfirmados = ref<Record<string, HorarioMotivo[]>>({});
+
+const horariosSemMotivo = ref<string[]>([]);
 
 function abrirModal(
   tipo: 'cadastrar' | 'consultar' | 'listar' | 'editar',
   payload?: MotivoSelecionado
 ) {
-  console.log('Abrindo modal:', tipo, payload);
   activeModal.value = tipo;
   if (tipo === 'editar' && payload) {
     motivoSelecionado.value = payload;
@@ -54,29 +54,31 @@ function atualizarHorariosSemMotivo(novosHorarios: string[]) {
 }
 
 function atualizarMotivos(novosMotivos: Record<string, HorarioMotivo[]>) {
-  motivosConfirmados.value = novosMotivos;
+  motivosConfirmados.value = { ...novosMotivos };
 }
 
 function adicionarMotivo(horario: string, motivo: string) {
-  const dia =
-    motivoSelecionado.value?.dias?.[0] ||
-    Object.keys(motivosConfirmados.value)[0];
-  if (!dia) return;
+  const dia = diaSelecionado.value;
+  if (!dia) {
+    console.warn('Nenhum dia selecionado para adicionar motivo!');
+    return;
+  }
 
   if (!motivosConfirmados.value[dia]) {
     motivosConfirmados.value[dia] = [];
   }
 
-  const index = motivosConfirmados.value[dia]!.findIndex(
+  const index = motivosConfirmados.value[dia].findIndex(
     m => m.horario === horario
   );
-
   if (index !== -1) {
     motivosConfirmados.value[dia]?.[index] &&
       (motivosConfirmados.value[dia][index].motivo = motivo);
   } else {
     motivosConfirmados.value[dia].push({ horario, motivo });
   }
+
+  motivosConfirmados.value = { ...motivosConfirmados.value };
 
   fecharTodosModais();
 }
@@ -87,6 +89,12 @@ function atualizarMotivoEditadoComHorarios(payload: {
 }) {
   const { horariosPorDia, motivo } = payload;
 
+  for (const dia in motivosConfirmados.value) {
+    motivosConfirmados.value[dia] = (motivosConfirmados.value[dia] || []).filter(
+      m => m.motivo !== motivoSelecionado.value?.motivo
+    );
+  }
+
   for (const dia in horariosPorDia) {
     const horariosNovos = horariosPorDia[dia];
     if (!horariosNovos) continue;
@@ -95,14 +103,12 @@ function atualizarMotivoEditadoComHorarios(payload: {
       motivosConfirmados.value[dia] = [];
     }
 
-    motivosConfirmados.value[dia] = motivosConfirmados.value[dia].filter(
-      (m: HorarioMotivo) => m.motivo !== motivoSelecionado.value?.motivo
-    );
-
-    for (const horario of horariosNovos) {
-      motivosConfirmados.value[dia].push({ horario, motivo });
-    }
+    horariosNovos.forEach(horario => {
+      motivosConfirmados.value[dia]!.push({ horario, motivo });
+    });
   }
+
+  motivosConfirmados.value = { ...motivosConfirmados.value };
 
   fecharTodosModais();
 }
@@ -117,23 +123,21 @@ function deletarMotivo(motivo: string) {
   fecharTodosModais();
 }
 
-watch(activeModal, novo => {
-  if (novo !== null) {
-    principaisAbertos.value = false;
-  } else {
-    principaisAbertos.value = true;
-  }
-});
-
+function setDiaSelecionado(dia: string) {
+  diaSelecionado.value = dia;
+}
 </script>
 
 <template>
-  <SectionUsuariosForm v-if="principaisAbertos" :edit-id="editId">
+  <SectionUsuariosForm v-if="true" :edit-id="editId">
     <SectionUsuariosFormProfile :edit-id="editId" @close="onClose" />
     <SectionUsuariosModalsFormDialogAvailability
+      :selected-day-week="diaSelecionado"
+      :motivos-confirmados="motivosConfirmados"
       @abrir-modal="abrirModal"
       @atualizar-horarios-sem-motivo="atualizarHorariosSemMotivo"
       @atualizar-motivos="atualizarMotivos"
+      @atualizar-dia-selecionado="setDiaSelecionado"
     />
   </SectionUsuariosForm>
 
@@ -162,6 +166,7 @@ watch(activeModal, novo => {
   >
     <ModalConsultarMotivo
       :motivosConfirmados="motivosConfirmados"
+      :selected-day-week="diaSelecionado"
       @fechar="fecharTodosModais"
     />
   </DialogSkeleton>
@@ -176,6 +181,7 @@ watch(activeModal, novo => {
   >
     <ModalListarMotivos
       :motivosConfirmados="motivosConfirmados"
+      :selected-day-week="diaSelecionado"
       @fechar="fecharTodosModais"
       @editar="(payload: MotivoSelecionado) => abrirModal('editar', payload)"
       @deletar="deletarMotivo"
@@ -193,6 +199,7 @@ watch(activeModal, novo => {
     <ModalEditarMotivo
       v-if="motivoSelecionado"
       :motivoAtual="motivoSelecionado"
+      :selected-day-week="diaSelecionado"
       @fechar="fecharTodosModais"
       @atualizarComHorarios="atualizarMotivoEditadoComHorarios"
       @deletar="deletarMotivo"

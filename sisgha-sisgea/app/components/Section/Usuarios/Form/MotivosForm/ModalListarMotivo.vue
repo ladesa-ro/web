@@ -4,6 +4,7 @@ import { computed } from 'vue';
 
 const props = defineProps<{
   motivosConfirmados: Record<string, { horario: string; motivo: string }[]>;
+  selectedDayWeek: string | null;
 }>();
 
 const emit = defineEmits<{
@@ -52,6 +53,13 @@ const motivosAgrupados = computed(() => {
     ),
   }));
 });
+
+const motivosDoDia = computed(() => {
+  return props.selectedDayWeek
+    ? props.motivosConfirmados[props.selectedDayWeek] || []
+    : [];
+});
+
 
 function formatarTooltip(item: any): string {
   return item.dias

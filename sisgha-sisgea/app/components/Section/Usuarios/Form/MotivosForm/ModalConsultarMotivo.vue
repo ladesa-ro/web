@@ -4,6 +4,7 @@ import { computed } from 'vue';
 
 const props = defineProps<{
   motivosConfirmados: Record<string, { horario: string; motivo: string }[]>;
+  selectedDayWeek: string | null;
 }>();
 
 const emit = defineEmits<{
@@ -11,6 +12,13 @@ const emit = defineEmits<{
 }>();
 
 const diasDaSemana = ['segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+
+const motivosDoDia = computed(() => {
+  return props.selectedDayWeek
+    ? props.motivosConfirmados[props.selectedDayWeek] || []
+    : [];
+});
+
 
 function normalizarChave(str: string): string {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();

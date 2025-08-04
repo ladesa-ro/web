@@ -1,17 +1,26 @@
 <script lang="ts" setup>
+import { computed, ref, watch } from 'vue';
 import { capitalizeFirst } from '../../../../Horario/-Helpers/CapitalizeFirst';
-import { getWeekDays } from '../../../../Horario/-Helpers/GetWeekDays';
 import type { Vinculo } from '../../FormUtils';
 
 const props = defineProps<{
   vinculo: Vinculo;
   selectedDayWeek: string;
+  motivosConfirmados: Record<string, { horario: string; motivo: string }[]>;
 }>();
 
 const emit = defineEmits<{
-  (e: 'abrir-modal', tipo: 'cadastrar' | 'consultar' | 'listar' | 'editar', payload?: any): void;
+  (
+    e: 'abrir-modal',
+    tipo: 'cadastrar' | 'consultar' | 'listar' | 'editar',
+    payload?: any
+  ): void;
   (e: 'atualizar-horarios-sem-motivo', horarios: string[]): void;
-  (e: 'atualizar-motivos', motivos: Record<string, { horario: string; motivo: string }[]>): void;
+  (
+    e: 'atualizar-motivos',
+    motivos: Record<string, { horario: string; motivo: string }[]>
+  ): void;
+  (e: 'atualizar-dia-selecionado', dia: string): void;
 }>();
 
 const {
@@ -20,7 +29,6 @@ const {
 
 const { data: campus, suspense } = useFindOneQuery(props.vinculo.campus.id);
 await suspense();
-
 const dayShifts = [
   {
     title: 'matutino',
@@ -37,7 +45,18 @@ const dayShifts = [
 ];
 
 const selectedTimes = ref<string[]>([]);
-const motivosIndisponibilidade = ref<Record<string, { horario: string; motivo: string }[]>>({});
+
+const motivosIndisponibilidade = ref<
+  Record<string, { horario: string; motivo: string }[]>
+>({});
+
+watch(
+  () => props.motivosConfirmados,
+  novo => {
+    motivosIndisponibilidade.value = { ...novo };
+  },
+  { immediate: true, deep: true }
+);
 
 const allTimes = dayShifts.flatMap(s => s.times);
 
@@ -83,13 +102,13 @@ function abrirModalEditarLista() {
   emit('abrir-modal', 'listar');
 }
 
-function abrirModalEdicaoMotivoSelecionado(payload: {
-  motivo: string;
-  dias: string[];
-  horariosPorDia: Record<string, string[]>;
-}) {
-  emit('abrir-modal', 'editar', payload);
-}
+watch(
+  () => props.selectedDayWeek,
+  novo => {
+    emit('atualizar-dia-selecionado', novo);
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
@@ -111,7 +130,8 @@ function abrirModalEdicaoMotivoSelecionado(payload: {
           v-if="mostrarBotaoCadastrarMotivo"
           class="mt-6 mb-2 text-ldsa-grey font-medium text-[12px] text-center"
         >
-          Há horários não selecionados cuja indisponibilidade ainda não foi justificada
+          Há horários não selecionados cuja indisponibilidade ainda não foi
+          justificada
         </p>
 
         <button
@@ -150,11 +170,3 @@ function abrirModalEdicaoMotivoSelecionado(payload: {
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
-
-<style scoped>
-.main-title::before {
-  content: '';
-  border: 2px solid var(--ladesa-green-1-color);
-  margin-right: 0.5rem;
-}
-</style>

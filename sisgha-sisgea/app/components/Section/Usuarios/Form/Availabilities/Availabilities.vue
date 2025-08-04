@@ -10,6 +10,10 @@ const weekDays = week.map(day => day.dayWeek);
 
 const selectedDayWeek = ref<string>(weekDays[0] ?? '');
 
+const motivosConfirmados = ref<
+  Record<string, { horario: string; motivo: string }[]>
+>({});
+
 const { values: formValues } = useFormUser();
 
 const vinculosComCargoProfessor = computed(() =>
@@ -79,7 +83,8 @@ const onClose = () => emit('close');
         :key="vinculo.campus.id"
         :vinculo="vinculo"
         :selectedDayWeek="selectedDayWeek"
-         @abrir-modal="(...args) => $emit('abrir-modal', ...args)"
+        :motivosConfirmados="motivosConfirmados"
+        @abrir-modal="(...args) => $emit('abrir-modal', ...args)"
         @atualizar-horarios-sem-motivo="
           $emit('atualizar-horarios-sem-motivo', $event)
         "
