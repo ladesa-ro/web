@@ -2,36 +2,16 @@
 // # IMPORT
 import IconCalendar from '@/components/Icons/Calendar/IconCalendar.vue';
 import IconEvent from '@/components/Icons/IconEvent.vue';
-import dayjs from 'dayjs';
-import { useForm } from 'vee-validate';
 import { ref } from 'vue';
-import * as yup from 'yup';
-import type { CalendarEvent } from '../Types';
 
 // # CODE
 type Props = {
   calendarId?: string;
-  editMode?: {
-    enable: boolean;
-    type: 'calendar' | 'events';
-  };
-  event?: CalendarEvent;
+  eventName?: string;
+  editMode?: 'calendar' | 'events' | null;
 };
 
 const props = defineProps<Props>();
-
-type FormValues = {
-  // Calendar
-  calendarName?: string;
-  calendarYear?: number;
-  trainingOffer?: string;
-  campus?: string;
-  course?: string;
-  // Steps
-  calendarSteps?: Array<CalendarEvent>;
-};
-
-type FormOutput = FormValues;
 
 // Icons
 const cardIcons = [
@@ -41,244 +21,114 @@ const cardIcons = [
 
 let modalTitle = ref(props.editMode ? 'Editar' : 'Cadastrar');
 
-// Form steps
-const steps = ['Choose', 'Steps', 'Recovery'];
+function changeModalTitle(type?: string) {
+  if (props.editMode) {
+    if (props.editMode === 'calendar') modalTitle.value = 'Editar calendário';
+    else if (props.editMode === 'events') modalTitle.value = 'Editar evento';
+  } else {
+    if (stage.value === 0) modalTitle.value = 'Cadastrar';
+    else {
+      modalTitle.value = `Cadastrar ${type === 'calendar' ? 'calendário' : 'eventos'}`;
+    }
+  }
+}
 
-let step = ref(0);
+// Form stages
+const stages = ['Choose', 'Steps', 'Recovery'];
 
-async function formStep(v: string) {
-  if (v === 'next') step.value++;
-  else if (v === 'prev') step.value--;
+let stage = ref(0);
 
-  if (step.value === 0)
-    modalTitle.value = `${props.editMode ? 'Editar' : 'Cadastrar'}`;
-  if (step.value > 1) await setCalendarStepAmount();
+async function formStage(v: string) {
+  if (v === 'next') stage.value++;
+  else if (v === 'prev') stage.value--;
+
+  changeModalTitle(String(registerType.value));
 }
 
 let registerType = ref<'calendar' | 'events' | null>(null);
+
+if (props.editMode) {
+  registerType.value = props.editMode;
+  changeModalTitle();
+}
 
 function selectRegisterType(type: string | null) {
   if (type) {
     if (type == 'Calendário') registerType.value = 'calendar';
     else if (type == 'Evento') registerType.value = 'events';
 
-    modalTitle.value = `${props.editMode ? 'Editar' : 'Cadastrar'} ${type.toLowerCase()}`;
+    changeModalTitle(String(registerType.value));
   }
 }
 
-// Calendar - Steps and recovery amount
-let calendarStepAmount = ref<number>(0);
-let calendarRecoveryAmount = ref<number>(0);
+// # EMITS
+const $emit = defineEmits(['close']);
 
-async function setCalendarStepAmount() {
-  try {
-    if (values.trainingOffer) {
-      // Get selected offer and higher offer
-      const offerSelected = async (): Promise<string> => {
-        try {
-          const getTraining =
-            await getApiClient().ofertasFormacoes.ofertaFormacaoFindOneById({
-              id: values.trainingOffer!,
-            }).promise;
-
-          if (getTraining) return getTraining.nome;
-          else return '';
-        } catch (error) {
-          console.error('Erro: ', error);
-          return '';
-        }
-      };
-
-      const higherOffer = async (): Promise<string> => {
-        try {
-          let searchOffer =
-            await getApiClient().ofertasFormacoes.ofertaFormacaoList({
-              search: `Superior`,
-            }).promise;
-
-          const catchOffer = searchOffer.data?.find(offer =>
-            offer.nome.includes('Superior')
-          );
-
-          if (catchOffer) return catchOffer.nome;
-          else return '';
-        } catch (error) {
-          console.error('Erro: ', error);
-          return '';
-        }
-      };
-
-      // Check offer
-      if ((await offerSelected()) === (await higherOffer())) {
-        calendarStepAmount.value = 2;
-        calendarRecoveryAmount.value = 1;
-      } else {
-        calendarStepAmount.value = 4;
-        calendarRecoveryAmount.value = 2;
-      }
-    }
-  } catch (error) {
-    console.error('Erro: ', error);
-  }
+function onClose() {
+  $emit('close');
 }
 
-// Calendar - Steps data
-const schemaCalendar = yup.object({
-  calendarName: yup.string().required('Nome é obrigatório'),
-  calendarYear: yup
-    .number()
-    .required('Ano letivo é obrigatório')
-    .min(2000, 'Ano inválido'),
-  trainingOffer: yup.object().shape({
-    id: yup.string().required('Formação é obrigatória'),
-  }),
-  course: yup.object().shape({
-    id: yup.string().required('Curso é obrigatório'),
-  }),
-});
-
-const { handleSubmit, values, errors, setFieldValue } = useForm<FormValues>({
-  validationSchema: schemaCalendar,
-  initialValues: {
-    calendarName: '',
-    calendarYear: dayjs().year(),
-    trainingOffer: '',
-    campus: '',
-    course: '',
-    // steps: [],
-    // recovery: [],
-  },
-});
-
-function onCancel() {
-  // Emit event or reset form
-}
-const onSubmit = handleSubmit((data: FormOutput) => {
-  // Call API here
-});
+async function onSubmit(v: Event) {}
 </script>
 
 <template>
   <form @submit.prevent="onSubmit">
-    <DialogModalBaseLayout :on-close="onCancel" :title="modalTitle">
+    <DialogModalBaseLayout :on-close="onClose" :title="modalTitle">
       <!-- Choose Register -->
-      <div v-show="step === 0" class="flex flex-row gap-4">
+      <div v-show="stage === 0 && !props.editMode" class="flex flex-row gap-4">
         <SectionCalendarioUICardOption
           class="w-full"
-          v-for="(icon, index) in cardIcons"
-          :key="index"
-          :icon="icon.icon"
-          :text="icon.text"
-          @click="(selectRegisterType(icon.text), formStep('next'))"
+          :icon="cardIcons[0]!.icon"
+          :text="cardIcons[0]!.text"
+          @click="(selectRegisterType(cardIcons[0]!.text), formStage('next'))"
+        />
+
+        <SectionCalendarioUICardOption
+          class="w-full"
+          v-show="props.calendarId"
+          :icon="cardIcons[1]!.icon"
+          :text="cardIcons[1]!.text"
+          @click="(selectRegisterType(cardIcons[1]!.text), formStage('next'))"
         />
       </div>
 
-      <!-- Event - Data -->
-      <div
-        v-show="step === 1 && registerType === 'events' || props.editMode?.type === 'events' && props.editMode?.enable === true"
-        class="flex flex-col gap-4 overflow-visible"
-      >
-        <VVTextField
-          name="eventName"
-          type="text"
-          label="Nome"
-          placeholder="Digite aqui"
-        />
-        <VVAutocompleteAPIAmbiente
-          name="eventEnvironment"
-          type="text"
-          label="Ambientes"
-          placeholder="Digite aqui"
-        />
-        <VVTextField name="stepColor" type="color" label="Cor" />
+      <!-- Calendar -->
+      <SectionCalendarioFormCrudCalendar
+        v-show="registerType === 'calendar' || props.editMode === 'calendar'"
+        :form-stage="stage"
+      />
 
-        <div class="flex gap-4">
-          <VVTextField name="eventStartDate" type="date" label="Início" />
-          <VVTextField
-            name="eventStartHour"
-            type="hour"
-            label="Horario de início"
-          />
-        </div>
-
-        <div class="flex gap-4">
-          <VVTextField name="eventEndDate" type="date" label="Término" />
-          <VVTextField
-            name="eventEndHour"
-            type="hour"
-            label="Horario de Término"
-          />
-        </div>
-      </div>
-
-      <!-- Calendar - Data -->
-      <div
-        v-show="step === 1 && registerType === 'calendar' || props.editMode?.type === 'calendar' && props.editMode?.enable === true"
-        class="flex flex-col gap-4 overflow-visible"
-      >
-        <VVTextField
-          name="calendarName"
-          type="text"
-          label="Nome"
-          placeholder="Digite aqui"
-        />
-        <VVTextField
-          name="calendarYear"
-          type="number"
-          label="Ano Letivo"
-          placeholder="Digite aqui"
-        />
-        <VVAutocompleteAPIOfertaFormacao
-          name="trainingOffer"
-          label="Formação"
-        />
-        <VVAutocompleteAPICurso name="course" label="Curso" />
-      </div>
-
-      <!-- Calendar - Steps -->
-      <div
-        v-show="step === 2 && registerType === 'calendar'"
-        class="flex flex-col gap-4 pr-2"
-      >
-        <VVCalendarStep
-          v-for="(calendarStep, index) in calendarStepAmount"
-          :key="index"
-          :text="`Etapa ${index + 1}`"
-        />
-      </div>
-
-      <!-- Calendar - Recovery -->
-      <div
-        v-show="step === 3 && registerType === 'calendar'"
-        class="flex flex-col gap-4 pr-2"
-      >
-        <VVCalendarStep
-          v-for="(calendarRecovery, index) in calendarRecoveryAmount"
-          :key="index"
-          :text="`Recuperação ${index + 1}`"
-        />
-        <VVCalendarStep :text="`Exame`" />
-      </div>
+      <!-- Events -->
+      <SectionCalendarioFormCrudEvents
+        v-show="registerType === 'events' || props.editMode === 'events'"
+        :form-stage="stage"
+        :calendar-id="props.calendarId!"
+        :event-name="props.eventName"
+      />
 
       <!-- Buttons -->
       <template #button-group>
         <UIButtonModalGoBack
-          v-show="step > 0 || !props.editMode?.type && props.editMode?.enable === false"
-          @click.prevent="formStep('prev')"
+          v-show="stage > 0 || !props.editMode"
+          @click.prevent="formStage('prev')"
           text="Voltar"
           class="flex w-full"
         />
-        <UIButtonModalCancel @click="onCancel" class="flex w-full" />
+        <UIButtonModalCancel
+          @click="onClose"
+          type="close"
+          class="flex w-full"
+        />
         <UIButtonModalAdvance
-          v-if="step < steps.length && step > 0 && registerType !== 'events'"
-          @click.prevent="formStep('next')"
+          v-if="stage < stages.length && stage > 0 && registerType !== 'events'"
+          @click.prevent="formStage('next')"
           text="Avançar"
           class="flex w-full"
         />
         <UIButtonModalSave
           v-else-if="
-            (step > steps.length - 1 && step > 0) ||
-            (step > 0 && registerType === 'events')
+            (stage > stages.length - 1 && stage > 0) ||
+            (stage > 0 && registerType === 'events')
           "
           type="submit"
         />

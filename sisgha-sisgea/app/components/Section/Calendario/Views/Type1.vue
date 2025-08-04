@@ -18,7 +18,7 @@ let events = ref<CalendarEvent[]>([]);
 
 if (props.calendarId) {
   const getSteps: Array<CalendarEvent> =
-    await calendarDataMethods.steps.getSteps(props.calendarId);
+    await calendarDataMethods.steps.getSteps(props.calendarId!);
   // const getEvents: Array<CalendarEvent> = await calendarDataMethods.events.getEvents(props.calendarId);
   events.value = getSteps;
 
@@ -36,10 +36,8 @@ if (props.calendarId) {
     <div class="flex flex-col gap-6 w-full overflow-hidden max-w-[600px]">
       <SectionCalendarioEvent
         v-for="event in events"
-        :name="event.name"
-        :start-date="event.startDate"
-        :end-date="event.endDate"
-        :color="event.color"
+        :event="event"
+        :calendarId="props.calendarId!"
       />
     </div>
   </div>

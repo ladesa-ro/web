@@ -1,11 +1,16 @@
 <script lang="ts" setup>
 // # IMPORT
+import { SectionCalendarioForm } from '#components';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import type { CalendarEvent } from '../Types';
 
 // # CODE
-type Props = CalendarEvent;
+type Props = {
+  calendarId?: string;
+  event: CalendarEvent;
+};
+
 const props = defineProps<Props>();
 
 // Remaining time
@@ -16,8 +21,8 @@ let remainingText: string = '';
 dayjs.extend(relativeTime);
 
 const currentDate = dayjs();
-const _startDate = dayjs(props.startDate);
-const _endDate = dayjs(props.endDate);
+const _startDate = dayjs(props.event.startDate);
+const _endDate = dayjs(props.event.endDate);
 
 if (currentDate.isAfter(_startDate))
   remainingDays = Number(_endDate.diff(currentDate, 'day'));
@@ -35,15 +40,24 @@ else remainingDays = Number(_startDate.diff(currentDate, 'day'));
         <!-- Color -->
         <div
           class="w-3 h-3 rounded-full bg-ldsa-green-1"
-          :style="{ backgroundColor: props.color! }"
+          :style="{ backgroundColor: props.event.color! }"
         ></div>
 
         <!-- Name -->
-        <h2 class="font-bold">{{ props.name }}</h2>
+        <h2 class="font-bold">{{ props.event.name }}</h2>
       </div>
 
-      <!-- Notification Button -->
-      <UIButtonNotification />
+      <!-- Edit Button -->
+      <UIButtonEdit> </UIButtonEdit>
+      <DialogModalEditOrCreateModal
+        :edit-it="''"
+        :form-component="SectionCalendarioForm"
+        :form-props="{
+          calendarId: props.calendarId!,
+          eventName: props.event.name,
+          editMode: 'events',
+        }"
+      />
     </div>
 
     <!-- Content -->
@@ -51,12 +65,13 @@ else remainingDays = Number(_startDate.diff(currentDate, 'day'));
       <!-- Start and End Date -->
       <li>
         <p>
-          Início: <span>{{ dayjs(props.startDate).format('DD/MM') }}</span>
+          Início:
+          <span>{{ dayjs(props.event.startDate).format('DD/MM') }}</span>
         </p>
       </li>
       <li>
         <p>
-          Término: <span>{{ dayjs(props.endDate).format('DD/MM') }}</span>
+          Término: <span>{{ dayjs(props.event.endDate).format('DD/MM') }}</span>
         </p>
       </li>
     </ul>
@@ -70,7 +85,7 @@ else remainingDays = Number(_startDate.diff(currentDate, 'day'));
     </p>
 
     <!-- Locale -->
-    <SectionCalendarioEventLocale v-show="props.locale" />
+    <SectionCalendarioEventLocale v-show="props.event.locale" />
   </div>
 </template>
 

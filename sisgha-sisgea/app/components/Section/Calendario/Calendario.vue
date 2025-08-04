@@ -16,14 +16,17 @@ const toggleItems = [
   { text: 'Calendário parcial', value: 0, icon: IconPartialCalendar },
   { text: 'Calendário completo', value: 1, icon: IconCompleteCalendar },
 ];
-</script> 
+</script>
 
 <template>
   <UIContainer>
     <!-- Menu -->
     <div class="flex w-full items-center gap-2 mb-4">
       <VVAutocompleteAPIOfertaFormacao name="ofertaFormacao" />
-      <DialogModalEditOrCreateModal :form-component="SectionCalendarioForm" />
+      <DialogModalEditOrCreateModal
+        :form-component="SectionCalendarioForm"
+        :form-props="{ calendarId: ghostCalendar!.id }"
+      />
       <UIButtonSearch />
     </div>
 
