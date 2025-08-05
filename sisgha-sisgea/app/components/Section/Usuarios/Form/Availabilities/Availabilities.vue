@@ -3,7 +3,7 @@ import { ref, computed, watch } from 'vue';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
 import { getActivesTeacherRole, useFormUser } from '../FormUtils';
 import { useCurrentDay } from '#imports';
-import UIWeekdaySelector from '~/components/UI/UIWeekdaySelector/UIWeekdaySelector.vue';
+import UIWeekdaySelector from '~/components/UI/WeekdaySelector/WeekdaySelector.vue';
 
 const currentDay = useCurrentDay();
 const week = getWeekDays(currentDay.value);

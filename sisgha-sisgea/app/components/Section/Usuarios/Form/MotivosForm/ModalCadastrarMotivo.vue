@@ -7,7 +7,7 @@ import {
   UIButtonModalSave,
 } from '#components';
 import { computed, ref } from 'vue';
-import UIWeekdaySelector from '~/components/UI/UIWeekdaySelector/UIWeekdaySelector.vue';
+import UIWeekdaySelector from '~/components/UI/WeekdaySelector/WeekdaySelector.vue';
 import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
 

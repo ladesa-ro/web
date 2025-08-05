@@ -7,7 +7,7 @@ import {
 import { computed, ref, watch } from 'vue';
 import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
-import UIWeekdaySelector from '~/components/UI/UIWeekdaySelector/UIWeekdaySelector.vue';
+import UIWeekdaySelector from '~/components/UI/WeekdaySelector/WeekdaySelector.vue';
 
 const props = defineProps<{
   motivoAtual: {
