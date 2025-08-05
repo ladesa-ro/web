@@ -1,6 +1,9 @@
 <script lang="ts" setup>
+import { ref, computed, watch } from 'vue';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
 import { getActivesTeacherRole, useFormUser } from '../FormUtils';
+import { useCurrentDay } from '#imports';
+import UIWeekdaySelector from '~/components/UI/UIWeekdaySelector/UIWeekdaySelector.vue';
 
 const currentDay = useCurrentDay();
 const week = getWeekDays(currentDay.value);
@@ -46,15 +49,11 @@ const onClose = () => $emit('close');
     :on-close="onClose"
     title="Disponibilidade"
   >
-    <UIOptionsCarousel
+    <UIWeekdaySelector
       :items="weekDays"
       v-model="selectedDayWeek"
       class="font-semibold"
-    >
-      <template #toggleButton>
-        <IconsArrow />
-      </template>
-    </UIOptionsCarousel>
+    />
 
     <v-expansion-panels v-model="activePanel" mandatory>
       <SectionUsuariosFormAvailabilitiesAvailability

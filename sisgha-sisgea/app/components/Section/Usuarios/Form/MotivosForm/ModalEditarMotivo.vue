@@ -7,6 +7,7 @@ import {
 import { computed, ref, watch } from 'vue';
 import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
+import UIWeekdaySelector from '~/components/UI/UIWeekdaySelector/UIWeekdaySelector.vue';
 
 const props = defineProps<{
   motivoAtual: {
@@ -157,15 +158,11 @@ const weekDays = week.map(day => day.dayWeek);
           Editar horários do motivo
         </h2>
 
-        <UIOptionsCarousel
+        <UIWeekdaySelector
           :items="weekDays"
           v-model="selectedDayWeek"
           class="font-semibold mb-4"
-        >
-          <template #toggleButton>
-            <IconsArrow />
-          </template>
-        </UIOptionsCarousel>
+        />
 
         <section class="flex justify-between">
           <div v-for="shift in dayShifts" :key="shift.title">
