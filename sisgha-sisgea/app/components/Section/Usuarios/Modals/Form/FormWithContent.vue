@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import DialogSkeleton from '@/components/Dialog/DialogSkeleton.vue';
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import ModalCadastrarMotivo from '../../Form/MotivosForm/ModalCadastrarMotivo.vue';
 import ModalConsultarMotivo from '../../Form/MotivosForm/ModalConsultarMotivo.vue';
 import ModalEditarMotivo from '../../Form/MotivosForm/ModalEditarMotivo.vue';
@@ -57,13 +57,7 @@ function atualizarMotivos(novosMotivos: Record<string, HorarioMotivo[]>) {
   motivosConfirmados.value = { ...novosMotivos };
 }
 
-function adicionarMotivo(horario: string, motivo: string) {
-  const dia = diaSelecionado.value;
-  if (!dia) {
-    console.warn('Nenhum dia selecionado para adicionar motivo!');
-    return;
-  }
-
+function adicionarMotivo(dia: string, horario: string, motivo: string) {
   if (!motivosConfirmados.value[dia]) {
     motivosConfirmados.value[dia] = [];
   }
@@ -71,15 +65,14 @@ function adicionarMotivo(horario: string, motivo: string) {
   const index = motivosConfirmados.value[dia].findIndex(
     m => m.horario === horario
   );
+
   if (index !== -1) {
     motivosConfirmados.value[dia]?.[index] &&
       (motivosConfirmados.value[dia][index].motivo = motivo);
   } else {
     motivosConfirmados.value[dia].push({ horario, motivo });
   }
-
   motivosConfirmados.value = { ...motivosConfirmados.value };
-
   fecharTodosModais();
 }
 
@@ -90,9 +83,9 @@ function atualizarMotivoEditadoComHorarios(payload: {
   const { horariosPorDia, motivo } = payload;
 
   for (const dia in motivosConfirmados.value) {
-    motivosConfirmados.value[dia] = (motivosConfirmados.value[dia] || []).filter(
-      m => m.motivo !== motivoSelecionado.value?.motivo
-    );
+    motivosConfirmados.value[dia] = (
+      motivosConfirmados.value[dia] || []
+    ).filter(m => m.motivo !== motivoSelecionado.value?.motivo);
   }
 
   for (const dia in horariosPorDia) {

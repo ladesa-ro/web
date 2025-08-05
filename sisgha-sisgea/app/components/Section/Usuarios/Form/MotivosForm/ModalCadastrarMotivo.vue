@@ -27,7 +27,7 @@ watch(
 
 const emit = defineEmits<{
   (e: 'fechar'): void;
-  (e: 'cadastrar', horario: string, motivo: string): void;
+  (e: 'cadastrar', dia: string, horario: string, motivo: string): void;
 }>();
 
 const selectedTimes = ref<string[]>([]);
@@ -37,7 +37,7 @@ const pendentes = ref<{ horario: string; motivo: string }[]>([]);
 const currentDay = useCurrentDay();
 const week = getWeekDays(currentDay.value);
 const weekDays = week.map(day => day.dayWeek);
-const selectedDayWeek = ref(weekDays[0]);
+const selectedDayWeek = ref<string>(weekDays[0] ?? 'segunda');
 
 const motivosDisponiveis = [
   'Licença médica',
@@ -79,7 +79,7 @@ function registrarMotivos() {
 
 function confirmarTodos() {
   pendentes.value.forEach(m => {
-    emit('cadastrar', m.horario, m.motivo);
+    emit('cadastrar', selectedDayWeek.value, m.horario, m.motivo);
   });
   emit('fechar');
 }
