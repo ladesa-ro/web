@@ -105,13 +105,13 @@ function excluirMotivo(horario: string) {
           @submit.prevent="registrarMotivos"
           class="flex flex-col gap-6"
         >
+          <UIWeekdaySelector
+            :items="weekDays"
+            v-model="selectedDayWeek"
+            class="font-semibold mb-1"
+          />
           <!-- checkbox de horários -->
           <v-expansion-panel-text>
-            <UIWeekdaySelector
-              :items="weekDays"
-              v-model="selectedDayWeek"
-              class="font-semibold mb-4"
-            />
             <section class="flex gap-3">
               <div v-for="shift in dayShifts" :key="shift.title">
                 <h1>{{ capitalizeFirst(shift.title) }}</h1>
