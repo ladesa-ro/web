@@ -8,19 +8,36 @@ import {
 } from '#components';
 import { computed, ref } from 'vue';
 import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
+import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
+import WeekdaySelector from '~/components/UI/WeekDaySelector/WeekdaySelector.vue';
 
 const props = defineProps<{
   horariosSemMotivo: string[];
 }>();
 
+import { watch } from 'vue';
+
+watch(
+  () => props.horariosSemMotivo,
+  val => {
+    console.log('horariosSemMotivo:', val);
+  },
+  { immediate: true }
+);
+
 const emit = defineEmits<{
   (e: 'fechar'): void;
-  (e: 'cadastrar', horario: string, motivo: string): void;
+  (e: 'cadastrar', dia: string, horario: string, motivo: string): void;
 }>();
 
 const selectedTimes = ref<string[]>([]);
 const motivos = ref<Record<string, string>>({});
 const pendentes = ref<{ horario: string; motivo: string }[]>([]);
+
+const currentDay = useCurrentDay();
+const week = getWeekDays(currentDay.value);
+const weekDays = week.map(day => day.dayWeek);
+const selectedDayWeek = ref<string>(weekDays[0] ?? 'segunda');
 
 const motivosDisponiveis = [
   'Licença médica',
@@ -62,7 +79,7 @@ function registrarMotivos() {
 
 function confirmarTodos() {
   pendentes.value.forEach(m => {
-    emit('cadastrar', m.horario, m.motivo);
+    emit('cadastrar', selectedDayWeek.value, m.horario, m.motivo);
   });
   emit('fechar');
 }
@@ -96,26 +113,36 @@ function excluirMotivo(horario: string) {
         <form
           v-else
           @submit.prevent="registrarMotivos"
-          class="flex flex-col gap-6"
+          class="flex flex-col gap-5"
         >
+          <WeekdaySelector
+            :items="weekDays"
+            v-model="selectedDayWeek"
+            class="font-semibold mb-1"
+          />
           <!-- checkbox de horários -->
-          <v-expansion-panel-text>
-            <section class="flex gap-3">
-              <div v-for="shift in dayShifts" :key="shift.title">
-                <h1>{{ capitalizeFirst(shift.title) }}</h1>
-
-                <UICheckbox
-                  :items="shift.times"
-                  v-model="selectedTimes"
-                  :disabled-items="
-                    shift.times.filter(
-                      time => !props.horariosSemMotivo.includes(time)
-                    )
-                  "
-                />
-              </div>
-            </section>
-          </v-expansion-panel-text>
+          <v-expansion-panels model-value="0">
+            <v-expansion-panel class="h-full">
+              <v-expansion-panel-text>
+                <section class="flex gap-6 justify-between">
+                  <div v-for="shift in dayShifts" :key="shift.title">
+                    <h1 class="mb-2">
+                      {{ capitalizeFirst(shift.title) }}
+                    </h1>
+                    <UICheckbox
+                      :items="shift.times"
+                      v-model="selectedTimes"
+                      :disabled-items="
+                        shift.times.filter(
+                          time => !props.horariosSemMotivo.includes(time)
+                        )
+                      "
+                    />
+                  </div>
+                </section>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
 
           <!-- inputs de motivo -->
           <div v-if="selectedTimes.length > 0" class="flex flex-col gap-4">

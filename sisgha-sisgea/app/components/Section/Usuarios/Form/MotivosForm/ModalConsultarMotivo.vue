@@ -4,22 +4,29 @@ import { computed } from 'vue';
 
 const props = defineProps<{
   motivosConfirmados: Record<string, { horario: string; motivo: string }[]>;
+  selectedDayWeek: string | null;
 }>();
 
 const emit = defineEmits<{
   (e: 'fechar'): void;
 }>();
 
-const diasDaSemana = [
-  'segunda',
-  'terça',
-  'quarta',
-  'quinta',
-  'sexta',
-];
+const diasDaSemana = ['segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+
+const motivosDoDia = computed(() => {
+  return props.selectedDayWeek
+    ? props.motivosConfirmados[props.selectedDayWeek] || []
+    : [];
+});
+
 
 function normalizarChave(str: string): string {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
+function formatarDia(dia: string): string {
+  const diasComFeira = ['segunda', 'terça', 'quarta', 'quinta', 'sexta'];
+  return diasComFeira.includes(dia.toLowerCase()) ? `${dia}-feira` : dia;
 }
 
 const motivosFormatadosPorDia = computed(() => {
@@ -32,11 +39,12 @@ const motivosFormatadosPorDia = computed(() => {
     {} as Record<string, { horario: string; motivo: string }[]>
   );
 
-  return diasDaSemana.map((dia) => {
-    const chave = normalizarChave(dia);
+  return diasDaSemana.map((diaOriginal) => {
+    const chaveNormalizada = normalizarChave(diaOriginal);
+    const motivos = chavesNormalizadas[chaveNormalizada] ?? [];
     return {
-      dia,
-      motivos: chavesNormalizadas[chave] ?? [],
+      dia: diaOriginal,
+      motivos,
     };
   });
 });
@@ -53,7 +61,7 @@ const motivosFormatadosPorDia = computed(() => {
 
       <div v-for="item in motivosFormatadosPorDia" :key="item.dia" class="mb-8">
         <h3 class="main-title font-semibold text-[12px] mb-2 capitalize text-ldsa-black">
-          {{ item.dia }}-feira
+          {{ formatarDia(item.dia) }}
         </h3>
 
         <div v-if="item.motivos.length === 0" class="text-[12px] text-ldsa-grey">
