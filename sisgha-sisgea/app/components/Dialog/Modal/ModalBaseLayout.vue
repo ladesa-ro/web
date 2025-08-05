@@ -1,17 +1,22 @@
 <script lang="ts" setup>
 type Props = {
   title?: string;
+  titleVariant?: 'default' | 'small' | 'x-small';
   closeButton?: boolean;
   onClose: () => any;
 };
 
-const { title = 'Título', closeButton = true } = defineProps<Props>();
+const {
+  title = 'Título',
+  titleVariant = 'small',
+  closeButton = true,
+} = defineProps<Props>();
 </script>
 
 <template>
   <div class="modal-layout">
     <header class="header">
-      <UITitle variant="small" :text="title" />
+      <UITitle :variant="titleVariant" :text="title" />
 
       <button v-if="closeButton" class="close-button" @click="onClose">
         <IconsClose class="close-icon" />

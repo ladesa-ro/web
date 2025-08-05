@@ -1,7 +1,7 @@
 <script setup lang="ts">
 type Props = {
   text: string;
-  variant?: 'default' | 'small';
+  variant?: 'default' | 'small' | 'x-small';
 };
 
 const { variant = 'default' } = defineProps<Props>();
@@ -20,5 +20,9 @@ const { variant = 'default' } = defineProps<Props>();
 
 .small {
   @apply flex items-center text-lg sm:text-xl font-bold before:inline-block before:w-1 before:h-[1em] before:mr-2 before:bg-ldsa-text-green;
+}
+
+.x-small {
+  @apply flex items-center text-sm font-semibold before:inline-block before:w-1 before:h-[1em] before:mr-2 before:bg-ldsa-text-green;
 }
 </style>
