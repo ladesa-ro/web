@@ -5,9 +5,12 @@ import {
   UIButtonModalDelete,
   UIButtonModalGoBack,
   UIButtonModalSave,
+  UIWeekdaySelector,
 } from '#components';
 import { computed, ref } from 'vue';
 import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
+import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
+
 const props = defineProps<{
   horariosSemMotivo: string[];
 }>();
@@ -30,6 +33,11 @@ const emit = defineEmits<{
 const selectedTimes = ref<string[]>([]);
 const motivos = ref<Record<string, string>>({});
 const pendentes = ref<{ horario: string; motivo: string }[]>([]);
+
+const currentDay = useCurrentDay();
+const week = getWeekDays(currentDay.value);
+const weekDays = week.map(day => day.dayWeek);
+const selectedDayWeek = ref(weekDays[0]);
 
 const motivosDisponiveis = [
   'Licença médica',
@@ -105,12 +113,16 @@ function excluirMotivo(horario: string) {
         <form
           v-else
           @submit.prevent="registrarMotivos"
-          class="flex flex-col gap-6"
+          class="flex flex-col gap-5"
         >
+          <UIWeekdaySelector
+            :items="weekDays"
+            v-model="selectedDayWeek"
+            class="font-semibold mb-1"
+          />
           <!-- checkbox de horários -->
           <v-expansion-panels model-value="0">
             <v-expansion-panel class="h-full">
-
               <v-expansion-panel-text>
                 <section class="flex gap-6 justify-between">
                   <div v-for="shift in dayShifts" :key="shift.title">
