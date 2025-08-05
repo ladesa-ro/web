@@ -58,7 +58,6 @@ const nextForm = () => {
       <template #button-group>
         <UIButtonModalCancel @click="closeForm" />
         <UIButtonModalAdvance
-          :disabled="!selectedDisciplina"
           @click="nextForm"
         />
       </template>
