@@ -5,11 +5,11 @@ import {
   UIButtonModalDelete,
   UIButtonModalGoBack,
   UIButtonModalSave,
-  UIWeekdaySelector,
 } from '#components';
 import { computed, ref } from 'vue';
 import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
+import WeekdaySelector from '~/components/UI/WeekDaySelector/WeekdaySelector.vue';
 
 const props = defineProps<{
   horariosSemMotivo: string[];
@@ -115,7 +115,7 @@ function excluirMotivo(horario: string) {
           @submit.prevent="registrarMotivos"
           class="flex flex-col gap-5"
         >
-          <UIWeekdaySelector
+          <WeekdaySelector
             :items="weekDays"
             v-model="selectedDayWeek"
             class="font-semibold mb-1"

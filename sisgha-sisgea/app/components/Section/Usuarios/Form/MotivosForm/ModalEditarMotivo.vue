@@ -7,7 +7,7 @@ import {
 import { computed, ref, watch } from 'vue';
 import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
-import { UIWeekdaySelector } from '#components';
+import WeekdaySelector from '~/components/UI/WeekDaySelector/WeekdaySelector.vue';
 
 const props = defineProps<{
   motivoAtual: {
@@ -163,7 +163,7 @@ function formatarDia(dia: string): string {
           Editar horários do motivo
         </h2>
 
-        <UIWeekdaySelector
+        <WeekdaySelector
           :items="weekDays"
           v-model="selectedDayWeek"
           class="font-semibold mb-4"

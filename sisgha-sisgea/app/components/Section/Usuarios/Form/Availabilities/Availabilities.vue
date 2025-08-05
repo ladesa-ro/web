@@ -3,7 +3,7 @@ import { useCurrentDay } from '#imports';
 import { computed, ref, watch } from 'vue';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
 import { getActivesTeacherRole, useFormUser } from '../FormUtils';
-import { UIWeekdaySelector } from '#components';
+import WeekdaySelector from '../../../../UI/WeekDaySelector/WeekdaySelector.vue';
 
 const currentDay = useCurrentDay();
 const week = getWeekDays(currentDay.value);
@@ -68,7 +68,7 @@ const onClose = () => emit('close');
     :on-close="onClose"
     title="Disponibilidade"
   >
-   <UIWeekdaySelector
+   <WeekdaySelector
       :items="weekDays"
       v-model="selectedDayWeek"
       class="font-semibold"
