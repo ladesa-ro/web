@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import DialogSkeleton from '@/components/Dialog/DialogSkeleton.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import ModalCadastrarMotivo from '../../Form/MotivosForm/ModalCadastrarMotivo.vue';
 import ModalConsultarMotivo from '../../Form/MotivosForm/ModalConsultarMotivo.vue';
 import ModalEditarMotivo from '../../Form/MotivosForm/ModalEditarMotivo.vue';
@@ -12,13 +12,31 @@ type Props = {
 const { editId = null } = defineProps<Props>();
 const $emit = defineEmits(['close']);
 
-function onClose() {
-  $emit('close');
-}
-
 const activeModal = ref<'cadastrar' | 'consultar' | 'listar' | 'editar' | null>(
   null
 );
+
+const isProfileOpen = ref(true);
+const isAvailabilityOpen = ref(true);
+
+function fecharTodosModais() {
+  activeModal.value = null;
+  motivoSelecionado.value = null;
+}
+
+watch(activeModal, newVal => {
+  if (newVal !== null) {
+    isProfileOpen.value = false;
+    isAvailabilityOpen.value = false;
+  } else {
+    isProfileOpen.value = true;
+    isAvailabilityOpen.value = true;
+  }
+});
+
+function onClose() {
+  $emit('close');
+}
 
 const diaSelecionado = ref<string>('segunda');
 
@@ -42,11 +60,6 @@ function abrirModal(
   if (tipo === 'editar' && payload) {
     motivoSelecionado.value = payload;
   }
-}
-
-function fecharTodosModais() {
-  activeModal.value = null;
-  motivoSelecionado.value = null;
 }
 
 function atualizarHorariosSemMotivo(novosHorarios: string[]) {
@@ -123,8 +136,13 @@ function setDiaSelecionado(dia: string) {
 
 <template>
   <SectionUsuariosForm v-if="true" :edit-id="editId">
-    <SectionUsuariosFormProfile :edit-id="editId" @close="onClose" />
+    <SectionUsuariosFormProfile
+      v-show="isProfileOpen"
+      :edit-id="editId"
+      @close="onClose"
+    />
     <SectionUsuariosModalsFormDialogAvailability
+      v-show="isAvailabilityOpen"
       :selected-day-week="diaSelecionado"
       :motivos-confirmados="motivosConfirmados"
       @abrir-modal="abrirModal"
