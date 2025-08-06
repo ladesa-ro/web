@@ -150,7 +150,7 @@ const removerDia = (id: number) => {
           <!-- conteúdo de aulas agrupadas -->
           <div
             v-if="selectedOption === 'aulas'"
-            class="mt-4 p-3 border rounded-lg space-y-4"
+            class="mt-5 space-y-4"
           >
             <!-- blocos de dia -->
             <div
