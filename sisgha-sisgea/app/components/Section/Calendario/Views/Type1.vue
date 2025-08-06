@@ -19,8 +19,8 @@ let events = ref<CalendarEvent[]>([]);
 if (props.calendarId) {
   const getSteps: Array<CalendarEvent> =
     await calendarDataMethods.steps.getSteps(props.calendarId!);
-  // const getEvents: Array<CalendarEvent> = await calendarDataMethods.events.getEvents(props.calendarId);
-  events.value = getSteps;
+  const getEvents: Array<CalendarEvent> = await calendarDataMethods.events.getEvents(props.calendarId!);
+  events.value = getSteps.concat(getEvents);
 
   // Ordering List
   events.value.sort(

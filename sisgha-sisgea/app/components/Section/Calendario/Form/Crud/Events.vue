@@ -32,14 +32,12 @@ const getEvent = async () => {
     values.eventStartHour = checkEvents.horaInicio;
     values.eventEndDate = checkEvents.dataFim;
     values.eventEndHour = checkEvents.horaFim;
-    console.log(checkSteps);
   } else {
     isEvent.value = false;
     values.eventName = checkSteps.nome;
     values.eventColor = checkSteps.cor;
     values.eventStartDate = checkSteps.dataInicio;
     values.eventEndDate = checkSteps.dataFim;
-    console.log(checkEvents);
   }
 };
 

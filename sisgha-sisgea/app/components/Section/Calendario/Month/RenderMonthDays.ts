@@ -40,17 +40,6 @@ export const renderDays = {
 
     try {
       // Formatting Days
-
-      /* const daysAPI = ref(
-        const calendarDayFilter: DiaCalendarioListData = {
-          filterCalendarioId: [calendarId],
-        };
-          
-        await getApiClient().diasCalendarios.diaCalendarioList(
-          calendarDayFilter
-        ).promise
-       ); */
-
       for (
         let i = 0;
         i <

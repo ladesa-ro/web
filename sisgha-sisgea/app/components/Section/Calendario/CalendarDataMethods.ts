@@ -29,23 +29,23 @@ export const calendarDataMethods = {
 
       return remodelSteps;
     },
-    async getStepByName(e: string, calendarId: string): Promise<any> {
+    async getStepByName(name: string, calendarId: string): Promise<any> {
       try {
         const getStep = await getApiClient()
           .etapas.etapaList({
-            search: `${e.replace(/\D/g, '')}`,
+            search: `${name.replace(/\D/g, '')}`,
           })
           .promise.then(res => res.data);
 
         const findStep = getStep.find(
           step =>
-            step.numero === Number(e.replace(/\D/g, '')) &&
+            step.numero === Number(name.replace(/\D/g, '')) &&
             step.calendario.id === calendarId
         );
-        return findStep ? findStep : {};
+        return findStep ? findStep : null;
       } catch (error) {
         console.error('Erro: ', error);
-        return {};
+        return null;
       }
     },
   },
@@ -76,20 +76,54 @@ export const calendarDataMethods = {
 
       return remodelEvents;
     },
-    async getEventByName(e: string, calendarId: string): Promise<any> {
+    async getEventByName(name: string, calendarId: string): Promise<any> {
       try {
         const getEvents = await getApiClient()
           .eventos.eventoList({
-            search: `${calendarId}`,
+            search: `${name}`,
           })
           .promise.then(res => res.data);
 
-        const findEvent = getEvents.find(event => event.id === e);
-        return findEvent ? findEvent : {};
+        const findEvent = getEvents.find(
+          event => event.id === name && event.calendario.id === calendarId
+        );
+        return findEvent ? findEvent : null;
       } catch (error) {
         console.error('Erro: ', error);
-        return {};
+        return null;
       }
     },
+  },
+
+  getAnyEventByName: async (
+    name: string,
+    calendarId: string,
+    returnType?: 'id' | null
+  ): Promise<any | string> => {
+    try {
+      let returnObject = { id: ''};
+
+      const event = async (): Promise<any> => {
+        const checkEvents = await calendarDataMethods.events.getEventByName(
+          name!,
+          calendarId!
+        );
+
+        if (checkEvents) return checkEvents;
+        else {
+          const checkSteps = await calendarDataMethods.steps.getStepByName(
+            name!,
+            calendarId!
+          );
+          if (checkSteps) return checkSteps;
+          else return null;
+        }
+      };
+
+      if (returnType === 'id') return event;
+    } catch (error) {
+      console.error('Erro: ', error);
+      return {};
+    }
   },
 };

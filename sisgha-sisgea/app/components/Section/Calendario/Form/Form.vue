@@ -109,9 +109,8 @@ async function onSubmit(v: Event) {}
       <!-- Buttons -->
       <template #button-group>
         <UIButtonModalGoBack
-          v-show="stage > 0 || !props.editMode"
+          v-show="stage > 0 && !props.editMode"
           @click.prevent="formStage('prev')"
-          text="Voltar"
           class="flex w-full"
         />
         <UIButtonModalCancel
@@ -119,10 +118,14 @@ async function onSubmit(v: Event) {}
           type="close"
           class="flex w-full"
         />
+        <UIButtonModalDelete
+          v-show="props.editMode"
+          @click.prevent=""
+          class="flex w-full"
+        />
         <UIButtonModalAdvance
           v-if="stage < stages.length && stage > 0 && registerType !== 'events'"
           @click.prevent="formStage('next')"
-          text="Avançar"
           class="flex w-full"
         />
         <UIButtonModalSave
@@ -132,6 +135,7 @@ async function onSubmit(v: Event) {}
           "
           type="submit"
         />
+        <UIButtonModalEdit v-show="props.editMode" type="submit" />
       </template>
     </DialogModalBaseLayout>
   </form>

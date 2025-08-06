@@ -48,9 +48,8 @@ else remainingDays = Number(_startDate.diff(currentDate, 'day'));
       </div>
 
       <!-- Edit Button -->
-      <UIButtonEdit> </UIButtonEdit>
       <DialogModalEditOrCreateModal
-        :edit-it="''"
+        :edit-it="'edit-event'"
         :form-component="SectionCalendarioForm"
         :form-props="{
           calendarId: props.calendarId!,
