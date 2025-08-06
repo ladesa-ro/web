@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineEmits, ref, computed, watch } from 'vue';
+import { defineEmits, ref } from 'vue';
 
 const $emit = defineEmits(['close', 'back']);
 
@@ -31,9 +31,11 @@ const turmasSelecionadas = ref<string[]>([]);
 const turmaId = (cursoSigla: string, turma: string) => `${cursoSigla}-${turma}`;
 
 // Função que retorna o estado do checkbox do curso (checked/indeterminado)
-const cursoCheckboxState = (curso: typeof cursos[0]) => {
+const cursoCheckboxState = (curso: (typeof cursos)[0]) => {
   const turmasIds = curso.turmas.map(t => turmaId(curso.sigla, t));
-  const selecionadas = turmasSelecionadas.value.filter(t => turmasIds.includes(t));
+  const selecionadas = turmasSelecionadas.value.filter(t =>
+    turmasIds.includes(t)
+  );
   const todasSelecionadas = selecionadas.length === turmasIds.length;
   const nenhumaSelecionada = selecionadas.length === 0;
   return {
@@ -43,16 +45,19 @@ const cursoCheckboxState = (curso: typeof cursos[0]) => {
 };
 
 // Função para marcar ou desmarcar todas as turmas de um curso
-const toggleCurso = (curso: typeof cursos[0], checked: boolean) => {
+const toggleCurso = (curso: (typeof cursos)[0], checked: boolean) => {
   const turmasIds = curso.turmas.map(t => turmaId(curso.sigla, t));
   if (checked) {
     // adicionar as turmas que ainda não estão selecionadas
     turmasIds.forEach(id => {
-      if (!turmasSelecionadas.value.includes(id)) turmasSelecionadas.value.push(id);
+      if (!turmasSelecionadas.value.includes(id))
+        turmasSelecionadas.value.push(id);
     });
   } else {
     // remover as turmas do curso
-    turmasSelecionadas.value = turmasSelecionadas.value.filter(id => !turmasIds.includes(id));
+    turmasSelecionadas.value = turmasSelecionadas.value.filter(
+      id => !turmasIds.includes(id)
+    );
   }
 };
 </script>
@@ -87,36 +92,39 @@ const toggleCurso = (curso: typeof cursos[0], checked: boolean) => {
       </div>
 
       <div>
-        <div class="grid grid-cols-3 gap-3">
+        <div class="grid grid-cols-3 gap-4 max-w-[600px] mx-auto">
           <div v-for="curso in cursos" :key="curso.nome" class="p-2">
             <label
-              class="flex items-center justify-center gap-2 font-semibold text-[12px] mb-2 border-b border-b-ldsa-grey cursor-pointer select-none"
+              class="flex items-center gap-2 font-semibold text-[12px] mb-2 cursor-pointer select-none border-b border-b-ldsa-grey pb-1"
             >
               <input
                 type="checkbox"
                 :checked="cursoCheckboxState(curso).checked"
-                ref="el => {
-                  if(el) el.indeterminate = cursoCheckboxState(curso).indeterminate
-                }"
-                @change="(e: Event) => toggleCurso(curso, (e.target as HTMLInputElement)?.checked ?? false)"
-
-                class="accent-ldsa-green-1"
+                ref="el => { if(el) el.indeterminate = cursoCheckboxState(curso).indeterminate }"
+                @change="
+                  (e: Event) =>
+                    toggleCurso(
+                      curso,
+                      (e.target as HTMLInputElement)?.checked ?? false
+                    )
+                "
+                class="accent-ldsa-green-1 w-4 h-4 flex-shrink-0"
               />
-              {{ curso.nome }}
+              <span class="flex-grow">{{ curso.nome }}</span>
             </label>
             <div class="flex flex-col gap-1 text-xs">
               <label
                 v-for="turma in curso.turmas"
                 :key="turmaId(curso.sigla, turma)"
-                class="flex items-center gap-2"
+                class="flex items-center gap-2 cursor-pointer"
               >
                 <input
                   type="checkbox"
                   :value="turmaId(curso.sigla, turma)"
                   v-model="turmasSelecionadas"
-                  class="accent-ldsa-green-1"
+                  class="accent-ldsa-green-1 w-4 h-4 flex-shrink-0"
                 />
-                {{ turma }}
+                <span>{{ turma }}</span>
               </label>
             </div>
           </div>
