@@ -105,7 +105,7 @@ const removerDia = (id: number) => {
           </div>
           <div class="flex items-center gap-2">
             <p class="w-4 h-4 text-ldsa-red"><IconsExclude /></p>
-            <p class="cursor-pointer" @click="toggleOptions">
+            <p class="cursor-pointer text-ldsa-green-1" @click="toggleOptions">
               <IconsArrow
                 :class="
                   showOptions
