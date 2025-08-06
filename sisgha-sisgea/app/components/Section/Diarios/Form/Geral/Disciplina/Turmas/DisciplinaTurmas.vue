@@ -39,6 +39,23 @@ const closeForm = () => $emit('close');
 const addForm = () => $emit('add');
 const backForm = () => $emit('back');
 
+// Lista mock de professores
+const professores = ref([
+  {
+    id: 1,
+    nome: 'Ana Clara Silva',
+    cargo: 'Professora de História',
+    foto: 'https://i.pravatar.cc/40?img=3',
+  },
+  {
+    id: 2,
+    nome: 'João Marcos',
+    cargo: 'Professor de Matemática',
+    foto: 'https://i.pravatar.cc/40?img=5',
+  },
+]);
+
+const professorSearch = ref('');
 </script>
 
 <template>
@@ -80,7 +97,7 @@ const backForm = () => $emit('back');
               }"
               @click="selectOption('aulas')"
             >
-              <IconsGroupedClass class="w-5 h-5" />
+              <IconsGroupedClass class="w-5 h-5 mb-3 mt-2" />
               Aulas Agrupadas
             </button>
             <button
@@ -92,7 +109,7 @@ const backForm = () => $emit('back');
               }"
               @click="selectOption('professores')"
             >
-              <IconsEducator class="w-5 h-5" />
+              <IconsEducator class="w-5 h-5 mb-3 mt-2" />
               Professores
             </button>
           </div>
@@ -100,18 +117,52 @@ const backForm = () => $emit('back');
           <!-- conteudo de cada opcao -->
           <div
             v-if="selectedOption === 'aulas'"
-            class="mt-4 p-3 border"
+            class="mt-4 p-3 border rounded-lg"
           >
             <p class="text-sm font-medium text-gray-700">
-              
+              Aulas agrupadas virão aqui.
             </p>
           </div>
 
           <div
             v-if="selectedOption === 'professores'"
-            class="mt-4 p-3 border"
-          >          
-              <!-- foto do professor + nome + cargo | checkbox -->
+            class="mt-4 space-y-4"
+          >
+            <VVTextField
+              v-model="professorSearch"
+              label="Pesquisar"
+              name="professorSearch"
+              placeholder="Digite aqui"
+              type="text"
+              class="text-[11px]"
+            />
+            <!-- substituir por searchbar -->
+
+            <!-- professores -->
+            <div class="space-y-2 p-1">
+              <div
+                v-for="prof in professores.filter(p =>
+                  p.nome.toLowerCase().includes(professorSearch.toLowerCase())
+                )"
+                :key="prof.id"
+                class="flex items-center gap-3 border-2 border-ldsa-grey rounded-lg"
+              >
+                <!-- foto professor -->
+                <div
+                  class="w-12 h-12 bg-ldsa-grey/20 flex items-center justify-center text-xs font-bold text-ldsa-grey"
+                >
+                 <IconsImage/>
+                </div>
+
+                <div class="flex-1 my-2">
+                  <p class="font-semibold text-[13px] leading-4">
+                    {{ prof.nome }}
+                  </p>
+                  <p class="text-[12px] text-ldsa-grey">{{ prof.cargo }}</p>
+                </div>
+                <input type="checkbox" class="w-4 h-4 accent-ldsa-green-1 mr-3" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
