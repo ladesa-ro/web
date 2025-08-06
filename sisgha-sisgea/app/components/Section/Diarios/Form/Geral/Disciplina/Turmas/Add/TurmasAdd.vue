@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineEmits, ref } from 'vue';
+import { defineEmits, ref, computed, watch } from 'vue';
 
 const $emit = defineEmits(['close', 'back']);
 
@@ -29,6 +29,32 @@ const cursos = [
 const turmasSelecionadas = ref<string[]>([]);
 
 const turmaId = (cursoSigla: string, turma: string) => `${cursoSigla}-${turma}`;
+
+// Função que retorna o estado do checkbox do curso (checked/indeterminado)
+const cursoCheckboxState = (curso: typeof cursos[0]) => {
+  const turmasIds = curso.turmas.map(t => turmaId(curso.sigla, t));
+  const selecionadas = turmasSelecionadas.value.filter(t => turmasIds.includes(t));
+  const todasSelecionadas = selecionadas.length === turmasIds.length;
+  const nenhumaSelecionada = selecionadas.length === 0;
+  return {
+    checked: todasSelecionadas,
+    indeterminate: !todasSelecionadas && !nenhumaSelecionada,
+  };
+};
+
+// Função para marcar ou desmarcar todas as turmas de um curso
+const toggleCurso = (curso: typeof cursos[0], checked: boolean) => {
+  const turmasIds = curso.turmas.map(t => turmaId(curso.sigla, t));
+  if (checked) {
+    // adicionar as turmas que ainda não estão selecionadas
+    turmasIds.forEach(id => {
+      if (!turmasSelecionadas.value.includes(id)) turmasSelecionadas.value.push(id);
+    });
+  } else {
+    // remover as turmas do curso
+    turmasSelecionadas.value = turmasSelecionadas.value.filter(id => !turmasIds.includes(id));
+  }
+};
 </script>
 
 <template>
@@ -49,13 +75,13 @@ const turmaId = (cursoSigla: string, turma: string) => `${cursoSigla}-${turma}`;
       <div
         class="flex justify-between items-center text-xs font-semibold mb-1 w-full"
       >
-        <button type="button" class="text-ldsa-grey" @click="">
+        <button type="button" class="text-ldsa-grey" @click="() => {}">
           <IconsArrow class="w-4 h-4" />
         </button>
 
         <span class="flex-grow text-center">Página 1 de 1</span>
 
-        <button type="button" class="text-ldsa-grey" @click="">
+        <button type="button" class="text-ldsa-grey" @click="() => {}">
           <IconsArrow class="transform rotate-180 w-4 h-4" />
         </button>
       </div>
@@ -63,11 +89,21 @@ const turmaId = (cursoSigla: string, turma: string) => `${cursoSigla}-${turma}`;
       <div>
         <div class="grid grid-cols-3 gap-3">
           <div v-for="curso in cursos" :key="curso.nome" class="p-2">
-            <h3
-              class="font-semibold text-[12px] mb-2 text-center border-b-1 border-b-ldsa-grey"
+            <label
+              class="flex items-center justify-center gap-2 font-semibold text-[12px] mb-2 border-b border-b-ldsa-grey cursor-pointer select-none"
             >
+              <input
+                type="checkbox"
+                :checked="cursoCheckboxState(curso).checked"
+                ref="el => {
+                  if(el) el.indeterminate = cursoCheckboxState(curso).indeterminate
+                }"
+                @change="(e: Event) => toggleCurso(curso, (e.target as HTMLInputElement)?.checked ?? false)"
+
+                class="accent-ldsa-green-1"
+              />
               {{ curso.nome }}
-            </h3>
+            </label>
             <div class="flex flex-col gap-1 text-xs">
               <label
                 v-for="turma in curso.turmas"
