@@ -66,13 +66,15 @@ type AulaAgrupada = {
   dia: string;
 };
 
-const aulasAgrupadas = ref<AulaAgrupada[]>([{ id: 1, dia: diasSemana[0] }]);
+const aulasAgrupadas = ref<AulaAgrupada[]>([
+  { id: 1, dia: diasSemana[0] ?? 'Segunda' },
+]);
 
 let proximoId = 2;
 
 const adicionarDia = () => {
   const total = aulasAgrupadas.value.length;
-  const novoDia = diasSemana[total % diasSemana.length];
+  const novoDia = diasSemana[total % diasSemana.length] ?? 'Segunda';
   aulasAgrupadas.value.push({ id: proximoId++, dia: novoDia });
 };
 
