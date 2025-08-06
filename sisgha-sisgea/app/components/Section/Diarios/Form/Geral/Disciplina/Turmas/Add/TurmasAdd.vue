@@ -60,7 +60,7 @@ const turmaId = (cursoSigla: string, turma: string) => `${cursoSigla}-${turma}`;
         </button>
       </div>
 
-      <div class="overflow-x-auto ">
+      <div>
         <div class="grid grid-cols-3 gap-3">
           <div v-for="curso in cursos" :key="curso.nome" class="p-2">
             <h3
@@ -68,7 +68,7 @@ const turmaId = (cursoSigla: string, turma: string) => `${cursoSigla}-${turma}`;
             >
               {{ curso.nome }}
             </h3>
-            <div class="flex flex-col gap-2 text-xs">
+            <div class="flex flex-col gap-1 text-xs">
               <label
                 v-for="turma in curso.turmas"
                 :key="turmaId(curso.sigla, turma)"
