@@ -56,6 +56,28 @@ const professores = ref([
 ]);
 
 const professorSearch = ref('');
+
+// Lógica de Aulas Agrupadas
+const diasSemana = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
+
+type AulaAgrupada = {
+  id: number;
+  dia: string;
+};
+
+const aulasAgrupadas = ref<AulaAgrupada[]>([{ id: 1, dia: diasSemana[0] }]);
+
+let proximoId = 2;
+
+const adicionarDia = () => {
+  const total = aulasAgrupadas.value.length;
+  const novoDia = diasSemana[total % diasSemana.length];
+  aulasAgrupadas.value.push({ id: proximoId++, dia: novoDia });
+};
+
+const removerDia = (id: number) => {
+  aulasAgrupadas.value = aulasAgrupadas.value.filter(aula => aula.id !== id);
+};
 </script>
 
 <template>
@@ -114,20 +136,66 @@ const professorSearch = ref('');
             </button>
           </div>
 
-          <!-- conteudo de cada opcao -->
+          <!-- conteúdo de aulas agrupadas -->
           <div
             v-if="selectedOption === 'aulas'"
-            class="mt-4 p-3 border rounded-lg"
+            class="mt-4 p-3 border rounded-lg space-y-4"
           >
-            <p class="text-sm font-medium text-gray-700">
-              Aulas agrupadas virão aqui.
-            </p>
+            <!-- blocos de dia -->
+            <div
+              v-for="(aula, index) in aulasAgrupadas"
+              :key="aula.id"
+              class="border-2 border-ldsa-grey rounded-lg flex items-center justify-between"
+            >
+              <button
+                class="bg-ldsa-green-1 text-white text-xs font-semibold px-3 py-3 rounded-l-md"
+                type="button"
+              >
+                Dia {{ index + 1 }}
+              </button>
+
+              <div class="flex items-center gap-2 text-xs font-semibold">
+                <button
+                  type="button"
+                  class="text-ldsa-green-1 hover:text-ldsa-green-3 transition"
+                  @click=""
+                >
+                  <IconsArrow class="w-4 h-4" />
+                </button>
+
+                <span>Total de aulas: 1</span>
+
+                <button
+                  type="button"
+                  class="text-ldsa-green-1 hover:text-ldsa-green-3 transition"
+                  @click=""
+                >
+                  <IconsArrow class="transform rotate-180 w-4 h-4" />
+                </button>
+              </div>
+
+              <button
+                type="button"
+                class="hover:text-ldsa-red transition px-2"
+                @click="removerDia(aula.id)"
+              >
+                <IconsClose class="w-2 h-2" />
+              </button>
+            </div>
+
+            <!-- botão adicionar dia -->
+            <button
+              type="button"
+              class="mx-auto w-full font-semibold text-[12px] flex justify-center items-center gap-1 mt-4 border-2 border-dotted border-ldsa-grey rounded-lg px-4 py-2 hover:bg-ldsa-grey/20 transition"
+              @click="adicionarDia"
+            >
+              <IconsPlus class="w-3 h-3" />
+              Adicionar Dia +
+            </button>
           </div>
 
-          <div
-            v-if="selectedOption === 'professores'"
-            class="mt-4 space-y-4"
-          >
+          <!-- conteúdo do professor -->
+          <div v-if="selectedOption === 'professores'" class="mt-4 space-y-4">
             <VVTextField
               v-model="professorSearch"
               label="Pesquisar"
@@ -136,7 +204,6 @@ const professorSearch = ref('');
               type="text"
               class="text-[11px]"
             />
-            <!-- substituir por searchbar -->
 
             <!-- professores -->
             <div class="space-y-2 p-1">
@@ -151,7 +218,7 @@ const professorSearch = ref('');
                 <div
                   class="w-12 h-12 bg-ldsa-grey/20 flex items-center justify-center text-xs font-bold text-ldsa-grey"
                 >
-                 <IconsImage/>
+                  <IconsImage />
                 </div>
 
                 <div class="flex-1 my-2">
@@ -160,12 +227,24 @@ const professorSearch = ref('');
                   </p>
                   <p class="text-[12px] text-ldsa-grey">{{ prof.cargo }}</p>
                 </div>
-                <input type="checkbox" class="w-4 h-4 accent-ldsa-green-1 mr-3" />
+                <input
+                  type="checkbox"
+                  class="w-4 h-4 accent-ldsa-green-1 mr-3"
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <button
+        type="button"
+        class="mx-auto w-full font-semibold text-[12px] flex justify-center items-center gap-1 mt-1 border-2 border-dotted border-ldsa-grey rounded-lg px-4 py-2 hover:bg-ldsa-grey/20 transition"
+        @click=""
+      >
+        <IconsPlus class="w-3 h-3" />
+        Adicionar Turma +
+      </button>
     </DialogModalBaseLayout>
   </form>
 </template>
