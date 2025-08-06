@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { computed, ref, unref } from 'vue';
 import { useContextDiariosFormGeral } from '../../Contexto';
+import { UIButtonModalSave } from '#components';
 
 const $emit = defineEmits(['close', 'add', 'back']);
 
@@ -240,11 +241,17 @@ const removerDia = (id: number) => {
       <button
         type="button"
         class="mx-auto w-full font-semibold text-[12px] flex justify-center items-center gap-1 mt-1 border-2 border-dotted border-ldsa-grey rounded-lg px-4 py-2 hover:bg-ldsa-grey/20 transition"
-        @click=""
+        @click="addForm"
       >
         <IconsPlus class="w-3 h-3" />
         Adicionar Turma +
       </button>
+
+      <!-- botoes -->
+      <div class="mt-6 flex justify-between gap-2">
+        <UIButtonModalGoBack @click="backForm" />
+        <UIButtonModalSave @click="closeForm" />
+      </div>
     </DialogModalBaseLayout>
   </form>
 </template>
