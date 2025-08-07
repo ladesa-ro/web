@@ -26,31 +26,59 @@ const {
   methods: { suspend },
 } = useListQuery(options);
 
+//
+
 await suspend();
+
+let radioItems: Ref<null | any[]> = ref(null);
+
+if (disciplinas.value) {
+  radioItems.value = disciplinas.value.map(disciplina => ({
+    value: disciplina,
+    label: disciplina.nome,
+  }));
+}
+
+//
 
 const closeForm = () => $emit('close');
 const nextForm = () => $emit('next');
 </script>
 
 <template>
-  <form class="min-w-[28.125rem]">
+  <form class="min-w-1/3 xl:min-w-[28.125rem]">
     <DialogModalBaseLayout
       :on-close="closeForm"
       title="Selecione uma Disciplina"
     >
-      <UISearchBar v-model="searchBarText" />
+      <UISearchBar class="mt-1.5" v-model="searchBarText" />
 
-      <!-- TODO: substituir este componente do vuetify pelo componente UIRadio, que já está adaptado para estilos personalizados (se necessário, altere o código dele) @soouzaana -->
-      <v-radio-group v-model="selectedDisciplina" class="!overflow-x-hidden">
-        <!-- TODO: arrumar a lógica do componente UIGriSelectionDiscipline (que tem grid no nome, mas não é grid, é uma lista simples vertical. arrume o nome também). se quiser, pode excluir este componente e fazer toda a lógica e estilização no arquivo atual. faça da forma que preferir @soouzaana -->
-        <UIGridSelectionDiscipline :items="disciplinas ?? []">
-          <template #item="{ item: disciplina }">
-            <SectionDiariosFormGeralDisciplinaSelectCard
-              :disciplina="disciplina"
-            />
-          </template>
-        </UIGridSelectionDiscipline>
-      </v-radio-group>
+      <UIRadio
+        v-if="radioItems"
+        v-model="selectedDisciplina"
+        :items="radioItems"
+        v-slot="{ item, isThisItemSelected }"
+      >
+        <div
+          class="flex p-5 justify-between items-center border-2 border-ldsa-grey rounded-lg mb-2"
+        >
+          <div>
+            <span class="block font-semibold text-left">
+              {{ item.label }}
+            </span>
+
+            <span class="text-ldsa-grey text-sm">
+              Carga horária: {{ item.value.cargaHoraria }}H
+            </span>
+          </div>
+
+          <UIRadioCircle
+            :itemValue="item.value"
+            :isSelected="isThisItemSelected"
+          />
+        </div>
+      </UIRadio>
+      <span v-else>nao foi possivel buscar as discipinas</span>
 
       <template #button-group>
         <UIButtonModalCancel @click="closeForm" />
