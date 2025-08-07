@@ -4,8 +4,6 @@ import { useField } from 'vee-validate';
 const { value: vinculos } = useField<any[]>('vinculos');
 
 const addField = () => {
-  // spread operator
-  // rest operator
   vinculos.value = [
     ...vinculos.value,
     { campus: { id: null }, ativo: true, cargos: [] },
@@ -23,7 +21,6 @@ const removeField = (targetIndex: number) => {
           campus: vinculo.campus,
         };
       }
-
       return vinculo;
     });
   }
@@ -31,7 +28,8 @@ const removeField = (targetIndex: number) => {
 </script>
 
 <template>
-  <v-divider :thickness="2" color="success" opacity="1" />
+  <!-- Substituindo v-divider por hr estilizado -->
+  <hr class="border-t-2 border-success border-ldsa-green-1 opacity-100 my-1" />
 
   <div v-for="(vinculo, index) in vinculos" :key="index">
     <div v-show="vinculo.ativo" class="flex gap-5 items-start">
@@ -42,14 +40,15 @@ const removeField = (targetIndex: number) => {
         class="w-full max-w-[10.65rem]"
       />
 
-      <v-btn
+      <button
         v-if="index > 0"
-        class="my-[0.625rem]"
-        density="compact"
-        icon="mdi-delete"
-        variant="flat"
+        class="my-[0.625rem] text-red-600 hover:text-red-800"
         @click="removeField(index)"
-      />
+        aria-label="Remover vínculo"
+        type="button"
+      >
+        <i class="mdi mdi-delete text-xl"></i>
+      </button>
     </div>
   </div>
 
@@ -60,5 +59,6 @@ const removeField = (targetIndex: number) => {
   >
     Novo Vínculo
   </button>
-  <v-divider :thickness="2" color="success" opacity="1" />
+
+  <hr class="border-t-2 border-success border-ldsa-green-1 opacity-100 my-1" />
 </template>
