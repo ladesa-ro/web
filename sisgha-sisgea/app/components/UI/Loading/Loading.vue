@@ -1,18 +1,5 @@
 <template>
-  <div class="progress-container">
-    <VProgressCircular :size="50" :width="4" indeterminate />
+  <div class="flex-1 h-full w-full flex justify-center items-center">
+    <UIProgressCircular />
   </div>
 </template>
-
-<style scoped>
-.progress-container {
-  flex: 1;
-
-  height: 100%;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-</style>
