@@ -19,7 +19,7 @@
     "@auth/core": "^0.40.0",
     "@ladesa-ro/api-client-fetch": "1.0.0-next.35",
     "@mdi/font": "^7.4.47",
-    "@nuxt/devtools": "2.6.0",
+    "@nuxt/devtools": "2.6.2",
     "@nuxt/eslint": "^1.4.0",
     "@nuxtjs/color-mode": "^3.5.2",
     "@sidebase/nuxt-auth": "1.0.0-alpha.0",
@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "type-fest": "^4.41.0",
-    "typescript": "5.8.3",
+    "typescript": "5.9.2",
     "vite-plugin-vuetify": "^2.1.1",
     "vue-tsc": "2.2.10"
   },
