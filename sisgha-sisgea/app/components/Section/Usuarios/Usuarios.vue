@@ -4,8 +4,8 @@ const searchBarText = ref('');
 
 <template>
   <!-- TODO: transformar esse layout em componente -->
-  <UIContainer class="flex flex-col gap-11">
-    <div class="flex justify-between">
+  <UIContainer>
+    <div class="flex justify-between gap-5 mb-10">
       <UISearchBar v-model="searchBarText" />
       <SectionUsuariosModalsForm />
     </div>

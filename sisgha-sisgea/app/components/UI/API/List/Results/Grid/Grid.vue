@@ -95,71 +95,70 @@ await suspense();
 
 <template>
   <div class="flex-1">
-    <div class="flex-1 px-4 md:px-3 py-4">
-      <div class="ui-api-list-results-grid" ref="infiniteScrollTrigger">
-        <template v-if="items && items.length > 0">
-          <template v-for="item in items" :key="item.id">
-            <div class="ui-api-list-results-grid-item">
-              <slot name="item" v-bind="{ item, isLoading }" />
-            </div>
-          </template>
-        </template>
-
-        <template v-else-if="isLoading">
-          <template v-for="item in skeletonItemsCount" :key="item">
-            <div class="ui-api-list-results-grid-item">
-              <slot name="item-skeleton" />
-            </div>
-          </template>
-        </template>
-
-        <template v-if="!isFetching && paginationMeta.totalItems > 0">
-          <div class="w-full text-center p-4">
-            <p class="font-normal">Você chegou ao fim dos resultados.</p>
-            <p class="text-sm">
-              Página: {{ paginationMeta.currentPage }} de
-              {{ paginationMeta.totalPages }}. Total:
-              {{ paginationMeta.totalItems }} registros.
-            </p>
+    <div class="ui-api-list-results-grid" ref="infiniteScrollTrigger">
+      <template v-if="items && items.length > 0">
+        <template v-for="item in items" :key="item.id">
+          <div class="ui-api-list-results-grid-item">
+            <slot name="item" v-bind="{ item, isLoading }" />
           </div>
         </template>
+      </template>
 
-        <template v-else-if="!isFetching">
-          <div
-            key="no-results"
-            class="min-h-min flex-1 flex flex-col items-center justify-center text-center p-8"
-          >
-            <span class="mdi mdi-magnify text-5xl mb-4"></span>
-            <h3 class="text-lg font-semibold">Nenhum resultado encontrado.</h3>
-            <p class="text-sm">
-              Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos
-              menos específicos ou consultas mais amplas podem ajudá-lo a
-              encontrar o que procura.
-            </p>
+      <template v-else-if="isLoading">
+        <template v-for="item in skeletonItemsCount" :key="item">
+          <div class="ui-api-list-results-grid-item">
+            <slot name="item-skeleton" />
           </div>
         </template>
+      </template>
 
-        <template
-          v-if="
-            query.isFetchNextPageError.value ||
-            query.isFetchPreviousPageError.value
-          "
+      <template v-if="!isFetching && paginationMeta.totalItems > 0">
+        <div class="w-full text-center p-4">
+          <p class="font-normal">Você chegou ao fim dos resultados.</p>
+          <p class="text-sm">
+            Página: {{ paginationMeta.currentPage }} de
+            {{ paginationMeta.totalPages }}. Total:
+            {{ paginationMeta.totalItems }} registros.
+          </p>
+        </div>
+      </template>
+
+      <template v-else-if="!isFetching">
+        <div
+          key="no-results"
+          class="min-h-min flex-1 flex flex-col items-center justify-center text-center p-8"
         >
-          <div
-            class="w-full p-4 border border-red-700 bg-red-100 flex items-center justify-between"
+          <h3 class="text-lg font-semibold mb-3">
+            Nenhum resultado encontrado.
+          </h3>
+          <p class="text-sm">
+            Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos
+            menos específicos ou consultas mais amplas podem ajudá-lo a
+            encontrar o que procura.
+          </p>
+        </div>
+      </template>
+
+      <template
+        v-if="
+          query.isFetchNextPageError.value ||
+          query.isFetchPreviousPageError.value
+        "
+      >
+        <div
+          class="w-full p-4 border border-red-700 bg-red-100 flex items-center justify-between"
+        >
+          <p class="text-red-700 font-semibold">
+            Não foi possível buscar mais conteúdo...
+          </p>
+          <button
+            @click="load({ done: () => {}, side: 'end' })"
+            class="border border-red-700 text-red-700 text-sm px-4 py-1 rounded hover:bg-red-200"
           >
-            <p class="text-red-700 font-semibold">
-              Não foi possível buscar mais conteúdo...
-            </p>
-            <button
-              @click="load({ done: () => {}, side: 'end' })"
-              class="border border-red-700 text-red-700 text-sm px-4 py-1 rounded hover:bg-red-200"
-            >
-              Tentar Novamente
-            </button>
-          </div>
-        </template>
-      </div>
+            Tentar Novamente
+          </button>
+        </div>
+      </template>
     </div>
   </div>
 </template>

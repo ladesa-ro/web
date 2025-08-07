@@ -4,7 +4,7 @@ const searchBarText = ref('');
 
 <template>
   <UIContainer>
-    <div class="flex justify-between items-center mb-10">
+    <div class="flex justify-between items-center mb-10 gap-5">
       <UISearchBar v-model="searchBarText" />
       <LazySectionDiariosModal />
     </div>
