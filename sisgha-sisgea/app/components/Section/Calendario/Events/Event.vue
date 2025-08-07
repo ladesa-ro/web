@@ -27,7 +27,9 @@ const dayjs = useDayJs();
 </script>
 
 <template>
-  <div class="flex shrink-0 w-full border-2 border-ldsa-grey rounded-e-lg">
+  <div
+    class="flex border-2 border-ldsa-grey rounded-e-lg"
+  >
     <div
       :style="{ borderLeftColor: color }"
       class="flex flex-col w-full h-full border-l-8 p-4 font-medium text-sm sm:text-base gap-1.5"

@@ -1,21 +1,11 @@
 <script lang="ts" setup>
-import {
-  IconsConfirm,
-  IconsExclude,
-  UIButtonModalDelete,
-  UIButtonModalGoBack,
-  UIButtonModalSave,
-} from '#components';
-import { computed, ref } from 'vue';
+import WeekdaySelector from '~/components/UI/WeekDaySelector/WeekdaySelector.vue';
 import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
-import WeekdaySelector from '~/components/UI/WeekDaySelector/WeekdaySelector.vue';
 
 const props = defineProps<{
   horariosSemMotivo: string[];
 }>();
-
-import { watch } from 'vue';
 
 watch(
   () => props.horariosSemMotivo,
@@ -120,6 +110,8 @@ function excluirMotivo(horario: string) {
             v-model="selectedDayWeek"
             class="font-semibold mb-1"
           />
+
+          <!-- TODO: substituir v-expansion-panels por UICollapsible @soouzaana -->
           <!-- checkbox de horários -->
           <v-expansion-panels model-value="0">
             <v-expansion-panel class="h-full">
@@ -210,6 +202,8 @@ function excluirMotivo(horario: string) {
                 <span class="font-medium text-[12px] text-ldsa-grey">{{
                   m.horario
                 }}</span>
+
+                <!-- não utilize variáveis de cor do tailwind, apenas as do ladesa (ex: ldsa-red) @soouzaana -->
                 <button
                   @click="excluirMotivo(m.horario)"
                   class="text-red-500 hover:text-red-700"
