@@ -112,6 +112,7 @@ watch(
 </script>
 
 <template>
+  <!-- TODO: substituir componente do vuetify por UICollapsible @soouzaana -->
   <v-expansion-panel :value="vinculo.campus.id" class="h-full">
     <v-expansion-panel-title class="font-medium" expand-icon="mdi-menu-down">
       {{ campus?.apelido }}
@@ -125,10 +126,10 @@ watch(
         </div>
       </section>
 
-      <div class="mb-9 mt-9">
+      <div class="my-9">
         <p
           v-if="mostrarBotaoCadastrarMotivo"
-          class="mt-6 mb-2 text-ldsa-grey font-medium text-[12px] text-center"
+          class="mt-6 mb-2 text-ldsa-grey font-medium text-sm text-center"
         >
           Há horários não selecionados cuja indisponibilidade ainda não foi
           justificada
@@ -145,28 +146,42 @@ watch(
       </div>
 
       <div>
-        <p class="main-title font-semibold pb-5 text-[12px]">
+        <p class="main-title font-semibold pb-5">
           Motivos de indisponibilidade
         </p>
 
-        <div class="flex gap-5 justify-between">
+        <div class="flex max-sm:flex-col gap-4 justify-between">
           <button
-            class="flex justify-between items-center gap-2 border-2 border-ldsa-grey text-ldsa-black px-12 py-3 rounded-lg w-full text-[12px] font-semibold hover:bg-gray-100"
+            class="indisponibilidade-button"
             @click="abrirModalConsultarMotivo"
           >
             Consultar
-            <IconsEyeOn class="w-4 h-4" />
+            <IconsEyeOn class="w-5 shrink-0" />
           </button>
 
           <button
-            class="flex justify-between items-center gap-2 border-2 border-ldsa-grey text-ldsa-black px-12 py-3 rounded-lg w-full text-[12px] font-semibold hover:bg-gray-100"
+            class="indisponibilidade-button"
             @click="abrirModalEditarLista"
           >
             Editar
-            <IconsEdit class="w-3 h-3" />
+            <IconsEdit class="w-3.5 shrink-0" />
           </button>
         </div>
       </div>
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
+
+<style scoped>
+@reference "~/assets/styles/app.css";
+
+.indisponibilidade-button {
+  @apply flex justify-center items-center gap-5 border-2 border-ldsa-grey text-ldsa-text-default py-3 rounded-lg w-full font-semibold hover:bg-ldsa-grey/15 active:bg-ldsa-grey/25 transition-colors;
+}
+
+.main-title::before {
+  content: '';
+  border: 2px solid var(--ladesa-green-1-color);
+  margin-right: 0.5rem;
+}
+</style>

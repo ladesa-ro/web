@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const props = defineProps<{
+defineProps<{
   professores: string[],
   semestres: string[],
   professor: string | null,
@@ -13,7 +13,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 w-full m-auto mb-6">
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 w-full">
     <VVAutocomplete
       :items="professores"
       :model-value="professor"

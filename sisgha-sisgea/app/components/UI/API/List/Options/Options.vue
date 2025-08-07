@@ -14,7 +14,7 @@ const slots = defineSlots<Slots>();
 
 <template>
   <div
-    class="mt-[50px] mb-[10px] w-full justify-between items-center flex gap-4 px-3"
+    class="w-full justify-between items-center flex gap-4"
   >
     <UISearchBar v-model="formOptions.search" />
 

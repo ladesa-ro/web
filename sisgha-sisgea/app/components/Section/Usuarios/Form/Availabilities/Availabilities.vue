@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useCurrentDay } from '#imports';
-import { computed, ref, watch } from 'vue';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
 import { getActivesTeacherRole, useFormUser } from '../FormUtils';
 import WeekdaySelector from '../../../../UI/WeekDaySelector/WeekdaySelector.vue';
@@ -68,12 +67,13 @@ const onClose = () => emit('close');
     :on-close="onClose"
     title="Disponibilidade"
   >
-   <WeekdaySelector
+    <WeekdaySelector
       :items="weekDays"
       v-model="selectedDayWeek"
       class="font-semibold"
     />
 
+    <!-- TODO: substituir por UICollapsible @soouzaana -->
     <v-expansion-panels v-model="activePanel" mandatory>
       <SectionUsuariosFormAvailabilitiesAvailability
         v-for="vinculo in vinculosComCargoProfessor"

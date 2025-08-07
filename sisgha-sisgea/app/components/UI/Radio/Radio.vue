@@ -24,19 +24,25 @@ const selectedRadio = defineModel<AcceptableValue>({ default: null });
       :key="item.value"
       class="flex items-center gap-1 mb-1.5 last:mb-0 cursor-pointer overflow-hidden"
     >
-      <Radio
-        :value="item.value"
-        class="border-2 rounded-full h-5.5 w-5.5 flex items-center justify-center"
-        :class="
-          selectedRadio === item.value
-            ? 'border-ldsa-green-2'
-            : 'border-ldsa-grey'
-        "
-      >
-        <Selected class="h-3.5 w-3.5 bg-ldsa-green-2 rounded-full" />
+      <Radio v-if="$slots['default']" :value="item.value">
+        <slot :item="item" :isThisItemSelected="item.value === selectedRadio" />
       </Radio>
 
-      {{ item.label }}
+      <template v-else>
+        <Radio
+          :value="item.value"
+          class="border-2 rounded-full h-5.5 w-5.5 flex items-center justify-center"
+          :class="
+            selectedRadio === item.value
+              ? 'border-ldsa-green-2'
+              : 'border-ldsa-grey'
+          "
+        >
+          <Selected class="h-3.5 w-3.5 bg-ldsa-green-2 rounded-full" />
+        </Radio>
+
+        {{ item.label }}
+      </template>
     </label>
   </RadioGroup>
 </template>
