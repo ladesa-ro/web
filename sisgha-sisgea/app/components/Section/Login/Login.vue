@@ -51,16 +51,12 @@ useTitle(null, 'Login');
           Entrar
         </UIButtonDefault>
 
-        <div v-if="isError">
-          <VDivider class="my-4" />
-
-          <VAlert
-            v-model="isError"
-            class="error-feedback"
-            closable
-            text="Não foi possível realizar o login."
-            type="error"
-          />
+        <div
+          v-if="isError"
+          class="flex gap-2 bg-ldsa-red/10 text-ldsa-red p-2 rounded-md text-sm border border-ldsa-red/10 mt-8"
+        >
+          <IconsWarning class="w-4.5" />
+          Não foi possível realizar o login.
         </div>
       </div>
     </form>
