@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import RelatorioBotoes from '@/components//Section/Relatorios/Buttons/Buttons.vue';
-import DialogSkeleton from '@/components/Dialog/DialogSkeleton.vue';
+import RelatorioBotoes from '@/components/Section/Relatorios/Buttons/Buttons.vue';
 import RelatorioFiltrosOpcionais from '@/components/Section/Relatorios/Filters/FiltrosOpcionais.vue';
 import RelatorioFiltrosPrincipais from '@/components/Section/Relatorios/Filters/FiltrosPrincipais.vue';
 import RelatorioModal from '@/components/Section/Relatorios/Modal/Modal.vue';
-import { ref } from 'vue';
 
 const data = {
   professores: [
@@ -40,23 +38,18 @@ const form = ref<{
 const showModal = ref(false);
 
 const visualizarRelatorio = () => {
-  console.log('Visualizar Relatório', form.value);
   showModal.value = true;
 };
 
 const gerarPDF = () => {
-  console.log('Gerar PDF do Relatório', form.value);
+  // TODO: implementar lógica para gerar PDF
 };
 </script>
 
 <template>
-  <div class="container">
-    <div class="mx-auto max-w-[55%] p-10">
-      <div class="container-header">
-        <h1 class="main-title font-semibold pb-5 text-[1.25rem]">
-          Relatório de Aulas Ministradas
-        </h1>
-      </div>
+  <UIContainer variant="tighter" class="flex justify-center">
+    <div class="flex-1 flex flex-col justify-center gap-7 max-w-3xl">
+      <UITitle class="remove-margin" text="Relatório de Aulas Ministradas" />
 
       <RelatorioFiltrosPrincipais
         :professores="data.professores"
@@ -76,7 +69,7 @@ const gerarPDF = () => {
         @update:turma="form.turma = $event"
       />
 
-      <hr class="divider flex-grow pt-5 border-t border-ldsa-grey" />
+      <hr class="border-t-2 border-ldsa-grey" />
 
       <RelatorioBotoes @visualizar="visualizarRelatorio" @gerarPdf="gerarPDF" />
 
@@ -84,13 +77,11 @@ const gerarPDF = () => {
         <RelatorioModal :form="form" :onClose="() => (showModal = false)" />
       </DialogSkeleton>
     </div>
-  </div>
+  </UIContainer>
 </template>
 
 <style scoped>
-.main-title::before {
-  content: '';
-  border: 2px solid var(--ladesa-green-1-color);
-  margin-right: 0.5rem;
+.remove-margin {
+  margin: 0;
 }
 </style>
