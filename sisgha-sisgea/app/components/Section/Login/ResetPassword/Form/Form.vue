@@ -50,14 +50,13 @@ const onSubmit = handleSubmit(
         type="email"
       />
 
-      <v-alert
+      <div
         v-if="showAlert"
-        class="text-sm max-w-96"
-        density="compact"
-        text="Se o endereço de e-mail existir, você receberá as instruções para a redefinição de senha em sua caixa de entrada."
-        type="info"
-        variant="flat"
-      />
+        class="text-sm max-w-96 bg-blue-100 text-blue-800 px-4 py-2 rounded border border-blue-200"
+      >
+        Se o endereço de e-mail existir, você receberá as instruções para a
+        redefinição de senha em sua caixa de entrada.
+      </div>
 
       <template #button-group>
         <UIButtonModalCancel

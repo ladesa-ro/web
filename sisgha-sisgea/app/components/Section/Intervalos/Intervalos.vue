@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import IntervaloSelectForm from '@/components/Section/Intervalos/Form/SelectForm.vue';
 import PeriodosGrid from '@/components/Section/Intervalos/Layout/Grid.vue';
-import { ref } from 'vue';
 
 const fusoHorario = ref([
   'Amazonas - Manaus (GMT-04:00)',
@@ -50,6 +49,23 @@ const intervaloEditando = ref<{
   dados: { inicio: string; fim: string };
 } | null>(null);
 
+watch(
+  () => form.value.ordem,
+  novaOrdem => {
+    if (!novaOrdem) return;
+
+    periodos.value.forEach(periodo => {
+      periodo.intervalos.sort((a, b) => {
+        const horaA = a.inicio;
+        const horaB = b.inicio;
+        return novaOrdem === 'Crescente'
+          ? horaA.localeCompare(horaB)
+          : horaB.localeCompare(horaA);
+      });
+    });
+  }
+);
+
 function confirmarIntervalo(index: number) {
   const intervalo = novosIntervalos.value[index];
   const periodo = periodos.value[index];
@@ -68,7 +84,9 @@ function removerIntervalo(i: number, j: number) {
 }
 
 function adicionarIntervalo(index: number) {
-  const algumAberto = novosIntervalos.value.some((intervalo, idx) => intervalo !== null && idx !== index);
+  const algumAberto = novosIntervalos.value.some(
+    (intervalo, idx) => intervalo !== null && idx !== index
+  );
 
   if (algumAberto) {
     novosIntervalos.value = novosIntervalos.value.map(() => null);
@@ -121,10 +139,14 @@ function confirmarEdicao() {
 }
 </script>
 
-
 <template>
   <div class="mx-auto w-full max-w-[85%] px-4 sm:px-6 md:px-10 py-6">
-    <IntervaloSelectForm :fusoHorario="fusoHorario" :ordem="ordem" />
+    <IntervaloSelectForm
+      :fusoHorario="fusoHorario"
+      :ordem="ordem"
+      v-model:fusoHorarioSelecionado="form.fusoHorario"
+      v-model:ordemSelecionada="form.ordem"
+    />
 
     <PeriodosGrid
       :periodos="periodos"

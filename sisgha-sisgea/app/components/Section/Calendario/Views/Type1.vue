@@ -19,7 +19,8 @@ let events = ref<CalendarEvent[]>([]);
 if (props.calendarId) {
   const getSteps: Array<CalendarEvent> =
     await calendarDataMethods.steps.getSteps(props.calendarId!);
-  const getEvents: Array<CalendarEvent> = await calendarDataMethods.events.getEvents(props.calendarId!);
+  const getEvents: Array<CalendarEvent> =
+    await calendarDataMethods.events.getEvents(props.calendarId!);
   events.value = getSteps.concat(getEvents);
 
   // Ordering List
@@ -31,7 +32,12 @@ if (props.calendarId) {
 
 <template>
   <div class="flex flex-col md:flex-row w-full h-max justify-center gap-6">
-    <SectionCalendarioMonth :calendar-id="props.calendarId" :toggle-month="true" :year="props.year" :events="events" />
+    <SectionCalendarioMonth
+      :calendar-id="props.calendarId"
+      :toggle-month="true"
+      :year="props.year"
+      :events="events"
+    />
 
     <div class="flex flex-col gap-6 w-full overflow-hidden max-w-[600px]">
       <SectionCalendarioEvent

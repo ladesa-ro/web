@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { TextFieldProps } from '../-Utils/inputTypes';
 
+// TODO: adicionar suporte para error message
+// TODO: adicionar o tal do emit blur (verificar na docs do radix)
+
 const { type = 'text' } = defineProps<TextFieldProps>();
 
 //
@@ -16,11 +19,12 @@ const inputValue = defineModel<string | number>({
     <label for="input">{{ label }}</label>
     <input
       id="input"
-      class="w-full h-full"
+      class="w-full h-full disabled:opacity-50"
       :class="$slots['default'] ? 'pl-3' : 'px-3'"
       :type="type"
       :placeholder="placeholder"
       v-model="inputValue"
+      :disabled="disabled"
       min="0"
     />
 

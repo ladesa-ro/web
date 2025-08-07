@@ -5,6 +5,6 @@
     color="var(--ladesa-red-color)"
     type="button"
   >
-    <IconsIconExclude />
+    <IconsExclude />
   </UIButtonModalBaseLayout>
 </template>

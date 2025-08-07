@@ -1,4 +1,5 @@
 <script generic="T = any" lang="ts" setup>
+import { onMounted, ref } from 'vue';
 import { useGenericCrudInfinityListQuery } from '../../../../../../composables/integrations/generic-crud/useGenericCrudInfinityListQuery';
 import { useUIApiListContext } from '../../Context/UIApiListContext';
 import type { IGridItemSlotProps } from './Typings/IGridItemSlotProps';
@@ -74,16 +75,28 @@ const load = async ({ done, side }: LoadOptions) => {
   }
 };
 
-// TODO: paginationMeta.limit ?? 3 * 6
 const skeletonItemsCount = 3 * 6;
+const infiniteScrollTrigger = ref(null);
+
+onMounted(() => {
+  const observer = new IntersectionObserver(entries => {
+    const entry = entries[0];
+    if (entry?.isIntersecting) {
+      load({ done: () => {}, side: 'end' });
+    }
+  });
+  if (infiniteScrollTrigger.value) {
+    observer.observe(infiniteScrollTrigger.value);
+  }
+});
 
 await suspense();
 </script>
 
 <template>
   <div class="flex-1">
-    <v-container class="flex-1">
-      <v-infinite-scroll class="ui-api-list-results-grid" @load="load">
+    <div class="flex-1 px-4 md:px-3 py-4">
+      <div class="ui-api-list-results-grid" ref="infiniteScrollTrigger">
         <template v-if="items && items.length > 0">
           <template v-for="item in items" :key="item.id">
             <div class="ui-api-list-results-grid-item">
@@ -100,63 +113,54 @@ await suspense();
           </template>
         </template>
 
-        <template #loading>
-          <ClientOnly>
-            <v-progress-circular indeterminate />
-          </ClientOnly>
+        <template v-if="!isFetching && paginationMeta.totalItems > 0">
+          <div class="w-full text-center p-4">
+            <p class="font-normal">Você chegou ao fim dos resultados.</p>
+            <p class="text-sm">
+              Página: {{ paginationMeta.currentPage }} de
+              {{ paginationMeta.totalPages }}. Total:
+              {{ paginationMeta.totalItems }} registros.
+            </p>
+          </div>
         </template>
 
-        <template #empty>
-          <template v-if="!isFetching && paginationMeta.totalItems > 0">
-            <div class="w-full">
-              <v-empty-state>
-                <template #text>
-                  <div class="text-medium-emphasis text-caption">
-                    <p>Você chegou ao fim dos resultados.</p>
-                    <p>
-                      <span>
-                        Página: {{ paginationMeta.currentPage }} de
-                        {{ paginationMeta.totalPages }}.
-                      </span>
-                      <span>{{ ' ' }}</span>
-                      <span>
-                        Total: {{ paginationMeta.totalItems }} registros.
-                      </span>
-                    </p>
-                  </div>
-                </template>
-              </v-empty-state>
-            </div>
-          </template>
-
-          <template v-else-if="!isFetching">
-            <v-empty-state
-              key="no-results"
-              icon="mdi-magnify"
-              text="Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos menos específicos ou consultas mais amplas podem ajudá-lo a encontrar o que procura."
-              title="Nenhum resultado encontrado."
-            />
-          </template>
+        <template v-else-if="!isFetching">
+          <div
+            key="no-results"
+            class="min-h-min flex-1 flex flex-col items-center justify-center text-center p-8"
+          >
+            <span class="mdi mdi-magnify text-5xl mb-4"></span>
+            <h3 class="text-lg font-semibold">Nenhum resultado encontrado.</h3>
+            <p class="text-sm">
+              Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos
+              menos específicos ou consultas mais amplas podem ajudá-lo a
+              encontrar o que procura.
+            </p>
+          </div>
         </template>
 
-        <template #error="{ props }">
-          <v-alert type="error">
-            <div class="d-flex justify-space-between align-center">
+        <template
+          v-if="
+            query.isFetchNextPageError.value ||
+            query.isFetchPreviousPageError.value
+          "
+        >
+          <div
+            class="w-full p-4 border border-red-700 bg-red-100 flex items-center justify-between"
+          >
+            <p class="text-red-700 font-semibold">
               Não foi possível buscar mais conteúdo...
-
-              <v-btn
-                color="white"
-                size="small"
-                v-bind="props"
-                variant="outlined"
-              >
-                Tentar Novamente
-              </v-btn>
-            </div>
-          </v-alert>
+            </p>
+            <button
+              @click="load({ done: () => {}, side: 'end' })"
+              class="border border-red-700 text-red-700 text-sm px-4 py-1 rounded hover:bg-red-200"
+            >
+              Tentar Novamente
+            </button>
+          </div>
         </template>
-      </v-infinite-scroll>
-    </v-container>
+      </div>
+    </div>
   </div>
 </template>
 

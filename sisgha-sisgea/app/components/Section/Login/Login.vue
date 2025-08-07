@@ -77,7 +77,7 @@ useTitle(null, 'Login');
           type="button"
         >
           <template #start-icon>
-            <IconsIconUser class="flex w-6 h-6 mr-4" />
+            <IconsUser class="flex w-6 h-6 mr-4" />
           </template>
 
           <p class="w-full h-full border-l-2">

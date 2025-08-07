@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 // # IMPORT
-import IconCalendar from '@/components/Icons/Calendar/IconCalendar.vue';
-import IconEvent from '@/components/Icons/IconEvent.vue';
+import IconCalendar from '@/components/Icons/Calendar/Calendar.vue';
+import IconEvent from '@/components/Icons/Event.vue';
 import { ref } from 'vue';
 
 // # CODE

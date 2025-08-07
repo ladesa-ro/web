@@ -64,9 +64,9 @@ const estrategiaModalidade = computed(() => {
   </template>
 
   <template v-else-if="cursoSelecionado">
-    <v-alert type="warning">
+    <div class="p-4 mb-4 text-sm rounded border border-yellow-200 bg-yellow-100 text-yellow-800">
       O sistema ainda não suporta o cadastro de turmas para a modalidade
-      <span>"{{ cursoSelecionado.ofertaFormacao.nome }}".</span>
-    </v-alert>
+      <span class="font-semibold">"{{ cursoSelecionado.ofertaFormacao.nome }}"</span>.
+    </div>
   </template>
 </template>

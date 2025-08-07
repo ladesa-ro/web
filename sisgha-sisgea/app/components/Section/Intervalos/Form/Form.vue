@@ -48,7 +48,7 @@ const fim = computed({
       @click="handleConfirm"
       class="bg-ldsa-green-1 px-2 py-3 rounded text-[0.75rem] text-ldsa-white self-center"
     >
-      <IconsIconConfirm class="flex w-6 h-6" />
+      <IconsConfirm class="flex w-6 h-6" />
     </button>
     <button
       v-if="props.onCancel"
@@ -59,4 +59,3 @@ const fim = computed({
     </button>
   </div>
 </template>
-

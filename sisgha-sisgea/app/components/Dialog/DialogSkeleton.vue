@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-const isActive = defineModel({ default: false });
+const isActive = defineModel<boolean>({ default: false });
+
+const { disableInlineBlock = false } = defineProps<{
+  disableInlineBlock?: boolean;
+}>();
 
 const modal = useTemplateRef('modal');
 
@@ -16,12 +20,15 @@ const onClose = () => (isActive.value = false);
 </script>
 
 <template>
-  <nav class="inline-block" @click="onOpen">
+  <nav
+    :class="[!disableInlineBlock && 'inline-block']"
+    v-bind="$attrs"
+    @click="onOpen"
+  >
     <slot name="activator" />
   </nav>
 
   <Transition name="modal">
-    <!-- dialog content -->
     <Teleport to="body">
       <section v-if="isActive" class="overlay-layout">
         <div class="backdrop" @click="onClose" />
@@ -54,14 +61,13 @@ const onClose = () => (isActive.value = false);
 }
 
 .modal-container {
-  @apply z-[999];
+  @apply z-[999] max-h-screen max-w-[95%] p-7;
+  @apply flex items-center justify-center;
+  @apply rounded-2xl;
   @apply transition-[all] duration-300;
 }
 
-/* 
- * bellow is the animation to open and close the modal
- * see the vue transition component documentation to learn more
- */
+/* see the Vue documentation to learn more about Transition and Teleport animations. that's what the classes below do! */
 
 .modal-enter-from,
 .modal-leave-to {

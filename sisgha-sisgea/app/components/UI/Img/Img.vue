@@ -40,7 +40,7 @@ defineSlots<Slots>();
     >
       <!-- fallback icon -->
       <slot name="fallbackIcon">
-        <IconsIconImage class="w-1/4 text-ldsa-grey" />
+        <IconsImage class="w-1/4 text-ldsa-grey" />
       </slot>
     </div>
   </div>

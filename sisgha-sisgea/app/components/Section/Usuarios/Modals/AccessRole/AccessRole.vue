@@ -33,7 +33,7 @@ defineEmits(['close']);
         :position-name="Profile.PROFESSOR"
         to="/sisgha/professor"
       >
-        <IconsIconEducator height="49" width="36" />
+        <IconsEducator height="49" width="36" />
       </AccessRoleButton>
 
       <AccessRoleButton
@@ -41,7 +41,7 @@ defineEmits(['close']);
         :position-name="Profile.DAPE"
         to="/sisgha/dape"
       >
-        <IconsIconUser height="40" width="38" />
+        <IconsUser height="40" width="38" />
       </AccessRoleButton>
     </section>
 
@@ -50,7 +50,7 @@ defineEmits(['close']);
       @click="$emit('close')"
     >
       Cancelar
-      <IconsIconClose class="mt-px" height="10" width="11" />
+      <IconsClose class="mt-px" height="10" width="11" />
     </button>
   </div>
 </template>

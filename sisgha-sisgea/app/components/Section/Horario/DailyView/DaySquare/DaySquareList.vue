@@ -31,6 +31,6 @@ const weekDays = getWeekDays(selectedDay.value);
 
 .layout-size {
   @apply flex justify-between gap-2 min-[502px]:gap-4 lg:gap-6 xl:gap-12;
-  @apply w-full max-w-screen-2xl overflow-x-auto;
+  @apply w-full overflow-x-auto;
 }
 </style>

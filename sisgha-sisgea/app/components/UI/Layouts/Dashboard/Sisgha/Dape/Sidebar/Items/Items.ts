@@ -1,17 +1,18 @@
-import iconCalendario from '~/assets/icons/Calendario/Calendario.svg';
-import iconCursos from '~/assets/icons/Curso.svg';
-import iconDiario from '~/assets/icons/Diario.svg';
-import iconDisciplina from '~/assets/icons/Disciplina.svg';
-import iconHome from '~/assets/icons/Home.svg';
-import iconLogout from '~/assets/icons/Logout.svg';
-import iconOutros from '~/assets/icons/Mais-Itens.svg';
-import iconManagement from '~/assets/icons/Management.svg';
-import iconClock from '~/assets/icons/Relogio.svg';
-import iconReport from '~/assets/icons/TeacherLesson.svg';
-import iconTurmas from '~/assets/icons/Turmas.svg';
-import iconPerfil from '~/assets/icons/Usuario.svg';
-import iconUsuarios from '~/assets/icons/Usuarios.svg';
-import type { ISidebarItem } from '../../../../../../../Sidebar/SidebarItem/ISidebarItem';
+import Calendar from '~/components/Icons/Calendar/Calendar.vue';
+import Class from '~/components/Icons/Class.vue';
+import Clock from '~/components/Icons/Clock.vue';
+import Course from '~/components/Icons/Course.vue';
+import Diary from '~/components/Icons/Diary.vue';
+import Discipline from '~/components/Icons/Discipline.vue';
+import Home from '~/components/Icons/Home.vue';
+import Logout from '~/components/Icons/Logout.vue';
+import Management from '~/components/Icons/Management.vue';
+import Others from '~/components/Icons/Others.vue';
+import TeacherLesson from '~/components/Icons/TeacherLesson.vue';
+import User from '~/components/Icons/User.vue';
+import Users from '~/components/Icons/Users.vue';
+
+import type { ISidebarItem } from '~/components/Sidebar/SidebarItem/ISidebarItem';
 
 const CAMINHO_DAPE: string = '/sisgha/dape';
 
@@ -20,15 +21,15 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
     {
       type: 'link',
       title: 'Início',
-      icon: iconHome,
-      to: `${CAMINHO_DAPE}/`,
+      icon: Home,
+      to: CAMINHO_DAPE,
       exact: true,
     },
 
     {
       type: 'link',
       title: 'Horário',
-      icon: iconClock,
+      icon: Clock,
       to: `${CAMINHO_DAPE}/horario`,
       exact: false,
     },
@@ -36,7 +37,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
     {
       type: 'link',
       title: 'Calendário',
-      icon: iconCalendario,
+      icon: Calendar,
       to: `${CAMINHO_DAPE}/calendario`,
       exact: false,
     },
@@ -44,26 +45,26 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
     {
       type: 'group',
       title: 'Gestão',
-      icon: iconManagement,
+      icon: Management,
       items: [
         {
           type: 'link',
           title: 'Diários',
-          icon: iconDiario,
+          icon: Diary,
           to: `${CAMINHO_DAPE}/diarios`,
           exact: false,
         },
         {
           type: 'link',
           title: 'Turmas',
-          icon: iconTurmas,
+          icon: Class,
           to: `${CAMINHO_DAPE}/turmas`,
           exact: false,
         },
         {
           type: 'link',
           title: 'Usuários',
-          icon: iconUsuarios,
+          icon: Users,
           to: `${CAMINHO_DAPE}/usuarios`,
           exact: false,
         },
@@ -73,19 +74,19 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
     {
       type: 'group',
       title: 'Ensino',
-      icon: iconOutros,
+      icon: Others,
       items: [
         {
           type: 'link',
           title: 'Disciplinas',
-          icon: iconDisciplina,
+          icon: Discipline,
           to: `${CAMINHO_DAPE}/disciplinas`,
           exact: false,
         },
         {
           type: 'link',
           title: 'Cursos',
-          icon: iconCursos,
+          icon: Course,
           to: `${CAMINHO_DAPE}/cursos`,
           exact: false,
         },
@@ -95,27 +96,27 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
     {
       type: 'group',
       title: 'Relatórios',
-      icon: iconOutros,
+      icon: Others,
       items: [
         {
           type: 'link',
           title: 'Aulas ministradas',
-          icon: iconReport,
-          to: `${CAMINHO_DAPE}/relatorios/aulas-ministradas`,
+          icon: TeacherLesson,
+          to: `${CAMINHO_DAPE}/relatorios/aulasMinistradas`,
           exact: false,
         },
         {
           type: 'link',
           title: 'Relatório 2',
-          icon: iconOutros,
-          to: '${CAMINHO_DAPE}/relatorios/relatorio2',
+          icon: Others,
+          to: `${CAMINHO_DAPE}/relatorios/relatorio2`,
           exact: false,
         },
         {
           type: 'link',
           title: 'Relatório 3',
-          icon: iconOutros,
-          to: '${CAMINHO_DAPE}/relatorios/relatorio3',
+          icon: Others,
+          to: `${CAMINHO_DAPE}/relatorios/relatorio3`,
           exact: false,
         },
       ],
@@ -126,7 +127,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
     {
       type: 'link',
       title: 'Perfil',
-      icon: iconPerfil,
+      icon: User,
       to: `${CAMINHO_DAPE}/perfil`,
       exact: false,
     },
@@ -134,7 +135,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
     {
       type: 'link',
       title: 'Sair',
-      icon: iconLogout,
+      icon: Logout,
       to: '/logout',
       exact: false,
     },

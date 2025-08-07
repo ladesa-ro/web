@@ -5,8 +5,8 @@ import {
   UIButtonSearch,
   VVAutocompleteAPIOfertaFormacao,
 } from '#components';
-import IconCompleteCalendar from '@/components/Icons/Calendar/IconCompleteCalendar.vue';
-import IconPartialCalendar from '@/components/Icons/Calendar/IconPartialCalendar.vue';
+import IconPartialCalendar from '@/components/Icons/Calendar/PartialCalendar.vue';
+import IconCompleteCalendar from '@/components/Icons/Calendar/CompleteCalendar.vue';
 import { ghostCalendar } from './GhostCalendar';
 
 // # CODE

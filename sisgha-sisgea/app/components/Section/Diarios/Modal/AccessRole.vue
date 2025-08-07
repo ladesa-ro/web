@@ -26,7 +26,7 @@ const selectAgrupamento = () => {
         class="toggle-option"
         @click="selectAgrupamento"
       >
-        <IconsIconGroup height="40" width="42" />
+        <IconsGroup height="40" width="42" />
         <p class="font-[600]">Aulas por dia</p>
       </div>
       <!-- =============================================== -->
@@ -40,7 +40,7 @@ const selectAgrupamento = () => {
         class="toggle-option"
         @click="selectProfessor"
       >
-        <IconsIconEducator height="49" width="36" />
+        <IconsEducator height="49" width="36" />
         <p class="font-[600]">Professores</p>
       </div>
       <!-- =============================================== -->

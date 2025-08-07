@@ -5,22 +5,16 @@ type Props = {
   onClose: () => any;
 };
 
-type Slots = {
-  default: () => any;
-  'button-group': () => void;
-};
-
 const { title = 'Título', closeButton = true } = defineProps<Props>();
-defineSlots<Slots>();
 </script>
 
 <template>
   <div class="modal-layout">
     <header class="header">
-      <h1 class="title">{{ title }}</h1>
+      <UITitle variant="small" :text="title" />
 
       <button v-if="closeButton" class="close-button" @click="onClose">
-        <IconsIconClose class="close-icon" />
+        <IconsClose class="close-icon" />
       </button>
     </header>
 
@@ -39,18 +33,14 @@ defineSlots<Slots>();
 @reference "~/assets/styles/app.css";
 
 .modal-layout {
-  @apply min-w-80 max-w-[31.5rem] min-h-[15rem] max-h-[39rem];
-  @apply flex flex-col justify-between items-center p-7;
-  @apply shadow-xl border-[3px] border-ldsa-grey rounded-2xl bg-ldsa-bg;
+  @apply w-full max-w-[95%] max-h-[85vh] min-h-[20vh] p-4;
+  @apply sm:max-w-[31.5rem] sm:min-h-[30rem] sm:p-6;
+  @apply flex flex-col justify-between items-center;
+  @apply shadow-xl border-3 border-ldsa-grey rounded-2xl bg-ldsa-bg;
 }
 
 .header {
   @apply w-full flex items-center justify-between;
-}
-
-.title {
-  @apply flex items-center w-full text-xl font-bold;
-  @apply before:inline-block before:w-1 before:h-[1em] before:mr-2 before:bg-ldsa-text-green;
 }
 
 .close-button {
@@ -63,19 +53,18 @@ defineSlots<Slots>();
 }
 
 .content {
-  @apply flex-1 flex flex-col gap-6 overflow-y-auto mt-5 w-full text-wrap;
+  @apply flex-1 flex flex-col gap-6 overflow-y-auto mt-5 w-full break-words;
+  @apply max-h-[70vh];
 }
 
 .button-group {
-  @apply flex gap-3 w-full mt-6;
+  @apply flex max-sm:flex-col gap-3 w-full mt-6 mx-3;
 }
 
-/* style applied when the class has just one child */
 .button-group:has(*):has(> :first-child:last-child) {
   @apply justify-center;
 }
 
-/* style applied when the class has more than one child */
 .button-group:has(*):not(:has(> :first-child:last-child)) {
   @apply justify-between;
 }
