@@ -2,11 +2,7 @@
 import CardLink from '@/components/Section/Inicio/CardLink/CardLink.vue';
 import Section from '@/components/Section/Inicio/Section/Section.vue';
 
-import {
-  IconsClockGenerate,
-  IconsClockView,
-  IconsTeacherLesson,
-} from '#components';
+import { IconsClockView, IconsTeacherLesson } from '#components';
 
 const DAPE_PATH = '/sisgha/dape';
 </script>
@@ -22,11 +18,7 @@ const DAPE_PATH = '/sisgha/dape';
         title="Visualizar Horário"
       />
 
-      <CardLink
-        :to="`${DAPE_PATH}/horario`"
-        :icon="IconsClockGenerate"
-        title="Gerar Horário"
-      />
+      <SectionHorarioDapeGenerateModal mode="white" />
     </Section>
 
     <Section title="Relatórios">

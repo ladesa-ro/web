@@ -100,8 +100,6 @@ const isFilterEnabled = computed(() => {
 });
 
 const isFilterDisabled = computed(() => !isFilterEnabled.value);
-
-//
 </script>
 
 <template>

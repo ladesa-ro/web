@@ -22,6 +22,7 @@ export type InputTypes =
 type FieldMeta = {
   placeholder?: string;
   label?: string;
+  disabled?: boolean;
 };
 
 //
