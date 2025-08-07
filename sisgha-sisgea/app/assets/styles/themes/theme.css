@@ -29,6 +29,13 @@
   --ladesa-text-green-color: var(--ladesa-green-2-color);
 }
 
+/*
+  to use the color variables in tailwind classes, repeat the variable names below without the '--color-'.
+  
+  e.g.: class"bg-ldsa-bg border-ldsa-grey text-ldsa-text-default"
+
+  learn more in the tailwind v4 official documentation: https://tailwindcss.com/docs/theme
+*/
 @theme inline {
   --color-ldsa-white: var(--ladesa-white-color);
   --color-ldsa-black: var(--ladesa-black-color);
