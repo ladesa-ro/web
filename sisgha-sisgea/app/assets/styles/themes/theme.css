@@ -32,7 +32,7 @@
 /*
   to use the color variables in tailwind classes, repeat the variable names below without the '--color-'.
   
-  e.g.: class"bg-ldsa-bg border-ldsa-grey text-ldsa-text-default"
+  e.g.: class="bg-ldsa-bg border-ldsa-grey text-ldsa-text-default"
 
   learn more in the tailwind v4 official documentation: https://tailwindcss.com/docs/theme
 */
