@@ -82,8 +82,8 @@ importers:
         specifier: ^6.5.0
         version: 6.6.3
       p-mutex:
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^1.0.0
+        version: 1.0.0
       p-queue:
         specifier: ^8.1.0
         version: 8.1.0
@@ -4869,9 +4869,9 @@ packages:
     resolution: {integrity: sha512-VkndIv2fIB99swvQoA65bm+fsmt6UNdGeIB0oxBs+WhAhdh08QA04JXpI7rbB9r08/nkbysKoya9rtDERYOYMA==}
     engines: {node: '>=18'}
 
-  p-mutex@0.1.0:
-    resolution: {integrity: sha512-JXTGUNjI6eLzbtYGhFqmad8Tp5wDBsaGDwrvXuoRzIZ6EyKZr5jlNO9sFe83T6/K//lhyONS4ejCocvGNYJz7Q==}
-    engines: {node: '>=18'}
+  p-mutex@1.0.0:
+    resolution: {integrity: sha512-UlthGzEMsg2VnZAR58wkzL7muskxtNamoTR1Q6/VYBUKqPaMM+YtSncjWIvyjfUvVECKck1SYC/4XIWWJU3gBw==}
+    engines: {node: '>=20'}
 
   p-queue@8.1.0:
     resolution: {integrity: sha512-mxLDbbGIBEXTJL0zEx8JIylaj3xQ7Z/7eEVjcF9fJX4DBiH9oqe+oahYnlKKxm0Ci9TlWTyhSHgygxMxjIB2jw==}
@@ -11709,7 +11709,7 @@ snapshots:
 
   p-map@7.0.3: {}
 
-  p-mutex@0.1.0:
+  p-mutex@1.0.0:
     dependencies:
       yocto-queue: 1.2.1
 

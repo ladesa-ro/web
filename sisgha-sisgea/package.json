@@ -37,7 +37,7 @@
     "jsonwebtoken": "^9.0.2",
     "nuxt": "^3.17.3",
     "openid-client": "^6.5.0",
-    "p-mutex": "^0.1.0",
+    "p-mutex": "^1.0.0",
     "p-queue": "^8.1.0",
     "reflect-metadata": "^0.2.2",
     "reka-ui": "^2.2.1",
