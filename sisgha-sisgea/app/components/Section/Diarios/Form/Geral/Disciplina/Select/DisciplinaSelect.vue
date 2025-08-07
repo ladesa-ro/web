@@ -62,12 +62,12 @@ const nextForm = () => $emit('next');
         <div
           class="flex p-5 justify-between items-center border-2 border-ldsa-grey rounded-lg mb-2"
         >
-          <div>
-            <span class="block font-semibold text-left">
+          <div class="flex flex-col justify-start">
+            <span class="font-semibold text-left">
               {{ item.label }}
             </span>
 
-            <span class="text-ldsa-grey text-sm">
+            <span class="text-ldsa-grey text-sm text-left">
               Carga horária: {{ item.value.cargaHoraria }}H
             </span>
           </div>
