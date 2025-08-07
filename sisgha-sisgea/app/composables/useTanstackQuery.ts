@@ -2,39 +2,44 @@
 // to learn more, check out the tanstack query docs: https://tanstack.com/query/latest/docs/framework/vue/guides/query-options
 
 import type {
+  DisciplinaFindOneByIdData,
   TurmaFindOneByIdData,
   UsuarioFindOneByIdData,
 } from '@ladesa-ro/api-client-fetch';
 import { queryOptions } from '@tanstack/vue-query';
 
-// usuários
+// disciplinas
 
-export const findUserById = (id: UsuarioFindOneByIdData) => {
-  return queryOptions({
-    queryKey: ['user', 'user::id', id],
-    queryFn: async () => await useApiClient().usuarios.usuarioFindOneById(id),
+export const findDisciplinaById = (id: DisciplinaFindOneByIdData) =>
+  queryOptions({
+    queryKey: ['disciplina', 'disciplina::id', id],
+    queryFn: async () => await useApiClient().disciplinas.disciplinaFindOneById(id),
   });
-};
-
-export const listUsers = () => {
-  return queryOptions({
-    queryKey: ['user', 'users-list'],
-    queryFn: async () => await useApiClient().usuarios.usuarioList(),
-  });
-}
 
 // turmas
 
-export const findTurmaById = (id: TurmaFindOneByIdData) => {
-  return queryOptions({
+export const findTurmaById = (id: TurmaFindOneByIdData) =>
+  queryOptions({
     queryKey: ['turma', 'turma::id', id],
     queryFn: async () => await useApiClient().turmas.turmaFindOneById(id),
   });
-};
 
-export const listTurmas = () => {
-  return queryOptions({
+export const listTurmas = () =>
+  queryOptions({
     queryKey: ['turma', 'turmas-list'],
     queryFn: async () => await useApiClient().turmas.turmaList(),
   });
-};
+
+// usuários
+
+export const findUserById = (id: UsuarioFindOneByIdData) =>
+  queryOptions({
+    queryKey: ['user', 'user::id', id],
+    queryFn: async () => await useApiClient().usuarios.usuarioFindOneById(id),
+  });
+
+export const listUsers = () =>
+  queryOptions({
+    queryKey: ['user', 'users-list'],
+    queryFn: async () => await useApiClient().usuarios.usuarioList(),
+  });
