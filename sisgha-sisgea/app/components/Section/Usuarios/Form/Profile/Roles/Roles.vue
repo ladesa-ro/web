@@ -47,7 +47,6 @@ const removeField = (targetIndex: number) => {
         aria-label="Remover vínculo"
         type="button"
       >
-        <i class="mdi mdi-delete text-xl"></i>
       </button>
     </div>
   </div>

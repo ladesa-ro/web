@@ -1,5 +1,3 @@
-<!-- this component is inspired by v-container from vuetify lib -->
-
 <script setup lang="ts">
 type Props = { variant?: 'tighter' | 'tight' | 'default' | 'large' | 'larger' };
 

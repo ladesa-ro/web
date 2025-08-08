@@ -1,6 +1,5 @@
 import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
-import vuetify from 'vite-plugin-vuetify';
 
 export default defineNuxtConfig({
   future: {
@@ -52,10 +51,6 @@ export default defineNuxtConfig({
 
   css: ['~/assets/styles/app.css'],
 
-  build: {
-    transpile: ['vuetify'],
-  },
-
   serverHandlers: [
     { route: '/api/nuxt/auth/**', handler: './server/api/nuxt/auth/[...].ts' },
   ],
@@ -69,7 +64,6 @@ export default defineNuxtConfig({
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', config => {
         config.plugins ??= [];
-        config.plugins.push(vuetify({ autoImport: true }));
       });
     },
     '@nuxt/eslint',

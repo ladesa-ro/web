@@ -3,7 +3,6 @@
     class="buttonCadastro border border-ldsa-green-1 text-ldsa-green-1 hover:bg-ldsa-green-1/10"
     type="submit"
   >
-    <i class="mdi mdi-check-all mr-2"></i>
     Adicionar
   </button>
 </template>
