@@ -109,34 +109,44 @@ watch(
   },
   { immediate: true }
 );
+
+//
+
+const collapsibleOpen = ref(true);
 </script>
 
 <template>
-  <!-- TODO: substituir componente do vuetify por UICollapsible @soouzaana -->
-  <v-expansion-panel :value="vinculo.campus.id" class="h-full">
-    <v-expansion-panel-title class="font-medium" expand-icon="mdi-menu-down">
-      {{ campus?.apelido }}
-    </v-expansion-panel-title>
+  <UICollapsible
+    v-model="collapsibleOpen"
+    class="border-2 border-ldsa-grey rounded-lg"
+  >
+    <template #trigger>
+      <div class="flex items-center justify-between p-5 hover:bg-ldsa-grey/10 font-semibold">
+        {{ campus?.apelido }}
 
-    <v-expansion-panel-text>
-      <section class="flex gap-6 justify-between">
+        <IconsArrow
+          class="text-ldsa-text-green transition-[rotate]"
+          :class="collapsibleOpen ? 'rotate-90' : '-rotate-90'"
+        />
+      </div>
+    </template>
+
+    <div class="m-5 mt-2">
+      <section class="flex justify-between">
         <div v-for="shift in dayShifts" :key="shift.title">
           <h1>{{ capitalizeFirst(shift.title) }}</h1>
           <UICheckbox :items="shift.times" v-model="selectedTimes" />
         </div>
       </section>
 
-      <div class="my-9">
-        <p
-          v-if="mostrarBotaoCadastrarMotivo"
-          class="mt-6 mb-2 text-ldsa-grey font-medium text-sm text-center"
-        >
+      <div class="my-9" v-if="mostrarBotaoCadastrarMotivo">
+        <!-- TODO: substituir por componente de alert -->
+        <p class="text-ldsa-grey font-medium text-sm text-center mb-4">
           Há horários não selecionados cuja indisponibilidade ainda não foi
           justificada
         </p>
 
         <button
-          v-if="mostrarBotaoCadastrarMotivo"
           class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-9 py-3 rounded-lg w-full text-sm font-semibold hover:bg-ldsa-green-1/10"
           @click="abrirModalCadastrarMotivo"
         >
@@ -168,8 +178,8 @@ watch(
           </button>
         </div>
       </div>
-    </v-expansion-panel-text>
-  </v-expansion-panel>
+    </div>
+  </UICollapsible>
 </template>
 
 <style scoped>

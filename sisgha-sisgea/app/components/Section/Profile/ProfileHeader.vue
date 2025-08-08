@@ -12,26 +12,32 @@ const profilePictureUrl = useApiImageRoute(
 </script>
 
 <template>
-  <!-- TODO: adicionar ícones de edição -->
+  <!-- TODO: adicionar ícones e modal de edição -->
   <section class="banner">
     <div class="profile-card">
       <UIImg
         :src="profilePictureUrl"
         alt="Foto de perfil do usuário."
-        class="w-24 h-24 lg:w-[7.375rem] lg:h-[7.375rem] border-2 border-ldsa-grey rounded-lg"
+        class="shrink-0 w-18 h-18 sm:w-24 sm:h-24 lg:w-29.5 lg:h-29.5 border-2 border-ldsa-grey rounded-lg"
       >
         <template #fallbackIcon>
           <IconsUser class="w-1/2 text-ldsa-grey" />
         </template>
       </UIImg>
 
-      <section class="profile-metadata text-xs font-medium">
+      <section
+        class="profile-metadata text-xs font-medium max-[400px]:text-center"
+      >
         <span>
-          <h1 class="font-semibold text-sm lg:text-base">{{ user.nome }}</h1>
-          <p class="text-ldsa-grey">{{ user.email }}</p>
+          <h1 class="font-semibold text-sm lg:text-base text-wrap">
+            {{ user.nome }}
+          </h1>
+          <p class="text-ldsa-grey text-wrap break-words">
+            {{ user.email }}
+          </p>
         </span>
         <span class="leading-5">
-          <!-- TODO: puxar os valores abaixo da api -->
+          <!-- TODO: puxar os valores abaixo da api (aguardando rota ficar pronta) -->
           <p>Campus Ji-Paraná</p>
           <p>Professor</p>
         </span>
@@ -44,17 +50,17 @@ const profilePictureUrl = useApiImageRoute(
 @reference "~/assets/styles/app.css";
 
 .banner {
-  @apply flex max-sm:justify-center sm:justify-start items-end;
-  @apply h-[12.5rem] rounded-lg;
+  @apply flex justify-center sm:justify-start items-end;
+  @apply h-50 rounded-lg;
   @apply bg-[url('@/assets/imgs/Usuario.jpg')] bg-cover;
 }
 
 .profile-card {
-  @apply flex overflow-visible;
-  @apply max-sm:ml-0 sm:ml-6 lg:ml-8 p-2.5 sm:p-3 lg:p-4 xl:p-5 lg:min-w-[22.5rem] h-max rounded-t-[0.625rem] bg-ldsa-bg;
+  @apply flex max-[400px]:flex-col max-[400px]:items-center max-[400px]:gap-2 gap-4 overflow-visible max-[400px]:max-w-56 max-w-9/10;
+  @apply ml-0 sm:ml-6 lg:ml-8 p-2.5 sm:p-3 lg:p-4 xl:p-5 lg:min-w-[22.5rem] h-max rounded-t-[0.625rem] bg-ldsa-bg;
 }
 
 .profile-metadata {
-  @apply flex flex-col justify-center gap-2 ml-5;
+  @apply flex flex-col justify-center max-[400px]:items-center gap-2 md:ml-2 lg:ml-4;
 }
 </style>

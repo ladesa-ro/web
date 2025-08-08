@@ -111,30 +111,23 @@ function excluirMotivo(horario: string) {
             class="font-semibold mb-1"
           />
 
-          <!-- TODO: substituir v-expansion-panels por UICollapsible @soouzaana -->
           <!-- checkbox de horários -->
-          <v-expansion-panels model-value="0">
-            <v-expansion-panel class="h-full">
-              <v-expansion-panel-text>
-                <section class="flex gap-6 justify-between">
-                  <div v-for="shift in dayShifts" :key="shift.title">
-                    <h1 class="mb-2">
-                      {{ capitalizeFirst(shift.title) }}
-                    </h1>
-                    <UICheckbox
-                      :items="shift.times"
-                      v-model="selectedTimes"
-                      :disabled-items="
-                        shift.times.filter(
-                          time => !props.horariosSemMotivo.includes(time)
-                        )
-                      "
-                    />
-                  </div>
-                </section>
-              </v-expansion-panel-text>
-            </v-expansion-panel>
-          </v-expansion-panels>
+          <section class="flex gap-6 justify-between">
+            <div v-for="shift in dayShifts" :key="shift.title">
+              <h1 class="mb-2">
+                {{ capitalizeFirst(shift.title) }}
+              </h1>
+              <UICheckbox
+                :items="shift.times"
+                v-model="selectedTimes"
+                :disabled-items="
+                  shift.times.filter(
+                    time => !props.horariosSemMotivo.includes(time)
+                  )
+                "
+              />
+            </div>
+          </section>
 
           <!-- inputs de motivo -->
           <div v-if="selectedTimes.length > 0" class="flex flex-col gap-4">
@@ -143,7 +136,7 @@ function excluirMotivo(horario: string) {
               :key="horario"
               class="flex flex-col gap-2"
             >
-              <label class="text-[12px] font-medium text-ldsa-grey"
+              <label class="text-xs font-medium text-ldsa-grey"
                 >Motivo para {{ horario }}</label
               >
 
@@ -153,14 +146,14 @@ function excluirMotivo(horario: string) {
                 placeholder="Digite ou selecione um motivo"
                 label="Motivo"
                 name="motivo"
-                class="w-full text-[12px]"
+                class="w-full text-xs"
               />
             </div>
 
             <button
               type="submit"
               :disabled="!podeRegistrar"
-              class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-3 py-3.5 rounded-lg w-full text-[12px] font-medium hover:bg-ldsa-green-1/10 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-3 py-3.5 rounded-lg w-full text-xs font-medium hover:bg-ldsa-green-1/10 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Registrar motivo para horário selecionado
               <IconsConfirm class="w-4 h-4" />
