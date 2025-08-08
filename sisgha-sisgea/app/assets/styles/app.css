@@ -6,7 +6,6 @@
 @import 'tailwindcss';
 @import './themes/theme.css' layer(theme);
 @import '~/assets/styles/fonts/fonts.css';
-@import '~/assets/styles/fixtures/vuetify.fix.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 

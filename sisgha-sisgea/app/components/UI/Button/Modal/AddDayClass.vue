@@ -3,7 +3,6 @@
     class="buttonAddClassDay"
     type="button"
   >
-    <i class="mdi mdi-plus mr-2"></i>
     Adicionar
   </button>
 </template>

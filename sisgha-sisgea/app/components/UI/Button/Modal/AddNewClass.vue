@@ -3,7 +3,6 @@
     class="buttonAdd border border-[#1d5e82] text-[#1d5e82] hover:bg-[#1d5e82]/10"
     type="button"
   >
-    <i class="mdi mdi-plus mr-2"></i>
     <span>Adicionar Nova Turma</span>
   </button>
 </template>
