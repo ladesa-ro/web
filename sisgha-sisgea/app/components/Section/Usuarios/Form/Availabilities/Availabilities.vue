@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import { useCurrentDay } from '#imports';
+import { useQuery } from '@tanstack/vue-query';
+import WeekdaySelector from '../../../../UI/WeekDaySelector/WeekdaySelector.vue';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
 import { getActivesTeacherRole, useFormUser } from '../FormUtils';
-import WeekdaySelector from '../../../../UI/WeekDaySelector/WeekdaySelector.vue';
 
 const currentDay = useCurrentDay();
 const week = getWeekDays(currentDay.value);
@@ -20,9 +21,19 @@ const vinculosComCargoProfessor = computed(() =>
   getActivesTeacherRole(formValues.vinculos)
 );
 
+const campiList = vinculosComCargoProfessor.value.map(vinculo => {
+  const { data: campus } = useQuery(findCampusById({ id: vinculo.campus.id }));
+
+  return campus ?? null;
+});
+
+//
+
 const activePanel = ref<string | null>(
   vinculosComCargoProfessor.value[0]?.campus.id || null
 );
+
+//
 
 watch(vinculosComCargoProfessor, (current, previous) => {
   const inserted = current.find(
@@ -43,6 +54,8 @@ watch(vinculosComCargoProfessor, (current, previous) => {
     }
   }
 });
+
+//
 
 const emit = defineEmits<{
   (
@@ -73,20 +86,15 @@ const onClose = () => emit('close');
       class="font-semibold"
     />
 
-    <!-- TODO: substituir por UICollapsible @soouzaana -->
-    <v-expansion-panels v-model="activePanel" mandatory>
-      <SectionUsuariosFormAvailabilitiesAvailability
-        v-for="vinculo in vinculosComCargoProfessor"
-        :key="vinculo.campus.id"
-        :vinculo="vinculo"
-        :selectedDayWeek="selectedDayWeek"
-        :motivosConfirmados="motivosConfirmados"
-        @abrir-modal="(...args) => $emit('abrir-modal', ...args)"
-        @atualizar-horarios-sem-motivo="
-          $emit('atualizar-horarios-sem-motivo', $event)
-        "
-        @atualizar-motivos="$emit('atualizar-motivos', $event)"
-      />
-    </v-expansion-panels>
+    <SectionUsuariosFormAvailabilitiesAvailability
+      v-for="vinculo in vinculosComCargoProfessor"
+      :key="vinculo.campus.id"
+      v-bind="{vinculo, selectedDayWeek, motivosConfirmados}"
+      @abrir-modal="(...args) => $emit('abrir-modal', ...args)"
+      @atualizar-horarios-sem-motivo="
+        $emit('atualizar-horarios-sem-motivo', $event)
+      "
+      @atualizar-motivos="$emit('atualizar-motivos', $event)"
+    />
   </DialogModalBaseLayout>
 </template>

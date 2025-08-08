@@ -9,7 +9,7 @@ const open = defineModel<boolean>({ required: false, default: false });
 </script>
 
 <template>
-  <Root v-model:open="open" class="overflow-hidden min-h-max min-w-max">
+  <Root v-model:open="open" class="overflow-hidden min-h-max min-w-full">
     <Trigger class="w-full">
       <slot name="trigger" />
     </Trigger>
