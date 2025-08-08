@@ -24,20 +24,19 @@ const {
 const {
   data: { items: disciplinas },
   methods: { suspend },
+  queryStatus: { isLoading },
 } = useListQuery(options);
-
-//
 
 await suspend();
 
-let radioItems: Ref<null | any[]> = ref(null);
+//
 
-if (disciplinas.value) {
-  radioItems.value = disciplinas.value.map(disciplina => ({
+const radioItems = ref(
+  disciplinas.value!.map(disciplina => ({
     value: disciplina,
     label: disciplina.nome,
-  }));
-}
+  }))
+);
 
 //
 
@@ -78,7 +77,8 @@ const nextForm = () => $emit('next');
           />
         </div>
       </UIRadio>
-      <span v-else>nao foi possivel buscar as discipinas</span>
+      <span v-else-if="isLoading">Carregando...</span>
+      <span v-else>Não foi possível carregar as disciplinas.</span>
 
       <template #button-group>
         <UIButtonModalCancel @click="closeForm" />
