@@ -2,18 +2,28 @@
 // to learn more, check out the tanstack query docs: https://tanstack.com/query/latest/docs/framework/vue/guides/query-options
 
 import type {
+  CampusFindOneByIdData,
   DisciplinaFindOneByIdData,
   TurmaFindOneByIdData,
   UsuarioFindOneByIdData,
 } from '@ladesa-ro/api-client-fetch';
 import { queryOptions } from '@tanstack/vue-query';
 
+// campi
+
+export const findCampusById = (id: CampusFindOneByIdData) =>
+  queryOptions({
+    queryKey: ['campus', 'campus::id', id],
+    queryFn: async () => await useApiClient().campi.campusFindOneById(id),
+  });
+
 // disciplinas
 
 export const findDisciplinaById = (id: DisciplinaFindOneByIdData) =>
   queryOptions({
     queryKey: ['disciplina', 'disciplina::id', id],
-    queryFn: async () => await useApiClient().disciplinas.disciplinaFindOneById(id),
+    queryFn: async () =>
+      await useApiClient().disciplinas.disciplinaFindOneById(id),
   });
 
 // turmas
