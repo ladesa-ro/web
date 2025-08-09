@@ -67,7 +67,7 @@ const toggleCurso = (curso: (typeof cursos)[0], checked: boolean) => {
     <DialogModalBaseLayout
       :on-close="closeForm"
       title="Vincular turmas à disciplina"
-      title-variant="x-small"
+      title-variant="mini"
     >
       <VVAutocomplete
         :items="formacoes"

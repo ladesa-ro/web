@@ -88,7 +88,7 @@ const removerDia = (id: number) => {
     <DialogModalBaseLayout
       :on-close="closeForm"
       title="Gerenciamento de turmas da disciplina"
-      title-variant="x-small"
+      title-variant="mini"
     >
       <!-- info disciplina -->
       <div class="border-2 border-ldsa-grey p-4 rounded-xl">

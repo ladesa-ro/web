@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 type Props = {
   title?: string;
-  titleVariant?: 'default' | 'small' | 'x-small';
+  titleVariant?: 'default' | 'small' | 'mini';
   closeButton?: boolean;
   onClose: () => any;
 };
