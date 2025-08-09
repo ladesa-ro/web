@@ -30,7 +30,6 @@ const turmasSelecionadas = ref<string[]>([]);
 
 const turmaId = (cursoSigla: string, turma: string) => `${cursoSigla}-${turma}`;
 
-// Função que retorna o estado do checkbox do curso (checked/indeterminado)
 const cursoCheckboxState = (curso: (typeof cursos)[0]) => {
   const turmasIds = curso.turmas.map(t => turmaId(curso.sigla, t));
   const selecionadas = turmasSelecionadas.value.filter(t =>
@@ -44,17 +43,14 @@ const cursoCheckboxState = (curso: (typeof cursos)[0]) => {
   };
 };
 
-// Função para marcar ou desmarcar todas as turmas de um curso
 const toggleCurso = (curso: (typeof cursos)[0], checked: boolean) => {
   const turmasIds = curso.turmas.map(t => turmaId(curso.sigla, t));
   if (checked) {
-    // adicionar as turmas que ainda não estão selecionadas
     turmasIds.forEach(id => {
       if (!turmasSelecionadas.value.includes(id))
         turmasSelecionadas.value.push(id);
     });
   } else {
-    // remover as turmas do curso
     turmasSelecionadas.value = turmasSelecionadas.value.filter(
       id => !turmasIds.includes(id)
     );
