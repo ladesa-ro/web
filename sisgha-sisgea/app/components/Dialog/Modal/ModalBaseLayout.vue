@@ -44,7 +44,7 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
 }
 
 .close-button {
-  @apply flex items-center justify-center rounded-full cursor-pointer;
+  @apply shrink-0 flex items-center justify-center rounded-full cursor-pointer;
   @apply hover:bg-ldsa-grey/30 transition-[background-color] duration-[225ms];
 }
 
