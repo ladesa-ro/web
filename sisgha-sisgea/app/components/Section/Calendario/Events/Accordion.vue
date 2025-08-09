@@ -49,14 +49,18 @@ watch(orderBy, async (newValue: string) => {
     );
   }
 });
+
+//
+
+const open = ref(false);
 </script>
 
 <template>
-  <UICollapsible>
+  <UICollapsible class="border-2 border-ldsa-grey rounded-lg" v-model="open">
     <template #trigger>
-      <div class="flex flex-row justify-between items-center w-full">
+      <div class="flex justify-between items-center w-full p-5">
         <!-- Title -->
-        <p class="font-medium text-sm sm:text-[16px] no-underline inline-block">
+        <p class="font-medium text-sm sm:text-base no-underline inline-block">
           <!-- Month -->
           <span v-if="props.orderBy === 'Mês'">
             {{
@@ -76,29 +80,26 @@ watch(orderBy, async (newValue: string) => {
             {{ props.betweenDates!.name }}
           </span>
         </p>
-        <div class="icons">
-          <IconsArrow class="text-ldsa-text-green rotate-[-90deg]" />
-        </div>
-      </div>
-    </template>
 
-    <template #default>
-      <div
-        class="flex flex-col gap-2 w-full overflow-y-auto pr-2 xl:pr-0 max-h-[300px]"
-      >
-        <p v-if="allEventItems.length === 0">Nenhum evento encontrado.</p>
-        <SectionCalendarioEventsEvent
-          v-for="event in allEventItems"
-          :id="event.id"
-          :key="event.id"
-          :color="event.color"
-          :end-date="event.endDate"
-          :locale="event.locale"
-          :name="event.name"
-          :notify-status="event.notifyStatus"
-          :start-date="event.startDate"
+        <IconsArrow
+          :class="open ? 'rotate-90' : '-rotate-90'"
+          class="text-ldsa-text-green transition-[rotate]"
         />
       </div>
     </template>
+
+    <div class="flex flex-col gap-2 w-full max-h-74 overflow-auto xl:pr-0">
+      <p class="m-5 mt-0 text-ldsa-grey" v-if="allEventItems.length === 0">
+        Nenhum evento encontrado.
+      </p>
+
+      <SectionCalendarioEventsEvent
+        class="m-5 mt-0 not-last:mb-0"
+        v-else
+        v-for="event in allEventItems"
+        :key="event.id"
+        v-bind="event"
+      />
+    </div>
   </UICollapsible>
 </template>

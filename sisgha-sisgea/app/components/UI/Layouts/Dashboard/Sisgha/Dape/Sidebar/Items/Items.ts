@@ -105,20 +105,6 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
           to: `${CAMINHO_DAPE}/relatorios/aulasMinistradas`,
           exact: false,
         },
-        {
-          type: 'link',
-          title: 'Relatório 2',
-          icon: Others,
-          to: `${CAMINHO_DAPE}/relatorios/relatorio2`,
-          exact: false,
-        },
-        {
-          type: 'link',
-          title: 'Relatório 3',
-          icon: Others,
-          to: `${CAMINHO_DAPE}/relatorios/relatorio3`,
-          exact: false,
-        },
       ],
     },
 

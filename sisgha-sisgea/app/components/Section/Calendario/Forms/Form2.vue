@@ -66,7 +66,7 @@ const $emit = defineEmits(['close', 'next', 'back']);
       </div>
     </div>
 
-    <v-divider />
+    <hr>
 
     <div class="form-footer button-group">
       <UIButtonModalCancel @click="closeForm" />
@@ -132,8 +132,8 @@ const $emit = defineEmits(['close', 'next', 'back']);
     gap: 10px;
   }
 
-  .v-btn.buttonCancelar,
-  .v-btn.buttonCadastro {
+  .buttonCancelar,
+  .buttonCadastro {
     padding: 6px 20px;
   }
 }

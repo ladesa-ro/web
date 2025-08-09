@@ -1,12 +1,14 @@
 <script lang="ts" setup>
+import { useQuery } from '@tanstack/vue-query';
+
 type Props = { userId: string };
 const { userId } = defineProps<Props>();
 
-//
-
-const apiClient = useApiClient();
-
-const user = await apiClient.usuarios.usuarioFindOneById({ id: userId });
+const {
+  data: user,
+  isLoading,
+  isError,
+} = useQuery(findUserById({ id: userId }));
 </script>
 
 <template>
@@ -14,13 +16,21 @@ const user = await apiClient.usuarios.usuarioFindOneById({ id: userId });
     variant="larger"
     class="flex flex-col justify-center gap-5 lg:gap-6.5 xl:gap-8"
   >
-    <SectionProfileHeader :user="user" />
+    <template v-if="user">
+      <SectionProfileHeader :user="user" />
 
-    <!-- disponibilidade + ensino -->
-    <section class="flex max-[900px]:flex-col min-[900px]:flex-row gap-4">
-      <SectionProfileAvailability class="flex-1/2 min-[1144px]:flex-1" />
-      <SectionProfileTeaching class="flex-1/2 min-[1144px]:flex-2" />
-    </section>
+      <!-- disponibilidade + ensino -->
+      <!-- TODO: puxar da api -->
+      <section class="flex max-[900px]:flex-col gap-4">
+        <SectionProfileAvailability class="flex-1/2 min-[1144px]:flex-1" />
+        <SectionProfileTeaching class="flex-1/2 min-[1144px]:flex-2" />
+      </section>
+    </template>
+
+    <span v-else-if="isLoading">Carregando...</span>
+    <span v-else-if="isError">
+      Ocorreu um erro inesperado ao procurar o usuário.
+    </span>
   </UIContainer>
 </template>
 

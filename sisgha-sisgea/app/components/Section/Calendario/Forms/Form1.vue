@@ -154,7 +154,7 @@ const nome = computed({
       </h1>
     </div>
 
-    <v-divider class="my-4" />
+    <hr class="my-4" />
 
     <div class="form-body modal-form">
       <VVTextField
@@ -182,7 +182,7 @@ const nome = computed({
       <VVAutocompleteAPICurso name="curso.id" />
     </div>
 
-    <v-divider />
+    <hr>
 
     <div class="form-footer button-group">
       <UIButtonModalCancel @click="closeForm" />
@@ -229,8 +229,8 @@ const nome = computed({
   border: none;
 }
 
-.v-btn.buttonCancelar,
-.v-btn.buttonCadastro {
+.buttonCancelar,
+.buttonCadastro {
   padding: 6px 20px;
   border-radius: 8px;
   height: auto;
@@ -243,8 +243,8 @@ const nome = computed({
     gap: 10px;
   }
 
-  .v-btn.buttonCancelar,
-  .v-btn.buttonCadastro {
+  .buttonCancelar,
+  .buttonCadastro {
     padding: 6px 20px;
   }
 }

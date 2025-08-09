@@ -38,8 +38,7 @@ const isLoading = computed(() => isLoadingProps ?? false);
         key="no-results"
         class="flex flex-1 flex-col items-center justify-center text-center p-8"
       >
-        <span class="mdi mdi-magnify text-5xl mb-4"></span>
-        <h3 class="text-lg font-semibold">Nenhum resultado encontrado.</h3>
+        <h3 class="text-lg font-semibold mb-3">Nenhum resultado encontrado.</h3>
         <p class="text-sm">
           Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos
           menos específicos ou consultas mais amplas podem ajudá-lo a encontrar

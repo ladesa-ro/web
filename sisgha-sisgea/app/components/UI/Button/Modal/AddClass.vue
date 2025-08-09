@@ -1,27 +1,21 @@
 <template>
-  <VBtn
-    append-icon="mdi-plus"
-    class="buttonCadastro"
-    color="#00d047"
+  <button
+    class="buttonCadastro border border-ldsa-green-1 text-ldsa-green-1 hover:bg-ldsa-green-1/10"
     type="submit"
-    variant="outlined"
   >
     Adicionar
-  </VBtn>
+  </button>
 </template>
 
 <style>
-.submit {
-  font-weight: 700;
-  margin-top: 20px;
-  cursor: pointer;
-  border: none;
-}
-
-.v-btn.buttonCadastro {
-  padding: 6px 20px;
-  border-radius: 8px;
+.buttonCadastro {
+  padding: .4rem 1.25rem;
+  border-radius: .5rem;
   height: auto;
+  font-weight: 700;
+  margin-top: 1.25rem;
+  cursor: pointer;
   text-transform: none;
+  border: none;
 }
 </style>
