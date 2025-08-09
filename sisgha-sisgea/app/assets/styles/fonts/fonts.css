@@ -2,3 +2,9 @@
   font-family: 'Poppins', sans-serif !important;
   text-decoration: none;
 }
+
+.nunito {
+  font-family: 'Nunito', 'Poppins', sans-serif !important;
+  text-decoration: none;
+  font-weight: 500;
+}
