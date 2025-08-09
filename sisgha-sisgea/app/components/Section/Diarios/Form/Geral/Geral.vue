@@ -1,54 +1,58 @@
 <script lang="ts" setup>
+import { ref } from 'vue';
 import { createAndProvideContextDiariosFormGeral } from './Contexto';
 
 const $emit = defineEmits(['close']);
 
 createAndProvideContextDiariosFormGeral();
 
-const isForm2Visible = ref(false);
-const isForm3Visible = ref(false);
+const isManageClassesVisible = ref(false);
+const isLinkClassesVisible = ref(false);
 
-const closeForm = () => {
+const closeAll = () => {
   $emit('close');
 };
 
-const goToForm2 = () => {
-  isForm2Visible.value = true;
+const goToManageClasses = () => {
+  isManageClassesVisible.value = true;
 };
 
-const goBackToForm1 = () => {
-  isForm2Visible.value = false;
+const backToDisciplineSelect = () => {
+  isManageClassesVisible.value = false;
 };
 
-const goToForm3 = () => {
-  isForm3Visible.value = true;
+const goToLinkClasses = () => {
+  isLinkClassesVisible.value = true;
 };
 
-const goBackToForm2 = () => {
-  isForm3Visible.value = false;
+const backToManageClasses = () => {
+  isLinkClassesVisible.value = false;
 };
 </script>
 
 <template>
-  <template v-if="!isForm2Visible && !isForm3Visible">
+  <!-- selecionar disciplina -->
+  <template v-if="!isManageClassesVisible && !isLinkClassesVisible">
     <SectionDiariosFormGeralDisciplinaSelect
-      @close="closeForm"
-      @next="goToForm2"
+      @close="closeAll"
+      @next="goToManageClasses"
     />
   </template>
 
-  <!-- <template v-if="isForm2Visible && !isForm3Visible">
+  <!-- gerenciar turmas da disciplina -->
+  <template v-if="isManageClassesVisible && !isLinkClassesVisible">
     <SectionDiariosFormGeralDisciplinaTurmas
-      @add="goToForm3"
-      @back="goBackToForm1"
-      @close="closeForm"
+      @back="backToDisciplineSelect"
+      @add="goToLinkClasses"
+      @close="closeAll"
     />
   </template>
 
-  <template v-if="isForm3Visible">
+  <!-- vincular turmas à disciplina -->
+  <template v-if="isLinkClassesVisible">
     <SectionDiariosFormGeralDisciplinaTurmasAdd
-      @back="goBackToForm2"
-      @close="closeForm"
+      @back="backToManageClasses"
+      @close="closeAll"
     />
-  </template> -->
+  </template>
 </template>
