@@ -121,7 +121,9 @@ const collapsibleOpen = ref(true);
     class="border-2 border-ldsa-grey rounded-lg"
   >
     <template #trigger>
-      <div class="flex items-center justify-between p-5 hover:bg-ldsa-grey/10 font-medium">
+      <div
+        class="flex items-center justify-between p-5 hover:bg-ldsa-grey/10 font-medium"
+      >
         {{ campus?.apelido }}
 
         <IconsArrow
@@ -131,7 +133,7 @@ const collapsibleOpen = ref(true);
       </div>
     </template>
 
-    <div class="m-5 mt-2">
+    <div class="m-5 mt-2 flex flex-col gap-9">
       <section class="flex justify-between">
         <div v-for="shift in dayShifts" :key="shift.title">
           <h1>{{ capitalizeFirst(shift.title) }}</h1>
@@ -139,12 +141,12 @@ const collapsibleOpen = ref(true);
         </div>
       </section>
 
-      <div class="my-9" v-if="mostrarBotaoCadastrarMotivo">
-        <!-- TODO: substituir por componente de alert -->
-        <p class="text-ldsa-grey font-medium text-sm text-center mb-4">
-          Há horários não selecionados cuja indisponibilidade ainda não foi
-          justificada
-        </p>
+      <div v-if="mostrarBotaoCadastrarMotivo">
+        <UIAlert
+          type="warning"
+          message="Há horários cuja indisponibilidade ainda não foi justificada"
+          class="mb-4"
+        />
 
         <button
           class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-9 py-3 rounded-lg w-full text-sm font-semibold hover:bg-ldsa-green-1/10"
