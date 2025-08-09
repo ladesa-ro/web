@@ -121,7 +121,7 @@ const collapsibleOpen = ref(true);
     class="border-2 border-ldsa-grey rounded-lg"
   >
     <template #trigger>
-      <div class="flex items-center justify-between p-5 hover:bg-ldsa-grey/10 font-semibold">
+      <div class="flex items-center justify-between p-5 hover:bg-ldsa-grey/10 font-medium">
         {{ campus?.apelido }}
 
         <IconsArrow
