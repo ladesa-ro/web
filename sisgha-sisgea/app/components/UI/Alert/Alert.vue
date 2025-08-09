@@ -34,9 +34,9 @@ const defineType = {
 <template>
   <div
     :style="defineType[type].color"
-    class="flex items-center gap-3 p-3 rounded-lg font-medium bg-(--color)/10 text-(--color) border-2 border-(--color)/10"
+    class="flex items-center gap-3 p-2 pr-1 sm:p-3 sm:pr-2 rounded-lg font-medium text-sm bg-(--color)/10 text-(--color) border-2 border-(--color)/10"
   >
-    <component :is="defineType[type].icon" class="w-5" />
+    <component :is="defineType[type].icon" class="w-5 shrink-0" />
 
     {{ message }}
   </div>

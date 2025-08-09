@@ -65,9 +65,7 @@ const finalDate = ref(dayjs().add(1, 'week').format('DD/MM/YYYY'));
 
       <hr class="border border-ldsa-grey" />
 
-      <span class="font-semibold text-center text-ldsa-grey leading-2.5">
-        O horário deve ser...
-      </span>
+      <UITitle text="O horário deve ser..." variant="mini" />
 
       <UIToggle :items="toggleItems" v-model="toggleValue" />
 
@@ -88,18 +86,19 @@ const finalDate = ref(dayjs().add(1, 'week').format('DD/MM/YYYY'));
         />
       </div>
 
-      <span
+      <UIAlert
         v-if="toggleValue === 'permanente'"
-        class="text-sm text-ldsa-grey text-center sm:mb-20"
-      >
-        Este horário pode ser sobreposto por um horário temporário ou
-        substituído por outro horário permanente gerado no futuro.
-      </span>
+        type="info"
+        message="Este horário pode ser sobreposto por um horário temporário ou substituído por outro horário permanente gerado no futuro."
+      />
 
-      <span v-else class="text-sm text-ldsa-grey text-center sm:mb-20">
-        Ao passar a data de término, este horário temporário será substituído
-        pelo horário permanente atualmente utilizado.
-      </span>
+      <UIAlert
+        v-else
+        type="info"
+        message="Ao passar a data de término, este horário temporário será substituído pelo horário permanente atualmente utilizado."
+      />
+
+      <div class="lg:h-10"></div>
 
       <template #button-group>
         <UIButtonModalCancel @click="onClose" />
