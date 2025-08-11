@@ -1,27 +1,27 @@
-import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
-import type { IGenericCrudModuleTypes } from '~/utils/integrations/generic-crud/IGenericCrudModuleTypes';
+import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
 import { withApiClient } from '~/utils/integrations/api/core/generic';
+import type { IGenericCrudModuleTypes } from '~/utils/integrations/generic-crud/IGenericCrudModuleTypes';
 
 export type IAmbientesApiModuleTypings = IGenericCrudModuleTypes<{
-  CompleteView: ApiClientTypings.AmbienteFindOneResultView;
+  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_AmbienteFindOneOutput;
 
   Create: {
-    Data: ApiClientTypings.AmbienteInputCreateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_AmbienteCreateInput;
     Result: ApiClientTypings.AmbienteCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.AmbienteFindOneResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_AmbienteFindOneOutput;
   };
 
   List: {
-    Result: ApiClientTypings.AmbienteListResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_AmbienteListOutput;
     Queries: ApiClientTypings.AmbienteListData;
-    ResultItem: ApiClientTypings.AmbienteListResultView['data'][number];
+    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_AmbienteListOutput['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.AmbienteInputUpdateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_AmbienteUpdateInput;
     Result: ApiClientTypings.AmbienteUpdateOneByIdResponse;
   };
 }>;

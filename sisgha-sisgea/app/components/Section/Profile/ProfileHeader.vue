@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { UsuarioFindOneResultView } from '@ladesa-ro/api-client-fetch';
+import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput } from '@ladesa-ro/management-service-client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
-type Props = { user: UsuarioFindOneResultView };
+type Props = { user: UsuarioFindOneOutput };
 const { user } = defineProps<Props>();
 
 const profilePictureUrl = useApiImageRoute(

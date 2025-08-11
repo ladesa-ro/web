@@ -1,27 +1,27 @@
-import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
+import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type IDisciplinaApiModuleTypings = {
-  CompleteView: ApiClientTypings.DisciplinaFindOneResultView;
+  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DisciplinaFindOneOutput;
 
   Create: {
-    Data: ApiClientTypings.DisciplinaInputCreateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DisciplinaCreateInput;
     Result: ApiClientTypings.DisciplinaCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.DisciplinaFindOneResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DisciplinaFindOneOutput;
   };
 
   List: {
-    Result: ApiClientTypings.DisciplinaListResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DisciplinaListOutput;
     Queries: ApiClientTypings.DisciplinaListData;
-    ResultItem: ApiClientTypings.DisciplinaListResultView['data'][number];
+    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DisciplinaListOutput['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.DisciplinaInputUpdateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DisciplinaUpdateInput;
     Result: ApiClientTypings.DisciplinaUpdateOneByIdResponse;
   };
 };

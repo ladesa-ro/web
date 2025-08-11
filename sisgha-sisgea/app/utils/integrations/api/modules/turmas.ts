@@ -1,27 +1,27 @@
-import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
+import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type ITurmaApiModuleTypings = {
-  CompleteView: ApiClientTypings.TurmaFindOneResultView;
+  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_TurmaFindOneOutput;
 
   Create: {
-    Data: ApiClientTypings.TurmaInputCreateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_TurmaCreateInput;
     Result: ApiClientTypings.TurmaCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.TurmaFindOneResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_TurmaFindOneOutput;
   };
 
   List: {
-    Result: ApiClientTypings.TurmaListResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_TurmaListOutput;
     Queries: ApiClientTypings.TurmaListData;
-    ResultItem: ApiClientTypings.TurmaListResultView['data'][number];
+    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_TurmaListOutput['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.TurmaInputUpdateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_TurmaUpdateInput;
     Result: ApiClientTypings.TurmaUpdateOneByIdResponse;
   };
 };

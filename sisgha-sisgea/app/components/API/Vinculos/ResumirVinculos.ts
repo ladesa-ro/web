@@ -1,7 +1,7 @@
 import type {
-  CampusFindOneResultView,
-  PerfilFindOneResultView,
-} from '@ladesa-ro/api-client-fetch';
+  Ladesa_ManagementService_Domain_Contracts_CampusFindOneOutput as CampusFindOneOutput,
+  Ladesa_ManagementService_Domain_Contracts_PerfilFindOneOutput as PerfilFindOneOutput,
+} from '@ladesa-ro/management-service-client';
 import type { Dictionary } from 'lodash';
 import groupBy from 'lodash/groupBy';
 import map from 'lodash/map';
@@ -22,7 +22,7 @@ export type ResumoVinculos = {
    * }
    */
   mapaCargoCampi: {
-    [x: string]: CampusFindOneResultView[];
+    [x: string]: CampusFindOneOutput[];
   };
 
   /**
@@ -31,10 +31,10 @@ export type ResumoVinculos = {
    *  professor: VinculoFindOneResultDto[]
    * }
    */
-  mapaCargoVinculos: Dictionary<PerfilFindOneResultView[]>;
+  mapaCargoVinculos: Dictionary<PerfilFindOneOutput[]>;
 };
 
-export const resumirVinculos = (todosOsVinculos: PerfilFindOneResultView[]) => {
+export const resumirVinculos = (todosOsVinculos: PerfilFindOneOutput[]) => {
   const cargos = uniq(map(todosOsVinculos, 'cargo'));
 
   const mapaCargoVinculos = groupBy(todosOsVinculos, vinculo => vinculo.cargo);
