@@ -2,12 +2,21 @@
 
 // # COMPONENTS - Calendar Types
 export type CalendarEvent = {
+  id: string;
   name: string;
   startDate: string;
   endDate: string;
   color: string | null;
   locale?: string;
   calendar?: { id: string };
+};
+
+export type CalendarData = {
+  id: string;
+  name: string;
+  year?: number | null;
+  trainingOffer: { id: string };
+  campus: { id: string };
 };
 
 export type Day = {
