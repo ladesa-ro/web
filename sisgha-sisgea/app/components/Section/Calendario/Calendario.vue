@@ -4,6 +4,8 @@ import { SectionCalendarioForm, UIButtonSearch } from '#components';
 import IconCompleteCalendar from '@/components/Icons/Calendar/CompleteCalendar.vue';
 import IconPartialCalendar from '@/components/Icons/Calendar/PartialCalendar.vue';
 import dayjs from 'dayjs';
+import { calendarDataMethods } from './CalendarDataMethods';
+import type { CalendarData } from './Types';
 
 // # CODE
 let toggleView = ref<number>(0);
@@ -13,14 +15,16 @@ const toggleItems = [
   { text: 'Calendário completo', value: 1, icon: IconCompleteCalendar },
 ];
 
-let selectedCalendar = ref<any | null>(null);
+// TODO: Fix 'Get Calendar' Feature
+let selectedCalendar = ref<CalendarData>(
+  await calendarDataMethods.calendar.getCalendarById('')
+);
 let selectedTrainingOffer = ref<any | null>(null);
 let selectedYear = ref<number>(dayjs().year());
 
-async function toggleSelectedCalendarItem(value: string | null) {
-  selectedCalendar.value = await getApiClient().calendariosLetivos.calendarioLetivoFindOneById({
-    id: value!,
-  });
+async function toggleSelectedCalendarItem(value: string) {
+  selectedCalendar.value =
+    await calendarDataMethods.calendar.getCalendarById(value);
 
   console.log(selectedCalendar.value);
 }
@@ -60,17 +64,20 @@ async function toggleSelectedCalendarItem(value: string | null) {
     </div>
 
     <!-- Content -->
-    <div class="flex flex-col w-full justify-between items-center gap-2" v-show="selectedCalendar">
+    <div
+      class="flex flex-col w-full justify-between items-center gap-2"
+      v-show="selectedCalendar.year === selectedYear"
+    >
       <UIToggle :items="toggleItems" v-model="toggleView" class="w-full" />
       <SectionCalendarioViewsType1
         v-show="toggleView === 0"
         :calendar-id="selectedCalendar.id!"
-        :year="selectedCalendar.ano!"
+        :year="selectedCalendar.year!"
       />
       <SectionCalendarioViewsType2
         v-show="toggleView === 1"
         :calendar-id="selectedCalendar.id!"
-        :year="selectedCalendar.ano!"
+        :year="selectedCalendar.year!"
       />
     </div>
   </UIContainer>

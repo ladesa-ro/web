@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import dayjs from 'dayjs';
-
 const open = defineModel<boolean>({ required: true, default: false });
 </script>
 
@@ -11,14 +9,15 @@ const open = defineModel<boolean>({ required: true, default: false });
     </template>
 
     <div class="bg-ldsa-bg border-ldsa-green-1 border-2 rounded-xl shadow-2xl">
-      <SectionCalendarioMonth
+      <!-- TODO: Fix Popover -->
+      <!-- <SectionCalendarioMonth
         :year="dayjs().year()"
         :month="dayjs().month()"
         :events="[]"
         :steps="[]"
         :select-week="false"
         :toggle-month="false"
-      />
+      /> -->
     </div>
   </UIPopover>
 </template>
