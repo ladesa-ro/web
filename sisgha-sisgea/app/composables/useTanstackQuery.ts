@@ -2,39 +2,54 @@
 // to learn more, check out the tanstack query docs: https://tanstack.com/query/latest/docs/framework/vue/guides/query-options
 
 import type {
+  CampusFindOneByIdData,
+  DisciplinaFindOneByIdData,
   TurmaFindOneByIdData,
   UsuarioFindOneByIdData,
-} from '@ladesa-ro/api-client-fetch';
+} from '@ladesa-ro/management-service-client';
 import { queryOptions } from '@tanstack/vue-query';
 
-// usuários
+// campi
 
-export const findUserById = (id: UsuarioFindOneByIdData) => {
-  return queryOptions({
-    queryKey: ['user', 'user::id', id],
-    queryFn: async () => await useApiClient().usuarios.usuarioFindOneById(id),
+export const findCampusById = (id: CampusFindOneByIdData) =>
+  queryOptions({
+    queryKey: ['campus', 'campus::id', id],
+    queryFn: async () => await useApiClient().campi.campusFindOneById(id),
   });
-};
 
-export const listUsers = () => {
-  return queryOptions({
-    queryKey: ['user', 'users-list'],
-    queryFn: async () => await useApiClient().usuarios.usuarioList(),
+// disciplinas
+
+export const findDisciplinaById = (id: DisciplinaFindOneByIdData) =>
+  queryOptions({
+    queryKey: ['disciplina', 'disciplina::id', id],
+    queryFn: async () =>
+      await useApiClient().disciplinas.disciplinaFindOneById(id),
   });
-}
 
 // turmas
 
-export const findTurmaById = (id: TurmaFindOneByIdData) => {
-  return queryOptions({
+export const findTurmaById = (id: TurmaFindOneByIdData) =>
+  queryOptions({
     queryKey: ['turma', 'turma::id', id],
     queryFn: async () => await useApiClient().turmas.turmaFindOneById(id),
   });
-};
 
-export const listTurmas = () => {
-  return queryOptions({
+export const listTurmas = () =>
+  queryOptions({
     queryKey: ['turma', 'turmas-list'],
     queryFn: async () => await useApiClient().turmas.turmaList(),
   });
-};
+
+// usuários
+
+export const findUserById = (id: UsuarioFindOneByIdData) =>
+  queryOptions({
+    queryKey: ['user', 'user::id', id],
+    queryFn: async () => await useApiClient().usuarios.usuarioFindOneById(id),
+  });
+
+export const listUsers = () =>
+  queryOptions({
+    queryKey: ['user', 'users-list'],
+    queryFn: async () => await useApiClient().usuarios.usuarioList(),
+  });

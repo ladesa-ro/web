@@ -100,7 +100,7 @@ async function onSubmit(v: Event) {}
 
       <!-- Events -->
       <SectionCalendarioFormCrudEvents
-        v-show="registerType === 'events' || props.editMode === 'events'"
+        v-show="registerType === 'events' && stage > 0 || props.editMode === 'events'"
         :form-stage="stage"
         :calendar-id="props.calendarId!"
         :event-name="props.eventName"

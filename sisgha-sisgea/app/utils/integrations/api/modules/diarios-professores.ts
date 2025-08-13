@@ -1,27 +1,27 @@
-import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
+import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type IDiarioProfessorApiModuleTypings = {
-  CompleteView: ApiClientTypings.DiarioProfessorFindOneResultView;
+  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioProfessorFindOneOutput;
 
   Create: {
-    Data: ApiClientTypings.DiarioProfessorInputCreateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioProfessorCreateInput;
     Result: ApiClientTypings.DiarioProfessorCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.DiarioProfessorFindOneResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioProfessorFindOneOutput;
   };
 
   List: {
-    Result: ApiClientTypings.DiarioProfessorListResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioProfessorListOutput;
     Queries: ApiClientTypings.DiarioProfessorListData;
-    ResultItem: ApiClientTypings.DiarioProfessorListResultView['data'][number];
+    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioProfessorListOutput['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.DiarioProfessorInputUpdateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioProfessorUpdateInput;
     Result: ApiClientTypings.DiarioProfessorUpdateOneByIdResponse;
   };
 };

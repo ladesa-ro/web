@@ -1,8 +1,8 @@
-import type { ModalidadeFindOneResultView } from '@ladesa-ro/api-client-fetch';
+import type { Ladesa_ManagementService_Domain_Contracts_ModalidadeFindOneOutput as ModalidadeFindOneOutput } from '@ladesa-ro/management-service-client';
 
 // TODO: não depender dos ids
 export const verificarModalidade = (
-  modalidade: ModalidadeFindOneResultView | null,
+  modalidade: ModalidadeFindOneOutput | null,
   fallbackToPeriodo = false
 ): 'serie-letra' | 'periodo' | 'nao-implementado' => {
   switch (modalidade?.id) {

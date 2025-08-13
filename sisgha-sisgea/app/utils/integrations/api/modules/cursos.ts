@@ -1,27 +1,27 @@
-import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
+import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type ICursoApiModuleTypings = {
-  CompleteView: ApiClientTypings.CursoFindOneResultView;
+  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CursoFindOneOutput;
 
   Create: {
-    Data: ApiClientTypings.CursoInputCreateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CursoCreateInput;
     Result: ApiClientTypings.CursoCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.CursoFindOneResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CursoFindOneOutput;
   };
 
   List: {
-    Result: ApiClientTypings.CursoListResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CursoListOutput;
     Queries: ApiClientTypings.CursoListData;
-    ResultItem: ApiClientTypings.CursoListResultView['data'][number];
+    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CursoListOutput['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.CursoInputUpdateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CursoUpdateInput;
     Result: ApiClientTypings.CursoUpdateOneByIdResponse;
   };
 };

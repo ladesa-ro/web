@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type {
-  TurmaInputCreateView,
-  TurmaInputUpdateView,
-} from '@ladesa-ro/api-client-fetch';
+  Ladesa_ManagementService_Domain_Contracts_TurmaCreateInput as TurmaCreateInput,
+  Ladesa_ManagementService_Domain_Contracts_TurmaUpdateInput as TurmaUpdateInput,
+} from '@ladesa-ro/management-service-client';
 import { useQuery } from '@tanstack/vue-query';
 import { getQueryKeyForCrudModuleQueryState } from '../../../../composables/integrations/generic-crud/utils/get-query-key';
 import { type ICreateOrManageConfig } from '../../../Forms/CreateOrManage/Base/Control/config';
@@ -70,7 +70,7 @@ const config = {
 
     create: {
       perform: async formData => {
-        const data: TurmaInputCreateView = {
+        const data: TurmaCreateInput = {
           curso: formData.curso,
           periodo: formData.periodo,
           ambientePadraoAula: formData.ambientePadraoAula,
@@ -95,7 +95,7 @@ const config = {
 
     update: {
       perform: async (id, formData) => {
-        const data: TurmaInputUpdateView = {
+        const data: TurmaUpdateInput = {
           curso: formData.curso,
           periodo: formData.periodo,
           ambientePadraoAula: formData.ambientePadraoAula,

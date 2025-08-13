@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { UsuarioFindOneResultView } from '@ladesa-ro/api-client-fetch';
+import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput } from '@ladesa-ro/management-service-client';
 import { useQuery } from '@tanstack/vue-query';
 import uniq from 'lodash/uniq';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {
-  usuario: UsuarioFindOneResultView;
+  usuario: UsuarioFindOneOutput;
   link?: string;
 };
 const { usuario, link: linkProps } = defineProps<Props>();

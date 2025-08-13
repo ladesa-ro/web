@@ -4,8 +4,6 @@ import { useField } from 'vee-validate';
 const { value: vinculos } = useField<any[]>('vinculos');
 
 const addField = () => {
-  // spread operator
-  // rest operator
   vinculos.value = [
     ...vinculos.value,
     { campus: { id: null }, ativo: true, cargos: [] },
@@ -23,7 +21,6 @@ const removeField = (targetIndex: number) => {
           campus: vinculo.campus,
         };
       }
-
       return vinculo;
     });
   }
@@ -31,10 +28,14 @@ const removeField = (targetIndex: number) => {
 </script>
 
 <template>
-  <v-divider :thickness="2" color="success" opacity="1" />
+  <hr class="border border-ldsa-grey my-1" />
 
-  <div v-for="(vinculo, index) in vinculos" :key="index">
-    <div v-show="vinculo.ativo" class="flex gap-5 items-start">
+  <div
+    v-for="(vinculo, index) in vinculos"
+    :key="index"
+    :class="{ hidden: !vinculo.ativo }"
+  >
+    <div v-if="vinculo.ativo" class="flex gap-4 items-center">
       <VVAutocompleteAPICampus :name="`vinculos[${index}].campus.id`" />
 
       <VVSelectRoles
@@ -42,23 +43,26 @@ const removeField = (targetIndex: number) => {
         class="w-full max-w-[10.65rem]"
       />
 
-      <v-btn
+      <button
         v-if="index > 0"
-        class="my-[0.625rem]"
-        density="compact"
-        icon="mdi-delete"
-        variant="flat"
+        class="shrink-0 flex justify-center text-ldsa-red h-12 w-7 hover:bg-ldsa-red/10 rounded-sm"
         @click="removeField(index)"
-      />
+        aria-label="Remover vínculo"
+        type="button"
+      >
+        <IconsExclude class="w-5" />
+      </button>
     </div>
   </div>
 
   <button
-    class="border-dotted border-[3px] rounded-lg p-4 border-ldsa-grey hover:bg-ldsa-green-1/10 ease-in"
+    class="flex justify-center gap-3 border-dotted border-3 rounded-lg p-4 border-ldsa-grey hover:bg-ldsa-grey/10 transition-[background-color]"
     type="button"
     @click="addField"
   >
     Novo Vínculo
+    <IconsAdd class="w-4"/>
   </button>
-  <v-divider :thickness="2" color="success" opacity="1" />
+
+  <hr class="border border-ldsa-grey my-1" />
 </template>

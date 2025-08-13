@@ -1,27 +1,27 @@
-import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
+import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type IOfertaFormacaoApiModuleTypings = {
-  CompleteView: ApiClientTypings.OfertaFormacaoFindOneResultView;
+  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_OfertaFormacaoFindOneOutput;
 
   Create: {
-    Data: ApiClientTypings.OfertaFormacaoInputCreateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_OfertaFormacaoCreateInput;
     Result: ApiClientTypings.OfertaFormacaoCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.OfertaFormacaoFindOneResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_OfertaFormacaoFindOneOutput;
   };
 
   List: {
-    Result: ApiClientTypings.OfertaFormacaoListResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_OfertaFormacaoListOutput;
     Queries: ApiClientTypings.OfertaFormacaoListData;
-    ResultItem: ApiClientTypings.OfertaFormacaoListResultView['data'][number];
+    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_OfertaFormacaoListOutput['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.OfertaFormacaoInputUpdateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_OfertaFormacaoUpdateInput;
     Result: ApiClientTypings.OfertaFormacaoUpdateOneByIdResponse;
   };
 };

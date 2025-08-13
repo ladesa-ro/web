@@ -46,7 +46,7 @@ const turmasFilters = defineModel<FormContext | {}>('turmasFilters', {
 
 const turmasAutocompleteValues = useForm();
 
-onMounted(() => turmasFilters.value = turmasAutocompleteValues)
+onMounted(() => (turmasFilters.value = turmasAutocompleteValues));
 </script>
 
 <template>

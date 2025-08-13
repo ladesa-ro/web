@@ -1,7 +1,5 @@
-<!-- this component is inspired by v-container from vuetify lib -->
-
 <script setup lang="ts">
-type Props = { variant?: 'tight' | 'default' | 'large' | 'larger' };
+type Props = { variant?: 'tighter' | 'tight' | 'default' | 'large' | 'larger' };
 
 const { variant = 'default' } = defineProps<Props>();
 </script>
@@ -14,6 +12,10 @@ const { variant = 'default' } = defineProps<Props>();
 
 <style scoped>
 @reference "~/assets/styles/app.css";
+
+.tighter {
+  @apply md:mx-42 lg:mx-58 xl:mx-96 2xl:mx-108;
+}
 
 .tight {
   @apply md:mx-36 lg:mx-48 xl:mx-72 2xl:mx-96;

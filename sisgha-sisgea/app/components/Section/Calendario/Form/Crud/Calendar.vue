@@ -56,7 +56,7 @@ async function setCalendarStepAmount() {
               search: `Superior`,
             }).promise;
 
-          const catchOffer = searchOffer.data?.find(offer =>
+          const catchOffer = searchOffer.data?.find((offer: any) =>
             offer.nome.includes('Superior')
           );
 
@@ -114,6 +114,8 @@ await watch(
     if (_formStage.value > 1) await setCalendarStepAmount();
   }
 );
+
+
 </script>
 
 <template>

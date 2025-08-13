@@ -1,17 +1,22 @@
 <script lang="ts" setup>
 type Props = {
   title?: string;
+  titleVariant?: 'default' | 'small' | 'mini';
   closeButton?: boolean;
   onClose: () => any;
 };
 
-const { title = 'Título', closeButton = true } = defineProps<Props>();
+const {
+  title = 'Título',
+  titleVariant = 'small',
+  closeButton = true,
+} = defineProps<Props>();
 </script>
 
 <template>
   <div class="modal-layout">
     <header class="header">
-      <UITitle variant="small" :text="title" />
+      <UITitle :variant="titleVariant" :text="title" />
 
       <button v-if="closeButton" class="close-button" @click="onClose">
         <IconsClose class="close-icon" />
@@ -44,7 +49,7 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
 }
 
 .close-button {
-  @apply flex items-center justify-center rounded-full cursor-pointer;
+  @apply shrink-0 flex items-center justify-center rounded-full cursor-pointer;
   @apply hover:bg-ldsa-grey/30 transition-[background-color] duration-[225ms];
 }
 

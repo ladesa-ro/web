@@ -1,7 +1,7 @@
-import type { TurmaListResultView } from '@ladesa-ro/api-client-fetch';
+import type { Ladesa_ManagementService_Domain_Contracts_TurmaListOutput as TurmaListOutput } from '@ladesa-ro/management-service-client';
 
 export const filterTurmaResultsBySearch = (
-  turmasCompleteList: Ref<TurmaListResultView | undefined>,
+  turmasCompleteList: Ref<TurmaListOutput | undefined>,
   searchBarValue: Ref<string>
 ) => {
   const turmasParsedItems = computed(() => {

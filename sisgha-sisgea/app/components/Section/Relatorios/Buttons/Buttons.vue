@@ -6,15 +6,15 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <div class="flex w-full justify-center items-center gap-4 mt-4">
-    <UIButtonDefault @click="emit('visualizar')" class="text-sm">
+  <div class="flex max-md:flex-col w-full justify-between gap-4">
+    <UIButtonDefault @click="emit('visualizar')" class="flex-1">
       Visualizar relatório
       <template #end-icon>
         <IconsEyeOn />
       </template>
     </UIButtonDefault>
 
-    <UIButtonDefault @click="emit('gerarPdf')" class="text-sm">
+    <UIButtonDefault @click="emit('gerarPdf')" class="flex-1">
       Gerar PDF do Relatório
       <template #end-icon>
         <IconsPdf />

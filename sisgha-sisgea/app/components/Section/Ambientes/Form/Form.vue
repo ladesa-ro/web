@@ -125,6 +125,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
     await apiClient.ambientes.ambienteUpdateOneById({
       id: editId,
       requestBody: {
+        id: editId,
         ...data,
       },
     });

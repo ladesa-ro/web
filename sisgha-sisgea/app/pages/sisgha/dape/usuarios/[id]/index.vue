@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-const route = useRoute();
-const userId = computed(() => route.params.id);
+const userId = computed(() => useRoute().params.id);
 
 // useTitle(HeadTitleContext.DASHBOARD, 'Perfil');
 </script>

@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { BlocoFindOneResultView } from '@ladesa-ro/api-client-fetch';
+import type { Ladesa_ManagementService_Domain_Contracts_BlocoFindOneOutput as BlocoFindOneOutput } from '@ladesa-ro/management-service-client';
 import BlocosForm from '~/components/Section/Blocos/Form/Form.vue';
 
 type Props = {
   isLoading?: boolean;
-  item?: BlocoFindOneResultView | null;
+  item?: BlocoFindOneOutput | null;
 };
 
 const { item: bloco } = defineProps<Props>();

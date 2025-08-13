@@ -21,7 +21,7 @@ const selectedCheckboxes = defineModel<AcceptableValue[]>();
 </script>
 
 <template>
-  <ul class="flex flex-col">
+  <ul class="flex flex-col max-h-60 overflow-y-auto">
     <li
       v-for="item in filteredItems"
       :key="item.value"
