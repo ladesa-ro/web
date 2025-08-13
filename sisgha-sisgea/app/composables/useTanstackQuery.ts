@@ -6,7 +6,7 @@ import type {
   DisciplinaFindOneByIdData,
   TurmaFindOneByIdData,
   UsuarioFindOneByIdData,
-} from '@ladesa-ro/api-client-fetch';
+} from '@ladesa-ro/management-service-client';
 import { queryOptions } from '@tanstack/vue-query';
 
 // campi

@@ -1,4 +1,4 @@
-import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
+import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
 import type {
   IGenericCrudModule,
   IGenericCrudModuleTypes,
@@ -6,25 +6,25 @@ import type {
 import { withApiClient } from '../core/generic';
 
 export type IBlocosApiModuleTypings = IGenericCrudModuleTypes<{
-  CompleteView: ApiClientTypings.BlocoFindOneResultView;
+  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_BlocoFindOneOutput;
 
   Create: {
-    Data: ApiClientTypings.BlocoInputCreateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_BlocoCreateInput;
     Result: ApiClientTypings.BlocoCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.BlocoFindOneResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_BlocoFindOneOutput;
   };
 
   List: {
-    Result: ApiClientTypings.BlocoListResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_BlocoListOutput;
     Queries: ApiClientTypings.BlocoListData;
-    ResultItem: ApiClientTypings.BlocoListResultView['data'][number];
+    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_BlocoListOutput['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.BlocoInputUpdateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_BlocoUpdateInput;
     Result: ApiClientTypings.BlocoUpdateOneByIdResponse;
   };
 }>;

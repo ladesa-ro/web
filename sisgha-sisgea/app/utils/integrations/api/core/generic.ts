@@ -1,4 +1,4 @@
-import type { LadesaApiClient } from '@ladesa-ro/api-client-fetch';
+import type { LadesaApiClient } from '@ladesa-ro/management-service-client';
 
 export const withApiClient = <T>(
   factory: (apiClient: LadesaApiClient) => T

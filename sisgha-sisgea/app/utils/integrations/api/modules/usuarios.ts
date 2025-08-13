@@ -1,27 +1,27 @@
-import type * as ApiClientTypings from '@ladesa-ro/api-client-fetch';
+import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type IUsuarioApiModuleTypings = {
-  CompleteView: ApiClientTypings.UsuarioFindOneResultView;
+  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput;
 
   Create: {
-    Data: ApiClientTypings.UsuarioInputCreateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_UsuarioCreateInput;
     Result: ApiClientTypings.UsuarioCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.UsuarioFindOneResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput;
   };
 
   List: {
-    Result: ApiClientTypings.UsuarioListResultView;
+    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_UsuarioListOutput;
     Queries: ApiClientTypings.UsuarioListData;
-    ResultItem: ApiClientTypings.UsuarioListResultView['data'][number];
+    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_UsuarioListOutput['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.UsuarioInputUpdateView;
+    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_UsuarioUpdateInput;
     Result: ApiClientTypings.UsuarioUpdateOneByIdResponse;
   };
 };

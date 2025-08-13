@@ -1,4 +1,4 @@
-import type { LadesaApiClient } from '@ladesa-ro/api-client-fetch';
+import type { LadesaApiClient } from '@ladesa-ro/management-service-client';
 import { useGenericCrudComposables } from '../../generic-crud';
 
 export const useLadesaApiCrudComposables = <

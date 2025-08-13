@@ -35,13 +35,13 @@ export type IApiCoreListOutput<ResultItemDto = unknown> = {
     currentPage: number;
     totalPages: number;
 
-    sortBy: { mode: string; property: string }[];
+    sortBy: string[];
 
     search: string;
     filter: unknown[];
   };
 
-  links: {
+  links?: {
     next: string | null;
     last: string | null;
     first: string | null;

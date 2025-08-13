@@ -83,7 +83,6 @@ const nextForm = () => $emit('next');
       <template #button-group>
         <UIButtonModalCancel @click="closeForm" />
         <UIButtonModalAdvance
-          :disabled="!selectedDisciplina"
           @click="nextForm"
         />
       </template>
