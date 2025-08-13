@@ -33,6 +33,7 @@ const finalDate = ref(dayjs().add(1, 'week').format('DD/MM/YYYY'));
     disable-inline-block
     class="flex justify-center"
     v-model="isModalActive"
+    :pointerdown-event="false"
   >
     <template #activator>
       <UIButtonDefault

@@ -17,8 +17,11 @@ type Props = {
   disabledItems?: AcceptableValue[];
 };
 
-const { items: itemsProps, truncateText = false, disabledItems = [] } =
-  defineProps<Props>();
+const {
+  items: itemsProps,
+  truncateText = false,
+  disabledItems = [],
+} = defineProps<Props>();
 
 const items = getParsedItems(itemsProps);
 const checkedItems = defineModel<AcceptableValue[]>({ default: [] });
@@ -66,7 +69,7 @@ const invertItem = (item: ParsedItem) => {
         </Checkbox>
       </span>
 
-      <span :class="truncateText ? 'truncate' : ''"> {{ item.label }} </span>
+      <span v-bind="$attrs" :class="{ truncate: truncateText }"> {{ item.label }} </span>
     </label>
   </CheckboxGroupRoot>
 </template>

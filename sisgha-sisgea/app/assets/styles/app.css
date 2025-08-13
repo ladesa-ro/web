@@ -9,10 +9,6 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-body {
-  font-family: 'Poppins', sans-serif;
-}
-
 .app {
   background-color: var(--ladesa-background-color);
   color: var(--ladesa-text-default-color);
