@@ -23,7 +23,7 @@ watchEffect(() => {
       :key="item.value"
       :selected="item.value === toggleValue"
       :item="item"
-      @click="() => (toggleValue = item.value)"
+      @pointerdown="() => (toggleValue = item.value)"
     />
   </div>
 </template>

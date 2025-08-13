@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 const isActive = defineModel<boolean>({ default: false });
 
-const { disableInlineBlock = false } = defineProps<{
+const { disableInlineBlock = false, pointerdownEvent = true } = defineProps<{
   disableInlineBlock?: boolean;
+  pointerdownEvent?: boolean;
 }>();
 
 const modal = useTemplateRef('modal');
@@ -17,13 +18,22 @@ const onOpen = async () => {
 };
 
 const onClose = () => (isActive.value = false);
+
+const pointerdownHandle = () => {
+  if (pointerdownEvent) onOpen();
+};
+
+const onclickHandle = () => {
+  if (!pointerdownEvent) onOpen();
+};
 </script>
 
 <template>
   <nav
     :class="[!disableInlineBlock && 'inline-block']"
     v-bind="$attrs"
-    @click="onOpen"
+    @pointerdown="pointerdownHandle"
+    @click="onclickHandle"
   >
     <slot name="activator" />
   </nav>
