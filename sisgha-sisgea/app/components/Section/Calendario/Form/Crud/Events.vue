@@ -8,6 +8,7 @@ import { calendarDataMethods } from '../../CalendarDataMethods';
 type Props = {
   calendarId: string;
   eventName?: string;
+  submit?: boolean;
 };
 
 const props = defineProps<Props>();
@@ -59,12 +60,12 @@ type FormValues = {
 
 // Event - Data
 const schemaCalendar = yup.object({
-  eventName: yup.string().required('Nome é obrigatório'),
+  eventName: yup.string().required('Nome inválido'),
   eventEnvironment: yup.string().notRequired(),
-  eventColor: yup.string().required('Cor é obrigatória'),
-  eventStartDate: yup.string().required('Data de início é obrigatória'),
+  eventColor: yup.string().required('Cor inválida'),
+  eventStartDate: yup.date().required('Data de início inválida'),
   eventStartHour: yup.string().notRequired(),
-  eventEndDate: yup.string().required('Data de término é obrigatória'),
+  eventEndDate: yup.date().required('Data de término inválida'),
   eventEndHour: yup.string().notRequired(),
 });
 
@@ -80,6 +81,54 @@ const { handleSubmit, values, errors, setFieldValue } = useForm<FormValues>({
     eventEnvironment: '',
   },
 });
+
+let submitEvent = ref<boolean>(false);
+
+defineExpose({
+  submitEvent,
+});
+
+async function onSubmit() {
+  await calendarDataMethods.events.postEvent(
+    values.eventName,
+    values.eventColor,
+    {
+      date: values.eventStartDate,
+      hour: values.eventStartHour,
+    },
+    {
+      date: values.eventEndDate,
+      hour: values.eventEndHour,
+    },
+    props.calendarId
+  );
+}
+
+await watch(
+  () => props.submit,
+  async n => {
+    if (n) {
+      if (
+        errors.value.eventName ||
+        errors.value.eventColor ||
+        errors.value.eventStartDate ||
+        errors.value.eventEndDate
+      ) {
+        return;
+      } else {
+        // Edit
+        if (props.eventName) {
+        }
+        // Create
+        else {
+          await onSubmit();
+          submitEvent.value = true;
+          alert('YEEEEEEEEEAH!');
+        }
+      }
+    }
+  }
+);
 </script>
 
 <template>

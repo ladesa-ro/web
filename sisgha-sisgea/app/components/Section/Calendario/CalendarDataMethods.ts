@@ -1,4 +1,5 @@
 // # IMPORT
+import dayjs from 'dayjs';
 import type { CalendarEvent } from './Types';
 
 // # CODE
@@ -64,9 +65,8 @@ export const calendarDataMethods = {
           const event: CalendarEvent = {
             name: `${events.data[i]!.nome}`,
             color: events.data[i]!.cor,
-            // ALERT: The events in API dont have start and end dates
-            startDate: '',
-            endDate: '',
+            startDate: events.data[i]!.data_inicio!,
+            endDate: events.data[i]!.data_fim!,
           };
           remodelEvents.push(event);
         }
@@ -93,6 +93,23 @@ export const calendarDataMethods = {
         return null;
       }
     },
+    async postEvent(name: string, color: string, start: {date: string, hour?: string}, end: {date: string, hour?: string}, calendarId: string): Promise<void> {
+      try {
+        await getApiClient().eventos.eventoCreate({
+          requestBody: {
+            nome: name,
+            rrule: '',
+            cor: color,
+            calendario: { id: calendarId },
+            data_inicio: start.hour ? String(dayjs(`${start.date}T${start.hour}`).format('YYYY-MM-DD HH:mm:ss')) : dayjs(start.date).format('YYYY-MM-DD'),
+            data_fim: end.hour ? String(dayjs(`${end.date}T${end.hour}`).format('YYYY-MM-DD HH:mm:ss')) : dayjs(end.date).format('YYYY-MM-DD')
+          }
+        });
+      } catch(error) {
+        console.error(error);
+      }
+      
+    }
   },
 
   getAnyEventByName: async (

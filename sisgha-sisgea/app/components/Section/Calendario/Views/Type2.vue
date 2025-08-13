@@ -31,15 +31,18 @@ if (props.calendarId) {
 </script>
 
 <template>
-  <div class="flex flex-wrap w-full h-max justify-center gap-6">
-    <SectionCalendarioMonth
-      v-for="month in months"
-      :toggle-month="false"
-      :year="props.year"
-      :events="events"
-      :month-num="month"
-      :calendar-id="props.calendarId"
-    />
+  <div class="flex flex-wrap w-full h-max gap-6">
+    
+    <div class="flex flex-wrap w-full h-max justify-center gap-6">
+      <SectionCalendarioMonth
+        v-for="month in months"
+        :toggle-month="false"
+        :year="props.year"
+        :events="events"
+        :month-num="month"
+        :calendar-id="props.calendarId"
+      />
+    </div>
   </div>
 </template>
 

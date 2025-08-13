@@ -65,10 +65,28 @@ function selectRegisterType(type: string | null) {
 const $emit = defineEmits(['close']);
 
 function onClose() {
+  alert('Successful');
   $emit('close');
 }
 
-async function onSubmit(v: Event) {}
+let submitForm = ref<boolean>(false);
+
+const eventCrudRef = ref();
+const calendarCrudRef = ref();
+
+async function onSubmit() {
+  alert('In work');
+  submitForm.value = true;
+}
+
+await watch(
+    () => eventCrudRef.value?.submitEvent,
+    n => {
+      if (n === true) {
+        onClose();
+      }
+    }
+  );
 </script>
 
 <template>
@@ -94,16 +112,22 @@ async function onSubmit(v: Event) {}
 
       <!-- Calendar -->
       <SectionCalendarioFormCrudCalendar
+        ref="calendarCrudRef"
         v-show="registerType === 'calendar' || props.editMode === 'calendar'"
         :form-stage="stage"
       />
 
       <!-- Events -->
       <SectionCalendarioFormCrudEvents
-        v-show="registerType === 'events' && stage > 0 || props.editMode === 'events'"
+        ref="eventCrudRef"
+        v-show="
+          (registerType === 'events' && stage > 0) ||
+          props.editMode === 'events'
+        "
         :form-stage="stage"
         :calendar-id="props.calendarId!"
         :event-name="props.eventName"
+        :submit="submitForm"
       />
 
       <!-- Buttons -->
@@ -134,6 +158,7 @@ async function onSubmit(v: Event) {}
             (stage > 0 && registerType === 'events')
           "
           type="submit"
+          @click="onSubmit"
         />
         <UIButtonModalEdit v-show="props.editMode" type="submit" />
       </template>

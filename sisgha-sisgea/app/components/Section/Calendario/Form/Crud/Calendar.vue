@@ -10,6 +10,7 @@ import type { CalendarEvent } from '../../Types';
 type Props = {
   calendarId?: string;
   formStage: number;
+  submit?: boolean;
 };
 
 const props = defineProps<Props>();
@@ -115,7 +116,6 @@ await watch(
   }
 );
 
-
 </script>
 
 <template>
@@ -144,6 +144,7 @@ await watch(
         v-for="(calendarStep, index) in calendarStepAmount"
         :key="index"
         :text="`Etapa ${index + 1}`"
+        :calendar-id="props.calendarId!"
       />
     </div>
 
@@ -153,8 +154,9 @@ await watch(
         v-for="(calendarRecovery, index) in calendarRecoveryAmount"
         :key="index"
         :text="`Recuperação ${index + 1}`"
+        :calendar-id="props.calendarId!"
       />
-      <VVCalendarStep :text="`Exame`" />
+      <VVCalendarStep :text="`Exame`" :calendar-id="props.calendarId!" />
     </div>
   </div>
 </template>
