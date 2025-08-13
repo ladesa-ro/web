@@ -3,7 +3,7 @@ const { isDark, changeTheme } = useCustomTheme();
 </script>
 
 <template>
-  <button class="p-2.5" @click="changeTheme">
+  <button class="p-2.5" @pointerdown="changeTheme">
     <IconsColorThemeMoon v-if="isDark" />
     <IconsColorThemeSun v-else />
   </button>

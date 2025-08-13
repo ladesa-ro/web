@@ -29,7 +29,7 @@ onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
   <PopoverRoot :open="open">
     <Trigger
       ref="trigger"
-      @click="open = !open"
+      @pointerdown="open = !open"
       class="shrink-0 cursor-pointer"
     >
       <slot name="activator" />

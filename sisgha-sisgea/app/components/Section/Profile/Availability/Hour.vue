@@ -5,13 +5,13 @@ type Props = {
 };
 defineProps<Props>();
 
-const divider = ' - ';
+const DIVIDER = ' - ';
 </script>
 
 <template>
-  <span class="text-center font-medium text-sm xl:font-base min-w-max">
+  <span class="text-center font-medium text-sm xl:font-base min-w-max nunito">
     {{ initialHour }}
-    {{ divider }}
+    {{ DIVIDER }}
     {{ endHour }}
   </span>
 </template>

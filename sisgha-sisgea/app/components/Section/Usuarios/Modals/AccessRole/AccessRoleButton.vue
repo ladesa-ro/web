@@ -5,13 +5,17 @@ type Props = {
   active: boolean;
 };
 
-defineProps<Props>();
+const { to } = defineProps<Props>();
+
+const pointerdownHandle = () => useRouter().push(to);
 </script>
 
 <template>
   <nuxt-link
-    :class="{ active: active }"
+    :class="{ active }"
     :to="to"
+    @click.prevent
+    @pointerdown="pointerdownHandle"
     class="flex flex-col justify-end items-center gap-2 w-28 h-36 px-0 py-8 border-2 rounded-lg border-ldsa-grey/50 text-center font-semibold cursor-pointer"
   >
     <!-- icon -->

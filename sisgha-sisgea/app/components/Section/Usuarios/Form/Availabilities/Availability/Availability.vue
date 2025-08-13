@@ -137,7 +137,11 @@ const collapsibleOpen = ref(true);
       <section class="flex justify-between">
         <div v-for="shift in dayShifts" :key="shift.title">
           <h1>{{ capitalizeFirst(shift.title) }}</h1>
-          <UICheckbox :items="shift.times" v-model="selectedTimes" />
+          <UICheckbox
+            :items="shift.times"
+            v-model="selectedTimes"
+            class="nunito"
+          />
         </div>
       </section>
 
@@ -158,9 +162,11 @@ const collapsibleOpen = ref(true);
       </div>
 
       <div>
-        <p class="main-title font-semibold pb-5">
-          Motivos de indisponibilidade
-        </p>
+        <UITitle
+          variant="mini"
+          text="Motivos de indisponibilidade"
+          class="pb-5"
+        />
 
         <div class="flex max-sm:flex-col gap-4 justify-between">
           <button

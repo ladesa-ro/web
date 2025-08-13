@@ -6,9 +6,9 @@ export type DayPeriod = {
 
 const dayPeriods: DayPeriod = {
   Matutino: [
-    { initialHour: '7:30', endHour: '8:20' },
-    { initialHour: '8:20', endHour: '9:10' },
-    { initialHour: '9:10', endHour: '10:00' },
+    { initialHour: '07:30', endHour: '08:20' },
+    { initialHour: '08:20', endHour: '09:10' },
+    { initialHour: '09:10', endHour: '10:00' },
     { initialHour: '10:20', endHour: '11:10' },
     { initialHour: '11:10', endHour: '12:00' },
   ],
