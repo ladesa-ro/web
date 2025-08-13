@@ -29,7 +29,7 @@ const selectedCheckboxes = defineModel<AcceptableValue[]>();
     >
       <UICheckbox
         truncate-text
-        class="p-3 font-medium text-sm"
+        class="p-1.5 font-medium text-sm"
         :items="[item]"
         v-model="selectedCheckboxes"
       />
