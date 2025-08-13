@@ -1,43 +1,35 @@
-# Web
-
-<!-- #region conteudo -->
+# SISGHA & SISGEA - Aplicação Web
 
 [![Repositório Aplicação Web][github-web-application-icon]][github-web-application-href]
 
-A Aplicação Web é acessada diretamente no navegador e consiste na interação entre dois sistemas: SISGHA e SISGEA.
+O Sistema Gerador de Horário Acadêmico (SISGHA) e o Sistema de Gestão de Ambientes (SISGEA) são duas ferramentas desenvolvidas para automatizar processos manuais comuns na administração de uma instituição de ensino.
+
+<!-- desenvolver mais sobre os dois sistemas -->
 
 ## Linguagens e ferramentas
 
-> Talvez adicionar imagens ou uma tabela nesta seção.
-
 ### Frameworks
+- Vue.js v3
+- Nuxt.js v4
+- Tailwind v4
 
-JavaScript
-
-- Vue.js
-- Nuxt
-- ~Vuetify~
-
-CSS
-
-- Tailwind
-
-### Bibliotecas
-
-JavaScript
-
-- Dayjs
-- Entre outras.
+### Principais Bibliotecas
+- Auth.js
+- Day.js
+- Pragmatic Drag and Drop
+- Reka UI
+- Vee Validate
+- VueUse
 
 ## Organização de pastas
 
-sla uaikkkkkkkkk
+<!-- seção pendente -->
 
 ## Ambientes
 
-| Estágio         | Devops                                                      | URL                                                      |
-| --------------- | ----------------------------------------------------------- | -------------------------------------------------------- |
-| Desenvolvimento | [![CI: Development][action-ci-dev-src]][action-ci-dev-href] | <https://luna.sisgha.com/>; <https://dev.ladesa.com.br/> |
+| Estágio         | Devops                                                      | URL                          |
+| --------------- | ----------------------------------------------------------- | ---------------------------- |
+| Desenvolvimento | [![CI: Development][action-ci-dev-src]][action-ci-dev-href] | <https://dev.ladesa.com.br/> |
 
 ## Configuração Local
 
@@ -63,13 +55,12 @@ pnpm run dev
 ```
 
 ## Colaboradores
-
+Somos uma equipe de estudantes e servidores do Instituto Federal de Rondônia - _Campus_ Ji-Paraná.
 - Anna Isabela Bianchini Pontuschka
+- Ana Maria Brito Souza
 - Danilo Pereira Escudero
 - Gabriel Guedes Alves de Moura
 - Gabriel Rodrigues Antunes
-- Iury Fim da Silva
-- Kauan Marques da Luz
 - Vitor Daniel Silva Melo
 
 <!-- Badges -->
