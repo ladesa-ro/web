@@ -10,9 +10,7 @@ const open = defineModel<boolean>({ required: true, default: false });
       <slot />
     </template>
 
-    <div
-      class="bg-ldsa-bg border-ldsa-green-1 border-2 rounded-xl shadow-2xl"
-    >
+    <div class="bg-ldsa-bg border-ldsa-green-1 border-2 rounded-xl shadow-2xl">
       <SectionCalendarioMonth
         :year="dayjs().year()"
         :month="dayjs().month()"

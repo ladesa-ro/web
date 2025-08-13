@@ -1,88 +1,77 @@
 <script lang="ts" setup>
-import 'dayjs/locale/pt-br';
-import CalendarioForm3 from './Forms/Form3.vue';
-import { calendarData } from './Functions/CalendarData.js';
+// # IMPORT
+import { SectionCalendarioForm, UIButtonSearch } from '#components';
+import IconCompleteCalendar from '@/components/Icons/Calendar/CompleteCalendar.vue';
+import IconPartialCalendar from '@/components/Icons/Calendar/PartialCalendar.vue';
+import dayjs from 'dayjs';
 
-const years = [2024, 2023, 2022, 2021, 2020, 2019];
-const calendars = [
-  'Informática 2024',
-  'Informática 2023',
-  'Informática 2022',
-  'Informática 2021',
-  'Informática 2020',
-  'Informática 2019',
+// # CODE
+let toggleView = ref<number>(0);
+
+const toggleItems = [
+  { text: 'Calendário parcial', value: 0, icon: IconPartialCalendar },
+  { text: 'Calendário completo', value: 1, icon: IconCompleteCalendar },
 ];
 
-const calendar = await calendarData.getCalendar();
+let selectedCalendar = ref<any | null>(null);
+let selectedTrainingOffer = ref<any | null>(null);
+let selectedYear = ref<number>(dayjs().year());
 
-//
+async function toggleSelectedCalendarItem(value: string | null) {
+  selectedCalendar.value = await getApiClient().calendariosLetivos.calendarioLetivoFindOneById({
+    id: value!,
+  });
 
-const isActive = ref(false);
-const onClose = () => (isActive.value = false);
-
-//
-
-const visualizacao = ref<'parcial' | 'completo'>('parcial');
+  console.log(selectedCalendar.value);
+}
 </script>
 
 <template>
-  <UIContainer variant="tight" class="flex flex-col gap-5">
-    <!-- header -->
-    <div class="flex flex-col lg:flex-row w-full justify-between gap-5">
-      <!-- Select year -->
-      <VVAutocomplete
-        :items="years"
-        class="max-lg:w-full lg:max-w-56"
-        label="Ano letivo"
-        name="year.id"
-        placeholder="Ano"
-      />
-
-      <span class="flex gap-5 w-full">
-        <!-- Select calendar -->
-        <VVAutocomplete
-          :items="calendars"
-          class="w-full"
-          label="Calendários"
-          name="calendar.id"
-          placeholder="Selecione um calendário"
+  <UIContainer>
+    <!-- Menu -->
+    <div class="flex w-full justify-between items-center gap-2 mb-4">
+      <div class="flex gap-2">
+        <div class="flex max-w-[17%] min-w-[17%]">
+          <VVTextField
+            v-model="selectedYear"
+            name="calendarYear"
+            type="number"
+            label="Ano Letivo"
+            placeholder="Digite aqui"
+          />
+        </div>
+        <VVAutocompleteAPIOfertaFormacao
+          name="trainingOffer"
+          label="Formação"
         />
+        <VVAutocompleteAPICalendarioLetivo
+          name="selectedCalendar"
+          @update:model-value="toggleSelectedCalendarItem"
+        />
+      </div>
 
-        <!-- button add -->
+      <div class="flex gap-2">
         <DialogModalEditOrCreateModal
-          :form-component="CalendarioForm3"
-          @close="onClose"
+          :form-component="SectionCalendarioForm"
+          :form-props="{ calendarId: selectedCalendar.id }"
         />
-      </span>
+        <UIButtonSearch />
+      </div>
     </div>
 
-    <SectionCalendarioViewsToggleView v-model="visualizacao" />
-
-    <span v-show="visualizacao === 'completo'">
-      <SectionCalendarioModalEventList
-        :enable-modal="false"
-        :events="calendar?.events"
-        :steps="calendar?.steps"
-        :year="calendar?.year"
-      />
-    </span>
-
     <!-- Content -->
-
-    <!-- Content / Partial calendar -->
-    <SectionCalendarioViewsPartialCalendar
-      v-show="visualizacao === 'parcial'"
-      :events="calendar?.events"
-      :steps="calendar?.steps"
-      :year="calendar?.year"
-    />
-
-    <!-- Content / Complete calendar -->
-    <SectionCalendarioViewsCompleteCalendar
-      v-show="visualizacao === 'completo'"
-      :events="calendar?.events"
-      :steps="calendar?.steps"
-      :year="calendar?.year"
-    />
+    <div class="flex flex-col w-full justify-between items-center gap-2" v-show="selectedCalendar">
+      <UIToggle :items="toggleItems" v-model="toggleView" class="w-full" />
+      <SectionCalendarioViewsType1
+        v-show="toggleView === 0"
+        :calendar-id="selectedCalendar.id!"
+        :year="selectedCalendar.ano!"
+      />
+      <SectionCalendarioViewsType2
+        v-show="toggleView === 1"
+        :calendar-id="selectedCalendar.id!"
+        :year="selectedCalendar.ano!"
+      />
+    </div>
   </UIContainer>
 </template>

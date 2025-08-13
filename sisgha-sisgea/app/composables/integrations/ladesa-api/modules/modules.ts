@@ -1,3 +1,6 @@
+import { createCalendarioLetivoCrudModule } from "../../../../utils/integrations/api/modules/calendario-letivo";
+
+
 const c = useLadesaApiCrudComposables;
 
 export const useLadesaApiCrudAmbientes = () => {
@@ -28,6 +31,10 @@ export const useLadesaApiCrudDiariosProfessores = () => {
 
 export const useLadesaApiCrudDisciplinas = () => {
   return c(createDisciplinasCrudModule);
+};
+
+export const useLadesaApiCrudCalendarioLetivo = () => {
+  return c(createCalendarioLetivoCrudModule);
 };
 
 export const useLadesaApiCrudUsuarios = () => {
