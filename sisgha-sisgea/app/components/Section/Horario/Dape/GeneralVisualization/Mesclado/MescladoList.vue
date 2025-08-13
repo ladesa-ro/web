@@ -25,11 +25,11 @@ const selectedCheckboxes = defineModel<AcceptableValue[]>();
     <li
       v-for="item in filteredItems"
       :key="item.value"
-      class="border-t-1 border-t-ldsa-grey/50 last:border-b-1 last:border-b-ldsa-grey/50"
+      class="border-t-1 border-t-ldsa-grey/50 last:border-b-1 last:border-b-ldsa-grey/50 h-max"
     >
       <UICheckbox
         truncate-text
-        class="p-3 font-medium text-sm"
+        class="p-1.5 font-medium text-sm"
         :items="[item]"
         v-model="selectedCheckboxes"
       />
