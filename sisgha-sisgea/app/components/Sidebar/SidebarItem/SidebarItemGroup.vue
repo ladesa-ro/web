@@ -32,7 +32,7 @@ const thisGroupIsSelected = computed({
     <SidebarSidebarItemTemplate
       :item="item"
       :open="thisGroupIsSelected"
-      @pointerdown.stop="thisGroupIsSelected = !thisGroupIsSelected"
+      @click.stop="thisGroupIsSelected = !thisGroupIsSelected"
     />
 
     <CollapsibleContent
