@@ -5,6 +5,9 @@ import type { CalendarEvent } from './Types';
 // # CODE
 
 export const calendarDataMethods = {
+  // Calendar
+  calendar: {
+  },
   // Steps
   steps: {
     async getSteps(calendarId: string): Promise<CalendarEvent[]> {

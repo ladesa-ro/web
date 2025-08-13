@@ -13,12 +13,16 @@ const toggleItems = [
   { text: 'Calendário completo', value: 1, icon: IconCompleteCalendar },
 ];
 
-let selectedCalendar = ref<string | null>(null);
+let selectedCalendar = ref<any | null>(null);
 let selectedTrainingOffer = ref<any | null>(null);
 let selectedYear = ref<number>(dayjs().year());
 
 async function toggleSelectedCalendarItem(value: string | null) {
-  selectedCalendar.value = value;
+  selectedCalendar.value = await getApiClient().calendariosLetivos.calendarioLetivoFindOneById({
+    id: value!,
+  });
+
+  console.log(selectedCalendar.value);
 }
 </script>
 
@@ -49,7 +53,7 @@ async function toggleSelectedCalendarItem(value: string | null) {
       <div class="flex gap-2">
         <DialogModalEditOrCreateModal
           :form-component="SectionCalendarioForm"
-          :form-props="{ calendarId: selectedCalendar }"
+          :form-props="{ calendarId: selectedCalendar.id }"
         />
         <UIButtonSearch />
       </div>
@@ -60,13 +64,13 @@ async function toggleSelectedCalendarItem(value: string | null) {
       <UIToggle :items="toggleItems" v-model="toggleView" class="w-full" />
       <SectionCalendarioViewsType1
         v-show="toggleView === 0"
-        :calendar-id="selectedCalendar!"
-        :year="selectedYear!"
+        :calendar-id="selectedCalendar.id!"
+        :year="selectedCalendar.ano!"
       />
       <SectionCalendarioViewsType2
         v-show="toggleView === 1"
-        :calendar-id="selectedCalendar!"
-        :year="selectedYear!"
+        :calendar-id="selectedCalendar.id!"
+        :year="selectedCalendar.ano!"
       />
     </div>
   </UIContainer>
