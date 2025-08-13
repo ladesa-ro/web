@@ -31,7 +31,7 @@ useHead({
       rel="stylesheet"
     />
     <Link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap"
       rel="stylesheet"
     />
   </Head>
