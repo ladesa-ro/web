@@ -5,6 +5,7 @@ type Props = {
   dayMonth: string;
 };
 defineProps<Props>();
+defineProps<Props>();
 </script>
 
 <template>
@@ -26,6 +27,7 @@ defineProps<Props>();
 
 .day-square {
   @apply w-full flex flex-col justify-center items-center gap-1 lg:gap-2 overflow-hidden;
+  @apply min-w-10 lg:max-w-28 lg:max-h-28 p-1 py-2.5 min-[462px]:p-2 sm:p-3 lg:p-4;
   @apply min-w-10 lg:max-w-28 lg:max-h-28 p-1 py-2.5 min-[462px]:p-2 sm:p-3 lg:p-4;
   @apply border-2 border-ldsa-green-1 rounded-[0.625rem];
   @apply text-xs sm:text-sm lg:text-base font-semibold text-ldsa-text-green;
