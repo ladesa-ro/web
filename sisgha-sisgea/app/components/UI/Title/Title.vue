@@ -8,7 +8,7 @@ const { variant = 'default' } = defineProps<Props>();
 </script>
 
 <template>
-  <h1 :class="variant">{{ text }}</h1>
+  <h1 class="text-ldsa-text-default" :class="variant">{{ text }}</h1>
 </template>
 
 <style scoped>
