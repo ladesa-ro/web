@@ -5,10 +5,9 @@ type Props = {
   item: ParsedItem;
   active: boolean;
   disabled?: boolean;
-  truncateText?: boolean;
   enterHandle?: (item: ParsedItem) => void;
 };
-const {enterHandle = () => {}, disabled = false, truncateText = false} = defineProps<Props>();
+const { enterHandle = () => {}, disabled = false } = defineProps<Props>();
 </script>
 
 <template>
@@ -18,9 +17,9 @@ const {enterHandle = () => {}, disabled = false, truncateText = false} = defineP
     <Checkbox
       :value="item.value"
       :disabled="disabled ?? false"
-      :class="[active ? 'border-ldsa-green-2' : 'border-ldsa-grey']"
+      :class="active ? 'border-ldsa-green-2' : 'border-ldsa-grey'"
       class="flex border-2 hover:bg-ldsa-green-2/10 rounded-sm w-5.5 h-5.5 focus-visible:outline-ldsa-green-2"
-      @keyup.enter="enterHandle"
+      @keyup.enter="enterHandle(item)"
     >
       <Check class="flex-1 bg-ldsa-green-2 p-1 pt-1.5">
         <IconsConfirm class="text-ldsa-white" />

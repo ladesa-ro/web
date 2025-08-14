@@ -12,14 +12,14 @@ import {
 
 type Props = {
   items: Item[];
-  truncateText?: boolean;
   disabledItems?: AcceptableValue[];
+  gap?: string;
 };
 
 const {
   items: itemsProps,
-  truncateText = false,
   disabledItems = [],
+  gap = '0.375rem',
 } = defineProps<Props>();
 
 const items = getParsedItems(itemsProps);
@@ -45,36 +45,39 @@ const invertItem = (item: ParsedItem) => {
     <label
       v-for="item in items"
       :key="item.value"
-      class="flex items-center gap-1.5 cursor-pointer mb-1.5 last:mb-0 text-ldsa-text-default"
+      class="flex items-center cursor-pointer last:mb-0 text-ldsa-text-default"
+      :style="{ gap }"
       :class="{
         'opacity-50 cursor-not-allowed': disabledItems.includes(item.value),
       }"
     >
       <Checkbox
+        class="w-full"
         v-if="$slots['default']"
         :value="item.value"
         @keyup.enter="invertItem(item)"
       >
         <slot
-          :item
+          :item="item"
           :selected="checkedItems.includes(item.value)"
           :disabled="disabledItems.includes(item.value)"
-          :invertItem
+          :invert-item="invertItem"
         />
       </Checkbox>
 
-      <UICheckboxSquare
-        v-else
-        :item
-        :truncateText
-        :active="checkedItems.includes(item.value)"
-        :disabled="disabledItems.includes(item.value)"
-        :enter-handle="invertItem"
-      />
+      <template v-else>
+        <UICheckboxSquare
+          class="mb-2 last:mb-0"
+          :item="item"
+          :active="checkedItems.includes(item.value)"
+          :disabled="disabledItems.includes(item.value)"
+          :enter-handle="invertItem"
+        />
 
-      <span v-else v-bind="$attrs" :class="{ truncate: truncateText }">
-        {{ item.label }}
-      </span>
+        <span v-bind="$attrs">
+          {{ item.label }}
+        </span>
+      </template>
     </label>
   </CheckboxGroupRoot>
 </template>
