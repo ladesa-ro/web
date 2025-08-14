@@ -17,6 +17,12 @@ defineProps<Props>();
       <span class="min-[820px]:hidden max-[820px]:inline">
         {{ dayWeek.slice(0, 3) }}
       </span>
+      <span class="max-[820px]:hidden min-[820px]:inline">
+        {{ dayWeek }}
+      </span>
+      <span class="min-[820px]:hidden max-[820px]:inline">
+        {{ dayWeek.slice(0, 3) }}
+      </span>
     </p>
     <p>{{ dayMonth }}</p>
   </button>
