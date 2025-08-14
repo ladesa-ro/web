@@ -11,7 +11,7 @@
 
 .app {
   background-color: var(--ladesa-background-color);
-  color: var(--ladesa-text-default-color);
+  color: var(--ladesa-text-default-color) !important;
 }
 
 /* ----------- */

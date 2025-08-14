@@ -44,7 +44,7 @@ const invertItem = (item: ParsedItem) => {
     <label
       v-for="item in items"
       :key="item.value"
-      class="flex items-center gap-1.5 cursor-pointer mb-1.5 last:mb-0"
+      class="flex items-center gap-1.5 cursor-pointer mb-1.5 last:mb-0 text-ldsa-text-default"
       :class="{
         'opacity-50 cursor-not-allowed': disabledItems.includes(item.value),
       }"
@@ -69,7 +69,9 @@ const invertItem = (item: ParsedItem) => {
         </Checkbox>
       </span>
 
-      <span v-bind="$attrs" :class="{ truncate: truncateText }"> {{ item.label }} </span>
+      <span v-bind="$attrs" :class="{ truncate: truncateText }">
+        {{ item.label }}
+      </span>
     </label>
   </CheckboxGroupRoot>
 </template>

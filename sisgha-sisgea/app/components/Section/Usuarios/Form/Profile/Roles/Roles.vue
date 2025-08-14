@@ -56,7 +56,7 @@ const removeField = (targetIndex: number) => {
   </div>
 
   <button
-    class="flex justify-center gap-3 border-dotted border-3 rounded-lg p-4 border-ldsa-grey hover:bg-ldsa-grey/10 transition-[background-color]"
+    class="flex justify-center gap-3 border-dotted border-3 rounded-lg p-4 border-ldsa-grey hover:bg-ldsa-grey/10 transition-[background-color] text-ldsa-text-default"
     type="button"
     @click="addField"
   >
