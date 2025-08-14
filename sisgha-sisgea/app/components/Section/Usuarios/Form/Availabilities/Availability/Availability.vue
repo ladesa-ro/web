@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { computed, ref, watch } from 'vue';
 import { capitalizeFirst } from '../../../../Horario/-Helpers/CapitalizeFirst';
 import type { Vinculo } from '../../FormUtils';
 
@@ -28,7 +27,9 @@ const {
 } = useLadesaApiCrudCampi();
 
 const { data: campus, suspense } = useFindOneQuery(props.vinculo.campus.id);
+
 await suspense();
+
 const dayShifts = [
   {
     title: 'matutino',
@@ -90,18 +91,6 @@ watch(
   { immediate: true }
 );
 
-function abrirModalCadastrarMotivo() {
-  emit('abrir-modal', 'cadastrar');
-}
-
-function abrirModalConsultarMotivo() {
-  emit('abrir-modal', 'consultar');
-}
-
-function abrirModalEditarLista() {
-  emit('abrir-modal', 'listar');
-}
-
 watch(
   () => props.selectedDayWeek,
   novo => {
@@ -136,10 +125,10 @@ const collapsibleOpen = ref(true);
     <div class="m-5 mt-2 flex flex-col gap-9">
       <section class="flex justify-between">
         <div v-for="shift in dayShifts" :key="shift.title">
-          <h1>{{ capitalizeFirst(shift.title) }}</h1>
+          <h1 class="font-medium mb-2">{{ capitalizeFirst(shift.title) }}</h1>
           <UICheckbox
-            :items="shift.times"
             v-model="selectedTimes"
+            :items="shift.times"
             class="nunito"
           />
         </div>
@@ -154,7 +143,7 @@ const collapsibleOpen = ref(true);
 
         <button
           class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-9 py-3 rounded-lg w-full text-sm font-semibold hover:bg-ldsa-green-1/10"
-          @click="abrirModalCadastrarMotivo"
+          @click="$emit('abrir-modal', 'cadastrar')"
         >
           Cadastrar motivos de indisponibilidade
           <IconsAdd class="w-4 h-4" />
@@ -171,7 +160,7 @@ const collapsibleOpen = ref(true);
         <div class="flex max-sm:flex-col gap-4 justify-between">
           <button
             class="indisponibilidade-button"
-            @click="abrirModalConsultarMotivo"
+            @click="$emit('abrir-modal', 'consultar')"
           >
             Consultar
             <IconsEyeOn class="w-5 shrink-0" />
@@ -179,7 +168,7 @@ const collapsibleOpen = ref(true);
 
           <button
             class="indisponibilidade-button"
-            @click="abrirModalEditarLista"
+            @click="$emit('abrir-modal', 'listar')"
           >
             Editar
             <IconsEdit class="w-3.5 shrink-0" />
@@ -194,12 +183,6 @@ const collapsibleOpen = ref(true);
 @reference "~/assets/styles/app.css";
 
 .indisponibilidade-button {
-  @apply flex justify-center items-center gap-5 border-2 border-ldsa-grey text-ldsa-text-default py-3 rounded-lg w-full font-semibold hover:bg-ldsa-grey/15 active:bg-ldsa-grey/25 transition-colors;
-}
-
-.main-title::before {
-  content: '';
-  border: 2px solid var(--ladesa-green-1-color);
-  margin-right: 0.5rem;
+  @apply flex justify-center items-center gap-5 border-2 border-ldsa-grey text-ldsa-text-default py-2 rounded-lg w-full font-semibold hover:bg-ldsa-grey/15 active:bg-ldsa-grey/25 transition-colors;
 }
 </style>
