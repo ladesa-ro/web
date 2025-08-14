@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import AppbarCampus from './AppBarCampus/AppbarCampus.vue';
-
 const hamburgerActive = defineModel<boolean>({
   required: true,
 });
@@ -24,7 +22,7 @@ const hamburgerActive = defineModel<boolean>({
 
     <AppbarCampus />
 
-    <AppbarChangeThemeVueChangeTheme class="shrink-0 sm:mr-3" />
+    <AppbarChangeTheme class="shrink-0 sm:mr-3" />
 
     <div class="hidden sm:block">
       <LogoSisghaLogomarca class="w-[8.75rem] cursor-pointer shrink-0" />

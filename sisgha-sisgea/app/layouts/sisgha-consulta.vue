@@ -1,31 +1,15 @@
+<script setup>
+const foase = ref(true);
+</script>
+
 <template>
-  <div class="layout">
-    <main class="main">
-      <div class="flex-1 flex">
-        <slot />
-      </div>
-      <div>
-        <UIFooter />
-      </div>
+  <div class="flex flex-col min-h-screen">
+    <AppbarStudent class="fixed top-0 right-0 left-0" />
+
+    <main class="flex-1 flex flex-col mt-26 mb-10 overflow-auto">
+      <slot />
     </main>
+
+    <UIFooter />
   </div>
 </template>
-
-<style scoped>
-.layout {
-  min-height: 100vh;
-
-  overflow: hidden;
-
-  display: flex;
-}
-
-.main {
-  flex: 1;
-
-  overflow: auto;
-
-  display: flex;
-  flex-direction: column;
-}
-</style>
