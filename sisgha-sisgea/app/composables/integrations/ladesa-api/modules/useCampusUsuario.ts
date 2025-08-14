@@ -1,4 +1,4 @@
-export function useCampusDoUsuario(userId: string) {
+export function useCampusDoUsuario(userId: string, getCampusId?: boolean) {
   const campus = ref<string | null>(null);
   const apiClient = useApiClient();
 
@@ -8,7 +8,9 @@ export function useCampusDoUsuario(userId: string) {
         filterUsuarioId: [userId],
       });
       const perfil = response.data?.[0];
-      campus.value = perfil?.campus?.apelido || null;
+
+      if(getCampusId) campus.value = perfil?.campus?.id || null;
+      else campus.value = perfil?.campus?.apelido || null;
     } catch (error) {
       console.error('Erro ao buscar campus do usuário:', error);
     }

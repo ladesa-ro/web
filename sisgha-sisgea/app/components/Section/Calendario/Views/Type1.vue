@@ -1,26 +1,27 @@
 <script lang="ts" setup>
 import dayjs from 'dayjs';
 import { calendarDataMethods } from '../CalendarDataMethods';
-import type { CalendarEvent } from '../Types';
+import type { CalendarData, CalendarEvent } from '../Types';
 
 // # IMPORT
 
 // # CODE
 type Props = {
-  year: number;
-  calendarId: string;
+  calendarData: CalendarData;
 };
 
 const props = defineProps<Props>();
 
 // Variables
+let calendar = toRef(props, 'calendarData');
 let events = ref<CalendarEvent[]>([]);
 
-if (props.calendarId) {
+async function setMonth(c: CalendarData) {
   const getSteps: Array<CalendarEvent> =
-    await calendarDataMethods.steps.getSteps(props.calendarId!);
+    await calendarDataMethods.steps.getSteps(c.id!);
   const getEvents: Array<CalendarEvent> =
-    await calendarDataMethods.events.getEvents(props.calendarId!);
+    await calendarDataMethods.events.getEvents(c.id!);
+
   events.value = getSteps.concat(getEvents);
 
   // Ordering List
@@ -28,14 +29,20 @@ if (props.calendarId) {
     (a, b) => dayjs(a.startDate).valueOf() - dayjs(b.startDate).valueOf()
   );
 }
+
+if (calendar.value.id) await setMonth(calendar.value);
+
+await watch(calendar, async n => {
+  await setMonth(n);
+});
 </script>
 
 <template>
   <div class="flex flex-col md:flex-row w-full h-max justify-center gap-6">
     <SectionCalendarioMonth
-      :calendar-id="props.calendarId"
+      :calendar-id="calendar.id"
       :toggle-month="true"
-      :year="props.year"
+      :year="calendar.year!"
       :events="events"
     />
 
@@ -43,7 +50,7 @@ if (props.calendarId) {
       <SectionCalendarioEvent
         v-for="event in events"
         :event="event"
-        :calendarId="props.calendarId!"
+        :calendarId="calendar.id"
       />
     </div>
   </div>

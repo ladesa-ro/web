@@ -65,7 +65,6 @@ function selectRegisterType(type: string | null) {
 const $emit = defineEmits(['close']);
 
 function onClose() {
-  alert('Successful');
   $emit('close');
 }
 
@@ -75,18 +74,17 @@ const eventCrudRef = ref();
 const calendarCrudRef = ref();
 
 async function onSubmit() {
-  alert('In work');
   submitForm.value = true;
 }
 
 await watch(
-    () => eventCrudRef.value?.submitEvent,
-    n => {
-      if (n === true) {
-        onClose();
-      }
+  () => eventCrudRef.value?.submitEvent,
+  n => {
+    if (n === true) {
+      onClose();
     }
-  );
+  }
+);
 </script>
 
 <template>

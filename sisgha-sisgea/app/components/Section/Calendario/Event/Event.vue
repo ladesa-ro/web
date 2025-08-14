@@ -11,6 +11,8 @@ type Props = {
   event: CalendarEvent;
 };
 
+dayjs.locale("pt-br")
+
 const props = defineProps<Props>();
 
 // Remaining time
@@ -24,7 +26,7 @@ const currentDate = dayjs();
 const _startDate = dayjs(props.event.startDate);
 const _endDate = dayjs(props.event.endDate);
 
-if (currentDate.isAfter(_startDate))
+if (currentDate.isBefore(_startDate))
   remainingDays = Number(_endDate.diff(currentDate, 'day'));
 else remainingDays = Number(_startDate.diff(currentDate, 'day'));
 </script>
@@ -49,7 +51,7 @@ else remainingDays = Number(_startDate.diff(currentDate, 'day'));
 
       <!-- Edit Button -->
       <DialogModalEditOrCreateModal
-        :edit-it="'edit-event'"
+        :edit-id="props.event.id"
         :form-component="SectionCalendarioForm"
         :form-props="{
           calendarId: props.calendarId!,
@@ -79,7 +81,7 @@ else remainingDays = Number(_startDate.diff(currentDate, 'day'));
     <p class="my-5" v-show="currentDate.isAfter(_startDate)">
       Começa em <span>{{ remainingDays }}</span> dias.
     </p>
-    <p class="my-5" v-show="!currentDate.isAfter(_startDate)">
+    <p class="my-5" v-show="!currentDate.isBetween(_startDate, _endDate)">
       Termina em <span>{{ remainingDays }}</span> dias.
     </p>
 

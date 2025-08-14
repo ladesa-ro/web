@@ -5,7 +5,6 @@ import 'dayjs/locale/pt-br';
 import type { Day } from '../Types';
 
 // # CODE
-
 const props = defineProps<Day>();
 </script>
 

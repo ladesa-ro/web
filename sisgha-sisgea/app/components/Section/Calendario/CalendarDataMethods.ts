@@ -1,13 +1,15 @@
 // # IMPORT
 import dayjs from 'dayjs';
+import { useCampusDoUsuario } from '../../../composables/integrations/ladesa-api/modules/useCampusUsuario';
+import { useApiContext } from '../../API/Context/setup-context';
 import type { CalendarData, CalendarEvent } from './Types';
 
 // # CODE
-
 export const calendarDataMethods = {
   // Calendar
   calendar: {
-    async getCalendarById(calendarId: string): Promise<CalendarData> {
+    // TODO: Temp. Get Calendar Method
+    async getCalendarById(calendarId: string, campus: string): Promise<CalendarData> {
       let calendar: CalendarData = {
         id: '',
         name: '',
@@ -17,23 +19,23 @@ export const calendarDataMethods = {
       };
 
       try {
-        if (calendarId) {
-          const getCalendar =
-            await getApiClient().calendariosLetivos.calendarioLetivoFindOneById(
-              {
-                id: calendarId,
-              }
-            ).promise;
+        const getCalendar =
+          await getApiClient().calendariosLetivos.calendarioLetivoList({
+            filterCampusId: [campus],
+          }).promise;
 
+        const filterCalendar = getCalendar.data.find(
+          item => item.id === calendarId
+        );
+
+        if (filterCalendar) {
           calendar = {
-            id: getCalendar.id,
-            name: getCalendar.nome,
-            year: getCalendar.ano,
-            trainingOffer: { id: getCalendar.ofertaFormacao.id },
-            campus: { id: getCalendar.campus.id },
+            id: filterCalendar!.id,
+            name: filterCalendar!.nome,
+            year: filterCalendar!.ano,
+            trainingOffer: { id: filterCalendar!.ofertaFormacao.id },
+            campus: { id: filterCalendar!.campus.id },
           };
-
-          alert(`Calendário: ${getCalendar}`);
         }
         return calendar;
       } catch (error) {

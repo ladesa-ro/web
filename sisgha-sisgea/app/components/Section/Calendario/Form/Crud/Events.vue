@@ -106,7 +106,7 @@ async function onSubmit() {
 
 await watch(
   () => props.submit,
-  async n => {
+  async (n) => {
     if (n) {
       if (
         errors.value.eventName ||
@@ -123,7 +123,6 @@ await watch(
         else {
           await onSubmit();
           submitEvent.value = true;
-          alert('YEEEEEEEEEAH!');
         }
       }
     }

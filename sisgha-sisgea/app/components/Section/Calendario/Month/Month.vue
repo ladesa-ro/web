@@ -16,6 +16,8 @@ type Props = {
 
 const props = defineProps<Props>();
 
+let _events = toRef(props, "events");
+
 const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 // Current month
@@ -36,11 +38,13 @@ async function setMonthDays() {
   monthDays.value = await renderDays.MonthDays(
     props.year,
     currentMonth.value,
-    props.events,
+    _events.value,
     props.calendarId
   );
 
   emptyDays.value = renderDays.EmptyDays(props.year, currentMonth.value);
+
+  console.log(_events.value)
 }
 
 // Toggle Month
@@ -54,6 +58,11 @@ async function toggleMonth(number: number) {
 }
 onMounted(async () => {
   await setMonthDays();
+});
+
+await watch(() => props.events, (e) => {
+  _events.value.splice(0, _events.value.length);
+  _events.value.concat(e);
 });
 </script>
 
