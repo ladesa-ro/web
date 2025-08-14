@@ -7,7 +7,8 @@ const closeForm = () => $emit('close');
 const backForm = () => $emit('back');
 
 const formacoes = ['Técnico Integrado', 'Graduação', 'Pós-Graduação'];
-
+// todo: adicionar lógica para carregar as turmas dinamicamente conforme o usuário selecionar a formação no select
+// referente a formação Técnico Integrado
 const cursos = [
   {
     nome: 'Química',
@@ -23,6 +24,34 @@ const cursos = [
     nome: 'Floresta',
     sigla: 'FLO',
     turmas: ['1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'],
+  },
+];
+
+// referente a formação Graduação
+const cursosGraduacao = [
+  {
+    nome: 'Engenharia de Software',
+    sigla: 'ESW',
+    turmas: ['1ºA', '1ºB', '2ºA', '2ºB'],
+  },
+  {
+    nome: 'Ciência da Computação',
+    sigla: 'CC',
+    turmas: ['1ºA', '1ºB', '2ºA', '2ºB'],
+  },
+];
+
+// referente a formação Pós-Graduação
+const cursosPosGraduacao = [
+  {
+    nome: 'Gestão de Projetos',
+    sigla: 'GP',
+    turmas: ['1ºA', '1ºB'],
+  },
+  {
+    nome: 'Segurança da Informação',
+    sigla: 'SI',
+    turmas: ['1ºA', '1ºB'],
   },
 ];
 
@@ -87,6 +116,7 @@ const toggleCurso = (curso: (typeof cursos)[0], checked: boolean) => {
         </button>
       </div>
 
+      <!-- mudar conforme a formação -->
       <div>
         <div class="grid grid-cols-3 gap-4 max-w-[600px] mx-auto">
           <div v-for="curso in cursos" :key="curso.nome" class="p-2">
@@ -130,6 +160,8 @@ const toggleCurso = (curso: (typeof cursos)[0], checked: boolean) => {
       <!-- seção de botoes -->
       <div class="mt-6 flex justify-between gap-2">
         <UIButtonModalGoBack @click="backForm" />
+
+        <!-- selecionar a turma e voltar para DisciplinasTurmas -->
         <UIButtonModalSave @click="closeForm" />
       </div>
     </DialogModalBaseLayout>

@@ -40,6 +40,7 @@ const closeForm = () => $emit('close');
 const addForm = () => $emit('add');
 const backForm = () => $emit('back');
 
+// todo: lógica para puxar professores da api
 const professores = ref([
   {
     id: 1,
@@ -57,7 +58,7 @@ const professores = ref([
 
 const professorSearch = ref('');
 
-const diasSemana = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
+const diasSemana = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
 type AulaAgrupada = {
   id: number;
@@ -94,7 +95,7 @@ const removerDia = (id: number) => {
         <p class="font-medium text-[13px] text-ldsa-grey">Carga horária:  {{ disciplinaSelecionada?.cargaHoraria }}H</p>
       </div>
 
-      <!-- card de turma -->
+      <!-- card de turma: disponível conforme turma selecionada em TurmasAdd -->
       <div class="border-2 border-ldsa-grey p-4 rounded-xl mt-1">
         <div class="flex items-center justify-between">
           <div>
@@ -164,6 +165,7 @@ const removerDia = (id: number) => {
               </button>
 
               <div class="flex items-center gap-2 text-xs font-semibold">
+                <!-- lógica para incrementar e decrementar o total de aulas -->
                 <button
                   type="button"
                   class="text-ldsa-green-1 hover:text-ldsa-green-3 transition"
