@@ -25,7 +25,7 @@ const selectedRadio = defineModel<AcceptableValue>({ default: null });
       class="flex items-center gap-1 mb-2 last:mb-0 cursor-pointer overflow-hidden text-ldsa-text-default"
     >
       <Radio v-if="$slots['default']" :value="item.value" class="w-full">
-        <slot :item="item" :isThisItemSelected="item.value === selectedRadio" />
+        <slot :item="item" :selected="item.value === selectedRadio" />
       </Radio>
 
       <template v-else>

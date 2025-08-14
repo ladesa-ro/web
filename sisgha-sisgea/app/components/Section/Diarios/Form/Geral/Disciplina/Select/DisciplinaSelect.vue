@@ -56,7 +56,7 @@ const nextForm = () => $emit('next');
         v-if="radioItems"
         v-model="selectedDisciplina"
         :items="radioItems"
-        v-slot="{ item, isThisItemSelected }"
+        v-slot="{ item, selected }"
       >
         <div
           class="flex p-5 justify-between items-center border-2 border-ldsa-grey rounded-lg mb-2"
@@ -73,7 +73,7 @@ const nextForm = () => $emit('next');
 
           <UIRadioCircle
             :itemValue="item.value"
-            :isSelected="isThisItemSelected"
+            :isSelected="selected"
           />
         </div>
       </UIRadio>
@@ -82,9 +82,7 @@ const nextForm = () => $emit('next');
 
       <template #button-group>
         <UIButtonModalCancel @click="closeForm" />
-        <UIButtonModalAdvance
-          @click="nextForm"
-        />
+        <UIButtonModalAdvance @click="nextForm" />
       </template>
     </DialogModalBaseLayout>
   </form>
