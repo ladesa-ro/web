@@ -69,8 +69,9 @@ const selectedCheckboxes = ref([]);
       <span
         v-if="isErrorProfs && toggleValue === 'professor'"
         class="text-center text-ldsa-grey"
-        >Não foi possível carregar a listagem de professores.</span
       >
+        Não foi possível carregar a listagem de professores.
+      </span>
 
       <SectionHorarioDapeGeneralVisualizationMescladoList
         v-show="toggleValue === 'professor' && !isLoadingProfs && !isErrorProfs"
