@@ -33,5 +33,3 @@ const props = defineProps<Day>();
 </template>
 
 <style></style>
-
-<!-- border-2 border-ldsa-white rounded-md -->

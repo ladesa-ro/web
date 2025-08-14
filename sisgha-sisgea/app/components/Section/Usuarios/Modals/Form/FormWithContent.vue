@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import DialogSkeleton from '@/components/Dialog/DialogSkeleton.vue';
-import { ref, watch } from 'vue';
 import ModalCadastrarMotivo from '../../Form/MotivosForm/ModalCadastrarMotivo.vue';
 import ModalConsultarMotivo from '../../Form/MotivosForm/ModalConsultarMotivo.vue';
 import ModalEditarMotivo from '../../Form/MotivosForm/ModalEditarMotivo.vue';
