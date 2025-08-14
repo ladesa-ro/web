@@ -1,11 +1,13 @@
 <template>
-  <div class="flex flex-col min-h-screen">
-    <AppbarStudent class="fixed top-0 right-0 left-0" />
+  <div class="h-screen flex flex-col overflow-hidden">
+    <AppbarStudent />
 
-    <main class="flex-1 flex flex-col mt-26 mb-10 overflow-auto">
-      <slot />
-    </main>
+    <div class="flex-1 overflow-y-auto flex flex-col">
+      <main class="flex-1 py-14 shrink flex flex-col">
+        <slot />
+      </main>
 
-    <UIFooter />
+      <UIFooter />
+    </div>
   </div>
 </template>

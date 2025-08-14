@@ -2,14 +2,16 @@
 
 <template>
   <header
-    class="flex justify-between gap-4 px-1.5 sm:px-3 lg:px-7 bg-ldsa-green-1 text-ldsa-white font-semibold border-b border-b-ldsa-green-2 h-16 z-100"
+    class="flex justify-between px-0.5 min[350px]-px-1.5 sm:px-3 lg:px-7 bg-ldsa-green-1 text-ldsa-white font-semibold border-b border-b-ldsa-green-2 h-16 z-100 max-w-full"
   >
     <NuxtLink to="../" class="flex items-center p-2 shrink-0">
       <IconsArrowAlt class="w-7.5 p-1.5 mr-1" />
       <span class="max-md:hidden"> Voltar </span>
     </NuxtLink>
 
-    <span class="flex items-center gap-3 md:max-w-3/4">
+    <span
+      class="flex items-center sm:gap-3 md:max-w-3/4 shrink overflow-hidden"
+    >
       <div
         class="overflow-hidden relative whitespace-nowrap flex items-center h-full"
       >
