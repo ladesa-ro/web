@@ -5,25 +5,25 @@ import { UIButtonModalSave } from '#components';
 
 const $emit = defineEmits(['close', 'add', 'back']);
 
-const { disciplinaId } = useContextDiariosFormGeral();
+const { disciplinaSelecionada } = useContextDiariosFormGeral();
 
 const searchBarText = ref('');
 
-const options = computed(() => ({
-  search: unref(searchBarText),
-  disciplinaId: disciplinaId.value,
-}));
+// const options = computed(() => ({
+//   search: unref(searchBarText),
+//   disciplinaId: disciplinaId.value,
+// }));
 
 const {
   composables: { useListQuery },
 } = useLadesaApiCrudTurmas();
 
-const {
-  data: { items: turmas },
-  methods: { suspend },
-} = useListQuery(options);
+// const {
+//   data: { items: turmas },
+//   methods: { suspend },
+// } = useListQuery(options);
 
-await suspend();
+// await suspend();
 
 const showOptions = ref(false);
 const selectedOption = ref<'aulas' | 'professores' | null>(null);
@@ -40,7 +40,6 @@ const closeForm = () => $emit('close');
 const addForm = () => $emit('add');
 const backForm = () => $emit('back');
 
-// Lista mock de professores
 const professores = ref([
   {
     id: 1,
@@ -58,7 +57,6 @@ const professores = ref([
 
 const professorSearch = ref('');
 
-// Lógica de Aulas Agrupadas
 const diasSemana = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta'];
 
 type AulaAgrupada = {
@@ -92,8 +90,8 @@ const removerDia = (id: number) => {
     >
       <!-- info disciplina -->
       <div class="border-2 border-ldsa-grey p-4 rounded-xl">
-        <span class="font-semibold text-[13px]">Geografia Test</span>
-        <p class="font-medium text-[13px] text-ldsa-grey">Carga horária</p>
+        <span class="font-semibold text-[13px]">{{ disciplinaSelecionada?.nome }}</span>
+        <p class="font-medium text-[13px] text-ldsa-grey">Carga horária:  {{ disciplinaSelecionada?.cargaHoraria }}H</p>
       </div>
 
       <!-- card de turma -->

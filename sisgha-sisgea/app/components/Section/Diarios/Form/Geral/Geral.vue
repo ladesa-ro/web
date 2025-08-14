@@ -1,58 +1,69 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { createAndProvideContextDiariosFormGeral } from './Contexto';
+import {
+  createAndProvideContextDiariosFormGeral,
+  useContextDiariosFormGeral,
+} from './Contexto';
 
 const $emit = defineEmits(['close']);
 
-createAndProvideContextDiariosFormGeral();
+const contexto = createAndProvideContextDiariosFormGeral();
 
-const isManageClassesVisible = ref(false);
-const isLinkClassesVisible = ref(false);
+const showSelectModal = ref(true);
+const showGerenciarModal = ref(false);
+const showLinkClassesModal = ref(false);
 
-const closeAll = () => {
+const fecharTudo = () => {
+  contexto.disciplinaId.value = null;
+  contexto.disciplinaSelecionada.value = null;
+  showSelectModal.value = false;
+  showGerenciarModal.value = false;
+  showLinkClassesModal.value = false;
   $emit('close');
 };
 
-const goToManageClasses = () => {
-  isManageClassesVisible.value = true;
+const abrirGerenciar = () => {
+  showSelectModal.value = false;
+  showGerenciarModal.value = true;
 };
 
-const backToDisciplineSelect = () => {
-  isManageClassesVisible.value = false;
+const voltarParaSelect = () => {
+  showGerenciarModal.value = false;
+  showSelectModal.value = true;
 };
 
-const goToLinkClasses = () => {
-  isLinkClassesVisible.value = true;
+const abrirVincularTurmas = () => {
+  showGerenciarModal.value = false;
+  showLinkClassesModal.value = true;
 };
 
-const backToManageClasses = () => {
-  isLinkClassesVisible.value = false;
+const voltarParaGerenciar = () => {
+  showLinkClassesModal.value = false;
+  showGerenciarModal.value = true;
 };
 </script>
 
 <template>
   <!-- selecionar disciplina -->
-  <template v-if="!isManageClassesVisible && !isLinkClassesVisible">
-    <SectionDiariosFormGeralDisciplinaSelect
-      @close="closeAll"
-      @next="goToManageClasses"
-    />
-  </template>
+  <SectionDiariosFormGeralDisciplinaSelect
+    v-if="showSelectModal"
+    @close="fecharTudo"
+    @next="abrirGerenciar"
+  />
 
   <!-- gerenciar turmas da disciplina -->
-  <template v-if="isManageClassesVisible && !isLinkClassesVisible">
-    <SectionDiariosFormGeralDisciplinaTurmas
-      @back="backToDisciplineSelect"
-      @add="goToLinkClasses"
-      @close="closeAll"
-    />
-  </template>
+  <SectionDiariosFormGeralDisciplinaTurmas
+    v-if="showGerenciarModal"
+    :disciplina="contexto.disciplinaSelecionada"
+    @close="fecharTudo"
+    @back="voltarParaSelect"
+    @add="abrirVincularTurmas"
+  />
 
   <!-- vincular turmas à disciplina -->
-  <template v-if="isLinkClassesVisible">
-    <SectionDiariosFormGeralDisciplinaTurmasAdd
-      @back="backToManageClasses"
-      @close="closeAll"
-    />
-  </template>
+  <SectionDiariosFormGeralDisciplinaTurmasAdd
+    v-if="showLinkClassesModal"
+    @back="voltarParaGerenciar"
+    @close="fecharTudo"
+  />
 </template>

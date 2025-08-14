@@ -1,15 +1,22 @@
 const identificadorContexto = 'contexto-diarios-form-geral';
 
+export type IDisciplina = {
+  id: string | number;
+  nome: string;
+  cargaHoraria: number;
+  [key: string]: any;
+};
+
 type IContextDiariosFormGeral = {
   disciplinaId: Ref<string | null>;
+  disciplinaSelecionada: Ref<IDisciplina | null>;
 };
 
 export const createContextDiariosFormGeral = (): IContextDiariosFormGeral => {
   const disciplinaId = ref<string | null>(null);
+  const disciplinaSelecionada = ref<IDisciplina | null>(null);
 
-  return {
-    disciplinaId,
-  };
+  return { disciplinaId, disciplinaSelecionada };
 };
 
 export const createAndProvideContextDiariosFormGeral = () => {
@@ -18,14 +25,10 @@ export const createAndProvideContextDiariosFormGeral = () => {
   return contexto;
 };
 
-export const useContextDiariosFormGeral = () => {
+export function useContextDiariosFormGeral(): IContextDiariosFormGeral {
   const contexto = inject<IContextDiariosFormGeral>(identificadorContexto);
-
   if (!contexto) {
-    throw new Error(
-      'Você precisa chamar o createAndProvideContextDiariosFormGeral em algum componente pai!'
-    );
+    throw new Error('Contexto de DiariosFormGeral não encontrado!');
   }
-
   return contexto;
-};
+}
