@@ -8,7 +8,6 @@ import { calendarDataMethods } from '../../CalendarDataMethods';
 type Props = {
   calendarId: string;
   eventName?: string;
-  submit?: boolean;
 };
 
 const props = defineProps<Props>();
@@ -69,7 +68,7 @@ const schemaCalendar = yup.object({
   eventEndHour: yup.string().notRequired(),
 });
 
-const { handleSubmit, values, errors, setFieldValue } = useForm<FormValues>({
+const { values, validate } = useForm<FormValues>({
   validationSchema: schemaCalendar,
   initialValues: {
     eventName: '',
@@ -80,12 +79,6 @@ const { handleSubmit, values, errors, setFieldValue } = useForm<FormValues>({
     eventEndHour: '',
     eventEnvironment: '',
   },
-});
-
-let submitEvent = ref<boolean>(false);
-
-defineExpose({
-  submitEvent,
 });
 
 async function onSubmit() {
@@ -104,30 +97,16 @@ async function onSubmit() {
   );
 }
 
-await watch(
-  () => props.submit,
-  async (n) => {
-    if (n) {
-      if (
-        errors.value.eventName ||
-        errors.value.eventColor ||
-        errors.value.eventStartDate ||
-        errors.value.eventEndDate
-      ) {
-        return;
-      } else {
-        // Edit
-        if (props.eventName) {
-        }
-        // Create
-        else {
-          await onSubmit();
-          submitEvent.value = true;
-        }
-      }
-    }
+const validateEventCrud = async (): Promise<boolean> => {
+  const { valid } = await validate();
+  if (!valid) return false;
+  else {
+    await onSubmit();
+    return true;
   }
-);
+}
+
+defineExpose({validateEventCrud,});
 </script>
 
 <template>

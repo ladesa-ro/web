@@ -1,15 +1,19 @@
 // # IMPORT
 import dayjs from 'dayjs';
-import { useCampusDoUsuario } from '../../../composables/integrations/ladesa-api/modules/useCampusUsuario';
-import { useApiContext } from '../../API/Context/setup-context';
 import type { CalendarData, CalendarEvent } from './Types';
+import customParseFormat from "dayjs/plugin/customParseFormat.js";
 
 // # CODE
+dayjs.extend(customParseFormat);
+
 export const calendarDataMethods = {
   // Calendar
   calendar: {
     // TODO: Temp. Get Calendar Method
-    async getCalendarById(calendarId: string, campus: string): Promise<CalendarData> {
+    async getCalendarById(
+      calendarId: string,
+      campus: string
+    ): Promise<CalendarData> {
       let calendar: CalendarData = {
         id: '',
         name: '',
@@ -142,6 +146,11 @@ export const calendarDataMethods = {
       calendarId: string
     ): Promise<void> {
       try {
+        // String(
+        //   dayjs(`${start.date}T${start.hour}`).format(
+        //     'YYYY-MM-DD HH:mm:ss'
+        //   )
+        // )
         await getApiClient().eventos.eventoCreate({
           requestBody: {
             nome: name,
@@ -149,16 +158,10 @@ export const calendarDataMethods = {
             cor: color,
             calendario: { id: calendarId },
             data_inicio: start.hour
-              ? String(
-                  dayjs(`${start.date}T${start.hour}`).format(
-                    'YYYY-MM-DD HH:mm:ss'
-                  )
-                )
+              ? `${dayjs(start.date).format("YYYY-MM-DD")}T${dayjs(start.hour, "HH:mm").format("HH:mm:ss")}Z`
               : dayjs(start.date).format('YYYY-MM-DD'),
             data_fim: end.hour
-              ? String(
-                  dayjs(`${end.date}T${end.hour}`).format('YYYY-MM-DD HH:mm:ss')
-                )
+              ? `${dayjs(end.date).format("YYYY-MM-DD")}T${dayjs(end.hour, "HH:mm").format("HH:mm:ss")}Z`
               : dayjs(end.date).format('YYYY-MM-DD'),
           },
         });

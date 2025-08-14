@@ -13,6 +13,8 @@ type Props = {
 const props = defineProps<Props>();
 
 // Variables
+// TODO: Make a event filter by month
+// let selectedMonth = ref<string>(dayjs(dayjs).format("YYYY-MM-DD"));
 let calendar = toRef(props, 'calendarData');
 let events = ref<CalendarEvent[]>([]);
 
@@ -23,6 +25,7 @@ async function setMonth(c: CalendarData) {
     await calendarDataMethods.events.getEvents(c.id!);
 
   events.value = getSteps.concat(getEvents);
+  // events.value = events.value.filter(item => dayjs(item.startDate).month() === month);
 
   // Ordering List
   events.value.sort(
@@ -32,7 +35,7 @@ async function setMonth(c: CalendarData) {
 
 if (calendar.value.id) await setMonth(calendar.value);
 
-await watch(calendar, async n => {
+watch(calendar, async n => {
   await setMonth(n);
 });
 </script>
@@ -40,6 +43,7 @@ await watch(calendar, async n => {
 <template>
   <div class="flex flex-col md:flex-row w-full h-max justify-center gap-6">
     <SectionCalendarioMonth
+      ref="monthRef"
       :calendar-id="calendar.id"
       :toggle-month="true"
       :year="calendar.year!"

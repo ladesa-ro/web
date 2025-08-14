@@ -68,23 +68,14 @@ function onClose() {
   $emit('close');
 }
 
-let submitForm = ref<boolean>(false);
-
 const eventCrudRef = ref();
 const calendarCrudRef = ref();
 
 async function onSubmit() {
-  submitForm.value = true;
-}
+  const valid = await eventCrudRef.value!.validateEventCrud();
 
-await watch(
-  () => eventCrudRef.value?.submitEvent,
-  n => {
-    if (n === true) {
-      onClose();
-    }
-  }
-);
+  if (valid) onClose();
+}
 </script>
 
 <template>
@@ -125,7 +116,6 @@ await watch(
         :form-stage="stage"
         :calendar-id="props.calendarId!"
         :event-name="props.eventName"
-        :submit="submitForm"
       />
 
       <!-- Buttons -->

@@ -11,7 +11,7 @@ type Props = {
   event: CalendarEvent;
 };
 
-dayjs.locale("pt-br")
+dayjs.locale('pt-br');
 
 const props = defineProps<Props>();
 
@@ -25,6 +25,10 @@ dayjs.extend(relativeTime);
 const currentDate = dayjs();
 const _startDate = dayjs(props.event.startDate);
 const _endDate = dayjs(props.event.endDate);
+
+// Test
+console.log(`START HOUR: ${_startDate.hour()}/${_startDate.minute()}`);
+console.log(`END HOUR: ${_endDate.hour()}/${_endDate.minute()}`);
 
 if (currentDate.isBefore(_startDate))
   remainingDays = Number(_endDate.diff(currentDate, 'day'));
