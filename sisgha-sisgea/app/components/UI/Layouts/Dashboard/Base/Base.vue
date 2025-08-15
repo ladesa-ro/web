@@ -21,17 +21,17 @@ const { hamburguerActive } = provideLayoutsDashboardContext();
 
     <slot id="sidebar" name="sidebar" />
 
-    <main
+    <section
       class="flex flex-col overflow-auto max-sm:ml-0 min-sm:ml-0"
       :data-hamburger-active="hamburguerActive"
     >
       <!-- main content -->
-      <section class="flex-1 flex flex-col py-10">
+      <main class="flex-1 flex flex-col py-10">
         <slot />
-      </section>
+      </main>
 
       <UIFooter />
-    </main>
+    </section>
   </div>
 </template>
 

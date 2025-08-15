@@ -14,7 +14,7 @@ definePageMeta({
     </h1>
 
     <div></div>
-    <NuxtLink to="horario" class="w-full">
+    <NuxtLink to="/sisgha/consulta/horario" class="w-full">
       <UIButtonDefault class="w-full"> Ver horário </UIButtonDefault>
     </NuxtLink>
   </UIContainer>
