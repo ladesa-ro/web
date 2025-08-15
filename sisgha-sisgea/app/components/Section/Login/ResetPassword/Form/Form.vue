@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import { useMutation } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 
 const $emit = defineEmits(['close']);
-const onClose = () => $emit('close');
 
 const schema = yup.object().shape({
   email: yup
@@ -12,32 +12,56 @@ const schema = yup.object().shape({
     .required('Email é obrigatório.'),
 });
 
-const formInput = reactive({
-  email: '',
-});
+const formInput = ref({ email: '' });
 
-const { handleSubmit } = useForm({
+const { values, errors, handleSubmit } = useForm({
   validationSchema: schema,
-  initialValues: formInput,
+  initialValues: formInput.value,
 });
 
 const showAlert = ref(false);
 
+//
+
+const apiClient = useApiClient();
+
+const {
+  isError,
+  mutateAsync,
+  data: canRecoverPassword,
+} = useMutation({
+  mutationFn: (email: string) =>
+    apiClient.autenticacao.authRecoverPassword({
+      requestBody: { email },
+    }),
+});
+
 const onSubmit = handleSubmit(
-  formData => {
-    console.log('Formulário válido, pronto para enviar!', { formData });
-    showAlert.value = true;
+  async formData => {
+    try {
+      await mutateAsync(formData.email);
+
+      if (canRecoverPassword) {
+        showAlert.value = true;
+        console.log('Formulário válido, pronto para enviar!', formData);
+      } else {
+        console.log('Este e-mail não está disponível.');
+      }
+    } catch (e) {
+      console.error('Ocorreu um erro:', e);
+    }
   },
   errors => {
     console.error('Erro de validação:', errors);
   }
 );
 </script>
+
 <template>
   <form @submit.prevent="onSubmit">
     <DialogModalBaseLayout
       :close-button="false"
-      :on-close="onClose"
+      :on-close="() => $emit('close')"
       title="Redefinir Senha"
     >
       <VVTextField
@@ -51,9 +75,15 @@ const onSubmit = handleSubmit(
       />
 
       <UIAlert
-        v-if="showAlert"
+        v-if="showAlert && !isError"
         type="info"
         message="Se o endereço de e-mail existir, você receberá as instruções para a redefinição de senha em sua caixa de entrada."
+      />
+
+      <UIAlert
+        v-else-if="showAlert && isError"
+        type="error"
+        message="Ocorreu um erro ao tentar encontrar o e-mail."
       />
 
       <template #button-group>
@@ -63,14 +93,18 @@ const onSubmit = handleSubmit(
           @click="$emit('close')"
         />
 
+        <UIButtonModalReset
+          v-if="!showAlert"
+          type="submit"
+          :disabled="errors.email !== undefined || values.email === ''"
+        />
+
         <UIButtonModalOk
           v-if="showAlert"
-          class="!px-10"
+          class="px-10"
           type="button"
           @click="$emit('close')"
         />
-
-        <UIButtonModalReset v-if="!showAlert" type="submit" />
       </template>
     </DialogModalBaseLayout>
   </form>
