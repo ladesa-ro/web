@@ -14,7 +14,7 @@ const getRoutePath = () => {
   <header
     class="flex justify-between px-0.5 min[350px]-px-1.5 sm:px-3 lg:px-7 bg-ldsa-green-1 text-ldsa-white font-semibold border-b border-b-ldsa-green-2 h-16 z-100 max-w-full"
   >
-    <button @click="getRoutePath" class="flex items-center p-2 shrink-0">
+    <button @pointerdown="getRoutePath" class="flex items-center p-2 shrink-0">
       <IconsArrowAlt class="w-7.5 p-1.5 mr-1" />
       <span class="max-md:hidden"> Voltar </span>
     </button>

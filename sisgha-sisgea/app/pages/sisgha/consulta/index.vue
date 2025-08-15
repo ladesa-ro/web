@@ -7,13 +7,19 @@ definePageMeta({
 
 <template>
   <!-- TODO: add variant mini em UIContainer -->
-  <UIContainer variant="tighter" class="flex flex-col gap-5 px-25">
-    <h1 class="flex items-center gap-2 text-[1.375rem] font-semibold">
-      <IconsClock class="w-4.5" />
+  <UIContainer
+    variant="tighter"
+    class="flex flex-col gap-5 sm:px-10 md:px-18 lg:px-25"
+  >
+    <h1
+      class="flex items-center gap-2 text-lg sm:text-[1.375rem] font-semibold"
+    >
+      <IconsClock class="w-3.5 sm:w-4.5" />
       Selecionar Horário
     </h1>
 
-    <div></div>
+    <SectionConsultaSelectionList />
+
     <NuxtLink to="/sisgha/consulta/horario" class="w-full">
       <UIButtonDefault class="w-full"> Ver horário </UIButtonDefault>
     </NuxtLink>

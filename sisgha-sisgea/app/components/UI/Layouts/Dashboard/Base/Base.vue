@@ -49,7 +49,7 @@ const { hamburguerActive } = provideLayoutsDashboardContext();
   @apply grid;
   grid-template:
     'appbar appbar' auto
-    'sidebar main' 1fr
+    'sidebar content' 1fr
     / auto 1fr;
 }
 
@@ -61,21 +61,21 @@ const { hamburguerActive } = provideLayoutsDashboardContext();
   grid-area: sidebar;
 }
 
-main {
-  grid-area: main;
+section {
+  grid-area: content;
 }
 
 /* Transition */
 
-main {
+section {
   @apply transition-[margin] duration-200;
 }
 
-main[data-hamburger-active='true'] {
+section[data-hamburger-active='true'] {
   @apply min-sm:ml-64;
 }
 
-main[data-hamburger-active='false'] {
+section[data-hamburger-active='false'] {
   @apply min-sm:ml-14;
 }
 </style>
