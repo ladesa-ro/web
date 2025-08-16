@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type AcceptableValue } from 'reka-ui';
 
-type Props = { title: string; items: ParsedItem[] };
+type Props = { title: string; items: ParsedItem[]; disabled?: boolean };
 defineProps<Props>();
 
 defineEmits(['option-selected']);
@@ -14,16 +14,27 @@ const open = ref(false);
 <template>
   <UICollapsible
     v-model="open"
+    :disabled
     class="border-2 rounded-lg"
-    :class="open ? 'border-ldsa-green-2' : 'border-ldsa-grey'"
+    :class="open && !disabled ? 'border-ldsa-green-2' : 'border-ldsa-grey'"
   >
     <template #trigger>
-      <div class="p-4 flex justify-between items-center text-lg font-semibold">
+      <div
+        class="p-4 flex justify-between items-center text-lg font-semibold"
+        :class="
+          disabled
+            ? 'text-ldsa-grey cursor-not-allowed'
+            : 'text-ldsa-text-default'
+        "
+      >
         {{ title }}
 
         <IconsArrow
-          class="text-ldsa-text-green transition-[rotate] duration-200"
-          :class="open ? 'rotate-90' : '-rotate-90'"
+          class="transition-[rotate] duration-200"
+          :class="[
+            open ? 'rotate-90' : '-rotate-90',
+            disabled ? 'text-ldsa-grey' : 'text-ldsa-text-green',
+          ]"
         />
       </div>
     </template>
@@ -33,7 +44,7 @@ const open = ref(false);
     >
       <SectionConsultaAccordionOptions
         @option-selected="
-          itemSelected => $emit('option-selected', {itemSelected, title})
+          itemSelected => $emit('option-selected', { itemSelected, title })
         "
         v-model="selectedOption"
         :items

@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { useQuery } from '@tanstack/vue-query';
+import { type UseQueryDefinedReturnType } from '@tanstack/vue-query';
 
-type Option = {
-  nome: string;
-  content: any | null;
-  selected: any | null;
-};
+const scope = effectScope();
 
-const selectedData: Ref<Option[]> = ref([
+const scheduleSelectionData = ref<OptionData[]>([
   {
     nome: 'Formação',
     content: [{ value: 'f1', label: 'formacao1' }],
@@ -15,54 +11,71 @@ const selectedData: Ref<Option[]> = ref([
   },
   {
     nome: 'Curso',
-    content: [{ value: 'c1', label: 'curso1' }],
+    content: null,
     selected: null,
   },
   {
     nome: 'Turma',
-    content: [{ value: 't1', label: 'turma1' }],
+    content: null,
     selected: null,
   },
 ]);
 
-const formacoes = useQuery(listOfertasFormacao());
+const allHaveSelected = computed(
+  () =>
+    scheduleSelectionData.value.find(data => data.content === null) ===
+    undefined
+);
 
-const formacoesData = await formacoes.promise.value;
+const queries: UseQueryDefinedReturnType<any, any>[] = [];
 
-selectedData.value[0]!.content = formacoesData.data;
+//
 
-// const waitFormacaoBeSelected = new Promise(resolve => {
-//   watch(
-//     () => selectedData.value[0]!.selected,
-//     (newVal, oldVal) => {
-//       if (newVal !== null && newVal !== oldVal)
-//         resolve(selectedData.value[0]!.selected);
-//     },
-//     { immediate: true }
-//   );
-// });
-
-// await waitFormacaoBeSelected;
+const formacaoSelected = ref();
+scope.run(() => {
+  watch(
+    () => scheduleSelectionData.value[0]?.selected,
+    async () => {
+      formacaoSelected.value = await useQueryAndDefineData(
+        scheduleSelectionData,
+        0,
+        listOfertasFormacao(),
+        item => ({ label: item.nome, value: item.id }),
+        queries
+      );
+    },
+    { immediate: true }
+  );
+});
+scope.stop();
 
 const testeVal = ref();
-const teste = (itemSelected: any) => testeVal.value = itemSelected;
+const teste = (itemSelected: any) => (testeVal.value = itemSelected);
+
+//
+
+const registerScheduleSelection = () => {
+  // setScheduleSelection e n sei oq
+}
 </script>
 
 <template>
-  <!-- {{ formacoes.isLoading }}
-  <br>
-<br>
-<pre>
-  {{ selectedData }} -->
-<!-- </pre> -->
-  teste: {{ testeVal }}
-  o valor acima deveria aparecer na teoria quando se seleciona um item
+  <!-- queries[index].isError || queries[index].isLoading -->
+
+  testedaminhafilha: {{ formacaoSelected }}
 
   <SectionConsultaAccordion
-  @option-selected="(item) => teste(item)"
-    v-for="(_, index) in selectedData"
-    :title="selectedData[index]!.nome"
-    :items="selectedData[index]!.content"
-    v-model="selectedData[index]!.selected"
+    @option-selected="item => teste(item)"
+    v-for="(_, index) in scheduleSelectionData"
+    v-model="scheduleSelectionData[index]!.selected"
+    :title="scheduleSelectionData[index]!.nome"
+    :items="scheduleSelectionData[index]!.content ?? []"
+    :disabled="!scheduleSelectionData[index]!.content"
   />
+
+  <NuxtLink @click="registerScheduleSelection" to="/sisgha/consulta/horario" class="w-full">
+    <UIButtonDefault :disabled="allHaveSelected" class="w-full">
+      Ver horário
+    </UIButtonDefault>
+  </NuxtLink>
 </template>

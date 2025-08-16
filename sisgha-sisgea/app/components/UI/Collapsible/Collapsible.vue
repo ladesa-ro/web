@@ -5,12 +5,15 @@ import {
   CollapsibleTrigger as Trigger,
 } from 'reka-ui';
 
+const { disabled = false } = defineProps<{ disabled?: boolean }>();
+
 const open = defineModel<boolean>({ required: false, default: false });
 </script>
 
 <template>
   <Root
     v-model:open="open"
+    :disabled
     class="overflow-hidden min-h-max min-w-full text-ldsa-text-default"
   >
     <Trigger class="w-full">

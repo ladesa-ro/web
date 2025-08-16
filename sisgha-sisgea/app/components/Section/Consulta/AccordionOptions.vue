@@ -17,7 +17,7 @@ const selectedOption = defineModel<AcceptableValue>({ required: true });
     v-slot="{ item, selected }"
   >
     <button
-      @pointerdown="$emit('option-selected', item)"
+      @click="$emit('option-selected', item)"
       class="border-2 rounded-lg flex items-center justify-center p-3.5 font-medium min-w-max"
       :class="
         selected
