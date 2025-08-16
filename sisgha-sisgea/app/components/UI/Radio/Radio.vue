@@ -19,10 +19,9 @@ const selectedRadio = defineModel<AcceptableValue>({ default: null });
 <template>
   <RadioGroup v-model="selectedRadio">
     <label
-      v-bind="$attrs"
       v-for="item in items"
       :key="item.value"
-      class="flex items-center gap-1 mb-2 last:mb-0 cursor-pointer overflow-hidden text-ldsa-text-default"
+      class="flex items-center gap-1 cursor-pointer overflow-hidden text-ldsa-text-default"
     >
       <Radio v-if="$slots['default']" :value="item.value" class="w-full">
         <slot :item="item" :selected="item.value === selectedRadio" />

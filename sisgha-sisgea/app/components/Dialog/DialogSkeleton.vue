@@ -71,9 +71,8 @@ const onclickHandle = () => {
 }
 
 .modal-container {
-  @apply z-[999] max-h-screen max-w-[95%] p-7;
+  @apply z-[999] max-h-screen;
   @apply flex items-center justify-center;
-  @apply rounded-2xl;
   @apply transition-[all] duration-300;
 }
 

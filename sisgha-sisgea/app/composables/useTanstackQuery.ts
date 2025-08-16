@@ -3,9 +3,15 @@
 
 import type {
   CampusFindOneByIdData,
+  CursoFindOneByIdData,
+  CursoListData,
   DisciplinaFindOneByIdData,
+  OfertaFormacaoFindOneByIdData,
+  OfertaFormacaoListData,
   TurmaFindOneByIdData,
+  TurmaListData,
   UsuarioFindOneByIdData,
+  UsuarioListData,
 } from '@ladesa-ro/management-service-client';
 import { queryOptions } from '@tanstack/vue-query';
 
@@ -17,6 +23,20 @@ export const findCampusById = (id: CampusFindOneByIdData) =>
     queryFn: async () => await useApiClient().campi.campusFindOneById(id),
   });
 
+// cursos
+
+export const findCursoById = (id: CursoFindOneByIdData) =>
+  queryOptions({
+    queryKey: ['curso', 'curso::id', id],
+    queryFn: async () => await useApiClient().cursos.cursoFindOneById(id),
+  });
+
+export const listCursos = (filter?: CursoListData) =>
+  queryOptions({
+    queryKey: ['cursos', 'cursos-list'],
+    queryFn: async () => await useApiClient().cursos.cursoList(filter),
+  });
+
 // disciplinas
 
 export const findDisciplinaById = (id: DisciplinaFindOneByIdData) =>
@@ -24,6 +44,22 @@ export const findDisciplinaById = (id: DisciplinaFindOneByIdData) =>
     queryKey: ['disciplina', 'disciplina::id', id],
     queryFn: async () =>
       await useApiClient().disciplinas.disciplinaFindOneById(id),
+  });
+
+// formações
+
+export const findOfertaFormacaoById = (id: OfertaFormacaoFindOneByIdData) =>
+  queryOptions({
+    queryKey: ['oferta-formacao', 'oferta-formacao::id', id],
+    queryFn: async () =>
+      await useApiClient().ofertasFormacoes.ofertaFormacaoFindOneById(id),
+  });
+
+export const listOfertasFormacao = (filter?: OfertaFormacaoListData) =>
+  queryOptions({
+    queryKey: ['ofertas-formacao', 'oferta-formacao-list'],
+    queryFn: async () =>
+      await useApiClient().ofertasFormacoes.ofertaFormacaoList(filter),
   });
 
 // turmas
@@ -34,10 +70,10 @@ export const findTurmaById = (id: TurmaFindOneByIdData) =>
     queryFn: async () => await useApiClient().turmas.turmaFindOneById(id),
   });
 
-export const listTurmas = () =>
+export const listTurmas = (filter?: TurmaListData) =>
   queryOptions({
     queryKey: ['turma', 'turmas-list'],
-    queryFn: async () => await useApiClient().turmas.turmaList(),
+    queryFn: async () => await useApiClient().turmas.turmaList(filter),
   });
 
 // usuários
@@ -48,8 +84,8 @@ export const findUserById = (id: UsuarioFindOneByIdData) =>
     queryFn: async () => await useApiClient().usuarios.usuarioFindOneById(id),
   });
 
-export const listUsers = () =>
+export const listUsers = (filter?: UsuarioListData) =>
   queryOptions({
     queryKey: ['user', 'users-list'],
-    queryFn: async () => await useApiClient().usuarios.usuarioList(),
+    queryFn: async () => await useApiClient().usuarios.usuarioList(filter),
   });
