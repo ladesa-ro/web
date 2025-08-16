@@ -22,7 +22,7 @@ const open = ref(openProps);
   >
     <template #trigger>
       <div
-        class="p-4 flex justify-between items-center text-lg font-semibold"
+        class="p-3 sm:p-4 flex justify-between items-center sm:text-lg font-semibold"
         :class="
           disabled
             ? 'text-ldsa-grey cursor-not-allowed'
@@ -42,7 +42,7 @@ const open = ref(openProps);
     </template>
 
     <div
-      class="m-4 mt-0 h-15 max-w-full min-w-0 whitespace-nowrap overflow-x-auto overflow-y-hidden"
+      class="m-3 sm:m-4 mt-0 h-12 sm:h-15 max-w-full min-w-0 whitespace-nowrap overflow-x-auto overflow-y-hidden"
     >
       <SectionConsultaAccordionOptions
         @option-selected="

@@ -18,7 +18,7 @@ const selectedOption = defineModel<AcceptableValue>({ required: true });
   >
     <button
       @click="$emit('option-selected', item)"
-      class="border-2 rounded-lg flex items-center justify-center p-3.5 font-medium min-w-max"
+      class="border-2 rounded-lg flex items-center justify-center p-2.5 sm:p-3.5 max-sm:text-sm font-medium min-w-max"
       :class="
         selected
           ? 'border-ldsa-green-2 text-ldsa-text-green bg-ldsa-green-2/10'

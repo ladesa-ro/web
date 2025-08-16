@@ -70,8 +70,8 @@ const registerScheduleSelection = () => {
 <template>
   <SectionConsultaAccordion
     v-for="(_, index) in scheduleSelectionData"
-    :open="scheduleSelectionData[index]!.nome === 'Formação'"
     v-model="scheduleSelectionData[index]!.selected"
+    :open="scheduleSelectionData[index]!.nome === 'Formação'"
     :title="scheduleSelectionData[index]!.nome"
     :items="scheduleSelectionData[index]!.content ?? []"
     :disabled="!scheduleSelectionData[index]!.content"
