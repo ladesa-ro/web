@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { type AcceptableValue } from 'reka-ui';
 
-type Props = { title: string; items: ParsedItem[]; disabled?: boolean };
-defineProps<Props>();
+type Props = { title: string; items: ParsedItem[]; disabled?: boolean, loading?: boolean, open?: boolean };
+const {open: openProps} =  defineProps<Props>();
 
 defineEmits(['option-selected']);
 
 const selectedOption = defineModel<AcceptableValue>({ required: true });
 
-const open = ref(false);
+//
+
+const open = ref(openProps);
 </script>
 
 <template>

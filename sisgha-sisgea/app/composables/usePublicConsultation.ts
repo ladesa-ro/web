@@ -1,4 +1,5 @@
-import { type UseQueryReturnType } from '@tanstack/vue-query';
+import type { CancelablePromise } from '@ladesa-ro/management-service-client';
+import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query';
 import type { ParsedItem } from './useOptionItems';
 
 export type OptionData = {
@@ -51,6 +52,8 @@ export const clearScheduleSelectionData = () => {
   ];
 };
 
+//
+
 export const useQueryAndDefineData = async (
   query: UseQueryReturnType<any, any>,
   scheduleSelectionData: Ref<OptionData[]>,
@@ -79,6 +82,43 @@ export const useQueryAndDefineData = async (
     return null;
   }
 };
+
+export const useQueryAndDefineDataWithWatcher = (
+  scheduleSelectionData: Ref<OptionData[]>,
+  scheduleSelectionDataIndex: number,
+  queryKey: string[],
+  queryFn: CancelablePromise<any>,
+  mapFn: (item: any) => ParsedItem,
+  queries: Ref<UseQueryReturnType<any, any>[]>
+) => {
+  const query = useQuery({
+    queryKey: queryKey,
+    queryFn: async () => await queryFn,
+    enabled: false,
+  });
+
+  const haveSelected = ref();
+
+  watch(
+    () => scheduleSelectionData.value[scheduleSelectionDataIndex - 1]?.selected,
+    async newVal => {
+      if (newVal !== null) {
+        haveSelected.value = await useQueryAndDefineData(
+          query,
+          scheduleSelectionData,
+          scheduleSelectionDataIndex,
+          mapFn
+        );
+
+        queries.value.push(query);
+      }
+    }
+  );
+
+  return haveSelected;
+};
+
+//
 
 export const hydratateSelectedItemsNamesWithScheduleSelectionData = () => {
   if (

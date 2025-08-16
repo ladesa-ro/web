@@ -21,73 +21,44 @@ const scheduleSelectionData = ref<OptionData[]>([
 
 const allHaveSelected = computed(
   () =>
-    scheduleSelectionData.value.find(data => data.content === null) ===
+    scheduleSelectionData.value.find(data => data.selected === null) ===
     undefined
 );
 
-const queries: UseQueryReturnType<any, any>[] = [];
+const queries: Ref<UseQueryReturnType<any, any>[]> = ref([]);
 
 // formação
 
 const formacaoQuery = useQuery({ ...listOfertasFormacao(), enabled: false });
 
-const formacaoSelected = await useQueryAndDefineData(
-  formacaoQuery,
-  scheduleSelectionData,
-  0,
-  item => ({ label: item.nome, value: item.id })
-);
+await useQueryAndDefineData(formacaoQuery, scheduleSelectionData, 0, item => ({
+  label: item.nome,
+  value: item.id,
+}));
 
-queries.push(formacaoQuery);
+queries.value.push(formacaoQuery);
 
 // curso
 
-const cursoQuery = useQuery({ ...listCursos(), enabled: false });
-const cursoSelected = ref();
+const apiClient = useApiClient();
 
-watch(
-  () => scheduleSelectionData.value[0]?.selected,
-  async newVal => {
-    console.log('new val!!!!! uuuuuhuuu');
-
-    if (newVal !== null) {
-      cursoSelected.value = await useQueryAndDefineData(
-        cursoQuery,
-        scheduleSelectionData,
-        1,
-        item => ({ label: item.nome, value: item.id })
-      );
-
-      queries.push(cursoQuery);
-    }
-  }
+useQueryAndDefineDataWithWatcher(
+  scheduleSelectionData,
+  1,
+  ['curso', 'cursos-list'],
+  apiClient.cursos.cursoList(),
+  item => ({ label: item.nome, value: item.id }),
+  queries
 );
 
-// turma
-
-const turmaQuery = useQuery({ ...listTurmas(), enabled: false });
-const turmaSelected = ref();
-
-watch(
-  () => scheduleSelectionData.value[1]?.selected,
-  async newVal => {
-    if (newVal !== null) {
-      turmaSelected.value = await useQueryAndDefineData(
-        turmaQuery,
-        scheduleSelectionData,
-        2,
-        item => ({ label: item.periodo, value: item.id })
-      );
-
-      queries.push(turmaQuery);
-    }
-  }
+useQueryAndDefineDataWithWatcher(
+  scheduleSelectionData,
+  2,
+  ['turma', 'turmas-list'],
+  apiClient.turmas.turmaList(),
+  item => ({ label: item.periodo, value: item.id }),
+  queries
 );
-
-//
-
-const testeVal = ref();
-const teste = (itemSelected: any) => (testeVal.value = itemSelected);
 
 //
 
@@ -97,13 +68,9 @@ const registerScheduleSelection = () => {
 </script>
 
 <template>
-  <!-- queries[index].isError || queries[index].isLoading -->
-
-  testedaminhafilha: {{ formacaoSelected }}
-
   <SectionConsultaAccordion
-    @option-selected="item => teste(item)"
     v-for="(_, index) in scheduleSelectionData"
+    :open="scheduleSelectionData[index]!.nome === 'Formação'"
     v-model="scheduleSelectionData[index]!.selected"
     :title="scheduleSelectionData[index]!.nome"
     :items="scheduleSelectionData[index]!.content ?? []"
@@ -115,7 +82,7 @@ const registerScheduleSelection = () => {
     to="/sisgha/consulta/horario"
     class="w-full"
   >
-    <UIButtonDefault :disabled="allHaveSelected" class="w-full">
+    <UIButtonDefault :disabled="!allHaveSelected" class="w-full">
       Ver horário
     </UIButtonDefault>
   </NuxtLink>
