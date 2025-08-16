@@ -1,4 +1,4 @@
-import { useQuery, type UndefinedInitialQueryOptions, type UseQueryDefinedReturnType } from '@tanstack/vue-query';
+import { type UseQueryReturnType } from '@tanstack/vue-query';
 import type { ParsedItem } from './useOptionItems';
 
 export type OptionData = {
@@ -52,16 +52,13 @@ export const clearScheduleSelectionData = () => {
 };
 
 export const useQueryAndDefineData = async (
+  query: UseQueryReturnType<any, any>,
   scheduleSelectionData: Ref<OptionData[]>,
   scheduleSelectionIndex: number,
-  queryFn: UndefinedInitialQueryOptions & any,
-  mapFn: (item: any, index: number) => ParsedItem,
-  savedQueries: UseQueryDefinedReturnType<any, any>[]
+  mapFn: (item: any) => ParsedItem
 ) => {
   try {
-    const query = useQuery(queryFn);
-
-    savedQueries.push(query);
+    await query.refetch();
 
     const queryData = (await query.promise.value) as {
       data: any[];

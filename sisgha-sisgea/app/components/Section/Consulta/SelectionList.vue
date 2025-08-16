@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { type UseQueryDefinedReturnType } from '@tanstack/vue-query';
-
-const scope = effectScope();
+import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query';
 
 const scheduleSelectionData = ref<OptionData[]>([
   {
@@ -27,27 +25,66 @@ const allHaveSelected = computed(
     undefined
 );
 
-const queries: UseQueryDefinedReturnType<any, any>[] = [];
+const queries: UseQueryReturnType<any, any>[] = [];
+
+// formação
+
+const formacaoQuery = useQuery({ ...listOfertasFormacao(), enabled: false });
+
+const formacaoSelected = await useQueryAndDefineData(
+  formacaoQuery,
+  scheduleSelectionData,
+  0,
+  item => ({ label: item.nome, value: item.id })
+);
+
+queries.push(formacaoQuery);
+
+// curso
+
+const cursoQuery = useQuery({ ...listCursos(), enabled: false });
+const cursoSelected = ref();
+
+watch(
+  () => scheduleSelectionData.value[0]?.selected,
+  async newVal => {
+    console.log('new val!!!!! uuuuuhuuu');
+
+    if (newVal !== null) {
+      cursoSelected.value = await useQueryAndDefineData(
+        cursoQuery,
+        scheduleSelectionData,
+        1,
+        item => ({ label: item.nome, value: item.id })
+      );
+
+      queries.push(cursoQuery);
+    }
+  }
+);
+
+// turma
+
+const turmaQuery = useQuery({ ...listTurmas(), enabled: false });
+const turmaSelected = ref();
+
+watch(
+  () => scheduleSelectionData.value[1]?.selected,
+  async newVal => {
+    if (newVal !== null) {
+      turmaSelected.value = await useQueryAndDefineData(
+        turmaQuery,
+        scheduleSelectionData,
+        2,
+        item => ({ label: item.periodo, value: item.id })
+      );
+
+      queries.push(turmaQuery);
+    }
+  }
+);
 
 //
-
-const formacaoSelected = ref();
-scope.run(() => {
-  watch(
-    () => scheduleSelectionData.value[0]?.selected,
-    async () => {
-      formacaoSelected.value = await useQueryAndDefineData(
-        scheduleSelectionData,
-        0,
-        listOfertasFormacao(),
-        item => ({ label: item.nome, value: item.id }),
-        queries
-      );
-    },
-    { immediate: true }
-  );
-});
-scope.stop();
 
 const testeVal = ref();
 const teste = (itemSelected: any) => (testeVal.value = itemSelected);
@@ -56,7 +93,7 @@ const teste = (itemSelected: any) => (testeVal.value = itemSelected);
 
 const registerScheduleSelection = () => {
   // setScheduleSelection e n sei oq
-}
+};
 </script>
 
 <template>
@@ -73,7 +110,11 @@ const registerScheduleSelection = () => {
     :disabled="!scheduleSelectionData[index]!.content"
   />
 
-  <NuxtLink @click="registerScheduleSelection" to="/sisgha/consulta/horario" class="w-full">
+  <NuxtLink
+    @click="registerScheduleSelection"
+    to="/sisgha/consulta/horario"
+    class="w-full"
+  >
     <UIButtonDefault :disabled="allHaveSelected" class="w-full">
       Ver horário
     </UIButtonDefault>
