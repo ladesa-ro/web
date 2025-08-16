@@ -67,7 +67,7 @@ const onSubmit = handleSubmit(
       <VVTextField
         v-if="!showAlert"
         :disabled="showAlert"
-        class="mt-1 min-w-96"
+        class="mt-1.5"
         label="E-mail"
         name="email"
         placeholder="Digite aqui seu email"
