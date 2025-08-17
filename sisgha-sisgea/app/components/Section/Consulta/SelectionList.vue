@@ -1,23 +1,9 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
 
-const scheduleSelectionData = ref<OptionData[]>([
-  {
-    nome: 'Formação',
-    content: null,
-    selected: null,
-  },
-  {
-    nome: 'Curso',
-    content: null,
-    selected: null,
-  },
-  {
-    nome: 'Turma',
-    content: null,
-    selected: null,
-  },
-]);
+const scheduleSelectionData: Ref<OptionData[]> = ref(
+  getScheduleSelectionData()
+);
 
 const allHaveSelected = computed(
   () =>

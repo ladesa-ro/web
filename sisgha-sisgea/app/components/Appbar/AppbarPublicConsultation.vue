@@ -1,17 +1,46 @@
 <script setup lang="ts">
+import { useQuery } from '@tanstack/vue-query';
+
+const route = ref(useRoute());
+
+const turmaId = computed(() => route.value.params.id ?? null);
+
+const apiClient = useApiClient();
+
+const query = ref(
+  useQuery({
+    queryKey: ['turma', 'turma::id', turmaId.value],
+    queryFn: async () =>
+      await apiClient.turmas.turmaFindOneById({
+        id: turmaId.value as string,
+      }),
+    enabled: false,
+  })
+);
+
+watch([turmaId, route], async () => {
+  if (turmaId.value !== null && route.value.params.id) {
+    await query.value.refetch();
+  }
+});
+
+// const turmaQuery = computed(async () => {
+//   if (turmaId.value !== null) {
+//     await query.refetch();
+//     return query;
+//   }
+// });
+
 const getRoutePath = () => {
   const router = useRouter();
-  const route = useRoute();
 
-  if (route.path === '/sisgha/consulta') {
+  if (route.value.path === '/sisgha/consulta') {
     router.push('/');
     clearSelectedItems();
-  } else if (route.path.includes('/sisgha/consulta/horario/')) {
+  } else if (route.value.path.includes('/sisgha/consulta/horario/')) {
     router.push('/sisgha/consulta');
   }
 };
-
-// TODO: deixar o nome do horário selecionado dinâmico
 </script>
 
 <template>
@@ -32,8 +61,15 @@ const getRoutePath = () => {
         <div
           class="inline-block max-md:pl-[100%] text-animation md:animate-none! md:truncate"
         >
-          <span class="ml-10">
-            1° Período Tecnólogo em Análise e Desenvolvimento de Sistemas - 2023
+          <span v-if="turmaId" class="ml-10">
+            <span v-if="query.isLoading"> Carregando... </span>
+
+            <span v-else-if="query.isError"> Ocorreu um erro inesperado. </span>
+
+            <span v-else-if="query.data">
+              {{ query.data.periodo }} -
+              {{ query.data.curso.nomeAbreviado }}
+            </span>
           </span>
         </div>
       </div>
