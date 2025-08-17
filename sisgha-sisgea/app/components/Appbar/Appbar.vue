@@ -37,7 +37,7 @@ const hamburgerActive = defineModel<boolean>({
       </template>
 
       <div
-        class="mt-2 bg-ldsa-bg border-2 border-ldsa-grey rounded-lg pt-4 font-semibold text-center"
+        class="mt-2 bg-ldsa-bg border-2 border-ldsa-grey rounded-lg pt-4 font-semibold text-center text-ldsa-text-default"
       >
         <h1>Alternar sistema</h1>
         <NuxtLink v-if="$route.path.includes('sisgha')" to="/sisgea/reservas">
