@@ -12,7 +12,7 @@ useTitle(null, 'Login');
       <div class="light-2" />
 
       <div class="login-card w-full">
-        <LogoSisghaLogomarca class="logo" />
+        <LogoSISGHALogomarca class="logo" />
 
         <div class="fields">
           <SectionLoginTextField

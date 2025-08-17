@@ -1,5 +1,5 @@
 <script setup>
-import SisghaLogo from '~/components/Logo/Sisgha/Logo.vue';
+import SisghaLogo from '~/components/Logo/SISGHA/Logo.vue';
 import { getWeekDays } from '../../Horario/-Helpers/GetWeekDays';
 import dayPeriods from './dayPeriods';
 
