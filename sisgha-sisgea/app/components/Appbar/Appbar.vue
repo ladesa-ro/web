@@ -24,8 +24,34 @@ const hamburgerActive = defineModel<boolean>({
 
     <AppbarChangeTheme class="shrink-0 sm:mr-3" />
 
-    <div class="hidden sm:block">
-      <LogoSisghaLogomarca class="w-[8.75rem] cursor-pointer shrink-0" />
-    </div>
+    <UIPopover class="hidden sm:inline">
+      <template #activator>
+        <LogoSISGHALogomarca
+          v-if="$route.path.includes('sisgha')"
+          class="mb-0! w-[8.75rem] cursor-pointer shrink-0"
+        />
+        <LogoSISGEALogomarca
+          v-else-if="$route.path.includes('sisgea')"
+          class="w-[8.75rem] cursor-pointer shrink-0"
+        />
+      </template>
+
+      <div
+        class="mt-2 bg-ldsa-bg border-2 border-ldsa-grey rounded-lg pt-3.5 font-semibold text-center"
+      >
+        <h1>Alternar sistema</h1>
+        <NuxtLink v-if="$route.path.includes('sisgha')" to="/sisgea/reservas">
+          <LogoSISGEALogomarca
+            class="cursor-pointer box-content w-[8.75rem] shrink-0 p-5"
+          />
+        </NuxtLink>
+        
+        <NuxtLink v-else-if="$route.path.includes('sisgea')" to="/sisgha/dape">
+          <LogoSISGHALogomarca
+            class="cursor-pointer box-content w-[8.75rem] shrink-0 p-5"
+          />
+        </NuxtLink>
+      </div>
+    </UIPopover>
   </header>
 </template>
