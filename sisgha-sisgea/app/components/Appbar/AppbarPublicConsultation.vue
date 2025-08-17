@@ -24,13 +24,6 @@ watch([turmaId, route], async () => {
   }
 });
 
-// const turmaQuery = computed(async () => {
-//   if (turmaId.value !== null) {
-//     await query.refetch();
-//     return query;
-//   }
-// });
-
 const getRoutePath = () => {
   const router = useRouter();
 
