@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useCurrentDay } from '#imports';
 import { useQuery } from '@tanstack/vue-query';
 import WeekdaySelector from '../../../../UI/WeekDaySelector/WeekdaySelector.vue';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';

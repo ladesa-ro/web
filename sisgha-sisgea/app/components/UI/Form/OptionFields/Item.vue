@@ -35,7 +35,7 @@ defineProps<Props>();
 
 .item {
   @apply flex items-center px-3 font-medium cursor-pointer;
-  @apply data-[highlighted]:bg-ldsa-green-2/10 data-[state='checked']:bg-ldsa-green-2/20;
+  @apply data-[highlighted]:bg-ldsa-green-2/10 data-[state='checked']:bg-ldsa-green-2/20 text-ldsa-text-default;
   @apply transition-[background-color] duration-200 hover:bg-ldsa-green-2/10 focus-visible:outline-none;
 }
 </style>

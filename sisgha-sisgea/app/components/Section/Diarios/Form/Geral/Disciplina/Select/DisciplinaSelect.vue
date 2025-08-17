@@ -56,7 +56,7 @@ function nextForm() {
         v-if="radioItems.length"
         v-model="disciplinaSelecionada"
         :items="radioItems"
-        v-slot="{ item, isThisItemSelected }"
+        v-slot="{ item, selected }"
       >
         <div
           class="flex p-5 justify-between items-center border-2 border-ldsa-grey rounded-lg mb-2"
@@ -73,7 +73,7 @@ function nextForm() {
 
           <UIRadioCircle
             :itemValue="item.value"
-            :isSelected="isThisItemSelected"
+            :isSelected="selected"
           />
         </div>
       </UIRadio>
@@ -83,7 +83,6 @@ function nextForm() {
       <template #button-group>
         <UIButtonModalCancel @click="closeForm" />
         <UIButtonModalAdvance
-          :disabled="!disciplinaSelecionada"
           @click="nextForm"
         />
       </template>

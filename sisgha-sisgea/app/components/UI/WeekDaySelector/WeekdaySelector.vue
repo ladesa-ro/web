@@ -32,10 +32,10 @@ onMounted(() => {
       class="flex-1 text-center font-semibold py-4 rounded-xl border-2 border-ldsa-green-1"
       :class="{
         'bg-ldsa-green-1 text-white': selectedIndex === index,
-        'hover:bg-ldsa-green-1/20 text-ldsa-green-1': selectedIndex !== index
+        'text-ldsa-text-green': selectedIndex !== index
       }"
     >
-       {{ item.label.slice(0, 3)}}
+      {{ item.label.slice(0, 3)}}
     </button>
   </div>
 </template>

@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref, unref } from 'vue';
 import { useContextDiariosFormGeral } from '../../Contexto';
-import { UIButtonModalSave } from '#components';
 
 const $emit = defineEmits(['close', 'add', 'back']);
 
@@ -80,39 +78,57 @@ const adicionarDia = () => {
 const removerDia = (id: number) => {
   aulasAgrupadas.value = aulasAgrupadas.value.filter(aula => aula.id !== id);
 };
+
+// @souzaana parabéns pelo trabalho! deixo esses comentários para te ajudar a evoluir porque vejo que você tem muito potencial. você é ótima, muito obrigada por tudo! ass: annisabolas
 </script>
 
 <template>
-  <form class="min-w-[28.125rem]">
+  <form class="min-w-[28.125rem] text-ldsa-text-default">
+
+    <!-- TODO: @soouzaana lembre de aumentar as dimensões da sua estilização. para zoom 100%, fica muito pequeno. tente manter semelhança com o resto da aplicação -->
+
     <DialogModalBaseLayout
       :on-close="closeForm"
       title="Gerenciamento de turmas da disciplina"
-      title-variant="mini"
     >
       <!-- info disciplina -->
       <div class="border-2 border-ldsa-grey p-4 rounded-xl">
-        <span class="font-semibold text-[13px]">{{ disciplinaSelecionada?.nome }}</span>
-        <p class="font-medium text-[13px] text-ldsa-grey">Carga horária:  {{ disciplinaSelecionada?.cargaHoraria }}H</p>
+        <span class="font-semibold text-[13px]">Geografia Test</span>
+        <p class="font-medium text-[13px] text-ldsa-grey">Carga horária</p>
       </div>
 
-      <!-- card de turma: disponível conforme turma selecionada em TurmasAdd -->
+      <!-- card de turma -->
       <div class="border-2 border-ldsa-grey p-4 rounded-xl mt-1">
         <div class="flex items-center justify-between">
           <div>
+            <!--
+              TODO: @soouzaana não use px fixos, apenas em raras exceções.
+              
+              DICA: o tailwind 4 permite utilizar valores de medida personalizados nas classes, ou seja, mesmo que ele não tenha uma classe p-7 pré-definida, por exemplo, ele é inteligente para calcular a medida desejada com o valor (7) passado no nome da classe. para verificar se sua classe personalizada está funcionando, deixe o mouse por cima dela e veja se aparece um overlay mostrando a classe css. se não aparecer, muito provavelmente não funciona.
+              
+              DICA 2: caso a dica acima não dê certo, abra um conversor de pixels para rems na internet (ou calcule você mesma, já que por padrão 1rem = 16px) e veja quantos rems equivalem aos pixels que você precisa. assim, text-[13px] fica text-[0.813rem].
+            -->
             <span class="font-semibold text-[13px]">3ºA Informática</span>
             <p class="font-medium text-[13px] text-ldsa-grey">Turno</p>
           </div>
-          <div class="flex items-center gap-2">
-            <p class="w-4 h-4 text-ldsa-red"><IconsExclude /></p>
-            <p class="cursor-pointer text-ldsa-green-1" @click="toggleOptions">
-              <IconsArrow
-                :class="
-                  showOptions
-                    ? 'transform rotate-90 transition-transform duration-300'
-                    : 'transform -rotate-90 transition-transform duration-300'
-                "
-              />
-            </p>
+
+          <div class="flex items-center">
+            <!-- DICA: deixe um espaço ao redor dos ícones para ter um espaço maior para o usuário clicar. isso é ainda mais importante para o mobile. eu, anna isabela, gosto de adicionar um background no hover, mas isso é apenas gosto pessoal. faça da forma que preferir.
+            
+            DICA 2: não é necessário adicionar um elemento <p> para colocar o ícone dentro. você pode adicionar o ícone direto e estilizá-lo, o que economiza um elemento para o DOM renderizar e deixa o código mais limpo. adicione o elemento extra (recomendo que seja <span>, que não tem `display: block` como o <p>) apenas caso a estilização direta no ícone não esteja surtindo efeito -->
+
+            <!-- (eu tirei os <p> que estavam em volta desses 2 ícones para exemplificar as dicas acima) -->
+            <IconsExclude
+              class="w-8.5 p-2 text-ldsa-red rounded-md hover:bg-ldsa-red/10 transition-[background-color] cursor-pointer"
+            />
+
+            <span
+              class="cursor-pointer p-2 text-ldsa-green-1 transition-transform duration-300"
+              :class="showOptions ? 'rotate-90' : '-rotate-90'"
+              @click="toggleOptions" 
+            >
+              <IconsArrow class="w-full" />
+            </span>
           </div>
         </div>
 
@@ -120,6 +136,8 @@ const removerDia = (id: number) => {
         <div v-if="showOptions" class="mt-4">
           <!-- opções -->
           <div class="flex gap-2">
+            <!-- recomendo que deixe o estilo desses radio buttons assim como está na página de horário do professor para manter um estilo consistente e padronizado em toda a aplicação. você pode utilizar o componente UIRadio, que deixará o código mais limpo e irá abstrair a lógica -->
+
             <button
               type="button"
               class="w-full text-center p-4 text-[11px] font-semibold border-2 border-ldsa-grey rounded-xl hover:bg-ldsa-green-1/50 transition flex flex-col items-center justify-center gap-1"
@@ -147,10 +165,7 @@ const removerDia = (id: number) => {
           </div>
 
           <!-- conteúdo de aulas agrupadas -->
-          <div
-            v-if="selectedOption === 'aulas'"
-            class="mt-5 space-y-4"
-          >
+          <div v-if="selectedOption === 'aulas'" class="mt-5 space-y-4">
             <!-- blocos de dia -->
             <div
               v-for="(aula, index) in aulasAgrupadas"
@@ -213,7 +228,6 @@ const removerDia = (id: number) => {
               name="professorSearch"
               placeholder="Digite aqui"
               type="text"
-              class="text-[11px]"
             />
 
             <!-- professores -->
@@ -248,6 +262,7 @@ const removerDia = (id: number) => {
         </div>
       </div>
 
+      <!-- TODO: @soouzaana substitua text-[12px] por text-xs. evite usar pixels fixos em qualquer classe, pois eles não se adaptam ao tamanho da tela e do zoom -->
       <button
         type="button"
         class="mx-auto w-full font-semibold text-[12px] flex justify-center items-center gap-1 mt-1 border-2 border-dotted border-ldsa-grey rounded-lg px-4 py-2 hover:bg-ldsa-grey/20 transition"
@@ -257,11 +272,10 @@ const removerDia = (id: number) => {
         Adicionar Turma +
       </button>
 
-      <!-- botoes -->
-      <div class="mt-6 flex justify-between gap-2">
+      <template #button-group>
         <UIButtonModalGoBack @click="backForm" />
         <UIButtonModalSave @click="closeForm" />
-      </div>
+      </template>
     </DialogModalBaseLayout>
   </form>
 </template>
