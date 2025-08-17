@@ -5,11 +5,13 @@ const getRoutePath = () => {
 
   if (route.path === '/sisgha/consulta') {
     router.push('/')
+    clearSelectedItems();
   }
   else if (route.path === '/sisgha/consulta/horario') {
     router.push('/sisgha/consulta')
   }
-  clearSelectedItems();
+
+  
 }
 
 // TODO: deixar o nome do horário selecionado dinâmico

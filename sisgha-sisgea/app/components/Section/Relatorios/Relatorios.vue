@@ -49,7 +49,7 @@ const gerarPDF = () => {
 <template>
   <UIContainer variant="tighter" class="flex justify-center">
     <div class="flex-1 flex flex-col justify-center gap-7 max-w-3xl">
-      <UITitle class="remove-margin" text="Relatório de Aulas Ministradas" />
+      <UITitle text="Relatório de Aulas Ministradas" />
 
       <RelatorioFiltrosPrincipais
         :professores="data.professores"
@@ -79,9 +79,3 @@ const gerarPDF = () => {
     </div>
   </UIContainer>
 </template>
-
-<style scoped>
-.remove-margin {
-  margin: 0;
-}
-</style>

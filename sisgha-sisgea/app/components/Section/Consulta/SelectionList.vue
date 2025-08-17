@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query';
+import { useQuery } from '@tanstack/vue-query';
 
 const scheduleSelectionData = ref<OptionData[]>([
   {
     nome: 'Formação',
-    content: [{ value: 'f1', label: 'formacao1' }],
+    content: null,
     selected: null,
   },
   {
@@ -25,24 +25,29 @@ const allHaveSelected = computed(
     undefined
 );
 
-const queries: Ref<UseQueryReturnType<any, any>[]> = ref([]);
+//
+
+const queries: Ref<Queries> = ref({ formacao: null, curso: null, turma: null });
+
+//
 
 // formação
 
 const formacaoQuery = useQuery({ ...listOfertasFormacao(), enabled: false });
 
-await useQueryAndDefineData(formacaoQuery, scheduleSelectionData, 0, item => ({
-  label: item.nome,
-  value: item.id,
-}));
-
-queries.value.push(formacaoQuery);
+await useQueryAndDefineData(
+  formacaoQuery,
+  scheduleSelectionData,
+  0,
+  item => ({ label: item.nome, value: item.id }),
+  queries
+);
 
 // curso
 
 const apiClient = useApiClient();
 
-useQueryAndDefineDataWithWatcher(
+useQueryAndDefineDataThatDependOnOthers(
   scheduleSelectionData,
   1,
   ['curso', 'cursos-list'],
@@ -51,7 +56,9 @@ useQueryAndDefineDataWithWatcher(
   queries
 );
 
-useQueryAndDefineDataWithWatcher(
+// turma
+
+useQueryAndDefineDataThatDependOnOthers(
   scheduleSelectionData,
   2,
   ['turma', 'turmas-list'],
@@ -62,24 +69,38 @@ useQueryAndDefineDataWithWatcher(
 
 //
 
-const registerScheduleSelection = () => {
-  // setScheduleSelection e n sei oq
-};
+const accordionMustBeOpen = ref<boolean[]>([true, false, false]);
+
+watch(
+  scheduleSelectionData,
+  () => {
+    accordionMustBeOpen.value = scheduleSelectionData.value.map(
+      item => item.nome === 'Formação' || item.content !== null
+    );
+  },
+  { immediate: true, deep: true }
+);
+
+//
+
+const turmaId = computed(() => scheduleSelectionData.value[2]?.selected?.value);
 </script>
 
 <template>
   <SectionConsultaAccordion
-    v-for="(_, index) in scheduleSelectionData"
-    v-model="scheduleSelectionData[index]!.selected"
-    :open="scheduleSelectionData[index]!.nome === 'Formação'"
-    :title="scheduleSelectionData[index]!.nome"
-    :items="scheduleSelectionData[index]!.content ?? []"
-    :disabled="!scheduleSelectionData[index]!.content"
+    v-for="(item, index) in scheduleSelectionData"
+    v-model:selected-option="scheduleSelectionData[index]!.selected"
+    v-model:open="accordionMustBeOpen[index]!"
+    :title="item.nome"
+    :items="item.content ?? []"
+    :disabled="!item.content"
+    :error="Object.values(queries)[index]?.isError.value ?? false"
+    :loading="Object.values(queries)[index]?.isLoading.value ?? false"
   />
 
   <NuxtLink
-    @click="registerScheduleSelection"
-    to="/sisgha/consulta/horario"
+    @click="setScheduleSelectionData(scheduleSelectionData)"
+    :to="`/sisgha/consulta/horario/${turmaId}`"
     class="w-full"
   >
     <UIButtonDefault :disabled="!allHaveSelected" class="w-full">

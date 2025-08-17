@@ -5,7 +5,7 @@ const isActive = ref(false);
 <template>
   <DialogSkeleton v-model="isActive">
     <template #activator>
-      <span class="text-ldsa-text-green cursor-pointer inline">
+      <span class="text-ldsa-text-green cursor-pointer inline hover:underline!">
         Clique aqui.
       </span>
     </template>
