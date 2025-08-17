@@ -71,19 +71,20 @@ useQueryAndDefineDataThatDependOnOthers(
 
 const accordionMustBeOpen = ref<boolean[]>([true, false, false]);
 
+let count = 0;
 watch(
   scheduleSelectionData,
   () => {
-    accordionMustBeOpen.value = scheduleSelectionData.value.map(
-      item => item.nome === 'Formação' || item.content !== null
-    );
+    // the idea was "count <= 3", but, for some reason, the count is increasing by 2 on the first tick. the intention of this counter is to limit the automatic opening of accordions
+    if (count <= 5) {
+      accordionMustBeOpen.value = scheduleSelectionData.value.map(
+        item => item.nome === 'Formação' || item.content !== null
+      );
+      count++;
+    }
   },
   { immediate: true, deep: true }
 );
-
-//
-
-const turmaId = computed(() => scheduleSelectionData.value[2]?.selected?.value);
 </script>
 
 <template>
@@ -98,9 +99,10 @@ const turmaId = computed(() => scheduleSelectionData.value[2]?.selected?.value);
     :loading="Object.values(queries)[index]?.isLoading.value ?? false"
   />
 
+  <!-- if all items are selected, send to the schedule of the selected turma  -->
   <NuxtLink
     @click="setScheduleSelectionData(scheduleSelectionData)"
-    :to="`/sisgha/consulta/horario/${turmaId}`"
+    :to="`/sisgha/consulta/horario/${scheduleSelectionData[2]?.selected}`"
     class="w-full"
   >
     <UIButtonDefault :disabled="!allHaveSelected" class="w-full">
