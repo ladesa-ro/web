@@ -29,7 +29,6 @@ const getRoutePath = () => {
 
   if (route.value.path === '/sisgha/consulta') {
     router.push('/');
-    clearSelectedItems();
   } else if (route.value.path.includes('/sisgha/consulta/horario/')) {
     router.push('/sisgha/consulta');
   }
