@@ -1,5 +1,5 @@
 <script setup>
-import SisghaLogo from '~/components/Logo/SISGHA/Logo.vue';
+import SISGHALogo from '~/components/Logo/SISGHA/Logo.vue';
 import { getWeekDays } from '../../Horario/-Helpers/GetWeekDays';
 import dayPeriods from './dayPeriods';
 
@@ -12,7 +12,7 @@ const weekDays = week.map(day => day.dayWeek);
   <SectionProfileSectionsLayout
     title="Disponibilidade"
     class="max-[900px]:max-h-max"
-    :icon="SisghaLogo"
+    :icon="SISGHALogo"
   >
     <!-- hours card -->
     <div class="border-card min-w-75">
