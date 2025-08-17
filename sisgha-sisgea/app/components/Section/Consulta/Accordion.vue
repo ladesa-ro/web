@@ -1,16 +1,22 @@
 <script setup lang="ts">
 import { type AcceptableValue } from 'reka-ui';
 
-type Props = { title: string; items: ParsedItem[]; disabled?: boolean, loading?: boolean, open?: boolean };
-const {open: openProps} =  defineProps<Props>();
+type Props = {
+  title: string;
+  items: ParsedItem[];
+  disabled?: boolean;
+  loading?: boolean;
+  error?: boolean;
+};
+defineProps<Props>();
 
 defineEmits(['option-selected']);
 
-const selectedOption = defineModel<AcceptableValue>({ required: true });
+const selectedOption = defineModel<AcceptableValue>('selectedOption', {
+  required: true,
+});
 
-//
-
-const open = ref(openProps);
+const open = defineModel<boolean>('open', { default: false });
 </script>
 
 <template>
@@ -42,21 +48,22 @@ const open = ref(openProps);
     </template>
 
     <div
-      class="m-3 sm:m-4 mt-0 h-12 sm:h-15 max-w-full min-w-0 whitespace-nowrap overflow-x-auto overflow-y-hidden"
+      class="m-3 mt-0 sm:m-4 sm:mt-0 h-12 sm:h-15 max-w-full min-w-0 whitespace-nowrap overflow-x-auto overflow-y-hidden"
     >
+      <div v-if="loading">Carregando...</div>
+
+      <div v-else-if="error">Ocorreu um erro inesperado.</div>
+
       <SectionConsultaAccordionOptions
+        v-else
         @option-selected="
           itemSelected => $emit('option-selected', { itemSelected, title })
         "
         v-model="selectedOption"
         :items
+        :loading
+        :error
       />
     </div>
   </UICollapsible>
 </template>
-
-<style scoped>
-div > div#overflow-auto {
-  overflow-x: auto !important;
-}
-</style>

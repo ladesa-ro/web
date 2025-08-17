@@ -11,7 +11,7 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
 <template>
   <div class="modal-layout">
     <header class="header">
-      <UITitle class="remove-margin" :text="title" />
+      <UITitle variant="small" :text="title" />
 
       <button v-if="closeButton" class="close-button" @click="onClose">
         <IconsClose class="close-icon" />
@@ -31,10 +31,6 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
 
 <style scoped>
 @reference "~/assets/styles/app.css";
-
-.remove-margin {
-  @apply mb-0;
-}
 
 .modal-layout {
   @apply w-full max-w-[95%] max-h-[85vh] min-h-[20vh];

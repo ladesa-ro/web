@@ -15,7 +15,7 @@ const { variant = 'default' } = defineProps<Props>();
 @reference "~/assets/styles/app.css";
 
 .default {
-  @apply flex mb-7 font-semibold text-lg sm:text-xl before:w-1.5 before:bg-ldsa-text-green before:mr-3;
+  @apply flex font-semibold text-lg sm:text-xl before:w-1.5 before:bg-ldsa-text-green before:mr-3;
 }
 
 .small {
