@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@auth/core": "^0.40.0",
-    "@ladesa-ro/management-service-client": "https://pkg.pr.new/ladesa-ro/management-service/@ladesa-ro/management-service-client@a64ee8a",
+    "@ladesa-ro/management-service-client": "https://pkg.pr.new/ladesa-ro/management-service/@ladesa-ro/management-service-client@d81af30",
     "@nuxt/devtools": "2.6.2",
     "@nuxt/eslint": "^1.4.0",
     "@nuxtjs/color-mode": "^3.5.2",

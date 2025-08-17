@@ -38,7 +38,7 @@ useQueryAndDefineDataThatDependOnOthers(
   1,
   ['curso', 'cursos-list'],
   apiClient.cursos.cursoList(),
-  item => ({ label: item.nome, value: item.id }),
+  item => ({ label: item.nomeAbreviado, value: item.id }),
   queries
 );
 
