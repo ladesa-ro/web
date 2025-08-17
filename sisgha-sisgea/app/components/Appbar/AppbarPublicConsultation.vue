@@ -1,35 +1,31 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
 
-const route = ref(useRoute());
+const route = useRoute();
 
-const turmaId = computed(() => route.value.params.id ?? null);
+const turmaId = computed(() => route.params.id ?? null);
 
 const apiClient = useApiClient();
 
-const query = ref(
-  useQuery({
-    queryKey: ['turma', 'turma::id', turmaId.value],
-    queryFn: async () =>
-      await apiClient.turmas.turmaFindOneById({
-        id: turmaId.value as string,
-      }),
-    enabled: false,
-  })
+const isQueryEnabled = computed(
+  () => turmaId.value !== null && route.params.id !== undefined
 );
 
-watch([turmaId, route], async () => {
-  if (turmaId.value !== null && route.value.params.id) {
-    await query.value.refetch();
-  }
+const { isLoading, isError, data } = useQuery({
+  queryKey: ['turma', 'turma::id', turmaId],
+  queryFn: async () =>
+    await apiClient.turmas.turmaFindOneById({
+      id: turmaId.value as string,
+    }),
+  enabled: isQueryEnabled,
 });
 
-const getRoutePath = () => {
+const goBackRoute = () => {
   const router = useRouter();
 
-  if (route.value.path === '/sisgha/consulta') {
+  if (route.path === '/sisgha/consulta') {
     router.push('/');
-  } else if (route.value.path.includes('/sisgha/consulta/horario/')) {
+  } else if (turmaId.value) {
     router.push('/sisgha/consulta');
   }
 };
@@ -39,7 +35,7 @@ const getRoutePath = () => {
   <header
     class="flex justify-between px-0.5 min[350px]-px-1.5 sm:px-3 lg:px-7 bg-ldsa-green-1 text-ldsa-white font-semibold border-b border-b-ldsa-green-2 h-16 z-100 max-w-full"
   >
-    <button @pointerdown="getRoutePath" class="flex items-center p-2 shrink-0">
+    <button @pointerdown="goBackRoute" class="flex items-center p-2 shrink-0">
       <IconsArrowAlt class="w-7.5 p-1.5 mr-1" />
       <span class="max-md:hidden"> Voltar </span>
     </button>
@@ -54,13 +50,13 @@ const getRoutePath = () => {
           class="inline-block max-md:pl-[100%] text-animation md:animate-none! md:truncate"
         >
           <span v-if="turmaId" class="ml-10">
-            <span v-if="query.isLoading"> Carregando... </span>
+            <span v-if="isLoading"> Carregando... </span>
 
-            <span v-else-if="query.isError"> Ocorreu um erro inesperado. </span>
+            <span v-else-if="isError"> Ocorreu um erro inesperado. </span>
 
-            <span v-else-if="query.data">
-              {{ query.data.periodo }} -
-              {{ query.data.curso.nomeAbreviado }}
+            <span v-else-if="data">
+              {{ data.periodo }} -
+              {{ data.curso.nomeAbreviado }}
             </span>
           </span>
         </div>
