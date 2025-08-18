@@ -103,8 +103,8 @@ defineExpose({
     >
       <!-- info disciplina -->
       <div class="border-2 border-ldsa-grey p-4 rounded-xl">
-        <span class="font-semibold text-[0.813rem]">Geografia Test</span>
-        <p class="font-medium text-[0.813rem] text-ldsa-grey">Carga horária</p>
+        <span class="font-semibold text-[0.813rem]">{{ disciplinaSelecionada?.nome }}</span>
+        <p class="font-medium text-[0.813rem] text-ldsa-grey">{{ disciplinaSelecionada?.cargaHoraria }}H</p>
       </div>
 
       <!-- card de turma -->
