@@ -84,6 +84,7 @@ function nextForm() {
         <UIButtonModalCancel @click="closeForm" />
         <UIButtonModalAdvance
           @click="nextForm"
+          :disabled="!disciplinaSelecionada"
         />
       </template>
     </DialogModalBaseLayout>
