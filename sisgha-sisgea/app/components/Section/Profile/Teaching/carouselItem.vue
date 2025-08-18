@@ -30,18 +30,35 @@ const coursesCarousel: CourseOption[] = subject.cursos.map(curso => ({
 
 const selectedCourse = ref<CourseOption>(coursesCarousel[0]!);
 
-const selectedCourseTurmas = computed(() =>
-  selectedCourse.value?.value.turmas.map(turma => turma.turma.periodo)
+const selectedCourseTurmas = computed(() => {
+  // if the type is CourseOption, get sel.value, otherwise assume that the desired value is already in the variable itself, without any internal item
+
+  // this code snippet is to handle an unexpected error coming from v-model, even though i didn't understand it very well
+
+  const sel = selectedCourse.value;
+  const item = sel?.value ?? sel;
+
+  if (!item) return [];
+
+  return item.turmas.map(turma => turma.turma.periodo);
+});
+
+const disciplinaImageUrl = useApiImageRoute(
+  ApiImageResource.DISCIPLINA_COVER,
+  subject.disciplina
 );
 </script>
 
 <template>
   <div class="card-style border-card">
     <img
-      alt="Capa do curso."
-      class="image w-full max-h-14"
-      src="@/assets/imgs/Foto-Curso.png"
+      v-if="disciplinaImageUrl"
+      alt="Capa da disciplina."
+      class="image w-full min-h-9.5 max-h-14"
+      :src="disciplinaImageUrl ?? undefined"
     />
+
+    <div v-else class="bg-ldsa-grey/30 w-full min-h-9.5 max-h-14"></div>
 
     <!-- card body -->
     <main class="p-4">
@@ -59,7 +76,9 @@ const selectedCourseTurmas = computed(() =>
           </template>
         </UIOptionsCarousel>
 
-        <span class="font-medium">{{ selectedCourseTurmas.join(', ') }}</span>
+        <span class="font-medium">{{
+          selectedCourseTurmas ? selectedCourseTurmas.join(', ') : ''
+        }}</span>
       </div>
     </main>
   </div>
