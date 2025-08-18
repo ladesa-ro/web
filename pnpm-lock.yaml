@@ -96,9 +96,6 @@ importers:
       vue:
         specifier: ^3.5.14
         version: 3.5.18(typescript@5.9.2)
-      vue-router:
-        specifier: ^4.5.1
-        version: 4.5.1(vue@3.5.18(typescript@5.9.2))
       vue3-carousel:
         specifier: ^0.16.0
         version: 0.16.0(vue@3.5.18(typescript@5.9.2))
