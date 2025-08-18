@@ -1,15 +1,10 @@
 <script lang="ts" setup>
+import { computed, ref, unref } from 'vue';
 import { useContextDiariosFormGeral } from '../../Contexto';
 
 const $emit = defineEmits(['close', 'next']);
 
-// =====================================================
-
-const { disciplinaId: selectedDisciplina } = useContextDiariosFormGeral();
-// mesma coisa que:
-// const selectedDisciplina = useContextDiariosFormGeral().disciplinaId;
-
-// =====================================================
+const { disciplinaSelecionada } = useContextDiariosFormGeral();
 
 const searchBarText = ref('');
 
@@ -29,19 +24,24 @@ const {
 
 await suspend();
 
-//
-
-const radioItems = ref(
-  disciplinas.value!.map(disciplina => ({
-    value: disciplina,
-    label: disciplina.nome,
-  }))
+const radioItems = computed(
+  () =>
+    disciplinas.value?.map(disciplina => ({
+      value: disciplina,
+      label: disciplina.nome,
+    })) || []
 );
 
-//
+function closeForm() {
+  $emit('close');
+}
 
-const closeForm = () => $emit('close');
-const nextForm = () => $emit('next');
+function nextForm() {
+  if (disciplinaSelecionada.value) {
+    disciplinaSelecionada.value = disciplinaSelecionada.value;
+    $emit('next');
+  }
+}
 </script>
 
 <template>
@@ -53,8 +53,8 @@ const nextForm = () => $emit('next');
       <UISearchBar class="mt-1.5" v-model="searchBarText" />
 
       <UIRadio
-        v-if="radioItems"
-        v-model="selectedDisciplina"
+        v-if="radioItems.length"
+        v-model="disciplinaSelecionada"
         :items="radioItems"
         v-slot="{ item, selected }"
       >
@@ -82,7 +82,10 @@ const nextForm = () => $emit('next');
 
       <template #button-group>
         <UIButtonModalCancel @click="closeForm" />
-        <UIButtonModalAdvance @click="nextForm" />
+        <UIButtonModalAdvance
+          @click="nextForm"
+          :disabled="!disciplinaSelecionada"
+        />
       </template>
     </DialogModalBaseLayout>
   </form>
