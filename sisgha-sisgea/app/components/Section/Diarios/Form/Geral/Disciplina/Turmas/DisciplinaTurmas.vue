@@ -1,27 +1,38 @@
 <script lang="ts" setup>
 import { useContextDiariosFormGeral } from '../../Contexto';
+import type { TurmaSelecionada } from '../../Contexto';
 
 const $emit = defineEmits(['close', 'add', 'back']);
 
 const { disciplinaSelecionada } = useContextDiariosFormGeral();
+const { turmasSelecionadas } = useContextDiariosFormGeral();
+
+const turmasAdicionadas = computed({
+  get: () => turmasSelecionadas!.value ?? [],
+  set: (val: TurmaSelecionada[]) => {
+    turmasSelecionadas!.value = val;
+  },
+});
+
+const adicionarTurmas = (novasTurmas: TurmaSelecionada[]) => {
+  novasTurmas.forEach(t => {
+    if (!turmasAdicionadas.value.some(existing => existing.id === t.id)) {
+      turmasAdicionadas.value.push(t);
+    }
+  });
+};
+
+const removerTurma = (turmaId: string) => {
+  turmasAdicionadas.value = turmasAdicionadas.value.filter(
+    t => t.id !== turmaId
+  );
+};
 
 const searchBarText = ref('');
-
-// const options = computed(() => ({
-//   search: unref(searchBarText),
-//   disciplinaId: disciplinaId.value,
-// }));
 
 const {
   composables: { useListQuery },
 } = useLadesaApiCrudTurmas();
-
-// const {
-//   data: { items: turmas },
-//   methods: { suspend },
-// } = useListQuery(options);
-
-// await suspend();
 
 const showOptions = ref(false);
 const selectedOption = ref<'aulas' | 'professores' | null>(null);
@@ -79,11 +90,13 @@ const removerDia = (id: number) => {
   aulasAgrupadas.value = aulasAgrupadas.value.filter(aula => aula.id !== id);
 };
 
-// @souzaana parabéns pelo trabalho! deixo esses comentários para te ajudar a evoluir porque vejo que você tem muito potencial. você é ótima, muito obrigada por tudo! ass: annisabolas
+defineExpose({
+  adicionarTurmas,
+});
 </script>
 
 <template>
-  <form class="min-w-[28.125rem] text-ldsa-text-default">
+  <form class="min-w-[28.125rem] text-ldsa-text-default" @submit.prevent>
     <DialogModalBaseLayout
       :on-close="closeForm"
       title="Gerenciamento de turmas da disciplina"
@@ -95,16 +108,23 @@ const removerDia = (id: number) => {
       </div>
 
       <!-- card de turma -->
-      <div class="border-2 border-ldsa-grey p-4 rounded-xl mt-1">
+      <div
+        v-for="turma in turmasAdicionadas"
+        :key="turma.id"
+        class="border-2 border-ldsa-grey p-4 rounded-xl mt-1"
+      >
         <div class="flex items-center justify-between">
           <div>
-            <span class="font-semibold text-[0.812rem]">3ºA Informática</span>
-            <p class="font-medium text-[0.812rem] text-ldsa-grey">Turno</p>
+            <span class="font-semibold text-[0.812rem]">{{ turma.nome }}</span>
+            <p class="font-medium text-[0.812rem] text-ldsa-grey">
+              {{ turma.turno }}
+            </p>
           </div>
 
           <div class="flex items-center">
             <IconsExclude
               class="w-8.5 p-2 text-ldsa-red rounded-md hover:bg-ldsa-red/10 transition-[background-color] cursor-pointer"
+              @click="removerTurma(turma.id)"
             />
 
             <span
@@ -204,7 +224,6 @@ const removerDia = (id: number) => {
               class="mx-auto w-full font-semibold text-xs flex justify-center items-center gap-1 mt-4 border-2 border-dotted border-ldsa-grey rounded-lg px-4 py-2 hover:bg-ldsa-grey/20 transition"
               @click="adicionarDia"
             >
-              <IconsPlus class="w-3 h-3" />
               Adicionar Dia +
             </button>
           </div>
@@ -256,7 +275,6 @@ const removerDia = (id: number) => {
         class="mx-auto w-full font-semibold text-xs flex justify-center items-center gap-1 mt-1 border-2 border-dotted border-ldsa-grey rounded-lg px-4 py-2 hover:bg-ldsa-grey/20 transition"
         @click="addForm"
       >
-        <IconsPlus class="w-3 h-3" />
         Adicionar Turma +
       </button>
 

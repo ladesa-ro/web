@@ -7,16 +7,24 @@ export type IDisciplina = {
   [key: string]: any;
 };
 
+export type TurmaSelecionada = {
+  id: string;
+  nome: string;
+  turno: string;
+};
+
 type IContextDiariosFormGeral = {
   disciplinaId: Ref<string | null>;
   disciplinaSelecionada: Ref<IDisciplina | null>;
+  turmasSelecionadas?: Ref<TurmaSelecionada[]>;
 };
 
 export const createContextDiariosFormGeral = (): IContextDiariosFormGeral => {
   const disciplinaId = ref<string | null>(null);
   const disciplinaSelecionada = ref<IDisciplina | null>(null);
+  const turmasSelecionadas = ref<TurmaSelecionada[]>([]);
 
-  return { disciplinaId, disciplinaSelecionada };
+  return { disciplinaId, disciplinaSelecionada, turmasSelecionadas };
 };
 
 export const createAndProvideContextDiariosFormGeral = () => {

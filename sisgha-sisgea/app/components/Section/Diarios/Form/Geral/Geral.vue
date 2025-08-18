@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import {
   createAndProvideContextDiariosFormGeral,
-  useContextDiariosFormGeral,
+  type TurmaSelecionada,
 } from './Contexto';
 
 const $emit = defineEmits(['close']);
@@ -41,6 +41,22 @@ const voltarParaGerenciar = () => {
   showLinkClassesModal.value = false;
   showGerenciarModal.value = true;
 };
+
+const salvarTurmas = (turmas: TurmaSelecionada[]) => {
+
+  contexto.turmasSelecionadas!.value = [
+    ...(contexto.turmasSelecionadas!.value ?? []),
+    ...turmas.filter(
+      t =>
+        !(contexto.turmasSelecionadas!.value ?? []).some(
+          existing => existing.id === t.id
+        )
+    ),
+  ];
+
+  voltarParaGerenciar();
+};
+
 </script>
 
 <template>
@@ -55,6 +71,7 @@ const voltarParaGerenciar = () => {
   <SectionDiariosFormGeralDisciplinaTurmas
     v-if="showGerenciarModal"
     :disciplina="contexto.disciplinaSelecionada"
+    ref="gerenciarTurmasRef"
     @close="fecharTudo"
     @back="voltarParaSelect"
     @add="abrirVincularTurmas"
@@ -65,5 +82,6 @@ const voltarParaGerenciar = () => {
     v-if="showLinkClassesModal"
     @back="voltarParaGerenciar"
     @close="fecharTudo"
+    @save-turmas="salvarTurmas"
   />
 </template>

@@ -1,7 +1,12 @@
 <script lang="ts" setup>
 import { defineEmits, ref } from 'vue';
+import type { TurmaSelecionada } from '../../../Contexto';
 
-const $emit = defineEmits(['close', 'back']);
+const $emit = defineEmits<{
+  (e: 'close'): void;
+  (e: 'back'): void;
+  (e: 'save-turmas', turmas: TurmaSelecionada[]): void;
+}>();
 
 const closeForm = () => $emit('close');
 const backForm = () => $emit('back');
@@ -85,10 +90,30 @@ const toggleCurso = (curso: (typeof cursos)[0], checked: boolean) => {
     );
   }
 };
+
+const salvarTurmas = () => {
+  const turmasObj: TurmaSelecionada[] = [];
+
+  cursos.forEach(curso => {
+    curso.turmas.forEach(turma => {
+      const id = turmaId(curso.sigla, turma);
+      if (turmasSelecionadas.value.includes(id)) {
+        turmasObj.push({
+          id,
+          nome: `${turma} ${curso.nome}`, 
+          turno: 'Turno', // mudar
+        });
+      }
+    });
+  });
+
+  $emit('save-turmas', turmasObj);
+};
+
 </script>
 
 <template>
-  <form class="min-w-[28.125rem]">
+  <form class="min-w-[28.125rem]" @submit.prevent>
     <DialogModalBaseLayout
       :on-close="closeForm"
       title="Vincular turmas à disciplina"
@@ -162,7 +187,7 @@ const toggleCurso = (curso: (typeof cursos)[0], checked: boolean) => {
         <UIButtonModalGoBack @click="backForm" />
 
         <!-- selecionar a turma e voltar para DisciplinasTurmas -->
-        <UIButtonModalSave @click="closeForm" />
+        <UIButtonModalSave @click="salvarTurmas" type="button" />
       </div>
     </DialogModalBaseLayout>
   </form>
