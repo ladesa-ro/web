@@ -1,11 +1,13 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
-import { useContextDiariosFormGeral } from '../../Contexto';
+import { useLadesaApiCrudUsuarios } from '#imports';
+import { computed, onMounted, ref } from 'vue';
 import type { TurmaSelecionada } from '../../Contexto';
+import { useContextDiariosFormGeral } from '../../Contexto';
 
 const $emit = defineEmits(['close', 'add', 'back']);
 
-const { disciplinaSelecionada, turmasSelecionadas } = useContextDiariosFormGeral();
+const { disciplinaSelecionada, turmasSelecionadas } =
+  useContextDiariosFormGeral();
 
 const turmasAdicionadas = computed({
   get: () => turmasSelecionadas!.value ?? [],
@@ -23,7 +25,9 @@ const adicionarTurmas = (novasTurmas: TurmaSelecionada[]) => {
 };
 
 const removerTurma = (turmaId: string) => {
-  turmasAdicionadas.value = turmasAdicionadas.value.filter(t => t.id !== turmaId);
+  turmasAdicionadas.value = turmasAdicionadas.value.filter(
+    t => t.id !== turmaId
+  );
 };
 
 const diasSemana = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
@@ -60,6 +64,50 @@ const decrementarAulas = (id: number) => {
   if (aula && aula.totalAulas > 1) aula.totalAulas--;
 };
 
+const professoresSelecionados = ref<string[]>([]);
+
+type ProfessorItem = {
+  value: string;
+  label: string;
+  foto?: string;
+  cargo?: string;
+};
+
+const {
+  composables: { useListQuery },
+} = useLadesaApiCrudUsuarios();
+
+const searchBarText = ref('');
+const queries = computed(() => ({ search: searchBarText.value }));
+
+const {
+  data: { items: usuarios },
+  methods: { suspend },
+} = useListQuery(queries);
+
+onMounted(async () => {
+  await suspend();
+});
+
+const professores = computed<ProfessorItem[]>(() => {
+  if (!usuarios.value) return [];
+  return usuarios.value
+    .map(u => ({
+      value: u.id,
+      label: u.nome,
+      foto: u.foto,
+      cargo: u.cargo,
+    }))
+    .toSorted((a, b) => a.label.localeCompare(b.label));
+});
+
+const professorSearch = ref('');
+const professoresFiltrados = computed(() =>
+  professores.value.filter(p =>
+    p.label.toLowerCase().includes(professorSearch.value.toLowerCase())
+  )
+);
+
 const showOptions = ref(false);
 const selectedOption = ref<'aulas' | 'professores' | null>(null);
 
@@ -75,29 +123,6 @@ const closeForm = () => $emit('close');
 const addForm = () => $emit('add');
 const backForm = () => $emit('back');
 
-const { composables: { useListQuery } } = useLadesaApiCrudUsuarios();
-
-const searchBarText = ref('');
-const queries = computed(() => ({ search: searchBarText.value }));
-
-const { data: { items: usuarios }, methods: { suspend } } = useListQuery(queries);
-
-await suspend();
-
-const professores = computed(() => {
-  if (!usuarios.value) return [];
-  return usuarios.value.map(u => ({ ...u, selecionado: false })).toSorted((a, b) =>
-    a.nome.localeCompare(b.nome)
-  );
-});
-
-const professorSearch = ref('');
-const professoresFiltrados = computed(() =>
-  professores.value.filter(p =>
-    p.nome.toLowerCase().includes(professorSearch.value.toLowerCase())
-  )
-);
-
 defineExpose({
   adicionarTurmas,
 });
@@ -111,8 +136,12 @@ defineExpose({
     >
       <!-- info disciplina -->
       <div class="border-2 border-ldsa-grey p-4 rounded-xl">
-        <span class="font-semibold text-[0.813rem]">{{ disciplinaSelecionada?.nome }}</span>
-        <p class="font-medium text-[0.813rem] text-ldsa-grey">{{ disciplinaSelecionada?.cargaHoraria }}H</p>
+        <span class="font-semibold text-[0.813rem]">{{
+          disciplinaSelecionada?.nome
+        }}</span>
+        <p class="font-medium text-[0.813rem] text-ldsa-grey">
+          {{ disciplinaSelecionada?.cargaHoraria }}H
+        </p>
       </div>
 
       <!-- card de turma -->
@@ -161,12 +190,19 @@ defineExpose({
               <div
                 class="text-center p-4 text-xs font-semibold border-2 border-ldsa-grey rounded-xl transition flex flex-col items-center justify-center gap-1 cursor-pointer"
                 :class="{
-                  'bg-ldsa-green-1 border-ldsa-green-1 text-ldsa-white': selected,
+                  'bg-ldsa-green-1 border-ldsa-green-1 text-ldsa-white':
+                    selected,
                   'hover:bg-ldsa-green-1/50': !selected,
                 }"
               >
-                <IconsGroupedClass v-if="item.value === 'aulas'" class="w-5 h-5 mb-3 mt-2" />
-                <IconsEducator v-else-if="item.value === 'professores'" class="w-5 h-5 mb-3 mt-2" />
+                <IconsGroupedClass
+                  v-if="item.value === 'aulas'"
+                  class="w-5 h-5 mb-3 mt-2"
+                />
+                <IconsEducator
+                  v-else-if="item.value === 'professores'"
+                  class="w-5 h-5 mb-3 mt-2"
+                />
 
                 {{ item.label }}
               </div>
@@ -237,30 +273,40 @@ defineExpose({
             />
 
             <!-- lista de usuários filtrados -->
-            <div class="space-y-2 p-1">
-              <div
-                v-for="prof in professoresFiltrados"
-                :key="prof.id"
-                class="flex items-center gap-3 border-2 border-ldsa-grey rounded-lg"
+            <div class="gap-3 flex flex-col">
+              <UICheckbox
+                v-model="professoresSelecionados"
+                :items="professoresFiltrados"
+                v-slot="{ item, selected, invertItem }"
               >
                 <div
-                  class="w-12 h-12 bg-ldsa-grey/20 flex items-center justify-center text-xs font-bold text-ldsa-grey"
+                  class="flex items-center gap-3 border-2 rounded-lg pr-3 mb-2 cursor-pointer transition-all duration-200"
+                  :class="{
+                    'border-ldsa-green-1 bg-ldsa-green-50': selected,
+                    'border-ldsa-grey hover:border-ldsa-green-1 hover:bg-ldsa-green-50/10':
+                      !selected,
+                  }"
+                  @click.stop="invertItem(item)"
                 >
-                  <img v-if="prof.foto" :src="prof.foto" alt="Foto do usuário" class="w-full h-full object-cover rounded-md"/>
-                  <IconsImage v-else />
-                </div>
+                  <div
+                    class="w-12 h-12 bg-ldsa-grey/20 flex items-center justify-center text-xs font-bold text-ldsa-grey rounded-md overflow-hidden"
+                  >
+                    <IconsImage />
+                  </div>
 
-                <div class="flex-1 my-2">
-                  <p class="font-semibold text-[0.812rem] leading-4">{{ prof.nome }}</p>
-                  <p class="text-xs text-ldsa-grey">{{ prof.cargo }}</p>
-                </div>
+                  <div class="flex items-center justify-between w-[75%]">
+                    <p class="font-semibold text-[0.812rem] leading-4">
+                      {{ item.label }}
+                    </p>
+                  </div>
 
-                <input
-                  type="checkbox"
-                  class="w-4 h-4 accent-ldsa-green-1 mr-3"
-                  v-model="prof.selecionado"
-                />
-              </div>
+                  <UICheckboxSquare
+                    :item="item"
+                    :active="selected"
+                    @click.stop
+                  />
+                </div>
+              </UICheckbox>
             </div>
           </div>
         </div>
