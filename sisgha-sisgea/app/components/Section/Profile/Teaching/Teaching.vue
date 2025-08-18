@@ -20,6 +20,7 @@ onMounted(() => {
 <template>
   <SectionProfileSectionsLayout :icon="IconDiscipline" title="Ensino">
     <div class="state-warning" v-if="isLoading">Carregando...</div>
+
     <div class="state-warning" v-else-if="isError">
       Ocorreu um erro inesperado ao buscar as disciplinas vinculadas a este
       usuário.
@@ -46,7 +47,7 @@ onMounted(() => {
         }"
       >
         <Slide
-          v-for="subject in data?.disciplinas"
+          v-for="subject in data.disciplinas"
           :key="subject.disciplina.id"
         >
           <SectionProfileTeachingCarouselItem :subject />
