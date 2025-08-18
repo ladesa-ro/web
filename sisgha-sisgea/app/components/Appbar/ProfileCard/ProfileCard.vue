@@ -39,7 +39,7 @@ const splitUserName = computed(() => {
     <UIImg
       :src="profilePicureUrl"
       alt="Foto de perfil."
-      class="max-[345px]:hidden min-w-9 h-9 sm:min-w-12 sm:h-12 rounded-full"
+      class="max-[345px]:hidden min-w-9 max-w-9 h-9 sm:min-w-12 sm:max-w-12 sm:h-12 rounded-full"
       fallbackBgColor="var(--ladesa-green-1-color)"
     >
       <template #fallbackIcon>

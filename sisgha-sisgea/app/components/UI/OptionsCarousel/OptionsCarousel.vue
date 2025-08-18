@@ -49,15 +49,21 @@ onMounted(() => {
 
 <template>
   <div class="flex justify-between items-center w-full">
-    <button :style="togglePadding" @pointerdown="navigate(-1)">
+    <button
+      :disabled="items.length === 1"
+      :style="togglePadding"
+      @pointerdown="navigate(-1)"
+      class="disabled:opacity-40"
+    >
       <slot name="toggleButton" />
     </button>
 
     <span class="truncate">{{ items[selectedIndex]?.label }}</span>
 
     <button
+      :disabled="items.length === 1"
       :style="togglePadding"
-      class="rotate-180"
+      class="rotate-180 disabled:opacity-40"
       @pointerdown="navigate(1)"
     >
       <slot name="toggleButton" />

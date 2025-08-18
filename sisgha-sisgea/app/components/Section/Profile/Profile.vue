@@ -23,7 +23,7 @@ const {
       <!-- TODO: puxar da api -->
       <section class="flex max-[900px]:flex-col gap-4">
         <SectionProfileAvailability class="flex-1/2 min-[1144px]:flex-1" />
-        <SectionProfileTeaching class="flex-1/2 min-[1144px]:flex-2" />
+        <SectionProfileTeaching :user class="flex-1/2 min-[1144px]:flex-2" />
       </section>
     </template>
 
