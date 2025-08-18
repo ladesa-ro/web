@@ -132,7 +132,7 @@ const removerDia = (id: number) => {
               class="grid grid-cols-2 gap-2 w-full"
             >
               <div
-                class="text-center p-4 text-[11px] font-semibold border-2 border-ldsa-grey rounded-xl transition flex flex-col items-center justify-center gap-1 cursor-pointer"
+                class="text-center p-4 text-xs font-semibold border-2 border-ldsa-grey rounded-xl transition flex flex-col items-center justify-center gap-1 cursor-pointer"
                 :class="{
                   'bg-ldsa-green-1 border-ldsa-green-1 text-ldsa-white':
                     selected,
@@ -201,7 +201,7 @@ const removerDia = (id: number) => {
             <!-- botão adicionar dia -->
             <button
               type="button"
-              class="mx-auto w-full font-semibold text-[12px] flex justify-center items-center gap-1 mt-4 border-2 border-dotted border-ldsa-grey rounded-lg px-4 py-2 hover:bg-ldsa-grey/20 transition"
+              class="mx-auto w-full font-semibold text-xs flex justify-center items-center gap-1 mt-4 border-2 border-dotted border-ldsa-grey rounded-lg px-4 py-2 hover:bg-ldsa-grey/20 transition"
               @click="adicionarDia"
             >
               <IconsPlus class="w-3 h-3" />
@@ -236,10 +236,10 @@ const removerDia = (id: number) => {
                 </div>
 
                 <div class="flex-1 my-2">
-                  <p class="font-semibold text-[13px] leading-4">
+                  <p class="font-semibold text-[0.812rem] leading-4">
                     {{ prof.nome }}
                   </p>
-                  <p class="text-[12px] text-ldsa-grey">{{ prof.cargo }}</p>
+                  <p class="text-xs text-ldsa-grey">{{ prof.cargo }}</p>
                 </div>
                 <input
                   type="checkbox"

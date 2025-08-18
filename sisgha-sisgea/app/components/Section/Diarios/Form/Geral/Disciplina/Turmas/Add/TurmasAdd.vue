@@ -118,10 +118,10 @@ const toggleCurso = (curso: (typeof cursos)[0], checked: boolean) => {
 
       <!-- mudar conforme a formação -->
       <div>
-        <div class="grid grid-cols-3 gap-4 max-w-[600px] mx-auto">
+        <div class="grid grid-cols-3 gap-4 max-w-[37.5rem] mx-auto">
           <div v-for="curso in cursos" :key="curso.nome" class="p-2">
             <label
-              class="flex items-center gap-2 font-semibold text-[12px] mb-2 cursor-pointer select-none border-b border-b-ldsa-grey pb-1"
+              class="flex items-center gap-2 font-semibold text-xs mb-2 cursor-pointer select-none border-b border-b-ldsa-grey pb-1"
             >
               <input
                 type="checkbox"
