@@ -42,7 +42,6 @@
     "tailwindcss": "^4.1.7",
     "vee-validate": "^4.15.0",
     "vue": "^3.5.14",
-    "vue-router": "^4.5.1",
     "vue3-carousel": "^0.16.0",
     "vue3-carousel-nuxt": "^1.1.6",
     "vue3-dropzone": "^2.2.1",
