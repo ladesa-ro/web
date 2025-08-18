@@ -2,6 +2,7 @@
 import { useContextDiariosFormGeral } from '../../Contexto';
 import type { TurmaSelecionada } from '../../Contexto';
 
+
 const $emit = defineEmits(['close', 'add', 'back']);
 
 const { disciplinaSelecionada } = useContextDiariosFormGeral();
@@ -72,10 +73,11 @@ const diasSemana = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
 type AulaAgrupada = {
   id: number;
   dia: string;
+  totalAulas: number; 
 };
 
 const aulasAgrupadas = ref<AulaAgrupada[]>([
-  { id: 1, dia: diasSemana[0] ?? 'Segunda' },
+  { id: 1, dia: diasSemana[0] ?? 'Segunda', totalAulas: 1 },
 ]);
 
 let proximoId = 2;
@@ -83,11 +85,21 @@ let proximoId = 2;
 const adicionarDia = () => {
   const total = aulasAgrupadas.value.length;
   const novoDia = diasSemana[total % diasSemana.length] ?? 'Segunda';
-  aulasAgrupadas.value.push({ id: proximoId++, dia: novoDia });
+  aulasAgrupadas.value.push({ id: proximoId++, dia: novoDia, totalAulas: 1 });
 };
 
 const removerDia = (id: number) => {
   aulasAgrupadas.value = aulasAgrupadas.value.filter(aula => aula.id !== id);
+};
+
+const incrementarAulas = (id: number) => {
+  const aula = aulasAgrupadas.value.find(a => a.id === id);
+  if (aula) aula.totalAulas++;
+};
+
+const decrementarAulas = (id: number) => {
+  const aula = aulasAgrupadas.value.find(a => a.id === id);
+  if (aula && aula.totalAulas > 1) aula.totalAulas--; // mínimo 1
 };
 
 defineExpose({
@@ -193,17 +205,17 @@ defineExpose({
                 <button
                   type="button"
                   class="text-ldsa-green-1 hover:text-ldsa-green-3 transition"
-                  @click=""
+                  @click="decrementarAulas(aula.id)"
                 >
                   <IconsArrow class="w-4 h-4" />
                 </button>
 
-                <span>Total de aulas: 1</span>
+                <span>Total de aulas: {{ aula.totalAulas }}</span>
 
                 <button
                   type="button"
                   class="text-ldsa-green-1 hover:text-ldsa-green-3 transition"
-                  @click=""
+                  @click="incrementarAulas(aula.id)"
                 >
                   <IconsArrow class="transform rotate-180 w-4 h-4" />
                 </button>
