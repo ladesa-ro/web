@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { defineEmits, ref } from 'vue';
+import { computed, defineEmits, ref, watch } from 'vue';
 import type { TurmaSelecionada } from '../../../Contexto';
 
 const $emit = defineEmits<{
@@ -12,9 +12,10 @@ const closeForm = () => $emit('close');
 const backForm = () => $emit('back');
 
 const formacoes = ['Técnico Integrado', 'Graduação', 'Pós-Graduação'];
-// todo: adicionar lógica para carregar as turmas dinamicamente conforme o usuário selecionar a formação no select
-// referente a formação Técnico Integrado
-const cursos = [
+
+const formacaoSelecionada = ref('Técnico Integrado');
+
+const cursosTecnico = [
   {
     nome: 'Química',
     sigla: 'QUI',
@@ -32,39 +33,43 @@ const cursos = [
   },
 ];
 
-// referente a formação Graduação
 const cursosGraduacao = [
   {
     nome: 'Engenharia de Software',
     sigla: 'ESW',
-    turmas: ['1ºA', '1ºB', '2ºA', '2ºB'],
+    turmas: ['1º Período', '2º Período', '3º Período', '4º Período'],
   },
   {
     nome: 'Ciência da Computação',
     sigla: 'CC',
-    turmas: ['1ºA', '1ºB', '2ºA', '2ºB'],
+    turmas: ['1º Período', '2º Período', '3º Período', '4º Período'],
   },
 ];
 
-// referente a formação Pós-Graduação
 const cursosPosGraduacao = [
   {
     nome: 'Gestão de Projetos',
     sigla: 'GP',
-    turmas: ['1ºA', '1ºB'],
+    turmas: ['1º Período', '2º Período', '3º Período', '4º Período'],
   },
   {
     nome: 'Segurança da Informação',
     sigla: 'SI',
-    turmas: ['1ºA', '1ºB'],
+    turmas: ['1º Período', '2º Período', '3º Período', '4º Período'],
   },
 ];
+
+const cursos = computed(() => {
+  if (formacaoSelecionada.value === 'Graduação') return cursosGraduacao;
+  if (formacaoSelecionada.value === 'Pós-Graduação') return cursosPosGraduacao;
+  return cursosTecnico;
+});
 
 const turmasSelecionadas = ref<string[]>([]);
 
 const turmaId = (cursoSigla: string, turma: string) => `${cursoSigla}-${turma}`;
 
-const cursoCheckboxState = (curso: (typeof cursos)[0]) => {
+const cursoCheckboxState = (curso: (typeof cursosTecnico)[0]) => {
   const turmasIds = curso.turmas.map(t => turmaId(curso.sigla, t));
   const selecionadas = turmasSelecionadas.value.filter(t =>
     turmasIds.includes(t)
@@ -77,7 +82,7 @@ const cursoCheckboxState = (curso: (typeof cursos)[0]) => {
   };
 };
 
-const toggleCurso = (curso: (typeof cursos)[0], checked: boolean) => {
+const toggleCurso = (curso: (typeof cursosTecnico)[0], checked: boolean) => {
   const turmasIds = curso.turmas.map(t => turmaId(curso.sigla, t));
   if (checked) {
     turmasIds.forEach(id => {
@@ -93,23 +98,20 @@ const toggleCurso = (curso: (typeof cursos)[0], checked: boolean) => {
 
 const salvarTurmas = () => {
   const turmasObj: TurmaSelecionada[] = [];
-
-  cursos.forEach(curso => {
+  cursos.value.forEach(curso => {
     curso.turmas.forEach(turma => {
       const id = turmaId(curso.sigla, turma);
       if (turmasSelecionadas.value.includes(id)) {
-        turmasObj.push({
-          id,
-          nome: `${turma} ${curso.nome}`, 
-          turno: 'Turno', // mudar
-        });
+        turmasObj.push({ id, nome: `${turma} ${curso.nome}`, turno: 'Turno' });
       }
     });
   });
-
   $emit('save-turmas', turmasObj);
 };
 
+watch(formacaoSelecionada, () => {
+  turmasSelecionadas.value = [];
+});
 </script>
 
 <template>
@@ -120,28 +122,26 @@ const salvarTurmas = () => {
       title-variant="mini"
     >
       <VVAutocomplete
+        v-model="formacaoSelecionada"
         :items="formacoes"
+        name="formacao"
         class="w-full mt-2 mb-4"
         label="Formação"
-        name="formacao"
         placeholder="Selecione uma formação"
       />
 
       <div
         class="flex justify-between items-center text-xs font-semibold mb-1 w-full"
       >
-        <button type="button" class="text-ldsa-grey" @click="() => {}">
+        <button type="button" class="text-ldsa-grey">
           <IconsArrow class="w-4 h-4" />
         </button>
-
         <span class="flex-grow text-center">Página 1 de 1</span>
-
-        <button type="button" class="text-ldsa-grey" @click="() => {}">
+        <button type="button" class="text-ldsa-grey">
           <IconsArrow class="transform rotate-180 w-4 h-4" />
         </button>
       </div>
 
-      <!-- mudar conforme a formação -->
       <div>
         <div class="grid grid-cols-3 gap-4 max-w-[37.5rem] mx-auto">
           <div v-for="curso in cursos" :key="curso.nome" class="p-2">
@@ -182,11 +182,8 @@ const salvarTurmas = () => {
         </div>
       </div>
 
-      <!-- seção de botoes -->
       <div class="mt-6 flex justify-between gap-2">
         <UIButtonModalGoBack @click="backForm" />
-
-        <!-- selecionar a turma e voltar para DisciplinasTurmas -->
         <UIButtonModalSave @click="salvarTurmas" type="button" />
       </div>
     </DialogModalBaseLayout>
