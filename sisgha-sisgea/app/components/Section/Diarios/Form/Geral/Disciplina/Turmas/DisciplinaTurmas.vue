@@ -1,12 +1,11 @@
 <script lang="ts" setup>
+import { ref, computed } from 'vue';
 import { useContextDiariosFormGeral } from '../../Contexto';
 import type { TurmaSelecionada } from '../../Contexto';
 
-
 const $emit = defineEmits(['close', 'add', 'back']);
 
-const { disciplinaSelecionada } = useContextDiariosFormGeral();
-const { turmasSelecionadas } = useContextDiariosFormGeral();
+const { disciplinaSelecionada, turmasSelecionadas } = useContextDiariosFormGeral();
 
 const turmasAdicionadas = computed({
   get: () => turmasSelecionadas!.value ?? [],
@@ -24,56 +23,15 @@ const adicionarTurmas = (novasTurmas: TurmaSelecionada[]) => {
 };
 
 const removerTurma = (turmaId: string) => {
-  turmasAdicionadas.value = turmasAdicionadas.value.filter(
-    t => t.id !== turmaId
-  );
+  turmasAdicionadas.value = turmasAdicionadas.value.filter(t => t.id !== turmaId);
 };
-
-const searchBarText = ref('');
-
-const {
-  composables: { useListQuery },
-} = useLadesaApiCrudTurmas();
-
-const showOptions = ref(false);
-const selectedOption = ref<'aulas' | 'professores' | null>(null);
-
-const toggleOptions = () => {
-  showOptions.value = !showOptions.value;
-};
-
-const selectOption = (option: 'aulas' | 'professores') => {
-  selectedOption.value = option;
-};
-
-const closeForm = () => $emit('close');
-const addForm = () => $emit('add');
-const backForm = () => $emit('back');
-
-// todo: lógica para puxar professores da api
-const professores = ref([
-  {
-    id: 1,
-    nome: 'Ana Clara Silva',
-    cargo: 'Professora de História',
-    foto: 'https://i.pravatar.cc/40?img=3',
-  },
-  {
-    id: 2,
-    nome: 'João Marcos',
-    cargo: 'Professor de Matemática',
-    foto: 'https://i.pravatar.cc/40?img=5',
-  },
-]);
-
-const professorSearch = ref('');
 
 const diasSemana = ['Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 
 type AulaAgrupada = {
   id: number;
   dia: string;
-  totalAulas: number; 
+  totalAulas: number;
 };
 
 const aulasAgrupadas = ref<AulaAgrupada[]>([
@@ -99,13 +57,45 @@ const incrementarAulas = (id: number) => {
 
 const decrementarAulas = (id: number) => {
   const aula = aulasAgrupadas.value.find(a => a.id === id);
-  if (aula && aula.totalAulas > 1) aula.totalAulas--; // mínimo 1
+  if (aula && aula.totalAulas > 1) aula.totalAulas--;
 };
+
+const showOptions = ref(false);
+const selectedOption = ref<'aulas' | 'professores' | null>(null);
+
+const toggleOptions = () => {
+  showOptions.value = !showOptions.value;
+};
+
+const selectOption = (option: 'aulas' | 'professores') => {
+  selectedOption.value = option;
+};
+
+const closeForm = () => $emit('close');
+const addForm = () => $emit('add');
+const backForm = () => $emit('back');
+
+const { composables: { useListQuery } } = useLadesaApiCrudUsuarios();
+
+const searchBarText = ref('');
+const queries = computed(() => ({ search: searchBarText.value }));
+
+const { data: { items: usuarios }, methods: { suspend } } = useListQuery(queries);
+
+await suspend();
+
+const professores = computed(() => {
+  if (!usuarios.value) return [];
+  return usuarios.value.map(u => ({ ...u, selecionado: false })).toSorted((a, b) =>
+    a.nome.localeCompare(b.nome)
+  );
+});
 
 defineExpose({
   adicionarTurmas,
 });
 </script>
+
 
 <template>
   <form class="min-w-[28.125rem] text-ldsa-text-default" @submit.prevent>
@@ -115,8 +105,12 @@ defineExpose({
     >
       <!-- info disciplina -->
       <div class="border-2 border-ldsa-grey p-4 rounded-xl">
-        <span class="font-semibold text-[0.813rem]">{{ disciplinaSelecionada?.nome }}</span>
-        <p class="font-medium text-[0.813rem] text-ldsa-grey">{{ disciplinaSelecionada?.cargaHoraria }}H</p>
+        <span class="font-semibold text-[0.813rem]">{{
+          disciplinaSelecionada?.nome
+        }}</span>
+        <p class="font-medium text-[0.813rem] text-ldsa-grey">
+          {{ disciplinaSelecionada?.cargaHoraria }}H
+        </p>
       </div>
 
       <!-- card de turma -->
@@ -241,21 +235,11 @@ defineExpose({
           </div>
 
           <!-- conteúdo do professor -->
-          <div v-if="selectedOption === 'professores'" class="mt-4 space-y-4">
-            <VVTextField
-              v-model="professorSearch"
-              label="Pesquisar"
-              name="professorSearch"
-              placeholder="Digite aqui"
-              type="text"
-            />
-
+          <div v-if="selectedOption === 'professores'" class="mt-4 space-y-4">            
             <!-- professores -->
             <div class="space-y-2 p-1">
               <div
-                v-for="prof in professores.filter(p =>
-                  p.nome.toLowerCase().includes(professorSearch.toLowerCase())
-                )"
+                v-for="prof in professores"
                 :key="prof.id"
                 class="flex items-center gap-3 border-2 border-ldsa-grey rounded-lg"
               >
@@ -263,7 +247,13 @@ defineExpose({
                 <div
                   class="w-12 h-12 bg-ldsa-grey/20 flex items-center justify-center text-xs font-bold text-ldsa-grey"
                 >
-                  <IconsImage />
+                  <img
+                    v-if="prof.foto"
+                    :src="prof.foto"
+                    alt="Foto do usuário"
+                    class="w-full h-full object-cover rounded-md"
+                  />
+                  <IconsImage v-else />
                 </div>
 
                 <div class="flex-1 my-2">
@@ -272,13 +262,16 @@ defineExpose({
                   </p>
                   <p class="text-xs text-ldsa-grey">{{ prof.cargo }}</p>
                 </div>
+
                 <input
                   type="checkbox"
                   class="w-4 h-4 accent-ldsa-green-1 mr-3"
+                  v-model="prof.selecionado"
                 />
               </div>
             </div>
           </div>
+          
         </div>
       </div>
 
