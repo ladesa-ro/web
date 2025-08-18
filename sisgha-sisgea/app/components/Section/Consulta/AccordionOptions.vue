@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type AcceptableValue } from 'reka-ui';
 
-type Props = { items: ParsedItem[] };
+type Props = { items: ParsedItem[]; loading?: boolean; error?: boolean };
 defineProps<Props>();
 
 defineEmits(['option-selected']);
