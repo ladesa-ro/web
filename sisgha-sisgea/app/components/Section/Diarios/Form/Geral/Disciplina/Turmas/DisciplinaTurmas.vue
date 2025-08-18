@@ -91,11 +91,17 @@ const professores = computed(() => {
   );
 });
 
+const professorSearch = ref('');
+const professoresFiltrados = computed(() =>
+  professores.value.filter(p =>
+    p.nome.toLowerCase().includes(professorSearch.value.toLowerCase())
+  )
+);
+
 defineExpose({
   adicionarTurmas,
 });
 </script>
-
 
 <template>
   <form class="min-w-[28.125rem] text-ldsa-text-default" @submit.prevent>
@@ -105,12 +111,8 @@ defineExpose({
     >
       <!-- info disciplina -->
       <div class="border-2 border-ldsa-grey p-4 rounded-xl">
-        <span class="font-semibold text-[0.813rem]">{{
-          disciplinaSelecionada?.nome
-        }}</span>
-        <p class="font-medium text-[0.813rem] text-ldsa-grey">
-          {{ disciplinaSelecionada?.cargaHoraria }}H
-        </p>
+        <span class="font-semibold text-[0.813rem]">{{ disciplinaSelecionada?.nome }}</span>
+        <p class="font-medium text-[0.813rem] text-ldsa-grey">{{ disciplinaSelecionada?.cargaHoraria }}H</p>
       </div>
 
       <!-- card de turma -->
@@ -147,7 +149,6 @@ defineExpose({
         <div v-if="showOptions" class="mt-4">
           <!-- opções -->
           <div class="flex gap-2">
-            <!-- opções -->
             <UIRadio
               v-model="selectedOption"
               :items="[
@@ -160,19 +161,12 @@ defineExpose({
               <div
                 class="text-center p-4 text-xs font-semibold border-2 border-ldsa-grey rounded-xl transition flex flex-col items-center justify-center gap-1 cursor-pointer"
                 :class="{
-                  'bg-ldsa-green-1 border-ldsa-green-1 text-ldsa-white':
-                    selected,
+                  'bg-ldsa-green-1 border-ldsa-green-1 text-ldsa-white': selected,
                   'hover:bg-ldsa-green-1/50': !selected,
                 }"
               >
-                <IconsGroupedClass
-                  v-if="item.value === 'aulas'"
-                  class="w-5 h-5 mb-3 mt-2"
-                />
-                <IconsEducator
-                  v-else-if="item.value === 'professores'"
-                  class="w-5 h-5 mb-3 mt-2"
-                />
+                <IconsGroupedClass v-if="item.value === 'aulas'" class="w-5 h-5 mb-3 mt-2" />
+                <IconsEducator v-else-if="item.value === 'professores'" class="w-5 h-5 mb-3 mt-2" />
 
                 {{ item.label }}
               </div>
@@ -181,7 +175,6 @@ defineExpose({
 
           <!-- conteúdo de aulas agrupadas -->
           <div v-if="selectedOption === 'aulas'" class="mt-5 space-y-4">
-            <!-- blocos de dia -->
             <div
               v-for="(aula, index) in aulasAgrupadas"
               :key="aula.id"
@@ -195,7 +188,6 @@ defineExpose({
               </button>
 
               <div class="flex items-center gap-2 text-xs font-semibold">
-                <!-- lógica para incrementar e decrementar o total de aulas -->
                 <button
                   type="button"
                   class="text-ldsa-green-1 hover:text-ldsa-green-3 transition"
@@ -224,7 +216,6 @@ defineExpose({
               </button>
             </div>
 
-            <!-- botão adicionar dia -->
             <button
               type="button"
               class="mx-auto w-full font-semibold text-xs flex justify-center items-center gap-1 mt-4 border-2 border-dotted border-ldsa-grey rounded-lg px-4 py-2 hover:bg-ldsa-grey/20 transition"
@@ -235,31 +226,32 @@ defineExpose({
           </div>
 
           <!-- conteúdo do professor -->
-          <div v-if="selectedOption === 'professores'" class="mt-4 space-y-4">            
-            <!-- professores -->
+          <div v-if="selectedOption === 'professores'" class="mt-4 space-y-4">
+            <!-- campo de pesquisa -->
+            <VVTextField
+              v-model="professorSearch"
+              label="Pesquisar"
+              name="professorSearch"
+              placeholder="Digite aqui"
+              type="text"
+            />
+
+            <!-- lista de usuários filtrados -->
             <div class="space-y-2 p-1">
               <div
-                v-for="prof in professores"
+                v-for="prof in professoresFiltrados"
                 :key="prof.id"
                 class="flex items-center gap-3 border-2 border-ldsa-grey rounded-lg"
               >
-                <!-- foto professor -->
                 <div
                   class="w-12 h-12 bg-ldsa-grey/20 flex items-center justify-center text-xs font-bold text-ldsa-grey"
                 >
-                  <img
-                    v-if="prof.foto"
-                    :src="prof.foto"
-                    alt="Foto do usuário"
-                    class="w-full h-full object-cover rounded-md"
-                  />
+                  <img v-if="prof.foto" :src="prof.foto" alt="Foto do usuário" class="w-full h-full object-cover rounded-md"/>
                   <IconsImage v-else />
                 </div>
 
                 <div class="flex-1 my-2">
-                  <p class="font-semibold text-[0.812rem] leading-4">
-                    {{ prof.nome }}
-                  </p>
+                  <p class="font-semibold text-[0.812rem] leading-4">{{ prof.nome }}</p>
                   <p class="text-xs text-ldsa-grey">{{ prof.cargo }}</p>
                 </div>
 
@@ -271,7 +263,6 @@ defineExpose({
               </div>
             </div>
           </div>
-          
         </div>
       </div>
 
