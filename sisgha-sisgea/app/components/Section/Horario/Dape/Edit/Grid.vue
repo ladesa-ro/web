@@ -6,8 +6,7 @@ import {
 import { reorderWithEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { useRefHistory } from '@vueuse/core';
-import { onMounted, onUnmounted } from 'vue';
-import { dia, type HorarioPrag } from './ItemsList';
+import { dia, type DiaComTurnosPrag, type HorarioPrag } from './ItemsList';
 
 const columnIds = [1, 2, 3];
 
@@ -15,7 +14,9 @@ const closestEdgeToElement: Ref<Edge | null> = ref(null);
 
 let cleanup = () => {};
 
-const horariosHistory = useRefHistory(dia, { deep: true, capacity: 10 });
+const horario = defineModel<DiaComTurnosPrag>({ required: true, default: {} });
+
+const horariosHistory = useRefHistory(horario, { deep: true, capacity: 10 });
 
 onMounted(() => {
   cleanup = monitorForElements({
@@ -40,10 +41,9 @@ onMounted(() => {
       const finishColumnId = args.location.current.dropTargets[1]?.data.id;
 
       // se nao tiver finish column, startColumn sera a única coluna, isto é, o drag and drop ocorreu na mesma coluna.
-      const startColumn = Object.values(dia.value).filter(
-        coluna =>
-          coluna.findIndex(horario => horario.colunaId === startColumnId) !== -1
-      )[0];
+      const startColumn = Object.values(dia.value).find(coluna =>
+        coluna.findIndex(horario => horario.colunaId === startColumnId)
+      );
 
       let finishColumn;
 
