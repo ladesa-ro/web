@@ -100,7 +100,7 @@ onMounted(() => loadTurmas());
       title="Vincular turmas à disciplina"
       title-variant="mini"
     >
-      <!-- Formação -->
+      <!-- formacao -->
       <VVAutocomplete
         v-model="formacaoDummy"
         :items="['']"
@@ -110,7 +110,7 @@ onMounted(() => loadTurmas());
         placeholder="Selecione uma formação"
       />
 
-      <!-- Paginação placeholder -->
+      <!-- paginacao -->
       <div
         class="flex justify-between items-center text-xs font-semibold mb-1 w-full"
       >
@@ -123,17 +123,16 @@ onMounted(() => loadTurmas());
         </button>
       </div>
 
-      <!-- Loading -->
       <div v-if="isLoading" class="text-center py-10 text-sm text-gray-400">
         Carregando turmas...
       </div>
 
-      <!-- Lista de cursos e turmas -->
-      <div v-else class="grid grid-cols-3 gap-4 max-w-[37.5rem] mx-auto">
+      <!-- listagem de cursos e turmas -->
+      <div v-else class="grid grid-cols-2 gap-4 max-w-[37.5rem]">
         <div v-for="curso in cursosApi" :key="curso.sigla" class="p-2">
-          <!-- Checkbox do curso -->
+          <!-- curso -->
           <div
-            class="flex items-center font-semibold text-xs mb-2 cursor-pointer select-none border-b border-b-ldsa-grey pb-1"
+            class="flex items-center font-semibold text-xs mb-2 cursor-pointer select-none border-b border-b-ldsa-grey pb-1 justify-between gap-3"
             @click="toggleCurso(curso, !cursoCheckboxState(curso).checked)"
           >
             <UICheckboxSquare
@@ -143,8 +142,8 @@ onMounted(() => loadTurmas());
             <span class="flex-grow">{{ curso.nome }}</span>
           </div>
 
-          <!-- Turmas do curso -->
-          <div class="flex flex-col gap-1 text-xs">
+          <!-- turmas do curso -->
+          <div class="flex flex-col text-xs pr-3">
             <UICheckbox
               v-model="turmasSelecionadas"
               :items="
@@ -157,7 +156,7 @@ onMounted(() => loadTurmas());
               gap="0.25rem"
             >
               <div
-                class="flex items-center cursor-pointer"
+                class="flex items-center cursor-pointer justify-start gap-3 mb-1"
                 @click="invertItem(item)"
               >
                 <UICheckboxSquare :item="item" :active="selected" />
@@ -168,7 +167,7 @@ onMounted(() => loadTurmas());
         </div>
       </div>
 
-      <!-- Botões -->
+      <!-- botoes -->
       <div class="mt-6 flex justify-between gap-2">
         <UIButtonModalGoBack @click="backForm" />
         <UIButtonModalSave @click="salvarTurmas" type="button" />
