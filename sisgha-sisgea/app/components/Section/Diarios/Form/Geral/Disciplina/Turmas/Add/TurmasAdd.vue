@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import { computed, defineEmits, ref, watch } from 'vue';
+import { useLadesaApiCrudTurmas } from '#imports';
+import type { Ladesa_ManagementService_Domain_Contracts_TurmaFindOneOutput as TurmaFindOneOutput } from '@ladesa-ro/management-service-client';
+import { onMounted, ref } from 'vue';
 import type { TurmaSelecionada } from '../../../Contexto';
 
 const $emit = defineEmits<{
@@ -11,65 +13,50 @@ const $emit = defineEmits<{
 const closeForm = () => $emit('close');
 const backForm = () => $emit('back');
 
-const formacoes = ['Técnico Integrado', 'Graduação', 'Pós-Graduação'];
+const formacaoDummy = ref('');
 
-const formacaoSelecionada = ref('Técnico Integrado');
+type CursoApi = {
+  nome: string;
+  sigla: string;
+  turmas: string[];
+};
 
-const cursosTecnico = [
-  {
-    nome: 'Química',
-    sigla: 'QUI',
-    turmas: ['1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'],
-  },
-  {
-    nome: 'Informática',
-    sigla: 'INF',
-    turmas: ['1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'],
-  },
-  {
-    nome: 'Floresta',
-    sigla: 'FLO',
-    turmas: ['1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'],
-  },
-];
-
-const cursosGraduacao = [
-  {
-    nome: 'Engenharia de Software',
-    sigla: 'ESW',
-    turmas: ['1º Período', '2º Período', '3º Período', '4º Período'],
-  },
-  {
-    nome: 'Ciência da Computação',
-    sigla: 'CC',
-    turmas: ['1º Período', '2º Período', '3º Período', '4º Período'],
-  },
-];
-
-const cursosPosGraduacao = [
-  {
-    nome: 'Gestão de Projetos',
-    sigla: 'GP',
-    turmas: ['1º Período', '2º Período', '3º Período', '4º Período'],
-  },
-  {
-    nome: 'Segurança da Informação',
-    sigla: 'SI',
-    turmas: ['1º Período', '2º Período', '3º Período', '4º Período'],
-  },
-];
-
-const cursos = computed(() => {
-  if (formacaoSelecionada.value === 'Graduação') return cursosGraduacao;
-  if (formacaoSelecionada.value === 'Pós-Graduação') return cursosPosGraduacao;
-  return cursosTecnico;
-});
-
+const cursosApi = ref<CursoApi[]>([]);
+const isLoading = ref(false);
 const turmasSelecionadas = ref<string[]>([]);
 
 const turmaId = (cursoSigla: string, turma: string) => `${cursoSigla}-${turma}`;
 
-const cursoCheckboxState = (curso: (typeof cursosTecnico)[0]) => {
+const loadTurmas = async () => {
+  isLoading.value = true;
+  try {
+    const { data } = await useLadesaApiCrudTurmas().crudModule.list({});
+    console.log('Dados brutos da API:', data);
+
+    const cursosMap: Record<string, CursoApi> = {};
+
+    data.forEach((t: TurmaFindOneOutput) => {
+      const sigla = t.curso.nome;
+      if (!cursosMap[sigla]) {
+        cursosMap[sigla] = {
+          nome: t.curso.nome,
+          sigla,
+          turmas: [],
+        };
+      }
+      cursosMap[sigla].turmas.push(t.periodo);
+    });
+
+    cursosApi.value = Object.values(cursosMap);
+    console.log('Cursos processados:', cursosApi.value);
+  } catch (error) {
+    console.error('Erro ao carregar turmas:', error);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const cursoCheckboxState = (curso: CursoApi) => {
   const turmasIds = curso.turmas.map(t => turmaId(curso.sigla, t));
   const selecionadas = turmasSelecionadas.value.filter(t =>
     turmasIds.includes(t)
@@ -82,7 +69,7 @@ const cursoCheckboxState = (curso: (typeof cursosTecnico)[0]) => {
   };
 };
 
-const toggleCurso = (curso: (typeof cursosTecnico)[0], checked: boolean) => {
+const toggleCurso = (curso: CursoApi, checked: boolean) => {
   const turmasIds = curso.turmas.map(t => turmaId(curso.sigla, t));
   if (checked) {
     turmasIds.forEach(id => {
@@ -98,7 +85,7 @@ const toggleCurso = (curso: (typeof cursosTecnico)[0], checked: boolean) => {
 
 const salvarTurmas = () => {
   const turmasObj: TurmaSelecionada[] = [];
-  cursos.value.forEach(curso => {
+  cursosApi.value.forEach(curso => {
     curso.turmas.forEach(turma => {
       const id = turmaId(curso.sigla, turma);
       if (turmasSelecionadas.value.includes(id)) {
@@ -109,9 +96,7 @@ const salvarTurmas = () => {
   $emit('save-turmas', turmasObj);
 };
 
-watch(formacaoSelecionada, () => {
-  turmasSelecionadas.value = [];
-});
+onMounted(() => loadTurmas());
 </script>
 
 <template>
@@ -122,8 +107,8 @@ watch(formacaoSelecionada, () => {
       title-variant="mini"
     >
       <VVAutocomplete
-        v-model="formacaoSelecionada"
-        :items="formacoes"
+        v-model="formacaoDummy"
+        :items="['']"
         name="formacao"
         class="w-full mt-2 mb-4"
         label="Formação"
@@ -142,9 +127,13 @@ watch(formacaoSelecionada, () => {
         </button>
       </div>
 
-      <div>
+      <div v-if="isLoading" class="text-center py-10 text-sm text-gray-400">
+        Carregando turmas...
+      </div>
+
+      <div v-else>
         <div class="grid grid-cols-3 gap-4 max-w-[37.5rem] mx-auto">
-          <div v-for="curso in cursos" :key="curso.nome" class="p-2">
+          <div v-for="curso in cursosApi" :key="curso.sigla" class="p-2">
             <label
               class="flex items-center gap-2 font-semibold text-xs mb-2 cursor-pointer select-none border-b border-b-ldsa-grey pb-1"
             >
@@ -163,6 +152,7 @@ watch(formacaoSelecionada, () => {
               />
               <span class="flex-grow">{{ curso.nome }}</span>
             </label>
+
             <div class="flex flex-col gap-1 text-xs">
               <label
                 v-for="turma in curso.turmas"
@@ -182,6 +172,7 @@ watch(formacaoSelecionada, () => {
         </div>
       </div>
 
+      <!-- Botões de ação -->
       <div class="mt-6 flex justify-between gap-2">
         <UIButtonModalGoBack @click="backForm" />
         <UIButtonModalSave @click="salvarTurmas" type="button" />
