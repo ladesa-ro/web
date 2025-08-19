@@ -24,7 +24,7 @@ const editMode = ref(false);
 </script>
 
 <template>
-  <UIContainer variant="large">
+  <UIContainer variant="larger">
     <header class="flex justify-between items-center">
       <span class="flex gap-6 font-semibold text-lg">
         <NuxtLink
@@ -60,7 +60,7 @@ const editMode = ref(false);
       <ButtonsEditMode v-if="editMode" v-model="editMode" />
     </header>
 
-    <!-- TODO: adicionar horário da semana -->
+    <SectionHorarioDapeEditGrid />
   </UIContainer>
 </template>
 
@@ -69,6 +69,6 @@ const editMode = ref(false);
 
 /* class used to win the specifity of UITitle's 'default' class */
 .default {
-  @apply text-lg mb-0 h-max;
+  @apply text-lg h-max;
 }
 </style>
