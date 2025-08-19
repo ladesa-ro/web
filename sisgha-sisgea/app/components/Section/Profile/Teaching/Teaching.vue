@@ -11,10 +11,6 @@ const { isLoading, isError, data } = useQuery({
   queryFn: async () =>
     await useApiClient().usuarios.usuarioEnsinoById({ id: user.id }),
 });
-
-onMounted(() => {
-  const teste = document.querySelector('.carousel__prev');
-});
 </script>
 
 <template>
@@ -46,11 +42,8 @@ onMounted(() => {
           1750: { itemsToShow: 3 },
         }"
       >
-        <Slide
-          v-for="subject in data.disciplinas"
-          :key="subject.disciplina.id"
-        >
-          <SectionProfileTeachingCarouselItem :subject />
+        <Slide v-for="subject in data.disciplinas" :key="subject.disciplina.id">
+          <SectionProfileTeachingCarouselItem :subject class="" />
         </Slide>
         <template #addons>
           <Navigation />
@@ -67,15 +60,15 @@ onMounted(() => {
 @import 'vue3-carousel/dist/carousel.css';
 
 .carousel__slide {
-  @apply pb-4 px-1 md:px-2 lg:px-2.5;
+  @apply pb-4 px-1 md:px-2 lg:px-2.5 sm:min-w-78;
 }
 
 .carousel__prev {
-  @apply -ml-5;
+  @apply -ml-5 text-ldsa-text-default;
 }
 
 .carousel__next {
-  @apply -mr-5;
+  @apply -mr-5 text-ldsa-text-default;
 }
 
 .state-warning {

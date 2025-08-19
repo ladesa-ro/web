@@ -15,8 +15,6 @@ const filteredTurmas = filterTurmaResultsBySearch(
 );
 
 const turmasFilters = ref({});
-
-//
 </script>
 
 <template>
