@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { UICheckbox } from '#components';
 import { useLadesaApiCrudTurmas } from '#imports';
 import type { Ladesa_ManagementService_Domain_Contracts_TurmaFindOneOutput as TurmaFindOneOutput } from '@ladesa-ro/management-service-client';
 import { onMounted, ref } from 'vue';
@@ -14,6 +15,7 @@ const closeForm = () => $emit('close');
 const backForm = () => $emit('back');
 
 const formacaoDummy = ref('');
+const cursoChecked = ref<string[]>([]);
 
 type CursoApi = {
   nome: string;
@@ -31,24 +33,17 @@ const loadTurmas = async () => {
   isLoading.value = true;
   try {
     const { data } = await useLadesaApiCrudTurmas().crudModule.list({});
-    console.log('Dados brutos da API:', data);
-
     const cursosMap: Record<string, CursoApi> = {};
 
     data.forEach((t: TurmaFindOneOutput) => {
       const sigla = t.curso.nome;
       if (!cursosMap[sigla]) {
-        cursosMap[sigla] = {
-          nome: t.curso.nome,
-          sigla,
-          turmas: [],
-        };
+        cursosMap[sigla] = { nome: t.curso.nome, sigla, turmas: [] };
       }
       cursosMap[sigla].turmas.push(t.periodo);
     });
 
     cursosApi.value = Object.values(cursosMap);
-    console.log('Cursos processados:', cursosApi.value);
   } catch (error) {
     console.error('Erro ao carregar turmas:', error);
   } finally {
@@ -61,11 +56,10 @@ const cursoCheckboxState = (curso: CursoApi) => {
   const selecionadas = turmasSelecionadas.value.filter(t =>
     turmasIds.includes(t)
   );
-  const todasSelecionadas = selecionadas.length === turmasIds.length;
-  const nenhumaSelecionada = selecionadas.length === 0;
   return {
-    checked: todasSelecionadas,
-    indeterminate: !todasSelecionadas && !nenhumaSelecionada,
+    checked: selecionadas.length === turmasIds.length,
+    indeterminate:
+      selecionadas.length > 0 && selecionadas.length < turmasIds.length,
   };
 };
 
@@ -106,6 +100,7 @@ onMounted(() => loadTurmas());
       title="Vincular turmas à disciplina"
       title-variant="mini"
     >
+      <!-- Formação -->
       <VVAutocomplete
         v-model="formacaoDummy"
         :items="['']"
@@ -115,6 +110,7 @@ onMounted(() => loadTurmas());
         placeholder="Selecione uma formação"
       />
 
+      <!-- Paginação placeholder -->
       <div
         class="flex justify-between items-center text-xs font-semibold mb-1 w-full"
       >
@@ -127,52 +123,52 @@ onMounted(() => loadTurmas());
         </button>
       </div>
 
+      <!-- Loading -->
       <div v-if="isLoading" class="text-center py-10 text-sm text-gray-400">
         Carregando turmas...
       </div>
 
-      <div v-else>
-        <div class="grid grid-cols-3 gap-4 max-w-[37.5rem] mx-auto">
-          <div v-for="curso in cursosApi" :key="curso.sigla" class="p-2">
-            <label
-              class="flex items-center gap-2 font-semibold text-xs mb-2 cursor-pointer select-none border-b border-b-ldsa-grey pb-1"
-            >
-              <input
-                type="checkbox"
-                :checked="cursoCheckboxState(curso).checked"
-                ref="el => { if(el) el.indeterminate = cursoCheckboxState(curso).indeterminate }"
-                @change="
-                  (e: Event) =>
-                    toggleCurso(
-                      curso,
-                      (e.target as HTMLInputElement)?.checked ?? false
-                    )
-                "
-                class="accent-ldsa-green-1 w-4 h-4 flex-shrink-0"
-              />
-              <span class="flex-grow">{{ curso.nome }}</span>
-            </label>
+      <!-- Lista de cursos e turmas -->
+      <div v-else class="grid grid-cols-3 gap-4 max-w-[37.5rem] mx-auto">
+        <div v-for="curso in cursosApi" :key="curso.sigla" class="p-2">
+          <!-- Checkbox do curso -->
+          <div
+            class="flex items-center font-semibold text-xs mb-2 cursor-pointer select-none border-b border-b-ldsa-grey pb-1"
+            @click="toggleCurso(curso, !cursoCheckboxState(curso).checked)"
+          >
+            <UICheckboxSquare
+              :item="{ label: curso.nome, value: curso.sigla }"
+              :active="cursoCheckboxState(curso).checked"
+            />
+            <span class="flex-grow">{{ curso.nome }}</span>
+          </div>
 
-            <div class="flex flex-col gap-1 text-xs">
-              <label
-                v-for="turma in curso.turmas"
-                :key="turmaId(curso.sigla, turma)"
-                class="flex items-center gap-2 cursor-pointer"
+          <!-- Turmas do curso -->
+          <div class="flex flex-col gap-1 text-xs">
+            <UICheckbox
+              v-model="turmasSelecionadas"
+              :items="
+                curso.turmas.map(t => ({
+                  label: t,
+                  value: turmaId(curso.sigla, t),
+                }))
+              "
+              v-slot="{ item, invertItem, selected }"
+              gap="0.25rem"
+            >
+              <div
+                class="flex items-center cursor-pointer"
+                @click="invertItem(item)"
               >
-                <input
-                  type="checkbox"
-                  :value="turmaId(curso.sigla, turma)"
-                  v-model="turmasSelecionadas"
-                  class="accent-ldsa-green-1 w-4 h-4 flex-shrink-0"
-                />
-                <span>{{ turma }}</span>
-              </label>
-            </div>
+                <UICheckboxSquare :item="item" :active="selected" />
+                <span>{{ item.label }}</span>
+              </div>
+            </UICheckbox>
           </div>
         </div>
       </div>
 
-      <!-- Botões de ação -->
+      <!-- Botões -->
       <div class="mt-6 flex justify-between gap-2">
         <UIButtonModalGoBack @click="backForm" />
         <UIButtonModalSave @click="salvarTurmas" type="button" />
