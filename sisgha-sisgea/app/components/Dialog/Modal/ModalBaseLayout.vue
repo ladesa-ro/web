@@ -54,7 +54,7 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
 
 .content {
   @apply flex-1 flex flex-col gap-6 overflow-y-auto mt-5 w-full break-words;
-  @apply max-h-[70vh] pr-4;
+  @apply max-h-[70vh];
 }
 
 .button-group {
