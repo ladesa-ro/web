@@ -1,49 +1,84 @@
 <script lang="ts" setup>
-type Props = { subjectName: string };
-defineProps<Props>();
+import type {
+  Ladesa_ManagementService_Domain_Contracts_CursoFindOneOutput as Curso,
+  Ladesa_ManagementService_Domain_Contracts_DisciplinaFindOneOutput as Disciplina,
+  Ladesa_ManagementService_Domain_Contracts_TurmaFindOneOutput as Turma,
+} from '@ladesa-ro/management-service-client';
+
+type DisciplinaCursoTurma = {
+  disciplina: Disciplina;
+  cursos: Array<{
+    curso: Curso;
+    turmas: Array<{ turma: Turma }>;
+  }>;
+};
+
+type Props = { subject: DisciplinaCursoTurma };
+const { subject } = defineProps<Props>();
 
 //
 
-const classes = ['1°A', '1°B', '2°A', '2°B', '3°A', '3°B'];
+type CourseOption = {
+  value: DisciplinaCursoTurma['cursos'][number];
+  label: string;
+};
 
-const courses = [
-  'Técnico em Informática',
-  'Técnico em Química',
-  'Técnico em Florestas',
-  'A.D.S',
-  'Licenciatura em Química',
-  'Engenharia Florestal',
-];
+const coursesCarousel: CourseOption[] = subject.cursos.map(curso => ({
+  value: curso,
+  label: curso.curso.nomeAbreviado,
+}));
 
-const selectedCouse = ref(courses[0]);
+const selectedCourse = ref<CourseOption>(coursesCarousel[0]!);
+
+const selectedCourseTurmas = computed(() => {
+  // if the type is CourseOption, get sel.value, otherwise assume that the desired value is already in the variable itself, without any internal item
+
+  // this code snippet is to handle an unexpected error coming from v-model, even though i didn't understand it very well
+
+  const sel = selectedCourse.value;
+  const item = sel?.value ?? sel;
+
+  if (!item) return [];
+
+  return item.turmas.map(turma => turma.turma.periodo);
+});
+
+const disciplinaImageUrl = useApiImageRoute(
+  ApiImageResource.DISCIPLINA_COVER,
+  subject.disciplina
+);
 </script>
 
 <template>
   <div class="card-style border-card">
     <img
-      alt="Capa do curso."
-      class="image w-full max-h-14"
-      src="@/assets/imgs/Foto-Curso.png"
+      v-if="disciplinaImageUrl"
+      alt="Capa da disciplina."
+      class="image w-full min-h-9.5 max-h-14"
+      :src="disciplinaImageUrl ?? undefined"
     />
+
+    <div v-else class="bg-ldsa-grey/30 w-full min-h-9.5 max-h-14"></div>
 
     <!-- card body -->
     <main class="p-4">
-      <h1>{{ subjectName }}</h1>
+      <h1>{{ subject.disciplina.nomeAbreviado }}</h1>
 
       <div class="course-and-classes border-card">
         <!-- navigation -->
         <UIOptionsCarousel
           class="pb-2 mb-2 border-b-2 border-b-ldsa-grey"
-          :items="courses"
-          v-model="selectedCouse"
+          :items="coursesCarousel"
+          v-model="selectedCourse"
         >
           <template #toggleButton>
             <IconsArrow class="text-ldsa-text-green" />
           </template>
         </UIOptionsCarousel>
 
-        <!-- classes list -->
-        <span class="font-medium">{{ classes.join(', ') }}</span>
+        <span class="font-medium">{{
+          selectedCourseTurmas ? selectedCourseTurmas.join(', ') : ''
+        }}</span>
       </div>
     </main>
   </div>

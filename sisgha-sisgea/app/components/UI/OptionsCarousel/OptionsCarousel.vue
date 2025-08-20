@@ -10,12 +10,15 @@ type Props = {
 
   /** Toggles padding */
   toggleButtonsPadding?: string;
+
+  omitTogglesWhenItemsLengthIsOne?: boolean;
 };
 
 const {
   items: itemsProps,
   selectedItemDefaultIndex = 0,
   toggleButtonsPadding = '0',
+  omitTogglesWhenItemsLengthIsOne = false,
 } = defineProps<Props>();
 
 const items = getParsedItems(itemsProps);
@@ -49,15 +52,23 @@ onMounted(() => {
 
 <template>
   <div class="flex justify-between items-center w-full">
-    <button :style="togglePadding" @pointerdown="navigate(-1)">
+    <button
+      v-if="omitTogglesWhenItemsLengthIsOne ? items.length > 1 : true"
+      :disabled="items.length === 1"
+      :style="togglePadding"
+      @pointerdown="navigate(-1)"
+      class="disabled:opacity-40"
+    >
       <slot name="toggleButton" />
     </button>
 
     <span class="truncate">{{ items[selectedIndex]?.label }}</span>
 
     <button
+      v-if="omitTogglesWhenItemsLengthIsOne ? items.length > 1 : true"
+      :disabled="items.length === 1"
       :style="togglePadding"
-      class="rotate-180"
+      class="rotate-180 disabled:opacity-40"
       @pointerdown="navigate(1)"
     >
       <slot name="toggleButton" />

@@ -8,10 +8,7 @@ import {
   PopoverTrigger as Trigger,
 } from 'reka-ui';
 
-type Props = {
-  popoverArrow?: boolean;
-};
-
+type Props = { popoverArrow?: boolean };
 defineProps<Props>();
 
 //
@@ -22,6 +19,7 @@ const open = defineModel({ required: false, default: false });
 const content = useTemplateRef<HTMLElement | null>('content');
 const trigger = useTemplateRef<HTMLElement | null>('trigger');
 
+
 onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
 </script>
 
@@ -31,6 +29,7 @@ onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
       ref="trigger"
       @pointerdown="open = !open"
       class="shrink-0 cursor-pointer"
+      v-bind="$attrs"
     >
       <slot name="activator" />
     </Trigger>
@@ -66,7 +65,7 @@ onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
 @keyframes enter {
   from {
     opacity: 0;
-    transform: translateY(-17px);
+    transform: translateY(-1.063rem);
   }
   to {
     opacity: 1;

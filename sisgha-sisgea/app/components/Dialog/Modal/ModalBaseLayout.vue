@@ -1,22 +1,17 @@
 <script lang="ts" setup>
 type Props = {
   title?: string;
-  titleVariant?: 'default' | 'small' | 'mini';
   closeButton?: boolean;
   onClose: () => any;
 };
 
-const {
-  title = 'Título',
-  titleVariant = 'small',
-  closeButton = true,
-} = defineProps<Props>();
+const { title = 'Título', closeButton = true } = defineProps<Props>();
 </script>
 
 <template>
   <div class="modal-layout">
     <header class="header">
-      <UITitle :variant="titleVariant" :text="title" />
+      <UITitle variant="small" :text="title" />
 
       <button v-if="closeButton" class="close-button" @click="onClose">
         <IconsClose class="close-icon" />
@@ -38,8 +33,8 @@ const {
 @reference "~/assets/styles/app.css";
 
 .modal-layout {
-  @apply w-full max-w-[95%] max-h-[85vh] min-h-[20vh] p-4;
-  @apply sm:max-w-[31.5rem] sm:min-h-[30rem] sm:p-6;
+  @apply w-full max-w-[95%] max-h-[85vh] min-h-[20vh];
+  @apply sm:max-w-[31.5rem] sm:min-h-[15rem] p-4 sm:p-6;
   @apply flex flex-col justify-between items-center;
   @apply shadow-xl border-3 border-ldsa-grey rounded-2xl bg-ldsa-bg;
 }
@@ -59,7 +54,7 @@ const {
 
 .content {
   @apply flex-1 flex flex-col gap-6 overflow-y-auto mt-5 w-full break-words;
-  @apply max-h-[70vh];
+  @apply max-h-[70vh] pr-4;
 }
 
 .button-group {

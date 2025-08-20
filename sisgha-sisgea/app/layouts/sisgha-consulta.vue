@@ -1,31 +1,13 @@
 <template>
-  <div class="layout">
-    <main class="main">
-      <div class="flex-1 flex">
+  <div class="h-screen flex flex-col overflow-hidden">
+    <AppbarPublicConsultation />
+
+    <div class="flex-1 overflow-y-auto flex flex-col">
+      <main class="flex-1 py-10 shrink flex flex-col">
         <slot />
-      </div>
-      <div>
-        <UIFooter />
-      </div>
-    </main>
+      </main>
+
+      <UIFooter />
+    </div>
   </div>
 </template>
-
-<style scoped>
-.layout {
-  min-height: 100vh;
-
-  overflow: hidden;
-
-  display: flex;
-}
-
-.main {
-  flex: 1;
-
-  overflow: auto;
-
-  display: flex;
-  flex-direction: column;
-}
-</style>
