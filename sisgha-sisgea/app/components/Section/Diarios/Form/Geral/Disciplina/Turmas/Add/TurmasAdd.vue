@@ -26,6 +26,7 @@ type CursoApi = {
 const cursosApi = ref<CursoApi[]>([]);
 const isLoading = ref(false);
 const turmasSelecionadas = ref<string[]>([]);
+const formacaoSelecionada = ref<any>(null);
 
 const turmaId = (cursoSigla: string, turma: string) => `${cursoSigla}-${turma}`;
 
@@ -101,13 +102,10 @@ onMounted(() => loadTurmas());
       title-variant="mini"
     >
       <!-- formacao -->
-      <VVAutocomplete
-        v-model="formacaoDummy"
-        :items="['']"
+      <VVAutocompleteAPIOfertaFormacao
+        v-model="formacaoSelecionada"
         name="formacao"
         class="w-full mt-2 mb-4"
-        label="Formação"
-        placeholder="Selecione uma formação"
       />
 
       <!-- paginacao -->
