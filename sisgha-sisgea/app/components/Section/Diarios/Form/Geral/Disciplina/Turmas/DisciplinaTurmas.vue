@@ -108,15 +108,19 @@ const professoresFiltrados = computed(() =>
   )
 );
 
-const showOptions = ref(false);
-const selectedOption = ref<'aulas' | 'professores' | null>(null);
+const showOptionsMap = ref<Record<string, boolean>>({});
+const selectedOptionMap = ref<Record<string, 'aulas' | 'professores' | null>>({});
 
-const toggleOptions = () => {
-  showOptions.value = !showOptions.value;
+const toggleOptions = (turmaId: string) => {
+  showOptionsMap.value[turmaId] = !showOptionsMap.value[turmaId];
+
+  if (selectedOptionMap.value[turmaId] === undefined) {
+    selectedOptionMap.value[turmaId] = null;
+  }
 };
 
-const selectOption = (option: 'aulas' | 'professores') => {
-  selectedOption.value = option;
+const selectOption = (turmaId: string, option: 'aulas' | 'professores') => {
+  selectedOptionMap.value[turmaId] = option;
 };
 
 const closeForm = () => $emit('close');
@@ -166,8 +170,8 @@ defineExpose({
 
             <span
               class="cursor-pointer p-2 text-ldsa-green-1 transition-transform duration-300"
-              :class="showOptions ? 'rotate-90' : '-rotate-90'"
-              @click="toggleOptions"
+              :class="showOptionsMap[turma.id] ? 'rotate-90' : '-rotate-90'"
+              @click="toggleOptions(turma.id)"
             >
               <IconsArrow class="w-full" />
             </span>
@@ -175,11 +179,11 @@ defineExpose({
         </div>
 
         <!-- expansão -->
-        <div v-if="showOptions" class="mt-4">
+        <div v-if="showOptionsMap[turma.id]" class="mt-4">
           <!-- opções -->
           <div class="flex gap-2">
             <UIRadio
-              v-model="selectedOption"
+              v-model="selectedOptionMap[turma.id]"
               :items="[
                 { value: 'aulas', label: 'Aulas Agrupadas' },
                 { value: 'professores', label: 'Professores' },
@@ -210,7 +214,7 @@ defineExpose({
           </div>
 
           <!-- conteúdo de aulas agrupadas -->
-          <div v-if="selectedOption === 'aulas'" class="mt-5 space-y-4">
+          <div v-if="selectedOptionMap[turma.id] === 'aulas'" class="mt-5 space-y-4">
             <div
               v-for="(aula, index) in aulasAgrupadas"
               :key="aula.id"
@@ -262,7 +266,7 @@ defineExpose({
           </div>
 
           <!-- conteúdo do professor -->
-          <div v-if="selectedOption === 'professores'" class="mt-4 space-y-4">
+          <div v-if="selectedOptionMap[turma.id] === 'professores'" class="mt-4 space-y-4">
             <!-- campo de pesquisa -->
             <VVTextField
               v-model="professorSearch"
