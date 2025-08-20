@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-import { computed, defineEmits, ref, watch } from 'vue';
+import { UICheckbox } from '#components';
+import { useLadesaApiCrudTurmas } from '#imports';
+import type { Ladesa_ManagementService_Domain_Contracts_TurmaFindOneOutput as TurmaFindOneOutput } from '@ladesa-ro/management-service-client';
+import { onMounted, ref } from 'vue';
 import type { TurmaSelecionada } from '../../../Contexto';
 
 const $emit = defineEmits<{
@@ -11,78 +14,57 @@ const $emit = defineEmits<{
 const closeForm = () => $emit('close');
 const backForm = () => $emit('back');
 
-const formacoes = ['Técnico Integrado', 'Graduação', 'Pós-Graduação'];
+const formacaoDummy = ref('');
+const cursoChecked = ref<string[]>([]);
 
-const formacaoSelecionada = ref('Técnico Integrado');
+type CursoApi = {
+  nome: string;
+  sigla: string;
+  turmas: string[];
+};
 
-const cursosTecnico = [
-  {
-    nome: 'Química',
-    sigla: 'QUI',
-    turmas: ['1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'],
-  },
-  {
-    nome: 'Informática',
-    sigla: 'INF',
-    turmas: ['1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'],
-  },
-  {
-    nome: 'Floresta',
-    sigla: 'FLO',
-    turmas: ['1ºA', '1ºB', '2ºA', '2ºB', '3ºA', '3ºB'],
-  },
-];
-
-const cursosGraduacao = [
-  {
-    nome: 'Engenharia de Software',
-    sigla: 'ESW',
-    turmas: ['1º Período', '2º Período', '3º Período', '4º Período'],
-  },
-  {
-    nome: 'Ciência da Computação',
-    sigla: 'CC',
-    turmas: ['1º Período', '2º Período', '3º Período', '4º Período'],
-  },
-];
-
-const cursosPosGraduacao = [
-  {
-    nome: 'Gestão de Projetos',
-    sigla: 'GP',
-    turmas: ['1º Período', '2º Período', '3º Período', '4º Período'],
-  },
-  {
-    nome: 'Segurança da Informação',
-    sigla: 'SI',
-    turmas: ['1º Período', '2º Período', '3º Período', '4º Período'],
-  },
-];
-
-const cursos = computed(() => {
-  if (formacaoSelecionada.value === 'Graduação') return cursosGraduacao;
-  if (formacaoSelecionada.value === 'Pós-Graduação') return cursosPosGraduacao;
-  return cursosTecnico;
-});
-
+const cursosApi = ref<CursoApi[]>([]);
+const isLoading = ref(false);
 const turmasSelecionadas = ref<string[]>([]);
+const formacaoSelecionada = ref<any>(null);
 
 const turmaId = (cursoSigla: string, turma: string) => `${cursoSigla}-${turma}`;
 
-const cursoCheckboxState = (curso: (typeof cursosTecnico)[0]) => {
+const loadTurmas = async () => {
+  isLoading.value = true;
+  try {
+    const { data } = await useLadesaApiCrudTurmas().crudModule.list({});
+    const cursosMap: Record<string, CursoApi> = {};
+
+    data.forEach((t: TurmaFindOneOutput) => {
+      const sigla = t.curso.nome;
+      if (!cursosMap[sigla]) {
+        cursosMap[sigla] = { nome: t.curso.nome, sigla, turmas: [] };
+      }
+      cursosMap[sigla].turmas.push(t.periodo);
+    });
+
+    cursosApi.value = Object.values(cursosMap);
+  } catch (error) {
+    console.error('Erro ao carregar turmas:', error);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+const cursoCheckboxState = (curso: CursoApi) => {
   const turmasIds = curso.turmas.map(t => turmaId(curso.sigla, t));
   const selecionadas = turmasSelecionadas.value.filter(t =>
     turmasIds.includes(t)
   );
-  const todasSelecionadas = selecionadas.length === turmasIds.length;
-  const nenhumaSelecionada = selecionadas.length === 0;
   return {
-    checked: todasSelecionadas,
-    indeterminate: !todasSelecionadas && !nenhumaSelecionada,
+    checked: selecionadas.length === turmasIds.length,
+    indeterminate:
+      selecionadas.length > 0 && selecionadas.length < turmasIds.length,
   };
 };
 
-const toggleCurso = (curso: (typeof cursosTecnico)[0], checked: boolean) => {
+const toggleCurso = (curso: CursoApi, checked: boolean) => {
   const turmasIds = curso.turmas.map(t => turmaId(curso.sigla, t));
   if (checked) {
     turmasIds.forEach(id => {
@@ -98,7 +80,7 @@ const toggleCurso = (curso: (typeof cursosTecnico)[0], checked: boolean) => {
 
 const salvarTurmas = () => {
   const turmasObj: TurmaSelecionada[] = [];
-  cursos.value.forEach(curso => {
+  cursosApi.value.forEach(curso => {
     curso.turmas.forEach(turma => {
       const id = turmaId(curso.sigla, turma);
       if (turmasSelecionadas.value.includes(id)) {
@@ -109,9 +91,7 @@ const salvarTurmas = () => {
   $emit('save-turmas', turmasObj);
 };
 
-watch(formacaoSelecionada, () => {
-  turmasSelecionadas.value = [];
-});
+onMounted(() => loadTurmas());
 </script>
 
 <template>
@@ -121,67 +101,71 @@ watch(formacaoSelecionada, () => {
       title="Vincular turmas à disciplina"
       title-variant="mini"
     >
-      <VVAutocomplete
+      <!-- formacao -->
+      <VVAutocompleteAPIOfertaFormacao
         v-model="formacaoSelecionada"
-        :items="formacoes"
         name="formacao"
         class="w-full mt-2 mb-4"
-        label="Formação"
-        placeholder="Selecione uma formação"
       />
 
+      <!-- paginacao -->
       <div
         class="flex justify-between items-center text-xs font-semibold mb-1 w-full"
       >
         <button type="button" class="text-ldsa-grey">
           <IconsArrow class="w-4 h-4" />
         </button>
-        <span class="flex-grow text-center">Página 1 de 1</span>
+        <p class="flex-grow text-center text-ldsa-text-default">Página 1 de 1</p>
         <button type="button" class="text-ldsa-grey">
           <IconsArrow class="transform rotate-180 w-4 h-4" />
         </button>
       </div>
 
-      <div>
-        <div class="grid grid-cols-3 gap-4 max-w-[37.5rem] mx-auto">
-          <div v-for="curso in cursos" :key="curso.nome" class="p-2">
-            <label
-              class="flex items-center gap-2 font-semibold text-xs mb-2 cursor-pointer select-none border-b border-b-ldsa-grey pb-1"
+      <div v-if="isLoading" class="text-center py-10 text-sm text-gray-400">
+        Carregando turmas...
+      </div>
+
+      <!-- listagem de cursos e turmas -->
+      <div v-else class="grid grid-cols-2 gap-4 max-w-[37.5rem]">
+        <div v-for="curso in cursosApi" :key="curso.sigla" class="p-2">
+          <!-- curso -->
+          <div
+            class="flex items-center font-semibold text-xs mb-2 cursor-pointer select-none border-b border-b-ldsa-grey pb-1 gap-3 text-ldsa-text-default"
+            @click="toggleCurso(curso, !cursoCheckboxState(curso).checked)"
+          >
+            <UICheckboxSquare
+              :item="{ label: curso.nome, value: curso.sigla }"
+              :active="cursoCheckboxState(curso).checked"
+            />
+            <p class="flex-grow">{{ curso.nome }}</p>
+          </div>
+
+          <!-- turmas do curso -->
+          <div class="flex flex-col text-xs pr-3">
+            <UICheckbox
+              v-model="turmasSelecionadas"
+              :items="
+                curso.turmas.map(t => ({
+                  label: t,
+                  value: turmaId(curso.sigla, t),
+                }))
+              "
+              v-slot="{ item, invertItem, selected }"
+              gap="0.25rem"
             >
-              <input
-                type="checkbox"
-                :checked="cursoCheckboxState(curso).checked"
-                ref="el => { if(el) el.indeterminate = cursoCheckboxState(curso).indeterminate }"
-                @change="
-                  (e: Event) =>
-                    toggleCurso(
-                      curso,
-                      (e.target as HTMLInputElement)?.checked ?? false
-                    )
-                "
-                class="accent-ldsa-green-1 w-4 h-4 flex-shrink-0"
-              />
-              <span class="flex-grow">{{ curso.nome }}</span>
-            </label>
-            <div class="flex flex-col gap-1 text-xs">
-              <label
-                v-for="turma in curso.turmas"
-                :key="turmaId(curso.sigla, turma)"
-                class="flex items-center gap-2 cursor-pointer"
+              <div
+                class="flex items-center cursor-pointer justify-start gap-3 mb-1"
+                @click="invertItem(item)"
               >
-                <input
-                  type="checkbox"
-                  :value="turmaId(curso.sigla, turma)"
-                  v-model="turmasSelecionadas"
-                  class="accent-ldsa-green-1 w-4 h-4 flex-shrink-0"
-                />
-                <span>{{ turma }}</span>
-              </label>
-            </div>
+                <UICheckboxSquare :item="item" :active="selected" />
+                <span>{{ item.label }}</span>
+              </div>
+            </UICheckbox>
           </div>
         </div>
       </div>
 
+      <!-- botoes -->
       <div class="mt-6 flex justify-between gap-2">
         <UIButtonModalGoBack @click="backForm" />
         <UIButtonModalSave @click="salvarTurmas" type="button" />
