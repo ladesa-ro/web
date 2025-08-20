@@ -115,7 +115,7 @@ onMounted(() => loadTurmas());
         <button type="button" class="text-ldsa-grey">
           <IconsArrow class="w-4 h-4" />
         </button>
-        <span class="flex-grow text-center">Página 1 de 1</span>
+        <p class="flex-grow text-center text-ldsa-text-default">Página 1 de 1</p>
         <button type="button" class="text-ldsa-grey">
           <IconsArrow class="transform rotate-180 w-4 h-4" />
         </button>
@@ -130,14 +130,14 @@ onMounted(() => loadTurmas());
         <div v-for="curso in cursosApi" :key="curso.sigla" class="p-2">
           <!-- curso -->
           <div
-            class="flex items-center font-semibold text-xs mb-2 cursor-pointer select-none border-b border-b-ldsa-grey pb-1 justify-between gap-3"
+            class="flex items-center font-semibold text-xs mb-2 cursor-pointer select-none border-b border-b-ldsa-grey pb-1 gap-3 text-ldsa-text-default"
             @click="toggleCurso(curso, !cursoCheckboxState(curso).checked)"
           >
             <UICheckboxSquare
               :item="{ label: curso.nome, value: curso.sigla }"
               :active="cursoCheckboxState(curso).checked"
             />
-            <span class="flex-grow">{{ curso.nome }}</span>
+            <p class="flex-grow">{{ curso.nome }}</p>
           </div>
 
           <!-- turmas do curso -->
