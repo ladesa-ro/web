@@ -7,7 +7,7 @@ export type CalendarEvent = {
   startDate: string;
   endDate: string;
   color: string | null;
-  locale?: string;
+  locale?: string | null | undefined;
   calendar?: { id: string };
 };
 

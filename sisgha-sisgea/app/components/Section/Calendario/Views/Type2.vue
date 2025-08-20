@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+import {
+  IconsCalendarItems,
+  SectionCalendarioFormEvents,
+  UIToggle,
+} from '#components';
 import dayjs from 'dayjs';
 import { calendarDataMethods } from '../CalendarDataMethods';
 import type { CalendarEvent } from '../Types';
@@ -17,11 +22,17 @@ const props = defineProps<Props>();
 const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 let events = ref<CalendarEvent[]>([]);
 
+let toggleView = ref<number>(0);
+const toggleItems = [{ text: 'Eventos', value: 0, icon: IconsCalendarItems }];
+
 if (props.calendarId) {
   const getSteps: Array<CalendarEvent> =
-    await calendarDataMethods.steps.getSteps(props.calendarId);
-  // const getEvents: Array<CalendarEvent> = await calendarDataMethods.events.getEvents(props.calendarId);
-  events.value = getSteps;
+    await calendarDataMethods.steps.getSteps(props.calendarId!);
+  const getEvents: Array<CalendarEvent> =
+    await calendarDataMethods.events.getEvents(props.calendarId!);
+
+  events.value = getSteps.concat(getEvents);
+  // events.value = events.value.filter(item => dayjs(item.startDate).month() === month);
 
   // Ordering List
   events.value.sort(
@@ -32,7 +43,13 @@ if (props.calendarId) {
 
 <template>
   <div class="flex flex-wrap w-full h-max gap-6">
-    
+    <DialogModalEditOrCreateModal
+      :form-component="SectionCalendarioFormEvents"
+      :form-props="{ events: events }"
+    />
+
+    <UIToggle :items="toggleItems" v-model="toggleView" class="w-full" />
+
     <div class="flex flex-wrap w-full h-max justify-center gap-6">
       <SectionCalendarioMonth
         v-for="month in months"

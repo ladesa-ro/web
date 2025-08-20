@@ -4,32 +4,30 @@ import dayjs from 'dayjs';
 import { useForm } from 'vee-validate';
 import { ref } from 'vue';
 import * as yup from 'yup';
-import type { CalendarEvent } from '../../Types';
+import { useCampusUsuarioId } from '~/composables/integrations/ladesa-api/modules/useCampusUsuarioId';
+import { calendarDataMethods } from '../../CalendarDataMethods';
+import type Step from '~/components/VV/Calendar/Step.vue';
 
 // # CODE
 type Props = {
   calendarId?: string;
   formStage: number;
-  submit?: boolean;
 };
 
 const props = defineProps<Props>();
 let _formStage = ref<number>(0);
 
 type FormValues = {
-  // Calendar
   calendarName?: string;
   calendarYear?: number;
   trainingOffer?: string;
-  campus?: string;
-  course?: string;
-  // Steps
-  calendarSteps?: Array<CalendarEvent>;
 };
 
+// ## STEPS
 // Calendar - Steps and recovery amount
 let calendarStepAmount = ref<number>(0);
 let calendarRecoveryAmount = ref<number>(0);
+const stepRefs = ref<InstanceType<typeof Step>[]>([]);
 
 async function setCalendarStepAmount() {
   try {
@@ -40,12 +38,12 @@ async function setCalendarStepAmount() {
           const getTraining =
             await getApiClient().ofertasFormacoes.ofertaFormacaoFindOneById({
               id: values.trainingOffer!,
-            }).promise;
+            });
 
           if (getTraining) return getTraining.nome;
           else return '';
-        } catch (error) {
-          console.error('Erro: ', error);
+        } catch (e) {
+          console.error(`Erro: ${e}`);
           return '';
         }
       };
@@ -55,7 +53,7 @@ async function setCalendarStepAmount() {
           let searchOffer =
             await getApiClient().ofertasFormacoes.ofertaFormacaoList({
               search: `Superior`,
-            }).promise;
+            });
 
           const catchOffer = searchOffer.data?.find((offer: any) =>
             offer.nome.includes('Superior')
@@ -63,8 +61,8 @@ async function setCalendarStepAmount() {
 
           if (catchOffer) return catchOffer.nome;
           else return '';
-        } catch (error) {
-          console.error('Erro: ', error);
+        } catch (e) {
+          console.error(`Erro: ${e}`);
           return '';
         }
       };
@@ -78,44 +76,81 @@ async function setCalendarStepAmount() {
         calendarRecoveryAmount.value = 2;
       }
     }
-  } catch (error) {
-    console.error('Erro: ', error);
+  } catch (e) {
+    console.error(`Erro: ${e}`);
   }
 }
 
-// Calendar - Steps data
+// ## CALENDAR
+const createdCalendarId = ref<string>('');
+
 const schemaCalendar = yup.object({
-  calendarName: yup.string().required('Nome é obrigatório'),
+  calendarName: yup.string().required('Nome inválido'),
   calendarYear: yup
     .number()
-    .required('Ano letivo é obrigatório')
+    .required('Ano letivo inválido')
     .min(2000, 'Ano inválido')
     .max(2125, 'Ano inválido'),
-  trainingOffer: yup.string().required('Formação é obrigatória'),
-  course: yup.string().required('Curso é obrigatório'),
+  trainingOffer: yup.string().required('Formação inválida'),
 });
 
-const { handleSubmit, values, errors, setFieldValue } = useForm<FormValues>({
+const { values, validate } = useForm<FormValues>({
   validationSchema: schemaCalendar,
   initialValues: {
     calendarName: '',
     calendarYear: dayjs().year(),
     trainingOffer: '',
-    campus: '',
-    course: '',
-    // steps: [],
-    // recovery: [],
   },
 });
 
-await watch(
+const campus = await useCampusUsuarioId();
+
+async function onSubmit(): Promise<string> {
+  await calendarDataMethods.calendar.postCalendar(
+    values.calendarName!,
+    values.calendarYear!,
+    campus!,
+    values.trainingOffer!
+  );
+
+  return calendarDataMethods.calendar.getCalendarIdByData(
+    values.calendarName!,
+    values.calendarYear!,
+    campus!,
+    values.trainingOffer!
+  );
+}
+
+let formValidation = async (): Promise<boolean> => {
+  const { valid } = await validate();
+
+  if (!valid) return false;
+  else return true;
+};
+
+const validCalendarCrud = async (): Promise<boolean> => {
+  if (await formValidation()) {
+    createdCalendarId.value = await onSubmit();
+
+    for (const ref of stepRefs.value) {
+      if (ref) {
+        await ref.validateStepCrud();
+      }
+    }
+
+    return true;
+  } else return false;
+};
+
+defineExpose({ validCalendarCrud, formValidation });
+
+watch(
   () => props.formStage,
-  async (n, o) => {
+  async n => {
     _formStage.value = n;
     if (_formStage.value > 1) await setCalendarStepAmount();
   }
 );
-
 </script>
 
 <template>
@@ -135,7 +170,6 @@ await watch(
         placeholder="Digite aqui"
       />
       <VVAutocompleteAPIOfertaFormacao name="trainingOffer" label="Formação" />
-      <VVAutocompleteAPICurso name="course" label="Curso" />
     </div>
 
     <!-- Calendar - Steps -->
@@ -144,7 +178,9 @@ await watch(
         v-for="(calendarStep, index) in calendarStepAmount"
         :key="index"
         :text="`Etapa ${index + 1}`"
-        :calendar-id="props.calendarId!"
+        :calendar-id="createdCalendarId!"
+        :is-step="true"
+        ref="stepRefs"
       />
     </div>
 
@@ -154,9 +190,14 @@ await watch(
         v-for="(calendarRecovery, index) in calendarRecoveryAmount"
         :key="index"
         :text="`Recuperação ${index + 1}`"
-        :calendar-id="props.calendarId!"
+        :calendar-id="createdCalendarId!"
+        :is-step="false"
       />
-      <VVCalendarStep :text="`Exame`" :calendar-id="props.calendarId!" />
+      <VVCalendarStep
+        :text="`Exame`"
+        :calendar-id="props.calendarId!"
+        :is-step="false"
+      />
     </div>
   </div>
 </template>

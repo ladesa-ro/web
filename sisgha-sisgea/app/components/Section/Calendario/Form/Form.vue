@@ -3,6 +3,7 @@
 import IconCalendar from '@/components/Icons/Calendar/Calendar.vue';
 import IconEvent from '@/components/Icons/Event.vue';
 import { ref } from 'vue';
+import Advance from '~/components/UI/Button/Modal/Advance.vue';
 
 // # CODE
 type Props = {
@@ -38,13 +39,6 @@ const stages = ['Choose', 'Steps', 'Recovery'];
 
 let stage = ref(0);
 
-async function formStage(v: string) {
-  if (v === 'next') stage.value++;
-  else if (v === 'prev') stage.value--;
-
-  changeModalTitle(String(registerType.value));
-}
-
 let registerType = ref<'calendar' | 'events' | null>(null);
 
 if (props.editMode) {
@@ -53,12 +47,11 @@ if (props.editMode) {
 }
 
 function selectRegisterType(type: string | null) {
-  if (type) {
-    if (type == 'Calendário') registerType.value = 'calendar';
-    else if (type == 'Evento') registerType.value = 'events';
+  if (type == 'Calendário') registerType.value = 'calendar';
+  else if (type == 'Evento') registerType.value = 'events';
+  else registerType.value = null;
 
-    changeModalTitle(String(registerType.value));
-  }
+  changeModalTitle(String(registerType.value));
 }
 
 // # EMITS
@@ -72,9 +65,37 @@ const eventCrudRef = ref();
 const calendarCrudRef = ref();
 
 async function onSubmit() {
-  const valid = await eventCrudRef.value!.validateEventCrud();
+  if (registerType.value === 'calendar' || props.editMode === 'calendar') {
+    const valid = await calendarCrudRef.value.validCalendarCrud();
 
-  if (valid) onClose();
+    if (valid) {
+      onClose();
+    }
+  } else if (registerType.value === 'events' || props.editMode === 'events') {
+    const valid = await eventCrudRef.value.validateEventCrud();
+
+    if (valid) {
+      onClose();
+    }
+  }
+}
+
+async function formStage(v: string) {
+  if (calendarCrudRef && stage.value > 0) {
+    if (
+      v === 'next' &&
+      (await calendarCrudRef.value.formValidation()) === true
+    )
+      stage.value++;
+    else if (v === 'prev') stage.value--;
+  } else {
+    if (v === 'next') stage.value++;
+    else if (v === 'prev') stage.value--;
+  }
+
+  if(stage.value === 0) selectRegisterType(null);
+
+  changeModalTitle(String(registerType.value));
 }
 </script>
 

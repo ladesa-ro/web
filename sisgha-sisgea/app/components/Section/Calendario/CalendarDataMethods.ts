@@ -1,19 +1,53 @@
 // # IMPORT
 import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat.js';
+import timezone from 'dayjs/plugin/timezone.js';
+import utc from 'dayjs/plugin/utc.js';
 import type { CalendarData, CalendarEvent } from './Types';
-import customParseFormat from "dayjs/plugin/customParseFormat.js";
+import { useApiContext } from '../../API/Context/setup-context';
 
 // # CODE
 dayjs.extend(customParseFormat);
+dayjs.extend(timezone);
+dayjs.extend(utc);
 
 export const calendarDataMethods = {
+  // Check
+  check: {
+    validHour: async (hour: string | null | undefined): Promise<boolean> => {
+      try {
+        if (!hour) return true;
+
+        const trimHour = String(hour).trim();
+
+        if (trimHour.length !== 5) return false;
+        else {
+          if (trimHour[2] !== ':') return false;
+          else {
+            const [_hour, minutes] = trimHour.split(':');
+
+            if (isNaN(Number(_hour)) || isNaN(Number(minutes))) return false;
+            else {
+              if (
+                (Number(_hour) < 0 || Number(_hour) > 23) &&
+                (Number(minutes) < 0 || Number(minutes) > 59)
+              )
+                return false;
+              else return true;
+            }
+          }
+        }
+      } catch (e) {
+        console.error(`Erro: ${e}`);
+        return false;
+      }
+    },
+  },
+
   // Calendar
   calendar: {
     // TODO: Temp. Get Calendar Method
-    async getCalendarById(
-      calendarId: string,
-      campus: string
-    ): Promise<CalendarData> {
+    async getCalendarById(calendarId: string): Promise<CalendarData> {
       let calendar: CalendarData = {
         id: '',
         name: '',
@@ -24,27 +58,73 @@ export const calendarDataMethods = {
 
       try {
         const getCalendar =
-          await getApiClient().calendariosLetivos.calendarioLetivoList({
-            filterCampusId: [campus],
-          }).promise;
+          await getApiClient().calendariosLetivos.calendarioLetivoFindOneById({
+            id: calendarId,
+          });
 
-        const filterCalendar = getCalendar.data.find(
-          item => item.id === calendarId
-        );
-
-        if (filterCalendar) {
+        if (getCalendar) {
           calendar = {
-            id: filterCalendar!.id,
-            name: filterCalendar!.nome,
-            year: filterCalendar!.ano,
-            trainingOffer: { id: filterCalendar!.ofertaFormacao.id },
-            campus: { id: filterCalendar!.campus.id },
+            id: getCalendar!.id,
+            name: getCalendar!.nome,
+            year: getCalendar!.ano,
+            trainingOffer: { id: getCalendar!.ofertaFormacao.id },
+            campus: { id: getCalendar!.campus.id },
           };
         }
         return calendar;
-      } catch (error) {
-        console.error(`Erro: ${error}`);
+      } catch (e) {
+        console.error(`Erro: ${e}`);
         return calendar;
+      }
+    },
+
+    async getCalendarIdByData(
+      name: string,
+      year: number,
+      campus: string,
+      trainingOffer: string
+    ): Promise<string> {
+      try {
+        const getCalendar =
+          await getApiClient().calendariosLetivos.calendarioLetivoList({
+            filterCampusId: [campus],
+            filterOfertaFormacaoId: [trainingOffer],
+            search: name,
+          });
+
+        const filterCalendar = getCalendar.data.find(
+          item =>
+            item.nome === name &&
+            item.ano === year &&
+            item.campus.id === campus &&
+            item.ofertaFormacao.id === trainingOffer
+        );
+
+        if (filterCalendar) return filterCalendar.id;
+        else return '';
+      } catch (e) {
+        console.error(`Erro: ${e}`);
+        return '';
+      }
+    },
+
+    async postCalendar(
+      name: string,
+      year: number,
+      campus: string,
+      trainingOffer: string
+    ): Promise<any> {
+      try {
+        await getApiClient().calendariosLetivos.calendarioLetivoCreate({
+          requestBody: {
+            nome: name,
+            ano: year,
+            campus: { id: campus },
+            ofertaFormacao: { id: trainingOffer },
+          },
+        });
+      } catch (e) {
+        console.error(`Erro: ${e}`);
       }
     },
   },
@@ -65,6 +145,7 @@ export const calendarDataMethods = {
             startDate: steps.data[i]!.dataInicio,
             endDate: steps.data[i]!.dataTermino,
             color: steps.data[i]!.cor,
+            calendar: { id: calendarId }
           };
           remodelSteps.push(step);
         }
@@ -88,9 +169,30 @@ export const calendarDataMethods = {
             step.calendario.id === calendarId
         );
         return findStep ? findStep : null;
-      } catch (error) {
-        console.error('Erro: ', error);
+      } catch (e) {
+        console.error(`Erro: ${e}`);
         return null;
+      }
+    },
+    async postStep(
+      num: number,
+      color: string,
+      start: { date: string },
+      end: { date: string },
+      calendarId: string
+    ): Promise<void> {
+      try {
+        await getApiClient().etapas.etapaCreate({
+          requestBody: {
+            numero: num,
+            cor: color,
+            calendario: { id: calendarId },
+            dataInicio: dayjs(start.date).format("YYYY-MM-DD"),
+            dataTermino: dayjs(end.date).format("YYYY-MM-DD"),
+          },
+        });
+      } catch (e) {
+        console.error(`Erro: ${e}`);
       }
     },
   },
@@ -112,6 +214,8 @@ export const calendarDataMethods = {
             color: events.data[i]!.cor,
             startDate: events.data[i]!.data_inicio!,
             endDate: events.data[i]!.data_fim!,
+            calendar: { id: calendarId },
+            locale: events.data[i]?.local
           };
           remodelEvents.push(event);
         }
@@ -133,8 +237,8 @@ export const calendarDataMethods = {
           event => event.id === name && event.calendario.id === calendarId
         );
         return findEvent ? findEvent : null;
-      } catch (error) {
-        console.error('Erro: ', error);
+      } catch (e) {
+        console.error(`Erro: ${e}`);
         return null;
       }
     },
@@ -146,27 +250,37 @@ export const calendarDataMethods = {
       calendarId: string
     ): Promise<void> {
       try {
-        // String(
-        //   dayjs(`${start.date}T${start.hour}`).format(
-        //     'YYYY-MM-DD HH:mm:ss'
-        //   )
-        // )
+        const userTz = dayjs.tz.guess();
+
+        const formattedDates = {
+          startDate: start.hour
+            ? dayjs(`${start.date} ${start.hour}:00`, 'YYYY-MM-DD HH:mm:ss')
+                .tz(userTz)
+                .format()
+            : dayjs(`${start.date} 00:00:00`, 'YYYY-MM-DD HH:mm:ss')
+                .tz(userTz)
+                .format(),
+          endDate: end.hour
+            ? dayjs(`${end.date} ${end.hour}:00`, 'YYYY-MM-DD HH:mm:ss')
+                .tz(userTz)
+                .format()
+            : dayjs(`${end.date} 00:00:00`, 'YYYY-MM-DD HH:mm:ss')
+                .tz(userTz)
+                .format(),
+        };
+
         await getApiClient().eventos.eventoCreate({
           requestBody: {
             nome: name,
             rrule: '',
             cor: color,
             calendario: { id: calendarId },
-            data_inicio: start.hour
-              ? `${dayjs(start.date).format("YYYY-MM-DD")}T${dayjs(start.hour, "HH:mm").format("HH:mm:ss")}Z`
-              : dayjs(start.date).format('YYYY-MM-DD'),
-            data_fim: end.hour
-              ? `${dayjs(end.date).format("YYYY-MM-DD")}T${dayjs(end.hour, "HH:mm").format("HH:mm:ss")}Z`
-              : dayjs(end.date).format('YYYY-MM-DD'),
+            data_inicio: formattedDates.startDate,
+            data_fim: formattedDates.endDate,
           },
         });
-      } catch (error) {
-        console.error(error);
+      } catch (e) {
+        console.error(`Erro: ${e}`);
       }
     },
   },
@@ -177,8 +291,6 @@ export const calendarDataMethods = {
     returnType?: 'id' | null
   ): Promise<any | string> => {
     try {
-      let returnObject = { id: '' };
-
       const event = async (): Promise<any> => {
         const checkEvents = await calendarDataMethods.events.getEventByName(
           name!,
@@ -197,8 +309,8 @@ export const calendarDataMethods = {
       };
 
       if (returnType === 'id') return event;
-    } catch (error) {
-      console.error('Erro: ', error);
+    } catch (e) {
+      console.error(`Erro: ${e}`);
       return {};
     }
   },

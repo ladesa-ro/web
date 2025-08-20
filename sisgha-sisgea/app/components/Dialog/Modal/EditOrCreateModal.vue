@@ -1,8 +1,8 @@
 <script lang="ts" setup>
+import type { Component } from 'vue';
 import ButtonAdd from '~/components/UI/Button/Add/Add.vue';
 import ButtonEdit from '~/components/UI/Button/Edit/Edit.vue';
 import type { FormComponent } from './FormComponent';
-import type { Component } from 'vue';
 
 type Props = {
   editId?: string | null;

@@ -7,9 +7,6 @@ import dayjs from 'dayjs';
 import { calendarDataMethods } from './CalendarDataMethods';
 import type { CalendarData } from './Types';
 
-import { useCampusDoUsuario } from '../../../composables/integrations/ladesa-api/modules/useCampusUsuario';
-import { useApiContext } from '../../API/Context/setup-context';
-
 // # CODE
 let toggleView = ref<number>(0);
 
@@ -19,21 +16,21 @@ const toggleItems = [
 ];
 
 // TODO: Fix 'Get Calendar' Feature
-const { usuario } = useApiContext();
-const { campus } = useCampusDoUsuario(usuario.value.id, true);
 
 let selectedCalendar = ref<CalendarData>(
-  await calendarDataMethods.calendar.getCalendarById('', campus.value!)
+  await calendarDataMethods.calendar.getCalendarById('')
 );
+
 let selectedTrainingOffer = ref<any | null>(null);
 let selectedYear = ref<number>(dayjs().year());
 
 async function toggleSelectedCalendarItem(value: string) {
-  selectedCalendar.value = await calendarDataMethods.calendar.getCalendarById(
-    value,
-    campus.value!
-  );
+  selectedCalendar.value =
+    await calendarDataMethods.calendar.getCalendarById(value);
 }
+
+onMounted(async () => {
+});
 </script>
 
 <template>

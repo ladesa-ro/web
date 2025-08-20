@@ -44,7 +44,7 @@ const getEvent = async () => {
 let isEvent = ref<boolean | null>(null);
 
 if (props.eventName) {
-  getEvent();
+  await getEvent();
 }
 
 type FormValues = {
@@ -63,9 +63,19 @@ const schemaCalendar = yup.object({
   eventEnvironment: yup.string().notRequired(),
   eventColor: yup.string().required('Cor inválida'),
   eventStartDate: yup.date().required('Data de início inválida'),
-  eventStartHour: yup.string().notRequired(),
+  eventStartHour: yup
+    .string()
+    .notRequired()
+    .test('valid-hour', 'Horário de início inválido', async hour => {
+      return await calendarDataMethods.check.validHour(hour);
+    }),
   eventEndDate: yup.date().required('Data de término inválida'),
-  eventEndHour: yup.string().notRequired(),
+  eventEndHour: yup
+    .string()
+    .notRequired()
+    .test('valid-hour', 'Horário de término inválido', async hour => {
+      return await calendarDataMethods.check.validHour(hour);
+    }),
 });
 
 const { values, validate } = useForm<FormValues>({
@@ -104,9 +114,9 @@ const validateEventCrud = async (): Promise<boolean> => {
     await onSubmit();
     return true;
   }
-}
+};
 
-defineExpose({validateEventCrud,});
+defineExpose({ validateEventCrud });
 </script>
 
 <template>
