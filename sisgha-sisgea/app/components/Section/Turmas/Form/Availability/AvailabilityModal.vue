@@ -6,13 +6,10 @@ import { useAvailability } from '../../../../../composables/useAvailability';
 const emit = defineEmits(['close']);
 const onClose = () => emit('close');
 
-const props = withDefaults(defineProps<{
+const { disabled, isLoading } = defineProps<{
   disabled?: boolean;
   isLoading?: boolean;
-}>(), {
-  disabled: false,
-  isLoading: false,
-});
+}>();
 
 const { dayShifts, weekDays, selectedDayWeek, selectedTimes } = useAvailability();
 </script>
