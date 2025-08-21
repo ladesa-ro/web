@@ -34,6 +34,7 @@ onMounted(() => {
         'bg-ldsa-green-1 text-white': selectedIndex === index,
         'text-ldsa-text-green': selectedIndex !== index
       }"
+      type="button"
     >
       {{ item.label.slice(0, 3)}}
     </button>
