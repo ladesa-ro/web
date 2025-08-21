@@ -48,10 +48,10 @@ const allTimes = dayShifts.flatMap(s => s.times);
     <WeekdaySelector
       :items="weekDays"
       v-model="selectedDayWeek"
-      class="font-semibold gap-6"
+      class="font-semibold gap-2"
     />
 
-    <div class="flex flex-col gap-4 mt-4 w-full">
+    <div class="flex flex-col gap-4 mt-2 w-full">
       <section class="flex justify-between">
         <div v-for="shift in dayShifts" :key="shift.title">
           <h1 class="font-medium mb-2">{{ capitalizeFirst(shift.title) }}</h1>
