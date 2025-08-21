@@ -12,7 +12,7 @@ import {
   type ITurmaFormSchema,
   useTurmaFormSchema,
 } from './-Helpers/schema';
-import SectionTurmasFormAvailability from '../Form/Availability/Availability.vue';
+import SectionTurmasFormAvailability from './Availability/AvailabilityModal.vue';
 
 type Props = {
   editId?: string | null;
@@ -143,17 +143,16 @@ const {
       />
 
       <SectionTurmasFormFieldsPeriodo
-      v-show="isClassesOpen"
+        v-show="isClassesOpen"
         :disabled="isBusy"
         :is-loading="isLoading"
       />
-
     </FormsCreateOrManageContextualForm>
-    
-      <SectionTurmasFormAvailability
+
+    <SectionTurmasFormAvailability
       v-show="isAvailabilityOpen"
-        :disabled="isBusy"
-        :is-loading="isLoading"
-      />
+      :disabled="isBusy"
+      :is-loading="isLoading"
+    />
   </form>
 </template>
