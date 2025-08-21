@@ -16,9 +16,6 @@ const props = withDefaults(defineProps<{
 
 const currentDay = useCurrentDay();
 const week = getWeekDays(currentDay.value);
-const weekDays = week.map(day => day.dayWeek);
-
-const selectedDayWeek = ref<string>(weekDays[0] ?? '');
 
 const dayShifts = [
   {
@@ -34,9 +31,32 @@ const dayShifts = [
     times: ['19:00', '19:50', '20:40', '21:30', '21:50', '22:40'],
   },
 ];
-
-const selectedTimes = ref<string[]>([]);
 const allTimes = dayShifts.flatMap(s => s.times);
+const weekDays = week.map(day => day.dayWeek);
+const selectedDayWeek = ref(weekDays[0] ?? '');
+const availabilityByDay = ref<Record<string, string[]>>({});
+
+// inicializa tudo como disponível
+weekDays.forEach(day => {
+  availabilityByDay.value[day] = [...allTimes];
+});
+
+const selectedTimes = ref([
+  ...(availabilityByDay.value[selectedDayWeek.value] ?? allTimes)
+]);
+
+
+// troca de dia
+watch(selectedDayWeek, (newDay) => {
+  selectedTimes.value = [...(availabilityByDay.value[newDay] ?? allTimes)];
+});
+
+
+// atualiza os horários do dia atual
+watch(selectedTimes, (newTimes) => {
+  availabilityByDay.value[selectedDayWeek.value] = [...newTimes];
+});
+
 </script>
 
 <template>
