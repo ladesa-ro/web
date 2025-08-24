@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/vue-query';
 import ButtonsEditMode from './Buttons/ButtonsEditMode.vue';
 import ButtonsVisualizationMode from './Buttons/ButtonsVisualizationMode.vue';
 import { getOwnerName } from './getOwnerName';
-import { dia } from '../Edit/ItemsList';
 
 const id = useRoute().params.id as string;
 
@@ -61,7 +60,7 @@ const editMode = ref(false);
       <ButtonsEditMode v-if="editMode" v-model="editMode" />
     </header>
 
-    <SectionHorarioDapeEditGrid v-model="dia" />
+    <!-- <SectionHorarioDapeEditGrid v-model="dia" /> -->
   </UIContainer>
 </template>
 

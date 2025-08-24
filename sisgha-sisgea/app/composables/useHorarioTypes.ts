@@ -2,61 +2,72 @@ import type { Dayjs } from 'dayjs';
 
 export type StringOrDayjs = string | Dayjs;
 
-export type DiaSemana = 'segunda' | 'terca' | 'quarta' | 'quinta' | 'sexta' | 'sabado';
+export type HorarioEditavelType = 'aula' | 'vago' | 'outro';
 
-export type Data = { data: StringOrDayjs };
+export type HorarioCalculadoAutomaticamenteType =
+  | 'intervaloEntreAulas'
+  | 'quebraDeTurno';
 
-export type HorarioBaseComData = HorarioBase & Data;
+export type HorarioType =
+  | HorarioEditavelType
+  | HorarioCalculadoAutomaticamenteType;
 
-// tipos principais
+//
 
 type HorarioBase = {
   id: number;
-  tipo: 'aula' | 'vago' | 'intervaloEntreAulas' | 'quebraDeTurno';
+  tipo: HorarioType;
   horaInicio: StringOrDayjs;
   horaFim: StringOrDayjs;
-  diaSemana: DiaSemana;
-  colunaId: number;
+  data: StringOrDayjs;
+  turnoId: number;
 };
 
-export type Aula = HorarioBaseComData & {
+export type Aula = HorarioBase & {
   tipo: 'aula';
   disciplina: string;
   professor: string;
   turma: string;
 };
 
-export type Vago = HorarioBaseComData & { tipo: 'vago' };
+export type Vago = HorarioBase & { tipo: 'vago' };
 
-export type Intervalo = HorarioBaseComData & { tipo: 'intervaloEntreAulas' };
+export type Intervalo = HorarioBase & { tipo: 'intervaloEntreAulas' };
 
-export type Quebra = HorarioBaseComData & { tipo: 'quebraEntreTurnos' };
+export type Quebra = HorarioBase & { tipo: 'quebraEntreTurnos' };
 
-export type Horario = Aula | Vago | Intervalo | Quebra;
+export type Outro = HorarioBase & { tipo: 'outro'; atividade: string };
+
+export type Horario = Aula | Vago | Intervalo | Quebra | Outro;
+
+//
 
 export type HorarioDayjs = Horario & {
   data: Dayjs;
-  inicio: Dayjs;
-  fim: Dayjs;
-  // diaSemana: Dayjs;
+  horaInicio: Dayjs;
+  horaFim: Dayjs;
 };
 
 export type HorarioString = Horario & {
   data: string;
-  inicio: string;
-  fim: string;
-  // diaSemana: string;
+  horaInicio: string;
+  horaFim: string;
 };
 
-export const getActivityName = (horario: Horario, isProfessorView: boolean) => {
+export const getActivityName = (
+  horario: Horario & { tipo: HorarioEditavelType },
+  isProfessorView: boolean
+) => {
   switch (horario.tipo) {
     case 'vago':
       return '-';
+
     case 'aula':
       return isProfessorView
         ? `${horario.disciplina} - ${horario.turma}`
         : `${horario.disciplina} - ${horario.professor}`;
-    case 'intervaloEntreAulas':
-      return 'Intervalo';
+
+    case 'outro':
+      return horario.atividade;
   }
 };
