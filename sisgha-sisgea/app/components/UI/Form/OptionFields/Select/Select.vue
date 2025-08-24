@@ -11,11 +11,11 @@ import type { SelectProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
 import SelectItem from '../Item.vue';
 
-defineProps<SelectProps>();
+const { multipleOptions = false } = defineProps<SelectProps>();
 
 //
 
-const selectedItem = defineModel<string | number | null>({
+const selectedItem = defineModel<ParsedItem>({
   required: false,
   default: null,
 });
@@ -24,7 +24,11 @@ const open = ref(false);
 </script>
 
 <template>
-  <SelectRoot v-model="selectedItem" v-model:open="open">
+  <SelectRoot
+    v-model="selectedItem"
+    v-model:open="open"
+    :multiple="multipleOptions"
+  >
     <Trigger class="input-base" v-bind="$attrs">
       <label>{{ label }}</label>
       <Value :placeholder="placeholder" />
@@ -37,13 +41,12 @@ const open = ref(false);
         position="popper"
       >
         <Viewport>
-          <!-- TODO: abstrair a lógica de item do autocomplete e o select em um componente -->
-          <!-- <SelectItem
+          <SelectItem
             mode="select"
             v-for="(item, index) of items"
             :item="item"
             :key="index"
-          /> -->
+          />
         </Viewport>
       </Content>
     </Portal>

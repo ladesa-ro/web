@@ -1,4 +1,4 @@
-import { type Item } from "~/composables/useOptionItems";
+import { type Item, type ParsedItem } from '~/composables/useOptionItems';
 
 type OptionFieldsItems = { items: Item[] };
 
@@ -31,6 +31,7 @@ export type TextFieldProps = FieldMeta & {
   type?: string;
 };
 
-export type SelectProps = FieldMeta & OptionFieldsItems;
+export type SelectProps = FieldMeta &
+  OptionFieldsItems & { items: ParsedItem[]; multipleOptions?: boolean };
 
 export type AutocompleteProps = FieldMeta & OptionFieldsItems;

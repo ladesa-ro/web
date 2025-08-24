@@ -5,7 +5,6 @@ import { castArray } from '../utils';
 // this composable defines the tab name (the <title>). for example: "Painel - SISGHA" or "Perfil - SISGHA"
 
 const SEPARATOR = ' — ';
-
 export const buildTitle = (
   title: MaybeArray<string | null>,
   context: HeadTitleContext | null = null

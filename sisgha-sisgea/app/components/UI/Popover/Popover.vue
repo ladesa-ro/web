@@ -8,7 +8,7 @@ import {
   PopoverTrigger as Trigger,
 } from 'reka-ui';
 
-type Props = { popoverArrow?: boolean };
+type Props = { arrow?: boolean };
 defineProps<Props>();
 
 //
@@ -19,7 +19,6 @@ const open = defineModel({ required: false, default: false });
 const content = useTemplateRef<HTMLElement | null>('content');
 const trigger = useTemplateRef<HTMLElement | null>('trigger');
 
-
 onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
 </script>
 
@@ -28,7 +27,7 @@ onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
     <Trigger
       ref="trigger"
       @pointerdown="open = !open"
-      class="shrink-0 cursor-pointer"
+      class="shrink-0 cursor-pointer text-ldsa-text-default"
       v-bind="$attrs"
     >
       <slot name="activator" />
@@ -37,11 +36,11 @@ onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
     <Portal>
       <Content
         ref="content"
-        class="popover-content z-[21] shadow-lg"
+        class="popover-content z-[21] shadow-lg text-ldsa-text-default"
         @escape-key-down="open = false"
         side="bottom"
       >
-        <Arrow class="w-5 fill-ldsa-green-1" v-if="popoverArrow" />
+        <Arrow class="w-5 fill-ldsa-green-1" v-if="arrow" />
 
         <slot />
       </Content>
