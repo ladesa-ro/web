@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { capitalizeFirst } from '../../../../Horario/-Helpers/CapitalizeFirst';
 import type { Vinculo } from '../../FormUtils';
+import { useAvailability } from '../../../../../../composables/useAvailability';
 
 const props = defineProps<{
   vinculo: Vinculo;
@@ -28,24 +29,21 @@ const {
 
 const { data: campus, suspense } = useFindOneQuery(props.vinculo.campus.id);
 
+const { dayShifts, selectedDayWeek: selectedDay, selectedTimes, availabilityByDay } = useAvailability();
+
+watch(
+  () => props.selectedDayWeek,
+  novoDia => {
+    selectedDay.value = novoDia;
+  },
+  { immediate: true }
+);
+
+watch(selectedTimes, novos => {
+  availabilityByDay.value[selectedDay.value] = [...novos];
+});
+
 await suspense();
-
-const dayShifts = [
-  {
-    title: 'matutino',
-    times: ['07:30', '08:20', '09:10', '10:00', '10:20', '11:10'],
-  },
-  {
-    title: 'vespertino',
-    times: ['13:00', '13:50', '14:40', '15:30', '15:50', '16:40'],
-  },
-  {
-    title: 'noturno',
-    times: ['19:00', '19:50', '20:40', '21:30', '21:50', '22:40'],
-  },
-];
-
-const selectedTimes = ref<string[]>([]);
 
 const motivosIndisponibilidade = ref<
   Record<string, { horario: string; motivo: string }[]>
@@ -62,7 +60,7 @@ watch(
 const allTimes = dayShifts.flatMap(s => s.times);
 
 const motivosDoDia = computed(() => {
-  return motivosIndisponibilidade.value[props.selectedDayWeek] || [];
+  return motivosIndisponibilidade.value[selectedDay.value] || [];
 });
 
 const horariosIndisponiveis = computed(() =>
@@ -92,10 +90,8 @@ watch(
 );
 
 watch(
-  () => props.selectedDayWeek,
-  novo => {
-    emit('atualizar-dia-selecionado', novo);
-  },
+  selectedDay,
+  novo => emit('atualizar-dia-selecionado', novo),
   { immediate: true }
 );
 

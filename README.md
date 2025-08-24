@@ -72,12 +72,12 @@ Somos uma equipe de estudantes e servidores do Instituto Federal de Rondônia - 
 
 <!-- Badges / Actions / Production  -->
 
-[action-ci-prod-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/cd.yml?style=flat&logo=github&logoColor=white&label=CI@production&branch=production&labelColor=18181B
-[action-ci-prod-href]: https://github.com/ladesa-ro/web/actions/workflows/cd.yml?query=branch%3Aproduction
+[action-ci-prod-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/ci-cd.yml?style=flat&logo=github&logoColor=white&label=CI@production&branch=production&labelColor=18181B
+[action-ci-prod-href]: https://github.com/ladesa-ro/web/actions/workflows/ci-cd.yml?query=branch%3Aproduction
 
 <!-- Badges / Actions / Development  -->
 
-[action-ci-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/cd.yml?style=flat&logo=github&logoColor=white&label=CI@development&branch=main&labelColor=18181B
-[action-ci-dev-href]: https://github.com/ladesa-ro/web/actions/workflows/cd.yml?query=branch%3Amain
+[action-ci-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/ci-cd.yml?style=flat&logo=github&logoColor=white&label=CI@development&branch=main&labelColor=18181B
+[action-ci-dev-href]: https://github.com/ladesa-ro/web/actions/workflows/ci-cd.yml?query=branch%3Amain
 
 <!-- #endregion conteudo -->
