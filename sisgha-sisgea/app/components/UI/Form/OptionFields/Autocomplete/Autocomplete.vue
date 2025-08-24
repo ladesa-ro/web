@@ -17,7 +17,6 @@ import AutocompleteItem from '../Item.vue';
 
 // TODO: adicionar suporte para error message (vee-validate)
 // TODO: adicionar o tal do emit blur (verificar na docs do reka)
-// TODO: adicionar suporte para varias opcoes
 
 const { items: itemsProps } = defineProps<AutocompleteProps>();
 

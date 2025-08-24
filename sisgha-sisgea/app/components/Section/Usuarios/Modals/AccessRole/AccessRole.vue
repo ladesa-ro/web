@@ -23,11 +23,11 @@ defineEmits(['close']);
 
 <template>
   <div
-    class="flex flex-col justify-between items-center w-[19.75rem] h-[18.125rem] px-8 py-6 border-2 border-ldsa-grey/50 rounded-lg bg-ldsa-bg font-semibold text-ldsa-text-default"
+    class="flex flex-col gap-4 justify-between items-center px-4 sm:px-6 py-4 border-2 border-ldsa-grey/50 rounded-lg bg-ldsa-bg font-semibold text-ldsa-text-default"
   >
     <h1>Alternar cargo</h1>
 
-    <section class="flex justify-between w-full">
+    <section class="flex justify-between gap-3.5 sm:gap-5 w-full">
       <AccessRoleButton
         :active="activeProfile === Profile.PROFESSOR"
         :position-name="Profile.PROFESSOR"
@@ -45,12 +45,6 @@ defineEmits(['close']);
       </AccessRoleButton>
     </section>
 
-    <button
-      class="flex justify-between items-center gap-2.5"
-      @click="$emit('close')"
-    >
-      Cancelar
-      <IconsClose class="mt-px" height="10" width="11" />
-    </button>
+    <UIButtonModalCancel variant="small" @click="$emit('close')" />
   </div>
 </template>
