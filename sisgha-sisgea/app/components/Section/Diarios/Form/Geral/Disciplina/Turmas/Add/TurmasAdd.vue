@@ -148,11 +148,12 @@ onMounted(() => loadTurmas());
             class="flex items-center font-semibold text-xs mb-1 cursor-pointer select-none border-b border-b-ldsa-grey pb-1 gap-3 text-ldsa-text-default"
             @click="toggleAll(curso)"
           >
-            <UICheckboxSquare
-              class="pointer-events-none"
-              :item="{ label: curso.nome, value: curso.sigla }"
-              :active="isAllSelected(curso)"
-              :indeterminate="someSelected(curso) && !isAllSelected(curso)"
+            <UICheckbox
+              :items="['']"
+              :model-value="isAllSelected(curso) ? [''] : []"
+              @update:modelValue="() => toggleAll(curso)"
+              class="mr-2 w-5 h-5"
+              @click.stop
             />
             <p class="flex-grow">{{ curso.nome }}</p>
           </div>
