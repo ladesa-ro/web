@@ -7,13 +7,13 @@ import type {
 } from './useScheduleTypes';
 
 /**
- * Define quais são os tempos vagos a partir de um array de tempos de aula e um array de aulas.
+ * Adiciona tempos vagos no horário a partir de um array de tempos de aula e um array de aulas.
  */
 export const useFreePeriods = (
   temposDeAula: TemposDeAula,
   aulas: (Aula & HorString)[]
 ): ((Aula | Vago) & HorString)[] => {
-  const horarioComAulasEVagos = Object.entries(temposDeAula).map(
+  const aulasEVagos = Object.entries(temposDeAula).map(
     ([diaSemana, temposDeAulaArr]) => {
       let aula: (Aula & HorString) | null = null;
 
@@ -35,10 +35,10 @@ export const useFreePeriods = (
         ? ({
             ...(aula as Aula & HorString),
             ...(tempoAula as TempoDeAula),
-          }) as (Aula & HorString)
-        : { tipo: 'vago', ...tempoAula! } as (Vago & HorString);
+          } as Aula & HorString)
+        : ({ tipo: 'vago', ...tempoAula! } as Vago & HorString);
     }
   );
 
-  return horarioComAulasEVagos;
+  return aulasEVagos;
 };

@@ -28,7 +28,7 @@ export type HorarioType = HorarioEditavelType | HorarioNaoEditavelType;
 
 export type HorarioEditavel = {
   diaSemana: string | number;
-  turnoId: string;
+  turnoId?: string;
 };
 
 // export type HorarioNaoEditavel = Intervalo | QuebraTurnos | TransicaoDia;
@@ -43,11 +43,15 @@ type HorarioBase = {
   data: StringOrDayjs;
 };
 
+// TODO: adaptar a estrutura de aula quando integrar à api
+// extenderá o tipo Ladesa_ManagementService_Domain_Contracts_AulaFindOneOutput
 export type Aula = HorarioBase &
   HorarioEditavel & {
     tipo: 'aula';
     ambiente: string;
     diario: { turma: string; professor: string; disciplina: string };
+    intervaloDeTempo: TempoDeAula;
+    modalidade: string;
   };
 
 export type Vago = HorarioBase & HorarioEditavel & { tipo: 'vago' };
