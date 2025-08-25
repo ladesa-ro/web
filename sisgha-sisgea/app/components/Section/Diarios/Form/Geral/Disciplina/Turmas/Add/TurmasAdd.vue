@@ -169,7 +169,7 @@ onMounted(() => loadTurmas());
       <!-- botoes -->
       <div class="mt-3 flex justify-between gap-2">
         <UIButtonModalGoBack @click="backForm" />
-        <UIButtonModalSave @click="salvarTurmas" type="button" />
+        <UIButtonModalAdvance @click="salvarTurmas" type="button" />
       </div>
     </DialogModalBaseLayout>
   </form>
