@@ -114,12 +114,11 @@ onMounted(() => loadTurmas());
         class="w-full mt-2 mb-4"
       />
       <UIAlert
-        v-if="!formacaoSelecionada"
+        v-if="turmasSelecionadas.length === 0"
         class="mb-4"
         type="info"
         message="Selecione pelo menos uma turma para continuar"
-      >
-      </UIAlert>
+      />
 
       <!-- paginacao -->
       <div
