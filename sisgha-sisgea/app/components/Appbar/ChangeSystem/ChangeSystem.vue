@@ -22,25 +22,26 @@ const open = ref(false);
     </template>
 
     <div
-      class="mt-2 bg-ldsa-bg border-2 border-ldsa-grey rounded-lg pt-4 font-semibold text-center text-ldsa-text-default"
+      class="mt-2 bg-ldsa-bg border-2 border-ldsa-grey rounded-lg p-4 font-semibold text-center text-ldsa-text-default"
     >
-      <h1>Alternar sistema</h1>
+      <UITitle variant="mini" text="Alternar sistema" class="mb-2" />
+
       <NuxtLink v-if="$route.path.includes('sisgha')" to="/sisgea/reservas">
         <LogoSISGEALogomarca
-          class="box-content w-[8.75rem] shrink-0 p-3.5 m-1.5 hover:bg-ldsa-grey/15 rounded-lg"
+          class="box-content w-[8.75rem] shrink-0 p-3.5 hover:bg-ldsa-grey/15 rounded-lg"
         />
       </NuxtLink>
 
       <NuxtLink v-else-if="$route.path.includes('sisgea')" to="/sisgha/dape">
         <LogoSISGHALogomarca
-          class="box-content w-[8.75rem] shrink-0 p-3.5 m-1.5 hover:bg-ldsa-grey/15 rounded-lg"
+          class="box-content w-[8.75rem] shrink-0 p-3.5 hover:bg-ldsa-grey/15 rounded-lg"
         />
       </NuxtLink>
 
       <UIButtonModalCancel
         @click="open = false"
         variant="small"
-        class="mb-4 mt-2.5 mx-auto"
+        class="mt-3 w-full"
       />
     </div>
   </UIPopover>

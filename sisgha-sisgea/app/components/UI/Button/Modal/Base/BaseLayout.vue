@@ -40,7 +40,7 @@ const defineColor = {
 }
 
 .small {
-  @apply gap-2 justify-between px-2 h-7.5 text-sm;
+  @apply gap-2 px-2 h-7.5 text-sm;
 }
 
 button {

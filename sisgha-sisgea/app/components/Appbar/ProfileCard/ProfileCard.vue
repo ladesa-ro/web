@@ -19,15 +19,6 @@ const handleCargoClick = (cargo: string) => {
 
 type Props = { canChangeProfile: boolean };
 defineProps<Props>();
-
-//
-
-const splitUserName = computed(() => {
-  if (usuario.value.nome) {
-    return usuario.value.nome?.split(' ');
-  }
-  return '';
-});
 </script>
 
 <template>
@@ -58,12 +49,7 @@ const splitUserName = computed(() => {
     <!-- if is not mobile -->
     <div class="max-sm:hidden overflow-hidden">
       <p class="font-semibold text-left truncate">
-        {{ splitUserName[0] }}
-        {{
-          splitUserName.at(splitUserName.length - 1) === splitUserName[0]
-            ? ''
-            : splitUserName[splitUserName.length - 1]
-        }}
+        {{ usuario.nome?.split(' ')[0] }}
       </p>
 
       <p class="font-normal flex flex-row items-center gap-2">

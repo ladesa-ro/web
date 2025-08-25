@@ -23,9 +23,9 @@ defineEmits(['close']);
 
 <template>
   <div
-    class="flex flex-col gap-4 justify-between items-center px-4 sm:px-6 py-4 border-2 border-ldsa-grey/50 rounded-lg bg-ldsa-bg font-semibold text-ldsa-text-default"
+    class="flex flex-col gap-4.5 justify-between items-center p-5 pt-4.5 border-2 border-ldsa-grey/50 rounded-lg bg-ldsa-bg font-semibold text-ldsa-text-default"
   >
-    <h1>Alternar cargo</h1>
+    <UITitle variant="mini" text="Alternar cargo" class="self-start" />
 
     <section class="flex justify-between gap-3.5 sm:gap-5 w-full">
       <AccessRoleButton
@@ -45,6 +45,10 @@ defineEmits(['close']);
       </AccessRoleButton>
     </section>
 
-    <UIButtonModalCancel variant="small" @click="$emit('close')" />
+    <UIButtonModalCancel
+      class="w-full"
+      variant="small"
+      @click="$emit('close')"
+    />
   </div>
 </template>

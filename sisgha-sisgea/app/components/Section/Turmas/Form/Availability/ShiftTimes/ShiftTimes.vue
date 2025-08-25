@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { defineProps, defineEmits } from 'vue';
-import UICheckbox from '../../../../../UI/Checkbox/Checkbox.vue';
 import { capitalizeFirst } from '../../../../Horario/-Helpers/CapitalizeFirst';
 
 const props = defineProps<{
