@@ -48,10 +48,10 @@ type HorarioBase = {
 export type Aula = HorarioBase &
   HorarioEditavel & {
     tipo: 'aula';
-    ambiente: string;
     diario: { turma: string; professor: string; disciplina: string };
-    intervaloDeTempo: TempoDeAula;
-    modalidade: string;
+    // ambiente: string;
+    // intervaloDeTempo: TempoDeAula;
+    // modalidade: string;
   };
 
 export type Vago = HorarioBase & HorarioEditavel & { tipo: 'vago' };
