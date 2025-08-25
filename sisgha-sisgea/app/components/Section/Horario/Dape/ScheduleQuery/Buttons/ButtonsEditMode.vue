@@ -6,6 +6,14 @@ const editMode = defineModel<boolean>({ default: false });
 <template>
   <span class="flex gap-2.5">
     <Button>
+      <IconsUndoRedo class="w-4 scale-x-[-1]" />
+    </Button>
+
+    <Button>
+      <IconsUndoRedo class="w-4" />
+    </Button>
+
+    <Button>
       <IconsSwap class="w-4" />
     </Button>
 
@@ -16,8 +24,6 @@ const editMode = defineModel<boolean>({ default: false });
     <Button text="Limpar seleção">
       <IconsBroom class="w-4.5" />
     </Button>
-
-    <Button text="Grade de grupos [ ]" />
 
     <Button @click="editMode = false" color="var(--ladesa-red-color)">
       <IconsClose class="w-4" />

@@ -99,7 +99,6 @@ onMounted(() => loadTurmas());
     <DialogModalBaseLayout
       :on-close="closeForm"
       title="Vincular turmas à disciplina"
-      title-variant="mini"
     >
       <!-- formacao -->
       <VVAutocompleteAPIOfertaFormacao
@@ -115,7 +114,9 @@ onMounted(() => loadTurmas());
         <button type="button" class="text-ldsa-grey">
           <IconsArrow class="w-4 h-4" />
         </button>
-        <p class="flex-grow text-center text-ldsa-text-default">Página 1 de 1</p>
+        <p class="flex-grow text-center text-ldsa-text-default">
+          Página 1 de 1
+        </p>
         <button type="button" class="text-ldsa-grey">
           <IconsArrow class="transform rotate-180 w-4 h-4" />
         </button>

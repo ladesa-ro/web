@@ -58,7 +58,7 @@ const disciplinaImageUrl = useApiImageRoute(
       :src="disciplinaImageUrl ?? undefined"
     />
 
-    <div v-else class="bg-ldsa-grey/30 w-full min-h-9.5 max-h-14"></div>
+    <div v-else class="bg-ldsa-grey/50 w-full min-h-9.5 max-h-14"></div>
 
     <!-- card body -->
     <main class="p-4">

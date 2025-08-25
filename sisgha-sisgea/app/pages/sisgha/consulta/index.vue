@@ -14,7 +14,7 @@ definePageMeta({
     <h1
       class="flex items-center gap-2 text-lg sm:text-[1.375rem] font-semibold"
     >
-      <IconsClock class="w-3.5 sm:w-4.5" />
+      <IconsClock class="w-3.5 sm:w-4.5 shrink-0" />
       Selecionar Horário
     </h1>
 

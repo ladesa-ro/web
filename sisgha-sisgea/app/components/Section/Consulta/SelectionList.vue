@@ -1,9 +1,18 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
+import { useForm } from 'vee-validate';
+
+// TODO: refatorar esse código
 
 const scheduleSelectionData: Ref<OptionData[]> = ref(
   getScheduleSelectionData()
 );
+
+const campus = useForm();
+watch(campus, () => {
+  console.log('campus.values = ', campus.values);
+});
+// campus.values
 
 const allHaveSelected = computed(
   () =>
@@ -74,6 +83,8 @@ watch(
 </script>
 
 <template>
+  <VVAutocompleteAPICampus name="campus" />
+
   <SectionConsultaAccordion
     v-for="(item, index) in scheduleSelectionData"
     v-model:selected-option="scheduleSelectionData[index]!.selected"

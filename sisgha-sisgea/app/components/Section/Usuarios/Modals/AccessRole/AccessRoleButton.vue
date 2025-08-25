@@ -16,7 +16,7 @@ const pointerdownHandle = () => useRouter().push(to);
     :to="to"
     @click.prevent
     @pointerdown="pointerdownHandle"
-    class="flex flex-col justify-end items-center gap-2 w-28 h-36 px-0 py-8 border-2 rounded-lg border-ldsa-grey/50 text-center font-semibold cursor-pointer"
+    class="flex flex-col justify-end items-center gap-2 w-24 h-28 sm:w-28 sm:h-36 py-7 sm:py-8 border-2 rounded-lg border-ldsa-grey/50 text-center font-semibold max-sm:text-sm"
   >
     <!-- icon -->
     <slot />

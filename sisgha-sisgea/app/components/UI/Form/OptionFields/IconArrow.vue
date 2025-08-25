@@ -5,7 +5,7 @@ defineProps<Props>();
 
 <template>
   <IconsArrow
-    class="mr-1 p-[0.063rem] text-ldsa-text-green transition-transform duration-[250ms]"
+    class="mr-1 p-[0.063rem] text-ldsa-text-green transition-transform duration-250"
     :class="open ? 'rotate-90' : '-rotate-90'"
   />
 </template>
