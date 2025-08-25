@@ -43,7 +43,7 @@ const toggleAll = (shift: { times: string[] }) => {
       <UICheckbox
         v-model="props.selectedTimes"
         :items="shift.times"
-        class="nunito"
+        class="nunito flex flex-col justify-between"
         @update:modelValue="(val) => emit('update:selectedTimes', val)"
       />
     </div>
