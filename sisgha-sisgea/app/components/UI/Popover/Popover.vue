@@ -8,8 +8,8 @@ import {
   PopoverTrigger as Trigger,
 } from 'reka-ui';
 
-type Props = { arrow?: boolean };
-defineProps<Props>();
+type Props = { arrow?: boolean; disabled?: boolean };
+const { disabled = false } = defineProps<Props>();
 
 //
 
@@ -26,9 +26,10 @@ onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
   <PopoverRoot :open="open">
     <Trigger
       ref="trigger"
-      @pointerdown="open = !open"
-      class="shrink-0 cursor-pointer text-ldsa-text-default"
+      class="shrink-0 text-ldsa-text-default"
+      :class="disabled ? 'cursor-auto-class' : 'cursor-pointer'"
       v-bind="$attrs"
+      @pointerdown="!disabled && (open = !open)"
     >
       <slot name="activator" />
     </Trigger>
@@ -49,6 +50,10 @@ onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
 </template>
 
 <style>
+.cursor-auto-class {
+  cursor: auto;
+}
+
 .popover-content {
   transform-origin: var(--reka-popover-content-transform-origin);
 }
