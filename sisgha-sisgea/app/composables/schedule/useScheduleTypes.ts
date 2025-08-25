@@ -24,13 +24,14 @@ export type HorarioNaoEditavelType =
 
 export type HorarioType = HorarioEditavelType | HorarioNaoEditavelType;
 
-export type HorarioEditavel = Horario & {
-  tipo: HorarioEditavelType;
+//
+
+export type HorarioEditavel = {
   diaSemana: string | number;
   turnoId: string;
 };
 
-export type HorarioNaoEditavel = Horario & { tipo: HorarioNaoEditavelType };
+// export type HorarioNaoEditavel = Intervalo | QuebraTurnos | TransicaoDia;
 
 //
 
@@ -42,17 +43,16 @@ type HorarioBase = {
   data: StringOrDayjs;
 };
 
-export type Aula = HorarioBase & {
-  tipo: 'aula';
-  ambiente: string;
-  diario: { turma: string; professor: string; disciplina: string };
-};
+export type Aula = HorarioBase &
+  HorarioEditavel & {
+    tipo: 'aula';
+    ambiente: string;
+    diario: { turma: string; professor: string; disciplina: string };
+  };
 
-export type Vago = HorarioBase & { tipo: 'vago' };
+export type Vago = HorarioBase & HorarioEditavel & { tipo: 'vago' };
 
-export type Intervalo = HorarioBase & {
-  tipo: 'intervalo';
-};
+export type Intervalo = HorarioBase & { tipo: 'intervalo' };
 
 export type QuebraTurnos = HorarioBase & { tipo: 'quebraTurnos' };
 
