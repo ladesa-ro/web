@@ -1,27 +1,58 @@
 <script lang="ts" setup>
-const open = ref(false);
-
-const { moreThanOneCampus, campiPorCargo, campiList } = useUserCargoAndCampi();
+const { moreThanOneCampus, campiList } = useUserCargoAndCampi();
 
 const toggleCampusItems = campiList.map(campus => ({
   label: campus.apelido,
   value: campus.id,
 }));
 
-const selectedCampus = useSelectedCampusContext();
-selectedCampus.value = toggleCampusItems[0]?.value ?? null;
+const selectedCampusGlobalState = useCampusContext();
+
+const selectedCampus = ref(
+  selectedCampusGlobalState.value ?? toggleCampusItems[0]?.value ?? null
+);
+
+const cargos = useCampusContextCargos();
+
+const route = useRoute();
+const router = useRouter();
+
+const changeCampus = () => {
+  selectedCampusGlobalState.value = selectedCampus.value;
+
+  if (cargos.value.length > 1 || route.path.includes('sisgea')) {
+    return;
+  }
+
+  if (cargos.value[0] === 'dape') {
+    router.push('/sisgha/dape/');
+  } else if (cargos.value[0] === 'professor') {
+    router.push('/sisgha/professor/');
+  }
+};
+
+onMounted(() => {
+  if (selectedCampusGlobalState.value === null) {
+    selectedCampusGlobalState.value = selectedCampus.value;
+  }
+});
+
+//
+
+const open = ref(false);
 </script>
 
 <template>
   <UIPopover v-model="open" v-if="moreThanOneCampus">
     <template #activator>
       <div
-        class="flex items-center text-[11px] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[740px]:hidden"
+        class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[740px]:hidden"
       >
         <IconsLocate class="mr-1 text-ldsa-text-green shrink-0" />
         <span class="truncate">{{
-          toggleCampusItems.find(campus => campus.value === selectedCampus)
-            ?.label ?? ''
+          toggleCampusItems.find(
+            campus => campus.value === selectedCampusGlobalState
+          )?.label ?? 'Carregando...'
         }}</span>
       </div>
 
@@ -62,6 +93,8 @@ selectedCampus.value = toggleCampusItems[0]?.value ?? null;
         <UIButtonModalCancel variant="small" @click="open = false" />
 
         <UIButtonModalCommonButtonsGreenWithCheck
+          :disabled="selectedCampusGlobalState === selectedCampus"
+          @click="changeCampus()"
           variant="small"
           text="Confirmar"
         />
