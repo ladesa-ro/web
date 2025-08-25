@@ -12,32 +12,36 @@ import type {
 export const useFreePeriods = (
   temposDeAula: TemposDeAula,
   aulas: (Aula & HorString)[]
-): ((Aula | Vago) & HorString)[] => {
+) => {
   const aulasEVagos = Object.entries(temposDeAula).map(
-    ([diaSemana, temposDeAulaArr]) => {
-      let aula: (Aula & HorString) | null = null;
+    ([diaSemana, temposDeAulaArr]) =>
+      temposDeAulaArr.map(tempoDeAula => {
+        let tempoAula: TempoDeAula | null = null;
+        let data: string = '';
 
-      let tempoAula: TempoDeAula | null = null;
+        const aula: (Aula & HorString) | undefined = aulas.find(horAula => {
+          tempoAula = tempoDeAula;
+          data = horAula.data;
 
-      temposDeAulaArr.forEach(tempoDeAula => {
-        aulas.forEach(horAula => {
-          if (
+          return (
             horAula.diaSemana === diaSemana &&
             horAula.horaInicio === tempoDeAula.horaInicio
-          ) {
-            aula = horAula;
-            tempoAula = tempoDeAula;
-          }
+          );
         });
-      });
 
-      return aula !== null && tempoAula !== null
-        ? ({
-            ...(aula as Aula & HorString),
-            ...(tempoAula as TempoDeAula),
-          } as Aula & HorString)
-        : ({ tipo: 'vago', ...tempoAula! } as Vago & HorString);
-    }
+        return aula !== undefined && tempoAula !== null
+          ? ({
+              ...(aula as Aula & HorString),
+              ...(tempoAula as TempoDeAula),
+            } as Aula & HorString)
+          : ({
+              id: crypto.randomUUID(),
+              tipo: 'vago',
+              ...tempoAula!,
+              diaSemana,
+              data,
+            } as Vago & HorString);
+      })
   );
 
   return aulasEVagos;
