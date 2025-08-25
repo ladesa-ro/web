@@ -109,7 +109,7 @@ onMounted(() => loadTurmas());
 
       <!-- paginacao -->
       <div
-        class="flex justify-between items-center text-xs font-semibold mb-1 w-full"
+        class="flex justify-between items-center text-sm font-semibold mb-1 w-full"
       >
         <button type="button" class="text-ldsa-grey">
           <IconsArrow class="w-4 h-4" />
@@ -131,7 +131,7 @@ onMounted(() => loadTurmas());
         <div v-for="curso in cursosApi" :key="curso.sigla" class="p-2">
           <!-- curso -->
           <div
-            class="flex items-center font-semibold text-xs mb-2 cursor-pointer select-none border-b border-b-ldsa-grey pb-1 gap-3 text-ldsa-text-default"
+            class="flex items-center font-semibold text-xs mb-1 cursor-pointer select-none border-b border-b-ldsa-grey pb-1 gap-3 text-ldsa-text-default"
             @click="toggleCurso(curso, !cursoCheckboxState(curso).checked)"
           >
             <UICheckboxSquare
@@ -167,7 +167,7 @@ onMounted(() => loadTurmas());
       </div>
 
       <!-- botoes -->
-      <div class="mt-6 flex justify-between gap-2">
+      <div class="mt-3 flex justify-between gap-2">
         <UIButtonModalGoBack @click="backForm" />
         <UIButtonModalSave @click="salvarTurmas" type="button" />
       </div>
