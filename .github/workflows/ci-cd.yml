@@ -12,12 +12,6 @@ on:
   push:
     branches:
       - main
-    # Configuração de filtros de caminho - o workflow só executa quando arquivos específicos são alterados
-    # Isso otimiza o uso de recursos e evita execuções desnecessárias
-    paths:
-      - .github/workflows/ci-cd.yml          # Alterações no próprio workflow
-      - .devcontainer/ci-cd/**/*             # Alterações no container de desenvolvimento
-      - ./**/*                # Alterações no código do serviço
 
 # Configuração de concorrência para evitar execuções simultâneas do mesmo workflow
 # Isso previne conflitos de deploy e garante que apenas uma versão seja implantada por vez
