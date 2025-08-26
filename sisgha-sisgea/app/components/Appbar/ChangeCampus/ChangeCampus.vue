@@ -17,9 +17,7 @@ const cargos = useCampusContextCargos();
 const route = useRoute();
 const router = useRouter();
 
-const changeCampus = () => {
-  selectedCampusGlobalState.value = selectedCampus.value;
-
+const verifyCargo = () => {
   if (cargos.value.length > 1 || route.path.includes('sisgea')) {
     return;
   }
@@ -31,10 +29,20 @@ const changeCampus = () => {
   }
 };
 
+//
+
+const changeCampus = () => {
+  selectedCampusGlobalState.value = selectedCampus.value;
+
+  verifyCargo();
+};
+
 onMounted(() => {
   if (selectedCampusGlobalState.value === null) {
     selectedCampusGlobalState.value = selectedCampus.value;
   }
+
+  verifyCargo();
 });
 
 //
