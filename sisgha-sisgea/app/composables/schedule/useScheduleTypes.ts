@@ -11,6 +11,11 @@ export type TemposDeAula = {
   sabado: TempoDeAula[];
 };
 
+export type TemposDeAulaMap = Map<
+  { data: string; diaSemana: string },
+  TempoDeAula[]
+>;
+
 //
 
 // intervalos de tempo recebidos pela api e editáveis pelo usuário
@@ -30,8 +35,6 @@ export type HorarioEditavel = {
   diaSemana: string;
   turnoId?: string;
 };
-
-// export type HorarioNaoEditavel = Intervalo | quebraTurno | TransicaoDia;
 
 //
 

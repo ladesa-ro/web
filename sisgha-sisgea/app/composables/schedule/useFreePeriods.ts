@@ -1,8 +1,7 @@
 import type {
   Aula,
   HorString,
-  TempoDeAula,
-  TemposDeAula,
+  TemposDeAulaMap,
   Vago,
 } from './useScheduleTypes';
 
@@ -10,39 +9,30 @@ import type {
  * Adiciona tempos vagos no horário a partir de um array de tempos de aula e um array de aulas.
  */
 export const useFreePeriods = (
-  temposDeAula: TemposDeAula,
+  temposDeAula: TemposDeAulaMap,
   aulas: (Aula & HorString)[]
-) => {
-  const aulasEVagos = Object.entries(temposDeAula).flatMap(
-    ([diaSemana, temposDeAulaArr]) =>
-      temposDeAulaArr.map(tempoDeAula => {
-        let tempoAula: TempoDeAula | null = null;
-        let data: string = '';
+): ((Aula | Vago) & HorString)[] => {
+  const aulasEVagos = temposDeAula.entries().flatMap(([dia, temposDeAulaArr]) =>
+    temposDeAulaArr.map(tempoDeAula => {
+      const aula = aulas.find(
+        aula =>
+          aula.horaFim === tempoDeAula.horaFim &&
+          aula.diaSemana === dia.diaSemana
+      );
 
-        const aula: (Aula & HorString) | undefined = aulas.find(horAula => {
-          tempoAula = tempoDeAula;
-          data = horAula.data;
-
-          return (
-            horAula.diaSemana === diaSemana &&
-            horAula.horaInicio === tempoDeAula.horaInicio
-          );
-        });
-
-        return aula !== undefined && tempoAula !== null
-          ? ({
-              ...(aula as Aula & HorString),
-              ...(tempoAula as TempoDeAula),
-            } as Aula & HorString)
-          : ({
-              id: crypto.randomUUID(),
-              tipo: 'vago',
-              ...tempoAula!,
-              diaSemana,
-              data,
-            } as Vago & HorString);
-      })
+      return aula !== undefined
+        ? ({
+            ...(aula as Aula & HorString),
+            ...tempoDeAula,
+          } as Aula & HorString)
+        : ({
+            tipo: 'vago',
+            ...tempoDeAula,
+            diaSemana: dia.diaSemana,
+            data: dia.data,
+          } as Vago & HorString);
+    })
   );
 
-  return aulasEVagos;
+  return [...aulasEVagos];
 };
