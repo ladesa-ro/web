@@ -5,7 +5,7 @@ import {
 } from './useClassAndTempoDeAulaConverts';
 import { useFreePeriods } from './useFreePeriods';
 import { useNonTeachingPeriods } from './useNonTeachingPeriods';
-import { convertDayJsToString } from './useScheduleConverts';
+import { useSeparateScheduleInDays } from './useSeparateScheduleInDays';
 
 /**
  * Retorna o horário completo com aulas ordenadas, horas vagas, intervalos, quebras de turno e quebras de dia.
@@ -23,9 +23,11 @@ export const useHorarioCompleto = () => {
 
   const aulasVagosEForaDoHorario = useNonTeachingPeriods(aulasEVagos);
 
-  return aulasVagosEForaDoHorario.map(teste => convertDayJsToString(teste));
+  const aulasSeparadasDias = useSeparateScheduleInDays(
+    aulasVagosEForaDoHorario
+  );
 
-  // TODO: dividir em dias
+  return aulasSeparadasDias;
 
   // TODO: dividir em turnos
 

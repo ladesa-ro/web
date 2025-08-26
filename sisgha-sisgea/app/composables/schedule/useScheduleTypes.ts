@@ -85,3 +85,11 @@ export type HorString = Horario & {
   horaInicio: string;
   horaFim: string;
 };
+
+//
+
+export type DiaEmTurnos = {
+  manha: (Horario & HorDayjs)[];
+  tarde: (Horario & HorDayjs)[];
+  noite: (Horario & HorDayjs)[];
+};
