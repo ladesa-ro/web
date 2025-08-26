@@ -19,7 +19,7 @@ export type HorarioEditavelType = 'aula' | 'vago';
 // intervalos de tempo automaticamente calculados por useCompleteSchedule()
 export type HorarioNaoEditavelType =
   | 'intervalo'
-  | 'quebraTurnos'
+  | 'quebraTurno'
   | 'transicaoDia';
 
 export type HorarioType = HorarioEditavelType | HorarioNaoEditavelType;
@@ -27,11 +27,11 @@ export type HorarioType = HorarioEditavelType | HorarioNaoEditavelType;
 //
 
 export type HorarioEditavel = {
-  diaSemana: string | number;
+  diaSemana: string;
   turnoId?: string;
 };
 
-// export type HorarioNaoEditavel = Intervalo | QuebraTurnos | TransicaoDia;
+// export type HorarioNaoEditavel = Intervalo | quebraTurno | TransicaoDia;
 
 //
 
@@ -58,11 +58,14 @@ export type Vago = HorarioBase & HorarioEditavel & { tipo: 'vago' };
 
 export type Intervalo = HorarioBase & { tipo: 'intervalo' };
 
-export type QuebraTurnos = HorarioBase & { tipo: 'quebraTurnos' };
+export type quebraTurno = HorarioBase & { tipo: 'quebraTurno' };
 
-export type TransicaoDia = HorarioBase & { tipo: 'transicaoDia' };
+export type TransicaoDia = HorarioBase & {
+  tipo: 'transicaoDia';
+  dataFim: StringOrDayjs;
+};
 
-export type Horario = Aula | Vago | Intervalo | QuebraTurnos | TransicaoDia;
+export type Horario = Aula | Vago | Intervalo | quebraTurno | TransicaoDia;
 
 //
 
