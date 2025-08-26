@@ -5,13 +5,17 @@ import {
 } from './useClassAndTempoDeAulaConverts';
 import { useFreePeriods } from './useFreePeriods';
 import { useNonTeachingPeriods } from './useNonTeachingPeriods';
-import { useSeparateScheduleInDays } from './useSeparateScheduleInDays';
+import type { Horario, HorDayjs } from './useScheduleTypes';
+import {
+  useSeparateScheduleInDays,
+  type Dias,
+} from './useSeparateScheduleInDays';
+import { useSeparateScheduleInShifts } from './useSeparateScheduleInShifts';
 
 /**
  * Retorna o horário completo com aulas ordenadas, horas vagas, intervalos, quebras de turno e quebras de dia.
  */
 export const useHorarioCompleto = () => {
-  // add dia da semana nos horarios OK
   const aulas = aulasSemDiaSemanaExemplo.map(aula => useClassDayWeek(aula));
 
   const temposDeAulaMap = useTempoDeAulaDayMonth(
@@ -23,13 +27,26 @@ export const useHorarioCompleto = () => {
 
   const aulasVagosEForaDoHorario = useNonTeachingPeriods(aulasEVagos);
 
-  const aulasSeparadasDias = useSeparateScheduleInDays(
+  const aulasSeparadasDias: Horario[] | Dias = useSeparateScheduleInDays(
     aulasVagosEForaDoHorario
   );
 
-  return aulasSeparadasDias;
+  const horarioTemApenasUmDia = (
+    horarioEmDias: Horario[] | Dias
+  ): horarioEmDias is Horario[] => Array.isArray(horarioEmDias);
 
-  // TODO: dividir em turnos
+  const horarioTemUmDia = horarioTemApenasUmDia(aulasSeparadasDias);
+
+  const horarioDiasETurnos = horarioTemUmDia
+    ? useSeparateScheduleInShifts(aulasSeparadasDias as (Horario & HorDayjs)[])
+    : Object.fromEntries(
+        Object.entries(aulasSeparadasDias).map(([key, dia]) => [
+          key,
+          useSeparateScheduleInShifts(dia as (Horario & HorDayjs)[]),
+        ])
+      );
+
+  return horarioDiasETurnos;
 
   // TODO: fazer conversões de acordo com os parâmetros
 };
