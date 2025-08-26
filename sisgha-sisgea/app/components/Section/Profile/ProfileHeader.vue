@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { IconsEducator, IconsUser } from '#components';
 import { useCampusContext, useUserCargoAndCampi } from '#imports';
 import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput } from '@ladesa-ro/management-service-client';
 import { useQuery } from '@tanstack/vue-query';
@@ -15,6 +16,38 @@ const profilePictureUrl = useApiImageRoute(
 );
 
 const { moreThanOneCampus, campiList } = useUserCargoAndCampi();
+
+const roleConfig = {
+  professor: {
+    label: 'Professor',
+    border: 'border-ldsa-green-1',
+    icon: IconsEducator,
+  },
+  dape: {
+    label: 'DAPE',
+    border: 'border-ldsa-green-1',
+    icon: IconsUser,
+  },
+};
+
+const vinculosBadges = computed(() => {
+  const seen = new Set<string>();
+  const badges: typeof roleConfig[keyof typeof roleConfig][] = [];
+
+  for (const v of vinculos.value) {
+    const key = v.cargo?.toLowerCase() ?? '';
+    const badge = key in roleConfig
+      ? roleConfig[key as keyof typeof roleConfig]
+      : { label: v.cargo, border: 'border-gray-400', icon: IconsUser };
+
+    if (!seen.has(badge.label)) {
+      badges.push(badge);
+      seen.add(badge.label);
+    }
+  }
+
+  return badges;
+});
 
 // puxar campus da api
 const toggleCampusItems = campiList.map(campus => ({
@@ -88,9 +121,22 @@ const vinculosConcatenated = computed(() => {
           </p>
         </span>
         <span class="leading-5">
-          <!-- TODO: puxar os valores abaixo da api (aguardando rota ficar pronta) -->
-          <p>{{ campus }}</p>
-          <p>{{ vinculosConcatenated || 'Sem vínculo' }}</p>
+          <!-- <p>{{ campus }}</p> -->
+          <!-- para cada cargo adicionar uma borda e um icone referente ao cargo -->
+          <div class="flex flex-wrap gap-2">
+            <span
+              v-for="(v, index) in vinculosBadges"
+              :key="index"
+              :class="[
+                'flex items-center gap-1 px-3 py-2 rounded-xl border-2 font-semibold text-sm',
+                v.border,
+                'bg-white text-ldsa-text-green',
+              ]"
+            >
+              {{ v.label }}
+              <component :is="v.icon" class="w-4 h-4" />
+            </span>
+          </div>
         </span>
       </section>
     </div>
