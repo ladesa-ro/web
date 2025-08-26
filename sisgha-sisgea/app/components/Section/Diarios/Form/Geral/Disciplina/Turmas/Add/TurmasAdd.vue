@@ -52,30 +52,37 @@ const loadTurmas = async () => {
   }
 };
 
-const cursoCheckboxState = (curso: CursoApi) => {
-  const turmasIds = curso.turmas.map(t => turmaId(curso.sigla, t));
-  const selecionadas = turmasSelecionadas.value.filter(t =>
-    turmasIds.includes(t)
+const isAllSelected = (curso: CursoApi) => {
+  return curso.turmas.every(t =>
+    turmasSelecionadas.value.includes(turmaId(curso.sigla, t))
   );
-  return {
-    checked: selecionadas.length === turmasIds.length,
-    indeterminate:
-      selecionadas.length > 0 && selecionadas.length < turmasIds.length,
-  };
 };
 
-const toggleCurso = (curso: CursoApi, checked: boolean) => {
-  const turmasIds = curso.turmas.map(t => turmaId(curso.sigla, t));
-  if (checked) {
-    turmasIds.forEach(id => {
-      if (!turmasSelecionadas.value.includes(id))
-        turmasSelecionadas.value.push(id);
-    });
-  } else {
-    turmasSelecionadas.value = turmasSelecionadas.value.filter(
-      id => !turmasIds.includes(id)
+const someSelected = (curso: CursoApi) => {
+  const ids = curso.turmas.map(t => turmaId(curso.sigla, t));
+  const count = ids.reduce(
+    (acc, id) => acc + (turmasSelecionadas.value.includes(id) ? 1 : 0),
+    0
+  );
+  return count > 0 && count < ids.length;
+};
+
+const toggleAll = (curso: CursoApi) => {
+  const allSelected = isAllSelected(curso);
+  let newSelected = [...turmasSelecionadas.value];
+
+  if (allSelected) {
+    newSelected = newSelected.filter(
+      t => !curso.turmas.map(tt => turmaId(curso.sigla, tt)).includes(t)
     );
+  } else {
+    curso.turmas.forEach(t => {
+      const id = turmaId(curso.sigla, t);
+      if (!newSelected.includes(id)) newSelected.push(id);
+    });
   }
+
+  turmasSelecionadas.value = newSelected;
 };
 
 const salvarTurmas = () => {
@@ -106,10 +113,16 @@ onMounted(() => loadTurmas());
         name="formacao"
         class="w-full mt-2 mb-4"
       />
+      <UIAlert
+        v-if="turmasSelecionadas.length === 0"
+        class="mb-4"
+        type="info"
+        message="Selecione pelo menos uma turma para continuar"
+      />
 
       <!-- paginacao -->
       <div
-        class="flex justify-between items-center text-xs font-semibold mb-1 w-full"
+        class="flex justify-between items-center text-sm font-semibold mb-1 w-full"
       >
         <button type="button" class="text-ldsa-grey">
           <IconsArrow class="w-4 h-4" />
@@ -131,12 +144,15 @@ onMounted(() => loadTurmas());
         <div v-for="curso in cursosApi" :key="curso.sigla" class="p-2">
           <!-- curso -->
           <div
-            class="flex items-center font-semibold text-xs mb-2 cursor-pointer select-none border-b border-b-ldsa-grey pb-1 gap-3 text-ldsa-text-default"
-            @click="toggleCurso(curso, !cursoCheckboxState(curso).checked)"
+            class="flex items-center font-semibold text-xs mb-1 cursor-pointer select-none border-b border-b-ldsa-grey pb-1 gap-3 text-ldsa-text-default"
+            @click="toggleAll(curso)"
           >
-            <UICheckboxSquare
-              :item="{ label: curso.nome, value: curso.sigla }"
-              :active="cursoCheckboxState(curso).checked"
+            <UICheckbox
+              :items="['']"
+              :model-value="isAllSelected(curso) ? [''] : []"
+              @update:modelValue="() => toggleAll(curso)"
+              class="mr-2 w-5 h-5"
+              @click.stop
             />
             <p class="flex-grow">{{ curso.nome }}</p>
           </div>
@@ -151,26 +167,16 @@ onMounted(() => loadTurmas());
                   value: turmaId(curso.sigla, t),
                 }))
               "
-              v-slot="{ item, invertItem, selected }"
               gap="0.25rem"
-            >
-              <div
-                class="flex items-center cursor-pointer justify-start gap-3 mb-1"
-                @click="invertItem(item)"
-              >
-                <UICheckboxSquare :item="item" :active="selected" />
-                <span>{{ item.label }}</span>
-              </div>
-            </UICheckbox>
+            />
           </div>
         </div>
       </div>
 
-      <!-- botoes -->
-      <div class="mt-6 flex justify-between gap-2">
+      <template #button-group>
         <UIButtonModalGoBack @click="backForm" />
-        <UIButtonModalSave @click="salvarTurmas" type="button" />
-      </div>
+        <UIButtonModalAdvance @click="salvarTurmas" type="button" /> </template
+      ><!-- botoes -->
     </DialogModalBaseLayout>
   </form>
 </template>

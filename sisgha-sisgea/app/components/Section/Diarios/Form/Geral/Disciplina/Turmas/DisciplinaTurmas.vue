@@ -142,10 +142,10 @@ defineExpose({
     >
       <!-- info disciplina -->
       <div class="border-2 border-ldsa-grey p-4 rounded-xl">
-        <span class="font-semibold text-[0.813rem]">{{
+        <span class="font-semibold">{{
           disciplinaSelecionada?.nome
         }}</span>
-        <p class="font-medium text-[0.813rem] text-ldsa-grey">
+        <p class="font-medium text-sm text-ldsa-grey">
           {{ disciplinaSelecionada?.cargaHoraria }}H
         </p>
       </div>
@@ -161,20 +161,20 @@ defineExpose({
           @click="toggleOptions(turma.id)"
         >
           <div>
-            <span class="font-semibold text-[0.812rem]">{{ turma.nome }}</span>
-            <p class="font-medium text-[0.812rem] text-ldsa-grey">
+            <span class="font-semibold text-sm">{{ turma.nome }}</span>
+            <p class="font-medium text-sm text-ldsa-grey">
               {{ turma.turno }}
             </p>
           </div>
 
           <div class="flex items-center">
             <IconsExclude
-              class="w-8.5 p-2 text-ldsa-red rounded-md hover:bg-ldsa-red/10 transition-[background-color] cursor-pointer"
+              class="w-7 p-1 text-ldsa-red rounded-md hover:bg-ldsa-red/10 transition-[background-color] cursor-pointer"
               @click.stop="removerTurma(turma.id)"
             />
 
             <span
-              class="p-2 text-ldsa-green-1 transition-transform duration-300"
+              class="p-1 text-ldsa-green-1 transition-transform duration-300"
               :class="showOptionsMap[turma.id] ? 'rotate-90' : '-rotate-90'"
               @click.stop="toggleOptions(turma.id)"
             >
@@ -197,7 +197,7 @@ defineExpose({
               class="grid grid-cols-2 gap-2 w-full"
             >
               <div
-                class="text-center p-4 text-xs font-semibold border-2 border-ldsa-grey rounded-xl transition flex flex-col items-center justify-center gap-1 cursor-pointer"
+                class="text-center p-4 text-sm font-semibold border-2 border-ldsa-grey rounded-xl transition flex flex-col items-center justify-center gap-1 cursor-pointer"
                 :class="{
                   'bg-ldsa-green-1 border-ldsa-green-1 text-ldsa-white':
                     selected,
@@ -229,7 +229,7 @@ defineExpose({
               class="border-2 border-ldsa-grey rounded-lg flex items-center justify-between"
             >
               <button
-                class="bg-ldsa-green-1 text-white text-xs font-semibold px-3 py-3 rounded-l-md"
+                class="bg-ldsa-green-1 text-white text-sm font-semibold px-3 py-3 rounded-l-md"
                 type="button"
               >
                 Dia {{ index + 1 }}
@@ -244,7 +244,7 @@ defineExpose({
                   <IconsArrow class="w-4 h-4" />
                 </button>
 
-                <span>Total de aulas: {{ aula.totalAulas }}</span>
+                <span class="text-sm">Total de aulas: {{ aula.totalAulas }}</span>
 
                 <button
                   type="button"
@@ -266,7 +266,7 @@ defineExpose({
 
             <button
               type="button"
-              class="mx-auto w-full font-semibold text-xs flex justify-center items-center gap-1 mt-4 border-2 border-dotted border-ldsa-grey rounded-lg px-4 py-2 hover:bg-ldsa-grey/20 transition"
+              class="mx-auto w-full font-semibold text-sm flex justify-center items-center gap-1 mt-4 border-2 border-dotted border-ldsa-grey rounded-lg px-4 py-2 hover:bg-ldsa-grey/20 transition"
               @click="adicionarDia"
             >
               Adicionar Dia +
@@ -310,7 +310,7 @@ defineExpose({
                   </div>
 
                   <div class="flex items-center justify-between w-[75%]">
-                    <p class="font-semibold text-[0.812rem] leading-4">
+                    <p class="font-semibold text-sm leading-4">
                       {{ item.label }}
                     </p>
                   </div>
