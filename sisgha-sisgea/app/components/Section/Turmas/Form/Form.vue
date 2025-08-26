@@ -122,7 +122,7 @@ const {
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit" class="flex">
+  <form @submit.prevent="onSubmit" class="flex gap-4">
     <FormsCreateOrManageContextualForm
       title-create="Cadastrar Turma"
       title-edit="Editar Turma"
