@@ -1,8 +1,10 @@
 <script lang="ts" setup>
+import { useCampusContext, useUserCargoAndCampi } from '#imports';
 import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput } from '@ladesa-ro/management-service-client';
 import { useQuery } from '@tanstack/vue-query';
+import uniq from 'lodash/uniq';
+import { computed } from 'vue';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
-import { useUserCargoAndCampi, useCampusContext } from '#imports';
 
 type Props = { user: UsuarioFindOneOutput };
 const { user } = defineProps<Props>();
@@ -14,6 +16,7 @@ const profilePictureUrl = useApiImageRoute(
 
 const { moreThanOneCampus, campiList } = useUserCargoAndCampi();
 
+// puxar campus da api
 const toggleCampusItems = campiList.map(campus => ({
   label: campus.apelido,
   value: campus.id,
@@ -22,9 +25,41 @@ const toggleCampusItems = campiList.map(campus => ({
 const selectedCampusGlobalState = useCampusContext();
 
 const campus = computed(() => {
-  return toggleCampusItems.find(c => c.value === selectedCampusGlobalState.value)?.label ?? 'Carregando campus...';
+  return (
+    toggleCampusItems.find(c => c.value === selectedCampusGlobalState.value)
+      ?.label ?? 'Carregando campus...'
+  );
 });
 
+// puxar vinculos da api
+const client = useApiClient();
+
+const { data: vinculosResponse } = useQuery({
+  queryKey: ['usuarios', `usuario::id::${user.id}`, 'vinculos'],
+  queryFn: () =>
+    client.perfis.perfilList({
+      filterUsuarioId: [user.id],
+      filterAtivo: ['true'],
+    }),
+});
+
+const vinculos = computed(() => vinculosResponse.value?.data ?? []);
+
+const getRoleLabel = (role: string) => {
+  switch (role?.toLowerCase()) {
+    case 'professor':
+      return 'Professor';
+    case 'dape':
+      return 'DAPE';
+    default:
+      return role;
+  }
+};
+
+const vinculosConcatenated = computed(() => {
+  const allLabels = vinculos.value.map(v => getRoleLabel(v.cargo));
+  return uniq(allLabels).join(' e ');
+});
 </script>
 
 <template>
@@ -55,7 +90,7 @@ const campus = computed(() => {
         <span class="leading-5">
           <!-- TODO: puxar os valores abaixo da api (aguardando rota ficar pronta) -->
           <p>{{ campus }}</p>
-          <p>Cargo</p>
+          <p>{{ vinculosConcatenated || 'Sem vínculo' }}</p>
         </span>
       </section>
     </div>
