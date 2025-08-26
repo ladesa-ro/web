@@ -35,6 +35,8 @@ const changeCampus = () => {
   selectedCampusGlobalState.value = selectedCampus.value;
 
   verifyCargo();
+
+  open.value = false;
 };
 
 onMounted(() => {
