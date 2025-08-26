@@ -13,7 +13,7 @@ export const useFreePeriods = (
   temposDeAula: TemposDeAula,
   aulas: (Aula & HorString)[]
 ) => {
-  const aulasEVagos = Object.entries(temposDeAula).map(
+  const aulasEVagos = Object.entries(temposDeAula).flatMap(
     ([diaSemana, temposDeAulaArr]) =>
       temposDeAulaArr.map(tempoDeAula => {
         let tempoAula: TempoDeAula | null = null;
