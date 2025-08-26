@@ -121,8 +121,6 @@ const vinculosConcatenated = computed(() => {
           </p>
         </span>
         <span class="leading-5">
-          <!-- <p>{{ campus }}</p> -->
-          <!-- para cada cargo adicionar uma borda e um icone referente ao cargo -->
           <div class="flex flex-wrap gap-2">
             <span
               v-for="(v, index) in vinculosBadges"
@@ -139,6 +137,8 @@ const vinculosConcatenated = computed(() => {
           </div>
         </span>
       </section>
+
+      <!-- botão de edição que abre o modal de edição do usuário-->
     </div>
   </section>
 </template>
