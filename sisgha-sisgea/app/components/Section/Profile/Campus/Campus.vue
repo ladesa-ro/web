@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useCampusContext, useUserCargoAndCampi } from '#imports';
 import { computed, ref } from 'vue';
-import IconLocale from '~/components/Icons/IconLocale.vue';
 import fotoCampus from '~/assets/imgs/Foto-Campus.png';
+import IconLocale from '~/components/Icons/IconLocale.vue';
 
 type Props = { userId: string };
 const { userId } = defineProps<Props>();
@@ -52,19 +52,21 @@ function closeAlterarModal() {
         alt="Foto do campus"
         class="campus-img rounded-t-xl w-full h-32 object-cover"
       />
-      <p class="campus-name">{{ campus.label }}</p>
-      
-      <UIButtonDefault @click="openAlterarModal">
-        Alterar campus
-      </UIButtonDefault>
+      <p class="text-center my-3 font-semibold">{{ campus.label }}</p>
     </div>
+
+    <UIButtonDefault @click="openAlterarModal" class="w-full mt-4">
+      Alterar
+    </UIButtonDefault>
 
     <AlterarCampus
       v-if="showAlterarModal"
       :campi="toggleCampusItems"
       :selected-campus-id="selectedCampusGlobalState"
       @close="closeAlterarModal"
-      @campus-alterado="(id: string) => console.log('Campus alterado para:', id)"
+      @campus-alterado="
+        (id: string) => console.log('Campus alterado para:', id)
+      "
     />
   </SectionProfileSectionsLayout>
 </template>
