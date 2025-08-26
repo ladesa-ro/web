@@ -23,7 +23,6 @@ export const useNonTeachingPeriods = (
   );
 
   // analisar tempo entre 2 aulas e classificar
-
   for (let i = 0; i + 1 < horarioDayjs.length; i++) {
     const diferencaMin = Math.abs(
       (horarioDayjs[i]?.horaFim as Dayjs).diff(
@@ -35,17 +34,6 @@ export const useNonTeachingPeriods = (
       horarioDayjs[i]!.data.diff(horarioDayjs[i + 1]!.data, 'day')
     );
 
-    console.log(
-      'horarioDayjs[i]?.horaFim = ',
-      horarioDayjs[i]?.horaFim.format('DD/MM/YYYY hh:mm')
-    );
-    console.log(
-      'horarioDayjs[i + 1]!.horaInicio = ',
-      horarioDayjs[i + 1]!.horaInicio.format('DD/MM/YYYY hh:mm')
-    );
-    console.log('diferencaMin = ', diferencaMin);
-    console.log('diferencaDia = ', diferencaDia);
-
     if (diferencaMin >= 10 && diferencaMin <= 30) {
       const intervalo: Intervalo & HorDayjs = {
         id: crypto.randomUUID(),
@@ -56,7 +44,6 @@ export const useNonTeachingPeriods = (
       };
 
       horarioDayjs.splice(i + 1, 0, intervalo);
-      console.log('intervalo');
     }
 
     //
@@ -70,7 +57,6 @@ export const useNonTeachingPeriods = (
       };
 
       horarioDayjs.splice(i + 1, 0, quebra);
-      console.log('quebraTurno');
     }
 
     //
@@ -89,12 +75,7 @@ export const useNonTeachingPeriods = (
       };
 
       horarioDayjs.splice(i + 1, 0, transicao);
-      console.log('transicaoDia');
-    } else {
-      console.log('aula');
     }
-
-    console.log('========================');
   }
 
   // agora o horario tem intervalos e tem data e horarios com dayjs

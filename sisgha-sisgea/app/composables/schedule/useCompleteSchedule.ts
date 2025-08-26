@@ -1,5 +1,8 @@
 import { aulasSemDiaSemanaExemplo, temposDeAulaExemplo } from './EXEMPLO';
-import { useClassDayWeek } from './useClassDayWeek';
+import {
+  useClassDayWeek,
+  useTempoDeAulaDayMonth,
+} from './useClassAndTempoDeAulaConverts';
 import { useFreePeriods } from './useFreePeriods';
 import { useNonTeachingPeriods } from './useNonTeachingPeriods';
 import { convertDayJsToString } from './useScheduleConverts';
@@ -11,19 +14,20 @@ export const useHorarioCompleto = () => {
   // add dia da semana nos horarios OK
   const aulas = aulasSemDiaSemanaExemplo.map(aula => useClassDayWeek(aula));
 
-  // add aulas vagas OK
-  const aulasEVagos = useFreePeriods(temposDeAulaExemplo, aulas);
+  const temposDeAulaMap = useTempoDeAulaDayMonth(
+    aulas[0]!,
+    temposDeAulaExemplo
+  );
 
-  // add tempos fora do horario OK
+  const aulasEVagos = useFreePeriods(temposDeAulaMap, aulas);
+
   const aulasVagosEForaDoHorario = useNonTeachingPeriods(aulasEVagos);
 
-  // testar e corrigir se necessário <=
-  // return aulasVagosEForaDoHorario.map(horario => convertDayJsToString(horario));
-  return aulasEVagos;
+  return aulasVagosEForaDoHorario.map(teste => convertDayJsToString(teste));
 
-  // dividir em dias
+  // TODO: dividir em dias
 
-  // dividir em turnos
+  // TODO: dividir em turnos
 
-  // fazer conversões de acordo com os parâmetros
+  // TODO: fazer conversões de acordo com os parâmetros
 };
