@@ -33,6 +33,8 @@ export type HorarioType = HorarioEditavelType | HorarioNaoEditavelType;
 
 export type HorarioEditavel = {
   diaSemana: string;
+
+  // TODO: adicionar lugar que provê valor de turnoId (talvez na divisão de turnos)
   turnoId?: string;
 };
 
@@ -93,3 +95,9 @@ export type DiaEmTurnos = {
   tarde: (Horario & HorDayjs)[];
   noite: (Horario & HorDayjs)[];
 };
+
+export type CompleteSchedule = {
+  manha: ((Aula | Vago) & HorDayjs)[];
+  tarde: ((Aula | Vago) & HorDayjs)[];
+  noite: ((Aula | Vago) & HorDayjs)[];
+}[];
