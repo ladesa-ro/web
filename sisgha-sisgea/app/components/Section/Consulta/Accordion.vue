@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { type AcceptableValue } from 'reka-ui';
+<script setup lang="ts" generic="T extends AcceptableValue">
+import type { AcceptableValue } from 'reka-ui';
 
 type Props = {
   title: string;
@@ -13,7 +13,7 @@ defineProps<Props>();
 
 defineEmits(['option-selected']);
 
-const selectedOption = defineModel<AcceptableValue>('selectedOption', {
+const selectedOption = defineModel<T>('selectedOption', {
   required: true,
 });
 
