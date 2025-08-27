@@ -106,11 +106,10 @@ const open = ref(false);
       <span class="mt-2 flex max-[350px]:flex-col justify-between gap-2">
         <UIButtonModalCancel variant="small" @click="open = false" />
 
-        <UIButtonModalCommonButtonsGreenWithCheck
-          :disabled="selectedCampusGlobalState === selectedCampus"
+        <UIButtonModalConfirm
           @click="changeCampus()"
+          :disabled="selectedCampusGlobalState === selectedCampus"
           variant="small"
-          text="Confirmar"
         />
       </span>
     </div>
