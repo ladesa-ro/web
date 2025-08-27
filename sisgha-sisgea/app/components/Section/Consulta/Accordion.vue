@@ -8,6 +8,7 @@ type Props = {
   loading?: boolean;
   error?: boolean;
 };
+
 defineProps<Props>();
 
 defineEmits(['option-selected']);
@@ -16,7 +17,10 @@ const selectedOption = defineModel<AcceptableValue>('selectedOption', {
   required: true,
 });
 
-const open = defineModel<boolean>('open', { default: false });
+const open = defineModel<boolean>('open', {
+  default: false,
+});
+
 </script>
 
 <template>
@@ -48,22 +52,26 @@ const open = defineModel<boolean>('open', { default: false });
     </template>
 
     <div
-      class="m-3 mt-0 sm:m-4 sm:mt-0 h-12 sm:h-15 max-w-full min-w-0 whitespace-nowrap overflow-x-auto overflow-y-hidden"
+      class="m-3 mt-0 sm:m-4 sm:mt-0 max-w-full min-w-0 whitespace-nowrap overflow-x-auto overflow-y-hidden"
     >
       <div v-if="loading">Carregando...</div>
 
       <div v-else-if="error">Ocorreu um erro inesperado.</div>
 
-      <SectionConsultaAccordionOptions
+      <template v-else>
+        <div v-if="items.length === 0"> Nenhum resultado encontrado.</div>
+
+        <SectionConsultaAccordionOptions
         v-else
         @option-selected="
           itemSelected => $emit('option-selected', { itemSelected, title })
         "
         v-model="selectedOption"
-        :items
+        :items="items"
         :loading
         :error
       />
+      </template>
     </div>
   </UICollapsible>
 </template>
