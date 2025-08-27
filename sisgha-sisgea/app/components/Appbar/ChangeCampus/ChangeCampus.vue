@@ -12,6 +12,14 @@ const selectedCampus = ref(
   selectedCampusGlobalState.value ?? toggleCampusItems[0]?.value ?? null
 );
 
+onMounted(() => {
+  if (selectedCampusGlobalState.value === null) {
+    selectedCampusGlobalState.value = selectedCampus.value;
+  }
+});
+
+//
+
 const cargos = useCampusContextCargos();
 
 const route = useRoute();
@@ -29,23 +37,19 @@ const verifyCargo = () => {
   }
 };
 
+onBeforeRouteUpdate(to => {
+  if (!to.path.includes('sisgea')) {
+    verifyCargo();
+  }
+});
+
 //
 
 const changeCampus = () => {
   selectedCampusGlobalState.value = selectedCampus.value;
-
   verifyCargo();
-
   open.value = false;
 };
-
-onMounted(() => {
-  if (selectedCampusGlobalState.value === null) {
-    selectedCampusGlobalState.value = selectedCampus.value;
-  }
-
-  verifyCargo();
-});
 
 //
 
