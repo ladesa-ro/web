@@ -151,7 +151,7 @@ const popoverOpen = ref(false);
       id="horario"
       class="relative box-border text-center h-9 flex justify-center items-center font-medium"
       :class="{
-        'text-ldsa-text-default': active,
+        'text-ldsa-text-green dark:brightness-115': active,
         'bg-ldsa-grey/20': horarioMeta.tipo === 'intervalo' && !active,
       }"
     >

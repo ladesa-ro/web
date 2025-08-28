@@ -38,7 +38,9 @@ const toggleItems = [
   { text: 'Vago', value: 'vago' },
 ];
 
-const changeActivityValue = ref(horarioMeta.value.tipo ?? 'vago');
+const horarioTipo = computed(() => horarioMeta.value.tipo);
+
+const changeActivityValue = ref(horarioTipo.value ?? 'vago');
 </script>
 
 <template>
@@ -47,14 +49,18 @@ const changeActivityValue = ref(horarioMeta.value.tipo ?? 'vago');
       <template #activator>
         <IconsEdit
           @click.stop
-          class="inline-block p-[1px] text-ldsa-text-default mr-2.5 hover:bg-ldsa-grey/10"
+          class="inline-block p-[.5px] text-ldsa-text-default mr-2.5 hover:bg-ldsa-grey/10"
         />
       </template>
 
       <div
         class="flex flex-col gap-3 border-2 border-ldsa-green-1 rounded-lg p-2.5 bg-ldsa-bg"
       >
-        <UIToggle v-model="changeActivityValue" :items="toggleItems" />
+        <UIToggle
+          class="h-9"
+          v-model="changeActivityValue"
+          :items="toggleItems"
+        />
 
         <div class="flex justify-between gap-3">
           <UIButtonModalCancel
@@ -78,8 +84,10 @@ const changeActivityValue = ref(horarioMeta.value.tipo ?? 'vago');
     <IconsExclude
       @click.stop="changeCellActivity('vago')"
       :class="[
-        'cursor-pointer inline w-3.5 text-ldsa-red hover:bg-ldsa-red/10',
-        horarioMeta.tipo !== 'vago' && 'opacity-0',
+        'inline w-4 text-ldsa-red hover:bg-ldsa-red/10',
+        horarioMeta.tipo === 'vago'
+          ? 'opacity-0 cursor-default'
+          : 'cursor-pointer',
       ]"
     />
   </div>
