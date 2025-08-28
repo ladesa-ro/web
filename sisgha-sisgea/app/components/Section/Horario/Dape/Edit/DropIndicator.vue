@@ -7,7 +7,7 @@ defineProps<{ edge: Edge }>();
 <template>
   <div
     :class="[
-      'absolute z-10 bg-sky-500 overflow-hidden w-full pointer-events-none',
+      'absolute z-10 bg-ldsa-green-2 brightness-150 overflow-hidden w-full pointer-events-none',
       edge === 'top' && 'h-[1.75px]',
       edge === 'bottom' && 'h-[2px]',
     ]"

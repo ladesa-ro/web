@@ -6,12 +6,7 @@ import {
 import { reorderWithEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { useRefHistory } from '@vueuse/core';
-import {
-  type Aula,
-  type DiaEditavelEmTurnos,
-  type HorDayjs,
-  type Vago,
-} from '~/composables/schedule/useScheduleTypes';
+import { type DiaEditavelEmTurnos } from '~/composables/schedule/useScheduleTypes';
 
 const shiftIds = [1, 2, 3];
 
@@ -45,15 +40,11 @@ onMounted(() => {
         return;
       }
 
-      //
-
       const startShiftId = Number(args.source.data.turnoId);
-
       const finishShiftId = Number(
         args.location.current.dropTargets[1]?.data.id
       );
 
-      // se nao tiver finish shift, start shift sera o único shift, isto é, o drag and drop ocorreu entre horário do mesmo período.
       const startShift = Object.values(daySchedule.value).find(shift =>
         shift.some(cell => cell.turnoId === String(startShiftId))
       );
@@ -76,9 +67,6 @@ onMounted(() => {
         return;
       }
 
-      //
-
-      // index inicial do draggable
       const startIndex = startShift.findIndex(
         shift => shift.id === args.source.data.id
       );
@@ -100,9 +88,8 @@ onMounted(() => {
         return;
       }
 
-      //
-
       if (startShiftId != finishShiftId) {
+        // --- LÓGICA CORRIGIDA ---
         const startKey = Object.keys(daySchedule.value)[
           (startShiftId as number) - 1
         ];
@@ -116,24 +103,26 @@ onMounted(() => {
           return;
         }
 
-        args.source.data.turnoId = finishShiftId;
+        const draggedItem = startShift.splice(startIndex, 1)[0];
 
-        daySchedule.value[startKey]?.splice(startIndex, 1);
-        daySchedule.value[1]?.splice(
-          indexOfTarget,
-          0,
-          args.source.data as (Aula | Vago) & HorDayjs
-        );
+        if (!draggedItem) {
+          console.warn('Nenhum item arrastado foi encontrado.');
+          return;
+        }
 
-        daySchedule.value[finishKey] = reorderWithEdge({
-          list: finishShift,
-          startIndex: indexOfTarget,
-          indexOfTarget,
-          closestEdgeOfTarget: closestEdge,
-          axis: 'vertical',
-        });
+        draggedItem.turnoId = finishShiftId.toString();
 
-        console.log('mudanca de turno');
+        const finishShift = daySchedule.value[finishKey];
+
+        if (!finishShift) {
+          console.warn('Lista de destino não encontrada.');
+          return;
+        }
+
+        finishShift.splice(indexOfTarget, 0, draggedItem);
+
+        console.log('mudança de turno');
+        // --- FIM DA LÓGICA CORRIGIDA ---
       } else {
         const key = Object.keys(daySchedule.value)[
           (startShiftId as number) - 1
