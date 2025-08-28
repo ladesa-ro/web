@@ -120,6 +120,10 @@ const showIntervals = useShowIntervals();
 //
 
 defineEmits(['atividade-change']);
+
+//
+
+const popoverOpen = ref(false);
 </script>
 
 <template>
@@ -155,11 +159,12 @@ defineEmits(['atividade-change']);
 
       <span
         v-if="horarioMeta.tipo !== 'intervalo'"
-        class="absolute right-3 hover"
+        :class="['absolute right-2', !popoverOpen && 'hover']"
       >
         <SectionHorarioDapeEditCellEditButtons
-          @atividade-change="$emit('atividade-change')"
           v-model="horarioMeta"
+          v-model:popover="popoverOpen"
+          @atividade-change="$emit('atividade-change')"
         />
       </span>
     </div>

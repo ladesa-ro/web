@@ -89,7 +89,6 @@ onMounted(() => {
       }
 
       if (startShiftId != finishShiftId) {
-        // --- LÓGICA CORRIGIDA ---
         const startKey = Object.keys(daySchedule.value)[
           (startShiftId as number) - 1
         ];
@@ -106,7 +105,7 @@ onMounted(() => {
         const draggedItem = startShift.splice(startIndex, 1)[0];
 
         if (!draggedItem) {
-          console.warn('Nenhum item arrastado foi encontrado.');
+          console.warn('draggedItem = ' + draggedItem);
           return;
         }
 
@@ -115,14 +114,11 @@ onMounted(() => {
         const finishShift = daySchedule.value[finishKey];
 
         if (!finishShift) {
-          console.warn('Lista de destino não encontrada.');
+          console.warn('finishShift = ' + finishShift);
           return;
         }
 
         finishShift.splice(indexOfTarget, 0, draggedItem);
-
-        console.log('mudança de turno');
-        // --- FIM DA LÓGICA CORRIGIDA ---
       } else {
         const key = Object.keys(daySchedule.value)[
           (startShiftId as number) - 1
@@ -140,7 +136,6 @@ onMounted(() => {
           closestEdgeOfTarget: closestEdge,
           axis: 'vertical',
         });
-        console.log('drag no mesmo turno');
       }
 
       horariosHistory.commit();
