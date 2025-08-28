@@ -96,8 +96,11 @@ export type DiaEmTurnos = {
   noite: (Horario & HorDayjs)[];
 };
 
-export type CompleteSchedule = {
+export type DiaEditavelEmTurnos = {
   manha: ((Aula | Vago) & HorDayjs)[];
   tarde: ((Aula | Vago) & HorDayjs)[];
   noite: ((Aula | Vago) & HorDayjs)[];
-}[];
+  [key: string]: ((Aula | Vago) & HorDayjs)[];
+};
+
+export type CompleteSchedule = Record<string, DiaEditavelEmTurnos>;

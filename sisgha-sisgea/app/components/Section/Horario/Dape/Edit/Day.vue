@@ -11,7 +11,7 @@ import {
   type Aula,
   type DiaEditavelEmTurnos,
   type HorDayjs,
-  type Vago
+  type Vago,
 } from '~/composables/schedule/useScheduleTypes';
 
 const columnIds = [1, 2, 3];
@@ -51,11 +51,10 @@ onMounted(() => {
       const startShiftId = args.source.data.turnoId;
       const finishShiftId = args.location.current.dropTargets[1]?.data.id;
 
-      // se nao tiver finish column, startColumn sera a única coluna, isto é, o drag and drop ocorreu na mesma coluna.
+      // se nao tiver finish shift, start shift sera o único shift, isto é, o drag and drop ocorreu entre horário do mesmo período.
       const startShift = Object.values(daySchedule.value).find(
         shift =>
-          Array.isArray(shift) &&
-          (shift as ((Aula | Vago) & HorDayjs)[]).findIndex(
+          shift.findIndex(
             cell => cell.turnoId === startShiftId
           ) !== -1
       );
@@ -65,19 +64,13 @@ onMounted(() => {
       if (startShiftId != finishShiftId) {
         finishShift = Object.values(daySchedule.value).find(
           shift =>
-            Array.isArray(shift) &&
             shift.findIndex(cell => cell.turnoId === finishShiftId) !== -1
         );
       } else {
         finishShift = startShift;
       }
 
-      if (
-        !startShift ||
-        !finishShift ||
-        !Array.isArray(startShift) ||
-        !Array.isArray(finishShift)
-      ) {
+      if (!startShift || !finishShift) {
         console.warn('startShift = ' + JSON.stringify(startShift));
         console.warn('finishShift = ' + finishShift);
         return;

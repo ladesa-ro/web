@@ -10,7 +10,8 @@ import type {
 
 const { id } = defineProps<Shift>();
 
-const horarios = defineModel<Cell[]>({ default: [], required: true });
+const shiftSchedule = defineModel<Cell[]>({ default: [], required: true });
+shiftSchedule.value.forEach(horario => ({ ...horario, turnoId: id }));
 
 const shift = useTemplateRef('shift');
 
@@ -49,8 +50,8 @@ defineEmits(['atividade-change']);
     class="flex flex-col justify-start my-5 translate-z-0 will-change-transform max-w-[300px] mx-auto p-0"
   >
     <SectionHorarioDapeEditCell
-      v-for="(horario, index) in horarios"
-      v-model="horarios[index]!"
+      v-for="(horario, index) in shiftSchedule"
+      v-model="shiftSchedule[index]!"
       :key="horario.id"
       :closestEdge="closestEdgeToElement"
       @atividade-change="$emit('atividade-change')"
