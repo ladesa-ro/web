@@ -8,8 +8,12 @@ import {
   PopoverTrigger as Trigger,
 } from 'reka-ui';
 
-type Props = { arrow?: boolean; disabled?: boolean };
-const { disabled = false } = defineProps<Props>();
+type Props = {
+  arrow?: boolean;
+  disabled?: boolean;
+  disableAnimation?: boolean;
+};
+const { disabled = false, disableAnimation = false } = defineProps<Props>();
 
 //
 
@@ -37,9 +41,12 @@ onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
     <Portal>
       <Content
         ref="content"
-        class="popover-content z-[21] shadow-lg text-ldsa-text-default"
-        @escape-key-down="open = false"
+        :class="[
+          'z-[21] shadow-lg text-ldsa-text-default',
+          !disableAnimation && 'popover-content',
+        ]"
         side="bottom"
+        @escape-key-down="open = false"
       >
         <Arrow class="w-5 fill-ldsa-green-1" v-if="arrow" />
 

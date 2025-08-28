@@ -17,7 +17,7 @@ const options = createUIAutocompleteApiRetrieverOptions({
 
   transformer: item => ({
     value: item.id,
-    label: item.nome,
+    label: item.apelido,
   }),
 });
 

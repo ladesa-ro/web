@@ -22,7 +22,7 @@ watchEffect(() => {
       v-for="item in items"
       :key="item.value"
       :selected="item.value === toggleValue"
-      :item="item"
+      :item
       @pointerdown="() => (toggleValue = item.value)"
     />
   </div>
