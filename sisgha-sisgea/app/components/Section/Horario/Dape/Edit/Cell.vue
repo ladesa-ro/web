@@ -13,6 +13,8 @@ import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 import { useShowIntervals } from '~/composables/schedule/edit/useScheduleIntervals';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 
+const { turnoId } = defineProps<{ turnoId: string }>();
+
 const horarioMeta = defineModel<Cell>({
   default: {},
   required: true,
@@ -45,7 +47,11 @@ onMounted(() => {
   cleanup = combine(
     draggable({
       element: horario.value,
-      getInitialData: () => ({ ...horarioMeta.value, type: 'cellDraggable' }),
+      getInitialData: () => ({
+        ...horarioMeta.value,
+        type: 'cellDraggable',
+        turnoId: horarioMeta.value.turnoId ?? turnoId ?? '',
+      }),
       onDrag: () => {
         horario.value?.classList.add('dragging');
       },
@@ -121,7 +127,7 @@ defineEmits(['atividade-change']);
     ref="horario-father"
     v-show="showIntervals ? true : horarioMeta.tipo !== 'intervalo'"
     :class="[
-      'relative not-last:border-b-[0.119565rem] nth-of-type-[2n]:mb-[0.5px] border-t-solid border-t-[transparent] border-b-solid border-b-ldsa-grey transform-[translateZ(0)]',
+      'relative not-last:border-b-[0.119565rem] nth-of-type-[2n]:mb-[0.5px] border-t-solid border-t-[transparent] border-b-2 border-b-solid border-b-ldsa-grey transform-[translateZ(0)]',
       active && 'bg-ldsa-green-2/10',
     ]"
     @click="toggleActive()"
@@ -149,7 +155,7 @@ defineEmits(['atividade-change']);
 
       <span
         v-if="horarioMeta.tipo !== 'intervalo'"
-        class="absolute right-3 cursor-pointer hover"
+        class="absolute right-3 hover"
       >
         <SectionHorarioDapeEditCellEditButtons
           @atividade-change="$emit('atividade-change')"
@@ -173,5 +179,13 @@ defineEmits(['atividade-change']);
 <style scoped>
 .dragging {
   opacity: 0.15;
+}
+
+.hover {
+  display: none;
+}
+
+#horario:hover > .hover {
+  display: inline;
 }
 </style>

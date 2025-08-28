@@ -2,14 +2,7 @@ import type { Dayjs } from 'dayjs';
 
 export type TempoDeAula = { horaInicio: string; horaFim: string };
 
-export type TemposDeAula = {
-  segunda: TempoDeAula[];
-  terca: TempoDeAula[];
-  quarta: TempoDeAula[];
-  quinta: TempoDeAula[];
-  sexta: TempoDeAula[];
-  sabado: TempoDeAula[];
-};
+export type TemposDeAula = Record<string, TempoDeAula[]>;
 
 export type TemposDeAulaMap = Map<
   { data: string; diaSemana: string },
@@ -61,7 +54,7 @@ export type Aula = HorarioBase &
 
 export type Vago = HorarioBase & HorarioEditavel & { tipo: 'vago' };
 
-export type Intervalo = HorarioBase & { tipo: 'intervalo' };
+export type Intervalo = HorarioBase & { tipo: 'intervalo', turnoId?: string };
 
 export type quebraTurno = HorarioBase & { tipo: 'quebraTurno' };
 

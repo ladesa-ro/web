@@ -6,7 +6,6 @@ import {
 import { reorderWithEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { useRefHistory } from '@vueuse/core';
-import { useToggleShowIntervals } from '~/composables/schedule/edit/useScheduleIntervals';
 import {
   type Aula,
   type DiaEditavelEmTurnos,
@@ -14,7 +13,7 @@ import {
   type Vago,
 } from '~/composables/schedule/useScheduleTypes';
 
-const columnIds = [1, 2, 3];
+const shiftIds = [1, 2, 3];
 
 const closestEdgeToElement: Ref<Edge | null> = ref(null);
 
@@ -31,7 +30,7 @@ const horariosHistory = useRefHistory(daySchedule, {
 let cleanup = () => {};
 onMounted(() => {
   cleanup = monitorForElements({
-    canMonitor: ({ source }) => source.data.type === 'horarioDrag',
+    canMonitor: ({ source }) => source.data.type === 'cellDraggable',
     onDrag: ({ location }) => {
       const dropTarget = location.current.dropTargets[0];
       if (dropTarget) {
@@ -48,15 +47,15 @@ onMounted(() => {
 
       //
 
-      const startShiftId = args.source.data.turnoId;
-      const finishShiftId = args.location.current.dropTargets[1]?.data.id;
+      const startShiftId = Number(args.source.data.turnoId);
+
+      const finishShiftId = Number(
+        args.location.current.dropTargets[1]?.data.id
+      );
 
       // se nao tiver finish shift, start shift sera o único shift, isto é, o drag and drop ocorreu entre horário do mesmo período.
-      const startShift = Object.values(daySchedule.value).find(
-        shift =>
-          shift.findIndex(
-            cell => cell.turnoId === startShiftId
-          ) !== -1
+      const startShift = Object.values(daySchedule.value).find(shift =>
+        shift.some(cell => cell.turnoId === String(startShiftId))
       );
 
       let finishShift;
@@ -64,7 +63,8 @@ onMounted(() => {
       if (startShiftId != finishShiftId) {
         finishShift = Object.values(daySchedule.value).find(
           shift =>
-            shift.findIndex(cell => cell.turnoId === finishShiftId) !== -1
+            shift.findIndex(cell => cell.turnoId === String(finishShiftId)) !==
+            -1
         );
       } else {
         finishShift = startShift;
@@ -116,7 +116,7 @@ onMounted(() => {
           return;
         }
 
-        args.source.data.colunaId = finishShiftId;
+        args.source.data.turnoId = finishShiftId;
 
         daySchedule.value[startKey]?.splice(startIndex, 1);
         daySchedule.value[1]?.splice(
@@ -132,6 +132,8 @@ onMounted(() => {
           closestEdgeOfTarget: closestEdge,
           axis: 'vertical',
         });
+
+        console.log('mudanca de turno');
       } else {
         const key = Object.keys(daySchedule.value)[
           (startShiftId as number) - 1
@@ -149,6 +151,7 @@ onMounted(() => {
           closestEdgeOfTarget: closestEdge,
           axis: 'vertical',
         });
+        console.log('drag no mesmo turno');
       }
 
       horariosHistory.commit();
@@ -162,42 +165,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center gap-5 mt-10">
-    <span>
-      <button
-        class="bg-green-600 text-white p-2 rounded-sm text-center cursor-pointer mr-5"
-        @click="horariosHistory.undo()"
-      >
-        Desfazer
-      </button>
-
-      <button
-        class="bg-green-600 text-white p-2 rounded-sm text-center cursor-pointer"
-        @click="horariosHistory.redo()"
-      >
-        Refazer
-      </button>
-    </span>
-
-    <span class="flex gap-5">
-      <button
-        @click="useToggleShowIntervals()"
-        class="flex gap-2 p-2 border-2 border-gray-500 rounded-lg cursor-pointer"
-      >
-        <IconEye class="w-4" />
-        Intervalos
-      </button>
-    </span>
-  </div>
-
   <div v-for="(_, key, numberIdx) in daySchedule">
     <SectionHorarioDapeEditShift
       v-if="daySchedule[key]"
       v-model="daySchedule[key]"
-      :id="String(columnIds[numberIdx])"
+      :id="String(shiftIds[numberIdx])"
       @atividade-change="horariosHistory.commit()"
     />
   </div>
-
-  <pre>{{ daySchedule }}</pre>
 </template>
