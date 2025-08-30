@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { DialogModalBaseLayout } from '#components';
-
 type Campus = {
   label: string;
   value: string;
@@ -25,21 +23,15 @@ function changeCampus(newCampusId: string) {
 </script>
 
 <template>
-  <DialogModalBaseLayout
-    title="Alterar Campus"
-    :on-close="() => emit('close')"
-    :close-button="true"
-  >
-    <div class="campus-list">
-      <button
-        v-for="c in campi"
-        :key="c.value"
-        @click="changeCampus(c.value)"
-        class="campus-option"
-      >
-        <img :src="c.fotoUrl" alt="foto campus" class="campus-img" />
-        {{ c.label }}
-      </button>
-    </div>
-  </DialogModalBaseLayout>
+  <div class="campus-list">
+    <button
+      v-for="c in campi"
+      :key="c.value"
+      @click="changeCampus(c.value)"
+      class="campus-option flex items-center gap-3 p-2 border rounded-md hover:bg-gray-100"
+    >
+      <img :src="c.fotoUrl" alt="foto campus" class="campus-img w-12 h-12 object-cover rounded" />
+      <span>{{ c.label }}</span>
+    </button>
+  </div>
 </template>

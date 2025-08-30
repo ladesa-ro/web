@@ -4,8 +4,7 @@ import { computed, ref } from 'vue';
 import fotoCampus from '~/assets/imgs/Foto-Campus.png';
 import IconLocale from '~/components/Icons/IconLocale.vue';
 
-type Props = { userId: string };
-const { userId } = defineProps<Props>();
+const { userId } = defineProps<{ userId: string }>();
 
 const { campiList } = useUserCargoAndCampi();
 const selectedCampusGlobalState = useCampusContext();
@@ -24,23 +23,7 @@ const campus = computed(() => {
   );
 });
 
-const showCampusSelector = ref(false);
-
-function changeCampus(newCampusId: string) {
-  selectedCampusGlobalState.value = newCampusId;
-  showCampusSelector.value = false;
-  showAlterarModal.value = false;
-}
-
-//
 const showAlterarModal = ref(false);
-
-function openAlterarModal() {
-  showAlterarModal.value = true;
-}
-function closeAlterarModal() {
-  showAlterarModal.value = false;
-}
 </script>
 
 <template>
@@ -55,18 +38,25 @@ function closeAlterarModal() {
       <p class="text-center my-3 font-semibold">{{ campus.label }}</p>
     </div>
 
-    <UIButtonDefault @click="openAlterarModal" class="w-full mt-4">
-      Alterar
-    </UIButtonDefault>
+    <DialogSkeleton
+      v-model="showAlterarModal"
+      class="flex justify-center w-full"
+    >
+      <template #activator>
+        <UIButtonDefault class="w-full mt-4"> Alterar </UIButtonDefault>
+      </template>
 
-    <AlterarCampus
-      v-if="showAlterarModal"
-      :campi="toggleCampusItems"
-      :selected-campus-id="selectedCampusGlobalState"
-      @close="closeAlterarModal"
-      @campus-alterado="
-        (id: string) => console.log('Campus alterado para:', id)
-      "
-    />
+      <DialogModalBaseLayout
+        title="Alterar Campus"
+        :on-close="() => (showAlterarModal = false)"
+        :close-button="true"
+      >
+        <AlterarCampus
+          :campi="toggleCampusItems"
+          :selected-campus-id="selectedCampusGlobalState"
+          @close="showAlterarModal = false"
+        />
+      </DialogModalBaseLayout>
+    </DialogSkeleton>
   </SectionProfileSectionsLayout>
 </template>
