@@ -9,6 +9,7 @@ const { userId } = defineProps<{ userId: string }>();
 const { campiList } = useUserCargoAndCampi();
 const selectedCampusGlobalState = useCampusContext();
 
+// Mapeia os campi para exibição
 const toggleCampusItems = campiList.map(campus => ({
   label: campus.apelido,
   value: campus.id,
@@ -23,7 +24,14 @@ const campus = computed(() => {
   );
 });
 
+// Modal
 const showAlterarModal = ref(false);
+
+// Função para alterar campus
+function changeCampus(newCampusId: string) {
+  selectedCampusGlobalState.value = newCampusId;
+  showAlterarModal.value = false;
+}
 </script>
 
 <template>
@@ -51,11 +59,22 @@ const showAlterarModal = ref(false);
         :on-close="() => (showAlterarModal = false)"
         :close-button="true"
       >
-        <AlterarCampus
-          :campi="toggleCampusItems"
-          :selected-campus-id="selectedCampusGlobalState"
-          @close="showAlterarModal = false"
-        />
+        <!-- Lista de campi dentro do modal -->
+        <div class="campus-list flex flex-col gap-2">
+          <button
+            v-for="c in toggleCampusItems"
+            :key="c.value"
+            @click="changeCampus(c.value)"
+            class="campus-option flex items-center gap-3 p-2 border rounded-md hover:bg-gray-100"
+          >
+            <img
+              :src="c.fotoUrl"
+              alt="foto campus"
+              class="campus-img w-12 h-12 object-cover rounded"
+            />
+            <span>{{ c.label }}</span>
+          </button>
+        </div>
       </DialogModalBaseLayout>
     </DialogSkeleton>
   </SectionProfileSectionsLayout>
