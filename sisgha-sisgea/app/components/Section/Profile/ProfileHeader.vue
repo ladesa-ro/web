@@ -128,7 +128,7 @@ const vinculosConcatenated = computed(() => {
               :class="[
                 'flex items-center gap-1 px-3 py-2 rounded-xl border-2 font-semibold text-sm',
                 v.border,
-                'bg-white text-ldsa-text-green',
+                'text-ldsa-text-green',
               ]"
             >
               {{ v.label }}
