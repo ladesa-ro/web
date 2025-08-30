@@ -1,35 +1,51 @@
 <script setup lang="ts">
 import { useCampusContext, useUserCargoAndCampi } from '#imports';
+import { useForm } from 'vee-validate';
 import { computed, ref } from 'vue';
+import * as yup from 'yup';
+
 import fotoCampus from '~/assets/imgs/Foto-Campus.png';
 import IconLocale from '~/components/Icons/IconLocale.vue';
 
 const { userId } = defineProps<{ userId: string }>();
-
-const { campiList } = useUserCargoAndCampi();
 const selectedCampusGlobalState = useCampusContext();
+const { campiList } = useUserCargoAndCampi();
 
-// Mapeia os campi para exibição
 const toggleCampusItems = campiList.map(campus => ({
   label: campus.apelido,
   value: campus.id,
   fotoUrl: fotoCampus,
 }));
 
-const campus = computed(() => {
+const campusAtual = computed(() => {
   return (
     toggleCampusItems.find(
       c => c.value === selectedCampusGlobalState.value
-    ) ?? { label: 'Carregando campus...', fotoUrl: '' }
+    ) ?? {
+      label: 'Carregando campus...',
+      fotoUrl: '',
+    }
   );
 });
 
-// Modal
 const showAlterarModal = ref(false);
 
-// Função para alterar campus
-function changeCampus(newCampusId: string) {
-  selectedCampusGlobalState.value = newCampusId;
+type FormValues = { novoCampus: string | null };
+const schema = yup.object({
+  novoCampus: yup.string().required('Selecione um campus'),
+});
+
+const { handleSubmit, values: formValues } = useForm<FormValues>({
+  validationSchema: schema,
+  initialValues: { novoCampus: selectedCampusGlobalState.value },
+});
+
+const onSubmit = handleSubmit(values => {
+  selectedCampusGlobalState.value = values.novoCampus!;
+  showAlterarModal.value = false;
+});
+
+function fecharModal() {
   showAlterarModal.value = false;
 }
 </script>
@@ -38,12 +54,12 @@ function changeCampus(newCampusId: string) {
   <SectionProfileSectionsLayout :icon="IconLocale" title="Campus atual">
     <div class="campus-card border-2 border-ldsa-grey rounded-xl">
       <img
-        v-if="campus.fotoUrl"
-        :src="campus.fotoUrl"
+        v-if="campusAtual.fotoUrl"
+        :src="campusAtual.fotoUrl"
         alt="Foto do campus"
         class="campus-img rounded-t-xl w-full h-32 object-cover"
       />
-      <p class="text-center my-3 font-semibold">{{ campus.label }}</p>
+      <p class="text-center my-3 font-semibold">{{ campusAtual.label }}</p>
     </div>
 
     <DialogSkeleton
@@ -54,28 +70,35 @@ function changeCampus(newCampusId: string) {
         <UIButtonDefault class="w-full mt-4"> Alterar </UIButtonDefault>
       </template>
 
-      <DialogModalBaseLayout
-        title="Alterar Campus"
-        :on-close="() => (showAlterarModal = false)"
-        :close-button="true"
-      >
-        <!-- Lista de campi dentro do modal -->
-        <div class="campus-list flex flex-col gap-2">
-          <button
-            v-for="c in toggleCampusItems"
-            :key="c.value"
-            @click="changeCampus(c.value)"
-            class="campus-option flex items-center gap-3 p-2 border rounded-md hover:bg-gray-100"
-          >
-            <img
-              :src="c.fotoUrl"
-              alt="foto campus"
-              class="campus-img w-12 h-12 object-cover rounded"
-            />
-            <span>{{ c.label }}</span>
-          </button>
-        </div>
-      </DialogModalBaseLayout>
+      <form @submit.prevent="onSubmit">
+        <DialogModalBaseLayout
+          title="Alterar Campus"
+          :on-close="fecharModal"
+          :close-button="true"
+        >
+          <VVTextField
+            :value="campusAtual.label"
+            name="campusAtual"
+            label="Campus atual"
+            type="text"
+            disabled
+            class="mt-2"
+          />
+
+          <VVAutocomplete
+            v-model="formValues.novoCampus"
+            :items="toggleCampusItems"
+            label="Selecionar  campus"
+            name="novoCampus"
+            placeholder="Selecione um campus"
+          />
+
+          <template #button-group>
+            <UIButtonModalCancel @click="showAlterarModal = false" />
+            <UIButtonModalSave type="submit" text="Alterar"/>
+          </template>
+        </DialogModalBaseLayout>
+      </form>
     </DialogSkeleton>
   </SectionProfileSectionsLayout>
 </template>
