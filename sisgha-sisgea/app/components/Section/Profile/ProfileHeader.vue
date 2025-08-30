@@ -32,13 +32,14 @@ const roleConfig = {
 
 const vinculosBadges = computed(() => {
   const seen = new Set<string>();
-  const badges: typeof roleConfig[keyof typeof roleConfig][] = [];
+  const badges: (typeof roleConfig)[keyof typeof roleConfig][] = [];
 
   for (const v of vinculos.value) {
     const key = v.cargo?.toLowerCase() ?? '';
-    const badge = key in roleConfig
-      ? roleConfig[key as keyof typeof roleConfig]
-      : { label: v.cargo, border: 'border-gray-400', icon: IconsUser };
+    const badge =
+      key in roleConfig
+        ? roleConfig[key as keyof typeof roleConfig]
+        : { label: v.cargo, border: 'border-gray-400', icon: IconsUser };
 
     if (!seen.has(badge.label)) {
       badges.push(badge);
@@ -93,6 +94,12 @@ const vinculosConcatenated = computed(() => {
   const allLabels = vinculos.value.map(v => getRoleLabel(v.cargo));
   return uniq(allLabels).join(' e ');
 });
+
+const showEditModal = ref(false);
+
+const closeEditModal = () => {
+  showEditModal.value = false;
+};
 </script>
 
 <template>
@@ -139,6 +146,7 @@ const vinculosConcatenated = computed(() => {
       </section>
 
       <!-- botão de edição que abre o modal de edição do usuário-->
+      <SectionUsuariosModalsForm :edit-id="user.id" @close="closeEditModal" />
     </div>
   </section>
 </template>
