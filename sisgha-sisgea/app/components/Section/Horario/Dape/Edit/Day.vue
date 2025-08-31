@@ -7,6 +7,7 @@ import { reorderWithEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/r
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { useRefHistory } from '@vueuse/core';
 import { type DiaEditavelEmTurnos } from '~/composables/schedule/useScheduleTypes';
+import { canSwap, swapCells } from './swapCells';
 
 const shiftIds = [1, 2, 3];
 
@@ -17,7 +18,7 @@ const daySchedule = defineModel<DiaEditavelEmTurnos>({
   required: true,
 });
 
-const horariosHistory = useRefHistory(daySchedule, {
+const dayScheduleHistory = useRefHistory(daySchedule, {
   deep: true,
   capacity: 10,
 });
@@ -138,7 +139,7 @@ onMounted(() => {
         });
       }
 
-      horariosHistory.commit();
+      dayScheduleHistory.commit();
     },
   });
 });
@@ -149,13 +150,21 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <button
+    @click="swapCells(ref(daySchedule), dayScheduleHistory)"
+    :disabled="!canSwap"
+    class="p-2.5 border-2 border-gray-500 text-gray-500 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed max-w-max"
+  >
+    <IconsSwap />
+  </button>
+
   <div v-for="(_, key, numberIdx) in daySchedule">
     <SectionHorarioDapeEditShift
       v-if="daySchedule[key]"
       v-model="daySchedule[key]"
       :id="String(shiftIds[numberIdx])"
       :max-capacity="daySchedule[key].length"
-      @atividade-change="horariosHistory.commit()"
+      @atividade-change="dayScheduleHistory.commit()"
     />
   </div>
 </template>
