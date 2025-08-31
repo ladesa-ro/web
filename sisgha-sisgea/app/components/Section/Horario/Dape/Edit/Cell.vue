@@ -13,7 +13,10 @@ import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 import { useShowIntervals } from '~/composables/schedule/edit/useScheduleIntervals';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 
-const { turnoId } = defineProps<{ turnoId: string }>();
+const { turnoId, maxCapacityReached = false } = defineProps<{
+  turnoId: string;
+  maxCapacityReached?: boolean;
+}>();
 
 const horarioMeta = defineModel<Cell>({
   default: {},
@@ -115,13 +118,9 @@ const toggleActive = () => {
 
 //
 
-const showIntervals = useShowIntervals();
-
-//
-
 defineEmits(['atividade-change']);
 
-//
+const showIntervals = useShowIntervals();
 
 const popoverOpen = ref(false);
 </script>
@@ -144,6 +143,7 @@ const popoverOpen = ref(false);
       "
       class="translate-z-0 -translate-y-[0.10195rem]"
       :edge="dropTargState.closestEdge"
+      :maxCapacityReached="maxCapacityReached"
     />
 
     <div
@@ -155,11 +155,19 @@ const popoverOpen = ref(false);
         'bg-ldsa-grey/20': horarioMeta.tipo === 'intervalo' && !active,
       }"
     >
-      {{ horarioMeta.tipo }} - {{ horarioMeta.id }}
+      <span v-if="horarioMeta.tipo === 'aula'" class="truncate max-w-9/10">
+        {{ horarioMeta.diario?.disciplina }} - {{ horarioMeta.diario?.turma }}
+      </span>
+
+      <span v-else-if="horarioMeta.tipo === 'vago'"> - </span>
 
       <span
         v-if="horarioMeta.tipo !== 'intervalo'"
-        :class="['absolute right-2', !popoverOpen && 'hover']"
+        :class="[
+          'absolute right-2 pl-1',
+          !popoverOpen && 'hover',
+          active ? 'bg-[#ebf8ed] dark:bg-[#192728]' : 'bg-ldsa-bg ',
+        ]"
       >
         <SectionHorarioDapeEditCellEditButtons
           v-model="horarioMeta"
@@ -176,6 +184,7 @@ const popoverOpen = ref(false);
         dropTargState.closestEdge === 'bottom'
       "
       class="translate-z-0"
+      :maxCapacityReached="maxCapacityReached"
       :edge="dropTargState.closestEdge"
     />
   </div>

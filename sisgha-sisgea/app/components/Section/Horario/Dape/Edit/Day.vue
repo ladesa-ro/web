@@ -154,6 +154,7 @@ onUnmounted(() => {
       v-if="daySchedule[key]"
       v-model="daySchedule[key]"
       :id="String(shiftIds[numberIdx])"
+      :max-capacity="daySchedule[key].length"
       @atividade-change="horariosHistory.commit()"
     />
   </div>

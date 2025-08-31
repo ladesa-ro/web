@@ -8,7 +8,7 @@ import type {
   Shift,
 } from '~/composables/schedule/edit/useScheduleEditTypes';
 
-const { id } = defineProps<Shift>();
+const { id, maxCapacity } = defineProps<Shift>();
 
 const shiftSchedule = defineModel<Cell[]>({
   default: [],
@@ -20,9 +20,12 @@ shiftSchedule.value = shiftSchedule.value.map(horario => ({
   turnoId: id,
 }));
 
+const isDroppable = ref(true);
+
 const shift = useTemplateRef('shift');
 
 let cleanup = () => {};
+
 onMounted(() => {
   if (!shift.value) {
     console.warn('elementList.value = ' + shift.value);
@@ -32,21 +35,26 @@ onMounted(() => {
   cleanup = combine(
     dropTargetForElements({
       element: shift.value,
-      getData: () => ({ id }),
+      getData: () => ({ id, maxCapacity, type: 'shiftDropTarget' }),
+
+      canDrop: ({ source }) => {
+        if (!(source.data.turnoId != id)) {
+          isDroppable.value = true;
+          return true;
+        }
+
+        isDroppable.value = shiftSchedule.value.length + 1 <= maxCapacity;
+
+        console.log('maxCapacity = ', maxCapacity);
+
+        return isDroppable.value;
+      },
     }),
     autoScrollWindowForElements()
   );
 });
 
-onUnmounted(() => {
-  cleanup();
-});
-
-//
-
 const closestEdgeToElement: Ref<Edge | null> = ref(null);
-
-//
 
 defineEmits(['atividade-change']);
 </script>
@@ -54,13 +62,14 @@ defineEmits(['atividade-change']);
 <template>
   <div
     ref="shift"
-    class="flex flex-col justify-start my-5 translate-z-0 will-change-transform max-w-[300px] mx-auto p-0"
+    class="flex flex-col justify-start my-5 translate-z-0 will-change-transform max-w-75 mx-auto p-0"
   >
     <SectionHorarioDapeEditCell
       v-for="(horario, index) in shiftSchedule"
       :key="horario.id"
       :turno-id="id"
       :closestEdge="closestEdgeToElement"
+      :maxCapacityReached="isDroppable"
       v-model="shiftSchedule[index]!"
       @atividade-change="$emit('atividade-change')"
     />
