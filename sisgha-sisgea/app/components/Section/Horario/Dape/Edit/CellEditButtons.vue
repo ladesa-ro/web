@@ -62,6 +62,8 @@ const changeActivityValue = ref(horarioTipo.value ?? 'vago');
           :items="toggleItems"
         />
 
+        <!-- TODO: add autocompletes para modificar a aula -->
+
         <div class="flex justify-between gap-3">
           <UIButtonModalCancel
             variant="small"

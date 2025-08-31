@@ -20,9 +20,9 @@ shiftSchedule.value = shiftSchedule.value.map(horario => ({
   turnoId: id,
 }));
 
-const isDroppable = ref(true);
-
 const shift = useTemplateRef('shift');
+
+const maxCapacityReached = ref(true);
 
 let cleanup = () => {};
 
@@ -39,15 +39,14 @@ onMounted(() => {
 
       canDrop: ({ source }) => {
         if (!(source.data.turnoId != id)) {
-          isDroppable.value = true;
+          maxCapacityReached.value = true;
           return true;
         }
 
-        isDroppable.value = shiftSchedule.value.length + 1 <= maxCapacity;
+        maxCapacityReached.value =
+          shiftSchedule.value.length + 1 <= maxCapacity;
 
-        console.log('maxCapacity = ', maxCapacity);
-
-        return isDroppable.value;
+        return maxCapacityReached.value;
       },
     }),
     autoScrollWindowForElements()
@@ -69,7 +68,7 @@ defineEmits(['atividade-change']);
       :key="horario.id"
       :turno-id="id"
       :closestEdge="closestEdgeToElement"
-      :maxCapacityReached="isDroppable"
+      :maxCapacityReached="maxCapacityReached"
       v-model="shiftSchedule[index]!"
       @atividade-change="$emit('atividade-change')"
     />

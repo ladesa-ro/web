@@ -41,13 +41,13 @@ onMounted(() => {
         return;
       }
 
-      const startShiftId = Number(args.source.data.turnoId);
-      const finishShiftId = Number(
-        args.location.current.dropTargets[1]?.data.id
-      );
+      const startShiftId = args.source.data.turnoId as string;
+      const finishShiftId = 
+        args.location.current.dropTargets[1]?.data.id as string
+      ;
 
       const startShift = Object.values(daySchedule.value).find(shift =>
-        shift.some(cell => cell.turnoId === String(startShiftId))
+        shift.some(cell => cell.turnoId === startShiftId)
       );
 
       let finishShift;
@@ -55,7 +55,7 @@ onMounted(() => {
       if (startShiftId != finishShiftId) {
         finishShift = Object.values(daySchedule.value).find(
           shift =>
-            shift.findIndex(cell => cell.turnoId === String(finishShiftId)) !==
+            shift.findIndex(cell => cell.turnoId === finishShiftId) !==
             -1
         );
       } else {
@@ -91,10 +91,10 @@ onMounted(() => {
 
       if (startShiftId != finishShiftId) {
         const startKey = Object.keys(daySchedule.value)[
-          (startShiftId as number) - 1
+          (Number(startShiftId) as number) - 1
         ];
         const finishKey = Object.keys(daySchedule.value)[
-          (finishShiftId as number) - 1
+          (Number(finishShiftId) as number) - 1
         ];
 
         if (!startKey || !finishKey) {
@@ -110,7 +110,7 @@ onMounted(() => {
           return;
         }
 
-        draggedItem.turnoId = finishShiftId.toString();
+        draggedItem.turnoId = finishShiftId;
 
         const finishShift = daySchedule.value[finishKey];
 
@@ -122,7 +122,7 @@ onMounted(() => {
         finishShift.splice(indexOfTarget, 0, draggedItem);
       } else {
         const key = Object.keys(daySchedule.value)[
-          (startShiftId as number) - 1
+          (Number(startShiftId) as number) - 1
         ];
 
         if (!key) {
@@ -163,7 +163,7 @@ onUnmounted(() => {
       v-if="daySchedule[key]"
       v-model="daySchedule[key]"
       :id="String(shiftIds[numberIdx])"
-      :max-capacity="daySchedule[key].length"
+      :max-capacity="5"
       @atividade-change="dayScheduleHistory.commit()"
     />
   </div>
