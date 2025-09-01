@@ -143,21 +143,21 @@ const closeEditModal = () => {
           </p>
         </span>
 
-        <div class="campus-card border-2 border-ldsa-grey rounded-xl my-2 p-2">
-          <div class="text-center my-2 font-semibold">
+        <div>
+          <div class="text-center font-semibold">
             <template v-if="moreThanOneCampus">
-              <select
-                class="border rounded px-2 py-1"
-                v-model="selectedCampusValue"
-              >
-                <option
-                  v-for="c in toggleCampusItems"
-                  :key="c.value"
-                  :value="c.value"
+              <div class="flex items-center justify-center gap-1">
+                <VVAutocomplete
+                  v-model="selectedCampusValue"
+                  :items="toggleCampusItems"
+                  name="campus"
+                  placeholder="Selecione um campus"
                 >
-                  {{ c.label }}
-                </option>
-              </select>
+                  <template #prepend>
+                    <IconsIconLocale class="h-3 w-3 text-ldsa-green-1" />
+                  </template>
+                </VVAutocomplete>
+              </div>
             </template>
             <template v-else>
               {{ campusAtual.label }}
