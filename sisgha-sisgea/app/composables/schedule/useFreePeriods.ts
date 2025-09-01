@@ -26,6 +26,7 @@ export const useFreePeriods = (
             ...tempoDeAula,
           } as Aula & HorString)
         : ({
+            id: crypto.randomUUID(),
             tipo: 'vago',
             ...tempoDeAula,
             diaSemana: dia.diaSemana,

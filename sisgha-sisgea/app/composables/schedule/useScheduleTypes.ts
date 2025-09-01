@@ -14,7 +14,7 @@ export type TemposDeAulaMap = Map<
 // intervalos de tempo recebidos pela api e editáveis pelo usuário
 export type HorarioEditavelType = 'aula' | 'vago';
 
-// intervalos de tempo automaticamente calculados por useCompleteSchedule()
+// intervalos de tempo automaticamente calculados por useWeekSchedule()
 export type HorarioNaoEditavelType =
   | 'intervalo'
   | 'quebraTurno'
@@ -54,7 +54,7 @@ export type Aula = HorarioBase &
 
 export type Vago = HorarioBase & HorarioEditavel & { tipo: 'vago' };
 
-export type Intervalo = HorarioBase & { tipo: 'intervalo', turnoId?: string };
+export type Intervalo = HorarioBase & { tipo: 'intervalo'; turnoId?: string };
 
 export type quebraTurno = HorarioBase & { tipo: 'quebraTurno' };
 
@@ -96,4 +96,6 @@ export type DiaEditavelEmTurnos = {
   [key: string]: ((Aula | Vago) & HorDayjs)[];
 };
 
-export type CompleteSchedule = Record<string, DiaEditavelEmTurnos>;
+export type WeekdayMeta = {data: string , weekday: string};
+
+export type WeekSchedule = Map<WeekdayMeta, DiaEditavelEmTurnos>;

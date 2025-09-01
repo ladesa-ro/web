@@ -1,6 +1,11 @@
-export type Dias = { [key: string]: Horario[] | DiaEmTurnos};
+import type {
+  DiaEmTurnos,
+  Horario,
+  HorDayjs,
+  WeekdayMeta,
+} from './useScheduleTypes';
 
-import type { DiaEmTurnos, Horario, HorDayjs } from "./useScheduleTypes";
+export type IdentifiedDays = Map<WeekdayMeta, Horario[] | DiaEmTurnos>;
 
 /**
  * A partir de um array com elementos do tipo `TransicaoDia`, dividido em turnos ou não, cria um objeto do tipo `Dias`.
@@ -9,8 +14,8 @@ import type { DiaEmTurnos, Horario, HorDayjs } from "./useScheduleTypes";
  */
 export const useSeparateScheduleInDays = (horarioCompleto: Horario[]) => {
   const idxTransicoes = horarioCompleto
-    .map((horario, index) => (horario.tipo === "transicaoDia" ? index : null))
-    .filter((item) => item !== null);
+    .map((horario, index) => (horario.tipo === 'transicaoDia' ? index : null))
+    .filter(item => item !== null);
 
   if (idxTransicoes.length === 0) {
     // se não foram identificadas transições de dia anteriormente, retorna-se o próprio horário sem dividi-lo em arrays
@@ -19,25 +24,31 @@ export const useSeparateScheduleInDays = (horarioCompleto: Horario[]) => {
 
   //
 
-  const getKey = (dia: Horario & HorDayjs): string =>
-    (dia as Horario & HorDayjs).data.format("YYYY-MM-DD");
+  const getKey = (dia: Horario & HorDayjs): WeekdayMeta => ({
+    data: (dia as Horario & HorDayjs).data.format('YYYY-MM-DD'),
+    weekday: (dia as Horario & HorDayjs).data.format('dddd'),
+  });
 
-  const dias: Dias = {};
+  const dias: IdentifiedDays = new Map();
 
   let i = 0;
 
-  dias[getKey(horarioCompleto[0] as Horario & HorDayjs)] =
-    horarioCompleto.slice(0, idxTransicoes[i]);
+  dias.set(
+    getKey(horarioCompleto[0] as Horario & HorDayjs),
+    horarioCompleto.slice(0, idxTransicoes[i])
+  );
 
   for (i; i < idxTransicoes.length - 1; i++) {
-    dias[
-      getKey(horarioCompleto[idxTransicoes[i]! + 1] as Horario & HorDayjs)
-    ] = horarioCompleto.slice(idxTransicoes[i]! + 1, idxTransicoes[i + 1]);
+    dias.set(
+      getKey(horarioCompleto[idxTransicoes[i]! + 1] as Horario & HorDayjs),
+      horarioCompleto.slice(idxTransicoes[i]! + 1, idxTransicoes[i + 1])
+    );
   }
 
-  dias[
-    getKey(horarioCompleto[idxTransicoes[i]! + 1] as Horario & HorDayjs)
-  ] = horarioCompleto.slice(idxTransicoes[i]! + 1);
+  dias.set(
+    getKey(horarioCompleto[idxTransicoes[i]! + 1] as Horario & HorDayjs),
+    horarioCompleto.slice(idxTransicoes[i]! + 1)
+  );
 
   return dias;
 };

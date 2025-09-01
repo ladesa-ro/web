@@ -16,7 +16,7 @@ export const useSeparateScheduleInShifts = (
   horarioDoDia.forEach((horario, index) => {
     const horariosTurnos = {
       manha: {
-        inicio: defineHour(index, "06:00"),
+        inicio: defineHour(index, "04:00"),
         fim: defineHour(index, "12:00"),
       },
       tarde: {
