@@ -18,12 +18,8 @@ const daySchedule = defineModel<DiaEditavelEmTurnos>({
   required: true,
 });
 
-const dayScheduleHistory = useRefHistory(daySchedule, {
-  deep: true,
-  capacity: 10,
-});
-
 let cleanup = () => {};
+
 onMounted(() => {
   cleanup = monitorForElements({
     canMonitor: ({ source }) => source.data.type === 'cellDraggable',
@@ -138,8 +134,6 @@ onMounted(() => {
           axis: 'vertical',
         });
       }
-
-      dayScheduleHistory.commit();
     },
   });
 });
@@ -147,24 +141,18 @@ onMounted(() => {
 onUnmounted(() => {
   cleanup();
 });
+
+defineEmits(['atividade-change']);
 </script>
 
 <template>
-  <button
-    @click="swapCells(ref(daySchedule), dayScheduleHistory)"
-    :disabled="!canSwap"
-    class="p-2.5 border-2 border-gray-500 text-gray-500 rounded-lg disabled:opacity-40 disabled:cursor-not-allowed max-w-max"
-  >
-    <IconsSwap />
-  </button>
-
   <div v-for="(_, key, numberIdx) in daySchedule">
     <SectionHorarioDapeEditShift
       v-if="daySchedule[key]"
       v-model="daySchedule[key]"
       :id="String(shiftIds[numberIdx])"
       :max-capacity="5"
-      @atividade-change="dayScheduleHistory.commit()"
+      @atividade-change="$emit('atividade-change')"
     />
   </div>
 </template>
