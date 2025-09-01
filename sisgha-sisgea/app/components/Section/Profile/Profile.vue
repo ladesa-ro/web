@@ -23,18 +23,13 @@ const {
       <!-- disponibilidade + ensino -->
       <!-- TODO: puxar da api -->
       <section class="grid gap-4 md:grid-cols-5 auto-rows-auto">
-        <SectionProfileCampus
-          :userId="user.id"
+        <SectionProfileAvailability
           class="border-card md:order-none md:col-span-2"
         />
 
-        <SectionProfileTeaching
+       <SectionProfileTeaching
           :user="user"
           class="border-card md:order-none md:col-span-3"
-        />
-
-        <SectionProfileAvailability
-          class="border-card md:order-none md:col-span-5"
         />
       </section>
     </template>
