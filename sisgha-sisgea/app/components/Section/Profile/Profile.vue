@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { UILoading } from '#components';
 import { useQuery } from '@tanstack/vue-query';
 
 type Props = { userId: string };
@@ -21,13 +22,19 @@ const {
 
       <!-- disponibilidade + ensino -->
       <!-- TODO: puxar da api -->
-      <section class="flex max-[900px]:flex-col gap-4">
-        <SectionProfileAvailability class="flex-1/2 min-[1144px]:flex-1" />
-        <SectionProfileTeaching :user class="flex-1/2 min-[1144px]:flex-2" />
+      <section class="grid gap-4 md:grid-cols-5 auto-rows-auto">
+        <SectionProfileAvailability
+          class="border-card md:order-none md:col-span-2"
+        />
+
+       <SectionProfileTeaching
+          :user="user"
+          class="border-card md:order-none md:col-span-3"
+        />
       </section>
     </template>
 
-    <span v-else-if="isLoading">Carregando...</span>
+    <span v-else-if="isLoading"><UILoading /></span>
     <span v-else-if="isError">
       Ocorreu um erro inesperado ao procurar o usuário.
     </span>
