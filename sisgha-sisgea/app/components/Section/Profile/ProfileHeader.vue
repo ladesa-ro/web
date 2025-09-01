@@ -4,6 +4,7 @@ import { useCampusContext, useUserCargoAndCampi } from '#imports';
 import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput } from '@ladesa-ro/management-service-client';
 import { useQuery } from '@tanstack/vue-query';
 import uniq from 'lodash/uniq';
+import type { Ref } from 'vue';
 import { computed } from 'vue';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
@@ -15,7 +16,7 @@ const profilePictureUrl = useApiImageRoute(
   user
 );
 
-const { moreThanOneCampus, campiList } = useUserCargoAndCampi();
+const { campiList } = useUserCargoAndCampi();
 
 const roleConfig = {
   professor: {
@@ -50,22 +51,36 @@ const vinculosBadges = computed(() => {
   return badges;
 });
 
-// puxar campus da api
 const toggleCampusItems = campiList.map(campus => ({
   label: campus.apelido,
   value: campus.id,
 }));
 
-const selectedCampusGlobalState = useCampusContext();
+const selectedCampusGlobalState = useCampusContext() as Ref<string>;
+const selectedCampusValue = computed({
+  get: () => selectedCampusGlobalState.value,
+  set: (val: string) => (selectedCampusGlobalState.value = val),
+});
 
-const campus = computed(() => {
+const campusAtual = computed(() => {
   return (
-    toggleCampusItems.find(c => c.value === selectedCampusGlobalState.value)
-      ?.label ?? 'Carregando campus...'
+    toggleCampusItems.find(
+      c => c.value === selectedCampusGlobalState.value
+    ) ?? {
+      label: 'Carregando campus...',
+    }
   );
 });
 
-// puxar vinculos da api
+const campus = computed(() => campusAtual.value.label);
+
+const moreThanOneCampus = computed(() => toggleCampusItems.length > 1);
+
+function alterarCampus(event: Event) {
+  const select = event.target as HTMLSelectElement;
+  selectedCampusGlobalState.value = select.value;
+}
+
 const client = useApiClient();
 
 const { data: vinculosResponse } = useQuery({
@@ -127,6 +142,29 @@ const closeEditModal = () => {
             {{ user.email }}
           </p>
         </span>
+
+        <div class="campus-card border-2 border-ldsa-grey rounded-xl my-2 p-2">
+          <div class="text-center my-2 font-semibold">
+            <template v-if="moreThanOneCampus">
+              <select
+                class="border rounded px-2 py-1"
+                v-model="selectedCampusValue"
+              >
+                <option
+                  v-for="c in toggleCampusItems"
+                  :key="c.value"
+                  :value="c.value"
+                >
+                  {{ c.label }}
+                </option>
+              </select>
+            </template>
+            <template v-else>
+              {{ campusAtual.label }}
+            </template>
+          </div>
+        </div>
+
         <span class="leading-5">
           <div class="flex flex-wrap gap-2">
             <span
