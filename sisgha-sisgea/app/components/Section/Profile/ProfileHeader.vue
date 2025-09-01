@@ -84,15 +84,22 @@ function alterarCampus(event: Event) {
 const client = useApiClient();
 
 const { data: vinculosResponse } = useQuery({
-  queryKey: ['usuarios', `usuario::id::${user.id}`, 'vinculos'],
+  queryKey: ['usuarios', user.id, 'vinculos', selectedCampusValue],
   queryFn: () =>
     client.perfis.perfilList({
       filterUsuarioId: [user.id],
       filterAtivo: ['true'],
+      filterCampusId: [selectedCampusValue.value],
     }),
 });
 
-const vinculos = computed(() => vinculosResponse.value?.data ?? []);
+const vinculos = computed(() => {
+  if (!vinculosResponse.value?.data) return [];
+
+  return vinculosResponse.value.data.filter(
+    v => v.campus?.id === selectedCampusValue.value
+  );
+});
 
 const getRoleLabel = (role: string) => {
   switch (role?.toLowerCase()) {
@@ -143,7 +150,7 @@ const closeEditModal = () => {
           </p>
         </span>
 
-        <div class="text-center font-semibold">
+        <div>
           <template v-if="moreThanOneCampus">
             <div class="flex items-center justify-center gap-1">
               <VVAutocomplete
