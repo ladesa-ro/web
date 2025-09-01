@@ -143,26 +143,21 @@ const closeEditModal = () => {
           </p>
         </span>
 
-        <div>
-          <div class="text-center font-semibold">
-            <template v-if="moreThanOneCampus">
-              <div class="flex items-center justify-center gap-1">
-                <VVAutocomplete
-                  v-model="selectedCampusValue"
-                  :items="toggleCampusItems"
-                  name="campus"
-                  placeholder="Selecione um campus"
-                >
-                  <template #prepend>
-                    <IconsIconLocale class="h-3 w-3 text-ldsa-green-1" />
-                  </template>
-                </VVAutocomplete>
-              </div>
-            </template>
-            <template v-else>
-              {{ campusAtual.label }}
-            </template>
-          </div>
+        <div class="text-center font-semibold">
+          <template v-if="moreThanOneCampus">
+            <div class="flex items-center justify-center gap-1">
+              <VVAutocomplete
+                v-model="selectedCampusValue"
+                :items="toggleCampusItems"
+                name="campus"
+                placeholder="Selecione um campus"
+              />
+            </div>
+          </template>
+
+          <template v-else>
+            {{ campusAtual.label }}
+          </template>
         </div>
 
         <span class="leading-5">
