@@ -51,8 +51,6 @@ export const useWeekSchedule = (
 
   const horarioTemUmDia: boolean = horarioTemApenasUmDia(aulasSeparadasDias);
 
-  console.log('aulasSeparadasDias = ', aulasSeparadasDias);
-
   const horarioDiasETurnos = horarioTemUmDia
     ? useSeparateScheduleInShifts(aulasSeparadasDias as (Horario & HorDayjs)[])
     : (() => {

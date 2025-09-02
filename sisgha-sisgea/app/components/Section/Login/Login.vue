@@ -40,7 +40,7 @@ useTitle(null, 'Login');
 
         <span class="block mb-8 text-center">
           Esqueceu a senha?
-          <LazySectionLoginResetPasswordModal />
+          <LazySectionLoginResetPasswordModal :disabled="isBusy"/>
         </span>
 
         <UIButtonDefault
