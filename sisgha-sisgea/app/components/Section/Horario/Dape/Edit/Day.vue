@@ -5,11 +5,7 @@ import {
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { reorderWithEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import { useRefHistory } from '@vueuse/core';
 import { type DiaEditavelEmTurnos } from '~/composables/schedule/useScheduleTypes';
-import { canSwap, swapCells } from './swapCells';
-
-const shiftIds = [1, 2, 3];
 
 const closestEdgeToElement: Ref<Edge | null> = ref(null);
 
@@ -34,25 +30,34 @@ onMounted(() => {
       const dropTarget = args.location.current.dropTargets[0];
 
       if (!daySchedule.value || !dropTarget) {
+        console.log('=========================');
         return;
       }
 
       const startShiftId = args.source.data.turnoId as string;
-      const finishShiftId = 
-        args.location.current.dropTargets[1]?.data.id as string
-      ;
+      const finishShiftId = args.location.current.dropTargets[1]?.data
+        .id as string;
 
       const startShift = Object.values(daySchedule.value).find(shift =>
-        shift.some(cell => cell.turnoId === startShiftId)
+        shift.some((cell, index) => {
+          console.log('cell.turnoId:', cell.turnoId, typeof cell.turnoId);
+          console.log('cell index:', index);
+          return cell.turnoId === startShiftId;
+        })
       );
+      console.log('=');
+
+      // console.log('args.source.data.id:', args.source.data.id, typeof args.source.data.id);
+      console.log('startShiftId:', startShiftId, typeof startShiftId);
+      console.log('finishShiftId:', finishShiftId, typeof finishShiftId);
+      console.log('startShift:', startShift, typeof startShift);
 
       let finishShift;
 
       if (startShiftId != finishShiftId) {
         finishShift = Object.values(daySchedule.value).find(
           shift =>
-            shift.findIndex(cell => cell.turnoId === finishShiftId) !==
-            -1
+            shift.findIndex(cell => cell.turnoId === finishShiftId) !== -1
         );
       } else {
         finishShift = startShift;
@@ -61,18 +66,20 @@ onMounted(() => {
       if (!startShift || !finishShift) {
         console.warn('startShift = ' + JSON.stringify(startShift));
         console.warn('finishShift = ' + finishShift);
+        console.log('=========================');
         return;
       }
 
       const startIndex = startShift.findIndex(
-        shift => shift.id === args.source.data.id
+        shift => shift.id == args.source.data.id
       );
 
       const closestEdge = extractClosestEdge(dropTarget.data);
 
-      if (startIndex < 0 || !closestEdge) {
+      if (startIndex === -1 || !closestEdge) {
         console.warn('closestEdge do drop = ' + closestEdge);
         console.warn('startIndex = ' + startIndex);
+        console.log('=========================');
         return;
       }
 
@@ -82,6 +89,8 @@ onMounted(() => {
 
       if (indexOfTarget < 0) {
         console.warn('indexOfTarget = ' + indexOfTarget);
+        console.log('=========================');
+
         return;
       }
 
@@ -96,6 +105,8 @@ onMounted(() => {
         if (!startKey || !finishKey) {
           console.warn('startKey = ', startKey);
           console.warn('finishKey = ', finishKey);
+          console.log('=========================');
+
           return;
         }
 
@@ -103,6 +114,7 @@ onMounted(() => {
 
         if (!draggedItem) {
           console.warn('draggedItem = ' + draggedItem);
+          console.log('=========================');
           return;
         }
 
@@ -123,6 +135,7 @@ onMounted(() => {
 
         if (!key) {
           console.warn('key = ' + key);
+          console.log('=========================');
           return;
         }
 
@@ -146,12 +159,10 @@ defineEmits(['atividade-change']);
 </script>
 
 <template>
-  <div v-for="(_, key, numberIdx) in daySchedule">
+  <div v-for="(_, key) in daySchedule">
     <SectionHorarioDapeEditShift
       v-if="daySchedule[key]"
       v-model="daySchedule[key]"
-      :id="String(shiftIds[numberIdx])"
-      :max-capacity="5"
       @atividade-change="$emit('atividade-change')"
     />
   </div>

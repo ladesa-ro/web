@@ -50,6 +50,7 @@ onMounted(() => {
   cleanup = combine(
     draggable({
       element: horario.value,
+      canDrag: () => horarioMeta.value.tipo !== 'intervalo',
       getInitialData: () => ({
         ...horarioMeta.value,
         type: 'cellDraggable',
@@ -130,7 +131,7 @@ const popoverOpen = ref(false);
     ref="horario-father"
     v-show="showIntervals ? true : horarioMeta.tipo !== 'intervalo'"
     :class="[
-      'relative not-last:border-b-[0.119565rem] nth-of-type-[2n]:mb-[0.5px] border-t-solid border-t-[transparent] border-b-2 border-b-solid first:border-t-2 first:border-t-ldsa-grey  border-b-ldsa-grey transform-[translateZ(0)]',
+      'relative not-last:border-b-[0.119565rem] nth-of-type-[2n]:mb-[0.5px] border-t-solid border-t-[transparent] border-b-2 border-b-solid border-b-ldsa-text-default/65 transform-[translateZ(0)]',
       active && 'bg-ldsa-green-2/10',
     ]"
     @click="horarioMeta.tipo !== 'intervalo' && toggleActive()"
@@ -149,7 +150,7 @@ const popoverOpen = ref(false);
     <div
       ref="horario"
       id="horario"
-      class="relative box-border text-center h-7 flex justify-center items-center  text-sm"
+      class="relative box-border text-center h-6.5 flex justify-center items-center text-[0.813rem] font-medium"
       :class="{
         'text-ldsa-text-green dark:brightness-115': active,
         'bg-ldsa-grey/20': horarioMeta.tipo === 'intervalo' && !active,
@@ -167,7 +168,7 @@ const popoverOpen = ref(false);
         v-if="horarioMeta.tipo !== 'intervalo'"
         @click.stop
         :class="[
-          'absolute right-1.5 pl-1',
+          'absolute right-1 pl-1',
           !popoverOpen && 'hover',
           active ? 'bg-[#ebf8ed] dark:bg-[#192728]' : 'bg-ldsa-bg ',
         ]"

@@ -48,7 +48,7 @@ const changeActivityValue = ref(horarioTipo.value ?? 'vago');
     <UIPopover disable-animation v-model="popoverOpen" arrow>
       <template #activator>
         <IconsEdit
-          class="px-0.5 text-ldsa-text-default hover:bg-ldsa-grey/10 mr-1.5"
+          class="px-[0.15625rem] text-ldsa-text-default hover:bg-ldsa-text-default/10 mr-1 rounded"
         />
       </template>
 
@@ -85,7 +85,7 @@ const changeActivityValue = ref(horarioTipo.value ?? 'vago');
     <IconsExclude
       @click.stop="changeCellActivity('vago')"
       :class="[
-        'inline w-4.5 p-0.5 text-ldsa-red hover:bg-ldsa-red/10',
+        'inline w-4.5 p-0.5 text-ldsa-red hover:bg-ldsa-red/10 rounded',
         horarioMeta.tipo === 'vago'
           ? 'opacity-0 cursor-default'
           : 'cursor-pointer',
