@@ -1,87 +1,56 @@
 <script lang="ts" setup>
-import { IconsEducator, IconsUser } from '#components';
+import {
+  ComboboxAnchor as Anchor,
+  ComboboxRoot as AutocompleteRoot,
+  ComboboxCancel as Cancel,
+  ComboboxContent as Content,
+  ComboboxInput as Input,
+  ComboboxEmpty as NoResultsState,
+  ComboboxPortal as Portal,
+  ComboboxTrigger as Trigger,
+  ComboboxViewport as Viewport,
+} from 'reka-ui';
+import { IconsClose, IconsEducator, IconsUser } from '#components';
 import { useCampusContext, useUserCargoAndCampi } from '#imports';
 import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput } from '@ladesa-ro/management-service-client';
 import { useQuery } from '@tanstack/vue-query';
 import uniq from 'lodash/uniq';
-import type { Ref } from 'vue';
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
+import Arrow from '~/components/Icons/Arrow/Arrow.vue';
+import AutoCompleteItem from '../../UI/Form/OptionFields/Item.vue';
 
 type Props = { user: UsuarioFindOneOutput };
 const { user } = defineProps<Props>();
 
-const profilePictureUrl = useApiImageRoute(
-  ApiImageResource.USUARIO_PROFILE,
-  user
-);
+const profilePictureUrl = useApiImageRoute(ApiImageResource.USUARIO_PROFILE, user);
 
 const { campiList } = useUserCargoAndCampi();
+const client = useApiClient();
 
 const roleConfig = {
-  professor: {
-    label: 'Professor',
-    border: 'border-ldsa-green-1',
-    icon: IconsEducator,
-  },
-  dape: {
-    label: 'DAPE',
-    border: 'border-ldsa-green-1',
-    icon: IconsUser,
-  },
+  professor: { label: 'Professor', border: 'border-ldsa-green-1', icon: IconsEducator },
+  dape: { label: 'DAPE', border: 'border-ldsa-green-1', icon: IconsUser },
 };
 
-const vinculosBadges = computed(() => {
-  const seen = new Set<string>();
-  const badges: (typeof roleConfig)[keyof typeof roleConfig][] = [];
-
-  for (const v of vinculos.value) {
-    const key = v.cargo?.toLowerCase() ?? '';
-    const badge =
-      key in roleConfig
-        ? roleConfig[key as keyof typeof roleConfig]
-        : { label: v.cargo, border: 'border-gray-400', icon: IconsUser };
-
-    if (!seen.has(badge.label)) {
-      badges.push(badge);
-      seen.add(badge.label);
-    }
-  }
-
-  return badges;
-});
-
-const toggleCampusItems = campiList.map(campus => ({
-  label: campus.apelido,
-  value: campus.id,
-}));
-
+const toggleCampusItems = campiList.map(c => ({ label: c.apelido, value: c.id }));
 const selectedCampusGlobalState = useCampusContext() as Ref<string>;
 const selectedCampusValue = computed({
   get: () => selectedCampusGlobalState.value,
-  set: (val: string) => (selectedCampusGlobalState.value = val),
+  set: val => (selectedCampusGlobalState.value = val),
 });
 
-const campusAtual = computed(() => {
-  return (
-    toggleCampusItems.find(
-      c => c.value === selectedCampusGlobalState.value
-    ) ?? {
-      label: 'Carregando campus...',
-    }
-  );
-});
+const search = ref('');
+const open = ref(false);
 
-const campus = computed(() => campusAtual.value.label);
+const filteredCampi = computed(() =>
+  search.value
+    ? toggleCampusItems.filter(c => c.label.toLowerCase().includes(search.value.toLowerCase()))
+    : toggleCampusItems
+);
 
+const campusAtual = computed(() => toggleCampusItems.find(c => c.value === selectedCampusGlobalState.value) ?? { label: 'Carregando campus...' });
 const moreThanOneCampus = computed(() => toggleCampusItems.length > 1);
-
-function alterarCampus(event: Event) {
-  const select = event.target as HTMLSelectElement;
-  selectedCampusGlobalState.value = select.value;
-}
-
-const client = useApiClient();
 
 const { data: vinculosResponse } = useQuery({
   queryKey: ['usuarios', user.id, 'vinculos', selectedCampusValue],
@@ -93,39 +62,27 @@ const { data: vinculosResponse } = useQuery({
     }),
 });
 
-const vinculos = computed(() => {
-  if (!vinculosResponse.value?.data) return [];
+const vinculos = computed(() => (vinculosResponse.value?.data ?? []).filter(v => v.campus?.id === selectedCampusValue.value));
 
-  return vinculosResponse.value.data.filter(
-    v => v.campus?.id === selectedCampusValue.value
-  );
-});
-
-const getRoleLabel = (role: string) => {
-  switch (role?.toLowerCase()) {
-    case 'professor':
-      return 'Professor';
-    case 'dape':
-      return 'DAPE';
-    default:
-      return role;
+const vinculosBadges = computed(() => {
+  const seen = new Set<string>();
+  const badges: (typeof roleConfig)[keyof typeof roleConfig][] = [];
+  for (const v of vinculos.value) {
+    const key = v.cargo?.toLowerCase() ?? '';
+    const badge = key in roleConfig ? roleConfig[key as keyof typeof roleConfig] : { label: v.cargo, border: 'border-gray-400', icon: IconsUser };
+    if (!seen.has(badge.label)) {
+      badges.push(badge);
+      seen.add(badge.label);
+    }
   }
-};
-
-const vinculosConcatenated = computed(() => {
-  const allLabels = vinculos.value.map(v => getRoleLabel(v.cargo));
-  return uniq(allLabels).join(' e ');
+  return badges;
 });
 
 const showEditModal = ref(false);
-
-const closeEditModal = () => {
-  showEditModal.value = false;
-};
+const closeEditModal = () => { showEditModal.value = false; };
 </script>
 
 <template>
-  <!-- TODO: adicionar ícones e modal de edição -->
   <section class="banner">
     <div class="profile-card">
       <UIImg
@@ -138,33 +95,50 @@ const closeEditModal = () => {
         </template>
       </UIImg>
 
-      <section
-        class="profile-metadata text-xs font-medium max-[400px]:text-center"
-      >
+      <section class="profile-metadata text-xs font-medium max-[400px]:text-center">
         <span>
-          <h1 class="font-semibold text-sm lg:text-base text-wrap">
-            {{ user.nome }}
-          </h1>
-          <p class="text-ldsa-grey text-wrap break-words">
-            {{ user.email }}
-          </p>
+          <h1 class="font-semibold text-sm lg:text-base text-wrap">{{ user.nome }}</h1>
+          <p class="text-ldsa-grey text-wrap break-words">{{ user.email }}</p>
         </span>
 
         <div>
           <template v-if="moreThanOneCampus">
-            <div class="flex items-center justify-center gap-1">
-              <VVAutocomplete
-                v-model="selectedCampusValue"
-                :items="toggleCampusItems"
-                name="campus"
-                placeholder="Selecione um campus"
-              />
+            <div class="flex items-center justify-center gap-1 w-full max-w-xs">
+              <AutocompleteRoot v-model="selectedCampusValue" v-model:open="open">
+                <Anchor class="input-base flex justify-between items-center">
+                  <Input
+                    v-model="search"
+                    placeholder="Selecione um campus"
+                    @focus="open = true"
+                    class="w-full h-full"
+                    :display-value="value => filteredCampi.find(i => i.value === value)?.label || ''"
+                  />
+                  <Cancel
+                    v-if="selectedCampusValue"
+                    @click="selectedCampusValue = toggleCampusItems[0]?.value ?? ''"
+                    class="p-1.5 bg-ldsa-grey/20 rounded-full"
+                  >
+                    <IconsClose class="w-2.5 h-2.5 text-ldsa-text-default/50" />
+                  </Cancel>
+                  <Trigger class="px-3 py-4 shrink-0">
+                    <Arrow :open="open" />
+                  </Trigger>
+                </Anchor>
+
+                <Portal>
+                  <Content class="input-base-content w-(--reka-combobox-trigger-width) z-[10000] bg-ldsa-bg rounded-lg shadow-lg" position="popper" side="bottom" align="start">
+                    <Viewport>
+                      <NoResultsState class="flex items-center px-3 font-normal text-ldsa-grey h-(--reka-combobox-trigger-height)">
+                        Nenhum resultado encontrado
+                      </NoResultsState>
+                      <AutocompleteItem v-for="item in filteredCampi" :key="item.value" :item="item" mode="autocomplete" />
+                    </Viewport>
+                  </Content>
+                </Portal>
+              </AutocompleteRoot>
             </div>
           </template>
-
-          <template v-else>
-            {{ campusAtual.label }}
-          </template>
+          <template v-else>{{ campusAtual.label }}</template>
         </div>
 
         <span class="leading-5">
@@ -172,20 +146,17 @@ const closeEditModal = () => {
             <span
               v-for="(v, index) in vinculosBadges"
               :key="index"
-              :class="[
-                'flex items-center gap-1 px-3 py-2 rounded-xl border-2 font-semibold text-sm',
-                v.border,
-                'text-ldsa-text-green',
-              ]"
+              :class="['flex items-center gap-1 px-3 py-2 rounded-xl border-2 font-semibold text-sm', v.border, 'text-ldsa-text-green']"
             >
               {{ v.label }}
               <component :is="v.icon" class="w-4 h-4" />
             </span>
           </div>
         </span>
+
+        
       </section>
 
-      <!-- botão de edição que abre o modal de edição do usuário-->
       <SectionUsuariosModalsForm :edit-id="user.id" @close="closeEditModal" />
     </div>
   </section>
@@ -207,5 +178,38 @@ const closeEditModal = () => {
 
 .profile-metadata {
   @apply flex flex-col justify-center max-[400px]:items-center gap-2 md:ml-2 lg:ml-4;
+}
+
+.input {
+  @apply relative flex justify-between items-center px-1 w-full min-h-12 border-2 rounded-lg;
+  @apply font-medium text-left text-ldsa-text-default data-[placeholder]:text-ldsa-grey/90;
+  @apply focus-within:border-ldsa-green-2 focus-visible:outline-none disabled:cursor-not-allowed;
+}
+
+.input {
+  @apply border-ldsa-grey;
+
+  label {
+    @apply text-ldsa-grey;
+  }
+}
+
+.input:is([data-open], [data-state='open'], :focus-within) {
+  @apply border-ldsa-green-2;
+
+  label {
+    @apply text-ldsa-green-2;
+  }
+}
+
+.input label {
+  @apply absolute inline bottom-9 left-5 bg-ldsa-bg px-1 text-[0.813rem] font-semibold;
+}
+
+.input ::placeholder {
+  @apply font-medium text-ldsa-grey;
+}
+.input:has(input[disabled]) {
+  @apply opacity-60;
 }
 </style>
