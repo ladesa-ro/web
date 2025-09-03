@@ -16,6 +16,7 @@ import {
 import { computed, ref } from 'vue';
 import Arrow from '~/components/Icons/Arrow/Arrow.vue';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
+import AutoCompleteItem from '../../UI/Form/OptionFields/Item.vue'
 
 type Props = { user: UsuarioFindOneOutput };
 const { user } = defineProps<Props>();
@@ -135,9 +136,7 @@ const closeEditModal = () => {
                 v-model="selectedCampusValue"
                 v-model:open="open"
               >
-                <Anchor
-                  class="input"
-                >
+                <Anchor class="input">
                   <IconsIconLocale class="w-2 h-2 text-ldsa-green-1 mr-1" />
                   <Input
                     v-model="search"
@@ -168,13 +167,13 @@ const closeEditModal = () => {
                     side="bottom"
                     align="start"
                   >
-                    <Viewport>
+                    <Viewport class="text-[11px]">
                       <NoResultsState
                         class="text-ldsa-grey font-normal px-3 py-2 min-h-[2.25rem] flex items-start"
                       >
                         Nenhum resultado encontrado
                       </NoResultsState>
-                      <AutocompleteItem
+                      <AutoCompleteItem
                         v-for="item in filteredCampi"
                         :key="item.value"
                         :item="item"
