@@ -49,19 +49,48 @@ const selectedCampusValue = computed({
   set: val => (selectedCampusGlobalState.value = val),
 });
 
+const { data: userVinculosResponse } = useQuery({
+  queryKey: ['usuarios', user.id, 'vinculos'],
+  queryFn: () =>
+    client.perfis.perfilList({
+      filterUsuarioId: [user.id],
+      filterAtivo: ['true'],
+    }),
+});
+
+// pegar apenas os campi do usuário do perfil
+const userCampusItems = computed(() =>
+  (userVinculosResponse.value?.data ?? [])
+    .map(v => ({
+      label: v.campus?.apelido ?? 'Desconhecido',
+      value: v.campus?.id,
+    }))
+    .filter((c, i, arr) => arr.findIndex(a => a.value === c.value) === i) // remove duplicados
+);
+
 const search = ref('');
 const open = ref(false);
 
-const campusItems = computed(() =>
-  toggleCampusItems.map(c => ({ label: c.label, value: c.value }))
-);
+// estado local para o select (apenas visualização)
+const selectedCampusLocal = ref(userCampusItems.value[0]?.value ?? '');
 
-const filteredCampi = computed(() => {
-  const term = search.value.trim().toLowerCase();
-  return term
-    ? toggleCampusItems.filter(c => c.label.toLowerCase().includes(term))
-    : toggleCampusItems; // retorna todos se search vazio
+// query de vínculos agora depende do campus do select local
+const { data: vinculosResponse } = useQuery({
+  queryKey: ['usuarios', user.id, 'vinculos', selectedCampusLocal],
+  queryFn: () =>
+    client.perfis.perfilList({
+      filterUsuarioId: [user.id],
+      filterAtivo: ['true'],
+      filterCampusId: [selectedCampusLocal.value],
+    }),
 });
+
+// vinculos filtrados pelo valor local
+const vinculos = computed(() =>
+  (vinculosResponse.value?.data ?? []).filter(
+    v => v.campus?.id === selectedCampusLocal.value
+  )
+);
 
 const campusAtual = computed(
   () =>
@@ -70,22 +99,6 @@ const campusAtual = computed(
     ) ?? { label: 'Carregando campus...' }
 );
 const moreThanOneCampus = computed(() => toggleCampusItems.length > 1);
-
-const { data: vinculosResponse } = useQuery({
-  queryKey: ['usuarios', user.id, 'vinculos', selectedCampusValue],
-  queryFn: () =>
-    client.perfis.perfilList({
-      filterUsuarioId: [user.id],
-      filterAtivo: ['true'],
-      filterCampusId: [selectedCampusValue.value],
-    }),
-});
-
-const vinculos = computed(() =>
-  (vinculosResponse.value?.data ?? []).filter(
-    v => v.campus?.id === selectedCampusValue.value
-  )
-);
 
 const vinculosBadges = computed(() => {
   const seen = new Set<string>();
@@ -137,7 +150,7 @@ const closeEditModal = () => {
           <template v-if="moreThanOneCampus">
             <div class="w-auto">
               <AutocompleteRoot
-                v-model="selectedCampusValue"
+                v-model="selectedCampusLocal"
                 v-model:open="open"
               >
                 <Anchor class="input">
