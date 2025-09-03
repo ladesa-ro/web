@@ -195,13 +195,13 @@ const closeEditModal = () => {
               v-for="(v, index) in vinculosBadges"
               :key="index"
               :class="[
-                'flex items-center gap-1 px-3 py-2 rounded-xl border-2 font-semibold text-sm',
+                'flex items-center gap-1 px-2 py-1 rounded-xl border-2 font-semibold text-[11px]',
                 v.border,
                 'text-ldsa-text-green',
               ]"
             >
               {{ v.label }}
-              <component :is="v.icon" class="w-4 h-4" />
+              <component :is="v.icon" class="w-3 h-3" />
             </span>
           </div>
         </span>
