@@ -138,7 +138,7 @@ const closeEditModal = () => {
                 <Anchor
                   class="input"
                 >
-                  <IconsIconLocale class="w-3 h-3 text-ldsa-green-1" />
+                  <IconsIconLocale class="w-2 h-2 text-ldsa-green-1 mr-1" />
                   <Input
                     v-model="search"
                     placeholder="Selecione um campus"
@@ -234,7 +234,7 @@ const closeEditModal = () => {
 
 .input {
   @apply relative flex justify-between border-2 rounded-lg;
-  @apply h-7 min-h-0 px-2 max-w-39 text-sm font-medium text-center text-ldsa-text-default data-[placeholder]:text-ldsa-grey/90;
+  @apply h-7 min-h-0 px-2 max-w-41 text-sm font-medium text-center text-ldsa-text-default data-[placeholder]:text-ldsa-grey/90;
   @apply focus-within:border-ldsa-green-2 focus-visible:outline-none disabled:cursor-not-allowed;
 }
 
