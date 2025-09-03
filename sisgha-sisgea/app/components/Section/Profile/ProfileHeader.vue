@@ -16,7 +16,7 @@ import {
 import { computed, ref } from 'vue';
 import Arrow from '~/components/Icons/Arrow/Arrow.vue';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
-import AutoCompleteItem from '../../UI/Form/OptionFields/Item.vue'
+import AutoCompleteItem from '../../UI/Form/OptionFields/Item.vue';
 
 type Props = { user: UsuarioFindOneOutput };
 const { user } = defineProps<Props>();
@@ -42,6 +42,7 @@ const toggleCampusItems = campiList.map(c => ({
   label: c.apelido,
   value: c.id,
 }));
+
 const selectedCampusGlobalState = useCampusContext() as Ref<string>;
 const selectedCampusValue = computed({
   get: () => selectedCampusGlobalState.value,
@@ -51,13 +52,16 @@ const selectedCampusValue = computed({
 const search = ref('');
 const open = ref(false);
 
-const filteredCampi = computed(() =>
-  search.value
-    ? toggleCampusItems.filter(c =>
-        c.label.toLowerCase().includes(search.value.toLowerCase())
-      )
-    : toggleCampusItems
+const campusItems = computed(() =>
+  toggleCampusItems.map(c => ({ label: c.label, value: c.value }))
 );
+
+const filteredCampi = computed(() => {
+  const term = search.value.trim().toLowerCase();
+  return term
+    ? toggleCampusItems.filter(c => c.label.toLowerCase().includes(term))
+    : toggleCampusItems; // retorna todos se search vazio
+});
 
 const campusAtual = computed(
   () =>
@@ -145,7 +149,8 @@ const closeEditModal = () => {
                     class="text-center w-auto h-full text-[0.6rem] shrink max-w-fit"
                     :display-value="
                       value =>
-                        filteredCampi.find(i => i.value === value)?.label || ''
+                        toggleCampusItems.find(i => i.value === value)?.label ||
+                        ''
                     "
                   />
 
@@ -174,9 +179,9 @@ const closeEditModal = () => {
                         Nenhum resultado encontrado
                       </NoResultsState>
                       <AutoCompleteItem
-                        v-for="item in filteredCampi"
-                        :key="item.value"
-                        :item="item"
+                        v-for="campus in campiList"
+                        :key="campus.id"
+                        :item="{ label: campus.apelido, value: campus.id }"
                         mode="autocomplete"
                       />
                     </Viewport>
