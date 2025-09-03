@@ -130,28 +130,29 @@ const closeEditModal = () => {
 
         <div>
           <template v-if="moreThanOneCampus">
-            <div class="gap-1 w-auto">
+            <div class="w-auto">
               <AutocompleteRoot
                 v-model="selectedCampusValue"
                 v-model:open="open"
               >
                 <Anchor
-                  class="input flex justify-start items-center h-9 min-h-0 px-2 gap-1"
+                  class="input"
                 >
-                  <IconsIconLocale class="w-3 h-3 text-ldsa-green-1 mr-1" />
+                  <IconsIconLocale class="w-3 h-3 text-ldsa-green-1" />
                   <Input
                     v-model="search"
                     placeholder="Selecione um campus"
                     @focus="open = true"
-                    class="w-auto flex-1 h-full text-[0.6rem]"
+                    class="text-center w-auto h-full text-[0.6rem] shrink max-w-fit"
                     :display-value="
                       value =>
                         filteredCampi.find(i => i.value === value)?.label || ''
                     "
                   />
 
-                  <Trigger class="shrink-0">
+                  <Trigger>
                     <Arrow
+                      class="!w-2.5 !h-2.5"
                       :class="[
                         'text-ldsa-green-1 transition-transform duration-200',
                         open ? 'rotate-[90deg]' : 'rotate-[270deg]',
@@ -206,7 +207,9 @@ const closeEditModal = () => {
         </span>
       </section>
 
-      <SectionUsuariosModalsForm :edit-id="user.id" @close="closeEditModal" />
+      <div class="">
+        <SectionUsuariosModalsForm :edit-id="user.id" @close="closeEditModal" />
+      </div>
     </div>
   </section>
 </template>
@@ -230,29 +233,17 @@ const closeEditModal = () => {
 }
 
 .input {
-  @apply relative flex justify-between items-center border-2 rounded-lg;
-  @apply h-7 min-h-0 px-1 text-sm font-medium text-left text-ldsa-text-default data-[placeholder]:text-ldsa-grey/90;
+  @apply relative flex justify-between border-2 rounded-lg;
+  @apply h-7 min-h-0 px-2 max-w-39 text-sm font-medium text-center text-ldsa-text-default data-[placeholder]:text-ldsa-grey/90;
   @apply focus-within:border-ldsa-green-2 focus-visible:outline-none disabled:cursor-not-allowed;
 }
 
 .input {
   @apply border-ldsa-grey;
-
-  label {
-    @apply text-ldsa-grey;
-  }
 }
 
 .input:is([data-open], [data-state='open'], :focus-within) {
   @apply border-ldsa-green-2;
-
-  label {
-    @apply text-ldsa-green-2;
-  }
-}
-
-.input label {
-  @apply absolute inline bottom-9 left-5 bg-ldsa-bg px-1 text-[0.813rem] font-semibold;
 }
 
 .input ::placeholder {
