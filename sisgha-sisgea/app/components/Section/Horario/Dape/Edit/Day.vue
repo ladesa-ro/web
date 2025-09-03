@@ -30,34 +30,23 @@ onMounted(() => {
       const dropTarget = args.location.current.dropTargets[0];
 
       if (!daySchedule.value || !dropTarget) {
-        console.log('=========================');
         return;
       }
 
-      const startShiftId = args.source.data.turnoId as string;
+      const startShiftId = args.source.data.turnoId as number;
       const finishShiftId = args.location.current.dropTargets[1]?.data
-        .id as string;
+        .id as number;
 
-      const startShift = Object.values(daySchedule.value).find(shift =>
-        shift.some((cell, index) => {
-          console.log('cell.turnoId:', cell.turnoId, typeof cell.turnoId);
-          console.log('cell index:', index);
-          return cell.turnoId === startShiftId;
-        })
+      const startShift = Object.values(daySchedule.value).find(
+        shift => shift.find(cell => cell.turnoId === startShiftId) !== undefined
       );
-      console.log('=');
-
-      // console.log('args.source.data.id:', args.source.data.id, typeof args.source.data.id);
-      console.log('startShiftId:', startShiftId, typeof startShiftId);
-      console.log('finishShiftId:', finishShiftId, typeof finishShiftId);
-      console.log('startShift:', startShift, typeof startShift);
 
       let finishShift;
 
       if (startShiftId != finishShiftId) {
         finishShift = Object.values(daySchedule.value).find(
           shift =>
-            shift.findIndex(cell => cell.turnoId === finishShiftId) !== -1
+            shift.find(cell => cell.turnoId === finishShiftId) !== undefined
         );
       } else {
         finishShift = startShift;
@@ -66,7 +55,6 @@ onMounted(() => {
       if (!startShift || !finishShift) {
         console.warn('startShift = ' + JSON.stringify(startShift));
         console.warn('finishShift = ' + finishShift);
-        console.log('=========================');
         return;
       }
 
@@ -79,7 +67,6 @@ onMounted(() => {
       if (startIndex === -1 || !closestEdge) {
         console.warn('closestEdge do drop = ' + closestEdge);
         console.warn('startIndex = ' + startIndex);
-        console.log('=========================');
         return;
       }
 
@@ -89,8 +76,6 @@ onMounted(() => {
 
       if (indexOfTarget < 0) {
         console.warn('indexOfTarget = ' + indexOfTarget);
-        console.log('=========================');
-
         return;
       }
 
@@ -105,8 +90,6 @@ onMounted(() => {
         if (!startKey || !finishKey) {
           console.warn('startKey = ', startKey);
           console.warn('finishKey = ', finishKey);
-          console.log('=========================');
-
           return;
         }
 
@@ -114,7 +97,6 @@ onMounted(() => {
 
         if (!draggedItem) {
           console.warn('draggedItem = ' + draggedItem);
-          console.log('=========================');
           return;
         }
 
@@ -129,13 +111,10 @@ onMounted(() => {
 
         finishShift.splice(indexOfTarget, 0, draggedItem);
       } else {
-        const key = Object.keys(daySchedule.value)[
-          (Number(startShiftId) as number) - 1
-        ];
+        const key = Object.keys(daySchedule.value)[startShiftId];
 
         if (!key) {
           console.warn('key = ' + key);
-          console.log('=========================');
           return;
         }
 
@@ -159,10 +138,11 @@ defineEmits(['atividade-change']);
 </script>
 
 <template>
-  <div v-for="(_, key) in daySchedule">
+  <div v-for="(_, key, index) in daySchedule">
     <SectionHorarioDapeEditShift
       v-if="daySchedule[key]"
       v-model="daySchedule[key]"
+      :turno-id="index"
       @atividade-change="$emit('atividade-change')"
     />
   </div>

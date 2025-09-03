@@ -14,7 +14,7 @@ import { useShowIntervals } from '~/composables/schedule/edit/useScheduleInterva
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 
 const { turnoId, maxCapacityReached = false } = defineProps<{
-  turnoId: string;
+  turnoId: number;
   maxCapacityReached?: boolean;
 }>();
 
@@ -53,8 +53,8 @@ onMounted(() => {
       canDrag: () => horarioMeta.value.tipo !== 'intervalo',
       getInitialData: () => ({
         ...horarioMeta.value,
+        turnoId,
         type: 'cellDraggable',
-        turnoId: horarioMeta.value.turnoId ?? turnoId ?? '',
       }),
       onDrag: () => {
         horario.value?.classList.add('dragging');
@@ -162,7 +162,12 @@ const popoverOpen = ref(false);
 
       <span v-else-if="horarioMeta.tipo === 'vago'"> - </span>
 
-      <span v-else-if="horarioMeta.tipo === 'intervalo'" class="text-ldsa-text-default/50"> Intervalo </span>
+      <span
+        v-else-if="horarioMeta.tipo === 'intervalo'"
+        class="text-ldsa-text-default/50"
+      >
+        Intervalo
+      </span>
 
       <span
         v-if="horarioMeta.tipo !== 'intervalo'"

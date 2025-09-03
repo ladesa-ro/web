@@ -5,12 +5,14 @@ import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 
+const { turnoId } = defineProps<{
+  turnoId: number;
+}>();
+
 const shiftSchedule = defineModel<Cell[]>({
   default: [],
   required: true,
 });
-
-const turnoId = crypto.randomUUID();
 
 shiftSchedule.value = shiftSchedule.value.map(horario => ({
   ...horario,
@@ -39,6 +41,10 @@ onMounted(() => {
       getData: () => ({ id: turnoId, maxCapacity, type: 'shiftDropTarget' }),
 
       canDrop: ({ source }) => {
+        if (source.data.type !== 'cellDraggable') {
+          return false;
+        }
+
         if (source.data.turnoId == turnoId) {
           maxCapacityReached.value = true;
           return true;

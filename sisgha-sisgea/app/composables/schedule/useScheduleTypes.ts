@@ -26,9 +26,7 @@ export type HorarioType = HorarioEditavelType | HorarioNaoEditavelType;
 
 export type HorarioEditavel = {
   diaSemana: string;
-
-  // TODO: adicionar lugar que provê valor de turnoId (talvez na divisão de turnos)
-  turnoId?: string;
+  turnoId?: number;
 };
 
 //
@@ -54,7 +52,7 @@ export type Aula = HorarioBase &
 
 export type Vago = HorarioBase & HorarioEditavel & { tipo: 'vago' };
 
-export type Intervalo = HorarioBase & { tipo: 'intervalo'; turnoId?: string };
+export type Intervalo = HorarioBase & { tipo: 'intervalo'; turnoId?: number };
 
 export type quebraTurno = HorarioBase & { tipo: 'quebraTurno' };
 
@@ -96,6 +94,6 @@ export type DiaEditavelEmTurnos = {
   [key: string]: ((Aula | Vago) & HorDayjs)[];
 };
 
-export type WeekdayMeta = {data: string , weekday: string};
+export type WeekdayMeta = { data: string; weekday: string };
 
 export type WeekSchedule = Map<WeekdayMeta, DiaEditavelEmTurnos>;
