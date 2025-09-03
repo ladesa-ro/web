@@ -1,8 +1,11 @@
 <script lang="ts" setup>
+import { IconsEducator, IconsUser } from '#components';
+import { useCampusContext, useUserCargoAndCampi } from '#imports';
+import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput } from '@ladesa-ro/management-service-client';
+import { useQuery } from '@tanstack/vue-query';
 import {
   ComboboxAnchor as Anchor,
   ComboboxRoot as AutocompleteRoot,
-  ComboboxCancel as Cancel,
   ComboboxContent as Content,
   ComboboxInput as Input,
   ComboboxEmpty as NoResultsState,
@@ -10,30 +13,34 @@ import {
   ComboboxTrigger as Trigger,
   ComboboxViewport as Viewport,
 } from 'reka-ui';
-import { IconsClose, IconsEducator, IconsUser } from '#components';
-import { useCampusContext, useUserCargoAndCampi } from '#imports';
-import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput } from '@ladesa-ro/management-service-client';
-import { useQuery } from '@tanstack/vue-query';
-import uniq from 'lodash/uniq';
-import { computed, ref, watch } from 'vue';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
+import { computed, ref } from 'vue';
 import Arrow from '~/components/Icons/Arrow/Arrow.vue';
-import AutoCompleteItem from '../../UI/Form/OptionFields/Item.vue';
+import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = { user: UsuarioFindOneOutput };
 const { user } = defineProps<Props>();
 
-const profilePictureUrl = useApiImageRoute(ApiImageResource.USUARIO_PROFILE, user);
+const profilePictureUrl = useApiImageRoute(
+  ApiImageResource.USUARIO_PROFILE,
+  user
+);
 
 const { campiList } = useUserCargoAndCampi();
 const client = useApiClient();
 
 const roleConfig = {
-  professor: { label: 'Professor', border: 'border-ldsa-green-1', icon: IconsEducator },
+  professor: {
+    label: 'Professor',
+    border: 'border-ldsa-green-1',
+    icon: IconsEducator,
+  },
   dape: { label: 'DAPE', border: 'border-ldsa-green-1', icon: IconsUser },
 };
 
-const toggleCampusItems = campiList.map(c => ({ label: c.apelido, value: c.id }));
+const toggleCampusItems = campiList.map(c => ({
+  label: c.apelido,
+  value: c.id,
+}));
 const selectedCampusGlobalState = useCampusContext() as Ref<string>;
 const selectedCampusValue = computed({
   get: () => selectedCampusGlobalState.value,
@@ -45,11 +52,18 @@ const open = ref(false);
 
 const filteredCampi = computed(() =>
   search.value
-    ? toggleCampusItems.filter(c => c.label.toLowerCase().includes(search.value.toLowerCase()))
+    ? toggleCampusItems.filter(c =>
+        c.label.toLowerCase().includes(search.value.toLowerCase())
+      )
     : toggleCampusItems
 );
 
-const campusAtual = computed(() => toggleCampusItems.find(c => c.value === selectedCampusGlobalState.value) ?? { label: 'Carregando campus...' });
+const campusAtual = computed(
+  () =>
+    toggleCampusItems.find(
+      c => c.value === selectedCampusGlobalState.value
+    ) ?? { label: 'Carregando campus...' }
+);
 const moreThanOneCampus = computed(() => toggleCampusItems.length > 1);
 
 const { data: vinculosResponse } = useQuery({
@@ -62,14 +76,21 @@ const { data: vinculosResponse } = useQuery({
     }),
 });
 
-const vinculos = computed(() => (vinculosResponse.value?.data ?? []).filter(v => v.campus?.id === selectedCampusValue.value));
+const vinculos = computed(() =>
+  (vinculosResponse.value?.data ?? []).filter(
+    v => v.campus?.id === selectedCampusValue.value
+  )
+);
 
 const vinculosBadges = computed(() => {
   const seen = new Set<string>();
   const badges: (typeof roleConfig)[keyof typeof roleConfig][] = [];
   for (const v of vinculos.value) {
     const key = v.cargo?.toLowerCase() ?? '';
-    const badge = key in roleConfig ? roleConfig[key as keyof typeof roleConfig] : { label: v.cargo, border: 'border-gray-400', icon: IconsUser };
+    const badge =
+      key in roleConfig
+        ? roleConfig[key as keyof typeof roleConfig]
+        : { label: v.cargo, border: 'border-gray-400', icon: IconsUser };
     if (!seen.has(badge.label)) {
       badges.push(badge);
       seen.add(badge.label);
@@ -79,7 +100,9 @@ const vinculosBadges = computed(() => {
 });
 
 const showEditModal = ref(false);
-const closeEditModal = () => { showEditModal.value = false; };
+const closeEditModal = () => {
+  showEditModal.value = false;
+};
 </script>
 
 <template>
@@ -95,43 +118,67 @@ const closeEditModal = () => { showEditModal.value = false; };
         </template>
       </UIImg>
 
-      <section class="profile-metadata text-xs font-medium max-[400px]:text-center">
+      <section
+        class="profile-metadata text-xs font-medium max-[400px]:text-center"
+      >
         <span>
-          <h1 class="font-semibold text-sm lg:text-base text-wrap">{{ user.nome }}</h1>
+          <h1 class="font-semibold text-sm lg:text-base text-wrap">
+            {{ user.nome }}
+          </h1>
           <p class="text-ldsa-grey text-wrap break-words">{{ user.email }}</p>
         </span>
 
         <div>
           <template v-if="moreThanOneCampus">
-            <div class="flex items-center justify-center gap-1 w-full max-w-xs">
-              <AutocompleteRoot v-model="selectedCampusValue" v-model:open="open">
-                <Anchor class="input-base flex justify-between items-center">
+            <div class="gap-1 w-auto">
+              <AutocompleteRoot
+                v-model="selectedCampusValue"
+                v-model:open="open"
+              >
+                <Anchor
+                  class="input flex justify-start items-center h-9 min-h-0 px-2 gap-1"
+                >
+                  <IconsIconLocale class="w-3 h-3 text-ldsa-green-1 mr-1" />
                   <Input
                     v-model="search"
                     placeholder="Selecione um campus"
                     @focus="open = true"
-                    class="w-full h-full"
-                    :display-value="value => filteredCampi.find(i => i.value === value)?.label || ''"
+                    class="w-auto flex-1 h-full text-[0.6rem]"
+                    :display-value="
+                      value =>
+                        filteredCampi.find(i => i.value === value)?.label || ''
+                    "
                   />
-                  <Cancel
-                    v-if="selectedCampusValue"
-                    @click="selectedCampusValue = toggleCampusItems[0]?.value ?? ''"
-                    class="p-1.5 bg-ldsa-grey/20 rounded-full"
-                  >
-                    <IconsClose class="w-2.5 h-2.5 text-ldsa-text-default/50" />
-                  </Cancel>
-                  <Trigger class="px-3 py-4 shrink-0">
-                    <Arrow :open="open" />
+
+                  <Trigger class="shrink-0">
+                    <Arrow
+                      :class="[
+                        'text-ldsa-green-1 transition-transform duration-200',
+                        open ? 'rotate-[90deg]' : 'rotate-[270deg]',
+                      ]"
+                    />
                   </Trigger>
                 </Anchor>
 
                 <Portal>
-                  <Content class="input-base-content w-(--reka-combobox-trigger-width) z-[10000] bg-ldsa-bg rounded-lg shadow-lg" position="popper" side="bottom" align="start">
+                  <Content
+                    class="input-base-content w-(--reka-combobox-trigger-width) z-[10000] bg-ldsa-bg rounded-lg shadow-lg"
+                    position="popper"
+                    side="bottom"
+                    align="start"
+                  >
                     <Viewport>
-                      <NoResultsState class="flex items-center px-3 font-normal text-ldsa-grey h-(--reka-combobox-trigger-height)">
+                      <NoResultsState
+                        class="text-ldsa-grey font-normal px-3 py-2 min-h-[2.25rem] flex items-start"
+                      >
                         Nenhum resultado encontrado
                       </NoResultsState>
-                      <AutocompleteItem v-for="item in filteredCampi" :key="item.value" :item="item" mode="autocomplete" />
+                      <AutocompleteItem
+                        v-for="item in filteredCampi"
+                        :key="item.value"
+                        :item="item"
+                        mode="autocomplete"
+                      />
                     </Viewport>
                   </Content>
                 </Portal>
@@ -146,15 +193,17 @@ const closeEditModal = () => { showEditModal.value = false; };
             <span
               v-for="(v, index) in vinculosBadges"
               :key="index"
-              :class="['flex items-center gap-1 px-3 py-2 rounded-xl border-2 font-semibold text-sm', v.border, 'text-ldsa-text-green']"
+              :class="[
+                'flex items-center gap-1 px-3 py-2 rounded-xl border-2 font-semibold text-sm',
+                v.border,
+                'text-ldsa-text-green',
+              ]"
             >
               {{ v.label }}
               <component :is="v.icon" class="w-4 h-4" />
             </span>
           </div>
         </span>
-
-        
       </section>
 
       <SectionUsuariosModalsForm :edit-id="user.id" @close="closeEditModal" />
@@ -181,8 +230,8 @@ const closeEditModal = () => { showEditModal.value = false; };
 }
 
 .input {
-  @apply relative flex justify-between items-center px-1 w-full min-h-12 border-2 rounded-lg;
-  @apply font-medium text-left text-ldsa-text-default data-[placeholder]:text-ldsa-grey/90;
+  @apply relative flex justify-between items-center border-2 rounded-lg;
+  @apply h-7 min-h-0 px-1 text-sm font-medium text-left text-ldsa-text-default data-[placeholder]:text-ldsa-grey/90;
   @apply focus-within:border-ldsa-green-2 focus-visible:outline-none disabled:cursor-not-allowed;
 }
 
