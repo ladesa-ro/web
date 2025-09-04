@@ -13,7 +13,12 @@ import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 import { useShowIntervals } from '~/composables/schedule/edit/useScheduleIntervals';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 
-const { turnoId, maxCapacityReached = false } = defineProps<{
+const {
+  turnoId,
+  dayId,
+  maxCapacityReached = false,
+} = defineProps<{
+  dayId: number;
   turnoId: number;
   maxCapacityReached?: boolean;
 }>();
@@ -50,37 +55,46 @@ onMounted(() => {
   cleanup = combine(
     draggable({
       element: horario.value,
+
       canDrag: () => horarioMeta.value.tipo !== 'intervalo',
+
       getInitialData: () => ({
         ...horarioMeta.value,
+        dayId,
         turnoId,
         type: 'cellDraggable',
       }),
+
       onDrag: () => {
         horario.value?.classList.add('dragging');
       },
+
       onDrop: () => {
         horario.value?.classList.remove('dragging');
       },
     }),
+
     dropTargetForElements({
       element: horario.value,
-      getData: ({ input, element }) => {
-        return attachClosestEdge(
+
+      getData: ({ input, element }) =>
+        attachClosestEdge(
           { ...horarioMeta.value, type: 'cellDropTarget' },
           {
             input,
             element,
             allowedEdges: ['top', 'bottom'],
           }
-        );
-      },
+        ),
+
       getIsSticky: () => true,
+
       onDragEnter({ self }) {
         const closestEdge = extractClosestEdge(self.data);
 
         dropTargState.value = { status: 'draggingAndHovering', closestEdge };
       },
+
       onDrag({ self }) {
         const closestEdge = extractClosestEdge(self.data);
 
@@ -92,9 +106,11 @@ onMounted(() => {
           dropTargState.value = { status: 'draggingAndHovering', closestEdge };
         }
       },
+
       onDragLeave: () => {
         dropTargState.value.status = 'idle';
       },
+
       onDrop: () => {
         dropTargState.value.status = 'idle';
       },
@@ -150,7 +166,7 @@ const popoverOpen = ref(false);
     <div
       ref="horario"
       id="horario"
-      class="relative box-border text-center h-6.5 flex justify-center items-center text-[0.813rem] font-medium"
+      class="relative box-border text-center h-6 flex justify-center items-center text-[0.813rem] font-medium"
       :class="{
         'text-ldsa-text-green dark:brightness-115': active,
         'bg-ldsa-grey/20': horarioMeta.tipo === 'intervalo' && !active,

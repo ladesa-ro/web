@@ -1,5 +1,9 @@
-import type { Aula, HorDayjs, Intervalo, Vago } from "../useScheduleTypes";
+import type { Aula, HorDayjs, Intervalo, Vago } from '../useScheduleTypes';
 
-export type Cell = ((Aula | Vago | Intervalo) & HorDayjs);
+export type Cell = (Aula | Vago | Intervalo) & HorDayjs;
 
-export type Shift = { id: string, maxCapacity: number };
+export type Shift = {
+  turnoId: string;
+  dayId: number;
+  maxCapacity: number;
+};
