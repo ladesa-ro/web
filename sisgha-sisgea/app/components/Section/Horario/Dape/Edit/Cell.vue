@@ -166,7 +166,7 @@ const popoverOpen = ref(false);
     <div
       ref="horario"
       id="horario"
-      class="relative box-border text-center h-6 flex justify-center items-center text-[0.813rem] font-medium"
+      class="relative box-border text-center h-[1.4375rem] 2xl:h-6 flex justify-center items-center text-[0.813rem] font-medium"
       :class="{
         'text-ldsa-text-green dark:brightness-115': active,
         'bg-ldsa-grey/20': horarioMeta.tipo === 'intervalo' && !active,

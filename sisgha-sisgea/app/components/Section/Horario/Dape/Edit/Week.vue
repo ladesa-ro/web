@@ -11,7 +11,10 @@ import {
   temposDeAulaExemplo,
 } from '~/composables/schedule/EXEMPLO';
 import type {
+  Aula,
   DiaEditavelEmTurnos,
+  HorDayjs,
+  Vago,
   WeekSchedule,
 } from '~/composables/schedule/useScheduleTypes';
 import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
@@ -73,28 +76,41 @@ onMounted(() => {
     onDrop: args => {
       const dropTarget = args.location.current.dropTargets[0];
 
-      const dayScheduleId = args.source.data.dayId as number;
-      const daySchedule = weekScheduleEditable.value[dayScheduleId]?.schedule;
+      const startDayScheduleId = args.source.data.dayId as number;
+      const startDaySchedule =
+        weekScheduleEditable.value[startDayScheduleId]?.schedule;
 
-      if (!daySchedule || !dropTarget) {
-        console.warn('daySchedule = ' + daySchedule);
+      if (!startDaySchedule || !dropTarget) {
+        console.warn('startDaySchedule = ' + startDaySchedule);
         return;
       }
+
+      //
 
       const startShiftId = args.source.data.turnoId as number;
       const finishShiftId = args.location.current.dropTargets[1]?.data
         .id as number;
 
-      const startShift = Object.values(daySchedule).find(
-        shift => shift.find(cell => cell.turnoId === startShiftId) !== undefined
-      );
+      const startShift: ((Aula | Vago) & HorDayjs)[] | undefined =
+        Object.values(startDaySchedule).find(shift =>
+          shift.some(cell => cell.turnoId === startShiftId)
+        );
 
-      let finishShift;
+      let finishShift: ((Aula | Vago) & HorDayjs)[] | undefined;
 
       if (startShiftId != finishShiftId) {
-        finishShift = Object.values(daySchedule).find(
+        const finishDaySchedule =
+          weekScheduleEditable.value[dropTarget.data.dayId as number]?.schedule;
+
+        if (!finishDaySchedule) {
+          console.warn('finishDaySchedule = ' + finishDaySchedule);
+          return;
+        }
+
+        finishShift = Object.values(finishDaySchedule).find(
           shift =>
-            shift.find(cell => cell.turnoId === finishShiftId) !== undefined
+            Array.isArray(shift) &&
+            shift.some(cell => cell.turnoId === finishShiftId)
         );
       } else {
         finishShift = startShift;
@@ -102,7 +118,7 @@ onMounted(() => {
 
       if (!startShift || !finishShift) {
         console.warn('startShift = ' + JSON.stringify(startShift));
-        console.warn('finishShift = ' + finishShift);
+        console.warn('finishShift = ' + JSON.stringify(finishShift));
         return;
       }
 
@@ -122,14 +138,17 @@ onMounted(() => {
         horario => horario.id === dropTarget.data.id
       );
 
-      if (indexOfTarget < 0) {
+      if (indexOfTarget === -1) {
         console.warn('indexOfTarget = ' + indexOfTarget);
+        console.log(
+          'finishShift = ' + JSON.stringify(finishShift.map(h => h.turnoId))
+        );
         return;
       }
 
       if (startShiftId != finishShiftId) {
-        const startKey = Object.keys(daySchedule)[startShiftId - 1];
-        const finishKey = Object.keys(daySchedule)[finishShiftId - 1];
+        const startKey = Object.keys(startDaySchedule)[startShiftId];
+        const finishKey = Object.keys(startDaySchedule)[finishShiftId];
 
         if (!startKey || !finishKey) {
           console.warn('startKey = ', startKey);
@@ -137,7 +156,8 @@ onMounted(() => {
           return;
         }
 
-        const draggedItem = startShift.splice(startIndex, 1)[0];
+        const draggedItem: (Aula & HorDayjs) | (Vago & HorDayjs) | undefined =
+          startShift.splice(startIndex, 1)[0];
 
         if (!draggedItem) {
           console.warn('draggedItem = ' + draggedItem);
@@ -146,23 +166,16 @@ onMounted(() => {
 
         draggedItem.turnoId = finishShiftId;
 
-        const finishShift = daySchedule[finishKey];
-
-        if (!finishShift) {
-          console.warn('finishShift = ' + finishShift);
-          return;
-        }
-
         finishShift.splice(indexOfTarget, 0, draggedItem);
       } else {
-        const key = Object.keys(daySchedule)[startShiftId];
+        const key = Object.keys(startDaySchedule)[startShiftId];
 
         if (!key) {
           console.warn('key = ' + key);
           return;
         }
 
-        daySchedule[key] = reorderWithEdge({
+        startDaySchedule[key] = reorderWithEdge({
           list: startShift,
           startIndex,
           indexOfTarget,
@@ -171,7 +184,8 @@ onMounted(() => {
         });
       }
 
-      weekScheduleEditable.value[dayScheduleId]!.schedule = daySchedule;
+      weekScheduleEditable.value[startDayScheduleId]!.schedule =
+        startDaySchedule;
     },
   });
 });
@@ -182,7 +196,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div v-for="(day, dayIndex) in weekScheduleEditable" :key="dayIndex">
+  <template v-for="(day, dayIndex) in weekScheduleEditable" :key="dayIndex">
     <template v-for="(shift, shiftName, shiftIndex) of day.schedule">
       <SectionHorarioDapeEditShift
         v-if="shift"
@@ -192,5 +206,5 @@ onUnmounted(() => {
         @atividade-change="weekScheduleHistory.commit()"
       />
     </template>
-  </div>
+  </template>
 </template>

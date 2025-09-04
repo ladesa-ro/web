@@ -18,6 +18,7 @@ const shiftSchedule = defineModel<Cell[]>({
 shiftSchedule.value = shiftSchedule.value.map(horario => ({
   ...horario,
   turnoId,
+  dayId,
 }));
 
 //
@@ -74,7 +75,7 @@ defineEmits(['atividade-change']);
 <template>
   <div
     ref="shift"
-    class="flex flex-col justify-start my-5 translate-z-0 will-change-transform w-50 mx-auto p-0"
+    class="flex flex-col justify-start translate-z-0 will-change-transform w-50 my-5 mx-auto p-0 min-h-[1.4375rem]"
   >
     <SectionHorarioDapeEditCell
       v-for="(horario, index) in shiftSchedule"
