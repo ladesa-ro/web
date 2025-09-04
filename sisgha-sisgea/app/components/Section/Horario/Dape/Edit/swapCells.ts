@@ -1,46 +1,52 @@
+import { computed, type Ref } from 'vue';
 import type { UseRefHistoryReturn } from '@vueuse/core';
 import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
-import type { DiaEditavelEmTurnos } from '~/composables/schedule/useScheduleTypes';
+import type { Aula, DiaEditavelEmTurnos, HorDayjs, Vago, WeekdayMeta } from '~/composables/schedule/useScheduleTypes';
 
 export const swapCells = (
-  dia: Ref<DiaEditavelEmTurnos>,
-  horariosHistory: UseRefHistoryReturn<DiaEditavelEmTurnos, DiaEditavelEmTurnos>
+  weekSchedule: Ref<Map<WeekdayMeta, DiaEditavelEmTurnos>>,
+  scheduleHistory: UseRefHistoryReturn<Map<WeekdayMeta, DiaEditavelEmTurnos>, Map<WeekdayMeta, DiaEditavelEmTurnos>>
 ) => {
   const ativosIndex: number[] = [];
-  const colunasIdx: number[] = [];
   const colunas: Cell[][] = [];
-
-  //
+  const metas: WeekdayMeta[] = [];
+  const dias: DiaEditavelEmTurnos[] = [];
+  const turnoKeys: string[] = [];
 
   const ativos = useSelectedCells({ action: 'getAll' });
 
-  if (!ativos || !ativos.value || ativos.value.size < 2) {
-    return;
-  }
+  if (!ativos || !ativos.value || ativos.value.size < 2) return;
 
   ativos.value.forEach(horarioAtivoId => {
-    let ativoIndex;
+    let found = false;
 
-    const coluna = Object.values(dia.value).find(coluna => {
-      const findActiveIndex = coluna.findIndex((horario, horIdx) => {
-        if (horario.id === horarioAtivoId) {
-          colunasIdx.push(Number(horario.turnoId ?? '0') - 1);
-          ativoIndex = horIdx;
-          return true;
+    for (const [meta, dia] of weekSchedule.value.entries()) {
+      const diaKeys = Object.keys(dia);
+      for (const key of diaKeys) {
+        const coluna = (dia as any)[key] as Cell[] | undefined;
+        if (!Array.isArray(coluna)) continue;
+
+        const findActiveIndex = coluna.findIndex((horario, horIdx) => {
+          if (!horario) return false;
+          return horario.id === horarioAtivoId;
+        });
+
+        if (findActiveIndex !== -1) {
+          metas.push(meta);
+          dias.push(dia);
+          turnoKeys.push(key);
+          colunas.push(coluna);
+          ativosIndex.push(findActiveIndex);
+          found = true;
+          break;
         }
-      });
-
-      if (findActiveIndex !== -1) {
-        return true;
       }
-    });
-    if (coluna && ativoIndex !== undefined) {
-      ativosIndex.push(ativoIndex);
-      colunas.push(coluna);
+      if (found) break;
     }
   });
 
+  // precisa ter duas células encontradas
   if (
     ativosIndex[0] !== undefined &&
     ativosIndex[1] !== undefined &&
@@ -51,32 +57,34 @@ export const swapCells = (
     const second = colunas[1][ativosIndex[1]];
 
     if (first && second) {
-      if (colunasIdx[0] !== colunasIdx[1]) {
+      // se são de turnos diferentes, troca seus turnoId
+      if (turnoKeys[0] !== turnoKeys[1]) {
         [first.turnoId, second.turnoId] = [second.turnoId, first.turnoId];
       }
 
+      // faz o swap nas arrays
       [colunas[0][ativosIndex[0]], colunas[1][ativosIndex[1]]] = [
         second,
         first,
       ];
 
-      const diaKeys = Object.keys(dia.value);
+      for (let i = 0; i < 2; i++) {
+        const meta = metas[i];
+        const originalDia = dias[i];
+        const key = turnoKeys[i];
+        const updatedColumn = colunas[i]!.filter(cell => 'diaSemana' in cell) as ((Aula | Vago) & HorDayjs)[];
 
-      diaKeys.forEach((key, index) => {
-        if (index === colunasIdx[0]) {
-          // Ensure all items have 'diaSemana' before assignment
-          dia.value[key] = colunas[0]!.filter(
-            cell => 'diaSemana' in cell
-          ) as (typeof dia.value)[typeof key];
+        const newDia = { ...(originalDia as Record<string, any>) };
+        if (key !== undefined) {
+          (newDia as any)[key] = updatedColumn;
         }
-        if (index === colunasIdx[1] && colunasIdx[0] !== colunasIdx[1]) {
-          dia.value[key] = colunas[1]!.filter(
-            cell => 'diaSemana' in cell
-          ) as (typeof dia.value)[typeof key];
-        }
-      });
 
-      horariosHistory.commit();
+        if (meta !== undefined) {
+          weekSchedule.value.set(meta, newDia as DiaEditavelEmTurnos);
+        }
+      }
+
+      scheduleHistory.commit();
       useSelectedCells({ action: 'removeAll' });
     } else {
       console.warn('first = ', first);

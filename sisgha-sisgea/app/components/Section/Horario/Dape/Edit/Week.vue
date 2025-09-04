@@ -18,6 +18,7 @@ import type {
   WeekSchedule,
 } from '~/composables/schedule/useScheduleTypes';
 import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
+import { canSwap, swapCells } from './swapCells';
 
 const weekSchedule = ref(
   useWeekSchedule(temposDeAulaExemplo, aulasSemDiaSemanaExemplo)
@@ -196,6 +197,14 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <button
+    @click="swapCells(ref(weekSchedule), weekScheduleHistory)"
+    :disabled="!canSwap"
+    class="disabled:opacity-50 border-ldsa-grey border-2 rounded-lg max-w-max"
+  >
+    Fazer troca
+  </button>
+
   <template v-for="(day, dayIndex) in weekScheduleEditable" :key="dayIndex">
     <template v-for="(shift, shiftName, shiftIndex) of day.schedule">
       <SectionHorarioDapeEditShift
