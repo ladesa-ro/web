@@ -28,9 +28,9 @@ const weekScheduleHistory = useRefHistory(weekSchedule, {
 type WeekScheduleEditable = {
   data: string;
   schedule: DiaEditavelEmTurnos;
-};
+}[];
 
-const weekScheduleEditable: Ref<WeekScheduleEditable[]> = ref(
+const weekScheduleEditable: Ref<WeekScheduleEditable> = ref(
   [...weekSchedule.value.entries()].map(([dayMeta, daySchedule]) => ({
     data: dayMeta.data,
     schedule: daySchedule,
@@ -78,7 +78,6 @@ onMounted(() => {
 
       if (!daySchedule || !dropTarget) {
         console.warn('daySchedule = ' + daySchedule);
-        console.warn('dropTarget = ' + dropTarget);
         return;
       }
 
@@ -183,11 +182,15 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <template v-for="(_, idx) in weekScheduleEditable" :key="idx">
-    <SectionHorarioDapeEditDay
-      :day-id="idx"
-      v-model="weekScheduleEditable[idx]!.schedule"
-      @atividade-change="weekScheduleHistory.commit()"
-    />
-  </template>
+  <div v-for="(day, dayIndex) in weekScheduleEditable" :key="dayIndex">
+    <template v-for="(shift, shiftName, shiftIndex) of day.schedule">
+      <SectionHorarioDapeEditShift
+        v-if="shift"
+        :day-id="dayIndex"
+        :turno-id="shiftIndex"
+        v-model="weekScheduleEditable[dayIndex]!.schedule[shiftName]!"
+        @atividade-change="weekScheduleHistory.commit()"
+      />
+    </template>
+  </div>
 </template>
