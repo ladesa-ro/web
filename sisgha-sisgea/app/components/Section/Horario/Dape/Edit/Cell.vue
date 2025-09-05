@@ -17,9 +17,11 @@ const {
   turnoId,
   dayId,
   maxCapacityReached = false,
+  editMode,
 } = defineProps<{
   dayId: number;
   turnoId: number;
+  editMode?: boolean;
   maxCapacityReached?: boolean;
 }>();
 
@@ -56,7 +58,7 @@ onMounted(() => {
     draggable({
       element: horario.value,
 
-      canDrag: () => horarioMeta.value.tipo !== 'intervalo',
+      canDrag: () => horarioMeta.value.tipo !== 'intervalo' && editMode,
 
       getInitialData: () => ({
         ...horarioMeta.value,
@@ -150,7 +152,7 @@ const popoverOpen = ref(false);
       'relative not-last:border-b-[0.119565rem] nth-of-type-[2n]:mb-[0.5px] border-t-solid border-t-[transparent] border-b-2 border-b-solid border-b-ldsa-text-default/65 transform-[translateZ(0)]',
       active && 'bg-ldsa-green-2/10',
     ]"
-    @click="horarioMeta.tipo !== 'intervalo' && toggleActive()"
+    @click="horarioMeta.tipo !== 'intervalo' && editMode && toggleActive()"
   >
     <SectionHorarioDapeEditDropIndicator
       v-if="
@@ -195,6 +197,7 @@ const popoverOpen = ref(false);
         ]"
       >
         <SectionHorarioDapeEditCellEditButtons
+          v-if="editMode"
           v-model="horarioMeta"
           v-model:popover="popoverOpen"
           @atividade-change="$emit('atividade-change')"

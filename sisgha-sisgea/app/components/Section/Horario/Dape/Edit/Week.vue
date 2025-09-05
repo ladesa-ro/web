@@ -20,6 +20,8 @@ import type {
 import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
 import { canSwap, swapCells } from './swapCells';
 
+const { editMode } = defineProps<{ editMode?: boolean }>();
+
 const weekSchedule = ref(
   useWeekSchedule(temposDeAulaExemplo, aulasSemDiaSemanaExemplo)
 ) as Ref<WeekSchedule>;
@@ -64,7 +66,8 @@ let cleanup = () => {};
 
 onMounted(() => {
   cleanup = monitorForElements({
-    canMonitor: ({ source }) => source.data.type === 'cellDraggable',
+    canMonitor: ({ source }) =>
+      source.data.type === 'cellDraggable' && editMode,
 
     onDrag: ({ location }) => {
       const dropTarget = location.current.dropTargets[0];
@@ -206,12 +209,17 @@ onUnmounted(() => {
   </button>
 
   <div class="grid grid-cols-6 grid-flow-col">
-    <div class="grid grid-rows-3" v-for="(day, dayIndex) in weekScheduleEditable" :key="dayIndex">
+    <div
+      class="grid grid-rows-3"
+      v-for="(day, dayIndex) in weekScheduleEditable"
+      :key="dayIndex"
+    >
       <template v-for="(shift, shiftName, shiftIndex) of day.schedule">
         <SectionHorarioDapeEditShift
           v-if="shift"
           :day-id="dayIndex"
           :turno-id="shiftIndex"
+          :editMode
           v-model="weekScheduleEditable[dayIndex]!.schedule[shiftName]!"
           @atividade-change="weekScheduleHistory.commit()"
         />
