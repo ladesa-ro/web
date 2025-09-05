@@ -10,7 +10,6 @@ import {
   dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
-import { useShowIntervals } from '~/composables/schedule/edit/useScheduleIntervals';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 
 const {
@@ -139,7 +138,7 @@ const toggleActive = () => {
 
 defineEmits(['atividade-change']);
 
-const showIntervals = useShowIntervals();
+const showBreaks = inject('showBreaks');
 
 const popoverOpen = ref(false);
 </script>
@@ -147,7 +146,7 @@ const popoverOpen = ref(false);
 <template>
   <div
     ref="horario-father"
-    v-show="showIntervals ? true : horarioMeta.tipo !== 'intervalo'"
+    v-show="showBreaks ? true : horarioMeta.tipo !== 'intervalo'"
     :class="[
       'relative not-last:border-b-[0.119565rem] nth-of-type-[2n]:mb-[0.5px] border-t-solid border-t-[transparent] border-b-2 border-b-solid border-b-ldsa-text-default/65 transform-[translateZ(0)]',
       active && 'bg-ldsa-green-2/10',

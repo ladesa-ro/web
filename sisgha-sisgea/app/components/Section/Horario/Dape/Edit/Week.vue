@@ -20,7 +20,14 @@ import type {
 import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
 import { canSwap, swapCells } from './swapCells';
 
-const { editMode } = defineProps<{ editMode?: boolean }>();
+const { editMode, showBreaks: showBreaksProps } = defineProps<{
+  editMode?: boolean;
+  showBreaks?: boolean;
+}>();
+
+const showBreaks = computed(() => (editMode ? false : showBreaksProps));
+
+provide('showBreaks', showBreaks);
 
 const weekSchedule = ref(
   useWeekSchedule(temposDeAulaExemplo, aulasSemDiaSemanaExemplo)
