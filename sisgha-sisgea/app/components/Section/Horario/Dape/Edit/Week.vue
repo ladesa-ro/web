@@ -205,15 +205,17 @@ onUnmounted(() => {
     Fazer troca
   </button>
 
-  <template v-for="(day, dayIndex) in weekScheduleEditable" :key="dayIndex">
-    <template v-for="(shift, shiftName, shiftIndex) of day.schedule">
-      <SectionHorarioDapeEditShift
-        v-if="shift"
-        :day-id="dayIndex"
-        :turno-id="shiftIndex"
-        v-model="weekScheduleEditable[dayIndex]!.schedule[shiftName]!"
-        @atividade-change="weekScheduleHistory.commit()"
-      />
-    </template>
-  </template>
+  <div class="grid grid-cols-6 grid-flow-col">
+    <div class="grid grid-rows-3" v-for="(day, dayIndex) in weekScheduleEditable" :key="dayIndex">
+      <template v-for="(shift, shiftName, shiftIndex) of day.schedule">
+        <SectionHorarioDapeEditShift
+          v-if="shift"
+          :day-id="dayIndex"
+          :turno-id="shiftIndex"
+          v-model="weekScheduleEditable[dayIndex]!.schedule[shiftName]!"
+          @atividade-change="weekScheduleHistory.commit()"
+        />
+      </template>
+    </div>
+  </div>
 </template>
