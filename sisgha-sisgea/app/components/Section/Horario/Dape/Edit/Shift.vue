@@ -76,7 +76,7 @@ defineEmits(['atividade-change']);
 <template>
   <div
     ref="shift"
-    class="flex flex-col justify-start translate-z-0 will-change-transform w-50 my-5 mx-auto p-0 min-h-[1.4375rem]"
+    class="flex flex-col justify-start translate-z-0 will-change-transform w-50 p-0 min-h-[1.4375rem]"
   >
     <SectionHorarioDapeEditCell
       v-for="(horario, index) in shiftSchedule"

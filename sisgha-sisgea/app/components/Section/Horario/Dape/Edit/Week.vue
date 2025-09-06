@@ -217,11 +217,14 @@ onUnmounted(() => {
 
   <div class="grid grid-cols-6 grid-flow-col">
     <div
-      class="grid grid-rows-3"
+      class="grid grid-rows-3 gap-10 justify-center"
       v-for="(day, dayIndex) in weekScheduleEditable"
       :key="dayIndex"
     >
-      <template v-for="(shift, shiftName, shiftIndex) of day.schedule">
+      <template
+        v-for="(shift, shiftName, shiftIndex) of day.schedule"
+        :key="shiftIndex"
+      >
         <SectionHorarioDapeEditShift
           v-if="shift"
           :day-id="dayIndex"

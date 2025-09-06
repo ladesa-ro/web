@@ -125,13 +125,14 @@ onUnmounted(() => {
 
 //
 
-const active = ref(false);
+const active = computed(() =>
+  useSelectedCells({ action: 'getAll' })!.value.has(horarioMeta.value.id)
+);
 
 const toggleActive = () => {
-  active.value = !active.value;
   active.value
-    ? useSelectedCells({ action: 'addOne', id: horarioMeta.value.id })
-    : useSelectedCells({ action: 'removeOne', id: horarioMeta.value.id });
+    ? useSelectedCells({ action: 'removeOne', id: horarioMeta.value.id })
+    : useSelectedCells({ action: 'addOne', id: horarioMeta.value.id });
 };
 
 //
