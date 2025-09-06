@@ -2,7 +2,6 @@
 // # IMPORT
 import dayjs from 'dayjs';
 import { useForm } from 'vee-validate';
-import { ref } from 'vue';
 import * as yup from 'yup';
 import type { CalendarEvent } from '../../Types';
 

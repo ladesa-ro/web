@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import RelatorioAulaLinha from './Line/Line.vue';
-import { ref } from 'vue';
 
 const props = defineProps<{
   titulo: string;

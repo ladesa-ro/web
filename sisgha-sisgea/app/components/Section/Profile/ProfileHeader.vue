@@ -4,8 +4,6 @@ import { useCampusContext, useUserCargoAndCampi } from '#imports';
 import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput } from '@ladesa-ro/management-service-client';
 import { useQuery } from '@tanstack/vue-query';
 import uniq from 'lodash/uniq';
-import type { Ref } from 'vue';
-import { computed } from 'vue';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = { user: UsuarioFindOneOutput };

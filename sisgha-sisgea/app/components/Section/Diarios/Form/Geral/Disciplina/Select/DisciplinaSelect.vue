@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { computed, ref, unref } from 'vue';
 import { useContextDiariosFormGeral } from '../../Contexto';
 
 const $emit = defineEmits(['close', 'next']);

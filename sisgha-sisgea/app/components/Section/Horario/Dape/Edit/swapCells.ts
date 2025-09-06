@@ -1,4 +1,3 @@
-import { computed, type Ref } from 'vue';
 import type { UseRefHistoryReturn } from '@vueuse/core';
 import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';

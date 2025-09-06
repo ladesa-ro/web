@@ -1,10 +1,4 @@
 <script lang="ts" setup>
-import {
-  UIButtonModalCancel,
-  UIButtonModalDelete,
-  UIButtonModalSave,
-} from '#components';
-import { computed, ref, watch } from 'vue';
 import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
 import WeekdaySelector from '~/components/UI/WeekDaySelector/WeekdaySelector.vue';
