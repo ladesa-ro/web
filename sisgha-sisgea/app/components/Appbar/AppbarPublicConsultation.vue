@@ -47,7 +47,7 @@ const goBackRoute = () => {
         class="overflow-hidden relative whitespace-nowrap flex items-center h-full"
       >
         <div
-          class="inline-block max-md:pl-[100%] text-animation md:animate-none! md:truncate"
+          class="inline-block max-sm:pl-[100%] text-animation sm:animate-none! sm:truncate"
         >
           <span v-if="turmaId" class="ml-10">
             <span v-if="isLoading"> Carregando... </span>

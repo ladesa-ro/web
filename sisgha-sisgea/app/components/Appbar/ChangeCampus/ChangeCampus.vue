@@ -12,14 +12,20 @@ const selectedCampus = ref(
   selectedCampusGlobalState.value ?? toggleCampusItems[0]?.value ?? null
 );
 
+onMounted(() => {
+  if (selectedCampusGlobalState.value === null) {
+    selectedCampusGlobalState.value = selectedCampus.value;
+  }
+});
+
+//
+
 const cargos = useCampusContextCargos();
 
 const route = useRoute();
 const router = useRouter();
 
-const changeCampus = () => {
-  selectedCampusGlobalState.value = selectedCampus.value;
-
+const verifyCargo = () => {
   if (cargos.value.length > 1 || route.path.includes('sisgea')) {
     return;
   }
@@ -31,11 +37,19 @@ const changeCampus = () => {
   }
 };
 
-onMounted(() => {
-  if (selectedCampusGlobalState.value === null) {
-    selectedCampusGlobalState.value = selectedCampus.value;
+onBeforeRouteUpdate(to => {
+  if (!to.path.includes('sisgea')) {
+    verifyCargo();
   }
 });
+
+//
+
+const changeCampus = () => {
+  selectedCampusGlobalState.value = selectedCampus.value;
+  verifyCargo();
+  open.value = false;
+};
 
 //
 
@@ -92,11 +106,10 @@ const open = ref(false);
       <span class="mt-2 flex max-[350px]:flex-col justify-between gap-2">
         <UIButtonModalCancel variant="small" @click="open = false" />
 
-        <UIButtonModalCommonButtonsGreenWithCheck
-          :disabled="selectedCampusGlobalState === selectedCampus"
+        <UIButtonModalConfirm
           @click="changeCampus()"
+          :disabled="selectedCampusGlobalState === selectedCampus"
           variant="small"
-          text="Confirmar"
         />
       </span>
     </div>

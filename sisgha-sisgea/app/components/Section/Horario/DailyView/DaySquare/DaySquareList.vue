@@ -15,7 +15,9 @@ const weekDays = getWeekDays(selectedDay.value);
 </script>
 
 <template>
-  <div class="layout-size">
+  <div
+    class="flex justify-between gap-2 min-[502px]:gap-4 lg:gap-6 xl:gap-12 w-full overflow-x-auto"
+  >
     <SectionHorarioDailyViewDaySquare
       v-for="weekDay in weekDays"
       :selected="weekDay.dayMonth === activeDayMonth"
@@ -25,12 +27,3 @@ const weekDays = getWeekDays(selectedDay.value);
     />
   </div>
 </template>
-
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-.layout-size {
-  @apply flex justify-between gap-2 min-[502px]:gap-4 lg:gap-6 xl:gap-12;
-  @apply w-full overflow-x-auto;
-}
-</style>
