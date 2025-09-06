@@ -204,6 +204,17 @@ onMounted(() => {
 onUnmounted(() => {
   cleanup();
 });
+
+const getRowShiftName = (rowShift: string) => {
+  switch (rowShift) {
+    case 'manha':
+      return 'Matutino';
+    case 'tarde':
+      return 'Vespertino';
+    case 'noite':
+      return 'Noturno';
+  }
+};
 </script>
 
 <template>
@@ -217,26 +228,47 @@ onUnmounted(() => {
 
   <div
     v-for="(rowShift, rowShiftIndex) in ['manha', 'tarde', 'noite']"
-    class="grid grid-cols-6 place-items-center border-2 border-ldsa-green-1 p-2 mb-5"
-    :class="[
-      rowShiftIndex === 0 && 'rounded-t-lg',
-      rowShiftIndex === 2 && 'rounded-b-lg',
-    ]"
+    class="flex justify-center mb-5"
   >
-    <template v-for="(day, dayIndex) in weekScheduleEditable">
-      <template
-        v-for="(_, shiftName, shiftIndex) in Object.fromEntries(
-          Object.entries(day.schedule).filter(([key]) => key === rowShift)
-        )"
-      >
-        <SectionHorarioDapeEditShift
-          :day-id="dayIndex"
-          :turno-id="shiftIndex"
-          :editMode
-          v-model="weekScheduleEditable[dayIndex]!.schedule[shiftName]!"
-          @atividade-change="weekScheduleHistory.commit()"
-        />
+    <div
+      class="bg-ldsa-green-1 text-center vertical-text text-ldsa-white p-1 font-medium"
+      :class="[
+        rowShiftIndex === 0 && 'rounded-br-lg',
+        rowShiftIndex === 2 && 'rounded-tr-lg',
+      ]"
+    >
+      {{ getRowShiftName(rowShift) }}
+    </div>
+
+    <div
+      class="grid grid-cols-6 place-items-center border-2 border-ldsa-green-1 py-2 px-5 gap-5"
+      :class="[
+        rowShiftIndex === 0 && 'rounded-tr-lg',
+        rowShiftIndex === 2 && 'rounded-br-lg',
+      ]"
+    >
+      <template v-for="(day, dayIndex) in weekScheduleEditable">
+        <template
+          v-for="(_, shiftName, shiftIndex) in Object.fromEntries(
+            Object.entries(day.schedule).filter(([key]) => key === rowShift)
+          )"
+        >
+          <SectionHorarioDapeEditShift
+            :day-id="dayIndex"
+            :turno-id="shiftIndex"
+            :editMode
+            v-model="weekScheduleEditable[dayIndex]!.schedule[shiftName]!"
+            @atividade-change="weekScheduleHistory.commit()"
+          />
+        </template>
       </template>
-    </template>
+    </div>
   </div>
 </template>
+
+<style scoped>
+.vertical-text {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+}
+</style>
