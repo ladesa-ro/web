@@ -6,6 +6,7 @@ import {
 import { reorderWithEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { useRefHistory } from '@vueuse/core';
+import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 import {
   aulasSemDiaSemanaExemplo,
   temposDeAulaExemplo,
@@ -20,14 +21,24 @@ import type {
 import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
 import { canSwap, swapCells } from './swapCells';
 
-const { editMode, showBreaks: showBreaksProps } = defineProps<{
+// { editMode, showBreaks: showBreaksProps }
+const props = defineProps<{
   editMode?: boolean;
   showBreaks?: boolean;
 }>();
 
-const showBreaks = computed(() => (editMode ? false : showBreaksProps));
+const showBreaks = computed(() => (props.editMode ? false : props.showBreaks));
 
 provide('showBreaks', showBreaks);
+
+watch(
+  () => props.editMode,
+  newVal => {
+    if (!newVal) useSelectedCells({ action: 'removeAll' });
+  }
+);
+
+//
 
 const weekSchedule = ref(
   useWeekSchedule(temposDeAulaExemplo, aulasSemDiaSemanaExemplo)
@@ -74,7 +85,7 @@ let cleanup = () => {};
 onMounted(() => {
   cleanup = monitorForElements({
     canMonitor: ({ source }) =>
-      source.data.type === 'cellDraggable' && editMode,
+      source.data.type === 'cellDraggable' && props.editMode,
 
     onDrag: ({ location }) => {
       const dropTarget = location.current.dropTargets[0];
