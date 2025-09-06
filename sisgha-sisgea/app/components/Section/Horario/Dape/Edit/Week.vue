@@ -241,12 +241,30 @@ const getRowShiftName = (rowShift: string) => {
     </div>
 
     <div
-      class="grid grid-cols-6 place-items-center border-2 border-ldsa-green-1 py-2 px-5 gap-5"
+      class="grid grid-cols-[auto_repeat(6,1fr)] place-items-center border-2 border-ldsa-green-1 py-2 px-5 gap-5"
       :class="[
         rowShiftIndex === 0 && 'rounded-tr-lg',
         rowShiftIndex === 2 && 'rounded-br-lg',
       ]"
     >
+      <div class="flex flex-col w-10 h-full justify-start text-center">
+        <!-- TODO: pegar os horários do array de tempos de aula -->
+        <span
+          v-for="cell in weekScheduleEditable[0]?.schedule[rowShift]"
+          v-show="
+            showBreaks ? true : cell.tipo === 'aula' || cell.tipo === 'vago'
+          "
+          class="border-b-ldsa-text-default/65 text-[0.813rem] font-medium last:border-b-transparent not-last:border-b-[0.119565rem] border-t-solid border-t-transparent last:mb-[1.5px] flex-1 flex items-center justify-center"
+          :class="
+            cell.tipo !== 'aula' &&
+            cell.tipo !== 'vago' &&
+            'bg-ldsa-grey/20 text-ldsa-text-default/50'
+          "
+        >
+          {{ cell.horaInicio.format('hh:mm') }}
+        </span>
+      </div>
+
       <template v-for="(day, dayIndex) in weekScheduleEditable">
         <template
           v-for="(_, shiftName, shiftIndex) in Object.fromEntries(
