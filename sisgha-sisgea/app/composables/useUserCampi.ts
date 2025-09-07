@@ -3,9 +3,8 @@ import { useApiContext } from '~/components/API/Context/setup-context';
 
 type campiPorCargo = { cargo: string; campi: Campus[] };
 
-export const useCampusContext = () => {
-  return useState<string | null>('campusContext', () => null);
-};
+export const useCampusContext = () =>
+  useState<string | null>('campusContext', () => null);
 
 export const useUserCargoAndCampi = () => {
   const {
@@ -63,11 +62,11 @@ export const useCampusContextCargos = () => {
   const { campiPorCargo } = useUserCargoAndCampi();
   const campusContext = useCampusContext();
 
-  return computed(() => {
-    return campiPorCargo
+  return computed(() =>
+    campiPorCargo
       .filter(cargoCampus =>
         cargoCampus.campi.some(campus => campus.id === campusContext.value)
       )
-      .map(cargoCampus => cargoCampus.cargo);
-  });
+      .map(cargoCampus => cargoCampus.cargo)
+  );
 };

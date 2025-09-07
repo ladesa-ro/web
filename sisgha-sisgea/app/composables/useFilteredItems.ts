@@ -1,6 +1,6 @@
 import type { ParsedItem } from './useOptionItems';
 
-const filterText = (text: string) =>
+export const useFilterText = (text: string) =>
   text
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
@@ -11,7 +11,7 @@ export const filterItemsBySearch = (
   searchBarValue: string
 ) => {
   const filteredItems = items.filter(item =>
-    filterText(item.label).includes(filterText(searchBarValue))
+    useFilterText(item.label).includes(useFilterText(searchBarValue))
   );
 
   return filteredItems;

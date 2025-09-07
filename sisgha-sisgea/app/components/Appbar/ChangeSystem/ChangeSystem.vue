@@ -1,5 +1,11 @@
 <script setup>
 const open = ref(false);
+
+const cargos = useCampusContextCargos();
+
+const sisgeaTo = computed(() =>
+  cargos.value.length > 1 ? '/sisgha/dape/' : `/sisgha/${cargos.value[0]}/`
+);
 </script>
 
 <template>
@@ -32,7 +38,7 @@ const open = ref(false);
         />
       </NuxtLink>
 
-      <NuxtLink v-else-if="$route.path.includes('sisgea')" to="/sisgha/dape">
+      <NuxtLink v-else-if="$route.path.includes('sisgea')" :to="sisgeaTo">
         <LogoSISGHALogomarca
           class="box-content w-[8.75rem] shrink-0 p-3.5 hover:bg-ldsa-grey/15 rounded-lg"
         />

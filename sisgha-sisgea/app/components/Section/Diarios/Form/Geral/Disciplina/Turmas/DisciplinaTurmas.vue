@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useLadesaApiCrudUsuarios } from '#imports';
-import { computed, onMounted, ref } from 'vue';
 import type { TurmaSelecionada } from '../../Contexto';
 import { useContextDiariosFormGeral } from '../../Contexto';
 

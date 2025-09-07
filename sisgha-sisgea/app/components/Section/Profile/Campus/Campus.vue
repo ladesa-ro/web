@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useCampusContext, useUserCargoAndCampi } from '#imports';
 import { useForm } from 'vee-validate';
-import { computed, ref } from 'vue';
 import * as yup from 'yup';
 
 import fotoCampus from '~/assets/imgs/Foto-Campus.png';

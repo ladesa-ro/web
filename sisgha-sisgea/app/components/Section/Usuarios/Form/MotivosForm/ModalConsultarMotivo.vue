@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import { UIButtonModalGoBack } from '#components';
-import { computed } from 'vue';
-
 const props = defineProps<{
   motivosConfirmados: Record<string, { horario: string; motivo: string }[]>;
   selectedDayWeek: string | null;
