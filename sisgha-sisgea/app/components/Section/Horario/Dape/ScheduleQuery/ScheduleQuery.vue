@@ -47,7 +47,6 @@ const editMode = ref(false);
 const showBreaks = ref(true);
 
 const swap = () => {
-  console.log('caralgo');
   swapCells(weekSchedule, scheduleHistory.value);
 };
 </script>
@@ -57,7 +56,7 @@ const swap = () => {
     <header class="flex justify-between items-center">
       <span class="flex gap-6 font-semibold text-lg">
         <span
-          class="shadow-[0_0_0_5px_rgba(var(--ladesa-grey-color),0.2)] rounded-full hover:bg-ldsa-grey flex items-center h-max"
+          class="hover:shadow-[0_0_0_5px_rgb(0,0,0,0.05)] dark:hover:shadow-[0_0_0_5px_rgb(255,255,255,0.04)] hover:bg-ldsa-grey/15 flex items-center my-auto h-max rounded-full"
         >
           <NuxtLink
             v-show="!editMode"

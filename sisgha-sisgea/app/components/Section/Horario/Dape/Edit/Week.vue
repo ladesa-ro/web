@@ -239,9 +239,9 @@ const getRowShiftName = (rowShift: string) => {
     >
       <SectionHorarioDapeEditDayAndShiftPopover
         :disabled="!editMode"
-        class="bg-ldsa-green-1 border-b-2 border-ldsa-green-1 brightness-100"
+        class="bg-ldsa-green-1 border-r-2 border-ldsa-green-1 brightness-100"
         :class="[
-          editMode && 'hover:bg-ldsa-green-1/85 hover:border-ldsa-green-2',
+          editMode && 'hover:bg-ldsa-green-1/85 hover:border-transparent',
           rowShiftIndex === 0 && 'rounded-tl-lg',
           rowShiftIndex === 2 && 'rounded-bl-lg',
         ]"
