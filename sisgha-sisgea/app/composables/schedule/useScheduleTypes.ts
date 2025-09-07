@@ -1,3 +1,4 @@
+import type { UseRefHistoryReturn } from '@vueuse/core';
 import type { Dayjs } from 'dayjs';
 
 export type TempoDeAula = { horaInicio: string; horaFim: string };
@@ -97,3 +98,5 @@ export type DiaEditavelEmTurnos = {
 export type WeekdayMeta = { data: string; weekday: string };
 
 export type WeekSchedule = Map<WeekdayMeta, DiaEditavelEmTurnos>;
+
+export type WeekScheduleHistory = UseRefHistoryReturn<WeekSchedule, WeekSchedule>;

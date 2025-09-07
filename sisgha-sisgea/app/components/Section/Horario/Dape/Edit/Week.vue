@@ -5,12 +5,7 @@ import {
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { reorderWithEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import { useRefHistory } from '@vueuse/core';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
-import {
-  aulasSemDiaSemanaExemplo,
-  temposDeAulaExemplo,
-} from '~/composables/schedule/EXEMPLO';
 import type {
   Aula,
   DiaEditavelEmTurnos,
@@ -18,9 +13,8 @@ import type {
   Vago,
   WeekdayMeta,
   WeekSchedule,
+  WeekScheduleHistory,
 } from '~/composables/schedule/useScheduleTypes';
-import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
-import { canSwap, swapCells } from './swapCells';
 
 const props = defineProps<{
   editMode?: boolean;
@@ -40,14 +34,17 @@ watch(
 
 //
 
-const weekSchedule = ref(
-  useWeekSchedule(temposDeAulaExemplo, aulasSemDiaSemanaExemplo)
-) as Ref<WeekSchedule>;
-
-const weekScheduleHistory = useRefHistory(weekSchedule, {
-  deep: true,
-  capacity: 10,
+const weekSchedule = defineModel<WeekSchedule>({
+  required: true,
+  default: new Map(),
 });
+
+const weekScheduleHistory = defineModel<WeekScheduleHistory>('history', {
+  required: true,
+  default: {},
+});
+
+//
 
 type WeekScheduleEditable = {
   data: WeekdayMeta;
@@ -166,15 +163,6 @@ onMounted(() => {
       }
 
       if (startShiftId != finishShiftId) {
-        const startKey = Object.keys(startDaySchedule)[startShiftId];
-        const finishKey = Object.keys(startDaySchedule)[finishShiftId];
-
-        if (!startKey || !finishKey) {
-          console.warn('startKey = ', startKey);
-          console.warn('finishKey = ', finishKey);
-          return;
-        }
-
         const draggedItem: (Aula & HorDayjs) | (Vago & HorDayjs) | undefined =
           startShift.splice(startIndex, 1)[0];
 
@@ -186,15 +174,17 @@ onMounted(() => {
         draggedItem.turnoId = finishShiftId;
 
         finishShift.splice(indexOfTarget, 0, draggedItem);
-      } else {
-        const key = Object.keys(startDaySchedule)[startShiftId];
+      }
+      //
+      else {
+        const shiftName = Object.keys(startDaySchedule)[startShiftId];
 
-        if (!key) {
-          console.warn('key = ' + key);
+        if (!shiftName) {
+          console.warn('shiftName = ' + shiftName);
           return;
         }
 
-        startDaySchedule[key] = reorderWithEdge({
+        startDaySchedule[shiftName] = reorderWithEdge({
           list: startShift,
           startIndex,
           indexOfTarget,
@@ -228,19 +218,11 @@ const getRowShiftName = (rowShift: string) => {
 </script>
 
 <template>
-  <button
-    @click="swapCells(ref(weekSchedule), weekScheduleHistory)"
-    :disabled="!canSwap"
-    class="disabled:opacity-50 border-ldsa-grey border-2 rounded-lg max-w-max"
-  >
-    Fazer troca
-  </button>
-
   <div class="w-max mx-auto">
-    <div class="grid grid-cols-6 ml-[calc(6.25rem+0.063rem)] mr-0.5 ">
+    <div class="grid grid-cols-6 ml-[calc(6.25rem+0.063rem)] mr-0.5 mb-3">
       <div
         v-for="day in weekScheduleEditable"
-        class="bg-ldsa-green-1 rounded-t-lg p-1 text-center text-ldsa-white font-medium text-[0.813rem] w-44"
+        class="bg-ldsa-green-1 rounded-t-lg p-[0.313rem] text-center text-ldsa-white font-medium text-[0.813rem] w-44"
       >
         {{ day.data.weekday }} - {{ day.data.data }}
       </div>

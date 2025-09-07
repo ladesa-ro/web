@@ -1,11 +1,19 @@
 import type { UseRefHistoryReturn } from '@vueuse/core';
 import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
-import type { Aula, DiaEditavelEmTurnos, HorDayjs, Vago, WeekdayMeta } from '~/composables/schedule/useScheduleTypes';
+import type {
+  Aula,
+  DiaEditavelEmTurnos,
+  HorDayjs,
+  Vago,
+  WeekdayMeta,
+  WeekSchedule,
+  WeekScheduleHistory,
+} from '~/composables/schedule/useScheduleTypes';
 
 export const swapCells = (
-  weekSchedule: Ref<Map<WeekdayMeta, DiaEditavelEmTurnos>>,
-  scheduleHistory: UseRefHistoryReturn<Map<WeekdayMeta, DiaEditavelEmTurnos>, Map<WeekdayMeta, DiaEditavelEmTurnos>>
+  weekSchedule: Ref<WeekSchedule>,
+  scheduleHistory: WeekScheduleHistory
 ) => {
   const ativosIndex: number[] = [];
   const colunas: Cell[][] = [];
@@ -71,7 +79,9 @@ export const swapCells = (
         const meta = metas[i];
         const originalDia = dias[i];
         const key = turnoKeys[i];
-        const updatedColumn = colunas[i]!.filter(cell => 'diaSemana' in cell) as ((Aula | Vago) & HorDayjs)[];
+        const updatedColumn = colunas[i]!.filter(
+          cell => 'diaSemana' in cell
+        ) as ((Aula | Vago) & HorDayjs)[];
 
         const newDia = { ...(originalDia as Record<string, any>) };
         if (key !== undefined) {

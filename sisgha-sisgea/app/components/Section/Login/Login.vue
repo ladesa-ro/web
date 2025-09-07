@@ -40,7 +40,7 @@ useTitle(null, 'Login');
 
         <span class="block mb-8 text-center">
           Esqueceu a senha?
-          <LazySectionLoginResetPasswordModal :disabled="isBusy"/>
+          <LazySectionLoginResetPasswordModal :disabled="isBusy" />
         </span>
 
         <UIButtonDefault
@@ -115,17 +115,8 @@ useTitle(null, 'Login');
 }
 
 .login-form {
-  display: grid;
-
-  @apply grid-rows-[1rem_1fr_1rem] sm:grid-cols-[3.0625rem_1fr_2.8125rem];
-  @apply grid-cols-[1rem_1fr_1rem] sm:grid-cols-[3.1875rem_1fr_3.25rem];
-
-  justify-content: center;
-  align-content: center;
-
-  overflow: hidden;
-
-  @apply mb-4;
+  @apply grid grid-rows-[1rem_1fr_1rem] sm:grid-cols-[3.0625rem_1fr_2.8125rem];
+  @apply grid-cols-[1rem_1fr_1rem] sm:grid-cols-[3.1875rem_1fr_3.25rem] justify-center content-center overflow-hidden mb-4;
 }
 
 .login-card {
@@ -133,8 +124,7 @@ useTitle(null, 'Login');
 }
 
 .login-alternative-actions {
-  @apply px-4;
-  @apply w-full shrink-0;
+  @apply px-4 w-full shrink-0;
 }
 
 .login-alternative-link {
@@ -148,9 +138,7 @@ useTitle(null, 'Login');
   background: var(--ladesa-background-color);
   box-shadow: 0px 0px 1px rgba(13, 92, 25, 0.25);
   @apply border border-ldsa-grey/45 rounded-[0.5625rem];
-
-  @apply mt-8 mb-4;
-  padding: 2rem;
+  @apply mt-8 mb-4 p-8;
 }
 
 .light-1,
