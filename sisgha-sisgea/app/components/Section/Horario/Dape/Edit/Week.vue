@@ -219,31 +219,42 @@ const getRowShiftName = (rowShift: string) => {
 
 <template>
   <div class="w-max mx-auto">
-    <div class="grid grid-cols-6 ml-[calc(6.25rem+0.063rem)] mr-0.5 mb-3">
-      <div
+    <div class="grid grid-cols-6 ml-[6.313rem] mr-0.5 mb-3">
+      <SectionHorarioDapeEditDayAndShiftPopover
         v-for="day in weekScheduleEditable"
-        class="bg-ldsa-green-1 rounded-t-lg p-[0.313rem] text-center text-ldsa-white font-medium text-[0.813rem] w-44"
+        :disabled="!editMode"
       >
-        {{ day.data.weekday }} - {{ day.data.data }}
-      </div>
+        <div
+          :class="editMode && 'hover:bg-ldsa-green-1/85'"
+          class="bg-ldsa-green-1 rounded-t-lg p-[0.313rem] text-center text-ldsa-white font-medium text-[0.813rem] w-44"
+        >
+          {{ day.data.weekday }} - {{ day.data.data }}
+        </div>
+      </SectionHorarioDapeEditDayAndShiftPopover>
     </div>
 
     <div
       v-for="(rowShift, rowShiftIndex) in ['manha', 'tarde', 'noite']"
       class="flex justify-center mb-4 last:mb-0"
     >
-      <div
-        class="bg-ldsa-green-1 text-center vertical-text text-ldsa-white p-1 font-medium text-[0.813rem]"
+      <SectionHorarioDapeEditDayAndShiftPopover
+        :disabled="!editMode"
+        class="bg-ldsa-green-1 border-b-2 border-ldsa-green-1 brightness-100"
         :class="[
-          rowShiftIndex === 0 && 'rounded-br-lg',
-          rowShiftIndex === 2 && 'rounded-tr-lg',
+          editMode && 'hover:bg-ldsa-green-1/85 hover:border-ldsa-green-2',
+          rowShiftIndex === 0 && 'rounded-tl-lg',
+          rowShiftIndex === 2 && 'rounded-bl-lg',
         ]"
       >
-        {{ getRowShiftName(rowShift) }}
-      </div>
+        <div
+          class="text-center vertical-text text-ldsa-white p-1 font-medium text-[0.813rem]"
+        >
+          {{ getRowShiftName(rowShift) }}
+        </div>
+      </SectionHorarioDapeEditDayAndShiftPopover>
 
       <div
-        class="grid grid-cols-[auto_repeat(6,1fr)] place-items-center border-2 border-ldsa-green-1 py-2 px-4 gap-4"
+        class="grid grid-cols-[auto_repeat(6,1fr)] place-items-center border-2 border-ldsa-green-1 border-l-0 py-2 px-4 gap-4"
         :class="[
           rowShiftIndex === 0 && 'rounded-tr-lg',
           rowShiftIndex === 2 && 'rounded-br-lg',

@@ -150,7 +150,7 @@ const popoverOpen = ref(false);
     v-show="showBreaks ? true : horarioMeta.tipo !== 'intervalo'"
     :class="[
       'relative not-last:border-b-[0.119565rem] nth-of-type-[2n]:mb-[0.5px] border-t-solid border-t-transparent border-b-2 border-b-solid border-b-ldsa-text-default/65 transform-[translateZ(0)] last:border-b-transparent',
-      active && 'bg-ldsa-green-2/10',
+      active && 'bg-ldsa-green-2/15',
     ]"
     @click="horarioMeta.tipo !== 'intervalo' && editMode && toggleActive()"
   >
