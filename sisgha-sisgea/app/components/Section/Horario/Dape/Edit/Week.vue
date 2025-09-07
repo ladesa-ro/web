@@ -16,12 +16,12 @@ import type {
   DiaEditavelEmTurnos,
   HorDayjs,
   Vago,
+  WeekdayMeta,
   WeekSchedule,
 } from '~/composables/schedule/useScheduleTypes';
 import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
 import { canSwap, swapCells } from './swapCells';
 
-// { editMode, showBreaks: showBreaksProps }
 const props = defineProps<{
   editMode?: boolean;
   showBreaks?: boolean;
@@ -50,13 +50,13 @@ const weekScheduleHistory = useRefHistory(weekSchedule, {
 });
 
 type WeekScheduleEditable = {
-  data: string;
+  data: WeekdayMeta;
   schedule: DiaEditavelEmTurnos;
 }[];
 
 const weekScheduleEditable: Ref<WeekScheduleEditable> = ref(
   [...weekSchedule.value.entries()].map(([dayMeta, daySchedule]) => ({
-    data: dayMeta.data,
+    data: { ...dayMeta, data: useDayJs()(dayMeta.data).format('DD/MM') },
     schedule: daySchedule,
   }))
 );
@@ -66,7 +66,7 @@ watch(
   weekScheduleEditable,
   newVal => {
     weekSchedule.value.forEach((_, dayMeta) => {
-      const changedDay = newVal.find(val => val.data === dayMeta.data);
+      const changedDay = newVal.find(val => val.data.data === dayMeta.data);
 
       if (changedDay) {
         weekSchedule.value.set(dayMeta, changedDay.schedule);
@@ -145,7 +145,7 @@ onMounted(() => {
       }
 
       const startIndex = startShift.findIndex(
-        shift => shift.id == args.source.data.id
+        shift => shift.id === args.source.data.id
       );
 
       const closestEdge = extractClosestEdge(dropTarget.data);
@@ -162,9 +162,6 @@ onMounted(() => {
 
       if (indexOfTarget === -1) {
         console.warn('indexOfTarget = ' + indexOfTarget);
-        console.log(
-          'finishShift = ' + JSON.stringify(finishShift.map(h => h.turnoId))
-        );
         return;
       }
 
@@ -216,6 +213,8 @@ onUnmounted(() => {
   cleanup();
 });
 
+//
+
 const getRowShiftName = (rowShift: string) => {
   switch (rowShift) {
     case 'manha':
@@ -237,60 +236,74 @@ const getRowShiftName = (rowShift: string) => {
     Fazer troca
   </button>
 
-  <div
-    v-for="(rowShift, rowShiftIndex) in ['manha', 'tarde', 'noite']"
-    class="flex justify-center mb-5"
-  >
-    <div
-      class="bg-ldsa-green-1 text-center vertical-text text-ldsa-white p-1 font-medium"
-      :class="[
-        rowShiftIndex === 0 && 'rounded-br-lg',
-        rowShiftIndex === 2 && 'rounded-tr-lg',
-      ]"
-    >
-      {{ getRowShiftName(rowShift) }}
+  <div class="w-max mx-auto">
+    <div class="grid grid-cols-6 ml-[calc(6.25rem+0.063rem)] mr-0.5 ">
+      <div
+        v-for="day in weekScheduleEditable"
+        class="bg-ldsa-green-1 rounded-t-lg p-1 text-center text-ldsa-white font-medium text-[0.813rem] w-44"
+      >
+        {{ day.data.weekday }} - {{ day.data.data }}
+      </div>
     </div>
 
     <div
-      class="grid grid-cols-[auto_repeat(6,1fr)] place-items-center border-2 border-ldsa-green-1 py-2 px-5 gap-5"
-      :class="[
-        rowShiftIndex === 0 && 'rounded-tr-lg',
-        rowShiftIndex === 2 && 'rounded-br-lg',
-      ]"
+      v-for="(rowShift, rowShiftIndex) in ['manha', 'tarde', 'noite']"
+      class="flex justify-center mb-4 last:mb-0"
     >
-      <div class="flex flex-col w-10 h-full justify-start text-center">
-        <!-- TODO: pegar os horários do array de tempos de aula -->
-        <span
-          v-for="cell in weekScheduleEditable[0]?.schedule[rowShift]"
-          v-show="
-            showBreaks ? true : cell.tipo === 'aula' || cell.tipo === 'vago'
-          "
-          class="border-b-ldsa-text-default/65 text-[0.813rem] font-medium last:border-b-transparent not-last:border-b-[0.119565rem] border-t-solid border-t-transparent last:mb-[1.5px] flex-1 flex items-center justify-center"
-          :class="
-            cell.tipo !== 'aula' &&
-            cell.tipo !== 'vago' &&
-            'bg-ldsa-grey/20 text-ldsa-text-default/50'
-          "
-        >
-          {{ cell.horaInicio.format('hh:mm') }}
-        </span>
+      <div
+        class="bg-ldsa-green-1 text-center vertical-text text-ldsa-white p-1 font-medium text-[0.813rem]"
+        :class="[
+          rowShiftIndex === 0 && 'rounded-br-lg',
+          rowShiftIndex === 2 && 'rounded-tr-lg',
+        ]"
+      >
+        {{ getRowShiftName(rowShift) }}
       </div>
 
-      <template v-for="(day, dayIndex) in weekScheduleEditable">
-        <template
-          v-for="(_, shiftName, shiftIndex) in Object.fromEntries(
-            Object.entries(day.schedule).filter(([key]) => key === rowShift)
-          )"
-        >
-          <SectionHorarioDapeEditShift
-            :day-id="dayIndex"
-            :turno-id="shiftIndex"
-            :editMode
-            v-model="weekScheduleEditable[dayIndex]!.schedule[shiftName]!"
-            @atividade-change="weekScheduleHistory.commit()"
-          />
+      <div
+        class="grid grid-cols-[auto_repeat(6,1fr)] place-items-center border-2 border-ldsa-green-1 py-2 px-4 gap-4"
+        :class="[
+          rowShiftIndex === 0 && 'rounded-tr-lg',
+          rowShiftIndex === 2 && 'rounded-br-lg',
+        ]"
+      >
+        <div class="flex flex-col w-10 h-full justify-start text-center">
+          <!-- TODO: pegar os horários do array de tempos de aula -->
+          <span
+            v-for="(cell, cellIndex) in weekScheduleEditable[0]?.schedule[
+              rowShift
+            ]"
+            :key="cellIndex"
+            v-show="
+              showBreaks ? true : cell.tipo === 'aula' || cell.tipo === 'vago'
+            "
+            class="border-b-ldsa-text-default/65 text-[0.813rem] font-medium last:border-b-transparent not-last:border-b-[0.119565rem] border-t-solid border-t-transparent last:mb-[1.5px] flex-1 flex items-center justify-center"
+            :class="
+              cell.tipo !== 'aula' &&
+              cell.tipo !== 'vago' &&
+              'bg-ldsa-grey/20 text-ldsa-text-default/50'
+            "
+          >
+            {{ cell.horaInicio.format('hh:mm') }}
+          </span>
+        </div>
+
+        <template v-for="(day, dayIndex) in weekScheduleEditable">
+          <template
+            v-for="(_, shiftName, shiftIndex) in Object.fromEntries(
+              Object.entries(day.schedule).filter(([key]) => key === rowShift)
+            )"
+          >
+            <SectionHorarioDapeEditShift
+              :day-id="dayIndex"
+              :turno-id="shiftIndex"
+              :editMode
+              v-model="weekScheduleEditable[dayIndex]!.schedule[shiftName]!"
+              @atividade-change="weekScheduleHistory.commit()"
+            />
+          </template>
         </template>
-      </template>
+      </div>
     </div>
   </div>
 </template>

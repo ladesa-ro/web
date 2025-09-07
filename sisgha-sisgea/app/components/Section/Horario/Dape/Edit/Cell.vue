@@ -174,7 +174,7 @@ const popoverOpen = ref(false);
         'bg-ldsa-grey/20': horarioMeta.tipo === 'intervalo' && !active,
       }"
     >
-      <span v-if="horarioMeta.tipo === 'aula'" class="truncate max-w-9/10">
+      <span v-if="horarioMeta.tipo === 'aula'" class="truncate max-w-19/20">
         {{ horarioMeta.diario?.disciplina }} - {{ horarioMeta.diario?.turma }}
       </span>
 
