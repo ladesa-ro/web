@@ -9,10 +9,10 @@ import {
   ComboboxTrigger as Trigger,
   ComboboxViewport as Viewport,
 } from 'reka-ui';
-import { ref, computed } from 'vue';
+import { computed, ref } from 'vue';
 import Arrow from '~/components/Icons/Arrow/Arrow.vue';
-import AutoCompleteItem from '../../../UI/Form/OptionFields/Item.vue';
 import IconsIconLocale from '~/components/Icons/IconLocale.vue';
+import AutoCompleteItem from '../../../UI/Form/OptionFields/Item.vue';
 
 type CampusItem = { label: string; value: string };
 
@@ -30,7 +30,8 @@ const open = ref(false);
 
 const moreThanOneCampus = computed(() => props.campi.length > 1);
 const selectedLabel = computed(
-  () => props.campi.find(c => c.value === props.modelValue)?.label ?? 'Sem campus'
+  () =>
+    props.campi.find(c => c.value === props.modelValue)?.label ?? 'Sem campus'
 );
 </script>
 
@@ -51,7 +52,9 @@ const selectedLabel = computed(
               placeholder="Selecione um campus"
               @focus="open = true"
               class="text-center w-auto h-full text-[0.6rem] shrink max-w-fit"
-              :display-value="value => props.campi.find(i => i.value === value)?.label || ''"
+              :display-value="
+                value => props.campi.find(i => i.value === value)?.label || ''
+              "
             />
 
             <Trigger>
@@ -93,7 +96,10 @@ const selectedLabel = computed(
     </template>
 
     <template v-else>
-      {{ selectedLabel }}
+      <div class="input flex items-center justify-center">
+        <IconsIconLocale class="w-2 h-2 text-ldsa-green-1 mr-1" />
+        <span class="text-[0.6rem] font-medium">{{ selectedLabel }}</span>
+      </div>
     </template>
   </div>
 </template>
