@@ -1,13 +1,25 @@
 <script lang="ts" setup>
 import { IconsEducator, IconsUser } from '#components';
-import { useCampusContext, useUserCargoAndCampi } from '#imports';
+import {
+  useCampusContext,
+  useCanEditProfile,
+  useUserCargoAndCampi,
+} from '#imports';
 import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput } from '@ladesa-ro/management-service-client';
 import { useQuery } from '@tanstack/vue-query';
-import uniq from 'lodash/uniq';
+import { computed, ref } from 'vue';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
+import CampusSelect from './Campus/CampusSelect.vue';
 
 type Props = { user: UsuarioFindOneOutput };
 const { user } = defineProps<Props>();
+
+const { canEdit } = useCanEditProfile(user.id);
+
+const showEditModal = ref(false);
+const closeEditModal = () => {
+  showEditModal.value = false;
+};
 
 const profilePictureUrl = useApiImageRoute(
   ApiImageResource.USUARIO_PROFILE,
@@ -15,6 +27,7 @@ const profilePictureUrl = useApiImageRoute(
 );
 
 const { campiList } = useUserCargoAndCampi();
+const client = useApiClient();
 
 const roleConfig = {
   professor: {
@@ -22,108 +35,85 @@ const roleConfig = {
     border: 'border-ldsa-green-1',
     icon: IconsEducator,
   },
-  dape: {
-    label: 'DAPE',
-    border: 'border-ldsa-green-1',
-    icon: IconsUser,
-  },
+  dape: { label: 'DAPE', border: 'border-ldsa-green-1', icon: IconsUser },
 };
+
+const toggleCampusItems = campiList.map(c => ({
+  label: c.apelido,
+  value: c.id,
+}));
+
+const { data: userVinculosResponse } = useQuery({
+  queryKey: ['usuarios', user.id, 'vinculos'],
+  queryFn: () =>
+    client.perfis.perfilList({
+      filterUsuarioId: [user.id],
+      filterAtivo: ['true'],
+    }),
+});
+
+const userCampusItems = computed(
+  () =>
+    (userVinculosResponse.value?.data ?? [])
+      .map(v => ({
+        label: v.campus?.apelido ?? 'Desconhecido',
+        value: v.campus?.id,
+      }))
+      .filter((c, i, arr) => arr.findIndex(a => a.value === c.value) === i) 
+);
+
+const search = ref('');
+const open = ref(false);
+
+const selectedCampusLocal = ref(userCampusItems.value[0]?.value ?? '');
+
+watch(
+  userCampusItems,
+  (newItems) => {
+    if (newItems.length && !selectedCampusLocal.value && newItems[0]) {
+      selectedCampusLocal.value = newItems[0].value;
+    }
+  },
+  { immediate: true }
+);
+
+const { data: vinculosResponse } = useQuery({
+  queryKey: ['usuarios', user.id, 'vinculos', selectedCampusLocal],
+  queryFn: () =>
+    client.perfis.perfilList({
+      filterUsuarioId: [user.id],
+      filterAtivo: ['true'],
+      filterCampusId: [selectedCampusLocal.value],
+    }),
+});
+
+const vinculos = computed(() =>
+  (vinculosResponse.value?.data ?? []).filter(
+    v => v.campus?.id === selectedCampusLocal.value
+  )
+);
+
+const moreThanOneCampus = computed(() => toggleCampusItems.length > 1);
 
 const vinculosBadges = computed(() => {
   const seen = new Set<string>();
   const badges: (typeof roleConfig)[keyof typeof roleConfig][] = [];
-
   for (const v of vinculos.value) {
     const key = v.cargo?.toLowerCase() ?? '';
     const badge =
       key in roleConfig
         ? roleConfig[key as keyof typeof roleConfig]
         : { label: v.cargo, border: 'border-gray-400', icon: IconsUser };
-
     if (!seen.has(badge.label)) {
       badges.push(badge);
       seen.add(badge.label);
     }
   }
-
   return badges;
 });
-
-const toggleCampusItems = campiList.map(campus => ({
-  label: campus.apelido,
-  value: campus.id,
-}));
-
-const selectedCampusGlobalState = useCampusContext() as Ref<string>;
-const selectedCampusValue = computed({
-  get: () => selectedCampusGlobalState.value,
-  set: (val: string) => (selectedCampusGlobalState.value = val),
-});
-
-const campusAtual = computed(() => {
-  return (
-    toggleCampusItems.find(
-      c => c.value === selectedCampusGlobalState.value
-    ) ?? {
-      label: 'Carregando campus...',
-    }
-  );
-});
-
-const campus = computed(() => campusAtual.value.label);
-
-const moreThanOneCampus = computed(() => toggleCampusItems.length > 1);
-
-function alterarCampus(event: Event) {
-  const select = event.target as HTMLSelectElement;
-  selectedCampusGlobalState.value = select.value;
-}
-
-const client = useApiClient();
-
-const { data: vinculosResponse } = useQuery({
-  queryKey: ['usuarios', user.id, 'vinculos', selectedCampusValue],
-  queryFn: () =>
-    client.perfis.perfilList({
-      filterUsuarioId: [user.id],
-      filterAtivo: ['true'],
-      filterCampusId: [selectedCampusValue.value],
-    }),
-});
-
-const vinculos = computed(() => {
-  if (!vinculosResponse.value?.data) return [];
-
-  return vinculosResponse.value.data.filter(
-    v => v.campus?.id === selectedCampusValue.value
-  );
-});
-
-const getRoleLabel = (role: string) => {
-  switch (role?.toLowerCase()) {
-    case 'professor':
-      return 'Professor';
-    case 'dape':
-      return 'DAPE';
-    default:
-      return role;
-  }
-};
-
-const vinculosConcatenated = computed(() => {
-  const allLabels = vinculos.value.map(v => getRoleLabel(v.cargo));
-  return uniq(allLabels).join(' e ');
-});
-
-const showEditModal = ref(false);
-
-const closeEditModal = () => {
-  showEditModal.value = false;
-};
 </script>
 
 <template>
-  <!-- TODO: adicionar ícones e modal de edição -->
   <section class="banner">
     <div class="profile-card">
       <UIImg
@@ -143,26 +133,14 @@ const closeEditModal = () => {
           <h1 class="font-semibold text-sm lg:text-base text-wrap">
             {{ user.nome }}
           </h1>
-          <p class="text-ldsa-grey text-wrap break-words">
-            {{ user.email }}
-          </p>
+          <p class="text-ldsa-grey text-wrap break-words">{{ user.email }}</p>
         </span>
 
         <div>
-          <template v-if="moreThanOneCampus">
-            <div class="flex items-center justify-center gap-1">
-              <VVAutocomplete
-                v-model="selectedCampusValue"
-                :items="toggleCampusItems"
-                name="campus"
-                placeholder="Selecione um campus"
-              />
-            </div>
-          </template>
-
-          <template v-else>
-            {{ campusAtual.label }}
-          </template>
+          <CampusSelect
+            v-model="selectedCampusLocal"
+            :campi="userCampusItems"
+          />
         </div>
 
         <span class="leading-5">
@@ -171,20 +149,21 @@ const closeEditModal = () => {
               v-for="(v, index) in vinculosBadges"
               :key="index"
               :class="[
-                'flex items-center gap-1 px-3 py-2 rounded-xl border-2 font-semibold text-sm',
+                'flex items-center gap-1 px-2 py-1 rounded-xl border-2 font-semibold text-[11px]',
                 v.border,
                 'text-ldsa-text-green',
               ]"
             >
               {{ v.label }}
-              <component :is="v.icon" class="w-4 h-4" />
+              <component :is="v.icon" class="w-3 h-3" />
             </span>
           </div>
         </span>
       </section>
 
-      <!-- botão de edição que abre o modal de edição do usuário-->
-      <SectionUsuariosModalsForm :edit-id="user.id" @close="closeEditModal" />
+      <div v-if="canEdit">
+        <SectionUsuariosModalsForm :edit-id="user.id" @close="closeEditModal" />
+      </div>
     </div>
   </section>
 </template>
