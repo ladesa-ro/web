@@ -59,13 +59,23 @@ const userCampusItems = computed(
         label: v.campus?.apelido ?? 'Desconhecido',
         value: v.campus?.id,
       }))
-      .filter((c, i, arr) => arr.findIndex(a => a.value === c.value) === i) // remove duplicados
+      .filter((c, i, arr) => arr.findIndex(a => a.value === c.value) === i) 
 );
 
 const search = ref('');
 const open = ref(false);
 
 const selectedCampusLocal = ref(userCampusItems.value[0]?.value ?? '');
+
+watch(
+  userCampusItems,
+  (newItems) => {
+    if (newItems.length && !selectedCampusLocal.value && newItems[0]) {
+      selectedCampusLocal.value = newItems[0].value;
+    }
+  },
+  { immediate: true }
+);
 
 const { data: vinculosResponse } = useQuery({
   queryKey: ['usuarios', user.id, 'vinculos', selectedCampusLocal],

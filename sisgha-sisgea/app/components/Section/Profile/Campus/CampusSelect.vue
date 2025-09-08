@@ -30,7 +30,7 @@ const open = ref(false);
 
 const moreThanOneCampus = computed(() => props.campi.length > 1);
 const selectedLabel = computed(
-  () => props.campi.find(c => c.value === props.modelValue)?.label ?? 'Carregando campus...'
+  () => props.campi.find(c => c.value === props.modelValue)?.label ?? 'Sem campus'
 );
 </script>
 
