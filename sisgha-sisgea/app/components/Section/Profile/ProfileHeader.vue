@@ -3,20 +3,9 @@ import { IconsEducator, IconsUser } from '#components';
 import { useCampusContext, useUserCargoAndCampi } from '#imports';
 import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput } from '@ladesa-ro/management-service-client';
 import { useQuery } from '@tanstack/vue-query';
-import {
-  ComboboxAnchor as Anchor,
-  ComboboxRoot as AutocompleteRoot,
-  ComboboxContent as Content,
-  ComboboxInput as Input,
-  ComboboxEmpty as NoResultsState,
-  ComboboxPortal as Portal,
-  ComboboxTrigger as Trigger,
-  ComboboxViewport as Viewport,
-} from 'reka-ui';
 import { computed, ref } from 'vue';
-import Arrow from '~/components/Icons/Arrow/Arrow.vue';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
-import AutoCompleteItem from '../../UI/Form/OptionFields/Item.vue';
+import CampusSelect from './Campus/CampusSelect.vue';
 
 type Props = { user: UsuarioFindOneOutput };
 const { user } = defineProps<Props>();
@@ -59,13 +48,14 @@ const { data: userVinculosResponse } = useQuery({
 });
 
 // pegar apenas os campi do usuário do perfil
-const userCampusItems = computed(() =>
-  (userVinculosResponse.value?.data ?? [])
-    .map(v => ({
-      label: v.campus?.apelido ?? 'Desconhecido',
-      value: v.campus?.id,
-    }))
-    .filter((c, i, arr) => arr.findIndex(a => a.value === c.value) === i) // remove duplicados
+const userCampusItems = computed(
+  () =>
+    (userVinculosResponse.value?.data ?? [])
+      .map(v => ({
+        label: v.campus?.apelido ?? 'Desconhecido',
+        value: v.campus?.id,
+      }))
+      .filter((c, i, arr) => arr.findIndex(a => a.value === c.value) === i) // remove duplicados
 );
 
 const search = ref('');
@@ -147,63 +137,10 @@ const closeEditModal = () => {
         </span>
 
         <div>
-          <template v-if="moreThanOneCampus">
-            <div class="w-auto">
-              <AutocompleteRoot
-                v-model="selectedCampusLocal"
-                v-model:open="open"
-              >
-                <Anchor class="input">
-                  <IconsIconLocale class="w-2 h-2 text-ldsa-green-1 mr-1" />
-                  <Input
-                    v-model="search"
-                    placeholder="Selecione um campus"
-                    @focus="open = true"
-                    class="text-center w-auto h-full text-[0.6rem] shrink max-w-fit"
-                    :display-value="
-                      value =>
-                        toggleCampusItems.find(i => i.value === value)?.label ||
-                        ''
-                    "
-                  />
-
-                  <Trigger>
-                    <Arrow
-                      class="!w-2.5 !h-2.5"
-                      :class="[
-                        'text-ldsa-green-1 transition-transform duration-200',
-                        open ? 'rotate-[90deg]' : 'rotate-[270deg]',
-                      ]"
-                    />
-                  </Trigger>
-                </Anchor>
-
-                <Portal>
-                  <Content
-                    class="input-base-content w-(--reka-combobox-trigger-width) z-[10000] bg-ldsa-bg rounded-lg shadow-lg"
-                    position="popper"
-                    side="bottom"
-                    align="start"
-                  >
-                    <Viewport class="text-[11px]">
-                      <NoResultsState
-                        class="text-ldsa-grey font-normal px-3 py-2 min-h-[2.25rem] flex items-start"
-                      >
-                        Nenhum resultado encontrado
-                      </NoResultsState>
-                      <AutoCompleteItem
-                        v-for="campus in campiList"
-                        :key="campus.id"
-                        :item="{ label: campus.apelido, value: campus.id }"
-                        mode="autocomplete"
-                      />
-                    </Viewport>
-                  </Content>
-                </Portal>
-              </AutocompleteRoot>
-            </div>
-          </template>
-          <template v-else>{{ campusAtual.label }}</template>
+          <CampusSelect
+            v-model="selectedCampusLocal"
+            :campi="toggleCampusItems"
+          />
         </div>
 
         <span class="leading-5">
@@ -247,26 +184,5 @@ const closeEditModal = () => {
 
 .profile-metadata {
   @apply flex flex-col justify-center max-[400px]:items-center gap-2 md:ml-2 lg:ml-4;
-}
-
-.input {
-  @apply relative flex justify-between border-2 rounded-lg;
-  @apply h-7 min-h-0 px-2 max-w-41 text-sm font-medium text-center text-ldsa-text-default data-[placeholder]:text-ldsa-grey/90;
-  @apply focus-within:border-ldsa-green-2 focus-visible:outline-none disabled:cursor-not-allowed;
-}
-
-.input {
-  @apply border-ldsa-grey;
-}
-
-.input:is([data-open], [data-state='open'], :focus-within) {
-  @apply border-ldsa-green-2;
-}
-
-.input ::placeholder {
-  @apply font-medium text-ldsa-grey;
-}
-.input:has(input[disabled]) {
-  @apply opacity-60;
 }
 </style>
