@@ -1,12 +1,15 @@
 <script lang="ts" setup>
 import { IconsEducator, IconsUser } from '#components';
-import { useCampusContext, useUserCargoAndCampi } from '#imports';
+import {
+  useCampusContext,
+  useCanEditProfile,
+  useUserCargoAndCampi,
+} from '#imports';
 import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput } from '@ladesa-ro/management-service-client';
 import { useQuery } from '@tanstack/vue-query';
 import { computed, ref } from 'vue';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 import CampusSelect from './Campus/CampusSelect.vue';
-import { useCanEditProfile } from '#imports';
 
 type Props = { user: UsuarioFindOneOutput };
 const { user } = defineProps<Props>();
@@ -39,12 +42,6 @@ const toggleCampusItems = campiList.map(c => ({
   label: c.apelido,
   value: c.id,
 }));
-
-const selectedCampusGlobalState = useCampusContext() as Ref<string>;
-const selectedCampusValue = computed({
-  get: () => selectedCampusGlobalState.value,
-  set: val => (selectedCampusGlobalState.value = val),
-});
 
 const { data: userVinculosResponse } = useQuery({
   queryKey: ['usuarios', user.id, 'vinculos'],
@@ -86,12 +83,6 @@ const vinculos = computed(() =>
   )
 );
 
-const campusAtual = computed(
-  () =>
-    toggleCampusItems.find(
-      c => c.value === selectedCampusGlobalState.value
-    ) ?? { label: 'Carregando campus...' }
-);
 const moreThanOneCampus = computed(() => toggleCampusItems.length > 1);
 
 const vinculosBadges = computed(() => {
@@ -138,7 +129,7 @@ const vinculosBadges = computed(() => {
         <div>
           <CampusSelect
             v-model="selectedCampusLocal"
-            :campi="toggleCampusItems"
+            :campi="userCampusItems"
           />
         </div>
 
