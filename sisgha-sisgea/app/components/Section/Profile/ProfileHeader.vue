@@ -5,10 +5,21 @@ import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as 
 import { useQuery } from '@tanstack/vue-query';
 import { computed, ref } from 'vue';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
+import { useApiContext } from '../../API/Context/setup-context';
 import CampusSelect from './Campus/CampusSelect.vue';
 
 type Props = { user: UsuarioFindOneOutput };
 const { user } = defineProps<Props>();
+
+// usuário autenticado vindo do contexto da sua API
+const { usuario: loggedUser } = useApiContext();
+
+const canEdit = computed(() => loggedUser.value?.id === user.id);
+
+const showEditModal = ref(false);
+const closeEditModal = () => {
+  showEditModal.value = false;
+};
 
 const profilePictureUrl = useApiImageRoute(
   ApiImageResource.USUARIO_PROFILE,
@@ -106,11 +117,6 @@ const vinculosBadges = computed(() => {
   }
   return badges;
 });
-
-const showEditModal = ref(false);
-const closeEditModal = () => {
-  showEditModal.value = false;
-};
 </script>
 
 <template>
@@ -161,7 +167,7 @@ const closeEditModal = () => {
         </span>
       </section>
 
-      <div class="">
+      <div v-if="canEdit">
         <SectionUsuariosModalsForm :edit-id="user.id" @close="closeEditModal" />
       </div>
     </div>

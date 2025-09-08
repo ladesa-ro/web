@@ -27,7 +27,7 @@ const {
           class="border-card md:order-none md:col-span-2"
         />
 
-       <SectionProfileTeaching
+        <SectionProfileTeaching
           :user="user"
           class="border-card md:order-none md:col-span-3"
         />
