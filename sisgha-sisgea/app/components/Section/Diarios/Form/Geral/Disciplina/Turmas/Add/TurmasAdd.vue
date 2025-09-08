@@ -2,7 +2,6 @@
 import { UICheckbox } from '#components';
 import { useLadesaApiCrudTurmas } from '#imports';
 import type { Ladesa_ManagementService_Domain_Contracts_TurmaFindOneOutput as TurmaFindOneOutput } from '@ladesa-ro/management-service-client';
-import { onMounted, ref } from 'vue';
 import type { TurmaSelecionada } from '../../../Contexto';
 
 const $emit = defineEmits<{

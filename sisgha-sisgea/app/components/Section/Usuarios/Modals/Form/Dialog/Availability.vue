@@ -3,7 +3,6 @@ import {
   checkHasAtLeastOneActiveTeacherRole,
   useFormUser,
 } from '../../../Form/FormUtils';
-import { computed } from 'vue';
 
 const { values: formValues } = useFormUser();
 

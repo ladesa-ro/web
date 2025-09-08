@@ -1,4 +1,3 @@
-import { ref, watch } from 'vue';
 import { getWeekDays } from '../components/Section/Horario/-Helpers/GetWeekDays';
 
 export interface DayShift {

@@ -1,6 +1,5 @@
 <script generic="T = any" lang="ts" setup>
-import { onMounted, ref } from 'vue';
-import { useGenericCrudInfinityListQuery } from '../../../../../../composables/integrations/generic-crud/useGenericCrudInfinityListQuery';
+import { useGenericCrudInfinityListQuery } from '~/composables/integrations/generic-crud/useGenericCrudInfinityListQuery';
 import { useUIApiListContext } from '../../Context/UIApiListContext';
 import type { IGridItemSlotProps } from './Typings/IGridItemSlotProps';
 

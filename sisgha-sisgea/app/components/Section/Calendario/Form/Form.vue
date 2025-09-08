@@ -2,7 +2,6 @@
 // # IMPORT
 import IconCalendar from '@/components/Icons/Calendar/Calendar.vue';
 import IconEvent from '@/components/Icons/Event.vue';
-import { ref } from 'vue';
 
 // # CODE
 type Props = {

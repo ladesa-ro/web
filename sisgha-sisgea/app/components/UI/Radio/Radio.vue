@@ -9,7 +9,7 @@ import { getParsedItems, type Item } from '~/composables/useOptionItems';
 type Props = { items: Item[] };
 const { items: itemsProps } = defineProps<Props>();
 
-const items = getParsedItems(itemsProps);
+const items = computed(() => getParsedItems(itemsProps));
 
 //
 

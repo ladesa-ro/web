@@ -1,8 +1,19 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
+import {
+  aulasSemDiaSemanaExemplo,
+  temposDeAulaExemplo,
+} from '~/composables/schedule/EXEMPLO';
+import {
+  type WeekSchedule,
+  type WeekScheduleHistory,
+} from '~/composables/schedule/useScheduleTypes';
+import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
 import ButtonsEditMode from './Buttons/ButtonsEditMode.vue';
 import ButtonsVisualizationMode from './Buttons/ButtonsVisualizationMode.vue';
 import { getOwnerName } from './getOwnerName';
+import { swapCells } from '../Edit/swapCells';
+import { useRefHistory } from '@vueuse/core';
 
 const id = useRoute().params.id as string;
 
@@ -20,20 +31,42 @@ const ownerName = getOwnerName(isLoading, isProfessor, scheduleOwner);
 
 //
 
+const weekSchedule: Ref<WeekSchedule> = ref(
+  useWeekSchedule(temposDeAulaExemplo, aulasSemDiaSemanaExemplo)
+) as Ref<WeekSchedule>;
+
+// scheduleHistory is of type Ref<WeekScheduleHistory>, but typescript is picking on me so i just used "as any"
+const scheduleHistory = ref(
+  useRefHistory(weekSchedule, {
+    deep: true,
+    capacity: 10,
+  }) as any
+);
+
 const editMode = ref(false);
+const showBreaks = ref(true);
+
+const swap = () => {
+  console.log('caralgo');
+  swapCells(weekSchedule, scheduleHistory.value);
+};
 </script>
 
 <template>
   <UIContainer variant="larger">
     <header class="flex justify-between items-center">
       <span class="flex gap-6 font-semibold text-lg">
-        <NuxtLink
-          v-show="!editMode"
-          to="../../horario"
-          class="flex items-center justify-center"
+        <span
+          class="shadow-[0_0_0_5px_rgba(var(--ladesa-grey-color),0.2)] rounded-full hover:bg-ldsa-grey flex items-center h-max"
         >
-          <IconsArrowAlt class="w-5 text-ldsa-grey" />
-        </NuxtLink>
+          <NuxtLink
+            v-show="!editMode"
+            to="../../horario"
+            class="flex items-center justify-center"
+          >
+            <IconsArrowAlt class="w-5.5 text-ldsa-grey" />
+          </NuxtLink>
+        </span>
 
         <UITitle
           v-if="isError"
@@ -56,11 +89,29 @@ const editMode = ref(false);
         />
       </span>
 
-      <ButtonsVisualizationMode v-show="!editMode" v-model="editMode" />
-      <ButtonsEditMode v-if="editMode" v-model="editMode" />
+      <ButtonsVisualizationMode
+        v-show="!editMode"
+        v-model:edit-mode="editMode"
+        v-model:show-breaks="showBreaks"
+      />
+
+      <ButtonsEditMode
+        v-if="editMode"
+        v-model="editMode"
+        @redo="scheduleHistory.redo()"
+        @undo="scheduleHistory.undo()"
+        @swap="swap()"
+        @replace=""
+      />
     </header>
 
-    <!-- <SectionHorarioDapeEditGrid v-model="dia" /> -->
+    <SectionHorarioDapeEditWeek
+      class="mt-8"
+      :editMode
+      :showBreaks
+      v-model="weekSchedule"
+      v-model:history="scheduleHistory"
+    />
   </UIContainer>
 </template>
 
