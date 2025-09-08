@@ -5,16 +5,13 @@ import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as 
 import { useQuery } from '@tanstack/vue-query';
 import { computed, ref } from 'vue';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
-import { useApiContext } from '../../API/Context/setup-context';
 import CampusSelect from './Campus/CampusSelect.vue';
+import { useCanEditProfile } from '#imports';
 
 type Props = { user: UsuarioFindOneOutput };
 const { user } = defineProps<Props>();
 
-// usuário autenticado vindo do contexto da sua API
-const { usuario: loggedUser } = useApiContext();
-
-const canEdit = computed(() => loggedUser.value?.id === user.id);
+const { canEdit } = useCanEditProfile(user.id);
 
 const showEditModal = ref(false);
 const closeEditModal = () => {
