@@ -55,7 +55,6 @@ const { data: userVinculosResponse } = useQuery({
     }),
 });
 
-// pegar apenas os campi do usuário do perfil
 const userCampusItems = computed(
   () =>
     (userVinculosResponse.value?.data ?? [])
@@ -69,10 +68,8 @@ const userCampusItems = computed(
 const search = ref('');
 const open = ref(false);
 
-// estado local para o select (apenas visualização)
 const selectedCampusLocal = ref(userCampusItems.value[0]?.value ?? '');
 
-// query de vínculos agora depende do campus do select local
 const { data: vinculosResponse } = useQuery({
   queryKey: ['usuarios', user.id, 'vinculos', selectedCampusLocal],
   queryFn: () =>
@@ -83,7 +80,6 @@ const { data: vinculosResponse } = useQuery({
     }),
 });
 
-// vinculos filtrados pelo valor local
 const vinculos = computed(() =>
   (vinculosResponse.value?.data ?? []).filter(
     v => v.campus?.id === selectedCampusLocal.value

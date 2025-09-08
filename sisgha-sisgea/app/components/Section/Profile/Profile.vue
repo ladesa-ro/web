@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { UILoading } from '#components';
 import { useQuery } from '@tanstack/vue-query';
+import { useRouter } from 'vue-router';
 
 type Props = { userId: string };
 const { userId } = defineProps<Props>();
@@ -10,6 +11,13 @@ const {
   isLoading,
   isError,
 } = useQuery(findUserById({ id: userId }));
+
+//
+
+const router = useRouter();
+const goBack = () => {
+  router.push('/sisgha/dape/usuarios'); 
+};
 </script>
 
 <template>
@@ -17,10 +25,12 @@ const {
     variant="larger"
     class="flex flex-col justify-center gap-5 lg:gap-6.5 xl:gap-8"
   >
-    <template v-if="user">
+    <template v-if="user">      
+     <div>
+      <UIButtonModalGoBack @click="goBack"/>
+     </div>
       <SectionProfileHeader :user="user" />
 
-      <!-- disponibilidade + ensino -->
       <!-- TODO: puxar da api -->
       <section class="grid gap-4 md:grid-cols-5 auto-rows-auto">
         <SectionProfileAvailability
