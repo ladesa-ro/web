@@ -2,6 +2,7 @@
 import { UILoading } from '#components';
 import { useQuery } from '@tanstack/vue-query';
 import { useRouter } from 'vue-router';
+import { useCanEditProfile } from '#imports';
 
 type Props = { userId: string };
 const { userId } = defineProps<Props>();
@@ -13,6 +14,9 @@ const {
 } = useQuery(findUserById({ id: userId }));
 
 //
+const { canEdit } = useCanEditProfile(userId);
+const showGoBack = computed(() => !canEdit.value);
+
 
 const router = useRouter();
 const goBack = () => {
@@ -26,7 +30,7 @@ const goBack = () => {
     class="flex flex-col justify-center gap-5 lg:gap-6.5 xl:gap-8"
   >
     <template v-if="user">      
-     <div>
+     <div v-if="showGoBack">
       <UIButtonModalGoBack @click="goBack"/>
      </div>
       <SectionProfileHeader :user="user" />
