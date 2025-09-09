@@ -116,10 +116,10 @@ const onClose = () => emit('fechar');
         placeholder="Digite ou selecione um novo motivo"
         label="Motivo"
         name="motivo"
-        class="w-full text-[12px] mt-1"
+        class="w-full text-sm mt-1"
       />
 
-      <div class="mt-4 space-y-2 text-[12px]">
+      <div class="mt-4 space-y-2 text-sm">
         <div
           v-for="dia in props.motivoAtual.dias"
           :key="dia"
@@ -160,7 +160,7 @@ const onClose = () => emit('fechar');
 
       <section class="flex justify-between">
         <div v-for="shift in dayShifts" :key="shift.title">
-          <h3 class="text-[12px] font-medium text-ldsa-text-default mb-2">
+          <h3 class="text-sm font-medium text-ldsa-text-default mb-2">
             {{ capitalizeFirst(shift.title) }}
           </h3>
           <UICheckbox :items="shift.times" v-model="horariosSelecionados" />

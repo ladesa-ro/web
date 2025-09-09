@@ -67,14 +67,14 @@ const onClose = () => emit('fechar');
     <div class="overflow-y-auto pr-2">
       <div v-for="item in motivosFormatadosPorDia" :key="item.dia" class="mb-8">
         <h3
-          class="main-title font-semibold text-[12px] mb-2 capitalize text-ldsa-text-default"
+          class="main-title font-semibold text-sm mb-2 capitalize text-ldsa-text-default"
         >
           {{ formatarDia(item.dia) }}
         </h3>
 
         <div
           v-if="item.motivos.length === 0"
-          class="text-[12px] text-ldsa-grey"
+          class="text-sm text-ldsa-grey"
         >
           Não há indisponibilidade neste dia
         </div>
@@ -85,10 +85,10 @@ const onClose = () => emit('fechar');
             :key="motivo.horario + motivo.motivo"
             class="flex justify-between items-center border-b border-ldsa-grey py-2"
           >
-            <span class="font-semibold text-[12px] text-ldsa-text-default">{{
+            <span class="font-semibold text-sm text-ldsa-text-default">{{
               motivo.motivo
             }}</span>
-            <span class="text-[12px] text-ldsa-grey">{{ motivo.horario }}</span>
+            <span class="text-sm text-ldsa-grey">{{ motivo.horario }}</span>
           </li>
         </ul>
       </div>

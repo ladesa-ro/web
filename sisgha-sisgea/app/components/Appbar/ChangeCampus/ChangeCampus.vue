@@ -60,7 +60,7 @@ const open = ref(false);
   <UIPopover v-model="open" v-if="moreThanOneCampus">
     <template #activator>
       <div
-        class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[740px]:hidden"
+        class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden"
       >
         <IconsLocate class="mr-1 text-ldsa-text-green shrink-0" />
         <span class="truncate">{{
@@ -70,7 +70,7 @@ const open = ref(false);
         }}</span>
       </div>
 
-      <div class="p-2.5 min-[740px]:hidden shrink-0">
+      <div class="p-2.5 min-[46.2rem]:hidden shrink-0">
         <IconsLocate class="w-4.5" />
       </div>
     </template>
@@ -87,7 +87,7 @@ const open = ref(false);
       >
         <button
           :class="[
-            'flex items-center text-left gap-2 p-1.5 w-full max-[350px]:min-w-24 min-w-48 sm:min-w-3xs max-[350px]:max-w-[80vw] min-[350px]:max-w-2xs sm:max-w-xs text-sm font-medium border-2 rounded-lg mb-2',
+            'flex items-center text-left gap-2 p-1.5 w-full max-[21.8rem]:min-w-24 min-w-48 sm:min-w-3xs max-[21.8rem]:max-w-[80vw] min-[21.8rem]:max-w-2xs sm:max-w-xs text-sm font-medium border-2 rounded-lg mb-2',
             selected &&
               'bg-ldsa-green-2/10 border-ldsa-green-2/60 text-ldsa-text-green',
             !selected && 'border-ldsa-grey/75',
@@ -103,7 +103,7 @@ const open = ref(false);
         </button>
       </UIRadio>
 
-      <span class="mt-2 flex max-[350px]:flex-col justify-between gap-2">
+      <span class="mt-2 flex max-[21.8rem]:flex-col justify-between gap-2">
         <UIButtonModalCancel variant="small" @click="open = false" />
 
         <UIButtonModalConfirm

@@ -11,7 +11,7 @@ const weekDays = week.map(day => day.dayWeek);
 <template>
   <SectionProfileSectionsLayout
     title="Disponibilidade"
-    class="max-[900px]:max-h-max"
+    class="max-[56.25rem]:max-h-max"
     :icon="SISGHALogo"
   >
     <!-- hours card -->

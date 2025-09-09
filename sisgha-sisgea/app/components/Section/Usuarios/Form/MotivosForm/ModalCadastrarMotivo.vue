@@ -180,12 +180,12 @@ const onClose = () => emit('fechar');
         class="flex justify-between items-center py-3 border-b-1 border-ldsa-grey"
       >
         <div class="flex justify-between w-full items-center">
-          <span class="font-semibold text-[12px] text-ldsa-text-default">{{
+          <span class="font-semibold text-sm text-ldsa-text-default">{{
             m.motivo
           }}</span>
 
           <div class="flex items-center gap-2">
-            <span class="font-medium text-[12px] text-ldsa-grey">{{
+            <span class="font-medium text-sm text-ldsa-grey">{{
               m.horario
             }}</span>
 

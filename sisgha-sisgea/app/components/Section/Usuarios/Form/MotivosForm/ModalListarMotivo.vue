@@ -81,10 +81,10 @@ const onClose = () => emit('fechar');
     title="Editar motivos de indisponibilidade"
   >
     <div class="overflow-y-auto pr-2">
-      <p class="text-[10px] text-ldsa-grey text-center font-medium">
+      <p class="text-[0.62rem] text-ldsa-grey text-center font-medium">
         Esta é a listagem de todos os motivos cadastrados.
       </p>
-      <p class="text-[10px] text-ldsa-grey text-center font-medium mb-3">
+      <p class="text-[0.62rem] text-ldsa-grey text-center font-medium mb-3">
         Selecione um motivo para editá-lo.
       </p>
 
@@ -94,13 +94,13 @@ const onClose = () => emit('fechar');
           :key="item.motivo"
           class="border-b border-ldsa-grey flex items-center justify-between pb-2"
         >
-          <span class="font-semibold text-[12px] whitespace-nowrap mr-4 text-ldsa-text-default">
+          <span class="font-semibold text-sm whitespace-nowrap mr-4 text-ldsa-text-default">
             {{ item.motivo }}
           </span>
 
           <div class="flex items-center gap-4 min-w-0">
             <div
-              class="text-[10px] text-ldsa-grey text-right truncate max-w-[28vh] overflow-hidden whitespace-nowrap"
+              class="text-[0.62rem] text-ldsa-grey text-right truncate max-w-[28vh] overflow-hidden whitespace-nowrap"
               :title="formatarTooltip(item)"
             >
               <template v-for="(dia, index) in item.dias" :key="dia">
