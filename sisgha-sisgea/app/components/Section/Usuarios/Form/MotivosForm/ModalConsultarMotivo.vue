@@ -8,7 +8,14 @@ const emit = defineEmits<{
   (e: 'fechar'): void;
 }>();
 
-const diasDaSemana = ['segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+const diasDaSemana = [
+  'segunda',
+  'terça',
+  'quarta',
+  'quinta',
+  'sexta',
+  'sábado',
+];
 
 const motivosDoDia = computed(() => {
   return props.selectedDayWeek
@@ -16,9 +23,11 @@ const motivosDoDia = computed(() => {
     : [];
 });
 
-
 function normalizarChave(str: string): string {
-  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
 }
 
 function formatarDia(dia: string): string {
@@ -36,7 +45,7 @@ const motivosFormatadosPorDia = computed(() => {
     {} as Record<string, { horario: string; motivo: string }[]>
   );
 
-  return diasDaSemana.map((diaOriginal) => {
+  return diasDaSemana.map(diaOriginal => {
     const chaveNormalizada = normalizarChave(diaOriginal);
     const motivos = chavesNormalizadas[chaveNormalizada] ?? [];
     return {
@@ -45,23 +54,28 @@ const motivosFormatadosPorDia = computed(() => {
     };
   });
 });
+
+const onClose = () => emit('fechar');
 </script>
 
 <template>
-  <div
-    class="bg-ldsa-white text-ldsa-black p-7 rounded-lg shadow w-[60vh] h-[80vh] flex flex-col justify-between"
+  <DialogModalBaseLayout
+    :close-button="false"
+    :on-close="onClose"
+    title="Consultar motivos de indisponibilidade"
   >
     <div class="overflow-y-auto pr-2">
-      <h2 class="main-title text-[14px] font-semibold mb-4">
-        Consultar motivos de indisponibilidade
-      </h2>
-
       <div v-for="item in motivosFormatadosPorDia" :key="item.dia" class="mb-8">
-        <h3 class="main-title font-semibold text-[12px] mb-2 capitalize text-ldsa-black">
+        <h3
+          class="main-title font-semibold text-[12px] mb-2 capitalize text-ldsa-text-default"
+        >
           {{ formatarDia(item.dia) }}
         </h3>
 
-        <div v-if="item.motivos.length === 0" class="text-[12px] text-ldsa-grey">
+        <div
+          v-if="item.motivos.length === 0"
+          class="text-[12px] text-ldsa-grey"
+        >
           Não há indisponibilidade neste dia
         </div>
 
@@ -71,7 +85,9 @@ const motivosFormatadosPorDia = computed(() => {
             :key="motivo.horario + motivo.motivo"
             class="flex justify-between items-center border-b border-ldsa-grey py-2"
           >
-            <span class="font-semibold text-[12px]">{{ motivo.motivo }}</span>
+            <span class="font-semibold text-[12px] text-ldsa-text-default">{{
+              motivo.motivo
+            }}</span>
             <span class="text-[12px] text-ldsa-grey">{{ motivo.horario }}</span>
           </li>
         </ul>
@@ -81,7 +97,7 @@ const motivosFormatadosPorDia = computed(() => {
     <div class="pt-6">
       <UIButtonModalGoBack @click="emit('fechar')" />
     </div>
-  </div>
+  </DialogModalBaseLayout>
 </template>
 
 <style scoped>

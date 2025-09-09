@@ -71,17 +71,16 @@ function formatarDia(dia: string): string {
   const diasComFeira = ['segunda', 'terca', 'quarta', 'quinta', 'sexta'];
   return diasComFeira.includes(dia.toLowerCase()) ? `${dia}-feira` : dia;
 }
+const onClose = () => emit('fechar');
 </script>
 
 <template>
-  <div
-    class="bg-ldsa-white text-ldsa-black p-7 rounded-lg shadow w-[60vh] h-[80vh] flex flex-col justify-between"
+  <DialogModalBaseLayout
+    :close-button="false"
+    :on-close="onClose"
+    title="Editar motivos de indisponibilidade"
   >
     <div class="overflow-y-auto pr-2">
-      <h2 class="main-title text-[14px] font-semibold mb-4">
-        Editar motivos de indisponibilidade
-      </h2>
-
       <p class="text-[10px] text-ldsa-grey text-center font-medium">
         Esta é a listagem de todos os motivos cadastrados.
       </p>
@@ -95,7 +94,7 @@ function formatarDia(dia: string): string {
           :key="item.motivo"
           class="border-b border-ldsa-grey flex items-center justify-between pb-2"
         >
-          <span class="font-semibold text-[12px] whitespace-nowrap mr-4">
+          <span class="font-semibold text-[12px] whitespace-nowrap mr-4 text-ldsa-text-default">
             {{ item.motivo }}
           </span>
 
@@ -125,7 +124,7 @@ function formatarDia(dia: string): string {
                 aria-label="Editar motivo"
                 class="hover:text-ldsa-green-1"
               >
-                <IconsEdit class="text-ldsa-black w-4 h-4" />
+                <IconsEdit class="text-ldsa-text-default w-3 h-3" />
               </button>
               <button
                 @click="emit('deletar', item.motivo)"
@@ -147,7 +146,7 @@ function formatarDia(dia: string): string {
     <div class="pt-6">
       <UIButtonModalGoBack @click="emit('fechar')" />
     </div>
-  </div>
+  </DialogModalBaseLayout>
 </template>
 
 <style scoped>
