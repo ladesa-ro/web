@@ -99,12 +99,3 @@ const onClose = () => emit('fechar');
     </div>
   </DialogModalBaseLayout>
 </template>
-
-<style scoped>
-.main-title::before {
-  content: '';
-  border: 2px solid var(--ladesa-green-1-color);
-  margin-right: 0.5rem;
-  height: auto;
-}
-</style>
