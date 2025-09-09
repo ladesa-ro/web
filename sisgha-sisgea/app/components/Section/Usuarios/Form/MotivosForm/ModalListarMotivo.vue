@@ -57,7 +57,6 @@ const motivosDoDia = computed(() => {
     : [];
 });
 
-
 function formatarTooltip(item: any): string {
   return item.dias
     .map((dia: string) => {
@@ -79,6 +78,7 @@ const onClose = () => emit('fechar');
     :close-button="false"
     :on-close="onClose"
     title="Editar motivos de indisponibilidade"
+    class="h-[35rem] max-w-full"
   >
     <div class="overflow-y-auto pr-2">
       <p class="text-[0.62rem] text-ldsa-grey text-center font-medium">
@@ -94,7 +94,9 @@ const onClose = () => emit('fechar');
           :key="item.motivo"
           class="border-b border-ldsa-grey flex items-center justify-between pb-2"
         >
-          <span class="font-semibold text-sm whitespace-nowrap mr-4 text-ldsa-text-default">
+          <span
+            class="font-semibold text-sm whitespace-nowrap mr-4 text-ldsa-text-default"
+          >
             {{ item.motivo }}
           </span>
 
@@ -143,8 +145,10 @@ const onClose = () => emit('fechar');
       </div>
     </div>
 
-    <div class="pt-6">
-      <UIButtonModalGoBack @click="emit('fechar')" />
-    </div>
+    <template #button-group>
+      <div class="flex justify-start w-full">
+        <UIButtonModalGoBack @click="emit('fechar')" />
+      </div>
+    </template>
   </DialogModalBaseLayout>
 </template>

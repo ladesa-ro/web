@@ -107,7 +107,7 @@ const onClose = () => emit('fechar');
     :close-button="false"
     :on-close="onClose"
     title="Editar motivos de indisponibilidade"
-    class="mr-3"
+    class="mr-3 h-[35rem] max-w-full"
   >
     <div>
       <VVAutocomplete
@@ -145,11 +145,12 @@ const onClose = () => emit('fechar');
       <UIButtonModalSave :disabled="!podeSalvar" @click="salvarAlteracoes" />
     </template>
   </DialogModalBaseLayout>
+
   <DialogModalBaseLayout
     :close-button="false"
     :on-close="onClose"
     title="Editar horários do motivo"
-    class="mr-3"
+    class="h-[35rem] max-w-full"
   >
     <div>
       <WeekdaySelector

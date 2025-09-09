@@ -90,7 +90,7 @@ const onClose = () => emit('fechar');
     :close-button="false"
     :on-close="onClose"
     title="Cadastrar Motivos de Indisponibilidade"
-    class="mr-2"
+    class="mr-2 h-[35rem] max-w-full"
   >
     <div
       v-if="props.horariosSemMotivo.length === 0"
@@ -156,15 +156,18 @@ const onClose = () => emit('fechar');
       </div>
     </form>
 
-    <div class="pt-6">
-      <UIButtonModalGoBack @click="emit('fechar')" />
-    </div>
+    <template #button-group>
+      <div class="flex justify-start w-full">
+        <UIButtonModalGoBack @click="emit('fechar')" />
+      </div>
+    </template>
   </DialogModalBaseLayout>
 
   <DialogModalBaseLayout
     :close-button="false"
     :on-close="onClose"
     title="Motivos pendentes de confirmação"
+    class="h-[35rem] max-w-full"
   >
     <div
       v-if="pendentes.length === 0"
@@ -201,7 +204,7 @@ const onClose = () => emit('fechar');
       </li>
     </ul>
 
-    <div class="flex justify-between gap-3 pt-6">
+    <template #button-group>
       <UIButtonModalDelete
         :disabled="pendentes.length === 0"
         @click="cancelarTodos"
@@ -209,6 +212,7 @@ const onClose = () => emit('fechar');
       <UIButtonModalSave
         :disabled="pendentes.length === 0"
         @click="confirmarTodos"
-      /></div
-  ></DialogModalBaseLayout>
+      />
+    </template>
+  </DialogModalBaseLayout>
 </template>

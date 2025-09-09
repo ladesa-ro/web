@@ -63,6 +63,7 @@ const onClose = () => emit('fechar');
     :close-button="false"
     :on-close="onClose"
     title="Consultar motivos de indisponibilidade"
+    class="h-[35rem] max-w-full"
   >
     <div class="overflow-y-auto pr-2">
       <div v-for="item in motivosFormatadosPorDia" :key="item.dia" class="mb-8">
@@ -72,10 +73,7 @@ const onClose = () => emit('fechar');
           {{ formatarDia(item.dia) }}
         </h3>
 
-        <div
-          v-if="item.motivos.length === 0"
-          class="text-sm text-ldsa-grey"
-        >
+        <div v-if="item.motivos.length === 0" class="text-sm text-ldsa-grey">
           Não há indisponibilidade neste dia
         </div>
 
@@ -94,8 +92,10 @@ const onClose = () => emit('fechar');
       </div>
     </div>
 
-    <div class="pt-6">
-      <UIButtonModalGoBack @click="emit('fechar')" />
-    </div>
+    <template #button-group>
+      <div class="flex justify-start w-full">
+        <UIButtonModalGoBack @click="emit('fechar')" />
+      </div>
+    </template>
   </DialogModalBaseLayout>
 </template>
