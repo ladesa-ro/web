@@ -50,7 +50,6 @@ const selectedLabel = computed(
             <Input
               v-model="search"
               placeholder="Selecione um campus"
-              @focus="open = true"
               class="text-center w-auto h-full text-[0.6rem] shrink max-w-fit"
               :display-value="
                 value => props.campi.find(i => i.value === value)?.label || ''
