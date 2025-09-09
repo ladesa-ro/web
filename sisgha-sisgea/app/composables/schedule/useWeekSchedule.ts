@@ -27,7 +27,7 @@ export const useWeekSchedule = (
   turnosEDias: boolean = true,
   mustBeDayjs: boolean = true
   // onlyAulas: boolean = false
-  // TODO: completar implementação deste parâmetro
+  // TODO: completar implementação deste parâmetro filtrando o horario sem dias e turnos para ter apenas cells do tipo aula
 ) => {
   const horarioAulas = aulas.map(aula => useClassDayWeek(aula));
 
