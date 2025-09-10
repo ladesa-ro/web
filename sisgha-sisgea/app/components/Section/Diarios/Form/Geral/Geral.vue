@@ -8,41 +8,32 @@ const $emit = defineEmits(['close']);
 
 const contexto = createAndProvideContextDiariosFormGeral();
 
-const showSelectModal = ref(true);
-const showGerenciarModal = ref(false);
-const showLinkClassesModal = ref(false);
+const activeModal = ref<'select' | 'gerenciar' | 'vincular' | null>('select');
 
 const fecharTudo = () => {
   contexto.disciplinaId.value = null;
   contexto.disciplinaSelecionada.value = null;
-  showSelectModal.value = false;
-  showGerenciarModal.value = false;
-  showLinkClassesModal.value = false;
+  activeModal.value = null;
   $emit('close');
 };
 
 const abrirGerenciar = () => {
-  showSelectModal.value = false;
-  showGerenciarModal.value = true;
+  activeModal.value = 'gerenciar';
 };
 
 const voltarParaSelect = () => {
-  showGerenciarModal.value = false;
-  showSelectModal.value = true;
+  activeModal.value = 'select';
 };
 
 const abrirVincularTurmas = () => {
-  showGerenciarModal.value = false;
-  showLinkClassesModal.value = true;
+  activeModal.value = 'vincular';
 };
 
 const voltarParaGerenciar = () => {
-  showLinkClassesModal.value = false;
-  showGerenciarModal.value = true;
+  activeModal.value = 'gerenciar';
 };
 
 const salvarTurmas = (turmas: TurmaSelecionada[]) => {
-
   contexto.turmasSelecionadas!.value = [
     ...(contexto.turmasSelecionadas!.value ?? []),
     ...turmas.filter(
@@ -55,32 +46,55 @@ const salvarTurmas = (turmas: TurmaSelecionada[]) => {
 
   voltarParaGerenciar();
 };
-
 </script>
 
 <template>
   <!-- selecionar disciplina -->
-  <SectionDiariosFormGeralDisciplinaSelect
-    v-if="showSelectModal"
-    @close="fecharTudo"
-    @next="abrirGerenciar"
-  />
+  <DialogSkeleton
+    :model-value="activeModal === 'select'"
+    @update:model-value="
+      val => {
+        if (!val) fecharTudo();
+      }
+    "
+  >
+    <SectionDiariosFormGeralDisciplinaSelect
+      @close="fecharTudo"
+      @next="abrirGerenciar"
+    />
+  </DialogSkeleton>
 
   <!-- gerenciar turmas da disciplina -->
-  <SectionDiariosFormGeralDisciplinaTurmas
-    v-if="showGerenciarModal"
-    :disciplina="contexto.disciplinaSelecionada"
-    ref="gerenciarTurmasRef"
-    @close="fecharTudo"
-    @back="voltarParaSelect"
-    @add="abrirVincularTurmas"
-  />
+  <DialogSkeleton
+    :model-value="activeModal === 'gerenciar'"
+    @update:model-value="
+      val => {
+        if (!val) fecharTudo();
+      }
+    "
+  >
+    <SectionDiariosFormGeralDisciplinaTurmas
+      :disciplina="contexto.disciplinaSelecionada"
+      ref="gerenciarTurmasRef"
+      @close="fecharTudo"
+      @back="voltarParaSelect"
+      @add="abrirVincularTurmas"
+    />
+  </DialogSkeleton>
 
   <!-- vincular turmas à disciplina -->
-  <SectionDiariosFormGeralDisciplinaTurmasAdd
-    v-if="showLinkClassesModal"
-    @back="voltarParaGerenciar"
-    @close="fecharTudo"
-    @save-turmas="salvarTurmas"
-  />
+  <DialogSkeleton
+    :model-value="activeModal === 'vincular'"
+    @update:model-value="
+      val => {
+        if (!val) fecharTudo();
+      }
+    "
+  >
+    <SectionDiariosFormGeralDisciplinaTurmasAdd
+      @back="voltarParaGerenciar"
+      @close="fecharTudo"
+      @save-turmas="salvarTurmas"
+    />
+  </DialogSkeleton>
 </template>
