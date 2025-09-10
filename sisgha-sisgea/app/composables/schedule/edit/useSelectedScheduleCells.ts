@@ -1,11 +1,13 @@
-const selectedCells = ref(new Set<Cell>());
+const selectedCells = ref(new Set<ActiveCell>());
 
 const selectedCellsIds = ref(new Set<string>());
 
-type Cell = {
+export type ActiveCell = {
   id: string;
-  shiftId: string;
-  dayId: string;
+  data: string;
+  weekDay: string;
+  shiftId: number;
+  cellIndex: number;
 };
 
 // params
@@ -19,7 +21,7 @@ type ActionGetAll = {
 
 type ActionAddOrRemoveOne = {
   action: 'addOne' | 'removeOne';
-  cell: Cell;
+  cell: ActiveCell;
 };
 
 type Action = ActionRemoveAll | ActionGetAll | ActionAddOrRemoveOne;
@@ -32,7 +34,7 @@ export function useSelectedCells(params: ActionAddOrRemoveOne): void;
 
 export function useSelectedCells(
   params: ActionGetAll & { get: 'cells' }
-): Ref<Set<Cell>>;
+): Ref<Set<ActiveCell>>;
 
 export function useSelectedCells(
   params: ActionGetAll & { get: 'ids' }
@@ -43,9 +45,7 @@ export function useSelectedCells(
 export function useSelectedCells(params: Action) {
   switch (params.action) {
     case 'getAll':
-      return params.get === 'cells'
-        ? selectedCells
-        : selectedCellsIds;
+      return params.get === 'cells' ? selectedCells : selectedCellsIds;
 
     case 'removeAll':
       selectedCells.value.clear();
@@ -58,7 +58,10 @@ export function useSelectedCells(params: Action) {
       break;
 
     case 'removeOne':
-      selectedCells.value.delete(params.cell);
+      selectedCells.value.forEach(cell =>
+        cell.id === params.cell.id ? selectedCells.value.delete(cell) : cell
+      );
+
       selectedCellsIds.value.delete(params.cell.id);
       break;
   }

@@ -5,13 +5,12 @@ import {
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { reorderWithEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import type { WeekScheduleEditable } from '~/composables/schedule/edit/useScheduleEditTypes';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 import type {
   Aula,
-  DiaEditavelEmTurnos,
   HorDayjs,
   Vago,
-  WeekdayMeta,
   WeekSchedule,
   WeekScheduleHistory,
 } from '~/composables/schedule/useScheduleTypes';
@@ -46,16 +45,9 @@ const weekScheduleHistory = defineModel<WeekScheduleHistory>('history', {
 
 //
 
-type WeekScheduleEditable = {
-  data: WeekdayMeta;
-  schedule: DiaEditavelEmTurnos;
-}[];
-
-const weekScheduleEditable: Ref<WeekScheduleEditable> = ref(
-  [...weekSchedule.value.entries()].map(([dayMeta, daySchedule]) => ({
-    data: { ...dayMeta, data: useDayJs()(dayMeta.data).format('DD/MM') },
-    schedule: daySchedule,
-  }))
+const weekScheduleEditable = defineModel<WeekScheduleEditable>(
+  'editableSchedule',
+  { required: true, default: [] }
 );
 
 // Maps arrent reactive in vue, so is necessary to watch for changes in the editable array and update the original Map
@@ -63,6 +55,9 @@ watch(
   weekScheduleEditable,
   newVal => {
     weekSchedule.value.forEach((_, dayMeta) => {
+      if (!newVal) {
+        return;
+      }
       const changedDay = newVal.find(val => val.data.data === dayMeta.data);
 
       if (changedDay) {
@@ -283,13 +278,17 @@ const getRowShiftName = (rowShift: string) => {
 
         <template v-for="(day, dayIndex) in weekScheduleEditable">
           <template
-            v-for="(_, shiftName, shiftIndex) in Object.fromEntries(
+            v-for="(_, shiftName) in Object.fromEntries(
               Object.entries(day.schedule).filter(([key]) => key === rowShift)
             )"
           >
             <SectionHorarioDapeEditShift
               :day-id="dayIndex"
-              :turno-id="shiftIndex"
+              :turno-id="
+                ['manha', 'tarde', 'noite'].findIndex(
+                  turnName => turnName === shiftName
+                )
+              "
               :editMode
               v-model="weekScheduleEditable[dayIndex]!.schedule[shiftName]!"
               @atividade-change="weekScheduleHistory.commit()"

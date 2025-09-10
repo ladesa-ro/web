@@ -12,8 +12,10 @@ import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
 import ButtonsEditMode from './Buttons/ButtonsEditMode.vue';
 import ButtonsVisualizationMode from './Buttons/ButtonsVisualizationMode.vue';
 import { getOwnerName } from './getOwnerName';
-import { swapCells } from '../Edit/swapCells';
 import { useRefHistory } from '@vueuse/core';
+import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
+import { swapCells } from '../Edit/swapCells';
+import type { WeekScheduleEditable } from '~/composables/schedule/edit/useScheduleEditTypes';
 
 const id = useRoute().params.id as string;
 
@@ -35,6 +37,13 @@ const weekSchedule: Ref<WeekSchedule> = ref(
   useWeekSchedule(temposDeAulaExemplo, aulasSemDiaSemanaExemplo)
 ) as Ref<WeekSchedule>;
 
+const weekScheduleEditable: Ref<WeekScheduleEditable> = ref(
+  [...weekSchedule.value.entries()].map(([dayMeta, daySchedule]) => ({
+    data: { ...dayMeta, data: useDayJs()(dayMeta.data).format('DD/MM') },
+    schedule: daySchedule,
+  }))
+);
+
 // scheduleHistory is of type Ref<WeekScheduleHistory>, but typescript is picking on me so i just used "as any"
 const scheduleHistory = ref(
   useRefHistory(weekSchedule, {
@@ -46,8 +55,10 @@ const scheduleHistory = ref(
 const editMode = ref(false);
 const showBreaks = ref(true);
 
+// const teste = ref();
+
 const swap = () => {
-  swapCells(weekSchedule, scheduleHistory.value);
+  swapCells(weekScheduleEditable, scheduleHistory.value);
 };
 </script>
 
@@ -110,6 +121,7 @@ const swap = () => {
       :showBreaks
       v-model="weekSchedule"
       v-model:history="scheduleHistory"
+      v-model:editable-schedule="weekScheduleEditable"
     />
   </UIContainer>
 </template>

@@ -4,7 +4,7 @@ import Button from './ScheduleQueryButton.vue';
 const editMode = defineModel<boolean>({ default: false });
 
 const selectedItemsSize = computed(
-  () => useSelectedCells({ action: 'getAll' })?.value.size ?? 0
+  () => useSelectedCells({ action: 'getAll', get: 'ids' }).value.size ?? 0
 );
 
 defineEmits(['undo', 'redo', 'swap', 'replace']);
@@ -22,17 +22,11 @@ defineEmits(['undo', 'redo', 'swap', 'replace']);
 
     <div class="divider" />
 
-    <Button
-      :disabled="selectedItemsSize !== 2"
-      @click="$emit('swap')"
-    >
+    <Button :disabled="selectedItemsSize !== 2" @click="$emit('swap')">
       <IconsSwap class="w-4" />
     </Button>
 
-    <Button
-      :disabled="selectedItemsSize !== 2"
-      @click="$emit('replace')"
-    >
+    <Button :disabled="selectedItemsSize !== 2" @click="$emit('replace')">
       <IconsReplace class="w-5" />
     </Button>
 

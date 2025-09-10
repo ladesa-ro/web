@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {
   Aula,
-  HorarioEditavelType,
+  EditableCellType,
   Vago,
 } from '~/composables/schedule/useScheduleTypes';
 
@@ -12,7 +12,7 @@ const cell = defineModel<Aula | Vago>({
 
 const emit = defineEmits(['atividade-change']);
 
-const changeCellType = (atv: HorarioEditavelType) => {
+const changeCellType = (atv: EditableCellType) => {
   if (cell.value.tipo !== atv) {
     cell.value.tipo = atv;
 
@@ -66,9 +66,7 @@ const changeActivityValue = ref(cellType.value ?? 'vago');
       @click.stop="changeCellType('vago')"
       :class="[
         'inline w-4.5 p-0.5 text-ldsa-red hover:bg-ldsa-red/10 rounded',
-        cell.tipo === 'vago'
-          ? 'opacity-0 cursor-default'
-          : 'cursor-pointer',
+        cell.tipo === 'vago' ? 'opacity-0 cursor-default' : 'cursor-pointer',
       ]"
     />
   </div>
