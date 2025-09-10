@@ -1,108 +1,124 @@
-import type { UseRefHistoryReturn } from '@vueuse/core';
-import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
+import type { Ref } from 'vue';
+import type { WeekScheduleEditable } from '~/composables/schedule/edit/useScheduleEditTypes';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 import type {
   Aula,
-  DiaEditavelEmTurnos,
   HorDayjs,
   Vago,
-  WeekdayMeta,
-  WeekSchedule,
   WeekScheduleHistory,
 } from '~/composables/schedule/useScheduleTypes';
 
 export const swapCells = (
-  weekSchedule: Ref<WeekSchedule>,
+  weekSchedule: Ref<WeekScheduleEditable>,
   scheduleHistory: WeekScheduleHistory
 ) => {
-  const ativosIndex: number[] = [];
-  const colunas: Cell[][] = [];
-  const metas: WeekdayMeta[] = [];
-  const dias: DiaEditavelEmTurnos[] = [];
-  const turnoKeys: string[] = [];
-
-  const ativos = useSelectedCells({ action: 'getAll' });
-
-  if (!ativos || !ativos.value || ativos.value.size < 2) return;
-
-  ativos.value.forEach(horarioAtivoId => {
-    let found = false;
-
-    for (const [meta, dia] of weekSchedule.value.entries()) {
-      const diaKeys = Object.keys(dia);
-      for (const key of diaKeys) {
-        const coluna = (dia as any)[key] as Cell[] | undefined;
-        if (!Array.isArray(coluna)) continue;
-
-        const findActiveIndex = coluna.findIndex((horario, horIdx) => {
-          if (!horario) return false;
-          return horario.id === horarioAtivoId;
-        });
-
-        if (findActiveIndex !== -1) {
-          metas.push(meta);
-          dias.push(dia);
-          turnoKeys.push(key);
-          colunas.push(coluna);
-          ativosIndex.push(findActiveIndex);
-          found = true;
-          break;
-        }
-      }
-      if (found) break;
-    }
+  const activeCells = useSelectedCells({
+    action: 'getAll',
+    get: 'cells',
   });
 
-  // precisa ter duas células encontradas
-  if (
-    ativosIndex[0] !== undefined &&
-    ativosIndex[1] !== undefined &&
-    colunas[0] &&
-    colunas[1]
-  ) {
-    const first = colunas[0][ativosIndex[0]];
-    const second = colunas[1][ativosIndex[1]];
-
-    if (first && second) {
-      // se são de turnos diferentes, troca seus turnoId
-      if (turnoKeys[0] !== turnoKeys[1]) {
-        [first.turnoId, second.turnoId] = [second.turnoId, first.turnoId];
-      }
-
-      // faz o swap nas arrays
-      [colunas[0][ativosIndex[0]], colunas[1][ativosIndex[1]]] = [
-        second,
-        first,
-      ];
-
-      for (let i = 0; i < 2; i++) {
-        const meta = metas[i];
-        const originalDia = dias[i];
-        const key = turnoKeys[i];
-        const updatedColumn = colunas[i]!.filter(
-          cell => 'diaSemana' in cell
-        ) as ((Aula | Vago) & HorDayjs)[];
-
-        const newDia = { ...(originalDia as Record<string, any>) };
-        if (key !== undefined) {
-          (newDia as any)[key] = updatedColumn;
-        }
-
-        if (meta !== undefined) {
-          weekSchedule.value.set(meta, newDia as DiaEditavelEmTurnos);
-        }
-      }
-
-      scheduleHistory.commit();
-      useSelectedCells({ action: 'removeAll' });
-    } else {
-      console.warn('first = ', first);
-      console.warn('second = ', second);
-      return;
-    }
+  const activeArr = [...activeCells.value];
+  if (activeArr.length !== 2) {
+    console.warn(
+      'Para o swap, são necessárias exatamente 2 células selecionadas.'
+    );
+    return;
   }
+
+  // Garante uma ordem consistente para os turnos
+  const SHIFT_ORDER: (keyof WeekScheduleEditable[number]['schedule'])[] = [
+    'manha',
+    'tarde',
+    'noite',
+  ];
+
+  // Localiza a posição exata (dia, turno, índice) de cada célula selecionada
+  const findCellLocation = (cellId: string) => {
+    for (const day of weekSchedule.value) {
+      for (const shiftName of SHIFT_ORDER) {
+        const shift = day.schedule[shiftName] ?? [];
+        const cellIndex = shift.findIndex(c => c.id === cellId);
+        if (cellIndex !== -1) {
+          return {
+            dayObj: day,
+            shiftName,
+            cellIndex,
+            cell: shift[cellIndex] as (Aula | Vago) & HorDayjs,
+          };
+        }
+      }
+    }
+    return null;
+  };
+
+  const locA = findCellLocation(activeArr[0]!.id);
+  const locB = findCellLocation(activeArr[1]!.id);
+
+  if (!locA || !locB) {
+    console.warn('locA = ', locA);
+    console.warn('locB = ', locB);
+    return;
+  }
+
+  if (locA.dayObj.data.data === locB.dayObj.data.data) {
+    const newSchedule = { ...locA.dayObj.schedule };
+    const shiftA = [...(newSchedule[locA.shiftName] || [])];
+
+    const shiftB =
+      locA.shiftName === locB.shiftName
+        ? shiftA
+        : [...(newSchedule[locB.shiftName] || [])];
+
+    [shiftA[locA.cellIndex], shiftB[locB.cellIndex]] = [locB.cell, locA.cell];
+
+    // cell infos update
+    [shiftA[locA.cellIndex]!.turnoId, shiftB[locB.cellIndex]!.turnoId] = [
+      locA.cell.turnoId,
+      locB.cell.turnoId,
+    ];
+
+    newSchedule[locA.shiftName] = shiftA;
+    newSchedule[locB.shiftName] = shiftB;
+
+    locA.dayObj.schedule = newSchedule;
+  } 
+  //
+  else {
+    const newShiftA = [...locA.dayObj.schedule[locA.shiftName]!];
+    const newShiftB = [...locB.dayObj.schedule[locB.shiftName]!];
+
+    // swap
+    [newShiftA[locA.cellIndex], newShiftB[locB.cellIndex]] = [
+      locB.cell,
+      locA.cell,
+    ];
+
+    // cell infos update
+    [newShiftA[locA.cellIndex]!.turnoId, newShiftB[locB.cellIndex]!.turnoId] = [
+      locA.cell.turnoId,
+      locB.cell.turnoId,
+    ];
+
+    [
+      newShiftA[locA.cellIndex]!.diaSemana,
+      newShiftB[locB.cellIndex]!.diaSemana,
+    ] = [locA.cell.diaSemana, locB.cell.diaSemana];
+
+    locA.dayObj.schedule = {
+      ...locA.dayObj.schedule,
+      [locA.shiftName]: newShiftA,
+    };
+
+    locB.dayObj.schedule = {
+      ...locB.dayObj.schedule,
+      [locB.shiftName]: newShiftB,
+    };
+  }
+
+  scheduleHistory.commit();
+  useSelectedCells({ action: 'removeAll' });
 };
 
 export const canSwap = computed(
-  () => useSelectedCells({ action: 'getAll' })!.value.size === 2
+  () => useSelectedCells({ action: 'getAll', get: 'ids' })!.value.size === 2
 );

@@ -13,28 +13,30 @@ export type TemposDeAulaMap = Map<
 //
 
 // intervalos de tempo recebidos pela api e editáveis pelo usuário
-export type HorarioEditavelType = 'aula' | 'vago';
+export type EditableCellType = 'aula' | 'vago';
 
 // intervalos de tempo automaticamente calculados por useWeekSchedule()
-export type HorarioNaoEditavelType =
+export type NonEditablePeriodsType =
   | 'intervalo'
   | 'quebraTurno'
   | 'transicaoDia';
 
-export type HorarioType = HorarioEditavelType | HorarioNaoEditavelType;
+export type TimePeriodType = EditableCellType | NonEditablePeriodsType;
 
 //
 
-export type HorarioEditavel = {
+export type EditableCell = {
   diaSemana: string;
+  dayId?: number;
   turnoId?: number;
+  cellIndex?: number;
 };
 
 //
 
-type HorarioBase = {
+type TimePeriodBase = {
   id: string;
-  tipo: HorarioType;
+  tipo: TimePeriodType;
   horaInicio: StringOrDayjs;
   horaFim: StringOrDayjs;
   data: StringOrDayjs;
@@ -42,8 +44,8 @@ type HorarioBase = {
 
 // TODO: adaptar a estrutura de aula quando integrar à api
 // extenderá o tipo Ladesa_ManagementService_Domain_Contracts_AulaFindOneOutput
-export type Aula = HorarioBase &
-  HorarioEditavel & {
+export type Aula = TimePeriodBase &
+  EditableCell & {
     tipo: 'aula';
     diario: { turma: string; professor: string; disciplina: string };
     // ambiente: string;
@@ -51,13 +53,13 @@ export type Aula = HorarioBase &
     // modalidade: string;
   };
 
-export type Vago = HorarioBase & HorarioEditavel & { tipo: 'vago' };
+export type Vago = TimePeriodBase & EditableCell & { tipo: 'vago' };
 
-export type Intervalo = HorarioBase & { tipo: 'intervalo'; turnoId?: number };
+export type Intervalo = TimePeriodBase & { tipo: 'intervalo'; turnoId?: number };
 
-export type quebraTurno = HorarioBase & { tipo: 'quebraTurno' };
+export type quebraTurno = TimePeriodBase & { tipo: 'quebraTurno' };
 
-export type TransicaoDia = HorarioBase & {
+export type TransicaoDia = TimePeriodBase & {
   tipo: 'transicaoDia';
   dataFim: StringOrDayjs;
 };
@@ -99,4 +101,7 @@ export type WeekdayMeta = { data: string; weekday: string };
 
 export type WeekSchedule = Map<WeekdayMeta, DiaEditavelEmTurnos>;
 
-export type WeekScheduleHistory = UseRefHistoryReturn<WeekSchedule, WeekSchedule>;
+export type WeekScheduleHistory = UseRefHistoryReturn<
+  WeekSchedule,
+  WeekSchedule
+>;
