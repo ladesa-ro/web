@@ -131,6 +131,7 @@ const onClose = () => emit('fechar');
                     time => !props.horariosSemMotivo.includes(time)
                   )
                 "
+                class="nunito"
               />
             </div>
           </section>

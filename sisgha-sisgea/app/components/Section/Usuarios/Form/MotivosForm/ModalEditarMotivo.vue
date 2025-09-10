@@ -181,7 +181,11 @@ const onClose = () => emit('fechar');
             <h3 class="mb-2 text-ldsa-text-default">
               {{ capitalizeFirst(shift.title) }}
             </h3>
-            <UICheckbox :items="shift.times" v-model="horariosSelecionados" />
+            <UICheckbox
+              :items="shift.times"
+              v-model="horariosSelecionados"
+              class="nunito"
+            />
           </div>
         </section>
       </div>
