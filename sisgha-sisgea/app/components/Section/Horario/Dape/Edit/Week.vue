@@ -190,6 +190,8 @@ onMounted(() => {
 
       weekScheduleEditable.value[startDayScheduleId]!.schedule =
         startDaySchedule;
+
+      weekScheduleHistory.value.commit();
     },
   });
 });

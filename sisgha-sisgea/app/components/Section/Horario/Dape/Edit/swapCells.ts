@@ -5,12 +5,13 @@ import type {
   Aula,
   HorDayjs,
   Vago,
+  WeekEditableScheduleHistory,
   WeekScheduleHistory,
 } from '~/composables/schedule/useScheduleTypes';
 
 export const swapCells = (
   weekSchedule: Ref<WeekScheduleEditable>,
-  scheduleHistory: WeekScheduleHistory
+  scheduleHistory: WeekEditableScheduleHistory
 ) => {
   const activeCells = useSelectedCells({
     action: 'getAll',

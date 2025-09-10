@@ -46,7 +46,7 @@ const weekScheduleEditable: Ref<WeekScheduleEditable> = ref(
 
 // scheduleHistory is of type Ref<WeekScheduleHistory>, but typescript is picking on me so i just used "as any"
 const scheduleHistory = ref(
-  useRefHistory(weekSchedule, {
+  useRefHistory(weekScheduleEditable, {
     deep: true,
     capacity: 10,
   }) as any
