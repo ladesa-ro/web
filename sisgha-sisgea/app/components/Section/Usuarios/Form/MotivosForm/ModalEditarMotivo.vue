@@ -103,70 +103,88 @@ const onClose = () => emit('fechar');
 </script>
 
 <template>
-  <DialogModalBaseLayout
-    :close-button="false"
-    :on-close="onClose"
-    title="Editar motivos de indisponibilidade"
-    class="mr-3 h-[35rem] max-w-full"
-  >
-    <div>
-      <VVAutocomplete
-        :items="['Licença médica', 'Atividade externa', 'Reunião', 'Outro']"
-        v-model="novoMotivo"
-        placeholder="Digite ou selecione um novo motivo"
-        label="Motivo"
-        name="motivo"
-        class="w-full text-sm mt-1"
-      />
+  <div class="flex flex-col gap-4 md:flex-row md:gap-4 h-[90vh]">
+    <DialogModalBaseLayout
+      :close-button="false"
+      :on-close="onClose"
+      title="Editar motivos de indisponibilidade"
+      class="flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto p-4"
+    >
+      <div>
+        <VVAutocomplete
+          :items="['Licença médica', 'Atividade externa', 'Reunião', 'Outro']"
+          v-model="novoMotivo"
+          placeholder="Digite ou selecione um novo motivo"
+          label="Motivo"
+          name="motivo"
+          class="w-full text-sm mt-1"
+        />
 
-      <div class="mt-4 space-y-2 text-sm">
-        <div
-          v-for="dia in props.motivoAtual.dias"
-          :key="dia"
-          class="flex justify-between border-b border-ldsa-grey py-2"
-        >
-          <span class="capitalize font-semibold text-ldsa-text-default">
-            {{ formatarDia(dia) }}
-          </span>
-          <span class="text-right text-ldsa-text-default">
-            {{
-              agruparHorarios(props.motivoAtual.horariosPorDia[dia] || []).join(
-                ', '
-              )
-            }}
-          </span>
+        <div class="mt-4 text-sm">
+          <div
+            v-for="dia in props.motivoAtual.dias"
+            :key="dia"
+            class="flex justify-between border-b border-ldsa-grey py-2"
+          >
+            <span class="capitalize font-semibold text-ldsa-text-default">
+              {{ formatarDia(dia) }}
+            </span>
+            <span class="text-right text-ldsa-text-default">
+              {{
+                agruparHorarios(
+                  props.motivoAtual.horariosPorDia[dia] || []
+                ).join(', ')
+              }}
+            </span>
+          </div>
         </div>
       </div>
-    </div>
 
-    <template #button-group>
-      <UIButtonModalCancel @click="emit('fechar')" />
-      <UIButtonModalDelete @click="emit('deletar', props.motivoAtual.motivo)" />
-      <UIButtonModalSave :disabled="!podeSalvar" @click="salvarAlteracoes" />
-    </template>
-  </DialogModalBaseLayout>
-
-  <DialogModalBaseLayout
-    :close-button="false"
-    :on-close="onClose"
-    title="Editar horários do motivo"
-    class="h-[35rem] max-w-full"
-  >
-    <div>
-      <WeekdaySelector
-        :items="weekDays"
-        v-model="selectedDayWeek"
-        class="font-semibold mb-4"
-      />
-
-      <section class="flex justify-between">
-        <div v-for="shift in dayShifts" :key="shift.title">
-          <h3 class="text-sm font-medium text-ldsa-text-default mb-2">
-            {{ capitalizeFirst(shift.title) }}
-          </h3>
-          <UICheckbox :items="shift.times" v-model="horariosSelecionados" />
+      <template #button-group>
+        <div class="flex flex-col sm:flex-row gap-2 justify-center w-full">
+          <UIButtonModalCancel
+            class="sm:flex-1 md:flex-none"
+            @click="emit('fechar')"
+          />
+          <UIButtonModalDelete
+            class="sm:flex-1 md:flex-none"
+            @click="emit('deletar', props.motivoAtual.motivo)"
+          />
+          <UIButtonModalSave
+            class="sm:flex-1 md:flex-none"
+            :disabled="!podeSalvar"
+            @click="salvarAlteracoes"
+          />
         </div>
-      </section>
-    </div>
-  </DialogModalBaseLayout>
+      </template>
+    </DialogModalBaseLayout>
+
+    <DialogModalBaseLayout
+      :close-button="false"
+      :on-close="onClose"
+      title="Editar motivos de indisponibilidade"
+      class="flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto p-4"
+    >
+      <div>
+        <WeekdaySelector
+          :items="weekDays"
+          v-model="selectedDayWeek"
+          class="font-semibold mb-4"
+        />
+
+        <section class="flex flex-row flex-wrap gap-3 justify-between w-full">
+          <div
+            v-for="shift in dayShifts"
+            :key="shift.title"
+            class="flex-1 min-w-[80px] max-w-[120px] overflow-x-hidden"
+          >
+            <h3 class="mb-2 text-ldsa-text-default">
+              {{ capitalizeFirst(shift.title) }}
+            </h3>
+            <UICheckbox :items="shift.times" v-model="horariosSelecionados" />
+          </div>
+        </section>
+      </div>
+    </DialogModalBaseLayout>
+  </div>
 </template>
