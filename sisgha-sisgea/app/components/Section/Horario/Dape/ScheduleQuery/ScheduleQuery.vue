@@ -55,8 +55,6 @@ const scheduleHistory = ref(
 const editMode = ref(false);
 const showBreaks = ref(true);
 
-// const teste = ref();
-
 const swap = () => {
   swapCells(weekScheduleEditable, scheduleHistory.value);
 };
@@ -108,6 +106,8 @@ const swap = () => {
       <ButtonsEditMode
         v-if="editMode"
         v-model="editMode"
+        :canUndo="scheduleHistory.canUndo"
+        :canRedo="scheduleHistory.canRedo"
         @redo="scheduleHistory.redo()"
         @undo="scheduleHistory.undo()"
         @swap="swap()"
@@ -124,6 +124,9 @@ const swap = () => {
       v-model:editable-schedule="weekScheduleEditable"
     />
   </UIContainer>
+  <pre>
+    {{ scheduleHistory }}
+  </pre>
 </template>
 
 <style scoped>

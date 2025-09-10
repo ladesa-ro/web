@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 import Button from './ScheduleQueryButton.vue';
+
+defineProps<{
+  canUndo: boolean;
+  canRedo: boolean;
+}>();
+
 const editMode = defineModel<boolean>({ default: false });
 
 const selectedItemsSize = computed(
@@ -12,11 +18,11 @@ defineEmits(['undo', 'redo', 'swap', 'replace']);
 
 <template>
   <span class="flex gap-2.5">
-    <Button @click="$emit('redo')">
+    <Button :disabled="!canRedo" @click="$emit('redo')">
       <IconsUndoRedo class="w-4 scale-x-[-1]" />
     </Button>
 
-    <Button @click="$emit('undo')">
+    <Button :disabled="!canUndo" @click="$emit('undo')">
       <IconsUndoRedo class="w-4" />
     </Button>
 
