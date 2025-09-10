@@ -87,6 +87,7 @@ const onClose = () => $emit('close');
     <DialogModalBaseLayout
       :on-close="onClose"
       :title="editId ? 'Editar Usuário' : 'Cadastrar Usuário'"
+      class="w-full h-auto max-h-[90vh] overflow-x-hidden overflow-y-auto"
     >
       <VVSelectImage name="imagem" />
 
@@ -114,10 +115,12 @@ const onClose = () => $emit('close');
       <SectionUsuariosFormProfileRoles />
 
       <template #button-group>
-        <UIButtonModalCancel @click="$emit('close')" />
+        <div class="flex flex-col sm:flex-row gap-2 justify-between w-full">
+          <UIButtonModalCancel @click="$emit('close')" />
 
-        <UIButtonModalEdit v-if="editId" />
-        <UIButtonModalSave v-else />
+          <UIButtonModalEdit v-if="editId" />
+          <UIButtonModalSave v-else />
+        </div>
       </template>
     </DialogModalBaseLayout>
   </form>

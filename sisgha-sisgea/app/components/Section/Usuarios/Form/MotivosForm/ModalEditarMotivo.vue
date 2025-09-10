@@ -1,7 +1,7 @@
 <script lang="ts" setup>
+import WeekdaySelector from '~/components/UI/WeekDaySelector/WeekdaySelector.vue';
 import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
 import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
-import WeekdaySelector from '~/components/UI/WeekDaySelector/WeekdaySelector.vue';
 
 const props = defineProps<{
   motivoAtual: {
@@ -99,37 +99,37 @@ function formatarDia(dia: string): string {
   const diasComFeira = ['segunda', 'terça', 'quarta', 'quinta', 'sexta'];
   return diasComFeira.includes(dia.toLowerCase()) ? `${dia}-feira` : dia;
 }
+const onClose = () => emit('fechar');
 </script>
 
 <template>
-  <div class="flex gap-5">
-    <div
-      class="bg-ldsa-white text-ldsa-black p-7 rounded-lg shadow w-full max-w-[30rem] h-[80vh] flex flex-col justify-between"
+  <div class="flex flex-col gap-4 md:flex-row md:gap-4 h-[90vh]">
+    <DialogModalBaseLayout
+      :close-button="false"
+      :on-close="onClose"
+      title="Editar motivos de indisponibilidade"
+      class="flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto p-4"
     >
       <div>
-        <h2 class="main-title text-[14px] font-semibold mb-6">
-          Editar motivo de indisponibilidade
-        </h2>
-
         <VVAutocomplete
           :items="['Licença médica', 'Atividade externa', 'Reunião', 'Outro']"
           v-model="novoMotivo"
           placeholder="Digite ou selecione um novo motivo"
           label="Motivo"
           name="motivo"
-          class="w-full text-[12px]"
+          class="w-full text-sm mt-1"
         />
 
-        <div class="mt-4 space-y-2 text-[12px]">
+        <div class="mt-4 text-sm">
           <div
             v-for="dia in props.motivoAtual.dias"
             :key="dia"
             class="flex justify-between border-b border-ldsa-grey py-2"
           >
-            <span class="capitalize font-semibold">
+            <span class="capitalize font-semibold text-ldsa-text-default">
               {{ formatarDia(dia) }}
             </span>
-            <span class="text-right">
+            <span class="text-right text-ldsa-text-default">
               {{
                 agruparHorarios(
                   props.motivoAtual.horariosPorDia[dia] || []
@@ -140,46 +140,55 @@ function formatarDia(dia: string): string {
         </div>
       </div>
 
-      <div class="flex justify-between gap-1 pt-6 w-full">
-        <UIButtonModalCancel @click="emit('fechar')" />
-        <UIButtonModalDelete
-          @click="emit('deletar', props.motivoAtual.motivo)"
-        />
-        <UIButtonModalSave :disabled="!podeSalvar" @click="salvarAlteracoes" />
-      </div>
-    </div>
+      <template #button-group>
+        <div class="flex flex-col sm:flex-row gap-2 justify-center w-full">
+          <UIButtonModalCancel
+            class="sm:flex-1 md:flex-none"
+            @click="emit('fechar')"
+          />
+          <UIButtonModalDelete
+            class="sm:flex-1 md:flex-none"
+            @click="emit('deletar', props.motivoAtual.motivo)"
+          />
+          <UIButtonModalSave
+            class="sm:flex-1 md:flex-none"
+            :disabled="!podeSalvar"
+            @click="salvarAlteracoes"
+          />
+        </div>
+      </template>
+    </DialogModalBaseLayout>
 
-    <div
-      class="bg-ldsa-white text-ldsa-black p-7 rounded-lg shadow w-[60vh] h-[80vh] flex flex-col justify-between"
+    <DialogModalBaseLayout
+      :close-button="false"
+      :on-close="onClose"
+      title="Editar motivos de indisponibilidade"
+      class="flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto p-4"
     >
       <div>
-        <h2 class="main-title text-[14px] font-semibold mb-6">
-          Editar horários do motivo
-        </h2>
-
         <WeekdaySelector
           :items="weekDays"
           v-model="selectedDayWeek"
           class="font-semibold mb-4"
         />
 
-        <section class="flex justify-between">
-          <div v-for="shift in dayShifts" :key="shift.title">
-            <h3 class="text-[12px] font-medium text-ldsa-black mb-2">
+        <section class="flex flex-row flex-wrap gap-3 justify-between w-full">
+          <div
+            v-for="shift in dayShifts"
+            :key="shift.title"
+            class="flex-1 min-w-[80px] max-w-[120px] overflow-x-hidden"
+          >
+            <h3 class="mb-2 text-ldsa-text-default">
               {{ capitalizeFirst(shift.title) }}
             </h3>
-            <UICheckbox :items="shift.times" v-model="horariosSelecionados" />
+            <UICheckbox
+              :items="shift.times"
+              v-model="horariosSelecionados"
+              class="nunito"
+            />
           </div>
         </section>
       </div>
-    </div>
+    </DialogModalBaseLayout>
   </div>
 </template>
-
-<style scoped>
-.main-title::before {
-  content: '';
-  border: 2px solid var(--ladesa-green-1-color);
-  margin-right: 0.5rem;
-}
-</style>

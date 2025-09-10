@@ -133,11 +133,16 @@ function setDiaSelecionado(dia: string) {
 </script>
 
 <template>
-  <SectionUsuariosForm v-if="true" :edit-id="editId">
+  <SectionUsuariosForm
+    v-if="true"
+    :edit-id="editId"
+    class="w-full flex flex-col md:flex-row gap-4 h-[90vh]"
+  >
     <SectionUsuariosFormProfile
       v-show="isProfileOpen"
       :edit-id="editId"
       @close="onClose"
+      class="w-full md:w-1/2 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
     />
     <SectionUsuariosModalsFormDialogAvailability
       v-show="isAvailabilityOpen"
@@ -147,6 +152,7 @@ function setDiaSelecionado(dia: string) {
       @atualizar-horarios-sem-motivo="atualizarHorariosSemMotivo"
       @atualizar-motivos="atualizarMotivos"
       @atualizar-dia-selecionado="setDiaSelecionado"
+      class="w-full md:w-1/2 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
     />
   </SectionUsuariosForm>
 
