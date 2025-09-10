@@ -10,14 +10,19 @@ import {
   dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
-import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
+import {
+  useSelectedCells,
+  type ActiveCell,
+} from '~/composables/schedule/edit/useSelectedScheduleCells';
 
 const {
   turnoId,
   dayId,
   maxCapacityReached = false,
   editMode,
+  cellIndex,
 } = defineProps<{
+  cellIndex: number;
   dayId: number;
   turnoId: number;
   editMode?: boolean;
@@ -126,13 +131,23 @@ onUnmounted(() => {
 //
 
 const active = computed(() =>
-  useSelectedCells({ action: 'getAll' })!.value.has(horarioMeta.value.id)
+  useSelectedCells({ action: 'getAll', get: 'ids' })!.value.has(
+    horarioMeta.value.id
+  )
 );
 
 const toggleActive = () => {
+  const cell: ActiveCell = {
+    id: horarioMeta.value.id,
+    cellIndex,
+    shiftId: horarioMeta.value.turnoId ?? 0,
+    data: horarioMeta.value.data.format('DD/MM'),
+    weekDay: horarioMeta.value.data.format('dddd'),
+  };
+
   active.value
-    ? useSelectedCells({ action: 'removeOne', id: horarioMeta.value.id })
-    : useSelectedCells({ action: 'addOne', id: horarioMeta.value.id });
+    ? useSelectedCells({ action: 'removeOne', cell })
+    : useSelectedCells({ action: 'addOne', cell });
 };
 
 //
@@ -150,7 +165,7 @@ const popoverOpen = ref(false);
     v-show="showBreaks ? true : horarioMeta.tipo !== 'intervalo'"
     :class="[
       'relative not-last:border-b-[0.119565rem] nth-of-type-[2n]:mb-[0.5px] border-t-solid border-t-transparent border-b-2 border-b-solid border-b-ldsa-text-default/65 transform-[translateZ(0)] last:border-b-transparent',
-      active && 'bg-ldsa-green-2/10',
+      active && 'bg-ldsa-green-2/15',
     ]"
     @click="horarioMeta.tipo !== 'intervalo' && editMode && toggleActive()"
   >

@@ -5,13 +5,12 @@ import {
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { reorderWithEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import type { WeekScheduleEditable } from '~/composables/schedule/edit/useScheduleEditTypes';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 import type {
   Aula,
-  DiaEditavelEmTurnos,
   HorDayjs,
   Vago,
-  WeekdayMeta,
   WeekSchedule,
   WeekScheduleHistory,
 } from '~/composables/schedule/useScheduleTypes';
@@ -46,16 +45,9 @@ const weekScheduleHistory = defineModel<WeekScheduleHistory>('history', {
 
 //
 
-type WeekScheduleEditable = {
-  data: WeekdayMeta;
-  schedule: DiaEditavelEmTurnos;
-}[];
-
-const weekScheduleEditable: Ref<WeekScheduleEditable> = ref(
-  [...weekSchedule.value.entries()].map(([dayMeta, daySchedule]) => ({
-    data: { ...dayMeta, data: useDayJs()(dayMeta.data).format('DD/MM') },
-    schedule: daySchedule,
-  }))
+const weekScheduleEditable = defineModel<WeekScheduleEditable>(
+  'editableSchedule',
+  { required: true, default: [] }
 );
 
 // Maps arrent reactive in vue, so is necessary to watch for changes in the editable array and update the original Map
@@ -63,6 +55,9 @@ watch(
   weekScheduleEditable,
   newVal => {
     weekSchedule.value.forEach((_, dayMeta) => {
+      if (!newVal) {
+        return;
+      }
       const changedDay = newVal.find(val => val.data.data === dayMeta.data);
 
       if (changedDay) {
@@ -219,31 +214,42 @@ const getRowShiftName = (rowShift: string) => {
 
 <template>
   <div class="w-max mx-auto">
-    <div class="grid grid-cols-6 ml-[calc(6.25rem+0.063rem)] mr-0.5 mb-3">
-      <div
+    <div class="grid grid-cols-6 ml-[6.313rem] mr-0.5 mb-3">
+      <SectionHorarioDapeEditDayAndShiftPopover
         v-for="day in weekScheduleEditable"
-        class="bg-ldsa-green-1 rounded-t-lg p-[0.313rem] text-center text-ldsa-white font-medium text-[0.813rem] w-44"
+        :disabled="!editMode"
       >
-        {{ day.data.weekday }} - {{ day.data.data }}
-      </div>
+        <div
+          :class="editMode && 'hover:bg-ldsa-green-1/85'"
+          class="bg-ldsa-green-1 rounded-t-lg p-[0.313rem] text-center text-ldsa-white font-medium text-[0.813rem] w-44"
+        >
+          {{ day.data.weekday }} - {{ day.data.data }}
+        </div>
+      </SectionHorarioDapeEditDayAndShiftPopover>
     </div>
 
     <div
       v-for="(rowShift, rowShiftIndex) in ['manha', 'tarde', 'noite']"
       class="flex justify-center mb-4 last:mb-0"
     >
-      <div
-        class="bg-ldsa-green-1 text-center vertical-text text-ldsa-white p-1 font-medium text-[0.813rem]"
+      <SectionHorarioDapeEditDayAndShiftPopover
+        :disabled="!editMode"
+        class="bg-ldsa-green-1 border-r-2 border-ldsa-green-1 brightness-100"
         :class="[
-          rowShiftIndex === 0 && 'rounded-br-lg',
-          rowShiftIndex === 2 && 'rounded-tr-lg',
+          editMode && 'hover:bg-ldsa-green-1/85 hover:border-transparent',
+          rowShiftIndex === 0 && 'rounded-tl-lg',
+          rowShiftIndex === 2 && 'rounded-bl-lg',
         ]"
       >
-        {{ getRowShiftName(rowShift) }}
-      </div>
+        <div
+          class="text-center vertical-text text-ldsa-white p-1 font-medium text-[0.813rem]"
+        >
+          {{ getRowShiftName(rowShift) }}
+        </div>
+      </SectionHorarioDapeEditDayAndShiftPopover>
 
       <div
-        class="grid grid-cols-[auto_repeat(6,1fr)] place-items-center border-2 border-ldsa-green-1 py-2 px-4 gap-4"
+        class="grid grid-cols-[auto_repeat(6,1fr)] place-items-center border-2 border-ldsa-green-1 border-l-0 py-2 px-4 gap-4"
         :class="[
           rowShiftIndex === 0 && 'rounded-tr-lg',
           rowShiftIndex === 2 && 'rounded-br-lg',
@@ -272,13 +278,17 @@ const getRowShiftName = (rowShift: string) => {
 
         <template v-for="(day, dayIndex) in weekScheduleEditable">
           <template
-            v-for="(_, shiftName, shiftIndex) in Object.fromEntries(
+            v-for="(_, shiftName) in Object.fromEntries(
               Object.entries(day.schedule).filter(([key]) => key === rowShift)
             )"
           >
             <SectionHorarioDapeEditShift
               :day-id="dayIndex"
-              :turno-id="shiftIndex"
+              :turno-id="
+                ['manha', 'tarde', 'noite'].findIndex(
+                  turnName => turnName === shiftName
+                )
+              "
               :editMode
               v-model="weekScheduleEditable[dayIndex]!.schedule[shiftName]!"
               @atividade-change="weekScheduleHistory.commit()"

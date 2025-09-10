@@ -81,6 +81,7 @@ defineEmits(['atividade-change']);
     <SectionHorarioDapeEditCell
       v-for="(horario, index) in shiftSchedule"
       :key="horario.id"
+      :cell-index="index"
       :day-id="dayId"
       :turno-id="turnoId"
       :editMode

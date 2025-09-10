@@ -16,8 +16,8 @@ export const useClassDayWeek = (
 
   return {
     ...aula,
-    diaSemana: dayweek,
     id: `${aula.data}::${aula.horaInicio}-${aula.horaFim}::${aula.diario.disciplina}-${aula.diario.professor}-${aula.diario.turma}`,
+    diaSemana: dayweek,
   };
 };
 
