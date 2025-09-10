@@ -86,133 +86,145 @@ const onClose = () => emit('fechar');
 </script>
 
 <template>
-  <DialogModalBaseLayout
-    :close-button="false"
-    :on-close="onClose"
-    title="Cadastrar Motivos de Indisponibilidade"
-    class="mr-2 h-[35rem] max-w-full"
-  >
-    <div
-      v-if="props.horariosSemMotivo.length === 0"
-      class="text-center text-sm text-ldsa-grey"
-    >
-      Todos os horários já possuem um motivo.
-    </div>
-
-    <form v-else @submit.prevent="registrarMotivos" class="flex flex-col gap-5">
-      <WeekdaySelector
-        :items="weekDays"
-        v-model="selectedDayWeek"
-        class="font-semibold mb-1"
-      />
-
-      <!-- checkbox de horários -->
-      <section class="flex gap-6 justify-between">
-        <div v-for="shift in dayShifts" :key="shift.title">
-          <h1 class="mb-2 text-ldsa-text-default">
-            {{ capitalizeFirst(shift.title) }}
-          </h1>
-          <UICheckbox
-            :items="shift.times"
-            v-model="selectedTimes"
-            :disabled-items="
-              shift.times.filter(
-                time => !props.horariosSemMotivo.includes(time)
-              )
-            "
-          />
-        </div>
-      </section>
-
-      <!-- inputs de motivo -->
-      <div v-if="selectedTimes.length > 0" class="flex flex-col gap-4">
-        <div
-          v-for="horario in selectedTimes"
-          :key="horario"
-          class="flex flex-col gap-2"
-        >
-          <label class="text-xs font-medium text-ldsa-grey"
-            >Motivo para {{ horario }}</label
-          >
-
-          <VVAutocomplete
-            :items="motivosDisponiveis"
-            v-model="motivos[horario]"
-            placeholder="Digite ou selecione um motivo"
-            label="Motivo"
-            name="motivo"
-            class="w-full text-xs"
-          />
-        </div>
-
-        <button
-          type="submit"
-          :disabled="!podeRegistrar"
-          class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-3 py-3.5 rounded-lg w-full text-xs font-medium hover:bg-ldsa-green-1/10 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Registrar motivo para horário selecionado
-          <IconsConfirm class="w-4 h-4" />
-        </button>
-      </div>
-    </form>
-
-    <template #button-group>
-      <div class="flex justify-start w-full">
-        <UIButtonModalGoBack @click="emit('fechar')" />
-      </div>
-    </template>
-  </DialogModalBaseLayout>
-
-  <DialogModalBaseLayout
-    :close-button="false"
-    :on-close="onClose"
-    title="Motivos pendentes de confirmação"
-    class="h-[35rem] max-w-full"
-  >
-    <div
-      v-if="pendentes.length === 0"
-      class="flex items-center justify-center text-center text-sm text-ldsa-grey"
-    >
-      Ainda não há motivos pendentes de confirmação
-    </div>
-
-    <ul v-else class="space-y-2 text-sm">
-      <li
-        v-for="m in pendentes"
-        :key="m.horario"
-        class="flex justify-between items-center py-3 border-b-1 border-ldsa-grey"
+    <div class="flex flex-col gap-4 md:flex-row h-[90vh]">
+      <DialogModalBaseLayout
+        :close-button="false"
+        :on-close="onClose"
+        title="Cadastrar Motivos de Indisponibilidade"
+        class="w-full md:w-1/2 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
       >
-        <div class="flex justify-between w-full items-center">
-          <span class="font-semibold text-sm text-ldsa-text-default">{{
-            m.motivo
-          }}</span>
+        <div
+          v-if="props.horariosSemMotivo.length === 0"
+          class="text-center text-sm text-ldsa-grey"
+        >
+          Todos os horários já possuem um motivo.
+        </div>
 
-          <div class="flex items-center gap-2">
-            <span class="font-medium text-sm text-ldsa-grey">{{
-              m.horario
-            }}</span>
+        <form
+          v-else
+          @submit.prevent="registrarMotivos"
+          class="flex flex-col gap-5"
+        >
+          <WeekdaySelector
+            :items="weekDays"
+            v-model="selectedDayWeek"
+            class="font-semibold mb-1"
+          />
+
+          <!-- checkbox de horários -->
+          <section
+            class="flex flex-row flex-wrap gap-3 justify-between w-full"
+          >
+            <div
+              v-for="shift in dayShifts"
+              :key="shift.title"
+              class="flex-1 min-w-[80px] max-w-[120px] overflow-x-hidden"
+            >
+              <h1 class="mb-2 text-ldsa-text-default">
+                {{ capitalizeFirst(shift.title) }}
+              </h1>
+              <UICheckbox
+                :items="shift.times"
+                v-model="selectedTimes"
+                :disabled-items="
+                  shift.times.filter(
+                    time => !props.horariosSemMotivo.includes(time)
+                  )
+                "
+              />
+            </div>
+          </section>
+
+          <!-- inputs de motivo -->
+          <div v-if="selectedTimes.length > 0" class="flex flex-col gap-4">
+            <div
+              v-for="horario in selectedTimes"
+              :key="horario"
+              class="flex flex-col gap-2 w-full"
+            >
+              <label class="text-xs font-medium text-ldsa-grey"
+                >Motivo para {{ horario }}</label
+              >
+
+              <VVAutocomplete
+                :items="motivosDisponiveis"
+                v-model="motivos[horario]"
+                placeholder="Digite ou selecione um motivo"
+                label="Motivo"
+                name="motivo"
+                class="w-full text-xs"
+              />
+            </div>
 
             <button
-              @click="excluirMotivo(m.horario)"
-              class="text-ldsa-red hover:text-ldsa-red/75"
-              aria-label="Excluir motivo"
+              type="submit"
+              :disabled="!podeRegistrar"
+              class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-3 py-3.5 rounded-lg w-full text-xs font-medium hover:bg-ldsa-green-1/10 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <IconsExclude class="w-3 h-3" />
+              Registrar motivo para horário selecionado
+              <IconsConfirm class="w-4 h-4" />
             </button>
           </div>
-        </div>
-      </li>
-    </ul>
+        </form>
 
-    <template #button-group>
-      <UIButtonModalDelete
-        :disabled="pendentes.length === 0"
-        @click="cancelarTodos"
-      />
-      <UIButtonModalSave
-        :disabled="pendentes.length === 0"
-        @click="confirmarTodos"
-      />
-    </template>
-  </DialogModalBaseLayout>
+        <template #button-group>
+          <div class="flex flex-col sm:flex-row justify-start w-full gap-2">
+            <UIButtonModalGoBack @click="emit('fechar')" />
+          </div>
+        </template>
+      </DialogModalBaseLayout>
+
+      <DialogModalBaseLayout
+        :close-button="false"
+        :on-close="onClose"
+        title="Motivos pendentes de confirmação"
+        class="w-full md:w-1/2 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
+      >
+        <div
+          v-if="pendentes.length === 0"
+          class="flex items-center justify-center text-center text-sm text-ldsa-grey"
+        >
+          Ainda não há motivos pendentes de confirmação
+        </div>
+
+        <ul v-else class="space-y-2 text-sm">
+          <li
+            v-for="m in pendentes"
+            :key="m.horario"
+            class="flex justify-between items-center py-3 border-b-1 border-ldsa-grey"
+          >
+            <div class="flex justify-between w-full items-center">
+              <span class="font-semibold text-sm text-ldsa-text-default">{{
+                m.motivo
+              }}</span>
+
+              <div class="flex items-center gap-2">
+                <span class="font-medium text-sm text-ldsa-grey">{{
+                  m.horario
+                }}</span>
+
+                <button
+                  @click="excluirMotivo(m.horario)"
+                  class="text-ldsa-red hover:text-ldsa-red/75"
+                  aria-label="Excluir motivo"
+                >
+                  <IconsExclude class="w-3 h-3" />
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+        <template #button-group>
+          <UIButtonModalDelete
+            :disabled="pendentes.length === 0"
+            @click="cancelarTodos"
+          />
+          <UIButtonModalSave
+            :disabled="pendentes.length === 0"
+            @click="confirmarTodos"
+          />
+        </template>
+      </DialogModalBaseLayout>
+    </div>
 </template>
