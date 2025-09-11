@@ -62,13 +62,13 @@ onMounted(() => {
     draggable({
       element: horario.value,
 
-      canDrag: () => horarioMeta.value.tipo !== 'intervalo' && editMode,
+      canDrag: () => horarioMeta.value.type !== 'intervalo' && editMode,
 
       getInitialData: () => ({
         ...horarioMeta.value,
         dayId,
         turnoId,
-        type: 'cellDraggable',
+        dndType: 'cellDraggable',
       }),
 
       onDrag: () => {
@@ -140,9 +140,9 @@ const toggleActive = () => {
   const cell: ActiveCell = {
     id: horarioMeta.value.id,
     cellIndex,
-    shiftId: horarioMeta.value.turnoId ?? 0,
-    data: horarioMeta.value.data.format('DD/MM'),
-    weekDay: horarioMeta.value.data.format('dddd'),
+    shiftId: horarioMeta.value.shiftIndex ?? 0,
+    data: horarioMeta.value.date.format('DD/MM'),
+    weekDay: horarioMeta.value.date.format('dddd'),
   };
 
   active.value
@@ -162,12 +162,12 @@ const popoverOpen = ref(false);
 <template>
   <div
     ref="horario-father"
-    v-show="showBreaks ? true : horarioMeta.tipo !== 'intervalo'"
+    v-show="showBreaks ? true : horarioMeta.type !== 'intervalo'"
     :class="[
       'relative not-last:border-b-[0.119565rem] nth-of-type-[2n]:mb-[0.5px] border-t-solid border-t-transparent border-b-2 border-b-solid border-b-ldsa-text-default/65 transform-[translateZ(0)] last:border-b-transparent',
       active && 'bg-ldsa-green-2/15',
     ]"
-    @click="horarioMeta.tipo !== 'intervalo' && editMode && toggleActive()"
+    @click="horarioMeta.type !== 'intervalo' && editMode && toggleActive()"
   >
     <SectionHorarioDapeEditDropIndicator
       v-if="
@@ -186,24 +186,24 @@ const popoverOpen = ref(false);
       class="relative box-border text-center h-[1.4375rem] 2xl:h-6 flex justify-center items-center text-[0.813rem] font-medium"
       :class="{
         'text-ldsa-text-green dark:brightness-115': active,
-        'bg-ldsa-grey/20': horarioMeta.tipo === 'intervalo' && !active,
+        'bg-ldsa-grey/20': horarioMeta.type === 'intervalo' && !active,
       }"
     >
-      <span v-if="horarioMeta.tipo === 'aula'" class="truncate max-w-19/20">
+      <span v-if="horarioMeta.type === 'aula'" class="truncate max-w-19/20">
         {{ horarioMeta.diario?.disciplina }} - {{ horarioMeta.diario?.turma }}
       </span>
 
-      <span v-else-if="horarioMeta.tipo === 'vago'"> - </span>
+      <span v-else-if="horarioMeta.type === 'vago'"> - </span>
 
       <span
-        v-else-if="horarioMeta.tipo === 'intervalo'"
+        v-else-if="horarioMeta.type === 'intervalo'"
         class="text-ldsa-text-default/50"
       >
         Intervalo
       </span>
 
       <span
-        v-if="horarioMeta.tipo !== 'intervalo'"
+        v-if="horarioMeta.type !== 'intervalo'"
         @click.stop
         :class="[
           'absolute right-1 pl-1',

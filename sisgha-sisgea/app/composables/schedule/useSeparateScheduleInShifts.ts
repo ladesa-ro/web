@@ -1,4 +1,4 @@
-import type { DiaEmTurnos, Horario, HorDayjs } from "./useScheduleTypes";
+import type { DayInShifts, Horario, HorDayjs } from './useScheduleTypes';
 
 /**
  * Divide o horário de um dia de aula em turnos.
@@ -6,66 +6,65 @@ import type { DiaEmTurnos, Horario, HorDayjs } from "./useScheduleTypes";
  * */
 export const useSeparateScheduleInShifts = (
   horarioDoDia: (Horario & HorDayjs)[]
-): DiaEmTurnos => {
-  // utilizado para definir horários de início e fim dos turnos em dayjs
+): DayInShifts => {
+  // utilizado para definir horários de início e endHour dos turnos em dayjs
   const defineHour = (index: number, hour: string) =>
-    useDayJs()(`${horarioDoDia[index]?.data.format("YYYY-MM-DD")} ${hour}`);
+    useDayJs()(`${horarioDoDia[index]?.date.format('YYYY-MM-DD')} ${hour}`);
 
-  const diaEmTurnos: DiaEmTurnos = { manha: [], tarde: [], noite: [] };
+  // TODO: adicionar aqui apenas os períodos calculados em time slot
+  const diaEmTurnos: DayInShifts = { morning: [], afternoon: [], night: [] };
 
-  horarioDoDia.forEach((horario, index) => {
-    const horariosTurnos = {
-      manha: {
-        inicio: defineHour(index, "04:00"),
-        fim: defineHour(index, "12:00"),
+  horarioDoDia.forEach((cell, index) => {
+    const shiftLimits = {
+      morning: {
+        startHour: defineHour(index, '04:00'),
+        endHour: defineHour(index, '12:00'),
       },
-      tarde: {
-        inicio: defineHour(index, "12:00"),
-        fim: defineHour(index, "18:00"),
+      afternoon: {
+        startHour: defineHour(index, '12:00'),
+        endHour: defineHour(index, '18:00'),
       },
-      noite: {
-        inicio: defineHour(index, "18:00"),
-        fim: defineHour(index, "23:59"),
+      night: {
+        startHour: defineHour(index, '18:00'),
+        endHour: defineHour(index, '23:59'),
       },
     };
 
     // divisão de turnos
+    if (cell.type === 'quebraTurno' || cell.type === 'transicaoDia') {
+      return;
+    }
 
     if (
-      horario.tipo !== "quebraTurno" &&
-      horario.tipo !== "transicaoDia"
+      cell.startHour.isBetween(
+        shiftLimits.morning.startHour,
+        shiftLimits.morning.endHour,
+        'hour'
+      )
     ) {
-      if (
-        horario.horaInicio.isBetween(
-          horariosTurnos.manha.inicio,
-          horariosTurnos.manha.fim,
-          "hour"
-        )
-      ) {
-        diaEmTurnos.manha.push(horario);
-      }
+      diaEmTurnos.morning.push(cell);
+    }
 
-      //
-      else if (
-        horario.horaInicio.isBetween(
-          horariosTurnos.tarde.inicio,
-          horariosTurnos.tarde.fim,
-          "hour"
-        )
-      ) {
-        diaEmTurnos.tarde.push(horario);
-      }
+    //
+    else if (
+      cell.startHour.isBetween(
+        shiftLimits.afternoon.startHour,
+        shiftLimits.afternoon.endHour,
+        'hour'
+      )
+    ) {
+      diaEmTurnos.afternoon.push(cell);
+    }
 
-      //
-      else if (
-        horario.horaInicio.isBetween(
-          horariosTurnos.noite.inicio,
-          horariosTurnos.noite.fim,
-          "hour"
-        )
-      ) {
-        diaEmTurnos.noite.push(horario);
-      }
+    //
+    else if (
+      cell.startHour.isBetween(
+        shiftLimits.night.startHour,
+        shiftLimits.night.endHour,
+        'hour'
+      )
+    ) {
+      diaEmTurnos.night.push(cell);
     }
   });
 

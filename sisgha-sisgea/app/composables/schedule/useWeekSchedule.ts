@@ -1,6 +1,6 @@
 import {
-  useClassDayWeek,
-  useTempoDeAulaDayMonth,
+  useAddDayMonthToTempoDeAula,
+  useAddWeekDayToClass,
 } from './useClassAndTempoDeAulaConverts';
 import { useFreePeriods } from './useFreePeriods';
 import { useNonTeachingPeriods } from './useNonTeachingPeriods';
@@ -9,61 +9,68 @@ import type {
   Horario,
   HorDayjs,
   HorString,
-  TemposDeAula,
+  TimeSlotObj,
+  TimeSlots,
+  Vago,
   WeekSchedule,
 } from './useScheduleTypes';
 import {
   useSeparateScheduleInDays,
-  type IdentifiedDays,
+  type ScheduleInDaysWithoutShifts,
 } from './useSeparateScheduleInDays';
 import { useSeparateScheduleInShifts } from './useSeparateScheduleInShifts';
 
 /**
- * Retorna o horário completo com aulas ordenadas, horas vagas, intervalos, quebras de turno e quebras de dia.
+  Retorna o horário completo com aulas ordenadas, horas vagas, intervalos, quebras de turno e quebras de dia.
  */
 export const useWeekSchedule = (
-  temposDeAula: TemposDeAula,
-  aulas: Omit<Aula & HorString, 'diaSemana' | 'id'>[],
+  temposDeAula: TimeSlotObj,
+  aulas: Omit<Aula & HorString, 'weekday' | 'id'>[],
   turnosEDias: boolean = true,
   mustBeDayjs: boolean = true
   // onlyAulas: boolean = false
   // TODO: completar implementação deste parâmetro filtrando o horario sem dias e turnos para ter apenas cells do tipo aula
 ) => {
-  const horarioAulas = aulas.map(aula => useClassDayWeek(aula));
+  const classes: (Aula & HorString)[] = aulas.map(aula =>
+    useAddWeekDayToClass(aula)
+  );
 
-  const temposDeAulaMap = useTempoDeAulaDayMonth(
-    horarioAulas[0]!,
+  const timeSlotsWithMonthDay: TimeSlots = useAddDayMonthToTempoDeAula(
+    classes[0]!,
     temposDeAula
   );
 
-  const aulasEVagos = useFreePeriods(temposDeAulaMap, horarioAulas);
+  const aulasEVagos: ((Aula | Vago) & HorString)[] = useFreePeriods(
+    timeSlotsWithMonthDay,
+    classes
+  );
 
-  const aulasVagosEForaDoHorario = useNonTeachingPeriods(aulasEVagos);
+  const aulasVagosEForaDoHorario: (Horario & HorDayjs)[] =
+    useNonTeachingPeriods(aulasEVagos);
 
-  const aulasSeparadasDias: Horario[] | IdentifiedDays =
+  const aulasSeparadasDias: Horario[] | ScheduleInDaysWithoutShifts =
     useSeparateScheduleInDays(aulasVagosEForaDoHorario);
 
-  //
+  // ==========
 
   const horarioTemApenasUmDia = (
-    horarioEmDias: Horario[] | IdentifiedDays
+    horarioEmDias: Horario[] | ScheduleInDaysWithoutShifts
   ): horarioEmDias is Horario[] => Array.isArray(horarioEmDias);
 
   const horarioTemUmDia: boolean = horarioTemApenasUmDia(aulasSeparadasDias);
 
+  // ==========
+
   const horarioDiasETurnos = horarioTemUmDia
     ? useSeparateScheduleInShifts(aulasSeparadasDias as (Horario & HorDayjs)[])
-    : (() => {
-        const horarioComMaisDeUmDia = new Map();
-
-        for (const [dia, horarios] of aulasSeparadasDias.entries()) {
-          horarioComMaisDeUmDia.set(
-            dia,
-            useSeparateScheduleInShifts(horarios as (Horario & HorDayjs)[])
-          );
-        }
-        return horarioComMaisDeUmDia as WeekSchedule;
-      })();
+    : Object.fromEntries(
+        Object.entries(aulasSeparadasDias as ScheduleInDaysWithoutShifts).map(
+          ([date, daySchedule]) => [
+            [date], // string
+            [useSeparateScheduleInShifts(daySchedule)], // DayInShifts
+          ]
+        )
+      ) as WeekSchedule;
 
   // TODO: fazer conversão de apenas aulas de acordo com os parâmetros
 

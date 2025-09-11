@@ -1,14 +1,21 @@
-import type { Aula, DiaEditavelEmTurnos, HorDayjs, Intervalo, Vago, WeekdayMeta } from '../useScheduleTypes';
+import type {
+  Aula,
+  HorDayjs,
+  Intervalo,
+  Vago,
+} from '../useScheduleTypes';
 
-export type Cell = (Aula | Vago | Intervalo) & HorDayjs;
+export type EditableCell = (Aula | Vago) & HorDayjs;
+export type NonEditableCell = Intervalo & HorDayjs;
+export type Cell = EditableCell | NonEditableCell;
 
 export type Shift = {
-  turnoId: string;
-  dayId: number;
+  shiftIndex: string;
+  dayIndex: number;
   maxCapacity: number;
 };
 
-export type WeekScheduleEditable = {
-  data: WeekdayMeta;
-  schedule: DiaEditavelEmTurnos;
-}[];
+// export type WeekScheduleEditable = {
+//   data: WeekdayInfo;
+//   schedule: DiaEditavelEmTurnos;
+// }[];
