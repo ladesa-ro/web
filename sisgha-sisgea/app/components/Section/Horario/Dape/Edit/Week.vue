@@ -38,11 +38,6 @@ const weekSchedule = defineModel<WeekSchedule>({
   default: {},
 });
 
-const weekScheduleHistory = defineModel<WeekScheduleHistory>('history', {
-  required: true,
-  default: {},
-});
-
 //
 
 const weekdayNames = Object.keys(weekSchedule.value);
@@ -51,10 +46,14 @@ const weekdayNames = Object.keys(weekSchedule.value);
 
 const closestEdgeToElement: Ref<Edge | null> = ref(null);
 
+const emit = defineEmits(['commit-history']);
+
 let cleanup = () => {};
 
-onMounted(() => {
-  cleanup = monitorForElements({
+function initMonitor() {
+  // limpa monitor antigo, se houver
+  try { cleanup(); } catch (e) {}
+    cleanup = monitorForElements({
     canMonitor: ({ source }) =>
       source.data.dndType === 'cellDraggable' && props.editMode,
 
@@ -173,14 +172,27 @@ onMounted(() => {
 
       weekSchedule.value[weekdayNames[startDayScheduleId]!] = startDaySchedule;
 
-      weekScheduleHistory.value.commit();
+      emit('commit-history');
     },
   });
+}
+
+onMounted(() => {
+  initMonitor();
+
 });
 
 onUnmounted(() => {
   cleanup();
 });
+
+watch(
+  () => weekSchedule,
+  async () => {
+    await nextTick();
+    initMonitor();
+  }
+);
 
 //
 
@@ -283,7 +295,7 @@ const dayjs = useDayJs();
               v-model="
                 weekSchedule[weekdayNames[dayIndex]!]![shiftName as ShiftName]
               "
-              @atividade-change="weekScheduleHistory.commit()"
+              @atividade-change="emit('commit-history')"
             />
           </template>
         </template>

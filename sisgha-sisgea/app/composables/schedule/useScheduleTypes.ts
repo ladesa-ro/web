@@ -1,4 +1,4 @@
-import type { UseRefHistoryReturn } from '@vueuse/core';
+import type { UseManualRefHistoryReturn, UseRefHistoryReturn } from '@vueuse/core';
 import type { Dayjs } from 'dayjs';
 import type { Cell } from './edit/useScheduleEditTypes';
 
@@ -103,10 +103,7 @@ export type WeekdayInfo = { date: string; weekday: string };
 
 export type WeekSchedule = Record<string, DayInShifts>;
 
-export type WeekScheduleHistory = UseRefHistoryReturn<
-  WeekSchedule,
-  WeekSchedule
->;
+export type WeekScheduleHistory = UseManualRefHistoryReturn<unknown, unknown>;
 
 // export type WeekEditableScheduleHistory = UseRefHistoryReturn<
 //   WeekScheduleEditable,

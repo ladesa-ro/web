@@ -2,29 +2,16 @@
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 import Button from './ScheduleQueryButton.vue';
 
-defineProps<{
-  canUndo: boolean;
-  canRedo: boolean;
-}>();
-
-const editMode = defineModel<boolean>({ default: false });
-
 const selectedItemsSize = computed(
   () => useSelectedCells({ action: 'getAll', get: 'ids' }).value.size ?? 0
 );
 
-defineEmits(['undo', 'redo', 'swap', 'replace']);
+defineEmits(['swap', 'replace', 'disable-edit-mode']);
 </script>
 
 <template>
   <span class="flex gap-2.5">
-    <Button :disabled="!canRedo" @click="$emit('redo')">
-      <IconsUndoRedo class="w-4 scale-x-[-1]" />
-    </Button>
-
-    <Button :disabled="!canUndo" @click="$emit('undo')">
-      <IconsUndoRedo class="w-4" />
-    </Button>
+    <slot> </slot>
 
     <div class="divider" />
 
@@ -48,11 +35,14 @@ defineEmits(['undo', 'redo', 'swap', 'replace']);
 
     <div class="divider" />
 
-    <Button @click="editMode = false" color="var(--ladesa-red-color)">
+    <Button @click="$emit('disable-edit-mode')" color="var(--ladesa-red-color)">
       <IconsClose class="w-4" />
     </Button>
 
-    <Button @click="editMode = false" color="var(--ladesa-text-green-color)">
+    <Button
+      @click="$emit('disable-edit-mode')"
+      color="var(--ladesa-text-green-color)"
+    >
       <IconsConfirm class="w-5" />
     </Button>
   </span>

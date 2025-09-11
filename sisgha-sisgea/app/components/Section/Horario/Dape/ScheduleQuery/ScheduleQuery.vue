@@ -12,24 +12,28 @@ import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
 import ButtonsEditMode from './Buttons/ButtonsEditMode.vue';
 import ButtonsVisualizationMode from './Buttons/ButtonsVisualizationMode.vue';
 import { getOwnerName } from './getOwnerName';
-import { useRefHistory } from '@vueuse/core';
+import { useManualRefHistory, useRefHistory } from '@vueuse/core';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
-import { swapCells } from '../Edit/swapCells';
-import type { WeekScheduleEditable } from '~/composables/schedule/edit/useScheduleEditTypes';
+import { cloneDeep } from 'lodash';
+import Button from './Buttons/ScheduleQueryButton.vue';
 
-const id = useRoute().params.id as string;
+// import { swapCells } from '../Edit/swapCells';
 
-const isProfessor = useRoute().path.includes('professor');
+// const id = useRoute().params.id as string;
 
-const {
-  data: scheduleOwner,
-  isLoading,
-  isError,
-} = isProfessor
-  ? useQuery(findUserById({ id }))
-  : useQuery(findTurmaById({ id }));
+// const isProfessor = useRoute().path.includes('professor');
 
-const ownerName = getOwnerName(isLoading, isProfessor, scheduleOwner);
+// const {
+//   data: scheduleOwner,
+//   isLoading,
+//   isError,
+// } = isProfessor
+//   ? useQuery(findUserById({ id }))
+//   : useQuery(findTurmaById({ id }));
+
+// const ownerName = getOwnerName(isLoading, isProfessor, scheduleOwner);
+
+const ownerName = 'sabolitas lindoca';
 
 //
 
@@ -37,27 +41,17 @@ const weekSchedule: Ref<WeekSchedule> = ref(
   useWeekSchedule(temposDeAulaExemplo, aulasSemDiaSemanaExemplo)
 ) as Ref<WeekSchedule>;
 
-const weekScheduleEditable: Ref<WeekScheduleEditable> = ref(
-  [...weekSchedule.value.entries()].map(([dayMeta, daySchedule]) => ({
-    data: { ...dayMeta, data: useDayJs()(dayMeta.data).format('DD/MM') },
-    schedule: daySchedule,
-  }))
-);
-
-// scheduleHistory is of type Ref<WeekScheduleHistory>, but typescript is picking on me so i just used "as any"
-const scheduleHistory = ref(
-  useRefHistory(weekScheduleEditable, {
-    deep: true,
-    capacity: 10,
-  }) as any
-);
+const scheduleHistory: WeekScheduleHistory = useManualRefHistory(weekSchedule, {
+  capacity: 10,
+  clone: cloneDeep,
+});
 
 const editMode = ref(false);
 const showBreaks = ref(true);
 
-const swap = () => {
-  swapCells(weekScheduleEditable, scheduleHistory.value);
-};
+// const swap = () => {
+//   swapCells(weekScheduleEditable, scheduleHistory.value);
+// };
 </script>
 
 <template>
@@ -76,16 +70,17 @@ const swap = () => {
           </NuxtLink>
         </span>
 
-        <UITitle
+        <!-- <UITitle
           v-if="isError"
           class="default"
           text="Não foi possível buscar os dados"
         />
 
-        <UITitle v-else-if="isLoading" class="default" text="Carregando..." />
+        <UITitle v-else-if="isLoading" class="default" text="Carregando..." /> -->
 
+        <!-- v-else-if="!editMode" -->
         <UITitle
-          v-else-if="!editMode"
+          v-if="!editMode"
           class="default"
           :text="ownerName ?? 'Nome não disponível'"
         />
@@ -93,7 +88,7 @@ const swap = () => {
         <UITitle
           v-if="editMode"
           class="default"
-          :text="'Modo Edição - ' + ownerName"
+          :text="'Modo Edição - ' + (ownerName ?? 'Nome não disponível')"
         />
       </span>
 
@@ -105,14 +100,24 @@ const swap = () => {
 
       <ButtonsEditMode
         v-if="editMode"
-        v-model="editMode"
-        :canUndo="scheduleHistory.canUndo"
-        :canRedo="scheduleHistory.canRedo"
-        @redo="scheduleHistory.redo()"
-        @undo="scheduleHistory.undo()"
-        @swap="swap()"
+        @swap=""
         @replace=""
-      />
+        @disable-edit-mode="editMode = false"
+      >
+        <Button
+          :disabled="!scheduleHistory.canUndo.value"
+          @click="scheduleHistory.undo()"
+        >
+          <IconsUndoRedo class="w-4 scale-x-[-1]" />
+        </Button>
+
+        <Button
+          :disabled="!scheduleHistory.canRedo.value"
+          @click="scheduleHistory.redo()"
+        >
+          <IconsUndoRedo class="w-4" />
+        </Button>
+      </ButtonsEditMode>
     </header>
 
     <SectionHorarioDapeEditWeek
@@ -120,13 +125,10 @@ const swap = () => {
       :editMode
       :showBreaks
       v-model="weekSchedule"
-      v-model:history="scheduleHistory"
-      v-model:editable-schedule="weekScheduleEditable"
+      @commit-history="scheduleHistory.commit()"
+      @update:model-value="scheduleHistory.commit()"
     />
   </UIContainer>
-  <pre>
-    {{ scheduleHistory }}
-  </pre>
 </template>
 
 <style scoped>
