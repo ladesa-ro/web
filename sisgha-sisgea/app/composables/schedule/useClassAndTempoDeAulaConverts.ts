@@ -16,7 +16,7 @@ export const useAddWeekDayToClass = (
 
   return {
     ...aula,
-    id: `${aula.date}::${aula.diario.professor}-${aula.diario.turma}`,
+    id: `${aula.date}::${aula.startHour}::${aula.diario.professor}-${aula.diario.turma}`,
     weekday,
   };
 };

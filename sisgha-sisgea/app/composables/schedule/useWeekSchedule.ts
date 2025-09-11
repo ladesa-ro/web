@@ -6,6 +6,7 @@ import { useFreePeriods } from './useFreePeriods';
 import { useNonTeachingPeriods } from './useNonTeachingPeriods';
 import type {
   Aula,
+  DayInShifts,
   Horario,
   HorDayjs,
   HorString,
@@ -61,16 +62,16 @@ export const useWeekSchedule = (
 
   // ==========
 
-  const horarioDiasETurnos = horarioTemUmDia
+  const horarioDiasETurnos: DayInShifts | WeekSchedule = horarioTemUmDia
     ? useSeparateScheduleInShifts(aulasSeparadasDias as (Horario & HorDayjs)[])
     : Object.fromEntries(
         Object.entries(aulasSeparadasDias as ScheduleInDaysWithoutShifts).map(
           ([date, daySchedule]) => [
-            [date], // string
-            [useSeparateScheduleInShifts(daySchedule)], // DayInShifts
+            date, // string
+            useSeparateScheduleInShifts(daySchedule), // DayInShifts
           ]
         )
-      ) as WeekSchedule;
+      );
 
   // TODO: fazer conversão de apenas aulas de acordo com os parâmetros
 
