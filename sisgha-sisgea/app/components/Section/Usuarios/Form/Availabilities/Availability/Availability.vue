@@ -125,7 +125,7 @@ const collapsibleOpen = ref(true);
           <UICheckbox
             v-model="selectedTimes"
             :items="shift.times"
-            class="nunito"
+            class="nunito w-full max-w-full"
           />
         </div>
       </section>

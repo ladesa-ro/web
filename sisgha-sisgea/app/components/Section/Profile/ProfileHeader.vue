@@ -127,7 +127,7 @@ const vinculosBadges = computed(() => {
       </UIImg>
 
       <section
-        class="profile-metadata text-xs font-medium max-[400px]:text-center"
+        class="profile-metadata text-xs font-medium max-[25rem]:text-center"
       >
         <span>
           <h1 class="font-semibold text-sm lg:text-base text-wrap">
@@ -149,7 +149,7 @@ const vinculosBadges = computed(() => {
               v-for="(v, index) in vinculosBadges"
               :key="index"
               :class="[
-                'flex items-center gap-1 px-2 py-1 rounded-xl border-2 font-semibold text-[11px]',
+                'flex items-center gap-1 px-2 py-1 rounded-xl border-2 font-semibold text-[0.6rem]',
                 v.border,
                 'text-ldsa-text-green',
               ]"
@@ -178,11 +178,11 @@ const vinculosBadges = computed(() => {
 }
 
 .profile-card {
-  @apply flex max-[400px]:flex-col max-[400px]:items-center max-[400px]:gap-2 gap-4 overflow-visible max-[400px]:max-w-56 max-w-9/10;
+  @apply flex max-[25rem]:flex-col max-[25rem]:items-center max-[25rem]:gap-2 gap-4 overflow-visible max-[25rem]:max-w-56 max-w-9/10;
   @apply ml-0 sm:ml-6 lg:ml-8 p-2.5 sm:p-3 lg:p-4 xl:p-5 lg:min-w-[22.5rem] h-max rounded-t-[0.625rem] bg-ldsa-bg;
 }
 
 .profile-metadata {
-  @apply flex flex-col justify-center max-[400px]:items-center gap-2 md:ml-2 lg:ml-4;
+  @apply flex flex-col justify-center max-[25rem]:items-center gap-2 md:ml-2 lg:ml-4;
 }
 </style>

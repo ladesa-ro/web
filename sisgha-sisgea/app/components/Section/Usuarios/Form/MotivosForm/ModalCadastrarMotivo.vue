@@ -81,18 +81,18 @@ function cancelarTodos() {
 function excluirMotivo(horario: string) {
   pendentes.value = pendentes.value.filter(m => m.horario !== horario);
 }
+
+const onClose = () => emit('fechar');
 </script>
 
 <template>
-  <div class="flex">
-    <div
-      class="flex flex-col justify-between bg-ldsa-white text-ldsa-black p-7 rounded-lg shadow w-[60vh] h-[80vh] mr-10"
-    >
-      <div class="overflow-y-auto pr-2">
-        <h2 class="main-title text-sm font-semibold mb-4 pr-3">
-          Cadastrar Motivos de Indisponibilidade
-        </h2>
-
+    <div class="flex flex-col gap-4 md:flex-row h-[90vh]">
+      <DialogModalBaseLayout
+        :close-button="false"
+        :on-close="onClose"
+        title="Cadastrar Motivos de Indisponibilidade"
+        class="w-full md:w-1/2 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
+      >
         <div
           v-if="props.horariosSemMotivo.length === 0"
           class="text-center text-sm text-ldsa-grey"
@@ -112,9 +112,15 @@ function excluirMotivo(horario: string) {
           />
 
           <!-- checkbox de horários -->
-          <section class="flex gap-6 justify-between">
-            <div v-for="shift in dayShifts" :key="shift.title">
-              <h1 class="mb-2">
+          <section
+            class="flex flex-row flex-wrap gap-3 justify-between w-full"
+          >
+            <div
+              v-for="shift in dayShifts"
+              :key="shift.title"
+              class="flex-1 min-w-[80px] max-w-[120px] overflow-x-hidden"
+            >
+              <h1 class="mb-2 text-ldsa-text-default">
                 {{ capitalizeFirst(shift.title) }}
               </h1>
               <UICheckbox
@@ -125,6 +131,7 @@ function excluirMotivo(horario: string) {
                     time => !props.horariosSemMotivo.includes(time)
                   )
                 "
+                class="nunito"
               />
             </div>
           </section>
@@ -134,7 +141,7 @@ function excluirMotivo(horario: string) {
             <div
               v-for="horario in selectedTimes"
               :key="horario"
-              class="flex flex-col gap-2"
+              class="flex flex-col gap-2 w-full"
             >
               <label class="text-xs font-medium text-ldsa-grey"
                 >Motivo para {{ horario }}</label
@@ -160,21 +167,20 @@ function excluirMotivo(horario: string) {
             </button>
           </div>
         </form>
-      </div>
 
-      <div class="pt-6">
-        <UIButtonModalGoBack @click="emit('fechar')" />
-      </div>
-    </div>
+        <template #button-group>
+          <div class="flex flex-col sm:flex-row justify-start w-full gap-2">
+            <UIButtonModalGoBack @click="emit('fechar')" />
+          </div>
+        </template>
+      </DialogModalBaseLayout>
 
-    <div
-      class="flex flex-col justify-between bg-ldsa-white text-ldsa-black p-7 rounded-lg shadow w-[60vh] h-[80vh]"
-    >
-      <div class="overflow-y-auto pr-3">
-        <h2 class="main-title text-sm font-semibold mb-4">
-          Motivos pendentes de confirmação
-        </h2>
-
+      <DialogModalBaseLayout
+        :close-button="false"
+        :on-close="onClose"
+        title="Motivos pendentes de confirmação"
+        class="w-full md:w-1/2 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
+      >
         <div
           v-if="pendentes.length === 0"
           class="flex items-center justify-center text-center text-sm text-ldsa-grey"
@@ -189,17 +195,18 @@ function excluirMotivo(horario: string) {
             class="flex justify-between items-center py-3 border-b-1 border-ldsa-grey"
           >
             <div class="flex justify-between w-full items-center">
-              <span class="font-semibold text-[12px]">{{ m.motivo }}</span>
+              <span class="font-semibold text-sm text-ldsa-text-default">{{
+                m.motivo
+              }}</span>
 
               <div class="flex items-center gap-2">
-                <span class="font-medium text-[12px] text-ldsa-grey">{{
+                <span class="font-medium text-sm text-ldsa-grey">{{
                   m.horario
                 }}</span>
 
-                <!-- não utilize variáveis de cor do tailwind, apenas as do ladesa (ex: ldsa-red) @soouzaana -->
                 <button
                   @click="excluirMotivo(m.horario)"
-                  class="text-red-500 hover:text-red-700"
+                  class="text-ldsa-red hover:text-ldsa-red/75"
                   aria-label="Excluir motivo"
                 >
                   <IconsExclude class="w-3 h-3" />
@@ -208,26 +215,17 @@ function excluirMotivo(horario: string) {
             </div>
           </li>
         </ul>
-      </div>
 
-      <div class="flex justify-between gap-3 pt-6">
-        <UIButtonModalDelete
-          :disabled="pendentes.length === 0"
-          @click="cancelarTodos"
-        />
-        <UIButtonModalSave
-          :disabled="pendentes.length === 0"
-          @click="confirmarTodos"
-        />
-      </div>
+        <template #button-group>
+          <UIButtonModalDelete
+            :disabled="pendentes.length === 0"
+            @click="cancelarTodos"
+          />
+          <UIButtonModalSave
+            :disabled="pendentes.length === 0"
+            @click="confirmarTodos"
+          />
+        </template>
+      </DialogModalBaseLayout>
     </div>
-  </div>
 </template>
-
-<style scoped>
-.main-title::before {
-  content: '';
-  border: 2px solid var(--ladesa-green-1-color);
-  margin-right: 0.5rem;
-}
-</style>
