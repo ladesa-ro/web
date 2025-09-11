@@ -1,5 +1,6 @@
 import type { UseRefHistoryReturn } from '@vueuse/core';
 import type { Dayjs } from 'dayjs';
+import type { Cell } from './edit/useScheduleEditTypes';
 
 // hello dev who came here some time after i did this code! if you need to change this code, im so sorry because its so confusing and i mixed languages (portuguese and english). i didnt improve this because my mental health wouldnt allow it. namaste
 
@@ -85,7 +86,7 @@ export type HorString = Horario & {
 
 export type ShiftName = 'morning' | 'afternoon' | 'night';
 
-export type DayInShifts = Record<ShiftName, (Horario & HorDayjs)[]>;
+export type DayInShifts = Record<ShiftName, Cell[]>;
 
 //
 

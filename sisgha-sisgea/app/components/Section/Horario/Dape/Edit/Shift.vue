@@ -5,11 +5,7 @@ import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 
-const {
-  shiftIndex,
-  dayIndex,
-  editMode,
-} = defineProps<{
+const { shiftIndex, dayIndex, editMode } = defineProps<{
   shiftIndex: number;
   dayIndex: number;
   editMode?: boolean;
@@ -85,9 +81,9 @@ defineEmits(['atividade-change']);
     <SectionHorarioDapeEditCell
       v-for="(horario, index) in shiftSchedule"
       :key="horario.id"
-      :cell-index="index"
-      :day-id="dayIndex"
-      :turno-id="shiftIndex"
+      :cellIndex="index"
+      :dayIndex
+      :shiftIndex
       :editMode
       :closestEdge="closestEdgeToElement"
       :maxCapacityReached="maxCapacityReached"

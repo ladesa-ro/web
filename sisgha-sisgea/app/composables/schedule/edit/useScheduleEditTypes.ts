@@ -5,17 +5,20 @@ import type {
   Vago,
 } from '../useScheduleTypes';
 
-export type EditableCell = (Aula | Vago) & HorDayjs;
-export type NonEditableCell = Intervalo & HorDayjs;
-export type Cell = EditableCell | NonEditableCell;
+export type EditableCell = (Aula | Vago);
+
+export type NonEditableCell = Intervalo;
+
+export type Cell = (EditableCell | NonEditableCell) & HorDayjs & {
+  cellIndex?: number;
+  shiftIndex?: number;
+  dayIndex?: number;
+};
+
+//
 
 export type Shift = {
   shiftIndex: string;
   dayIndex: number;
   maxCapacity: number;
 };
-
-// export type WeekScheduleEditable = {
-//   data: WeekdayInfo;
-//   schedule: DiaEditavelEmTurnos;
-// }[];

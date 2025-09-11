@@ -5,15 +5,15 @@ import {
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { reorderWithEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/util/reorder-with-edge';
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import type { WeekScheduleEditable } from '~/composables/schedule/edit/useScheduleEditTypes';
+import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 import type {
-  Aula,
-  HorDayjs,
-  Vago,
+  DayInShifts,
+  ShiftName,
   WeekSchedule,
   WeekScheduleHistory,
 } from '~/composables/schedule/useScheduleTypes';
+import { capitalizeFirst } from '../../-Helpers/CapitalizeFirst';
 
 const props = defineProps<{
   editMode?: boolean;
@@ -35,7 +35,7 @@ watch(
 
 const weekSchedule = defineModel<WeekSchedule>({
   required: true,
-  default: new Map(),
+  default: {},
 });
 
 const weekScheduleHistory = defineModel<WeekScheduleHistory>('history', {
@@ -45,28 +45,7 @@ const weekScheduleHistory = defineModel<WeekScheduleHistory>('history', {
 
 //
 
-const weekScheduleEditable = defineModel<WeekScheduleEditable>(
-  'editableSchedule',
-  { required: true, default: [] }
-);
-
-// Maps arrent reactive in vue, so is necessary to watch for changes in the editable array and update the original Map
-watch(
-  weekScheduleEditable,
-  newVal => {
-    weekSchedule.value.forEach((_, dayMeta) => {
-      if (!newVal) {
-        return;
-      }
-      const changedDay = newVal.find(val => val.data.data === dayMeta.data);
-
-      if (changedDay) {
-        weekSchedule.value.set(dayMeta, changedDay.schedule);
-      }
-    });
-  },
-  { deep: true }
-);
+const weekdayNames = Object.keys(weekSchedule.value);
 
 //
 
@@ -77,7 +56,7 @@ let cleanup = () => {};
 onMounted(() => {
   cleanup = monitorForElements({
     canMonitor: ({ source }) =>
-      source.data.type === 'cellDraggable' && props.editMode,
+      source.data.dndType === 'cellDraggable' && props.editMode,
 
     onDrag: ({ location }) => {
       const dropTarget = location.current.dropTargets[0];
@@ -90,9 +69,9 @@ onMounted(() => {
     onDrop: args => {
       const dropTarget = args.location.current.dropTargets[0];
 
-      const startDayScheduleId = args.source.data.dayId as number;
-      const startDaySchedule =
-        weekScheduleEditable.value[startDayScheduleId]?.schedule;
+      const startDayScheduleId = args.source.data.dayIndex as number;
+      const startDaySchedule: DayInShifts | undefined =
+        weekSchedule.value[weekdayNames[startDayScheduleId]!];
 
       if (!startDaySchedule || !dropTarget) {
         console.warn('startDaySchedule = ' + startDaySchedule);
@@ -101,20 +80,20 @@ onMounted(() => {
 
       //
 
-      const startShiftId = args.source.data.turnoId as number;
+      const startShiftId = args.source.data.shiftIndex as number;
       const finishShiftId = args.location.current.dropTargets[1]?.data
         .id as number;
 
-      const startShift: ((Aula | Vago) & HorDayjs)[] | undefined =
-        Object.values(startDaySchedule).find(shift =>
-          shift.some(cell => cell.turnoId === startShiftId)
-        );
+      // : Cell[] | undefined
+      const startShift: Cell[] | undefined = Object.values(
+        startDaySchedule
+      ).find(shift => shift.some(cell => cell.shiftIndex === startShiftId));
 
-      let finishShift: ((Aula | Vago) & HorDayjs)[] | undefined;
+      let finishShift: Cell[] | undefined;
 
       if (startShiftId != finishShiftId) {
-        const finishDaySchedule =
-          weekScheduleEditable.value[dropTarget.data.dayId as number]?.schedule;
+        const finishDaySchedule: DayInShifts | undefined =
+          weekSchedule.value[weekdayNames[dropTarget.data.dayIndex as number]!];
 
         if (!finishDaySchedule) {
           console.warn('finishDaySchedule = ' + finishDaySchedule);
@@ -124,7 +103,7 @@ onMounted(() => {
         finishShift = Object.values(finishDaySchedule).find(
           shift =>
             Array.isArray(shift) &&
-            shift.some(cell => cell.turnoId === finishShiftId)
+            shift.some(cell => cell.shiftIndex === finishShiftId)
         );
       } else {
         finishShift = startShift;
@@ -158,21 +137,25 @@ onMounted(() => {
       }
 
       if (startShiftId != finishShiftId) {
-        const draggedItem: (Aula & HorDayjs) | (Vago & HorDayjs) | undefined =
-          startShift.splice(startIndex, 1)[0];
+        const draggedItem: Cell | undefined = startShift.splice(
+          startIndex,
+          1
+        )[0];
 
         if (!draggedItem) {
           console.warn('draggedItem = ' + draggedItem);
           return;
         }
 
-        draggedItem.turnoId = finishShiftId;
+        draggedItem.shiftIndex = finishShiftId;
 
         finishShift.splice(indexOfTarget, 0, draggedItem);
       }
       //
       else {
-        const shiftName = Object.keys(startDaySchedule)[startShiftId];
+        const shiftName: ShiftName | undefined = Object.keys(startDaySchedule)[
+          startShiftId
+        ] as ShiftName;
 
         if (!shiftName) {
           console.warn('shiftName = ' + shiftName);
@@ -188,8 +171,7 @@ onMounted(() => {
         });
       }
 
-      weekScheduleEditable.value[startDayScheduleId]!.schedule =
-        startDaySchedule;
+      weekSchedule.value[weekdayNames[startDayScheduleId]!] = startDaySchedule;
 
       weekScheduleHistory.value.commit();
     },
@@ -202,46 +184,53 @@ onUnmounted(() => {
 
 //
 
+const shiftNames: (keyof DayInShifts)[] = ['morning', 'afternoon', 'night'];
+
 const getRowShiftName = (rowShift: string) => {
   switch (rowShift) {
-    case 'manha':
+    case 'morning':
       return 'Matutino';
-    case 'tarde':
+    case 'afternoon':
       return 'Vespertino';
-    case 'noite':
+    case 'night':
       return 'Noturno';
   }
 };
+
+const dayjs = useDayJs();
 </script>
 
 <template>
   <div class="w-max mx-auto">
     <div class="grid grid-cols-6 ml-[6.313rem] mr-0.5 mb-3">
       <SectionHorarioDapeEditDayAndShiftPopover
-        v-for="day in weekScheduleEditable"
+        v-for="(_, date) of weekSchedule"
         :disabled="!editMode"
       >
         <div
           :class="editMode && 'hover:bg-ldsa-green-1/85'"
           class="bg-ldsa-green-1 rounded-t-lg p-[0.313rem] text-center text-ldsa-white font-medium text-[0.813rem] w-44"
         >
-          {{ day.data.weekday }} - {{ day.data.data }}
+          {{ capitalizeFirst(dayjs(date).format('dddd')) }}
+          -
+          {{ dayjs(date).format('DD/MM') }}
         </div>
       </SectionHorarioDapeEditDayAndShiftPopover>
     </div>
 
     <div
-      v-for="(rowShift, rowShiftIndex) in ['manha', 'tarde', 'noite']"
+      v-for="(rowShift, rowShiftIndex) in shiftNames"
+      :key="rowShift"
       class="flex justify-center mb-4 last:mb-0"
     >
       <SectionHorarioDapeEditDayAndShiftPopover
-        :disabled="!editMode"
         class="bg-ldsa-green-1 border-r-2 border-ldsa-green-1 brightness-100"
         :class="[
           editMode && 'hover:bg-ldsa-green-1/85 hover:border-transparent',
           rowShiftIndex === 0 && 'rounded-tl-lg',
           rowShiftIndex === 2 && 'rounded-bl-lg',
         ]"
+        :disabled="!editMode"
       >
         <div
           class="text-center vertical-text text-ldsa-white p-1 font-medium text-[0.813rem]"
@@ -260,39 +249,40 @@ const getRowShiftName = (rowShift: string) => {
         <div class="flex flex-col w-10 h-full justify-start text-center">
           <!-- TODO: pegar os horários do array de tempos de aula -->
           <span
-            v-for="(cell, cellIndex) in weekScheduleEditable[0]?.schedule[
+            v-for="(cell, cellIndex) in weekSchedule[weekdayNames[0]!]![
               rowShift
             ]"
             :key="cellIndex"
             v-show="
-              showBreaks ? true : cell.tipo === 'aula' || cell.tipo === 'vago'
+              showBreaks ? true : cell.type === 'aula' || cell.type === 'vago'
             "
             class="border-b-ldsa-text-default/65 text-[0.813rem] font-medium last:border-b-transparent not-last:border-b-[0.119565rem] border-t-solid border-t-transparent last:mb-[1.5px] flex-1 flex items-center justify-center"
             :class="
-              cell.tipo !== 'aula' &&
-              cell.tipo !== 'vago' &&
+              cell.type !== 'aula' &&
+              cell.type !== 'vago' &&
               'bg-ldsa-grey/20 text-ldsa-text-default/50'
             "
           >
-            {{ cell.horaInicio.format('hh:mm') }}
+            {{ cell.startHour.format('hh:mm') }}
           </span>
         </div>
 
-        <template v-for="(day, dayIndex) in weekScheduleEditable">
+        <template v-for="(day, _, dayIndex) of weekSchedule" :key="dayIndex">
           <template
             v-for="(_, shiftName) in Object.fromEntries(
-              Object.entries(day.schedule).filter(([key]) => key === rowShift)
+              Object.entries(day).filter(([key]) => key === rowShift)
             )"
+            :key="shiftName"
           >
             <SectionHorarioDapeEditShift
-              :day-id="dayIndex"
-              :turno-id="
-                ['manha', 'tarde', 'noite'].findIndex(
-                  turnName => turnName === shiftName
-                )
+              :dayIndex
+              :shiftIndex="
+                shiftNames.findIndex(turnName => turnName === shiftName)
               "
               :editMode
-              v-model="weekScheduleEditable[dayIndex]!.schedule[shiftName]!"
+              v-model="
+                weekSchedule[weekdayNames[dayIndex]!]![shiftName as ShiftName]
+              "
               @atividade-change="weekScheduleHistory.commit()"
             />
           </template>
