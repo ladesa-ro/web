@@ -16,6 +16,7 @@ import { useManualRefHistory, useRefHistory } from '@vueuse/core';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 import { cloneDeep } from 'lodash';
 import Button from './Buttons/ScheduleQueryButton.vue';
+import { swapCells } from '../Edit/swapCells';
 
 // import { swapCells } from '../Edit/swapCells';
 
@@ -49,9 +50,10 @@ const scheduleHistory: WeekScheduleHistory = useManualRefHistory(weekSchedule, {
 const editMode = ref(false);
 const showBreaks = ref(true);
 
-// const swap = () => {
-//   swapCells(weekScheduleEditable, scheduleHistory.value);
-// };
+const swap = () => {
+  swapCells(weekSchedule);
+  scheduleHistory.commit();
+};
 </script>
 
 <template>
@@ -100,7 +102,7 @@ const showBreaks = ref(true);
 
       <ButtonsEditMode
         v-if="editMode"
-        @swap=""
+        @swap="swap()"
         @replace=""
         @disable-edit-mode="editMode = false"
       >

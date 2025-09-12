@@ -4,9 +4,10 @@ const selectedCellsIds = ref(new Set<string>());
 
 export type ActiveCell = {
   id: string;
-  data: string;
-  weekDay: string;
-  shiftId: number;
+  date: string;
+  weekday: string;
+  dayIndex: number;
+  shiftIndex: number;
   cellIndex: number;
 };
 

@@ -140,10 +140,13 @@ const toggleActive = () => {
   const cell: ActiveCell = {
     id: cellInfo.value.id,
     cellIndex,
-    shiftId: cellInfo.value.shiftIndex ?? 0,
-    data: cellInfo.value.date.format('DD/MM'),
-    weekDay: cellInfo.value.date.format('dddd'),
+    shiftIndex,
+    dayIndex,
+    date: cellInfo.value.date.format('YYYY-MM-DD'),
+    weekday: cellInfo.value.date.format('dddd'),
   };
+
+  console.log(JSON.stringify(cell));
 
   active.value
     ? useSelectedCells({ action: 'removeOne', cell })
