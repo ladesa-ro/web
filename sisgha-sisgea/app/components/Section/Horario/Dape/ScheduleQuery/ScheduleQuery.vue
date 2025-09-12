@@ -51,8 +51,8 @@ const editMode = ref(false);
 const showBreaks = ref(true);
 
 const swap = () => {
-  swapCells(weekSchedule);
-  scheduleHistory.commit();
+  const swapSuccess = swapCells(weekSchedule);
+  if (swapSuccess) scheduleHistory.commit();
 };
 </script>
 

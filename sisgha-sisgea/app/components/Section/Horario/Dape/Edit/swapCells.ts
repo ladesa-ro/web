@@ -8,7 +8,7 @@ import type {
   WeekSchedule,
 } from '~/composables/schedule/useScheduleTypes';
 
-export const swapCells = (weekSchedule: Ref<WeekSchedule>) => {
+export const swapCells = (weekSchedule: Ref<WeekSchedule>): boolean => {
   const activeCells = useSelectedCells({
     action: 'getAll',
     get: 'cells',
@@ -18,7 +18,7 @@ export const swapCells = (weekSchedule: Ref<WeekSchedule>) => {
 
   if (activeArr.length !== 2) {
     console.warn('activeArr.length =', activeArr.length);
-    return;
+    return false;
   }
 
   // TODO: importar isso da função que calcula isso com base nos tempos de aula
@@ -57,7 +57,7 @@ export const swapCells = (weekSchedule: Ref<WeekSchedule>) => {
   if (cellA === null || cellB === null) {
     console.warn('cellA = ', cellA);
     console.warn('cellB = ', cellB);
-    return;
+    return false;
   }
 
   //
@@ -69,7 +69,7 @@ export const swapCells = (weekSchedule: Ref<WeekSchedule>) => {
   const cellIndexB = cellB.cell.cellIndex;
 
   if (cellIndexA === undefined || cellIndexB === undefined) {
-    return;
+    return false;
   }
 
   const shiftIndexA = cellA.cell.shiftIndex;
@@ -78,33 +78,28 @@ export const swapCells = (weekSchedule: Ref<WeekSchedule>) => {
   if (shiftIndexA === undefined || shiftIndexB === undefined) {
     console.warn('shiftIndexA = ', shiftIndexA);
     console.warn('shiftIndexB = ', shiftIndexB);
-    return;
+    return false;
   }
 
   //
 
-  const swapAttrs = (attr: keyof Cell) => {
-    [shiftA[cellIndexA]![attr] as any, shiftB[cellIndexB]![attr] as any] = [
-      shiftB[cellIndexB]![attr],
-      shiftA[cellIndexA]![attr],
-    ];
-  };
+  const tempA = { ...cellA.cell };
+  const tempB = { ...cellB.cell };
 
-  // swap
-  [shiftA[cellIndexA], shiftB[cellIndexB]] = [
-    shiftB[cellIndexB]!,
-    shiftA[cellIndexA]!,
-  ];
+  tempA.date = cellB.cell.date;
+  tempA.dayIndex = cellB.cell.dayIndex;
+  tempA.shiftIndex = cellB.cell.shiftIndex;
+  tempA.startHour = cellB.cell.startHour;
+  tempA.endHour = cellB.cell.endHour;
 
-  swapAttrs('shiftIndex');
-  swapAttrs('startHour');
-  swapAttrs('endHour');
+  tempB.date = cellA.cell.date;
+  tempB.dayIndex = cellA.cell.dayIndex;
+  tempB.shiftIndex = cellA.cell.shiftIndex;
+  tempB.startHour = cellA.cell.startHour;
+  tempB.endHour = cellA.cell.endHour;
 
-  //
-  if (cellA.cell.date !== cellB.cell.date) {
-    swapAttrs('date');
-    swapAttrs('dayIndex');
-  }
+  shiftA[cellIndexA] = tempB;
+  shiftB[cellIndexB] = tempA;
 
   weekSchedule.value[cellA.cell.date.format('YYYY-MM-DD')]![
     shiftNames[shiftIndexA]!
@@ -115,6 +110,8 @@ export const swapCells = (weekSchedule: Ref<WeekSchedule>) => {
   ] = shiftB;
 
   useSelectedCells({ action: 'removeAll' });
+
+  return true;
 };
 
 export const canSwap = computed(

@@ -146,8 +146,6 @@ const toggleActive = () => {
     weekday: cellInfo.value.date.format('dddd'),
   };
 
-  console.log(JSON.stringify(cell));
-
   active.value
     ? useSelectedCells({ action: 'removeOne', cell })
     : useSelectedCells({ action: 'addOne', cell });
