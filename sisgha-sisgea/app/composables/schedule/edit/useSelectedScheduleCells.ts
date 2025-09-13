@@ -1,12 +1,16 @@
+import type { ShiftName, WeekSchedule } from '../useScheduleTypes';
+import type { Cell } from './useScheduleEditTypes';
+
 const selectedCells = ref(new Set<ActiveCell>());
 
 const selectedCellsIds = ref(new Set<string>());
 
 export type ActiveCell = {
   id: string;
-  data: string;
-  weekDay: string;
-  shiftId: number;
+  date: string;
+  weekday: string;
+  dayIndex: number;
+  shiftIndex: number;
   cellIndex: number;
 };
 
@@ -66,3 +70,34 @@ export function useSelectedCells(params: Action) {
       break;
   }
 }
+
+// TODO: importar isso da função que calcula isso com base nos tempos de aula
+const shiftNames: ShiftName[] = ['morning', 'afternoon', 'night'];
+
+export const getActiveCellInfo = (
+  weekSchedule: WeekSchedule,
+  activeCell: ActiveCell
+): { cell: Cell; shift: Cell[]; shiftName: ShiftName } | null => {
+  const day = weekSchedule[activeCell.date];
+
+  const shiftName = shiftNames[activeCell.shiftIndex];
+
+  if (!day || !shiftName) {
+    console.warn('day = ', day);
+    console.warn('shiftName = ', shiftName);
+    return null;
+  }
+
+  const shift = day[shiftName];
+
+  const cell = shift.find(cell => cell.id === activeCell.id);
+
+  if (!cell) {
+    console.warn('cell =', JSON.stringify(cell));
+    return null;
+  }
+
+  cell.cellIndex = activeCell.cellIndex;
+
+  return { cell, shift, shiftName };
+};

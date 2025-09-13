@@ -16,26 +16,26 @@ import {
 } from '~/composables/schedule/edit/useSelectedScheduleCells';
 
 const {
-  turnoId,
-  dayId,
+  cellIndex,
+  shiftIndex,
+  dayIndex,
   maxCapacityReached = false,
   editMode,
-  cellIndex,
 } = defineProps<{
   cellIndex: number;
-  dayId: number;
-  turnoId: number;
+  dayIndex: number;
+  shiftIndex: number;
   editMode?: boolean;
   maxCapacityReached?: boolean;
 }>();
 
-const horarioMeta = defineModel<Cell>({
+const cellInfo = defineModel<Cell>({
   default: {},
   required: true,
 });
 
-const horario = useTemplateRef('horario');
-const horarioFather = useTemplateRef('horario-father');
+const cellRef = useTemplateRef('cell');
+const cellWrap = useTemplateRef('cell-wrap');
 
 //
 
@@ -54,38 +54,38 @@ const dropTargState: Ref<DropTargetState> = ref({
 let cleanup = () => {};
 
 onMounted(() => {
-  if (!horario.value || !horarioFather.value) {
+  if (!cellRef.value || !cellWrap.value) {
     return;
   }
 
   cleanup = combine(
     draggable({
-      element: horario.value,
+      element: cellRef.value,
 
-      canDrag: () => horarioMeta.value.tipo !== 'intervalo' && editMode,
+      canDrag: () => cellInfo.value.type !== 'intervalo' && editMode,
 
       getInitialData: () => ({
-        ...horarioMeta.value,
-        dayId,
-        turnoId,
-        type: 'cellDraggable',
+        ...cellInfo.value,
+        dayIndex,
+        shiftIndex,
+        dndType: 'cellDraggable',
       }),
 
       onDrag: () => {
-        horario.value?.classList.add('dragging');
+        cellRef.value?.classList.add('dragging');
       },
 
       onDrop: () => {
-        horario.value?.classList.remove('dragging');
+        cellRef.value?.classList.remove('dragging');
       },
     }),
 
     dropTargetForElements({
-      element: horario.value,
+      element: cellRef.value,
 
       getData: ({ input, element }) =>
         attachClosestEdge(
-          { ...horarioMeta.value, type: 'cellDropTarget' },
+          { ...cellInfo.value, type: 'cellDropTarget' },
           {
             input,
             element,
@@ -132,17 +132,18 @@ onUnmounted(() => {
 
 const active = computed(() =>
   useSelectedCells({ action: 'getAll', get: 'ids' })!.value.has(
-    horarioMeta.value.id
+    cellInfo.value.id
   )
 );
 
 const toggleActive = () => {
   const cell: ActiveCell = {
-    id: horarioMeta.value.id,
+    id: cellInfo.value.id,
     cellIndex,
-    shiftId: horarioMeta.value.turnoId ?? 0,
-    data: horarioMeta.value.data.format('DD/MM'),
-    weekDay: horarioMeta.value.data.format('dddd'),
+    shiftIndex,
+    dayIndex,
+    date: cellInfo.value.date.format('YYYY-MM-DD'),
+    weekday: cellInfo.value.date.format('dddd'),
   };
 
   active.value
@@ -161,13 +162,13 @@ const popoverOpen = ref(false);
 
 <template>
   <div
-    ref="horario-father"
-    v-show="showBreaks ? true : horarioMeta.tipo !== 'intervalo'"
+    ref="cell-wrap"
+    v-show="showBreaks ? true : cellInfo.type !== 'intervalo'"
     :class="[
       'relative not-last:border-b-[0.119565rem] nth-of-type-[2n]:mb-[0.5px] border-t-solid border-t-transparent border-b-2 border-b-solid border-b-ldsa-text-default/65 transform-[translateZ(0)] last:border-b-transparent',
       active && 'bg-ldsa-green-2/15',
     ]"
-    @click="horarioMeta.tipo !== 'intervalo' && editMode && toggleActive()"
+    @click="cellInfo.type !== 'intervalo' && editMode && toggleActive()"
   >
     <SectionHorarioDapeEditDropIndicator
       v-if="
@@ -181,29 +182,29 @@ const popoverOpen = ref(false);
     />
 
     <div
-      ref="horario"
+      ref="cell"
       id="horario"
       class="relative box-border text-center h-[1.4375rem] 2xl:h-6 flex justify-center items-center text-[0.813rem] font-medium"
       :class="{
         'text-ldsa-text-green dark:brightness-115': active,
-        'bg-ldsa-grey/20': horarioMeta.tipo === 'intervalo' && !active,
+        'bg-ldsa-grey/20': cellInfo.type === 'intervalo' && !active,
       }"
     >
-      <span v-if="horarioMeta.tipo === 'aula'" class="truncate max-w-19/20">
-        {{ horarioMeta.diario?.disciplina }} - {{ horarioMeta.diario?.turma }}
+      <span v-if="cellInfo.type === 'aula'" class="truncate max-w-19/20">
+        {{ cellInfo.diario?.disciplina }} - {{ cellInfo.diario?.turma }}
       </span>
 
-      <span v-else-if="horarioMeta.tipo === 'vago'"> - </span>
+      <span v-else-if="cellInfo.type === 'vago'"> - </span>
 
       <span
-        v-else-if="horarioMeta.tipo === 'intervalo'"
+        v-else-if="cellInfo.type === 'intervalo'"
         class="text-ldsa-text-default/50"
       >
         Intervalo
       </span>
 
       <span
-        v-if="horarioMeta.tipo !== 'intervalo'"
+        v-if="cellInfo.type !== 'intervalo'"
         @click.stop
         :class="[
           'absolute right-1 pl-1',
@@ -213,7 +214,7 @@ const popoverOpen = ref(false);
       >
         <SectionHorarioDapeEditCellEditButtons
           v-if="editMode"
-          v-model="horarioMeta"
+          v-model="cellInfo"
           v-model:popover="popoverOpen"
           @atividade-change="$emit('atividade-change')"
         />

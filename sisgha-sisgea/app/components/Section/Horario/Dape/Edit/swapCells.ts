@@ -1,122 +1,83 @@
-import type { Ref } from 'vue';
-import type { WeekScheduleEditable } from '~/composables/schedule/edit/useScheduleEditTypes';
-import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
-import type {
-  Aula,
-  HorDayjs,
-  Vago,
-  WeekScheduleHistory,
-} from '~/composables/schedule/useScheduleTypes';
+import {
+  getActiveCellInfo,
+  useSelectedCells,
+} from '~/composables/schedule/edit/useSelectedScheduleCells';
+import type { WeekSchedule } from '~/composables/schedule/useScheduleTypes';
 
-export const swapCells = (
-  weekSchedule: Ref<WeekScheduleEditable>,
-  scheduleHistory: WeekScheduleHistory
-) => {
+export const swapCells = (weekSchedule: Ref<WeekSchedule>): boolean => {
   const activeCells = useSelectedCells({
     action: 'getAll',
     get: 'cells',
   });
 
   const activeArr = [...activeCells.value];
+
   if (activeArr.length !== 2) {
-    console.warn(
-      'Para o swap, são necessárias exatamente 2 células selecionadas.'
-    );
-    return;
+    console.warn('activeArr.length =', activeArr.length);
+    return false;
   }
 
-  // Garante uma ordem consistente para os turnos
-  const SHIFT_ORDER: (keyof WeekScheduleEditable[number]['schedule'])[] = [
-    'manha',
-    'tarde',
-    'noite',
+  const cellA = getActiveCellInfo(weekSchedule.value, activeArr[0]!);
+  const cellB = getActiveCellInfo(weekSchedule.value, activeArr[1]!);
+
+  if (cellA === null || cellB === null) {
+    console.warn('cellA = ', cellA);
+    console.warn('cellB = ', cellB);
+    return false;
+  }
+
+  //
+
+  const shiftA = cellA.shift;
+  const shiftB = cellB.shift;
+
+  const cellIndexA = cellA.cell.cellIndex;
+  const cellIndexB = cellB.cell.cellIndex;
+
+  if (cellIndexA === undefined || cellIndexB === undefined) {
+    return false;
+  }
+
+  const shiftIndexA = cellA.cell.shiftIndex;
+  const shiftIndexB = cellB.cell.shiftIndex;
+
+  if (shiftIndexA === undefined || shiftIndexB === undefined) {
+    console.warn('shiftIndexA = ', shiftIndexA);
+    console.warn('shiftIndexB = ', shiftIndexB);
+    return false;
+  }
+
+  //
+
+  const tempA = { ...cellA.cell };
+  const tempB = { ...cellB.cell };
+
+  tempA.date = cellB.cell.date;
+  tempA.dayIndex = cellB.cell.dayIndex;
+  tempA.shiftIndex = cellB.cell.shiftIndex;
+  tempA.startHour = cellB.cell.startHour;
+  tempA.endHour = cellB.cell.endHour;
+
+  tempB.date = cellA.cell.date;
+  tempB.dayIndex = cellA.cell.dayIndex;
+  tempB.shiftIndex = cellA.cell.shiftIndex;
+  tempB.startHour = cellA.cell.startHour;
+  tempB.endHour = cellA.cell.endHour;
+
+  shiftA[cellIndexA] = tempB;
+  shiftB[cellIndexB] = tempA;
+
+  weekSchedule.value[cellA.cell.date.format('YYYY-MM-DD')]![cellA.shiftName] = [
+    ...shiftA,
   ];
 
-  // Localiza a posição exata (dia, turno, índice) de cada célula selecionada
-  const findCellLocation = (cellId: string) => {
-    for (const day of weekSchedule.value) {
-      for (const shiftName of SHIFT_ORDER) {
-        const shift = day.schedule[shiftName] ?? [];
-        const cellIndex = shift.findIndex(c => c.id === cellId);
-        if (cellIndex !== -1) {
-          return {
-            dayObj: day,
-            shiftName,
-            cellIndex,
-            cell: shift[cellIndex] as (Aula | Vago) & HorDayjs,
-          };
-        }
-      }
-    }
-    return null;
-  };
+  weekSchedule.value[cellB.cell.date.format('YYYY-MM-DD')]![cellB.shiftName] = [
+    ...shiftB,
+  ];
 
-  const locA = findCellLocation(activeArr[0]!.id);
-  const locB = findCellLocation(activeArr[1]!.id);
-
-  if (!locA || !locB) {
-    console.warn('locA = ', locA);
-    console.warn('locB = ', locB);
-    return;
-  }
-
-  if (locA.dayObj.data.data === locB.dayObj.data.data) {
-    const newSchedule = { ...locA.dayObj.schedule };
-    const shiftA = [...(newSchedule[locA.shiftName] || [])];
-
-    const shiftB =
-      locA.shiftName === locB.shiftName
-        ? shiftA
-        : [...(newSchedule[locB.shiftName] || [])];
-
-    [shiftA[locA.cellIndex], shiftB[locB.cellIndex]] = [locB.cell, locA.cell];
-
-    // cell infos update
-    [shiftA[locA.cellIndex]!.turnoId, shiftB[locB.cellIndex]!.turnoId] = [
-      locA.cell.turnoId,
-      locB.cell.turnoId,
-    ];
-
-    newSchedule[locA.shiftName] = shiftA;
-    newSchedule[locB.shiftName] = shiftB;
-
-    locA.dayObj.schedule = newSchedule;
-  } 
-  //
-  else {
-    const newShiftA = [...locA.dayObj.schedule[locA.shiftName]!];
-    const newShiftB = [...locB.dayObj.schedule[locB.shiftName]!];
-
-    // swap
-    [newShiftA[locA.cellIndex], newShiftB[locB.cellIndex]] = [
-      locB.cell,
-      locA.cell,
-    ];
-
-    // cell infos update
-    [newShiftA[locA.cellIndex]!.turnoId, newShiftB[locB.cellIndex]!.turnoId] = [
-      locA.cell.turnoId,
-      locB.cell.turnoId,
-    ];
-
-    [
-      newShiftA[locA.cellIndex]!.diaSemana,
-      newShiftB[locB.cellIndex]!.diaSemana,
-    ] = [locA.cell.diaSemana, locB.cell.diaSemana];
-
-    locA.dayObj.schedule = {
-      ...locA.dayObj.schedule,
-      [locA.shiftName]: newShiftA,
-    };
-
-    locB.dayObj.schedule = {
-      ...locB.dayObj.schedule,
-      [locB.shiftName]: newShiftB,
-    };
-  }
-
-  scheduleHistory.commit();
   useSelectedCells({ action: 'removeAll' });
+
+  return true;
 };
 
 export const canSwap = computed(

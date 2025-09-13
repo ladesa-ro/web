@@ -5,9 +5,9 @@ import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 
-const { turnoId, dayId, editMode } = defineProps<{
-  turnoId: number;
-  dayId: number;
+const { shiftIndex, dayIndex, editMode } = defineProps<{
+  shiftIndex: number;
+  dayIndex: number;
   editMode?: boolean;
 }>();
 
@@ -18,8 +18,8 @@ const shiftSchedule = defineModel<Cell[]>({
 
 shiftSchedule.value = shiftSchedule.value.map(horario => ({
   ...horario,
-  turnoId,
-  dayId,
+  shiftIndex,
+  dayIndex,
 }));
 
 //
@@ -42,18 +42,18 @@ onMounted(() => {
     dropTargetForElements({
       element: shift.value,
       getData: () => ({
-        id: turnoId,
-        dayId,
+        id: shiftIndex,
+        dayIndex,
         maxCapacity,
-        type: 'shiftDropTarget',
+        dndType: 'shiftDropTarget',
       }),
 
       canDrop: ({ source }) => {
-        if (source.data.type !== 'cellDraggable' || !editMode) {
+        if (source.data.dndType !== 'cellDraggable' || !editMode) {
           return false;
         }
 
-        if (source.data.turnoId == turnoId) {
+        if (source.data.shiftIndex == shiftIndex) {
           maxCapacityReached.value = true;
           return true;
         }
@@ -81,9 +81,9 @@ defineEmits(['atividade-change']);
     <SectionHorarioDapeEditCell
       v-for="(horario, index) in shiftSchedule"
       :key="horario.id"
-      :cell-index="index"
-      :day-id="dayId"
-      :turno-id="turnoId"
+      :cellIndex="index"
+      :dayIndex
+      :shiftIndex
       :editMode
       :closestEdge="closestEdgeToElement"
       :maxCapacityReached="maxCapacityReached"

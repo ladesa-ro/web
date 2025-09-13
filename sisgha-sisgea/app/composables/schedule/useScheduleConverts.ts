@@ -6,15 +6,15 @@ export const convertStringToDayJs = (
 ): Horario & HorDayjs => {
   const baseReturn = {
     ...horario,
-    data: useDayJs()(horario.data),
-    horaInicio: useDayJs()(`${horario.data} ${horario.horaInicio}`),
-    horaFim: useDayJs()(`${horario.data} ${horario.horaFim}`),
+    date: useDayJs()(horario.date),
+    startHour: useDayJs()(`${horario.date} ${horario.startHour}`),
+    endHour: useDayJs()(`${horario.date} ${horario.endHour}`),
   } as Horario & HorDayjs;
 
-  if (horario.tipo === 'transicaoDia') {
+  if (horario.type === 'transicaoDia') {
     return {
       ...baseReturn,
-      dataFim: useDayJs()(horario.dataFim),
+      endHour: useDayJs()(horario.endHour),
     } as Horario & HorDayjs;
   }
 
@@ -26,15 +26,15 @@ export const convertDayJsToString = (
 ): Horario & HorString => {
   const baseReturn = {
     ...horario,
-    data: horario.data!.format('YYYY-MM-DD'),
-    horaInicio: horario.horaInicio.format('hh:mm'),
-    horaFim: horario.horaFim.format('hh:mm'),
+    date: horario.date!.format('YYYY-MM-DD'),
+    startHour: horario.startHour.format('hh:mm'),
+    endHour: horario.endHour.format('hh:mm'),
   } as Horario & HorString;
 
-  if (horario.tipo === 'transicaoDia') {
+  if (horario.type === 'transicaoDia') {
     return {
       ...baseReturn,
-      dataFim: (horario.dataFim as Dayjs).format('YYYY-MM-DD'),
+      endHour: (horario.endHour as Dayjs).format('YYYY-MM-DD'),
     } as Horario & HorString;
   }
 

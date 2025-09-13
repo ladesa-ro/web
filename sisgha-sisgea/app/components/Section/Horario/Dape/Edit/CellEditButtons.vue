@@ -13,10 +13,10 @@ const cell = defineModel<Aula | Vago>({
 const emit = defineEmits(['atividade-change']);
 
 const changeCellType = (atv: EditableCellType) => {
-  if (cell.value.tipo !== atv) {
-    cell.value.tipo = atv;
+  if (cell.value.type !== atv) {
+    cell.value.type = atv;
 
-    if (cell.value.tipo === 'aula') {
+    if (cell.value.type === 'aula') {
       // TODO: fazer modificações no diário da aula
     }
 
@@ -36,7 +36,7 @@ const toggleItems = [
   { text: 'Vago', value: 'vago' },
 ];
 
-const cellType = computed(() => cell.value.tipo);
+const cellType = computed(() => cell.value.type);
 
 const changeActivityValue = ref(cellType.value ?? 'vago');
 </script>
@@ -66,7 +66,7 @@ const changeActivityValue = ref(cellType.value ?? 'vago');
       @click.stop="changeCellType('vago')"
       :class="[
         'inline w-4.5 p-0.5 text-ldsa-red hover:bg-ldsa-red/10 rounded',
-        cell.tipo === 'vago' ? 'opacity-0 cursor-default' : 'cursor-pointer',
+        cell.type === 'vago' ? 'opacity-0 cursor-default' : 'cursor-pointer',
       ]"
     />
   </div>

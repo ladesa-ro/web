@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
+import { useManualRefHistory } from '@vueuse/core';
+import { cloneDeep } from 'lodash';
 import {
   aulasSemDiaSemanaExemplo,
   temposDeAulaExemplo,
@@ -9,13 +11,12 @@ import {
   type WeekScheduleHistory,
 } from '~/composables/schedule/useScheduleTypes';
 import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
+import { replaceCell } from '../Edit/replaceCell';
+import { swapCells } from '../Edit/swapCells';
 import ButtonsEditMode from './Buttons/ButtonsEditMode.vue';
 import ButtonsVisualizationMode from './Buttons/ButtonsVisualizationMode.vue';
+import Button from './Buttons/ScheduleQueryButton.vue';
 import { getOwnerName } from './getOwnerName';
-import { useRefHistory } from '@vueuse/core';
-import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
-import { swapCells } from '../Edit/swapCells';
-import type { WeekScheduleEditable } from '~/composables/schedule/edit/useScheduleEditTypes';
 
 const id = useRoute().params.id as string;
 
@@ -37,28 +38,22 @@ const weekSchedule: Ref<WeekSchedule> = ref(
   useWeekSchedule(temposDeAulaExemplo, aulasSemDiaSemanaExemplo)
 ) as Ref<WeekSchedule>;
 
-const weekScheduleEditable: Ref<WeekScheduleEditable> = ref(
-  [...weekSchedule.value.entries()].map(([dayMeta, daySchedule]) => ({
-    data: { ...dayMeta, data: useDayJs()(dayMeta.data).format('DD/MM') },
-    schedule: daySchedule,
-  }))
-);
-
-// scheduleHistory is of type Ref<WeekScheduleHistory>, but typescript is picking on me so i just used "as any"
-const scheduleHistory = ref(
-  useRefHistory(weekSchedule, {
-    deep: true,
-    capacity: 10,
-  }) as any
-);
+const scheduleHistory: WeekScheduleHistory = useManualRefHistory(weekSchedule, {
+  capacity: 10,
+  clone: cloneDeep,
+});
 
 const editMode = ref(false);
 const showBreaks = ref(true);
 
-// const teste = ref();
-
 const swap = () => {
-  swapCells(weekScheduleEditable, scheduleHistory.value);
+  const swapSuccess = swapCells(weekSchedule);
+  if (swapSuccess) scheduleHistory.commit();
+};
+
+const replace = () => {
+  const replaceSuccess = replaceCell(weekSchedule);
+  if (replaceSuccess) scheduleHistory.commit();
 };
 </script>
 
@@ -95,7 +90,7 @@ const swap = () => {
         <UITitle
           v-if="editMode"
           class="default"
-          :text="'Modo Edição - ' + ownerName"
+          :text="'Modo Edição - ' + (ownerName ?? 'Nome não disponível')"
         />
       </span>
 
@@ -107,12 +102,24 @@ const swap = () => {
 
       <ButtonsEditMode
         v-if="editMode"
-        v-model="editMode"
-        @redo="scheduleHistory.redo()"
-        @undo="scheduleHistory.undo()"
         @swap="swap()"
-        @replace=""
-      />
+        @replace="replace()"
+        @disable-edit-mode="editMode = false"
+      >
+        <Button
+          :disabled="!scheduleHistory.canUndo.value"
+          @click="scheduleHistory.undo()"
+        >
+          <IconsUndoRedo class="w-4 scale-x-[-1]" />
+        </Button>
+
+        <Button
+          :disabled="!scheduleHistory.canRedo.value"
+          @click="scheduleHistory.redo()"
+        >
+          <IconsUndoRedo class="w-4" />
+        </Button>
+      </ButtonsEditMode>
     </header>
 
     <SectionHorarioDapeEditWeek
@@ -120,8 +127,8 @@ const swap = () => {
       :editMode
       :showBreaks
       v-model="weekSchedule"
-      v-model:history="scheduleHistory"
-      v-model:editable-schedule="weekScheduleEditable"
+      @commit-history="scheduleHistory.commit()"
+      @update:model-value="scheduleHistory.commit()"
     />
   </UIContainer>
 </template>

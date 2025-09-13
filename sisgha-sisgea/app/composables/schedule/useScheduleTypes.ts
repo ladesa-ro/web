@@ -1,14 +1,14 @@
-import type { UseRefHistoryReturn } from '@vueuse/core';
+import type { UseManualRefHistoryReturn, UseRefHistoryReturn } from '@vueuse/core';
 import type { Dayjs } from 'dayjs';
+import type { Cell } from './edit/useScheduleEditTypes';
 
-export type TempoDeAula = { horaInicio: string; horaFim: string };
+// hello dev who came here some time after i did this code! if you need to change this code, im so sorry because its so confusing and i mixed languages (portuguese and english). i didnt improve this because my mental health wouldnt allow it. namaste
 
-export type TemposDeAula = Record<string, TempoDeAula[]>;
+export type TimeSlot = { startHour: string; endHour: string };
 
-export type TemposDeAulaMap = Map<
-  { data: string; diaSemana: string },
-  TempoDeAula[]
->;
+export type TimeSlotObj = Record<string, TimeSlot[]>;
+
+export type TimeSlots = Map<WeekdayInfo, TimeSlot[]>;
 
 //
 
@@ -16,19 +16,16 @@ export type TemposDeAulaMap = Map<
 export type EditableCellType = 'aula' | 'vago';
 
 // intervalos de tempo automaticamente calculados por useWeekSchedule()
-export type NonEditablePeriodsType =
-  | 'intervalo'
-  | 'quebraTurno'
-  | 'transicaoDia';
+type NonEditablePeriodsType = 'intervalo' | 'quebraTurno' | 'transicaoDia';
 
-export type TimePeriodType = EditableCellType | NonEditablePeriodsType;
+type TimePeriodType = EditableCellType | NonEditablePeriodsType;
 
 //
 
 export type EditableCell = {
-  diaSemana: string;
-  dayId?: number;
-  turnoId?: number;
+  weekday: string;
+  dayIndex?: number;
+  shiftIndex?: number;
   cellIndex?: number;
 };
 
@@ -36,72 +33,79 @@ export type EditableCell = {
 
 type TimePeriodBase = {
   id: string;
-  tipo: TimePeriodType;
-  horaInicio: StringOrDayjs;
-  horaFim: StringOrDayjs;
-  data: StringOrDayjs;
+  type: TimePeriodType;
+  startHour: StringOrDayjs;
+  endHour: StringOrDayjs;
+  date: StringOrDayjs;
 };
 
 // TODO: adaptar a estrutura de aula quando integrar à api
 // extenderá o tipo Ladesa_ManagementService_Domain_Contracts_AulaFindOneOutput
 export type Aula = TimePeriodBase &
   EditableCell & {
-    tipo: 'aula';
+    type: 'aula';
     diario: { turma: string; professor: string; disciplina: string };
     // ambiente: string;
     // intervaloDeTempo: TempoDeAula;
     // modalidade: string;
   };
 
-export type Vago = TimePeriodBase & EditableCell & { tipo: 'vago' };
+export type Vago = TimePeriodBase & EditableCell & { type: 'vago' };
 
-export type Intervalo = TimePeriodBase & { tipo: 'intervalo'; turnoId?: number };
-
-export type quebraTurno = TimePeriodBase & { tipo: 'quebraTurno' };
-
-export type TransicaoDia = TimePeriodBase & {
-  tipo: 'transicaoDia';
-  dataFim: StringOrDayjs;
+export type Intervalo = TimePeriodBase & {
+  type: 'intervalo';
+  shiftIndex?: number;
 };
 
-export type Horario = Aula | Vago | Intervalo | quebraTurno | TransicaoDia;
+export type QuebraTurno = TimePeriodBase & { type: 'quebraTurno' };
+
+export type TransicaoDia = TimePeriodBase & {
+  type: 'transicaoDia';
+  endDate: StringOrDayjs;
+};
+
+export type Horario = Aula | Vago | Intervalo | QuebraTurno | TransicaoDia;
 
 //
 
 export type StringOrDayjs = string | Dayjs;
 
 export type HorDayjs = Horario & {
-  data: Dayjs;
-  horaInicio: Dayjs;
-  horaFim: Dayjs;
+  date: Dayjs;
+  startHour: Dayjs;
+  endHour: Dayjs;
 };
 
 export type HorString = Horario & {
-  data: string;
-  horaInicio: string;
-  horaFim: string;
+  date: string;
+  startHour: string;
+  endHour: string;
 };
 
 //
 
-export type DiaEmTurnos = {
-  manha: (Horario & HorDayjs)[];
-  tarde: (Horario & HorDayjs)[];
-  noite: (Horario & HorDayjs)[];
-};
+export type ShiftName = 'morning' | 'afternoon' | 'night';
 
-export type DiaEditavelEmTurnos = {
-  manha: ((Aula | Vago) & HorDayjs)[];
-  tarde: ((Aula | Vago) & HorDayjs)[];
-  noite: ((Aula | Vago) & HorDayjs)[];
-  [key: string]: ((Aula | Vago) & HorDayjs)[];
-};
+export type DayInShifts = Record<ShiftName, Cell[]>;
 
-export type WeekdayMeta = { data: string; weekday: string };
+//
 
-export type WeekSchedule = Map<WeekdayMeta, DiaEditavelEmTurnos>;
+export type WeekdayInfo = { date: string; weekday: string };
 
-export type WeekScheduleHistory = UseRefHistoryReturn<
-  WeekSchedule,
-  WeekSchedule
->;
+// type WeekdayName =
+//   | 'segunda'
+//   | 'terca'
+//   | 'quarta'
+//   | 'quinta'
+//   | 'sexta'
+//   | 'sabado'
+//   | 'domingo';
+
+export type WeekSchedule = Record<string, DayInShifts>;
+
+export type WeekScheduleHistory = UseManualRefHistoryReturn<unknown, unknown>;
+
+// export type WeekEditableScheduleHistory = UseRefHistoryReturn<
+//   WeekScheduleEditable,
+//   WeekScheduleEditable
+// >;
