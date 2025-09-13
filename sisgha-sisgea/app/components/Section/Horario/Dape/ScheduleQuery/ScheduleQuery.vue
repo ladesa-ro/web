@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
+import { useManualRefHistory } from '@vueuse/core';
+import { cloneDeep } from 'lodash';
 import {
   aulasSemDiaSemanaExemplo,
   temposDeAulaExemplo,
@@ -9,32 +11,26 @@ import {
   type WeekScheduleHistory,
 } from '~/composables/schedule/useScheduleTypes';
 import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
+import { replaceCell } from '../Edit/replaceCell';
+import { swapCells } from '../Edit/swapCells';
 import ButtonsEditMode from './Buttons/ButtonsEditMode.vue';
 import ButtonsVisualizationMode from './Buttons/ButtonsVisualizationMode.vue';
-import { getOwnerName } from './getOwnerName';
-import { useManualRefHistory, useRefHistory } from '@vueuse/core';
-import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
-import { cloneDeep } from 'lodash';
 import Button from './Buttons/ScheduleQueryButton.vue';
-import { swapCells } from '../Edit/swapCells';
+import { getOwnerName } from './getOwnerName';
 
-// import { swapCells } from '../Edit/swapCells';
+const id = useRoute().params.id as string;
 
-// const id = useRoute().params.id as string;
+const isProfessor = useRoute().path.includes('professor');
 
-// const isProfessor = useRoute().path.includes('professor');
+const {
+  data: scheduleOwner,
+  isLoading,
+  isError,
+} = isProfessor
+  ? useQuery(findUserById({ id }))
+  : useQuery(findTurmaById({ id }));
 
-// const {
-//   data: scheduleOwner,
-//   isLoading,
-//   isError,
-// } = isProfessor
-//   ? useQuery(findUserById({ id }))
-//   : useQuery(findTurmaById({ id }));
-
-// const ownerName = getOwnerName(isLoading, isProfessor, scheduleOwner);
-
-const ownerName = 'sabolitas lindoca';
+const ownerName = getOwnerName(isLoading, isProfessor, scheduleOwner);
 
 //
 
@@ -54,6 +50,11 @@ const swap = () => {
   const swapSuccess = swapCells(weekSchedule);
   if (swapSuccess) scheduleHistory.commit();
 };
+
+const replace = () => {
+  const replaceSuccess = replaceCell(weekSchedule);
+  if (replaceSuccess) scheduleHistory.commit();
+};
 </script>
 
 <template>
@@ -72,17 +73,16 @@ const swap = () => {
           </NuxtLink>
         </span>
 
-        <!-- <UITitle
+        <UITitle
           v-if="isError"
           class="default"
           text="Não foi possível buscar os dados"
         />
 
-        <UITitle v-else-if="isLoading" class="default" text="Carregando..." /> -->
+        <UITitle v-else-if="isLoading" class="default" text="Carregando..." />
 
-        <!-- v-else-if="!editMode" -->
         <UITitle
-          v-if="!editMode"
+          v-else-if="!editMode"
           class="default"
           :text="ownerName ?? 'Nome não disponível'"
         />
@@ -103,7 +103,7 @@ const swap = () => {
       <ButtonsEditMode
         v-if="editMode"
         @swap="swap()"
-        @replace=""
+        @replace="replace()"
         @disable-edit-mode="editMode = false"
       >
         <Button
