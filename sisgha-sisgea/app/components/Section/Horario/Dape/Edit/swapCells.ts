@@ -1,12 +1,8 @@
-import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 import {
+  getActiveCellInfo,
   useSelectedCells,
-  type ActiveCell,
 } from '~/composables/schedule/edit/useSelectedScheduleCells';
-import type {
-  ShiftName,
-  WeekSchedule,
-} from '~/composables/schedule/useScheduleTypes';
+import type { WeekSchedule } from '~/composables/schedule/useScheduleTypes';
 
 export const swapCells = (weekSchedule: Ref<WeekSchedule>): boolean => {
   const activeCells = useSelectedCells({
@@ -21,38 +17,8 @@ export const swapCells = (weekSchedule: Ref<WeekSchedule>): boolean => {
     return false;
   }
 
-  // TODO: importar isso da função que calcula isso com base nos tempos de aula
-  const shiftNames: ShiftName[] = ['morning', 'afternoon', 'night'];
-
-  const getActiveCellInfo = (
-    activeCell: ActiveCell
-  ): { cell: Cell; shift: Cell[] } | null => {
-    const day = weekSchedule.value[activeCell.date];
-
-    const shiftName = shiftNames[activeCell.shiftIndex];
-
-    if (!day || !shiftName) {
-      console.warn('day = ', day);
-      console.warn('shiftName = ', shiftName);
-      return null;
-    }
-
-    const shift = day[shiftName];
-
-    const cell = shift.find(cell => cell.id === activeCell.id);
-
-    if (!cell) {
-      console.warn('cell =', JSON.stringify(cell));
-      return null;
-    }
-
-    cell.cellIndex = activeCell.cellIndex;
-
-    return { cell, shift };
-  };
-
-  const cellA = getActiveCellInfo(activeArr[0]!);
-  const cellB = getActiveCellInfo(activeArr[1]!);
+  const cellA = getActiveCellInfo(weekSchedule.value, activeArr[0]!);
+  const cellB = getActiveCellInfo(weekSchedule.value, activeArr[1]!);
 
   if (cellA === null || cellB === null) {
     console.warn('cellA = ', cellA);
@@ -101,13 +67,13 @@ export const swapCells = (weekSchedule: Ref<WeekSchedule>): boolean => {
   shiftA[cellIndexA] = tempB;
   shiftB[cellIndexB] = tempA;
 
-  weekSchedule.value[cellA.cell.date.format('YYYY-MM-DD')]![
-    shiftNames[shiftIndexA]!
-  ] = shiftA;
+  weekSchedule.value[cellA.cell.date.format('YYYY-MM-DD')]![cellA.shiftName] = [
+    ...shiftA,
+  ];
 
-  weekSchedule.value[cellB.cell.date.format('YYYY-MM-DD')]![
-    shiftNames[shiftIndexB]!
-  ] = shiftB;
+  weekSchedule.value[cellB.cell.date.format('YYYY-MM-DD')]![cellB.shiftName] = [
+    ...shiftB,
+  ];
 
   useSelectedCells({ action: 'removeAll' });
 
