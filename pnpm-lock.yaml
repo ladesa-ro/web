@@ -118,6 +118,9 @@ importers:
         specifier: ^1.6.1
         version: 1.7.0
     devDependencies:
+      '@babel/runtime':
+        specifier: ^7.28.4
+        version: 7.28.4
       type-fest:
         specifier: ^4.41.0
         version: 4.41.0
@@ -269,8 +272,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/runtime@7.28.3':
-    resolution: {integrity: sha512-9uIQ10o0WGdpP6GDhXcdOJPJuDgFtIDtN/9+ArJQ2NAfAmiuhTQdzkaTGR33v43GYS2UrSA0eX2pPPHoFVvpxA==}
+  '@babel/runtime@7.28.4':
+    resolution: {integrity: sha512-Q/N6JNWvIvPnLDvjlE1OUBLPQHH6l3CltCEsHIujp45zQUSSh8K+gHnaEX45yAT1nyngnINhvWtzN+Nb9D8RAQ==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.27.2':
@@ -5356,16 +5359,16 @@ snapshots:
   '@atlaskit/pragmatic-drag-and-drop-auto-scroll@2.1.1':
     dependencies:
       '@atlaskit/pragmatic-drag-and-drop': 1.7.4
-      '@babel/runtime': 7.28.3
+      '@babel/runtime': 7.28.4
 
   '@atlaskit/pragmatic-drag-and-drop-hitbox@1.1.0':
     dependencies:
       '@atlaskit/pragmatic-drag-and-drop': 1.7.4
-      '@babel/runtime': 7.28.3
+      '@babel/runtime': 7.28.4
 
   '@atlaskit/pragmatic-drag-and-drop@1.7.4':
     dependencies:
-      '@babel/runtime': 7.28.3
+      '@babel/runtime': 7.28.4
       bind-event-listener: 3.0.0
       raf-schd: 4.0.3
 
@@ -5521,7 +5524,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/runtime@7.28.3': {}
+  '@babel/runtime@7.28.4': {}
 
   '@babel/template@7.27.2':
     dependencies:
