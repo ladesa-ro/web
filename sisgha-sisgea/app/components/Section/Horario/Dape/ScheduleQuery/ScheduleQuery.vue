@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
 import { useManualRefHistory } from '@vueuse/core';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
 import {
   aulasSemDiaSemanaExemplo,
   temposDeAulaExemplo,
