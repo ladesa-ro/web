@@ -2,6 +2,8 @@
 import { HeadTitleContext } from '~/utils';
 import { provideLayoutsDashboardContext } from './context';
 
+import { UIToast } from '#components';
+
 type Slots = {
   sidebar(): any;
   default(): any;
@@ -32,6 +34,8 @@ const { hamburguerActive } = provideLayoutsDashboardContext();
 
       <UIFooter />
     </section>
+
+    <UIToast />
   </div>
 </template>
 
