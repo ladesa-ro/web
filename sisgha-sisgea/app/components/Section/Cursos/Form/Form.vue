@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { useApiClient } from '~/composables';
 import { useToast } from '~/composables/useToast';
 
-const { success, error } = useToast();
+const { showToast } = useToast();
 
 type Props = {
   editId?: string | null;
@@ -86,15 +86,11 @@ const handleDelete = async () => {
     await apiClient.cursos.cursoDeleteOneById({ id });
     await queryClient.invalidateQueries({ queryKey: ['cursos'] });
 
-    success({
-      title: 'Curso deletado',
-    });
+    showToast('delete', 'success');
 
     $emit('close');
   } catch (e) {
-    error({
-      title: 'Erro ao deletar',
-    });
+    showToast('delete', 'error');
   }
 };
 
@@ -134,9 +130,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
       });
       id = cursoCriado.id;
 
-      success({
-        title: 'Cadastro bem sucedido!',
-      });
+      showToast('cadastro', 'success');
     } else {
       await apiClient.cursos.cursoUpdateOneById({
         id: editId,
@@ -144,9 +138,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
       });
       id = editId;
 
-      success({
-        title: 'Curso atualizado',
-      });
+      showToast('atualizacao', 'success');
     }
 
     if (imagem) {
@@ -161,9 +153,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
     resetForm();
     $emit('close');
   } catch (e) {
-    error({
-      title: 'Ocorreu um erro ao efetuar o cadastro',
-    });
+    showToast('cadastro', 'error');
     console.error(e);
   }
 }, console.error);
