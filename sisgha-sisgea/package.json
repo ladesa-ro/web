@@ -16,6 +16,9 @@
     "types:watch": "vue-tsc --noEmit --watch"
   },
   "dependencies": {
+    "@atlaskit/pragmatic-drag-and-drop": "^1.7.4",
+    "@atlaskit/pragmatic-drag-and-drop-auto-scroll": "^2.1.1",
+    "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.1.0",
     "@auth/core": "^0.40.0",
     "@ladesa-ro/management-service-client": "https://pkg.pr.new/ladesa-ro/management-service/@ladesa-ro/management-service-client@d81af30",
     "@nuxt/devtools": "2.6.2",
@@ -48,6 +51,7 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
+    "@babel/runtime": "^7.28.4",
     "type-fest": "^4.41.0",
     "typescript": "5.9.2",
     "vue-tsc": "3.0.5"

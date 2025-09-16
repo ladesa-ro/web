@@ -181,7 +181,7 @@ export const calendarDataMethods = {
       end: { date: string },
       calendarId: string
     ): Promise<void> {
-      try {
+      try { 
         await getApiClient().etapas.etapaCreate({
           requestBody: {
             numero: num,

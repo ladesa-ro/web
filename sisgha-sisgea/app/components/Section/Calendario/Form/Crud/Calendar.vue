@@ -2,7 +2,6 @@
 // # IMPORT
 import dayjs from 'dayjs';
 import { useForm } from 'vee-validate';
-import { ref } from 'vue';
 import * as yup from 'yup';
 import { useCampusUsuarioId } from '~/composables/integrations/ladesa-api/modules/useCampusUsuarioId';
 import { calendarDataMethods } from '../../CalendarDataMethods';

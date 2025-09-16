@@ -23,6 +23,6 @@ const { variant = 'default' } = defineProps<Props>();
 }
 
 .mini {
-  @apply flex items-center max-md:text-sm font-semibold before:inline-block before:w-1 before:h-[1em] before:mr-2 before:bg-ldsa-text-green;
+  @apply flex items-center max-md:text-sm font-semibold before:inline-block before:w-1 before:h-[1em] before:mr-1.5 before:bg-ldsa-text-green;
 }
 </style>

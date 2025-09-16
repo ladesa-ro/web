@@ -1,5 +1,8 @@
 <script lang="ts" setup>
+import { UILoading } from '#components';
 import { useQuery } from '@tanstack/vue-query';
+import { useRouter } from 'vue-router';
+import { useCanEditProfile } from '#imports';
 
 type Props = { userId: string };
 const { userId } = defineProps<Props>();
@@ -9,6 +12,16 @@ const {
   isLoading,
   isError,
 } = useQuery(findUserById({ id: userId }));
+
+//
+const { canEdit } = useCanEditProfile(userId);
+const showGoBack = computed(() => !canEdit.value);
+
+
+const router = useRouter();
+const goBack = () => {
+  router.push('/sisgha/dape/usuarios'); 
+};
 </script>
 
 <template>
@@ -16,18 +29,26 @@ const {
     variant="larger"
     class="flex flex-col justify-center gap-5 lg:gap-6.5 xl:gap-8"
   >
-    <template v-if="user">
+    <template v-if="user">      
+     <div v-if="showGoBack">
+      <UIButtonModalGoBack @click="goBack"/>
+     </div>
       <SectionProfileHeader :user="user" />
 
-      <!-- disponibilidade + ensino -->
       <!-- TODO: puxar da api -->
-      <section class="flex max-[900px]:flex-col gap-4">
-        <SectionProfileAvailability class="flex-1/2 min-[1144px]:flex-1" />
-        <SectionProfileTeaching :user class="flex-1/2 min-[1144px]:flex-2" />
+      <section class="grid gap-4 md:grid-cols-5 auto-rows-auto">
+        <SectionProfileAvailability
+          class="border-card md:order-none md:col-span-2"
+        />
+
+        <SectionProfileTeaching
+          :user="user"
+          class="border-card md:order-none md:col-span-3"
+        />
       </section>
     </template>
 
-    <span v-else-if="isLoading">Carregando...</span>
+    <span v-else-if="isLoading"><UILoading /></span>
     <span v-else-if="isError">
       Ocorreu um erro inesperado ao procurar o usuário.
     </span>

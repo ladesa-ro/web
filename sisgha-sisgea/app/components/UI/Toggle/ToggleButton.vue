@@ -45,6 +45,6 @@ defineProps<Props>();
 }
 
 .icon {
-  @apply h-[1.125rem] sm:h-5 shrink-0;
+  @apply h-4.5 sm:h-5 shrink-0;
 }
 </style>

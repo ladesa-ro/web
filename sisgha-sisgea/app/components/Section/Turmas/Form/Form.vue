@@ -12,6 +12,7 @@ import {
   type ITurmaFormSchema,
   useTurmaFormSchema,
 } from './-Helpers/schema';
+import SectionTurmasFormAvailability from './Availability/AvailabilityModal.vue';
 
 type Props = {
   editId?: string | null;
@@ -23,6 +24,8 @@ const { editId = null } = defineProps<Props>();
 
 const $emit = defineEmits(['close']);
 const onClose = () => $emit('close');
+const isClassesOpen = ref(true);
+const isAvailabilityOpen = ref(true);
 
 const schema = useTurmaFormSchema();
 
@@ -119,7 +122,7 @@ const {
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit">
+  <form @submit.prevent="onSubmit" class="flex gap-4">
     <FormsCreateOrManageContextualForm
       title-create="Cadastrar Turma"
       title-edit="Editar Turma"
@@ -140,9 +143,16 @@ const {
       />
 
       <SectionTurmasFormFieldsPeriodo
+        v-show="isClassesOpen"
         :disabled="isBusy"
         :is-loading="isLoading"
       />
     </FormsCreateOrManageContextualForm>
+
+    <SectionTurmasFormAvailability
+      v-show="isAvailabilityOpen"
+      :disabled="isBusy"
+      :is-loading="isLoading"
+    />
   </form>
 </template>

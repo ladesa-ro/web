@@ -17,75 +17,75 @@ import { queryOptions } from '@tanstack/vue-query';
 
 // campi
 
-export const findCampusById = (id: CampusFindOneByIdData) =>
+export const findCampusById = (id: CampusFindOneByIdData, apiClient = useApiClient()) =>
   queryOptions({
     queryKey: ['campus', 'campus::id', id],
-    queryFn: async () => await useApiClient().campi.campusFindOneById(id),
+    queryFn: async () => await apiClient.campi.campusFindOneById(id),
   });
 
 // cursos
 
-export const findCursoById = (id: CursoFindOneByIdData) =>
+export const findCursoById = (id: CursoFindOneByIdData, apiClient = useApiClient()) =>
   queryOptions({
     queryKey: ['curso', 'curso::id', id],
-    queryFn: async () => await useApiClient().cursos.cursoFindOneById(id),
+    queryFn: async () => await apiClient.cursos.cursoFindOneById(id),
   });
 
-export const listCursos = (filter?: CursoListData) =>
+export const listCursos = (filter?: ComputedRef<CursoListData>, apiClient: ApiClient = useApiClient()) =>
   queryOptions({
-    queryKey: ['cursos', 'cursos-list'],
-    queryFn: async () => await useApiClient().cursos.cursoList(filter),
+    queryKey: ['cursos', 'cursos-list', filter],
+    queryFn: async () => await apiClient.cursos.cursoList(unref(filter)),
   });
 
 // disciplinas
 
-export const findDisciplinaById = (id: DisciplinaFindOneByIdData) =>
+export const findDisciplinaById = (id: DisciplinaFindOneByIdData, apiClient = useApiClient()) =>
   queryOptions({
     queryKey: ['disciplina', 'disciplina::id', id],
     queryFn: async () =>
-      await useApiClient().disciplinas.disciplinaFindOneById(id),
+      await apiClient.disciplinas.disciplinaFindOneById(id),
   });
 
 // formações
 
-export const findOfertaFormacaoById = (id: OfertaFormacaoFindOneByIdData) =>
+export const findOfertaFormacaoById = (id: OfertaFormacaoFindOneByIdData, apiClient = useApiClient()) =>
   queryOptions({
     queryKey: ['oferta-formacao', 'oferta-formacao::id', id],
     queryFn: async () =>
-      await useApiClient().ofertasFormacoes.ofertaFormacaoFindOneById(id),
+      await apiClient.ofertasFormacoes.ofertaFormacaoFindOneById(id),
   });
 
-export const listOfertasFormacao = (filter?: OfertaFormacaoListData) =>
+export const listOfertasFormacao = (filter?: ComputedRef<OfertaFormacaoListData>, apiClient: ApiClient = useApiClient()) =>
   queryOptions({
-    queryKey: ['ofertas-formacao', 'oferta-formacao-list'],
+    queryKey: ['ofertas-formacao', 'oferta-formacao-list', filter],
     queryFn: async () =>
-      await useApiClient().ofertasFormacoes.ofertaFormacaoList(filter),
+      await apiClient.ofertasFormacoes.ofertaFormacaoList(unref(filter)),
   });
 
 // turmas
 
-export const findTurmaById = (id: TurmaFindOneByIdData) =>
+export const findTurmaById = (id: TurmaFindOneByIdData, apiClient = useApiClient()) =>
   queryOptions({
     queryKey: ['turma', 'turma::id', id],
-    queryFn: async () => await useApiClient().turmas.turmaFindOneById(id),
+    queryFn: async () => await apiClient.turmas.turmaFindOneById(id),
   });
 
-export const listTurmas = (filter?: TurmaListData) =>
+export const listTurmas = (filter?: ComputedRef<TurmaListData>, apiClient: ApiClient = useApiClient()) =>
   queryOptions({
-    queryKey: ['turma', 'turmas-list'],
-    queryFn: async () => await useApiClient().turmas.turmaList(filter),
+    queryKey: ['turma', 'turmas-list', filter],
+    queryFn: async () => apiClient.turmas.turmaList(unref(filter)),
   });
 
 // usuários
 
-export const findUserById = (id: UsuarioFindOneByIdData) =>
+export const findUserById = (id: UsuarioFindOneByIdData, apiClient = useApiClient()) =>
   queryOptions({
     queryKey: ['user', 'user::id', id],
-    queryFn: async () => await useApiClient().usuarios.usuarioFindOneById(id),
+    queryFn: async () => await apiClient.usuarios.usuarioFindOneById(id),
   });
 
-export const listUsers = (filter?: UsuarioListData) =>
+export const listUsers = (filter?: UsuarioListData, apiClient = useApiClient()) =>
   queryOptions({
     queryKey: ['user', 'users-list'],
-    queryFn: async () => await useApiClient().usuarios.usuarioList(filter),
+    queryFn: async () => await apiClient.usuarios.usuarioList(filter),
   });

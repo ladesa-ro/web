@@ -125,8 +125,6 @@ const isFilterDisabled = computed(() => !isFilterEnabled.value);
     :items="selectItems"
     :name="name"
     :no-filter="isFilterDisabled"
-    item-title="label"
-    item-value="value"
     v-bind="$attrs"
   />
 </template>

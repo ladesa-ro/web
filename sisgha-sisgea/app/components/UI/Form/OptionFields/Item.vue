@@ -16,15 +16,15 @@ defineProps<Props>();
   <AutocompleteItem
     v-if="mode === 'autocomplete'"
     :value="item.value"
-    class="item h-(--reka-combobox-trigger-height)"
+    class="item min-h-(--reka-combobox-trigger-height) max-h-max"
   >
     {{ item.label }}
   </AutocompleteItem>
 
   <SelectItem
-    v-else-if="mode === 'select'"
+    v-else
     :value="item.value"
-    class="item h-(--reka-select-trigger-height)"
+    class="item min-h-(--reka-select-trigger-height) max-h-max"
   >
     <Text>{{ item.label }}</Text>
   </SelectItem>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
 import type { Item } from '~/composables/useOptionItems';
 
 type Props = {
@@ -29,11 +28,12 @@ onMounted(() => {
       v-for="(item, index) in items"
       :key="index"
       @click="selectItem(index)"
-      class="flex-1 text-center font-semibold py-4 rounded-xl border-2 border-ldsa-green-1"
+      class="flex-1 text-center font-semibold py-4 px-2 rounded-xl border-2 border-ldsa-green-1"
       :class="{
         'bg-ldsa-green-1 text-white': selectedIndex === index,
         'text-ldsa-text-green': selectedIndex !== index
       }"
+      type="button"
     >
       {{ item.label.slice(0, 3)}}
     </button>

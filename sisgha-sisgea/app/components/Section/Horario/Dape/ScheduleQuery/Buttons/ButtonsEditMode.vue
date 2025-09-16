@@ -1,30 +1,57 @@
 <script setup lang="ts">
+import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 import Button from './ScheduleQueryButton.vue';
-const editMode = defineModel<boolean>({ default: false });
+
+const selectedItemsSize = computed(
+  () => useSelectedCells({ action: 'getAll', get: 'ids' }).value.size ?? 0
+);
+
+defineEmits(['swap', 'replace', 'disable-edit-mode']);
 </script>
 
 <template>
   <span class="flex gap-2.5">
-    <Button>
+    <slot> </slot>
+
+    <div class="divider" />
+
+    <Button :disabled="selectedItemsSize !== 2" @click="$emit('swap')">
       <IconsSwap class="w-4" />
     </Button>
 
-    <Button>
+    <Button :disabled="selectedItemsSize !== 2" @click="$emit('replace')">
       <IconsReplace class="w-5" />
     </Button>
 
-    <Button text="Limpar seleção">
+    <div class="divider" />
+
+    <Button
+      text="Limpar seleção"
+      :disabled="selectedItemsSize === 0"
+      @click="useSelectedCells({ action: 'removeAll' })"
+    >
       <IconsBroom class="w-4.5" />
     </Button>
 
-    <Button text="Grade de grupos [ ]" />
+    <div class="divider" />
 
-    <Button @click="editMode = false" color="var(--ladesa-red-color)">
+    <Button @click="$emit('disable-edit-mode')" color="var(--ladesa-red-color)">
       <IconsClose class="w-4" />
     </Button>
 
-    <Button @click="editMode = false" color="var(--ladesa-text-green-color)">
+    <Button
+      @click="$emit('disable-edit-mode')"
+      color="var(--ladesa-text-green-color)"
+    >
       <IconsConfirm class="w-5" />
     </Button>
   </span>
 </template>
+
+<style scoped>
+@reference "~/assets/styles/app.css";
+
+.divider {
+  @apply h-full min-h-10 w-0.5 bg-ldsa-grey/40 mx-2.5;
+}
+</style>

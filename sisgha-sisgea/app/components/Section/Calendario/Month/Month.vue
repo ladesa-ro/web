@@ -113,5 +113,3 @@ watch(
     </div>
   </div>
 </template>
-
-<style></style>

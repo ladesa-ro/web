@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import CardLink from '@/components/Section/Inicio/CardLink/CardLink.vue';
-import Section from '@/components/Section/Inicio/Section/Section.vue';
-
 import { IconsClockView, IconsTeacherLesson } from '#components';
+import CardLink from './CardLink/CardLink.vue';
+import Section from './Section/Section.vue';
 
 const DAPE_PATH = '/sisgha/dape';
 </script>
