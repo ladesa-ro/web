@@ -3,6 +3,9 @@ import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { useApiClient } from '~/composables';
+import { useToast } from '~/composables/useToast';
+
+const { showToast } = useToast();
 
 type Props = {
   editId?: string | null;
@@ -74,17 +77,21 @@ const initialFormValues = reactive({
 
 const handleDelete = async () => {
   const id = editIdRef.value;
-
   if (!id) return;
 
   const resposta = window.confirm(
     'Você tem certeza de que deseja deletar esse ambiente?'
   );
+  if (!resposta) return;
 
-  if (resposta) {
-    await apiClient.ambientes.ambienteDeleteOneById({ id: id });
+  try {
+    await apiClient.ambientes.ambienteDeleteOneById({ id });
     await queryClient.invalidateQueries({ queryKey: ['ambientes'] });
+    showToast('delete', 'success');
     $emit('close');
+  } catch (error) {
+    console.error(error);
+    showToast('delete', 'error');
   }
 };
 
@@ -111,45 +118,40 @@ const {
 
 const onSubmit = handleSubmit(async (values: FormOutput) => {
   const editId = editIdRef.value;
-
   const { imagem, ...data } = values;
-
   let id;
 
-  if (editId === null) {
-    const ambienteCriado = await apiClient.ambientes.ambienteCreate({
-      requestBody: { ...data },
-    });
-    id = ambienteCriado.id;
-  } else {
-    await apiClient.ambientes.ambienteUpdateOneById({
-      id: editId,
-      requestBody: {
+  try {
+    if (editId === null) {
+      const ambienteCriado = await apiClient.ambientes.ambienteCreate({
+        requestBody: { ...data },
+      });
+      id = ambienteCriado.id;
+      showToast('cadastro', 'success');
+    } else {
+      await apiClient.ambientes.ambienteUpdateOneById({
         id: editId,
-        ...data,
-      },
-    });
+        requestBody: { id: editId, ...data },
+      });
+      id = editId;
+      showToast('atualizacao', 'success');
+    }
 
-    id = editId;
+    if (imagem) {
+      await apiClient.ambientes.ambienteSetImagemCapa({
+        id,
+        formData: { file: imagem },
+      });
+    }
+
+    await queryClient.invalidateQueries({ queryKey: ['ambientes'] });
+    resetForm();
+    $emit('close');
+  } catch (error) {
+    console.error(error);
+    showToast('cadastro', 'error');
   }
-
-  //corrigdo
-  if (imagem) {
-    await apiClient.ambientes.ambienteSetImagemCapa({
-      id: id,
-      formData: {
-        file: imagem,
-      },
-    });
-  }
-
-  await queryClient.invalidateQueries({
-    queryKey: ['ambientes'],
-  });
-
-  resetForm();
-  $emit('close');
-}, console.error);
+});
 
 const nome = computed({
   get: () => formValues.nome,
