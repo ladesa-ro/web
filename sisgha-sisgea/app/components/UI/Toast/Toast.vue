@@ -1,5 +1,5 @@
-<!-- ~/components/UI/Toast.vue -->
 <script setup lang="ts">
+import { IconsClose, IconsConfirm, IconsInfo, IconsWarning } from '#components';
 import {
   ToastAction,
   ToastClose,
@@ -14,18 +14,33 @@ import { useToast } from '~/composables/useToast';
 
 const { toasts } = useToast();
 
-// classes base (use seu design / tailwind). Ajuste conforme seu tema.
-function classesForType(type: string) {
+function toastConfig(type: ToastType) {
   switch (type) {
     case 'success':
-      return 'border-green-200 bg-green-50';
+      return {
+        classes: 'border-ldsa-green-2/10 bg-[#EAF5EC] text-ldsa-green-2',
+        icon: IconsConfirm,
+        iconClass: 'w-5 h-5 text-ldsa-green-2',
+      };
     case 'error':
-      return 'border-red-200 bg-red-50';
+      return {
+        classes: 'border-ldsa-red/10 bg-[#FAE8E8] text-ldsa-red',
+        icon: IconsClose,
+        iconClass: 'w-5 h-5',
+      };
     case 'warning':
-      return 'border-yellow-200 bg-yellow-50';
+      return {
+        classes: 'border-ldsa-yellow/10 bg-[#F8F6E6] text-ldsa-yellow',
+        icon: IconsWarning,
+        iconClass: 'w-5 h-5',
+      };
     case 'info':
     default:
-      return 'border-slate-200 bg-white';
+      return {
+        classes: 'border-ldsa-blue/10 bg-[#E8EFFA] text-ldsa-blue',
+        icon: IconsInfo,
+        iconClass: 'w-5 h-5 text-ldsa-blue',
+      };
   }
 }
 
@@ -33,9 +48,7 @@ function handleActionClick(t: ToastItem) {
   if (t.onAction) {
     try {
       t.onAction();
-    } catch (e) {
-      /* ignore */
-    }
+    } catch (e) {}
   }
   t.open.value = false;
 }
@@ -47,35 +60,51 @@ function handleActionClick(t: ToastItem) {
       <ToastRoot
         v-model:open="toast.open"
         :class="[
-          'rounded-lg shadow-sm border p-3 grid [grid-template-areas:_title_action_ description_action] grid-cols-[auto_max-content] gap-x-3 items-center',
-          classesForType(toast.type),
+          'rounded-lg shadow-sm border p-3 grid grid-cols-[auto_1fr_auto] gap-x-3 gap-y-1 items-start',
+          toastConfig(toast.type).classes,
         ]"
       >
-        <ToastTitle class="[grid-area:_title] mb-1 font-medium text-sm">
-          {{ toast.title }}
-        </ToastTitle>
+        <!-- icone -->
+        <div class="flex-shrink-0">
+          <component
+            :is="toastConfig(toast.type).icon"
+            :class="toastConfig(toast.type).iconClass"
+          />
+        </div>
 
-        <ToastDescription as-child>
-          <div class="[grid-area:_description] m-0 text-xs leading-[1.3]">
-            {{ toast.description }}
-          </div>
-        </ToastDescription>
+        <!-- titulo + descrição -->
+        <div class="flex flex-col justify-center space-y-1">
+          <ToastTitle class="font-semibold text-sm">{{ toast.title }}</ToastTitle>
+          <ToastDescription as-child v-if="toast.description">
+            <div class="text-xs font-semibold text-slate-700">{{ toast.description }}</div>
+          </ToastDescription>
+        </div>
 
-        <ToastAction
-          v-if="toast.actionLabel"
-          class="[grid-area:_action]"
-          as-child
-          alt-text="Perform action"
-        >
-          <button
-            @click="handleActionClick(toast)"
-            class="inline-flex items-center justify-center rounded-md font-medium text-xs px-2 py-[3px] h-[28px] bg-white"
+        <!-- acoes -->
+        <div class="flex items-start justify-end gap-2">
+          <ToastAction
+            v-if="toast.actionLabel"
+            as-child
+            alt-text="Fechar toast"
           >
-            {{ toast.actionLabel }}
-          </button>
-        </ToastAction>
+            <button
+              @click="handleActionClick(toast)"
+              class="px-2 py-1 rounded text-xs"
+            >
+              {{ toast.actionLabel }}
+            </button>
+          </ToastAction>
 
-        <ToastClose class="[grid-area:_action]" />
+          <ToastClose as-child alt-text="Fechar toast">
+            <button
+              type="button"
+              class="ml-2 text-slate-500 hover:text-slate-800"
+              aria-label="Fechar"
+            >
+              <IconsClose class="h-3 w-3 text-ldsa-grey" />
+            </button>
+          </ToastClose>
+        </div>
       </ToastRoot>
     </template>
 

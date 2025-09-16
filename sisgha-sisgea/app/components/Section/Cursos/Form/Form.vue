@@ -135,7 +135,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
       id = cursoCriado.id;
 
       success({
-        title: 'Cadastro bem sucedido',
+        title: 'Cadastro bem sucedido!',
       });
     } else {
       await apiClient.cursos.cursoUpdateOneById({
