@@ -10,50 +10,51 @@ import {
   ComboboxTrigger as Trigger,
   ComboboxViewport as Viewport,
 } from 'reka-ui';
+import { ref } from 'vue';
+import { useFormField } from '~/composables/useFormField';
 import { getParsedItems } from '~/composables/useOptionItems';
 import type { AutocompleteProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
 import AutocompleteItem from '../Item.vue';
 
-// TODO: adicionar suporte para error message (vee-validate)
-// TODO: adicionar o tal do emit blur (verificar na docs do reka)
-
-const { items: itemsProps } = defineProps<AutocompleteProps>();
-
+const { items: itemsProps, label, placeholder } = defineProps<AutocompleteProps>();
 const items = getParsedItems(itemsProps);
-
-const getDisplayValue = (value: string) => {
-  const item = items.find(item => item.value === value);
-
-  return item ? item.label : '';
-};
-
-//
 
 const selectedOption = defineModel<string | number | null>('selectedOption', {
   required: false,
   default: null,
 });
-
 const search = defineModel<string | null>('searchTerm', {
   required: false,
   default: null,
 });
-
-//
-
 const open = ref(false);
+
+const { fieldValue: modelValue, errorMessage, handleBlur } = useFormField<string>(
+  'selectedOption',
+  selectedOption,
+  val => (!val ? 'Selecione uma opção' : true)
+);
+
+const getDisplayValue = (value: string) => {
+  const item = items.find(i => i.value === value);
+  return item ? item.label : '';
+};
 </script>
 
 <template>
   <AutocompleteRoot v-model="selectedOption" v-model:open="open">
-    <Anchor class="input-base flex justify-between">
+    <Anchor
+      class="input-base flex justify-between"
+      :class="{'border-red-500': errorMessage, 'border-ldsa-grey': !errorMessage}"
+    >
       <label>{{ label }}</label>
 
       <Input
         :v-model="search ?? undefined"
         :placeholder="placeholder"
         @click="open = !open"
+        @blur="handleBlur"
         class="w-full h-full"
         :display-value="value => getDisplayValue(value)"
       />
@@ -93,7 +94,10 @@ const open = ref(false);
       </Content>
     </Portal>
   </AutocompleteRoot>
+
+  <p v-if="errorMessage" class="text-red-500 text-sm mt-1">{{ errorMessage }}</p>
 </template>
+
 
 <style src="../../-Utils/style/inputStyles.css" />
 
