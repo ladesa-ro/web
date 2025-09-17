@@ -5,6 +5,7 @@ const value = defineModel<string>({ required: false, default: '' });
 <template>
   <UIFormTextField
     v-model="value"
+    name="pesquisar"
     label="Pesquisar"
     placeholder="Digite aqui"
     class="max-w-[30rem]"
