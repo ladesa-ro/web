@@ -59,10 +59,8 @@ function handleActionClick(t: ToastItem) {
     <template v-for="toast in toasts" :key="toast.id">
       <ToastRoot
         v-model:open="toast.open"
-        :class="[
-          'rounded-lg shadow-sm border p-3 grid grid-cols-[auto_1fr_auto] gap-x-3 gap-y-1 items-start',
-          toastConfig(toast.type).classes,
-        ]"
+        class="ToastRoot rounded-lg shadow-sm border p-3 grid grid-cols-[auto_1fr_auto] gap-x-3 gap-y-1 items-start"
+        :class="toastConfig(toast.type).classes"
       >
         <!-- icone -->
         <div class="flex-shrink-0">
@@ -74,9 +72,13 @@ function handleActionClick(t: ToastItem) {
 
         <!-- titulo + descrição -->
         <div class="flex flex-col justify-center space-y-1">
-          <ToastTitle class="font-semibold text-sm">{{ toast.title }}</ToastTitle>
+          <ToastTitle class="font-semibold text-sm">{{
+            toast.title
+          }}</ToastTitle>
           <ToastDescription as-child v-if="toast.description">
-            <div class="text-xs font-semibold text-slate-700">{{ toast.description }}</div>
+            <div class="text-xs font-semibold text-slate-700">
+              {{ toast.description }}
+            </div>
           </ToastDescription>
         </div>
 
@@ -113,3 +115,52 @@ function handleActionClick(t: ToastItem) {
     />
   </ToastProvider>
 </template>
+<style scoped>
+@keyframes toast-slide-in {
+  from {
+    transform: translateX(calc(100% + var(--viewport-padding, 12px)));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes toast-hide {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes toast-swipe-out {
+  from {
+    transform: translateX(var(--reka-toast-swipe-end-x));
+  }
+  to {
+    transform: translateX(calc(100% + var(--viewport-padding, 12px)));
+  }
+}
+
+::v-deep .ToastRoot[data-state='open'] {
+  animation: toast-slide-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+::v-deep .ToastRoot[data-state='closed'] {
+  animation: toast-hide 150ms ease-in;
+}
+
+::v-deep .ToastRoot[data-swipe='move'] {
+  transform: translateX(var(--reka-toast-swipe-move-x));
+}
+
+::v-deep .ToastRoot[data-swipe='cancel'] {
+  transform: translateX(0);
+  transition: transform 200ms ease-out;
+}
+
+::v-deep .ToastRoot[data-swipe='end'] {
+  animation: toast-swipe-out 150ms ease-out;
+}
+</style>
