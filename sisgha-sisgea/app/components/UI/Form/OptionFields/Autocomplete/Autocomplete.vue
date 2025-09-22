@@ -11,13 +11,21 @@ import {
   ComboboxViewport as Viewport,
 } from 'reka-ui';
 import { ref } from 'vue';
-import { useFormField } from '~/composables/useFormField';
 import { getParsedItems } from '~/composables/useOptionItems';
 import type { AutocompleteProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
 import AutocompleteItem from '../Item.vue';
 
-const { items: itemsProps, label, placeholder } = defineProps<AutocompleteProps>();
+const {
+  items: itemsProps,
+  label,
+  placeholder,
+  error,
+  onBlur,
+} = defineProps<
+  AutocompleteProps & { error?: string | null; onBlur?: () => void }
+>();
+
 const items = getParsedItems(itemsProps);
 
 const selectedOption = defineModel<string | number | null>('selectedOption', {
@@ -30,12 +38,6 @@ const search = defineModel<string | null>('searchTerm', {
 });
 const open = ref(false);
 
-const { fieldValue: modelValue, errorMessage, handleBlur } = useFormField<string>(
-  'selectedOption',
-  selectedOption,
-  val => (!val ? 'Selecione uma opção' : true)
-);
-
 const getDisplayValue = (value: string) => {
   const item = items.find(i => i.value === value);
   return item ? item.label : '';
@@ -45,8 +47,8 @@ const getDisplayValue = (value: string) => {
 <template>
   <AutocompleteRoot v-model="selectedOption" v-model:open="open">
     <Anchor
-      class="input-base flex justify-between"
-      :class="{'border-red-500': errorMessage, 'border-ldsa-grey': !errorMessage}"
+      class="input-base flex justify-between items-center"
+      :class="{ 'has-error': error }"
     >
       <label>{{ label }}</label>
 
@@ -54,7 +56,7 @@ const getDisplayValue = (value: string) => {
         :v-model="search ?? undefined"
         :placeholder="placeholder"
         @click="open = !open"
-        @blur="handleBlur"
+        @blur="onBlur?.()"
         class="w-full h-full"
         :display-value="value => getDisplayValue(value)"
       />
@@ -93,11 +95,11 @@ const getDisplayValue = (value: string) => {
         </Viewport>
       </Content>
     </Portal>
+    <p v-if="error" class="text-ldsa-red text-sm">
+      {{ error }}
+    </p>
   </AutocompleteRoot>
-
-  <p v-if="errorMessage" class="text-red-500 text-sm mt-1">{{ errorMessage }}</p>
 </template>
-
 
 <style src="../../-Utils/style/inputStyles.css" />
 
