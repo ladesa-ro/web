@@ -42,13 +42,20 @@ const getDisplayValue = (value: string) => {
   const item = items.find(i => i.value === value);
   return item ? item.label : '';
 };
+
+const customError = computed(() =>
+  error?.includes('ambientePadraoAula.id')
+    ? 'Sala de aula é obrigatória!'
+    : error
+);
+
 </script>
 
 <template>
   <AutocompleteRoot v-model="selectedOption" v-model:open="open">
     <Anchor
       class="input-base flex justify-between items-center"
-      :class="{ 'has-error': error }"
+      :class="{ 'has-error': customError }"
     >
       <label>{{ label }}</label>
 
@@ -95,8 +102,8 @@ const getDisplayValue = (value: string) => {
         </Viewport>
       </Content>
     </Portal>
-    <p v-if="error" class="text-ldsa-red text-sm">
-      {{ error }}
+    <p v-if="customError" class="text-ldsa-red text-xs font-semibold">
+      {{ customError }}
     </p>
   </AutocompleteRoot>
 </template>
