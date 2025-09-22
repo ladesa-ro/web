@@ -47,6 +47,7 @@
   --color-ldsa-green-1: var(--ladesa-green-1-color);
   --color-ldsa-green-2: var(--ladesa-green-2-color);
   --color-ldsa-red: var(--ladesa-red-color);
+  --color-ldsa-blue: var(--ladesa-blue-color);
 
   --color-ldsa-bg: var(--ladesa-background-color);
   --color-ldsa-text-default: var(--ladesa-text-default-color);

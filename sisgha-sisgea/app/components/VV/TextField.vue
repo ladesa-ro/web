@@ -1,26 +1,15 @@
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
+import type { TextFieldProps } from '../UI/Form/-Utils/inputTypes';
 
-type Props = {
-  type?: string;
-  value?: string;
-  name: string;
-  successMessage?: string;
-};
-
-const {
-  name,
-  type = 'text',
-  value = undefined,
-  successMessage = '',
-} = defineProps<Props>();
+const props = defineProps<TextFieldProps>();
 
 const {
   errorMessage,
   handleBlur,
   value: modelValue,
-} = useField(name, undefined, {
-  initialValue: value ?? undefined,
+} = useField(props.name, undefined, {
+  initialValue: props.value ?? undefined,
   validateOnValueUpdate: false,
 });
 </script>
@@ -28,8 +17,12 @@ const {
 <template>
   <UIFormTextField
     v-model="modelValue"
-    :name="name"
-    :type="type"
+    :type="props.type"
+    :error="errorMessage"
+    :name="props.name"
+    @blur="handleBlur"
     v-bind="$attrs"
+    :label="props.label"
+    :placeholder="props.placeholder"
   />
 </template>

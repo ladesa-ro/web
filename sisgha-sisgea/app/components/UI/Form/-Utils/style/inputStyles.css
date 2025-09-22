@@ -37,3 +37,15 @@
 .input-base:has(input[disabled]) {
   @apply opacity-60;
 }
+
+.input-base.has-error {
+  @apply border-ldsa-red;
+}
+
+.input-base.has-error:focus-within {
+  @apply border-ldsa-red;
+}
+
+.input-base.has-error label {
+  @apply text-ldsa-red;
+}

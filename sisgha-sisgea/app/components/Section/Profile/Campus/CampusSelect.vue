@@ -95,9 +95,11 @@ const selectedLabel = computed(
     </template>
 
     <template v-else>
-      <div class="input flex items-center justify-center">
+      <div class="input flex items-center">
         <IconsIconLocale class="w-2 h-2 text-ldsa-green-1 mr-1" />
-        <span class="text-[0.6rem] font-medium">{{ selectedLabel }}</span>
+        <span class="text-[0.6rem] font-medium text-center">{{
+          selectedLabel
+        }}</span>
       </div>
     </template>
   </div>
@@ -106,7 +108,7 @@ const selectedLabel = computed(
 <style scoped>
 @reference "~/assets/styles/app.css";
 .input {
-  @apply relative flex justify-between border-2 rounded-lg;
+  @apply relative flex border-2 rounded-lg;
   @apply h-7 min-h-0 px-2 max-w-41 text-sm font-medium text-center text-ldsa-text-default data-[placeholder]:text-ldsa-grey/90;
   @apply focus-within:border-ldsa-green-2 focus-visible:outline-none disabled:cursor-not-allowed;
 }

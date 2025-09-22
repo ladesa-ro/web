@@ -141,7 +141,7 @@ await watch(
         label="Nome"
         placeholder="Digite aqui"
         :v-model="isEvent ? values.eventName : ''"
-        :disabled="isEvent"
+        :disabled="!!isEvent"
       />
       <VVAutocompleteAPIAmbiente
         name="eventEnvironment"
