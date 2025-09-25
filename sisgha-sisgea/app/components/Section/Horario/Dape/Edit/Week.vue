@@ -9,9 +9,9 @@ import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 import type {
   DayInShifts,
+  Shift,
   ShiftName,
   WeekSchedule,
-  WeekScheduleHistory,
 } from '~/composables/schedule/useScheduleTypes';
 import { capitalizeFirst } from '../../-Helpers/CapitalizeFirst';
 
@@ -52,8 +52,10 @@ let cleanup = () => {};
 
 function initMonitor() {
   // limpa monitor antigo, se houver
-  try { cleanup(); } catch (e) {}
-    cleanup = monitorForElements({
+  try {
+    cleanup();
+  } catch (e) {}
+  cleanup = monitorForElements({
     canMonitor: ({ source }) =>
       source.data.dndType === 'cellDraggable' && props.editMode,
 
@@ -84,11 +86,13 @@ function initMonitor() {
         .id as number;
 
       // : Cell[] | undefined
-      const startShift: Cell[] | undefined = Object.values(
-        startDaySchedule
-      ).find(shift => shift.some(cell => cell.shiftIndex === startShiftId));
+      const startShift: Shift | undefined = Object.values(
+        startDaySchedule.daySchedule
+      ).find(shift =>
+        shift.shiftSchedule.some(cell => cell.shiftIndex === startShiftId)
+      );
 
-      let finishShift: Cell[] | undefined;
+      let finishShift: Shift | undefined;
 
       if (startShiftId != finishShiftId) {
         const finishDaySchedule: DayInShifts | undefined =
@@ -99,10 +103,10 @@ function initMonitor() {
           return;
         }
 
-        finishShift = Object.values(finishDaySchedule).find(
+        finishShift = Object.values(finishDaySchedule.daySchedule).find(
           shift =>
-            Array.isArray(shift) &&
-            shift.some(cell => cell.shiftIndex === finishShiftId)
+            Array.isArray(shift.shiftSchedule) &&
+            shift.shiftSchedule.some(cell => cell.shiftIndex === finishShiftId)
         );
       } else {
         finishShift = startShift;
@@ -114,8 +118,8 @@ function initMonitor() {
         return;
       }
 
-      const startIndex = startShift.findIndex(
-        shift => shift.id === args.source.data.id
+      const startIndex = startShift.shiftSchedule.findIndex(
+        cell => cell.id === args.source.data.id
       );
 
       const closestEdge = extractClosestEdge(dropTarget.data);
@@ -126,8 +130,8 @@ function initMonitor() {
         return;
       }
 
-      const indexOfTarget = finishShift.findIndex(
-        horario => horario.id === dropTarget.data.id
+      const indexOfTarget = finishShift.shiftSchedule.findIndex(
+        cell => cell.id === dropTarget.data.id
       );
 
       if (indexOfTarget === -1) {
@@ -136,7 +140,7 @@ function initMonitor() {
       }
 
       if (startShiftId != finishShiftId) {
-        const draggedItem: Cell | undefined = startShift.splice(
+        const draggedItem: Cell | undefined = startShift.shiftSchedule.splice(
           startIndex,
           1
         )[0];
@@ -148,29 +152,32 @@ function initMonitor() {
 
         draggedItem.shiftIndex = finishShiftId;
 
-        finishShift.splice(indexOfTarget, 0, draggedItem);
+        finishShift.shiftSchedule.splice(indexOfTarget, 0, draggedItem);
       }
       //
       else {
-        const shiftName: ShiftName | undefined = Object.keys(startDaySchedule)[
-          startShiftId
-        ] as ShiftName;
+        const shiftName: ShiftName | undefined = Object.keys(
+          startDaySchedule.daySchedule
+        )[startShiftId] as ShiftName;
 
         if (!shiftName) {
           console.warn('shiftName = ' + shiftName);
           return;
         }
 
-        startDaySchedule[shiftName] = reorderWithEdge({
-          list: startShift,
-          startIndex,
-          indexOfTarget,
-          closestEdgeOfTarget: closestEdge,
-          axis: 'vertical',
-        });
+        startDaySchedule.daySchedule[shiftName].shiftSchedule = reorderWithEdge(
+          {
+            list: startShift.shiftSchedule,
+            startIndex,
+            indexOfTarget,
+            closestEdgeOfTarget: closestEdge,
+            axis: 'vertical',
+          }
+        );
       }
 
-      weekSchedule.value[weekdayNames[startDayScheduleId]!] = startDaySchedule;
+      weekSchedule.value[weekdayNames[startDayScheduleId]!]!.daySchedule =
+        startDaySchedule.daySchedule;
 
       emit('commit-history');
     },
@@ -179,7 +186,6 @@ function initMonitor() {
 
 onMounted(() => {
   initMonitor();
-
 });
 
 onUnmounted(() => {
@@ -196,7 +202,11 @@ watch(
 
 //
 
-const shiftNames: (keyof DayInShifts)[] = ['morning', 'afternoon', 'night'];
+const shiftNames: (keyof DayInShifts['daySchedule'])[] = [
+  'morning',
+  'afternoon',
+  'night',
+];
 
 const getRowShiftName = (rowShift: string) => {
   switch (rowShift) {
@@ -261,9 +271,8 @@ const dayjs = useDayJs();
         <div class="flex flex-col w-10 h-full justify-start text-center">
           <!-- TODO: pegar os horários do array de tempos de aula -->
           <span
-            v-for="(cell, cellIndex) in weekSchedule[weekdayNames[0]!]![
-              rowShift
-            ]"
+            v-for="(cell, cellIndex) in weekSchedule[weekdayNames[0]!]!
+              .daySchedule[rowShift].shiftSchedule"
             :key="cellIndex"
             v-show="
               showBreaks ? true : cell.type === 'aula' || cell.type === 'vago'
@@ -282,7 +291,9 @@ const dayjs = useDayJs();
         <template v-for="(day, _, dayIndex) of weekSchedule" :key="dayIndex">
           <template
             v-for="(_, shiftName) in Object.fromEntries(
-              Object.entries(day).filter(([key]) => key === rowShift)
+              Object.entries(day.daySchedule).filter(
+                ([key]) => key === rowShift
+              )
             )"
             :key="shiftName"
           >
@@ -293,7 +304,9 @@ const dayjs = useDayJs();
               "
               :editMode
               v-model="
-                weekSchedule[weekdayNames[dayIndex]!]![shiftName as ShiftName]
+                weekSchedule[weekdayNames[dayIndex]!]!.daySchedule[
+                  shiftName as ShiftName
+                ].shiftSchedule
               "
               @atividade-change="emit('commit-history')"
             />

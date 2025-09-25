@@ -17,7 +17,7 @@ export type Cell = (EditableCell | NonEditableCell) & HorDayjs & {
 
 //
 
-export type Shift = {
+export type ShiftEdit = {
   shiftIndex: string;
   dayIndex: number;
   maxCapacity: number;
