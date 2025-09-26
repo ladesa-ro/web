@@ -75,15 +75,16 @@ const finalDate = ref(dayjs().add(1, 'week').format('DD/MM/YYYY'));
 
         <UIFormTextField
           v-model="initialDate"
+          name="initialDate"
           label="Data de Início"
           placeholder="25/12/2025"
         />
 
         <UIFormTextField
           v-model="finalDate"
+          name="finalDate"
           label="Data de Término"
           placeholder="25/12/2025"
-          :disabled="toggleValue === 'permanente'"
         />
       </div>
 

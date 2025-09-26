@@ -3,19 +3,18 @@ import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { useApiClient } from '~/composables';
+import { useToast } from '#imports';
 
 type Props = {
   editId?: string | null;
 };
 
 const { editId = null } = defineProps<Props>();
-
-//
-
 const $emit = defineEmits(['close']);
 
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
+const { showToast } = useToast();
 
 const {
   composables: { useFindOneQuery },
@@ -45,22 +44,6 @@ const initialFormValues = reactive({
   cargaHoraria: currentDisciplina.value?.cargaHoraria ?? undefined,
 });
 
-const handleDelete = async () => {
-  const id = editId;
-
-  if (!id) return;
-
-  const resposta = window.confirm(
-    'Você tem certeza de que deseja deletar esta Disciplina?'
-  );
-
-  if (resposta) {
-    await apiClient.disciplinas.disciplinaDeleteOneById({ id: id });
-    await queryClient.invalidateQueries({ queryKey: ['disciplinas'] });
-    $emit('close');
-  }
-};
-
 const schema = yup.object().shape({
   imagem: yup.mixed().nullable().optional(),
   nome: yup.string().required('Nome é obrigatório!'),
@@ -78,50 +61,66 @@ const {
 });
 
 const onSubmit = handleSubmit(async (values: FormOutput) => {
-  const { imagem, ...data } = values;
+  try {
+    const { imagem, ...data } = values;
+    let id;
 
-  let id;
+    if (editId === null) {
+      const DisciplinaCriada = await apiClient.disciplinas.disciplinaCreate({
+        requestBody: { ...data },
+      });
+      id = DisciplinaCriada.id;
+      showToast('cadastro', 'success');
+    } else {
+      await apiClient.disciplinas.disciplinaUpdateOneById({
+        id: editId,
+        requestBody: { ...data },
+      });
+      id = editId;
+      showToast('atualizacao', 'success');
+    }
 
-  if (editId === null) {
-    const DisciplinaCriada = await apiClient.disciplinas.disciplinaCreate({
-      requestBody: { ...data },
-    });
-    id = DisciplinaCriada.id;
-  } else {
-    await apiClient.disciplinas.disciplinaUpdateOneById({
-      id: editId,
-      requestBody: {
-        ...data,
-      },
-    });
+    if (imagem) {
+      await apiClient.disciplinas.disciplinaSetImagemCapa({
+        id,
+        formData: { file: imagem },
+      });
+      showToast('atualizacao', 'success');
+    }
 
-    id = editId;
+    await queryClient.invalidateQueries({ queryKey: ['disciplinas'] });
+    resetForm();
+    $emit('close');
+  } catch (error: any) {
+    console.error(error);
+    showToast(
+      editId ? 'atualizacao' : 'cadastro',
+      'error',
+      'Ocorreu um erro ao salvar a disciplina. Tente novamente.'
+    );
   }
-
-  if (imagem) {
-    await apiClient.disciplinas.disciplinaSetImagemCapa({
-      id: id,
-      formData: {
-        file: imagem,
-      },
-    });
-  }
-
-  await queryClient.invalidateQueries({
-    queryKey: ['disciplinas'],
-  });
-
-  resetForm();
-  $emit('close');
 }, console.error);
 
-const nome = ref(formValues.nome);
-const nomeAbreviado = ref(formValues.nomeAbreviado);
-const cargaHoraria = ref(formValues.cargaHoraria);
+const handleDelete = async () => {
+  if (!editId) return;
 
-function onClose() {
-  $emit('close');
-}
+  const resposta = window.confirm(
+    'Você tem certeza de que deseja deletar esta Disciplina?'
+  );
+  if (!resposta) return;
+
+  try {
+    await apiClient.disciplinas.disciplinaDeleteOneById({ id: editId });
+    await queryClient.invalidateQueries({ queryKey: ['disciplinas'] });
+    showToast('delete', 'success');
+    $emit('close');
+  } catch (error: any) {
+    console.error(error);
+    showToast('delete', 'error');
+  }
+};
+
+const onClose = () => $emit('close');
 </script>
 
 <template>

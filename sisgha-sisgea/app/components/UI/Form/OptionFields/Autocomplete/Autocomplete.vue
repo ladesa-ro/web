@@ -10,50 +10,60 @@ import {
   ComboboxTrigger as Trigger,
   ComboboxViewport as Viewport,
 } from 'reka-ui';
+import { ref } from 'vue';
 import { getParsedItems } from '~/composables/useOptionItems';
 import type { AutocompleteProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
 import AutocompleteItem from '../Item.vue';
 
-// TODO: adicionar suporte para error message (vee-validate)
-// TODO: adicionar o tal do emit blur (verificar na docs do reka)
-
-const { items: itemsProps } = defineProps<AutocompleteProps>();
+const {
+  items: itemsProps,
+  label,
+  placeholder,
+  error,
+  onBlur,
+} = defineProps<
+  AutocompleteProps & { error?: string | null; onBlur?: () => void }
+>();
 
 const items = getParsedItems(itemsProps);
-
-const getDisplayValue = (value: string) => {
-  const item = items.find(item => item.value === value);
-
-  return item ? item.label : '';
-};
-
-//
 
 const selectedOption = defineModel<string | number | null>('selectedOption', {
   required: false,
   default: null,
 });
-
 const search = defineModel<string | null>('searchTerm', {
   required: false,
   default: null,
 });
-
-//
-
 const open = ref(false);
+
+const getDisplayValue = (value: string) => {
+  const item = items.find(i => i.value === value);
+  return item ? item.label : '';
+};
+
+const customError = computed(() =>
+  error?.includes('ambientePadraoAula.id')
+    ? 'Sala de aula é obrigatória!'
+    : error
+);
+
 </script>
 
 <template>
   <AutocompleteRoot v-model="selectedOption" v-model:open="open">
-    <Anchor class="input-base flex justify-between">
+    <Anchor
+      class="input-base flex justify-between items-center"
+      :class="{ 'has-error': customError }"
+    >
       <label>{{ label }}</label>
 
       <Input
         :v-model="search ?? undefined"
         :placeholder="placeholder"
         @click="open = !open"
+        @blur="onBlur?.()"
         class="w-full h-full"
         :display-value="value => getDisplayValue(value)"
       />
@@ -92,6 +102,9 @@ const open = ref(false);
         </Viewport>
       </Content>
     </Portal>
+    <p v-if="customError" class="text-ldsa-red text-xs font-semibold">
+      {{ customError }}
+    </p>
   </AutocompleteRoot>
 </template>
 

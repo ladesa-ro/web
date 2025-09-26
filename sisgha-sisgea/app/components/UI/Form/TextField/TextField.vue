@@ -1,37 +1,45 @@
 <script setup lang="ts">
 import type { TextFieldProps } from '../-Utils/inputTypes';
 
-// TODO: adicionar suporte para error message
-// TODO: adicionar o tal do emit blur (verificar na docs do radix)
+const {
+  type = 'text',
+  error,
+  label,
+  placeholder,
+  disabled,
+  modelValue,
+} = defineProps<
+  TextFieldProps & { error?: string; modelValue?: string | number }
+>();
 
-const { type = 'text' } = defineProps<TextFieldProps>();
-
-//
-
-const inputValue = defineModel<string | number>({
-  required: false,
-  default: '',
-});
+const emit = defineEmits(['update:modelValue', 'blur']);
 </script>
 
 <template>
-  <div class="input-base min-h-4">
-    <label for="input">{{ label }}</label>
+  <div
+    class="input-base min-h-4 flex flex-col gap-1 rounded-md transition"
+    :class="{ 'has-error': !!error }"
+  >
+    <label v-if="label" class="text-sm font-medium text-ldsa-grey px-1">
+      {{ label }}
+    </label>
+
     <input
-      id="input"
-      class="w-full h-full disabled:opacity-50"
-      :class="$slots['default'] ? 'pl-3' : 'px-3'"
+      class="w-full h-full px-2 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
       :type="type"
       :placeholder="placeholder"
-      v-model="inputValue"
+      :value="modelValue"
       :disabled="disabled"
-      min="0"
+      @input="
+        e => emit('update:modelValue', (e.target as HTMLInputElement).value)
+      "
+      @blur="emit('blur')"
     />
-
-    <div v-if="$slots['default']" class="w-4 h-4 text-ldsa-grey mx-3">
-      <!-- this slot suports an icon -->
-      <slot />
-    </div>
+  </div>
+  <div class="w-full text-left -mt-5">
+    <p v-if="error" class="text-ldsa-red text-xs font-semibold">
+      {{ error }}
+    </p>
   </div>
 </template>
 

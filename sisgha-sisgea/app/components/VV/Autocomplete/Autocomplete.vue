@@ -5,18 +5,12 @@ import type { Item } from '~/composables/useOptionItems';
 type Props = { name: string; items: Item[] };
 const { name, items } = defineProps<Props>();
 
-//
-
 const searchValue = defineModel<string>('search', { default: '' });
 
-//
-
-const { value: modelValue, errorMessage } = useField<string | null>(
+const { value: modelValue, errorMessage, handleBlur } = useField<string | null>(
   name,
-  undefined,
-  {
-    validateOnValueUpdate: true,
-  }
+  val => (!val ? 'Selecione uma opção' : true),
+  { validateOnValueUpdate: true }
 );
 </script>
 
@@ -25,6 +19,8 @@ const { value: modelValue, errorMessage } = useField<string | null>(
     :items="items"
     v-model:searchTerm="searchValue"
     v-model:selectedOption="modelValue"
+    :error="errorMessage"
+    :on-blur="handleBlur"
     v-bind="$attrs"
   />
 </template>

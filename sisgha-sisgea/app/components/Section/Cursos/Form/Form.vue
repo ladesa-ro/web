@@ -3,6 +3,9 @@ import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { useApiClient } from '~/composables';
+import { useToast } from '~/composables/useToast';
+
+const { showToast } = useToast();
 
 type Props = {
   editId?: string | null;
@@ -72,17 +75,22 @@ const initialFormValues = reactive({
 
 const handleDelete = async () => {
   const id = editIdRef.value;
-
   if (!id) return;
 
-  const resposta = window.confirm(
-    'Você tem certeza de que deseja deletar esse curso?'
+  const confirmacao = window.confirm(
+    'Você tem certeza que deseja deletar esse curso?'
   );
+  if (!confirmacao) return;
 
-  if (resposta) {
-    await apiClient.cursos.cursoDeleteOneById({ id: id });
+  try {
+    await apiClient.cursos.cursoDeleteOneById({ id });
     await queryClient.invalidateQueries({ queryKey: ['cursos'] });
+
+    showToast('delete', 'success');
+
     $emit('close');
+  } catch (e) {
+    showToast('delete', 'error');
   }
 };
 
@@ -111,48 +119,43 @@ const {
 });
 
 const onSubmit = handleSubmit(async (values: FormOutput) => {
-  const editId = editIdRef.value;
-
+  const editId = editIdRef.value ?? null;
   const { imagem, ofertaFormacao, ...data } = values as any;
+  let id: string;
 
-  let id;
+  try {
+    if (!editId) {
+      const cursoCriado = await apiClient.cursos.cursoCreate({
+        requestBody: { ...data, ofertaFormacao },
+      });
+      id = cursoCriado.id;
 
-  if (editId === null) {
-    const cursoCriado = await apiClient.cursos.cursoCreate({
-      requestBody: {
-        ...data,
-        ofertaFormacao,
-      },
-    });
+      showToast('cadastro', 'success');
+    } else {
+      await apiClient.cursos.cursoUpdateOneById({
+        id: editId,
+        requestBody: { ...data, ofertaFormacao },
+      });
+      id = editId;
 
-    id = cursoCriado.id;
-  } else {
-    await apiClient.cursos.cursoUpdateOneById({
-      id: editId,
-      requestBody: {
-        ...data,
-        ofertaFormacao,
-      },
-    });
+      showToast('atualizacao', 'success');
+    }
 
-    id = editId;
+    if (imagem) {
+      await apiClient.cursos.cursoSetImagemCapa({
+        id,
+        formData: { file: imagem },
+      });
+    }
+
+    await queryClient.invalidateQueries({ queryKey: ['cursos'] });
+
+    resetForm();
+    $emit('close');
+  } catch (e) {
+    showToast('cadastro', 'error');
+    console.error(e);
   }
-
-  if (imagem) {
-    await apiClient.cursos.cursoSetImagemCapa({
-      id: id,
-      formData: {
-        file: imagem,
-      },
-    });
-  }
-
-  await queryClient.invalidateQueries({
-    queryKey: ['cursos'],
-  });
-
-  resetForm();
-  $emit('close');
 }, console.error);
 
 const nome = computed({

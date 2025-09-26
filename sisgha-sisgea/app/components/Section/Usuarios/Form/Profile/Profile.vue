@@ -1,83 +1,81 @@
 <script lang="ts" setup>
+import { useToast } from '#imports';
 import { useQueryClient } from '@tanstack/vue-query';
 import { type FormUserOutput, useFormUser } from '../FormUtils';
+
+const { showToast } = useToast();
 
 type Props = { editId?: string | null };
 const { editId = null } = defineProps<Props>();
 
 const $emit = defineEmits(['close']);
 
-//
-
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
-
-//
 
 const { resetForm, handleSubmit } = useFormUser();
 
 const onSubmit = handleSubmit(async (values: FormUserOutput) => {
-  const { imagem, vinculos, ...data } = values;
+  try {
+    const { imagem, vinculos, ...data } = values;
+    let id;
 
-  let id;
-
-  if (editId === null) {
-    const usuarioCriado = await apiClient.usuarios.usuarioCreate({
-      requestBody: { ...data },
-    });
-
-    id = usuarioCriado.id;
-  } else {
-    await apiClient.usuarios.usuarioUpdateOneById({
-      id: editId,
-
-      requestBody: {
-        ...values,
-      },
-    });
-
-    id = editId;
-  }
-
-  for (const vinculo of vinculos) {
-    if (
-      !vinculo.ativo &&
-      vinculos.some(
-        vinculoLoop =>
-          vinculoLoop.ativo === true &&
-          vinculoLoop.campus.id === vinculo.campus.id
-      )
-    ) {
-      continue;
+    if (editId === null) {
+      const usuarioCriado = await apiClient.usuarios.usuarioCreate({
+        requestBody: { ...data },
+      });
+      id = usuarioCriado.id;
+      showToast('cadastro', 'success');
+    } else {
+      await apiClient.usuarios.usuarioUpdateOneById({
+        id: editId,
+        requestBody: { ...values },
+      });
+      id = editId;
+      showToast('atualizacao', 'success');
     }
 
-    await apiClient.perfis.perfilUpdateOneById({
-      requestBody: {
-        usuario: { id: id },
-        campus: { id: vinculo.campus.id },
-        cargos: vinculo.cargos,
-      },
-    });
+    for (const vinculo of vinculos) {
+      if (
+        !vinculo.ativo &&
+        vinculos.some(
+          vinculoLoop =>
+            vinculoLoop.ativo === true &&
+            vinculoLoop.campus.id === vinculo.campus.id
+        )
+      )
+        continue;
+
+      await apiClient.perfis.perfilUpdateOneById({
+        requestBody: {
+          usuario: { id: id },
+          campus: { id: vinculo.campus.id },
+          cargos: vinculo.cargos,
+        },
+      });
+    }
+
+    if (imagem) {
+      await apiClient.usuarios.usuarioSetImagemCapa({
+        id: id,
+        formData: { file: imagem },
+      });
+      showToast('atualizacao', 'success');
+    }
+
+    await queryClient.invalidateQueries({ queryKey: ['usuarios'] });
+
+    resetForm();
+    $emit('close');
+  } catch (error: any) {
+    console.error(error);
+    showToast(
+      editId ? 'atualizacao' : 'cadastro',
+      'error',
+      'Ocorreu um erro ao salvar o usuário. Tente novamente.'
+    );
   }
-
-  if (imagem) {
-    await apiClient.usuarios.usuarioSetImagemCapa({
-      id: id,
-      formData: {
-        file: imagem,
-      },
-    });
-  }
-
-  await queryClient.invalidateQueries({
-    queryKey: ['usuarios'],
-  });
-
-  resetForm();
-  $emit('close');
 }, console.error);
-
-//
 
 const onClose = () => $emit('close');
 </script>
