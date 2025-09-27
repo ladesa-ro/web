@@ -4,7 +4,6 @@ import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 import type { CalendarData, CalendarEvent } from './Types';
-import { useApiContext } from '../../API/Context/setup-context';
 
 // # CODE
 dayjs.extend(customParseFormat);
@@ -127,6 +126,37 @@ export const calendarDataMethods = {
         console.error(`Erro: ${e}`);
       }
     },
+    async putCalendar(
+      id: string,
+      name: string,
+      year: number,
+      campus: string,
+      trainingOffer: string
+    ): Promise<void> {
+      try {
+        await getApiClient().calendariosLetivos.calendarioLetivoUpdateOneById({
+          id,
+          requestBody: {
+            nome: name,
+            ano: year,
+            campus: { id: campus },
+            ofertaFormacao: { id: trainingOffer },
+          },
+        });
+      } catch (e) {
+        console.error(`Erro: ${e}`);
+      }
+    },
+
+    async deleteCalendar(id: string): Promise<void> {
+      try {
+        await getApiClient().calendariosLetivos.calendarioLetivoDeleteOneById({
+          id,
+        });
+      } catch (e) {
+        console.error(`Erro: ${e}`);
+      }
+    },
   },
   // Steps
   steps: {
@@ -145,7 +175,7 @@ export const calendarDataMethods = {
             startDate: steps.data[i]!.dataInicio,
             endDate: steps.data[i]!.dataTermino,
             color: steps.data[i]!.cor,
-            calendar: { id: calendarId }
+            calendar: { id: calendarId },
           };
           remodelSteps.push(step);
         }
@@ -181,18 +211,41 @@ export const calendarDataMethods = {
       end: { date: string },
       calendarId: string
     ): Promise<void> {
-      try { 
+      try {
         await getApiClient().etapas.etapaCreate({
           requestBody: {
             numero: num,
             cor: color,
             calendario: { id: calendarId },
-            dataInicio: dayjs(start.date).format("YYYY-MM-DD"),
-            dataTermino: dayjs(end.date).format("YYYY-MM-DD"),
+            dataInicio: dayjs(start.date).format('YYYY-MM-DD'),
+            dataTermino: dayjs(end.date).format('YYYY-MM-DD'),
           },
         });
       } catch (e) {
         console.error(`Erro: ${e}`);
+      }
+    },
+    async putStep(step: CalendarEvent): Promise<void> {
+      try {
+        await getApiClient().etapas.etapaUpdateOneById({
+          id: step.id,
+          requestBody: {
+            numero: Number(step.name.replace(/\D/g, '')),
+            cor: step.color,
+            calendario: { id: step.calendar!.id },
+            dataInicio: step.startDate,
+            dataTermino: step.endDate,
+          },
+        });
+      } catch (e) {
+        console.error('Erro putStep: ', e);
+      }
+    },
+    async deleteStep(id: string): Promise<void> {
+      try {
+        await getApiClient().etapas.etapaDeleteOneById({ id });
+      } catch (e) {
+        console.error('Erro deleteStep: ', e);
       }
     },
   },
@@ -215,7 +268,7 @@ export const calendarDataMethods = {
             startDate: events.data[i]!.data_inicio!,
             endDate: events.data[i]!.data_fim!,
             calendar: { id: calendarId },
-            locale: events.data[i]?.local
+            locale: events.data[i]?.local,
           };
           remodelEvents.push(event);
         }
@@ -281,6 +334,29 @@ export const calendarDataMethods = {
         });
       } catch (e) {
         console.error(`Erro: ${e}`);
+      }
+    },
+    async putEvent(event: CalendarEvent): Promise<void> {
+      try {
+        await getApiClient().eventos.eventoUpdateOneById({
+          id: event.id,
+          requestBody: {
+            nome: event.name,
+            cor: event.color,
+            data_inicio: event.startDate,
+            data_fim: event.endDate,
+            calendario: { id: event.calendar!.id },
+          },
+        });
+      } catch (e) {
+        console.error('Erro updateEvent: ', e);
+      }
+    },
+    async deleteEvent(id: string): Promise<void> {
+      try {
+        await getApiClient().eventos.eventoDeleteOneById({ id });
+      } catch (e) {
+        console.error('Erro deleteEvent: ', e);
       }
     },
   },
