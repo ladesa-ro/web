@@ -194,7 +194,7 @@ watch(
       />
       <VVCalendarStep
         :text="`Exame`"
-        :calendar-id="props.calendarId!"
+        :calendar-id="props.calendarId! || ''"
         :is-step="false"
       />
     </div>

@@ -25,20 +25,24 @@ let events = ref<CalendarEvent[]>([]);
 let toggleView = ref<number>(0);
 const toggleItems = [{ text: 'Eventos', value: 0, icon: IconsCalendarItems }];
 
-if (props.calendarId) {
+async function loadEvents() {
   const getSteps: Array<CalendarEvent> =
     await calendarDataMethods.steps.getSteps(props.calendarId!);
   const getEvents: Array<CalendarEvent> =
     await calendarDataMethods.events.getEvents(props.calendarId!);
 
   events.value = getSteps.concat(getEvents);
-  // events.value = events.value.filter(item => dayjs(item.startDate).month() === month);
 
-  // Ordering List
   events.value.sort(
     (a, b) => dayjs(a.startDate).valueOf() - dayjs(b.startDate).valueOf()
   );
 }
+
+// chamada inicial
+if (props.calendarId) {
+  await loadEvents();
+}
+
 </script>
 
 <template>
@@ -46,6 +50,7 @@ if (props.calendarId) {
     <DialogModalEditOrCreateModal
       :form-component="SectionCalendarioFormEvents"
       :form-props="{ events: events }"
+      @refresh="loadEvents"
     />
 
     <UIToggle :items="toggleItems" v-model="toggleView" class="w-full" />

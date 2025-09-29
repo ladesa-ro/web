@@ -58,6 +58,7 @@ else remainingDays = Number(_startDate.diff(currentDate, 'day'));
           eventName: props.event.name,
           editMode: 'events',
         }"
+        @refresh="$emit('refresh')"
       />
     </div>
 

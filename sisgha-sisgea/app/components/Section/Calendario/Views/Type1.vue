@@ -46,7 +46,7 @@ watch(calendar, async n => {
       ref="monthRef"
       :calendar-id="calendar.id"
       :toggle-month="true"
-      :year="calendar.year!"
+      :year="calendar.year! || 0"
       :events="events"
     />
 
@@ -54,7 +54,7 @@ watch(calendar, async n => {
       <SectionCalendarioEvent
         v-for="event in events"
         :event="event"
-        :calendarId="calendar.id"
+        :calendarId="calendar.id || ''"
       />
     </div>
   </div>

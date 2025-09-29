@@ -2,7 +2,7 @@
 // # IMPORT
 import IconCalendar from '@/components/Icons/Calendar/Calendar.vue';
 import IconEvent from '@/components/Icons/Event.vue';
-import { ref } from 'vue';
+import { watch, nextTick, ref } from 'vue';
 import Advance from '~/components/UI/Button/Modal/Advance.vue';
 
 // # CODE
@@ -55,7 +55,7 @@ function selectRegisterType(type: string | null) {
 }
 
 // # EMITS
-const $emit = defineEmits(['close']);
+const $emit = defineEmits(['close', 'refresh']);
 
 function onClose() {
   $emit('close');
@@ -66,26 +66,29 @@ const calendarCrudRef = ref();
 
 async function onSubmit() {
   if (registerType.value === 'calendar' || props.editMode === 'calendar') {
-    const valid = await calendarCrudRef.value.validCalendarCrud();
-
-    if (valid) {
-      onClose();
+    if (calendarCrudRef.value) {
+      const valid = await calendarCrudRef.value.validCalendarCrud();
+      if (valid) {
+        $emit('refresh');
+        onClose();
+      }
     }
   } else if (registerType.value === 'events' || props.editMode === 'events') {
-    const valid = await eventCrudRef.value.validateEventCrud();
-
-    if (valid) {
-      onClose();
+    if (eventCrudRef.value) {
+      const valid = await eventCrudRef.value.validateEventCrud();
+      if (valid) {
+        $emit('refresh');
+        onClose();
+      }
+    } else {
+      console.warn('eventCrudRef ainda não está montado!');
     }
   }
 }
 
 async function formStage(v: string) {
   if (calendarCrudRef && stage.value > 0) {
-    if (
-      v === 'next' &&
-      (await calendarCrudRef.value.formValidation()) === true
-    )
+    if (v === 'next' && (await calendarCrudRef.value.formValidation()) === true)
       stage.value++;
     else if (v === 'prev') stage.value--;
   } else {
@@ -93,10 +96,25 @@ async function formStage(v: string) {
     else if (v === 'prev') stage.value--;
   }
 
-  if(stage.value === 0) selectRegisterType(null);
+  if (stage.value === 0) selectRegisterType(null);
 
   changeModalTitle(String(registerType.value));
 }
+
+console.log('editMode:', props.editMode);
+console.log('calendarId:', props.calendarId);
+console.log('eventName:', props.eventName);
+
+watch(
+  () => props.eventName,
+  async newEventName => {
+    if (newEventName) {
+      await nextTick();
+      eventCrudRef.value?.fillForm();
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
@@ -131,11 +149,11 @@ async function formStage(v: string) {
       <SectionCalendarioFormCrudEvents
         ref="eventCrudRef"
         v-show="
-          (registerType === 'events' && stage > 0) ||
-          props.editMode === 'events'
+          props.editMode === 'events' ||
+          (registerType === 'events' && stage > 0)
         "
         :form-stage="stage"
-        :calendar-id="props.calendarId!"
+        :calendar-id="props.calendarId! || ''"
         :event-name="props.eventName"
       />
 
