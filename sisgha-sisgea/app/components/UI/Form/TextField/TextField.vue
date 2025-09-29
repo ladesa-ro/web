@@ -25,7 +25,7 @@ const emit = defineEmits(['update:modelValue', 'blur']);
     </label>
 
     <input
-      class="w-full h-full px-2 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
+      class="w-full px-2 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
       :type="type"
       :placeholder="placeholder"
       :value="modelValue"
@@ -36,11 +36,9 @@ const emit = defineEmits(['update:modelValue', 'blur']);
       @blur="emit('blur')"
     />
   </div>
-  <div class="w-full text-left -mt-5">
-    <p v-if="error" class="text-ldsa-red text-xs font-semibold">
-      {{ error }}
-    </p>
-  </div>
+  <p v-if="error" class="text-ldsa-red text-xs font-semibold mt-1">
+    {{ error }}
+  </p>
 </template>
 
 <style scoped src="../-Utils/style/inputStyles.css"></style>

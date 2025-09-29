@@ -189,6 +189,7 @@ defineExpose({ validateEventCrud, fillForm });
           type="date"
           label="Início"
           v-model="values.eventStartDate"
+          class="flex-1 flex-col"
         />
         <VVTextField
           name="eventStartHour"
