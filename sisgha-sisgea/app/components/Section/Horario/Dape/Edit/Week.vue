@@ -26,6 +26,8 @@ const showBreaks = computed(() => (props.editMode ? false : props.showBreaks));
 
 provide('showBreaks', showBreaks);
 
+//
+
 watch(
   () => props.editMode,
   newVal => {
@@ -39,8 +41,6 @@ const weekSchedule = defineModel<WeekSchedule>({
   required: true,
   default: {},
 });
-
-//
 
 const weekdayNames = Object.keys(weekSchedule.value);
 
@@ -275,9 +275,7 @@ onMounted(() => {
                 'bg-ldsa-grey/20 text-ldsa-text-default/50'
               "
             >
-              {{
-                hour.replace(' intervalo', '').replace(/ shiftIndex=[0-9]/, '')
-              }}
+              {{ hour.substring(0, 5) }}
             </span>
           </template>
         </div>
@@ -291,21 +289,20 @@ onMounted(() => {
             )"
             :key="shiftName"
           >
-            <template v-if="shift.shiftSchedule.length > 0">
-              <SectionHorarioDapeEditShift
-                :dayIndex
-                :shiftIndex="
-                  shiftNames.findIndex(turnName => turnName === shiftName)
-                "
-                :editMode
-                v-model="
-                  weekSchedule[weekdayNames[dayIndex]!]!.daySchedule[
-                    shiftName as ShiftName
-                  ].shiftSchedule
-                "
-                @atividade-change="emit('commit-history')"
-              />
-            </template>
+            <SectionHorarioDapeEditShift
+              v-if="shift.shiftSchedule.length > 0"
+              :dayIndex
+              :shiftIndex="
+                shiftNames.findIndex(turnName => turnName === shiftName)
+              "
+              :editMode
+              v-model="
+                weekSchedule[weekdayNames[dayIndex]!]!.daySchedule[
+                  shiftName as ShiftName
+                ].shiftSchedule
+              "
+              @atividade-change="emit('commit-history')"
+            />
 
             <div
               class="flex flex-col w-full"

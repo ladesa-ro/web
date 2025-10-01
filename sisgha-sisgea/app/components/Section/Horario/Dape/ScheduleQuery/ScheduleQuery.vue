@@ -11,8 +11,8 @@ import {
   type WeekScheduleHistory,
 } from '~/composables/schedule/useScheduleTypes';
 import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
-import { replaceCell } from '../Edit/replaceCell';
-import { swapCells } from '../Edit/swapCells';
+import { replaceCell } from '../Edit/-Helpers/replaceCell';
+import { swapCells } from '../Edit/-Helpers/swapCells';
 import ButtonsEditMode from './Buttons/ButtonsEditMode.vue';
 import ButtonsVisualizationMode from './Buttons/ButtonsVisualizationMode.vue';
 import Button from './Buttons/ScheduleQueryButton.vue';
@@ -21,6 +21,8 @@ import { getOwnerName } from './getOwnerName';
 const id = useRoute().params.id as string;
 
 const isProfessor = useRoute().path.includes('professor');
+
+provide('scheduleOf', isProfessor ? 'professor' : 'turma');
 
 const {
   data: scheduleOwner,

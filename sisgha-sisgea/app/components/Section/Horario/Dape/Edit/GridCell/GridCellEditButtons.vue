@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useQuery } from '@tanstack/vue-query';
 import type {
   Aula,
   EditableCellType,
@@ -39,6 +40,22 @@ const toggleItems = [
 const cellType = computed(() => cell.value.type);
 
 const changeActivityValue = ref(cellType.value ?? 'vago');
+
+//
+
+const scheduleOf: 'professor' | 'turma' | undefined = inject('scheduleOf');
+
+const professoresQuery = useQuery(listPerfis({ filterCargo: ['professor'] }));
+
+const turmasQuery = useQuery(listTurmas());
+
+onMounted(() => {
+  if (cell.value.type === 'aula') {
+    const profSelected = cell.value.diario.professor;
+    const disciplinaSelected = cell.value.diario.disciplina;
+    const turmaSelected = cell.value.diario.turma;
+  }
+});
 </script>
 
 <template>
@@ -54,12 +71,53 @@ const changeActivityValue = ref(cellType.value ?? 'vago');
       </template>
 
       <UIToggle
-        class="h-9"
         v-model="changeActivityValue"
         :items="toggleItems"
       />
 
-      <!-- TODO: add autocompletes para modificar a aula -->
+      <template v-if="changeActivityValue === 'aula'">
+        <template v-if="scheduleOf === 'turma'">
+          <UIFormOptionFieldsAutocomplete
+            placeholder="Selecione um professor"
+            label="Professor"
+            v-if="professoresQuery.data.value"
+            :items="
+              professoresQuery.data.value.data.map(professor => ({
+                label: professor.usuario.nome ?? 'Nome não disponível',
+                value: professor.id,
+              }))
+            "
+          />
+
+          <span v-else-if="professoresQuery.isLoading"> Carregando... </span>
+
+          <span v-else-if="professoresQuery.isError">
+            Ocorreu um erro ao buscar os professores.
+          </span>
+        </template>
+
+        <template v-else-if="scheduleOf === 'professor'">
+          <UIFormOptionFieldsAutocomplete
+            placeholder="Selecione uma turma"
+            label="Turma"
+            v-if="turmasQuery.data.value"
+            :items="
+              turmasQuery.data.value.data.map(turma => ({
+                label: `${turma.periodo} ${turma.curso.nomeAbreviado}`,
+                value: turma.id,
+              }))
+            "
+          />
+
+          <span v-else-if="professoresQuery.isLoading"> Carregando... </span>
+
+          <span v-else-if="professoresQuery.isError">
+            Ocorreu um erro ao buscar os professores.
+          </span>
+        </template>
+
+        <VVAutocompleteAPIDisciplina name="disciplina.id" />
+      </template>
     </SectionHorarioDapeEditPopover>
 
     <IconsExclude

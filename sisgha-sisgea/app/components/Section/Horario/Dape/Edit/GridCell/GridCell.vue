@@ -165,7 +165,7 @@ const popoverOpen = ref(false);
     ref="cell-wrap"
     v-show="showBreaks ? true : cellInfo.type !== 'intervalo'"
     :class="[
-      'relative not-last:border-b-[0.119565rem] nth-of-type-[2n]:mb-[0.5px] border-t-solid border-t-transparent border-b-2 border-b-solid border-b-ldsa-text-default/65 transform-[translateZ(0)] last:border-b-transparent',
+      'cell-wrap',
       active && 'bg-ldsa-green-2/15',
     ]"
     @click="cellInfo.type !== 'intervalo' && editMode && toggleActive()"
@@ -184,7 +184,7 @@ const popoverOpen = ref(false);
     <div
       ref="cell"
       id="horario"
-      class="relative box-border text-center h-[1.4375rem] 2xl:h-6 flex justify-center items-center text-[0.813rem] font-medium"
+      class="horario"
       :class="{
         'text-ldsa-text-green dark:brightness-115': active,
         'bg-ldsa-grey/20': cellInfo.type === 'intervalo' && !active,
@@ -247,3 +247,5 @@ const popoverOpen = ref(false);
   display: inline;
 }
 </style>
+
+<style scoped src="./gridCell.css"></style>
