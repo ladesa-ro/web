@@ -31,7 +31,7 @@ function getAula(dia: number, horario: number) {
   <div
     class="grid mt-4 pr-2 grid-cols-subgrid grid-rows-subgrid col-span-full row-span-6 border-2 border-ldsa-green-1 overflow-hidden"
   >
-    <SectionHorarioShiftTag :turno="props.turno" />
+    <SectionHorarioProfessorEAlunoShiftTag :turno="props.turno" />
 
     <!-- Coluna dos horários -->
     <div class="grid grid-rows-subgrid col-start-2 row-start-1 row-span-full">

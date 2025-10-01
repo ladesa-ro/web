@@ -31,7 +31,7 @@ const gradeDisciplinas = [
 </script>
 
 <template>
-  <SectionHorarioShift
+  <SectionHorarioProfessorEAlunoShift
     v-for="(turno, index) in turnos"
     :key="turno.nome"
     :class="{

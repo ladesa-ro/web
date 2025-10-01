@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useApiContext } from '~/components/API/Context/setup-context';
-import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
+import type { ILesson } from '../../-Helpers/ILesson';
 
 const classTimings = [
   { startsAt: '08:20:00', endsAt: '09:09:59' },
@@ -41,10 +41,10 @@ const viewFor = computed(() => {
 
 <template>
   <div class="max-w-screen-2xl w-full">
-    <SectionHorarioDailyViewDaySquareList />
+    <SectionHorarioProfessorEAlunoDailyViewDaySquareList />
 
     <div class="flex flex-col gap-5 mt-8 lg:mt-12">
-      <SectionHorarioDailyViewLesson
+      <SectionHorarioProfessorEAlunoDailyViewLesson
         v-for="lesson in generatedLessons"
         :lesson="lesson"
         :view-for="viewFor"
