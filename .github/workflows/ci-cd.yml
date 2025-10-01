@@ -42,7 +42,7 @@ jobs:
       # Step 2: Obter secrets do Infisical para o processo de build
       # Infisical é usado como gerenciador de secrets centralizado
       - name: Obtenção de segredos do Infisical para build
-        uses: Infisical/secrets-action@a663da43e1541832614bfd9dcf9ab67381ea2b98
+        uses: Infisical/secrets-action@8802effbe453d0576cd923567dcc2c97a1f54058
         with:
           # Configurações de conexão com o Infisical
           domain: ${{ secrets.INFISICAL_DOMAIN }}           # URL do servidor Infisical
@@ -109,7 +109,7 @@ jobs:
       # Step 2: Obter secrets específicos para deploy do Infisical
       # Diferentes secrets podem ser necessários para CI vs CD
       - name: Obtenção de segredos do Infisical para deploy
-        uses: Infisical/secrets-action@a663da43e1541832614bfd9dcf9ab67381ea2b98
+        uses: Infisical/secrets-action@8802effbe453d0576cd923567dcc2c97a1f54058
         with:
           # Configurações de conexão (mesmas do job anterior)
           domain: ${{ secrets.INFISICAL_DOMAIN }}
