@@ -10,7 +10,6 @@ import {
   ComboboxTrigger as Trigger,
   ComboboxViewport as Viewport,
 } from 'reka-ui';
-import { ref } from 'vue';
 import { getParsedItems } from '~/composables/useOptionItems';
 import type { AutocompleteProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
@@ -48,7 +47,6 @@ const customError = computed(() =>
     ? 'Sala de aula é obrigatória!'
     : error
 );
-
 </script>
 
 <template>
@@ -83,10 +81,10 @@ const customError = computed(() =>
 
     <Portal>
       <Content
-        class="input-base-content w-(--reka-combobox-trigger-width) z-[10000]"
+        class="input-base-content w-(--reka-combobox-trigger-width) z-[10000] py-2"
         position="popper"
       >
-        <Viewport>
+        <Viewport class="max-h-68 overflow-y-auto">
           <NoResultsState
             class="flex items-center px-3 font-normal text-ldsa-grey h-(--reka-combobox-trigger-height)"
           >
