@@ -62,7 +62,7 @@ jobs:
       # Step 4: Autenticar no registry de contêineres
       # Necessário para fazer push da imagem construída
       - name: Autenticação no Registry de Contêineres
-        uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef
         with:
           registry: ${{ env.REGISTRY_URL }}      # URL do registry (obtida do Infisical)
           username: ${{ env.REGISTRY_USERNAME }} # Username para autenticação
