@@ -14,6 +14,8 @@ import type {
   WeekSchedule,
 } from '~/composables/schedule/useScheduleTypes';
 import { capitalizeFirst } from '../../-Helpers/CapitalizeFirst';
+import { getAllStartHours } from './-Helpers/fixGridHoles';
+import { getRowShiftName } from './-Helpers/getRowShiftName';
 
 const props = defineProps<{
   editMode?: boolean;
@@ -208,18 +210,17 @@ const shiftNames: (keyof DayInShifts['daySchedule'])[] = [
   'night',
 ];
 
-const getRowShiftName = (rowShift: string) => {
-  switch (rowShift) {
-    case 'morning':
-      return 'Matutino';
-    case 'afternoon':
-      return 'Vespertino';
-    case 'night':
-      return 'Noturno';
-  }
-};
-
 const dayjs = useDayJs();
+
+//
+
+// const rowShiftCurrentIndex = ref<number | undefined>(undefined);
+
+const startHours = ref(getAllStartHours(weekSchedule.value));
+
+onMounted(() => {
+  startHours.value = getAllStartHours(weekSchedule.value);
+});
 </script>
 
 <template>
@@ -250,7 +251,7 @@ const dayjs = useDayJs();
         :class="[
           editMode && 'hover:bg-ldsa-green-1/85 hover:border-transparent',
           rowShiftIndex === 0 && 'rounded-tl-lg',
-          rowShiftIndex === 2 && 'rounded-bl-lg',
+          rowShiftIndex === shiftNames.length - 1 && 'rounded-bl-lg',
         ]"
         :disabled="!editMode"
       >
@@ -269,23 +270,24 @@ const dayjs = useDayJs();
         ]"
       >
         <div class="flex flex-col w-10 h-full justify-start text-center">
-          <!-- TODO: pegar os horários do array de tempos de aula -->
-          <span
-            v-for="(cell, cellIndex) in weekSchedule[weekdayNames[0]!]!
-              .daySchedule[rowShift].shiftSchedule"
-            :key="cellIndex"
-            v-show="
-              showBreaks ? true : cell.type === 'aula' || cell.type === 'vago'
-            "
-            class="border-b-ldsa-text-default/65 text-[0.813rem] font-medium last:border-b-transparent not-last:border-b-[0.119565rem] border-t-solid border-t-transparent last:mb-[1.5px] flex-1 flex items-center justify-center"
-            :class="
-              cell.type !== 'aula' &&
-              cell.type !== 'vago' &&
-              'bg-ldsa-grey/20 text-ldsa-text-default/50'
-            "
-          >
-            {{ cell.startHour.format('hh:mm') }}
-          </span>
+          <template v-for="(hour, hourIndex) in startHours" :key="hourIndex">
+            <span
+              v-if="
+                rowShiftIndex === parseInt(hour[hour.length - 1] ?? '0') &&
+                !hour.includes('undefined')
+              "
+              v-show="showBreaks ? true : !hour.includes('intervalo')"
+              class="border-b-ldsa-text-default/65 text-[0.813rem] font-medium last:border-b-transparent not-last:border-b-[0.119565rem] border-t-solid border-t-transparent last:mb-[1.5px] flex-1 flex items-center justify-center"
+              :class="
+                hour.includes('intervalo') &&
+                'bg-ldsa-grey/20 text-ldsa-text-default/50'
+              "
+            >
+              {{
+                hour.replace(' intervalo', '').replace(/ shiftIndex=[0-9]/, '')
+              }}
+            </span>
+          </template>
         </div>
 
         <template v-for="(day, _, dayIndex) of weekSchedule" :key="dayIndex">
