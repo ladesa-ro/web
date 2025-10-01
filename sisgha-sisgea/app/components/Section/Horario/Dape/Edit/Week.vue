@@ -14,8 +14,8 @@ import type {
   WeekSchedule,
 } from '~/composables/schedule/useScheduleTypes';
 import { capitalizeFirst } from '../../-Helpers/CapitalizeFirst';
-import { getAllStartHours } from './-Helpers/fixGridHoles';
-import { getRowShiftName } from './-Helpers/getRowShiftName';
+import { getAllStartHours, getEmptyShift } from './-Helpers/fixGridHoles';
+import { getRowShiftName, shiftNames } from './-Helpers/getRowShiftName';
 
 const props = defineProps<{
   editMode?: boolean;
@@ -204,17 +204,9 @@ watch(
 
 //
 
-const shiftNames: (keyof DayInShifts['daySchedule'])[] = [
-  'morning',
-  'afternoon',
-  'night',
-];
-
 const dayjs = useDayJs();
 
 //
-
-// const rowShiftCurrentIndex = ref<number | undefined>(undefined);
 
 const startHours = ref(getAllStartHours(weekSchedule.value));
 
@@ -292,26 +284,41 @@ onMounted(() => {
 
         <template v-for="(day, _, dayIndex) of weekSchedule" :key="dayIndex">
           <template
-            v-for="(_, shiftName) in Object.fromEntries(
+            v-for="(shift, shiftName) in Object.fromEntries(
               Object.entries(day.daySchedule).filter(
                 ([key]) => key === rowShift
               )
             )"
             :key="shiftName"
           >
-            <SectionHorarioDapeEditShift
-              :dayIndex
-              :shiftIndex="
-                shiftNames.findIndex(turnName => turnName === shiftName)
-              "
-              :editMode
-              v-model="
-                weekSchedule[weekdayNames[dayIndex]!]!.daySchedule[
-                  shiftName as ShiftName
-                ].shiftSchedule
-              "
-              @atividade-change="emit('commit-history')"
-            />
+            <template v-if="shift.shiftSchedule.length > 0">
+              <SectionHorarioDapeEditShift
+                :dayIndex
+                :shiftIndex="
+                  shiftNames.findIndex(turnName => turnName === shiftName)
+                "
+                :editMode
+                v-model="
+                  weekSchedule[weekdayNames[dayIndex]!]!.daySchedule[
+                    shiftName as ShiftName
+                  ].shiftSchedule
+                "
+                @atividade-change="emit('commit-history')"
+              />
+            </template>
+
+            <div class="flex flex-col w-full opacity-30" v-else>
+              <SectionHorarioDapeEditNonEditableCell
+                v-for="(cell, cellIndex) in getEmptyShift(
+                  weekSchedule,
+                  dayIndex,
+                  shiftNames.findIndex(turnName => turnName === shiftName)
+                )"
+                :key="cellIndex"
+                :showBreaks
+                :type="cell.type"
+              />
+            </div>
           </template>
         </template>
       </div>
