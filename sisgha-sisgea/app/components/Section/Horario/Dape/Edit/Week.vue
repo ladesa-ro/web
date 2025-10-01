@@ -307,8 +307,12 @@ onMounted(() => {
               />
             </template>
 
-            <div class="flex flex-col w-full opacity-30" v-else>
-              <SectionHorarioDapeEditNonEditableCell
+            <div
+              class="flex flex-col w-full"
+              :class="editMode && 'opacity-30'"
+              v-else
+            >
+              <SectionHorarioDapeEditGridCellNonEditable
                 v-for="(cell, cellIndex) in getEmptyShift(
                   weekSchedule,
                   dayIndex,

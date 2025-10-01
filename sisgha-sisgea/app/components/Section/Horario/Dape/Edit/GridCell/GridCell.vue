@@ -212,7 +212,7 @@ const popoverOpen = ref(false);
           active ? 'bg-[#ebf8ed] dark:bg-[#192728]' : 'bg-ldsa-bg ',
         ]"
       >
-        <SectionHorarioDapeEditCellEditButtons
+        <SectionHorarioDapeEditGridCellEditButtons
           v-if="editMode"
           v-model="cellInfo"
           v-model:popover="popoverOpen"
