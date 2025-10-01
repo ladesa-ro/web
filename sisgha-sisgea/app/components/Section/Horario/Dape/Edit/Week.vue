@@ -14,8 +14,8 @@ import type {
   WeekSchedule,
 } from '~/composables/schedule/useScheduleTypes';
 import { capitalizeFirst } from '../../-Helpers/CapitalizeFirst';
-import { getAllStartHours, getEmptyShift } from './-Helpers/fixGridHoles';
 import { getRowShiftName, shiftNames } from './-Helpers/getRowShiftName';
+import { getAllStartHours, getEmptyShift } from './-Helpers/turnGridPrettier';
 
 const props = defineProps<{
   editMode?: boolean;
