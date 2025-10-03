@@ -76,12 +76,12 @@ const remainingDays = computed(() => {
     <ul>
       <li>
         <p>
-          Início: <span>{{ startDate.format('DD/MM') }}</span>
+          Início: <span>{{ startDate.format('DD/MM/YYYY') }}</span>
         </p>
       </li>
       <li>
         <p>
-          Término: <span>{{ endDate.format('DD/MM') }}</span>
+          Término: <span>{{ endDate.format('DD/MM/YYYY') }}</span>
         </p>
       </li>
     </ul>

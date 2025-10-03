@@ -158,7 +158,7 @@ export const calendarDataMethods = {
       try {
         const steps = await getApiClient().etapas.etapaList({
           filterCalendarioId: [calendarId],
-        }).promise;
+        });
 
         for (let i = 0; i < steps.data!.length; i++) {
           const step: CalendarEvent = {
@@ -183,7 +183,7 @@ export const calendarDataMethods = {
           .etapas.etapaList({
             search: `${name.replace(/\D/g, '')}`,
           })
-          .promise.then(res => res.data);
+          .then(res => res.data);
 
         const findStep = getStep.find(
           step =>
@@ -250,7 +250,7 @@ export const calendarDataMethods = {
       try {
         const events = await getApiClient().eventos.eventoList({
           filterCalendarioId: [calendarId],
-        }).promise;
+        });
 
         for (let i = 0; i < events.data!.length; i++) {
           const event: CalendarEvent = {
@@ -278,7 +278,7 @@ export const calendarDataMethods = {
             filterCalendarioId: [calendarId],
             search: `${name}`,
           })
-          .promise.then(res => res.data);
+          .then(res => res.data);
 
         // Aceita se o name for id ou nome
         const findEvent = getEvents.find(

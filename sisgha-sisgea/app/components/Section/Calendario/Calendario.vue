@@ -77,13 +77,13 @@ onMounted(async () => {});
     >
       <UIToggle :items="toggleItems" v-model="toggleView" class="w-full" />
       <SectionCalendarioViewsType1
-        v-show="toggleView === 0"
-        :calendar-data="selectedCalendar!"
+        v-if="selectedCalendar && toggleView === 0"
+        :calendar-data="selectedCalendar"
       />
       <SectionCalendarioViewsType2
-        v-show="toggleView === 1"
-        :calendar-id="selectedCalendar.id!"
-        :year="selectedCalendar.year!"
+        v-if="selectedCalendar && toggleView === 1"
+        :calendar-id="selectedCalendar.id"
+        :year="selectedCalendar.year || 0"
       />
     </div>
   </UIContainer>
