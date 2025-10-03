@@ -28,7 +28,7 @@ const getEvent = async () => {
   if (checkEvents) {
     isEvent.value = true;
     await setValues({
-      eventName: `${checkEvents.nome}° Etapa`,
+      eventName: `${checkEvents.nome}`,
       eventEnvironment: checkEvents.ambiente,
       eventColor: checkEvents.cor,
       eventStartDate: checkEvents.dataInicio,
@@ -67,18 +67,18 @@ const schemaCalendar = yup.object({
   eventName: yup.string().required('Nome inválido'),
   eventEnvironment: yup.string().notRequired(),
   eventColor: yup.string().required('Cor inválida'),
-  eventStartDate: yup.date().required('Data de início inválida'),
+  eventStartDate: yup.date().required('Data inválida'),
   eventStartHour: yup
     .string()
     .notRequired()
-    .test('valid-hour', 'Horário de início inválido', async hour => {
+    .test('valid-hour', 'Horário inválido', async hour => {
       return await calendarDataMethods.check.validHour(hour);
     }),
-  eventEndDate: yup.date().required('Data de término inválida'),
+  eventEndDate: yup.date().required('Data inválida'),
   eventEndHour: yup
     .string()
     .notRequired()
-    .test('valid-hour', 'Horário de término inválido', async hour => {
+    .test('valid-hour', 'Horário inválido', async hour => {
       return await calendarDataMethods.check.validHour(hour);
     }),
 });

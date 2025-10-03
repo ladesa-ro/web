@@ -17,20 +17,21 @@ const toggleItems = [
 
 // TODO: Fix 'Get Calendar' Feature
 
-let selectedCalendar = ref<CalendarData>(
-  await calendarDataMethods.calendar.getCalendarById('')
-);
-
-let selectedTrainingOffer = ref<any | null>(null);
-let selectedYear = ref<number>(dayjs().year());
+let selectedCalendar = ref<CalendarData | null>(null);
 
 async function toggleSelectedCalendarItem(value: string) {
+  if (!value) {
+    selectedCalendar.value = null;
+    return;
+  }
   selectedCalendar.value =
     await calendarDataMethods.calendar.getCalendarById(value);
 }
 
-onMounted(async () => {
-});
+let selectedTrainingOffer = ref<any | null>(null);
+let selectedYear = ref<number>(dayjs().year());
+
+onMounted(async () => {});
 </script>
 
 <template>
@@ -59,6 +60,7 @@ onMounted(async () => {
 
       <div class="flex gap-2">
         <DialogModalEditOrCreateModal
+          v-if="selectedCalendar"
           :form-component="SectionCalendarioForm"
           :form-props="{ calendarId: selectedCalendar.id }"
         />
@@ -68,6 +70,7 @@ onMounted(async () => {
 
     <!-- Content -->
     <div
+      v-if="selectedCalendar"
       :key="selectedCalendar.id"
       class="flex flex-col w-full justify-between items-center gap-2"
       v-show="selectedCalendar.year === selectedYear"

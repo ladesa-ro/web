@@ -119,7 +119,7 @@ watch(
 
 <template>
   <form @submit.prevent="onSubmit">
-    <DialogModalBaseLayout :on-close="onClose" :title="modalTitle">
+    <DialogModalBaseLayout :on-close="onClose" :title="modalTitle" class="min-w-[550px]">
       <!-- Choose Register -->
       <div v-show="stage === 0 && !props.editMode" class="flex flex-row gap-4">
         <SectionCalendarioUICardOption

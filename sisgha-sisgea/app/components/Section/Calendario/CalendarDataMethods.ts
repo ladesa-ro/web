@@ -15,27 +15,19 @@ export const calendarDataMethods = {
   check: {
     validHour: async (hour: string | null | undefined): Promise<boolean> => {
       try {
-        if (!hour) return true;
+        if (!hour) return false;
 
-        const trimHour = String(hour).trim();
+        const [h, m] = hour.split(':');
+        const hourNum = Number(h);
+        const minNum = Number(m);
 
-        if (trimHour.length !== 5) return false;
-        else {
-          if (trimHour[2] !== ':') return false;
-          else {
-            const [_hour, minutes] = trimHour.split(':');
+        if (isNaN(hourNum) || isNaN(minNum)) return false;
 
-            if (isNaN(Number(_hour)) || isNaN(Number(minutes))) return false;
-            else {
-              if (
-                (Number(_hour) < 0 || Number(_hour) > 23) &&
-                (Number(minutes) < 0 || Number(minutes) > 59)
-              )
-                return false;
-              else return true;
-            }
-          }
+        if (hourNum < 0 || hourNum > 23 || minNum < 0 || minNum > 59) {
+          return false;
         }
+
+        return true;
       } catch (e) {
         console.error(`Erro: ${e}`);
         return false;
@@ -280,15 +272,21 @@ export const calendarDataMethods = {
     },
     async getEventByName(name: string, calendarId: string): Promise<any> {
       try {
+        // buscamos eventos no calendário (o filter ajuda a reduzir resultados)
         const getEvents = await getApiClient()
           .eventos.eventoList({
+            filterCalendarioId: [calendarId],
             search: `${name}`,
           })
           .promise.then(res => res.data);
 
+        // Aceita se o name for id ou nome
         const findEvent = getEvents.find(
-          event => event.id === name && event.calendario.id === calendarId
+          (event: any) =>
+            (event.id === name || event.nome === name) &&
+            event.calendario.id === calendarId
         );
+
         return findEvent ? findEvent : null;
       } catch (e) {
         console.error(`Erro: ${e}`);
@@ -365,29 +363,30 @@ export const calendarDataMethods = {
     name: string,
     calendarId: string,
     returnType?: 'id' | null
-  ): Promise<any | string> => {
+  ): Promise<any | string | null> => {
     try {
-      const event = async (): Promise<any> => {
-        const checkEvents = await calendarDataMethods.events.getEventByName(
-          name!,
-          calendarId!
-        );
+      const checkEvents = await calendarDataMethods.events.getEventByName(
+        name,
+        calendarId
+      );
 
-        if (checkEvents) return checkEvents;
-        else {
-          const checkSteps = await calendarDataMethods.steps.getStepByName(
-            name!,
-            calendarId!
-          );
-          if (checkSteps) return checkSteps;
-          else return null;
-        }
-      };
+      if (checkEvents) {
+        return returnType === 'id' ? checkEvents.id : checkEvents;
+      }
 
-      if (returnType === 'id') return event;
+      const checkSteps = await calendarDataMethods.steps.getStepByName(
+        name,
+        calendarId
+      );
+
+      if (checkSteps) {
+        return returnType === 'id' ? checkSteps.id : checkSteps;
+      }
+
+      return null;
     } catch (e) {
       console.error(`Erro: ${e}`);
-      return {};
+      return null;
     }
   },
 };

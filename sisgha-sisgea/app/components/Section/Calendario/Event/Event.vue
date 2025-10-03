@@ -1,34 +1,44 @@
 <script lang="ts" setup>
-// # IMPORT
 import { SectionCalendarioForm } from '#components';
 import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
+import isBetween from 'dayjs/plugin/isBetween';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { computed } from 'vue';
 import type { CalendarEvent } from '../Types';
 
-// # CODE
+dayjs.extend(relativeTime);
+dayjs.extend(isBetween);
+dayjs.locale('pt-br');
+
 type Props = {
   calendarId?: string;
   event: CalendarEvent;
 };
 
-dayjs.locale('pt-br');
-
 const props = defineProps<Props>();
 
-// Remaining time
-let remainingDays: number = 0;
-let remainingText: string = '';
+// Datas reativas (computed)
+const startDate = computed(() => dayjs(props.event.startDate));
+const endDate = computed(() => dayjs(props.event.endDate));
+const now = computed(() => dayjs());
 
-// Formatting dates
-dayjs.extend(relativeTime);
+// Estados
+const notStarted = computed(() => now.value.isBefore(startDate.value));
+const inProgress = computed(() =>
+  now.value.isBetween(startDate.value, endDate.value, undefined, '[]')
+);
 
-const currentDate = dayjs();
-const _startDate = dayjs(props.event.startDate);
-const _endDate = dayjs(props.event.endDate);
-
-if (currentDate.isBefore(_startDate))
-  remainingDays = Number(_endDate.diff(currentDate, 'day'));
-else remainingDays = Number(_startDate.diff(currentDate, 'day'));
+// dias restantes (reagindo corretamente ao estado)
+const remainingDays = computed(() => {
+  if (notStarted.value) {
+    return startDate.value.diff(now.value, 'day');
+  }
+  if (inProgress.value) {
+    return endDate.value.diff(now.value, 'day');
+  }
+  return 0;
+});
 </script>
 
 <template>
@@ -42,7 +52,7 @@ else remainingDays = Number(_startDate.diff(currentDate, 'day'));
         <!-- Color -->
         <div
           class="w-3 h-3 rounded-full bg-ldsa-green-1"
-          :style="{ backgroundColor: props.event.color! }"
+          :style="{ backgroundColor: props.event.color || '#ddd' }"
         ></div>
 
         <!-- Name -->
@@ -64,25 +74,22 @@ else remainingDays = Number(_startDate.diff(currentDate, 'day'));
 
     <!-- Content -->
     <ul>
-      <!-- Start and End Date -->
       <li>
         <p>
-          Início:
-          <span>{{ dayjs(props.event.startDate).format('DD/MM') }}</span>
+          Início: <span>{{ startDate.format('DD/MM') }}</span>
         </p>
       </li>
       <li>
         <p>
-          Término: <span>{{ dayjs(props.event.endDate).format('DD/MM') }}</span>
+          Término: <span>{{ endDate.format('DD/MM') }}</span>
         </p>
       </li>
     </ul>
 
-    <!-- Remaining time for start/end -->
-    <p class="my-5" v-show="currentDate.isAfter(_startDate)">
+    <p class="my-5" v-if="notStarted">
       Começa em <span>{{ remainingDays }}</span> dias.
     </p>
-    <p class="my-5" v-show="!currentDate.isBetween(_startDate, _endDate)">
+    <p class="my-5" v-else-if="inProgress">
       Termina em <span>{{ remainingDays }}</span> dias.
     </p>
 
