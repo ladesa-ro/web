@@ -60,7 +60,7 @@ onMounted(() => {
 
 <template>
   <div class="flex">
-    <SectionHorarioDapePopoverEdit
+    <SectionHorarioDapeEditPopoverEdit
       v-model="popoverOpen"
       :handle-confirm-button-click="changeCellType(changeActivityValue)"
     >
@@ -115,7 +115,7 @@ onMounted(() => {
 
         <VVAutocompleteAPIDisciplina name="disciplina.id" />
       </template>
-    </SectionHorarioDapePopoverEdit>
+    </SectionHorarioDapeEditPopoverEdit>
 
     <IconsExclude
       @click.stop="changeCellType('vago')"
