@@ -218,7 +218,7 @@ onMounted(() => {
 <template>
   <div class="w-max mx-auto">
     <div class="grid grid-cols-6 ml-[6.313rem] mr-0.5 mb-3">
-      <SectionHorarioDapeEditDayAndShiftPopover
+      <SectionHorarioDapeEditPopoverDayAndShift
         v-for="(_, date) of weekSchedule"
         :disabled="!editMode"
       >
@@ -230,7 +230,7 @@ onMounted(() => {
           -
           {{ dayjs(date).format('DD/MM') }}
         </div>
-      </SectionHorarioDapeEditDayAndShiftPopover>
+      </SectionHorarioDapeEditPopoverDayAndShift>
     </div>
 
     <div
@@ -238,7 +238,7 @@ onMounted(() => {
       :key="rowShift"
       class="flex justify-center mb-4 last:mb-0"
     >
-      <SectionHorarioDapeEditDayAndShiftPopover
+      <SectionHorarioDapeEditPopoverDayAndShift
         class="bg-ldsa-green-1 border-r-2 border-ldsa-green-1 brightness-100"
         :class="[
           editMode && 'hover:bg-ldsa-green-1/85 hover:border-transparent',
@@ -252,7 +252,7 @@ onMounted(() => {
         >
           {{ getRowShiftName(rowShift) }}
         </div>
-      </SectionHorarioDapeEditDayAndShiftPopover>
+      </SectionHorarioDapeEditPopoverDayAndShift>
 
       <div
         class="grid grid-cols-[auto_repeat(6,1fr)] place-items-center border-2 border-ldsa-green-1 border-l-0 py-2 px-4 gap-4"

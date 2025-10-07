@@ -60,7 +60,7 @@ onMounted(() => {
 
 <template>
   <div class="flex">
-    <SectionHorarioDapeEditPopover
+    <SectionHorarioDapePopoverEdit
       v-model="popoverOpen"
       :handle-confirm-button-click="changeCellType(changeActivityValue)"
     >
@@ -70,10 +70,7 @@ onMounted(() => {
         />
       </template>
 
-      <UIToggle
-        v-model="changeActivityValue"
-        :items="toggleItems"
-      />
+      <UIToggle v-model="changeActivityValue" :items="toggleItems" />
 
       <template v-if="changeActivityValue === 'aula'">
         <template v-if="scheduleOf === 'turma'">
@@ -118,7 +115,7 @@ onMounted(() => {
 
         <VVAutocompleteAPIDisciplina name="disciplina.id" />
       </template>
-    </SectionHorarioDapeEditPopover>
+    </SectionHorarioDapePopoverEdit>
 
     <IconsExclude
       @click.stop="changeCellType('vago')"
