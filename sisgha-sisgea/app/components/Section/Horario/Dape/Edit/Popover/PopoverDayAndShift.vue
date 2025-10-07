@@ -16,7 +16,7 @@ const inPersonSelectedItem = ref('presencial');
 </script>
 
 <template>
-  <SectionHorarioDapePopoverEdit :handle-confirm-button-click="() => {}">
+  <SectionHorarioDapeEditPopoverEdit :handle-confirm-button-click="() => {}">
     <template #activator>
       <slot />
     </template>
@@ -24,5 +24,5 @@ const inPersonSelectedItem = ref('presencial');
     <UIToggle :items="schoolDayItems" v-model="schoolDaySelectedItem" />
 
     <UIToggle :items="inPersonDayItems" v-model="inPersonSelectedItem" />
-  </SectionHorarioDapePopoverEdit>
+  </SectionHorarioDapeEditPopoverEdit>
 </template>
