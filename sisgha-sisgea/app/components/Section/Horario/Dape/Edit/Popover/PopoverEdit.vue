@@ -1,6 +1,7 @@
-  <script setup lang="ts">
+<script setup lang="ts">
 defineProps<{
-  handleConfirmButtonClick: any ;
+  handleConfirmButtonClick: (args?: any) => void;
+  changeActivityValue?: 'aula' | 'vago';
   disableConfirmButton?: boolean;
 }>();
 
@@ -26,7 +27,9 @@ const open = defineModel<boolean>();
           :disabled="disableConfirmButton"
           @click="
             () => {
-              handleConfirmButtonClick();
+              if (changeActivityValue) {
+                handleConfirmButtonClick(changeActivityValue);
+              }
               open = !open;
             }
           "

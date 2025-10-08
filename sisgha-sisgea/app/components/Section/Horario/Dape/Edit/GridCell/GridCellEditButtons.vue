@@ -14,6 +14,7 @@ const cell = defineModel<Aula | Vago>({
 const emit = defineEmits(['atividade-change']);
 
 const changeCellType = (atv: EditableCellType) => {
+  console.log('change cell type executada!! [ATUALIADO]');
   if (cell.value.type !== atv) {
     cell.value.type = atv;
 
@@ -62,7 +63,8 @@ onMounted(() => {
   <div class="flex">
     <SectionHorarioDapeEditPopoverEdit
       v-model="popoverOpen"
-      :handle-confirm-button-click="changeCellType(changeActivityValue)"
+      :handle-confirm-button-click="changeCellType"
+      :change-activity-value="changeActivityValue"
     >
       <template #activator>
         <IconsEdit
@@ -117,8 +119,8 @@ onMounted(() => {
       </template>
     </SectionHorarioDapeEditPopoverEdit>
 
+    <!-- @click.stop="changeCellType('vago')" -->
     <IconsExclude
-      @click.stop="changeCellType('vago')"
       :class="[
         'inline w-4.5 p-0.5 text-ldsa-red hover:bg-ldsa-red/10 rounded',
         cell.type === 'vago' ? 'opacity-0 cursor-default' : 'cursor-pointer',
