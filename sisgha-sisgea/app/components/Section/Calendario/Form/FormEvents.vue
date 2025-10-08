@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 // # IMPORT
+import { ref } from 'vue';
 import SearchBar from '~/components/UI/SearchBar/SearchBar.vue';
 import type { CalendarEvent } from '../Types';
-import { ref } from 'vue';
 import Events from './Crud/Events.vue';
 
 // # CODE
@@ -15,6 +15,14 @@ const props = defineProps<Props>();
 const showEventModal = ref(false);
 const selectedEventName = ref<string | null>(null);
 const eventCrudRef = ref<InstanceType<typeof Events> | null>(null);
+
+onMounted(() => {
+  window.addEventListener('force-close-inner-modals', closeEvent);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('force-close-inner-modals', closeEvent);
+});
 
 // # EMITS
 const $emit = defineEmits(['close', 'refresh']);
@@ -36,7 +44,7 @@ function closeEvent() {
 async function saveEvent() {
   if (await eventCrudRef.value?.validateEventCrud()) {
     closeEvent();
-    $emit('refresh'); 
+    $emit('refresh');
   }
 }
 
@@ -52,7 +60,7 @@ console.log(props.events);
         <SectionCalendarioEvent
           v-for="event in props.events"
           :event="event"
-          :calendar-id="event.calendar!.id" 
+          :calendar-id="event.calendar!.id"
           @refresh="$emit('refresh')"
         />
       </div>

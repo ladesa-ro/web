@@ -63,6 +63,7 @@ onMounted(async () => {});
           v-if="selectedCalendar"
           :form-component="SectionCalendarioForm"
           :form-props="{ calendarId: selectedCalendar.id }"
+          @refresh="$emit('refresh')"
         />
         <UIButtonSearch />
       </div>

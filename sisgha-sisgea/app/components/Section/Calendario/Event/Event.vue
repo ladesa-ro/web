@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import isBetween from 'dayjs/plugin/isBetween';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import type { CalendarEvent } from '../Types';
 
 dayjs.extend(relativeTime);
@@ -18,18 +18,15 @@ type Props = {
 
 const props = defineProps<Props>();
 
-// Datas reativas (computed)
 const startDate = computed(() => dayjs(props.event.startDate));
 const endDate = computed(() => dayjs(props.event.endDate));
 const now = computed(() => dayjs());
 
-// Estados
 const notStarted = computed(() => now.value.isBefore(startDate.value));
 const inProgress = computed(() =>
   now.value.isBetween(startDate.value, endDate.value, undefined, '[]')
 );
 
-// dias restantes (reagindo corretamente ao estado)
 const remainingDays = computed(() => {
   if (notStarted.value) {
     return startDate.value.diff(now.value, 'day');
@@ -39,6 +36,12 @@ const remainingDays = computed(() => {
   }
   return 0;
 });
+
+const editModalRef = ref();
+
+function onEditModalClose() {
+  window.dispatchEvent(new CustomEvent('force-close-inner-modals'));
+}
 </script>
 
 <template>
@@ -61,11 +64,13 @@ const remainingDays = computed(() => {
 
       <!-- Edit Button -->
       <DialogModalEditOrCreateModal
+        ref="editModalRef"
         :edit-id="props.event.id"
         :form-component="SectionCalendarioForm"
         :form-props="{
           calendarId: props.calendarId!,
           eventName: props.event.name,
+          eventId: props.event.id,
           editMode: 'events',
         }"
         @refresh="$emit('refresh')"

@@ -33,6 +33,12 @@ async function setMonth(c: CalendarData) {
   );
 }
 
+async function refreshEvents() {
+  if (calendar.value?.id) {
+    await setMonth(calendar.value);
+  }
+}
+
 if (calendar.value.id) await setMonth(calendar.value);
 
 watch(calendar, async n => {
@@ -55,6 +61,7 @@ watch(calendar, async n => {
         v-for="event in events"
         :event="event"
         :calendarId="calendar.id || ''"
+        @refresh="refreshEvents"
       />
     </div>
   </div>

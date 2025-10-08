@@ -272,7 +272,6 @@ export const calendarDataMethods = {
     },
     async getEventByName(name: string, calendarId: string): Promise<any> {
       try {
-        // buscamos eventos no calendário (o filter ajuda a reduzir resultados)
         const getEvents = await getApiClient()
           .eventos.eventoList({
             filterCalendarioId: [calendarId],
@@ -280,7 +279,6 @@ export const calendarDataMethods = {
           })
           .then(res => res.data);
 
-        // Aceita se o name for id ou nome
         const findEvent = getEvents.find(
           (event: any) =>
             (event.id === name || event.nome === name) &&

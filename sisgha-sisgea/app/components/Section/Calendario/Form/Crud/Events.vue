@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 // # IMPORT
+import dayjs from 'dayjs';
 import { useForm } from 'vee-validate';
 import { onMounted, ref } from 'vue';
 import * as yup from 'yup';
@@ -9,6 +10,7 @@ import { calendarDataMethods } from '../../CalendarDataMethods';
 type Props = {
   calendarId: string;
   eventName?: string;
+  eventId?: string;
 };
 
 const props = defineProps<Props>();
@@ -28,24 +30,24 @@ const getEvent = async () => {
   if (checkEvents) {
     isEvent.value = true;
     await setValues({
-      eventName: `${checkEvents.nome}`,
+      eventName: checkEvents.nome,
       eventEnvironment: checkEvents.ambiente,
       eventColor: checkEvents.cor,
-      eventStartDate: checkEvents.dataInicio,
-      eventStartHour: checkEvents.horaInicio,
-      eventEndDate: checkEvents.dataFim,
-      eventEndHour: checkEvents.horaFim,
+      eventStartDate: dayjs(checkEvents.dataInicio).format('YYYY-MM-DD'), // só a data
+      eventStartHour: dayjs(checkEvents.dataInicio).format('HH:mm'), // só a hora
+      eventEndDate: dayjs(checkEvents.dataFim).format('YYYY-MM-DD'),
+      eventEndHour: dayjs(checkEvents.dataFim).format('HH:mm'),
     });
   } else if (checkSteps) {
     isEvent.value = false;
     await setValues({
       eventName: checkSteps.nome,
       eventColor: checkSteps.cor,
-      eventStartDate: checkSteps.dataInicio,
-      eventStartHour: undefined,
-      eventEndDate: checkSteps.dataFim,
-      eventEndHour: undefined,
-      eventEnvironment: undefined,
+      eventStartDate: dayjs(checkSteps.dataInicio).format('YYYY-MM-DD'),
+      eventStartHour: '', // vazio, pois não existe
+      eventEndDate: dayjs(checkSteps.dataFim).format('YYYY-MM-DD'),
+      eventEndHour: '', // vazio
+      eventEnvironment: '', // vazio
     });
   }
 };
@@ -98,8 +100,16 @@ const { values, validate, setValues } = useForm<FormValues>({
 
 async function onSubmit() {
   if (isEvent.value) {
+    console.log('✅ Enviando evento para salvar:', {
+      id: props.eventId,
+      name: values.eventName,
+      color: values.eventColor,
+      startDate: values.eventStartDate,
+      endDate: values.eventEndDate,
+      calendarId: props.calendarId,
+    });
     await calendarDataMethods.events.putEvent({
-      id: props.eventName!,
+      id: props.eventId!,
       name: values.eventName,
       color: values.eventColor,
       startDate: values.eventStartDate,

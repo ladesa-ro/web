@@ -197,6 +197,7 @@ watch(
           "
           type="submit"
           @click="onSubmit"
+          
         />
         <UIButtonModalEdit v-show="props.editMode" type="submit" />
       </template>
