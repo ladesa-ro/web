@@ -16,6 +16,7 @@ const showBreaks = defineModel<boolean>('showBreaks', { default: false });
     </Button>
 
     <Button
+      class="max-[875px]:hidden"
       text="Modo Edição"
       color="var(--ladesa-text-green-color)"
       @click="editMode = true"
