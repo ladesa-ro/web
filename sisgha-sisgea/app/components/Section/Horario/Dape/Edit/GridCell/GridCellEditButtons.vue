@@ -14,7 +14,6 @@ const cell = defineModel<Aula | Vago>({
 const emit = defineEmits(['atividade-change']);
 
 const changeCellType = (atv: EditableCellType) => {
-  console.log('change cell type executada!! [ATUALIADO]');
   if (cell.value.type !== atv) {
     cell.value.type = atv;
 
@@ -46,9 +45,16 @@ const changeActivityValue = ref(cellType.value ?? 'vago');
 
 const scheduleOf: 'professor' | 'turma' | undefined = inject('scheduleOf');
 
-const professoresQuery = useQuery(listPerfis({ filterCargo: ['professor'] }));
+// TODO: melhorar essa estrutura de querries para fazer apenas 1 query à api em algum componente ancestral a este, ao inves de uma query em todas as instâncias
+const professoresQuery = useQuery({
+  ...listPerfis({ filterCargo: ['professor'] }),
+  enabled: scheduleOf === 'turma',
+});
 
-const turmasQuery = useQuery(listTurmas());
+const turmasQuery = useQuery({
+  ...listTurmas(),
+  enabled: scheduleOf === 'professor',
+});
 
 onMounted(() => {
   if (cell.value.type === 'aula') {

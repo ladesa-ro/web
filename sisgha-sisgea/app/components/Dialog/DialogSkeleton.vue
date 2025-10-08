@@ -1,10 +1,16 @@
 <script lang="ts" setup>
 const isActive = defineModel<boolean>({ default: false });
 
-const { disableInlineBlock = false, pointerdownEvent = true, disabled = false } = defineProps<{
+const {
+  disableInlineBlock = false,
+  pointerdownEvent = true,
+  disabled = false,
+  closeOnClickOutside = true,
+} = defineProps<{
   disabled?: boolean;
   disableInlineBlock?: boolean;
   pointerdownEvent?: boolean;
+  closeOnClickOutside?: boolean;
 }>();
 
 const modal = useTemplateRef('modal');
@@ -34,7 +40,7 @@ const onClose = () => (isActive.value = false);
   <Transition name="modal">
     <Teleport to="body">
       <section v-if="isActive" class="overlay-layout">
-        <div class="backdrop" @click="onClose" />
+        <div class="backdrop" @click="() => closeOnClickOutside && onClose()" />
 
         <div
           class="modal-container"

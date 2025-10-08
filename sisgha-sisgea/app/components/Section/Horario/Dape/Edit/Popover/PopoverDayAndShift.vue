@@ -24,9 +24,9 @@ const inPersonSelectedItem = ref('presencial');
     <UIToggle :items="schoolDayItems" v-model="schoolDaySelectedItem" />
 
     <UIToggle
+      v-if="schoolDaySelectedItem !== 'nao-letivo'"
       v-model="inPersonSelectedItem"
       :items="inPersonDayItems"
-      :disabled="schoolDaySelectedItem === 'nao-letivo'"
     />
   </SectionHorarioDapeEditPopoverEdit>
 </template>
