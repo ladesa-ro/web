@@ -46,20 +46,22 @@ function onEditModalClose() {
 
 <template>
   <div
-    class="flex flex-col h-min border-2 border-ldsa-grey rounded-lg overflow-hidden p-5"
+    class="flex flex-col h-min border-2 border-ldsa-grey rounded-lg overflow-hidden p-3 sm:p-4 md:p-5"
   >
     <!-- Head -->
     <div class="flex justify-between items-center">
       <!-- Color & Name -->
-      <div class="flex gap-2 items-center">
+      <div class="flex gap-1 sm:gap-2 items-center">
         <!-- Color -->
         <div
-          class="w-3 h-3 rounded-full bg-ldsa-green-1"
+          class="rounded-full bg-ldsa-green-1 w-3 h-3"
           :style="{ backgroundColor: props.event.color || '#ddd' }"
         ></div>
 
         <!-- Name -->
-        <h2 class="font-bold">{{ props.event.name }}</h2>
+        <h2 class="font-bold text-sm sm:text-base md:text-lg">
+          {{ props.event.name }}
+        </h2>
       </div>
 
       <!-- Edit Button -->
@@ -74,6 +76,7 @@ function onEditModalClose() {
           editMode: 'events',
         }"
         @refresh="$emit('refresh')"
+        class="flex-shrink-0 min-w-[2.5rem] min-h-[2.5rem] sm:min-w-[3rem] sm:min-h-[3rem]"
       />
     </div>
 
@@ -91,10 +94,10 @@ function onEditModalClose() {
       </li>
     </ul>
 
-    <p class="my-5" v-if="notStarted">
+    <p class="my-2 sm:my-3 md:my-5" v-if="notStarted">
       Começa em <span>{{ remainingDays }}</span> dias.
     </p>
-    <p class="my-5" v-else-if="inProgress">
+    <p class="my-2 sm:my-3 md:my-5" v-else-if="inProgress">
       Termina em <span>{{ remainingDays }}</span> dias.
     </p>
 
