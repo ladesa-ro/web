@@ -22,7 +22,11 @@ const {
   error,
   onBlur,
 } = defineProps<
-  AutocompleteProps & { error?: string | null; onBlur?: () => void }
+  AutocompleteProps & {
+    error?: string | null;
+    onBlur?: () => void;
+    disabled?: boolean;
+  }
 >();
 
 const items = getParsedItems(itemsProps);
@@ -50,7 +54,12 @@ const customError = computed(() =>
 </script>
 
 <template>
-  <AutocompleteRoot v-model="selectedOption" v-model:open="open">
+  <AutocompleteRoot
+    :disabled
+    :class="disabled && 'opacity-90 cursor-not-allowed'"
+    v-model="selectedOption"
+    v-model:open="open"
+  >
     <Anchor
       class="input-base flex justify-between items-center"
       :class="{ 'has-error': customError }"
@@ -75,7 +84,7 @@ const customError = computed(() =>
       </Cancel>
 
       <Trigger class="px-3 py-4 shrink-0">
-        <Arrow :open="open" />
+        <Arrow :disabled :open="open" />
       </Trigger>
     </Anchor>
 

@@ -6,6 +6,7 @@ import type {
   CursoFindOneByIdData,
   CursoListData,
   DisciplinaFindOneByIdData,
+  DisciplinaListData,
   OfertaFormacaoFindOneByIdData,
   OfertaFormacaoListData,
   PerfilListData,
@@ -43,7 +44,7 @@ export const listCursos = (
   apiClient: ApiClient = useApiClient()
 ) =>
   queryOptions({
-    queryKey: ['cursos', 'cursos-list', filter],
+    queryKey: ['curso', 'cursos-list', filter],
     queryFn: async () => await apiClient.cursos.cursoList(unref(filter)),
   });
 
@@ -56,6 +57,15 @@ export const findDisciplinaById = (
   queryOptions({
     queryKey: ['disciplina', 'disciplina::id', id],
     queryFn: async () => await apiClient.disciplinas.disciplinaFindOneById(id),
+  });
+
+export const listDisciplinas = (
+  filter?: DisciplinaListData,
+  apiClient = useApiClient()
+) =>
+  queryOptions({
+    queryKey: ['disciplina', 'disciplinas-list'],
+    queryFn: async () => await apiClient.disciplinas.disciplinaList(filter),
   });
 
 // formações
@@ -75,7 +85,7 @@ export const listOfertasFormacao = (
   apiClient: ApiClient = useApiClient()
 ) =>
   queryOptions({
-    queryKey: ['ofertas-formacao', 'oferta-formacao-list', filter],
+    queryKey: ['oferta-formacao', 'oferta-formacao-list', filter],
     queryFn: async () =>
       await apiClient.ofertasFormacoes.ofertaFormacaoList(unref(filter)),
   });

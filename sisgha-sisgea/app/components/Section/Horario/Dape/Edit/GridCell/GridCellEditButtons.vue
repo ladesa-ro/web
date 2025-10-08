@@ -63,6 +63,8 @@ onMounted(() => {
     const turmaSelected = cell.value.diario.turma;
   }
 });
+
+const turmasOrProfessoresSelected = ref();
 </script>
 
 <template>
@@ -92,6 +94,7 @@ onMounted(() => {
                 value: professor.id,
               }))
             "
+            v-model:selected-option="turmasOrProfessoresSelected"
           />
 
           <span v-else-if="professoresQuery.isLoading"> Carregando... </span>
@@ -112,6 +115,7 @@ onMounted(() => {
                 value: turma.id,
               }))
             "
+            v-model:selected-option="turmasOrProfessoresSelected"
           />
 
           <span v-else-if="professoresQuery.isLoading"> Carregando... </span>
@@ -121,12 +125,15 @@ onMounted(() => {
           </span>
         </template>
 
-        <VVAutocompleteAPIDisciplina name="disciplina.id" />
+        <VVAutocompleteAPIDisciplina
+          :disabled="!turmasOrProfessoresSelected"
+          name="disciplina.id"
+        />
       </template>
     </SectionHorarioDapeEditPopoverEdit>
 
-    <!-- @click.stop="changeCellType('vago')" -->
     <IconsExclude
+      @click.stop="changeCellType('vago')"
       :class="[
         'inline w-4.5 p-0.5 text-ldsa-red hover:bg-ldsa-red/10 rounded',
         cell.type === 'vago' ? 'opacity-0 cursor-default' : 'cursor-pointer',
