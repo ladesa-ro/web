@@ -17,38 +17,69 @@ const props = defineProps<Props>();
 const isLoading = ref(true);
 
 const getEvent = async () => {
-  const checkEvents = await calendarDataMethods.events.getEventByName(
-    props.eventName!,
-    props.calendarId!
-  );
+  if (!props.eventName && !props.eventId) return;
 
-  const checkSteps = await calendarDataMethods.steps.getStepByName(
-    props.eventName!,
-    props.calendarId!
-  );
+  try {
+    let checkEvents = null;
 
-  if (checkEvents) {
-    isEvent.value = true;
-    await setValues({
-      eventName: checkEvents.nome,
-      eventEnvironment: checkEvents.ambiente,
-      eventColor: checkEvents.cor,
-      eventStartDate: dayjs(checkEvents.dataInicio).format('YYYY-MM-DD'), // só a data
-      eventStartHour: dayjs(checkEvents.dataInicio).format('HH:mm'), // só a hora
-      eventEndDate: dayjs(checkEvents.dataFim).format('YYYY-MM-DD'),
-      eventEndHour: dayjs(checkEvents.dataFim).format('HH:mm'),
-    });
-  } else if (checkSteps) {
-    isEvent.value = false;
-    await setValues({
-      eventName: checkSteps.nome,
-      eventColor: checkSteps.cor,
-      eventStartDate: dayjs(checkSteps.dataInicio).format('YYYY-MM-DD'),
-      eventStartHour: '', // vazio, pois não existe
-      eventEndDate: dayjs(checkSteps.dataFim).format('YYYY-MM-DD'),
-      eventEndHour: '', // vazio
-      eventEnvironment: '', // vazio
-    });
+    if (props.eventId) {
+      const events = await calendarDataMethods.events.getEvents(
+        props.calendarId
+      );
+      checkEvents = events.find(e => e.id === props.eventId);
+    } else if (props.eventName) {
+      checkEvents = await calendarDataMethods.events.getEventByName(
+        props.eventName,
+        props.calendarId
+      );
+    }
+
+    const checkSteps = props.eventName
+      ? await calendarDataMethods.steps.getStepByName(
+          props.eventName,
+          props.calendarId
+        )
+      : null;
+
+    if (checkEvents) {
+      isEvent.value = true;
+
+      await setValues({
+        eventName: checkEvents.nome ?? '',
+        eventEnvironment: checkEvents.local ?? '',
+        eventColor: checkEvents.cor ?? '#000000',
+        eventStartDate: checkEvents.data_inicio
+          ? dayjs(checkEvents.data_inicio).format('YYYY-MM-DD')
+          : '',
+        eventStartHour: checkEvents.data_inicio
+          ? dayjs(checkEvents.data_inicio).format('HH:mm')
+          : '',
+        eventEndDate: checkEvents.data_fim
+          ? dayjs(checkEvents.data_fim).format('YYYY-MM-DD')
+          : '',
+        eventEndHour: checkEvents.data_fim
+          ? dayjs(checkEvents.data_fim).format('HH:mm')
+          : '',
+      });
+    } else if (checkSteps) {
+      isEvent.value = false;
+
+      await setValues({
+        eventName: checkSteps.nome,
+        eventColor: checkSteps.cor,
+        eventStartDate: checkSteps.dataInicio
+          ? dayjs(checkSteps.dataInicio).format('YYYY-MM-DD')
+          : '',
+        eventStartHour: '', 
+        eventEndDate: checkSteps.dataFim
+          ? dayjs(checkSteps.dataFim).format('YYYY-MM-DD')
+          : '',
+        eventEndHour: '',
+        eventEnvironment: '',
+      });
+    }
+  } catch (e) {
+    console.error('Erro ao buscar evento:', e);
   }
 };
 
