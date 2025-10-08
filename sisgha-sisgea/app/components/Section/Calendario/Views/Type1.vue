@@ -47,21 +47,28 @@ watch(calendar, async n => {
 </script>
 
 <template>
-  <div class="flex flex-col md:flex-row w-full h-max justify-center gap-6">
+  <div
+    class="flex flex-col md:flex-row w-full h-max justify-center gap-4 md:gap-8"
+  >
     <SectionCalendarioMonth
       ref="monthRef"
       :calendar-id="calendar.id"
       :toggle-month="true"
-      :year="calendar.year! || 0"
+      :year="calendar.year || 0"
       :events="events"
+      class="flex-shrink-0 w-full sm:w-[30.6rem] md:w-[20rem] lg:w-[28rem]"
     />
 
-    <div class="flex flex-col gap-6 w-full overflow-hidden max-w-[600px]">
+    <div
+      class="flex flex-col gap-4 md:gap-6 w-full"
+    >
       <SectionCalendarioEvent
         v-for="event in events"
+        :key="event.id"
         :event="event"
         :calendarId="calendar.id || ''"
         @refresh="refreshEvents"
+        class="p-3 md:p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all"
       />
     </div>
   </div>
