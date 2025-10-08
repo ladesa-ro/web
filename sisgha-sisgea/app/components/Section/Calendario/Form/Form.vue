@@ -2,8 +2,7 @@
 // # IMPORT
 import IconCalendar from '@/components/Icons/Calendar/Calendar.vue';
 import IconEvent from '@/components/Icons/Event.vue';
-import { watch, nextTick, ref } from 'vue';
-import Advance from '~/components/UI/Button/Modal/Advance.vue';
+import { nextTick, ref, watch } from 'vue';
 
 // # CODE
 type Props = {
@@ -119,7 +118,11 @@ watch(
 
 <template>
   <form @submit.prevent="onSubmit">
-    <DialogModalBaseLayout :on-close="onClose" :title="modalTitle" class="min-w-[550px]">
+    <DialogModalBaseLayout
+      :on-close="onClose"
+      :title="modalTitle"
+      class="min-w-[550px]"
+    >
       <!-- Choose Register -->
       <div v-show="stage === 0 && !props.editMode" class="flex flex-row gap-4">
         <SectionCalendarioUICardOption
@@ -171,9 +174,17 @@ watch(
         />
         <UIButtonModalDelete
           v-show="props.editMode"
-          @click.prevent=""
+          @click.prevent="
+            async () => {
+              if (await eventCrudRef.value?.deleteEvent()) {
+                $emit('refresh');
+                onClose();
+              }
+            }
+          "
           class="flex w-full"
         />
+
         <UIButtonModalAdvance
           v-if="stage < stages.length && stage > 0 && registerType !== 'events'"
           @click.prevent="formStage('next')"

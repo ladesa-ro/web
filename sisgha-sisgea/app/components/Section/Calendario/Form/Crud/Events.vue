@@ -126,6 +126,18 @@ const validateEventCrud = async (): Promise<boolean> => {
   }
 };
 
+const deleteEvent = async (): Promise<boolean> => {
+  if (!isEvent.value || !props.eventName) return false;
+
+  try {
+    await calendarDataMethods.events.deleteEvent(props.eventName);
+    return true;
+  } catch (e) {
+    console.error('Erro ao deletar evento:', e);
+    return false;
+  }
+};
+
 const formReady = ref(false);
 
 onMounted(async () => {
@@ -153,7 +165,7 @@ const fillForm = async () => {
   }
 };
 
-defineExpose({ validateEventCrud, fillForm });
+defineExpose({ validateEventCrud, fillForm, deleteEvent });
 </script>
 
 <template>
