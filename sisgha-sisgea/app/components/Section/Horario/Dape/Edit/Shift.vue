@@ -78,7 +78,7 @@ defineEmits(['atividade-change']);
     ref="shift"
     class="flex flex-col justify-start translate-z-0 will-change-transform w-44 p-0 min-h-[1.4375rem]"
   >
-    <SectionHorarioDapeEditCell
+    <SectionHorarioDapeEditGridCell
       v-for="(horario, index) in shiftSchedule"
       :key="horario.id"
       :cellIndex="index"

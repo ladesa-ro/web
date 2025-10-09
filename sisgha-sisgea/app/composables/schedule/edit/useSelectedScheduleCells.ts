@@ -1,4 +1,4 @@
-import type { ShiftName, WeekSchedule } from '../useScheduleTypes';
+import type { Shift, ShiftName, ShiftWhithoutInfo, WeekSchedule } from '../useScheduleTypes';
 import type { Cell } from './useScheduleEditTypes';
 
 const selectedCells = ref(new Set<ActiveCell>());
@@ -77,7 +77,7 @@ const shiftNames: ShiftName[] = ['morning', 'afternoon', 'night'];
 export const getActiveCellInfo = (
   weekSchedule: WeekSchedule,
   activeCell: ActiveCell
-): { cell: Cell; shift: Cell[]; shiftName: ShiftName } | null => {
+): { cell: Cell; shift: ShiftWhithoutInfo; shiftName: ShiftName } | null => {
   const day = weekSchedule[activeCell.date];
 
   const shiftName = shiftNames[activeCell.shiftIndex];
@@ -88,9 +88,9 @@ export const getActiveCellInfo = (
     return null;
   }
 
-  const shift = day[shiftName];
+  const shift: ShiftWhithoutInfo = day.daySchedule[shiftName];
 
-  const cell = shift.find(cell => cell.id === activeCell.id);
+  const cell = shift.shiftSchedule.find(cell => cell.id === activeCell.id);
 
   if (!cell) {
     console.warn('cell =', JSON.stringify(cell));

@@ -26,7 +26,9 @@ export const replaceCell = (weekSchedule: Ref<WeekSchedule>): boolean => {
   const cellBIndex = cellB.cell.cellIndex!;
   const bDate = cellB.cell.date.format('YYYY-MM-DD');
 
-  weekSchedule.value[bDate]![cellB.shiftName][cellBIndex] = {
+  weekSchedule.value[bDate]!.daySchedule[cellB.shiftName].shiftSchedule[
+    cellBIndex
+  ] = {
     ...cellACopy,
     id: crypto.randomUUID?.() ?? cellACopy.id,
     date: cellB.cell.date,
@@ -42,7 +44,7 @@ export const replaceCell = (weekSchedule: Ref<WeekSchedule>): boolean => {
   const cellAIndex = cellA.cell.cellIndex!;
   const aDate = cellA.cell.date.format('YYYY-MM-DD');
 
-  weekSchedule.value[aDate]![cellA.shiftName][cellAIndex] = {
+  weekSchedule.value[aDate]!.daySchedule[cellA.shiftName].shiftSchedule[cellAIndex] = {
     type: 'vago',
     id: crypto.randomUUID?.() ?? `${cellACopy.id}-vago`,
     date: cellA.cell.date,

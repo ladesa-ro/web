@@ -9,11 +9,13 @@ import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 import type {
   DayInShifts,
+  Shift,
   ShiftName,
   WeekSchedule,
-  WeekScheduleHistory,
 } from '~/composables/schedule/useScheduleTypes';
 import { capitalizeFirst } from '../../-Helpers/CapitalizeFirst';
+import { getRowShiftName, shiftNames } from './-Helpers/getRowShiftName';
+import { getAllStartHours, getEmptyShift } from './-Helpers/turnGridPrettier';
 
 const props = defineProps<{
   editMode?: boolean;
@@ -23,6 +25,8 @@ const props = defineProps<{
 const showBreaks = computed(() => (props.editMode ? false : props.showBreaks));
 
 provide('showBreaks', showBreaks);
+
+//
 
 watch(
   () => props.editMode,
@@ -38,8 +42,6 @@ const weekSchedule = defineModel<WeekSchedule>({
   default: {},
 });
 
-//
-
 const weekdayNames = Object.keys(weekSchedule.value);
 
 //
@@ -52,8 +54,10 @@ let cleanup = () => {};
 
 function initMonitor() {
   // limpa monitor antigo, se houver
-  try { cleanup(); } catch (e) {}
-    cleanup = monitorForElements({
+  try {
+    cleanup();
+  } catch (e) {}
+  cleanup = monitorForElements({
     canMonitor: ({ source }) =>
       source.data.dndType === 'cellDraggable' && props.editMode,
 
@@ -84,11 +88,13 @@ function initMonitor() {
         .id as number;
 
       // : Cell[] | undefined
-      const startShift: Cell[] | undefined = Object.values(
-        startDaySchedule
-      ).find(shift => shift.some(cell => cell.shiftIndex === startShiftId));
+      const startShift: Shift | undefined = Object.values(
+        startDaySchedule.daySchedule
+      ).find(shift =>
+        shift.shiftSchedule.some(cell => cell.shiftIndex === startShiftId)
+      );
 
-      let finishShift: Cell[] | undefined;
+      let finishShift: Shift | undefined;
 
       if (startShiftId != finishShiftId) {
         const finishDaySchedule: DayInShifts | undefined =
@@ -99,10 +105,10 @@ function initMonitor() {
           return;
         }
 
-        finishShift = Object.values(finishDaySchedule).find(
+        finishShift = Object.values(finishDaySchedule.daySchedule).find(
           shift =>
-            Array.isArray(shift) &&
-            shift.some(cell => cell.shiftIndex === finishShiftId)
+            Array.isArray(shift.shiftSchedule) &&
+            shift.shiftSchedule.some(cell => cell.shiftIndex === finishShiftId)
         );
       } else {
         finishShift = startShift;
@@ -114,8 +120,8 @@ function initMonitor() {
         return;
       }
 
-      const startIndex = startShift.findIndex(
-        shift => shift.id === args.source.data.id
+      const startIndex = startShift.shiftSchedule.findIndex(
+        cell => cell.id === args.source.data.id
       );
 
       const closestEdge = extractClosestEdge(dropTarget.data);
@@ -126,8 +132,8 @@ function initMonitor() {
         return;
       }
 
-      const indexOfTarget = finishShift.findIndex(
-        horario => horario.id === dropTarget.data.id
+      const indexOfTarget = finishShift.shiftSchedule.findIndex(
+        cell => cell.id === dropTarget.data.id
       );
 
       if (indexOfTarget === -1) {
@@ -136,7 +142,7 @@ function initMonitor() {
       }
 
       if (startShiftId != finishShiftId) {
-        const draggedItem: Cell | undefined = startShift.splice(
+        const draggedItem: Cell | undefined = startShift.shiftSchedule.splice(
           startIndex,
           1
         )[0];
@@ -148,29 +154,32 @@ function initMonitor() {
 
         draggedItem.shiftIndex = finishShiftId;
 
-        finishShift.splice(indexOfTarget, 0, draggedItem);
+        finishShift.shiftSchedule.splice(indexOfTarget, 0, draggedItem);
       }
       //
       else {
-        const shiftName: ShiftName | undefined = Object.keys(startDaySchedule)[
-          startShiftId
-        ] as ShiftName;
+        const shiftName: ShiftName | undefined = Object.keys(
+          startDaySchedule.daySchedule
+        )[startShiftId] as ShiftName;
 
         if (!shiftName) {
           console.warn('shiftName = ' + shiftName);
           return;
         }
 
-        startDaySchedule[shiftName] = reorderWithEdge({
-          list: startShift,
-          startIndex,
-          indexOfTarget,
-          closestEdgeOfTarget: closestEdge,
-          axis: 'vertical',
-        });
+        startDaySchedule.daySchedule[shiftName].shiftSchedule = reorderWithEdge(
+          {
+            list: startShift.shiftSchedule,
+            startIndex,
+            indexOfTarget,
+            closestEdgeOfTarget: closestEdge,
+            axis: 'vertical',
+          }
+        );
       }
 
-      weekSchedule.value[weekdayNames[startDayScheduleId]!] = startDaySchedule;
+      weekSchedule.value[weekdayNames[startDayScheduleId]!]!.daySchedule =
+        startDaySchedule.daySchedule;
 
       emit('commit-history');
     },
@@ -179,7 +188,6 @@ function initMonitor() {
 
 onMounted(() => {
   initMonitor();
-
 });
 
 onUnmounted(() => {
@@ -196,26 +204,21 @@ watch(
 
 //
 
-const shiftNames: (keyof DayInShifts)[] = ['morning', 'afternoon', 'night'];
-
-const getRowShiftName = (rowShift: string) => {
-  switch (rowShift) {
-    case 'morning':
-      return 'Matutino';
-    case 'afternoon':
-      return 'Vespertino';
-    case 'night':
-      return 'Noturno';
-  }
-};
-
 const dayjs = useDayJs();
+
+//
+
+const startHours = ref(getAllStartHours(weekSchedule.value));
+
+onMounted(() => {
+  startHours.value = getAllStartHours(weekSchedule.value);
+});
 </script>
 
 <template>
   <div class="w-max mx-auto">
     <div class="grid grid-cols-6 ml-[6.313rem] mr-0.5 mb-3">
-      <SectionHorarioDapeEditDayAndShiftPopover
+      <SectionHorarioDapeEditPopoverDayAndShift
         v-for="(_, date) of weekSchedule"
         :disabled="!editMode"
       >
@@ -227,7 +230,7 @@ const dayjs = useDayJs();
           -
           {{ dayjs(date).format('DD/MM') }}
         </div>
-      </SectionHorarioDapeEditDayAndShiftPopover>
+      </SectionHorarioDapeEditPopoverDayAndShift>
     </div>
 
     <div
@@ -235,12 +238,12 @@ const dayjs = useDayJs();
       :key="rowShift"
       class="flex justify-center mb-4 last:mb-0"
     >
-      <SectionHorarioDapeEditDayAndShiftPopover
+      <SectionHorarioDapeEditPopoverDayAndShift
         class="bg-ldsa-green-1 border-r-2 border-ldsa-green-1 brightness-100"
         :class="[
           editMode && 'hover:bg-ldsa-green-1/85 hover:border-transparent',
           rowShiftIndex === 0 && 'rounded-tl-lg',
-          rowShiftIndex === 2 && 'rounded-bl-lg',
+          rowShiftIndex === shiftNames.length - 1 && 'rounded-bl-lg',
         ]"
         :disabled="!editMode"
       >
@@ -249,7 +252,7 @@ const dayjs = useDayJs();
         >
           {{ getRowShiftName(rowShift) }}
         </div>
-      </SectionHorarioDapeEditDayAndShiftPopover>
+      </SectionHorarioDapeEditPopoverDayAndShift>
 
       <div
         class="grid grid-cols-[auto_repeat(6,1fr)] place-items-center border-2 border-ldsa-green-1 border-l-0 py-2 px-4 gap-4"
@@ -259,44 +262,64 @@ const dayjs = useDayJs();
         ]"
       >
         <div class="flex flex-col w-10 h-full justify-start text-center">
-          <!-- TODO: pegar os horários do array de tempos de aula -->
-          <span
-            v-for="(cell, cellIndex) in weekSchedule[weekdayNames[0]!]![
-              rowShift
-            ]"
-            :key="cellIndex"
-            v-show="
-              showBreaks ? true : cell.type === 'aula' || cell.type === 'vago'
-            "
-            class="border-b-ldsa-text-default/65 text-[0.813rem] font-medium last:border-b-transparent not-last:border-b-[0.119565rem] border-t-solid border-t-transparent last:mb-[1.5px] flex-1 flex items-center justify-center"
-            :class="
-              cell.type !== 'aula' &&
-              cell.type !== 'vago' &&
-              'bg-ldsa-grey/20 text-ldsa-text-default/50'
-            "
-          >
-            {{ cell.startHour.format('hh:mm') }}
-          </span>
+          <template v-for="(hour, hourIndex) in startHours" :key="hourIndex">
+            <span
+              v-if="
+                rowShiftIndex === parseInt(hour[hour.length - 1] ?? '0') &&
+                !hour.includes('undefined')
+              "
+              v-show="showBreaks ? true : !hour.includes('intervalo')"
+              class="border-b-ldsa-text-default/65 text-[0.813rem] font-medium last:border-b-transparent not-last:border-b-[0.119565rem] border-t-solid border-t-transparent last:mb-[1.5px] flex-1 flex items-center justify-center"
+              :class="
+                hour.includes('intervalo') &&
+                'bg-ldsa-grey/20 text-ldsa-text-default/50'
+              "
+            >
+              {{ hour.substring(0, 5) }}
+            </span>
+          </template>
         </div>
 
         <template v-for="(day, _, dayIndex) of weekSchedule" :key="dayIndex">
           <template
-            v-for="(_, shiftName) in Object.fromEntries(
-              Object.entries(day).filter(([key]) => key === rowShift)
+            v-for="(shift, shiftName) in Object.fromEntries(
+              Object.entries(day.daySchedule).filter(
+                ([key]) => key === rowShift
+              )
             )"
             :key="shiftName"
           >
             <SectionHorarioDapeEditShift
+              v-if="shift.shiftSchedule.length > 0"
               :dayIndex
               :shiftIndex="
                 shiftNames.findIndex(turnName => turnName === shiftName)
               "
               :editMode
               v-model="
-                weekSchedule[weekdayNames[dayIndex]!]![shiftName as ShiftName]
+                weekSchedule[weekdayNames[dayIndex]!]!.daySchedule[
+                  shiftName as ShiftName
+                ].shiftSchedule
               "
               @atividade-change="emit('commit-history')"
             />
+
+            <div
+              class="flex flex-col w-full"
+              :class="editMode && 'opacity-30'"
+              v-else
+            >
+              <SectionHorarioDapeEditGridCellNonEditable
+                v-for="(cell, cellIndex) in getEmptyShift(
+                  weekSchedule,
+                  dayIndex,
+                  shiftNames.findIndex(turnName => turnName === shiftName)
+                )"
+                :key="cellIndex"
+                :showBreaks
+                :type="cell.type"
+              />
+            </div>
           </template>
         </template>
       </div>

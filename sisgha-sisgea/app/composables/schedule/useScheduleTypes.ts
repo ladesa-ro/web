@@ -1,4 +1,4 @@
-import type { UseManualRefHistoryReturn, UseRefHistoryReturn } from '@vueuse/core';
+import type { UseManualRefHistoryReturn } from '@vueuse/core';
 import type { Dayjs } from 'dayjs';
 import type { Cell } from './edit/useScheduleEditTypes';
 
@@ -7,6 +7,8 @@ import type { Cell } from './edit/useScheduleEditTypes';
 export type TimeSlot = { startHour: string; endHour: string };
 
 export type TimeSlotObj = Record<string, TimeSlot[]>;
+
+export type WeekdayInfo = { date: string; weekday: string };
 
 export type TimeSlots = Map<WeekdayInfo, TimeSlot[]>;
 
@@ -86,26 +88,27 @@ export type HorString = Horario & {
 
 export type ShiftName = 'morning' | 'afternoon' | 'night';
 
-export type DayInShifts = Record<ShiftName, Cell[]>;
-
 //
 
-export type WeekdayInfo = { date: string; weekday: string };
+type ScheduleInfo = { letivo: boolean; modalidade: string };
 
-// type WeekdayName =
-//   | 'segunda'
-//   | 'terca'
-//   | 'quarta'
-//   | 'quinta'
-//   | 'sexta'
-//   | 'sabado'
-//   | 'domingo';
+export type Shift = { shiftInfo: ScheduleInfo; shiftSchedule: Cell[] };
+
+export type DayInShifts = {
+  dayInfo: ScheduleInfo;
+  daySchedule: Record<ShiftName, Shift>;
+};
 
 export type WeekSchedule = Record<string, DayInShifts>;
 
 export type WeekScheduleHistory = UseManualRefHistoryReturn<unknown, unknown>;
 
-// export type WeekEditableScheduleHistory = UseRefHistoryReturn<
-//   WeekScheduleEditable,
-//   WeekScheduleEditable
-// >;
+//
+
+export type ShiftWhithoutInfo = Omit<Shift, 'shiftInfo'>;
+
+export type DayInShiftsWithoutInfo = {
+  daySchedule: Record<ShiftName, ShiftWhithoutInfo>;
+};
+
+export type WeekScheduleWhithoutInfo = Record<string, DayInShiftsWithoutInfo>;

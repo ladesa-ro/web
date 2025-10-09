@@ -27,8 +27,8 @@ export const convertDayJsToString = (
   const baseReturn = {
     ...horario,
     date: horario.date!.format('YYYY-MM-DD'),
-    startHour: horario.startHour.format('hh:mm'),
-    endHour: horario.endHour.format('hh:mm'),
+    startHour: horario.startHour.format('HH:mm'),
+    endHour: horario.endHour.format('HH:mm'),
   } as Horario & HorString;
 
   if (horario.type === 'transicaoDia') {

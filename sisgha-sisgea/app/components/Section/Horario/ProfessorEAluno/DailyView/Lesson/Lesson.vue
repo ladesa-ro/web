@@ -32,11 +32,11 @@ const showCampus = computed(() => {
   <div :class="{ completed: variant === 'completed' }" class="lesson">
     <section class="flex flex-col justify-between">
       <slot>
-        <SectionHorarioDailyViewLessonTeacherView
+        <SectionHorarioProfessorEAlunoDailyViewLessonTeacherView
           v-if="viewFor === 'teacher'"
         />
 
-        <SectionHorarioDailyViewLessonStudentView
+        <SectionHorarioProfessorEAlunoDailyViewLessonStudentView
           v-else-if="viewFor === 'student'"
         />
 
@@ -44,7 +44,7 @@ const showCampus = computed(() => {
         <LessonInfoEnvironment :show-campus="showCampus" />
 
         <!--horário-->
-        <SectionHorarioDailyViewLessonInfoTime />
+        <SectionHorarioProfessorEAlunoDailyViewLessonInfoTime />
       </slot>
     </section>
 
@@ -65,8 +65,6 @@ const showCampus = computed(() => {
 .icon {
   @apply max-w-5.5 lg:max-w-7 shrink-0 text-ldsa-text-green;
 }
-
-/* --- */
 
 .completed {
   @apply border-ldsa-grey/75 text-ldsa-grey font-normal;
