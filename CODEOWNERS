@@ -1,7 +1,16 @@
-Dockerfile                          @ladesa-ro/security
 CODEOWNERS                          @ladesa-ro/security
+Dockerfile                          @ladesa-ro/security
 
 .github/**/*                        @ladesa-ro/security
+.husky/**/*                         @ladesa-ro/security
 
-.husky/**/*                        @ladesa-ro/security
-package.json                       @ladesa-ro/security
+.vscode/**/*                        @ladesa-ro/security
+k8s/**/*                            @ladesa-ro/security @ladesa-ro/devops
+
+.dockerignore                       @ladesa-ro/security
+.gitignore                          @ladesa-ro/security
+.npmrc                               @ladesa-ro/security
+
+package.json                        @ladesa-ro/security
+pnpm*                               @ladesa-ro/security
+
