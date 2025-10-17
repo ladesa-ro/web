@@ -64,15 +64,15 @@ export const swapCells = (weekSchedule: Ref<WeekSchedule>): boolean => {
   tempB.startHour = cellA.cell.startHour;
   tempB.endHour = cellA.cell.endHour;
 
-  shiftA[cellIndexA] = tempB;
-  shiftB[cellIndexB] = tempA;
+  shiftA.shiftSchedule[cellIndexA] = tempB;
+  shiftB.shiftSchedule[cellIndexB] = tempA;
 
-  weekSchedule.value[cellA.cell.date.format('YYYY-MM-DD')]![cellA.shiftName] = [
-    ...shiftA,
+  weekSchedule.value[cellA.cell.date.format('YYYY-MM-DD')]!.daySchedule[cellA.shiftName].shiftSchedule = [
+    ...shiftA.shiftSchedule,
   ];
 
-  weekSchedule.value[cellB.cell.date.format('YYYY-MM-DD')]![cellB.shiftName] = [
-    ...shiftB,
+  weekSchedule.value[cellB.cell.date.format('YYYY-MM-DD')]!.daySchedule[cellB.shiftName].shiftSchedule = [
+    ...shiftB.shiftSchedule,
   ];
 
   useSelectedCells({ action: 'removeAll' });

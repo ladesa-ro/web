@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
-  handleConfirmButtonClick: any ;
+  handleConfirmButtonClick: (args?: any) => void;
+  changeActivityValue?: 'aula' | 'vago';
   disableConfirmButton?: boolean;
 }>();
 
@@ -14,7 +15,7 @@ const open = defineModel<boolean>();
     </template>
 
     <div
-      class="flex flex-col gap-3 border-2 border-ldsa-green-1 rounded-lg p-2.5 bg-ldsa-bg"
+      class="flex flex-col gap-4 border-2 border-ldsa-green-1 rounded-lg p-2.5 bg-ldsa-bg sm:w-76"
     >
       <slot />
 
@@ -26,7 +27,9 @@ const open = defineModel<boolean>();
           :disabled="disableConfirmButton"
           @click="
             () => {
-              handleConfirmButtonClick();
+              if (changeActivityValue) {
+                handleConfirmButtonClick(changeActivityValue);
+              }
               open = !open;
             }
           "

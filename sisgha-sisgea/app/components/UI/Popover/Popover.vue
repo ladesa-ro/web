@@ -23,7 +23,21 @@ const open = defineModel({ required: false, default: false });
 const content = useTemplateRef<HTMLElement | null>('content');
 const trigger = useTemplateRef<HTMLElement | null>('trigger');
 
-onClickOutside(content, () => (open.value = false), { ignore: [trigger] });
+onClickOutside(
+  content,
+  event => {
+    const target = event.target as HTMLElement;
+
+    const isAutocomplete = !!target.closest(
+      '.reka-combobox-content, .reka-combobox-item, [role="option"], [data-reka-combobox-item]'
+    );
+
+    if (isAutocomplete) return;
+
+    open.value = false;
+  },
+  { ignore: [trigger] }
+);
 </script>
 
 <template>

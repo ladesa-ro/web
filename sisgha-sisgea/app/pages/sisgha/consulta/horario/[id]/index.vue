@@ -8,5 +8,5 @@ const turmaId = useRoute().params.id;
 </script>
 
 <template>
-  <SectionHorario />
+  <SectionHorarioProfessorEAlunoHorario />
 </template>

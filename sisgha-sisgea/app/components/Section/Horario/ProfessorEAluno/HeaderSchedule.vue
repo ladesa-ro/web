@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import IconClock from '~/components/Icons/Clock.vue';
 import IconMoreItems from '~/components/Icons/MoreItems.vue';
-import { capitalizeFirst } from './-Helpers/CapitalizeFirst';
-import { getWeekDays } from './-Helpers/GetWeekDays';
+import { capitalizeFirst } from '../-Helpers/CapitalizeFirst';
+import { getWeekDays } from '../-Helpers/GetWeekDays';
 
 // set month and week
 const selectedDay = useCurrentDay();
