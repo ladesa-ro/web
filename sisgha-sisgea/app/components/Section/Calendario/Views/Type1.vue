@@ -19,12 +19,15 @@ let calendar = toRef(props, 'calendarData');
 let events = ref<CalendarEvent[]>([]);
 
 async function setMonth(c: CalendarData) {
-  const getSteps: Array<CalendarEvent> =
-    await calendarDataMethods.steps.getSteps(c.id!);
-  const getEvents: Array<CalendarEvent> =
-    await calendarDataMethods.events.getEvents(c.id!);
+  const getSteps = await calendarDataMethods.steps.getSteps(calendar.value.id);
+  const getEvents = await calendarDataMethods.events.getEvents(
+    calendar.value.id
+  );
 
-  events.value = getSteps.concat(getEvents);
+  events.value = Array.from(
+    new Map([...getSteps, ...getEvents].map(e => [e.id, e])).values()
+  );
+
   // events.value = events.value.filter(item => dayjs(item.startDate).month() === month);
 
   // Ordering List
@@ -35,7 +38,11 @@ async function setMonth(c: CalendarData) {
 
 async function refreshEvents() {
   if (calendar.value?.id) {
-    await setMonth(calendar.value);
+    const steps = await calendarDataMethods.steps.getSteps(calendar.value.id);
+    const evs = await calendarDataMethods.events.getEvents(calendar.value.id);
+    events.value = Array.from(
+      new Map([...steps, ...evs].map(e => [e.id, e])).values()
+    );
   }
 }
 
@@ -59,9 +66,7 @@ watch(calendar, async n => {
       class="flex-shrink-0 w-full sm:w-[30.6rem] md:w-[20rem] lg:w-[28rem]"
     />
 
-    <div
-      class="flex flex-col gap-4 md:gap-6 w-full"
-    >
+    <div class="flex flex-col gap-4 md:gap-6 w-full">
       <SectionCalendarioEvent
         v-for="event in events"
         :key="event.id"

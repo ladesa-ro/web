@@ -35,6 +35,8 @@ let monthDays = ref<Day[]>();
 
 // Set Month
 async function setMonthDays() {
+  if (!_events.value) _events.value = [];
+
   monthDays.value = await renderDays.MonthDays(
     props.year,
     currentMonth.value,
@@ -61,10 +63,12 @@ onMounted(async () => {
 
 watch(
   () => props.events,
-  e => {
-    _events.value.splice(0, _events.value.length);
-    _events.value.concat(e);
-  }
+  newEvents => {
+    _events.value = Array.from(new Map(newEvents.map(e => [e.id, e])).values());
+
+    setMonthDays().catch(console.error);
+  },
+  { deep: true, immediate: true }
 );
 </script>
 
@@ -73,10 +77,14 @@ watch(
     class="flex flex-col border-2 border-ldsa-grey rounded-lg overflow-hidden h-min"
   >
     <!-- Month Head -->
-    <div class="flex w-full justify-between items-center bg-ldsa-grey/60 p-2 xs:p-4 md:p-4">
+    <div
+      class="flex w-full justify-between items-center bg-ldsa-grey/60 p-2 xs:p-4 md:p-4"
+    >
       <UIButtonArrow @click="toggleMonth(-1)" v-show="props.toggleMonth" />
 
-      <h2 class="text-ldsa-white uppercase text-center w-full font-bold text-xs sm:text-sm md:text-base lg:text-lg">
+      <h2
+        class="text-ldsa-white uppercase text-center w-full font-bold text-xs sm:text-sm md:text-base lg:text-lg"
+      >
         {{ dayjs(`${props.year}-${currentMonth}-01`).format('MMMM') }}
       </h2>
 
@@ -88,7 +96,9 @@ watch(
     </div>
 
     <!-- Days of Month -->
-    <div class="grid p-2 xs:p-4 sm:p-2 md:p-4 gap-1 sm:gap-2 md:gap-4 grid-cols-7 place-items-center">
+    <div
+      class="grid p-2 xs:p-4 sm:p-2 md:p-4 gap-1 sm:gap-2 md:gap-4 grid-cols-7 place-items-center"
+    >
       <!-- Name Columns -->
       <p class="font-semibold text-center text-xs" v-for="item of weekDays">
         {{ item }}

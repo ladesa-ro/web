@@ -26,12 +26,14 @@ let toggleView = ref<number>(0);
 const toggleItems = [{ text: 'Eventos', value: 0, icon: IconsCalendarItems }];
 
 async function loadEvents() {
-  const getSteps: Array<CalendarEvent> =
-    await calendarDataMethods.steps.getSteps(props.calendarId!);
-  const getEvents: Array<CalendarEvent> =
-    await calendarDataMethods.events.getEvents(props.calendarId!);
+  const getSteps = await calendarDataMethods.steps.getSteps(props.calendarId!);
+  const getEvents = await calendarDataMethods.events.getEvents(
+    props.calendarId!
+  );
 
-  events.value = getSteps.concat(getEvents);
+  events.value = Array.from(
+    new Map([...getSteps, ...getEvents].map(e => [e.id, e])).values()
+  );
 
   events.value.sort(
     (a, b) => dayjs(a.startDate).valueOf() - dayjs(b.startDate).valueOf()
@@ -42,7 +44,6 @@ async function loadEvents() {
 if (props.calendarId) {
   await loadEvents();
 }
-
 </script>
 
 <template>

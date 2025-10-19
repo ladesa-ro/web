@@ -296,29 +296,22 @@ export const calendarDataMethods = {
       color: string,
       start: { date: string; hour?: string },
       end: { date: string; hour?: string },
-      calendarId: string
-    ): Promise<void> {
+      calendarId: string,
+      localArray?: CalendarEvent[]
+    ): Promise<CalendarEvent | null> {
       try {
         const userTz = dayjs.tz.guess();
 
         const formattedDates = {
           startDate: start.hour
-            ? dayjs(`${start.date} ${start.hour}:00`, 'YYYY-MM-DD HH:mm:ss')
-                .tz(userTz)
-                .format()
-            : dayjs(`${start.date} 00:00:00`, 'YYYY-MM-DD HH:mm:ss')
-                .tz(userTz)
-                .format(),
+            ? dayjs(`${start.date} ${start.hour}:00`).tz(userTz).format()
+            : dayjs(`${start.date} 00:00:00`).tz(userTz).format(),
           endDate: end.hour
-            ? dayjs(`${end.date} ${end.hour}:00`, 'YYYY-MM-DD HH:mm:ss')
-                .tz(userTz)
-                .format()
-            : dayjs(`${end.date} 00:00:00`, 'YYYY-MM-DD HH:mm:ss')
-                .tz(userTz)
-                .format(),
+            ? dayjs(`${end.date} ${end.hour}:00`).tz(userTz).format()
+            : dayjs(`${end.date} 00:00:00`).tz(userTz).format(),
         };
 
-        await getApiClient().eventos.eventoCreate({
+        const createdEvent = await getApiClient().eventos.eventoCreate({
           requestBody: {
             nome: name,
             rrule: '',
@@ -328,11 +321,30 @@ export const calendarDataMethods = {
             data_fim: formattedDates.endDate,
           },
         });
+
+        const newEvent: CalendarEvent = {
+          id: createdEvent.id,
+          name,
+          color,
+          startDate: formattedDates.startDate,
+          endDate: formattedDates.endDate,
+          calendar: { id: calendarId },
+        };
+
+        if (localArray && !localArray.some(e => e.id === newEvent.id)) {
+          localArray.push(newEvent);
+        }
+
+        return newEvent;
       } catch (e) {
         console.error(`Erro: ${e}`);
+        return null;
       }
     },
-    async putEvent(event: CalendarEvent): Promise<void> {
+    async putEvent(
+      event: CalendarEvent,
+      localArray?: CalendarEvent[]
+    ): Promise<void> {
       try {
         await getApiClient().eventos.eventoUpdateOneById({
           id: event.id,
@@ -344,6 +356,15 @@ export const calendarDataMethods = {
             calendario: { id: event.calendar!.id },
           },
         });
+
+        if (localArray) {
+          const index = localArray.findIndex(e => e.id === event.id);
+          if (index !== -1) {
+            localArray[index] = event;
+          } else {
+            localArray.push(event);
+          }
+        }
       } catch (e) {
         console.error('Erro updateEvent: ', e);
       }
