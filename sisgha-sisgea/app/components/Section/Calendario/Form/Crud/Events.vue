@@ -70,7 +70,7 @@ const getEvent = async () => {
         eventStartDate: checkSteps.dataInicio
           ? dayjs(checkSteps.dataInicio).format('YYYY-MM-DD')
           : '',
-        eventStartHour: '', 
+        eventStartHour: '',
         eventEndDate: checkSteps.dataFim
           ? dayjs(checkSteps.dataFim).format('YYYY-MM-DD')
           : '',
@@ -168,13 +168,25 @@ const validateEventCrud = async (): Promise<boolean> => {
 };
 
 const deleteEvent = async (): Promise<boolean> => {
-  if (!isEvent.value || !props.eventName) return false;
+  if (!isEvent.value || !props.eventName) {
+    console.warn('⚠️ Falta eventName para deletar');
+    return false;
+  }
 
   try {
-    await calendarDataMethods.events.deleteEvent(props.eventName);
+    const event = await calendarDataMethods.events.getEventByName(
+      props.eventName,
+      props.calendarId
+    );
+    if (!event?.id) {
+      console.warn('⚠️ Evento não encontrado para deletar');
+      return false;
+    }
+
+    await calendarDataMethods.events.deleteEvent(event.id);
     return true;
   } catch (e) {
-    console.error('Erro ao deletar evento:', e);
+    console.error('Erro deleteEvent:', e);
     return false;
   }
 };
