@@ -6,12 +6,13 @@ import {
 import dayjs from 'dayjs';
 import { ref } from 'vue';
 import { calendarDataMethods } from '../CalendarDataMethods';
-import type { CalendarEvent } from '../Types';
+import type { CalendarData, CalendarEvent } from '../Types';
 
 // # CODE
 type Props = {
   year: number;
   calendarId: string;
+  calendarData: CalendarData;
 };
 
 const props = defineProps<Props>();
@@ -56,8 +57,10 @@ function fecharModal() {
     <UIButtonEventsList @open="showEventModal = true" />
     <DialogSkeleton v-model="showEventModal">
       <SectionCalendarioFormCrudEventsList
-        :events="events"
-        :onClose="fecharModal"
+        v-if="showEventModal"
+        :calendar-data="props.calendarData"
+        @close="fecharModal"
+        @refresh="$emit('refresh')"
       />
     </DialogSkeleton>
     <div class="flex flex-wrap w-full h-max justify-center gap-6">

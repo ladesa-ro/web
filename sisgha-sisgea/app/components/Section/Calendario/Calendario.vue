@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 // # IMPORT
-import { SectionCalendarioForm, UIButtonSearch } from '#components';
+import { SectionCalendarioForm } from '#components';
 import IconCompleteCalendar from '@/components/Icons/Calendar/CompleteCalendar.vue';
 import IconPartialCalendar from '@/components/Icons/Calendar/PartialCalendar.vue';
 import dayjs from 'dayjs';
@@ -64,7 +64,7 @@ onMounted(async () => {});
           :form-component="SectionCalendarioForm"
           :form-props="{ calendarId: selectedCalendar.id }"
           @refresh="$emit('refresh')"
-        />        
+        />
       </div>
     </div>
 
@@ -82,6 +82,7 @@ onMounted(async () => {});
       />
       <SectionCalendarioViewsType2
         v-if="selectedCalendar && toggleView === 1"
+        :calendar-data="selectedCalendar"
         :calendar-id="selectedCalendar.id"
         :year="selectedCalendar.year || 0"
       />
