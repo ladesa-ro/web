@@ -24,6 +24,14 @@ const showEventModal = ref(false);
 
 const isViewEventsModalOpen = ref(false);
 
+const monthPairs = computed(() => {
+  const pairs: number[][] = [];
+  for (let i = 0; i < months.length; i += 2) {
+    pairs.push(months.slice(i, i + 2));
+  }
+  return pairs;
+});
+
 async function loadEvents() {
   const getSteps = await calendarDataMethods.steps.getSteps(props.calendarId!);
   const getEvents = await calendarDataMethods.events.getEvents(
@@ -63,16 +71,23 @@ function fecharModal() {
         @refresh="$emit('refresh')"
       />
     </DialogSkeleton>
-    <div class="flex flex-wrap w-full h-max justify-center gap-6">
-      <SectionCalendarioMonth
-        v-for="month in months"
-        :key="month"
-        :toggle-month="false"
-        :year="props.year"
-        :events="events"
-        :month-num="month"
-        :calendar-id="props.calendarId"
-      />
+    <div class="flex flex-col w-full gap-6">
+      <div
+        v-for="(monthPair, index) in monthPairs"
+        :key="index"
+        class="flex w-full gap-6 justify-center"
+      >
+        <SectionCalendarioMonth
+          v-for="month in monthPair"
+          :key="month"
+          :toggle-month="false"
+          :year="props.year"
+          :events="events"
+          :month-num="month"
+          :calendar-id="props.calendarId"
+          class="flex-1"
+        />
+      </div>
     </div>
   </div>
 </template>

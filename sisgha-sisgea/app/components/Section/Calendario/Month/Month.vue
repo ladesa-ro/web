@@ -97,7 +97,7 @@ watch(
 
     <!-- Days of Month -->
     <div
-      class="grid p-2 xs:p-4 sm:p-2 md:p-4 gap-1 sm:gap-2 md:gap-4 grid-cols-7 place-items-center"
+      class="grid p-4 xs:p-0.5 sm:p-0.5 md:p-4 gap-2 sm:gap-2 md:gap-2 grid-cols-7 place-items-center"
     >
       <!-- Name Columns -->
       <p class="font-semibold text-center text-xs" v-for="item of weekDays">

@@ -10,7 +10,7 @@ const props = defineProps<Day>();
 
 <template>
   <div
-    class="flex w-10 h-10 sm:w-14 sm:h-14 md:w-10 md:h-10 lg:w-14 lg:h-14 justify-center items-center rounded-lg p-4 sm:p-1 md:p-1.5"
+    class="flex aspect-square w-6 sm:w-6 md:w-8 lg:w-10 justify-center items-center rounded-lg p-4 sm:p-1 md:p-1.5"
     :class="{
       'bg-ldsa-grey/30': !props.date,
       'bg-ldsa-grey/60 ': props.color === 'none',
