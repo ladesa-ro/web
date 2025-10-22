@@ -1,14 +1,12 @@
 <script lang="ts" setup>
 import {
-  IconsCalendarItems,
-  SectionCalendarioFormEvents,
-  UIToggle,
+  SectionCalendarioFormCrudEventsList,
+  UIButtonEventsList,
 } from '#components';
 import dayjs from 'dayjs';
+import { ref } from 'vue';
 import { calendarDataMethods } from '../CalendarDataMethods';
 import type { CalendarEvent } from '../Types';
-
-// # IMPORT
 
 // # CODE
 type Props = {
@@ -20,10 +18,10 @@ const props = defineProps<Props>();
 
 // Variables
 const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-let events = ref<CalendarEvent[]>([]);
+const events = ref<CalendarEvent[]>([]);
+const showEventModal = ref(false);
 
-let toggleView = ref<number>(0);
-const toggleItems = [{ text: 'Eventos', value: 0, icon: IconsCalendarItems }];
+const isViewEventsModalOpen = ref(false);
 
 async function loadEvents() {
   const getSteps = await calendarDataMethods.steps.getSteps(props.calendarId!);
@@ -40,26 +38,32 @@ async function loadEvents() {
   );
 }
 
-// chamada inicial
 if (props.calendarId) {
   await loadEvents();
+}
+
+function abrirModal() {
+  showEventModal.value = true;
+}
+
+function fecharModal() {
+  showEventModal.value = false;
 }
 </script>
 
 <template>
   <div class="flex flex-wrap w-full h-max gap-6">
-    <!-- <DialogModalEditOrCreateModal
-      :form-component="SectionCalendarioFormEvents"
-      :form-props="{ events: events }"
-      @refresh="loadEvents"
-    />  modal de editar eventos (não mostra aqui)-->
- 
-    <!-- modal de ver eventos (não existe ainda) -->
-    <UIToggle :items="toggleItems" v-model="toggleView" class="w-full" />
-
+    <UIButtonEventsList @open="showEventModal = true" />
+    <DialogSkeleton v-model="showEventModal">
+      <SectionCalendarioFormCrudEventsList
+        :events="events"
+        :onClose="fecharModal"
+      />
+    </DialogSkeleton>
     <div class="flex flex-wrap w-full h-max justify-center gap-6">
       <SectionCalendarioMonth
         v-for="month in months"
+        :key="month"
         :toggle-month="false"
         :year="props.year"
         :events="events"
