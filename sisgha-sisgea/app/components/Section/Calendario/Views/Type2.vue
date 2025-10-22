@@ -48,12 +48,13 @@ if (props.calendarId) {
 
 <template>
   <div class="flex flex-wrap w-full h-max gap-6">
-    <DialogModalEditOrCreateModal
+    <!-- <DialogModalEditOrCreateModal
       :form-component="SectionCalendarioFormEvents"
       :form-props="{ events: events }"
       @refresh="loadEvents"
-    />
-
+    />  modal de editar eventos (não mostra aqui)-->
+ 
+    <!-- modal de ver eventos (não existe ainda) -->
     <UIToggle :items="toggleItems" v-model="toggleView" class="w-full" />
 
     <div class="flex flex-wrap w-full h-max justify-center gap-6">

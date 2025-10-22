@@ -64,8 +64,7 @@ onMounted(async () => {});
           :form-component="SectionCalendarioForm"
           :form-props="{ calendarId: selectedCalendar.id }"
           @refresh="$emit('refresh')"
-        />
-        <UIButtonSearch />
+        />        
       </div>
     </div>
 

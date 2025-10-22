@@ -20,7 +20,7 @@ const getEvent = async () => {
   if (!props.eventName && !props.eventId) return;
 
   try {
-    let checkEvents = null;
+    let checkEvents = null; // colocar tipagem
 
     if (props.eventId) {
       const events = await calendarDataMethods.events.getEvents(

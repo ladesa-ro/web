@@ -5,6 +5,7 @@
 <template>
   <div>
     <!-- Event - Data -->
+     // modal ver eventos
     <div class="flex flex-col gap-4 overflow-visible">
 
     </div>
