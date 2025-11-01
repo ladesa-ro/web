@@ -1,24 +1,30 @@
 <script lang="ts" setup>
-// # IMPORT
+// # IMPORTS
 import { SectionCalendarioForm } from '#components';
 import IconCompleteCalendar from '@/components/Icons/Calendar/CompleteCalendar.vue';
 import IconPartialCalendar from '@/components/Icons/Calendar/PartialCalendar.vue';
 import dayjs from 'dayjs';
+import { ref } from 'vue';
 import { calendarDataMethods } from './CalendarDataMethods';
 import type { CalendarData } from './Types';
 
-// # CODE
-let toggleView = ref<number>(0);
+const emit = defineEmits<{
+  (e: 'refresh'): void
+}>();
 
+// # STATES
+let toggleView = ref<number>(0);
+let selectedCalendar = ref<CalendarData | null>(null);
+let selectedTrainingOffer = ref<any | null>(null);
+let selectedYear = ref<number>(dayjs().year());
+
+// # TOGGLE ITEMS
 const toggleItems = [
   { text: 'Calendário parcial', value: 0, icon: IconPartialCalendar },
   { text: 'Calendário completo', value: 1, icon: IconCompleteCalendar },
 ];
 
-// TODO: Fix 'Get Calendar' Feature
-
-let selectedCalendar = ref<CalendarData | null>(null);
-
+// # FUNCTIONS
 async function toggleSelectedCalendarItem(value: string) {
   if (!value) {
     selectedCalendar.value = null;
@@ -28,10 +34,26 @@ async function toggleSelectedCalendarItem(value: string) {
     await calendarDataMethods.calendar.getCalendarById(value);
 }
 
-let selectedTrainingOffer = ref<any | null>(null);
-let selectedYear = ref<number>(dayjs().year());
+async function apagarCalendario() {
+  if (!selectedCalendar.value) return;
 
-onMounted(async () => {});
+  const confirmDelete = confirm(
+    `Tem certeza que deseja apagar o calendário "${selectedCalendar.value.name}"?`
+  );
+  if (!confirmDelete) return;
+
+  try {
+    await calendarDataMethods.calendar.deleteCalendar(
+      selectedCalendar.value.id
+    );
+    alert('Calendário apagado com sucesso!');
+    selectedCalendar.value = null; 
+    emit('refresh');
+  } catch (e) {
+    console.error(e);
+    alert('Erro ao apagar o calendário.');
+  }
+}
 </script>
 
 <template>
@@ -65,6 +87,13 @@ onMounted(async () => {});
           :form-props="{ calendarId: selectedCalendar.id }"
           @refresh="$emit('refresh')"
         />
+        <button
+          v-if="selectedCalendar"
+          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
+          @click="apagarCalendario"
+        >
+          Apagar Calendário
+        </button>
       </div>
     </div>
 
