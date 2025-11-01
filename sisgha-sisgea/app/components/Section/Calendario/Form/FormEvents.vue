@@ -39,6 +39,7 @@ function openEvent(name?: string) {
 function closeEvent() {
   showEventModal.value = false;
   selectedEventName.value = null;
+  window.dispatchEvent(new CustomEvent('calendar-events-updated'));
 }
 
 async function saveEvent() {
@@ -46,6 +47,7 @@ async function saveEvent() {
     closeEvent();
     $emit('refresh');
   }
+  window.dispatchEvent(new CustomEvent('calendar-events-updated'));
 }
 
 console.log(props.events);

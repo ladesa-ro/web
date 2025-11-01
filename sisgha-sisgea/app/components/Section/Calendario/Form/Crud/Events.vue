@@ -156,6 +156,8 @@ async function onSubmit() {
       props.calendarId
     );
   }
+
+  window.dispatchEvent(new CustomEvent('calendar-events-updated'));
 }
 
 const validateEventCrud = async (): Promise<boolean> => {
@@ -189,6 +191,8 @@ const deleteEvent = async (): Promise<boolean> => {
     console.error('Erro deleteEvent:', e);
     return false;
   }
+
+  window.dispatchEvent(new CustomEvent('calendar-events-updated'));
 };
 
 const formReady = ref(false);

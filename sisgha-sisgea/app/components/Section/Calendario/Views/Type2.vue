@@ -3,12 +3,11 @@ import {
   SectionCalendarioFormCrudEventsList,
   UIButtonEventsList,
 } from '#components';
-import dayjs from 'dayjs';
-import { ref } from 'vue';
-import { calendarDataMethods } from '../CalendarDataMethods';
-import type { CalendarData, CalendarEvent } from '../Types';
+import { computed, ref, toRef } from 'vue';
+import type { CalendarData } from '../Types';
+import { useCalendarEvents } from '../useCalendarEvent';
 
-// # CODE
+// # PROPS
 type Props = {
   year: number;
   calendarId: string;
@@ -17,13 +16,12 @@ type Props = {
 
 const props = defineProps<Props>();
 
-// Variables
-const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-const events = ref<CalendarEvent[]>([]);
+// # STATES
 const showEventModal = ref(false);
-
 const isViewEventsModalOpen = ref(false);
 
+// # MONTH PAIRS (mantido igual)
+const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const monthPairs = computed(() => {
   const pairs: number[][] = [];
   for (let i = 0; i < months.length; i += 2) {
@@ -32,29 +30,13 @@ const monthPairs = computed(() => {
   return pairs;
 });
 
-async function loadEvents() {
-  const getSteps = await calendarDataMethods.steps.getSteps(props.calendarId!);
-  const getEvents = await calendarDataMethods.events.getEvents(
-    props.calendarId!
-  );
+// # EVENTS — usando o hook reativo
+const { events, reload } = useCalendarEvents(toRef(props, 'calendarId'));
 
-  events.value = Array.from(
-    new Map([...getSteps, ...getEvents].map(e => [e.id, e])).values()
-  );
-
-  events.value.sort(
-    (a, b) => dayjs(a.startDate).valueOf() - dayjs(b.startDate).valueOf()
-  );
-}
-
-if (props.calendarId) {
-  await loadEvents();
-}
-
+// # MODALS
 function abrirModal() {
   showEventModal.value = true;
 }
-
 function fecharModal() {
   showEventModal.value = false;
 }
@@ -62,15 +44,17 @@ function fecharModal() {
 
 <template>
   <div class="flex flex-wrap w-full h-max gap-6">
-    <UIButtonEventsList @open="showEventModal = true" />
+    <UIButtonEventsList @open="abrirModal" />
+
     <DialogSkeleton v-model="showEventModal">
       <SectionCalendarioFormCrudEventsList
         v-if="showEventModal"
         :calendar-data="props.calendarData"
         @close="fecharModal"
-        @refresh="$emit('refresh')"
+        @refresh="reload" 
       />
     </DialogSkeleton>
+
     <div class="flex flex-col w-full gap-6">
       <div
         v-for="(monthPair, index) in monthPairs"
@@ -92,4 +76,4 @@ function fecharModal() {
   </div>
 </template>
 
-<style></style>
+<style scoped></style>

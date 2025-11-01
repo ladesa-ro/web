@@ -47,6 +47,7 @@ const orderOptions = [
 function closeModal() {
   showEventModal.value = false;
   $emit('close');
+  window.dispatchEvent(new CustomEvent('calendar-events-updated'));
 }
 
 function handleForceClose() {
@@ -132,6 +133,22 @@ function remainingDays(event: CalendarEvent) {
   if (isInProgress(event)) return end.diff(now, 'day');
   return 0;
 }
+
+function handleEventsUpdated() {
+  loadEvents(); // recarrega a lista de eventos
+}
+
+onMounted(() => {
+  loadEvents();
+
+  window.addEventListener('force-close-inner-modals', handleForceClose);
+  window.addEventListener('calendar-events-updated', handleEventsUpdated);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('force-close-inner-modals', handleForceClose);
+  window.removeEventListener('calendar-events-updated', handleEventsUpdated);
+});
 </script>
 
 <template>
@@ -165,9 +182,7 @@ function remainingDays(event: CalendarEvent) {
       />
     </div>
 
-    <div
-      class="flex flex-col w-full h-full gap-4 max-h-[90vh]"
-    >
+    <div class="flex flex-col w-full h-full gap-4 max-h-[90vh]">
       <div
         v-for="event in filteredEvents"
         :key="event.id"

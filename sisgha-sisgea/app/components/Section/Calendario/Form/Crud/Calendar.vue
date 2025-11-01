@@ -3,9 +3,9 @@
 import dayjs from 'dayjs';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
+import type Step from '~/components/VV/Calendar/Step.vue';
 import { useCampusUsuarioId } from '~/composables/integrations/ladesa-api/modules/useCampusUsuarioId';
 import { calendarDataMethods } from '../../CalendarDataMethods';
-import type Step from '~/components/VV/Calendar/Step.vue';
 
 // # CODE
 type Props = {
@@ -168,6 +168,7 @@ watch(
         label="Ano Letivo"
         placeholder="Digite aqui"
       />
+      <VVAutocompleteAPICampus name="campus" label="Campus" />
       <VVAutocompleteAPIOfertaFormacao name="trainingOffer" label="Formação" />
     </div>
 
