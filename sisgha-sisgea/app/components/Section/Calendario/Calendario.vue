@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 // # IMPORTS
-import { SectionCalendarioForm } from '#components';
+import { IconsExclude, SectionCalendarioForm } from '#components';
 import IconCompleteCalendar from '@/components/Icons/Calendar/CompleteCalendar.vue';
 import IconPartialCalendar from '@/components/Icons/Calendar/PartialCalendar.vue';
 import dayjs from 'dayjs';
@@ -9,7 +9,7 @@ import { calendarDataMethods } from './CalendarDataMethods';
 import type { CalendarData } from './Types';
 
 const emit = defineEmits<{
-  (e: 'refresh'): void
+  (e: 'refresh'): void;
 }>();
 
 // # STATES
@@ -34,25 +34,25 @@ async function toggleSelectedCalendarItem(value: string) {
     await calendarDataMethods.calendar.getCalendarById(value);
 }
 
+const showDeleteModal = ref(false);
+
 async function apagarCalendario() {
   if (!selectedCalendar.value) return;
+  showDeleteModal.value = true;
+}
 
-  const confirmDelete = confirm(
-    `Tem certeza que deseja apagar o calendário "${selectedCalendar.value.name}"?`
-  );
-  if (!confirmDelete) return;
+function handleConfirmDelete() {
+  if (!selectedCalendar.value) return;
 
-  try {
-    await calendarDataMethods.calendar.deleteCalendar(
-      selectedCalendar.value.id
-    );
-    alert('Calendário apagado com sucesso!');
-    selectedCalendar.value = null; 
-    emit('refresh');
-  } catch (e) {
-    console.error(e);
-    alert('Erro ao apagar o calendário.');
-  }
+  calendarDataMethods.calendar
+    .deleteCalendar(selectedCalendar.value.id)
+    .then(() => {
+      selectedCalendar.value = null;
+      emit('refresh');
+    })
+    .catch(e => {
+      console.error(e);
+    });
 }
 </script>
 
@@ -87,16 +87,21 @@ async function apagarCalendario() {
           :form-props="{ calendarId: selectedCalendar.id }"
           @refresh="$emit('refresh')"
         />
-        <button
+
+        <UIButtonDefaultSquare
+          class="flex border-2 border-ldsa-red justify-center items-center rounded-lg bg-ldsa-red"
           v-if="selectedCalendar"
-          class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors"
           @click="apagarCalendario"
         >
-          Apagar Calendário
-        </button>
+          <IconsExclude class="w-5 h-5"/>
+        </UIButtonDefaultSquare>
       </div>
     </div>
-
+    <DialogConfirm
+      v-model="showDeleteModal"
+      message="Tem certeza que deseja apagar este calendário?"
+      @confirm="handleConfirmDelete"
+    />
     <!-- Content -->
     <div
       v-if="selectedCalendar"
