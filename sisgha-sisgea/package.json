@@ -16,15 +16,15 @@
     "types:watch": "vue-tsc --noEmit --watch"
   },
   "dependencies": {
-    "@atlaskit/pragmatic-drag-and-drop": "^1.7.4",
+    "@atlaskit/pragmatic-drag-and-drop": "^1.7.7",
     "@atlaskit/pragmatic-drag-and-drop-auto-scroll": "^2.1.1",
     "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.1.0",
-    "@auth/core": "^0.40.0",
+    "@auth/core": "^0.41.1",
     "@ladesa-ro/management-service-client": "https://pkg.pr.new/ladesa-ro/management-service/@ladesa-ro/management-service-client@d81af30",
     "@nuxt/devtools": "2.6.2",
     "@nuxt/eslint": "^1.4.0",
     "@nuxtjs/color-mode": "^3.5.2",
-    "@sidebase/nuxt-auth": "1.0.0-alpha.0",
+    "@sidebase/nuxt-auth": "1.1.0",
     "@tailwindcss/vite": "^4.1.7",
     "@tanstack/query-persist-client-core": "^5.76.1",
     "@tanstack/query-sync-storage-persister": "^5.76.1",
@@ -44,7 +44,7 @@
     "tailwindcss": "^4.1.7",
     "vee-validate": "^4.15.0",
     "vue": "^3.5.14",
-    "vue3-carousel": "^0.16.0",
+    "vue3-carousel": "^0.17.0",
     "vue3-carousel-nuxt": "^1.1.6",
     "vue3-dropzone": "^2.2.1",
     "yarnhook": "^0.6.2",
@@ -53,8 +53,8 @@
   "devDependencies": {
     "@babel/runtime": "^7.28.4",
     "type-fest": "^4.41.0",
-    "typescript": "5.9.2",
-    "vue-tsc": "3.0.5"
+    "typescript": "5.9.3",
+    "vue-tsc": "3.1.2"
   },
   "overrides": {
     "@sidebase/nuxt-auth": {
