@@ -40,7 +40,9 @@ function confirm() {
       :closeButton="true"
       :onClose="cancel"
     >
-      <p class="text-ldsa-grey">{{ props.message }}</p>
+      <p class="text-ldsa-grey text-center mx-auto max-w-[18rem] break-words">
+        {{ props.message }}
+      </p>
 
       <template #button-group>
         <UIButtonModalCancel @click="cancel" type="close" class="flex w-full" />
