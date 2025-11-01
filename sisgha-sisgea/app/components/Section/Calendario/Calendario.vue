@@ -5,24 +5,27 @@ import IconCompleteCalendar from '@/components/Icons/Calendar/CompleteCalendar.v
 import IconPartialCalendar from '@/components/Icons/Calendar/PartialCalendar.vue';
 import dayjs from 'dayjs';
 import { ref } from 'vue';
+import { useToast } from '~/composables/useToast';
 import { calendarDataMethods } from './CalendarDataMethods';
 import type { CalendarData } from './Types';
 
-const emit = defineEmits<{
-  (e: 'refresh'): void;
-}>();
+const emit = defineEmits<{ (e: 'refresh'): void }>();
 
 // # STATES
 let toggleView = ref<number>(0);
 let selectedCalendar = ref<CalendarData | null>(null);
 let selectedTrainingOffer = ref<any | null>(null);
 let selectedYear = ref<number>(dayjs().year());
+const showDeleteModal = ref(false);
 
 // # TOGGLE ITEMS
 const toggleItems = [
   { text: 'Calendário parcial', value: 0, icon: IconPartialCalendar },
   { text: 'Calendário completo', value: 1, icon: IconCompleteCalendar },
 ];
+
+// # TOAST
+const { showToast } = useToast();
 
 // # FUNCTIONS
 async function toggleSelectedCalendarItem(value: string) {
@@ -33,8 +36,6 @@ async function toggleSelectedCalendarItem(value: string) {
   selectedCalendar.value =
     await calendarDataMethods.calendar.getCalendarById(value);
 }
-
-const showDeleteModal = ref(false);
 
 async function apagarCalendario() {
   if (!selectedCalendar.value) return;
@@ -49,10 +50,17 @@ function handleConfirmDelete() {
     .then(() => {
       selectedCalendar.value = null;
       emit('refresh');
+
+      showToast('delete', 'success', 'O calendário foi apagado com sucesso.');
     })
     .catch(e => {
       console.error(e);
+      showToast('delete', 'error', 'Falha ao apagar o calendário.');
     });
+}
+
+function handleCancelDelete() {
+  showToast('delete', 'success', 'O calendário foi apagado com sucesso.');
 }
 </script>
 
@@ -93,15 +101,18 @@ function handleConfirmDelete() {
           v-if="selectedCalendar"
           @click="apagarCalendario"
         >
-          <IconsExclude class="w-5 h-5"/>
+          <IconsExclude class="w-5 h-5" />
         </UIButtonDefaultSquare>
       </div>
     </div>
+
     <DialogConfirm
       v-model="showDeleteModal"
       message="Tem certeza que deseja apagar este calendário?"
       @confirm="handleConfirmDelete"
+      @update:modelValue="val => !val && handleCancelDelete()"
     />
+
     <!-- Content -->
     <div
       v-if="selectedCalendar"
