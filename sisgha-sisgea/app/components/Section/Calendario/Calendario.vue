@@ -90,9 +90,10 @@ function handleCancelDelete() {
 
       <div class="flex gap-2">
         <DialogModalEditOrCreateModal
-          v-if="selectedCalendar"
           :form-component="SectionCalendarioForm"
-          :form-props="{ calendarId: selectedCalendar.id }"
+          :form-props="
+            selectedCalendar ? { calendarId: selectedCalendar.id } : {}
+          "
           @refresh="$emit('refresh')"
         />
 
@@ -100,6 +101,7 @@ function handleCancelDelete() {
           class="flex border-2 border-ldsa-red justify-center items-center rounded-lg bg-ldsa-red"
           v-if="selectedCalendar"
           @click="apagarCalendario"
+          @refresh="$emit('refresh')"
         >
           <IconsExclude class="w-5 h-5" />
         </UIButtonDefaultSquare>
