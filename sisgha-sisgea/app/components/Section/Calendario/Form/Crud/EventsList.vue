@@ -186,7 +186,7 @@ onBeforeUnmount(() => {
       <div
         v-for="event in filteredEvents"
         :key="event.id"
-        class="flex flex-col border-2 border-ldsa-grey rounded-lg p-3"
+        class="flex flex-col border-2 border-ldsa-grey rounded-lg p-3 text-ldsa-text-default"
       >
         <!-- Cabeçalho -->
         <div class="flex justify-between items-center">
@@ -202,7 +202,7 @@ onBeforeUnmount(() => {
         </div>
 
         <!-- Conteúdo -->
-        <ul class="mt-2">
+        <ul class="mt-2 text-sm">
           <li>
             Início: <span>{{ formatDate(event.startDate) }}</span>
           </li>
