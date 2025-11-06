@@ -262,7 +262,7 @@ defineExpose({ validateEventCrud, fillForm, deleteEvent });
         />
         <VVTextField
           name="eventStartHour"
-          type="hour"
+          type="time"
           label="Horario de início"
           v-model="values.eventStartHour"
         />
@@ -277,7 +277,7 @@ defineExpose({ validateEventCrud, fillForm, deleteEvent });
         />
         <VVTextField
           name="eventEndHour"
-          type="hour"
+          type="time"
           label="Horario de Término"
           v-model="values.eventEndHour"
         />
