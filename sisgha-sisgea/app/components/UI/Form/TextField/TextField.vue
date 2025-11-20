@@ -30,7 +30,8 @@ const emit = defineEmits(['update:modelValue', 'blur']);
           type="color"
           :value="modelValue"
           @input="
-            e => emit('update:modelValue', (e.target as HTMLInputElement).value)
+            (e: Event) =>
+              emit('update:modelValue', (e.target as HTMLInputElement).value)
           "
           class="absolute inset-0 w-[2rem] h-full opacity-0 cursor-pointer"
         />
@@ -54,7 +55,8 @@ const emit = defineEmits(['update:modelValue', 'blur']);
         :value="modelValue"
         :disabled="disabled"
         @input="
-          e => emit('update:modelValue', (e.target as HTMLInputElement).value)
+          (e: Event) =>
+            emit('update:modelValue', (e.target as HTMLInputElement).value)
         "
         @blur="emit('blur')"
       />
