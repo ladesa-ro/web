@@ -10,7 +10,6 @@ import {
   ComboboxTrigger as Trigger,
   ComboboxViewport as Viewport,
 } from 'reka-ui';
-import { ref } from 'vue';
 import { getParsedItems } from '~/composables/useOptionItems';
 import type { AutocompleteProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
@@ -23,7 +22,11 @@ const {
   error,
   onBlur,
 } = defineProps<
-  AutocompleteProps & { error?: string | null; onBlur?: () => void }
+  AutocompleteProps & {
+    error?: string | null;
+    onBlur?: () => void;
+    disabled?: boolean;
+  }
 >();
 
 const items = getParsedItems(itemsProps);
@@ -48,11 +51,15 @@ const customError = computed(() =>
     ? 'Sala de aula é obrigatória!'
     : error
 );
-
 </script>
 
 <template>
-  <AutocompleteRoot v-model="selectedOption" v-model:open="open">
+  <AutocompleteRoot
+    :disabled
+    :class="disabled && 'opacity-90 cursor-not-allowed'"
+    v-model="selectedOption"
+    v-model:open="open"
+  >
     <Anchor
       class="input-base flex justify-between items-center"
       :class="{ 'has-error': customError }"
@@ -77,16 +84,16 @@ const customError = computed(() =>
       </Cancel>
 
       <Trigger class="px-3 py-4 shrink-0">
-        <Arrow :open="open" />
+        <Arrow :disabled :open="open" />
       </Trigger>
     </Anchor>
 
     <Portal>
       <Content
-        class="input-base-content w-(--reka-combobox-trigger-width) z-[10000]"
+        class="input-base-content w-(--reka-combobox-trigger-width) z-[10000] py-2"
         position="popper"
       >
-        <Viewport>
+        <Viewport class="max-h-68 overflow-y-auto">
           <NoResultsState
             class="flex items-center px-3 font-normal text-ldsa-grey h-(--reka-combobox-trigger-height)"
           >

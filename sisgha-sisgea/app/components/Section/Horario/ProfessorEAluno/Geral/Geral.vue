@@ -53,10 +53,10 @@ const turnos: ITurnos = [
 
     <!-- cédulas verdes dos dias da semana -->
     <div class="grid grid-cols-subgrid col-span-6">
-      <SectionHorarioWeekHeaderDays :dias-da-semana="diasDaSemana" />
+      <SectionHorarioProfessorEAlunoWeekHeaderDays :dias-da-semana="diasDaSemana" />
     </div>
 
-    <SectionHorarioShifts :dias-da-semana="diasDaSemana" :turnos="turnos" />
+    <SectionHorarioProfessorEAlunoShifts :dias-da-semana="diasDaSemana" :turnos="turnos" />
   </div>
 </template>
 

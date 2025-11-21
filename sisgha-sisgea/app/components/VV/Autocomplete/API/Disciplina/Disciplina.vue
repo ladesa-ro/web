@@ -20,8 +20,6 @@ const options = createUIAutocompleteApiRetrieverOptions({
     label: item.nome,
   }),
 });
-
-//
 </script>
 
 <template>

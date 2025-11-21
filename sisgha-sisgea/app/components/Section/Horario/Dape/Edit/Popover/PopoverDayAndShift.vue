@@ -16,13 +16,17 @@ const inPersonSelectedItem = ref('presencial');
 </script>
 
 <template>
-  <SectionHorarioDapeEditPopover :handle-confirm-button-click="() => {}">
+  <SectionHorarioDapeEditPopoverEdit :handle-confirm-button-click="() => {}">
     <template #activator>
       <slot />
     </template>
 
     <UIToggle :items="schoolDayItems" v-model="schoolDaySelectedItem" />
 
-    <UIToggle :items="inPersonDayItems" v-model="inPersonSelectedItem" />
-  </SectionHorarioDapeEditPopover>
+    <UIToggle
+      v-if="schoolDaySelectedItem !== 'nao-letivo'"
+      v-model="inPersonSelectedItem"
+      :items="inPersonDayItems"
+    />
+  </SectionHorarioDapeEditPopoverEdit>
 </template>

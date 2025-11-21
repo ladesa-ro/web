@@ -8,7 +8,7 @@ const selectedOption = ref<'dia' | 'semana'>('dia');
     :class="{ 'items-center': selectedOption !== 'semana' }"
   >
     <!-- Cabeçalho -->
-    <SectionHorarioHeaderSchedule
+    <SectionHorarioProfessorEAlunoHeaderSchedule
       class="w-full max-w-screen-2xl mx-auto"
       v-model:toggle-option="selectedOption"
     />
@@ -18,7 +18,7 @@ const selectedOption = ref<'dia' | 'semana'>('dia');
       v-show="selectedOption === 'semana'"
       class="flex flex-col min-[1400px]:items-center justify-center gap-10"
     >
-      <SectionHorarioGeral class="overflow-auto" />
+      <SectionHorarioProfessorEAlunoGeral class="overflow-auto" />
 
       <!-- Botão "Gerar PDF" -->
       <UIButtonDefault class="mx-auto min-h-14 max-w-40">
@@ -27,6 +27,6 @@ const selectedOption = ref<'dia' | 'semana'>('dia');
     </section>
 
     <!-- Opção "Horário do dia" -->
-    <SectionHorarioDailyViewDaysAndLessons v-show="selectedOption === 'dia'" />
+    <SectionHorarioProfessorEAlunoDailyViewDaysAndLessons v-show="selectedOption === 'dia'" />
   </UIContainer>
 </template>

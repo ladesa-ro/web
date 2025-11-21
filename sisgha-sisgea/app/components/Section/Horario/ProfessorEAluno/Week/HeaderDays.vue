@@ -9,7 +9,7 @@ defineProps<Props>();
 </script>
 
 <template>
-  <SectionHorarioWeekHeaderDay
+  <SectionHorarioProfessorEAlunoWeekHeaderDay
     v-for="diaDaSemana in diasDaSemana"
     :key="diaDaSemana.nome"
     :dia-da-semana="diaDaSemana"

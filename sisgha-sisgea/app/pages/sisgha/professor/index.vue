@@ -5,5 +5,5 @@ definePageMeta({
 </script>
 
 <template>
-  <SectionHorario />
+  <SectionHorarioProfessorEAlunoHorario />
 </template>
