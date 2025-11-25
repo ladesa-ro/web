@@ -1,10 +1,17 @@
 <script lang="ts" setup>
 const isActive = defineModel<boolean>({ default: false });
 
-const { disableInlineBlock = false, pointerdownEvent = true, disabled = false } = defineProps<{
+const {
+  disableInlineBlock = false,
+  pointerdownEvent = true,
+  disabled = false,
+  closeOnClickOutside = true,
+} = defineProps<{
   disabled?: boolean;
   disableInlineBlock?: boolean;
   pointerdownEvent?: boolean;
+  closeOnClickOutside?: boolean;
+  mustHideInBigScreen?: boolean;
 }>();
 
 const modal = useTemplateRef('modal');
@@ -23,7 +30,7 @@ const onClose = () => (isActive.value = false);
 
 <template>
   <nav
-    :class="[!disableInlineBlock && 'inline-block']"
+    :class="!disableInlineBlock && 'inline-block'"
     v-bind="$attrs"
     @pointerdown="!disabled && pointerdownEvent && onOpen()"
     @click="!disabled && !pointerdownEvent && onOpen()"
@@ -33,8 +40,15 @@ const onClose = () => (isActive.value = false);
 
   <Transition name="modal">
     <Teleport to="body">
-      <section v-if="isActive" class="overlay-layout">
-        <div class="backdrop" @click="onClose" />
+      <section
+        v-if="isActive"
+        :class="
+          mustHideInBigScreen
+            ? 'overlay-layout-max-screen-size'
+            : 'overlay-layout'
+        "
+      >
+        <div class="backdrop" @click="() => closeOnClickOutside && onClose()" />
 
         <div
           class="modal-container"
@@ -55,6 +69,10 @@ const onClose = () => (isActive.value = false);
 .overlay-layout {
   @apply fixed top-0 left-0 z-[997];
   @apply flex items-center justify-center h-screen w-screen;
+}
+.overlay-layout-max-screen-size {
+  @apply max-[875px]:fixed top-0 left-0 z-[997];
+  @apply min-[875px]:hidden! max-[875px]:flex items-center justify-center h-screen w-screen;
 }
 
 .backdrop {

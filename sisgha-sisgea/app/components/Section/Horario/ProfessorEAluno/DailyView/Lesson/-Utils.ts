@@ -1,6 +1,6 @@
 import { useNow } from '@vueuse/core';
 import type { Dayjs } from 'dayjs';
-import type { ILesson } from '../../-Helpers/ILesson';
+import type { ILesson } from '../../../-Helpers/ILesson';
 
 export function verifyClassStatusByStartAndEnd(
   start: MaybeRef<Dayjs>,

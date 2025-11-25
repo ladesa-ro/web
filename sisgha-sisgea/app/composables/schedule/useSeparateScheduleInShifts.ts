@@ -1,4 +1,8 @@
-import type { DayInShifts, Horario, HorDayjs } from './useScheduleTypes';
+import type {
+  DayInShiftsWithoutInfo,
+  Horario,
+  HorDayjs,
+} from './useScheduleTypes';
 
 /**
  * Divide o horário de um dia de aula em turnos.
@@ -6,13 +10,19 @@ import type { DayInShifts, Horario, HorDayjs } from './useScheduleTypes';
  * */
 export const useSeparateScheduleInShifts = (
   horarioDoDia: (Horario & HorDayjs)[]
-): DayInShifts => {
+): DayInShiftsWithoutInfo => {
   // utilizado para definir horários de início e endHour dos turnos em dayjs
   const defineHour = (index: number, hour: string) =>
     useDayJs()(`${horarioDoDia[index]?.date.format('YYYY-MM-DD')} ${hour}`);
 
   // TODO: adicionar aqui apenas os períodos calculados em time slot
-  const diaEmTurnos: DayInShifts = { morning: [], afternoon: [], night: [] };
+  const diaEmTurnos: DayInShiftsWithoutInfo = {
+    daySchedule: {
+      morning: { shiftSchedule: [] },
+      afternoon: { shiftSchedule: [] },
+      night: { shiftSchedule: [] },
+    },
+  };
 
   horarioDoDia.forEach((cell, index) => {
     const shiftLimits = {
@@ -42,7 +52,7 @@ export const useSeparateScheduleInShifts = (
         'hour'
       )
     ) {
-      diaEmTurnos.morning.push(cell);
+      diaEmTurnos.daySchedule.morning.shiftSchedule.push(cell);
     }
 
     //
@@ -53,7 +63,7 @@ export const useSeparateScheduleInShifts = (
         'hour'
       )
     ) {
-      diaEmTurnos.afternoon.push(cell);
+      diaEmTurnos.daySchedule.afternoon.shiftSchedule.push(cell);
     }
 
     //
@@ -64,7 +74,7 @@ export const useSeparateScheduleInShifts = (
         'hour'
       )
     ) {
-      diaEmTurnos.night.push(cell);
+      diaEmTurnos.daySchedule.night.shiftSchedule.push(cell);
     }
   });
 

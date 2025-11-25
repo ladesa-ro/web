@@ -10,7 +10,7 @@ defineProps<Props>();
 </script>
 
 <template>
-  <button class="toggle-button" :class="{ selected: selected }">
+  <button class="toggle-button" :class="{ selected }">
     <p class="leading-4.5">{{ item.text }}</p>
     <component :is="item.icon" class="icon" />
   </button>

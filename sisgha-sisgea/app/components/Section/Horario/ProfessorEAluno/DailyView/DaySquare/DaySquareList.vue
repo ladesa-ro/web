@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getWeekDays } from '../../-Helpers/GetWeekDays';
+import { getWeekDays } from '../../../-Helpers/GetWeekDays';
 
 //by default, the selected day is the current day. if today is sunday, the selected day will be monday
 const selectedDay =
@@ -18,7 +18,7 @@ const weekDays = getWeekDays(selectedDay.value);
   <div
     class="flex justify-between gap-2 min-[502px]:gap-4 lg:gap-6 xl:gap-12 w-full overflow-x-auto"
   >
-    <SectionHorarioDailyViewDaySquare
+    <SectionHorarioProfessorEAlunoDailyViewDaySquare
       v-for="weekDay in weekDays"
       :selected="weekDay.dayMonth === activeDayMonth"
       :day-month="weekDay.dayMonth"
