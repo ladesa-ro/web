@@ -17,7 +17,7 @@ const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,
   transformer: item => ({
     value: item.id,
-    label: item.nome,
+    label: item.nome || item.slug || `Calendário ${item.id.substring(0, 5)}`,
   }),
   filter: computed(() => filter.value),
 });
