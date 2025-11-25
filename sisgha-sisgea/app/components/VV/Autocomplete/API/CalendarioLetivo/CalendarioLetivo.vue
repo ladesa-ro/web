@@ -4,9 +4,10 @@ import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 type Props = {
   isLoading?: boolean;
   name: string;
+  filter?: Record<string, any>;
 };
 const props = defineProps<Props>();
-const { name } = toRefs(props);
+const { name, filter } = toRefs(props);
 
 //
 
@@ -14,11 +15,11 @@ const { crudModule } = useLadesaApiCrudCalendarioLetivo();
 
 const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,
-
   transformer: item => ({
     value: item.id,
     label: item.nome,
   }),
+  filter: computed(() => filter.value),
 });
 
 //
@@ -29,6 +30,7 @@ const options = createUIAutocompleteApiRetrieverOptions({
     :is-loading="isLoading"
     :name="name"
     :options="options"
+    :filter="filter"
     label="Calendário"
     placeholder="Selecione um calendário"
     v-bind="$attrs"
