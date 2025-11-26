@@ -10,6 +10,8 @@ import type { CalendarData } from './Types';
 
 const emit = defineEmits<{ (e: 'refresh'): void }>();
 
+const selectedCampusGlobalState = useCampusContext();
+
 let toggleView = ref<number>(0);
 let selectedCalendar = ref<CalendarData | null>(null);
 let selectedYear = ref<number>(dayjs().year());
@@ -39,6 +41,47 @@ const toggleItems = [
 ];
 
 const { showToast } = useToast();
+
+async function loadCalendars() {
+  try {
+    const campusId = selectedCampusGlobalState.value;
+    if (!campusId) return;
+
+    const res = await getApiClient().calendariosLetivos.calendarioLetivoList({
+      filterCampusId: [campusId],
+    });
+
+    const data = res.data || [];
+
+    allCalendars.value = (data as any[]).map(c => ({
+      id: c.id,
+      name: c.nome ?? c.name ?? c.designacao ?? '',
+      year: c.ano ?? c.year ?? undefined,
+
+      trainingOffer: { id: c.ofertaFormacao?.id ?? '' },
+      campus: { id: c.campus?.id ?? c.campusId ?? '' },
+
+      ...c,
+    })) as CalendarData[];
+
+    console.log('CALENDÁRIOS FILTRADOS POR CAMPUS:', allCalendars.value);
+    console.log('Formações disponíveis:', [
+      ...new Set(
+        allCalendars.value.map(cal => cal.trainingOffer?.id).filter(Boolean)
+      ),
+    ]);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+onMounted(async () => {
+  await loadCalendars();
+});
+
+watch(selectedCampusGlobalState, async () => {
+  await loadCalendars();
+});
 
 async function toggleSelectedCalendarItem(value: string | null) {
   if (!value) {
@@ -116,6 +159,12 @@ watch(selectedTrainingOffer, () => {
   selectedCalendarId.value = null;
   selectedCalendar.value = null;
 });
+
+watch(selectedCampusGlobalState, () => {
+  selectedTrainingOffer.value = null;
+  selectedCalendarId.value = null;
+  selectedCalendar.value = null;
+});
 </script>
 
 <template>
@@ -136,6 +185,9 @@ watch(selectedTrainingOffer, () => {
           name="trainingOffer"
           label="Formação"
           v-model="selectedTrainingOffer"
+          :filter="{
+            campusId: selectedCampusGlobalState ?? undefined,
+          }"
         />
 
         <VVAutocompleteAPICalendarioLetivo
@@ -152,7 +204,9 @@ watch(selectedTrainingOffer, () => {
         <DialogModalEditOrCreateModal
           :form-component="SectionCalendarioForm"
           :form-props="
-            selectedCalendar ? { calendarId: selectedCalendar.id } : {}
+            selectedCalendar
+              ? { calendarId: selectedCalendar.id }
+              : { campusId: selectedCampusGlobalState }
           "
           @refresh="$emit('refresh')"
         />
