@@ -10,9 +10,9 @@ const props = defineProps<Props>();
 
 <template>
   <div
-    class="card flex flex-col justify-center items-center p-4 py-8 gap-6 cursor-pointer text-ldsa-text-default"
+    class="card flex flex-col justify-center items-center py-8 gap-6 cursor-pointer text-ldsa-text-default"
   >
-    <div class="flex w-[40%]">
+    <div class="flex w-[3rem]">
       <component :is="props.icon" />
     </div>
     <p>{{ props.text }}</p>

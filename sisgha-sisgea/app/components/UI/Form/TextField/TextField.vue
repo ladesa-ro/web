@@ -24,23 +24,47 @@ const emit = defineEmits(['update:modelValue', 'blur']);
       {{ label }}
     </label>
 
-    <input
-      class="w-full h-full px-2 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
-      :type="type"
-      :placeholder="placeholder"
-      :value="modelValue"
-      :disabled="disabled"
-      @input="
-        e => emit('update:modelValue', (e.target as HTMLInputElement).value)
-      "
-      @blur="emit('blur')"
-    />
+    <template v-if="type === 'color'">
+      <div class="relative w-full flex items-center gap-2 p-2 pl-4">
+        <input
+          type="color"
+          :value="modelValue"
+          @input="
+            (e: Event) =>
+              emit('update:modelValue', (e.target as HTMLInputElement).value)
+          "
+          class="absolute inset-0 w-[2rem] h-full opacity-0 cursor-pointer"
+        />
+
+        <div
+          class="h-7 w-7 rounded-md"
+          :style="{ backgroundColor: String(modelValue || '#000000') }"
+        ></div>
+
+        <span class="text-sm font-medium px-2">
+          {{ String(modelValue).toUpperCase() }}
+        </span>
+      </div>
+    </template>
+
+    <template v-else>
+      <input
+        class="w-full px-2 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
+        :type="type"
+        :placeholder="placeholder"
+        :value="modelValue"
+        :disabled="disabled"
+        @input="
+          (e: Event) =>
+            emit('update:modelValue', (e.target as HTMLInputElement).value)
+        "
+        @blur="emit('blur')"
+      />
+    </template>
   </div>
-  <div class="w-full text-left -mt-5">
-    <p v-if="error" class="text-ldsa-red text-xs font-semibold">
-      {{ error }}
-    </p>
-  </div>
+  <p v-if="error" class="text-ldsa-red text-xs font-semibold mt-1">
+    {{ error }}
+  </p>
 </template>
 
 <style scoped src="../-Utils/style/inputStyles.css"></style>

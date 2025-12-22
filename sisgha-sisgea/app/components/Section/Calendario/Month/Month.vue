@@ -16,6 +16,8 @@ type Props = {
 
 const props = defineProps<Props>();
 
+let _events = toRef(props, 'events');
+
 const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 // Current month
@@ -33,10 +35,12 @@ let monthDays = ref<Day[]>();
 
 // Set Month
 async function setMonthDays() {
+  if (!_events.value) _events.value = [];
+
   monthDays.value = await renderDays.MonthDays(
     props.year,
     currentMonth.value,
-    props.events,
+    _events.value,
     props.calendarId
   );
 
@@ -52,9 +56,20 @@ async function toggleMonth(number: number) {
 
   await setMonthDays();
 }
+
 onMounted(async () => {
   await setMonthDays();
 });
+
+watch(
+  () => props.events,
+  newEvents => {
+    _events.value = Array.from(new Map(newEvents.map(e => [e.id, e])).values());
+
+    setMonthDays().catch(console.error);
+  },
+  { deep: true, immediate: true }
+);
 </script>
 
 <template>
@@ -62,10 +77,14 @@ onMounted(async () => {
     class="flex flex-col border-2 border-ldsa-grey rounded-lg overflow-hidden h-min"
   >
     <!-- Month Head -->
-    <div class="flex w-full justify-between items-center bg-ldsa-grey/60 p-4">
+    <div
+      class="flex w-full justify-between items-center bg-ldsa-grey/60 p-2 xs:p-4 md:p-4"
+    >
       <UIButtonArrow @click="toggleMonth(-1)" v-show="props.toggleMonth" />
 
-      <h2 class="text-ldsa-white uppercase text-center w-full font-bold">
+      <h2
+        class="text-ldsa-white uppercase text-center w-full font-bold text-xs sm:text-sm md:text-base lg:text-lg"
+      >
         {{ dayjs(`${props.year}-${currentMonth}-01`).format('MMMM') }}
       </h2>
 
@@ -77,9 +96,11 @@ onMounted(async () => {
     </div>
 
     <!-- Days of Month -->
-    <div class="grid p-4 gap-4 grid-cols-7 place-items-center">
+    <div
+      class="grid p-4 xs:p-0.5 sm:p-0.5 md:p-4 gap-2 sm:gap-2 md:gap-2 grid-cols-7 place-items-center"
+    >
       <!-- Name Columns -->
-      <p class="font-semibold text-center" v-for="item of weekDays">
+      <p class="font-semibold text-center text-xs" v-for="item of weekDays">
         {{ item }}
       </p>
 
