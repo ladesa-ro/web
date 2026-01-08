@@ -12,6 +12,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@formkit/drag-and-drop": "^0.5.3",
     "husky": "^9.1.7",
     "prettier": "^3.7.4"
   },

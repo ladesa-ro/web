@@ -1,32 +1,16 @@
 <script setup lang="ts">
-import {
-  attachClosestEdge,
-  extractClosestEdge,
-  type Edge,
-} from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
+import { type Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
 import {
   draggable,
   dropTargetForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
-import {
-  useSelectedCells,
-  type ActiveCell,
-} from '~/composables/schedule/edit/useSelectedScheduleCells';
 
-const {
-  cellIndex,
-  shiftIndex,
-  dayIndex,
-  maxCapacityReached = false,
-  editMode,
-} = defineProps<{
-  cellIndex: number;
+const { shiftIndex, dayIndex, editMode } = defineProps<{
   dayIndex: number;
   shiftIndex: number;
   editMode?: boolean;
-  maxCapacityReached?: boolean;
 }>();
 
 const cellInfo = defineModel<Cell>({
@@ -36,20 +20,6 @@ const cellInfo = defineModel<Cell>({
 
 const cellRef = useTemplateRef('cell');
 const cellWrap = useTemplateRef('cell-wrap');
-
-//
-
-type Status = 'idle' | 'dragging' | 'draggingAndHovering';
-type ClosestEdge = Edge | null;
-
-type DropTargetState = { status: Status; closestEdge: ClosestEdge };
-
-const dropTargState: Ref<DropTargetState> = ref({
-  status: 'idle',
-  closestEdge: null,
-});
-
-//
 
 let cleanup = () => {};
 
@@ -83,43 +53,12 @@ onMounted(() => {
     dropTargetForElements({
       element: cellRef.value,
 
-      getData: ({ input, element }) =>
-        attachClosestEdge(
-          { ...cellInfo.value, type: 'cellDropTarget' },
-          {
-            input,
-            element,
-            allowedEdges: ['top', 'bottom'],
-          }
-        ),
+      getData: () => ({
+        ...cellInfo.value,
+        type: 'cellDropTarget',
+      }),
 
       getIsSticky: () => true,
-
-      onDragEnter({ self }) {
-        const closestEdge = extractClosestEdge(self.data);
-
-        dropTargState.value = { status: 'draggingAndHovering', closestEdge };
-      },
-
-      onDrag({ self }) {
-        const closestEdge = extractClosestEdge(self.data);
-
-        // atualizar apenas se alguma coisa mudou
-        if (
-          dropTargState.value.status !== 'draggingAndHovering' ||
-          dropTargState.value.closestEdge !== closestEdge
-        ) {
-          dropTargState.value = { status: 'draggingAndHovering', closestEdge };
-        }
-      },
-
-      onDragLeave: () => {
-        dropTargState.value.status = 'idle';
-      },
-
-      onDrop: () => {
-        dropTargState.value.status = 'idle';
-      },
     })
   );
 });
@@ -127,29 +66,6 @@ onMounted(() => {
 onUnmounted(() => {
   cleanup();
 });
-
-//
-
-const active = computed(() =>
-  useSelectedCells({ action: 'getAll', get: 'ids' })!.value.has(
-    cellInfo.value.id
-  )
-);
-
-const toggleActive = () => {
-  const cell: ActiveCell = {
-    id: cellInfo.value.id,
-    cellIndex,
-    shiftIndex,
-    dayIndex,
-    date: cellInfo.value.date.format('YYYY-MM-DD'),
-    weekday: cellInfo.value.date.format('dddd'),
-  };
-
-  active.value
-    ? useSelectedCells({ action: 'removeOne', cell })
-    : useSelectedCells({ action: 'addOne', cell });
-};
 
 //
 
@@ -164,30 +80,14 @@ const popoverOpen = ref(false);
   <div
     ref="cell-wrap"
     v-show="showBreaks ? true : cellInfo.type !== 'intervalo'"
-    :class="[
-      'cell-wrap',
-      active && 'bg-ldsa-green-2/15',
-    ]"
-    @click="cellInfo.type !== 'intervalo' && editMode && toggleActive()"
+    class="cell-wrap"
   >
-    <SectionHorarioDapeEditDropIndicator
-      v-if="
-        dropTargState.status === 'draggingAndHovering' &&
-        dropTargState.closestEdge &&
-        dropTargState.closestEdge === 'top'
-      "
-      class="translate-z-0 -translate-y-[0.10195rem]"
-      :edge="dropTargState.closestEdge"
-      :maxCapacityReached="maxCapacityReached"
-    />
-
     <div
       ref="cell"
       id="horario"
       class="horario"
       :class="{
-        'text-ldsa-text-green dark:brightness-115': active,
-        'bg-ldsa-grey/20': cellInfo.type === 'intervalo' && !active,
+        'bg-ldsa-grey/20': cellInfo.type === 'intervalo',
       }"
     >
       <span v-if="cellInfo.type === 'aula'" class="truncate max-w-19/20">
@@ -205,11 +105,9 @@ const popoverOpen = ref(false);
 
       <span
         v-if="cellInfo.type !== 'intervalo'"
-        @click.stop
         :class="[
           'absolute right-1 pl-1',
           !popoverOpen && 'hover',
-          active ? 'bg-[#ebf8ed] dark:bg-[#192728]' : 'bg-ldsa-bg ',
         ]"
       >
         <SectionHorarioDapeEditGridCellEditButtons
@@ -220,17 +118,6 @@ const popoverOpen = ref(false);
         />
       </span>
     </div>
-
-    <SectionHorarioDapeEditDropIndicator
-      v-if="
-        dropTargState.status === 'draggingAndHovering' &&
-        dropTargState.closestEdge &&
-        dropTargState.closestEdge === 'bottom'
-      "
-      class="translate-z-0"
-      :maxCapacityReached="maxCapacityReached"
-      :edge="dropTargState.closestEdge"
-    />
   </div>
 </template>
 

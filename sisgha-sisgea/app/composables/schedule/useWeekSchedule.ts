@@ -76,6 +76,8 @@ export const useWeekSchedule = (
           )
         );
 
+  console.log('ve como da pra manipular sabosta', horarioDiasETurnos);
+
   // DayInShiftsWithoutInfo
   /*
   'data': {
@@ -90,12 +92,12 @@ export const useWeekSchedule = (
   // TODO: fazer conversão de apenas aulas de acordo com os parâmetros
 
   // if (!mustBeDayjs) {
-    // return returnAsString(
-    //   aulasVagosEForaDoHorario,
-    //   horarioDiasETurnos,
-    //   turnosEDias,
-    //   horarioTemUmDia
-    // );
+  // return returnAsString(
+  //   aulasVagosEForaDoHorario,
+  //   horarioDiasETurnos,
+  //   turnosEDias,
+  //   horarioTemUmDia
+  // );
   // }
 
   return turnosEDias ? horarioDiasETurnos : aulasVagosEForaDoHorario;

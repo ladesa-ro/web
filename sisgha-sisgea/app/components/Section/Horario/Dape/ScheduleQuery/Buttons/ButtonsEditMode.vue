@@ -6,22 +6,12 @@ const selectedItemsSize = computed(
   () => useSelectedCells({ action: 'getAll', get: 'ids' }).value.size ?? 0
 );
 
-defineEmits(['swap', 'replace', 'disable-edit-mode']);
+defineEmits(['disable-edit-mode']);
 </script>
 
 <template>
   <span class="flex gap-2.5">
     <slot> </slot>
-
-    <div class="divider" />
-
-    <Button :disabled="selectedItemsSize !== 2" @click="$emit('swap')">
-      <IconsSwap class="w-4" />
-    </Button>
-
-    <Button :disabled="selectedItemsSize !== 2" @click="$emit('replace')">
-      <IconsReplace class="w-5" />
-    </Button>
 
     <div class="divider" />
 

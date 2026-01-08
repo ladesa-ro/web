@@ -16,19 +16,15 @@ const shiftSchedule = defineModel<Cell[]>({
   required: true,
 });
 
-shiftSchedule.value = shiftSchedule.value.map(horario => ({
-  ...horario,
-  shiftIndex,
-  dayIndex,
-}));
+// shiftSchedule.value = shiftSchedule.value.map(horario => ({
+//   ...horario,
+//   shiftIndex,
+//   dayIndex,
+// }));
 
 //
 
-const maxCapacity = shiftSchedule.value.length;
-
 const shift = useTemplateRef('shift');
-
-const maxCapacityReached = ref(true);
 
 let cleanup = () => {};
 
@@ -44,29 +40,14 @@ onMounted(() => {
       getData: () => ({
         id: shiftIndex,
         dayIndex,
-        maxCapacity,
         dndType: 'shiftDropTarget',
       }),
-
-      canDrop: ({ source }) => {
-        if (source.data.dndType !== 'cellDraggable' || !editMode) {
-          return false;
-        }
-
-        if (source.data.shiftIndex == shiftIndex) {
-          maxCapacityReached.value = true;
-          return true;
-        }
-
-        maxCapacityReached.value =
-          shiftSchedule.value.length + 1 <= maxCapacity;
-
-        return maxCapacityReached.value;
-      },
     }),
     autoScrollWindowForElements()
   );
 });
+
+onUnmounted(cleanup);
 
 const closestEdgeToElement: Ref<Edge | null> = ref(null);
 
@@ -86,7 +67,6 @@ defineEmits(['atividade-change']);
       :shiftIndex
       :editMode
       :closestEdge="closestEdgeToElement"
-      :maxCapacityReached="maxCapacityReached"
       v-model="shiftSchedule[index]!"
       @atividade-change="$emit('atividade-change')"
     />

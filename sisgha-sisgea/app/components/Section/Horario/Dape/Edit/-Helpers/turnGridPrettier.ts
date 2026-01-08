@@ -12,16 +12,17 @@ export function getEmptyShift(
 ) {
   const shiftName: ShiftName = shiftNames[shiftIndex]!;
 
-  let emptyShift: Cell[] = [];
+  const emptyShift: Cell[] = [];
 
   Object.values(weekSchedule).find(day => {
-    const referenceShift = day.daySchedule[shiftName].shiftSchedule;
+    const referenceShift: Cell[] = day.daySchedule[shiftName].shiftSchedule;
 
     if (referenceShift.length > 0) {
-      emptyShift = referenceShift;
+      emptyShift.push (...referenceShift);
       emptyShift.forEach(shift => {
         shift.id = crypto.randomUUID();
         shift.dayIndex = dayIndex;
+        
         if (shift.type !== 'intervalo') {
           shift.type = 'vago';
         }

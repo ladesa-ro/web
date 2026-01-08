@@ -11,8 +11,6 @@ import {
   type WeekScheduleHistory,
 } from '~/composables/schedule/useScheduleTypes';
 import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
-import { replaceCell } from '../Edit/-Helpers/replaceCell';
-import { swapCells } from '../Edit/-Helpers/swapCells';
 import ButtonsEditMode from './Buttons/ButtonsEditMode.vue';
 import ButtonsVisualizationMode from './Buttons/ButtonsVisualizationMode.vue';
 import Button from './Buttons/ScheduleQueryButton.vue';
@@ -47,16 +45,6 @@ const scheduleHistory: WeekScheduleHistory = useManualRefHistory(weekSchedule, {
 
 const editMode = ref(false);
 const showBreaks = ref(true);
-
-const swap = () => {
-  const swapSuccess = swapCells(weekSchedule);
-  if (swapSuccess) scheduleHistory.commit();
-};
-
-const replace = () => {
-  const replaceSuccess = replaceCell(weekSchedule);
-  if (replaceSuccess) scheduleHistory.commit();
-};
 
 //
 
@@ -128,8 +116,6 @@ const smallScreenAlert = ref(true);
 
       <ButtonsEditMode
         v-if="editMode"
-        @swap="swap()"
-        @replace="replace()"
         @disable-edit-mode="editMode = false"
       >
         <Button
