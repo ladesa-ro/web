@@ -15,7 +15,7 @@ import type {
 } from '~/composables/schedule/useScheduleTypes';
 import { capitalizeFirst } from '../../-Helpers/CapitalizeFirst';
 import { getRowShiftName, shiftNames } from './-Helpers/getRowShiftName';
-import { getAllStartHours, getEmptyShift } from './-Helpers/turnGridPrettier';
+import { getAllStartHours } from './-Helpers/turnGridPrettier';
 
 const props = defineProps<{
   editMode?: boolean;
@@ -280,7 +280,7 @@ onMounted(() => {
           </template>
         </div>
 
-        <template v-for="(day, _, dayIndex) of weekSchedule" :key="dayIndex">
+        <template v-for="(day, date, dayIndex) of weekSchedule" :key="dayIndex">
           <template
             v-for="(shift, shiftName) in Object.fromEntries(
               Object.entries(day.daySchedule).filter(
@@ -309,16 +309,17 @@ onMounted(() => {
               :class="editMode && 'opacity-30'"
               v-else
             >
-              <SectionHorarioDapeEditGridCellNonEditable
+              <!-- <SectionHorarioDapeEditGridCellNonEditable
                 v-for="(cell, cellIndex) in getEmptyShift(
                   weekSchedule,
+                  date,
                   dayIndex,
                   shiftNames.findIndex(turnName => turnName === shiftName)
                 )"
                 :key="cellIndex"
                 :showBreaks
                 :type="cell.type"
-              />
+              /> -->
             </div>
           </template>
         </template>

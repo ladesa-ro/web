@@ -6,7 +6,10 @@ import {
   getRowShiftName,
   shiftNames,
 } from '../components/Section/Horario/Dape/Edit/-Helpers/getRowShiftName';
-import { getAllStartHours } from '../components/Section/Horario/Dape/Edit/-Helpers/turnGridPrettier';
+import {
+  getAllStartHours,
+  getEmptyShift,
+} from '../components/Section/Horario/Dape/Edit/-Helpers/turnGridPrettier';
 import type {
   Cell,
   NonEditableCell,
@@ -195,28 +198,64 @@ const editMode = ref(true);
             shiftIndex === 2 && 'rounded-br-lg',
           ]"
         >
-          <div v-for="(day, date) of weekSchedule" :key="date">
-            <GridCell
-              v-for="(_, cellIndex) in day.daySchedule[shift].shiftSchedule"
-              :key="cellIndex"
-              :cellIndex="cellIndex"
-              :shiftName="shift"
-              :shiftIndex="shiftIndex"
-              :dayDate="date"
-              :editMode="editMode"
-              v-model="
-                weekSchedule[date]!.daySchedule[shift].shiftSchedule[cellIndex]!
+          <div v-for="(day, date, dayIndex) of weekSchedule" :key="date">
+            <template
+              v-if="
+                weekSchedule[date]!.daySchedule[shift]!.shiftSchedule.length > 0
               "
-            />
+            >
+              <GridCell
+                v-for="(_, cellIndex) in day.daySchedule[shift].shiftSchedule"
+                :key="cellIndex"
+                :cellIndex="cellIndex"
+                :shiftName="shift"
+                :shiftIndex="shiftIndex"
+                :dayDate="date"
+                :editMode="editMode"
+                v-model="
+                  weekSchedule[date]!.daySchedule[shift].shiftSchedule[
+                    cellIndex
+                  ]!
+                "
+                :editable="true"
+              />
+            </template>
+
+            <div
+              class="flex flex-col w-full"
+              :class="editMode && 'opacity-50'"
+              v-else
+            >
+              <!-- {{ getEmptyShift(weekSchedule, date, dayIndex, shift) }}
+              {{  date }} {{  dayIndex }} {{ shift }}
+              {{weekSchedule[date]?.daySchedule[shift].shiftSchedule}} -->
+              <GridCellNotEditable
+                v-for="(cell, cellIndex) in getEmptyShift(
+                  weekSchedule,
+                  date,
+                  dayIndex,
+                  shift
+                )"
+                :key="cellIndex"
+                :showBreaks="showBreaks"
+                :type="cell.type"
+              />
+            </div>
+
+            <!-- <GridCellNotEditable v-else /> -->
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <pre><code>
+  <br />
+  <br />
+  <br />
+
+  <!-- <pre><code>
     {{ weekSchedule }}
-  </code></pre>
+  </code></pre> -->
 </template>
 
 <style scoped>

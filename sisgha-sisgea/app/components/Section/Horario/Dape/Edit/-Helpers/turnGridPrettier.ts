@@ -3,34 +3,31 @@ import type {
   ShiftName,
   WeekSchedule,
 } from '~/composables/schedule/useScheduleTypes';
-import { shiftNames } from './getRowShiftName';
 
 export function getEmptyShift(
   weekSchedule: WeekSchedule,
+  dayDate: string,
   dayIndex: number,
-  shiftIndex: number
+  shiftName: ShiftName
 ) {
-  const shiftName: ShiftName = shiftNames[shiftIndex]!;
+  // weekSchedule[dayDate]?.daySchedule[shiftName].shiftSchedule ?? [];
 
-  const emptyShift: Cell[] = [];
+  const baseShift: Cell[] =
+    Object.values(weekSchedule)
+      .flatMap(day => day.daySchedule[shiftName])
+      .find(shift => shift.shiftSchedule.length > 0)?.shiftSchedule ?? [];
 
-  Object.values(weekSchedule).find(day => {
-    const referenceShift: Cell[] = day.daySchedule[shiftName].shiftSchedule;
+  baseShift.forEach(cell => {
+    cell.id = crypto.randomUUID();
+    cell.dayIndex = dayIndex;
+    cell.dayDate = dayDate;
 
-    if (referenceShift.length > 0) {
-      emptyShift.push (...referenceShift);
-      emptyShift.forEach(shift => {
-        shift.id = crypto.randomUUID();
-        shift.dayIndex = dayIndex;
-        
-        if (shift.type !== 'intervalo') {
-          shift.type = 'vago';
-        }
-      });
+    if (cell.type !== 'intervalo') {
+      cell.type = 'vago';
     }
   });
 
-  return emptyShift;
+  return baseShift;
 }
 
 export function getAllStartHours(weekSchedule: WeekSchedule): Set<string> {

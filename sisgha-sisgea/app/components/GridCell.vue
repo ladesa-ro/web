@@ -16,7 +16,7 @@ const props = defineProps<{
 
 const cellInfo = defineModel<Cell>({
   default: {},
-  required: true,
+  required: false,
 });
 
 const draggableElement = useTemplateRef('el');
@@ -27,6 +27,11 @@ let cleanup = () => {};
 const draggingAgora = ref(false);
 
 onMounted(() => {
+  cellInfo.value.cellIndex = props.cellIndex;
+  cellInfo.value.shiftName = props.shiftName;
+  cellInfo.value.shiftIndex = props.shiftIndex;
+  cellInfo.value.dayDate = props.dayDate;
+
   if (!draggableElement.value || !droppableElement.value) {
     return;
   }
