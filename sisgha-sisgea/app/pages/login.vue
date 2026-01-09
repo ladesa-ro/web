@@ -29,19 +29,18 @@ const { undo, redo, canRedo, canUndo, commit } = useManualRefHistory(
 
 const showBreaks = ref(true);
 const editMode = ref(false);
+
+provide('showBreaks', showBreaks);
+provide('editMode', editMode);
 </script>
 
 <template>
   <ButtonsVisualizationMode
-    v-show="!editMode"
-    @activate-edit-mode="editMode = true"
-    @toggle-show-breaks="showBreaks = !showBreaks"
+    
   />
 
   <ButtonsEditMode
-    v-if="editMode"
-    @disable-edit-mode="editMode = false"
-    @toggle-show-breaks="showBreaks = !showBreaks"
+    
   >
     <Button :disabled="!canUndo" @click="undo()">
       <IconsUndoRedo class="w-4 scale-x-[-1]" />
@@ -55,7 +54,5 @@ const editMode = ref(false);
   <SectionHorarioDapeNewEditWeek
     v-model="weekSchedule"
     :commit="commit"
-    :show-breaks="showBreaks"
-    :edit-mode="editMode"
   />
 </template>

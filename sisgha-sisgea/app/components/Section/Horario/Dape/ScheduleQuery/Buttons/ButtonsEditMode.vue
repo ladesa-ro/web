@@ -5,11 +5,12 @@ import Button from './ScheduleQueryButton.vue';
 //   () => useSelectedCells({ action: 'getAll', get: 'ids' }).value.size ?? 0
 // );
 
-defineEmits(['disable-edit-mode', 'toggle-show-breaks']);
+const editMode: Ref<boolean> = inject('editMode') ?? ref(false);
+const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
 </script>
 
 <template>
-  <span class="flex gap-2.5">
+  <span class="flex gap-2.5" v-if="editMode">
     <slot> </slot>
 
     <!-- <div class="divider" /> -->
@@ -22,20 +23,18 @@ defineEmits(['disable-edit-mode', 'toggle-show-breaks']);
       <IconsBroom class="w-4.5" />
     </Button> -->
 
-    <Button text="Intervalos" @click="$emit('toggle-show-breaks')">
-      <IconsEyeOn class="w-5" />
+    <Button text="Intervalos" @click="showBreaks = !showBreaks">
+      <IconsEyeOn v-show="showBreaks" class="w-5" />
+      <IconsEyeOff v-if="!showBreaks" class="w-5" />
     </Button>
 
     <div class="divider" />
 
-    <Button @click="$emit('disable-edit-mode')" color="var(--ladesa-red-color)">
+    <Button @click="editMode = false" color="var(--ladesa-red-color)">
       <IconsClose class="w-4" />
     </Button>
 
-    <Button
-      @click="$emit('disable-edit-mode')"
-      color="var(--ladesa-text-green-color)"
-    >
+    <Button @click="editMode = false" color="var(--ladesa-text-green-color)">
       <IconsConfirm class="w-5" />
     </Button>
   </span>

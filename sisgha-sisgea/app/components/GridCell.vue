@@ -11,11 +11,10 @@ const props = defineProps<{
   shiftName: string;
   shiftIndex: number;
   dayDate: string;
-
-  // mudar isso aq pra essas informacoes n irem pras celulas do grid
-  editMode?: boolean;
-  showBreaks: boolean;
 }>();
+
+const editMode: Ref<boolean> = inject('editMode') ?? ref(false);
+const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
 
 const cellInfo = defineModel<Cell>({
   default: {},
@@ -30,10 +29,10 @@ let cleanup = () => {};
 const draggingAgora = ref(false);
 
 onMounted(() => {
-  // cellInfo.value.cellIndex = props.cellIndex;
-  // cellInfo.value.shiftName = props.shiftName;
-  // cellInfo.value.shiftIndex = props.shiftIndex;
-  // cellInfo.value.dayDate = props.dayDate;
+  const data = {
+    ...cellInfo.value,
+    ...props,
+  };
 
   if (!draggableElement.value || !droppableElement.value) {
     return;
@@ -42,8 +41,8 @@ onMounted(() => {
   cleanup = combine(
     draggable({
       element: draggableElement.value,
-      canDrag: () => cellInfo.value.type !== 'intervalo' && props.editMode,
-      getInitialData: () => ({ ...cellInfo.value, ...props }),
+      canDrag: () => cellInfo.value.type !== 'intervalo' && editMode.value,
+      getInitialData: () => data,
     }),
 
     //
@@ -53,8 +52,8 @@ onMounted(() => {
       canDrop: ({ source }) =>
         source.data.id !== cellInfo.value.id &&
         cellInfo.value.type !== 'intervalo' &&
-        props.editMode,
-      getData: () => ({ ...cellInfo.value, ...props }),
+        editMode.value,
+      getData: () => data,
       onDrag: () => (draggingAgora.value = true),
       onDragLeave: () => (draggingAgora.value = false),
       onDrop: () => (draggingAgora.value = false),
@@ -94,6 +93,8 @@ onUnmounted(() => {
       >
         {{ cellInfo.diario.disciplina }} - {{ cellInfo.diario.professor }}
       </span>
+
+      <!-- TODO: adicionar botoes para edicao da celula -->
     </div>
   </div>
 </template>

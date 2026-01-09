@@ -1,5 +1,8 @@
 <script setup lang="ts">
-defineProps<{ showBreaks?: boolean; type: string }>();
+defineProps<{ type: string }>();
+
+// const editMode: Ref<boolean> = inject('editMode') ?? ref(false);
+const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
 </script>
 
 <template>

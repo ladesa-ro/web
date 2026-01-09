@@ -12,25 +12,26 @@ import {
 import type { WeekSchedule } from '~/composables/schedule/useScheduleTypes';
 import { dndMonitor } from './dnd-monitor';
 
-const { commit, editMode, showBreaks } = defineProps<{
-  commit: () => void;
-  editMode: boolean;
-  showBreaks: boolean;
-}>();
+const { commit } = defineProps<{ commit: () => void }>();
+
+const editMode: Ref<boolean> = inject('editMode') ?? ref(false);
+const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
 
 const weekSchedule = defineModel<WeekSchedule>({ default: {}, required: true });
 
 let cleanup = () => {};
 
 onMounted(() => {
-  cleanup = dndMonitor(weekSchedule,   commit);
+  cleanup = dndMonitor(weekSchedule, commit);
 });
 
 onUnmounted(() => {
   cleanup();
 });
 
-const startHours: Ref<HoursPerShift> = ref(getAllStartHours(weekSchedule.value));
+const startHours: Ref<HoursPerShift> = ref(
+  getAllStartHours(weekSchedule.value)
+);
 </script>
 
 <template>
@@ -62,6 +63,7 @@ const startHours: Ref<HoursPerShift> = ref(getAllStartHours(weekSchedule.value))
           :class="[
             shiftIndex === 0 && 'rounded-tl-lg',
             shiftIndex === shiftNames.length - 1 && 'rounded-bl-lg',
+            editMode && 'hover:bg-ldsa-green-1/85',
           ]"
           :disabled="!editMode"
         >
@@ -85,7 +87,7 @@ const startHours: Ref<HoursPerShift> = ref(getAllStartHours(weekSchedule.value))
             <div
               v-for="(hour, hourShift) in startHours[shift]"
               :key="hourShift"
-              class="border-b-2 border-b-ldsa-text-default/55 last:border-b-0 text-center min-h-6 text-[0.813rem] font-medium px-1"
+              class="border-b-2 border-b-ldsa-text-default/55 last:border-b-0 text-center min-h-6 text-[0.813rem] font-medium px-1 py-0.5"
               :class="
                 hour.includes('intervalo')
                   ? 'bg-ldsa-grey/15 text-ldsa-text-default/55'
@@ -118,8 +120,6 @@ const startHours: Ref<HoursPerShift> = ref(getAllStartHours(weekSchedule.value))
                   :shiftName="shift"
                   :shiftIndex="shiftIndex"
                   :dayDate="date"
-                  :editMode="editMode"
-                  :showBreaks="showBreaks"
                   v-model="
                     weekSchedule[date]!.daySchedule[shift].shiftSchedule[
                       cellIndex
@@ -138,7 +138,6 @@ const startHours: Ref<HoursPerShift> = ref(getAllStartHours(weekSchedule.value))
                     shift
                   )"
                   :key="cellIndex"
-                  :showBreaks="showBreaks"
                   :type="cell.type"
                 />
               </div>
