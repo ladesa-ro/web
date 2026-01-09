@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import Button from './ScheduleQueryButton.vue';
-const editMode = defineModel<boolean>('editMode', { default: false });
 
-const showBreaks = defineModel<boolean>('showBreaks', { default: false });
+defineEmits(['toggleShowBreaks', 'activateEditMode']);
 </script>
 
 <template>
@@ -11,7 +10,7 @@ const showBreaks = defineModel<boolean>('showBreaks', { default: false });
       <IconsEyeOn class="w-5" />
     </Button>
 
-    <Button text="Intervalos" @click="showBreaks = !showBreaks">
+    <Button text="Intervalos" @click="$emit('toggleShowBreaks')">
       <IconsEyeOn class="w-5" />
     </Button>
 
@@ -19,7 +18,7 @@ const showBreaks = defineModel<boolean>('showBreaks', { default: false });
       class="max-[875px]:hidden"
       text="Modo Edição"
       color="var(--ladesa-text-green-color)"
-      @click="editMode = true"
+      @click="$emit('activateEditMode')"
     >
       <IconsEdit class="mb-0.5" />
     </Button>

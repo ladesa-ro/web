@@ -4,6 +4,7 @@ import type {
   WeekSchedule,
 } from '~/composables/schedule/useScheduleTypes';
 
+// TODO: refatorar essas 2 funções para usarem os tempos de aula (terão que calcular quando é a hora do intervalo, mas serão mais precisas do que isso que eu fiz aqui)
 export function getEmptyShift(
   weekSchedule: WeekSchedule,
   dayDate: string,
@@ -30,13 +31,13 @@ export function getEmptyShift(
   return baseShift;
 }
 
-type hoursPerShift = {
+export type HoursPerShift = {
   morning: Set<string>;
   afternoon: Set<string>;
   night: Set<string>;
 };
 
-export function getAllStartHours(weekSchedule: WeekSchedule): hoursPerShift {
+export function getAllStartHours(weekSchedule: WeekSchedule): HoursPerShift {
   // ou so refatorar essa lenda aqui que eu fiz
 
   // let startHours = new Set<string>();
@@ -52,7 +53,7 @@ export function getAllStartHours(weekSchedule: WeekSchedule): hoursPerShift {
 
   // const hoursSet = new Set<string>();
 
-  const hours: hoursPerShift = {
+  const hours: HoursPerShift = {
     morning: new Set<string>(),
     afternoon: new Set<string>(),
     night: new Set<string>(),

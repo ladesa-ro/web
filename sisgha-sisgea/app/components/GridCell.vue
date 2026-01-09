@@ -11,7 +11,10 @@ const props = defineProps<{
   shiftName: string;
   shiftIndex: number;
   dayDate: string;
+
+  // mudar isso aq pra essas informacoes n irem pras celulas do grid
   editMode?: boolean;
+  showBreaks: boolean;
 }>();
 
 const cellInfo = defineModel<Cell>({
@@ -67,6 +70,7 @@ onUnmounted(() => {
 <template>
   <div
     ref="el2"
+    v-show="showBreaks ? true : cellInfo.type !== 'intervalo'"
     class="font-medium border-b-2 border-b-ldsa-text-default/55 text-ldsa-text-default/95 last:border-b-0 min-h-6"
   >
     <div
@@ -75,15 +79,19 @@ onUnmounted(() => {
       :class="[
         draggingAgora &&
           cellInfo.type !== 'intervalo' &&
-          'bg-ldsa-green-2/30 text-ldsa-green-1',
-        cellInfo.type === 'intervalo' && 'bg-ldsa-grey/15 text-ldsa-black/60',
+          'bg-ldsa-green-2/15 text-ldsa-green-1',
+        cellInfo.type === 'intervalo' &&
+          'bg-ldsa-grey/15 text-ldsa-text-default/55',
       ]"
     >
       <span v-if="cellInfo.type === 'intervalo'">Intervalo</span>
 
       <span v-else-if="cellInfo.type === 'vago'">-</span>
 
-      <span v-else-if="cellInfo.type === 'aula'" class="block truncate max-w-full">
+      <span
+        v-else-if="cellInfo.type === 'aula'"
+        class="block truncate max-w-full"
+      >
         {{ cellInfo.diario.disciplina }} - {{ cellInfo.diario.professor }}
       </span>
     </div>

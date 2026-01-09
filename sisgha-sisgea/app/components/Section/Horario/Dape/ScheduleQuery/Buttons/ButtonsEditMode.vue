@@ -1,26 +1,29 @@
 <script setup lang="ts">
-import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 import Button from './ScheduleQueryButton.vue';
 
-const selectedItemsSize = computed(
-  () => useSelectedCells({ action: 'getAll', get: 'ids' }).value.size ?? 0
-);
+// const selectedItemsSize = computed(
+//   () => useSelectedCells({ action: 'getAll', get: 'ids' }).value.size ?? 0
+// );
 
-defineEmits(['disable-edit-mode']);
+defineEmits(['disable-edit-mode', 'toggle-show-breaks']);
 </script>
 
 <template>
   <span class="flex gap-2.5">
     <slot> </slot>
 
-    <div class="divider" />
+    <!-- <div class="divider" /> -->
 
-    <Button
+    <!-- <Button
       text="Limpar seleção"
       :disabled="selectedItemsSize === 0"
       @click="useSelectedCells({ action: 'removeAll' })"
     >
       <IconsBroom class="w-4.5" />
+    </Button> -->
+
+    <Button text="Intervalos" @click="$emit('toggle-show-breaks')">
+      <IconsEyeOn class="w-5" />
     </Button>
 
     <div class="divider" />
