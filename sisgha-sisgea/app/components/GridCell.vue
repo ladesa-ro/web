@@ -16,7 +16,7 @@ const props = defineProps<{
 
 const cellInfo = defineModel<Cell>({
   default: {},
-  required: false,
+  required: true,
 });
 
 const draggableElement = useTemplateRef('el');
@@ -27,10 +27,10 @@ let cleanup = () => {};
 const draggingAgora = ref(false);
 
 onMounted(() => {
-  cellInfo.value.cellIndex = props.cellIndex;
-  cellInfo.value.shiftName = props.shiftName;
-  cellInfo.value.shiftIndex = props.shiftIndex;
-  cellInfo.value.dayDate = props.dayDate;
+  // cellInfo.value.cellIndex = props.cellIndex;
+  // cellInfo.value.shiftName = props.shiftName;
+  // cellInfo.value.shiftIndex = props.shiftIndex;
+  // cellInfo.value.dayDate = props.dayDate;
 
   if (!draggableElement.value || !droppableElement.value) {
     return;
@@ -67,18 +67,15 @@ onUnmounted(() => {
 <template>
   <div
     ref="el2"
-    class="border-b-2 last:border-b-0 border-b-ldsa-grey/50 min-h-6"
+    class="font-medium border-b-2 border-b-ldsa-text-default/55 text-ldsa-text-default/95 last:border-b-0 min-h-6"
   >
     <div
       ref="el"
-      class="last:border-b-0 py-0.5 text-center text-[0.813rem] h-full"
+      class="py-0.5 text-center text-[0.813rem] h-full"
       :class="[
         draggingAgora &&
           cellInfo.type !== 'intervalo' &&
           'bg-ldsa-green-2/30 text-ldsa-green-1',
-        draggingAgora &&
-          cellInfo.type === 'intervalo' &&
-          'bg-ldsa-red/30 text-ldsa-red',
         cellInfo.type === 'intervalo' && 'bg-ldsa-grey/15 text-ldsa-black/60',
       ]"
     >
@@ -86,7 +83,7 @@ onUnmounted(() => {
 
       <span v-else-if="cellInfo.type === 'vago'">-</span>
 
-      <span v-else-if="cellInfo.type === 'aula'">
+      <span v-else-if="cellInfo.type === 'aula'" class="block truncate max-w-full">
         {{ cellInfo.diario.disciplina }} - {{ cellInfo.diario.professor }}
       </span>
     </div>

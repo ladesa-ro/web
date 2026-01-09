@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import { useRefHistory } from '@vueuse/core';
+import { useManualRefHistory } from '@vueuse/core';
 import { capitalizeFirst } from '../components/Section/Horario/-Helpers/CapitalizeFirst';
 import {
   getRowShiftName,
@@ -40,10 +40,11 @@ const weekSchedule: Ref<WeekSchedule> = ref(
   useWeekSchedule(temposDeAulaExemplo, aulasSemDiaSemanaExemplo)
 ) as Ref<WeekSchedule>;
 
-const { undo, redo, canRedo, canUndo } = useRefHistory(weekSchedule, {
-  deep: true,
-});
-
+const { undo, redo, canRedo, canUndo, commit } = useManualRefHistory(
+  weekSchedule,
+  { clone: true, capacity: 10 }
+);
+// flush: 'sync',
 onMounted(() => {
   cleanup = monitorForElements({
     onDrop: ({ source, location }) => {
@@ -103,6 +104,8 @@ onMounted(() => {
 
       arrastadoPeriodo[aulaArrastada.cellIndex!] = aulaAlvo as Cell;
       alvoPeriodo[aulaAlvo.cellIndex!] = aulaArrastada as Cell;
+
+      commit();
     },
   });
 });
@@ -116,15 +119,12 @@ const startHours: Ref<{
   afternoon: Set<string>;
   night: Set<string>;
 }> = ref(getAllStartHours(weekSchedule.value));
+
 const showBreaks = ref(true);
 const editMode = ref(true);
 </script>
 
 <template>
-  <pre><code>
-
-    {{ startHours }}
-  </code></pre>
   <div class="flex w-full">
     <button
       class="p-2 bg-red-300 m-2 flex-1 disabled:opacity-50"
@@ -144,7 +144,7 @@ const editMode = ref(true);
   </div>
 
   <div class="xl:mx-20">
-    <div class="grid grid-cols-6 mb-3 ml-[3.094rem] mr-5 gap-5">
+    <div class="grid grid-cols-6 mb-3 ml-[6.344rem] mr-5 gap-5">
       <SectionHorarioDapeEditPopoverDayAndShift
         v-for="(_, date) of weekSchedule"
         :disabled="!editMode"
@@ -176,14 +176,16 @@ const editMode = ref(true);
           {{ getRowShiftName(shift) }}
         </div>
 
-        <div class="border-2 border-ldsa-green-1 flex flex-1">
+        <div
+          class="border-2 border-ldsa-green-1 flex flex-1 pl-4 px-5 py-2 gap-4"
+        >
           <div
-            class="flex flex-col w-10 h-full justify-between items-center text-center ml-5 mt-2"
+            class="flex flex-col w-10 h-full justify-between items-center text-center"
           >
             <div
               v-for="(hour, hourShift) in startHours[shift]"
               :key="hourShift"
-              class="border-b-2 border-b-ldsa-text-default/65 last:border-b-0 text-center min-h-6 text-[0.813rem] font-medium"
+              class="border-b-2 border-b-ldsa-text-default/55 text-ldsa-text-default/95 last:border-b-0 text-center min-h-6 text-[0.813rem] font-medium px-1"
               :class="
                 hour.includes('intervalo') &&
                 'bg-ldsa-grey/15 text-ldsa-black/60'
@@ -195,7 +197,7 @@ const editMode = ref(true);
           </div>
 
           <div
-            class="grid grid-cols-6 gap-5 border-ldsa-green-1 py-2 px-5 flex-1"
+            class="grid grid-cols-6 gap-5 border-ldsa-green-1 flex-1"
             :class="[
               shiftIndex === 0 && 'rounded-tr-lg',
               shiftIndex === 2 && 'rounded-br-lg',
@@ -225,7 +227,6 @@ const editMode = ref(true);
                 />
               </template>
 
-              <!-- class="flex flex-col w-full" -->
               <div v-else :class="editMode && 'opacity-50'">
                 <GridCellNotEditable
                   v-for="(cell, cellIndex) in getEmptyShift(
@@ -239,8 +240,6 @@ const editMode = ref(true);
                   :type="cell.type"
                 />
               </div>
-
-              <!-- <GridCellNotEditable v-else /> -->
             </div>
           </div>
         </div>
