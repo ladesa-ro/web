@@ -263,7 +263,7 @@ onMounted(() => {
       >
         <div class="flex flex-col w-10 h-full justify-start text-center">
           <template v-for="(hour, hourIndex) in startHours" :key="hourIndex">
-            <span
+            <!-- <span
               v-if="
                 rowShiftIndex === parseInt(hour[hour.length - 1] ?? '0') &&
                 !hour.includes('undefined')
@@ -276,7 +276,7 @@ onMounted(() => {
               "
             >
               {{ hour.substring(0, 5) }}
-            </span>
+            </span> -->
           </template>
         </div>
 

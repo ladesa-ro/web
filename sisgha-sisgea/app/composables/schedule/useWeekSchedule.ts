@@ -76,8 +76,6 @@ export const useWeekSchedule = (
           )
         );
 
-  console.log('ve como da pra manipular sabosta', horarioDiasETurnos);
-
   // DayInShiftsWithoutInfo
   /*
   'data': {

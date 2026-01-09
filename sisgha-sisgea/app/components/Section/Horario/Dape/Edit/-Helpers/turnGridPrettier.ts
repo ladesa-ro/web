@@ -30,29 +30,86 @@ export function getEmptyShift(
   return baseShift;
 }
 
-export function getAllStartHours(weekSchedule: WeekSchedule): Set<string> {
-  let startHours = new Set<string>();
+type hoursPerShift = {
+  morning: Set<string>;
+  afternoon: Set<string>;
+  night: Set<string>;
+};
 
-  Object.values(weekSchedule).forEach(day => {
-    Object.values(day.daySchedule).forEach(shift => {
-      shift.shiftSchedule.forEach(cell => {
-        startHours.add(
-          `${useDayJs()(cell.startHour).format('HH:mm')}${cell.type === 'intervalo' ? ' intervalo' : ''} shiftIndex=${cell.shiftIndex}`
-        );
-      });
+export function getAllStartHours(weekSchedule: WeekSchedule): hoursPerShift {
+  // ou so refatorar essa lenda aqui que eu fiz
+
+  // let startHours = new Set<string>();
+
+  // Object.values(weekSchedule)
+  //   .flatMap(day => Object.values(day.daySchedule))
+  //   .flatMap(shift => shift.shiftSchedule)
+  //   .forEach(cell => {
+  //     startHours.add(
+  //       `${useDayJs()(cell.startHour).format('HH:mm')}  ${cell.type === 'intervalo' ? ' intervalo' : ''}`
+  //     );
+  //   });
+
+  // const hoursSet = new Set<string>();
+
+  const hours: hoursPerShift = {
+    morning: new Set<string>(),
+    afternoon: new Set<string>(),
+    night: new Set<string>(),
+  };
+
+  Object.values(weekSchedule)
+    .flatMap(day => Object.entries(day.daySchedule))
+    .forEach(([shiftName, shift]) => {
+      // const shiftHours = shift.shiftSchedule.map(
+      //   cell =>
+      //     `${useDayJs()(cell.startHour).format('HH:mm')}${cell.type === 'intervalo' ? ' intervalo' : ''}`
+      // );
+
+      shift.shiftSchedule.forEach(cell =>
+        hours[shiftName as ShiftName].add(
+          `${useDayJs()(cell.startHour).format('HH:mm')}${cell.type === 'intervalo' ? ' intervalo' : ''}`
+        )
+      );
+
+      // add(...shiftHours);
+
+      // shift.shiftSchedule.forEach(cell => {
+
+      //   hoursSet.add(
+      //     `${shiftName} ${useDayJs()(cell.startHour).format('HH:mm')} ${cell.type === 'intervalo' ? 'intervalo' : ''}`
+      //   );
+      // });
     });
-  });
 
-  const startHoursArray = [...startHours];
+  // hoursSet.forEach(hour => {});
+  // .flatMap(shift => shift.shiftSchedule)
+  // .forEach(cell => {
+  //   startHours.add(
+  //     `${useDayJs()(cell.startHour).format('HH:mm')}  ${cell.type === 'intervalo' ? ' intervalo' : ''}`
+  //   );
+  // });
 
-  startHoursArray.sort((a, b) => {
-    const dateA = new Date(`2000/01/01 ${a}`);
-    const dateB = new Date(`2000/01/01 ${b}`);
+  // Object.values(weekSchedule).forEach(day => {
+  //   Object.values(day.daySchedule).forEach(shift => {
+  //     shift.shiftSchedule.forEach(cell => {
+  //       startHours.add(
+  //         `${useDayJs()(cell.startHour).format('HH:mm')}${cell.type === 'intervalo' ? ' intervalo' : ''} shiftIndex=${cell.shiftIndex}`
+  //       );
+  //     });
+  //   });
+  // });
 
-    return dateA.getTime() - dateB.getTime();
-  });
+  // const startHoursArray = [...startHours];
 
-  startHours = new Set(startHoursArray);
+  // startHoursArray.sort((a, b) => {
+  //   const dateA = new Date(`2000/01/01 ${a}`);
+  //   const dateB = new Date(`2000/01/01 ${b}`);
 
-  return startHours;
+  //   return dateA.getTime() - dateB.getTime();
+  // });
+
+  // startHours = new Set(startHoursArray);
+
+  return hours;
 }

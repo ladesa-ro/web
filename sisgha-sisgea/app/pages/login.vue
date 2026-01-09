@@ -111,7 +111,11 @@ onUnmounted(() => {
   cleanup();
 });
 
-const startHours = ref(getAllStartHours(weekSchedule.value));
+const startHours: Ref<{
+  morning: Set<string>;
+  afternoon: Set<string>;
+  night: Set<string>;
+}> = ref(getAllStartHours(weekSchedule.value));
 const showBreaks = ref(true);
 const editMode = ref(true);
 </script>
@@ -139,7 +143,7 @@ const editMode = ref(true);
     </button>
   </div>
 
-  <div class="mx-20">
+  <div class="xl:mx-20">
     <div class="grid grid-cols-6 mb-3 ml-[3.094rem] mr-5 gap-5">
       <SectionHorarioDapeEditPopoverDayAndShift
         v-for="(_, date) of weekSchedule"
@@ -172,77 +176,72 @@ const editMode = ref(true);
           {{ getRowShiftName(shift) }}
         </div>
 
-        <div class="flex flex-col w-10 h-full justify-start text-center">
-          <template v-for="(hour, hourIndex) in startHours" :key="hourIndex">
-            <span
-              v-if="
-                shiftIndex === parseInt(hour[hour.length - 1] ?? '0') &&
-                !hour.includes('undefined')
-              "
-              v-show="showBreaks ? true : !hour.includes('intervalo')"
-              class="border-b-2 last:border-b-0 border-b-ldsa-grey/50 min-h-6 text-[0.813rem] font-medium flex items-center justify-center"
+        <div class="border-2 border-ldsa-green-1 flex flex-1">
+          <div
+            class="flex flex-col w-10 h-full justify-between items-center text-center ml-5 mt-2"
+          >
+            <div
+              v-for="(hour, hourShift) in startHours[shift]"
+              :key="hourShift"
+              class="border-b-2 border-b-ldsa-text-default/65 last:border-b-0 text-center min-h-6 text-[0.813rem] font-medium"
               :class="
                 hour.includes('intervalo') &&
-                'bg-ldsa-grey/20 text-ldsa-text-default/50'
+                'bg-ldsa-grey/15 text-ldsa-black/60'
               "
+              v-show="showBreaks ? true : !hour.includes('intervalo')"
             >
-              {{ hour.substring(0, 5) }}
-            </span>
-          </template>
-        </div>
-
-        <div
-          class="grid grid-cols-6 gap-5 border-2 border-l-0 border-ldsa-green-1 py-2 px-5 flex-1"
-          :class="[
-            shiftIndex === 0 && 'rounded-tr-lg',
-            shiftIndex === 2 && 'rounded-br-lg',
-          ]"
-        >
-          <div v-for="(day, date, dayIndex) of weekSchedule" :key="date">
-            <template
-              v-if="
-                weekSchedule[date]!.daySchedule[shift]!.shiftSchedule.length > 0
-              "
-            >
-              <GridCell
-                v-for="(_, cellIndex) in day.daySchedule[shift].shiftSchedule"
-                :key="cellIndex"
-                :cellIndex="cellIndex"
-                :shiftName="shift"
-                :shiftIndex="shiftIndex"
-                :dayDate="date"
-                :editMode="editMode"
-                v-model="
-                  weekSchedule[date]!.daySchedule[shift].shiftSchedule[
-                    cellIndex
-                  ]!
-                "
-                :editable="true"
-              />
-            </template>
-
-            <div
-              class="flex flex-col w-full"
-              :class="editMode && 'opacity-50'"
-              v-else
-            >
-              <!-- {{ getEmptyShift(weekSchedule, date, dayIndex, shift) }}
-              {{  date }} {{  dayIndex }} {{ shift }}
-              {{weekSchedule[date]?.daySchedule[shift].shiftSchedule}} -->
-              <GridCellNotEditable
-                v-for="(cell, cellIndex) in getEmptyShift(
-                  weekSchedule,
-                  date,
-                  dayIndex,
-                  shift
-                )"
-                :key="cellIndex"
-                :showBreaks="showBreaks"
-                :type="cell.type"
-              />
+              {{ hour.replace(' intervalo', '') }}
             </div>
+          </div>
 
-            <!-- <GridCellNotEditable v-else /> -->
+          <div
+            class="grid grid-cols-6 gap-5 border-ldsa-green-1 py-2 px-5 flex-1"
+            :class="[
+              shiftIndex === 0 && 'rounded-tr-lg',
+              shiftIndex === 2 && 'rounded-br-lg',
+            ]"
+          >
+            <div v-for="(day, date, dayIndex) of weekSchedule" :key="date">
+              <template
+                v-if="
+                  weekSchedule[date]!.daySchedule[shift]!.shiftSchedule.length >
+                  0
+                "
+              >
+                <GridCell
+                  v-for="(_, cellIndex) in day.daySchedule[shift].shiftSchedule"
+                  :key="cellIndex"
+                  :cellIndex="cellIndex"
+                  :shiftName="shift"
+                  :shiftIndex="shiftIndex"
+                  :dayDate="date"
+                  :editMode="editMode"
+                  v-model="
+                    weekSchedule[date]!.daySchedule[shift].shiftSchedule[
+                      cellIndex
+                    ]!
+                  "
+                  :editable="true"
+                />
+              </template>
+
+              <!-- class="flex flex-col w-full" -->
+              <div v-else :class="editMode && 'opacity-50'">
+                <GridCellNotEditable
+                  v-for="(cell, cellIndex) in getEmptyShift(
+                    weekSchedule,
+                    date,
+                    dayIndex,
+                    shift
+                  )"
+                  :key="cellIndex"
+                  :showBreaks="showBreaks"
+                  :type="cell.type"
+                />
+              </div>
+
+              <!-- <GridCellNotEditable v-else /> -->
+            </div>
           </div>
         </div>
       </div>
