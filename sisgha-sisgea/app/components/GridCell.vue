@@ -29,11 +29,6 @@ let cleanup = () => {};
 const draggingAgora = ref(false);
 
 onMounted(() => {
-  const data = {
-    ...cellInfo.value,
-    ...props,
-  };
-
   if (!draggableElement.value || !droppableElement.value) {
     return;
   }
@@ -42,7 +37,10 @@ onMounted(() => {
     draggable({
       element: draggableElement.value,
       canDrag: () => cellInfo.value.type !== 'intervalo' && editMode.value,
-      getInitialData: () => data,
+      getInitialData: () => ({
+        ...cellInfo.value,
+        ...props,
+      }),
     }),
 
     //
@@ -53,8 +51,13 @@ onMounted(() => {
         source.data.id !== cellInfo.value.id &&
         cellInfo.value.type !== 'intervalo' &&
         editMode.value,
-      getData: () => data,
-      onDrag: () => (draggingAgora.value = true),
+      getData: () => ({
+        ...cellInfo.value,
+        ...props,
+      }),
+      onDrag: ({ self }) => {
+        draggingAgora.value = true;
+      },
       onDragLeave: () => (draggingAgora.value = false),
       onDrop: () => (draggingAgora.value = false),
     })
@@ -70,7 +73,7 @@ onUnmounted(() => {
   <div
     ref="el2"
     v-show="showBreaks ? true : cellInfo.type !== 'intervalo'"
-    class="font-medium border-b-2 border-b-ldsa-text-default/55 text-ldsa-text-default/95 last:border-b-0 min-h-6"
+    class="font-medium border-b-2 border-b-ldsa-text-default/55 text-ldsa-text-default/95 last:border-b-0 min-h-6 max-lg:h-12"
   >
     <div
       ref="el"
@@ -83,13 +86,18 @@ onUnmounted(() => {
           'bg-ldsa-grey/15 text-ldsa-text-default/55',
       ]"
     >
-      <span v-if="cellInfo.type === 'intervalo'">Intervalo</span>
+      <span
+        class="block max-w-full whitespace-normal break-word lg:whitespace-nowrap lg:overflow-hidden lg:text-ellipsis lg:line-clamp-1 max-lg:line-clamp-2"
+        v-if="cellInfo.type === 'intervalo'"
+      >
+        Intervalo
+      </span>
 
       <span v-else-if="cellInfo.type === 'vago'">-</span>
 
       <span
         v-else-if="cellInfo.type === 'aula'"
-        class="block truncate max-w-full"
+        class="block max-w-full whitespace-normal break-word lg:whitespace-nowrap overflow-hidden lg:text-ellipsis lg:line-clamp-1 max-lg:line-clamp-2"
       >
         {{ cellInfo.diario.disciplina }} - {{ cellInfo.diario.professor }}
       </span>

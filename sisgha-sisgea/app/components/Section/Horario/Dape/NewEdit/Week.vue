@@ -29,13 +29,12 @@ onUnmounted(() => {
   cleanup();
 });
 
-const startHours: Ref<HoursPerShift> = ref(
-  getAllStartHours(weekSchedule.value)
+const startHours: Ref<HoursPerShift> = ref(  getAllStartHours(weekSchedule.value)
 );
 </script>
 
 <template>
-  <div class="xl:mx-20">
+  <div class="xl:mx-20 min-w-[55rem]">
     <div class="grid grid-cols-6 mb-3 ml-[6.344rem] mr-5 gap-5">
       <SectionHorarioDapeEditPopoverDayAndShift
         v-for="(_, date) of weekSchedule"
@@ -43,11 +42,17 @@ const startHours: Ref<HoursPerShift> = ref(
       >
         <div
           :class="editMode && 'hover:bg-ldsa-green-1/85'"
-          class="bg-ldsa-green-1 rounded-t-lg py-[0.313rem] text-center text-ldsa-white font-medium text-[0.813rem]"
+          class="flex justify-center max-lg:flex-col bg-ldsa-green-1 rounded-t-lg py-[0.313rem] text-center text-ldsa-white font-medium text-[0.813rem]"
         >
-          {{ capitalizeFirst(useDayJs()(date).format('dddd')) }}
-          -
-          {{ useDayJs()(date).format('DD/MM') }}
+          <span>
+            {{ capitalizeFirst(useDayJs()(date).format('dddd')) }}
+          </span>
+
+          <span class="max-lg:hidden">&nbsp;-&nbsp;</span>
+
+          <span>
+            {{ useDayJs()(date).format('DD/MM') }}
+          </span>
         </div>
       </SectionHorarioDapeEditPopoverDayAndShift>
     </div>
@@ -87,7 +92,7 @@ const startHours: Ref<HoursPerShift> = ref(
             <div
               v-for="(hour, hourShift) in startHours[shift]"
               :key="hourShift"
-              class="border-b-2 border-b-ldsa-text-default/55 last:border-b-0 text-center min-h-6 text-[0.813rem] font-medium px-1 py-0.5"
+              class="border-b-2 border-b-ldsa-text-default/55 last:border-b-0 text-center min-h-6 max-lg:h-12 text-[0.813rem] font-medium px-1 py-0.5"
               :class="
                 hour.includes('intervalo')
                   ? 'bg-ldsa-grey/15 text-ldsa-text-default/55'
@@ -114,8 +119,9 @@ const startHours: Ref<HoursPerShift> = ref(
                 "
               >
                 <GridCell
-                  v-for="(_, cellIndex) in day.daySchedule[shift].shiftSchedule"
-                  :key="cellIndex"
+                  v-for="(cell, cellIndex) in day.daySchedule[shift]
+                    .shiftSchedule"
+                  :key="cell.id"
                   :cellIndex="cellIndex"
                   :shiftName="shift"
                   :shiftIndex="shiftIndex"
@@ -130,7 +136,7 @@ const startHours: Ref<HoursPerShift> = ref(
 
               <!-- TODO: abaixo está uma solução provisória. no futuro, pretendo permitir arrasto de aulas para esses lugares que não estão reservados no horário para terem aula e apresentar um aviso na tela -->
               <div v-else :class="editMode && 'opacity-75'">
-                <GridCellNotEditable
+                <!-- <GridCellNotEditable
                   v-for="(cell, cellIndex) in getEmptyShift(
                     weekSchedule,
                     date,
@@ -139,7 +145,7 @@ const startHours: Ref<HoursPerShift> = ref(
                   )"
                   :key="cellIndex"
                   :type="cell.type"
-                />
+                /> -->
               </div>
             </div>
           </div>

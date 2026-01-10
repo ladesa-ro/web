@@ -17,8 +17,8 @@ const showIndisponibilidades = ref(true);
     </Button>
 
     <Button text="Intervalos" @click="showBreaks = !showBreaks">
-      <IconsEyeOn v-show="showBreaks" class="w-5" />
-      <IconsEyeOff v-if="!showBreaks" class="w-5" />
+      <IconsEyeOff v-show="showBreaks" class="w-5" />
+      <IconsEyeOn v-if="!showBreaks" class="w-5" />
     </Button>
 
     <Button

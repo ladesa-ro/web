@@ -35,13 +35,9 @@ provide('editMode', editMode);
 </script>
 
 <template>
-  <ButtonsVisualizationMode
-    
-  />
+  <ButtonsVisualizationMode />
 
-  <ButtonsEditMode
-    
-  >
+  <ButtonsEditMode>
     <Button :disabled="!canUndo" @click="undo()">
       <IconsUndoRedo class="w-4 scale-x-[-1]" />
     </Button>
@@ -51,8 +47,5 @@ provide('editMode', editMode);
     </Button>
   </ButtonsEditMode>
 
-  <SectionHorarioDapeNewEditWeek
-    v-model="weekSchedule"
-    :commit="commit"
-  />
+  <SectionHorarioDapeNewEditWeek v-model="weekSchedule" :commit="commit" />
 </template>
