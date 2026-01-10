@@ -55,9 +55,7 @@ onMounted(() => {
         ...cellInfo.value,
         ...props,
       }),
-      onDrag: ({ self }) => {
-        draggingAgora.value = true;
-      },
+      onDrag: () => (draggingAgora.value = true),
       onDragLeave: () => (draggingAgora.value = false),
       onDrop: () => (draggingAgora.value = false),
     })
@@ -67,6 +65,10 @@ onMounted(() => {
 onUnmounted(() => {
   cleanup();
 });
+
+defineEmits(['edit-cell']);
+
+const popoverOpen = ref(false);
 </script>
 
 <template>
@@ -77,7 +79,8 @@ onUnmounted(() => {
   >
     <div
       ref="el"
-      class="py-0.5 text-center text-[0.813rem] h-full"
+      id="cell"
+      class="py-0.5 text-center text-[0.813rem] h-full relative"
       :class="[
         draggingAgora &&
           cellInfo.type !== 'intervalo' &&
@@ -102,7 +105,29 @@ onUnmounted(() => {
         {{ cellInfo.diario.disciplina }} - {{ cellInfo.diario.professor }}
       </span>
 
-      <!-- TODO: adicionar botoes para edicao da celula -->
+      <span
+        v-if="cellInfo.type !== 'intervalo' && editMode"
+        :class="[
+          'absolute right-0.5 bottom-0.5 bg-ldsa-bg px-1',
+          !popoverOpen && 'hover',
+        ]"
+      >
+        <SectionHorarioDapeEditGridCellEditButtons
+          v-model="cellInfo"
+          v-model:popover="popoverOpen"
+          @atividade-change="$emit('edit-cell')"
+        />
+      </span>
     </div>
   </div>
 </template>
+
+<style scoped>
+.hover {
+  display: none;
+}
+
+#cell:hover > .hover {
+  display: inline;
+}
+</style>

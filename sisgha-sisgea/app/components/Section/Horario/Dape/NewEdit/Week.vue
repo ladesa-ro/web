@@ -6,7 +6,6 @@ import {
 } from '~/components/Section/Horario/Dape/Edit/-Helpers/getRowShiftName';
 import {
   getAllStartHours,
-  getEmptyShift,
   type HoursPerShift,
 } from '~/components/Section/Horario/Dape/Edit/-Helpers/turnGridPrettier';
 import type { WeekSchedule } from '~/composables/schedule/useScheduleTypes';
@@ -29,7 +28,8 @@ onUnmounted(() => {
   cleanup();
 });
 
-const startHours: Ref<HoursPerShift> = ref(  getAllStartHours(weekSchedule.value)
+const startHours: Ref<HoursPerShift> = ref(
+  getAllStartHours(weekSchedule.value)
 );
 </script>
 
@@ -60,7 +60,7 @@ const startHours: Ref<HoursPerShift> = ref(  getAllStartHours(weekSchedule.value
     <div class="flex flex-col gap-5">
       <div
         v-for="(shift, shiftIndex) in shiftNames"
-        :key="shiftIndex"
+        :key="shift"
         class="flex"
       >
         <SectionHorarioDapeEditPopoverDayAndShift
@@ -111,42 +111,22 @@ const startHours: Ref<HoursPerShift> = ref(  getAllStartHours(weekSchedule.value
               shiftIndex === shiftNames.length - 1 && 'rounded-br-lg',
             ]"
           >
-            <div v-for="(day, date, dayIndex) of weekSchedule" :key="date">
-              <template
-                v-if="
-                  weekSchedule[date]!.daySchedule[shift]!.shiftSchedule.length >
-                  0
+            <div v-for="(day, date) of weekSchedule" :key="date">
+              <GridCell
+                v-for="(cell, cellIndex) in day.daySchedule[shift]
+                  .shiftSchedule"
+                :key="cell.id"
+                :cellIndex="cellIndex"
+                :shiftName="shift"
+                :shiftIndex="shiftIndex"
+                :dayDate="date"
+                @atividade-change="commit()"
+                v-model="
+                  weekSchedule[date]!.daySchedule[shift].shiftSchedule[
+                    cellIndex
+                  ]!
                 "
-              >
-                <GridCell
-                  v-for="(cell, cellIndex) in day.daySchedule[shift]
-                    .shiftSchedule"
-                  :key="cell.id"
-                  :cellIndex="cellIndex"
-                  :shiftName="shift"
-                  :shiftIndex="shiftIndex"
-                  :dayDate="date"
-                  v-model="
-                    weekSchedule[date]!.daySchedule[shift].shiftSchedule[
-                      cellIndex
-                    ]!
-                  "
-                />
-              </template>
-
-              <!-- TODO: abaixo está uma solução provisória. no futuro, pretendo permitir arrasto de aulas para esses lugares que não estão reservados no horário para terem aula e apresentar um aviso na tela -->
-              <div v-else :class="editMode && 'opacity-75'">
-                <!-- <GridCellNotEditable
-                  v-for="(cell, cellIndex) in getEmptyShift(
-                    weekSchedule,
-                    date,
-                    dayIndex,
-                    shift
-                  )"
-                  :key="cellIndex"
-                  :type="cell.type"
-                /> -->
-              </div>
+              />
             </div>
           </div>
         </div>
