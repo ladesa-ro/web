@@ -34,7 +34,7 @@ const startHours: Ref<HoursPerShift> = ref(
 </script>
 
 <template>
-  <div class="xl:mx-20 min-w-[55rem]">
+  <div class="xl:mx-15 min-w-[50rem]">
     <div class="grid grid-cols-6 mb-3 ml-[6.344rem] mr-5 gap-5">
       <SectionHorarioDapeEditPopoverDayAndShift
         v-for="(_, date) of weekSchedule"
@@ -58,11 +58,7 @@ const startHours: Ref<HoursPerShift> = ref(
     </div>
 
     <div class="flex flex-col gap-5">
-      <div
-        v-for="(shift, shiftIndex) in shiftNames"
-        :key="shift"
-        class="flex"
-      >
+      <div v-for="(shift, shiftIndex) in shiftNames" :key="shift" class="flex">
         <SectionHorarioDapeEditPopoverDayAndShift
           class="bg-ldsa-green-1 border-r-2 border-ldsa-green-1 brightness-100"
           :class="[
@@ -92,7 +88,7 @@ const startHours: Ref<HoursPerShift> = ref(
             <div
               v-for="(hour, hourShift) in startHours[shift]"
               :key="hourShift"
-              class="border-b-2 border-b-ldsa-text-default/55 last:border-b-0 text-center min-h-6 max-lg:h-12 text-[0.813rem] font-medium px-1 py-0.5"
+              class="border-b-2 border-b-ldsa-text-default/55 last:border-b-0 text-center min-h-6 max-lg:h-12 text-[0.813rem] font-medium px-1 py-0.5 h-full flex items-center justify-center"
               :class="
                 hour.includes('intervalo')
                   ? 'bg-ldsa-grey/15 text-ldsa-text-default/55'
@@ -120,7 +116,7 @@ const startHours: Ref<HoursPerShift> = ref(
                 :shiftName="shift"
                 :shiftIndex="shiftIndex"
                 :dayDate="date"
-                @atividade-change="commit()"
+                @edit-cell="commit()"
                 v-model="
                   weekSchedule[date]!.daySchedule[shift].shiftSchedule[
                     cellIndex

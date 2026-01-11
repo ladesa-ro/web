@@ -26,7 +26,7 @@ const droppableElement = useTemplateRef('el2');
 
 let cleanup = () => {};
 
-const draggingAgora = ref(false);
+const underAnotherElementDragging = ref(false);
 
 onMounted(() => {
   if (!draggableElement.value || !droppableElement.value) {
@@ -55,9 +55,9 @@ onMounted(() => {
         ...cellInfo.value,
         ...props,
       }),
-      onDrag: () => (draggingAgora.value = true),
-      onDragLeave: () => (draggingAgora.value = false),
-      onDrop: () => (draggingAgora.value = false),
+      onDrag: () => (underAnotherElementDragging.value = true),
+      onDragLeave: () => (underAnotherElementDragging.value = false),
+      onDrop: () => (underAnotherElementDragging.value = false),
     })
   );
 });
@@ -82,7 +82,7 @@ const popoverOpen = ref(false);
       id="cell"
       class="py-0.5 text-center text-[0.813rem] h-full relative"
       :class="[
-        draggingAgora &&
+        underAnotherElementDragging &&
           cellInfo.type !== 'intervalo' &&
           'bg-ldsa-green-2/15 text-ldsa-green-1',
         cellInfo.type === 'intervalo' &&
@@ -90,17 +90,21 @@ const popoverOpen = ref(false);
       ]"
     >
       <span
-        class="block max-w-full whitespace-normal break-word lg:whitespace-nowrap lg:overflow-hidden lg:text-ellipsis lg:line-clamp-1 max-lg:line-clamp-2"
+        class="max-w-full whitespace-normal break-word lg:whitespace-nowrap lg:overflow-hidden lg:text-ellipsis h-full flex items-center justify-center"
         v-if="cellInfo.type === 'intervalo'"
       >
         Intervalo
       </span>
 
-      <span v-else-if="cellInfo.type === 'vago'">-</span>
+      <span
+        v-else-if="cellInfo.type === 'vago'"
+        class="h-full flex items-center justify-center"
+        >-</span
+      >
 
       <span
         v-else-if="cellInfo.type === 'aula'"
-        class="block max-w-full whitespace-normal break-word lg:whitespace-nowrap overflow-hidden lg:text-ellipsis lg:line-clamp-1 max-lg:line-clamp-2"
+        class="max-w-full whitespace-normal break-word lg:whitespace-nowrap overflow-hidden lg:text-ellipsis lg:line-clamp-1 max-lg:line-clamp-2 max-lg:pt-0.5"
       >
         {{ cellInfo.diario.disciplina }} - {{ cellInfo.diario.professor }}
       </span>
@@ -108,7 +112,7 @@ const popoverOpen = ref(false);
       <span
         v-if="cellInfo.type !== 'intervalo' && editMode"
         :class="[
-          'absolute right-0.5 bottom-0.5 bg-ldsa-bg px-1',
+          'absolute right-0 top-1/2 transform -translate-y-1/2 max-lg:h-11 bg-ldsa-bg',
           !popoverOpen && 'hover',
         ]"
       >
