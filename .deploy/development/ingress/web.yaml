@@ -1,15 +1,9 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ladesa-ro-web-ingress
-  annotations:
-    cert-manager.io/cluster-issuer: ladesa-ro-issuer-production
-  namespace: ladesa-ro-development
+  name: web-ingress
+  namespace: ladesa
 spec:
-  tls:
-    - hosts:
-        - dev.ladesa.com.br
-      secretName: ladesa-ro-development-web-tls
   rules:
     - host: dev.ladesa.com.br
       http:
@@ -18,6 +12,6 @@ spec:
             pathType: ImplementationSpecific
             backend:
               service:
-                name: ladesa-ro-web
+                name: web
                 port:
                   name: web-service
