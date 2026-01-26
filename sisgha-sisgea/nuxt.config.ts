@@ -72,11 +72,11 @@ export default defineNuxtConfig({
     '@sidebase/nuxt-auth',
     '@nuxtjs/color-mode',
     'vue3-carousel-nuxt',
-    (_options, nuxt) => {
-      nuxt.hooks.hook('vite:extendConfig', config => {
-        config.plugins ??= [];
-      });
-    },
+    // (_options, nuxt) => {
+    //   nuxt.hooks.hook('vite:extendConfig', config => {
+    //     config.plugins ??= [];
+    //   });
+    // },
     '@nuxt/eslint',
   ],
 
