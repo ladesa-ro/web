@@ -3,58 +3,114 @@ import type {
   ShiftName,
   WeekSchedule,
 } from '~/composables/schedule/useScheduleTypes';
-import { shiftNames } from './getRowShiftName';
 
+// TODO: refatorar essas 2 funções para usarem os tempos de aula (terão que calcular quando é a hora do intervalo, mas serão mais precisas do que isso que eu fiz aqui)
 export function getEmptyShift(
   weekSchedule: WeekSchedule,
+  dayDate: string,
   dayIndex: number,
-  shiftIndex: number
+  shiftName: ShiftName
 ) {
-  const shiftName: ShiftName = shiftNames[shiftIndex]!;
+  // weekSchedule[dayDate]?.daySchedule[shiftName].shiftSchedule ?? [];
 
-  let emptyShift: Cell[] = [];
+  const baseShift: Cell[] =
+    Object.values(weekSchedule)
+      .flatMap(day => day.daySchedule[shiftName])
+      .find(shift => shift.shiftSchedule.length > 0)?.shiftSchedule ?? [];
 
-  Object.values(weekSchedule).find(day => {
-    const referenceShift = day.daySchedule[shiftName].shiftSchedule;
+  baseShift.forEach(cell => {
+    cell.id = crypto.randomUUID();
+    cell.dayIndex = dayIndex;
+    cell.dayDate = dayDate;
 
-    if (referenceShift.length > 0) {
-      emptyShift = referenceShift;
-      emptyShift.forEach(shift => {
-        shift.id = crypto.randomUUID();
-        shift.dayIndex = dayIndex;
-        if (shift.type !== 'intervalo') {
-          shift.type = 'vago';
-        }
-      });
+    if (cell.type !== 'intervalo') {
+      cell.type = 'vago';
     }
   });
 
-  return emptyShift;
+  return baseShift;
 }
 
-export function getAllStartHours(weekSchedule: WeekSchedule): Set<string> {
-  let startHours = new Set<string>();
+export type HoursPerShift = {
+  morning: Set<string>;
+  afternoon: Set<string>;
+  night: Set<string>;
+};
 
-  Object.values(weekSchedule).forEach(day => {
-    Object.values(day.daySchedule).forEach(shift => {
-      shift.shiftSchedule.forEach(cell => {
-        startHours.add(
-          `${useDayJs()(cell.startHour).format('HH:mm')}${cell.type === 'intervalo' ? ' intervalo' : ''} shiftIndex=${cell.shiftIndex}`
-        );
-      });
+export function getAllStartHours(weekSchedule: WeekSchedule): HoursPerShift {
+  // ou so refatorar essa lenda aqui que eu fiz
+
+  // let startHours = new Set<string>();
+
+  // Object.values(weekSchedule)
+  //   .flatMap(day => Object.values(day.daySchedule))
+  //   .flatMap(shift => shift.shiftSchedule)
+  //   .forEach(cell => {
+  //     startHours.add(
+  //       `${useDayJs()(cell.startHour).format('HH:mm')}  ${cell.type === 'intervalo' ? ' intervalo' : ''}`
+  //     );
+  //   });
+
+  // const hoursSet = new Set<string>();
+
+  const hours: HoursPerShift = {
+    morning: new Set<string>(),
+    afternoon: new Set<string>(),
+    night: new Set<string>(),
+  };
+
+  Object.values(weekSchedule)
+    .flatMap(day => Object.entries(day.daySchedule))
+    .forEach(([shiftName, shift]) => {
+      // const shiftHours = shift.shiftSchedule.map(
+      //   cell =>
+      //     `${useDayJs()(cell.startHour).format('HH:mm')}${cell.type === 'intervalo' ? ' intervalo' : ''}`
+      // );
+
+      shift.shiftSchedule.forEach(cell =>
+        hours[shiftName as ShiftName].add(
+          `${useDayJs()(cell.startHour).format('HH:mm')}${cell.type === 'intervalo' ? ' intervalo' : ''}`
+        )
+      );
+
+      // add(...shiftHours);
+
+      // shift.shiftSchedule.forEach(cell => {
+
+      //   hoursSet.add(
+      //     `${shiftName} ${useDayJs()(cell.startHour).format('HH:mm')} ${cell.type === 'intervalo' ? 'intervalo' : ''}`
+      //   );
+      // });
     });
-  });
 
-  const startHoursArray = [...startHours];
+  // hoursSet.forEach(hour => {});
+  // .flatMap(shift => shift.shiftSchedule)
+  // .forEach(cell => {
+  //   startHours.add(
+  //     `${useDayJs()(cell.startHour).format('HH:mm')}  ${cell.type === 'intervalo' ? ' intervalo' : ''}`
+  //   );
+  // });
 
-  startHoursArray.sort((a, b) => {
-    const dateA = new Date(`2000/01/01 ${a}`);
-    const dateB = new Date(`2000/01/01 ${b}`);
+  // Object.values(weekSchedule).forEach(day => {
+  //   Object.values(day.daySchedule).forEach(shift => {
+  //     shift.shiftSchedule.forEach(cell => {
+  //       startHours.add(
+  //         `${useDayJs()(cell.startHour).format('HH:mm')}${cell.type === 'intervalo' ? ' intervalo' : ''} shiftIndex=${cell.shiftIndex}`
+  //       );
+  //     });
+  //   });
+  // });
 
-    return dateA.getTime() - dateB.getTime();
-  });
+  // const startHoursArray = [...startHours];
 
-  startHours = new Set(startHoursArray);
+  // startHoursArray.sort((a, b) => {
+  //   const dateA = new Date(`2000/01/01 ${a}`);
+  //   const dateB = new Date(`2000/01/01 ${b}`);
 
-  return startHours;
+  //   return dateA.getTime() - dateB.getTime();
+  // });
+
+  // startHours = new Set(startHoursArray);
+
+  return hours;
 }
