@@ -1,18 +1,14 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
-import { filterTurmaResultsBySearch } from '~/components/Section/Horario/Dape/GeneralVisualization/filter-turma-results';
 
 const searchBarValue = ref<string>('');
 
 const selectedToggleItem = ref<'professor' | 'turma' | 'mesclado'>('professor');
 
-// filter only Turmas searched by user
-const { data: turmasCompleteList, isLoading } = useQuery(listTurmas());
+const filter = computed(() => ({ search: searchBarValue.value }));
 
-const filteredTurmas = filterTurmaResultsBySearch(
-  turmasCompleteList,
-  searchBarValue
-);
+// filter only Turmas searched by user
+const { data: turmas, isLoading, isError } = useQuery(listTurmas(filter));
 
 const turmasFilters = ref({});
 </script>
@@ -42,13 +38,19 @@ const turmasFilters = ref({});
       v-show="selectedToggleItem === 'turma'"
       class="ui-api-list-results-grid"
     >
-      <SectionTurmasGridItem
-        v-for="turma in filteredTurmas"
-        class="ui-api-list-results-grid-item"
-        :is-loading="isLoading"
-        :item="turma"
-        link="horario/turma"
-      />
+      <template v-if="turmas?.data">
+        <SectionTurmasGridItem
+          v-for="turma in turmas.data"
+          class="ui-api-list-results-grid-item"
+          :is-loading="isLoading"
+          :item="turma"
+          link="horario/turma"
+        />
+      </template>
+
+      <template v-else-if="isError">
+        Ocorreu um erro ao buscar as turmas.
+      </template>
     </div>
 
     <KeepAlive>

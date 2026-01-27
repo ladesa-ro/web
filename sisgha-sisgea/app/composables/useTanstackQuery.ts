@@ -17,6 +17,8 @@ import type {
 } from '@ladesa-ro/management-service-client';
 import { queryOptions } from '@tanstack/vue-query';
 
+// TODO: filtrar tudo pelo id do campus atual useCampusContext
+
 // campi
 
 export const findCampusById = (

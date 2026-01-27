@@ -39,8 +39,13 @@ export const createBlocosCrudModule = withApiClient(apiClient => {
       return apiClient.blocos.blocoCreate({ requestBody });
     },
 
-    list(data) {
-      return apiClient.blocos.blocoList(data);
+    list(data, contextCampiRef) {
+      const contextCampi = unref(contextCampiRef);
+
+      return apiClient.blocos.blocoList({
+        ...data,
+        filterCampusId: contextCampi ? [contextCampi] : undefined,
+      });
     },
 
     getOne(id) {

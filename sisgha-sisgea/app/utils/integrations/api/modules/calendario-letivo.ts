@@ -31,11 +31,17 @@ export const createCalendarioLetivoCrudModule = withApiClient(apiClient => {
     baseQueryKeys: ['calendarioLetivo'],
 
     create(requestBody) {
-      return apiClient.calendariosLetivos.calendarioLetivoCreate({ requestBody });
+      return apiClient.calendariosLetivos.calendarioLetivoCreate({
+        requestBody,
+      });
     },
 
-    list(data) {
-      return apiClient.calendariosLetivos.calendarioLetivoList(data);
+    list(data, contextCampiRef) {
+      const contextCampi = unref(contextCampiRef);
+      return apiClient.calendariosLetivos.calendarioLetivoList({
+        ...data,
+        filterCampusId: contextCampi ? [contextCampi] : undefined,
+      });
     },
 
     getOne(id) {
@@ -43,7 +49,10 @@ export const createCalendarioLetivoCrudModule = withApiClient(apiClient => {
     },
 
     updateOne(id, requestBody) {
-      return apiClient.calendariosLetivos.calendarioLetivoUpdateOneById({ id, requestBody });
+      return apiClient.calendariosLetivos.calendarioLetivoUpdateOneById({
+        id,
+        requestBody,
+      });
     },
 
     deleteOne(id) {

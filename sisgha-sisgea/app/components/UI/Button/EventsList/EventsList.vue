@@ -9,9 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import { IconsCalendarItems } from '#components';
-import { defineEmits } from 'vue';
-
 const emit = defineEmits<{
   (e: 'open'): void;
 }>();
