@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from '@tanstack/vue-query';
+import { getQueryKeyForCrudModuleList } from '~/composables/integrations/generic-crud/utils/get-query-key';
 import type { IGenericCrudModule } from '../../../utils/integrations/generic-crud/IGenericCrudModule';
 import type { IGenericCrudModuleTypesBase } from '../../../utils/integrations/generic-crud/IGenericCrudModuleTypesBase';
 import { useGenericCrudFindOneAheadOfTime } from './useGenericCrudFindOneAheadOfTime';
-import { getQueryKeyForCrudModuleList } from '~/composables/integrations/generic-crud/utils/get-query-key';
 
 export const useGenericCrudInfinityListQuery = <
   Types extends IGenericCrudModuleTypesBase,
@@ -13,20 +13,25 @@ export const useGenericCrudInfinityListQuery = <
   type SearchOptions = Types['List']['Queries'];
 
   return (searchOptions: MaybeRef<SearchOptions>) => {
+    const contextCampi = useCampusContext();
+
     const queryKey = getQueryKeyForCrudModuleList(crudModule, searchOptions);
 
     const query = useInfiniteQuery({
       initialPageParam: 1,
 
-      queryKey: queryKey,
+      queryKey: [queryKey, contextCampi],
 
       queryFn: async ({ pageParam }) => {
         const data = unref(searchOptions);
 
-        const response = await crudModule.list({
-          ...data,
-          page: pageParam,
-        });
+        const response = await crudModule.list(
+          {
+            ...data,
+            page: pageParam,
+          },
+          contextCampi
+        );
 
         return response ?? null;
       },

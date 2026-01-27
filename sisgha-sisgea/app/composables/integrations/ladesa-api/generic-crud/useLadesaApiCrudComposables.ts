@@ -1,5 +1,10 @@
 import type { LadesaApiClient } from '@ladesa-ro/management-service-client';
+import {
+  type IGenericCrudModule,
+  type IGenericCrudModuleTypesBase,
+} from '../../../../utils';
 import { useGenericCrudComposables } from '../../generic-crud';
+import { useApiClient } from '../useApiClient';
 
 export const useLadesaApiCrudComposables = <
   Types extends IGenericCrudModuleTypesBase,
