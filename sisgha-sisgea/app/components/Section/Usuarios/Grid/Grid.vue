@@ -21,18 +21,12 @@ const {
 } = useListQuery(queries);
 
 await suspend();
-
-const usersAlphabeticalOrder = computed(() => {
-  if (users.value) {
-    return users.value?.toSorted((a, b) => a.nome.localeCompare(b.nome));
-  }
-});
 </script>
 
 <template>
   <div class="grid grid-cols-[repeat(auto-fill,_minmax(12.5rem,_1fr))] gap-6">
     <SectionUsuariosGridItem
-      v-for="user in usersAlphabeticalOrder"
+      v-for="user in users"
       :key="user.id"
       :usuario="user"
       :link="itemsLink"
