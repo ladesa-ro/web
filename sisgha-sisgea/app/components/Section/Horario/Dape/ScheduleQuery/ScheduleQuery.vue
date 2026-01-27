@@ -42,7 +42,7 @@ const { undo, redo, canRedo, canUndo, commit } = useManualRefHistory(
 
 const showBreaks = ref(true);
 const editMode = ref(false);
-const smallScreenAlert = ref(false);
+const smallScreenAlert = ref(true);
 
 provide('showBreaks', showBreaks);
 provide('editMode', editMode);
@@ -68,21 +68,21 @@ provide('editMode', editMode);
 
         <UITitle
           v-if="isError"
-          class="default"
+          class="default text"
           text="Não foi possível buscar os dados"
         />
 
-        <UITitle v-else-if="isLoading" class="default" text="Carregando..." />
+        <UITitle v-else-if="isLoading" class="default text" text="Carregando..." />
 
         <UITitle
           v-else-if="!editMode"
-          class="default"
+          class="default text"
           :text="ownerName ?? 'Nome não disponível'"
         />
 
         <UITitle
           v-if="editMode"
-          class="default"
+          class="default text"
           :text="'Modo Edição - ' + (ownerName ?? 'Nome não disponível')"
         />
       </span>
@@ -103,3 +103,11 @@ provide('editMode', editMode);
     <SectionHorarioDapeEditWeek v-model="weekSchedule" :commit="commit" />
   </UIContainer>
 </template>
+
+<style scoped>
+@reference "~/assets/styles/app.css";
+
+h1.text.default {
+  @apply text-lg;
+}
+</style>
