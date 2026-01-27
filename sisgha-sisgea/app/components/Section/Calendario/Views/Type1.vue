@@ -1,52 +1,49 @@
 <script lang="ts" setup>
-import dayjs from 'dayjs';
-import { calendarDataMethods } from '../CalendarDataMethods';
-import type { CalendarEvent } from '../Types';
+import { SectionCalendarioEvent, SectionCalendarioMonth } from '#components';
+import { computed } from 'vue';
+import type { CalendarData } from '../Types';
+import { useCalendarEvents } from '../useCalendarEvent';
 
-// # IMPORT
-
-// # CODE
 type Props = {
-  year: number;
-  calendarId: string;
+  calendarData: CalendarData;
 };
 
 const props = defineProps<Props>();
 
-// Variables
-let events = ref<CalendarEvent[]>([]);
+// Cria um Ref reativo para passar no composable
+const calendarId = computed(() => props.calendarData.id);
 
-if (props.calendarId) {
-  const getSteps: Array<CalendarEvent> =
-    await calendarDataMethods.steps.getSteps(props.calendarId!);
-  const getEvents: Array<CalendarEvent> =
-    await calendarDataMethods.events.getEvents(props.calendarId!);
-  events.value = getSteps.concat(getEvents);
-
-  // Ordering List
-  events.value.sort(
-    (a, b) => dayjs(a.startDate).valueOf() - dayjs(b.startDate).valueOf()
-  );
-}
+// Obtém os eventos dinamicamente
+const { events, reload } = useCalendarEvents(calendarId);
 </script>
 
 <template>
-  <div class="flex flex-col md:flex-row w-full h-max justify-center gap-6">
+  <div
+    class="flex flex-col md:flex-row w-full h-max justify-center gap-4 md:gap-8"
+  >
+    <!-- Mês -->
     <SectionCalendarioMonth
-      :calendar-id="props.calendarId"
+      :calendar-id="props.calendarData.id"
       :toggle-month="true"
-      :year="props.year"
+      :year="props.calendarData.year || 0"
       :events="events"
+      class="flex-shrink-0 w-full sm:w-[30.6rem] md:w-[20rem] lg:w-[28rem]"
     />
 
-    <div class="flex flex-col gap-6 w-full overflow-hidden max-w-[600px]">
+    <!-- Lista de eventos -->
+    <div class="flex flex-col gap-4 md:gap-6 w-full">
       <SectionCalendarioEvent
         v-for="event in events"
+        :key="event.id"
         :event="event"
-        :calendarId="props.calendarId!"
+        :calendarId="props.calendarData.id"
+        @refresh="reload"
+        class="p-3 md:p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all"
       />
     </div>
   </div>
 </template>
 
-<style></style>
+<style scoped>
+/* Se quiser, pode adicionar estilos específicos aqui */
+</style>

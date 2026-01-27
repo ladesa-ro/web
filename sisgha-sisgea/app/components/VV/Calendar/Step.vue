@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import dayjs from 'dayjs';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
+import { calendarDataMethods } from '~/components/Section/Calendario/CalendarDataMethods';
 
 type Props = {
-  value?: string;
+  isStep: boolean;
   text: string;
   calendarId: string;
   successMessage?: string;
@@ -12,6 +12,7 @@ type Props = {
 };
 
 const props = defineProps<Props>();
+let _calendarId = toRef(props, "calendarId");
 
 const schema = yup.object({
   stepColor: yup.string().required('Cor inválida'),
@@ -19,7 +20,7 @@ const schema = yup.object({
   stepEndDate: yup.string().required('Data de término inválida'),
 });
 
-const { handleSubmit, values, errors } = useForm({
+const { values, validate } = useForm({
   validationSchema: schema,
   initialValues: {
     stepColor: '#000000',
@@ -28,65 +29,50 @@ const { handleSubmit, values, errors } = useForm({
   },
 });
 
-let submitStep = ref<boolean>(false);
+let submitted = ref<boolean>(false);
 
-defineExpose({
-  submitStep,
-});
-
-await watch(
-  () => props.submit,
-  async n => {
-    if (n) {
-      if (
-        errors.value.stepColor ||
-        errors.value.stepStartDate ||
-        errors.value.stepEndDate
-      ) {
-        return;
-      } else {
-        await handleSubmit(async values => {
-          if (
-            props.text.includes('Recuperação') ||
-            props.text.includes('Exame')
-          ) {
-            await getApiClient().eventos.eventoCreate({
-              requestBody: {
-                nome: props.text,
-                rrule: "",
-                cor: values.stepColor,
-                calendario: { id: props.calendarId },
-                data_inicio: String(
-                  dayjs(values.stepStartDate).format('YYYY-MM-DD')
-                ),
-                data_fim: String(
-                  dayjs(values.stepEndDate).format('YYYY-MM-DD')
-                ),
-              },
-            }).promise;
-          } else {
-            await getApiClient().etapas.etapaCreate({
-              requestBody: {
-                numero: Number(props.text!.replace(/\D/g, '')),
-                cor: values.stepColor,
-                calendario: { id: props.calendarId },
-                dataInicio: String(
-                  dayjs(values.stepStartDate).format('YYYY-MM-DD')
-                ),
-                dataTermino: String(
-                  dayjs(values.stepEndDate).format('YYYY-MM-DD')
-                ),
-              },
-            }).promise;
-          }
-        }, console.error);
-
-        submitStep.value = true;
-        alert('post step' + Number(props.text!.replace(/\D/g, '')));
-      }
+async function onSubmit() {
+  if (submitted.value === false) {
+    if (props.isStep) {
+      await calendarDataMethods.steps.postStep(
+        Number(props.text.replace(/\D/g, '')),
+        values.stepColor,
+        {
+          date: values.stepStartDate,
+        },
+        {
+          date: values.stepEndDate,
+        },
+        _calendarId.value
+      );
+    } else {
+      await calendarDataMethods.events.postEvent(
+        props.text,
+        values.stepColor,
+        {
+          date: values.stepStartDate,
+        },
+        {
+          date: values.stepEndDate,
+        },
+        _calendarId.value
+      );
     }
+
+    submitted.value = true;
   }
-);
+}
+
+const validateStepCrud = async (): Promise<boolean> => {
+  const { valid } = await validate();
+  if (!valid) return false;
+  else {
+    await onSubmit();
+    return true;
+  }
+};
+
+defineExpose({ validateStepCrud });
 </script>
 
 <template>
@@ -103,10 +89,6 @@ await watch(
     <div class="flex gap-4">
       <VVTextField name="stepStartDate" type="date" label="Início" />
       <VVTextField name="stepEndDate" type="date" label="Término" />
-    </div>
-
-    <div v-if="Object.keys(errors).length" class="text-ldsa-red text-xs mt-2">
-      <div v-for="(msg, key) in errors" :key="key">{{ msg }}</div>
     </div>
   </div>
 </template>

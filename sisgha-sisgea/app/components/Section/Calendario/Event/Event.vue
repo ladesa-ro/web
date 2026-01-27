@@ -1,11 +1,16 @@
 <script lang="ts" setup>
-// # IMPORT
 import { SectionCalendarioForm } from '#components';
 import dayjs from 'dayjs';
+import 'dayjs/locale/pt-br';
+import isBetween from 'dayjs/plugin/isBetween';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { computed, ref } from 'vue';
 import type { CalendarEvent } from '../Types';
 
-// # CODE
+dayjs.extend(relativeTime);
+dayjs.extend(isBetween);
+dayjs.locale('pt-br');
+
 type Props = {
   calendarId?: string;
   event: CalendarEvent;
@@ -13,73 +18,86 @@ type Props = {
 
 const props = defineProps<Props>();
 
-// Remaining time
-let remainingDays: number = 0;
-let remainingText: string = '';
+const startDate = computed(() => dayjs(props.event.startDate));
+const endDate = computed(() => dayjs(props.event.endDate));
+const now = computed(() => dayjs());
 
-// Formatting dates
-dayjs.extend(relativeTime);
+const notStarted = computed(() => now.value.isBefore(startDate.value));
+const inProgress = computed(() =>
+  now.value.isBetween(startDate.value, endDate.value, undefined, '[]')
+);
 
-const currentDate = dayjs();
-const _startDate = dayjs(props.event.startDate);
-const _endDate = dayjs(props.event.endDate);
+const remainingDays = computed(() => {
+  if (notStarted.value) {
+    return startDate.value.diff(now.value, 'day');
+  }
+  if (inProgress.value) {
+    return endDate.value.diff(now.value, 'day');
+  }
+  return 0;
+});
 
-if (currentDate.isAfter(_startDate))
-  remainingDays = Number(_endDate.diff(currentDate, 'day'));
-else remainingDays = Number(_startDate.diff(currentDate, 'day'));
+const editModalRef = ref();
+
+function onEditModalClose() {
+  window.dispatchEvent(new CustomEvent('force-close-inner-modals'));
+}
 </script>
 
 <template>
   <div
-    class="flex flex-col h-min border-2 border-ldsa-grey rounded-lg overflow-hidden p-5"
+    class="flex flex-col h-min border-2 border-ldsa-grey rounded-lg overflow-hidden p-3 sm:p-4 md:p-5"
   >
     <!-- Head -->
     <div class="flex justify-between items-center">
       <!-- Color & Name -->
-      <div class="flex gap-2 items-center">
+      <div class="flex gap-1 sm:gap-2 items-center">
         <!-- Color -->
         <div
-          class="w-3 h-3 rounded-full bg-ldsa-green-1"
-          :style="{ backgroundColor: props.event.color! }"
+          class="rounded-full bg-ldsa-green-1 w-3 h-3"
+          :style="{ backgroundColor: props.event.color || '#ddd' }"
         ></div>
 
         <!-- Name -->
-        <h2 class="font-bold">{{ props.event.name }}</h2>
+        <h2 class="font-bold text-sm sm:text-base md:text-lg">
+          {{ props.event.name }}
+        </h2>
       </div>
 
       <!-- Edit Button -->
       <DialogModalEditOrCreateModal
-        :edit-it="'edit-event'"
+        ref="editModalRef"
+        :edit-id="props.event.id"
         :form-component="SectionCalendarioForm"
         :form-props="{
           calendarId: props.calendarId!,
           eventName: props.event.name,
+          eventId: props.event.id,
           editMode: 'events',
         }"
+        @refresh="$emit('refresh')"
+        class="flex-shrink-0 min-w-[2.5rem] min-h-[2.5rem] sm:min-w-[3rem] sm:min-h-[3rem]"
       />
     </div>
 
     <!-- Content -->
     <ul>
-      <!-- Start and End Date -->
       <li>
         <p>
-          Início:
-          <span>{{ dayjs(props.event.startDate).format('DD/MM') }}</span>
+          Início: <span>{{ startDate.format('DD/MM/YYYY') }}</span>
         </p>
       </li>
       <li>
         <p>
-          Término: <span>{{ dayjs(props.event.endDate).format('DD/MM') }}</span>
+          Término: <span>{{ endDate.format('DD/MM/YYYY') }}</span>
         </p>
       </li>
     </ul>
 
-    <!-- Remaining time for start/end -->
-    <p class="my-5" v-show="currentDate.isAfter(_startDate)">
+    <p class="my-2 sm:my-3 md:my-5" v-if="notStarted">
       Começa em <span>{{ remainingDays }}</span> dias.
     </p>
-    <p class="my-5" v-show="!currentDate.isAfter(_startDate)">
+    <p class="my-2 sm:my-3 md:my-5" v-else-if="inProgress">
       Termina em <span>{{ remainingDays }}</span> dias.
     </p>
 
