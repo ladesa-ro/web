@@ -38,8 +38,13 @@ export const createAmbientesCrudModule = withApiClient(apiClient => {
       return apiClient.ambientes.ambienteCreate({ requestBody });
     },
 
-    list(data) {
-      return apiClient.ambientes.ambienteList(data);
+    list(data, contextCampiRef) {
+      const contextCampi = unref(contextCampiRef);
+
+      return apiClient.ambientes.ambienteList({
+        ...data,
+        filterBlocoCampusId: contextCampi ? [contextCampi] : undefined,
+      });
     },
 
     getOne(id) {

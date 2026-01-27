@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/vue-query';
+import { getQueryKeyForCrudModuleList } from '~/composables/integrations/generic-crud/utils/get-query-key';
 import type { IGenericCrudModule } from '../../../utils/integrations/generic-crud/IGenericCrudModule';
 import type { IGenericCrudModuleTypesBase } from '../../../utils/integrations/generic-crud/IGenericCrudModuleTypesBase';
 import { useGenericCrudFindOneAheadOfTime } from './useGenericCrudFindOneAheadOfTime';
-import { getQueryKeyForCrudModuleList } from '~/composables/integrations/generic-crud/utils/get-query-key';
 
 export const useGenericCrudListQuery = <
   Types extends IGenericCrudModuleTypesBase,
@@ -13,14 +13,16 @@ export const useGenericCrudListQuery = <
   type PaginatedItem = Types['List']['ResultItem'];
 
   return (searchOptions: MaybeRef<SearchOptions>) => {
+    const contextCampi = useCampusContext();
+
     const queryKey = getQueryKeyForCrudModuleList(crudModule, searchOptions);
 
     const query = useQuery({
-      queryKey: queryKey,
+      queryKey: [queryKey, contextCampi],
 
       queryFn: async () => {
         const searchOptionsValue = unref(searchOptions);
-        return crudModule.list(searchOptionsValue);
+        return crudModule.list(searchOptionsValue, contextCampi);
       },
     });
 
