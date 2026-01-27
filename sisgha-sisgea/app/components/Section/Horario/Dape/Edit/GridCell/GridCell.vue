@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { type Edge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
 import {
   draggable,
@@ -7,58 +6,58 @@ import {
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 
-const { shiftIndex, dayIndex, editMode } = defineProps<{
-  dayIndex: number;
+const props = defineProps<{
+  cellIndex: number;
+  shiftName: string;
   shiftIndex: number;
-  editMode?: boolean;
+  dayDate: string;
 }>();
+
+const editMode: Ref<boolean> = inject('editMode') ?? ref(false);
+const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
 
 const cellInfo = defineModel<Cell>({
   default: {},
   required: true,
 });
 
-const cellRef = useTemplateRef('cell');
-const cellWrap = useTemplateRef('cell-wrap');
+const draggableElement = useTemplateRef('el');
+const droppableElement = useTemplateRef('el2');
 
 let cleanup = () => {};
 
+const underAnotherElementDragging = ref(false);
+
 onMounted(() => {
-  if (!cellRef.value || !cellWrap.value) {
+  if (!draggableElement.value || !droppableElement.value) {
     return;
   }
 
   cleanup = combine(
     draggable({
-      element: cellRef.value,
-
-      canDrag: () => cellInfo.value.type !== 'intervalo' && editMode,
-
+      element: draggableElement.value,
+      canDrag: () => cellInfo.value.type !== 'intervalo' && editMode.value,
       getInitialData: () => ({
         ...cellInfo.value,
-        dayIndex,
-        shiftIndex,
-        dndType: 'cellDraggable',
+        ...props,
       }),
-
-      onDrag: () => {
-        cellRef.value?.classList.add('dragging');
-      },
-
-      onDrop: () => {
-        cellRef.value?.classList.remove('dragging');
-      },
     }),
 
-    dropTargetForElements({
-      element: cellRef.value,
+    //
 
+    dropTargetForElements({
+      element: droppableElement.value,
+      canDrop: ({ source }) =>
+        source.data.id !== cellInfo.value.id &&
+        cellInfo.value.type !== 'intervalo' &&
+        editMode.value,
       getData: () => ({
         ...cellInfo.value,
-        type: 'cellDropTarget',
+        ...props,
       }),
-
-      getIsSticky: () => true,
+      onDrag: () => (underAnotherElementDragging.value = true),
+      onDragLeave: () => (underAnotherElementDragging.value = false),
+      onDrop: () => (underAnotherElementDragging.value = false),
     })
   );
 });
@@ -67,54 +66,60 @@ onUnmounted(() => {
   cleanup();
 });
 
-//
-
-defineEmits(['atividade-change']);
-
-const showBreaks = inject('showBreaks');
+defineEmits(['edit-cell']);
 
 const popoverOpen = ref(false);
 </script>
 
 <template>
   <div
-    ref="cell-wrap"
+    ref="el2"
     v-show="showBreaks ? true : cellInfo.type !== 'intervalo'"
-    class="cell-wrap"
+    class="font-medium border-b-2 border-b-ldsa-text-default/55 text-ldsa-text-default/95 last:border-b-0 min-h-6 max-lg:h-12"
   >
     <div
-      ref="cell"
-      id="horario"
-      class="horario"
-      :class="{
-        'bg-ldsa-grey/20': cellInfo.type === 'intervalo',
-      }"
+      ref="el"
+      id="cell"
+      class="py-0.5 text-center text-[0.813rem] h-full relative"
+      :class="[
+        underAnotherElementDragging &&
+          cellInfo.type !== 'intervalo' &&
+          'bg-ldsa-green-2/15 text-ldsa-green-1',
+        cellInfo.type === 'intervalo' &&
+          'bg-ldsa-grey/15 text-ldsa-text-default/55',
+      ]"
     >
-      <span v-if="cellInfo.type === 'aula'" class="truncate max-w-19/20">
-        {{ cellInfo.diario?.disciplina }} - {{ cellInfo.diario?.turma }}
-      </span>
-
-      <span v-else-if="cellInfo.type === 'vago'"> - </span>
-
       <span
-        v-else-if="cellInfo.type === 'intervalo'"
-        class="text-ldsa-text-default/50"
+        class="max-w-full whitespace-normal break-word lg:whitespace-nowrap lg:overflow-hidden lg:text-ellipsis h-full flex items-center justify-center"
+        v-if="cellInfo.type === 'intervalo'"
       >
         Intervalo
       </span>
 
       <span
-        v-if="cellInfo.type !== 'intervalo'"
+        v-else-if="cellInfo.type === 'vago'"
+        class="h-full flex items-center justify-center"
+        >-</span
+      >
+
+      <span
+        v-else-if="cellInfo.type === 'aula'"
+        class="max-w-full whitespace-normal break-word lg:whitespace-nowrap overflow-hidden lg:text-ellipsis lg:line-clamp-1 max-lg:line-clamp-2 max-lg:pt-0.5"
+      >
+        {{ cellInfo.diario.disciplina }} - {{ cellInfo.diario.professor }}
+      </span>
+
+      <span
+        v-if="cellInfo.type !== 'intervalo' && editMode"
         :class="[
-          'absolute right-1 pl-1',
+          'absolute right-0 top-1/2 transform -translate-y-1/2 max-lg:h-11 bg-ldsa-bg',
           !popoverOpen && 'hover',
         ]"
       >
         <SectionHorarioDapeEditGridCellEditButtons
-          v-if="editMode"
           v-model="cellInfo"
           v-model:popover="popoverOpen"
-          @atividade-change="$emit('atividade-change')"
+          @atividade-change="$emit('edit-cell')"
         />
       </span>
     </div>
@@ -122,17 +127,11 @@ const popoverOpen = ref(false);
 </template>
 
 <style scoped>
-.dragging {
-  opacity: 0.15;
-}
-
 .hover {
   display: none;
 }
 
-#horario:hover > .hover {
+#cell:hover > .hover {
   display: inline;
 }
 </style>
-
-<style scoped src="./gridCell.css"></style>

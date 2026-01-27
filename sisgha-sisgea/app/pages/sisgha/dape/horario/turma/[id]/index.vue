@@ -1,4 +1,3 @@
 <template>
-  trocar aqui
-  <!-- <SectionHorarioDapeScheduleQuery /> -->
+  <SectionHorarioDapeScheduleQuery />
 </template>
