@@ -1,4 +1,4 @@
-name: CI/CD
+name: Build, Push and Deploy
 
 on:
   workflow_dispatch:
@@ -16,8 +16,8 @@ env:
   IMAGE_BASENAME: ${{ github.repository }}
 
 jobs:
-  web-ci-image:
-    name: "CI: Construção e Publicação da Imagem de Container"
+  ci:
+    name: "Build and Deploy"
     runs-on: ubuntu-latest
 
     permissions:
@@ -54,17 +54,18 @@ jobs:
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_BASENAME }}/web:cache-development
           cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_BASENAME }}/web:cache-development,mode=max
 
-  web-cd-cluster:
-    name: "CD: Implantação no Cluster Kubernetes"
-    runs-on: deploy
+  cd:
+    name: "Deploy"
+    
+    runs-on: dev-deploy
 
     permissions:
       contents: read
 
-    needs: [ web-ci-image ]
+    needs: [ ci ]
 
     environment:
-      name: ci-cd-web-dev
+      name: development
       url: ${{ vars.DEPLOY_URL }}
 
     steps:
@@ -73,5 +74,5 @@ jobs:
 
       - name: Implantação da aplicação no Kubernetes
         shell: bash
-        working-directory: ./k8s/development/
+        working-directory: ./.deploy/development/
         run: bash ./deploy.sh
