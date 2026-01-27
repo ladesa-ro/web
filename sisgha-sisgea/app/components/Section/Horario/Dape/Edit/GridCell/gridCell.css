@@ -1,9 +1,0 @@
-@reference "~/assets/styles/app.css";
-
-.cell-wrap {
-  @apply relative not-last:border-b-[0.119565rem] nth-of-type-[2n]:mb-[0.5px] border-t-transparent border-b-2 border-b-ldsa-text-default/65 transform-[translateZ(0)] last:border-b-transparent;
-}
-
-.horario {
-  @apply relative box-border text-center h-[1.4375rem] 2xl:h-6 flex justify-center items-center text-[0.813rem] font-medium;
-}

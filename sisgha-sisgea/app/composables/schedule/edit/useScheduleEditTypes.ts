@@ -10,9 +10,13 @@ export type EditableCell = (Aula | Vago);
 export type NonEditableCell = Intervalo;
 
 export type Cell = (EditableCell | NonEditableCell) & HorDayjs & {
-  cellIndex?: number;
   shiftIndex?: number;
   dayIndex?: number;
+  
+  // manter essas aqui
+  cellIndex?: number;
+  shiftName?: string;
+  dayDate?: string;
 };
 
 //
