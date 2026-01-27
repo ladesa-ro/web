@@ -6,14 +6,14 @@ import { useFreePeriods } from './useFreePeriods';
 import { useNonTeachingPeriods } from './useNonTeachingPeriods';
 import type {
   Aula,
-  DayInShifts,
+  DayInShiftsWithoutInfo,
   Horario,
   HorDayjs,
   HorString,
   TimeSlotObj,
   TimeSlots,
   Vago,
-  WeekSchedule,
+  WeekScheduleWhithoutInfo,
 } from './useScheduleTypes';
 import {
   useSeparateScheduleInDays,
@@ -62,27 +62,41 @@ export const useWeekSchedule = (
 
   // ==========
 
-  const horarioDiasETurnos: DayInShifts | WeekSchedule = horarioTemUmDia
-    ? useSeparateScheduleInShifts(aulasSeparadasDias as (Horario & HorDayjs)[])
-    : Object.fromEntries(
-        Object.entries(aulasSeparadasDias as ScheduleInDaysWithoutShifts).map(
-          ([date, daySchedule]) => [
-            date, // string
-            useSeparateScheduleInShifts(daySchedule), // DayInShifts
-          ]
+  const horarioDiasETurnos: DayInShiftsWithoutInfo | WeekScheduleWhithoutInfo =
+    horarioTemUmDia
+      ? useSeparateScheduleInShifts(
+          aulasSeparadasDias as (Horario & HorDayjs)[]
         )
-      );
+      : Object.fromEntries(
+          Object.entries(aulasSeparadasDias as ScheduleInDaysWithoutShifts).map(
+            ([date, daySchedule]) => [
+              date, // string
+              useSeparateScheduleInShifts(daySchedule), // DayInShiftsWithoutInfo
+            ]
+          )
+        );
+
+  // DayInShiftsWithoutInfo
+  /*
+  'data': {
+    daySchedule: {
+      morning: { shiftSchedule: [] },
+      afternoon: { shiftSchedule: [] },
+      night: { shiftSchedule: [] },
+    },
+  }
+      */
 
   // TODO: fazer conversão de apenas aulas de acordo com os parâmetros
 
-  if (!mustBeDayjs) {
-    // return returnAsString(
-    //   aulasVagosEForaDoHorario,
-    //   horarioDiasETurnos,
-    //   turnosEDias,
-    //   horarioTemUmDia
-    // );
-  }
+  // if (!mustBeDayjs) {
+  // return returnAsString(
+  //   aulasVagosEForaDoHorario,
+  //   horarioDiasETurnos,
+  //   turnosEDias,
+  //   horarioTemUmDia
+  // );
+  // }
 
   return turnosEDias ? horarioDiasETurnos : aulasVagosEForaDoHorario;
 };

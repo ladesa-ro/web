@@ -1,49 +1,79 @@
 <script lang="ts" setup>
-import dayjs from 'dayjs';
-import { calendarDataMethods } from '../CalendarDataMethods';
-import type { CalendarEvent } from '../Types';
+import {
+  SectionCalendarioFormCrudEventsList,
+  UIButtonEventsList,
+} from '#components';
+import { computed, ref, toRef } from 'vue';
+import type { CalendarData } from '../Types';
+import { useCalendarEvents } from '../useCalendarEvent';
 
-// # IMPORT
-
-// # CODE
+// # PROPS
 type Props = {
   year: number;
   calendarId: string;
+  calendarData: CalendarData;
 };
 
 const props = defineProps<Props>();
 
-// Variables
+// # STATES
+const showEventModal = ref(false);
+const isViewEventsModalOpen = ref(false);
+
+// # MONTH PAIRS (mantido igual)
 const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-let events = ref<CalendarEvent[]>([]);
+const monthPairs = computed(() => {
+  const pairs: number[][] = [];
+  for (let i = 0; i < months.length; i += 2) {
+    pairs.push(months.slice(i, i + 2));
+  }
+  return pairs;
+});
 
-if (props.calendarId) {
-  const getSteps: Array<CalendarEvent> =
-    await calendarDataMethods.steps.getSteps(props.calendarId);
-  // const getEvents: Array<CalendarEvent> = await calendarDataMethods.events.getEvents(props.calendarId);
-  events.value = getSteps;
+// # EVENTS — usando o hook reativo
+const { events, reload } = useCalendarEvents(toRef(props, 'calendarId'));
 
-  // Ordering List
-  events.value.sort(
-    (a, b) => dayjs(a.startDate).valueOf() - dayjs(b.startDate).valueOf()
-  );
+// # MODALS
+function abrirModal() {
+  showEventModal.value = true;
+}
+function fecharModal() {
+  showEventModal.value = false;
 }
 </script>
 
 <template>
   <div class="flex flex-wrap w-full h-max gap-6">
-    
-    <div class="flex flex-wrap w-full h-max justify-center gap-6">
-      <SectionCalendarioMonth
-        v-for="month in months"
-        :toggle-month="false"
-        :year="props.year"
-        :events="events"
-        :month-num="month"
-        :calendar-id="props.calendarId"
+    <UIButtonEventsList @open="abrirModal" />
+
+    <DialogSkeleton v-model="showEventModal">
+      <SectionCalendarioFormCrudEventsList
+        v-if="showEventModal"
+        :calendar-data="props.calendarData"
+        @close="fecharModal"
+        @refresh="reload" 
       />
+    </DialogSkeleton>
+
+    <div class="flex flex-col w-full gap-6">
+      <div
+        v-for="(monthPair, index) in monthPairs"
+        :key="index"
+        class="flex w-full gap-6 justify-center"
+      >
+        <SectionCalendarioMonth
+          v-for="month in monthPair"
+          :key="month"
+          :toggle-month="false"
+          :year="props.year"
+          :events="events"
+          :month-num="month"
+          :calendar-id="props.calendarId"
+          class="flex-1"
+        />
+      </div>
     </div>
   </div>
 </template>
 
-<style></style>
+<style scoped></style>

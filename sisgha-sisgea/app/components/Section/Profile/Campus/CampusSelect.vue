@@ -58,10 +58,10 @@ const selectedLabel = computed(
 
             <Trigger>
               <Arrow
-                class="!w-2.5 !h-2.5"
+                class="w-2.5! h-2.5!"
                 :class="[
                   'text-ldsa-green-1 transition-transform duration-200',
-                  open ? 'rotate-[90deg]' : 'rotate-[270deg]',
+                  open ? 'rotate-90' : 'rotate-270',
                 ]"
               />
             </Trigger>

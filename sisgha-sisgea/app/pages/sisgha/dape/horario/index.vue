@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
-import { filterTurmaResultsBySearch } from '~/components/Section/Horario/Dape/GeneralVisualization/filterTurmaResults';
+import { filterTurmaResultsBySearch } from '~/components/Section/Horario/Dape/GeneralVisualization/filter-turma-results';
 
 const searchBarValue = ref<string>('');
 

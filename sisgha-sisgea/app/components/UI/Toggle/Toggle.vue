@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Item } from './item';
 
-type Props = { items: Item[] };
-const { items } = defineProps<Props>();
+type Props = { items: Item[]; disabled?: boolean };
+const { items, disabled } = defineProps<Props>();
 
 //
 
@@ -17,13 +17,14 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex" :class="disabled && 'opacity-50'">
     <UIToggleButton
+      :disabled
       v-for="item in items"
       :key="item.value"
       :selected="item.value === toggleValue"
       :item
-      @pointerdown="() => (toggleValue = item.value)"
+      @pointerdown="() => !disabled && (toggleValue = item.value)"
     />
   </div>
 </template>
