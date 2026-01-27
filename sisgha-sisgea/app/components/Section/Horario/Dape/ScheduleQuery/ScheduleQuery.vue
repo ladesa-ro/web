@@ -1,22 +1,17 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { useQuery } from '@tanstack/vue-query';
 import { useManualRefHistory } from '@vueuse/core';
-import cloneDeep from 'lodash/cloneDeep';
+import ButtonsEditMode from '~/components/Section/Horario/Dape/ScheduleQuery/Buttons/ButtonsEditMode.vue';
+import ButtonsVisualizationMode from '~/components/Section/Horario/Dape/ScheduleQuery/Buttons/ButtonsVisualizationMode.vue';
+import Button from '~/components/Section/Horario/Dape/ScheduleQuery/Buttons/ScheduleQueryButton.vue';
 import {
   aulasSemDiaSemanaExemplo,
   temposDeAulaExemplo,
 } from '~/composables/schedule/EXEMPLO';
-import {
-  type WeekSchedule,
-  type WeekScheduleHistory,
-} from '~/composables/schedule/useScheduleTypes';
+import type { WeekSchedule } from '~/composables/schedule/useScheduleTypes';
 import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
-import { replaceCell } from '../Edit/-Helpers/replaceCell';
-import { swapCells } from '../Edit/-Helpers/swapCells';
-import ButtonsEditMode from './Buttons/ButtonsEditMode.vue';
-import ButtonsVisualizationMode from './Buttons/ButtonsVisualizationMode.vue';
-import Button from './Buttons/ScheduleQueryButton.vue';
-import { getOwnerName } from './getOwnerName';
+import { getOwnerName } from './-Helpers/get-owner-name';
+import DialogSmallScreen from './DialogSmallScreen.vue';
 
 const id = useRoute().params.id as string;
 
@@ -40,52 +35,24 @@ const weekSchedule: Ref<WeekSchedule> = ref(
   useWeekSchedule(temposDeAulaExemplo, aulasSemDiaSemanaExemplo)
 ) as Ref<WeekSchedule>;
 
-const scheduleHistory: WeekScheduleHistory = useManualRefHistory(weekSchedule, {
-  capacity: 10,
-  clone: cloneDeep,
-});
+const { undo, redo, canRedo, canUndo, commit } = useManualRefHistory(
+  weekSchedule,
+  { clone: true, capacity: 15 }
+);
 
-const editMode = ref(false);
 const showBreaks = ref(true);
-
-const swap = () => {
-  const swapSuccess = swapCells(weekSchedule);
-  if (swapSuccess) scheduleHistory.commit();
-};
-
-const replace = () => {
-  const replaceSuccess = replaceCell(weekSchedule);
-  if (replaceSuccess) scheduleHistory.commit();
-};
-
-//
-
+const editMode = ref(false);
 const smallScreenAlert = ref(true);
+
+provide('showBreaks', showBreaks);
+provide('editMode', editMode);
 </script>
 
 <template>
-  <DialogSkeleton
-    v-if="editMode"
-    mustHideInBigScreen
-    :closeOnClickOutside="false"
-    v-model="smallScreenAlert"
-  >
-    <div
-      class="flex flex-col justify-center items-center gap-5 p-5 lg:p-7 bg-ldsa-bg border-2 border-ldsa-grey rounded-lg max-w-3xl m-5"
-    >
-      <h1 class="text-center font-semibold text-xl">Atenção!</h1>
-
-      <UIAlert
-        type="warning"
-        message="A tela de seu dispositivo não tem tamanho suficiente para suportar a funcionalidade de edição de horário. Por favor, abra em um dispositivo maior para ter acesso a esta funcionalidade."
-      />
-
-      <UIButtonModalOk class="w-max" @click="editMode = false" />
-    </div>
-  </DialogSkeleton>
+  <DialogSmallScreen v-model="smallScreenAlert" />
 
   <UIContainer variant="larger">
-    <header class="flex justify-between items-center">
+    <header class="flex justify-between items-center mb-8">
       <span class="flex gap-6 font-semibold text-lg">
         <span
           class="hover:shadow-[0_0_0_5px_rgb(0,0,0,0.05)] dark:hover:shadow-[0_0_0_5px_rgb(255,255,255,0.04)] hover:bg-ldsa-grey/15 flex items-center my-auto h-max rounded-full"
@@ -101,69 +68,46 @@ const smallScreenAlert = ref(true);
 
         <UITitle
           v-if="isError"
-          class="default"
+          class="default text"
           text="Não foi possível buscar os dados"
         />
 
-        <UITitle v-else-if="isLoading" class="default" text="Carregando..." />
+        <UITitle v-else-if="isLoading" class="default text" text="Carregando..." />
 
         <UITitle
           v-else-if="!editMode"
-          class="default"
+          class="default text"
           :text="ownerName ?? 'Nome não disponível'"
         />
 
         <UITitle
           v-if="editMode"
-          class="default"
+          class="default text"
           :text="'Modo Edição - ' + (ownerName ?? 'Nome não disponível')"
         />
       </span>
 
-      <ButtonsVisualizationMode
-        v-show="!editMode"
-        v-model:edit-mode="editMode"
-        v-model:show-breaks="showBreaks"
-      />
+      <ButtonsVisualizationMode />
 
-      <ButtonsEditMode
-        v-if="editMode"
-        @swap="swap()"
-        @replace="replace()"
-        @disable-edit-mode="editMode = false"
-      >
-        <Button
-          :disabled="!scheduleHistory.canUndo.value"
-          @click="scheduleHistory.undo()"
-        >
+      <ButtonsEditMode>
+        <Button :disabled="!canUndo" @click="undo()">
           <IconsUndoRedo class="w-4 scale-x-[-1]" />
         </Button>
 
-        <Button
-          :disabled="!scheduleHistory.canRedo.value"
-          @click="scheduleHistory.redo()"
-        >
+        <Button :disabled="!canRedo" @click="redo()">
           <IconsUndoRedo class="w-4" />
         </Button>
       </ButtonsEditMode>
     </header>
 
-    <SectionHorarioDapeEditWeek
-      class="mt-8"
-      :editMode
-      :showBreaks
-      v-model="weekSchedule"
-      @commit-history="scheduleHistory.commit()"
-      @update:model-value="scheduleHistory.commit()"
-    />
+    <SectionHorarioDapeEditWeek v-model="weekSchedule" :commit="commit" />
   </UIContainer>
 </template>
 
 <style scoped>
 @reference "~/assets/styles/app.css";
 
-/* class used to win the specifity of UITitle's 'default' class */
-.default {
-  @apply text-lg h-max;
+h1.text.default {
+  @apply text-lg;
 }
 </style>

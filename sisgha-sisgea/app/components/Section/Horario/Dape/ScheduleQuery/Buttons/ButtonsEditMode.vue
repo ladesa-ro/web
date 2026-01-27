@@ -1,48 +1,40 @@
 <script setup lang="ts">
-import { useSelectedCells } from '~/composables/schedule/edit/useSelectedScheduleCells';
 import Button from './ScheduleQueryButton.vue';
 
-const selectedItemsSize = computed(
-  () => useSelectedCells({ action: 'getAll', get: 'ids' }).value.size ?? 0
-);
+// const selectedItemsSize = computed(
+//   () => useSelectedCells({ action: 'getAll', get: 'ids' }).value.size ?? 0
+// );
 
-defineEmits(['swap', 'replace', 'disable-edit-mode']);
+const editMode: Ref<boolean> = inject('editMode') ?? ref(false);
+const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
 </script>
 
 <template>
-  <span class="flex gap-2.5">
+  <span class="flex gap-2.5" v-if="editMode">
     <slot> </slot>
 
-    <div class="divider" />
+    <!-- <div class="divider" /> -->
 
-    <Button :disabled="selectedItemsSize !== 2" @click="$emit('swap')">
-      <IconsSwap class="w-4" />
-    </Button>
-
-    <Button :disabled="selectedItemsSize !== 2" @click="$emit('replace')">
-      <IconsReplace class="w-5" />
-    </Button>
-
-    <div class="divider" />
-
-    <Button
+    <!-- <Button
       text="Limpar seleção"
       :disabled="selectedItemsSize === 0"
       @click="useSelectedCells({ action: 'removeAll' })"
     >
       <IconsBroom class="w-4.5" />
+    </Button> -->
+
+    <Button text="Intervalos" @click="showBreaks = !showBreaks">
+      <IconsEyeOff v-show="showBreaks" class="w-5" />
+      <IconsEyeOn v-if="!showBreaks" class="w-5" />
     </Button>
 
     <div class="divider" />
 
-    <Button @click="$emit('disable-edit-mode')" color="var(--ladesa-red-color)">
+    <Button @click="editMode = false" color="var(--ladesa-red-color)">
       <IconsClose class="w-4" />
     </Button>
 
-    <Button
-      @click="$emit('disable-edit-mode')"
-      color="var(--ladesa-text-green-color)"
-    >
+    <Button @click="editMode = false" color="var(--ladesa-text-green-color)">
       <IconsConfirm class="w-5" />
     </Button>
   </span>

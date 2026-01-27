@@ -20,8 +20,7 @@ defineProps<Props>();
 @reference "~/assets/styles/app.css";
 
 .toggle-button {
-  @apply flex w-full gap-1.5 lg:gap-2 items-center justify-center p-2 lg:p-3 text-ldsa-grey border-2 border-r-0;
-  @apply text-sm lg:text-base font-semibold;
+  @apply flex w-full gap-1.5 lg:gap-2 items-center justify-center p-2 lg:p-3 text-ldsa-grey border-2 border-r-0 text-sm font-semibold;
 }
 
 .toggle-button:first-child {

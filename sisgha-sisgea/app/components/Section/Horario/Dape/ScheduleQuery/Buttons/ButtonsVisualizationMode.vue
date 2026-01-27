@@ -1,18 +1,24 @@
 <script setup lang="ts">
 import Button from './ScheduleQueryButton.vue';
-const editMode = defineModel<boolean>('editMode', { default: false });
 
-const showBreaks = defineModel<boolean>('showBreaks', { default: false });
+const editMode: Ref<boolean> = inject('editMode') ?? ref(false);
+const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
+const showIndisponibilidades = ref(true);
 </script>
 
 <template>
-  <span class="flex gap-2.5">
-    <Button text="Indisponibilidades">
-      <IconsEyeOn class="w-5" />
+  <span class="flex gap-2.5" v-show="!editMode">
+    <Button
+      text="Indisponibilidades"
+      @click="showIndisponibilidades = !showIndisponibilidades"
+    >
+      <IconsEyeOn v-show="showIndisponibilidades" class="w-5" />
+      <IconsEyeOff v-if="!showIndisponibilidades" class="w-5" />
     </Button>
 
     <Button text="Intervalos" @click="showBreaks = !showBreaks">
-      <IconsEyeOn class="w-5" />
+      <IconsEyeOff v-show="showBreaks" class="w-5" />
+      <IconsEyeOn v-if="!showBreaks" class="w-5" />
     </Button>
 
     <Button

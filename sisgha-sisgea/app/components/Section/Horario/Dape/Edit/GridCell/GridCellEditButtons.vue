@@ -68,16 +68,18 @@ const turmasOrProfessoresSelected = ref();
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex max-lg:mt-[0.688rem]">
     <SectionHorarioDapeEditPopoverEdit
       v-model="popoverOpen"
       :handle-confirm-button-click="changeCellType"
       :change-activity-value="changeActivityValue"
     >
       <template #activator>
-        <IconsEdit
-          class="px-[0.15625rem] text-ldsa-text-default hover:bg-ldsa-text-default/10 mr-1 rounded"
-        />
+        <button
+          class="w-5.5 h-5.5 p-[0.313rem] flex items-center justify-center rounded hover:bg-ldsa-text-default/15 text-ldsa-text-default"
+        >
+          <IconsEdit />
+        </button>
       </template>
 
       <UIToggle v-model="changeActivityValue" :items="toggleItems" />
@@ -132,12 +134,14 @@ const turmasOrProfessoresSelected = ref();
       </template>
     </SectionHorarioDapeEditPopoverEdit>
 
-    <IconsExclude
-      @click.stop="changeCellType('vago')"
+    <button
       :class="[
-        'inline w-4.5 p-0.5 text-ldsa-red hover:bg-ldsa-red/10 rounded',
+        'w-5.5 h-5.5 p-1 rounded flex items-center justify-center hover:bg-ldsa-red/15 text-ldsa-red',
         cell.type === 'vago' ? 'opacity-0 cursor-default' : 'cursor-pointer',
       ]"
-    />
+      @click.stop="changeCellType('vago')"
+    >
+      <IconsExclude />
+    </button>
   </div>
 </template>
