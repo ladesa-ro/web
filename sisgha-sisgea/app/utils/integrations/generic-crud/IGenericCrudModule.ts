@@ -13,7 +13,10 @@ export type IGenericCrudModule<
     requestBody: Types['Create']['Data']
   ): Promise<Types['Create']['Result']>;
 
-  list(data: Types['List']['Queries']): Promise<Types['List']['Result']>;
+  list(
+    data: Types['List']['Queries'],
+    contextCampi: MaybeRef<string | null>
+  ): Promise<Types['List']['Result']>;
 
   getOne(id: Types['CompleteView']['id']): Promise<Types['GetOne']['Result']>;
 
