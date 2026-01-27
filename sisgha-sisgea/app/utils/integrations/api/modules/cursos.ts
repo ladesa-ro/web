@@ -34,8 +34,12 @@ export const createCursosCrudModule = withApiClient(apiClient => {
       return apiClient.cursos.cursoCreate({ requestBody });
     },
 
-    list(data) {
-      return apiClient.cursos.cursoList(data);
+    list(data, contextCampiRef) {
+      const contextCampi = unref(contextCampiRef);
+      return apiClient.cursos.cursoList({
+        ...data,
+        filterCampusId: contextCampi ? [contextCampi] : undefined,
+      });
     },
 
     getOne(id) {
