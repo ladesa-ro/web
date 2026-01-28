@@ -12,9 +12,16 @@ import {
 } from './Context/UIApiListContext';
 import type { IGridItemSlotProps } from './Results/Grid/Typings/IGridItemSlotProps';
 
-const props = defineProps<{
-  options: ICreateUIApiListContextOptions<Typings, CrudModule>;
-}>();
+const props = withDefaults(
+  defineProps<{
+    options: ICreateUIApiListContextOptions<Typings, CrudModule>;
+    defaultStyle?: boolean;
+    searchBarContainerStyle?: string;
+  }>(),
+  {
+    defaultStyle: true,
+  }
+);
 
 const slots = defineSlots<{
   'options-actions'(props: any): any;
@@ -26,9 +33,9 @@ setupUIApiListContext(props.options);
 </script>
 
 <template>
-  <UIContainer variant="default">
+  <UIContainer variant="default" :styled="defaultStyle ?? true">
     <div class="flex-1 h-full flex flex-col gap-10">
-      <UIAPIListOptions>
+      <UIAPIListOptions :style="searchBarContainerStyle">
         <template #actions>
           <slot name="options-actions" />
         </template>

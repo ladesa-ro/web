@@ -1,57 +1,91 @@
 <script setup lang="ts">
-import { useQuery } from '@tanstack/vue-query';
+import { useForm } from 'vee-validate';
+import * as yup from 'yup';
+import { setupUIApiListContext } from '~/components/UI/API/List/Context/UIApiListContext';
 
 const searchBarValue = ref<string>('');
 
 const selectedToggleItem = ref<'professor' | 'turma' | 'mesclado'>('professor');
 
-const filter = computed(() => ({ search: searchBarValue.value }));
+const schema = yup.object().shape({
+  ofertaFormacaoId: yup.string().notRequired(),
+  cursoId: yup.string().notRequired(),
+});
 
-// filter only Turmas searched by user
-const { data: turmas, isLoading, isError } = useQuery(listTurmas(filter));
+const { values } = useForm({
+  validationSchema: schema,
+  initialValues: {
+    ofertaFormacaoId: '',
+    cursoId: '',
+  },
+});
 
-const turmasFilters = ref({});
+const turmasFilters = computed(() => ({
+  filterCursoId: values.cursoId,
+  filterCursoOfertaFormacaoId: values.ofertaFormacaoId,
+}));
+
+const { crudModule: turmasCrudModule } = useLadesaApiCrudTurmas();
+
+const turmasOptions = {
+  crudModule: turmasCrudModule,
+  filter: turmasFilters,
+};
+
+watch(turmasFilters, () => {
+  setupUIApiListContext(turmasOptions);
+});
 </script>
 
 <template>
   <UIContainer
     variant="large"
     class="flex flex-col"
-    :class="selectedToggleItem !== 'mesclado' ? 'gap-[3.06rem]' : 'gap-6'"
+    :class="selectedToggleItem !== 'mesclado' ? 'gap-7' : 'gap-3'"
   >
-    <!-- header -->
     <SectionHorarioDapeGeneralVisualizationHeader
-      v-model:search-bar="searchBarValue"
       v-model:toggle="selectedToggleItem"
-      v-model:turmas-filters="turmasFilters"
     />
 
-    <!-- content -->
-
     <SectionUsuariosGrid
-      items-link="horario/professor"
       v-show="selectedToggleItem === 'professor'"
+      items-link="horario/professor"
       :search-bar-text="searchBarValue"
     />
 
-    <div
-      v-show="selectedToggleItem === 'turma'"
-      class="ui-api-list-results-grid"
-    >
-      <template v-if="turmas?.data">
-        <SectionTurmasGridItem
-          v-for="turma in turmas.data"
-          class="ui-api-list-results-grid-item"
-          :is-loading="isLoading"
-          :item="turma"
-          link="horario/turma"
-        />
-      </template>
+    <KeepAlive>
+      <UIAPIList
+        v-if="selectedToggleItem === 'turma'"
+        :options="turmasOptions"
+        :defaultStyle="false"
+        search-bar-container-style="flex max-lg:flex-col sm:gap-3 gap-4"
+      >
+        <template #options-actions>
+          <form
+            class="flex max-sm:flex-col gap-4 sm:gap-3 w-full lg:max-w-135 h-max"
+          >
+            <VVAutocompleteAPIOfertaFormacao
+              class="flex-1"
+              name="ofertaFormacaoId"
+            />
+            <VVAutocompleteAPICurso class="flex-1" name="cursoId" />
+          </form>
+        </template>
 
-      <template v-else-if="isError">
-        Ocorreu um erro ao buscar as turmas.
-      </template>
-    </div>
+        <template #grid-item="{ item, isLoading }">
+          <SectionTurmasGridItem
+            :is-loading="isLoading"
+            :item="item"
+            link="horario/turma"
+            :edit-button="false"
+          />
+        </template>
+
+        <template #grid-item-skeleton>
+          <SectionTurmasGridItem :is-loading="true" :item="null" />
+        </template>
+      </UIAPIList>
+    </KeepAlive>
 
     <KeepAlive>
       <SectionHorarioDapeGeneralVisualizationMesclado

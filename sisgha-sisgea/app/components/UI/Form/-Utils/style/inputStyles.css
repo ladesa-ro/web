@@ -1,8 +1,8 @@
 @reference "~/assets/styles/app.css";
 
 .input-base {
-  @apply relative flex justify-between items-center px-3 w-full min-h-12 border-2 rounded-lg;
-  @apply font-medium text-left text-ldsa-text-default data-[placeholder]:text-ldsa-grey/90;
+  @apply relative flex justify-between items-center px-3 mt-1 w-full min-h-12 border-2 rounded-lg;
+  @apply font-medium text-left text-ldsa-text-default data-placeholder:text-ldsa-grey/90;
   @apply focus-within:border-ldsa-green-2 focus-visible:outline-none disabled:cursor-not-allowed;
 }
 

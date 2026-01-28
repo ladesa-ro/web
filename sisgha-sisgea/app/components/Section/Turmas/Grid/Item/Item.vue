@@ -8,6 +8,7 @@ type Props = {
   isLoading?: boolean;
   item?: TurmaFindOneOutput | null;
   link?: string;
+  editButton?: boolean
 };
 
 //
@@ -31,7 +32,7 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
       >
         <template #actions>
           <EditOrCreateModal
-            v-if="link === 'turmas'"
+            v-if="editButton"
             :edit-id="turma.id"
             :formComponent="TurmasForm"
           />

@@ -14,9 +14,7 @@ import {
 } from './-Helpers/schema';
 import SectionTurmasFormAvailability from './Availability/AvailabilityModal.vue';
 
-type Props = {
-  editId?: string | null;
-};
+type Props = { editId?: string | null };
 
 const { editId = null } = defineProps<Props>();
 

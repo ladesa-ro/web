@@ -1,16 +1,24 @@
 <script setup lang="ts">
-type Props = { variant?: 'tighter' | 'tight' | 'default' | 'large' | 'larger' };
+type Props = {
+  variant?: 'tighter' | 'tight' | 'default' | 'large' | 'larger';
+  styled?: boolean;
+};
 
-const { variant = 'default' } = defineProps<Props>();
+const { variant = 'default', styled = true } = defineProps<Props>();
 </script>
 
 <template>
   <div
+    v-if="styled"
     class="flex-1 mx-5 min-[385px]:mx-10 sm:mx-20 text-ldsa-text-default"
     :class="variant"
   >
     <slot />
   </div>
+
+  <template v-else>
+    <slot />
+  </template>
 </template>
 
 <style scoped>

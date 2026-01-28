@@ -18,6 +18,7 @@ const slots = defineSlots<Slots>();
 
 const { viewMode } = useUIApiListContext();
 </script>
+
 <template>
   <template v-if="viewMode === UIApiListViewMode.CARDS">
     <UIAPIListResultsGrid>

@@ -49,7 +49,7 @@ const emit = defineEmits(['update:modelValue', 'blur']);
 
     <template v-else>
       <input
-        class="w-full px-2 py-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
+        class="w-full px-3 pt-2.5 rounded-md disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
         :type="type"
         :placeholder="placeholder"
         :value="modelValue"
