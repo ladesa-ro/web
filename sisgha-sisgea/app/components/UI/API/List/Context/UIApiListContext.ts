@@ -17,7 +17,7 @@ export type ICreateUIApiListContextOptions<
   CrudModule extends IGenericCrudModule<Typings>,
 > = {
   crudModule: CrudModule;
-  filter?: ComputedRef<Typings['List']['Queries']>;
+  filter?: ComputedRef<Typings['List']['Queries']> | any;
 };
 
 export const createApiListContextOptions = <
