@@ -7,8 +7,9 @@ import { ApiImageResource, useApiImageRoute } from '~/utils';
 type Props = {
   usuario: UsuarioFindOneOutput;
   link?: string;
+  editButton?: boolean;
 };
-const { usuario, link: linkProps } = defineProps<Props>();
+const { usuario, link: linkProps, editButton = true } = defineProps<Props>();
 
 let link = linkProps === undefined || linkProps === '' ? 'usuarios' : linkProps;
 
@@ -84,7 +85,7 @@ const profilePicureUrl = useApiImageRoute(
 
       <template #actions>
         <SectionUsuariosModalsForm
-          v-if="link === 'usuarios'"
+          v-if="editButton"
           :editId="usuario.id"
         />
         <IconsArrowAlt

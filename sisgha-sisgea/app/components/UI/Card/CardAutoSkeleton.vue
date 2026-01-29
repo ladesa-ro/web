@@ -5,7 +5,7 @@ const _ARBITRARY_UI_CARD_SKELETON_INITIAL_HEIGHT = `18.15rem`;
 
 //
 
-const $emit = defineEmits(['edit']);
+// const $emit = defineEmits(['edit']);
 
 type Props = {
   skeleton?: boolean;

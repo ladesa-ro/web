@@ -1,15 +1,38 @@
 <script lang="ts" setup>
+withDefaults(
+  defineProps<{
+    crudEnable?: boolean;
+    itemsLink?: string;
+    defaultStyle?: boolean;
+    searchBarContainerStyle?: string;
+  }>(),
+  {
+    crudEnable: true,
+    itemsLink: undefined,
+    defaultStyle: true,
+  }
+);
+
 const searchBarText = ref('');
 </script>
 
-<template>
-  <!-- TODO: transformar esse layout em componente -->
-  <UIContainer>
-    <div class="flex justify-between gap-5 mb-10">
-      <UISearchBar v-model="searchBarText" />
-      <SectionUsuariosModalsForm />
-    </div>
+<!-- TODO: usar UIAPIList aqui -->
 
-    <SectionUsuariosGrid :search-bar-text="searchBarText" />
+<template>
+  <UIContainer :styled="defaultStyle ?? true">
+    <div class="flex-1 h-full flex flex-col gap-10">
+      <div
+        :class="searchBarContainerStyle ?? 'flex justify-between gap-5'"
+      >
+        <UISearchBar v-model="searchBarText" />
+        <SectionUsuariosModalsForm v-if="crudEnable" />
+      </div>
+
+      <SectionUsuariosGrid
+        :search-bar-text="searchBarText"
+        :edit-button="crudEnable"
+        :items-link="itemsLink"
+      />
+    </div>
   </UIContainer>
 </template>

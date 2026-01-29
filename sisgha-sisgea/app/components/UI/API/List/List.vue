@@ -33,7 +33,7 @@ setupUIApiListContext(props.options);
 </script>
 
 <template>
-  <UIContainer variant="default" :styled="defaultStyle ?? true">
+  <UIContainer :styled="defaultStyle ?? true">
     <div class="flex-1 h-full flex flex-col gap-10">
       <UIAPIListOptions :style="searchBarContainerStyle">
         <template #actions>

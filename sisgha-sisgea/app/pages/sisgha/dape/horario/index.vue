@@ -42,11 +42,15 @@ const turmasOptions = {
       v-model:toggle="selectedToggleItem"
     />
 
-    <SectionUsuariosGrid
-      v-show="selectedToggleItem === 'professor'"
-      items-link="horario/professor"
-      :search-bar-text="searchBarValue"
-    />
+    <KeepAlive>
+      <SectionUsuarios
+        v-if="selectedToggleItem === 'professor'"
+        items-link="horario/professor"
+        :edit-button="false"
+        :defaultStyle="false"
+        :crud-enable="false"
+      />
+    </KeepAlive>
 
     <KeepAlive>
       <UIAPIList
