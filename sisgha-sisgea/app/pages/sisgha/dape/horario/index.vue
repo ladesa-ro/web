@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { setupUIApiListContext } from '~/components/UI/API/List/Context/UIApiListContext';
 
 const searchBarValue = ref<string>('');
 
@@ -15,8 +14,8 @@ const schema = yup.object().shape({
 const { values } = useForm({
   validationSchema: schema,
   initialValues: {
-    ofertaFormacaoId: '',
-    cursoId: '',
+    ofertaFormacaoId: null,
+    cursoId: null,
   },
 });
 
@@ -31,10 +30,6 @@ const turmasOptions = {
   crudModule: turmasCrudModule,
   filter: turmasFilters,
 };
-
-watch(turmasFilters, () => {
-  setupUIApiListContext(turmasOptions);
-});
 </script>
 
 <template>

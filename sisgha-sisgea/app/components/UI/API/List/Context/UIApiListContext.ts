@@ -17,6 +17,7 @@ export type ICreateUIApiListContextOptions<
   CrudModule extends IGenericCrudModule<Typings>,
 > = {
   crudModule: CrudModule;
+  filter?: ComputedRef<Typings['List']['Queries']>;
 };
 
 export const createApiListContextOptions = <
@@ -35,15 +36,27 @@ export const createUIApiListContext = <
 ) => {
   const viewMode = ref(UIApiListViewMode.CARDS);
 
-  const formOptions = reactive({
+  const filters = computed(() => {
+    return JSON.parse(JSON.stringify(unref(options.filter) ?? {}));
+  });
+
+  const formOptions = ref({
     search: '',
     limit: 3 * 6,
+  });
+
+  const formWithFilters = computed(() => {
+    return {
+      ...formOptions.value,
+      ...filters.value,
+    };
   });
 
   return {
     options,
     viewMode,
     formOptions,
+    formWithFilters,
   };
 };
 
