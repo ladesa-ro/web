@@ -16,13 +16,13 @@ export type IAmbientesApiModuleTypings = IGenericCrudModuleTypes<{
 
   List: {
     Result: ApiClientTypings.AmbienteListOutputDto;
-    Queries: ApiClientTypings.AmbienteListDataDto;
+    Queries: ApiClientTypings.AmbienteFindAllData;
     ResultItem: ApiClientTypings.AmbienteListOutputDto['data'][number];
   };
 
   Update: {
     Data: ApiClientTypings.AmbienteUpdateInputDto;
-    Result: ApiClientTypings.AmbienteUpdateOneByIdResponse;
+    Result: ApiClientTypings.AmbienteUpdateResponse;
   };
 }>;
 

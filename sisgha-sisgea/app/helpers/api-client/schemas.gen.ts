@@ -531,6 +531,61 @@ export const $PerfilListOutputDto = {
     required: ['meta', 'data']
 } as const;
 
+export const $CampusFindOneInputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string',
+            description: 'Identificador do registro (uuid)',
+            format: 'uuid'
+        }
+    },
+    required: ['id']
+} as const;
+
+export const $UsuarioFindOneInputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string',
+            description: 'Identificador do registro (uuid)',
+            format: 'uuid'
+        }
+    },
+    required: ['id']
+} as const;
+
+export const $PerfilSetVinculosInputDto = {
+    type: 'object',
+    properties: {
+        cargos: {
+            description: 'Lista de cargos que o usuario tera no campus',
+            example: ['professor', 'coordenador'],
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        campus: {
+            description: 'Campus onde os vinculos serao definidos',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/CampusFindOneInputDto'
+                }
+            ]
+        },
+        usuario: {
+            description: 'Usuario que recebera os vinculos',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/UsuarioFindOneInputDto'
+                }
+            ]
+        }
+    },
+    required: ['cargos', 'campus', 'usuario']
+} as const;
+
 export const $UsuarioListOutputDto = {
     type: 'object',
     properties: {
@@ -1113,18 +1168,6 @@ export const $CursoListOutputDto = {
         }
     },
     required: ['meta', 'data']
-} as const;
-
-export const $CampusFindOneInputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
-        }
-    },
-    required: ['id']
 } as const;
 
 export const $OfertaFormacaoFindOneInputDto = {
@@ -2998,18 +3041,6 @@ export const $ReservaListOutputDto = {
         }
     },
     required: ['meta', 'data']
-} as const;
-
-export const $UsuarioFindOneInputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
-        }
-    },
-    required: ['id']
 } as const;
 
 export const $ReservaCreateInputDto = {

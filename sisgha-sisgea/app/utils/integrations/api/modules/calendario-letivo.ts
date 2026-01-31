@@ -16,13 +16,13 @@ export type ICalendarioLetivoApiModuleTypings = {
 
   List: {
     Result: ApiClientTypings.CalendarioLetivoListOutputDto;
-    Queries: ApiClientTypings.CalendarioLetivoListData;
+    Queries: ApiClientTypings.CalendarioLetivoFindAllData;
     ResultItem: ApiClientTypings.CalendarioLetivoListOutputDto['data'][number];
   };
 
   Update: {
     Data: ApiClientTypings.CalendarioLetivoUpdateInputDto;
-    Result: ApiClientTypings.CalendarioLetivoUpdateOneByIdResponse;
+    Result: ApiClientTypings.CalendarioLetivoUpdateResponse;
   };
 };
 

@@ -16,13 +16,13 @@ export type IDiarioProfessorApiModuleTypings = {
 
   List: {
     Result: ApiClientTypings.DiarioProfessorListOutputDto;
-    Queries: ApiClientTypings.DiarioProfessorListData;
+    Queries: ApiClientTypings.DiarioProfessorFindAllData;
     ResultItem: ApiClientTypings.DiarioProfessorListOutputDto['data'][number];
   };
 
   Update: {
     Data: ApiClientTypings.DiarioProfessorUpdateInputDto;
-    Result: ApiClientTypings.DiarioProfessorUpdateOneByIdResponse;
+    Result: ApiClientTypings.DiarioProfessorUpdateResponse;
   };
 };
 

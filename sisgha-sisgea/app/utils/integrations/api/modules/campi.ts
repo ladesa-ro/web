@@ -16,13 +16,13 @@ export type ICampusApiModuleTypings = {
 
   List: {
     Result: ApiClientTypings.CampusListOutputDto;
-    Queries: ApiClientTypings.CampusListData;
+    Queries: ApiClientTypings.CampusFindAllData;
     ResultItem: ApiClientTypings.CampusListOutputDto['data'][number];
   };
 
   Update: {
     Data: ApiClientTypings.CampusUpdateInputDto;
-    Result: ApiClientTypings.CampusUpdateOneByIdResponse;
+    Result: ApiClientTypings.CampusUpdateResponse;
   };
 };
 

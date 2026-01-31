@@ -16,13 +16,13 @@ export type IDisciplinaApiModuleTypings = {
 
   List: {
     Result: ApiClientTypings.DisciplinaListOutputDto;
-    Queries: ApiClientTypings.DisciplinaListData;
+    Queries: ApiClientTypings.DisciplinaFindAllData;
     ResultItem: ApiClientTypings.DisciplinaListOutputDto['data'][number];
   };
 
   Update: {
     Data: ApiClientTypings.DisciplinaUpdateInputDto;
-    Result: ApiClientTypings.DisciplinaUpdateOneByIdResponse;
+    Result: ApiClientTypings.DisciplinaUpdateResponse;
   };
 };
 

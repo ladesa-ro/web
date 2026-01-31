@@ -3,18 +3,18 @@
 
 import { queryOptions } from '@tanstack/vue-query';
 import type {
-  CampusFindOneByIdData,
-  CursoFindOneByIdData,
-  CursoListData,
-  DisciplinaFindOneByIdData,
-  DisciplinaListData,
-  OfertaFormacaoFindOneByIdData,
-  OfertaFormacaoListData,
-  PerfilListData,
-  TurmaFindOneByIdData,
-  TurmaListData,
-  UsuarioFindOneByIdData,
-  UsuarioListData,
+  CampusFindByIdData,
+  CursoFindAllData,
+  CursoFindByIdData,
+  DisciplinaFindAllData,
+  DisciplinaFindByIdData,
+  OfertaFormacaoFindAllData,
+  OfertaFormacaoFindByIdData,
+  PerfilFindAllData,
+  TurmaFindAllData,
+  TurmaFindByIdData,
+  UsuarioFindAllData,
+  UsuarioFindByIdData,
 } from '~/helpers/api-client';
 
 // TODO: filtrar tudo pelo id do campus atual useCampusContext
@@ -22,123 +22,123 @@ import type {
 // campi
 
 export const findCampusById = (
-  id: CampusFindOneByIdData,
+  id: CampusFindByIdData,
   apiClient = useApiClient()
 ) =>
   queryOptions({
     queryKey: ['campus', 'campus::id', id],
-    queryFn: async () => await apiClient.campi.campusFindOneById(id),
+    queryFn: async () => await apiClient.campi.campusFindById(id),
   });
 
 // cursos
 
 export const findCursoById = (
-  id: CursoFindOneByIdData,
+  id: CursoFindByIdData,
   apiClient = useApiClient()
 ) =>
   queryOptions({
     queryKey: ['curso', 'curso::id', id],
-    queryFn: async () => await apiClient.cursos.cursoFindOneById(id),
+    queryFn: async () => await apiClient.cursos.cursoFindById(id),
   });
 
 export const listCursos = (
-  filter?: ComputedRef<CursoListData>,
+  filter?: ComputedRef<CursoFindAllData>,
   apiClient: ApiClient = useApiClient()
 ) =>
   queryOptions({
     queryKey: ['curso', 'cursos-list', filter],
-    queryFn: async () => await apiClient.cursos.cursoList(unref(filter)),
+    queryFn: async () => await apiClient.cursos.cursoFindAll(unref(filter)),
   });
 
 // disciplinas
 
 export const findDisciplinaById = (
-  id: DisciplinaFindOneByIdData,
+  id: DisciplinaFindByIdData,
   apiClient = useApiClient()
 ) =>
   queryOptions({
     queryKey: ['disciplina', 'disciplina::id', id],
-    queryFn: async () => await apiClient.disciplinas.disciplinaFindOneById(id),
+    queryFn: async () => await apiClient.disciplinas.disciplinaFindById(id),
   });
 
 export const listDisciplinas = (
-  filter?: DisciplinaListData,
+  filter?: DisciplinaFindAllData,
   apiClient = useApiClient()
 ) =>
   queryOptions({
     queryKey: ['disciplina', 'disciplinas-list'],
-    queryFn: async () => await apiClient.disciplinas.disciplinaList(filter),
+    queryFn: async () => await apiClient.disciplinas.disciplinaFindAll(filter),
   });
 
 // formações
 
 export const findOfertaFormacaoById = (
-  id: OfertaFormacaoFindOneByIdData,
+  id: OfertaFormacaoFindByIdData,
   apiClient = useApiClient()
 ) =>
   queryOptions({
     queryKey: ['oferta-formacao', 'oferta-formacao::id', id],
     queryFn: async () =>
-      await apiClient.ofertasFormacoes.ofertaFormacaoFindOneById(id),
+      await apiClient.ofertasFormacoes.ofertaFormacaoFindById(id),
   });
 
 export const listOfertasFormacao = (
-  filter?: ComputedRef<OfertaFormacaoListData>,
+  filter?: ComputedRef<OfertaFormacaoFindAllData>,
   apiClient: ApiClient = useApiClient()
 ) =>
   queryOptions({
     queryKey: ['oferta-formacao', 'oferta-formacao-list', filter],
     queryFn: async () =>
-      await apiClient.ofertasFormacoes.ofertaFormacaoList(unref(filter)),
+      await apiClient.ofertasFormacoes.ofertaFormacaoFindAll(unref(filter)),
   });
 
 // turmas
 
 export const findTurmaById = (
-  id: TurmaFindOneByIdData,
+  id: TurmaFindByIdData,
   apiClient = useApiClient()
 ) =>
   queryOptions({
     queryKey: ['turma', 'turma::id', id],
-    queryFn: async () => await apiClient.turmas.turmaFindOneById(id),
+    queryFn: async () => await apiClient.turmas.turmaFindById(id),
   });
 
 export const listTurmas = (
-  filter?: ComputedRef<TurmaListData>,
+  filter?: ComputedRef<TurmaFindAllData>,
   apiClient: ApiClient = useApiClient()
 ) =>
   queryOptions({
     queryKey: ['turma', 'turmas-list', filter],
-    queryFn: async () => apiClient.turmas.turmaList(unref(filter)),
+    queryFn: async () => apiClient.turmas.turmaFindAll(unref(filter)),
   });
 
 // usuários
 
 export const findUserById = (
-  id: UsuarioFindOneByIdData,
+  id: UsuarioFindByIdData,
   apiClient = useApiClient()
 ) =>
   queryOptions({
     queryKey: ['user', 'user::id', id],
-    queryFn: async () => await apiClient.usuarios.usuarioFindOneById(id),
+    queryFn: async () => await apiClient.usuarios.usuarioFindById(id),
   });
 
 export const listUsers = (
-  filter?: UsuarioListData,
+  filter?: UsuarioFindAllData,
   apiClient = useApiClient()
 ) =>
   queryOptions({
     queryKey: ['user', 'users-list'],
-    queryFn: async () => await apiClient.usuarios.usuarioList(filter),
+    queryFn: async () => await apiClient.usuarios.usuarioFindAll(filter),
   });
 
 // perfis
 
 export const listPerfis = (
-  filter?: PerfilListData,
+  filter?: PerfilFindAllData,
   apiClient = useApiClient()
 ) =>
   queryOptions({
     queryKey: ['perfil', 'perfis-list'],
-    queryFn: async () => await apiClient.perfis.perfilList(filter),
+    queryFn: async () => await apiClient.perfis.perfilFindAll(filter),
   });

@@ -129,16 +129,16 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
       id = ambienteCriado.id;
       showToast('cadastro', 'success');
     } else {
-      await apiClient.ambientes.ambienteUpdateOneById({
+      await apiClient.ambientes.ambienteUpdate({
         id: editId,
-        requestBody: { id: editId, ...data },
+        requestBody: { ...data },
       });
       id = editId;
       showToast('atualizacao', 'success');
     }
 
     if (imagem) {
-      await apiClient.ambientes.ambienteSetImagemCapa({
+      await apiClient.ambientes.ambienteUpdateImagemCapa({
         id,
         formData: { file: imagem },
       });

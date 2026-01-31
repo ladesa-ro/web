@@ -27,7 +27,7 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
       id = usuarioCriado.id;
       showToast('cadastro', 'success');
     } else {
-      await apiClient.usuarios.usuarioUpdateOneById({
+      await apiClient.usuarios.usuarioUpdate({
         id: editId,
         requestBody: { ...values },
       });
@@ -46,7 +46,7 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
       )
         continue;
 
-      await apiClient.perfis.perfilUpdateOneById({
+      await apiClient.perfis.perfilSetVinculos({
         requestBody: {
           usuario: { id: id },
           campus: { id: vinculo.campus.id },
@@ -56,7 +56,7 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
     }
 
     if (imagem) {
-      await apiClient.usuarios.usuarioSetImagemCapa({
+      await apiClient.usuarios.usuarioUpdateImagemCapa({
         id: id,
         formData: { file: imagem },
       });

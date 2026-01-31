@@ -49,7 +49,7 @@ export const calendarDataMethods = {
 
       try {
         const getCalendar =
-          await getApiClient().calendariosLetivos.calendarioLetivoFindOneById({
+          await getApiClient().calendariosLetivos.calendarioLetivoFindById({
             id: calendarId,
           });
 
@@ -77,7 +77,7 @@ export const calendarDataMethods = {
     ): Promise<string> {
       try {
         const getCalendar =
-          await getApiClient().calendariosLetivos.calendarioLetivoList({
+          await getApiClient().calendariosLetivos.calendarioLetivoFindAll({
             filterCampusId: [campus],
             filterOfertaFormacaoId: [trainingOffer],
             search: name,
@@ -126,7 +126,7 @@ export const calendarDataMethods = {
       trainingOffer: string
     ): Promise<void> {
       try {
-        await getApiClient().calendariosLetivos.calendarioLetivoUpdateOneById({
+        await getApiClient().calendariosLetivos.calendarioLetivoUpdate({
           id,
           requestBody: {
             nome: name,
@@ -156,7 +156,7 @@ export const calendarDataMethods = {
       let remodelSteps: Array<CalendarEvent> = [];
 
       try {
-        const steps = await getApiClient().etapas.etapaList({
+        const steps = await getApiClient().etapas.etapaFindAll({
           filterCalendarioId: [calendarId],
         });
 
@@ -166,7 +166,7 @@ export const calendarDataMethods = {
             name: `${steps.data[i]!.numero}° Etapa`,
             startDate: steps.data[i]!.dataInicio,
             endDate: steps.data[i]!.dataTermino,
-            color: steps.data[i]!.cor,
+            color: steps.data[i]!.cor ?? null,
             calendar: { id: calendarId },
           };
           remodelSteps.push(step);
@@ -180,7 +180,7 @@ export const calendarDataMethods = {
     async getStepByName(name: string, calendarId: string): Promise<any> {
       try {
         const getStep = await getApiClient()
-          .etapas.etapaList({
+          .etapas.etapaFindAll({
             search: `${name.replace(/\D/g, '')}`,
           })
           .then(res => res.data);
@@ -219,7 +219,7 @@ export const calendarDataMethods = {
     },
     async putStep(step: CalendarEvent): Promise<void> {
       try {
-        await getApiClient().etapas.etapaUpdateOneById({
+        await getApiClient().etapas.etapaUpdate({
           id: step.id,
           requestBody: {
             numero: Number(step.name.replace(/\D/g, '')),
@@ -248,7 +248,7 @@ export const calendarDataMethods = {
       let remodelEvents: Array<CalendarEvent> = [];
 
       try {
-        const events = await getApiClient().eventos.eventoList({
+        const events = await getApiClient().eventos.eventoFindAll({
           filterCalendarioId: [calendarId],
         });
 
@@ -256,11 +256,11 @@ export const calendarDataMethods = {
           const event: CalendarEvent = {
             id: events.data[i]!.id,
             name: `${events.data[i]!.nome}`,
-            color: events.data[i]!.cor,
-            startDate: events.data[i]!.data_inicio!,
-            endDate: events.data[i]!.data_fim!,
+            color: events.data[i]!.cor ?? null,
+            startDate: events.data[i]!.dataInicio!,
+            endDate: events.data[i]!.dataFim!,
             calendar: { id: calendarId },
-            locale: events.data[i]?.local,
+            locale: events.data[i]?.ambiente?.nome,
           };
           remodelEvents.push(event);
         }
@@ -273,7 +273,7 @@ export const calendarDataMethods = {
     async getEventByName(name: string, calendarId: string): Promise<any> {
       try {
         const getEvents = await getApiClient()
-          .eventos.eventoList({
+          .eventos.eventoFindAll({
             filterCalendarioId: [calendarId],
             search: `${name}`,
           })
@@ -317,8 +317,8 @@ export const calendarDataMethods = {
             rrule: '',
             cor: color,
             calendario: { id: calendarId },
-            data_inicio: formattedDates.startDate,
-            data_fim: formattedDates.endDate,
+            dataInicio: formattedDates.startDate,
+            dataFim: formattedDates.endDate,
           },
         });
 
@@ -346,13 +346,13 @@ export const calendarDataMethods = {
       localArray?: CalendarEvent[]
     ): Promise<void> {
       try {
-        await getApiClient().eventos.eventoUpdateOneById({
+        await getApiClient().eventos.eventoUpdate({
           id: event.id,
           requestBody: {
             nome: event.name,
             cor: event.color,
-            data_inicio: event.startDate,
-            data_fim: event.endDate,
+            dataInicio: event.startDate,
+            dataFim: event.endDate,
             calendario: { id: event.calendar!.id },
           },
         });

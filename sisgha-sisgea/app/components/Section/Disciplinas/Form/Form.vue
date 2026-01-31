@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import { useToast } from '#imports';
 import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { useApiClient } from '~/composables';
-import { useToast } from '#imports';
 
 type Props = {
   editId?: string | null;
@@ -72,7 +72,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
       id = DisciplinaCriada.id;
       showToast('cadastro', 'success');
     } else {
-      await apiClient.disciplinas.disciplinaUpdateOneById({
+      await apiClient.disciplinas.disciplinaUpdate({
         id: editId,
         requestBody: { ...data },
       });
@@ -81,7 +81,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
     }
 
     if (imagem) {
-      await apiClient.disciplinas.disciplinaSetImagemCapa({
+      await apiClient.disciplinas.disciplinaUpdateImagemCapa({
         id,
         formData: { file: imagem },
       });

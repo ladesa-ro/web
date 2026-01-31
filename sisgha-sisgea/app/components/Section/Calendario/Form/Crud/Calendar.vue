@@ -31,7 +31,7 @@ async function setCalendarStepAmount() {
       const offerSelected = async (): Promise<string> => {
         try {
           const getTraining =
-            await getApiClient().ofertasFormacoes.ofertaFormacaoFindOneById({
+            await getApiClient().ofertasFormacoes.ofertaFormacaoFindById({
               id: values.trainingOffer!,
             });
           if (getTraining) return getTraining.nome;
@@ -44,7 +44,7 @@ async function setCalendarStepAmount() {
       const higherOffer = async (): Promise<string> => {
         try {
           const searchOffer =
-            await getApiClient().ofertasFormacoes.ofertaFormacaoList({
+            await getApiClient().ofertasFormacoes.ofertaFormacaoFindAll({
               search: `Superior`,
             });
           const catchOffer = searchOffer.data?.find((offer: any) =>

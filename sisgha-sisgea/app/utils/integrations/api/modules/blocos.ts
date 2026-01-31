@@ -19,13 +19,13 @@ export type IBlocosApiModuleTypings = IGenericCrudModuleTypes<{
 
   List: {
     Result: ApiClientTypings.BlocoListOutputDto;
-    Queries: ApiClientTypings.BlocoListData;
+    Queries: ApiClientTypings.BlocoFindAllData;
     ResultItem: ApiClientTypings.BlocoListOutputDto['data'][number];
   };
 
   Update: {
     Data: ApiClientTypings.BlocoUpdateInputDto;
-    Result: ApiClientTypings.BlocoUpdateOneByIdResponse;
+    Result: ApiClientTypings.BlocoUpdateResponse;
   };
 }>;
 

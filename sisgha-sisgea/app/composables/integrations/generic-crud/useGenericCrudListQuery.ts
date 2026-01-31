@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/vue-query';
-import { getQueryKeyForCrudModuleList } from '~/composables/integrations/generic-crud/utils/get-query-key';
 import type { IGenericCrudModule } from '../../../utils/integrations/generic-crud/IGenericCrudModule';
 import type { IGenericCrudModuleTypesBase } from '../../../utils/integrations/generic-crud/IGenericCrudModuleTypesBase';
 import { useGenericCrudFindOneAheadOfTime } from './useGenericCrudFindOneAheadOfTime';
+import { getQueryKeyForCrudModuleList } from './utils/get-query-key';
 
 export const useGenericCrudListQuery = <
   Types extends IGenericCrudModuleTypesBase,

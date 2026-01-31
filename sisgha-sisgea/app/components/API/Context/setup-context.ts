@@ -21,7 +21,7 @@ export const createApiContext = (shouldProvide = true) => {
     queryKey: whoAmIQueryKey,
 
     queryFn: async () => {
-      return apiClient.autenticacao.authWhoAmI();
+      return apiClient.autenticacao.autenticacaoWhoAmI();
     },
 
     enabled: computed(() => status.value !== 'loading'),

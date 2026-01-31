@@ -362,6 +362,35 @@ export type PerfilListOutputDto = {
     data: Array<PerfilFindOneOutputDto>;
 };
 
+export type CampusFindOneInputDto = {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+};
+
+export type UsuarioFindOneInputDto = {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+};
+
+export type PerfilSetVinculosInputDto = {
+    /**
+     * Lista de cargos que o usuario tera no campus
+     */
+    cargos: Array<(string)>;
+    /**
+     * Campus onde os vinculos serao definidos
+     */
+    campus: (CampusFindOneInputDto);
+    /**
+     * Usuario que recebera os vinculos
+     */
+    usuario: (UsuarioFindOneInputDto);
+};
+
 export type UsuarioListOutputDto = {
     /**
      * Metadados da busca
@@ -748,13 +777,6 @@ export type CursoListOutputDto = {
      * Resultados da busca
      */
     data: Array<CursoFindOneOutputDto>;
-};
-
-export type CampusFindOneInputDto = {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
 };
 
 export type OfertaFormacaoFindOneInputDto = {
@@ -1863,13 +1885,6 @@ export type ReservaListOutputDto = {
      * Resultados da busca
      */
     data: Array<ReservaFindOneOutputDto>;
-};
-
-export type UsuarioFindOneInputDto = {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
 };
 
 export type ReservaCreateInputDto = {
@@ -2996,6 +3011,10 @@ export type PerfilFindAllData = {
 
 export type PerfilFindAllResponse = (PerfilListOutputDto);
 
+export type PerfilSetVinculosData = {
+    requestBody: PerfilSetVinculosInputDto;
+};
+
 export type PerfilSetVinculosResponse = (PerfilListOutputDto);
 
 export type PerfilFindByIdData = {
@@ -3098,6 +3117,9 @@ export type UsuarioGetImagemCapaData = {
 export type UsuarioGetImagemCapaResponse = (unknown);
 
 export type UsuarioUpdateImagemCapaData = {
+    formData: {
+        file: (Blob | File);
+    };
     /**
      * Identificador do registro (uuid)
      */
@@ -3116,6 +3138,9 @@ export type UsuarioGetImagemPerfilData = {
 export type UsuarioGetImagemPerfilResponse = (unknown);
 
 export type UsuarioUpdateImagemPerfilData = {
+    formData: {
+        file: (Blob | File);
+    };
     /**
      * Identificador do registro (uuid)
      */
@@ -3341,6 +3366,9 @@ export type CursoGetImagemCapaData = {
 export type CursoGetImagemCapaResponse = (unknown);
 
 export type CursoUpdateImagemCapaData = {
+    formData: {
+        file: (Blob | File);
+    };
     /**
      * Identificador do registro (uuid)
      */
@@ -3792,6 +3820,9 @@ export type TurmaGetImagemCapaData = {
 export type TurmaGetImagemCapaResponse = (unknown);
 
 export type TurmaUpdateImagemCapaData = {
+    formData: {
+        file: (Blob | File);
+    };
     /**
      * Identificador do registro (uuid)
      */
@@ -3881,13 +3912,16 @@ export type AmbienteGetImagemCapaData = {
 export type AmbienteGetImagemCapaResponse = (unknown);
 
 export type AmbienteUpdateImagemCapaData = {
+    formData: {
+        file: (Blob | File);
+    };
     /**
      * Identificador do registro (uuid)
      */
     id: string;
 };
 
-export type AmbienteUpdateImagemCapaResponse = (unknown);
+export type AmbienteUpdateImagemCapaResponse = (boolean);
 
 export type BlocoFindAllData = {
     /**
@@ -3966,13 +4000,16 @@ export type BlocoGetImagemCapaData = {
 export type BlocoGetImagemCapaResponse = (unknown);
 
 export type BlocoUpdateImagemCapaData = {
+    formData: {
+        file: (Blob | File);
+    };
     /**
      * Identificador do registro (uuid)
      */
     id: string;
 };
 
-export type BlocoUpdateImagemCapaResponse = (unknown);
+export type BlocoUpdateImagemCapaResponse = (boolean);
 
 export type DisciplinaFindAllData = {
     /**
@@ -4051,6 +4088,9 @@ export type DisciplinaGetImagemCapaData = {
 export type DisciplinaGetImagemCapaResponse = (unknown);
 
 export type DisciplinaUpdateImagemCapaData = {
+    formData: {
+        file: (Blob | File);
+    };
     /**
      * Identificador do registro (uuid)
      */
@@ -4060,6 +4100,10 @@ export type DisciplinaUpdateImagemCapaData = {
 export type DisciplinaUpdateImagemCapaResponse = (boolean);
 
 export type EventoFindAllData = {
+    /**
+     * Filtro por ID do Calendario Letivo
+     */
+    filterCalendarioId?: Array<(string)>;
     /**
      * Filtro por ID
      */
@@ -4787,7 +4831,7 @@ export type EtapaDeleteOneByIdData = {
 
 export type EtapaDeleteOneByIdResponse = (boolean);
 
-export type AutenticacaoEnsinoByIdResponse = (UsuarioFindOneOutputDto);
+export type AutenticacaoWhoAmIensinoResponse = (UsuarioEnsinoOutputDto);
 
 export type AutenticacaoWhoAmIResponse = (AuthWhoAmIOutputDto);
 

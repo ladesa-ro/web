@@ -132,7 +132,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
 
       showToast('cadastro', 'success');
     } else {
-      await apiClient.cursos.cursoUpdateOneById({
+      await apiClient.cursos.cursoUpdate({
         id: editId,
         requestBody: { ...data, ofertaFormacao },
       });
@@ -142,7 +142,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
     }
 
     if (imagem) {
-      await apiClient.cursos.cursoSetImagemCapa({
+      await apiClient.cursos.cursoUpdateImagemCapa({
         id,
         formData: { file: imagem },
       });

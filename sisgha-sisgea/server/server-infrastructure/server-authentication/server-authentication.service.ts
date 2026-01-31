@@ -8,7 +8,7 @@ export class ServerAuthenticationService {
 
     const apiClient = getApiClient();
 
-    const tokenSet = await apiClient.autenticacao.authRefresh({
+    const tokenSet = await apiClient.autenticacao.autenticacaoRefresh({
       requestBody: { refreshToken },
     });
 

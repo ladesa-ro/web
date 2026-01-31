@@ -25,7 +25,7 @@ export const useTurmaSubmit = () => {
 
       id = turmaCriada.id;
     } else {
-      await apiClient.turmas.turmaUpdateOneById({
+      await apiClient.turmas.turmaUpdate({
         id: editId,
 
         requestBody: {
@@ -37,7 +37,7 @@ export const useTurmaSubmit = () => {
     }
 
     if (imagem) {
-      await apiClient.turmas.turmaSetImagemCapa({
+      await apiClient.turmas.turmaUpdateImagemCapa({
         id: id,
         formData: { file: imagem },
       });

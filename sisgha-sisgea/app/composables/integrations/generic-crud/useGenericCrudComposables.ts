@@ -12,7 +12,7 @@ export const useGenericCrudComposables = <
   crudModule: CrudModule
 ) => {
   return {
-    useList(data: Types['List']['Queries']) {
+    useFindAll(data: Types['List']['Queries']) {
       const contextCampi = useCampusContext();
       return crudModule.list(data, contextCampi);
     },

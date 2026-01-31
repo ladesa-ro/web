@@ -16,13 +16,13 @@ export type IOfertaFormacaoApiModuleTypings = {
 
   List: {
     Result: ApiClientTypings.OfertaFormacaoListOutputDto;
-    Queries: ApiClientTypings.OfertaFormacaoListData;
+    Queries: ApiClientTypings.OfertaFormacaoFindAllData;
     ResultItem: ApiClientTypings.OfertaFormacaoListOutputDto['data'][number];
   };
 
   Update: {
     Data: ApiClientTypings.OfertaFormacaoUpdateInputDto;
-    Result: ApiClientTypings.OfertaFormacaoUpdateOneByIdResponse;
+    Result: ApiClientTypings.OfertaFormacaoUpdateResponse;
   };
 };
 

@@ -16,13 +16,13 @@ export type IUsuarioApiModuleTypings = {
 
   List: {
     Result: ApiClientTypings.UsuarioListOutputDto;
-    Queries: ApiClientTypings.UsuarioListData;
+    Queries: ApiClientTypings.UsuarioFindAllData;
     ResultItem: ApiClientTypings.UsuarioListOutputDto['data'][number];
   };
 
   Update: {
     Data: ApiClientTypings.UsuarioUpdateInputDto;
-    Result: ApiClientTypings.UsuarioUpdateOneByIdResponse;
+    Result: ApiClientTypings.UsuarioUpdateResponse;
   };
 };
 

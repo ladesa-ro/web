@@ -16,13 +16,13 @@ export type ITurmaApiModuleTypings = {
 
   List: {
     Result: ApiClientTypings.TurmaListOutputDto;
-    Queries: ApiClientTypings.TurmaListData;
+    Queries: ApiClientTypings.TurmaFindAllData;
     ResultItem: ApiClientTypings.TurmaListOutputDto['data'][number];
   };
 
   Update: {
     Data: ApiClientTypings.TurmaUpdateInputDto;
-    Result: ApiClientTypings.TurmaUpdateOneByIdResponse;
+    Result: ApiClientTypings.TurmaUpdateResponse;
   };
 };
 

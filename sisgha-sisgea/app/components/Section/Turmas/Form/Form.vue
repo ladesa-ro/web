@@ -44,7 +44,7 @@ const formStateQuery = useQuery({
       return {
         curso: data.curso,
         periodo: data.periodo,
-        ambientePadraoAula: data.ambientePadraoAula,
+        ambientePadraoAula: data.ambientePadraoAula ?? null,
 
         imagem: null,
         _: {} as any,

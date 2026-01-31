@@ -16,13 +16,13 @@ export type ICursoApiModuleTypings = {
 
   List: {
     Result: ApiClientTypings.CursoListOutputDto;
-    Queries: ApiClientTypings.CursoListData;
+    Queries: ApiClientTypings.CursoFindAllData;
     ResultItem: ApiClientTypings.CursoListOutputDto['data'][number];
   };
 
   Update: {
     Data: ApiClientTypings.CursoUpdateInputDto;
-    Result: ApiClientTypings.CursoUpdateOneByIdResponse;
+    Result: ApiClientTypings.CursoUpdateResponse;
   };
 };
 
