@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "types:check": "vue-tsc --noEmit",
-    "types:watch": "vue-tsc --noEmit --watch"
+    "types:watch": "vue-tsc --noEmit --watch",
+    "generate-client": "openapi-ts"
   },
   "dependencies": {
     "@atlaskit/pragmatic-drag-and-drop": "^1.7.4",
@@ -52,6 +53,7 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.28.4",
+    "@hey-api/openapi-ts": "^0.53.12",
     "type-fest": "^4.41.0",
     "typescript": "5.9.3",
     "vue-tsc": "3.2.4"

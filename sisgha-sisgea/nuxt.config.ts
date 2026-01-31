@@ -72,11 +72,6 @@ export default defineNuxtConfig({
     '@sidebase/nuxt-auth',
     '@nuxtjs/color-mode',
     'vue3-carousel-nuxt',
-    // (_options, nuxt) => {
-    //   nuxt.hooks.hook('vite:extendConfig', config => {
-    //     config.plugins ??= [];
-    //   });
-    // },
     '@nuxt/eslint',
   ],
 
@@ -108,7 +103,6 @@ export default defineNuxtConfig({
 
   // ===========
 
-  // ===========
   nitro: {
     hooks: {
       'rollup:before'(ctx) {
@@ -126,5 +120,5 @@ export default defineNuxtConfig({
     },
   },
 
-  compatibilityDate: '2024-11-01',
+  compatibilityDate: '2026-01-31',
 });
