@@ -46,6 +46,13 @@ cd web
 pnpm install
 ```
 
+### Atualizar o fetch client
+
+```bash
+cd sisgha-sisgea
+pnpm run generate-client
+```
+
 ### Iniciar servidor de desenvolvimento local
 
 Comece o servidor de desenvolvimento em [`http://localhost:3000`](http://localhost:3000):
