@@ -22,13 +22,16 @@ export type PaginationMetaDto = {
      */
     search: string;
     /**
-     * Ordenacao
+     * Ordenacao aplicada
      */
-    sortBy: Array<(unknown[])>;
+    sortBy: Array<[
+        string,
+        string
+    ]>;
     /**
-     * Filtros
+     * Filtros aplicados
      */
-    filter: {
+    filter?: {
         [key: string]: unknown;
     };
 };
@@ -368,6 +371,58 @@ export type UsuarioListOutputDto = {
      * Resultados da busca
      */
     data: Array<UsuarioFindOneOutputDto>;
+};
+
+export type UsuarioEnsinoTurmaRefDto = {
+    /**
+     * ID da turma
+     */
+    id: string;
+    /**
+     * Periodo da turma
+     */
+    periodo: string;
+};
+
+export type UsuarioEnsinoCursoRefDto = {
+    /**
+     * ID do curso
+     */
+    id: string;
+    /**
+     * Nome do curso
+     */
+    nome: string;
+    /**
+     * Turmas do curso onde o usuario leciona
+     */
+    turmas: Array<UsuarioEnsinoTurmaRefDto>;
+};
+
+export type UsuarioEnsinoDisciplinaRefDto = {
+    /**
+     * ID da disciplina
+     */
+    id: string;
+    /**
+     * Nome da disciplina
+     */
+    nome: string;
+    /**
+     * Cursos onde o usuario leciona esta disciplina
+     */
+    cursos: Array<UsuarioEnsinoCursoRefDto>;
+};
+
+export type UsuarioEnsinoOutputDto = {
+    /**
+     * Dados do usuario
+     */
+    usuario: (UsuarioFindOneOutputDto);
+    /**
+     * Disciplinas onde o usuario leciona (com cursos e turmas)
+     */
+    disciplinas: Array<UsuarioEnsinoDisciplinaRefDto>;
 };
 
 export type UsuarioCreateInputDto = {
@@ -3031,7 +3086,7 @@ export type UsuarioEnsinoByIdData = {
     id: string;
 };
 
-export type UsuarioEnsinoByIdResponse = (UsuarioFindOneOutputDto);
+export type UsuarioEnsinoByIdResponse = (UsuarioEnsinoOutputDto);
 
 export type UsuarioGetImagemCapaData = {
     /**

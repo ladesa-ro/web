@@ -24,18 +24,26 @@ export const $PaginationMetaDto = {
             description: 'Termo textual da busca'
         },
         sortBy: {
-            description: 'Ordenacao',
             type: 'array',
+            description: 'Ordenacao aplicada',
             items: {
-                type: 'array'
-            }
+                type: 'array',
+                items: {
+                    type: 'string'
+                },
+                minItems: 2,
+                maxItems: 2,
+                example: ['nome', 'ASC']
+            },
+            example: [['nome', 'ASC'], ['dateCreated', 'DESC']]
         },
         filter: {
             type: 'object',
-            description: 'Filtros'
+            description: 'Filtros aplicados',
+            additionalProperties: true
         }
     },
-    required: ['itemsPerPage', 'totalItems', 'currentPage', 'totalPages', 'search', 'sortBy', 'filter']
+    required: ['itemsPerPage', 'totalItems', 'currentPage', 'totalPages', 'search', 'sortBy']
 } as const;
 
 export const $ModalidadeFindOneOutputDto = {
@@ -543,6 +551,90 @@ export const $UsuarioListOutputDto = {
         }
     },
     required: ['meta', 'data']
+} as const;
+
+export const $UsuarioEnsinoTurmaRefDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string',
+            description: 'ID da turma',
+            format: 'uuid'
+        },
+        periodo: {
+            type: 'string',
+            description: 'Periodo da turma'
+        }
+    },
+    required: ['id', 'periodo']
+} as const;
+
+export const $UsuarioEnsinoCursoRefDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string',
+            description: 'ID do curso',
+            format: 'uuid'
+        },
+        nome: {
+            type: 'string',
+            description: 'Nome do curso'
+        },
+        turmas: {
+            description: 'Turmas do curso onde o usuario leciona',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/UsuarioEnsinoTurmaRefDto'
+            }
+        }
+    },
+    required: ['id', 'nome', 'turmas']
+} as const;
+
+export const $UsuarioEnsinoDisciplinaRefDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string',
+            description: 'ID da disciplina',
+            format: 'uuid'
+        },
+        nome: {
+            type: 'string',
+            description: 'Nome da disciplina'
+        },
+        cursos: {
+            description: 'Cursos onde o usuario leciona esta disciplina',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/UsuarioEnsinoCursoRefDto'
+            }
+        }
+    },
+    required: ['id', 'nome', 'cursos']
+} as const;
+
+export const $UsuarioEnsinoOutputDto = {
+    type: 'object',
+    properties: {
+        usuario: {
+            description: 'Dados do usuario',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/UsuarioFindOneOutputDto'
+                }
+            ]
+        },
+        disciplinas: {
+            description: 'Disciplinas onde o usuario leciona (com cursos e turmas)',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/UsuarioEnsinoDisciplinaRefDto'
+            }
+        }
+    },
+    required: ['usuario', 'disciplinas']
 } as const;
 
 export const $UsuarioCreateInputDto = {

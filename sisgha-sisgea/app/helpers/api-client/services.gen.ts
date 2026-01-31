@@ -360,10 +360,10 @@ export class UsuariosService {
     }
     
     /**
-     * Busca dados de ensino de um usuario
+     * Busca dados de ensino de um usuario (disciplinas, cursos e turmas onde leciona)
      * @param data The data for the request.
      * @param data.id Identificador do registro (uuid)
-     * @returns UsuarioFindOneOutputDto
+     * @returns UsuarioEnsinoOutputDto
      * @throws ApiError
      */
     public usuarioEnsinoById(data: UsuarioEnsinoByIdData): CancelablePromise<UsuarioEnsinoByIdResponse> {
