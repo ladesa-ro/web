@@ -1,7 +1,7 @@
-import type { Ladesa_ManagementService_Domain_Contracts_CampusFindOneOutput as Campus } from '@ladesa-ro/management-service-client';
 import { useApiContext } from '~/components/API/Context/setup-context';
+import type { CampusFindOneOutputDto } from '~/helpers/api-client';
 
-type campiPorCargo = { cargo: string; campi: Campus[] };
+type campiPorCargo = { cargo: string; campi: CampusFindOneOutputDto[] };
 
 export const useCampusContext = () =>
   useState<string | null>('campusContext', () => null);

@@ -1,4 +1,4 @@
-import type { LadesaApiClient } from '@ladesa-ro/management-service-client';
+import type { LadesaApiClient } from '~/helpers/api-client';
 import {
   type IGenericCrudModule,
   type IGenericCrudModuleTypesBase,

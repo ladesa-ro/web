@@ -1,6 +1,7 @@
 // this file contains the queryOptions functions that are called in another files
 // to learn more, check out the tanstack query docs: https://tanstack.com/query/latest/docs/framework/vue/guides/query-options
 
+import { queryOptions } from '@tanstack/vue-query';
 import type {
   CampusFindOneByIdData,
   CursoFindOneByIdData,
@@ -14,8 +15,7 @@ import type {
   TurmaListData,
   UsuarioFindOneByIdData,
   UsuarioListData,
-} from '@ladesa-ro/management-service-client';
-import { queryOptions } from '@tanstack/vue-query';
+} from '~/helpers/api-client';
 
 // TODO: filtrar tudo pelo id do campus atual useCampusContext
 

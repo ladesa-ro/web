@@ -1,27 +1,27 @@
-import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
+import type * as ApiClientTypings from '~/helpers/api-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type IDiarioProfessorApiModuleTypings = {
-  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioProfessorFindOneOutput;
+  CompleteView: ApiClientTypings.DiarioProfessorFindOneOutputDto;
 
   Create: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioProfessorCreateInput;
+    Data: ApiClientTypings.DiarioProfessorCreateInputDto;
     Result: ApiClientTypings.DiarioProfessorCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioProfessorFindOneOutput;
+    Result: ApiClientTypings.DiarioProfessorFindOneOutputDto;
   };
 
   List: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioProfessorListOutput;
+    Result: ApiClientTypings.DiarioProfessorListOutputDto;
     Queries: ApiClientTypings.DiarioProfessorListData;
-    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioProfessorListOutput['data'][number];
+    ResultItem: ApiClientTypings.DiarioProfessorListOutputDto['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioProfessorUpdateInput;
+    Data: ApiClientTypings.DiarioProfessorUpdateInputDto;
     Result: ApiClientTypings.DiarioProfessorUpdateOneByIdResponse;
   };
 };
@@ -37,17 +37,17 @@ export const createDiariosProfessoresCrudModule = withApiClient(apiClient => {
     },
 
     list(data) {
-      return apiClient.diariosProfessores.diarioProfessorList(data);
+      return apiClient.diariosProfessores.diarioProfessorFindAll(data);
     },
 
     getOne(id) {
-      return apiClient.diariosProfessores.diarioProfessorFindOneById({
+      return apiClient.diariosProfessores.diarioProfessorFindById({
         id,
       });
     },
 
     updateOne(id, requestBody) {
-      return apiClient.diariosProfessores.diarioProfessorUpdateOneById({
+      return apiClient.diariosProfessores.diarioProfessorUpdate({
         id,
         requestBody,
       });

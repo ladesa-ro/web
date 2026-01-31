@@ -1,17 +1,13 @@
 <script lang="ts" setup>
 import { IconsEducator, IconsUser } from '#components';
-import {
-  useCampusContext,
-  useCanEditProfile,
-  useUserCargoAndCampi,
-} from '#imports';
-import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput } from '@ladesa-ro/management-service-client';
+import { useCanEditProfile, useUserCargoAndCampi } from '#imports';
 import { useQuery } from '@tanstack/vue-query';
 import { computed, ref } from 'vue';
+import type { UsuarioFindOneOutputDto } from '~/helpers/api-client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 import CampusSelect from './Campus/CampusSelect.vue';
 
-type Props = { user: UsuarioFindOneOutput };
+type Props = { user: UsuarioFindOneOutputDto };
 const { user } = defineProps<Props>();
 
 const { canEdit } = useCanEditProfile(user.id);
@@ -46,20 +42,19 @@ const toggleCampusItems = campiList.map(c => ({
 const { data: userVinculosResponse } = useQuery({
   queryKey: ['usuarios', user.id, 'vinculos'],
   queryFn: () =>
-    client.perfis.perfilList({
+    client.perfis.perfilFindAll({
       filterUsuarioId: [user.id],
       filterAtivo: ['true'],
     }),
 });
 
-const userCampusItems = computed(
-  () =>
-    (userVinculosResponse.value?.data ?? [])
-      .map(v => ({
-        label: v.campus?.apelido ?? 'Desconhecido',
-        value: v.campus?.id,
-      }))
-      .filter((c, i, arr) => arr.findIndex(a => a.value === c.value) === i) 
+const userCampusItems = computed(() =>
+  (userVinculosResponse.value?.data ?? [])
+    .map(v => ({
+      label: v.campus?.apelido ?? 'Desconhecido',
+      value: v.campus?.id,
+    }))
+    .filter((c, i, arr) => arr.findIndex(a => a.value === c.value) === i)
 );
 
 const search = ref('');
@@ -69,7 +64,7 @@ const selectedCampusLocal = ref(userCampusItems.value[0]?.value ?? '');
 
 watch(
   userCampusItems,
-  (newItems) => {
+  newItems => {
     if (newItems.length && !selectedCampusLocal.value && newItems[0]) {
       selectedCampusLocal.value = newItems[0].value;
     }
@@ -80,7 +75,7 @@ watch(
 const { data: vinculosResponse } = useQuery({
   queryKey: ['usuarios', user.id, 'vinculos', selectedCampusLocal],
   queryFn: () =>
-    client.perfis.perfilList({
+    client.perfis.perfilFindAll({
       filterUsuarioId: [user.id],
       filterAtivo: ['true'],
       filterCampusId: [selectedCampusLocal.value],

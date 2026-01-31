@@ -1,27 +1,27 @@
-import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
+import type * as ApiClientTypings from '~/helpers/api-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type IDisciplinaApiModuleTypings = {
-  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DisciplinaFindOneOutput;
+  CompleteView: ApiClientTypings.DisciplinaFindOneOutputDto;
 
   Create: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DisciplinaCreateInput;
+    Data: ApiClientTypings.DisciplinaCreateInputDto;
     Result: ApiClientTypings.DisciplinaCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DisciplinaFindOneOutput;
+    Result: ApiClientTypings.DisciplinaFindOneOutputDto;
   };
 
   List: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DisciplinaListOutput;
+    Result: ApiClientTypings.DisciplinaListOutputDto;
     Queries: ApiClientTypings.DisciplinaListData;
-    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DisciplinaListOutput['data'][number];
+    ResultItem: ApiClientTypings.DisciplinaListOutputDto['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DisciplinaUpdateInput;
+    Data: ApiClientTypings.DisciplinaUpdateInputDto;
     Result: ApiClientTypings.DisciplinaUpdateOneByIdResponse;
   };
 };
@@ -35,15 +35,15 @@ export const createDisciplinasCrudModule = withApiClient(apiClient => {
     },
 
     list(data) {
-      return apiClient.disciplinas.disciplinaList(data);
+      return apiClient.disciplinas.disciplinaFindAll(data);
     },
 
     getOne(id) {
-      return apiClient.disciplinas.disciplinaFindOneById({ id });
+      return apiClient.disciplinas.disciplinaFindById({ id });
     },
 
     updateOne(id, requestBody) {
-      return apiClient.disciplinas.disciplinaUpdateOneById({
+      return apiClient.disciplinas.disciplinaUpdate({
         id,
         requestBody,
       });

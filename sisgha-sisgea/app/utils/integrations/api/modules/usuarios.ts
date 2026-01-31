@@ -1,27 +1,27 @@
-import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
+import type * as ApiClientTypings from '~/helpers/api-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type IUsuarioApiModuleTypings = {
-  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput;
+  CompleteView: ApiClientTypings.UsuarioFindOneOutputDto;
 
   Create: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_UsuarioCreateInput;
+    Data: ApiClientTypings.UsuarioCreateInputDto;
     Result: ApiClientTypings.UsuarioCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput;
+    Result: ApiClientTypings.UsuarioFindOneOutputDto;
   };
 
   List: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_UsuarioListOutput;
+    Result: ApiClientTypings.UsuarioListOutputDto;
     Queries: ApiClientTypings.UsuarioListData;
-    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_UsuarioListOutput['data'][number];
+    ResultItem: ApiClientTypings.UsuarioListOutputDto['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_UsuarioUpdateInput;
+    Data: ApiClientTypings.UsuarioUpdateInputDto;
     Result: ApiClientTypings.UsuarioUpdateOneByIdResponse;
   };
 };
@@ -35,15 +35,15 @@ export const createUsuariosCrudModule = withApiClient(apiClient => {
     },
 
     list(data) {
-      return apiClient.usuarios.usuarioList(data);
+      return apiClient.usuarios.usuarioFindAll(data);
     },
 
     getOne(id) {
-      return apiClient.usuarios.usuarioFindOneById({ id });
+      return apiClient.usuarios.usuarioFindById({ id });
     },
 
     updateOne(id, requestBody) {
-      return apiClient.usuarios.usuarioUpdateOneById({ id, requestBody });
+      return apiClient.usuarios.usuarioUpdate({ id, requestBody });
     },
 
     deleteOne(id) {

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { Ladesa_ManagementService_Domain_Contracts_DiarioFindOneOutput as DiarioFindOneOutput } from '@ladesa-ro/management-service-client';
+import type { DiarioFindOneOutputDto } from '~/helpers/api-client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 // Definição das props ajustadas
 
 type Props = {
-  diario: DiarioFindOneOutput;
+  diario: DiarioFindOneOutputDto;
 };
 
 const props = defineProps<Props>();

@@ -1,27 +1,27 @@
-import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
+import type * as ApiClientTypings from '~/helpers/api-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type IOfertaFormacaoApiModuleTypings = {
-  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_OfertaFormacaoFindOneOutput;
+  CompleteView: ApiClientTypings.OfertaFormacaoFindOneOutputDto;
 
   Create: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_OfertaFormacaoCreateInput;
+    Data: ApiClientTypings.OfertaFormacaoCreateInputDto;
     Result: ApiClientTypings.OfertaFormacaoCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_OfertaFormacaoFindOneOutput;
+    Result: ApiClientTypings.OfertaFormacaoFindOneOutputDto;
   };
 
   List: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_OfertaFormacaoListOutput;
+    Result: ApiClientTypings.OfertaFormacaoListOutputDto;
     Queries: ApiClientTypings.OfertaFormacaoListData;
-    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_OfertaFormacaoListOutput['data'][number];
+    ResultItem: ApiClientTypings.OfertaFormacaoListOutputDto['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_OfertaFormacaoUpdateInput;
+    Data: ApiClientTypings.OfertaFormacaoUpdateInputDto;
     Result: ApiClientTypings.OfertaFormacaoUpdateOneByIdResponse;
   };
 };
@@ -37,17 +37,17 @@ export const createOfertasFormacoesCrudModule = withApiClient(apiClient => {
     },
 
     list(data) {
-      return apiClient.ofertasFormacoes.ofertaFormacaoList(data);
+      return apiClient.ofertasFormacoes.ofertaFormacaoFindAll(data);
     },
 
     getOne(id) {
-      return apiClient.ofertasFormacoes.ofertaFormacaoFindOneById({
+      return apiClient.ofertasFormacoes.ofertaFormacaoFindById({
         id,
       });
     },
 
     updateOne(id, requestBody) {
-      return apiClient.ofertasFormacoes.ofertaFormacaoUpdateOneById({
+      return apiClient.ofertasFormacoes.ofertaFormacaoUpdate({
         id,
         requestBody,
       });

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { UsuarioFindOneByIdResponse } from '@ladesa-ro/management-service-client';
 import { useQuery } from '@tanstack/vue-query';
 import IconDiscipline from '~/components/Icons/Discipline.vue';
+import type { UsuarioFindOneOutputDto } from '~/helpers/api-client';
 import ProfileCarousel from './ProfileCarousel.vue';
 
-type Props = { user: UsuarioFindOneByIdResponse };
+type Props = { user: UsuarioFindOneOutputDto };
 const { user } = defineProps<Props>();
 
 const { isLoading, isError, data } = useQuery({
