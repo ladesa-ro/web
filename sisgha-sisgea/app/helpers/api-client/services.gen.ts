@@ -15,7 +15,7 @@ export class SistemaService {
     public appControllerGetServiceInfo(): CancelablePromise<AppControllerGetServiceInfoResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1'
+            url: '/'
         });
     }
     
@@ -39,7 +39,7 @@ export class ModalidadesService {
     public modalidadeFindAll(data: ModalidadeFindAllData = {}): CancelablePromise<ModalidadeFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/modalidades',
+            url: '/modalidades',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -64,7 +64,7 @@ export class ModalidadesService {
     public modalidadeCreate(data: ModalidadeCreateData): CancelablePromise<ModalidadeCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/modalidades',
+            url: '/modalidades',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -83,7 +83,7 @@ export class ModalidadesService {
     public modalidadeFindById(data: ModalidadeFindByIdData): CancelablePromise<ModalidadeFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/modalidades/{id}',
+            url: '/modalidades/{id}',
             path: {
                 id: data.id
             },
@@ -105,7 +105,7 @@ export class ModalidadesService {
     public modalidadeUpdate(data: ModalidadeUpdateData): CancelablePromise<ModalidadeUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/modalidades/{id}',
+            url: '/modalidades/{id}',
             path: {
                 id: data.id
             },
@@ -128,7 +128,7 @@ export class ModalidadesService {
     public modalidadeDeleteOneById(data: ModalidadeDeleteOneByIdData): CancelablePromise<ModalidadeDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/modalidades/{id}',
+            url: '/modalidades/{id}',
             path: {
                 id: data.id
             },
@@ -163,7 +163,7 @@ export class PerfisService {
     public perfilFindAll(data: PerfilFindAllData = {}): CancelablePromise<PerfilFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/perfis',
+            url: '/perfis',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -193,7 +193,7 @@ export class PerfisService {
     public perfilSetVinculos(data: PerfilSetVinculosData): CancelablePromise<PerfilSetVinculosResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/perfis',
+            url: '/perfis',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -212,7 +212,7 @@ export class PerfisService {
     public perfilFindById(data: PerfilFindByIdData): CancelablePromise<PerfilFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/perfis/{id}',
+            url: '/perfis/{id}',
             path: {
                 id: data.id
             },
@@ -233,7 +233,7 @@ export class PerfisService {
     public perfilEnsinoById(data: PerfilEnsinoByIdData): CancelablePromise<PerfilEnsinoByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/perfis/{id}/ensino',
+            url: '/perfis/{id}/ensino',
             path: {
                 id: data.id
             },
@@ -264,7 +264,7 @@ export class UsuariosService {
     public usuarioFindAll(data: UsuarioFindAllData = {}): CancelablePromise<UsuarioFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/usuarios',
+            url: '/usuarios',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -289,7 +289,7 @@ export class UsuariosService {
     public usuarioCreate(data: UsuarioCreateData): CancelablePromise<UsuarioCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/usuarios',
+            url: '/usuarios',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -308,7 +308,7 @@ export class UsuariosService {
     public usuarioFindById(data: UsuarioFindByIdData): CancelablePromise<UsuarioFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/usuarios/{id}',
+            url: '/usuarios/{id}',
             path: {
                 id: data.id
             },
@@ -330,7 +330,7 @@ export class UsuariosService {
     public usuarioUpdate(data: UsuarioUpdateData): CancelablePromise<UsuarioUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/usuarios/{id}',
+            url: '/usuarios/{id}',
             path: {
                 id: data.id
             },
@@ -353,7 +353,7 @@ export class UsuariosService {
     public usuarioDeleteOneById(data: UsuarioDeleteOneByIdData): CancelablePromise<UsuarioDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/usuarios/{id}',
+            url: '/usuarios/{id}',
             path: {
                 id: data.id
             },
@@ -374,7 +374,7 @@ export class UsuariosService {
     public usuarioEnsinoById(data: UsuarioEnsinoByIdData): CancelablePromise<UsuarioEnsinoByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/usuarios/{id}/ensino',
+            url: '/usuarios/{id}/ensino',
             path: {
                 id: data.id
             },
@@ -395,7 +395,7 @@ export class UsuariosService {
     public usuarioGetImagemCapa(data: UsuarioGetImagemCapaData): CancelablePromise<UsuarioGetImagemCapaResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/usuarios/{id}/imagem/capa',
+            url: '/usuarios/{id}/imagem/capa',
             path: {
                 id: data.id
             },
@@ -417,7 +417,7 @@ export class UsuariosService {
     public usuarioUpdateImagemCapa(data: UsuarioUpdateImagemCapaData): CancelablePromise<UsuarioUpdateImagemCapaResponse> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/api/v1/usuarios/{id}/imagem/capa',
+            url: '/usuarios/{id}/imagem/capa',
             path: {
                 id: data.id
             },
@@ -440,7 +440,7 @@ export class UsuariosService {
     public usuarioGetImagemPerfil(data: UsuarioGetImagemPerfilData): CancelablePromise<UsuarioGetImagemPerfilResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/usuarios/{id}/imagem/perfil',
+            url: '/usuarios/{id}/imagem/perfil',
             path: {
                 id: data.id
             },
@@ -462,7 +462,7 @@ export class UsuariosService {
     public usuarioUpdateImagemPerfil(data: UsuarioUpdateImagemPerfilData): CancelablePromise<UsuarioUpdateImagemPerfilResponse> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/api/v1/usuarios/{id}/imagem/perfil',
+            url: '/usuarios/{id}/imagem/perfil',
             path: {
                 id: data.id
             },
@@ -492,7 +492,7 @@ export class ArquivosService {
     public arquivoFindById(data: ArquivoFindByIdData): CancelablePromise<ArquivoFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/arquivos/{id}',
+            url: '/arquivos/{id}',
             path: {
                 id: data.id
             },
@@ -527,7 +527,7 @@ export class CampiService {
     public campusFindAll(data: CampusFindAllData = {}): CancelablePromise<CampusFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/campi',
+            url: '/campi',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -552,7 +552,7 @@ export class CampiService {
     public campusCreate(data: CampusCreateData): CancelablePromise<CampusCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/campi',
+            url: '/campi',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -571,7 +571,7 @@ export class CampiService {
     public campusFindById(data: CampusFindByIdData): CancelablePromise<CampusFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/campi/{id}',
+            url: '/campi/{id}',
             path: {
                 id: data.id
             },
@@ -593,7 +593,7 @@ export class CampiService {
     public campusUpdate(data: CampusUpdateData): CancelablePromise<CampusUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/campi/{id}',
+            url: '/campi/{id}',
             path: {
                 id: data.id
             },
@@ -616,7 +616,7 @@ export class CampiService {
     public campusDeleteOneById(data: CampusDeleteOneByIdData): CancelablePromise<CampusDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/campi/{id}',
+            url: '/campi/{id}',
             path: {
                 id: data.id
             },
@@ -642,7 +642,7 @@ export class IndisponibilidadesProfessoresService {
     public professorIndisponibilidadeFindAllByPerfilId(data: ProfessorIndisponibilidadeFindAllByPerfilIdData): CancelablePromise<ProfessorIndisponibilidadeFindAllByPerfilIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/indisponibilidades/list/{idPerfilFk}',
+            url: '/indisponibilidades/list/{idPerfilFk}',
             path: {
                 idPerfilFk: data.idPerfilFk
             },
@@ -662,7 +662,7 @@ export class IndisponibilidadesProfessoresService {
     public professorIndisponibilidadeFindById(data: ProfessorIndisponibilidadeFindByIdData): CancelablePromise<ProfessorIndisponibilidadeFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/indisponibilidades/{id}',
+            url: '/indisponibilidades/{id}',
             path: {
                 id: data.id
             },
@@ -684,7 +684,7 @@ export class IndisponibilidadesProfessoresService {
     public professorIndisponibilidadeUpdate(data: ProfessorIndisponibilidadeUpdateData): CancelablePromise<ProfessorIndisponibilidadeUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/indisponibilidades/{id}',
+            url: '/indisponibilidades/{id}',
             path: {
                 id: data.id
             },
@@ -707,7 +707,7 @@ export class IndisponibilidadesProfessoresService {
     public professorIndisponibilidadeDeleteOneById(data: ProfessorIndisponibilidadeDeleteOneByIdData): CancelablePromise<ProfessorIndisponibilidadeDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/indisponibilidades/{id}',
+            url: '/indisponibilidades/{id}',
             path: {
                 id: data.id
             },
@@ -729,7 +729,7 @@ export class IndisponibilidadesProfessoresService {
     public professorIndisponibilidadeCreate(data: ProfessorIndisponibilidadeCreateData): CancelablePromise<ProfessorIndisponibilidadeCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/indisponibilidades/{id_perfil}/create',
+            url: '/indisponibilidades/{id_perfil}/create',
             path: {
                 id_perfil: data.idPerfil
             },
@@ -751,7 +751,7 @@ export class IndisponibilidadesProfessoresService {
     public professorIndisponibilidadeGetRrule(data: ProfessorIndisponibilidadeGetRruleData): CancelablePromise<ProfessorIndisponibilidadeGetRruleResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/indisponibilidades/rrule-indisponibilidade/{id}',
+            url: '/indisponibilidades/rrule-indisponibilidade/{id}',
             path: {
                 id: data.id
             },
@@ -784,7 +784,7 @@ export class CursosService {
     public cursoFindAll(data: CursoFindAllData = {}): CancelablePromise<CursoFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/cursos',
+            url: '/cursos',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -811,7 +811,7 @@ export class CursosService {
     public cursoCreate(data: CursoCreateData): CancelablePromise<CursoCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/cursos',
+            url: '/cursos',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -830,7 +830,7 @@ export class CursosService {
     public cursoFindById(data: CursoFindByIdData): CancelablePromise<CursoFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/cursos/{id}',
+            url: '/cursos/{id}',
             path: {
                 id: data.id
             },
@@ -852,7 +852,7 @@ export class CursosService {
     public cursoUpdate(data: CursoUpdateData): CancelablePromise<CursoUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/cursos/{id}',
+            url: '/cursos/{id}',
             path: {
                 id: data.id
             },
@@ -875,7 +875,7 @@ export class CursosService {
     public cursoDeleteOneById(data: CursoDeleteOneByIdData): CancelablePromise<CursoDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/cursos/{id}',
+            url: '/cursos/{id}',
             path: {
                 id: data.id
             },
@@ -896,7 +896,7 @@ export class CursosService {
     public cursoGetImagemCapa(data: CursoGetImagemCapaData): CancelablePromise<CursoGetImagemCapaResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/cursos/{id}/imagem/capa',
+            url: '/cursos/{id}/imagem/capa',
             path: {
                 id: data.id
             },
@@ -918,7 +918,7 @@ export class CursosService {
     public cursoUpdateImagemCapa(data: CursoUpdateImagemCapaData): CancelablePromise<CursoUpdateImagemCapaResponse> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/api/v1/cursos/{id}/imagem/capa',
+            url: '/cursos/{id}/imagem/capa',
             path: {
                 id: data.id
             },
@@ -952,7 +952,7 @@ export class OfertasFormacoesService {
     public ofertaFormacaoFindAll(data: OfertaFormacaoFindAllData = {}): CancelablePromise<OfertaFormacaoFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/ofertas-formacoes',
+            url: '/ofertas-formacoes',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -978,7 +978,7 @@ export class OfertasFormacoesService {
     public ofertaFormacaoCreate(data: OfertaFormacaoCreateData): CancelablePromise<OfertaFormacaoCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/ofertas-formacoes',
+            url: '/ofertas-formacoes',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -997,7 +997,7 @@ export class OfertasFormacoesService {
     public ofertaFormacaoFindById(data: OfertaFormacaoFindByIdData): CancelablePromise<OfertaFormacaoFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/ofertas-formacoes/{id}',
+            url: '/ofertas-formacoes/{id}',
             path: {
                 id: data.id
             },
@@ -1019,7 +1019,7 @@ export class OfertasFormacoesService {
     public ofertaFormacaoUpdate(data: OfertaFormacaoUpdateData): CancelablePromise<OfertaFormacaoUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/ofertas-formacoes/{id}',
+            url: '/ofertas-formacoes/{id}',
             path: {
                 id: data.id
             },
@@ -1042,7 +1042,7 @@ export class OfertasFormacoesService {
     public ofertaFormacaoDeleteOneById(data: OfertaFormacaoDeleteOneByIdData): CancelablePromise<OfertaFormacaoDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/ofertas-formacoes/{id}',
+            url: '/ofertas-formacoes/{id}',
             path: {
                 id: data.id
             },
@@ -1073,7 +1073,7 @@ export class IntervalosDeTempoService {
     public intervaloDeTempoFindAll(data: IntervaloDeTempoFindAllData = {}): CancelablePromise<IntervaloDeTempoFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/horarios/intervalos-de-tempo',
+            url: '/horarios/intervalos-de-tempo',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -1098,7 +1098,7 @@ export class IntervalosDeTempoService {
     public intervaloDeTempoFindById(data: IntervaloDeTempoFindByIdData): CancelablePromise<IntervaloDeTempoFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/horarios/intervalos-de-tempo/{id}',
+            url: '/horarios/intervalos-de-tempo/{id}',
             path: {
                 id: data.id
             },
@@ -1132,7 +1132,7 @@ export class AulasService {
     public aulaFindAll(data: AulaFindAllData = {}): CancelablePromise<AulaFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/aulas',
+            url: '/aulas',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -1160,7 +1160,7 @@ export class AulasService {
     public aulaCreate(data: AulaCreateData): CancelablePromise<AulaCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/aulas',
+            url: '/aulas',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -1179,7 +1179,7 @@ export class AulasService {
     public aulaFindById(data: AulaFindByIdData): CancelablePromise<AulaFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/aulas/{id}',
+            url: '/aulas/{id}',
             path: {
                 id: data.id
             },
@@ -1201,7 +1201,7 @@ export class AulasService {
     public aulaUpdate(data: AulaUpdateData): CancelablePromise<AulaUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/aulas/{id}',
+            url: '/aulas/{id}',
             path: {
                 id: data.id
             },
@@ -1224,7 +1224,7 @@ export class AulasService {
     public aulaDeleteOneById(data: AulaDeleteOneByIdData): CancelablePromise<AulaDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/aulas/{id}',
+            url: '/aulas/{id}',
             path: {
                 id: data.id
             },
@@ -1258,7 +1258,7 @@ export class DiariosService {
     public diarioFindAll(data: DiarioFindAllData = {}): CancelablePromise<DiarioFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/diarios',
+            url: '/diarios',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -1286,7 +1286,7 @@ export class DiariosService {
     public diarioCreate(data: DiarioCreateData): CancelablePromise<DiarioCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/diarios',
+            url: '/diarios',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -1305,7 +1305,7 @@ export class DiariosService {
     public diarioFindById(data: DiarioFindByIdData): CancelablePromise<DiarioFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/diarios/{id}',
+            url: '/diarios/{id}',
             path: {
                 id: data.id
             },
@@ -1327,7 +1327,7 @@ export class DiariosService {
     public diarioUpdate(data: DiarioUpdateData): CancelablePromise<DiarioUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/diarios/{id}',
+            url: '/diarios/{id}',
             path: {
                 id: data.id
             },
@@ -1350,7 +1350,7 @@ export class DiariosService {
     public diarioDeleteOneById(data: DiarioDeleteOneByIdData): CancelablePromise<DiarioDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/diarios/{id}',
+            url: '/diarios/{id}',
             path: {
                 id: data.id
             },
@@ -1383,7 +1383,7 @@ export class CalendariosLetivosService {
     public calendarioLetivoFindAll(data: CalendarioLetivoFindAllData = {}): CancelablePromise<CalendarioLetivoFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/calendarios-letivos',
+            url: '/calendarios-letivos',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -1410,7 +1410,7 @@ export class CalendariosLetivosService {
     public calendarioLetivoCreate(data: CalendarioLetivoCreateData): CancelablePromise<CalendarioLetivoCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/calendarios-letivos',
+            url: '/calendarios-letivos',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -1429,7 +1429,7 @@ export class CalendariosLetivosService {
     public calendarioLetivoFindById(data: CalendarioLetivoFindByIdData): CancelablePromise<CalendarioLetivoFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/calendarios-letivos/{id}',
+            url: '/calendarios-letivos/{id}',
             path: {
                 id: data.id
             },
@@ -1451,7 +1451,7 @@ export class CalendariosLetivosService {
     public calendarioLetivoUpdate(data: CalendarioLetivoUpdateData): CancelablePromise<CalendarioLetivoUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/calendarios-letivos/{id}',
+            url: '/calendarios-letivos/{id}',
             path: {
                 id: data.id
             },
@@ -1474,7 +1474,7 @@ export class CalendariosLetivosService {
     public calendarioLetivoDeleteOneById(data: CalendarioLetivoDeleteOneByIdData): CancelablePromise<CalendarioLetivoDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/calendarios-letivos/{id}',
+            url: '/calendarios-letivos/{id}',
             path: {
                 id: data.id
             },
@@ -1516,7 +1516,7 @@ export class TurmasService {
     public turmaFindAll(data: TurmaFindAllData = {}): CancelablePromise<TurmaFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/turmas',
+            url: '/turmas',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -1552,7 +1552,7 @@ export class TurmasService {
     public turmaCreate(data: TurmaCreateData): CancelablePromise<TurmaCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/turmas',
+            url: '/turmas',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -1571,7 +1571,7 @@ export class TurmasService {
     public turmaFindById(data: TurmaFindByIdData): CancelablePromise<TurmaFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/turmas/{id}',
+            url: '/turmas/{id}',
             path: {
                 id: data.id
             },
@@ -1593,7 +1593,7 @@ export class TurmasService {
     public turmaUpdate(data: TurmaUpdateData): CancelablePromise<TurmaUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/turmas/{id}',
+            url: '/turmas/{id}',
             path: {
                 id: data.id
             },
@@ -1616,7 +1616,7 @@ export class TurmasService {
     public turmaDeleteOneById(data: TurmaDeleteOneByIdData): CancelablePromise<TurmaDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/turmas/{id}',
+            url: '/turmas/{id}',
             path: {
                 id: data.id
             },
@@ -1637,7 +1637,7 @@ export class TurmasService {
     public turmaGetImagemCapa(data: TurmaGetImagemCapaData): CancelablePromise<TurmaGetImagemCapaResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/turmas/{id}/imagem/capa',
+            url: '/turmas/{id}/imagem/capa',
             path: {
                 id: data.id
             },
@@ -1659,7 +1659,7 @@ export class TurmasService {
     public turmaUpdateImagemCapa(data: TurmaUpdateImagemCapaData): CancelablePromise<TurmaUpdateImagemCapaResponse> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/api/v1/turmas/{id}/imagem/capa',
+            url: '/turmas/{id}/imagem/capa',
             path: {
                 id: data.id
             },
@@ -1694,7 +1694,7 @@ export class AmbientesService {
     public ambienteFindAll(data: AmbienteFindAllData = {}): CancelablePromise<AmbienteFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/ambientes',
+            url: '/ambientes',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -1721,7 +1721,7 @@ export class AmbientesService {
     public ambienteCreate(data: AmbienteCreateData): CancelablePromise<AmbienteCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/ambientes',
+            url: '/ambientes',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -1740,7 +1740,7 @@ export class AmbientesService {
     public ambienteFindById(data: AmbienteFindByIdData): CancelablePromise<AmbienteFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/ambientes/{id}',
+            url: '/ambientes/{id}',
             path: {
                 id: data.id
             },
@@ -1762,7 +1762,7 @@ export class AmbientesService {
     public ambienteUpdate(data: AmbienteUpdateData): CancelablePromise<AmbienteUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/ambientes/{id}',
+            url: '/ambientes/{id}',
             path: {
                 id: data.id
             },
@@ -1785,7 +1785,7 @@ export class AmbientesService {
     public ambienteDeleteOneById(data: AmbienteDeleteOneByIdData): CancelablePromise<AmbienteDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/ambientes/{id}',
+            url: '/ambientes/{id}',
             path: {
                 id: data.id
             },
@@ -1806,7 +1806,7 @@ export class AmbientesService {
     public ambienteGetImagemCapa(data: AmbienteGetImagemCapaData): CancelablePromise<AmbienteGetImagemCapaResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/ambientes/{id}/imagem/capa',
+            url: '/ambientes/{id}/imagem/capa',
             path: {
                 id: data.id
             },
@@ -1828,7 +1828,7 @@ export class AmbientesService {
     public ambienteUpdateImagemCapa(data: AmbienteUpdateImagemCapaData): CancelablePromise<AmbienteUpdateImagemCapaResponse> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/api/v1/ambientes/{id}/imagem/capa',
+            url: '/ambientes/{id}/imagem/capa',
             path: {
                 id: data.id
             },
@@ -1862,7 +1862,7 @@ export class BlocosService {
     public blocoFindAll(data: BlocoFindAllData = {}): CancelablePromise<BlocoFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/blocos',
+            url: '/blocos',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -1888,7 +1888,7 @@ export class BlocosService {
     public blocoCreate(data: BlocoCreateData): CancelablePromise<BlocoCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/blocos',
+            url: '/blocos',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -1907,7 +1907,7 @@ export class BlocosService {
     public blocoFindById(data: BlocoFindByIdData): CancelablePromise<BlocoFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/blocos/{id}',
+            url: '/blocos/{id}',
             path: {
                 id: data.id
             },
@@ -1929,7 +1929,7 @@ export class BlocosService {
     public blocoUpdate(data: BlocoUpdateData): CancelablePromise<BlocoUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/blocos/{id}',
+            url: '/blocos/{id}',
             path: {
                 id: data.id
             },
@@ -1952,7 +1952,7 @@ export class BlocosService {
     public blocoDeleteOneById(data: BlocoDeleteOneByIdData): CancelablePromise<BlocoDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/blocos/{id}',
+            url: '/blocos/{id}',
             path: {
                 id: data.id
             },
@@ -1973,7 +1973,7 @@ export class BlocosService {
     public blocoGetImagemCapa(data: BlocoGetImagemCapaData): CancelablePromise<BlocoGetImagemCapaResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/blocos/{id}/imagem/capa',
+            url: '/blocos/{id}/imagem/capa',
             path: {
                 id: data.id
             },
@@ -1995,7 +1995,7 @@ export class BlocosService {
     public blocoUpdateImagemCapa(data: BlocoUpdateImagemCapaData): CancelablePromise<BlocoUpdateImagemCapaResponse> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/api/v1/blocos/{id}/imagem/capa',
+            url: '/blocos/{id}/imagem/capa',
             path: {
                 id: data.id
             },
@@ -2029,7 +2029,7 @@ export class DisciplinasService {
     public disciplinaFindAll(data: DisciplinaFindAllData = {}): CancelablePromise<DisciplinaFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/disciplinas',
+            url: '/disciplinas',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -2055,7 +2055,7 @@ export class DisciplinasService {
     public disciplinaCreate(data: DisciplinaCreateData): CancelablePromise<DisciplinaCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/disciplinas',
+            url: '/disciplinas',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -2074,7 +2074,7 @@ export class DisciplinasService {
     public disciplinaFindById(data: DisciplinaFindByIdData): CancelablePromise<DisciplinaFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/disciplinas/{id}',
+            url: '/disciplinas/{id}',
             path: {
                 id: data.id
             },
@@ -2096,7 +2096,7 @@ export class DisciplinasService {
     public disciplinaUpdate(data: DisciplinaUpdateData): CancelablePromise<DisciplinaUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/disciplinas/{id}',
+            url: '/disciplinas/{id}',
             path: {
                 id: data.id
             },
@@ -2119,7 +2119,7 @@ export class DisciplinasService {
     public disciplinaDeleteOneById(data: DisciplinaDeleteOneByIdData): CancelablePromise<DisciplinaDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/disciplinas/{id}',
+            url: '/disciplinas/{id}',
             path: {
                 id: data.id
             },
@@ -2140,7 +2140,7 @@ export class DisciplinasService {
     public disciplinaGetImagemCapa(data: DisciplinaGetImagemCapaData): CancelablePromise<DisciplinaGetImagemCapaResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/disciplinas/{id}/imagem/capa',
+            url: '/disciplinas/{id}/imagem/capa',
             path: {
                 id: data.id
             },
@@ -2162,7 +2162,7 @@ export class DisciplinasService {
     public disciplinaUpdateImagemCapa(data: DisciplinaUpdateImagemCapaData): CancelablePromise<DisciplinaUpdateImagemCapaResponse> {
         return this.httpRequest.request({
             method: 'PUT',
-            url: '/api/v1/disciplinas/{id}/imagem/capa',
+            url: '/disciplinas/{id}/imagem/capa',
             path: {
                 id: data.id
             },
@@ -2196,7 +2196,7 @@ export class EventosService {
     public eventoFindAll(data: EventoFindAllData = {}): CancelablePromise<EventoFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/eventos',
+            url: '/eventos',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -2222,7 +2222,7 @@ export class EventosService {
     public eventoCreate(data: EventoCreateData): CancelablePromise<EventoCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/eventos',
+            url: '/eventos',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -2241,7 +2241,7 @@ export class EventosService {
     public eventoFindById(data: EventoFindByIdData): CancelablePromise<EventoFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/eventos/{id}',
+            url: '/eventos/{id}',
             path: {
                 id: data.id
             },
@@ -2263,7 +2263,7 @@ export class EventosService {
     public eventoUpdate(data: EventoUpdateData): CancelablePromise<EventoUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/eventos/{id}',
+            url: '/eventos/{id}',
             path: {
                 id: data.id
             },
@@ -2286,7 +2286,7 @@ export class EventosService {
     public eventoDeleteOneById(data: EventoDeleteOneByIdData): CancelablePromise<EventoDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/eventos/{id}',
+            url: '/eventos/{id}',
             path: {
                 id: data.id
             },
@@ -2317,7 +2317,7 @@ export class GradesHorariosOfertasFormacoesIntervalosDeTempoService {
     public gradeHorarioOfertaFormacaoIntervaloDeTempoFindAll(data: GradeHorarioOfertaFormacaoIntervaloDeTempoFindAllData = {}): CancelablePromise<GradeHorarioOfertaFormacaoIntervaloDeTempoFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/grades-horarios-ofertas-formacoes-intervalos-de-tempo',
+            url: '/grades-horarios-ofertas-formacoes-intervalos-de-tempo',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -2342,7 +2342,7 @@ export class GradesHorariosOfertasFormacoesIntervalosDeTempoService {
     public gradeHorarioOfertaFormacaoIntervaloDeTempoCreate(data: GradeHorarioOfertaFormacaoIntervaloDeTempoCreateData): CancelablePromise<GradeHorarioOfertaFormacaoIntervaloDeTempoCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/grades-horarios-ofertas-formacoes-intervalos-de-tempo',
+            url: '/grades-horarios-ofertas-formacoes-intervalos-de-tempo',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -2361,7 +2361,7 @@ export class GradesHorariosOfertasFormacoesIntervalosDeTempoService {
     public gradeHorarioOfertaFormacaoIntervaloDeTempoRestControllerFindById(data: GradeHorarioOfertaFormacaoIntervaloDeTempoRestControllerFindByIdData): CancelablePromise<GradeHorarioOfertaFormacaoIntervaloDeTempoRestControllerFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/grades-horarios-ofertas-formacoes-intervalos-de-tempo/{id}',
+            url: '/grades-horarios-ofertas-formacoes-intervalos-de-tempo/{id}',
             path: {
                 id: data.id
             },
@@ -2383,7 +2383,7 @@ export class GradesHorariosOfertasFormacoesIntervalosDeTempoService {
     public gradeHorarioOfertaFormacaoIntervaloDeTempoUpdate(data: GradeHorarioOfertaFormacaoIntervaloDeTempoUpdateData): CancelablePromise<GradeHorarioOfertaFormacaoIntervaloDeTempoUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/grades-horarios-ofertas-formacoes-intervalos-de-tempo/{id}',
+            url: '/grades-horarios-ofertas-formacoes-intervalos-de-tempo/{id}',
             path: {
                 id: data.id
             },
@@ -2406,7 +2406,7 @@ export class GradesHorariosOfertasFormacoesIntervalosDeTempoService {
     public gradeHorarioOfertaFormacaoIntervaloDeTempoDeleteOneById(data: GradeHorarioOfertaFormacaoIntervaloDeTempoDeleteOneByIdData): CancelablePromise<GradeHorarioOfertaFormacaoIntervaloDeTempoDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/grades-horarios-ofertas-formacoes-intervalos-de-tempo/{id}',
+            url: '/grades-horarios-ofertas-formacoes-intervalos-de-tempo/{id}',
             path: {
                 id: data.id
             },
@@ -2437,7 +2437,7 @@ export class GradesHorariosOfertasFormacoesService {
     public gradeHorarioOfertaFormacaoFindAll(data: GradeHorarioOfertaFormacaoFindAllData = {}): CancelablePromise<GradeHorarioOfertaFormacaoFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/grades-horarios-ofertas-formacoes',
+            url: '/grades-horarios-ofertas-formacoes',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -2462,7 +2462,7 @@ export class GradesHorariosOfertasFormacoesService {
     public gradeHorarioOfertaFormacaoCreate(data: GradeHorarioOfertaFormacaoCreateData): CancelablePromise<GradeHorarioOfertaFormacaoCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/grades-horarios-ofertas-formacoes',
+            url: '/grades-horarios-ofertas-formacoes',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -2481,7 +2481,7 @@ export class GradesHorariosOfertasFormacoesService {
     public gradeHorarioOfertaFormacaoFindById(data: GradeHorarioOfertaFormacaoFindByIdData): CancelablePromise<GradeHorarioOfertaFormacaoFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/grades-horarios-ofertas-formacoes/{id}',
+            url: '/grades-horarios-ofertas-formacoes/{id}',
             path: {
                 id: data.id
             },
@@ -2503,7 +2503,7 @@ export class GradesHorariosOfertasFormacoesService {
     public gradeHorarioOfertaFormacaoUpdate(data: GradeHorarioOfertaFormacaoUpdateData): CancelablePromise<GradeHorarioOfertaFormacaoUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/grades-horarios-ofertas-formacoes/{id}',
+            url: '/grades-horarios-ofertas-formacoes/{id}',
             path: {
                 id: data.id
             },
@@ -2526,7 +2526,7 @@ export class GradesHorariosOfertasFormacoesService {
     public gradeHorarioOfertaFormacaoDeleteOneById(data: GradeHorarioOfertaFormacaoDeleteOneByIdData): CancelablePromise<GradeHorarioOfertaFormacaoDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/grades-horarios-ofertas-formacoes/{id}',
+            url: '/grades-horarios-ofertas-formacoes/{id}',
             path: {
                 id: data.id
             },
@@ -2562,7 +2562,7 @@ export class ReservasService {
     public reservaFindAll(data: ReservaFindAllData = {}): CancelablePromise<ReservaFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/reservas',
+            url: '/reservas',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -2592,7 +2592,7 @@ export class ReservasService {
     public reservaCreate(data: ReservaCreateData): CancelablePromise<ReservaCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/reservas',
+            url: '/reservas',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -2611,7 +2611,7 @@ export class ReservasService {
     public reservaFindById(data: ReservaFindByIdData): CancelablePromise<ReservaFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/reservas/{id}',
+            url: '/reservas/{id}',
             path: {
                 id: data.id
             },
@@ -2633,7 +2633,7 @@ export class ReservasService {
     public reservaUpdate(data: ReservaUpdateData): CancelablePromise<ReservaUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/reservas/{id}',
+            url: '/reservas/{id}',
             path: {
                 id: data.id
             },
@@ -2656,7 +2656,7 @@ export class ReservasService {
     public reservaDeleteOneById(data: ReservaDeleteOneByIdData): CancelablePromise<ReservaDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/reservas/{id}',
+            url: '/reservas/{id}',
             path: {
                 id: data.id
             },
@@ -2687,7 +2687,7 @@ export class DisponibilidadesService {
     public disponibilidadeFindAll(data: DisponibilidadeFindAllData = {}): CancelablePromise<DisponibilidadeFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/disponibilidades',
+            url: '/disponibilidades',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -2712,7 +2712,7 @@ export class DisponibilidadesService {
     public disponibilidadeCreate(data: DisponibilidadeCreateData): CancelablePromise<DisponibilidadeCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/disponibilidades',
+            url: '/disponibilidades',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -2731,7 +2731,7 @@ export class DisponibilidadesService {
     public disponibilidadeFindById(data: DisponibilidadeFindByIdData): CancelablePromise<DisponibilidadeFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/disponibilidades/{id}',
+            url: '/disponibilidades/{id}',
             path: {
                 id: data.id
             },
@@ -2753,7 +2753,7 @@ export class DisponibilidadesService {
     public disponibilidadeUpdate(data: DisponibilidadeUpdateData): CancelablePromise<DisponibilidadeUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/disponibilidades/{id}',
+            url: '/disponibilidades/{id}',
             path: {
                 id: data.id
             },
@@ -2776,7 +2776,7 @@ export class DisponibilidadesService {
     public disponibilidadeDeleteOneById(data: DisponibilidadeDeleteOneByIdData): CancelablePromise<DisponibilidadeDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/disponibilidades/{id}',
+            url: '/disponibilidades/{id}',
             path: {
                 id: data.id
             },
@@ -2810,7 +2810,7 @@ export class CidadesService {
     public cidadeFindAll(data: CidadeFindAllData = {}): CancelablePromise<CidadeFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/base/cidades',
+            url: '/base/cidades',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -2838,7 +2838,7 @@ export class CidadesService {
     public cidadeFindById(data: CidadeFindByIdData): CancelablePromise<CidadeFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/base/cidades/{id}',
+            url: '/base/cidades/{id}',
             path: {
                 id: data.id
             },
@@ -2872,7 +2872,7 @@ export class HorariosGeradosService {
     public horarioGeradoFindAll(data: HorarioGeradoFindAllData = {}): CancelablePromise<HorarioGeradoFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/horarios-gerados',
+            url: '/horarios-gerados',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -2900,7 +2900,7 @@ export class HorariosGeradosService {
     public horarioGeradoCreate(data: HorarioGeradoCreateData): CancelablePromise<HorarioGeradoCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/horarios-gerados',
+            url: '/horarios-gerados',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -2919,7 +2919,7 @@ export class HorariosGeradosService {
     public horarioGeradoFindById(data: HorarioGeradoFindByIdData): CancelablePromise<HorarioGeradoFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/horarios-gerados/{id}',
+            url: '/horarios-gerados/{id}',
             path: {
                 id: data.id
             },
@@ -2941,7 +2941,7 @@ export class HorariosGeradosService {
     public horarioGeradoUpdate(data: HorarioGeradoUpdateData): CancelablePromise<HorarioGeradoUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/horarios-gerados/{id}',
+            url: '/horarios-gerados/{id}',
             path: {
                 id: data.id
             },
@@ -2964,7 +2964,7 @@ export class HorariosGeradosService {
     public horarioGeradoDeleteOneById(data: HorarioGeradoDeleteOneByIdData): CancelablePromise<HorarioGeradoDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/horarios-gerados/{id}',
+            url: '/horarios-gerados/{id}',
             path: {
                 id: data.id
             },
@@ -2995,7 +2995,7 @@ export class NiveisFormacoesService {
     public nivelFormacaoFindAll(data: NivelFormacaoFindAllData = {}): CancelablePromise<NivelFormacaoFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/niveis-formacoes',
+            url: '/niveis-formacoes',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -3020,7 +3020,7 @@ export class NiveisFormacoesService {
     public nivelFormacaoCreate(data: NivelFormacaoCreateData): CancelablePromise<NivelFormacaoCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/niveis-formacoes',
+            url: '/niveis-formacoes',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -3039,7 +3039,7 @@ export class NiveisFormacoesService {
     public nivelFormacaoFindById(data: NivelFormacaoFindByIdData): CancelablePromise<NivelFormacaoFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/niveis-formacoes/{id}',
+            url: '/niveis-formacoes/{id}',
             path: {
                 id: data.id
             },
@@ -3061,7 +3061,7 @@ export class NiveisFormacoesService {
     public nivelFormacaoUpdate(data: NivelFormacaoUpdateData): CancelablePromise<NivelFormacaoUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/niveis-formacoes/{id}',
+            url: '/niveis-formacoes/{id}',
             path: {
                 id: data.id
             },
@@ -3084,7 +3084,7 @@ export class NiveisFormacoesService {
     public nivelFormacaoDeleteOneById(data: NivelFormacaoDeleteOneByIdData): CancelablePromise<NivelFormacaoDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/niveis-formacoes/{id}',
+            url: '/niveis-formacoes/{id}',
             path: {
                 id: data.id
             },
@@ -3116,7 +3116,7 @@ export class DiariosPreferenciaAgrupamentoService {
     public diarioPreferenciaAgrupamentoFindAll(data: DiarioPreferenciaAgrupamentoFindAllData = {}): CancelablePromise<DiarioPreferenciaAgrupamentoFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/diarios-preferencia-agrupamento',
+            url: '/diarios-preferencia-agrupamento',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -3142,7 +3142,7 @@ export class DiariosPreferenciaAgrupamentoService {
     public diarioPreferenciaAgrupamentoCreate(data: DiarioPreferenciaAgrupamentoCreateData): CancelablePromise<DiarioPreferenciaAgrupamentoCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/diarios-preferencia-agrupamento',
+            url: '/diarios-preferencia-agrupamento',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -3161,7 +3161,7 @@ export class DiariosPreferenciaAgrupamentoService {
     public diarioPreferenciaAgrupamentoFindById(data: DiarioPreferenciaAgrupamentoFindByIdData): CancelablePromise<DiarioPreferenciaAgrupamentoFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/diarios-preferencia-agrupamento/{id}',
+            url: '/diarios-preferencia-agrupamento/{id}',
             path: {
                 id: data.id
             },
@@ -3183,7 +3183,7 @@ export class DiariosPreferenciaAgrupamentoService {
     public diarioPreferenciaAgrupamentoUpdate(data: DiarioPreferenciaAgrupamentoUpdateData): CancelablePromise<DiarioPreferenciaAgrupamentoUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/diarios-preferencia-agrupamento/{id}',
+            url: '/diarios-preferencia-agrupamento/{id}',
             path: {
                 id: data.id
             },
@@ -3206,7 +3206,7 @@ export class DiariosPreferenciaAgrupamentoService {
     public diarioPreferenciaAgrupamentoDeleteOneById(data: DiarioPreferenciaAgrupamentoDeleteOneByIdData): CancelablePromise<DiarioPreferenciaAgrupamentoDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/diarios-preferencia-agrupamento/{id}',
+            url: '/diarios-preferencia-agrupamento/{id}',
             path: {
                 id: data.id
             },
@@ -3237,7 +3237,7 @@ export class OfertasFormacoesNiveisFormacoesService {
     public ofertaFormacaoNivelFormacaoFindAll(data: OfertaFormacaoNivelFormacaoFindAllData = {}): CancelablePromise<OfertaFormacaoNivelFormacaoFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/ofertas-formacoes-niveis-formacoes',
+            url: '/ofertas-formacoes-niveis-formacoes',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -3262,7 +3262,7 @@ export class OfertasFormacoesNiveisFormacoesService {
     public ofertaFormacaoNivelFormacaoCreate(data: OfertaFormacaoNivelFormacaoCreateData): CancelablePromise<OfertaFormacaoNivelFormacaoCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/ofertas-formacoes-niveis-formacoes',
+            url: '/ofertas-formacoes-niveis-formacoes',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -3281,7 +3281,7 @@ export class OfertasFormacoesNiveisFormacoesService {
     public ofertaFormacaoNivelFormacaoFindById(data: OfertaFormacaoNivelFormacaoFindByIdData): CancelablePromise<OfertaFormacaoNivelFormacaoFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/ofertas-formacoes-niveis-formacoes/{id}',
+            url: '/ofertas-formacoes-niveis-formacoes/{id}',
             path: {
                 id: data.id
             },
@@ -3303,7 +3303,7 @@ export class OfertasFormacoesNiveisFormacoesService {
     public ofertaFormacaoNivelFormacaoUpdate(data: OfertaFormacaoNivelFormacaoUpdateData): CancelablePromise<OfertaFormacaoNivelFormacaoUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/ofertas-formacoes-niveis-formacoes/{id}',
+            url: '/ofertas-formacoes-niveis-formacoes/{id}',
             path: {
                 id: data.id
             },
@@ -3326,7 +3326,7 @@ export class OfertasFormacoesNiveisFormacoesService {
     public ofertaFormacaoNivelFormacaoDeleteOneById(data: OfertaFormacaoNivelFormacaoDeleteOneByIdData): CancelablePromise<OfertaFormacaoNivelFormacaoDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/ofertas-formacoes-niveis-formacoes/{id}',
+            url: '/ofertas-formacoes-niveis-formacoes/{id}',
             path: {
                 id: data.id
             },
@@ -3360,7 +3360,7 @@ export class EtapasService {
     public etapaFindAll(data: EtapaFindAllData = {}): CancelablePromise<EtapaFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/etapas',
+            url: '/etapas',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -3388,7 +3388,7 @@ export class EtapasService {
     public etapaCreate(data: EtapaCreateData): CancelablePromise<EtapaCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/etapas',
+            url: '/etapas',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -3407,7 +3407,7 @@ export class EtapasService {
     public etapaFindById(data: EtapaFindByIdData): CancelablePromise<EtapaFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/etapas/{id}',
+            url: '/etapas/{id}',
             path: {
                 id: data.id
             },
@@ -3429,7 +3429,7 @@ export class EtapasService {
     public etapaUpdate(data: EtapaUpdateData): CancelablePromise<EtapaUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/etapas/{id}',
+            url: '/etapas/{id}',
             path: {
                 id: data.id
             },
@@ -3452,7 +3452,7 @@ export class EtapasService {
     public etapaDeleteOneById(data: EtapaDeleteOneByIdData): CancelablePromise<EtapaDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/etapas/{id}',
+            url: '/etapas/{id}',
             path: {
                 id: data.id
             },
@@ -3476,7 +3476,7 @@ export class AutenticacaoService {
     public autenticacaoWhoAmIensino(): CancelablePromise<AutenticacaoWhoAmIensinoResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/autenticacao/quem-sou-eu/ensino',
+            url: '/autenticacao/quem-sou-eu/ensino',
             errors: {
                 400: '',
                 403: ''
@@ -3492,7 +3492,7 @@ export class AutenticacaoService {
     public autenticacaoWhoAmI(): CancelablePromise<AutenticacaoWhoAmIResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/autenticacao/quem-sou-eu',
+            url: '/autenticacao/quem-sou-eu',
             errors: {
                 403: ''
             }
@@ -3509,7 +3509,7 @@ export class AutenticacaoService {
     public autenticacaoLogin(data: AutenticacaoLoginData): CancelablePromise<AutenticacaoLoginResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/autenticacao/login',
+            url: '/autenticacao/login',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -3528,7 +3528,7 @@ export class AutenticacaoService {
     public autenticacaoRefresh(data: AutenticacaoRefreshData): CancelablePromise<AutenticacaoRefreshResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/autenticacao/login/refresh',
+            url: '/autenticacao/login/refresh',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -3547,7 +3547,7 @@ export class AutenticacaoService {
     public autenticacaoSetInitialPassword(data: AutenticacaoSetInitialPasswordData): CancelablePromise<AutenticacaoSetInitialPasswordResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/autenticacao/definir-senha',
+            url: '/autenticacao/definir-senha',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -3566,7 +3566,7 @@ export class AutenticacaoService {
     public autenticacaoRequestPasswordReset(data: AutenticacaoRequestPasswordResetData): CancelablePromise<AutenticacaoRequestPasswordResetResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/autenticacao/redefinir-senha',
+            url: '/autenticacao/redefinir-senha',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -3598,7 +3598,7 @@ export class DiasCalendariosService {
     public diaCalendarioFindAll(data: DiaCalendarioFindAllData = {}): CancelablePromise<DiaCalendarioFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/dias-calendario',
+            url: '/dias-calendario',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -3626,7 +3626,7 @@ export class DiasCalendariosService {
     public diaCalendarioCreate(data: DiaCalendarioCreateData): CancelablePromise<DiaCalendarioCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/dias-calendario',
+            url: '/dias-calendario',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -3645,7 +3645,7 @@ export class DiasCalendariosService {
     public diaCalendarioFindById(data: DiaCalendarioFindByIdData): CancelablePromise<DiaCalendarioFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/dias-calendario/{id}',
+            url: '/dias-calendario/{id}',
             path: {
                 id: data.id
             },
@@ -3667,7 +3667,7 @@ export class DiasCalendariosService {
     public diaCalendarioUpdate(data: DiaCalendarioUpdateData): CancelablePromise<DiaCalendarioUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/dias-calendario/{id}',
+            url: '/dias-calendario/{id}',
             path: {
                 id: data.id
             },
@@ -3690,7 +3690,7 @@ export class DiasCalendariosService {
     public diaCalendarioDeleteOneById(data: DiaCalendarioDeleteOneByIdData): CancelablePromise<DiaCalendarioDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/dias-calendario/{id}',
+            url: '/dias-calendario/{id}',
             path: {
                 id: data.id
             },
@@ -3721,7 +3721,7 @@ export class EstadosService {
     public estadoFindAll(data: EstadoFindAllData = {}): CancelablePromise<EstadoFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/base/estados',
+            url: '/base/estados',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -3746,7 +3746,7 @@ export class EstadosService {
     public estadoFindById(data: EstadoFindByIdData): CancelablePromise<EstadoFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/base/estados/{id}',
+            url: '/base/estados/{id}',
             path: {
                 id: data.id
             },
@@ -3777,7 +3777,7 @@ export class TurmasDisponibilidadesService {
     public turmaDisponibilidadeFindAll(data: TurmaDisponibilidadeFindAllData = {}): CancelablePromise<TurmaDisponibilidadeFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/turmas-disponibilidades',
+            url: '/turmas-disponibilidades',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -3802,7 +3802,7 @@ export class TurmasDisponibilidadesService {
     public turmaDisponibilidadeCreate(data: TurmaDisponibilidadeCreateData): CancelablePromise<TurmaDisponibilidadeCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/turmas-disponibilidades',
+            url: '/turmas-disponibilidades',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -3821,7 +3821,7 @@ export class TurmasDisponibilidadesService {
     public turmaDisponibilidadeFindById(data: TurmaDisponibilidadeFindByIdData): CancelablePromise<TurmaDisponibilidadeFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/turmas-disponibilidades/{id}',
+            url: '/turmas-disponibilidades/{id}',
             path: {
                 id: data.id
             },
@@ -3843,7 +3843,7 @@ export class TurmasDisponibilidadesService {
     public turmaDisponibilidadeUpdate(data: TurmaDisponibilidadeUpdateData): CancelablePromise<TurmaDisponibilidadeUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/turmas-disponibilidades/{id}',
+            url: '/turmas-disponibilidades/{id}',
             path: {
                 id: data.id
             },
@@ -3866,7 +3866,7 @@ export class TurmasDisponibilidadesService {
     public turmaDisponibilidadeDeleteOneById(data: TurmaDisponibilidadeDeleteOneByIdData): CancelablePromise<TurmaDisponibilidadeDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/turmas-disponibilidades/{id}',
+            url: '/turmas-disponibilidades/{id}',
             path: {
                 id: data.id
             },
@@ -3898,7 +3898,7 @@ export class HorariosGeradosAulaService {
     public horarioGeradoAulaFindAll(data: HorarioGeradoAulaFindAllData = {}): CancelablePromise<HorarioGeradoAulaFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/horarios-gerados-aula',
+            url: '/horarios-gerados-aula',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -3924,7 +3924,7 @@ export class HorariosGeradosAulaService {
     public horarioGeradoAulaCreate(data: HorarioGeradoAulaCreateData): CancelablePromise<HorarioGeradoAulaCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/horarios-gerados-aula',
+            url: '/horarios-gerados-aula',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -3943,7 +3943,7 @@ export class HorariosGeradosAulaService {
     public horarioGeradoAulaFindById(data: HorarioGeradoAulaFindByIdData): CancelablePromise<HorarioGeradoAulaFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/horarios-gerados-aula/{id}',
+            url: '/horarios-gerados-aula/{id}',
             path: {
                 id: data.id
             },
@@ -3965,7 +3965,7 @@ export class HorariosGeradosAulaService {
     public horarioGeradoAulaUpdate(data: HorarioGeradoAulaUpdateData): CancelablePromise<HorarioGeradoAulaUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/horarios-gerados-aula/{id}',
+            url: '/horarios-gerados-aula/{id}',
             path: {
                 id: data.id
             },
@@ -3988,7 +3988,7 @@ export class HorariosGeradosAulaService {
     public horarioGeradoAulaDeleteOneById(data: HorarioGeradoAulaDeleteOneByIdData): CancelablePromise<HorarioGeradoAulaDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/horarios-gerados-aula/{id}',
+            url: '/horarios-gerados-aula/{id}',
             path: {
                 id: data.id
             },
@@ -4022,7 +4022,7 @@ export class DiariosProfessoresService {
     public diarioProfessorFindAll(data: DiarioProfessorFindAllData = {}): CancelablePromise<DiarioProfessorFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/diarios-professores',
+            url: '/diarios-professores',
             query: {
                 page: data.page,
                 limit: data.limit,
@@ -4050,7 +4050,7 @@ export class DiariosProfessoresService {
     public diarioProfessorCreate(data: DiarioProfessorCreateData): CancelablePromise<DiarioProfessorCreateResponse> {
         return this.httpRequest.request({
             method: 'POST',
-            url: '/api/v1/diarios-professores',
+            url: '/diarios-professores',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -4069,7 +4069,7 @@ export class DiariosProfessoresService {
     public diarioProfessorFindById(data: DiarioProfessorFindByIdData): CancelablePromise<DiarioProfessorFindByIdResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/api/v1/diarios-professores/{id}',
+            url: '/diarios-professores/{id}',
             path: {
                 id: data.id
             },
@@ -4091,7 +4091,7 @@ export class DiariosProfessoresService {
     public diarioProfessorUpdate(data: DiarioProfessorUpdateData): CancelablePromise<DiarioProfessorUpdateResponse> {
         return this.httpRequest.request({
             method: 'PATCH',
-            url: '/api/v1/diarios-professores/{id}',
+            url: '/diarios-professores/{id}',
             path: {
                 id: data.id
             },
@@ -4114,7 +4114,7 @@ export class DiariosProfessoresService {
     public diarioProfessorDeleteOneById(data: DiarioProfessorDeleteOneByIdData): CancelablePromise<DiarioProfessorDeleteOneByIdResponse> {
         return this.httpRequest.request({
             method: 'DELETE',
-            url: '/api/v1/diarios-professores/{id}',
+            url: '/diarios-professores/{id}',
             path: {
                 id: data.id
             },
