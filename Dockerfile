@@ -2,6 +2,7 @@ FROM node:24 AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+ENV CI=true
 RUN corepack enable
 COPY . /sources
 WORKDIR /sources
@@ -18,4 +19,4 @@ RUN pnpm run -w build:all
 FROM base AS web-runtime
 WORKDIR /opt/ladesa/web
 COPY --from=builder /sources/sisgha-sisgea/.output /opt/ladesa/web/.output
-CMD node .output/server/index.mjs
+CMD ["node", ".output/server/index.mjs"]
