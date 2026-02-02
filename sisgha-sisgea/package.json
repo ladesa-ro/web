@@ -24,7 +24,7 @@
     "@ladesa-ro/management-service-client": "https://pkg.pr.new/ladesa-ro/management-service/@ladesa-ro/management-service-client@d81af30",
     "@nuxt/devtools": "3.1.1",
     "@nuxt/eslint": "^1.4.0",
-    "@nuxtjs/color-mode": "^3.5.2",
+    "@nuxtjs/color-mode": "^4.0.0",
     "@sidebase/nuxt-auth": "1.0.0-alpha.0",
     "@tailwindcss/vite": "^4.1.7",
     "@tanstack/query-persist-client-core": "^5.76.1",
