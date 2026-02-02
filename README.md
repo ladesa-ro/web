@@ -9,11 +9,13 @@ O Sistema Gerador de Horário Acadêmico (SISGHA) e o Sistema de Gestão de Ambi
 ## Linguagens e ferramentas
 
 ### Frameworks
+
 - Vue.js v3
 - Nuxt.js v4
 - Tailwind v4
 
 ### Principais Bibliotecas
+
 - Auth.js
 - Day.js
 - Pragmatic Drag and Drop
@@ -62,7 +64,9 @@ pnpm run dev
 ```
 
 ## Colaboradores
+
 Somos uma equipe de estudantes e servidores do Instituto Federal de Rondônia - _Campus_ Ji-Paraná.
+
 - Anna Isabela Bianchini Pontuschka
 - Ana Maria Brito Souza
 - Danilo Pereira Escudero
