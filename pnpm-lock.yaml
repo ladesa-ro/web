@@ -19,10 +19,10 @@ importers:
   sisgha-sisgea:
     dependencies:
       '@atlaskit/pragmatic-drag-and-drop':
-        specifier: ^1.7.7
+        specifier: ^1.7.4
         version: 1.7.7
       '@atlaskit/pragmatic-drag-and-drop-auto-scroll':
-        specifier: ^2.1.5
+        specifier: ^2.1.1
         version: 2.1.5
       '@atlaskit/pragmatic-drag-and-drop-hitbox':
         specifier: ^1.1.0
@@ -37,7 +37,7 @@ importers:
         specifier: 3.1.1
         version: 3.1.1(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(yaml@2.8.2))(vue@3.5.27(typescript@5.9.3))
       '@nuxt/eslint':
-        specifier: ^1.13.0
+        specifier: ^1.4.0
         version: 1.13.0(@typescript-eslint/utils@8.54.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.27)(eslint@9.39.2(jiti@2.6.1))(magicast@0.5.1)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(yaml@2.8.2))
       '@nuxtjs/color-mode':
         specifier: ^3.5.2
@@ -46,61 +46,61 @@ importers:
         specifier: 1.0.0-alpha.0
         version: 1.0.0-alpha.0(@auth/core@0.40.0)(magicast@0.5.1)
       '@tailwindcss/vite':
-        specifier: ^4.1.18
+        specifier: ^4.1.7
         version: 4.1.18(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(yaml@2.8.2))
       '@tanstack/query-persist-client-core':
-        specifier: ^5.91.19
+        specifier: ^5.76.1
         version: 5.91.19
       '@tanstack/query-sync-storage-persister':
-        specifier: ^5.90.22
+        specifier: ^5.76.1
         version: 5.90.22
       '@tanstack/vue-query':
-        specifier: ^5.92.9
+        specifier: ^5.76.0
         version: 5.92.9(vue@3.5.27(typescript@5.9.3))
       '@types/jsonwebtoken':
-        specifier: ^9.0.10
+        specifier: ^9.0.9
         version: 9.0.10
       '@types/lodash':
-        specifier: ^4.17.23
+        specifier: ^4.17.16
         version: 4.17.23
       '@vueuse/core':
         specifier: ^14.2.0
         version: 14.2.0(vue@3.5.27(typescript@5.9.3))
       dayjs:
-        specifier: ^1.11.19
+        specifier: ^1.11.13
         version: 1.11.19
       inversify:
-        specifier: ^7.11.0
+        specifier: ^7.5.1
         version: 7.11.0(reflect-metadata@0.2.2)
       jsonwebtoken:
-        specifier: ^9.0.3
+        specifier: ^9.0.2
         version: 9.0.3
       nuxt:
-        specifier: ^4.3.0
+        specifier: ^4.0.3
         version: 4.3.0(@parcel/watcher@2.5.6)(@types/node@25.2.0)(@vue/compiler-sfc@3.5.27)(cac@6.7.14)(db0@0.3.4)(eslint@9.39.2(jiti@2.6.1))(ioredis@5.9.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.57.1)(terser@5.46.0)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(yaml@2.8.2))(vue-tsc@3.2.4(typescript@5.9.3))(yaml@2.8.2)
       openid-client:
-        specifier: ^6.8.1
+        specifier: ^6.5.0
         version: 6.8.1
       p-mutex:
         specifier: ^1.0.0
         version: 1.0.0
       p-queue:
-        specifier: ^8.1.1
+        specifier: ^8.1.0
         version: 8.1.1
       reflect-metadata:
         specifier: ^0.2.2
         version: 0.2.2
       reka-ui:
-        specifier: ^2.8.0
+        specifier: ^2.2.1
         version: 2.8.0(vue@3.5.27(typescript@5.9.3))
       tailwindcss:
-        specifier: ^4.1.18
+        specifier: ^4.1.7
         version: 4.1.18
       vee-validate:
-        specifier: ^4.15.1
+        specifier: ^4.15.0
         version: 4.15.1(vue@3.5.27(typescript@5.9.3))
       vue:
-        specifier: ^3.5.27
+        specifier: ^3.5.14
         version: 3.5.27(typescript@5.9.3)
       vue3-carousel:
         specifier: ^0.17.0
@@ -115,11 +115,11 @@ importers:
         specifier: ^0.6.2
         version: 0.6.2
       yup:
-        specifier: ^1.7.1
+        specifier: ^1.6.1
         version: 1.7.1
     devDependencies:
       '@babel/runtime':
-        specifier: ^7.28.6
+        specifier: ^7.28.4
         version: 7.28.6
       '@hey-api/openapi-ts':
         specifier: ^0.53.12
