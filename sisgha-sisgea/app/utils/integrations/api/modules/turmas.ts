@@ -1,28 +1,28 @@
-import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
+import type * as ApiClientTypings from '~/helpers/api-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type ITurmaApiModuleTypings = {
-  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_TurmaFindOneOutput;
+  CompleteView: ApiClientTypings.TurmaFindOneOutputDto;
 
   Create: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_TurmaCreateInput;
+    Data: ApiClientTypings.TurmaCreateInputDto;
     Result: ApiClientTypings.TurmaCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_TurmaFindOneOutput;
+    Result: ApiClientTypings.TurmaFindOneOutputDto;
   };
 
   List: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_TurmaListOutput;
-    Queries: ApiClientTypings.TurmaListData;
-    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_TurmaListOutput['data'][number];
+    Result: ApiClientTypings.TurmaListOutputDto;
+    Queries: ApiClientTypings.TurmaFindAllData;
+    ResultItem: ApiClientTypings.TurmaListOutputDto['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_TurmaUpdateInput;
-    Result: ApiClientTypings.TurmaUpdateOneByIdResponse;
+    Data: ApiClientTypings.TurmaUpdateInputDto;
+    Result: ApiClientTypings.TurmaUpdateResponse;
   };
 };
 
@@ -37,15 +37,15 @@ export const createTurmasCrudModule = withApiClient(apiClient => {
     },
 
     list(data) {
-      return apiClient.turmas.turmaList(data);
+      return apiClient.turmas.turmaFindAll(data);
     },
 
     getOne(id) {
-      return apiClient.turmas.turmaFindOneById({ id });
+      return apiClient.turmas.turmaFindById({ id });
     },
 
     updateOne(id, requestBody) {
-      return apiClient.turmas.turmaUpdateOneById({ id, requestBody });
+      return apiClient.turmas.turmaUpdate({ id, requestBody });
     },
 
     deleteOne(id) {

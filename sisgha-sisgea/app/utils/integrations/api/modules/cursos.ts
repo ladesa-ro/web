@@ -1,28 +1,28 @@
-import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
+import type * as ApiClientTypings from '~/helpers/api-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type ICursoApiModuleTypings = {
-  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CursoFindOneOutput;
+  CompleteView: ApiClientTypings.CursoFindOneOutputDto;
 
   Create: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CursoCreateInput;
+    Data: ApiClientTypings.CursoCreateInputDto;
     Result: ApiClientTypings.CursoCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CursoFindOneOutput;
+    Result: ApiClientTypings.CursoFindOneOutputDto;
   };
 
   List: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CursoListOutput;
-    Queries: ApiClientTypings.CursoListData;
-    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CursoListOutput['data'][number];
+    Result: ApiClientTypings.CursoListOutputDto;
+    Queries: ApiClientTypings.CursoFindAllData;
+    ResultItem: ApiClientTypings.CursoListOutputDto['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CursoUpdateInput;
-    Result: ApiClientTypings.CursoUpdateOneByIdResponse;
+    Data: ApiClientTypings.CursoUpdateInputDto;
+    Result: ApiClientTypings.CursoUpdateResponse;
   };
 };
 
@@ -36,18 +36,21 @@ export const createCursosCrudModule = withApiClient(apiClient => {
 
     list(data, contextCampiRef) {
       const contextCampi = unref(contextCampiRef);
-      return apiClient.cursos.cursoList({
+      return apiClient.cursos.cursoFindAll({
         ...data,
         filterCampusId: contextCampi ? [contextCampi] : undefined,
       });
     },
 
     getOne(id) {
-      return apiClient.cursos.cursoFindOneById({ id });
+      return apiClient.cursos.cursoFindById({ id });
     },
 
     updateOne(id, requestBody) {
-      return apiClient.cursos.cursoUpdateOneById({ id, requestBody });
+      return apiClient.cursos.cursoUpdate({
+        id,
+        requestBody,
+      });
     },
 
     deleteOne(id) {

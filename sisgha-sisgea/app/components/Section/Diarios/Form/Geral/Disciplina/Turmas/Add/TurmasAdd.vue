@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import { UICheckbox } from '#components';
-import { useLadesaApiCrudTurmas } from '#imports';
-import type { Ladesa_ManagementService_Domain_Contracts_TurmaFindOneOutput as TurmaFindOneOutput } from '@ladesa-ro/management-service-client';
+import type { TurmaFindOneOutputDto } from '~/helpers/api-client';
 import type { TurmaSelecionada } from '../../../Contexto';
 
 const $emit = defineEmits<{
@@ -35,7 +33,7 @@ const loadTurmas = async () => {
     const { data } = await useLadesaApiCrudTurmas().crudModule.list({});
     const cursosMap: Record<string, CursoApi> = {};
 
-    data.forEach((t: TurmaFindOneOutput) => {
+    data.forEach((t: TurmaFindOneOutputDto) => {
       const sigla = t.curso.nome;
       if (!cursosMap[sigla]) {
         cursosMap[sigla] = { nome: t.curso.nome, sigla, turmas: [] };

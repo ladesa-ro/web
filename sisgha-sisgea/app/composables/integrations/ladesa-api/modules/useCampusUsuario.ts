@@ -4,7 +4,7 @@ export function useCampusDoUsuario(userId: string) {
 
   onMounted(async () => {
     try {
-      const response = await apiClient.perfis.perfilList({
+      const response = await apiClient.perfis.perfilFindAll({
         filterUsuarioId: [userId],
       });
       const perfil = response.data?.[0];

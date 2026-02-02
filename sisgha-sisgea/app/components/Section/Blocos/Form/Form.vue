@@ -110,7 +110,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
     });
     id = blocoCriado.id;
   } else {
-    await apiClient.blocos.blocoUpdateOneById({
+    await apiClient.blocos.blocoUpdate({
       id: editId,
 
       requestBody: {
@@ -122,7 +122,7 @@ const onSubmit = handleSubmit(async (values: FormOutput) => {
   }
 
   if (imagem) {
-    await apiClient.blocos.blocoSetImagemCapa({
+    await apiClient.blocos.blocoUpdateImagemCapa({
       id: id,
       formData: {
         file: imagem,

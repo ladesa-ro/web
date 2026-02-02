@@ -1,13 +1,14 @@
 <script lang="ts" setup>
-import type { Ladesa_ManagementService_Domain_Contracts_TurmaFindOneOutput as TurmaFindOneOutput } from '@ladesa-ro/management-service-client';
 import EditOrCreateModal from '~/components/Dialog/Modal/EditOrCreateModal.vue';
+import type { TurmaFindOneOutputDto } from '~/helpers/api-client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 import TurmasForm from '../../Form/Form.vue';
 
 type Props = {
   isLoading?: boolean;
-  item?: TurmaFindOneOutput | null;
+  item?: TurmaFindOneOutputDto | null;
   link?: string;
+  editButton?: boolean;
 };
 
 //
@@ -31,7 +32,7 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
       >
         <template #actions>
           <EditOrCreateModal
-            v-if="link === 'turmas'"
+            v-if="editButton"
             :edit-id="turma.id"
             :formComponent="TurmasForm"
           />

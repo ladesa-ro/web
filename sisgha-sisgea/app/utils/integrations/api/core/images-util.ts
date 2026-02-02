@@ -1,11 +1,11 @@
 import type {
-  Ladesa_ManagementService_Domain_Contracts_AmbienteFindOneOutput as AmbienteFindOneOutput,
-  Ladesa_ManagementService_Domain_Contracts_BlocoFindOneOutput as BlocoFindOneOutput,
-  Ladesa_ManagementService_Domain_Contracts_CursoFindOneOutput as CursoFindOneOutput,
-  Ladesa_ManagementService_Domain_Contracts_DisciplinaFindOneOutput as DisciplinaFindOneOutput,
-  Ladesa_ManagementService_Domain_Contracts_TurmaFindOneOutput as TurmaFindOneOutput,
-  Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput,
-} from '@ladesa-ro/management-service-client';
+   AmbienteFindOneOutputDto,
+   BlocoFindOneOutputDto,
+   CursoFindOneOutputDto,
+   DisciplinaFindOneOutputDto,
+   TurmaFindOneOutputDto,
+   UsuarioFindOneOutputDto,
+} from '~/helpers/api-client';
 
 export enum ApiImageResource {
   TURMA_COVER,
@@ -19,32 +19,32 @@ export enum ApiImageResource {
 type IUseApiImageRouteFunction = {
   (
     resourceImage: ApiImageResource.TURMA_COVER,
-    item: MaybeRef<TurmaFindOneOutput | null | undefined>
+    item: MaybeRef<TurmaFindOneOutputDto | null | undefined>
   ): ComputedRef<string | null>;
 
   (
     resourceImage: ApiImageResource.CURSO_COVER,
-    item: MaybeRef<CursoFindOneOutput | null | undefined>
+    item: MaybeRef<CursoFindOneOutputDto | null | undefined>
   ): ComputedRef<string | null>;
 
   (
     resourceImage: ApiImageResource.DISCIPLINA_COVER,
-    item: MaybeRef<DisciplinaFindOneOutput | null | undefined>
+    item: MaybeRef<DisciplinaFindOneOutputDto | null | undefined>
   ): ComputedRef<string | null>;
 
   (
     resourceImage: ApiImageResource.AMBIENTE_COVER,
-    item: MaybeRef<AmbienteFindOneOutput | null | undefined>
+    item: MaybeRef<AmbienteFindOneOutputDto | null | undefined>
   ): ComputedRef<string | null>;
 
   (
     resourceImage: ApiImageResource.BLOCO_COVER,
-    item: MaybeRef<BlocoFindOneOutput | null | undefined>
+    item: MaybeRef<BlocoFindOneOutputDto | null | undefined>
   ): ComputedRef<string | null>;
 
   (
     resourceImage: ApiImageResource.USUARIO_PROFILE,
-    item: MaybeRef<UsuarioFindOneOutput | null | undefined>
+    item: MaybeRef<UsuarioFindOneOutputDto | null | undefined>
   ): ComputedRef<string | null>;
 };
 
@@ -114,7 +114,7 @@ export const useApiImageRoute: IUseApiImageRouteFunction = (
       }
 
       case ApiImageResource.USUARIO_PROFILE: {
-        const imagemPerfil = (<UsuarioFindOneOutput>item)?.imagemPerfil;
+        const imagemPerfil = (<UsuarioFindOneOutputDto>item)?.imagemPerfil;
 
         if (imagemPerfil) {
           return `${base}/usuarios/${item.id}/imagem/perfil?imgCapa=${imagemPerfil.id}`;

@@ -1,4 +1,4 @@
-import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
+import type * as ApiClientTypings from '~/helpers/api-client';
 import type {
   IGenericCrudModule,
   IGenericCrudModuleTypes,
@@ -6,26 +6,26 @@ import type {
 import { withApiClient } from '../core/generic';
 
 export type IBlocosApiModuleTypings = IGenericCrudModuleTypes<{
-  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_BlocoFindOneOutput;
+  CompleteView: ApiClientTypings.BlocoFindOneOutputDto;
 
   Create: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_BlocoCreateInput;
+    Data: ApiClientTypings.BlocoCreateInputDto;
     Result: ApiClientTypings.BlocoCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_BlocoFindOneOutput;
+    Result: ApiClientTypings.BlocoFindOneOutputDto;
   };
 
   List: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_BlocoListOutput;
-    Queries: ApiClientTypings.BlocoListData;
-    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_BlocoListOutput['data'][number];
+    Result: ApiClientTypings.BlocoListOutputDto;
+    Queries: ApiClientTypings.BlocoFindAllData;
+    ResultItem: ApiClientTypings.BlocoListOutputDto['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_BlocoUpdateInput;
-    Result: ApiClientTypings.BlocoUpdateOneByIdResponse;
+    Data: ApiClientTypings.BlocoUpdateInputDto;
+    Result: ApiClientTypings.BlocoUpdateResponse;
   };
 }>;
 
@@ -42,18 +42,18 @@ export const createBlocosCrudModule = withApiClient(apiClient => {
     list(data, contextCampiRef) {
       const contextCampi = unref(contextCampiRef);
 
-      return apiClient.blocos.blocoList({
+      return apiClient.blocos.blocoFindAll({
         ...data,
         filterCampusId: contextCampi ? [contextCampi] : undefined,
       });
     },
 
     getOne(id) {
-      return apiClient.blocos.blocoFindOneById({ id });
+      return apiClient.blocos.blocoFindById({ id });
     },
 
     updateOne(id, requestBody) {
-      return apiClient.blocos.blocoUpdateOneById({ id, requestBody });
+      return apiClient.blocos.blocoUpdate({ id, requestBody });
     },
 
     deleteOne(id) {

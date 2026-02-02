@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type {
-  Ladesa_ManagementService_Domain_Contracts_TurmaCreateInput as TurmaCreateInput,
-  Ladesa_ManagementService_Domain_Contracts_TurmaUpdateInput as TurmaUpdateInput,
-} from '@ladesa-ro/management-service-client';
 import { useQuery } from '@tanstack/vue-query';
+import type {
+  TurmaCreateInputDto,
+  TurmaUpdateInputDto,
+} from '~/helpers/api-client';
 import { getQueryKeyForCrudModuleQueryState } from '../../../../composables/integrations/generic-crud/utils/get-query-key';
 import { type ICreateOrManageConfig } from '../../../Forms/CreateOrManage/Base/Control/config';
 import { setupCreateOrManageControlContext } from '../../../Forms/CreateOrManage/Contextual/useCreateOrManageControlContext';
@@ -14,9 +14,7 @@ import {
 } from './-Helpers/schema';
 import SectionTurmasFormAvailability from './Availability/AvailabilityModal.vue';
 
-type Props = {
-  editId?: string | null;
-};
+type Props = { editId?: string | null };
 
 const { editId = null } = defineProps<Props>();
 
@@ -46,7 +44,7 @@ const formStateQuery = useQuery({
       return {
         curso: data.curso,
         periodo: data.periodo,
-        ambientePadraoAula: data.ambientePadraoAula,
+        ambientePadraoAula: data.ambientePadraoAula ?? null,
 
         imagem: null,
         _: {} as any,
@@ -73,7 +71,7 @@ const config = {
 
     create: {
       perform: async formData => {
-        const data: TurmaCreateInput = {
+        const data: TurmaCreateInputDto = {
           curso: formData.curso,
           periodo: formData.periodo,
           ambientePadraoAula: formData.ambientePadraoAula,
@@ -98,7 +96,7 @@ const config = {
 
     update: {
       perform: async (id, formData) => {
-        const data: TurmaUpdateInput = {
+        const data: TurmaUpdateInputDto = {
           curso: formData.curso,
           periodo: formData.periodo,
           ambientePadraoAula: formData.ambientePadraoAula,

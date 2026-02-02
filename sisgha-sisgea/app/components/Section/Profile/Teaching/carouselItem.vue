@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import type {
-  Ladesa_ManagementService_Domain_Contracts_CursoFindOneOutput as Curso,
-  Ladesa_ManagementService_Domain_Contracts_DisciplinaFindOneOutput as Disciplina,
-  Ladesa_ManagementService_Domain_Contracts_TurmaFindOneOutput as Turma,
-} from '@ladesa-ro/management-service-client';
+  CursoFindOneOutputDto,
+  DisciplinaFindOneOutputDto,
+  TurmaFindOneOutputDto,
+} from '~/helpers/api-client';
 
 type DisciplinaCursoTurma = {
-  disciplina: Disciplina;
+  disciplina: DisciplinaFindOneOutputDto;
   cursos: Array<{
-    curso: Curso;
-    turmas: Array<{ turma: Turma }>;
+    curso: CursoFindOneOutputDto;
+    turmas: Array<{ turma: TurmaFindOneOutputDto }>;
   }>;
 };
 

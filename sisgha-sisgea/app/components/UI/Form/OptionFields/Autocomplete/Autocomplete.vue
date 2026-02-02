@@ -35,10 +35,12 @@ const selectedOption = defineModel<string | number | null>('selectedOption', {
   required: false,
   default: null,
 });
+
 const search = defineModel<string | null>('searchTerm', {
   required: false,
   default: null,
 });
+
 const open = ref(false);
 
 const getDisplayValue = (value: string) => {
@@ -90,7 +92,7 @@ const customError = computed(() =>
 
     <Portal>
       <Content
-        class="input-base-content w-(--reka-combobox-trigger-width) z-[10000] py-2"
+        class="input-base-content w-(--reka-combobox-trigger-width) z-10000 py-2"
         position="popper"
       >
         <Viewport class="max-h-68 overflow-y-auto">

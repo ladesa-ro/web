@@ -15,7 +15,7 @@ export const useApiUsuarioPerfisAtivos = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.perfis.perfilList({
+        return apiClient.perfis.perfilFindAll({
           filterUsuarioId: [id],
           filterAtivo: ['true'],
         });

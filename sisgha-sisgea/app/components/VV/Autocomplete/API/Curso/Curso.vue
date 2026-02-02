@@ -6,7 +6,7 @@ type Props = {
   name: string;
 };
 
-const { name } = defineProps<Props>();
+defineProps<Props>();
 
 //
 
@@ -20,8 +20,6 @@ const options = createUIAutocompleteApiRetrieverOptions({
     label: item.nome,
   }),
 });
-
-//
 </script>
 
 <template>

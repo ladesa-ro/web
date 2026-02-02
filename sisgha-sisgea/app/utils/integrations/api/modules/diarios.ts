@@ -1,28 +1,28 @@
-import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
+import type * as ApiClientTypings from '~/helpers/api-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type IDiarioApiModuleTypings = {
-  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioFindOneOutput;
+  CompleteView: ApiClientTypings.DiarioFindOneOutputDto;
 
   Create: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioCreateInput;
+    Data: ApiClientTypings.DiarioCreateInputDto;
     Result: ApiClientTypings.DiarioCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioFindOneOutput;
+    Result: ApiClientTypings.DiarioFindOneOutputDto;
   };
 
   List: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioListOutput;
-    Queries: ApiClientTypings.DiarioListData;
-    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioListOutput['data'][number];
+    Result: ApiClientTypings.DiarioListOutputDto;
+    Queries: ApiClientTypings.DiarioFindAllData;
+    ResultItem: ApiClientTypings.DiarioListOutputDto['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_DiarioUpdateInput;
-    Result: ApiClientTypings.DiarioUpdateOneByIdResponse;
+    Data: ApiClientTypings.DiarioUpdateInputDto;
+    Result: ApiClientTypings.DiarioUpdateResponse;
   };
 };
 
@@ -35,15 +35,18 @@ export const createDiariosCrudModule = withApiClient(apiClient => {
     },
 
     list(data) {
-      return apiClient.diarios.diarioList(data);
+      return apiClient.diarios.diarioFindAll(data);
     },
 
     getOne(id) {
-      return apiClient.diarios.diarioFindOneById({ id });
+      return apiClient.diarios.diarioFindById({ id });
     },
 
     updateOne(id, requestBody) {
-      return apiClient.diarios.diarioUpdateOneById({ id, requestBody });
+      return apiClient.diarios.diarioUpdate({
+        id,
+        requestBody,
+      });
     },
 
     deleteOne(id) {

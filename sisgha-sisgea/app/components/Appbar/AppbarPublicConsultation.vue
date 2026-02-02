@@ -14,7 +14,7 @@ const isQueryEnabled = computed(
 const { isLoading, isError, data } = useQuery({
   queryKey: ['turma', 'turma::id', turmaId],
   queryFn: async () =>
-    await apiClient.turmas.turmaFindOneById({
+    await apiClient.turmas.turmaFindById({
       id: turmaId.value as string,
     }),
   enabled: isQueryEnabled,

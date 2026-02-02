@@ -48,17 +48,17 @@ const getEvent = async () => {
         eventName: checkEvents.nome ?? '',
         eventEnvironment: checkEvents.local ?? '',
         eventColor: checkEvents.cor ?? '#000000',
-        eventStartDate: checkEvents.data_inicio
-          ? dayjs(checkEvents.data_inicio).format('YYYY-MM-DD')
+        eventStartDate: checkEvents.dataInicio
+          ? dayjs(checkEvents.dataInicio).format('YYYY-MM-DD')
           : '',
-        eventStartHour: checkEvents.data_inicio
-          ? dayjs(checkEvents.data_inicio).format('HH:mm')
+        eventStartHour: checkEvents.dataInicio
+          ? dayjs(checkEvents.dataInicio).format('HH:mm')
           : '',
-        eventEndDate: checkEvents.data_fim
-          ? dayjs(checkEvents.data_fim).format('YYYY-MM-DD')
+        eventEndDate: checkEvents.dataFim
+          ? dayjs(checkEvents.dataFim).format('YYYY-MM-DD')
           : '',
-        eventEndHour: checkEvents.data_fim
-          ? dayjs(checkEvents.data_fim).format('HH:mm')
+        eventEndHour: checkEvents.dataFim
+          ? dayjs(checkEvents.dataFim).format('HH:mm')
           : '',
       });
     } else if (checkSteps) {

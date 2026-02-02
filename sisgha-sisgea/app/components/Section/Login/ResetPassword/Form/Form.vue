@@ -31,7 +31,7 @@ const {
   data: canRecoverPassword,
 } = useMutation({
   mutationFn: (email: string) =>
-    apiClient.autenticacao.authRecoverPassword({
+    apiClient.autenticacao.autenticacaoRequestPasswordReset({
       requestBody: { email },
     }),
 });

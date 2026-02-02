@@ -47,9 +47,11 @@ async function loadCalendars() {
     const campusId = selectedCampusGlobalState.value;
     if (!campusId) return;
 
-    const res = await getApiClient().calendariosLetivos.calendarioLetivoList({
-      filterCampusId: [campusId],
-    });
+    const res = await getApiClient().calendariosLetivos.calendarioLetivoFindAll(
+      {
+        filterCampusId: [campusId],
+      }
+    );
 
     const data = res.data || [];
 
@@ -119,7 +121,7 @@ function handleCancelDelete() {
 
 onMounted(async () => {
   try {
-    const res = await getApiClient().calendariosLetivos.calendarioLetivoList(
+    const res = await getApiClient().calendariosLetivos.calendarioLetivoFindAll(
       {}
     );
     const data = res.data || [];

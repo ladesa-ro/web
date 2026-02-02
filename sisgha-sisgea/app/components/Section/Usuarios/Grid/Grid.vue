@@ -2,9 +2,10 @@
 type Props = {
   searchBarText?: string;
   itemsLink?: string;
+  editButton?: boolean;
 };
 
-const { searchBarText } = defineProps<Props>();
+const { searchBarText, editButton = true } = defineProps<Props>();
 
 //
 
@@ -14,7 +15,6 @@ const {
 
 const queries = computed(() => ({ search: searchBarText }));
 
-// TODO: adicionar opção para filtrar para ter apenas professores
 const {
   data: { items: users },
   methods: { suspend },
@@ -30,6 +30,7 @@ await suspend();
       :key="user.id"
       :usuario="user"
       :link="itemsLink"
+      :editButton="editButton"
     />
   </div>
 </template>

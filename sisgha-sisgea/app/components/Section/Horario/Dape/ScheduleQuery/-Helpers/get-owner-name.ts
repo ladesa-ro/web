@@ -1,11 +1,11 @@
 import type {
-  Ladesa_ManagementService_Domain_Contracts_TurmaFindOneOutput as TurmaFindOneOutput,
-  Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput,
-} from '@ladesa-ro/management-service-client';
+  TurmaFindOneOutputDto,
+  UsuarioFindOneOutputDto,
+} from '~/helpers/api-client';
 
 type ScheduleOwner =
-  | Ref<TurmaFindOneOutput, TurmaFindOneOutput>
-  | Ref<UsuarioFindOneOutput, UsuarioFindOneOutput>
+  | Ref<TurmaFindOneOutputDto, TurmaFindOneOutputDto>
+  | Ref<UsuarioFindOneOutputDto, UsuarioFindOneOutputDto>
   | Ref<undefined>;
 
 export const getOwnerName = (

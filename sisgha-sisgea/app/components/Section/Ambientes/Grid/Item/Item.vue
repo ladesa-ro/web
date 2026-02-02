@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { Ladesa_ManagementService_Domain_Contracts_AmbienteFindOneOutput as AmbienteFindOneOutput } from '@ladesa-ro/management-service-client';
 import AmbientesForm from '~/components/Section/Ambientes/Form/Form.vue';
+import type { AmbienteFindOneOutputDto } from '~/helpers/api-client';
 
 type Props = {
   isLoading?: boolean;
-  item?: AmbienteFindOneOutput | null;
+  item?: AmbienteFindOneOutputDto | null;
 };
 
 const { item: ambiente } = defineProps<Props>();

@@ -1,28 +1,28 @@
-import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
+import type * as ApiClientTypings from '~/helpers/api-client';
 import { withApiClient } from '~/utils/integrations/api/core/generic';
 import type { IGenericCrudModuleTypes } from '~/utils/integrations/generic-crud/IGenericCrudModuleTypes';
 
 export type IAmbientesApiModuleTypings = IGenericCrudModuleTypes<{
-  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_AmbienteFindOneOutput;
+  CompleteView: ApiClientTypings.AmbienteFindOneOutputDto;
 
   Create: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_AmbienteCreateInput;
+    Data: ApiClientTypings.AmbienteCreateInputDto;
     Result: ApiClientTypings.AmbienteCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_AmbienteFindOneOutput;
+    Result: ApiClientTypings.AmbienteFindOneOutputDto;
   };
 
   List: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_AmbienteListOutput;
-    Queries: ApiClientTypings.AmbienteListData;
-    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_AmbienteListOutput['data'][number];
+    Result: ApiClientTypings.AmbienteListOutputDto;
+    Queries: ApiClientTypings.AmbienteFindAllData;
+    ResultItem: ApiClientTypings.AmbienteListOutputDto['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_AmbienteUpdateInput;
-    Result: ApiClientTypings.AmbienteUpdateOneByIdResponse;
+    Data: ApiClientTypings.AmbienteUpdateInputDto;
+    Result: ApiClientTypings.AmbienteUpdateResponse;
   };
 }>;
 
@@ -41,18 +41,18 @@ export const createAmbientesCrudModule = withApiClient(apiClient => {
     list(data, contextCampiRef) {
       const contextCampi = unref(contextCampiRef);
 
-      return apiClient.ambientes.ambienteList({
+      return apiClient.ambientes.ambienteFindAll({
         ...data,
         filterBlocoCampusId: contextCampi ? [contextCampi] : undefined,
       });
     },
 
     getOne(id) {
-      return apiClient.ambientes.ambienteFindOneById({ id });
+      return apiClient.ambientes.ambienteFindById({ id });
     },
 
     updateOne(id, requestBody) {
-      return apiClient.ambientes.ambienteUpdateOneById({ id, requestBody });
+      return apiClient.ambientes.ambienteUpdate({ id, requestBody });
     },
 
     deleteOne(id) {

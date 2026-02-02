@@ -14,7 +14,7 @@ defineSlots<Slots>();
 
 //
 
-const { formOptions, options } = useUIApiListContext();
+const { formWithFilters, options } = useUIApiListContext();
 
 const {
   query,
@@ -22,7 +22,7 @@ const {
   suspense,
   paginationMeta,
   status: { isLoading, isFetching },
-} = useGenericCrudInfinityListQuery(options.crudModule)(formOptions);
+} = useGenericCrudInfinityListQuery(options.crudModule)(formWithFilters);
 
 type InfiniteScrollSide = 'start' | 'end' | 'both';
 type InfiniteScrollStatus = 'ok' | 'empty' | 'loading' | 'error';

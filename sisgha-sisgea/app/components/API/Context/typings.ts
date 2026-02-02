@@ -1,15 +1,15 @@
-import type {
-  Ladesa_ManagementService_Domain_Contracts_AuthWhoAmIOutput as AuthWhoAmIOutput,
-  Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput,
-} from '@ladesa-ro/management-service-client';
 import type { UseQueryReturnType } from '@tanstack/vue-query';
+import type {
+  AuthWhoAmIOutputDto,
+  UsuarioFindOneOutputDto,
+} from '~/helpers/api-client';
 import type { ResumoVinculos } from '../Vinculos/ResumirVinculos';
 
 export type DynamicWhoAmIResult<Strict extends boolean = true> =
-  AuthWhoAmIOutput & {
+  AuthWhoAmIOutputDto & {
     usuario: Strict extends true
-      ? AuthWhoAmIOutput
-      : UsuarioFindOneOutput | null;
+      ? AuthWhoAmIOutputDto
+      : UsuarioFindOneOutputDto | null;
   };
 
 export type IApiContext<

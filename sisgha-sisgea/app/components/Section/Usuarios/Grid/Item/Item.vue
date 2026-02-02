@@ -1,14 +1,15 @@
 <script lang="ts" setup>
-import type { Ladesa_ManagementService_Domain_Contracts_UsuarioFindOneOutput as UsuarioFindOneOutput } from '@ladesa-ro/management-service-client';
 import { useQuery } from '@tanstack/vue-query';
 import uniq from 'lodash/uniq';
+import type { UsuarioFindOneOutputDto } from '~/helpers/api-client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {
-  usuario: UsuarioFindOneOutput;
+  usuario: UsuarioFindOneOutputDto;
   link?: string;
+  editButton?: boolean;
 };
-const { usuario, link: linkProps } = defineProps<Props>();
+const { usuario, link: linkProps, editButton = true } = defineProps<Props>();
 
 let link = linkProps === undefined || linkProps === '' ? 'usuarios' : linkProps;
 
@@ -23,7 +24,7 @@ const { data: vinculosResponse } = useQuery({
     'usuarios::vinculos',
   ],
   queryFn: () => {
-    return useApiClient().perfis.perfilList({
+    return useApiClient().perfis.perfilFindAll({
       filterUsuarioId: [usuario.id],
       filterAtivo: ['true'],
     });
@@ -77,16 +78,13 @@ const profilePicureUrl = useApiImageRoute(
     :to="link + `/${usuario.id}`"
     @click.capture="handleCardClick"
   >
-    <UICard :src="profilePicureUrl" :title="usuario.nome" variant="block">
+    <UICard :src="profilePicureUrl" :title="usuario.nome ?? ''" variant="block">
       <template #fallbackIcon>
         <IconsUser class="w-1/3 2xl:w-1/4 text-ldsa-grey" />
       </template>
 
       <template #actions>
-        <SectionUsuariosModalsForm
-          v-if="link === 'usuarios'"
-          :editId="usuario.id"
-        />
+        <SectionUsuariosModalsForm v-if="editButton" :editId="usuario.id" />
         <IconsArrowAlt
           v-else
           class="w-4.5 rotate-180 mr-1 arrow-behaviour transition-transform"

@@ -47,7 +47,7 @@ export default NuxtAuthHandler({
           try {
             const apiClient = getApiClient();
 
-            const token = await apiClient.autenticacao.authLogin({
+            const token = await apiClient.autenticacao.autenticacaoLogin({
               requestBody: {
                 matriculaSiape: matriculaSiape,
                 senha: senha,

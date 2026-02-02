@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import CursosForm from '../../Form/Form.vue';
 
-import type { Ladesa_ManagementService_Domain_Contracts_CursoFindOneOutput as CursoFindOneOutput } from '@ladesa-ro/management-service-client';
+import type { CursoFindOneOutputDto } from '~/helpers/api-client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {
   isLoading?: boolean;
-  item?: CursoFindOneOutput | null;
+  item?: CursoFindOneOutputDto | null;
 };
 
 const props = defineProps<Props>();

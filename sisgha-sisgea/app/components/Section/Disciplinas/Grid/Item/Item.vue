@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import type { Ladesa_ManagementService_Domain_Contracts_DisciplinaFindOneOutput as DisciplinaFindOneOutput } from '@ladesa-ro/management-service-client';
+import type { DisciplinaFindOneOutputDto } from '~/helpers/api-client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 import DisciplinasForm from '../../Form/Form.vue';
 
 type Props = {
   isLoading?: boolean;
-  item?: DisciplinaFindOneOutput | null;
+  item?: DisciplinaFindOneOutputDto | null;
 };
 
 const props = defineProps<Props>();

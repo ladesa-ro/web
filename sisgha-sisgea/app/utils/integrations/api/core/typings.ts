@@ -35,10 +35,10 @@ export type IApiCoreListOutput<ResultItemDto = unknown> = {
     currentPage: number;
     totalPages: number;
 
-    sortBy: string[];
+    sortBy: [string, string][];
 
     search: string;
-    filter: unknown[];
+    filter?: Record<string, any>;
   };
 
   links?: {

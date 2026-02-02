@@ -1,28 +1,28 @@
-import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
+import type * as ApiClientTypings from '~/helpers/api-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type ICalendarioLetivoApiModuleTypings = {
-  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CalendarioLetivoFindOneInput;
+  CompleteView: ApiClientTypings.CalendarioLetivoFindOneInputDto;
 
   Create: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CalendarioLetivoCreateInput;
+    Data: ApiClientTypings.CalendarioLetivoCreateInputDto;
     Result: ApiClientTypings.CalendarioLetivoCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CalendarioLetivoFindOneOutput;
+    Result: ApiClientTypings.CalendarioLetivoFindOneOutputDto;
   };
 
   List: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CalendarioLetivoListOutput;
-    Queries: ApiClientTypings.CalendarioLetivoListData;
-    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CalendarioLetivoListOutput['data'][number];
+    Result: ApiClientTypings.CalendarioLetivoListOutputDto;
+    Queries: ApiClientTypings.CalendarioLetivoFindAllData;
+    ResultItem: ApiClientTypings.CalendarioLetivoListOutputDto['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CalendarioLetivoUpdateInput;
-    Result: ApiClientTypings.CalendarioLetivoUpdateOneByIdResponse;
+    Data: ApiClientTypings.CalendarioLetivoUpdateInputDto;
+    Result: ApiClientTypings.CalendarioLetivoUpdateResponse;
   };
 };
 
@@ -38,18 +38,18 @@ export const createCalendarioLetivoCrudModule = withApiClient(apiClient => {
 
     list(data, contextCampiRef) {
       const contextCampi = unref(contextCampiRef);
-      return apiClient.calendariosLetivos.calendarioLetivoList({
+      return apiClient.calendariosLetivos.calendarioLetivoFindAll({
         ...data,
         filterCampusId: contextCampi ? [contextCampi] : undefined,
       });
     },
 
     getOne(id) {
-      return apiClient.calendariosLetivos.calendarioLetivoFindOneById({ id });
+      return apiClient.calendariosLetivos.calendarioLetivoFindById({ id });
     },
 
     updateOne(id, requestBody) {
-      return apiClient.calendariosLetivos.calendarioLetivoUpdateOneById({
+      return apiClient.calendariosLetivos.calendarioLetivoUpdate({
         id,
         requestBody,
       });

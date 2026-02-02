@@ -1,28 +1,28 @@
-import type * as ApiClientTypings from '@ladesa-ro/management-service-client';
+import type * as ApiClientTypings from '~/helpers/api-client';
 import type { IGenericCrudModule } from '../../generic-crud';
 import { withApiClient } from '../core/generic';
 
 export type ICampusApiModuleTypings = {
-  CompleteView: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CampusFindOneOutput;
+  CompleteView: ApiClientTypings.CampusFindOneOutputDto;
 
   Create: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CampusCreateInput;
+    Data: ApiClientTypings.CampusCreateInputDto;
     Result: ApiClientTypings.CampusCreateResponse;
   };
 
   GetOne: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CampusFindOneOutput;
+    Result: ApiClientTypings.CampusFindOneOutputDto;
   };
 
   List: {
-    Result: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CampusListOutput;
-    Queries: ApiClientTypings.CampusListData;
-    ResultItem: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CampusListOutput['data'][number];
+    Result: ApiClientTypings.CampusListOutputDto;
+    Queries: ApiClientTypings.CampusFindAllData;
+    ResultItem: ApiClientTypings.CampusListOutputDto['data'][number];
   };
 
   Update: {
-    Data: ApiClientTypings.Ladesa_ManagementService_Domain_Contracts_CampusUpdateInput;
-    Result: ApiClientTypings.CampusUpdateOneByIdResponse;
+    Data: ApiClientTypings.CampusUpdateInputDto;
+    Result: ApiClientTypings.CampusUpdateResponse;
   };
 };
 
@@ -35,15 +35,18 @@ export const createCampiCrudModule = withApiClient(apiClient => {
     },
 
     list(data) {
-      return apiClient.campi.campusList(data);
+      return apiClient.campi.campusFindAll(data);
     },
 
     getOne(id) {
-      return apiClient.campi.campusFindOneById({ id });
+      return apiClient.campi.campusFindById({ id });
     },
 
     updateOne(id, requestBody) {
-      return apiClient.campi.campusUpdateOneById({ id, requestBody });
+      return apiClient.campi.campusUpdate({
+        id,
+        requestBody,
+      });
     },
 
     deleteOne(id) {
