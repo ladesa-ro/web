@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
-  namespace: ladesa
+  name: ladesa-ro-web
+  namespace: ladesa-ro-development
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web
+      app: ladesa-ro-web
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -16,16 +16,16 @@ spec:
   template:
     metadata:
       labels:
-        app: web
+        app: ladesa-ro-web
     spec:
       containers:
         - envFrom:
             - secretRef:
-                name: web-config
+                name: ladesa-ro-web-config
                 optional: false
           image: ghcr.io/ladesa-ro/web/web:development
           imagePullPolicy: Always
-          name: web
+          name: ladesa-ro-web
           ports:
             - containerPort: 3000
               name: web-port

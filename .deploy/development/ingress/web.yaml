@@ -1,17 +1,40 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: web-ingress
-  namespace: ladesa
+  name: ladesa-ro-web
+  namespace: ladesa-ro-development
 spec:
-  rules:
-    - host: dev.ladesa.com.br
-      http:
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: web
-                port:
-                  name: web-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ladesa-ro-web
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: ladesa-ro-web
+    spec:
+      containers:
+        - envFrom:
+            - secretRef:
+                name: ladesa-ro-web-config
+                optional: false
+          image: ghcr.io/ladesa-ro/web/web:development
+          imagePullPolicy: Always
+          name: ladesa-ro-web
+          ports:
+            - containerPort: 3000
+              name: web-port
+              protocol: TCP
+          resources:
+            limits:
+              cpu: "1"
+              memory: 1Gi
+            requests:
+              cpu: 50m
+              memory: 100Mi
+      restartPolicy: Always
