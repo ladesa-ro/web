@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
+  name: ladesa-ro-web
   labels:
-    app: web
-  namespace: ladesa
+    app: ladesa-ro-web
+  namespace: ladesa-ro-development
 spec:
   type: NodePort
   selector:
-    app: web
+    app: ladesa-ro-web
   ports:
     - name: web-service
       port: 80
