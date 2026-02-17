@@ -11,26 +11,17 @@ const { signOut, status } = useAuth();
 const handleAuthStatus = async () => {
   const statusRaw = unref(status);
 
-  switch (statusRaw) {
-    case 'authenticated': {
-      await signOut({ redirect: false });
-      break;
-    }
+  if (statusRaw === 'authenticated') {
+    await signOut();
   }
 
-  switch (statusRaw) {
-    case 'authenticated':
-    case 'unauthenticated': {
-      await callWithNuxt(app, () => navigateTo('/'));
-      break;
-    }
-  }
+  await callWithNuxt(app, () => navigateTo('/'));
 };
 
 watch(
   [isMounted, status],
-  ([isMounted]) => {
-    if (isMounted) {
+  ([mounted]) => {
+    if (mounted && unref(status) !== 'loading') {
       handleAuthStatus();
     }
   },

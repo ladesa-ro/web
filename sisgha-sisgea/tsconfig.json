@@ -3,9 +3,6 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "lib": ["ESNext", "dom"],
-    "types": ["reflect-metadata"],
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
 
     "strictFunctionTypes": true,
     "strictNullChecks": true,
