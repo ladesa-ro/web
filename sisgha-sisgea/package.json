@@ -20,27 +20,21 @@
     "@atlaskit/pragmatic-drag-and-drop": "^1.7.4",
     "@atlaskit/pragmatic-drag-and-drop-auto-scroll": "^2.1.1",
     "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.1.0",
-    "@auth/core": "^0.40.0",
     "@ladesa-ro/management-service-client": "https://pkg.pr.new/ladesa-ro/management-service/@ladesa-ro/management-service-client@d81af30",
     "@nuxt/devtools": "3.1.1",
     "@nuxt/eslint": "^1.4.0",
     "@nuxtjs/color-mode": "^3.5.2",
-    "@sidebase/nuxt-auth": "1.0.0-alpha.0",
     "@tailwindcss/vite": "^4.1.7",
     "@tanstack/query-persist-client-core": "^5.76.1",
     "@tanstack/query-sync-storage-persister": "^5.76.1",
     "@tanstack/vue-query": "^5.76.0",
-    "@types/jsonwebtoken": "^9.0.9",
     "@types/lodash": "^4.17.16",
     "@vueuse/core": "^14.2.0",
     "dayjs": "^1.11.13",
-    "inversify": "^7.5.1",
-    "jsonwebtoken": "^9.0.2",
+    "jose": "^6.0.11",
     "nuxt": "^4.0.3",
-    "openid-client": "^6.5.0",
     "p-mutex": "^1.0.0",
     "p-queue": "^8.1.0",
-    "reflect-metadata": "^0.2.2",
     "reka-ui": "^2.2.1",
     "tailwindcss": "^4.1.7",
     "vee-validate": "^4.15.0",
@@ -58,9 +52,5 @@
     "typescript": "5.9.3",
     "vue-tsc": "3.2.4"
   },
-  "overrides": {
-    "@sidebase/nuxt-auth": {
-      "@auth/core": "$@auth/core"
-    }
-  }
+  "overrides": {}
 }

@@ -3,7 +3,7 @@ import { useAuthSignInCallbackUrl } from './useAuthSignInCallbackUrl';
 
 export const useAuthSignIn = () => {
   const app = useNuxtApp();
-  const { status } = useAuthState();
+  const { status, signIn } = useAuth();
 
   const callbackUrlRef = useAuthSignInCallbackUrl();
 
@@ -20,8 +20,6 @@ export const useAuthSignIn = () => {
     },
     { immediate: true }
   );
-
-  const { signIn } = useAuth();
 
   const credentials = reactive({
     username: '',
