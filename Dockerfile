@@ -1,5 +1,6 @@
 FROM node:25 AS base
-RUN npm install -g corepack
+RUN rm -rf /usr/local/bin/yarn /usr/local/bin/yarnpkg;
+RUN npm uninstall -g yarn pnpm && npm install -g corepack
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
