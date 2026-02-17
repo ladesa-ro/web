@@ -1,4 +1,5 @@
-FROM node:24 AS base
+FROM node:25 AS base
+RUN npm install -g corepack
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
