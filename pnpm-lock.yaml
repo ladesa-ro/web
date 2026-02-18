@@ -27,9 +27,6 @@ importers:
       '@atlaskit/pragmatic-drag-and-drop-hitbox':
         specifier: ^1.1.0
         version: 1.1.0
-      '@ladesa-ro/management-service-client':
-        specifier: https://pkg.pr.new/ladesa-ro/management-service/@ladesa-ro/management-service-client@d81af30
-        version: https://pkg.pr.new/ladesa-ro/management-service/@ladesa-ro/management-service-client@d81af30
       '@nuxt/devtools':
         specifier: 3.1.1
         version: 3.1.1(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.46.0)(yaml@2.8.2))(vue@3.5.27(typescript@5.9.3))
@@ -619,10 +616,6 @@ packages:
 
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
-
-  '@ladesa-ro/management-service-client@https://pkg.pr.new/ladesa-ro/management-service/@ladesa-ro/management-service-client@d81af30':
-    resolution: {tarball: https://pkg.pr.new/ladesa-ro/management-service/@ladesa-ro/management-service-client@d81af30}
-    version: 1.0.0-alpha
 
   '@mapbox/node-pre-gyp@2.0.3':
     resolution: {integrity: sha512-uwPAhccfFJlsfCxMYTwOdVfOz3xqyj8xYL3zJj8f0pb30tLohnnFPhLuqp4/qoEz8sNxe4SESZedcBojRefIzg==}
@@ -5234,8 +5227,6 @@ snapshots:
       - supports-color
 
   '@kwsites/promise-deferred@1.1.1': {}
-
-  '@ladesa-ro/management-service-client@https://pkg.pr.new/ladesa-ro/management-service/@ladesa-ro/management-service-client@d81af30': {}
 
   '@mapbox/node-pre-gyp@2.0.3':
     dependencies:
