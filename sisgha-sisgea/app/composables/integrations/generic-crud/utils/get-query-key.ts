@@ -28,11 +28,13 @@ export function getQueryKeyForCrudModuleList<
   Types extends IGenericCrudModuleTypesBase,
 >(
   crudModule: IGenericCrudModule<Types>,
-  searchOptions: MaybeRef<Types['List']['Queries']>
+  searchOptions: MaybeRef<Types['List']['Queries']>,
+  contextCampi: MaybeRef<string | null> = null,
 ) {
   return computed(() => [
     ...crudModule.baseQueryKeys,
     'queries@list',
     JSON.stringify(unref(searchOptions)),
+    contextCampi,
   ]);
 }

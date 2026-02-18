@@ -15,12 +15,16 @@ export const useGenericCrudInfinityListQuery = <
   return (searchOptions: MaybeRef<SearchOptions>) => {
     const contextCampi = useCampusContext();
 
-    const queryKey = getQueryKeyForCrudModuleList(crudModule, searchOptions);
+    const queryKey = getQueryKeyForCrudModuleList(
+      crudModule,
+      searchOptions,
+      contextCampi
+    );
 
     const query = useInfiniteQuery({
       initialPageParam: 1,
 
-      queryKey: [queryKey, contextCampi],
+      queryKey: queryKey,
 
       queryFn: async ({ pageParam }) => {
         const data = unref(searchOptions);
