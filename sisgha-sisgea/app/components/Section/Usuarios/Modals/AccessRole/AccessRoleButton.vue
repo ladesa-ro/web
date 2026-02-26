@@ -6,16 +6,12 @@ type Props = {
 };
 
 const { to } = defineProps<Props>();
-
-const pointerdownHandle = () => useRouter().push(to);
 </script>
 
 <template>
   <nuxt-link
     :class="{ active }"
     :to="to"
-    @click.prevent
-    @pointerdown="pointerdownHandle"
     class="flex flex-col justify-end items-center gap-2 w-24 h-28 sm:w-28 sm:h-36 py-7 sm:py-8 border-2 rounded-lg border-ldsa-grey/50 text-center font-semibold max-sm:text-sm"
   >
     <!-- icon -->
