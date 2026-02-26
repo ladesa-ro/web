@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { IconsExclude, SectionCalendarioForm } from '#components';
 import IconCompleteCalendar from '@/components/Icons/Calendar/CompleteCalendar.vue';
 import IconPartialCalendar from '@/components/Icons/Calendar/PartialCalendar.vue';
 import dayjs from 'dayjs';
-import { ref } from 'vue';
 import { useToast } from '~/composables/useToast';
 import { calendarDataMethods } from './CalendarDataMethods';
 import type { CalendarData } from './Types';
+
+// TODO: diferenciar calendario do prof e do dape por meio das permissoes
 
 const emit = defineEmits<{ (e: 'refresh'): void }>();
 
@@ -167,23 +167,33 @@ watch(selectedCampusGlobalState, () => {
   selectedCalendarId.value = null;
   selectedCalendar.value = null;
 });
+
+watch(selectedYear, () => {
+  if (selectedYear.value > dayjs().year()) {
+    selectedYear.value = dayjs().year();
+  }
+});
 </script>
 
 <template>
   <UIContainer>
     <!-- Menu -->
     <div class="flex w-full justify-between items-center gap-2 mb-4">
-      <div class="flex gap-2">
-        <div class="flex max-w-[17%] min-w-[17%]">
+      <div class="flex gap-3.5 flex-1">
+        <div class="w-30">
           <VVTextField
             v-model="selectedYear"
             name="calendarYear"
             type="number"
+            min="2000"
+            :max="dayjs().year()"
             label="Ano Letivo"
-            placeholder="Digite aqui"
+            :placeholder="'Ex: ' + dayjs().year()"
           />
         </div>
+
         <VVAutocompleteAPIOfertaFormacao
+          class="flex-1"
           name="trainingOffer"
           label="Formação"
           v-model="selectedTrainingOffer"
@@ -193,6 +203,7 @@ watch(selectedCampusGlobalState, () => {
         />
 
         <VVAutocompleteAPICalendarioLetivo
+          class="flex-1"
           name="selectedCalendar"
           label="Calendário"
           :disabled="isCalendarDisabled"
@@ -200,10 +211,28 @@ watch(selectedCampusGlobalState, () => {
           :filter="{ ofertaFormacaoId: selectedTrainingOffer ?? undefined }"
           @update:model-value="toggleSelectedCalendarItem"
         />
-      </div>
 
-      <div class="flex gap-2">
-        <DialogModalEditOrCreateModal
+        <UIButtonDefaultSquare class="">
+          <IconsSearch class="w-5 h-5" />
+        </UIButtonDefaultSquare>
+
+        <UIPopover>
+          <template #activator>
+            <UIButtonDefaultSquare class="">
+              <IconsAdd class="w-6 h-5" />
+            </UIButtonDefaultSquare>
+          </template>
+
+          <div
+            class="flex flex-col border-2 border-ldsa-grey rounded-lg p-4 bg-ldsa-bg mt-2"
+          >
+            <UITitle text="Gestão de..." variant="mini" />
+
+            <!-- <NuxtLink></NuxtLink> -->
+          </div>
+        </UIPopover>
+
+        <!-- <DialogModalEditOrCreateModal
           :form-component="SectionCalendarioForm"
           :form-props="
             selectedCalendar
@@ -211,35 +240,43 @@ watch(selectedCampusGlobalState, () => {
               : { campusId: selectedCampusGlobalState }
           "
           @refresh="$emit('refresh')"
-        />
+        /> -->
+      </div>
 
-        <UIButtonDefaultSquare
+      <!-- <UIButtonDefaultSquare
           class="flex border-2 border-ldsa-red justify-center items-center rounded-lg bg-ldsa-red"
           v-if="selectedCalendar"
           @click="apagarCalendario"
           @refresh="$emit('refresh')"
         >
           <IconsExclude class="w-5 h-5" />
-        </UIButtonDefaultSquare>
-      </div>
+        </UIButtonDefaultSquare> -->
     </div>
 
-    <DialogConfirm
+    <!-- <DialogConfirm
       v-model="showDeleteModal"
       message="Tem certeza que deseja apagar este calendário?"
       @confirm="handleConfirmDelete"
       @update:modelValue="val => !val && handleCancelDelete()"
-    />
+    /> -->
 
     <!-- Content -->
-    <div
-      v-if="selectedCalendar"
-      :key="selectedCalendar.id"
-      class="flex flex-col w-full justify-between items-center gap-2"
-      v-show="selectedCalendar.year === selectedYear"
-    >
-      <UIToggle :items="toggleItems" v-model="toggleView" class="w-full" />
-      <SectionCalendarioViewsType1
+
+    <!-- v-if="selectedCalendar" -->
+    <!-- :key="selectedCalendar.id" -->
+    <!-- v-show="selectedCalendar.year === selectedYear" -->
+    <div class="flex flex-1 gap-3.5">
+      <UIToggle
+        v-model="toggleView"
+        :disabled="!selectedCalendar"
+        :items="toggleItems"
+        class="w-full"
+      />
+
+      <UIButtonDefaultSquare class="">
+        <IconsSearch class="w-5 h-full" />
+      </UIButtonDefaultSquare>
+      <!-- <SectionCalendarioViewsType1
         v-if="selectedCalendar && toggleView === 0"
         :calendar-data="selectedCalendar"
       />
@@ -248,7 +285,7 @@ watch(selectedCampusGlobalState, () => {
         :calendar-data="selectedCalendar"
         :calendar-id="selectedCalendar.id"
         :year="selectedCalendar.year || 0"
-      />
+      /> -->
     </div>
   </UIContainer>
 </template>

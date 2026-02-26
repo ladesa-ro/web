@@ -56,7 +56,7 @@ onClickOutside(
       <Content
         ref="content"
         :class="[
-          'z-[21] shadow-lg text-ldsa-text-default',
+          'z-21 shadow-lg text-ldsa-text-default',
           !disableAnimation && 'popover-content',
         ]"
         side="bottom"
