@@ -262,11 +262,6 @@ watch(selectedYear, () => {
         class="w-full"
       />
 
-      <NuxtLink to="dias-nao-letivos">
-        <UIButtonDefaultSquare>
-          <IconsCalendarX class="w-5.5 h-full" />
-        </UIButtonDefaultSquare>
-      </NuxtLink>
       <!-- <SectionCalendarioViewsType1
         v-if="selectedCalendar && toggleView === 0"
         :calendar-data="selectedCalendar"

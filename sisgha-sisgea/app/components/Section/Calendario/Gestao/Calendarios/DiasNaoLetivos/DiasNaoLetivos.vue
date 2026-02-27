@@ -21,7 +21,7 @@ const toggleView = ref('mes');
 <template>
   <UIContainer>
     <nav class="flex justify-between items-center">
-      <UITitleWithGoBack to="./" text="Dias não letivos" />
+      <UITitleWithGoBack to="." text="Dias não letivos" />
 
       <!-- add EditOrCreateModal aqui -->
       <UIButtonDefaultSquare>

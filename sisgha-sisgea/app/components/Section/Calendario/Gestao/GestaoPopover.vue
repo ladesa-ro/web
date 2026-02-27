@@ -16,7 +16,7 @@ const open = ref(false);
       <UITitle text="Gestão de..." variant="mini" />
 
       <div class="flex gap-4">
-        <NuxtLink to="./gestao-calendarios" class="link">
+        <NuxtLink to="./gestao-calendarios/" class="link">
           <IconsCalendar class="w-8 h-8 text-ldsa-text-default icon" />
           Calendários
         </NuxtLink>
