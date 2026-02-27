@@ -38,7 +38,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
       type: 'link',
       title: 'Calendário',
       icon: Calendar,
-      to: `${CAMINHO_DAPE}/calendario`,
+      to: `${CAMINHO_DAPE}/calendario/`,
       exact: false,
     },
 
