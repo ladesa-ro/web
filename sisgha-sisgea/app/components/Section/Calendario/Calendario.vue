@@ -4,6 +4,7 @@ import IconPartialCalendar from '@/components/Icons/Calendar/PartialCalendar.vue
 import dayjs from 'dayjs';
 import { useToast } from '~/composables/useToast';
 import { calendarDataMethods } from './CalendarDataMethods';
+import GestaoPopover from './Gestao/GestaoPopover.vue';
 import type { CalendarData } from './Types';
 
 // TODO: diferenciar calendario do prof e do dape por meio das permissoes
@@ -179,13 +180,13 @@ watch(selectedYear, () => {
   <UIContainer>
     <!-- Menu -->
     <div class="flex w-full justify-between items-center gap-2 mb-4">
-      <div class="flex gap-3.5 flex-1">
+      <div class="flex items-end gap-3.5 flex-1">
         <div class="w-30">
           <VVTextField
             v-model="selectedYear"
             name="calendarYear"
             type="number"
-            min="2000"
+            min="2020"
             :max="dayjs().year()"
             label="Ano Letivo"
             :placeholder="'Ex: ' + dayjs().year()"
@@ -193,44 +194,32 @@ watch(selectedYear, () => {
         </div>
 
         <VVAutocompleteAPIOfertaFormacao
+          v-model="selectedTrainingOffer"
           class="flex-1"
           name="trainingOffer"
           label="Formação"
-          v-model="selectedTrainingOffer"
           :filter="{
             campusId: selectedCampusGlobalState ?? undefined,
           }"
         />
 
         <VVAutocompleteAPICalendarioLetivo
-          class="flex-1"
+          v-model="selectedCalendarId"
           name="selectedCalendar"
           label="Calendário"
+          class="flex-1"
           :disabled="isCalendarDisabled"
-          v-model="selectedCalendarId"
           :filter="{ ofertaFormacaoId: selectedTrainingOffer ?? undefined }"
           @update:model-value="toggleSelectedCalendarItem"
         />
 
-        <UIButtonDefaultSquare class="">
+        <UIButtonDefaultSquare
+          :disabled="!selectedTrainingOffer || !selectedCalendarId"
+        >
           <IconsSearch class="w-5 h-5" />
         </UIButtonDefaultSquare>
 
-        <UIPopover>
-          <template #activator>
-            <UIButtonDefaultSquare class="">
-              <IconsAdd class="w-6 h-5" />
-            </UIButtonDefaultSquare>
-          </template>
-
-          <div
-            class="flex flex-col border-2 border-ldsa-grey rounded-lg p-4 bg-ldsa-bg mt-2"
-          >
-            <UITitle text="Gestão de..." variant="mini" />
-
-            <!-- <NuxtLink></NuxtLink> -->
-          </div>
-        </UIPopover>
+        <GestaoPopover />
 
         <!-- <DialogModalEditOrCreateModal
           :form-component="SectionCalendarioForm"
@@ -273,9 +262,11 @@ watch(selectedYear, () => {
         class="w-full"
       />
 
-      <UIButtonDefaultSquare class="">
-        <IconsSearch class="w-5 h-full" />
-      </UIButtonDefaultSquare>
+      <NuxtLink to="dias-nao-letivos">
+        <UIButtonDefaultSquare>
+          <IconsCalendarX class="w-5.5 h-full" />
+        </UIButtonDefaultSquare>
+      </NuxtLink>
       <!-- <SectionCalendarioViewsType1
         v-if="selectedCalendar && toggleView === 0"
         :calendar-data="selectedCalendar"
@@ -286,6 +277,17 @@ watch(selectedYear, () => {
         :calendar-id="selectedCalendar.id"
         :year="selectedCalendar.year || 0"
       /> -->
+    </div>
+
+    <div
+      v-if="!selectedTrainingOffer || !selectedCalendarId"
+      class="flex flex-col justify-center items-center gap-5 mt-15"
+    >
+      <UIContentStateEmpty class="dark:saturate-75 dark:opacity-50" />
+      <span class="text-ldsa-grey dark:contrast-0 text-center">
+        Selecione um calendário nos filtros acima para visualizar suas
+        informações.
+      </span>
     </div>
   </UIContainer>
 </template>
