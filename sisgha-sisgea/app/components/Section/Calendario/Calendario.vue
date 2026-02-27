@@ -7,7 +7,7 @@ import { calendarDataMethods } from './CalendarDataMethods';
 import GestaoPopover from './Gestao/GestaoPopover.vue';
 import type { CalendarData } from './Types';
 
-// TODO: diferenciar calendario do prof e do dape por meio das permissoes
+defineProps<{ dapeVisualization?: boolean }>();
 
 const emit = defineEmits<{ (e: 'refresh'): void }>();
 
@@ -219,7 +219,7 @@ watch(selectedYear, () => {
           <IconsSearch class="w-5 h-5" />
         </UIButtonDefaultSquare>
 
-        <GestaoPopover />
+        <GestaoPopover v-if="dapeVisualization" />
 
         <!-- <DialogModalEditOrCreateModal
           :form-component="SectionCalendarioForm"
