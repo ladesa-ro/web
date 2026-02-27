@@ -177,102 +177,71 @@ watch(selectedYear, () => {
 </script>
 
 <template>
-  <UIContainer>
+  <UIContainer class="flex flex-col gap-4">
     <!-- Menu -->
-    <div class="flex w-full justify-between items-center gap-2 mb-4">
-      <div class="flex items-end gap-3.5 flex-1">
-        <div class="w-30">
-          <VVTextField
-            v-model="selectedYear"
-            name="calendarYear"
-            type="number"
-            min="2020"
-            :max="dayjs().year()"
-            label="Ano Letivo"
-            :placeholder="'Ex: ' + dayjs().year()"
-          />
-        </div>
-
-        <VVAutocompleteAPIOfertaFormacao
-          v-model="selectedTrainingOffer"
-          class="flex-1"
-          name="trainingOffer"
-          label="Formação"
-          :filter="{
-            campusId: selectedCampusGlobalState ?? undefined,
-          }"
+    <div class="flex items-end gap-3.5 w-full">
+      <div class="w-30">
+        <VVTextField
+          v-model="selectedYear"
+          name="calendarYear"
+          type="number"
+          min="2020"
+          :max="dayjs().year()"
+          label="Ano Letivo"
+          :placeholder="'Ex: ' + dayjs().year()"
         />
-
-        <VVAutocompleteAPICalendarioLetivo
-          v-model="selectedCalendarId"
-          name="selectedCalendar"
-          label="Calendário"
-          class="flex-1"
-          :disabled="isCalendarDisabled"
-          :filter="{ ofertaFormacaoId: selectedTrainingOffer ?? undefined }"
-          @update:model-value="toggleSelectedCalendarItem"
-        />
-
-        <UIButtonDefaultSquare
-          :disabled="!selectedTrainingOffer || !selectedCalendarId"
-        >
-          <IconsSearch class="w-5 h-5" />
-        </UIButtonDefaultSquare>
-
-        <GestaoPopover v-if="dapeVisualization" />
-
-        <!-- <DialogModalEditOrCreateModal
-          :form-component="SectionCalendarioForm"
-          :form-props="
-            selectedCalendar
-              ? { calendarId: selectedCalendar.id }
-              : { campusId: selectedCampusGlobalState }
-          "
-          @refresh="$emit('refresh')"
-        /> -->
       </div>
 
-      <!-- <UIButtonDefaultSquare
-          class="flex border-2 border-ldsa-red justify-center items-center rounded-lg bg-ldsa-red"
-          v-if="selectedCalendar"
-          @click="apagarCalendario"
-          @refresh="$emit('refresh')"
-        >
-          <IconsExclude class="w-5 h-5" />
-        </UIButtonDefaultSquare> -->
-    </div>
-
-    <!-- <DialogConfirm
-      v-model="showDeleteModal"
-      message="Tem certeza que deseja apagar este calendário?"
-      @confirm="handleConfirmDelete"
-      @update:modelValue="val => !val && handleCancelDelete()"
-    /> -->
-
-    <!-- Content -->
-
-    <!-- v-if="selectedCalendar" -->
-    <!-- :key="selectedCalendar.id" -->
-    <!-- v-show="selectedCalendar.year === selectedYear" -->
-    <div class="flex flex-1 gap-3.5">
-      <UIToggle
-        v-model="toggleView"
-        :disabled="!selectedCalendar"
-        :items="toggleItems"
-        class="w-full"
+      <VVAutocompleteAPIOfertaFormacao
+        v-model="selectedTrainingOffer"
+        class="flex-1"
+        name="trainingOffer"
+        label="Formação"
+        :filter="{
+          campusId: selectedCampusGlobalState ?? undefined,
+        }"
       />
 
-      <!-- <SectionCalendarioViewsType1
+      <VVAutocompleteAPICalendarioLetivo
+        v-model="selectedCalendarId"
+        name="selectedCalendar"
+        label="Calendário"
+        class="flex-1"
+        :disabled="isCalendarDisabled"
+        :filter="{ ofertaFormacaoId: selectedTrainingOffer ?? undefined }"
+        @update:model-value="toggleSelectedCalendarItem"
+      />
+
+      <UIButtonDefaultSquare
+        :disabled="!selectedTrainingOffer || !selectedCalendarId"
+      >
+        <IconsSearch class="w-5 h-5" />
+      </UIButtonDefaultSquare>
+
+      <GestaoPopover v-if="dapeVisualization" />
+    </div>
+
+    <!-- Content -->
+    <UIToggle
+      v-model="toggleView"
+      :disabled="!selectedCalendar"
+      :items="toggleItems"
+      class="w-full"
+    />
+
+    <KeepAlive>
+      <SectionCalendarioViewsType1
         v-if="selectedCalendar && toggleView === 0"
         :calendar-data="selectedCalendar"
       />
-      <SectionCalendarioViewsType2
-        v-if="selectedCalendar && toggleView === 1"
-        :calendar-data="selectedCalendar"
-        :calendar-id="selectedCalendar.id"
-        :year="selectedCalendar.year || 0"
-      /> -->
-    </div>
+    </KeepAlive>
+
+    <SectionCalendarioViewsType2
+      v-if="selectedCalendar && toggleView === 1"
+      :calendar-data="selectedCalendar"
+      :calendar-id="selectedCalendar.id"
+      :year="selectedCalendar.year || 0"
+    />
 
     <div
       v-if="!selectedTrainingOffer || !selectedCalendarId"

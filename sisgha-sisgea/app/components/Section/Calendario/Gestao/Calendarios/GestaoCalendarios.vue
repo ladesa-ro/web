@@ -8,14 +8,26 @@ const selectedYear = ref(`${dayjs().year()}`);
 
 <template>
   <UIContainer class="flex flex-col gap-6">
-    <nav class="flex justify-between items-center">
+    <nav
+      class="flex max-md:flex-col items-start gap-3.5 md:justify-between md:items-center"
+    >
       <UITitleWithGoBack to="../" text="Gestão de Calendários Acadêmicos" />
 
-      <div class="flex gap-3.5">
-        <NuxtLink to="./dias-nao-letivos">
+      <div class="flex gap-3.5 max-md:w-full">
+        <NuxtLink to="./dias-nao-letivos" class="max-md:hidden">
           <UIButtonDefaultSquare>
             <IconsCalendarX class="w-6 h-full" />
           </UIButtonDefaultSquare>
+        </NuxtLink>
+
+        <NuxtLink to="./dias-nao-letivos" class="md:hidden w-full">
+          <UIButtonDefault :outline-on-clink="false" class="w-full!">
+            <template #start-icon>
+              <IconsCalendarX />
+            </template>
+
+            Dias não letivos
+          </UIButtonDefault>
         </NuxtLink>
 
         <!-- add EditOrCreateModal aqui -->
@@ -26,8 +38,8 @@ const selectedYear = ref(`${dayjs().year()}`);
     </nav>
 
     <div class="flex flex-col gap-3.5 -mt-1.5">
-      <div class="flex items-center gap-3.5">
-        <div class="w-30">
+      <div class="flex max-lg:flex-col lg:items-center gap-3.5">
+        <div class="w-full lg:w-30">
           <VVTextField
             v-model="selectedYear"
             name="calendarYear"

@@ -98,4 +98,4 @@ const turmasOptions = {
   </UIContainer>
 </template>
 
-<style scoped src="~/components/UI/API/List/Results/Grid/Grid.css"></style>
+<style scoped src="~/components/UI/API/List/Results/Grid/Grid.css" />

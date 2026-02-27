@@ -6,7 +6,7 @@
     <div class="flex-1 flex justify-between items-center">
       <div class="flex gap-2 items-center font-medium text-lg">
         <div class="rounded-full w-2.5 h-2.5 bg-amber-500" />
-        <h1 class="">Campus Party 2026</h1>
+        <h1>Campus Party 2026</h1>
       </div>
 
       <UIButtonEdit />
