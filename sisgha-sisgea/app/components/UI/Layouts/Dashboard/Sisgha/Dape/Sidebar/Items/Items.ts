@@ -90,6 +90,13 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
           to: `${CAMINHO_DAPE}/cursos`,
           exact: false,
         },
+        {
+          type: 'link',
+          title: 'Formações',
+          icon: Course,
+          to: `${CAMINHO_DAPE}/formacoes`,
+          exact: false,
+        },
       ],
     },
 

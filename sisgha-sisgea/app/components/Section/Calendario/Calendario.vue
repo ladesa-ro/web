@@ -183,11 +183,11 @@ watch(selectedYear, () => {
       <div class="w-30">
         <VVTextField
           v-model="selectedYear"
+          label="Ano Letivo"
           name="calendarYear"
           type="number"
           min="2020"
           :max="dayjs().year()"
-          label="Ano Letivo"
           :placeholder="'Ex: ' + dayjs().year()"
         />
       </div>
@@ -197,19 +197,10 @@ watch(selectedYear, () => {
         class="flex-1"
         name="trainingOffer"
         label="Formação"
+        :required="false"
         :filter="{
           campusId: selectedCampusGlobalState ?? undefined,
         }"
-      />
-
-      <VVAutocompleteAPICalendarioLetivo
-        v-model="selectedCalendarId"
-        name="selectedCalendar"
-        label="Calendário"
-        class="flex-1"
-        :disabled="isCalendarDisabled"
-        :filter="{ ofertaFormacaoId: selectedTrainingOffer ?? undefined }"
-        @update:model-value="toggleSelectedCalendarItem"
       />
 
       <UIButtonDefaultSquare

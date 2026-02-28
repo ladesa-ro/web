@@ -3,6 +3,7 @@ import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 
 type Props = {
   isLoading?: boolean;
+  required?: boolean;
   name: string;
 };
 
@@ -31,5 +32,6 @@ const options = createUIAutocompleteApiRetrieverOptions({
     label="Formação"
     placeholder="Selecione uma formação"
     v-bind="$attrs"
+    :required="required"
   />
 </template>

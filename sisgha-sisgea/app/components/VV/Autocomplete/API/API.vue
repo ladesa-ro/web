@@ -7,6 +7,7 @@ import type { IUIAutocompleteApiRetrieverOptions } from './-Base';
 type Props = {
   name: string;
   isLoading?: boolean;
+  required?: boolean;
   options: IUIAutocompleteApiRetrieverOptions<Typings>;
 };
 
@@ -14,9 +15,20 @@ const {
   name,
   isLoading: propIsLoading,
   options: apiRetrieverOptions,
+  required,
 } = defineProps<Props>();
 
-const { value } = useField(name);
+const { value } = useField(name, inputValue => {
+  if (!required) {
+    return true;
+  }
+
+  if (!inputValue) {
+    return false;
+  }
+
+  return true;
+});
 
 const { useListQuery, useFindOneQuery } = useGenericCrudComposables(
   apiRetrieverOptions.crudModule
