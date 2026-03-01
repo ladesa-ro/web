@@ -33,7 +33,7 @@ const { item: ofertaFormacao } = toRefs(props);
       </template>
 
       <UICardLine :text="`Abreviação: ${ofertaFormacao.slug}`" />
-      <UICardLine :text="`Modalidade: ${ofertaFormacao.modalidade}`" />
+      <UICardLine :text="`Modalidade: ${ofertaFormacao.modalidade.nome}`" />
     </UICard>
   </UICardAutoSkeleton>
 </template>

@@ -25,7 +25,7 @@ const removeEtapa = (index: number) => {
 <template>
   <div class="flex items-center gap-2.5">
     <h1 class="font-medium">Período {{ periodNumber }}</h1>
-    <div class="h-1 flex-1 bg-ldsa-grey" />
+    <div class="h-[2.5px] flex-1 bg-ldsa-grey" />
   </div>
 
   <form class="flex flex-col gap-5">
@@ -45,21 +45,22 @@ const removeEtapa = (index: number) => {
 
       <button
         v-if="index > 0"
-        @click="removeEtapa(index)"
+        type="button"
+        @click.prevent.stop="removeEtapa(index)"
         class="shrink-0 flex justify-center text-ldsa-red h-12 w-7 hover:bg-ldsa-red/10 rounded-sm"
         aria-label="Remover etapa"
-        type="button"
       >
         <IconsExclude class="w-5" />
       </button>
     </div>
 
     <button
-      class="border-2 border-ldsa-grey border-dashed rounded-lg py-3.5 flex items-center gap-1.5"
+      type="button"
+      class="border-2 border-ldsa-grey border-dashed rounded-lg py-3.5 flex justify-center items-center gap-1.5 hover:bg-ldsa-grey/10"
       @click="addEtapa()"
     >
       Adicionar etapa
-      <IconsAdd />
+      <IconsAdd class="w-3.5" />
     </button>
   </form>
 </template>

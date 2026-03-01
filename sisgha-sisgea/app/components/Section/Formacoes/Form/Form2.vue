@@ -14,11 +14,11 @@ const props = withDefaults(defineProps<Props>(), {
 
 const editIdRef = toRef(props, 'editId');
 
-const quantidadePeriodos = props.duracaoPerido / 12;
+const quantidadePeriodos = 12 / props.duracaoPerido;
 
 //
 
-const $emit = defineEmits(['close']);
+const $emit = defineEmits(['close', 'previous']);
 
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
@@ -43,12 +43,12 @@ await suspense();
       :key="periodo"
       :period-number="periodo"
     />
-    
-    <template #button-group>
-      <UIButtonModalGoBack />
 
-      <UIButtonModalEdit v-if="editId" />
-      <UIButtonModalSave v-else />
+    <template #button-group>
+      <UIButtonModalGoBack @click="$emit('previous')" />
+
+      <UIButtonModalEdit @click="$emit('close')" v-if="editId" />
+      <UIButtonModalSave @click="$emit('close')" v-else />
     </template>
   </DialogModalBaseLayout>
 </template>

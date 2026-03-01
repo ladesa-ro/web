@@ -37,7 +37,7 @@ const open = ref(false);
 
     <Portal>
       <Content
-        class="input-base-content w-(--reka-select-trigger-width)"
+        class="input-base-content w-(--reka-select-trigger-width) z-10000 py-2"
         position="popper"
       >
         <Viewport>

@@ -25,7 +25,7 @@ defineProps<Props>();
       <!-- title and actions -->
       <section class="w-full flex justify-between items-center mb-1">
         <!-- title -->
-        <h1 class="text-[1.063rem] font-semibold truncate">
+        <h1 class="font-semibold truncate">
           <slot name="title">{{ title ?? '-' }}</slot>
         </h1>
 

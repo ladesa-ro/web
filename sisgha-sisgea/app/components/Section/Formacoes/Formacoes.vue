@@ -14,11 +14,11 @@ const options = createApiListContextOptions({ crudModule });
     </template>
 
     <template #grid-item="{ item, isLoading }">
-      <SectionOfertasFormacaoGridItem :is-loading="isLoading" :item="item" />
+      <SectionFormacoesGridItem :is-loading="isLoading" :item="item" />
     </template>
 
     <template #grid-item-skeleton>
-      <SectionOfertasFormacaoGridItem :is-loading="true" :item="null" />
+      <SectionFormacoesGridItem :is-loading="true" :item="null" />
     </template>
   </UIAPIList>
 </template>

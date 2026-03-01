@@ -2,16 +2,30 @@
 import { useField } from 'vee-validate';
 import type { TextFieldProps } from '../UI/Form/-Utils/inputTypes';
 
-const props = defineProps<TextFieldProps>();
+const props = defineProps<TextFieldProps & { required?: boolean }>();
 
 const {
   errorMessage,
   handleBlur,
   value: modelValue,
-} = useField(props.name, undefined, {
-  initialValue: props.value ?? undefined,
-  validateOnValueUpdate: false,
-});
+} = useField(
+  props.name,
+  inputValue => {
+    if (!props.required) {
+      return true;
+    }
+
+    if (!inputValue) {
+      return false;
+    }
+
+    return true;
+  },
+  {
+    initialValue: props.value ?? undefined,
+    validateOnValueUpdate: false,
+  }
+);
 </script>
 
 <template>
