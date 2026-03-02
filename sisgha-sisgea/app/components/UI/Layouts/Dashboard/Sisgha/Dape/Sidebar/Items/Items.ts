@@ -1,5 +1,6 @@
 import Calendar from '~/components/Icons/Calendar/Calendar.vue';
 import Class from '~/components/Icons/Class.vue';
+import ClassTeacher from '~/components/Icons/ClassTeacher.vue';
 import Clock from '~/components/Icons/Clock.vue';
 import Course from '~/components/Icons/Course.vue';
 import Diary from '~/components/Icons/Diary.vue';
@@ -7,7 +8,8 @@ import Discipline from '~/components/Icons/Discipline.vue';
 import Home from '~/components/Icons/Home.vue';
 import Logout from '~/components/Icons/Logout.vue';
 import Management from '~/components/Icons/Management.vue';
-import Others from '~/components/Icons/Others.vue';
+import Report from '~/components/Icons/Report.vue';
+import School from '~/components/Icons/School.vue';
 import TeacherLesson from '~/components/Icons/TeacherLesson.vue';
 import User from '~/components/Icons/User.vue';
 import Users from '~/components/Icons/Users.vue';
@@ -74,7 +76,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
     {
       type: 'group',
       title: 'Ensino',
-      icon: Others,
+      icon: ClassTeacher,
       items: [
         {
           type: 'link',
@@ -93,7 +95,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
         {
           type: 'link',
           title: 'Formações',
-          icon: Course,
+          icon: School,
           to: `${CAMINHO_DAPE}/formacoes`,
           exact: false,
         },
@@ -103,7 +105,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
     {
       type: 'group',
       title: 'Relatórios',
-      icon: Others,
+      icon: Report,
       items: [
         {
           type: 'link',
