@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.28.4",
-    "@hey-api/openapi-ts": "^0.53.12",
+    "@hey-api/openapi-ts": "^0.93.1",
     "type-fest": "^5.4.4",
     "typescript": "5.9.3",
     "vue-tsc": "3.2.4"
