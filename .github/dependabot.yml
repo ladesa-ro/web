@@ -25,6 +25,8 @@ updates:
         applies-to: version-updates
         patterns:
           - '*'
+        exclude-patterns:
+          - '@hey-api/openapi-ts'
         update-types:
           - 'minor'
           - 'patch'
