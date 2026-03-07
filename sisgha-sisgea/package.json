@@ -33,7 +33,7 @@
     "jose": "^6.0.11",
     "nuxt": "^4.0.3",
     "p-mutex": "^1.0.0",
-    "p-queue": "^8.1.0",
+    "p-queue": "^9.1.0",
     "reka-ui": "^2.2.1",
     "tailwindcss": "^4.1.7",
     "vee-validate": "^4.15.0",
