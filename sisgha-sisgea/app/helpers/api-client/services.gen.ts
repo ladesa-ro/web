@@ -2,7 +2,7 @@
 
 import type { CancelablePromise } from './core/CancelablePromise';
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
-import type { AppControllerGetServiceInfoResponse, ModalidadeFindAllData, ModalidadeFindAllResponse, ModalidadeCreateData, ModalidadeCreateResponse, ModalidadeFindByIdData, ModalidadeFindByIdResponse, ModalidadeUpdateData, ModalidadeUpdateResponse, ModalidadeDeleteOneByIdData, ModalidadeDeleteOneByIdResponse, PerfilFindAllData, PerfilFindAllResponse, PerfilSetVinculosData, PerfilSetVinculosResponse, PerfilFindByIdData, PerfilFindByIdResponse, PerfilEnsinoByIdData, PerfilEnsinoByIdResponse, UsuarioFindAllData, UsuarioFindAllResponse, UsuarioCreateData, UsuarioCreateResponse, UsuarioFindByIdData, UsuarioFindByIdResponse, UsuarioUpdateData, UsuarioUpdateResponse, UsuarioDeleteOneByIdData, UsuarioDeleteOneByIdResponse, UsuarioEnsinoByIdData, UsuarioEnsinoByIdResponse, UsuarioGetImagemCapaData, UsuarioGetImagemCapaResponse, UsuarioUpdateImagemCapaData, UsuarioUpdateImagemCapaResponse, UsuarioGetImagemPerfilData, UsuarioGetImagemPerfilResponse, UsuarioUpdateImagemPerfilData, UsuarioUpdateImagemPerfilResponse, ArquivoFindByIdData, ArquivoFindByIdResponse, CampusFindAllData, CampusFindAllResponse, CampusCreateData, CampusCreateResponse, CampusFindByIdData, CampusFindByIdResponse, CampusUpdateData, CampusUpdateResponse, CampusDeleteOneByIdData, CampusDeleteOneByIdResponse, ProfessorIndisponibilidadeFindAllByPerfilIdData, ProfessorIndisponibilidadeFindAllByPerfilIdResponse, ProfessorIndisponibilidadeFindByIdData, ProfessorIndisponibilidadeFindByIdResponse, ProfessorIndisponibilidadeUpdateData, ProfessorIndisponibilidadeUpdateResponse, ProfessorIndisponibilidadeDeleteOneByIdData, ProfessorIndisponibilidadeDeleteOneByIdResponse, ProfessorIndisponibilidadeCreateData, ProfessorIndisponibilidadeCreateResponse, ProfessorIndisponibilidadeGetRruleData, ProfessorIndisponibilidadeGetRruleResponse, CursoFindAllData, CursoFindAllResponse, CursoCreateData, CursoCreateResponse, CursoFindByIdData, CursoFindByIdResponse, CursoUpdateData, CursoUpdateResponse, CursoDeleteOneByIdData, CursoDeleteOneByIdResponse, CursoGetImagemCapaData, CursoGetImagemCapaResponse, CursoUpdateImagemCapaData, CursoUpdateImagemCapaResponse, OfertaFormacaoFindAllData, OfertaFormacaoFindAllResponse, OfertaFormacaoCreateData, OfertaFormacaoCreateResponse, OfertaFormacaoFindByIdData, OfertaFormacaoFindByIdResponse, OfertaFormacaoUpdateData, OfertaFormacaoUpdateResponse, OfertaFormacaoDeleteOneByIdData, OfertaFormacaoDeleteOneByIdResponse, IntervaloDeTempoFindAllData, IntervaloDeTempoFindAllResponse, IntervaloDeTempoFindByIdData, IntervaloDeTempoFindByIdResponse, AulaFindAllData, AulaFindAllResponse, AulaCreateData, AulaCreateResponse, AulaFindByIdData, AulaFindByIdResponse, AulaUpdateData, AulaUpdateResponse, AulaDeleteOneByIdData, AulaDeleteOneByIdResponse, DiarioFindAllData, DiarioFindAllResponse, DiarioCreateData, DiarioCreateResponse, DiarioFindByIdData, DiarioFindByIdResponse, DiarioUpdateData, DiarioUpdateResponse, DiarioDeleteOneByIdData, DiarioDeleteOneByIdResponse, CalendarioLetivoFindAllData, CalendarioLetivoFindAllResponse, CalendarioLetivoCreateData, CalendarioLetivoCreateResponse, CalendarioLetivoFindByIdData, CalendarioLetivoFindByIdResponse, CalendarioLetivoUpdateData, CalendarioLetivoUpdateResponse, CalendarioLetivoDeleteOneByIdData, CalendarioLetivoDeleteOneByIdResponse, TurmaFindAllData, TurmaFindAllResponse, TurmaCreateData, TurmaCreateResponse, TurmaFindByIdData, TurmaFindByIdResponse, TurmaUpdateData, TurmaUpdateResponse, TurmaDeleteOneByIdData, TurmaDeleteOneByIdResponse, TurmaGetImagemCapaData, TurmaGetImagemCapaResponse, TurmaUpdateImagemCapaData, TurmaUpdateImagemCapaResponse, AmbienteFindAllData, AmbienteFindAllResponse, AmbienteCreateData, AmbienteCreateResponse, AmbienteFindByIdData, AmbienteFindByIdResponse, AmbienteUpdateData, AmbienteUpdateResponse, AmbienteDeleteOneByIdData, AmbienteDeleteOneByIdResponse, AmbienteGetImagemCapaData, AmbienteGetImagemCapaResponse, AmbienteUpdateImagemCapaData, AmbienteUpdateImagemCapaResponse, BlocoFindAllData, BlocoFindAllResponse, BlocoCreateData, BlocoCreateResponse, BlocoFindByIdData, BlocoFindByIdResponse, BlocoUpdateData, BlocoUpdateResponse, BlocoDeleteOneByIdData, BlocoDeleteOneByIdResponse, BlocoGetImagemCapaData, BlocoGetImagemCapaResponse, BlocoUpdateImagemCapaData, BlocoUpdateImagemCapaResponse, DisciplinaFindAllData, DisciplinaFindAllResponse, DisciplinaCreateData, DisciplinaCreateResponse, DisciplinaFindByIdData, DisciplinaFindByIdResponse, DisciplinaUpdateData, DisciplinaUpdateResponse, DisciplinaDeleteOneByIdData, DisciplinaDeleteOneByIdResponse, DisciplinaGetImagemCapaData, DisciplinaGetImagemCapaResponse, DisciplinaUpdateImagemCapaData, DisciplinaUpdateImagemCapaResponse, EventoFindAllData, EventoFindAllResponse, EventoCreateData, EventoCreateResponse, EventoFindByIdData, EventoFindByIdResponse, EventoUpdateData, EventoUpdateResponse, EventoDeleteOneByIdData, EventoDeleteOneByIdResponse, GradeHorarioOfertaFormacaoIntervaloDeTempoFindAllData, GradeHorarioOfertaFormacaoIntervaloDeTempoFindAllResponse, GradeHorarioOfertaFormacaoIntervaloDeTempoCreateData, GradeHorarioOfertaFormacaoIntervaloDeTempoCreateResponse, GradeHorarioOfertaFormacaoIntervaloDeTempoRestControllerFindByIdData, GradeHorarioOfertaFormacaoIntervaloDeTempoRestControllerFindByIdResponse, GradeHorarioOfertaFormacaoIntervaloDeTempoUpdateData, GradeHorarioOfertaFormacaoIntervaloDeTempoUpdateResponse, GradeHorarioOfertaFormacaoIntervaloDeTempoDeleteOneByIdData, GradeHorarioOfertaFormacaoIntervaloDeTempoDeleteOneByIdResponse, GradeHorarioOfertaFormacaoFindAllData, GradeHorarioOfertaFormacaoFindAllResponse, GradeHorarioOfertaFormacaoCreateData, GradeHorarioOfertaFormacaoCreateResponse, GradeHorarioOfertaFormacaoFindByIdData, GradeHorarioOfertaFormacaoFindByIdResponse, GradeHorarioOfertaFormacaoUpdateData, GradeHorarioOfertaFormacaoUpdateResponse, GradeHorarioOfertaFormacaoDeleteOneByIdData, GradeHorarioOfertaFormacaoDeleteOneByIdResponse, ReservaFindAllData, ReservaFindAllResponse, ReservaCreateData, ReservaCreateResponse, ReservaFindByIdData, ReservaFindByIdResponse, ReservaUpdateData, ReservaUpdateResponse, ReservaDeleteOneByIdData, ReservaDeleteOneByIdResponse, DisponibilidadeFindAllData, DisponibilidadeFindAllResponse, DisponibilidadeCreateData, DisponibilidadeCreateResponse, DisponibilidadeFindByIdData, DisponibilidadeFindByIdResponse, DisponibilidadeUpdateData, DisponibilidadeUpdateResponse, DisponibilidadeDeleteOneByIdData, DisponibilidadeDeleteOneByIdResponse, CidadeFindAllData, CidadeFindAllResponse, CidadeFindByIdData, CidadeFindByIdResponse, HorarioGeradoFindAllData, HorarioGeradoFindAllResponse, HorarioGeradoCreateData, HorarioGeradoCreateResponse, HorarioGeradoFindByIdData, HorarioGeradoFindByIdResponse, HorarioGeradoUpdateData, HorarioGeradoUpdateResponse, HorarioGeradoDeleteOneByIdData, HorarioGeradoDeleteOneByIdResponse, NivelFormacaoFindAllData, NivelFormacaoFindAllResponse, NivelFormacaoCreateData, NivelFormacaoCreateResponse, NivelFormacaoFindByIdData, NivelFormacaoFindByIdResponse, NivelFormacaoUpdateData, NivelFormacaoUpdateResponse, NivelFormacaoDeleteOneByIdData, NivelFormacaoDeleteOneByIdResponse, DiarioPreferenciaAgrupamentoFindAllData, DiarioPreferenciaAgrupamentoFindAllResponse, DiarioPreferenciaAgrupamentoCreateData, DiarioPreferenciaAgrupamentoCreateResponse, DiarioPreferenciaAgrupamentoFindByIdData, DiarioPreferenciaAgrupamentoFindByIdResponse, DiarioPreferenciaAgrupamentoUpdateData, DiarioPreferenciaAgrupamentoUpdateResponse, DiarioPreferenciaAgrupamentoDeleteOneByIdData, DiarioPreferenciaAgrupamentoDeleteOneByIdResponse, OfertaFormacaoNivelFormacaoFindAllData, OfertaFormacaoNivelFormacaoFindAllResponse, OfertaFormacaoNivelFormacaoCreateData, OfertaFormacaoNivelFormacaoCreateResponse, OfertaFormacaoNivelFormacaoFindByIdData, OfertaFormacaoNivelFormacaoFindByIdResponse, OfertaFormacaoNivelFormacaoUpdateData, OfertaFormacaoNivelFormacaoUpdateResponse, OfertaFormacaoNivelFormacaoDeleteOneByIdData, OfertaFormacaoNivelFormacaoDeleteOneByIdResponse, EtapaFindAllData, EtapaFindAllResponse, EtapaCreateData, EtapaCreateResponse, EtapaFindByIdData, EtapaFindByIdResponse, EtapaUpdateData, EtapaUpdateResponse, EtapaDeleteOneByIdData, EtapaDeleteOneByIdResponse, AutenticacaoWhoAmIensinoResponse, AutenticacaoWhoAmIResponse, AutenticacaoLoginData, AutenticacaoLoginResponse, AutenticacaoRefreshData, AutenticacaoRefreshResponse, AutenticacaoSetInitialPasswordData, AutenticacaoSetInitialPasswordResponse, AutenticacaoRequestPasswordResetData, AutenticacaoRequestPasswordResetResponse, DiaCalendarioFindAllData, DiaCalendarioFindAllResponse, DiaCalendarioCreateData, DiaCalendarioCreateResponse, DiaCalendarioFindByIdData, DiaCalendarioFindByIdResponse, DiaCalendarioUpdateData, DiaCalendarioUpdateResponse, DiaCalendarioDeleteOneByIdData, DiaCalendarioDeleteOneByIdResponse, EstadoFindAllData, EstadoFindAllResponse, EstadoFindByIdData, EstadoFindByIdResponse, TurmaDisponibilidadeFindAllData, TurmaDisponibilidadeFindAllResponse, TurmaDisponibilidadeCreateData, TurmaDisponibilidadeCreateResponse, TurmaDisponibilidadeFindByIdData, TurmaDisponibilidadeFindByIdResponse, TurmaDisponibilidadeUpdateData, TurmaDisponibilidadeUpdateResponse, TurmaDisponibilidadeDeleteOneByIdData, TurmaDisponibilidadeDeleteOneByIdResponse, HorarioGeradoAulaFindAllData, HorarioGeradoAulaFindAllResponse, HorarioGeradoAulaCreateData, HorarioGeradoAulaCreateResponse, HorarioGeradoAulaFindByIdData, HorarioGeradoAulaFindByIdResponse, HorarioGeradoAulaUpdateData, HorarioGeradoAulaUpdateResponse, HorarioGeradoAulaDeleteOneByIdData, HorarioGeradoAulaDeleteOneByIdResponse, DiarioProfessorFindAllData, DiarioProfessorFindAllResponse, DiarioProfessorCreateData, DiarioProfessorCreateResponse, DiarioProfessorFindByIdData, DiarioProfessorFindByIdResponse, DiarioProfessorUpdateData, DiarioProfessorUpdateResponse, DiarioProfessorDeleteOneByIdData, DiarioProfessorDeleteOneByIdResponse } from './types.gen';
+import type { AppControllerGetServiceInfoResponse, ModalidadeFindAllData, ModalidadeFindAllResponse, ModalidadeCreateData, ModalidadeCreateResponse, ModalidadeFindByIdData, ModalidadeFindByIdResponse, ModalidadeUpdateData, ModalidadeUpdateResponse, ModalidadeDeleteOneByIdData, ModalidadeDeleteOneByIdResponse, PerfilFindAllData, PerfilFindAllResponse, PerfilSetVinculosData, PerfilSetVinculosResponse, PerfilFindByIdData, PerfilFindByIdResponse, PerfilEnsinoByIdData, PerfilEnsinoByIdResponse, UsuarioFindAllData, UsuarioFindAllResponse, UsuarioCreateData, UsuarioCreateResponse, UsuarioFindByIdData, UsuarioFindByIdResponse, UsuarioUpdateData, UsuarioUpdateResponse, UsuarioDeleteOneByIdData, UsuarioDeleteOneByIdResponse, UsuarioEnsinoByIdData, UsuarioEnsinoByIdResponse, UsuarioGetImagemCapaData, UsuarioGetImagemCapaResponse, UsuarioUpdateImagemCapaData, UsuarioUpdateImagemCapaResponse, UsuarioGetImagemPerfilData, UsuarioGetImagemPerfilResponse, UsuarioUpdateImagemPerfilData, UsuarioUpdateImagemPerfilResponse, ArquivoFindByIdData, ArquivoFindByIdResponse, CampusFindAllData, CampusFindAllResponse, CampusCreateData, CampusCreateResponse, CampusFindByIdData, CampusFindByIdResponse, CampusUpdateData, CampusUpdateResponse, CampusDeleteOneByIdData, CampusDeleteOneByIdResponse, ProfessorIndisponibilidadeFindAllData, ProfessorIndisponibilidadeFindAllResponse, ProfessorIndisponibilidadeFindByIdData, ProfessorIndisponibilidadeFindByIdResponse, CursoFindAllData, CursoFindAllResponse, CursoCreateData, CursoCreateResponse, CursoFindByIdData, CursoFindByIdResponse, CursoUpdateData, CursoUpdateResponse, CursoDeleteOneByIdData, CursoDeleteOneByIdResponse, CursoGetImagemCapaData, CursoGetImagemCapaResponse, CursoUpdateImagemCapaData, CursoUpdateImagemCapaResponse, OfertaFormacaoFindAllData, OfertaFormacaoFindAllResponse, OfertaFormacaoCreateData, OfertaFormacaoCreateResponse, OfertaFormacaoFindByIdData, OfertaFormacaoFindByIdResponse, OfertaFormacaoUpdateData, OfertaFormacaoUpdateResponse, OfertaFormacaoDeleteOneByIdData, OfertaFormacaoDeleteOneByIdResponse, IntervaloDeTempoFindAllData, IntervaloDeTempoFindAllResponse, IntervaloDeTempoFindByIdData, IntervaloDeTempoFindByIdResponse, AulaFindAllData, AulaFindAllResponse, AulaCreateData, AulaCreateResponse, AulaFindByIdData, AulaFindByIdResponse, AulaUpdateData, AulaUpdateResponse, AulaDeleteOneByIdData, AulaDeleteOneByIdResponse, DiarioFindAllData, DiarioFindAllResponse, DiarioCreateData, DiarioCreateResponse, DiarioFindByIdData, DiarioFindByIdResponse, DiarioUpdateData, DiarioUpdateResponse, DiarioDeleteOneByIdData, DiarioDeleteOneByIdResponse, CalendarioLetivoFindAllData, CalendarioLetivoFindAllResponse, CalendarioLetivoCreateData, CalendarioLetivoCreateResponse, CalendarioLetivoFindByIdData, CalendarioLetivoFindByIdResponse, CalendarioLetivoUpdateData, CalendarioLetivoUpdateResponse, CalendarioLetivoDeleteOneByIdData, CalendarioLetivoDeleteOneByIdResponse, TurmaFindAllData, TurmaFindAllResponse, TurmaCreateData, TurmaCreateResponse, TurmaFindByIdData, TurmaFindByIdResponse, TurmaUpdateData, TurmaUpdateResponse, TurmaDeleteOneByIdData, TurmaDeleteOneByIdResponse, TurmaGetImagemCapaData, TurmaGetImagemCapaResponse, TurmaUpdateImagemCapaData, TurmaUpdateImagemCapaResponse, AmbienteFindAllData, AmbienteFindAllResponse, AmbienteCreateData, AmbienteCreateResponse, AmbienteFindByIdData, AmbienteFindByIdResponse, AmbienteUpdateData, AmbienteUpdateResponse, AmbienteDeleteOneByIdData, AmbienteDeleteOneByIdResponse, AmbienteGetImagemCapaData, AmbienteGetImagemCapaResponse, AmbienteUpdateImagemCapaData, AmbienteUpdateImagemCapaResponse, BlocoFindAllData, BlocoFindAllResponse, BlocoCreateData, BlocoCreateResponse, BlocoFindByIdData, BlocoFindByIdResponse, BlocoUpdateData, BlocoUpdateResponse, BlocoDeleteOneByIdData, BlocoDeleteOneByIdResponse, BlocoGetImagemCapaData, BlocoGetImagemCapaResponse, BlocoUpdateImagemCapaData, BlocoUpdateImagemCapaResponse, DisciplinaFindAllData, DisciplinaFindAllResponse, DisciplinaCreateData, DisciplinaCreateResponse, DisciplinaFindByIdData, DisciplinaFindByIdResponse, DisciplinaUpdateData, DisciplinaUpdateResponse, DisciplinaDeleteOneByIdData, DisciplinaDeleteOneByIdResponse, DisciplinaGetImagemCapaData, DisciplinaGetImagemCapaResponse, DisciplinaUpdateImagemCapaData, DisciplinaUpdateImagemCapaResponse, EventoFindAllData, EventoFindAllResponse, EventoCreateData, EventoCreateResponse, EventoFindByIdData, EventoFindByIdResponse, EventoUpdateData, EventoUpdateResponse, EventoDeleteOneByIdData, EventoDeleteOneByIdResponse, GradeHorarioOfertaFormacaoIntervaloDeTempoFindAllData, GradeHorarioOfertaFormacaoIntervaloDeTempoFindAllResponse, GradeHorarioOfertaFormacaoIntervaloDeTempoCreateData, GradeHorarioOfertaFormacaoIntervaloDeTempoCreateResponse, GradeHorarioOfertaFormacaoIntervaloDeTempoRestControllerFindByIdData, GradeHorarioOfertaFormacaoIntervaloDeTempoRestControllerFindByIdResponse, GradeHorarioOfertaFormacaoIntervaloDeTempoUpdateData, GradeHorarioOfertaFormacaoIntervaloDeTempoUpdateResponse, GradeHorarioOfertaFormacaoIntervaloDeTempoDeleteOneByIdData, GradeHorarioOfertaFormacaoIntervaloDeTempoDeleteOneByIdResponse, GradeHorarioOfertaFormacaoFindAllData, GradeHorarioOfertaFormacaoFindAllResponse, GradeHorarioOfertaFormacaoCreateData, GradeHorarioOfertaFormacaoCreateResponse, GradeHorarioOfertaFormacaoFindByIdData, GradeHorarioOfertaFormacaoFindByIdResponse, GradeHorarioOfertaFormacaoUpdateData, GradeHorarioOfertaFormacaoUpdateResponse, GradeHorarioOfertaFormacaoDeleteOneByIdData, GradeHorarioOfertaFormacaoDeleteOneByIdResponse, ReservaFindAllData, ReservaFindAllResponse, ReservaCreateData, ReservaCreateResponse, ReservaFindByIdData, ReservaFindByIdResponse, ReservaUpdateData, ReservaUpdateResponse, ReservaDeleteOneByIdData, ReservaDeleteOneByIdResponse, DisponibilidadeFindAllData, DisponibilidadeFindAllResponse, DisponibilidadeCreateData, DisponibilidadeCreateResponse, DisponibilidadeFindByIdData, DisponibilidadeFindByIdResponse, DisponibilidadeUpdateData, DisponibilidadeUpdateResponse, DisponibilidadeDeleteOneByIdData, DisponibilidadeDeleteOneByIdResponse, CidadeFindAllData, CidadeFindAllResponse, CidadeFindByIdData, CidadeFindByIdResponse, HorarioGeradoFindAllData, HorarioGeradoFindAllResponse, HorarioGeradoCreateData, HorarioGeradoCreateResponse, HorarioGeradoFindByIdData, HorarioGeradoFindByIdResponse, HorarioGeradoUpdateData, HorarioGeradoUpdateResponse, HorarioGeradoDeleteOneByIdData, HorarioGeradoDeleteOneByIdResponse, NivelFormacaoFindAllData, NivelFormacaoFindAllResponse, NivelFormacaoCreateData, NivelFormacaoCreateResponse, NivelFormacaoFindByIdData, NivelFormacaoFindByIdResponse, NivelFormacaoUpdateData, NivelFormacaoUpdateResponse, NivelFormacaoDeleteOneByIdData, NivelFormacaoDeleteOneByIdResponse, DiarioPreferenciaAgrupamentoFindAllData, DiarioPreferenciaAgrupamentoFindAllResponse, DiarioPreferenciaAgrupamentoCreateData, DiarioPreferenciaAgrupamentoCreateResponse, DiarioPreferenciaAgrupamentoFindByIdData, DiarioPreferenciaAgrupamentoFindByIdResponse, DiarioPreferenciaAgrupamentoUpdateData, DiarioPreferenciaAgrupamentoUpdateResponse, DiarioPreferenciaAgrupamentoDeleteOneByIdData, DiarioPreferenciaAgrupamentoDeleteOneByIdResponse, OfertaFormacaoNivelFormacaoFindAllData, OfertaFormacaoNivelFormacaoFindAllResponse, OfertaFormacaoNivelFormacaoCreateData, OfertaFormacaoNivelFormacaoCreateResponse, OfertaFormacaoNivelFormacaoFindByIdData, OfertaFormacaoNivelFormacaoFindByIdResponse, OfertaFormacaoNivelFormacaoUpdateData, OfertaFormacaoNivelFormacaoUpdateResponse, OfertaFormacaoNivelFormacaoDeleteOneByIdData, OfertaFormacaoNivelFormacaoDeleteOneByIdResponse, EtapaFindAllData, EtapaFindAllResponse, EtapaCreateData, EtapaCreateResponse, EtapaFindByIdData, EtapaFindByIdResponse, EtapaUpdateData, EtapaUpdateResponse, EtapaDeleteOneByIdData, EtapaDeleteOneByIdResponse, AutenticacaoWhoAmIensinoResponse, AutenticacaoWhoAmIResponse, AutenticacaoLoginData, AutenticacaoLoginResponse, AutenticacaoRefreshData, AutenticacaoRefreshResponse, AutenticacaoSetInitialPasswordData, AutenticacaoSetInitialPasswordResponse, AutenticacaoRequestPasswordResetData, AutenticacaoRequestPasswordResetResponse, GerarHorarioPocResponse, DiaCalendarioFindAllData, DiaCalendarioFindAllResponse, DiaCalendarioCreateData, DiaCalendarioCreateResponse, DiaCalendarioFindByIdData, DiaCalendarioFindByIdResponse, DiaCalendarioUpdateData, DiaCalendarioUpdateResponse, DiaCalendarioDeleteOneByIdData, DiaCalendarioDeleteOneByIdResponse, EstadoFindAllData, EstadoFindAllResponse, EstadoFindByIdData, EstadoFindByIdResponse, EmpresaFindAllData, EmpresaFindAllResponse, EmpresaCreateData, EmpresaCreateResponse, EmpresaFindByIdData, EmpresaFindByIdResponse, EmpresaUpdateData, EmpresaUpdateResponse, EmpresaDeleteData, EmpresaDeleteResponse, EstagiarioFindAllData, EstagiarioFindAllResponse, EstagiarioCreateData, EstagiarioCreateResponse, EstagiarioFindByIdData, EstagiarioFindByIdResponse, EstagiarioUpdateData, EstagiarioUpdateResponse, EstagiarioDeleteData, EstagiarioDeleteResponse, TurmaDisponibilidadeFindAllData, TurmaDisponibilidadeFindAllResponse, TurmaDisponibilidadeCreateData, TurmaDisponibilidadeCreateResponse, TurmaDisponibilidadeFindByIdData, TurmaDisponibilidadeFindByIdResponse, TurmaDisponibilidadeUpdateData, TurmaDisponibilidadeUpdateResponse, TurmaDisponibilidadeDeleteOneByIdData, TurmaDisponibilidadeDeleteOneByIdResponse, HorarioGeradoAulaFindAllData, HorarioGeradoAulaFindAllResponse, HorarioGeradoAulaCreateData, HorarioGeradoAulaCreateResponse, HorarioGeradoAulaFindByIdData, HorarioGeradoAulaFindByIdResponse, HorarioGeradoAulaUpdateData, HorarioGeradoAulaUpdateResponse, HorarioGeradoAulaDeleteOneByIdData, HorarioGeradoAulaDeleteOneByIdResponse, DiarioProfessorFindAllData, DiarioProfessorFindAllResponse, DiarioProfessorCreateData, DiarioProfessorCreateResponse, DiarioProfessorFindByIdData, DiarioProfessorFindByIdResponse, DiarioProfessorUpdateData, DiarioProfessorUpdateResponse, DiarioProfessorDeleteOneByIdData, DiarioProfessorDeleteOneByIdResponse } from './types.gen';
 
 export class SistemaService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
@@ -633,18 +633,28 @@ export class IndisponibilidadesProfessoresService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
     
     /**
-     * Lista indisponibilidades de um professor por perfil
+     * Lista indisponibilidades de professores
      * @param data The data for the request.
-     * @param data.idPerfilFk Identificador do perfil (uuid)
+     * @param data.page Pagina de consulta
+     * @param data.limit Limite da quantidade de resultados por pagina
+     * @param data.search Busca textual
+     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+     * @param data.selection Seleção de campos
+     * @param data.filterPerfilId Filtro por ID do perfil
      * @returns ProfessorIndisponibilidadeListOutputDto
      * @throws ApiError
      */
-    public professorIndisponibilidadeFindAllByPerfilId(data: ProfessorIndisponibilidadeFindAllByPerfilIdData): CancelablePromise<ProfessorIndisponibilidadeFindAllByPerfilIdResponse> {
+    public professorIndisponibilidadeFindAll(data: ProfessorIndisponibilidadeFindAllData = {}): CancelablePromise<ProfessorIndisponibilidadeFindAllResponse> {
         return this.httpRequest.request({
             method: 'GET',
-            url: '/indisponibilidades/list/{idPerfilFk}',
-            path: {
-                idPerfilFk: data.idPerfilFk
+            url: '/indisponibilidades',
+            query: {
+                page: data.page,
+                limit: data.limit,
+                search: data.search,
+                sortBy: data.sortBy,
+                selection: data.selection,
+                'filter.perfil.id': data.filterPerfilId
             },
             errors: {
                 403: ''
@@ -663,95 +673,6 @@ export class IndisponibilidadesProfessoresService {
         return this.httpRequest.request({
             method: 'GET',
             url: '/indisponibilidades/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza uma indisponibilidade de professor
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns ProfessorIndisponibilidadeFindOneOutputDto
-     * @throws ApiError
-     */
-    public professorIndisponibilidadeUpdate(data: ProfessorIndisponibilidadeUpdateData): CancelablePromise<ProfessorIndisponibilidadeUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/indisponibilidades/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove uma indisponibilidade de professor
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns ProfessorIndisponibilidadeFindOneOutputDto
-     * @throws ApiError
-     */
-    public professorIndisponibilidadeDeleteOneById(data: ProfessorIndisponibilidadeDeleteOneByIdData): CancelablePromise<ProfessorIndisponibilidadeDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/indisponibilidades/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria uma indisponibilidade de professor
-     * @param data The data for the request.
-     * @param data.idPerfil Identificador do perfil (uuid)
-     * @param data.requestBody
-     * @returns ProfessorIndisponibilidadeFindOneOutputDto
-     * @throws ApiError
-     */
-    public professorIndisponibilidadeCreate(data: ProfessorIndisponibilidadeCreateData): CancelablePromise<ProfessorIndisponibilidadeCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/indisponibilidades/{id_perfil}/create',
-            path: {
-                id_perfil: data.idPerfil
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca a RRULE de uma indisponibilidade de professor por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns ProfessorIndisponibilidadeRRuleOutputDto
-     * @throws ApiError
-     */
-    public professorIndisponibilidadeGetRrule(data: ProfessorIndisponibilidadeGetRruleData): CancelablePromise<ProfessorIndisponibilidadeGetRruleResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/indisponibilidades/rrule-indisponibilidade/{id}',
             path: {
                 id: data.id
             },
@@ -2311,7 +2232,7 @@ export class GradesHorariosOfertasFormacoesIntervalosDeTempoService {
      * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
      * @param data.selection Seleção de campos
      * @param data.filterId Filtro por ID
-     * @returns GradeHorarioOfertaFormacaoIntervaloDeTempoListOutputRestDto
+     * @returns GradeHorarioOfertaFormacaoIntervaloDeTempoListOutputDto
      * @throws ApiError
      */
     public gradeHorarioOfertaFormacaoIntervaloDeTempoFindAll(data: GradeHorarioOfertaFormacaoIntervaloDeTempoFindAllData = {}): CancelablePromise<GradeHorarioOfertaFormacaoIntervaloDeTempoFindAllResponse> {
@@ -2336,7 +2257,7 @@ export class GradesHorariosOfertasFormacoesIntervalosDeTempoService {
      * Cria uma grade horario de oferta de formacao intervalo de tempo
      * @param data The data for the request.
      * @param data.requestBody
-     * @returns GradeHorarioOfertaFormacaoIntervaloDeTempoFindOneOutputRestDto
+     * @returns GradeHorarioOfertaFormacaoIntervaloDeTempoFindOneOutputDto
      * @throws ApiError
      */
     public gradeHorarioOfertaFormacaoIntervaloDeTempoCreate(data: GradeHorarioOfertaFormacaoIntervaloDeTempoCreateData): CancelablePromise<GradeHorarioOfertaFormacaoIntervaloDeTempoCreateResponse> {
@@ -2355,7 +2276,7 @@ export class GradesHorariosOfertasFormacoesIntervalosDeTempoService {
      * Busca uma grade horario de oferta de formacao intervalo de tempo por ID
      * @param data The data for the request.
      * @param data.id Identificador do registro (uuid)
-     * @returns GradeHorarioOfertaFormacaoIntervaloDeTempoFindOneOutputRestDto
+     * @returns GradeHorarioOfertaFormacaoIntervaloDeTempoFindOneOutputDto
      * @throws ApiError
      */
     public gradeHorarioOfertaFormacaoIntervaloDeTempoRestControllerFindById(data: GradeHorarioOfertaFormacaoIntervaloDeTempoRestControllerFindByIdData): CancelablePromise<GradeHorarioOfertaFormacaoIntervaloDeTempoRestControllerFindByIdResponse> {
@@ -2377,7 +2298,7 @@ export class GradesHorariosOfertasFormacoesIntervalosDeTempoService {
      * @param data The data for the request.
      * @param data.id Identificador do registro (uuid)
      * @param data.requestBody
-     * @returns GradeHorarioOfertaFormacaoIntervaloDeTempoFindOneOutputRestDto
+     * @returns GradeHorarioOfertaFormacaoIntervaloDeTempoFindOneOutputDto
      * @throws ApiError
      */
     public gradeHorarioOfertaFormacaoIntervaloDeTempoUpdate(data: GradeHorarioOfertaFormacaoIntervaloDeTempoUpdateData): CancelablePromise<GradeHorarioOfertaFormacaoIntervaloDeTempoUpdateResponse> {
@@ -2866,7 +2787,7 @@ export class HorariosGeradosService {
      * @param data.filterCalendarioId Filtro por ID do Calendario
      * @param data.filterCalendarioNome Filtro por nome do Calendario
      * @param data.filterCalendarioAno Filtro por ano do Calendario
-     * @returns HorarioGeradoListOutputRestDto
+     * @returns HorarioGeradoListOutputDto
      * @throws ApiError
      */
     public horarioGeradoFindAll(data: HorarioGeradoFindAllData = {}): CancelablePromise<HorarioGeradoFindAllResponse> {
@@ -2894,7 +2815,7 @@ export class HorariosGeradosService {
      * Cria um horario gerado
      * @param data The data for the request.
      * @param data.requestBody
-     * @returns HorarioGeradoFindOneOutputRestDto
+     * @returns HorarioGeradoFindOneOutputDto
      * @throws ApiError
      */
     public horarioGeradoCreate(data: HorarioGeradoCreateData): CancelablePromise<HorarioGeradoCreateResponse> {
@@ -2913,7 +2834,7 @@ export class HorariosGeradosService {
      * Busca um horario gerado por ID
      * @param data The data for the request.
      * @param data.id Identificador do registro (uuid)
-     * @returns HorarioGeradoFindOneOutputRestDto
+     * @returns HorarioGeradoFindOneOutputDto
      * @throws ApiError
      */
     public horarioGeradoFindById(data: HorarioGeradoFindByIdData): CancelablePromise<HorarioGeradoFindByIdResponse> {
@@ -2935,7 +2856,7 @@ export class HorariosGeradosService {
      * @param data The data for the request.
      * @param data.id Identificador do registro (uuid)
      * @param data.requestBody
-     * @returns HorarioGeradoFindOneOutputRestDto
+     * @returns HorarioGeradoFindOneOutputDto
      * @throws ApiError
      */
     public horarioGeradoUpdate(data: HorarioGeradoUpdateData): CancelablePromise<HorarioGeradoUpdateResponse> {
@@ -3354,7 +3275,7 @@ export class EtapasService {
      * @param data.filterCalendarioId Filtro por ID do Calendario
      * @param data.filterCalendarioNome Filtro por nome do Calendario
      * @param data.filterCalendarioAno Filtro por ano do Calendario
-     * @returns EtapaListOutputRestDto
+     * @returns EtapaListOutputDto
      * @throws ApiError
      */
     public etapaFindAll(data: EtapaFindAllData = {}): CancelablePromise<EtapaFindAllResponse> {
@@ -3382,7 +3303,7 @@ export class EtapasService {
      * Cria uma etapa
      * @param data The data for the request.
      * @param data.requestBody
-     * @returns EtapaFindOneOutputRestDto
+     * @returns EtapaFindOneOutputDto
      * @throws ApiError
      */
     public etapaCreate(data: EtapaCreateData): CancelablePromise<EtapaCreateResponse> {
@@ -3401,7 +3322,7 @@ export class EtapasService {
      * Busca uma etapa por ID
      * @param data The data for the request.
      * @param data.id Identificador do registro (uuid)
-     * @returns EtapaFindOneOutputRestDto
+     * @returns EtapaFindOneOutputDto
      * @throws ApiError
      */
     public etapaFindById(data: EtapaFindByIdData): CancelablePromise<EtapaFindByIdResponse> {
@@ -3423,7 +3344,7 @@ export class EtapasService {
      * @param data The data for the request.
      * @param data.id Identificador do registro (uuid)
      * @param data.requestBody
-     * @returns EtapaFindOneOutputRestDto
+     * @returns EtapaFindOneOutputDto
      * @throws ApiError
      */
     public etapaUpdate(data: EtapaUpdateData): CancelablePromise<EtapaUpdateResponse> {
@@ -3572,6 +3493,23 @@ export class AutenticacaoService {
             errors: {
                 403: ''
             }
+        });
+    }
+    
+}
+
+export class GerarHorarioService {
+    constructor(public readonly httpRequest: BaseHttpRequest) { }
+    
+    /**
+     * POC: Publica na queue dev.timetable_generate.request e aguarda resposta em dev.timetable_generate.response
+     * @returns unknown Resposta do gerador de horário
+     * @throws ApiError
+     */
+    public gerarHorarioPoc(): CancelablePromise<GerarHorarioPocResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/gerar-horario/poc'
         });
     }
     
@@ -3759,6 +3697,254 @@ export class EstadosService {
     
 }
 
+export class EmpresasService {
+    constructor(public readonly httpRequest: BaseHttpRequest) { }
+    
+    /**
+     * Lista empresas
+     * @param data The data for the request.
+     * @param data.page Pagina de consulta
+     * @param data.limit Limite da quantidade de resultados por pagina
+     * @param data.search Busca textual
+     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+     * @param data.selection Seleção de campos
+     * @param data.filterCnpj Filtro por CNPJ (string ou array)
+     * @param data.filterNomeFantasia Filtro por nome fantasia (string ou array)
+     * @param data.filterIdEnderecoFk Filtro por ID de endereço (string ou array)
+     * @returns EmpresaListOutputDto
+     * @throws ApiError
+     */
+    public empresaFindAll(data: EmpresaFindAllData = {}): CancelablePromise<EmpresaFindAllResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/empresas',
+            query: {
+                page: data.page,
+                limit: data.limit,
+                search: data.search,
+                sortBy: data.sortBy,
+                selection: data.selection,
+                'filter.cnpj': data.filterCnpj,
+                'filter.nomeFantasia': data.filterNomeFantasia,
+                'filter.idEnderecoFk': data.filterIdEnderecoFk
+            },
+            errors: {
+                403: ''
+            }
+        });
+    }
+    
+    /**
+     * Cria uma empresa
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns EmpresaFindOneOutputDto
+     * @throws ApiError
+     */
+    public empresaCreate(data: EmpresaCreateData): CancelablePromise<EmpresaCreateResponse> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/empresas',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                403: ''
+            }
+        });
+    }
+    
+    /**
+     * Busca uma empresa por ID
+     * @param data The data for the request.
+     * @param data.id Identificador do registro (uuid)
+     * @returns EmpresaFindOneOutputDto
+     * @throws ApiError
+     */
+    public empresaFindById(data: EmpresaFindByIdData): CancelablePromise<EmpresaFindByIdResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/empresas/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                403: '',
+                404: ''
+            }
+        });
+    }
+    
+    /**
+     * Atualiza uma empresa
+     * @param data The data for the request.
+     * @param data.id Identificador do registro (uuid)
+     * @param data.requestBody
+     * @returns EmpresaFindOneOutputDto
+     * @throws ApiError
+     */
+    public empresaUpdate(data: EmpresaUpdateData): CancelablePromise<EmpresaUpdateResponse> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/empresas/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                403: '',
+                404: ''
+            }
+        });
+    }
+    
+    /**
+     * Deleta uma empresa
+     * @param data The data for the request.
+     * @param data.id Identificador do registro (uuid)
+     * @returns unknown Empresa deletada com sucesso
+     * @throws ApiError
+     */
+    public empresaDelete(data: EmpresaDeleteData): CancelablePromise<EmpresaDeleteResponse> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/empresas/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                403: '',
+                404: ''
+            }
+        });
+    }
+    
+}
+
+export class EstagiariosService {
+    constructor(public readonly httpRequest: BaseHttpRequest) { }
+    
+    /**
+     * Lista estagiários
+     * @param data The data for the request.
+     * @param data.page Pagina de consulta
+     * @param data.limit Limite da quantidade de resultados por pagina
+     * @param data.search Busca textual
+     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+     * @param data.selection Seleção de campos
+     * @param data.filterIdPerfilFk Filtro por ID de perfil (string ou array)
+     * @param data.filterIdCursoFk Filtro por ID de curso (string ou array)
+     * @param data.filterIdTurmaFk Filtro por ID de turma (string ou array)
+     * @returns EstagiarioListOutputDto
+     * @throws ApiError
+     */
+    public estagiarioFindAll(data: EstagiarioFindAllData = {}): CancelablePromise<EstagiarioFindAllResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/estagiarios',
+            query: {
+                page: data.page,
+                limit: data.limit,
+                search: data.search,
+                sortBy: data.sortBy,
+                selection: data.selection,
+                'filter.idPerfilFk': data.filterIdPerfilFk,
+                'filter.idCursoFk': data.filterIdCursoFk,
+                'filter.idTurmaFk': data.filterIdTurmaFk
+            },
+            errors: {
+                403: ''
+            }
+        });
+    }
+    
+    /**
+     * Cria um estagiário
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns EstagiarioFindOneOutputDto
+     * @throws ApiError
+     */
+    public estagiarioCreate(data: EstagiarioCreateData): CancelablePromise<EstagiarioCreateResponse> {
+        return this.httpRequest.request({
+            method: 'POST',
+            url: '/estagiarios',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                403: ''
+            }
+        });
+    }
+    
+    /**
+     * Busca um estagiário por ID
+     * @param data The data for the request.
+     * @param data.id Identificador do registro (uuid)
+     * @returns EstagiarioFindOneOutputDto
+     * @throws ApiError
+     */
+    public estagiarioFindById(data: EstagiarioFindByIdData): CancelablePromise<EstagiarioFindByIdResponse> {
+        return this.httpRequest.request({
+            method: 'GET',
+            url: '/estagiarios/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                403: '',
+                404: ''
+            }
+        });
+    }
+    
+    /**
+     * Atualiza um estagiário
+     * @param data The data for the request.
+     * @param data.id Identificador do registro (uuid)
+     * @param data.requestBody
+     * @returns EstagiarioFindOneOutputDto
+     * @throws ApiError
+     */
+    public estagiarioUpdate(data: EstagiarioUpdateData): CancelablePromise<EstagiarioUpdateResponse> {
+        return this.httpRequest.request({
+            method: 'PATCH',
+            url: '/estagiarios/{id}',
+            path: {
+                id: data.id
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                403: '',
+                404: ''
+            }
+        });
+    }
+    
+    /**
+     * Deleta um estagiário
+     * @param data The data for the request.
+     * @param data.id Identificador do registro (uuid)
+     * @returns unknown Estagiário deletado com sucesso
+     * @throws ApiError
+     */
+    public estagiarioDelete(data: EstagiarioDeleteData): CancelablePromise<EstagiarioDeleteResponse> {
+        return this.httpRequest.request({
+            method: 'DELETE',
+            url: '/estagiarios/{id}',
+            path: {
+                id: data.id
+            },
+            errors: {
+                403: '',
+                404: ''
+            }
+        });
+    }
+    
+}
+
 export class TurmasDisponibilidadesService {
     constructor(public readonly httpRequest: BaseHttpRequest) { }
     
@@ -3892,7 +4078,7 @@ export class HorariosGeradosAulaService {
      * @param data.selection Seleção de campos
      * @param data.filterId Filtro por ID
      * @param data.filterHorarioGeradoId Filtro por ID do Horario Gerado
-     * @returns HorarioGeradoAulaListOutputRestDto
+     * @returns HorarioGeradoAulaListOutputDto
      * @throws ApiError
      */
     public horarioGeradoAulaFindAll(data: HorarioGeradoAulaFindAllData = {}): CancelablePromise<HorarioGeradoAulaFindAllResponse> {
@@ -3918,7 +4104,7 @@ export class HorariosGeradosAulaService {
      * Cria um horario gerado de aula
      * @param data The data for the request.
      * @param data.requestBody
-     * @returns HorarioGeradoAulaFindOneOutputRestDto
+     * @returns HorarioGeradoAulaFindOneOutputDto
      * @throws ApiError
      */
     public horarioGeradoAulaCreate(data: HorarioGeradoAulaCreateData): CancelablePromise<HorarioGeradoAulaCreateResponse> {
@@ -3937,7 +4123,7 @@ export class HorariosGeradosAulaService {
      * Busca um horario gerado de aula por ID
      * @param data The data for the request.
      * @param data.id Identificador do registro (uuid)
-     * @returns HorarioGeradoAulaFindOneOutputRestDto
+     * @returns HorarioGeradoAulaFindOneOutputDto
      * @throws ApiError
      */
     public horarioGeradoAulaFindById(data: HorarioGeradoAulaFindByIdData): CancelablePromise<HorarioGeradoAulaFindByIdResponse> {
@@ -3959,7 +4145,7 @@ export class HorariosGeradosAulaService {
      * @param data The data for the request.
      * @param data.id Identificador do registro (uuid)
      * @param data.requestBody
-     * @returns HorarioGeradoAulaFindOneOutputRestDto
+     * @returns HorarioGeradoAulaFindOneOutputDto
      * @throws ApiError
      */
     public horarioGeradoAulaUpdate(data: HorarioGeradoAulaUpdateData): CancelablePromise<HorarioGeradoAulaUpdateResponse> {

@@ -5,7 +5,7 @@ export type FormUserValues = {
 
   nome: string;
   email: string;
-  matriculaSiape: string;
+  matricula: string;
 
   vinculos: Array<Vinculo>;
 };
@@ -14,7 +14,7 @@ export type FormUserOutput = {
   imagem: Blob | null | undefined;
 
   nome: string;
-  matriculaSiape: string;
+  matricula: string;
   email: string;
 
   vinculos: Array<Vinculo>;

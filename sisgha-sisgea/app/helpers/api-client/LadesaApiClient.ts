@@ -18,9 +18,12 @@ import { DiariosProfessoresService } from './services.gen';
 import { DiasCalendariosService } from './services.gen';
 import { DisciplinasService } from './services.gen';
 import { DisponibilidadesService } from './services.gen';
+import { EmpresasService } from './services.gen';
 import { EstadosService } from './services.gen';
+import { EstagiariosService } from './services.gen';
 import { EtapasService } from './services.gen';
 import { EventosService } from './services.gen';
+import { GerarHorarioService } from './services.gen';
 import { GradesHorariosOfertasFormacoesService } from './services.gen';
 import { GradesHorariosOfertasFormacoesIntervalosDeTempoService } from './services.gen';
 import { HorariosGeradosService } from './services.gen';
@@ -57,9 +60,12 @@ export class LadesaApiClient {
 	public readonly diasCalendarios: DiasCalendariosService;
 	public readonly disciplinas: DisciplinasService;
 	public readonly disponibilidades: DisponibilidadesService;
+	public readonly empresas: EmpresasService;
 	public readonly estados: EstadosService;
+	public readonly estagiarios: EstagiariosService;
 	public readonly etapas: EtapasService;
 	public readonly eventos: EventosService;
+	public readonly gerarHorario: GerarHorarioService;
 	public readonly gradesHorariosOfertasFormacoes: GradesHorariosOfertasFormacoesService;
 	public readonly gradesHorariosOfertasFormacoesIntervalosDeTempo: GradesHorariosOfertasFormacoesIntervalosDeTempoService;
 	public readonly horariosGerados: HorariosGeradosService;
@@ -81,7 +87,7 @@ export class LadesaApiClient {
 
 	constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = FetchHttpRequest) {
 		this.request = new HttpRequest({
-			BASE: config?.BASE ?? '',
+			BASE: config?.BASE ?? 'https://dev.ladesa.com.br/api/v1',
 			VERSION: config?.VERSION ?? '1.0',
 			WITH_CREDENTIALS: config?.WITH_CREDENTIALS ?? false,
 			CREDENTIALS: config?.CREDENTIALS ?? 'include',
@@ -111,9 +117,12 @@ export class LadesaApiClient {
 		this.diasCalendarios = new DiasCalendariosService(this.request);
 		this.disciplinas = new DisciplinasService(this.request);
 		this.disponibilidades = new DisponibilidadesService(this.request);
+		this.empresas = new EmpresasService(this.request);
 		this.estados = new EstadosService(this.request);
+		this.estagiarios = new EstagiariosService(this.request);
 		this.etapas = new EtapasService(this.request);
 		this.eventos = new EventosService(this.request);
+		this.gerarHorario = new GerarHorarioService(this.request);
 		this.gradesHorariosOfertasFormacoes = new GradesHorariosOfertasFormacoesService(this.request);
 		this.gradesHorariosOfertasFormacoesIntervalosDeTempo = new GradesHorariosOfertasFormacoesIntervalosDeTempoService(this.request);
 		this.horariosGerados = new HorariosGeradosService(this.request);

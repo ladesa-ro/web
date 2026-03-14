@@ -36,7 +36,7 @@ export const useAuth = () => {
       await $fetch('/api/auth/login', {
         method: 'POST',
         body: {
-          matriculaSiape: options.username,
+          matricula: options.username,
           senha: options.password,
         },
       });

@@ -105,7 +105,7 @@ const onClose = () => $emit('close');
 
       <VVTextField
         label="Matrícula"
-        name="matriculaSiape"
+        name="matricula"
         placeholder="Digite aqui"
         type="text"
       />

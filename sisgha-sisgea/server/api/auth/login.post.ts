@@ -1,10 +1,10 @@
 export default defineEventHandler(async (event) => {
-  const { matriculaSiape, senha } = await readBody(event);
+  const { matricula, senha } = await readBody(event);
 
-  if (!matriculaSiape || !senha) {
+  if (!matricula || !senha) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'matriculaSiape e senha são obrigatórios',
+      statusMessage: 'Matricula e senha são obrigatórios',
     });
   }
 
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
       expires_in: number;
     }>(`${apiBaseUrl}/autenticacao/login`, {
       method: 'POST',
-      body: { matriculaSiape, senha },
+      body: { matricula, senha },
     });
 
     if (!tokenResponse.access_token) {

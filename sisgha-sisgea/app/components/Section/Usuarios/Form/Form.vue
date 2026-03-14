@@ -53,7 +53,7 @@ const schema = yup.object().shape({
     .email('Informe um e-mail válido!')
     .default(''),
 
-  matriculaSiape: yup.string().required('Matrícula é obrigatório!').default(''),
+  matricula: yup.string().required('Matrícula é obrigatório!').default(''),
 
   vinculos: yup
     .array()
