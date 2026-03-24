@@ -11,7 +11,12 @@ const { name } = toRefs(props);
 
 //
 
-const { crudModule } = useLadesaApiCrudOfertasFormacoes();
+const apiClient = useApiClient();
+const crudModule = {
+  baseQueryKeys: ['ofertas-formacoes'],
+  list: (data: any) => apiClient.ofertasFormacoes.ofertaFormacaoFindAll(data),
+  getOne: (id: string) => apiClient.ofertasFormacoes.ofertaFormacaoFindById({ id }),
+} as any;
 
 const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,

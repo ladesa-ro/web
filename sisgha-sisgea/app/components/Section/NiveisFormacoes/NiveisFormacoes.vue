@@ -2,7 +2,13 @@
 import NiveisFormacoesForm from './Form/Form.vue';
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 
-const { crudModule } = useLadesaApiCrudNiveisFormacoes();
+const api = useApiClient();
+
+const crudModule = {
+  baseQueryKeys: ['niveis-formacoes'] as string[],
+  list: (data?: any) => api.niveisFormacoes.nivelFormacaoFindAll(data),
+  getOne: (id: string) => api.niveisFormacoes.nivelFormacaoFindById({ id }),
+} as any;
 
 const options = createApiListContextOptions({ crudModule });
 </script>

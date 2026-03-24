@@ -19,15 +19,15 @@ const props = defineProps<Props>();
 
 const { value: cursoId } = useField<string | null>('curso.id');
 
-const {
-  composables: { useFindOneQuery },
-} = useLadesaApiCrudCursos();
+const cursos_api = useCursos();
 
-const { data: cursoSelecionado, query } = useFindOneQuery(cursoId);
+const cursoQuery = cursos_api.findOne(cursoId);
+
+const cursoSelecionado = cursoQuery.data;
 
 //
 
-const isLoading = computed(() => props.isLoading || unref(query.isLoading));
+const isLoading = computed(() => props.isLoading || unref(cursoQuery.isLoading));
 
 const estrategiaModalidade = computed(() => {
   if (cursoSelecionado.value) {

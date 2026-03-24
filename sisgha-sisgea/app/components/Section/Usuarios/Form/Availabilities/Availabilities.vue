@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { useQuery } from '@tanstack/vue-query';
 import WeekdaySelector from '../../../../UI/WeekDaySelector/WeekdaySelector.vue';
-import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
+import { getWeekDays } from '~/utils/get-week-days';
 import { getActivesTeacherRole, useFormUser } from '../FormUtils';
 
 const currentDay = useCurrentDay();
@@ -20,9 +19,9 @@ const vinculosComCargoProfessor = computed(() =>
   getActivesTeacherRole(formValues.vinculos)
 );
 
+const campi = useCampi();
 const campiList = vinculosComCargoProfessor.value.map(vinculo => {
-  const { data: campus } = useQuery(findCampusById({ id: vinculo.campus.id }));
-
+  const { data: campus } = campi.findOne(ref(vinculo.campus.id));
   return campus ?? null;
 });
 

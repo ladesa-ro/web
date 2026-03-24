@@ -12,6 +12,13 @@ export default defineNuxtConfig({
 
   ssr: true,
 
+  imports: {
+    dirs: [
+      'composables/ladesa-api',
+      'composables/query-helpers',
+    ],
+  },
+
   // ===========
 
   typescript: {
@@ -40,7 +47,6 @@ export default defineNuxtConfig({
     resolve: {
       alias: {
         '~': fileURLToPath(new URL('./app', import.meta.url)),
-        '@': fileURLToPath(new URL('./app', import.meta.url)),
       },
     },
     ssr: {
@@ -78,6 +84,10 @@ export default defineNuxtConfig({
   },
 
   // ===========
+
+  routeRules: {
+    '/': { redirect: '/sisgha/dape' },
+  },
 
   nitro: {},
 

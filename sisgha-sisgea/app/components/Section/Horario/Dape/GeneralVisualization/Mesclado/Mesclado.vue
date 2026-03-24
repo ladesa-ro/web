@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useQuery } from '@tanstack/vue-query';
 import IconClass from '~/components/Icons/Class.vue';
 import IconEducator from '~/components/Icons/Educator.vue';
 
@@ -16,17 +15,20 @@ const searchBarValue = ref('');
 
 //
 
+const turmasEntity = useTurmas();
+const usuariosEntity = useUsuarios();
+
 const {
   data: turmas,
   isLoading: isLoadingTurmas,
   isError: isErrorTurmas,
-} = useQuery(listTurmas());
+} = turmasEntity.list();
 
 const {
   data: professores,
   isLoading: isLoadingProfs,
   isError: isErrorProfs,
-} = useQuery(listUsers());
+} = usuariosEntity.list();
 
 const turmasParsedItems = computed(() => {
   if (turmas.value) {

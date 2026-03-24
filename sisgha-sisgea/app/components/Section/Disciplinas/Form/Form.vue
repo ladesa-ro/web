@@ -1,158 +1,56 @@
 <script lang="ts" setup>
-import { useToast } from '#imports';
-import { useQueryClient } from '@tanstack/vue-query';
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
-import { useApiClient } from '~/composables';
+import { FormMode } from '~/utils/constants';
+import { disciplinaSchema } from './-Helpers/schema';
 
-type Props = {
-  editId?: string | null;
-};
+const { editId = null } = defineProps<{ editId?: string | null }>();
+const emit = defineEmits<{ close: [] }>();
 
-const { editId = null } = defineProps<Props>();
-const $emit = defineEmits(['close']);
+const disciplinas = useDisciplinas();
+const confirmDelete = useConfirmDelete();
 
-const apiClient = useApiClient();
-const queryClient = useQueryClient();
-const { showToast } = useToast();
+const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
+  schema: disciplinaSchema,
+  editId: computed(() => editId),
+  getQuery: disciplinas.findOne(computed(() => editId)),
 
-const {
-  composables: { useFindOneQuery },
-} = useLadesaApiCrudDisciplinas();
+  create: async (data) => {
+    const { imagem, ...rest } = data;
+    const created = await disciplinas.create(rest);
+    if (imagem) await disciplinas.uploadCover(created.id, imagem as Blob);
+  },
 
-const { data: currentDisciplina, suspense } = useFindOneQuery(editId);
-await suspense();
+  update: async (id, data) => {
+    const { imagem, ...rest } = data;
+    await disciplinas.update(id, rest);
+    if (imagem) await disciplinas.uploadCover(id, imagem as Blob);
+  },
 
-type FormValues = {
-  imagem: Blob | null | undefined;
-  nome: string;
-  nomeAbreviado: string;
-  cargaHoraria: number;
-};
-
-type FormOutput = {
-  imagem: Blob | null | undefined;
-  nome: string;
-  nomeAbreviado: string;
-  cargaHoraria: number;
-};
-
-const initialFormValues = reactive({
-  imagem: null,
-  nome: currentDisciplina.value?.nome ?? '',
-  nomeAbreviado: currentDisciplina.value?.nomeAbreviado ?? '',
-  cargaHoraria: currentDisciplina.value?.cargaHoraria ?? undefined,
+  remove: (id) => disciplinas.remove(id),
+  invalidate: disciplinas.invalidate,
+  confirmDelete: confirmDelete.confirm,
+  onFinish: () => emit('close'),
 });
-
-const schema = yup.object().shape({
-  imagem: yup.mixed().nullable().optional(),
-  nome: yup.string().required('Nome é obrigatório!'),
-  nomeAbreviado: yup.string().required('Nome abreviado é obrigatório!'),
-  cargaHoraria: yup.string().required('Carga horária é obrigatória!'),
-});
-
-const {
-  resetForm,
-  handleSubmit,
-  values: formValues,
-} = useForm<FormValues, FormOutput>({
-  validationSchema: schema,
-  initialValues: initialFormValues,
-});
-
-const onSubmit = handleSubmit(async (values: FormOutput) => {
-  try {
-    const { imagem, ...data } = values;
-    let id;
-
-    if (editId === null) {
-      const DisciplinaCriada = await apiClient.disciplinas.disciplinaCreate({
-        requestBody: { ...data },
-      });
-      id = DisciplinaCriada.id;
-      showToast('cadastro', 'success');
-    } else {
-      await apiClient.disciplinas.disciplinaUpdate({
-        id: editId,
-        requestBody: { ...data },
-      });
-      id = editId;
-      showToast('atualizacao', 'success');
-    }
-
-    if (imagem) {
-      await apiClient.disciplinas.disciplinaUpdateImagemCapa({
-        id,
-        formData: { file: imagem },
-      });
-      showToast('atualizacao', 'success');
-    }
-
-    await queryClient.invalidateQueries({ queryKey: ['disciplinas'] });
-    resetForm();
-    $emit('close');
-  } catch (error: any) {
-    console.error(error);
-    showToast(
-      editId ? 'atualizacao' : 'cadastro',
-      'error',
-      'Ocorreu um erro ao salvar a disciplina. Tente novamente.'
-    );
-  }
-}, console.error);
-
-const handleDelete = async () => {
-  if (!editId) return;
-
-  const resposta = window.confirm(
-    'Você tem certeza de que deseja deletar esta Disciplina?'
-  );
-  if (!resposta) return;
-
-  try {
-    await apiClient.disciplinas.disciplinaDeleteOneById({ id: editId });
-    await queryClient.invalidateQueries({ queryKey: ['disciplinas'] });
-    showToast('delete', 'success');
-    $emit('close');
-  } catch (error: any) {
-    console.error(error);
-    showToast('delete', 'error');
-  }
-};
-
-const onClose = () => $emit('close');
 </script>
 
 <template>
   <form @submit.prevent="onSubmit">
-    <DialogModalBaseLayout
-      :on-close="onClose"
-      :title="editId ? 'Editar Disciplina' : 'Cadastrar Disciplina'"
+    <UIFormLayout
+      :title="mode === FormMode.MANAGE ? 'Editar Disciplina' : 'Cadastrar Disciplina'"
+      :mode="mode"
+      :is-busy="isBusy"
+      :on-close="() => emit('close')"
+      :on-delete="onDelete"
     >
       <VVSelectImage name="imagem" />
-
-      <VVTextField label="Nome" name="nome" placeholder="Digite aqui" />
-
-      <VVTextField
-        label="Nome Abreviado"
-        name="nomeAbreviado"
-        placeholder="Digite aqui"
-      />
-
-      <VVTextField
-        label="Carga Horária"
-        name="cargaHoraria"
-        placeholder="Digite aqui"
-        type="number"
-      />
-
-      <template #button-group>
-        <UIButtonModalCancel @click="$emit('close')" />
-
-        <UIButtonModalDelete v-if="editId" @click.prevent="handleDelete" />
-        <UIButtonModalEdit v-if="editId" />
-        <UIButtonModalSave v-else />
-      </template>
-    </DialogModalBaseLayout>
+      <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
+      <VVTextField name="nomeAbreviado" label="Nome Abreviado" placeholder="Digite aqui" />
+      <VVTextField name="cargaHoraria" label="Carga Horária" placeholder="Digite aqui" type="number" />
+    </UIFormLayout>
   </form>
+
+  <DialogConfirm
+    v-model="confirmDelete.isOpen.value"
+    message="Deseja realmente excluir esta disciplina?"
+    @confirm="confirmDelete.onConfirm"
+  />
 </template>

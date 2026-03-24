@@ -20,34 +20,31 @@ type CursoApi = {
   turmas: string[];
 };
 
-const cursosApi = ref<CursoApi[]>([]);
-const isLoading = ref(false);
+const turmasComposable = useTurmas();
+const listQuery = turmasComposable.list();
+
+const cursosApi = computed<CursoApi[]>(() => {
+  const items = listQuery.data.value?.data;
+  if (!items) return [];
+
+  const cursosMap: Record<string, CursoApi> = {};
+
+  items.forEach((t: TurmaFindOneOutputDto) => {
+    const sigla = t.curso.nome;
+    if (!cursosMap[sigla]) {
+      cursosMap[sigla] = { nome: t.curso.nome, sigla, turmas: [] };
+    }
+    cursosMap[sigla].turmas.push(t.periodo);
+  });
+
+  return Object.values(cursosMap);
+});
+
+const isLoading = listQuery.isLoading;
 const turmasSelecionadas = ref<string[]>([]);
 const formacaoSelecionada = ref<any>(null);
 
 const turmaId = (cursoSigla: string, turma: string) => `${cursoSigla}-${turma}`;
-
-const loadTurmas = async () => {
-  isLoading.value = true;
-  try {
-    const { data } = await useLadesaApiCrudTurmas().crudModule.list({});
-    const cursosMap: Record<string, CursoApi> = {};
-
-    data.forEach((t: TurmaFindOneOutputDto) => {
-      const sigla = t.curso.nome;
-      if (!cursosMap[sigla]) {
-        cursosMap[sigla] = { nome: t.curso.nome, sigla, turmas: [] };
-      }
-      cursosMap[sigla].turmas.push(t.periodo);
-    });
-
-    cursosApi.value = Object.values(cursosMap);
-  } catch (error) {
-    console.error('Erro ao carregar turmas:', error);
-  } finally {
-    isLoading.value = false;
-  }
-};
 
 const isAllSelected = (curso: CursoApi) => {
   return curso.turmas.every(t =>
@@ -95,7 +92,6 @@ const salvarTurmas = () => {
   $emit('save-turmas', turmasObj);
 };
 
-onMounted(() => loadTurmas());
 </script>
 
 <template>

@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useQuery } from '@tanstack/vue-query';
 import { useManualRefHistory } from '@vueuse/core';
 import ButtonsEditMode from '~/components/Section/Horario/Dape/ScheduleQuery/Buttons/ButtonsEditMode.vue';
 import ButtonsVisualizationMode from '~/components/Section/Horario/Dape/ScheduleQuery/Buttons/ButtonsVisualizationMode.vue';
@@ -19,13 +18,16 @@ const isProfessor = useRoute().path.includes('professor');
 
 provide('scheduleOf', isProfessor ? 'professor' : 'turma');
 
+const usuarios = useUsuarios();
+const turmasEntity = useTurmas();
+
 const {
   data: scheduleOwner,
   isLoading,
   isError,
 } = isProfessor
-  ? useQuery(findUserById({ id }))
-  : useQuery(findTurmaById({ id }));
+  ? usuarios.findOne(id)
+  : turmasEntity.findOne(id);
 
 const ownerName = getOwnerName(isLoading, isProfessor, scheduleOwner);
 

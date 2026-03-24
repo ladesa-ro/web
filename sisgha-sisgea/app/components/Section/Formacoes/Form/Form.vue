@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-import { useQueryClient } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { useApiClient } from '~/composables';
 import { useToast } from '~/composables/useToast';
 
 const { showToast } = useToast();
@@ -21,16 +19,13 @@ const editIdRef = toRef(props, 'editId');
 
 const $emit = defineEmits(['close']);
 
-const apiClient = useApiClient();
-const queryClient = useQueryClient();
+const ofertasFormacoes = useOfertasFormacoes();
+const confirmDelete = useConfirmDelete();
 const campusContext = useCampusContext();
 
-const {
-  composables: { useFindOneQuery },
-} = useLadesaApiCrudOfertasFormacoes();
-
-const { data: currentFormacao, suspense } = useFindOneQuery(editIdRef);
-await suspense();
+const findOneQuery = ofertasFormacoes.findOne(editIdRef);
+const currentFormacao = findOneQuery.data;
+await findOneQuery.suspense();
 
 // Stepper
 const step = ref(1);
@@ -178,14 +173,12 @@ const handleDelete = async () => {
   const id = editIdRef.value;
   if (!id) return;
 
-  const confirmacao = window.confirm(
-    'Você tem certeza que deseja deletar essa formação?'
-  );
+  const confirmacao = await confirmDelete.confirm();
   if (!confirmacao) return;
 
   try {
-    await apiClient.ofertasFormacoes.ofertaFormacaoDeleteOneById({ id });
-    await queryClient.invalidateQueries({ queryKey: ['ofertas-formacoes'] });
+    await ofertasFormacoes.remove(id);
+    await ofertasFormacoes.invalidate();
     showToast('delete', 'success');
     $emit('close');
   } catch (e) {
@@ -215,17 +208,14 @@ const onSubmit = async () => {
 
   try {
     if (!editId) {
-      await apiClient.ofertasFormacoes.ofertaFormacaoCreate({ requestBody });
+      await ofertasFormacoes.create(requestBody);
       showToast('cadastro', 'success');
     } else {
-      await apiClient.ofertasFormacoes.ofertaFormacaoUpdate({
-        id: editId,
-        requestBody,
-      });
+      await ofertasFormacoes.update(editId, requestBody);
       showToast('atualizacao', 'success');
     }
 
-    await queryClient.invalidateQueries({ queryKey: ['ofertas-formacoes'] });
+    await ofertasFormacoes.invalidate();
     resetForm();
     $emit('close');
   } catch (e) {
@@ -377,6 +367,13 @@ function onClose() {
       </template>
     </DialogModalBaseLayout>
   </form>
+
+  <DialogConfirm
+    v-model="confirmDelete.isOpen.value"
+    message="Você tem certeza que deseja deletar essa formação?"
+    @confirm="confirmDelete.onConfirm"
+    @cancel="confirmDelete.onCancel"
+  />
 </template>
 
 <style scoped src="~/components/UI/Form/-Utils/style/inputStyles.css"></style>

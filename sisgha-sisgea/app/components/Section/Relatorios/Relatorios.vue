@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import RelatorioBotoes from '@/components/Section/Relatorios/Buttons/Buttons.vue';
-import RelatorioFiltrosOpcionais from '@/components/Section/Relatorios/Filters/FiltrosOpcionais.vue';
-import RelatorioFiltrosPrincipais from '@/components/Section/Relatorios/Filters/FiltrosPrincipais.vue';
-import RelatorioModal from '@/components/Section/Relatorios/Modal/Modal.vue';
+import RelatorioBotoes from '~/components/Section/Relatorios/Buttons/Buttons.vue';
+import RelatorioFiltrosOpcionais from '~/components/Section/Relatorios/Filters/FiltrosOpcionais.vue';
+import RelatorioFiltrosPrincipais from '~/components/Section/Relatorios/Filters/FiltrosPrincipais.vue';
+import RelatorioModal from '~/components/Section/Relatorios/Modal/Modal.vue';
 
 const data = {
   professores: [

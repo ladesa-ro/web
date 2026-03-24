@@ -11,7 +11,18 @@ const { name } = toRefs(props);
 
 //
 
-const { crudModule } = useLadesaApiCrudBlocos();
+const apiClient = useApiClient();
+const crudModule = {
+  baseQueryKeys: ['blocos'],
+  list: (data: any, contextCampiRef: any) => {
+    const contextCampi = unref(contextCampiRef);
+    return apiClient.blocos.blocoFindAll({
+      ...data,
+      filterCampusId: contextCampi ? [contextCampi] : undefined,
+    });
+  },
+  getOne: (id: string) => apiClient.blocos.blocoFindById({ id }),
+} as any;
 
 const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,

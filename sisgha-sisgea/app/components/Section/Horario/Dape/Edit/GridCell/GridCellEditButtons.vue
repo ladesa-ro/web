@@ -6,6 +6,8 @@ import type {
   Vago,
 } from '~/composables/schedule/useScheduleTypes';
 
+const api = useApiClient();
+
 const cell = defineModel<Aula | Vago>({
   required: true,
   default: {},
@@ -47,12 +49,14 @@ const scheduleOf: 'professor' | 'turma' | undefined = inject('scheduleOf');
 
 // TODO: melhorar essa estrutura de querries para fazer apenas 1 query à api em algum componente ancestral a este, ao inves de uma query em todas as instâncias
 const professoresQuery = useQuery({
-  ...listPerfis({ filterCargo: ['professor'], usuarioId: '' } as any),
+  queryKey: ['perfis', 'professor-list'],
+  queryFn: () => api.usuarios.perfilFindAll({ filterCargo: ['professor'] } as any),
   enabled: scheduleOf === 'turma',
 });
 
 const turmasQuery = useQuery({
-  ...listTurmas(),
+  queryKey: ['turmas', 'turma-list'],
+  queryFn: () => api.turmas.turmaFindAll({}),
   enabled: scheduleOf === 'professor',
 });
 

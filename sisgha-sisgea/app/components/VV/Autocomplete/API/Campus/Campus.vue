@@ -10,7 +10,12 @@ const { name } = toRefs(props);
 
 //
 
-const { crudModule } = useLadesaApiCrudCampi();
+const apiClient = useApiClient();
+const crudModule = {
+  baseQueryKeys: ['campi'],
+  list: (data: any) => apiClient.campi.campusFindAll(data),
+  getOne: (id: string) => apiClient.campi.campusFindById({ id }),
+} as any;
 
 const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,

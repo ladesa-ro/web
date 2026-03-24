@@ -1,4 +1,4 @@
-import { getWeekDays } from '../../components/Section/Horario/-Helpers/GetWeekDays';
+import { getWeekDays } from '~/utils/get-week-days';
 import type {
   Aula,
   HorString,

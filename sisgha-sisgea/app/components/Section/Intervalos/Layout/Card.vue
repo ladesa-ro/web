@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import IntervaloForm from '@/components/Section/Intervalos/Form/Form.vue';
-import IntervaloItem from '@/components/Section/Intervalos/Items/Item.vue';
+import IntervaloForm from '~/components/Section/Intervalos/Form/Form.vue';
+import IntervaloItem from '~/components/Section/Intervalos/Items/Item.vue';
 
 defineProps<{
   periodo: { nome: string; intervalos: { inicio: string; fim: string }[] };

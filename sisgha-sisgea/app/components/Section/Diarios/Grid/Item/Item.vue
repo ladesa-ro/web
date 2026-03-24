@@ -12,16 +12,13 @@ const props = defineProps<Props>();
 
 const { diario } = toRefs(props);
 
-const {
-  composables: { useListQuery: useListQueryDiariosProfessores },
-} = useLadesaApiCrudDiariosProfessores();
+const diarios_api = useDiarios();
 
-const options = computed(() => ({ filterDiarioId: [diario.value.id] }));
+const options = computed(() => ({ filterDiarioId: [diario.value.id] }) as any);
 
-const {
-  data: { items: diariosProfessoresList },
-  methods: { suspend },
-} = useListQueryDiariosProfessores(options);
+const professoresQuery = diarios_api.listProfessores(options);
+
+const diariosProfessoresList = computed(() => professoresQuery.data.value?.data ?? []);
 
 //
 
@@ -32,7 +29,7 @@ const coverImageSrc = useApiImageRoute(
   disciplina
 );
 
-await suspend();
+await professoresQuery.suspense();
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { useApiContext } from '../components/API/Context/setup-context';
+import { useApiContext } from '~/composables/api-context/setup';
 
 export function useCanEditProfile(viewedUserId?: string | null) {
   const { usuario } = useApiContext();

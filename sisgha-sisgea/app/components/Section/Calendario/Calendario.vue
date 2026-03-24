@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { IconsExclude, SectionCalendarioForm } from '#components';
-import IconCompleteCalendar from '@/components/Icons/Calendar/CompleteCalendar.vue';
-import IconPartialCalendar from '@/components/Icons/Calendar/PartialCalendar.vue';
+import IconCompleteCalendar from '~/components/Icons/Calendar/CompleteCalendar.vue';
+import IconPartialCalendar from '~/components/Icons/Calendar/PartialCalendar.vue';
 import dayjs from 'dayjs';
 import { ref } from 'vue';
 import { useToast } from '~/composables/useToast';

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { capitalizeFirst } from '~/components/Section/Horario/-Helpers/CapitalizeFirst';
+import { capitalizeFirst } from '~/utils/capitalize-first';
 import {
   getRowShiftName,
   shiftNames,

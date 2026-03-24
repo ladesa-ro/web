@@ -1,22 +1,18 @@
 <script setup lang="ts">
-import { useQuery } from '@tanstack/vue-query';
-
 defineProps<{ disabled?: boolean }>();
 
-const {
-  isError,
-  isLoading,
-  promise,
-} = useQuery(listDisciplinas());
+const disciplinas = useDisciplinas();
+const { isError, isLoading, data: disciplinasData, suspense } = disciplinas.list();
+await suspense();
 
-const disciplinasList = await promise.value;
-
-const disciplinasParsedItems: ParsedItem[] = disciplinasList
-  ? disciplinasList.data.map(disciplina => ({
-      value: disciplina.id,
-      label: disciplina.nome,
-    }))
-  : [];
+const disciplinasParsedItems = computed<ParsedItem[]>(() =>
+  disciplinasData.value
+    ? disciplinasData.value.data.map(disciplina => ({
+        value: disciplina.id,
+        label: disciplina.nome,
+      }))
+    : [],
+);
 </script>
 
 <template>

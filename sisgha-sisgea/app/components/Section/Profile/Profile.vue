@@ -1,17 +1,17 @@
 <script lang="ts" setup>
 import { UILoading } from '#components';
-import { useQuery } from '@tanstack/vue-query';
 import { useRouter } from 'vue-router';
 import { useCanEditProfile } from '#imports';
 
 type Props = { userId: string };
 const { userId } = defineProps<Props>();
 
+const usuarios = useUsuarios();
 const {
   data: user,
   isLoading,
   isError,
-} = useQuery(findUserById({ id: userId }));
+} = usuarios.findOne(ref(userId));
 
 //
 const { canEdit } = useCanEditProfile(userId);

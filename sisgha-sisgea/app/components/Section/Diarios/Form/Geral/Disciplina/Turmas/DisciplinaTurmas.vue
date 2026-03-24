@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { useLadesaApiCrudUsuarios } from '#imports';
 import type { TurmaSelecionada } from '../../Contexto';
 import { useContextDiariosFormGeral } from '../../Contexto';
 
@@ -72,32 +71,28 @@ type ProfessorItem = {
   cargo?: string;
 };
 
-const {
-  composables: { useListQuery },
-} = useLadesaApiCrudUsuarios();
+const usuariosComposable = useUsuarios();
 
 const searchBarText = ref('');
 const queries = computed(() => ({ search: searchBarText.value }));
 
-const {
-  data: { items: usuarios },
-  methods: { suspend },
-} = useListQuery(queries);
+const listQuery = usuariosComposable.list(queries);
 
 onMounted(async () => {
-  await suspend();
+  await listQuery.suspense();
 });
 
 const professores = computed<ProfessorItem[]>(() => {
-  if (!usuarios.value) return [];
-  return usuarios.value
-    .map(u => ({
+  const items = listQuery.data.value?.data;
+  if (!items) return [];
+  return items
+    .map((u: any) => ({
       value: u.id,
       label: u.nome,
       foto: u.foto,
       cargo: u.cargo,
     }))
-    .toSorted((a, b) => a.label.localeCompare(b.label));
+    .toSorted((a: ProfessorItem, b: ProfessorItem) => (a.label ?? '').localeCompare(b.label ?? ''));
 });
 
 const professorSearch = ref('');

@@ -9,18 +9,15 @@ const { searchBarText, editButton = true } = defineProps<Props>();
 
 //
 
-const {
-  composables: { useListQuery },
-} = useLadesaApiCrudUsuarios();
+const usuarios_api = useUsuarios();
 
 const queries = computed(() => ({ search: searchBarText }));
 
-const {
-  data: { items: users },
-  methods: { suspend },
-} = useListQuery(queries);
+const listQuery = usuarios_api.list(queries);
 
-await suspend();
+const users = computed(() => listQuery.data.value?.data ?? null);
+
+await listQuery.suspense();
 </script>
 
 <template>

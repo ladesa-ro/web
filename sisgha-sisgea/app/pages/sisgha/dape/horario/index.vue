@@ -2,8 +2,6 @@
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 
-const searchBarValue = ref<string>('');
-
 const selectedToggleItem = ref<'professor' | 'turma' | 'mesclado'>('professor');
 
 const schema = yup.object().shape({
@@ -24,7 +22,13 @@ const turmasFilters = computed(() => ({
   filterCursoOfertaFormacaoId: values.ofertaFormacaoId,
 }));
 
-const { crudModule: turmasCrudModule } = useLadesaApiCrudTurmas();
+const api = useApiClient();
+
+const turmasCrudModule = {
+  baseQueryKeys: ['turmas'] as string[],
+  list: (data?: any) => api.turmas.turmaFindAll(data),
+  getOne: (id: string) => api.turmas.turmaFindById({ id }),
+} as any;
 
 const turmasOptions = {
   crudModule: turmasCrudModule,

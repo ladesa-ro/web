@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useApiContext } from '~/components/API/Context/setup-context';
+import { useApiContext } from '~/composables/api-context/setup';
 import type { ILesson } from '../../-Helpers/ILesson';
 
 const classTimings = [

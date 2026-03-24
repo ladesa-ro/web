@@ -4,8 +4,8 @@ import type {
 } from '~/helpers/api-client';
 
 type ScheduleOwner =
-  | Ref<TurmaFindOneOutputDto, TurmaFindOneOutputDto>
-  | Ref<UsuarioFindOneOutputDto, UsuarioFindOneOutputDto>
+  | Ref<TurmaFindOneOutputDto | null | undefined>
+  | Ref<UsuarioFindOneOutputDto | null | undefined>
   | Ref<undefined>;
 
 export const getOwnerName = (
@@ -17,14 +17,14 @@ export const getOwnerName = (
     if (
       !isLoading.value &&
       isProfessor &&
-      scheduleOwner.value !== undefined &&
+      scheduleOwner.value != null &&
       'nome' in scheduleOwner.value
     ) {
       return scheduleOwner.value.nome ?? 'Nome não disponível';
     } else if (
       !isLoading.value &&
       !isProfessor &&
-      scheduleOwner.value !== undefined &&
+      scheduleOwner.value != null &&
       'periodo' in scheduleOwner.value &&
       'curso' in scheduleOwner.value
     ) {

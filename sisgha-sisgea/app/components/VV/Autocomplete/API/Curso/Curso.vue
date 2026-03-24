@@ -10,7 +10,18 @@ defineProps<Props>();
 
 //
 
-const { crudModule } = useLadesaApiCrudCursos();
+const apiClient = useApiClient();
+const crudModule = {
+  baseQueryKeys: ['cursos'],
+  list: (data: any, contextCampiRef: any) => {
+    const contextCampi = unref(contextCampiRef);
+    return apiClient.cursos.cursoFindAll({
+      ...data,
+      filterCampusId: contextCampi ? [contextCampi] : undefined,
+    });
+  },
+  getOne: (id: string) => apiClient.cursos.cursoFindById({ id }),
+} as any;
 
 const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,

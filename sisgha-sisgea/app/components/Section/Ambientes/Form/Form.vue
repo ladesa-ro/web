@@ -1,253 +1,59 @@
 <script lang="ts" setup>
-import { useQueryClient } from '@tanstack/vue-query';
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
-import { useApiClient } from '~/composables';
-import { useToast } from '~/composables/useToast';
+import { FormMode } from '~/utils/constants';
+import { ambienteSchema } from './-Helpers/schema';
 
-const { showToast } = useToast();
+const { editId = null } = defineProps<{ editId?: string | null }>();
+const emit = defineEmits<{ close: [] }>();
 
-type Props = {
-  editId?: string | null;
-};
+const ambientes = useAmbientes();
+const confirmDelete = useConfirmDelete();
 
-const props = withDefaults(defineProps<Props>(), {
-  editId: null,
-});
+const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
+  schema: ambienteSchema,
+  editId: computed(() => editId),
+  getQuery: ambientes.findOne(computed(() => editId)),
 
-const editIdRef = toRef(props, 'editId');
-
-//
-
-const $emit = defineEmits(['close']);
-
-const apiClient = useApiClient();
-const queryClient = useQueryClient();
-
-const {
-  composables: { useFindOneQuery },
-} = useLadesaApiCrudAmbientes();
-
-const { data: currentAmbiente, suspense } = useFindOneQuery(editIdRef);
-await suspense();
-
-type FormValues = {
-  imagem: Blob | null | undefined;
-
-  bloco: {
-    id: string | null;
-  };
-
-  nome: string;
-
-  descricao: string;
-
-  codigo: string;
-
-  capacidade: number;
-
-  tipo: string;
-};
-
-type FormOutput = {
-  imagem: Blob | null | undefined;
-
-  bloco: {
-    id: string;
-  };
-
-  nome: string;
-  descricao: string;
-  codigo: string;
-  capacidade: number;
-  tipo: string;
-};
-
-const initialFormValues = reactive({
-  imagem: null,
-  bloco: {
-    id: currentAmbiente.value?.bloco?.id ?? null,
+  create: async (data) => {
+    const { imagem, ...rest } = data;
+    const created = await ambientes.create(rest);
+    if (imagem) await ambientes.uploadCover(created.id, imagem as Blob);
   },
-  nome: currentAmbiente.value?.nome ?? '',
-  descricao: currentAmbiente.value?.descricao ?? '',
-  codigo: currentAmbiente.value?.codigo ?? '',
-  capacidade: currentAmbiente.value?.capacidade ?? 0,
-  tipo: currentAmbiente.value?.tipo ?? '',
-});
 
-const handleDelete = async () => {
-  const id = editIdRef.value;
-  if (!id) return;
-
-  const resposta = window.confirm(
-    'Você tem certeza de que deseja deletar esse ambiente?'
-  );
-  if (!resposta) return;
-
-  try {
-    await apiClient.ambientes.ambienteDeleteOneById({ id });
-    await queryClient.invalidateQueries({ queryKey: ['ambientes'] });
-    showToast('delete', 'success');
-    $emit('close');
-  } catch (error) {
-    console.error(error);
-    showToast('delete', 'error');
-  }
-};
-
-const schema = yup.object().shape({
-  imagem: yup.mixed().nullable().optional(),
-  bloco: yup.object().shape({
-    id: yup.string().required('Bloco é obrigatório!'),
-  }),
-  nome: yup.string().required('Nome é obrigatório!'),
-  descricao: yup.string().required('Descrição é obrigatório!'),
-  codigo: yup.string().required('Código é obrigatório!'),
-  capacidade: yup.number().required('Capacidade é obrigatório!'),
-});
-
-const {
-  resetForm,
-  handleSubmit,
-  setFieldValue,
-  values: formValues,
-} = useForm<FormValues, FormOutput>({
-  validationSchema: schema,
-  initialValues: initialFormValues,
-});
-
-const onSubmit = handleSubmit(async (values: FormOutput) => {
-  const editId = editIdRef.value;
-  const { imagem, ...data } = values;
-  let id;
-
-  try {
-    if (editId === null) {
-      const ambienteCriado = await apiClient.ambientes.ambienteCreate({
-        requestBody: { ...data },
-      });
-      id = ambienteCriado.id;
-      showToast('cadastro', 'success');
-    } else {
-      await apiClient.ambientes.ambienteUpdate({
-        id: editId,
-        requestBody: { ...data },
-      });
-      id = editId;
-      showToast('atualizacao', 'success');
-    }
-
-    if (imagem) {
-      await apiClient.ambientes.ambienteUpdateImagemCapa({
-        id,
-        formData: { file: imagem },
-      });
-    }
-
-    await queryClient.invalidateQueries({ queryKey: ['ambientes'] });
-    resetForm();
-    $emit('close');
-  } catch (error) {
-    console.error(error);
-    showToast('cadastro', 'error');
-  }
-});
-
-const nome = computed({
-  get: () => formValues.nome,
-  set: value => {
-    formValues.nome = value;
+  update: async (id, data) => {
+    const { imagem, ...rest } = data;
+    await ambientes.update(id, rest);
+    if (imagem) await ambientes.uploadCover(id, imagem as Blob);
   },
-});
 
-const descricao = computed({
-  get: () => formValues.descricao,
-  set: value => {
-    formValues.descricao = value;
-  },
+  remove: (id) => ambientes.remove(id),
+  invalidate: ambientes.invalidate,
+  confirmDelete: confirmDelete.confirm,
+  onFinish: () => emit('close'),
 });
-
-const codigo = computed({
-  get: () => formValues.codigo,
-  set: value => {
-    formValues.codigo = value;
-  },
-});
-
-const capacidade = computed({
-  get: () => formValues.capacidade,
-  set: value => {
-    formValues.capacidade = value;
-  },
-});
-
-const tipo = computed({
-  get: () => formValues.tipo,
-  set: value => {
-    formValues.tipo = value;
-  },
-});
-
-const onClose = () => $emit('close');
 </script>
 
 <template>
   <form @submit.prevent="onSubmit">
-    <DialogModalBaseLayout
-      :on-close="onClose"
-      :title="editId ? 'Editar Ambiente' : 'Cadastrar Ambiente'"
+    <UIFormLayout
+      :title="mode === FormMode.MANAGE ? 'Editar Ambiente' : 'Cadastrar Ambiente'"
+      :mode="mode"
+      :is-busy="isBusy"
+      :on-close="() => emit('close')"
+      :on-delete="onDelete"
     >
       <VVSelectImage name="imagem" />
-
-      <VVAutocompleteAPIBloco :disabled="editId !== null" name="bloco.id" />
-
-      <VVTextField
-        v-model="nome"
-        label="Nome"
-        name="nome"
-        placeholder="Digite aqui"
-        type="text"
-      />
-
-      <VVTextField
-        v-model="descricao"
-        label="Descrição"
-        name="descricao"
-        placeholder="Digite aqui"
-        type="text"
-      />
-
-      <VVTextField
-        v-model="codigo"
-        label="Código"
-        name="codigo"
-        placeholder="Digite aqui"
-        type="text"
-      />
-
-      <VVTextField
-        v-model="capacidade"
-        label="Capacidade"
-        name="capacidade"
-        placeholder="Digite aqui"
-        type="number"
-      />
-
-      <VVTextField
-        v-model="tipo"
-        label="Tipo"
-        name="tipo"
-        placeholder="Digite aqui"
-        type="text"
-      />
-
-      <template #button-group>
-        <UIButtonModalCancel @click="$emit('close')" />
-
-        <UIButtonModalDelete v-if="editId" @click.prevent="handleDelete" />
-        <UIButtonModalEdit v-if="editId" />
-        <UIButtonModalSave v-else />
-      </template>
-    </DialogModalBaseLayout>
+      <VVAutocompleteAPIBloco :disabled="mode === FormMode.MANAGE" name="bloco.id" />
+      <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
+      <VVTextField name="descricao" label="Descrição" placeholder="Digite aqui" />
+      <VVTextField name="codigo" label="Código" placeholder="Digite aqui" />
+      <VVTextField name="capacidade" label="Capacidade" placeholder="Digite aqui" type="number" />
+      <VVTextField name="tipo" label="Tipo" placeholder="Digite aqui" />
+    </UIFormLayout>
   </form>
+
+  <DialogConfirm
+    v-model="confirmDelete.isOpen.value"
+    message="Deseja realmente excluir este ambiente?"
+    @confirm="confirmDelete.onConfirm"
+  />
 </template>

@@ -2,7 +2,13 @@
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 import FormacoesForm from './Form/Form.vue';
 
-const { crudModule } = useLadesaApiCrudOfertasFormacoes();
+const api = useApiClient();
+
+const crudModule = {
+  baseQueryKeys: ['ofertas-formacoes'] as string[],
+  list: (data?: any) => api.ofertasFormacoes.ofertaFormacaoFindAll(data),
+  getOne: (id: string) => api.ofertasFormacoes.ofertaFormacaoFindById({ id }),
+} as any;
 
 const options = createApiListContextOptions({ crudModule });
 </script>

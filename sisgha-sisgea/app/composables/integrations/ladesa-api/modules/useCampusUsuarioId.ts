@@ -1,4 +1,4 @@
-import { useApiContext } from '../../../../components/API/Context/setup-context';
+import { useApiContext } from '~/composables/api-context/setup';
 
 export async function useCampusUsuarioId(): Promise<string> {
   const { usuario } = useApiContext();

@@ -1,4 +1,4 @@
-import { useApiContext } from '~/components/API/Context/setup-context';
+import { useApiContext } from '~/composables/api-context/setup';
 import type { CampusFindOneOutputDto } from '~/helpers/api-client';
 
 type campiPorCargo = { cargo: string; campi: CampusFindOneOutputDto[] };

@@ -48,9 +48,6 @@ importers:
       '@tanstack/vue-query':
         specifier: ^5.76.0
         version: 5.92.9(vue@3.5.30(typescript@5.9.3))
-      '@types/lodash':
-        specifier: ^4.17.24
-        version: 4.17.24
       '@vueuse/core':
         specifier: ^14.2.1
         version: 14.2.1(vue@3.5.30(typescript@5.9.3))
@@ -103,6 +100,9 @@ importers:
       '@hey-api/openapi-ts':
         specifier: ^0.53.12
         version: 0.53.12(magicast@0.5.1)(typescript@5.9.3)
+      '@types/lodash':
+        specifier: ^4.17.24
+        version: 4.17.24
       type-fest:
         specifier: ^5.4.4
         version: 5.4.4

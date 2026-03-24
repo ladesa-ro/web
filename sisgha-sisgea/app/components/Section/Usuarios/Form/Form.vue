@@ -20,12 +20,11 @@ const editIdRef = toRef(props, 'editId');
 
 //
 
-const {
-  composables: { useFindOneQuery },
-} = useLadesaApiCrudUsuarios();
+const usuarios = useUsuarios();
 
-const { data: currentUsuario, suspense } = useFindOneQuery(editIdRef);
-await suspense();
+const findOneQuery = usuarios.findOne(editIdRef);
+const currentUsuario = findOneQuery.data;
+await findOneQuery.suspense();
 
 const { vinculosAtivos } = await useApiUsuarioPerfisAtivos(editIdRef);
 

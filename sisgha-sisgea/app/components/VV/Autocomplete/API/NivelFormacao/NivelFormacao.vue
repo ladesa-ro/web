@@ -14,7 +14,12 @@ const { name } = toRefs(props);
 
 //
 
-const { crudModule } = useLadesaApiCrudNiveisFormacoes();
+const apiClient = useApiClient();
+const crudModule = {
+  baseQueryKeys: ['niveis-formacoes'],
+  list: (data: any) => apiClient.niveisFormacoes.nivelFormacaoFindAll(data),
+  getOne: (id: string) => apiClient.niveisFormacoes.nivelFormacaoFindById({ id }),
+} as any;
 
 const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,

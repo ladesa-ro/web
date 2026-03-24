@@ -2,7 +2,13 @@
 import ModalidadesForm from './Form/Form.vue';
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 
-const { crudModule } = useLadesaApiCrudModalidades();
+const api = useApiClient();
+
+const crudModule = {
+  baseQueryKeys: ['modalidades'] as string[],
+  list: (data?: any) => api.modalidades.modalidadeFindAll(data),
+  getOne: (id: string) => api.modalidades.modalidadeFindById({ id }),
+} as any;
 
 const options = createApiListContextOptions({ crudModule });
 </script>

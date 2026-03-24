@@ -2,7 +2,13 @@
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 import CursosForm from './Form/Form.vue';
 
-const { crudModule } = useLadesaApiCrudCursos();
+const api = useApiClient();
+
+const crudModule = {
+  baseQueryKeys: ['cursos'] as string[],
+  list: (data?: any) => api.cursos.cursoFindAll(data),
+  getOne: (id: string) => api.cursos.cursoFindById({ id }),
+} as any;
 
 const options = createApiListContextOptions({ crudModule });
 </script>

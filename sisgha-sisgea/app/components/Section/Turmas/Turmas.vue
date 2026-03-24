@@ -1,7 +1,13 @@
 <script lang="ts" setup>
 import TurmasForm from './Form/Form.vue';
 
-const { crudModule } = useLadesaApiCrudTurmas();
+const api = useApiClient();
+
+const crudModule = {
+  baseQueryKeys: ['turmas'] as string[],
+  list: (data?: any) => api.turmas.turmaFindAll(data),
+  getOne: (id: string) => api.turmas.turmaFindById({ id }),
+} as any;
 
 const options = { crudModule };
 </script>

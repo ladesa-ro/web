@@ -2,7 +2,13 @@
 import AmbientesForm from '~/components/Section/Ambientes/Form/Form.vue';
 import { createApiListContextOptions } from '~~/app/components/UI/API/List/Context/UIApiListContext';
 
-const { crudModule } = useLadesaApiCrudAmbientes();
+const api = useApiClient();
+
+const crudModule = {
+  baseQueryKeys: ['ambientes'] as string[],
+  list: (data?: any) => api.ambientes.ambienteFindAll(data),
+  getOne: (id: string) => api.ambientes.ambienteFindById({ id }),
+} as any;
 
 const options = createApiListContextOptions({ crudModule });
 </script>

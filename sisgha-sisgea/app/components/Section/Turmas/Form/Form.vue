@@ -4,7 +4,6 @@ import type {
   TurmaCreateInputDto,
   TurmaUpdateInputDto,
 } from '~/helpers/api-client';
-import { getQueryKeyForCrudModuleQueryState } from '../../../../composables/integrations/generic-crud/utils/get-query-key';
 import { type ICreateOrManageConfig } from '../../../Forms/CreateOrManage/Base/Control/config';
 import { setupCreateOrManageControlContext } from '../../../Forms/CreateOrManage/Contextual/useCreateOrManageControlContext';
 import {
@@ -27,15 +26,12 @@ const isAvailabilityOpen = ref(true);
 
 const schema = useTurmaFormSchema();
 
-const {
-  crudModule,
-  composables: { useFindOneQuery },
-} = useLadesaApiCrudTurmas();
+const turmas = useTurmas();
 
-const { query: findOneQuery } = useFindOneQuery(editId);
+const findOneQuery = turmas.findOne(editId);
 
 const formStateQuery = useQuery({
-  queryKey: getQueryKeyForCrudModuleQueryState(crudModule, editId),
+  queryKey: computed(() => [...turmas.keys, 'detail', editId, 'form-state']),
 
   queryFn: async (): Promise<ITurmaFormOutput | null> => {
     const { data } = await findOneQuery.suspense();
@@ -67,7 +63,7 @@ const config = {
   },
 
   crud: {
-    baseQueryKeys: crudModule.baseQueryKeys,
+    baseQueryKeys: [...turmas.keys],
 
     create: {
       perform: async formData => {
@@ -77,7 +73,7 @@ const config = {
           ambientePadraoAula: formData.ambientePadraoAula,
         };
 
-        await crudModule.create(data);
+        await turmas.create(data);
 
         return true;
       },
@@ -89,7 +85,7 @@ const config = {
 
     delete: {
       perform: async id => {
-        await crudModule.deleteOne(id);
+        await turmas.remove(id);
         return true;
       },
     },
@@ -102,7 +98,7 @@ const config = {
           ambientePadraoAula: formData.ambientePadraoAula,
         };
 
-        await crudModule.updateOne(id, data);
+        await turmas.update(id, data);
 
         return true;
       },

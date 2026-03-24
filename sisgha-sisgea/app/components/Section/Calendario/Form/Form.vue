@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 // # IMPORTS
-import IconCalendar from '@/components/Icons/Calendar/Calendar.vue';
-import IconEvent from '@/components/Icons/Event.vue';
+import IconCalendar from '~/components/Icons/Calendar/Calendar.vue';
+import IconEvent from '~/components/Icons/Event.vue';
 import { nextTick, ref, watch } from 'vue';
 import type { CalendarEvent } from '../Types';
 

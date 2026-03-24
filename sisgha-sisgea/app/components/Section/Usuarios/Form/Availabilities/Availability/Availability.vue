@@ -23,11 +23,11 @@ const emit = defineEmits<{
   (e: 'atualizar-dia-selecionado', dia: string): void;
 }>();
 
-const {
-  composables: { useFindOneQuery },
-} = useLadesaApiCrudCampi();
+const campi_api = useCampi();
 
-const { data: campus, suspense } = useFindOneQuery(props.vinculo.campus.id);
+const campusQuery = campi_api.findOne(ref(props.vinculo.campus.id));
+
+const campus = campusQuery.data;
 
 const { dayShifts, selectedDayWeek: selectedDay, selectedTimes, availabilityByDay } = useAvailability();
 
@@ -43,7 +43,7 @@ watch(selectedTimes, novos => {
   availabilityByDay.value[selectedDay.value] = [...novos];
 });
 
-await suspense();
+await campusQuery.suspense();
 
 const motivosIndisponibilidade = ref<
   Record<string, { horario: string; motivo: string }[]>

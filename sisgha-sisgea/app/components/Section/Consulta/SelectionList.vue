@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import { useQuery } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { listCursos } from '~/composables/useTanstackQuery';
 import type { ParsedItem } from '~/composables/useOptionItems';
+
+const ofertasFormacoes = useOfertasFormacoes();
+const cursos = useCursos();
+const turmas = useTurmas();
 
 const schema = yup.object().shape({
   campusId: yup.string().uuid().required(),
@@ -30,31 +32,22 @@ const getFieldRef = (field: any) => {
   return defineField(field)[0];
 };
 
-const formacaoQuery = useQuery({
-  ...listOfertasFormacao(),
-  enabled: computed(() => values.campusId !== null),
-});
+const formacaoQuery = ofertasFormacoes.list();
 
-const cursoQuery = useQuery({
-  ...listCursos(computed(() => ({
-    filterCampusId: wrapFilter(values.campusId),
-    filterOfertaFormacaoId: wrapFilter(values.formacaoId),
-  }))),
-  enabled: computed(() => values.campusId !== null && values.formacaoId !== null),
-});
+const cursoQuery = cursos.list(computed(() => ({
+  filterCampusId: wrapFilter(values.campusId),
+  filterOfertaFormacaoId: wrapFilter(values.formacaoId),
+})));
 
-const turmaQuery = useQuery({
-  ...listTurmas(computed(() => ({
-    filterCursoId: wrapFilter(values.cursoId),
-  }))),
-  enabled: computed(() => values.campusId !== null && values.formacaoId !== null && values.cursoId !== null),
-});
+const turmaQuery = turmas.list(computed(() => ({
+  filterCursoId: wrapFilter(values.cursoId),
+})));
 
 type SelectionData = {
   field: string;
   name: string;
 
-  query: ReturnType<typeof useQuery>;
+  query: { data: Ref<any>; isEnabled: Ref<boolean>; isError: Ref<boolean>; isLoading: Ref<boolean>; isFetching: Ref<boolean> };
   open: Ref<boolean>;
   value: Ref<string | null>;
 

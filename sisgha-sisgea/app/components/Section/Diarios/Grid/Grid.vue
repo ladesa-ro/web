@@ -9,18 +9,15 @@ type Props = {
 
 const { searchBarText } = defineProps<Props>();
 
-const {
-  composables: { useListQuery },
-} = useLadesaApiCrudDiarios();
+const diarios_api = useDiarios();
 
 const queries = computed(() => ({ search: searchBarText }));
 
-const {
-  data: { items: diarios },
-  methods: { suspend },
-} = useListQuery(queries);
+const listQuery = diarios_api.list(queries);
 
-await suspend();
+const diarios = computed(() => listQuery.data.value?.data ?? null);
+
+await listQuery.suspense();
 </script>
 
 <template>

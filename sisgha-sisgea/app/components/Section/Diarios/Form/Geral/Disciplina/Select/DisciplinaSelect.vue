@@ -11,21 +11,16 @@ const options = computed(() => ({
   search: unref(searchBarText),
 }));
 
-const {
-  composables: { useListQuery },
-} = useLadesaApiCrudDisciplinas();
+const disciplinas = useDisciplinas();
 
-const {
-  data: { items: disciplinas },
-  methods: { suspend },
-  queryStatus: { isLoading },
-} = useListQuery(options);
+const listQuery = disciplinas.list(options);
+const isLoading = listQuery.isLoading;
 
-await suspend();
+await listQuery.suspense();
 
 const radioItems = computed(
   () =>
-    disciplinas.value?.map(disciplina => ({
+    listQuery.data.value?.data?.map(disciplina => ({
       value: disciplina,
       label: disciplina.nome,
     })) || []

@@ -11,7 +11,18 @@ const { name, filter } = toRefs(props);
 
 //
 
-const { crudModule } = useLadesaApiCrudCalendarioLetivo();
+const apiClient = useApiClient();
+const crudModule = {
+  baseQueryKeys: ['calendarioLetivo'],
+  list: (data: any, contextCampiRef: any) => {
+    const contextCampi = unref(contextCampiRef);
+    return apiClient.calendariosLetivos.calendarioLetivoFindAll({
+      ...data,
+      filterCampusId: contextCampi ? [contextCampi] : undefined,
+    });
+  },
+  getOne: (id: string) => apiClient.calendariosLetivos.calendarioLetivoFindById({ id }),
+} as any;
 
 const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,

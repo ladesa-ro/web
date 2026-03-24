@@ -2,7 +2,13 @@
 import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
 import DisciplinasForm from './Form/Form.vue';
 
-const { crudModule } = useLadesaApiCrudDisciplinas();
+const api = useApiClient();
+
+const crudModule = {
+  baseQueryKeys: ['disciplinas'] as string[],
+  list: (data?: any) => api.disciplinas.disciplinaFindAll(data),
+  getOne: (id: string) => api.disciplinas.disciplinaFindById({ id }),
+} as any;
 
 const options = createApiListContextOptions({ crudModule });
 </script>

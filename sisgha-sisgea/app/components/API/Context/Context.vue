@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { createApiContext } from './setup-context';
+import { createApiContext } from '~/composables/api-context/setup';
 
 const { suspense } = createApiContext();
 

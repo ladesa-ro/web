@@ -27,7 +27,6 @@
     "@tanstack/query-persist-client-core": "^5.76.1",
     "@tanstack/query-sync-storage-persister": "^5.76.1",
     "@tanstack/vue-query": "^5.76.0",
-    "@types/lodash": "^4.17.24",
     "@vueuse/core": "^14.2.1",
     "dayjs": "^1.11.20",
     "jose": "^6.2.2",
@@ -47,6 +46,7 @@
   "devDependencies": {
     "@babel/runtime": "^7.29.2",
     "@hey-api/openapi-ts": "^0.53.12",
+    "@types/lodash": "^4.17.24",
     "type-fest": "^5.4.4",
     "typescript": "5.9.3",
     "vue-tsc": "3.2.6"
