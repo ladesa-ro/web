@@ -3,19 +3,19 @@
 export type GenericInput = Record<string, any>;
 
 export type PaginationOptions = {
-  limit?: number;
-  page?: number;
-  search?: string;
-  sortBy?: Array<string>;
+  limit?: number | null;
+  page?: number | null;
+  search?: string | null;
+  sortBy?: Array<string> | null;
 };
 
 export type PaginationSortBy<Properties extends string = string> = {
-  sortBy?: Array<`${Properties}:${'ASC' | 'DESC'}` | string>;
+  sortBy?: Array<`${Properties}:${'ASC' | 'DESC'}` | string> | null;
 };
 
 export type PaginationFilters<Filters extends string = string> = Record<
   `filter${Filters}`,
-  any[] | undefined
+  any[] | any | null | undefined
 >;
 
 export type IApiCoreListInput<

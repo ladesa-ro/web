@@ -6,8 +6,8 @@ export type IDiarioProfessorApiModuleTypings = {
   CompleteView: ApiClientTypings.DiarioProfessorFindOneOutputDto;
 
   Create: {
-    Data: ApiClientTypings.DiarioProfessorCreateInputDto;
-    Result: ApiClientTypings.DiarioProfessorCreateResponse;
+    Data: ApiClientTypings.DiarioProfessorBulkReplaceInputDto;
+    Result: ApiClientTypings.DiarioProfessorBulkReplaceResponse;
   };
 
   GetOne: {
@@ -21,8 +21,8 @@ export type IDiarioProfessorApiModuleTypings = {
   };
 
   Update: {
-    Data: ApiClientTypings.DiarioProfessorUpdateInputDto;
-    Result: ApiClientTypings.DiarioProfessorUpdateResponse;
+    Data: ApiClientTypings.DiarioProfessorBulkReplaceInputDto;
+    Result: ApiClientTypings.DiarioProfessorBulkReplaceResponse;
   };
 };
 
@@ -30,33 +30,24 @@ export const createDiariosProfessoresCrudModule = withApiClient(apiClient => {
   return {
     baseQueryKeys: ['diarios-professores'],
 
-    create(requestBody) {
-      return apiClient.diariosProfessores.diarioProfessorCreate({
-        requestBody,
-      });
+    create(requestBody: any) {
+      return apiClient.diarios.diarioProfessorBulkReplace(requestBody);
     },
 
-    list(data) {
-      return apiClient.diariosProfessores.diarioProfessorFindAll(data);
+    list(data: any) {
+      return apiClient.diarios.diarioProfessorFindAll(data);
     },
 
-    getOne(id) {
-      return apiClient.diariosProfessores.diarioProfessorFindById({
-        id,
-      });
+    getOne(_id: string): Promise<any> {
+      return Promise.reject(new Error('DiarioProfessor findById não disponível'));
     },
 
-    updateOne(id, requestBody) {
-      return apiClient.diariosProfessores.diarioProfessorUpdate({
-        id,
-        requestBody,
-      });
+    updateOne(_id: string, requestBody: any) {
+      return apiClient.diarios.diarioProfessorBulkReplace(requestBody);
     },
 
-    deleteOne(id) {
-      return apiClient.diariosProfessores.diarioProfessorDeleteOneById({
-        id,
-      });
+    deleteOne(_id: string): Promise<any> {
+      return Promise.reject(new Error('DiarioProfessor delete não disponível'));
     },
   } satisfies IGenericCrudModule<IDiarioProfessorApiModuleTypings>;
 });

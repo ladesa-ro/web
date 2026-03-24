@@ -140,5 +140,5 @@ export const listPerfis = (
 ) =>
   queryOptions({
     queryKey: ['perfil', 'perfis-list'],
-    queryFn: async () => await apiClient.perfis.perfilFindAll(filter),
+    queryFn: async () => await apiClient.usuarios.perfilFindAll(filter as any),
   });

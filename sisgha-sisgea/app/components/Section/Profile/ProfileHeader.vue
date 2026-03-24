@@ -50,11 +50,11 @@ const { data: userVinculosResponse } = useQuery({
 
 const userCampusItems = computed(() =>
   (userVinculosResponse.value?.data ?? [])
-    .map(v => ({
+    .map((v: any) => ({
       label: v.campus?.apelido ?? 'Desconhecido',
       value: v.campus?.id,
     }))
-    .filter((c, i, arr) => arr.findIndex(a => a.value === c.value) === i)
+    .filter((c: any, i: number, arr: any[]) => arr.findIndex((a: any) => a.value === c.value) === i)
 );
 
 const search = ref('');
@@ -84,7 +84,7 @@ const { data: vinculosResponse } = useQuery({
 
 const vinculos = computed(() =>
   (vinculosResponse.value?.data ?? []).filter(
-    v => v.campus?.id === selectedCampusLocal.value
+    (v: any) => v.campus?.id === selectedCampusLocal.value
   )
 );
 

@@ -48,3 +48,11 @@ export const useLadesaApiCrudTurmas = () => {
 export const useLadesaApiCrudOfertasFormacoes = () => {
   return c(createOfertasFormacoesCrudModule);
 };
+
+export const useLadesaApiCrudModalidades = () => {
+  return c(createModalidadesCrudModule);
+};
+
+export const useLadesaApiCrudNiveisFormacoes = () => {
+  return c(createNiveisFormacoesCrudModule);
+};

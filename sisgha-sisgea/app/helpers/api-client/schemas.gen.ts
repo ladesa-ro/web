@@ -73,13 +73,14 @@ export const $ModalidadeFindOneOutputDto = {
         },
         nome: {
             type: 'string',
-            description: 'Nome da modalidade',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome da modalidade'
         },
         slug: {
             type: 'string',
-            description: 'Apelido da modalidade',
-            minLength: 1
+            minLength: 1,
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$',
+            description: 'Apelido da modalidade'
         }
     },
     required: ['id', 'dateCreated', 'dateUpdated', 'nome', 'slug']
@@ -112,13 +113,14 @@ export const $ModalidadeCreateInputDto = {
     properties: {
         nome: {
             type: 'string',
-            description: 'Nome da modalidade',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome da modalidade'
         },
         slug: {
             type: 'string',
-            description: 'Apelido da modalidade',
-            minLength: 1
+            minLength: 1,
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$',
+            description: 'Apelido da modalidade'
         }
     },
     required: ['nome', 'slug']
@@ -129,13 +131,14 @@ export const $ModalidadeUpdateInputDto = {
     properties: {
         nome: {
             type: 'string',
-            description: 'Nome da modalidade',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome da modalidade'
         },
         slug: {
             type: 'string',
-            description: 'Apelido da modalidade',
-            minLength: 1
+            minLength: 1,
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$',
+            description: 'Apelido da modalidade'
         }
     }
 } as const;
@@ -149,10 +152,12 @@ export const $EstadoFindOneOutputDto = {
         },
         nome: {
             type: 'string',
+            minLength: 1,
             description: 'Nome oficial do estado'
         },
         sigla: {
             type: 'string',
+            pattern: '^[A-Z]{2}$',
             description: 'Sigla do estado'
         }
     },
@@ -163,11 +168,12 @@ export const $CidadeFindOneOutputDto = {
     type: 'object',
     properties: {
         id: {
-            type: 'integer',
+            type: 'number',
             description: 'Identificador do registro (numerico)'
         },
         nome: {
             type: 'string',
+            minLength: 1,
             description: 'Nome oficial da cidade'
         },
         estado: {
@@ -274,23 +280,23 @@ export const $CampusFindOneOutputDto = {
         },
         nomeFantasia: {
             type: 'string',
-            description: 'Nome fantasia do campus',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome fantasia do campus'
         },
         razaoSocial: {
             type: 'string',
-            description: 'Razao social do campus',
-            minLength: 1
+            minLength: 1,
+            description: 'Razao social do campus'
         },
         apelido: {
             type: 'string',
-            description: 'Apelido do campus',
-            minLength: 1
+            minLength: 1,
+            description: 'Apelido do campus'
         },
         cnpj: {
             type: 'string',
-            description: 'CNPJ do campus',
-            minLength: 1
+            pattern: '^\\d{14}$',
+            description: 'CNPJ do campus'
         },
         endereco: {
             description: 'Endereco do campus',
@@ -309,8 +315,7 @@ export const $ArquivoFindOneOutputFromBlocoDto = {
     properties: {
         id: {
             type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
+            description: 'Identificador do registro (uuid)'
         }
     },
     required: ['id']
@@ -321,8 +326,7 @@ export const $ImagemArquivoFindOneFromImagemOutputFromBlocoDto = {
     properties: {
         id: {
             type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
+            description: 'Identificador do registro (uuid)'
         },
         largura: {
             type: 'integer',
@@ -420,21 +424,22 @@ export const $UsuarioFindOneOutputDto = {
         },
         nome: {
             type: 'string',
-            description: 'Nome do usuario',
             nullable: true,
-            minLength: 1
+            minLength: 1,
+            description: 'Nome do usuario'
         },
         matricula: {
             type: 'string',
-            description: 'Matrícula do usuário',
             nullable: true,
-            minLength: 1
+            minLength: 1,
+            description: 'Matrícula do usuário'
         },
         email: {
             type: 'string',
-            description: 'E-mail do usuario',
             nullable: true,
-            format: 'email'
+            format: 'email',
+            pattern: "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            description: 'E-mail do usuario'
         },
         isSuperUser: {
             type: 'boolean',
@@ -493,6 +498,7 @@ export const $PerfilFindOneOutputDto = {
         },
         cargo: {
             type: 'string',
+            minLength: 1,
             description: 'Cargo do usuario no vinculo'
         },
         campus: {
@@ -542,8 +548,7 @@ export const $CampusFindOneInputDto = {
     properties: {
         id: {
             type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
+            description: 'Identificador do registro (uuid)'
         }
     },
     required: ['id']
@@ -554,8 +559,7 @@ export const $UsuarioFindOneInputDto = {
     properties: {
         id: {
             type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
+            description: 'Identificador do registro (uuid)'
         }
     },
     required: ['id']
@@ -566,14 +570,13 @@ export const $PerfilSetVinculosInputDto = {
     properties: {
         cargos: {
             description: 'Lista de cargos que o usuario tera no campus',
-            example: ['professor', 'coordenador'],
             type: 'array',
             items: {
                 type: 'string'
             }
         },
         campus: {
-            description: 'Campus onde os vinculos serao definidos',
+            description: 'Campus associado ao vinculo',
             allOf: [
                 {
                     '$ref': '#/components/schemas/CampusFindOneInputDto'
@@ -581,7 +584,7 @@ export const $PerfilSetVinculosInputDto = {
             ]
         },
         usuario: {
-            description: 'Usuario que recebera os vinculos',
+            description: 'Usuario associado ao vinculo',
             allOf: [
                 {
                     '$ref': '#/components/schemas/UsuarioFindOneInputDto'
@@ -703,21 +706,22 @@ export const $UsuarioCreateInputDto = {
     properties: {
         nome: {
             type: 'string',
-            description: 'Nome do usuario',
             nullable: true,
-            minLength: 1
+            minLength: 1,
+            description: 'Nome do usuario'
         },
         matricula: {
             type: 'string',
-            description: 'Matrícula do usuário',
             nullable: true,
-            minLength: 1
+            minLength: 1,
+            description: 'Matrícula do usuário'
         },
         email: {
             type: 'string',
-            description: 'E-mail do usuario',
             nullable: true,
-            format: 'email'
+            format: 'email',
+            pattern: "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            description: 'E-mail do usuario'
         }
     }
 } as const;
@@ -727,21 +731,360 @@ export const $UsuarioUpdateInputDto = {
     properties: {
         nome: {
             type: 'string',
-            description: 'Nome do usuario',
             nullable: true,
-            minLength: 1
+            minLength: 1,
+            description: 'Nome do usuario'
         },
         matricula: {
             type: 'string',
-            description: 'Matrícula do usuário',
             nullable: true,
-            minLength: 1
+            minLength: 1,
+            description: 'Matrícula do usuário'
         },
         email: {
             type: 'string',
-            description: 'E-mail do usuario',
             nullable: true,
-            format: 'email'
+            format: 'email',
+            pattern: "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            description: 'E-mail do usuario'
+        }
+    }
+} as const;
+
+export const $HorarioAulaItemDisciplinaDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        nome: {
+            type: 'string'
+        },
+        nomeAbreviado: {
+            type: 'string'
+        }
+    },
+    required: ['id', 'nome', 'nomeAbreviado']
+} as const;
+
+export const $HorarioAulaItemTurmaDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        periodo: {
+            type: 'number'
+        }
+    },
+    required: ['id', 'periodo']
+} as const;
+
+export const $HorarioAulaItemDiarioDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        disciplina: {
+            '$ref': '#/components/schemas/HorarioAulaItemDisciplinaDto'
+        },
+        turma: {
+            '$ref': '#/components/schemas/HorarioAulaItemTurmaDto'
+        }
+    },
+    required: ['id', 'disciplina', 'turma']
+} as const;
+
+export const $HorarioAulaItemProfessorPerfilDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        cargo: {
+            type: 'string'
+        }
+    },
+    required: ['id', 'cargo']
+} as const;
+
+export const $HorarioAulaItemProfessorUsuarioDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        nome: {
+            type: 'string',
+            nullable: true
+        }
+    },
+    required: ['id']
+} as const;
+
+export const $HorarioAulaItemProfessorDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        perfil: {
+            '$ref': '#/components/schemas/HorarioAulaItemProfessorPerfilDto'
+        },
+        usuario: {
+            '$ref': '#/components/schemas/HorarioAulaItemProfessorUsuarioDto'
+        }
+    },
+    required: ['id', 'perfil', 'usuario']
+} as const;
+
+export const $HorarioAulaItemAmbienteDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        nome: {
+            type: 'string'
+        },
+        codigo: {
+            type: 'string'
+        }
+    },
+    required: ['id', 'nome', 'codigo']
+} as const;
+
+export const $HorarioAulaItemDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date'
+        },
+        dataFim: {
+            type: 'string',
+            format: 'date',
+            nullable: true
+        },
+        horarioInicio: {
+            type: 'string'
+        },
+        horarioFim: {
+            type: 'string'
+        },
+        nome: {
+            type: 'string',
+            nullable: true
+        },
+        cor: {
+            type: 'string',
+            nullable: true
+        },
+        diario: {
+            nullable: true,
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/HorarioAulaItemDiarioDto'
+                }
+            ]
+        },
+        professores: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/HorarioAulaItemProfessorDto'
+            }
+        },
+        ambiente: {
+            nullable: true,
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/HorarioAulaItemAmbienteDto'
+                }
+            ]
+        }
+    },
+    required: ['id', 'dataInicio', 'horarioInicio', 'horarioFim', 'professores']
+} as const;
+
+export const $HorarioSemanalDiaDto = {
+    type: 'object',
+    properties: {
+        data: {
+            type: 'string',
+            format: 'date'
+        },
+        diaSemana: {
+            type: 'number',
+            description: '0=dom, 1=seg, ..., 6=sab'
+        },
+        aulas: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/HorarioAulaItemDto'
+            }
+        }
+    },
+    required: ['data', 'diaSemana', 'aulas']
+} as const;
+
+export const $HorarioSemanalOutputDto = {
+    type: 'object',
+    properties: {
+        semanaInicio: {
+            type: 'string',
+            format: 'date'
+        },
+        semanaFim: {
+            type: 'string',
+            format: 'date'
+        },
+        dias: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/HorarioSemanalDiaDto'
+            }
+        }
+    },
+    required: ['semanaInicio', 'semanaFim', 'dias']
+} as const;
+
+export const $UsuarioEventoFindOneOutputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        nome: {
+            type: 'string',
+            nullable: true
+        },
+        tipo: {
+            type: 'string'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date'
+        },
+        dataFim: {
+            type: 'string',
+            format: 'date',
+            nullable: true
+        },
+        diaInteiro: {
+            type: 'boolean'
+        },
+        horarioInicio: {
+            type: 'string'
+        },
+        horarioFim: {
+            type: 'string'
+        },
+        cor: {
+            type: 'string',
+            nullable: true
+        },
+        repeticao: {
+            type: 'string',
+            nullable: true
+        },
+        status: {
+            type: 'string',
+            nullable: true
+        }
+    },
+    required: ['id', 'tipo', 'dataInicio', 'diaInteiro', 'horarioInicio', 'horarioFim']
+} as const;
+
+export const $UsuarioEventoListOutputDto = {
+    type: 'object',
+    properties: {
+        data: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/UsuarioEventoFindOneOutputDto'
+            }
+        }
+    },
+    required: ['data']
+} as const;
+
+export const $UsuarioEventoCreateInputDto = {
+    type: 'object',
+    properties: {
+        nome: {
+            type: 'string',
+            description: 'Nome do evento/atividade'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date'
+        },
+        dataFim: {
+            type: 'string',
+            format: 'date',
+            nullable: true
+        },
+        diaInteiro: {
+            type: 'boolean'
+        },
+        horarioInicio: {
+            type: 'string'
+        },
+        horarioFim: {
+            type: 'string'
+        },
+        cor: {
+            type: 'string',
+            nullable: true
+        },
+        repeticao: {
+            type: 'string',
+            nullable: true
+        },
+        tipo: {
+            type: 'string',
+            enum: ['EVENTO', 'INDISPONIBILIDADE'],
+            description: 'Tipo: EVENTO (atividade) ou INDISPONIBILIDADE'
+        }
+    },
+    required: ['nome', 'dataInicio', 'diaInteiro']
+} as const;
+
+export const $UsuarioEventoUpdateInputDto = {
+    type: 'object',
+    properties: {
+        nome: {
+            type: 'string'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date'
+        },
+        dataFim: {
+            type: 'string',
+            format: 'date',
+            nullable: true
+        },
+        diaInteiro: {
+            type: 'boolean'
+        },
+        horarioInicio: {
+            type: 'string'
+        },
+        horarioFim: {
+            type: 'string'
+        },
+        cor: {
+            type: 'string',
+            nullable: true
+        },
+        repeticao: {
+            type: 'string',
+            nullable: true
         }
     }
 } as const;
@@ -772,7 +1115,7 @@ export const $CidadeFindOneInputDto = {
     type: 'object',
     properties: {
         id: {
-            type: 'integer',
+            type: 'number',
             description: 'Identificador do registro (numerico)'
         }
     },
@@ -827,23 +1170,23 @@ export const $CampusCreateInputDto = {
     properties: {
         nomeFantasia: {
             type: 'string',
-            description: 'Nome fantasia do campus',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome fantasia do campus'
         },
         razaoSocial: {
             type: 'string',
-            description: 'Razao social do campus',
-            minLength: 1
+            minLength: 1,
+            description: 'Razao social do campus'
         },
         apelido: {
             type: 'string',
-            description: 'Apelido do campus',
-            minLength: 1
+            minLength: 1,
+            description: 'Apelido do campus'
         },
         cnpj: {
             type: 'string',
-            description: 'CNPJ do campus',
-            minLength: 1
+            pattern: '^\\d{14}$',
+            description: 'CNPJ do campus'
         },
         endereco: {
             description: 'Endereco do campus',
@@ -862,23 +1205,23 @@ export const $CampusUpdateInputDto = {
     properties: {
         nomeFantasia: {
             type: 'string',
-            description: 'Nome fantasia do campus',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome fantasia do campus'
         },
         razaoSocial: {
             type: 'string',
-            description: 'Razao social do campus',
-            minLength: 1
+            minLength: 1,
+            description: 'Razao social do campus'
         },
         apelido: {
             type: 'string',
-            description: 'Apelido do campus',
-            minLength: 1
+            minLength: 1,
+            description: 'Apelido do campus'
         },
         cnpj: {
             type: 'string',
-            description: 'CNPJ do campus',
-            minLength: 1
+            pattern: '^\\d{14}$',
+            description: 'CNPJ do campus'
         },
         endereco: {
             description: 'Endereco do campus',
@@ -891,7 +1234,7 @@ export const $CampusUpdateInputDto = {
     }
 } as const;
 
-export const $ProfessorIndisponibilidadeFindOneOutputDto = {
+export const $NivelFormacaoFindOneOutputDto = {
     type: 'object',
     properties: {
         id: {
@@ -916,51 +1259,49 @@ export const $ProfessorIndisponibilidadeFindOneOutputDto = {
             format: 'date-time',
             nullable: true
         },
-        idPerfilFk: {
+        slug: {
             type: 'string',
-            description: 'Identificador do perfil (uuid)',
-            format: 'uuid'
-        },
-        diaDaSemana: {
-            type: 'integer',
-            description: 'Dia da semana (0=domingo, 1=segunda, ..., 6=sabado)'
-        },
-        horaInicio: {
-            type: 'string',
-            description: 'Hora de inicio da indisponibilidade'
-        },
-        horaFim: {
-            type: 'string',
-            description: 'Hora de termino da indisponibilidade'
-        },
-        motivo: {
-            type: 'string',
-            description: 'Motivo da indisponibilidade'
+            minLength: 1,
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$',
+            description: 'Apelido do nivel de formacao'
         }
     },
-    required: ['id', 'dateCreated', 'dateUpdated', 'idPerfilFk', 'diaDaSemana', 'horaInicio', 'horaFim', 'motivo']
+    required: ['id', 'dateCreated', 'dateUpdated', 'slug']
 } as const;
 
-export const $ProfessorIndisponibilidadeListOutputDto = {
+export const $OfertaFormacaoPeriodoEtapaOutputDto = {
     type: 'object',
     properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
+        id: {
+            type: 'string'
         },
-        data: {
-            description: 'Resultados da busca',
+        nome: {
+            type: 'string'
+        },
+        cor: {
+            type: 'string'
+        }
+    },
+    required: ['id', 'nome', 'cor']
+} as const;
+
+export const $OfertaFormacaoPeriodoOutputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        numeroPeriodo: {
+            type: 'integer'
+        },
+        etapas: {
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/ProfessorIndisponibilidadeFindOneOutputDto'
+                '$ref': '#/components/schemas/OfertaFormacaoPeriodoEtapaOutputDto'
             }
         }
     },
-    required: ['meta', 'data']
+    required: ['id', 'numeroPeriodo', 'etapas']
 } as const;
 
 export const $OfertaFormacaoFindOneOutputDto = {
@@ -990,13 +1331,19 @@ export const $OfertaFormacaoFindOneOutputDto = {
         },
         nome: {
             type: 'string',
-            description: 'Nome da oferta de formacao',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome da oferta de formacao'
         },
         slug: {
             type: 'string',
-            description: 'Apelido da oferta de formacao',
-            minLength: 1
+            minLength: 1,
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$',
+            description: 'Apelido da oferta de formacao'
+        },
+        duracaoPeriodoEmMeses: {
+            type: 'integer',
+            maximum: 9007199254740991,
+            description: 'Duracao de cada periodo em meses'
         },
         modalidade: {
             description: 'Modalidade da oferta de formacao',
@@ -1005,9 +1352,31 @@ export const $OfertaFormacaoFindOneOutputDto = {
                     '$ref': '#/components/schemas/ModalidadeFindOneOutputDto'
                 }
             ]
+        },
+        campus: {
+            description: 'Campus da oferta de formacao',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/CampusFindOneOutputDto'
+                }
+            ]
+        },
+        niveisFormacoes: {
+            description: 'Niveis de formacao vinculados a oferta de formacao',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/NivelFormacaoFindOneOutputDto'
+            }
+        },
+        periodos: {
+            description: 'Periodos com suas etapas do ano letivo',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/OfertaFormacaoPeriodoOutputDto'
+            }
         }
     },
-    required: ['id', 'dateCreated', 'dateUpdated', 'nome', 'slug', 'modalidade']
+    required: ['id', 'dateCreated', 'dateUpdated', 'nome', 'slug', 'duracaoPeriodoEmMeses', 'modalidade', 'campus', 'niveisFormacoes', 'periodos']
 } as const;
 
 export const $CursoFindOneOutputDto = {
@@ -1037,13 +1406,13 @@ export const $CursoFindOneOutputDto = {
         },
         nome: {
             type: 'string',
-            description: 'Nome do curso',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome do curso'
         },
         nomeAbreviado: {
             type: 'string',
-            description: 'Nome abreviado do curso',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome abreviado do curso'
         },
         campus: {
             description: 'Campus que o curso pertence',
@@ -1096,46 +1465,26 @@ export const $CursoListOutputDto = {
     required: ['meta', 'data']
 } as const;
 
-export const $OfertaFormacaoFindOneInputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
-        }
-    },
-    required: ['id']
-} as const;
-
 export const $CursoCreateInputDto = {
     type: 'object',
     properties: {
         nome: {
             type: 'string',
-            description: 'Nome do curso',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome do curso'
         },
         nomeAbreviado: {
             type: 'string',
-            description: 'Nome abreviado do curso',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome abreviado do curso'
         },
         campus: {
-            description: 'Campus que o curso pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CampusFindOneInputDto'
-                }
-            ]
+            type: 'object',
+            description: 'Campus que o curso pertence'
         },
         ofertaFormacao: {
-            description: 'Oferta de formacao do curso',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/OfertaFormacaoFindOneInputDto'
-                }
-            ]
+            type: 'object',
+            description: 'Oferta de formacao do curso'
         }
     },
     required: ['nome', 'nomeAbreviado', 'campus', 'ofertaFormacao']
@@ -1146,31 +1495,122 @@ export const $CursoUpdateInputDto = {
     properties: {
         nome: {
             type: 'string',
-            description: 'Nome do curso',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome do curso'
         },
         nomeAbreviado: {
             type: 'string',
-            description: 'Nome abreviado do curso',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome abreviado do curso'
         },
         campus: {
-            description: 'Campus que o curso pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CampusFindOneInputDto'
-                }
-            ]
+            type: 'object',
+            description: 'Campus que o curso pertence'
         },
         ofertaFormacao: {
-            description: 'Oferta de formacao do curso',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/OfertaFormacaoFindOneInputDto'
-                }
-            ]
+            type: 'object',
+            description: 'Oferta de formacao do curso'
         }
     }
+} as const;
+
+export const $CursoPeriodoDisciplinaOutputItemDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        disciplinaId: {
+            type: 'string'
+        },
+        disciplinaNome: {
+            type: 'string',
+            nullable: true
+        },
+        cargaHoraria: {
+            type: 'integer',
+            nullable: true
+        }
+    },
+    required: ['id', 'disciplinaId']
+} as const;
+
+export const $CursoPeriodoDisciplinaOutputPeriodoDto = {
+    type: 'object',
+    properties: {
+        numeroPeriodo: {
+            type: 'integer'
+        },
+        disciplinas: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/CursoPeriodoDisciplinaOutputItemDto'
+            }
+        }
+    },
+    required: ['numeroPeriodo', 'disciplinas']
+} as const;
+
+export const $CursoPeriodoDisciplinaListOutputDto = {
+    type: 'object',
+    properties: {
+        data: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/CursoPeriodoDisciplinaOutputPeriodoDto'
+            }
+        }
+    },
+    required: ['data']
+} as const;
+
+export const $CursoPeriodoDisciplinaItemDto = {
+    type: 'object',
+    properties: {
+        disciplinaId: {
+            type: 'string',
+            format: 'uuid',
+            description: 'ID da disciplina'
+        },
+        cargaHoraria: {
+            type: 'integer',
+            description: 'Carga horaria',
+            minimum: 0
+        }
+    },
+    required: ['disciplinaId']
+} as const;
+
+export const $CursoPeriodoDisciplinaPeriodoItemDto = {
+    type: 'object',
+    properties: {
+        numeroPeriodo: {
+            type: 'integer',
+            description: 'Numero do periodo',
+            minimum: 1
+        },
+        disciplinas: {
+            description: 'Disciplinas do periodo',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/CursoPeriodoDisciplinaItemDto'
+            }
+        }
+    },
+    required: ['numeroPeriodo', 'disciplinas']
+} as const;
+
+export const $CursoPeriodoDisciplinaBulkReplaceInputDto = {
+    type: 'object',
+    properties: {
+        periodos: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/CursoPeriodoDisciplinaPeriodoItemDto'
+            }
+        }
+    },
+    required: ['periodos']
 } as const;
 
 export const $OfertaFormacaoListOutputDto = {
@@ -1195,16 +1635,38 @@ export const $OfertaFormacaoListOutputDto = {
     required: ['meta', 'data']
 } as const;
 
-export const $ModalidadeFindOneInputDto = {
+export const $OfertaFormacaoPeriodoEtapaInputDto = {
     type: 'object',
     properties: {
-        id: {
+        nome: {
             type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
+            description: 'Nome da etapa'
+        },
+        cor: {
+            type: 'string',
+            description: 'Cor da etapa (hex)'
         }
     },
-    required: ['id']
+    required: ['nome', 'cor']
+} as const;
+
+export const $OfertaFormacaoPeriodoInputDto = {
+    type: 'object',
+    properties: {
+        numeroPeriodo: {
+            type: 'integer',
+            description: 'Numero do periodo',
+            minimum: 1
+        },
+        etapas: {
+            description: 'Etapas do periodo (ao menos 1)',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/OfertaFormacaoPeriodoEtapaInputDto'
+            }
+        }
+    },
+    required: ['numeroPeriodo', 'etapas']
 } as const;
 
 export const $OfertaFormacaoCreateInputDto = {
@@ -1212,24 +1674,62 @@ export const $OfertaFormacaoCreateInputDto = {
     properties: {
         nome: {
             type: 'string',
-            description: 'Nome da oferta de formacao',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome da oferta de formacao'
         },
         slug: {
             type: 'string',
-            description: 'Apelido da oferta de formacao',
-            minLength: 1
+            minLength: 1,
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$',
+            description: 'Apelido da oferta de formacao'
+        },
+        duracaoPeriodoEmMeses: {
+            type: 'integer',
+            maximum: 9007199254740991,
+            description: 'Duracao de cada periodo em meses'
         },
         modalidade: {
+            type: 'object',
             description: 'Modalidade da oferta de formacao',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/ModalidadeFindOneInputDto'
+            properties: {
+                id: {
+                    type: 'string',
+                    format: 'uuid'
                 }
-            ]
+            }
+        },
+        campus: {
+            type: 'object',
+            description: 'Campus da oferta de formacao',
+            properties: {
+                id: {
+                    type: 'string',
+                    format: 'uuid'
+                }
+            }
+        },
+        niveisFormacoes: {
+            type: 'array',
+            description: 'Niveis de formacao vinculados a oferta de formacao',
+            items: {
+                type: 'object',
+                properties: {
+                    id: {
+                        type: 'string',
+                        format: 'uuid'
+                    }
+                }
+            }
+        },
+        periodos: {
+            description: 'Periodos com suas etapas do ano letivo',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/OfertaFormacaoPeriodoInputDto'
+            }
         }
     },
-    required: ['nome', 'slug', 'modalidade']
+    required: ['nome', 'slug', 'duracaoPeriodoEmMeses', 'modalidade', 'campus', 'niveisFormacoes', 'periodos']
 } as const;
 
 export const $OfertaFormacaoUpdateInputDto = {
@@ -1237,26 +1737,111 @@ export const $OfertaFormacaoUpdateInputDto = {
     properties: {
         nome: {
             type: 'string',
-            description: 'Nome da oferta de formacao',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome da oferta de formacao'
         },
         slug: {
             type: 'string',
-            description: 'Apelido da oferta de formacao',
-            minLength: 1
+            minLength: 1,
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$',
+            description: 'Apelido da oferta de formacao'
+        },
+        duracaoPeriodoEmMeses: {
+            type: 'integer',
+            maximum: 9007199254740991,
+            description: 'Duracao de cada periodo em meses'
         },
         modalidade: {
+            type: 'object',
             description: 'Modalidade da oferta de formacao',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/ModalidadeFindOneInputDto'
+            properties: {
+                id: {
+                    type: 'string',
+                    format: 'uuid'
                 }
-            ]
+            }
+        },
+        campus: {
+            type: 'object',
+            description: 'Campus da oferta de formacao',
+            properties: {
+                id: {
+                    type: 'string',
+                    format: 'uuid'
+                }
+            }
+        },
+        niveisFormacoes: {
+            type: 'array',
+            description: 'Niveis de formacao vinculados a oferta de formacao',
+            items: {
+                type: 'object',
+                properties: {
+                    id: {
+                        type: 'string',
+                        format: 'uuid'
+                    }
+                }
+            }
+        },
+        periodos: {
+            description: 'Periodos com suas etapas do ano letivo',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/OfertaFormacaoPeriodoInputDto'
+            }
         }
     }
 } as const;
 
-export const $IntervaloDeTempoFindOneOutputDto = {
+export const $NivelFormacaoListOutputDto = {
+    type: 'object',
+    properties: {
+        meta: {
+            description: 'Metadados da busca',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PaginationMetaRestDto'
+                }
+            ]
+        },
+        data: {
+            description: 'Resultados da busca',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/NivelFormacaoFindOneOutputDto'
+            }
+        }
+    },
+    required: ['meta', 'data']
+} as const;
+
+export const $NivelFormacaoCreateInputDto = {
+    type: 'object',
+    properties: {
+        slug: {
+            type: 'string',
+            minLength: 1,
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$',
+            description: 'Apelido do nivel de formacao'
+        }
+    },
+    required: ['slug']
+} as const;
+
+export const $NivelFormacaoUpdateInputDto = {
+    type: 'object',
+    properties: {
+        slug: {
+            type: 'string',
+            minLength: 1,
+            pattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$',
+            description: 'Apelido do nivel de formacao'
+        }
+    }
+} as const;
+
+export const $DisciplinaFindOneOutputDto = {
     type: 'object',
     properties: {
         id: {
@@ -1281,23 +1866,36 @@ export const $IntervaloDeTempoFindOneOutputDto = {
             format: 'date-time',
             nullable: true
         },
-        periodoInicio: {
+        nome: {
             type: 'string',
-            description: 'Horario que o intervalo de tempo inicia',
-            format: 'time',
-            example: '08:00:00'
+            minLength: 1,
+            description: 'Nome da disciplina'
         },
-        periodoFim: {
+        nomeAbreviado: {
             type: 'string',
-            description: 'Horario que o intervalo de tempo termina',
-            format: 'time',
-            example: '09:00:00'
+            minLength: 1,
+            description: 'Nome abreviado da disciplina'
+        },
+        cargaHoraria: {
+            type: 'integer',
+            minimum: 1,
+            maximum: 9007199254740991,
+            description: 'Carga horaria da disciplina'
+        },
+        imagemCapa: {
+            description: 'Imagem de capa da disciplina',
+            nullable: true,
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/ImagemFindOneOutputFromBlocoDto'
+                }
+            ]
         }
     },
-    required: ['id', 'dateCreated', 'dateUpdated', 'periodoInicio', 'periodoFim']
+    required: ['id', 'dateCreated', 'dateUpdated', 'nome', 'nomeAbreviado', 'cargaHoraria']
 } as const;
 
-export const $IntervaloDeTempoListOutputDto = {
+export const $DisciplinaListOutputDto = {
     type: 'object',
     properties: {
         meta: {
@@ -1312,11 +1910,292 @@ export const $IntervaloDeTempoListOutputDto = {
             description: 'Resultados da busca',
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/IntervaloDeTempoFindOneOutputDto'
+                '$ref': '#/components/schemas/DisciplinaFindOneOutputDto'
             }
         }
     },
     required: ['meta', 'data']
+} as const;
+
+export const $DisciplinaCreateInputDto = {
+    type: 'object',
+    properties: {
+        nome: {
+            type: 'string',
+            minLength: 1,
+            description: 'Nome da disciplina'
+        },
+        nomeAbreviado: {
+            type: 'string',
+            minLength: 1,
+            description: 'Nome abreviado da disciplina'
+        },
+        cargaHoraria: {
+            type: 'integer',
+            minimum: 1,
+            maximum: 9007199254740991,
+            description: 'Carga horaria da disciplina'
+        }
+    },
+    required: ['nome', 'nomeAbreviado', 'cargaHoraria']
+} as const;
+
+export const $DisciplinaUpdateInputDto = {
+    type: 'object',
+    properties: {
+        nome: {
+            type: 'string',
+            minLength: 1,
+            description: 'Nome da disciplina'
+        },
+        nomeAbreviado: {
+            type: 'string',
+            minLength: 1,
+            description: 'Nome abreviado da disciplina'
+        },
+        cargaHoraria: {
+            type: 'integer',
+            minimum: 1,
+            maximum: 9007199254740991,
+            description: 'Carga horaria da disciplina'
+        }
+    }
+} as const;
+
+export const $CalendarioEventoFindOneOutputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        nome: {
+            type: 'string',
+            nullable: true
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date'
+        },
+        dataFim: {
+            type: 'string',
+            format: 'date',
+            nullable: true
+        },
+        diaInteiro: {
+            type: 'boolean'
+        },
+        horarioInicio: {
+            type: 'string'
+        },
+        horarioFim: {
+            type: 'string'
+        },
+        cor: {
+            type: 'string',
+            nullable: true
+        },
+        repeticao: {
+            type: 'string',
+            nullable: true
+        },
+        status: {
+            type: 'string',
+            nullable: true
+        },
+        turmaIds: {
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        perfilIds: {
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        calendarioLetivoIds: {
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        ofertaFormacaoIds: {
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        modalidadeIds: {
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        }
+    },
+    required: ['id', 'dataInicio', 'diaInteiro', 'horarioInicio', 'horarioFim']
+} as const;
+
+export const $CalendarioEventoListOutputDto = {
+    type: 'object',
+    properties: {
+        data: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/CalendarioEventoFindOneOutputDto'
+            }
+        }
+    },
+    required: ['data']
+} as const;
+
+export const $CalendarioEventoCreateInputDto = {
+    type: 'object',
+    properties: {
+        nome: {
+            type: 'string',
+            description: 'Nome do evento'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date',
+            description: 'Data inicio'
+        },
+        dataFim: {
+            type: 'string',
+            format: 'date',
+            description: 'Data fim',
+            nullable: true
+        },
+        diaInteiro: {
+            type: 'boolean',
+            description: 'Evento ocupa o dia inteiro'
+        },
+        horarioInicio: {
+            type: 'string',
+            description: 'Horario inicio (HH:MM)'
+        },
+        horarioFim: {
+            type: 'string',
+            description: 'Horario fim (HH:MM)'
+        },
+        cor: {
+            type: 'string',
+            description: 'Cor do evento para exibicao',
+            nullable: true
+        },
+        repeticao: {
+            type: 'string',
+            description: 'Regra de repeticao (iCalendar RRULE)',
+            nullable: true
+        },
+        turmaIds: {
+            description: 'IDs das turmas participantes',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        perfilIds: {
+            description: 'IDs dos perfis (professores) participantes',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        calendarioLetivoIds: {
+            description: 'IDs dos calendarios letivos vinculados',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        ofertaFormacaoIds: {
+            description: 'IDs das ofertas de formacao vinculadas',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        modalidadeIds: {
+            description: 'IDs das modalidades vinculadas',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        }
+    },
+    required: ['nome', 'dataInicio', 'diaInteiro']
+} as const;
+
+export const $CalendarioEventoUpdateInputDto = {
+    type: 'object',
+    properties: {
+        nome: {
+            type: 'string'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date'
+        },
+        dataFim: {
+            type: 'string',
+            format: 'date',
+            nullable: true
+        },
+        diaInteiro: {
+            type: 'boolean'
+        },
+        horarioInicio: {
+            type: 'string'
+        },
+        horarioFim: {
+            type: 'string'
+        },
+        cor: {
+            type: 'string',
+            nullable: true
+        },
+        repeticao: {
+            type: 'string',
+            nullable: true
+        },
+        turmaIds: {
+            description: 'IDs das turmas participantes',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        perfilIds: {
+            description: 'IDs dos perfis (professores) participantes',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        calendarioLetivoIds: {
+            description: 'IDs dos calendarios letivos vinculados',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        ofertaFormacaoIds: {
+            description: 'IDs das ofertas de formacao vinculadas',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        modalidadeIds: {
+            description: 'IDs das modalidades vinculadas',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        }
+    }
 } as const;
 
 export const $CalendarioLetivoFindOneOutputDto = {
@@ -1346,14 +2225,14 @@ export const $CalendarioLetivoFindOneOutputDto = {
         },
         nome: {
             type: 'string',
-            description: 'Nome do calendario letivo',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome do calendario letivo'
         },
         ano: {
             type: 'integer',
-            description: 'Ano do calendario letivo',
             minimum: 0,
-            maximum: 65535
+            maximum: 65535,
+            description: 'Ano do calendario letivo'
         },
         campus: {
             description: 'Campus ao qual o calendario letivo pertence',
@@ -1373,6 +2252,318 @@ export const $CalendarioLetivoFindOneOutputDto = {
         }
     },
     required: ['id', 'dateCreated', 'dateUpdated', 'nome', 'ano', 'campus', 'ofertaFormacao']
+} as const;
+
+export const $CalendarioLetivoListOutputDto = {
+    type: 'object',
+    properties: {
+        meta: {
+            description: 'Metadados da busca',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PaginationMetaRestDto'
+                }
+            ]
+        },
+        data: {
+            description: 'Resultados da busca',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/CalendarioLetivoFindOneOutputDto'
+            }
+        }
+    },
+    required: ['meta', 'data']
+} as const;
+
+export const $OfertaFormacaoFindOneInputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string',
+            description: 'Identificador do registro (uuid)',
+            format: 'uuid'
+        }
+    },
+    required: ['id']
+} as const;
+
+export const $CalendarioLetivoCreateInputDto = {
+    type: 'object',
+    properties: {
+        nome: {
+            type: 'string',
+            minLength: 1,
+            description: 'Nome do calendario letivo'
+        },
+        ano: {
+            type: 'integer',
+            minimum: 0,
+            maximum: 65535,
+            description: 'Ano do calendario letivo'
+        },
+        campus: {
+            description: 'Campus ao qual o calendario letivo pertence',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/CampusFindOneInputDto'
+                }
+            ]
+        },
+        ofertaFormacao: {
+            description: 'Oferta de formacao do calendario letivo',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/OfertaFormacaoFindOneInputDto'
+                }
+            ]
+        }
+    },
+    required: ['nome', 'ano', 'campus', 'ofertaFormacao']
+} as const;
+
+export const $CalendarioLetivoUpdateInputDto = {
+    type: 'object',
+    properties: {
+        nome: {
+            type: 'string',
+            minLength: 1,
+            description: 'Nome do calendario letivo'
+        },
+        ano: {
+            type: 'integer',
+            minimum: 0,
+            maximum: 65535,
+            description: 'Ano do calendario letivo'
+        },
+        campus: {
+            description: 'Campus ao qual o calendario letivo pertence',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/CampusFindOneInputDto'
+                }
+            ]
+        },
+        ofertaFormacao: {
+            description: 'Oferta de formacao do calendario letivo',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/OfertaFormacaoFindOneInputDto'
+                }
+            ]
+        }
+    }
+} as const;
+
+export const $CalendarioLetivoDiaFindOneOutputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string',
+            description: 'Identificador do registro (uuid)',
+            format: 'uuid',
+            example: '123e4567-e89b-12d3-a456-426614174000'
+        },
+        dateCreated: {
+            type: 'string',
+            description: 'Data e hora da criacao do registro',
+            format: 'date-time'
+        },
+        dateUpdated: {
+            type: 'string',
+            description: 'Data e hora da alteracao do registro',
+            format: 'date-time'
+        },
+        dateDeleted: {
+            type: 'string',
+            description: 'Data e hora da exclusao do registro',
+            format: 'date-time',
+            nullable: true
+        },
+        data: {
+            type: 'string',
+            minLength: 1,
+            description: 'Data do dia no calendario',
+            format: 'date'
+        },
+        diaLetivo: {
+            type: 'boolean',
+            description: 'Indica se o dia e letivo'
+        },
+        diaPresencial: {
+            type: 'boolean',
+            description: 'Indica se o dia e presencial'
+        },
+        tipo: {
+            type: 'string',
+            minLength: 1,
+            description: 'Tipo do dia (presencial, feriado, sabado, etc.)',
+            enum: ['Aula Presencial', 'Aula Não Presencial (Letiva)', 'Feriado', 'Sábado', 'Domingo', 'Outro']
+        },
+        feriado: {
+            type: 'string',
+            description: 'Nome do feriado (ou null se nao for)',
+            nullable: true
+        },
+        extraCurricular: {
+            type: 'boolean',
+            description: 'Indica se o dia e extracurricular'
+        },
+        calendario: {
+            description: 'Calendario letivo ao qual o dia pertence',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/CalendarioLetivoFindOneOutputDto'
+                }
+            ]
+        }
+    },
+    required: ['id', 'dateCreated', 'dateUpdated', 'data', 'diaLetivo', 'diaPresencial', 'tipo', 'extraCurricular', 'calendario']
+} as const;
+
+export const $CalendarioLetivoDiaListOutputDto = {
+    type: 'object',
+    properties: {
+        meta: {
+            description: 'Metadados da busca',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PaginationMetaRestDto'
+                }
+            ]
+        },
+        data: {
+            description: 'Resultados da busca',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/CalendarioLetivoDiaFindOneOutputDto'
+            }
+        }
+    },
+    required: ['meta', 'data']
+} as const;
+
+export const $CalendarioLetivoDiaUpdateInputDto = {
+    type: 'object',
+    properties: {
+        diaLetivo: {
+            type: 'boolean',
+            description: 'Indica se o dia e letivo'
+        },
+        diaPresencial: {
+            type: 'boolean',
+            description: 'Indica se o dia e presencial'
+        },
+        tipo: {
+            type: 'string',
+            minLength: 1,
+            description: 'Tipo do dia (presencial, feriado, sabado, etc.)',
+            enum: ['Aula Presencial', 'Aula Não Presencial (Letiva)', 'Feriado', 'Sábado', 'Domingo', 'Outro']
+        },
+        feriado: {
+            type: 'string',
+            description: 'Nome do feriado (ou null se nao for)',
+            nullable: true
+        },
+        extraCurricular: {
+            type: 'boolean',
+            description: 'Indica se o dia e extracurricular'
+        }
+    }
+} as const;
+
+export const $CalendarioLetivoEtapaFindOneOutputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        ofertaFormacaoPeriodoEtapaId: {
+            type: 'string'
+        },
+        nomeEtapa: {
+            type: 'string'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date'
+        },
+        dataTermino: {
+            type: 'string',
+            format: 'date'
+        }
+    },
+    required: ['id', 'ofertaFormacaoPeriodoEtapaId', 'nomeEtapa', 'dataInicio', 'dataTermino']
+} as const;
+
+export const $CalendarioLetivoEtapaListOutputDto = {
+    type: 'object',
+    properties: {
+        data: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/CalendarioLetivoEtapaFindOneOutputDto'
+            }
+        }
+    },
+    required: ['data']
+} as const;
+
+export const $CalendarioLetivoEtapaBulkReplaceItemDto = {
+    type: 'object',
+    properties: {
+        ofertaFormacaoPeriodoEtapaId: {
+            type: 'string',
+            format: 'uuid',
+            description: 'ID da etapa da oferta de formacao periodo'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date',
+            description: 'Data inicio da etapa'
+        },
+        dataTermino: {
+            type: 'string',
+            format: 'date',
+            description: 'Data termino da etapa'
+        }
+    },
+    required: ['ofertaFormacaoPeriodoEtapaId', 'dataInicio', 'dataTermino']
+} as const;
+
+export const $CalendarioLetivoEtapaBulkReplaceInputDto = {
+    type: 'object',
+    properties: {
+        etapas: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/CalendarioLetivoEtapaBulkReplaceItemDto'
+            }
+        }
+    },
+    required: ['etapas']
+} as const;
+
+export const $CidadeListOutputDto = {
+    type: 'object',
+    properties: {
+        meta: {
+            description: 'Metadados da busca',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PaginationMetaRestDto'
+                }
+            ]
+        },
+        data: {
+            description: 'Resultados da busca',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/CidadeFindOneOutputDto'
+            }
+        }
+    },
+    required: ['meta', 'data']
 } as const;
 
 export const $BlocoFindOneOutputDto = {
@@ -1402,13 +2593,13 @@ export const $BlocoFindOneOutputDto = {
         },
         nome: {
             type: 'string',
-            description: 'Nome do bloco',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome do bloco'
         },
         codigo: {
             type: 'string',
-            description: 'Codigo do bloco',
-            minLength: 1
+            minLength: 1,
+            description: 'Codigo do bloco'
         },
         campus: {
             description: 'Campus do bloco',
@@ -1458,28 +2649,30 @@ export const $AmbienteFindOneOutputDto = {
         },
         nome: {
             type: 'string',
-            description: 'Nome do ambiente/sala',
-            minLength: 1
+            minLength: 1,
+            description: 'Nome do ambiente/sala'
         },
         descricao: {
             type: 'string',
-            description: 'Descricao do ambiente/sala',
-            nullable: true
+            nullable: true,
+            description: 'Descricao do ambiente/sala'
         },
         codigo: {
             type: 'string',
-            description: 'Codigo do ambiente/sala',
-            minLength: 1
+            minLength: 1,
+            description: 'Codigo do ambiente/sala'
         },
         capacidade: {
             type: 'integer',
-            description: 'Capacidade do ambiente/sala',
-            nullable: true
+            nullable: true,
+            minimum: 0,
+            maximum: 9007199254740991,
+            description: 'Capacidade do ambiente/sala'
         },
         tipo: {
             type: 'string',
-            description: 'Tipo do ambiente/sala. Ex.: sala aula, auditorio, laboratorio de quimica',
-            nullable: true
+            nullable: true,
+            description: 'Tipo do ambiente/sala. Ex.: sala aula, auditorio, laboratorio de quimica'
         },
         bloco: {
             description: 'Bloco que o ambiente/sala pertence',
@@ -1500,6 +2693,326 @@ export const $AmbienteFindOneOutputDto = {
         }
     },
     required: ['id', 'dateCreated', 'dateUpdated', 'nome', 'codigo', 'bloco']
+} as const;
+
+export const $AmbienteListOutputDto = {
+    type: 'object',
+    properties: {
+        meta: {
+            description: 'Metadados da busca',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PaginationMetaRestDto'
+                }
+            ]
+        },
+        data: {
+            description: 'Resultados da busca',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/AmbienteFindOneOutputDto'
+            }
+        }
+    },
+    required: ['meta', 'data']
+} as const;
+
+export const $AmbienteBlocoRefInputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string',
+            description: 'Identificador do registro (uuid)'
+        }
+    },
+    required: ['id']
+} as const;
+
+export const $AmbienteCreateInputDto = {
+    type: 'object',
+    properties: {
+        nome: {
+            type: 'string',
+            minLength: 1,
+            description: 'Nome do ambiente/sala'
+        },
+        descricao: {
+            type: 'string',
+            nullable: true,
+            description: 'Descricao do ambiente/sala'
+        },
+        codigo: {
+            type: 'string',
+            minLength: 1,
+            description: 'Codigo do ambiente/sala'
+        },
+        capacidade: {
+            type: 'integer',
+            nullable: true,
+            minimum: 0,
+            maximum: 9007199254740991,
+            description: 'Capacidade do ambiente/sala'
+        },
+        tipo: {
+            type: 'string',
+            nullable: true,
+            description: 'Tipo do ambiente/sala. Ex.: sala aula, auditorio, laboratorio de quimica'
+        },
+        bloco: {
+            description: 'Bloco que o ambiente/sala pertence',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/AmbienteBlocoRefInputDto'
+                }
+            ]
+        }
+    },
+    required: ['nome', 'codigo', 'bloco']
+} as const;
+
+export const $AmbienteUpdateInputDto = {
+    type: 'object',
+    properties: {
+        nome: {
+            type: 'string',
+            minLength: 1,
+            description: 'Nome do ambiente/sala'
+        },
+        descricao: {
+            type: 'string',
+            nullable: true,
+            description: 'Descricao do ambiente/sala'
+        },
+        codigo: {
+            type: 'string',
+            minLength: 1,
+            description: 'Codigo do ambiente/sala'
+        },
+        capacidade: {
+            type: 'integer',
+            nullable: true,
+            minimum: 0,
+            maximum: 9007199254740991,
+            description: 'Capacidade do ambiente/sala'
+        },
+        tipo: {
+            type: 'string',
+            nullable: true,
+            description: 'Tipo do ambiente/sala. Ex.: sala aula, auditorio, laboratorio de quimica'
+        },
+        bloco: {
+            description: 'Bloco que o ambiente/sala pertence',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/AmbienteBlocoRefInputDto'
+                }
+            ]
+        }
+    }
+} as const;
+
+export const $BlocoListOutputDto = {
+    type: 'object',
+    properties: {
+        meta: {
+            description: 'Metadados da busca',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PaginationMetaRestDto'
+                }
+            ]
+        },
+        data: {
+            description: 'Resultados da busca',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/BlocoFindOneOutputDto'
+            }
+        }
+    },
+    required: ['meta', 'data']
+} as const;
+
+export const $BlocoCampusRefInputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string',
+            description: 'Identificador do registro (uuid)'
+        }
+    },
+    required: ['id']
+} as const;
+
+export const $BlocoCreateInputDto = {
+    type: 'object',
+    properties: {
+        nome: {
+            type: 'string',
+            minLength: 1,
+            description: 'Nome do bloco'
+        },
+        codigo: {
+            type: 'string',
+            minLength: 1,
+            description: 'Codigo do bloco'
+        },
+        campus: {
+            description: 'Campus do bloco',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/BlocoCampusRefInputDto'
+                }
+            ]
+        }
+    },
+    required: ['nome', 'codigo', 'campus']
+} as const;
+
+export const $BlocoUpdateInputDto = {
+    type: 'object',
+    properties: {
+        nome: {
+            type: 'string',
+            minLength: 1,
+            description: 'Nome do bloco'
+        },
+        codigo: {
+            type: 'string',
+            minLength: 1,
+            description: 'Codigo do bloco'
+        },
+        campus: {
+            description: 'Campus do bloco',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/BlocoCampusRefInputDto'
+                }
+            ]
+        }
+    }
+} as const;
+
+export const $AuthWhoAmIOutputDto = {
+    type: 'object',
+    properties: {
+        usuario: {
+            description: 'Usuario autenticado',
+            nullable: true,
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/UsuarioFindOneOutputDto'
+                }
+            ]
+        },
+        perfisAtivos: {
+            description: 'Vinculos do usuario logado',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/PerfilFindOneOutputDto'
+            }
+        }
+    },
+    required: ['perfisAtivos']
+} as const;
+
+export const $AuthLoginInputDto = {
+    type: 'object',
+    properties: {
+        matricula: {
+            type: 'string',
+            description: 'Matrícula'
+        },
+        senha: {
+            type: 'string',
+            description: 'Senha'
+        }
+    },
+    required: ['matricula', 'senha']
+} as const;
+
+export const $AuthSessionCredentialsDto = {
+    type: 'object',
+    properties: {
+        access_token: {
+            type: 'string',
+            description: 'Token de acesso',
+            nullable: true
+        },
+        token_type: {
+            type: 'string',
+            description: 'Tipo do token',
+            nullable: true
+        },
+        id_token: {
+            type: 'string',
+            description: 'Token de identificacao',
+            nullable: true
+        },
+        refresh_token: {
+            type: 'string',
+            description: 'Token de refresh',
+            nullable: true
+        },
+        expires_in: {
+            type: 'number',
+            description: 'Tempo de expiracao do token',
+            nullable: true
+        },
+        expires_at: {
+            type: 'number',
+            description: 'Tempo de expiracao do token',
+            nullable: true
+        },
+        session_state: {
+            type: 'string',
+            description: 'Estado da sessao',
+            nullable: true
+        },
+        scope: {
+            type: 'string',
+            description: 'Escopo da autenticacao',
+            nullable: true
+        }
+    }
+} as const;
+
+export const $AuthRefreshInputDto = {
+    type: 'object',
+    properties: {
+        refreshToken: {
+            type: 'string',
+            description: 'Token de refresh',
+            nullable: true
+        }
+    },
+    required: ['refreshToken']
+} as const;
+
+export const $AuthCredentialsSetInitialPasswordInputDto = {
+    type: 'object',
+    properties: {
+        matricula: {
+            type: 'string',
+            description: 'Matrícula'
+        },
+        senha: {
+            type: 'string',
+            description: 'Senha'
+        }
+    },
+    required: ['matricula', 'senha']
+} as const;
+
+export const $AuthRecoverPasswordInputDto = {
+    type: 'object',
+    properties: {
+        email: {
+            type: 'string',
+            description: 'E-mail'
+        }
+    },
+    required: ['email']
 } as const;
 
 export const $TurmaFindOneOutputDto = {
@@ -1529,8 +3042,13 @@ export const $TurmaFindOneOutputDto = {
         },
         periodo: {
             type: 'string',
-            description: 'Periodo da turma',
-            minLength: 1
+            minLength: 1,
+            description: 'Periodo da turma'
+        },
+        nome: {
+            type: 'string',
+            nullable: true,
+            description: 'Nome da turma'
         },
         curso: {
             description: 'Curso da turma',
@@ -1560,59 +3078,6 @@ export const $TurmaFindOneOutputDto = {
         }
     },
     required: ['id', 'dateCreated', 'dateUpdated', 'periodo', 'curso']
-} as const;
-
-export const $DisciplinaFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid',
-            example: '123e4567-e89b-12d3-a456-426614174000'
-        },
-        dateCreated: {
-            type: 'string',
-            description: 'Data e hora da criacao do registro',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            description: 'Data e hora da alteracao do registro',
-            format: 'date-time'
-        },
-        dateDeleted: {
-            type: 'string',
-            description: 'Data e hora da exclusao do registro',
-            format: 'date-time',
-            nullable: true
-        },
-        nome: {
-            type: 'string',
-            description: 'Nome da disciplina',
-            minLength: 1
-        },
-        nomeAbreviado: {
-            type: 'string',
-            description: 'Nome abreviado da disciplina',
-            minLength: 1
-        },
-        cargaHoraria: {
-            type: 'integer',
-            description: 'Carga horaria da disciplina',
-            minimum: 1
-        },
-        imagemCapa: {
-            description: 'Imagem de capa da disciplina',
-            nullable: true,
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/ImagemFindOneOutputFromBlocoDto'
-                }
-            ]
-        }
-    },
-    required: ['id', 'dateCreated', 'dateUpdated', 'nome', 'nomeAbreviado', 'cargaHoraria']
 } as const;
 
 export const $DiarioFindOneOutputDto = {
@@ -1690,208 +3155,6 @@ export const $DiarioFindOneOutputDto = {
     required: ['id', 'dateCreated', 'dateUpdated', 'ativo', 'calendarioLetivo', 'turma', 'disciplina']
 } as const;
 
-export const $AulaFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid',
-            example: '123e4567-e89b-12d3-a456-426614174000'
-        },
-        dateCreated: {
-            type: 'string',
-            description: 'Data e hora da criacao do registro',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            description: 'Data e hora da alteracao do registro',
-            format: 'date-time'
-        },
-        dateDeleted: {
-            type: 'string',
-            description: 'Data e hora da exclusao do registro',
-            format: 'date-time',
-            nullable: true
-        },
-        data: {
-            type: 'string',
-            description: 'Data da aula'
-        },
-        modalidade: {
-            type: 'string',
-            description: 'Modalidade da aula',
-            nullable: true
-        },
-        intervaloDeTempo: {
-            description: 'Intervalo de tempo associado a aula',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/IntervaloDeTempoFindOneOutputDto'
-                }
-            ]
-        },
-        diario: {
-            description: 'Diario associado a aula',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/DiarioFindOneOutputDto'
-                }
-            ]
-        },
-        ambiente: {
-            description: 'Ambiente associado a aula',
-            nullable: true,
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/AmbienteFindOneOutputDto'
-                }
-            ]
-        }
-    },
-    required: ['id', 'dateCreated', 'dateUpdated', 'data', 'intervaloDeTempo', 'diario']
-} as const;
-
-export const $AulaListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/AulaFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $IntervaloDeTempoFindOneInputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
-        }
-    },
-    required: ['id']
-} as const;
-
-export const $DiarioFindOneInputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
-        }
-    },
-    required: ['id']
-} as const;
-
-export const $AmbienteFindOneInputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
-        }
-    },
-    required: ['id']
-} as const;
-
-export const $AulaCreateInputDto = {
-    type: 'object',
-    properties: {
-        data: {
-            type: 'string',
-            description: 'Data da aula'
-        },
-        modalidade: {
-            type: 'string',
-            description: 'Modalidade da aula',
-            nullable: true
-        },
-        intervaloDeTempo: {
-            description: 'Intervalo de tempo associado a aula',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/IntervaloDeTempoFindOneInputDto'
-                }
-            ]
-        },
-        diario: {
-            description: 'Diario associado a aula',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/DiarioFindOneInputDto'
-                }
-            ]
-        },
-        ambiente: {
-            description: 'Ambiente associado a aula',
-            nullable: true,
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/AmbienteFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['data', 'intervaloDeTempo', 'diario']
-} as const;
-
-export const $AulaUpdateInputDto = {
-    type: 'object',
-    properties: {
-        data: {
-            type: 'string',
-            description: 'Data da aula'
-        },
-        modalidade: {
-            type: 'string',
-            description: 'Modalidade da aula',
-            nullable: true
-        },
-        intervaloDeTempo: {
-            description: 'Intervalo de tempo associado a aula',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/IntervaloDeTempoFindOneInputDto'
-                }
-            ]
-        },
-        diario: {
-            description: 'Diario associado a aula',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/DiarioFindOneInputDto'
-                }
-            ]
-        },
-        ambiente: {
-            description: 'Ambiente associado a aula',
-            nullable: true,
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/AmbienteFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
 export const $DiarioListOutputDto = {
     type: 'object',
     properties: {
@@ -1931,8 +3194,7 @@ export const $TurmaFindOneInputDto = {
     properties: {
         id: {
             type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
+            description: 'Identificador do registro (uuid)'
         }
     },
     required: ['id']
@@ -1943,8 +3205,18 @@ export const $DisciplinaFindOneInputDto = {
     properties: {
         id: {
             type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
+            description: 'Identificador do registro (uuid)'
+        }
+    },
+    required: ['id']
+} as const;
+
+export const $AmbienteFindOneInputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string',
+            description: 'Identificador do registro (uuid)'
         }
     },
     required: ['id']
@@ -2037,2558 +3309,6 @@ export const $DiarioUpdateInputDto = {
     }
 } as const;
 
-export const $CalendarioLetivoListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/CalendarioLetivoFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $CalendarioLetivoCreateInputDto = {
-    type: 'object',
-    properties: {
-        nome: {
-            type: 'string',
-            description: 'Nome do calendario letivo',
-            minLength: 1
-        },
-        ano: {
-            type: 'integer',
-            description: 'Ano do calendario letivo',
-            minimum: 0,
-            maximum: 65535
-        },
-        campus: {
-            description: 'Campus ao qual o calendario letivo pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CampusFindOneInputDto'
-                }
-            ]
-        },
-        ofertaFormacao: {
-            description: 'Oferta de formacao do calendario letivo',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/OfertaFormacaoFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['nome', 'ano', 'campus', 'ofertaFormacao']
-} as const;
-
-export const $CalendarioLetivoUpdateInputDto = {
-    type: 'object',
-    properties: {
-        nome: {
-            type: 'string',
-            description: 'Nome do calendario letivo',
-            minLength: 1
-        },
-        ano: {
-            type: 'integer',
-            description: 'Ano do calendario letivo',
-            minimum: 0,
-            maximum: 65535
-        },
-        campus: {
-            description: 'Campus ao qual o calendario letivo pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CampusFindOneInputDto'
-                }
-            ]
-        },
-        ofertaFormacao: {
-            description: 'Oferta de formacao do calendario letivo',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/OfertaFormacaoFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
-export const $TurmaListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/TurmaFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $CursoFindOneInputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
-        }
-    },
-    required: ['id']
-} as const;
-
-export const $TurmaCreateInputDto = {
-    type: 'object',
-    properties: {
-        periodo: {
-            type: 'string',
-            description: 'Periodo da turma',
-            minLength: 1
-        },
-        curso: {
-            description: 'Curso da turma',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CursoFindOneInputDto'
-                }
-            ]
-        },
-        ambientePadraoAula: {
-            description: 'Ambiente padrao da sala de aula',
-            nullable: true,
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/AmbienteFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['periodo', 'curso']
-} as const;
-
-export const $TurmaUpdateInputDto = {
-    type: 'object',
-    properties: {
-        periodo: {
-            type: 'string',
-            description: 'Periodo da turma',
-            minLength: 1
-        },
-        curso: {
-            description: 'Curso da turma',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CursoFindOneInputDto'
-                }
-            ]
-        },
-        ambientePadraoAula: {
-            description: 'Ambiente padrao da sala de aula',
-            nullable: true,
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/AmbienteFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
-export const $AmbienteListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/AmbienteFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $BlocoFindOneInputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
-        }
-    },
-    required: ['id']
-} as const;
-
-export const $AmbienteCreateInputDto = {
-    type: 'object',
-    properties: {
-        nome: {
-            type: 'string',
-            description: 'Nome do ambiente/sala',
-            minLength: 1
-        },
-        descricao: {
-            type: 'string',
-            description: 'Descricao do ambiente/sala',
-            nullable: true
-        },
-        codigo: {
-            type: 'string',
-            description: 'Codigo do ambiente/sala',
-            minLength: 1
-        },
-        capacidade: {
-            type: 'integer',
-            description: 'Capacidade do ambiente/sala',
-            nullable: true
-        },
-        tipo: {
-            type: 'string',
-            description: 'Tipo do ambiente/sala. Ex.: sala aula, auditorio, laboratorio de quimica',
-            nullable: true
-        },
-        bloco: {
-            description: 'Bloco que o ambiente/sala pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/BlocoFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['nome', 'codigo', 'bloco']
-} as const;
-
-export const $AmbienteUpdateInputDto = {
-    type: 'object',
-    properties: {
-        nome: {
-            type: 'string',
-            description: 'Nome do ambiente/sala',
-            minLength: 1
-        },
-        descricao: {
-            type: 'string',
-            description: 'Descricao do ambiente/sala',
-            nullable: true
-        },
-        codigo: {
-            type: 'string',
-            description: 'Codigo do ambiente/sala',
-            minLength: 1
-        },
-        capacidade: {
-            type: 'integer',
-            description: 'Capacidade do ambiente/sala',
-            nullable: true
-        },
-        tipo: {
-            type: 'string',
-            description: 'Tipo do ambiente/sala. Ex.: sala aula, auditorio, laboratorio de quimica',
-            nullable: true
-        },
-        bloco: {
-            description: 'Bloco que o ambiente/sala pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/BlocoFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
-export const $BlocoListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/BlocoFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $BlocoCreateInputDto = {
-    type: 'object',
-    properties: {
-        nome: {
-            type: 'string',
-            description: 'Nome do bloco',
-            minLength: 1
-        },
-        codigo: {
-            type: 'string',
-            description: 'Codigo do bloco',
-            minLength: 1
-        },
-        campus: {
-            description: 'Campus do bloco',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CampusFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['nome', 'codigo', 'campus']
-} as const;
-
-export const $BlocoUpdateInputDto = {
-    type: 'object',
-    properties: {
-        nome: {
-            type: 'string',
-            description: 'Nome do bloco',
-            minLength: 1
-        },
-        codigo: {
-            type: 'string',
-            description: 'Codigo do bloco',
-            minLength: 1
-        },
-        campus: {
-            description: 'Campus do bloco',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CampusFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
-export const $DisciplinaListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/DisciplinaFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $DisciplinaCreateInputDto = {
-    type: 'object',
-    properties: {
-        nome: {
-            type: 'string',
-            description: 'Nome da disciplina',
-            minLength: 1
-        },
-        nomeAbreviado: {
-            type: 'string',
-            description: 'Nome abreviado da disciplina',
-            minLength: 1
-        },
-        cargaHoraria: {
-            type: 'integer',
-            description: 'Carga horaria da disciplina',
-            minimum: 1
-        }
-    },
-    required: ['nome', 'nomeAbreviado', 'cargaHoraria']
-} as const;
-
-export const $DisciplinaUpdateInputDto = {
-    type: 'object',
-    properties: {
-        nome: {
-            type: 'string',
-            description: 'Nome da disciplina',
-            minLength: 1
-        },
-        nomeAbreviado: {
-            type: 'string',
-            description: 'Nome abreviado da disciplina',
-            minLength: 1
-        },
-        cargaHoraria: {
-            type: 'integer',
-            description: 'Carga horaria da disciplina',
-            minimum: 1
-        }
-    }
-} as const;
-
-export const $EventoFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid',
-            example: '123e4567-e89b-12d3-a456-426614174000'
-        },
-        dateCreated: {
-            type: 'string',
-            description: 'Data e hora da criacao do registro',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            description: 'Data e hora da alteracao do registro',
-            format: 'date-time'
-        },
-        dateDeleted: {
-            type: 'string',
-            description: 'Data e hora da exclusao do registro',
-            format: 'date-time',
-            nullable: true
-        },
-        nome: {
-            type: 'string',
-            description: 'Nome do evento',
-            nullable: true
-        },
-        rrule: {
-            type: 'string',
-            description: 'Regra RRule para a recorrencia do evento. Segue a RFC 5545 do iCalendar'
-        },
-        cor: {
-            type: 'string',
-            description: 'Cor do evento',
-            nullable: true
-        },
-        dataInicio: {
-            type: 'string',
-            description: 'Data de inicio do evento',
-            format: 'date',
-            nullable: true
-        },
-        dataFim: {
-            type: 'string',
-            description: 'Data de termino do evento',
-            format: 'date',
-            nullable: true
-        },
-        calendario: {
-            description: 'Calendario letivo ao qual o evento pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CalendarioLetivoFindOneOutputDto'
-                }
-            ]
-        },
-        ambiente: {
-            description: 'Ambiente de ocorrencia do evento',
-            nullable: true,
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/AmbienteFindOneOutputDto'
-                }
-            ]
-        }
-    },
-    required: ['id', 'dateCreated', 'dateUpdated', 'rrule', 'calendario']
-} as const;
-
-export const $EventoListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/EventoFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $EventoCreateInputDto = {
-    type: 'object',
-    properties: {
-        nome: {
-            type: 'string',
-            description: 'Nome do evento',
-            nullable: true
-        },
-        rrule: {
-            type: 'string',
-            description: 'Regra RRule para a recorrencia do evento. Segue a RFC 5545 do iCalendar'
-        },
-        cor: {
-            type: 'string',
-            description: 'Cor do evento',
-            nullable: true
-        },
-        dataInicio: {
-            type: 'string',
-            description: 'Data de inicio do evento',
-            format: 'date',
-            nullable: true
-        },
-        dataFim: {
-            type: 'string',
-            description: 'Data de termino do evento',
-            format: 'date',
-            nullable: true
-        },
-        calendario: {
-            description: 'Calendario letivo ao qual o evento pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CalendarioLetivoFindOneInputDto'
-                }
-            ]
-        },
-        ambiente: {
-            description: 'Ambiente de ocorrencia do evento',
-            nullable: true,
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/AmbienteFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['rrule', 'calendario']
-} as const;
-
-export const $EventoUpdateInputDto = {
-    type: 'object',
-    properties: {
-        nome: {
-            type: 'string',
-            description: 'Nome do evento',
-            nullable: true
-        },
-        rrule: {
-            type: 'string',
-            description: 'Regra RRule para a recorrencia do evento. Segue a RFC 5545 do iCalendar'
-        },
-        cor: {
-            type: 'string',
-            description: 'Cor do evento',
-            nullable: true
-        },
-        dataInicio: {
-            type: 'string',
-            description: 'Data de inicio do evento',
-            format: 'date',
-            nullable: true
-        },
-        dataFim: {
-            type: 'string',
-            description: 'Data de termino do evento',
-            format: 'date',
-            nullable: true
-        },
-        calendario: {
-            description: 'Calendario letivo ao qual o evento pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CalendarioLetivoFindOneInputDto'
-                }
-            ]
-        },
-        ambiente: {
-            description: 'Ambiente de ocorrencia do evento',
-            nullable: true,
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/AmbienteFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
-export const $GradeHorarioOfertaFormacaoFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid',
-            example: '123e4567-e89b-12d3-a456-426614174000'
-        },
-        dateCreated: {
-            type: 'string',
-            description: 'Data e hora da criacao do registro',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            description: 'Data e hora da alteracao do registro',
-            format: 'date-time'
-        },
-        dateDeleted: {
-            type: 'string',
-            description: 'Data e hora da exclusao do registro',
-            format: 'date-time',
-            nullable: true
-        },
-        campus: {
-            description: 'Campus da grade horaria',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CampusFindOneOutputDto'
-                }
-            ]
-        },
-        ofertaFormacao: {
-            description: 'Oferta de formacao da grade horaria',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/OfertaFormacaoFindOneOutputDto'
-                }
-            ]
-        }
-    },
-    required: ['id', 'dateCreated', 'dateUpdated', 'campus', 'ofertaFormacao']
-} as const;
-
-export const $GradeHorarioOfertaFormacaoIntervaloDeTempoFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid',
-            example: '123e4567-e89b-12d3-a456-426614174000'
-        },
-        dateCreated: {
-            type: 'string',
-            description: 'Data e hora da criacao do registro',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            description: 'Data e hora da alteracao do registro',
-            format: 'date-time'
-        },
-        dateDeleted: {
-            type: 'string',
-            description: 'Data e hora da exclusao do registro',
-            format: 'date-time',
-            nullable: true
-        },
-        gradeHorarioOfertaFormacao: {
-            description: 'Grade horaria da oferta de formacao',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/GradeHorarioOfertaFormacaoFindOneOutputDto'
-                }
-            ]
-        },
-        intervaloDeTempo: {
-            description: 'Intervalo de tempo',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/IntervaloDeTempoFindOneOutputDto'
-                }
-            ]
-        }
-    },
-    required: ['id', 'dateCreated', 'dateUpdated', 'gradeHorarioOfertaFormacao', 'intervaloDeTempo']
-} as const;
-
-export const $GradeHorarioOfertaFormacaoIntervaloDeTempoListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/GradeHorarioOfertaFormacaoIntervaloDeTempoFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $GradeHorarioOfertaFormacaoFindOneInputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
-        }
-    },
-    required: ['id']
-} as const;
-
-export const $GradeHorarioOfertaFormacaoIntervaloDeTempoCreateInputDto = {
-    type: 'object',
-    properties: {
-        gradeHorarioOfertaFormacao: {
-            description: 'Grade horaria da oferta de formacao',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/GradeHorarioOfertaFormacaoFindOneInputDto'
-                }
-            ]
-        },
-        intervaloDeTempo: {
-            description: 'Intervalo de tempo',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/IntervaloDeTempoFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['gradeHorarioOfertaFormacao', 'intervaloDeTempo']
-} as const;
-
-export const $GradeHorarioOfertaFormacaoIntervaloDeTempoUpdateInputDto = {
-    type: 'object',
-    properties: {
-        gradeHorarioOfertaFormacao: {
-            description: 'Grade horaria da oferta de formacao',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/GradeHorarioOfertaFormacaoFindOneInputDto'
-                }
-            ]
-        },
-        intervaloDeTempo: {
-            description: 'Intervalo de tempo',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/IntervaloDeTempoFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
-export const $GradeHorarioOfertaFormacaoListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/GradeHorarioOfertaFormacaoFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $GradeHorarioOfertaFormacaoCreateInputDto = {
-    type: 'object',
-    properties: {
-        campus: {
-            description: 'Campus da grade horaria',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CampusFindOneInputDto'
-                }
-            ]
-        },
-        ofertaFormacao: {
-            description: 'Oferta de formacao da grade horaria',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/OfertaFormacaoFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['campus', 'ofertaFormacao']
-} as const;
-
-export const $GradeHorarioOfertaFormacaoUpdateInputDto = {
-    type: 'object',
-    properties: {
-        campus: {
-            description: 'Campus da grade horaria',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CampusFindOneInputDto'
-                }
-            ]
-        },
-        ofertaFormacao: {
-            description: 'Oferta de formacao da grade horaria',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/OfertaFormacaoFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
-export const $ReservaFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid',
-            example: '123e4567-e89b-12d3-a456-426614174000'
-        },
-        dateCreated: {
-            type: 'string',
-            description: 'Data e hora da criacao do registro',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            description: 'Data e hora da alteracao do registro',
-            format: 'date-time'
-        },
-        dateDeleted: {
-            type: 'string',
-            description: 'Data e hora da exclusao do registro',
-            format: 'date-time',
-            nullable: true
-        },
-        situacao: {
-            type: 'string',
-            description: 'Situacao da reserva',
-            minLength: 1
-        },
-        motivo: {
-            type: 'string',
-            description: 'Motivo da reserva',
-            nullable: true
-        },
-        tipo: {
-            type: 'string',
-            description: 'Tipo da reserva',
-            nullable: true
-        },
-        rrule: {
-            type: 'string',
-            description: 'Regra RRule para a recorrencia da reserva. Segue a RFC 5545 do iCalendar'
-        },
-        usuario: {
-            description: 'Usuario que fez a reserva',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/UsuarioFindOneOutputDto'
-                }
-            ]
-        },
-        ambiente: {
-            description: 'Ambiente reservado',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/AmbienteFindOneOutputDto'
-                }
-            ]
-        }
-    },
-    required: ['id', 'dateCreated', 'dateUpdated', 'situacao', 'rrule', 'usuario', 'ambiente']
-} as const;
-
-export const $ReservaListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/ReservaFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $ReservaCreateInputDto = {
-    type: 'object',
-    properties: {
-        situacao: {
-            type: 'string',
-            description: 'Situacao da reserva',
-            minLength: 1
-        },
-        motivo: {
-            type: 'string',
-            description: 'Motivo da reserva',
-            nullable: true
-        },
-        tipo: {
-            type: 'string',
-            description: 'Tipo da reserva',
-            nullable: true
-        },
-        rrule: {
-            type: 'string',
-            description: 'Regra RRule para a recorrencia da reserva. Segue a RFC 5545 do iCalendar'
-        },
-        usuario: {
-            description: 'Usuario que fez a reserva',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/UsuarioFindOneInputDto'
-                }
-            ]
-        },
-        ambiente: {
-            description: 'Ambiente reservado',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/AmbienteFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['situacao', 'rrule', 'usuario', 'ambiente']
-} as const;
-
-export const $ReservaUpdateInputDto = {
-    type: 'object',
-    properties: {
-        situacao: {
-            type: 'string',
-            description: 'Situacao da reserva',
-            minLength: 1
-        },
-        motivo: {
-            type: 'string',
-            description: 'Motivo da reserva',
-            nullable: true
-        },
-        tipo: {
-            type: 'string',
-            description: 'Tipo da reserva',
-            nullable: true
-        },
-        rrule: {
-            type: 'string',
-            description: 'Regra RRule para a recorrencia da reserva. Segue a RFC 5545 do iCalendar'
-        },
-        usuario: {
-            description: 'Usuario que fez a reserva',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/UsuarioFindOneInputDto'
-                }
-            ]
-        },
-        ambiente: {
-            description: 'Ambiente reservado',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/AmbienteFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
-export const $DisponibilidadeFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid',
-            example: '123e4567-e89b-12d3-a456-426614174000'
-        },
-        dateCreated: {
-            type: 'string',
-            description: 'Data e hora da criacao do registro',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            description: 'Data e hora da alteracao do registro',
-            format: 'date-time'
-        },
-        dateDeleted: {
-            type: 'string',
-            description: 'Data e hora da exclusao do registro',
-            format: 'date-time',
-            nullable: true
-        },
-        dataInicio: {
-            type: 'string',
-            description: 'Data de inicio'
-        },
-        dataFim: {
-            type: 'string',
-            description: 'Data de termino',
-            nullable: true
-        }
-    },
-    required: ['id', 'dateCreated', 'dateUpdated', 'dataInicio']
-} as const;
-
-export const $DisponibilidadeListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/DisponibilidadeFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $DisponibilidadeCreateInputDto = {
-    type: 'object',
-    properties: {
-        dataInicio: {
-            type: 'string',
-            description: 'Data de inicio'
-        },
-        dataFim: {
-            type: 'string',
-            description: 'Data de termino',
-            nullable: true
-        }
-    },
-    required: ['dataInicio']
-} as const;
-
-export const $DisponibilidadeUpdateInputDto = {
-    type: 'object',
-    properties: {
-        dataInicio: {
-            type: 'string',
-            description: 'Data de inicio'
-        },
-        dataFim: {
-            type: 'string',
-            description: 'Data de termino',
-            nullable: true
-        }
-    }
-} as const;
-
-export const $CidadeListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/CidadeFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $HorarioGeradoFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid',
-            example: '123e4567-e89b-12d3-a456-426614174000'
-        },
-        dateCreated: {
-            type: 'string',
-            description: 'Data e hora da criacao do registro',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            description: 'Data e hora da alteracao do registro',
-            format: 'date-time'
-        },
-        dateDeleted: {
-            type: 'string',
-            description: 'Data e hora da exclusao do registro',
-            format: 'date-time',
-            nullable: true
-        },
-        status: {
-            type: 'string',
-            description: 'Status do horario gerado',
-            nullable: true
-        },
-        tipo: {
-            type: 'string',
-            description: 'Tipo do horario gerado',
-            nullable: true
-        },
-        dataGeracao: {
-            type: 'string',
-            description: 'Data em que o horario foi gerado',
-            nullable: true
-        },
-        vigenciaInicio: {
-            type: 'string',
-            description: 'Inicio da vigencia do horario gerado',
-            nullable: true
-        },
-        vigenciaFim: {
-            type: 'string',
-            description: 'Fim da vigencia do horario gerado',
-            nullable: true
-        },
-        calendario: {
-            description: 'Calendario letivo',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CalendarioLetivoFindOneOutputDto'
-                }
-            ]
-        }
-    },
-    required: ['id', 'dateCreated', 'dateUpdated', 'calendario']
-} as const;
-
-export const $HorarioGeradoListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/HorarioGeradoFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $HorarioGeradoCreateInputDto = {
-    type: 'object',
-    properties: {
-        status: {
-            type: 'string',
-            description: 'Status do horario gerado',
-            nullable: true
-        },
-        tipo: {
-            type: 'string',
-            description: 'Tipo do horario gerado',
-            nullable: true
-        },
-        dataGeracao: {
-            type: 'string',
-            description: 'Data em que o horario foi gerado',
-            nullable: true
-        },
-        vigenciaInicio: {
-            type: 'string',
-            description: 'Inicio da vigencia do horario gerado',
-            nullable: true
-        },
-        vigenciaFim: {
-            type: 'string',
-            description: 'Fim da vigencia do horario gerado',
-            nullable: true
-        },
-        calendario: {
-            description: 'Calendario letivo',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CalendarioLetivoFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['calendario']
-} as const;
-
-export const $HorarioGeradoUpdateInputDto = {
-    type: 'object',
-    properties: {
-        status: {
-            type: 'string',
-            description: 'Status do horario gerado',
-            nullable: true
-        },
-        tipo: {
-            type: 'string',
-            description: 'Tipo do horario gerado',
-            nullable: true
-        },
-        dataGeracao: {
-            type: 'string',
-            description: 'Data em que o horario foi gerado',
-            nullable: true
-        },
-        vigenciaInicio: {
-            type: 'string',
-            description: 'Inicio da vigencia do horario gerado',
-            nullable: true
-        },
-        vigenciaFim: {
-            type: 'string',
-            description: 'Fim da vigencia do horario gerado',
-            nullable: true
-        },
-        calendario: {
-            description: 'Calendario letivo',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CalendarioLetivoFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
-export const $NivelFormacaoFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid',
-            example: '123e4567-e89b-12d3-a456-426614174000'
-        },
-        dateCreated: {
-            type: 'string',
-            description: 'Data e hora da criacao do registro',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            description: 'Data e hora da alteracao do registro',
-            format: 'date-time'
-        },
-        dateDeleted: {
-            type: 'string',
-            description: 'Data e hora da exclusao do registro',
-            format: 'date-time',
-            nullable: true
-        },
-        slug: {
-            type: 'string',
-            description: 'Apelido do nivel de formacao',
-            minLength: 1
-        }
-    },
-    required: ['id', 'dateCreated', 'dateUpdated', 'slug']
-} as const;
-
-export const $NivelFormacaoListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/NivelFormacaoFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $NivelFormacaoCreateInputDto = {
-    type: 'object',
-    properties: {
-        slug: {
-            type: 'string',
-            description: 'Apelido do nivel de formacao',
-            minLength: 1
-        }
-    },
-    required: ['slug']
-} as const;
-
-export const $NivelFormacaoUpdateInputDto = {
-    type: 'object',
-    properties: {
-        slug: {
-            type: 'string',
-            description: 'Apelido do nivel de formacao',
-            minLength: 1
-        }
-    }
-} as const;
-
-export const $DiarioPreferenciaAgrupamentoFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid',
-            example: '123e4567-e89b-12d3-a456-426614174000'
-        },
-        dateCreated: {
-            type: 'string',
-            description: 'Data e hora da criacao do registro',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            description: 'Data e hora da alteracao do registro',
-            format: 'date-time'
-        },
-        dateDeleted: {
-            type: 'string',
-            description: 'Data e hora da exclusao do registro',
-            format: 'date-time',
-            nullable: true
-        },
-        dataInicio: {
-            type: 'string',
-            description: 'Inicio da vigencia da preferencia de agrupamento'
-        },
-        dataFim: {
-            type: 'string',
-            description: 'Fim da vigencia da preferencia de agrupamento',
-            nullable: true
-        },
-        diaSemanaIso: {
-            type: 'integer',
-            description: 'Dia da semana (ISO 8601: 1=Segunda, 7=Domingo)',
-            minimum: 1,
-            maximum: 7
-        },
-        aulasSeguidas: {
-            type: 'integer',
-            description: 'Quantidade de aulas seguidas',
-            minimum: 1
-        },
-        intervaloDeTempo: {
-            description: 'Intervalo de tempo',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/IntervaloDeTempoFindOneOutputDto'
-                }
-            ]
-        },
-        diario: {
-            description: 'Diario vinculado',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/DiarioFindOneOutputDto'
-                }
-            ]
-        }
-    },
-    required: ['id', 'dateCreated', 'dateUpdated', 'dataInicio', 'diaSemanaIso', 'aulasSeguidas', 'intervaloDeTempo', 'diario']
-} as const;
-
-export const $DiarioPreferenciaAgrupamentoListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/DiarioPreferenciaAgrupamentoFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $DiarioPreferenciaAgrupamentoCreateInputDto = {
-    type: 'object',
-    properties: {
-        dataInicio: {
-            type: 'string',
-            description: 'Inicio da vigencia da preferencia de agrupamento'
-        },
-        dataFim: {
-            type: 'string',
-            description: 'Fim da vigencia da preferencia de agrupamento',
-            nullable: true
-        },
-        diaSemanaIso: {
-            type: 'integer',
-            description: 'Dia da semana (ISO 8601: 1=Segunda, 7=Domingo)',
-            minimum: 1,
-            maximum: 7
-        },
-        aulasSeguidas: {
-            type: 'integer',
-            description: 'Quantidade de aulas seguidas',
-            minimum: 1
-        },
-        intervaloDeTempo: {
-            description: 'Intervalo de tempo',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/IntervaloDeTempoFindOneInputDto'
-                }
-            ]
-        },
-        diario: {
-            description: 'Diario vinculado',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/DiarioFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['dataInicio', 'diaSemanaIso', 'aulasSeguidas', 'intervaloDeTempo', 'diario']
-} as const;
-
-export const $DiarioPreferenciaAgrupamentoUpdateInputDto = {
-    type: 'object',
-    properties: {
-        dataInicio: {
-            type: 'string',
-            description: 'Inicio da vigencia da preferencia de agrupamento'
-        },
-        dataFim: {
-            type: 'string',
-            description: 'Fim da vigencia da preferencia de agrupamento',
-            nullable: true
-        },
-        diaSemanaIso: {
-            type: 'integer',
-            description: 'Dia da semana (ISO 8601: 1=Segunda, 7=Domingo)',
-            minimum: 1,
-            maximum: 7
-        },
-        aulasSeguidas: {
-            type: 'integer',
-            description: 'Quantidade de aulas seguidas',
-            minimum: 1
-        },
-        intervaloDeTempo: {
-            description: 'Intervalo de tempo',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/IntervaloDeTempoFindOneInputDto'
-                }
-            ]
-        },
-        diario: {
-            description: 'Diario vinculado',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/DiarioFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
-export const $OfertaFormacaoNivelFormacaoFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid',
-            example: '123e4567-e89b-12d3-a456-426614174000'
-        },
-        dateCreated: {
-            type: 'string',
-            description: 'Data e hora da criacao do registro',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            description: 'Data e hora da alteracao do registro',
-            format: 'date-time'
-        },
-        dateDeleted: {
-            type: 'string',
-            description: 'Data e hora da exclusao do registro',
-            format: 'date-time',
-            nullable: true
-        },
-        ofertaFormacao: {
-            description: 'Oferta de formacao',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/OfertaFormacaoFindOneOutputDto'
-                }
-            ]
-        },
-        nivelFormacao: {
-            description: 'Nivel de formacao',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/NivelFormacaoFindOneOutputDto'
-                }
-            ]
-        }
-    },
-    required: ['id', 'dateCreated', 'dateUpdated', 'ofertaFormacao', 'nivelFormacao']
-} as const;
-
-export const $OfertaFormacaoNivelFormacaoListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/OfertaFormacaoNivelFormacaoFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $NivelFormacaoFindOneInputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
-        }
-    },
-    required: ['id']
-} as const;
-
-export const $OfertaFormacaoNivelFormacaoCreateInputDto = {
-    type: 'object',
-    properties: {
-        ofertaFormacao: {
-            description: 'Oferta de formacao',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/OfertaFormacaoFindOneInputDto'
-                }
-            ]
-        },
-        nivelFormacao: {
-            description: 'Nivel de formacao',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/NivelFormacaoFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['ofertaFormacao', 'nivelFormacao']
-} as const;
-
-export const $OfertaFormacaoNivelFormacaoUpdateInputDto = {
-    type: 'object',
-    properties: {
-        ofertaFormacao: {
-            description: 'Oferta de formacao',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/OfertaFormacaoFindOneInputDto'
-                }
-            ]
-        },
-        nivelFormacao: {
-            description: 'Nivel de formacao',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/NivelFormacaoFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
-export const $EtapaFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid',
-            example: '123e4567-e89b-12d3-a456-426614174000'
-        },
-        dateCreated: {
-            type: 'string',
-            description: 'Data e hora da criacao do registro',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            description: 'Data e hora da alteracao do registro',
-            format: 'date-time'
-        },
-        dateDeleted: {
-            type: 'string',
-            description: 'Data e hora da exclusao do registro',
-            format: 'date-time',
-            nullable: true
-        },
-        numero: {
-            type: 'integer',
-            description: 'Numero da etapa',
-            nullable: true,
-            minimum: 0,
-            maximum: 255
-        },
-        dataInicio: {
-            type: 'string',
-            description: 'Data de inicio da etapa',
-            format: 'date'
-        },
-        dataTermino: {
-            type: 'string',
-            description: 'Data de termino da etapa',
-            format: 'date'
-        },
-        cor: {
-            type: 'string',
-            description: 'Cor da etapa',
-            nullable: true
-        },
-        calendario: {
-            description: 'Calendario letivo ao qual a etapa pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CalendarioLetivoFindOneOutputDto'
-                }
-            ]
-        }
-    },
-    required: ['id', 'dateCreated', 'dateUpdated', 'dataInicio', 'dataTermino', 'calendario']
-} as const;
-
-export const $EtapaListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/EtapaFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $EtapaCreateInputDto = {
-    type: 'object',
-    properties: {
-        numero: {
-            type: 'integer',
-            description: 'Numero da etapa',
-            nullable: true,
-            minimum: 0,
-            maximum: 255
-        },
-        dataInicio: {
-            type: 'string',
-            description: 'Data de inicio da etapa',
-            format: 'date'
-        },
-        dataTermino: {
-            type: 'string',
-            description: 'Data de termino da etapa',
-            format: 'date'
-        },
-        cor: {
-            type: 'string',
-            description: 'Cor da etapa',
-            nullable: true
-        },
-        calendario: {
-            description: 'Calendario letivo ao qual a etapa pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CalendarioLetivoFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['dataInicio', 'dataTermino', 'calendario']
-} as const;
-
-export const $EtapaUpdateInputDto = {
-    type: 'object',
-    properties: {
-        numero: {
-            type: 'integer',
-            description: 'Numero da etapa',
-            nullable: true,
-            minimum: 0,
-            maximum: 255
-        },
-        dataInicio: {
-            type: 'string',
-            description: 'Data de inicio da etapa',
-            format: 'date'
-        },
-        dataTermino: {
-            type: 'string',
-            description: 'Data de termino da etapa',
-            format: 'date'
-        },
-        cor: {
-            type: 'string',
-            description: 'Cor da etapa',
-            nullable: true
-        },
-        calendario: {
-            description: 'Calendario letivo ao qual a etapa pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CalendarioLetivoFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
-export const $AuthWhoAmIOutputDto = {
-    type: 'object',
-    properties: {
-        usuario: {
-            description: 'Usuario autenticado',
-            nullable: true,
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/UsuarioFindOneOutputDto'
-                }
-            ]
-        },
-        perfisAtivos: {
-            description: 'Vinculos do usuario logado',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/PerfilFindOneOutputDto'
-            }
-        }
-    },
-    required: ['perfisAtivos']
-} as const;
-
-export const $AuthLoginInputDto = {
-    type: 'object',
-    properties: {
-        matricula: {
-            type: 'string',
-            description: 'Matrícula'
-        },
-        senha: {
-            type: 'string',
-            description: 'Senha'
-        }
-    },
-    required: ['matricula', 'senha']
-} as const;
-
-export const $AuthSessionCredentialsDto = {
-    type: 'object',
-    properties: {
-        access_token: {
-            type: 'string',
-            description: 'Token de acesso',
-            nullable: true
-        },
-        token_type: {
-            type: 'string',
-            description: 'Tipo do token',
-            nullable: true
-        },
-        id_token: {
-            type: 'string',
-            description: 'Token de identificacao',
-            nullable: true
-        },
-        refresh_token: {
-            type: 'string',
-            description: 'Token de refresh',
-            nullable: true
-        },
-        expires_in: {
-            type: 'integer',
-            description: 'Tempo de expiracao do token',
-            nullable: true
-        },
-        expires_at: {
-            type: 'integer',
-            description: 'Tempo de expiracao do token',
-            nullable: true
-        },
-        session_state: {
-            type: 'string',
-            description: 'Estado da sessao',
-            nullable: true
-        },
-        scope: {
-            type: 'string',
-            description: 'Escopo da autenticacao',
-            nullable: true
-        }
-    }
-} as const;
-
-export const $AuthRefreshInputDto = {
-    type: 'object',
-    properties: {
-        refreshToken: {
-            type: 'string',
-            description: 'Token de refresh'
-        }
-    },
-    required: ['refreshToken']
-} as const;
-
-export const $AuthCredentialsSetInitialPasswordInputDto = {
-    type: 'object',
-    properties: {
-        matricula: {
-            type: 'string',
-            description: 'Matrícula'
-        },
-        senha: {
-            type: 'string',
-            description: 'Nova senha'
-        }
-    },
-    required: ['matricula', 'senha']
-} as const;
-
-export const $AuthRecoverPasswordInputDto = {
-    type: 'object',
-    properties: {
-        email: {
-            type: 'string',
-            description: 'E-mail'
-        }
-    },
-    required: ['email']
-} as const;
-
-export const $DiaCalendarioFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid',
-            example: '123e4567-e89b-12d3-a456-426614174000'
-        },
-        dateCreated: {
-            type: 'string',
-            description: 'Data e hora da criacao do registro',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            description: 'Data e hora da alteracao do registro',
-            format: 'date-time'
-        },
-        dateDeleted: {
-            type: 'string',
-            description: 'Data e hora da exclusao do registro',
-            format: 'date-time',
-            nullable: true
-        },
-        data: {
-            type: 'string',
-            description: 'Data do dia no calendario',
-            format: 'date'
-        },
-        diaLetivo: {
-            type: 'boolean',
-            description: 'Indica se o dia e letivo'
-        },
-        diaPresencial: {
-            type: 'boolean',
-            description: 'Indica se o dia e presencial'
-        },
-        tipo: {
-            type: 'string',
-            description: 'Tipo do dia (presencial, feriado, sabado, etc.)',
-            enum: ['Aula Presencial', 'Aula Não Presencial (Letiva)', 'Feriado', 'Sábado', 'Domingo', 'Outro']
-        },
-        feriado: {
-            type: 'string',
-            description: 'Nome do feriado (ou null se nao for)',
-            nullable: true
-        },
-        extraCurricular: {
-            type: 'boolean',
-            description: 'Indica se o dia e extracurricular'
-        },
-        calendario: {
-            description: 'Calendario letivo ao qual o dia pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CalendarioLetivoFindOneOutputDto'
-                }
-            ]
-        }
-    },
-    required: ['id', 'dateCreated', 'dateUpdated', 'data', 'diaLetivo', 'diaPresencial', 'tipo', 'extraCurricular', 'calendario']
-} as const;
-
-export const $DiaCalendarioListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/DiaCalendarioFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $DiaCalendarioCreateInputDto = {
-    type: 'object',
-    properties: {
-        data: {
-            type: 'string',
-            description: 'Data do dia no calendario',
-            format: 'date'
-        },
-        diaLetivo: {
-            type: 'boolean',
-            description: 'Indica se o dia e letivo'
-        },
-        diaPresencial: {
-            type: 'boolean',
-            description: 'Indica se o dia e presencial'
-        },
-        tipo: {
-            type: 'string',
-            description: 'Tipo do dia (presencial, feriado, sabado, etc.)',
-            enum: ['Aula Presencial', 'Aula Não Presencial (Letiva)', 'Feriado', 'Sábado', 'Domingo', 'Outro']
-        },
-        feriado: {
-            type: 'string',
-            description: 'Nome do feriado (ou null se nao for)',
-            nullable: true
-        },
-        extraCurricular: {
-            type: 'boolean',
-            description: 'Indica se o dia e extracurricular'
-        },
-        calendario: {
-            description: 'Calendario letivo ao qual o dia pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CalendarioLetivoFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['data', 'diaLetivo', 'diaPresencial', 'tipo', 'extraCurricular', 'calendario']
-} as const;
-
-export const $DiaCalendarioUpdateInputDto = {
-    type: 'object',
-    properties: {
-        data: {
-            type: 'string',
-            description: 'Data do dia no calendario',
-            format: 'date'
-        },
-        diaLetivo: {
-            type: 'boolean',
-            description: 'Indica se o dia e letivo'
-        },
-        diaPresencial: {
-            type: 'boolean',
-            description: 'Indica se o dia e presencial'
-        },
-        tipo: {
-            type: 'string',
-            description: 'Tipo do dia (presencial, feriado, sabado, etc.)',
-            enum: ['Aula Presencial', 'Aula Não Presencial (Letiva)', 'Feriado', 'Sábado', 'Domingo', 'Outro']
-        },
-        feriado: {
-            type: 'string',
-            description: 'Nome do feriado (ou null se nao for)',
-            nullable: true
-        },
-        extraCurricular: {
-            type: 'boolean',
-            description: 'Indica se o dia e extracurricular'
-        },
-        calendario: {
-            description: 'Calendario letivo ao qual o dia pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/CalendarioLetivoFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
-export const $EstadoListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/EstadoFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $EmpresaFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            format: 'uuid'
-        },
-        razaoSocial: {
-            type: 'string'
-        },
-        nomeFantasia: {
-            type: 'string'
-        },
-        cnpj: {
-            type: 'string',
-            minLength: 14,
-            maxLength: 14
-        },
-        telefone: {
-            type: 'string'
-        },
-        email: {
-            type: 'string'
-        },
-        idEnderecoFk: {
-            type: 'string',
-            format: 'uuid'
-        },
-        ativo: {
-            type: 'boolean'
-        },
-        dateCreated: {
-            type: 'string',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            format: 'date-time'
-        }
-    },
-    required: ['id', 'razaoSocial', 'nomeFantasia', 'cnpj', 'telefone', 'email', 'idEnderecoFk', 'ativo', 'dateCreated', 'dateUpdated']
-} as const;
-
-export const $EmpresaListOutputDto = {
-    type: 'object',
-    properties: {
-        data: {
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/EmpresaFindOneOutputDto'
-            }
-        },
-        total: {
-            type: 'number'
-        },
-        page: {
-            type: 'number'
-        },
-        limit: {
-            type: 'number'
-        }
-    },
-    required: ['data', 'total', 'page', 'limit']
-} as const;
-
-export const $EmpresaCreateInputDto = {
-    type: 'object',
-    properties: {
-        razaoSocial: {
-            type: 'string',
-            description: 'Razão social da empresa',
-            minLength: 1
-        },
-        nomeFantasia: {
-            type: 'string',
-            description: 'Nome fantasia da empresa',
-            minLength: 1
-        },
-        cnpj: {
-            type: 'string',
-            description: 'CNPJ sem pontuação',
-            minLength: 14,
-            maxLength: 14
-        },
-        telefone: {
-            type: 'string',
-            description: 'Telefone da empresa',
-            minLength: 1,
-            maxLength: 15
-        },
-        email: {
-            type: 'string',
-            description: 'E-mail da empresa'
-        },
-        idEnderecoFk: {
-            type: 'string',
-            format: 'uuid',
-            description: 'ID do endereço vinculado à empresa'
-        }
-    },
-    required: ['razaoSocial', 'nomeFantasia', 'cnpj', 'telefone', 'email', 'idEnderecoFk']
-} as const;
-
-export const $EmpresaUpdateInputDto = {
-    type: 'object',
-    properties: {
-        razaoSocial: {
-            type: 'string',
-            description: 'Razão social da empresa',
-            minLength: 1
-        },
-        nomeFantasia: {
-            type: 'string',
-            description: 'Nome fantasia da empresa',
-            minLength: 1
-        },
-        cnpj: {
-            type: 'string',
-            description: 'CNPJ sem pontuação',
-            minLength: 14,
-            maxLength: 14
-        },
-        telefone: {
-            type: 'string',
-            description: 'Telefone da empresa',
-            minLength: 1,
-            maxLength: 15
-        },
-        email: {
-            type: 'string',
-            description: 'E-mail da empresa'
-        },
-        idEnderecoFk: {
-            type: 'string',
-            format: 'uuid',
-            description: 'ID do endereço vinculado à empresa'
-        }
-    }
-} as const;
-
-export const $EstagiarioFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            format: 'uuid'
-        },
-        idPerfilFk: {
-            type: 'string',
-            format: 'uuid'
-        },
-        idCursoFk: {
-            type: 'string',
-            format: 'uuid'
-        },
-        idTurmaFk: {
-            type: 'string',
-            format: 'uuid'
-        },
-        telefone: {
-            type: 'string'
-        },
-        emailInstitucional: {
-            type: 'string',
-            format: 'email',
-            nullable: false
-        },
-        dataNascimento: {
-            type: 'string',
-            format: 'date'
-        },
-        ativo: {
-            type: 'boolean'
-        },
-        dateCreated: {
-            type: 'string',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            format: 'date-time'
-        }
-    },
-    required: ['id', 'idPerfilFk', 'idCursoFk', 'idTurmaFk', 'telefone', 'dataNascimento', 'ativo', 'dateCreated', 'dateUpdated']
-} as const;
-
-export const $EstagiarioListOutputDto = {
-    type: 'object',
-    properties: {
-        data: {
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/EstagiarioFindOneOutputDto'
-            }
-        },
-        total: {
-            type: 'number'
-        },
-        page: {
-            type: 'number'
-        },
-        limit: {
-            type: 'number'
-        }
-    },
-    required: ['data', 'total', 'page', 'limit']
-} as const;
-
-export const $EstagiarioCreateInputDto = {
-    type: 'object',
-    properties: {
-        idPerfilFk: {
-            type: 'string',
-            format: 'uuid',
-            description: 'ID do perfil vinculado ao estagiário'
-        },
-        idCursoFk: {
-            type: 'string',
-            format: 'uuid',
-            description: 'ID do curso vinculado ao estagiário'
-        },
-        idTurmaFk: {
-            type: 'string',
-            format: 'uuid',
-            description: 'ID da turma vinculada ao estagiário'
-        },
-        telefone: {
-            type: 'string',
-            description: 'Telefone do estagiário',
-            minLength: 1,
-            maxLength: 15
-        },
-        emailInstitucional: {
-            type: 'string',
-            format: 'email',
-            description: 'Email institucional do estagiário'
-        },
-        dataNascimento: {
-            type: 'string',
-            format: 'date',
-            description: 'Data de nascimento do estagiário'
-        }
-    },
-    required: ['idPerfilFk', 'idCursoFk', 'idTurmaFk', 'telefone', 'emailInstitucional', 'dataNascimento']
-} as const;
-
-export const $EstagiarioUpdateInputDto = {
-    type: 'object',
-    properties: {
-        idPerfilFk: {
-            type: 'string',
-            format: 'uuid',
-            description: 'ID do perfil vinculado ao estagiário'
-        },
-        idCursoFk: {
-            type: 'string',
-            format: 'uuid',
-            description: 'ID do curso vinculado ao estagiário'
-        },
-        idTurmaFk: {
-            type: 'string',
-            format: 'uuid',
-            description: 'ID da turma vinculada ao estagiário'
-        },
-        telefone: {
-            type: 'string',
-            description: 'Telefone do estagiário',
-            minLength: 1,
-            maxLength: 15
-        },
-        emailInstitucional: {
-            type: 'string',
-            format: 'email',
-            description: 'Email institucional do estagiário'
-        },
-        dataNascimento: {
-            type: 'string',
-            format: 'date',
-            description: 'Data de nascimento do estagiário'
-        }
-    },
-    required: ['emailInstitucional']
-} as const;
-
-export const $TurmaDisponibilidadeFindOneOutputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid',
-            example: '123e4567-e89b-12d3-a456-426614174000'
-        },
-        dateCreated: {
-            type: 'string',
-            description: 'Data e hora da criacao do registro',
-            format: 'date-time'
-        },
-        dateUpdated: {
-            type: 'string',
-            description: 'Data e hora da alteracao do registro',
-            format: 'date-time'
-        },
-        dateDeleted: {
-            type: 'string',
-            description: 'Data e hora da exclusao do registro',
-            format: 'date-time',
-            nullable: true
-        },
-        disponibilidade: {
-            description: 'Disponibilidade',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/DisponibilidadeFindOneOutputDto'
-                }
-            ]
-        },
-        turma: {
-            description: 'Turma',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/TurmaFindOneOutputDto'
-                }
-            ]
-        }
-    },
-    required: ['id', 'dateCreated', 'dateUpdated', 'disponibilidade', 'turma']
-} as const;
-
-export const $TurmaDisponibilidadeListOutputDto = {
-    type: 'object',
-    properties: {
-        meta: {
-            description: 'Metadados da busca',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PaginationMetaRestDto'
-                }
-            ]
-        },
-        data: {
-            description: 'Resultados da busca',
-            type: 'array',
-            items: {
-                '$ref': '#/components/schemas/TurmaDisponibilidadeFindOneOutputDto'
-            }
-        }
-    },
-    required: ['meta', 'data']
-} as const;
-
-export const $DisponibilidadeFindOneInputDto = {
-    type: 'object',
-    properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
-        }
-    },
-    required: ['id']
-} as const;
-
-export const $TurmaDisponibilidadeCreateInputDto = {
-    type: 'object',
-    properties: {
-        disponibilidade: {
-            description: 'Disponibilidade',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/DisponibilidadeFindOneInputDto'
-                }
-            ]
-        },
-        turma: {
-            description: 'Turma',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/TurmaFindOneInputDto'
-                }
-            ]
-        }
-    },
-    required: ['disponibilidade', 'turma']
-} as const;
-
-export const $TurmaDisponibilidadeUpdateInputDto = {
-    type: 'object',
-    properties: {
-        disponibilidade: {
-            description: 'Disponibilidade',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/DisponibilidadeFindOneInputDto'
-                }
-            ]
-        },
-        turma: {
-            description: 'Turma',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/TurmaFindOneInputDto'
-                }
-            ]
-        }
-    }
-} as const;
-
 export const $DiarioProfessorFindOneOutputDto = {
     type: 'object',
     properties: {
@@ -4638,7 +3358,59 @@ export const $DiarioProfessorFindOneOutputDto = {
     required: ['id', 'dateCreated', 'dateUpdated', 'situacao', 'perfil', 'diario']
 } as const;
 
-export const $HorarioGeradoAulaFindOneOutputDto = {
+export const $DiarioProfessorListOutputDto = {
+    type: 'object',
+    properties: {
+        meta: {
+            description: 'Metadados da busca',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PaginationMetaRestDto'
+                }
+            ]
+        },
+        data: {
+            description: 'Resultados da busca',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/DiarioProfessorFindOneOutputDto'
+            }
+        }
+    },
+    required: ['meta', 'data']
+} as const;
+
+export const $DiarioProfessorBulkReplaceItemDto = {
+    type: 'object',
+    properties: {
+        perfilId: {
+            type: 'string',
+            description: 'ID do perfil (uuid)',
+            format: 'uuid'
+        },
+        situacao: {
+            type: 'boolean',
+            description: 'Situacao do vinculo'
+        }
+    },
+    required: ['perfilId', 'situacao']
+} as const;
+
+export const $DiarioProfessorBulkReplaceInputDto = {
+    type: 'object',
+    properties: {
+        professores: {
+            description: 'Lista de professores para vincular ao diario',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/DiarioProfessorBulkReplaceItemDto'
+            }
+        }
+    },
+    required: ['professores']
+} as const;
+
+export const $DiarioPreferenciaAgrupamentoFindOneOutputDto = {
     type: 'object',
     properties: {
         id: {
@@ -4663,39 +3435,41 @@ export const $HorarioGeradoAulaFindOneOutputDto = {
             format: 'date-time',
             nullable: true
         },
-        data: {
+        dataInicio: {
             type: 'string',
-            description: 'Data da aula gerada'
+            minLength: 1,
+            description: 'Inicio da vigencia da preferencia de agrupamento'
         },
-        intervaloDeTempo: {
-            description: 'Intervalo de tempo',
+        dataFim: {
+            type: 'string',
+            nullable: true,
+            description: 'Fim da vigencia da preferencia de agrupamento'
+        },
+        diaSemanaIso: {
+            type: 'integer',
+            minimum: 1,
+            maximum: 7,
+            description: 'Dia da semana (ISO 8601: 1=Segunda, 7=Domingo)'
+        },
+        aulasSeguidas: {
+            type: 'integer',
+            minimum: 1,
+            maximum: 9007199254740991,
+            description: 'Quantidade de aulas seguidas'
+        },
+        diario: {
+            description: 'Diario vinculado',
             allOf: [
                 {
-                    '$ref': '#/components/schemas/IntervaloDeTempoFindOneOutputDto'
-                }
-            ]
-        },
-        diarioProfessor: {
-            description: 'Vinculo de diario e professor',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/DiarioProfessorFindOneOutputDto'
-                }
-            ]
-        },
-        horarioGerado: {
-            description: 'Horario ao qual a aula pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/HorarioGeradoFindOneOutputDto'
+                    '$ref': '#/components/schemas/DiarioFindOneOutputDto'
                 }
             ]
         }
     },
-    required: ['id', 'dateCreated', 'dateUpdated', 'data', 'intervaloDeTempo', 'diarioProfessor', 'horarioGerado']
+    required: ['id', 'dateCreated', 'dateUpdated', 'dataInicio', 'diaSemanaIso', 'aulasSeguidas', 'diario']
 } as const;
 
-export const $HorarioGeradoAulaListOutputDto = {
+export const $DiarioPreferenciaAgrupamentoListOutputDto = {
     type: 'object',
     properties: {
         meta: {
@@ -4710,107 +3484,502 @@ export const $HorarioGeradoAulaListOutputDto = {
             description: 'Resultados da busca',
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/HorarioGeradoAulaFindOneOutputDto'
+                '$ref': '#/components/schemas/DiarioPreferenciaAgrupamentoFindOneOutputDto'
             }
         }
     },
     required: ['meta', 'data']
 } as const;
 
-export const $DiarioProfessorFindOneInputDto = {
+export const $DiarioPreferenciaAgrupamentoBulkReplaceItemDto = {
     type: 'object',
     properties: {
-        id: {
+        dataInicio: {
             type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
+            minLength: 1,
+            description: 'Inicio da vigencia da preferencia de agrupamento'
+        },
+        dataFim: {
+            type: 'string',
+            nullable: true,
+            description: 'Fim da vigencia da preferencia de agrupamento'
+        },
+        diaSemanaIso: {
+            type: 'integer',
+            minimum: 1,
+            maximum: 7,
+            description: 'Dia da semana (ISO 8601: 1=Segunda, 7=Domingo)'
+        },
+        aulasSeguidas: {
+            type: 'integer',
+            minimum: 1,
+            maximum: 9007199254740991,
+            description: 'Quantidade de aulas seguidas'
         }
     },
-    required: ['id']
+    required: ['dataInicio', 'diaSemanaIso', 'aulasSeguidas']
 } as const;
 
-export const $HorarioGeradoFindOneInputDto = {
+export const $DiarioPreferenciaAgrupamentoBulkReplaceInputDto = {
     type: 'object',
     properties: {
-        id: {
-            type: 'string',
-            description: 'Identificador do registro (uuid)',
-            format: 'uuid'
+        preferenciasAgrupamento: {
+            description: 'Lista de preferencias de agrupamento para vincular ao diario',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/DiarioPreferenciaAgrupamentoBulkReplaceItemDto'
+            }
         }
     },
-    required: ['id']
+    required: ['preferenciasAgrupamento']
 } as const;
 
-export const $HorarioGeradoAulaCreateInputDto = {
+export const $TurmaListOutputDto = {
     type: 'object',
     properties: {
+        meta: {
+            description: 'Metadados da busca',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PaginationMetaRestDto'
+                }
+            ]
+        },
         data: {
-            type: 'string',
-            description: 'Data da aula gerada'
-        },
-        intervaloDeTempo: {
-            description: 'Intervalo de tempo',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/IntervaloDeTempoFindOneInputDto'
-                }
-            ]
-        },
-        diarioProfessor: {
-            description: 'Vinculo de diario e professor',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/DiarioProfessorFindOneInputDto'
-                }
-            ]
-        },
-        horarioGerado: {
-            description: 'Horario ao qual a aula pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/HorarioGeradoFindOneInputDto'
-                }
-            ]
+            description: 'Resultados da busca',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/TurmaFindOneOutputDto'
+            }
         }
     },
-    required: ['data', 'intervaloDeTempo', 'diarioProfessor', 'horarioGerado']
+    required: ['meta', 'data']
 } as const;
 
-export const $HorarioGeradoAulaUpdateInputDto = {
+export const $TurmaCreateInputDto = {
     type: 'object',
     properties: {
-        data: {
+        periodo: {
             type: 'string',
-            description: 'Data da aula gerada'
+            minLength: 1,
+            description: 'Periodo da turma'
         },
-        intervaloDeTempo: {
-            description: 'Intervalo de tempo',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/IntervaloDeTempoFindOneInputDto'
-                }
-            ]
+        nome: {
+            type: 'string',
+            nullable: true,
+            description: 'Nome da turma'
         },
-        diarioProfessor: {
-            description: 'Vinculo de diario e professor',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/DiarioProfessorFindOneInputDto'
-                }
-            ]
+        curso: {
+            type: 'object',
+            description: 'Curso da turma'
         },
-        horarioGerado: {
-            description: 'Horario ao qual a aula pertence',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/HorarioGeradoFindOneInputDto'
-                }
-            ]
+        ambientePadraoAula: {
+            type: 'object',
+            description: 'Ambiente padrao da sala de aula',
+            nullable: true
+        }
+    },
+    required: ['periodo', 'curso']
+} as const;
+
+export const $TurmaUpdateInputDto = {
+    type: 'object',
+    properties: {
+        periodo: {
+            type: 'string',
+            minLength: 1,
+            description: 'Periodo da turma'
+        },
+        nome: {
+            type: 'string',
+            nullable: true,
+            description: 'Nome da turma'
+        },
+        curso: {
+            type: 'object',
+            description: 'Curso da turma'
+        },
+        ambientePadraoAula: {
+            type: 'object',
+            description: 'Ambiente padrao da sala de aula',
+            nullable: true
         }
     }
 } as const;
 
-export const $DiarioProfessorListOutputDto = {
+export const $TurmaHorarioAulaFindOneOutputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        horarioAulaId: {
+            type: 'string'
+        },
+        inicio: {
+            type: 'string'
+        },
+        fim: {
+            type: 'string'
+        }
+    },
+    required: ['id', 'horarioAulaId', 'inicio', 'fim']
+} as const;
+
+export const $TurmaHorarioAulaListOutputDto = {
+    type: 'object',
+    properties: {
+        data: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/TurmaHorarioAulaFindOneOutputDto'
+            }
+        }
+    },
+    required: ['data']
+} as const;
+
+export const $TurmaHorarioAulaBulkReplaceInputDto = {
+    type: 'object',
+    properties: {
+        horarioAulaIds: {
+            description: 'IDs dos horarios de aula selecionados',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        }
+    },
+    required: ['horarioAulaIds']
+} as const;
+
+export const $TurmaEventoFindOneOutputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        nome: {
+            type: 'string',
+            nullable: true
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date'
+        },
+        dataFim: {
+            type: 'string',
+            format: 'date',
+            nullable: true
+        },
+        diaInteiro: {
+            type: 'boolean'
+        },
+        horarioInicio: {
+            type: 'string'
+        },
+        horarioFim: {
+            type: 'string'
+        },
+        cor: {
+            type: 'string',
+            nullable: true
+        },
+        repeticao: {
+            type: 'string',
+            nullable: true
+        },
+        status: {
+            type: 'string',
+            nullable: true
+        }
+    },
+    required: ['id', 'dataInicio', 'diaInteiro', 'horarioInicio', 'horarioFim']
+} as const;
+
+export const $TurmaEventoListOutputDto = {
+    type: 'object',
+    properties: {
+        data: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/TurmaEventoFindOneOutputDto'
+            }
+        }
+    },
+    required: ['data']
+} as const;
+
+export const $TurmaEventoCreateInputDto = {
+    type: 'object',
+    properties: {
+        nome: {
+            type: 'string',
+            description: 'Nome do evento'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date',
+            description: 'Data inicio'
+        },
+        dataFim: {
+            type: 'string',
+            format: 'date',
+            nullable: true
+        },
+        diaInteiro: {
+            type: 'boolean',
+            description: 'Evento ocupa o dia inteiro'
+        },
+        horarioInicio: {
+            type: 'string'
+        },
+        horarioFim: {
+            type: 'string'
+        },
+        cor: {
+            type: 'string',
+            nullable: true
+        },
+        repeticao: {
+            type: 'string',
+            nullable: true
+        }
+    },
+    required: ['nome', 'dataInicio', 'diaInteiro']
+} as const;
+
+export const $TurmaEventoUpdateInputDto = {
+    type: 'object',
+    properties: {
+        nome: {
+            type: 'string'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date'
+        },
+        dataFim: {
+            type: 'string',
+            format: 'date',
+            nullable: true
+        },
+        diaInteiro: {
+            type: 'boolean'
+        },
+        horarioInicio: {
+            type: 'string'
+        },
+        horarioFim: {
+            type: 'string'
+        },
+        cor: {
+            type: 'string',
+            nullable: true
+        },
+        repeticao: {
+            type: 'string',
+            nullable: true
+        }
+    }
+} as const;
+
+export const $TurmaDiarioConfigurarItemDto = {
+    type: 'object',
+    properties: {
+        disciplinaId: {
+            type: 'string',
+            format: 'uuid',
+            description: 'ID da disciplina'
+        },
+        professorPerfilIds: {
+            description: 'IDs dos professores (perfis)',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        }
+    },
+    required: ['disciplinaId']
+} as const;
+
+export const $TurmaDiarioConfigurarInputDto = {
+    type: 'object',
+    properties: {
+        calendarioLetivoId: {
+            type: 'string',
+            format: 'uuid',
+            description: 'ID do calendario letivo'
+        },
+        diarios: {
+            description: 'Configuracao de disciplinas',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/TurmaDiarioConfigurarItemDto'
+            }
+        }
+    },
+    required: ['calendarioLetivoId', 'diarios']
+} as const;
+
+export const $TurmaDiarioConfigurarOutputDto = {
+    type: 'object',
+    properties: {
+        created: {
+            type: 'number',
+            description: 'Quantidade de diarios criados'
+        }
+    },
+    required: ['created']
+} as const;
+
+export const $GerarHorarioCreateInputDto = {
+    type: 'object',
+    properties: {
+        dataInicio: {
+            type: 'string',
+            format: 'date',
+            pattern: '^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$',
+            description: 'Data inicio do periodo'
+        },
+        dataTermino: {
+            type: 'string',
+            nullable: true,
+            format: 'date',
+            pattern: '^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$',
+            description: 'Data termino do periodo'
+        },
+        ofertaFormacaoIds: {
+            description: 'IDs das ofertas de formacao',
+            type: 'array',
+            items: {
+                type: 'string'
+            }
+        },
+        duracao: {
+            type: 'string',
+            enum: ['TEMPORARIO', 'PERMANENTE'],
+            description: 'Duracao: TEMPORARIO ou PERMANENTE'
+        }
+    },
+    required: ['dataInicio']
+} as const;
+
+export const $GerarHorarioFindOneOutputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string',
+            format: 'uuid',
+            pattern: '^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$',
+            description: 'ID da solicitacao'
+        },
+        status: {
+            type: 'string',
+            enum: ['SOLICITADO', 'PENDENTE', 'SUCESSO', 'ERRO', 'ACEITO', 'REJEITADO'],
+            description: 'Status da solicitacao de geracao de horario'
+        },
+        duracao: {
+            type: 'string',
+            enum: ['TEMPORARIO', 'PERMANENTE'],
+            description: 'Duracao: TEMPORARIO ou PERMANENTE'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date',
+            pattern: '^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$',
+            description: 'Data inicio do periodo'
+        },
+        dataTermino: {
+            type: 'string',
+            nullable: true,
+            format: 'date',
+            pattern: '^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$',
+            description: 'Data termino do periodo'
+        },
+        respostaGerador: {
+            type: 'object',
+            description: 'Resposta do gerador de horario',
+            nullable: true
+        },
+        dateCreated: {
+            type: 'string',
+            format: 'date-time',
+            pattern: '^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$',
+            description: 'Data de criacao da solicitacao'
+        }
+    },
+    required: ['id', 'status', 'duracao', 'dataInicio', 'dateCreated']
+} as const;
+
+export const $HorarioEdicaoSessaoOutputRestDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        status: {
+            type: 'string'
+        },
+        idUsuarioFk: {
+            type: 'string'
+        },
+        dateCreated: {
+            format: 'date-time',
+            type: 'string'
+        },
+        dateUpdated: {
+            format: 'date-time',
+            type: 'string'
+        }
+    },
+    required: ['id', 'status', 'idUsuarioFk', 'dateCreated', 'dateUpdated']
+} as const;
+
+export const $HorarioEdicaoMudancaInputRestDto = {
+    type: 'object',
+    properties: {
+        calendarioAgendamentoId: {
+            type: 'string'
+        },
+        tipoOperacao: {
+            type: 'string',
+            enum: ['CRIAR', 'MOVER', 'REMOVER']
+        },
+        dados: {
+            type: 'object'
+        }
+    },
+    required: ['tipoOperacao', 'dados']
+} as const;
+
+export const $HorarioEdicaoMudancaOutputRestDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        idSessaoFk: {
+            type: 'string'
+        },
+        idCalendarioAgendamentoFk: {
+            type: 'string'
+        },
+        tipoOperacao: {
+            type: 'string'
+        },
+        dados: {
+            type: 'object'
+        },
+        dateCreated: {
+            format: 'date-time',
+            type: 'string'
+        }
+    },
+    required: ['id', 'idSessaoFk', 'tipoOperacao', 'dados', 'dateCreated']
+} as const;
+
+export const $EstadoListOutputDto = {
     type: 'object',
     properties: {
         meta: {
@@ -4825,74 +3994,729 @@ export const $DiarioProfessorListOutputDto = {
             description: 'Resultados da busca',
             type: 'array',
             items: {
-                '$ref': '#/components/schemas/DiarioProfessorFindOneOutputDto'
+                '$ref': '#/components/schemas/EstadoFindOneOutputDto'
             }
         }
     },
     required: ['meta', 'data']
 } as const;
 
-export const $PerfilFindOneInputDto = {
+export const $EmpresaFindOneOutputDto = {
     type: 'object',
     properties: {
         id: {
             type: 'string',
             description: 'Identificador do registro (uuid)',
+            format: 'uuid',
+            example: '123e4567-e89b-12d3-a456-426614174000'
+        },
+        dateCreated: {
+            type: 'string',
+            description: 'Data e hora da criacao do registro',
+            format: 'date-time'
+        },
+        dateUpdated: {
+            type: 'string',
+            description: 'Data e hora da alteracao do registro',
+            format: 'date-time'
+        },
+        dateDeleted: {
+            type: 'string',
+            description: 'Data e hora da exclusao do registro',
+            format: 'date-time',
+            nullable: true
+        },
+        razaoSocial: {
+            type: 'string',
+            minLength: 1,
+            description: 'Razão social da empresa'
+        },
+        nomeFantasia: {
+            type: 'string',
+            minLength: 1,
+            description: 'Nome fantasia da empresa'
+        },
+        cnpj: {
+            type: 'string',
+            pattern: '^\\d{14}$',
+            description: 'CNPJ sem pontuação'
+        },
+        telefone: {
+            type: 'string',
+            minLength: 1,
+            maxLength: 15,
+            description: 'Telefone da empresa'
+        },
+        email: {
+            type: 'string',
+            format: 'email',
+            pattern: "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            description: 'E-mail da empresa'
+        },
+        endereco: {
+            description: 'Endereço vinculado à empresa',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/EnderecoFindOneOutputDto'
+                }
+            ]
+        },
+        ativo: {
+            type: 'boolean',
+            description: 'Se a empresa está ativa'
+        }
+    },
+    required: ['id', 'dateCreated', 'dateUpdated', 'razaoSocial', 'nomeFantasia', 'cnpj', 'telefone', 'email', 'endereco', 'ativo']
+} as const;
+
+export const $EmpresaListOutputDto = {
+    type: 'object',
+    properties: {
+        meta: {
+            description: 'Metadados da busca',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PaginationMetaRestDto'
+                }
+            ]
+        },
+        data: {
+            description: 'Resultados da busca',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/EmpresaFindOneOutputDto'
+            }
+        }
+    },
+    required: ['meta', 'data']
+} as const;
+
+export const $EmpresaCreateInputDto = {
+    type: 'object',
+    properties: {
+        razaoSocial: {
+            type: 'string',
+            minLength: 1,
+            description: 'Razão social da empresa'
+        },
+        nomeFantasia: {
+            type: 'string',
+            minLength: 1,
+            description: 'Nome fantasia da empresa'
+        },
+        cnpj: {
+            type: 'string',
+            pattern: '^\\d{14}$',
+            description: 'CNPJ sem pontuação'
+        },
+        telefone: {
+            type: 'string',
+            minLength: 1,
+            maxLength: 15,
+            description: 'Telefone da empresa'
+        },
+        email: {
+            type: 'string',
+            format: 'email',
+            pattern: "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            description: 'E-mail da empresa'
+        },
+        endereco: {
+            type: 'object',
+            description: 'Endereço vinculado à empresa'
+        }
+    },
+    required: ['razaoSocial', 'nomeFantasia', 'cnpj', 'telefone', 'email', 'endereco']
+} as const;
+
+export const $EmpresaUpdateInputDto = {
+    type: 'object',
+    properties: {
+        razaoSocial: {
+            type: 'string',
+            minLength: 1,
+            description: 'Razão social da empresa'
+        },
+        nomeFantasia: {
+            type: 'string',
+            minLength: 1,
+            description: 'Nome fantasia da empresa'
+        },
+        cnpj: {
+            type: 'string',
+            pattern: '^\\d{14}$',
+            description: 'CNPJ sem pontuação'
+        },
+        telefone: {
+            type: 'string',
+            minLength: 1,
+            maxLength: 15,
+            description: 'Telefone da empresa'
+        },
+        email: {
+            type: 'string',
+            format: 'email',
+            pattern: "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            description: 'E-mail da empresa'
+        },
+        endereco: {
+            type: 'object',
+            description: 'Endereço vinculado à empresa'
+        }
+    }
+} as const;
+
+export const $Object = {
+    type: 'object',
+    properties: {}
+} as const;
+
+export const $HorarioEstagioOutputDto = {
+    type: 'object',
+    properties: {
+        diaSemana: {
+            type: 'number',
+            minimum: 0,
+            maximum: 6
+        },
+        horaInicio: {
+            type: 'string',
+            example: '08:00'
+        },
+        horaFim: {
+            type: 'string',
+            example: '12:00'
+        },
+        id: {
+            type: 'string',
             format: 'uuid'
         }
     },
-    required: ['id']
+    required: ['diaSemana', 'horaInicio', 'horaFim', 'id']
 } as const;
 
-export const $DiarioProfessorCreateInputDto = {
+export const $EstagioFindOneOutputDto = {
     type: 'object',
     properties: {
-        situacao: {
+        id: {
+            type: 'string',
+            description: 'Identificador do registro (uuid)'
+        },
+        empresa: {
+            type: 'object',
+            description: 'Empresa do estágio'
+        },
+        estagiario: {
+            type: 'object',
+            description: 'Estagiário (opcional enquanto a vaga estiver aberta)',
+            nullable: true
+        },
+        cargaHoraria: {
+            type: 'integer',
+            minimum: 1,
+            maximum: 9007199254740991,
+            description: 'Carga horária semanal'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date',
+            pattern: '^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$',
+            description: 'Data de início do estágio',
+            nullable: true
+        },
+        dataFim: {
+            type: 'string',
+            nullable: true,
+            format: 'date',
+            pattern: '^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$',
+            description: 'Data de fim do estágio'
+        },
+        status: {
+            type: 'string',
+            enum: ['ABERTA', 'EM_ANDAMENTO', 'CONCLUIDA'],
+            description: 'Status do estágio'
+        },
+        horariosEstagio: {
+            description: 'Horários do estágio',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/HorarioEstagioOutputDto'
+            }
+        },
+        ativo: {
             type: 'boolean',
-            description: 'Situacao do vinculo'
+            description: 'Se o estágio está ativo'
         },
-        perfil: {
-            description: 'Perfil do usuario ao campus',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/PerfilFindOneInputDto'
-                }
-            ]
+        dateCreated: {
+            type: 'string',
+            description: 'Data de criação do registro'
         },
-        diario: {
-            description: 'Diario vinculado',
-            allOf: [
-                {
-                    '$ref': '#/components/schemas/DiarioFindOneInputDto'
-                }
-            ]
+        dateUpdated: {
+            type: 'string',
+            description: 'Data da última atualização do registro'
         }
     },
-    required: ['situacao', 'perfil', 'diario']
+    required: ['id', 'empresa', 'cargaHoraria', 'status', 'horariosEstagio', 'ativo', 'dateCreated', 'dateUpdated']
 } as const;
 
-export const $DiarioProfessorUpdateInputDto = {
+export const $EstagioListOutputDto = {
     type: 'object',
     properties: {
-        situacao: {
-            type: 'boolean',
-            description: 'Situacao do vinculo'
+        data: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/EstagioFindOneOutputDto'
+            }
+        },
+        total: {
+            type: 'number'
+        },
+        page: {
+            type: 'number'
+        },
+        limit: {
+            type: 'number'
+        }
+    },
+    required: ['data', 'total', 'page', 'limit']
+} as const;
+
+export const $HorarioEstagioInputDto = {
+    type: 'object',
+    properties: {
+        diaSemana: {
+            type: 'number',
+            minimum: 0,
+            maximum: 6
+        },
+        horaInicio: {
+            type: 'string',
+            example: '08:00'
+        },
+        horaFim: {
+            type: 'string',
+            example: '12:00'
+        }
+    },
+    required: ['diaSemana', 'horaInicio', 'horaFim']
+} as const;
+
+export const $EstagioCreateInputDto = {
+    type: 'object',
+    properties: {
+        empresa: {
+            type: 'object',
+            description: 'Empresa do estágio'
+        },
+        estagiario: {
+            type: 'object',
+            description: 'Estagiário (opcional enquanto a vaga estiver aberta)',
+            nullable: true
+        },
+        cargaHoraria: {
+            type: 'integer',
+            minimum: 1,
+            maximum: 9007199254740991,
+            description: 'Carga horária semanal'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date',
+            pattern: '^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$',
+            description: 'Data de início do estágio',
+            nullable: true
+        },
+        dataFim: {
+            type: 'string',
+            nullable: true,
+            format: 'date',
+            pattern: '^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$',
+            description: 'Data de fim do estágio'
+        },
+        status: {
+            type: 'string',
+            enum: ['ABERTA', 'EM_ANDAMENTO', 'CONCLUIDA'],
+            description: 'Status do estágio'
+        },
+        horariosEstagio: {
+            description: 'Horários do estágio',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/HorarioEstagioInputDto'
+            }
+        }
+    },
+    required: ['empresa', 'cargaHoraria']
+} as const;
+
+export const $EstagioUpdateInputDto = {
+    type: 'object',
+    properties: {
+        empresa: {
+            type: 'object',
+            description: 'Empresa do estágio'
+        },
+        estagiario: {
+            type: 'object',
+            description: 'Estagiário (opcional enquanto a vaga estiver aberta)',
+            nullable: true
+        },
+        cargaHoraria: {
+            type: 'integer',
+            minimum: 1,
+            maximum: 9007199254740991,
+            description: 'Carga horária semanal'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date',
+            pattern: '^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$',
+            description: 'Data de início do estágio',
+            nullable: true
+        },
+        dataFim: {
+            type: 'string',
+            nullable: true,
+            format: 'date',
+            pattern: '^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$',
+            description: 'Data de fim do estágio'
+        },
+        status: {
+            type: 'string',
+            enum: ['ABERTA', 'EM_ANDAMENTO', 'CONCLUIDA'],
+            description: 'Status do estágio'
+        },
+        horariosEstagio: {
+            description: 'Horários do estágio',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/HorarioEstagioInputDto'
+            }
+        }
+    }
+} as const;
+
+export const $EstagiarioFindOneOutputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string',
+            description: 'Identificador do registro (uuid)',
+            format: 'uuid',
+            example: '123e4567-e89b-12d3-a456-426614174000'
+        },
+        dateCreated: {
+            type: 'string',
+            description: 'Data e hora da criacao do registro',
+            format: 'date-time'
+        },
+        dateUpdated: {
+            type: 'string',
+            description: 'Data e hora da alteracao do registro',
+            format: 'date-time'
+        },
+        dateDeleted: {
+            type: 'string',
+            description: 'Data e hora da exclusao do registro',
+            format: 'date-time',
+            nullable: true
         },
         perfil: {
-            description: 'Perfil do usuario ao campus',
+            description: 'Perfil vinculado ao estagiário',
             allOf: [
                 {
-                    '$ref': '#/components/schemas/PerfilFindOneInputDto'
+                    '$ref': '#/components/schemas/PerfilFindOneOutputDto'
                 }
             ]
         },
-        diario: {
-            description: 'Diario vinculado',
+        curso: {
+            description: 'Curso vinculado ao estagiário',
             allOf: [
                 {
-                    '$ref': '#/components/schemas/DiarioFindOneInputDto'
+                    '$ref': '#/components/schemas/CursoFindOneOutputDto'
                 }
             ]
+        },
+        turma: {
+            description: 'Turma vinculada ao estagiário',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/TurmaFindOneOutputDto'
+                }
+            ]
+        },
+        telefone: {
+            type: 'string',
+            minLength: 1,
+            maxLength: 15,
+            description: 'Telefone do estagiário'
+        },
+        emailInstitucional: {
+            type: 'string',
+            nullable: true,
+            format: 'email',
+            pattern: "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            description: 'Email institucional do estagiário'
+        },
+        dataNascimento: {
+            type: 'string',
+            minLength: 1,
+            description: 'Data de nascimento do estagiário'
+        },
+        ativo: {
+            type: 'boolean',
+            description: 'Se o estagiário está ativo'
+        }
+    },
+    required: ['id', 'dateCreated', 'dateUpdated', 'perfil', 'curso', 'turma', 'telefone', 'dataNascimento', 'ativo']
+} as const;
+
+export const $EstagiarioListOutputDto = {
+    type: 'object',
+    properties: {
+        meta: {
+            description: 'Metadados da busca',
+            allOf: [
+                {
+                    '$ref': '#/components/schemas/PaginationMetaRestDto'
+                }
+            ]
+        },
+        data: {
+            description: 'Resultados da busca',
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/EstagiarioFindOneOutputDto'
+            }
+        }
+    },
+    required: ['meta', 'data']
+} as const;
+
+export const $EstagiarioCreateInputDto = {
+    type: 'object',
+    properties: {
+        perfil: {
+            type: 'object',
+            description: 'Perfil vinculado ao estagiário'
+        },
+        curso: {
+            type: 'object',
+            description: 'Curso vinculado ao estagiário'
+        },
+        turma: {
+            type: 'object',
+            description: 'Turma vinculada ao estagiário'
+        },
+        telefone: {
+            type: 'string',
+            minLength: 1,
+            maxLength: 15,
+            description: 'Telefone do estagiário'
+        },
+        emailInstitucional: {
+            type: 'string',
+            nullable: true,
+            format: 'email',
+            pattern: "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            description: 'Email institucional do estagiário'
+        },
+        dataNascimento: {
+            type: 'string',
+            minLength: 1,
+            description: 'Data de nascimento do estagiário'
+        }
+    },
+    required: ['perfil', 'curso', 'turma', 'telefone', 'emailInstitucional', 'dataNascimento']
+} as const;
+
+export const $EstagiarioUpdateInputDto = {
+    type: 'object',
+    properties: {
+        perfil: {
+            type: 'object',
+            description: 'Perfil vinculado ao estagiário'
+        },
+        curso: {
+            type: 'object',
+            description: 'Curso vinculado ao estagiário'
+        },
+        turma: {
+            type: 'object',
+            description: 'Turma vinculada ao estagiário'
+        },
+        telefone: {
+            type: 'string',
+            minLength: 1,
+            maxLength: 15,
+            description: 'Telefone do estagiário'
+        },
+        emailInstitucional: {
+            type: 'string',
+            nullable: true,
+            format: 'email',
+            pattern: "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$",
+            description: 'Email institucional do estagiário'
+        },
+        dataNascimento: {
+            type: 'string',
+            minLength: 1,
+            description: 'Data de nascimento do estagiário'
+        }
+    }
+} as const;
+
+export const $HorarioAulaFindOneOutputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        inicio: {
+            type: 'string'
+        },
+        fim: {
+            type: 'string'
+        },
+        horarioAulaConfiguracaoId: {
+            type: 'string'
+        }
+    },
+    required: ['id', 'inicio', 'fim', 'horarioAulaConfiguracaoId']
+} as const;
+
+export const $HorarioAulaListOutputDto = {
+    type: 'object',
+    properties: {
+        data: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/HorarioAulaFindOneOutputDto'
+            }
+        }
+    },
+    required: ['data']
+} as const;
+
+export const $HorarioAulaCreateInputDto = {
+    type: 'object',
+    properties: {
+        inicio: {
+            type: 'string',
+            description: 'Horario inicio (HH:MM:SS)'
+        },
+        fim: {
+            type: 'string',
+            description: 'Horario fim (HH:MM:SS)'
+        },
+        horarioAulaConfiguracaoId: {
+            type: 'string',
+            format: 'uuid',
+            description: 'ID da configuracao de horario de aula'
+        }
+    },
+    required: ['inicio', 'fim', 'horarioAulaConfiguracaoId']
+} as const;
+
+export const $HorarioAulaUpdateInputDto = {
+    type: 'object',
+    properties: {
+        inicio: {
+            type: 'string'
+        },
+        fim: {
+            type: 'string'
+        },
+        horarioAulaConfiguracaoId: {
+            type: 'string',
+            format: 'uuid'
+        }
+    }
+} as const;
+
+export const $HorarioAulaConfiguracaoFindOneOutputDto = {
+    type: 'object',
+    properties: {
+        id: {
+            type: 'string'
+        },
+        dataInicio: {
+            type: 'string',
+            format: 'date'
+        },
+        dataFim: {
+            type: 'string',
+            format: 'date',
+            nullable: true
+        },
+        ativo: {
+            type: 'boolean'
+        },
+        campusId: {
+            type: 'string'
+        }
+    },
+    required: ['id', 'dataInicio', 'ativo', 'campusId']
+} as const;
+
+export const $HorarioAulaConfiguracaoListOutputDto = {
+    type: 'object',
+    properties: {
+        data: {
+            type: 'array',
+            items: {
+                '$ref': '#/components/schemas/HorarioAulaConfiguracaoFindOneOutputDto'
+            }
+        }
+    },
+    required: ['data']
+} as const;
+
+export const $HorarioAulaConfiguracaoCreateInputDto = {
+    type: 'object',
+    properties: {
+        dataInicio: {
+            type: 'string',
+            format: 'date',
+            description: 'Data inicio da configuracao'
+        },
+        dataFim: {
+            type: 'string',
+            format: 'date',
+            nullable: true,
+            description: 'Data fim da configuracao'
+        },
+        ativo: {
+            type: 'boolean',
+            description: 'Configuracao ativa'
+        },
+        campusId: {
+            type: 'string',
+            format: 'uuid',
+            description: 'ID do campus'
+        }
+    },
+    required: ['dataInicio', 'ativo', 'campusId']
+} as const;
+
+export const $HorarioAulaConfiguracaoUpdateInputDto = {
+    type: 'object',
+    properties: {
+        dataInicio: {
+            type: 'string',
+            format: 'date'
+        },
+        dataFim: {
+            type: 'string',
+            format: 'date',
+            nullable: true
+        },
+        ativo: {
+            type: 'boolean'
+        },
+        campusId: {
+            type: 'string',
+            format: 'uuid'
         }
     }
 } as const;

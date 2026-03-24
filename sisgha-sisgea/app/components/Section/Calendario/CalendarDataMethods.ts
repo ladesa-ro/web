@@ -183,10 +183,10 @@ export const calendarDataMethods = {
           .etapas.etapaFindAll({
             search: `${name.replace(/\D/g, '')}`,
           })
-          .then(res => res.data);
+          .then((res: any) => res.data);
 
         const findStep = getStep.find(
-          step =>
+          (step: any) =>
             step.numero === Number(name.replace(/\D/g, '')) &&
             step.calendario.id === calendarId
         );
@@ -277,7 +277,7 @@ export const calendarDataMethods = {
             filterCalendarioId: [calendarId],
             search: `${name}`,
           })
-          .then(res => res.data);
+          .then((res: any) => res.data);
 
         const findEvent = getEvents.find(
           (event: any) =>

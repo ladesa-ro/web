@@ -5,6 +5,8 @@ export * from './cursos';
 export * from './diarios';
 export * from './diarios-professores';
 export * from './disciplinas';
+export * from './modalidades';
+export * from './niveis-formacoes';
 export * from './ofertas-formacoes';
 export * from './turmas';
 export * from './usuarios';

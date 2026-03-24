@@ -47,7 +47,7 @@ const scheduleOf: 'professor' | 'turma' | undefined = inject('scheduleOf');
 
 // TODO: melhorar essa estrutura de querries para fazer apenas 1 query à api em algum componente ancestral a este, ao inves de uma query em todas as instâncias
 const professoresQuery = useQuery({
-  ...listPerfis({ filterCargo: ['professor'] }),
+  ...listPerfis({ filterCargo: ['professor'], usuarioId: '' } as any),
   enabled: scheduleOf === 'turma',
 });
 
@@ -91,7 +91,7 @@ const turmasOrProfessoresSelected = ref();
             label="Professor"
             v-if="professoresQuery.data.value"
             :items="
-              professoresQuery.data.value.data.map(professor => ({
+              professoresQuery.data.value.data.map((professor: any) => ({
                 label: professor.usuario.nome ?? 'Nome não disponível',
                 value: professor.id,
               }))

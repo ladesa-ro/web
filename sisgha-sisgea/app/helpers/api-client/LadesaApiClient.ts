@@ -5,40 +5,30 @@ import { FetchHttpRequest } from './core/FetchHttpRequest';
 
 import { AmbientesService } from './services.gen';
 import { ArquivosService } from './services.gen';
-import { AulasService } from './services.gen';
 import { AutenticacaoService } from './services.gen';
 import { BlocosService } from './services.gen';
+import { CalendarioService } from './services.gen';
 import { CalendariosLetivosService } from './services.gen';
 import { CampiService } from './services.gen';
 import { CidadesService } from './services.gen';
 import { CursosService } from './services.gen';
 import { DiariosService } from './services.gen';
-import { DiariosPreferenciaAgrupamentoService } from './services.gen';
-import { DiariosProfessoresService } from './services.gen';
-import { DiasCalendariosService } from './services.gen';
 import { DisciplinasService } from './services.gen';
-import { DisponibilidadesService } from './services.gen';
 import { EmpresasService } from './services.gen';
 import { EstadosService } from './services.gen';
 import { EstagiariosService } from './services.gen';
-import { EtapasService } from './services.gen';
-import { EventosService } from './services.gen';
+import { EstagiosService } from './services.gen';
 import { GerarHorarioService } from './services.gen';
-import { GradesHorariosOfertasFormacoesService } from './services.gen';
-import { GradesHorariosOfertasFormacoesIntervalosDeTempoService } from './services.gen';
-import { HorariosGeradosService } from './services.gen';
-import { HorariosGeradosAulaService } from './services.gen';
-import { IndisponibilidadesProfessoresService } from './services.gen';
-import { IntervalosDeTempoService } from './services.gen';
+import { HorariosService } from './services.gen';
+import { HorariosAulaService } from './services.gen';
+import { HorariosAulaConfiguracoesService } from './services.gen';
 import { ModalidadesService } from './services.gen';
 import { NiveisFormacoesService } from './services.gen';
+import { NotificacoesService } from './services.gen';
 import { OfertasFormacoesService } from './services.gen';
-import { OfertasFormacoesNiveisFormacoesService } from './services.gen';
-import { PerfisService } from './services.gen';
-import { ReservasService } from './services.gen';
+import { RelatoriosService } from './services.gen';
 import { SistemaService } from './services.gen';
 import { TurmasService } from './services.gen';
-import { TurmasDisponibilidadesService } from './services.gen';
 import { UsuariosService } from './services.gen';
 
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest;
@@ -47,43 +37,60 @@ export class LadesaApiClient {
 
 	public readonly ambientes: AmbientesService;
 	public readonly arquivos: ArquivosService;
-	public readonly aulas: AulasService;
 	public readonly autenticacao: AutenticacaoService;
 	public readonly blocos: BlocosService;
+	public readonly calendario: CalendarioService;
 	public readonly calendariosLetivos: CalendariosLetivosService;
 	public readonly campi: CampiService;
 	public readonly cidades: CidadesService;
 	public readonly cursos: CursosService;
 	public readonly diarios: DiariosService;
-	public readonly diariosPreferenciaAgrupamento: DiariosPreferenciaAgrupamentoService;
-	public readonly diariosProfessores: DiariosProfessoresService;
-	public readonly diasCalendarios: DiasCalendariosService;
 	public readonly disciplinas: DisciplinasService;
-	public readonly disponibilidades: DisponibilidadesService;
 	public readonly empresas: EmpresasService;
 	public readonly estados: EstadosService;
 	public readonly estagiarios: EstagiariosService;
-	public readonly etapas: EtapasService;
-	public readonly eventos: EventosService;
+	public readonly estagios: EstagiosService;
 	public readonly gerarHorario: GerarHorarioService;
-	public readonly gradesHorariosOfertasFormacoes: GradesHorariosOfertasFormacoesService;
-	public readonly gradesHorariosOfertasFormacoesIntervalosDeTempo: GradesHorariosOfertasFormacoesIntervalosDeTempoService;
-	public readonly horariosGerados: HorariosGeradosService;
-	public readonly horariosGeradosAula: HorariosGeradosAulaService;
-	public readonly indisponibilidadesProfessores: IndisponibilidadesProfessoresService;
-	public readonly intervalosDeTempo: IntervalosDeTempoService;
+	public readonly horarios: HorariosService;
+	public readonly horariosAula: HorariosAulaService;
+	public readonly horariosAulaConfiguracoes: HorariosAulaConfiguracoesService;
 	public readonly modalidades: ModalidadesService;
 	public readonly niveisFormacoes: NiveisFormacoesService;
+	public readonly notificacoes: NotificacoesService;
 	public readonly ofertasFormacoes: OfertasFormacoesService;
-	public readonly ofertasFormacoesNiveisFormacoes: OfertasFormacoesNiveisFormacoesService;
-	public readonly perfis: PerfisService;
-	public readonly reservas: ReservasService;
+	public readonly relatorios: RelatoriosService;
 	public readonly sistema: SistemaService;
 	public readonly turmas: TurmasService;
-	public readonly turmasDisponibilidades: TurmasDisponibilidadesService;
 	public readonly usuarios: UsuariosService;
 
 	public readonly request: BaseHttpRequest;
+
+	public get etapas(): any {
+		console.warn('LadesaApiClient.etapas: serviço não disponível na API atual');
+		const noop = () => Promise.reject(new Error('Serviço etapas não disponível'));
+		return new Proxy({} as any, { get: () => noop });
+	}
+
+	public get eventos(): any {
+		console.warn('LadesaApiClient.eventos: serviço não disponível na API atual');
+		const noop = () => Promise.reject(new Error('Serviço eventos não disponível'));
+		return new Proxy({} as any, { get: () => noop });
+	}
+
+	public get diariosProfessores(): any {
+		return {
+			diarioProfessorFindAll: (data: any) => this.diarios.diarioProfessorFindAll(data),
+			diarioProfessorBulkReplace: (data: any) => this.diarios.diarioProfessorBulkReplace(data),
+		};
+	}
+
+	public get perfis() {
+		return {
+			perfilFindAll: (data: any) => this.usuarios.perfilFindAll(data),
+			perfilSetVinculos: (data: any) => this.usuarios.perfilSetVinculos(data),
+			perfilFindById: (data: any) => this.usuarios.perfilFindById(data),
+		};
+	}
 
 	constructor(config?: Partial<OpenAPIConfig>, HttpRequest: HttpRequestConstructor = FetchHttpRequest) {
 		this.request = new HttpRequest({
@@ -104,40 +111,30 @@ export class LadesaApiClient {
 
 		this.ambientes = new AmbientesService(this.request);
 		this.arquivos = new ArquivosService(this.request);
-		this.aulas = new AulasService(this.request);
 		this.autenticacao = new AutenticacaoService(this.request);
 		this.blocos = new BlocosService(this.request);
+		this.calendario = new CalendarioService(this.request);
 		this.calendariosLetivos = new CalendariosLetivosService(this.request);
 		this.campi = new CampiService(this.request);
 		this.cidades = new CidadesService(this.request);
 		this.cursos = new CursosService(this.request);
 		this.diarios = new DiariosService(this.request);
-		this.diariosPreferenciaAgrupamento = new DiariosPreferenciaAgrupamentoService(this.request);
-		this.diariosProfessores = new DiariosProfessoresService(this.request);
-		this.diasCalendarios = new DiasCalendariosService(this.request);
 		this.disciplinas = new DisciplinasService(this.request);
-		this.disponibilidades = new DisponibilidadesService(this.request);
 		this.empresas = new EmpresasService(this.request);
 		this.estados = new EstadosService(this.request);
 		this.estagiarios = new EstagiariosService(this.request);
-		this.etapas = new EtapasService(this.request);
-		this.eventos = new EventosService(this.request);
+		this.estagios = new EstagiosService(this.request);
 		this.gerarHorario = new GerarHorarioService(this.request);
-		this.gradesHorariosOfertasFormacoes = new GradesHorariosOfertasFormacoesService(this.request);
-		this.gradesHorariosOfertasFormacoesIntervalosDeTempo = new GradesHorariosOfertasFormacoesIntervalosDeTempoService(this.request);
-		this.horariosGerados = new HorariosGeradosService(this.request);
-		this.horariosGeradosAula = new HorariosGeradosAulaService(this.request);
-		this.indisponibilidadesProfessores = new IndisponibilidadesProfessoresService(this.request);
-		this.intervalosDeTempo = new IntervalosDeTempoService(this.request);
+		this.horarios = new HorariosService(this.request);
+		this.horariosAula = new HorariosAulaService(this.request);
+		this.horariosAulaConfiguracoes = new HorariosAulaConfiguracoesService(this.request);
 		this.modalidades = new ModalidadesService(this.request);
 		this.niveisFormacoes = new NiveisFormacoesService(this.request);
+		this.notificacoes = new NotificacoesService(this.request);
 		this.ofertasFormacoes = new OfertasFormacoesService(this.request);
-		this.ofertasFormacoesNiveisFormacoes = new OfertasFormacoesNiveisFormacoesService(this.request);
-		this.perfis = new PerfisService(this.request);
-		this.reservas = new ReservasService(this.request);
+		this.relatorios = new RelatoriosService(this.request);
 		this.sistema = new SistemaService(this.request);
 		this.turmas = new TurmasService(this.request);
-		this.turmasDisponibilidades = new TurmasDisponibilidadesService(this.request);
 		this.usuarios = new UsuariosService(this.request);
 	}
 }
