@@ -87,8 +87,7 @@ const imageSrc = computed(() => {
 
 .drop-area:hover .dropzone-info {
   opacity: 1;
-  backdrop-filter: blur(4px);
-  @apply bg-ldsa-grey/10;
+  @apply bg-ldsa-grey/20;
 }
 
 @media screen and (max-width: 800px) {

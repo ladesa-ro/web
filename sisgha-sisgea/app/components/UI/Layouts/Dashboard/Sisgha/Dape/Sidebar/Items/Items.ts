@@ -78,6 +78,27 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
       items: [
         {
           type: 'link',
+          title: 'Modalidades',
+          icon: Others,
+          to: `${CAMINHO_DAPE}/modalidades`,
+          exact: false,
+        },
+        {
+          type: 'link',
+          title: 'Níveis de Formação',
+          icon: Others,
+          to: `${CAMINHO_DAPE}/niveis-formacoes`,
+          exact: false,
+        },
+        {
+          type: 'link',
+          title: 'Formações',
+          icon: Others,
+          to: `${CAMINHO_DAPE}/formacoes`,
+          exact: false,
+        },
+        {
+          type: 'link',
           title: 'Disciplinas',
           icon: Discipline,
           to: `${CAMINHO_DAPE}/disciplinas`,
