@@ -21,7 +21,7 @@ const crudModule = {
     });
   },
   getOne: (id: string) => apiClient.cursos.cursoFindById({ id }),
-} as any;
+};
 
 const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,

@@ -1,4 +1,5 @@
-<script generic="Typings extends IGenericCrudModuleTypesBase" lang="ts" setup>
+<script lang="ts" setup>
+import { useQuery } from '@tanstack/vue-query';
 import filter from 'lodash/filter';
 import uniqBy from 'lodash/uniqBy';
 import { useField } from 'vee-validate';
@@ -7,7 +8,7 @@ import type { IUIAutocompleteApiRetrieverOptions } from './-Base';
 type Props = {
   name: string;
   isLoading?: boolean;
-  options: IUIAutocompleteApiRetrieverOptions<Typings>;
+  options: IUIAutocompleteApiRetrieverOptions;
 };
 
 const {
@@ -24,14 +25,15 @@ const searchOptions = computed(() => {
   return { search: unref(searchValue) || '' };
 });
 
-const { useListQuery } = useGenericCrudComposables(
-  apiRetrieverOptions.crudModule
-);
+const crudModule = apiRetrieverOptions.crudModule;
 
-const {
-  queryStatus: { isLoading: listIsLoading },
-  data: { items: listItems },
-} = useListQuery(searchOptions);
+const listQuery = useQuery({
+  queryKey: computed(() => [...crudModule.baseQueryKeys, 'list', JSON.stringify(unref(searchOptions))]),
+  queryFn: () => crudModule.list(unref(searchOptions)),
+});
+
+const listItems = computed(() => listQuery.data.value?.data ?? []);
+const listIsLoading = listQuery.isLoading;
 
 const selectItems = computed(() => {
   const listItemsValue = unref(listItems) ?? [];

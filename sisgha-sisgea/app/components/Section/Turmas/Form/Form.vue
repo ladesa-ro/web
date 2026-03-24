@@ -1,125 +1,60 @@
 <script lang="ts" setup>
-import { useQuery } from '@tanstack/vue-query';
+import { FormMode } from '~/utils/constants';
 import type {
   TurmaCreateInputDto,
   TurmaUpdateInputDto,
 } from '~/helpers/api-client';
-import { type ICreateOrManageConfig } from '../../../Forms/CreateOrManage/Base/Control/config';
-import { setupCreateOrManageControlContext } from '../../../Forms/CreateOrManage/Contextual/useCreateOrManageControlContext';
-import {
-  type ITurmaFormOutput,
-  type ITurmaFormSchema,
-  useTurmaFormSchema,
-} from './-Helpers/schema';
+import { useTurmaFormSchema } from './-Helpers/schema';
 import SectionTurmasFormAvailability from './Availability/AvailabilityModal.vue';
 
-type Props = { editId?: string | null };
+const { editId = null } = defineProps<{ editId?: string | null }>();
+const emit = defineEmits<{ close: [] }>();
 
-const { editId = null } = defineProps<Props>();
-
-//
-
-const $emit = defineEmits(['close']);
-const onClose = () => $emit('close');
 const isClassesOpen = ref(true);
 const isAvailabilityOpen = ref(true);
 
 const schema = useTurmaFormSchema();
-
 const turmas = useTurmas();
+const confirmDelete = useConfirmDelete();
 
-const findOneQuery = turmas.findOne(editId);
-
-const formStateQuery = useQuery({
-  queryKey: computed(() => [...turmas.keys, 'detail', editId, 'form-state']),
-
-  queryFn: async (): Promise<ITurmaFormOutput | null> => {
-    const { data } = await findOneQuery.suspense();
-
-    if (data) {
-      return {
-        curso: data.curso,
-        periodo: data.periodo,
-        ambientePadraoAula: data.ambientePadraoAula ?? null,
-
-        imagem: null,
-        _: {} as any,
-      };
-    }
-
-    return null;
-  },
-});
-
-const config = {
-  state: {
-    editId: computed(() => editId),
-  },
-
+const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   schema,
+  editId: computed(() => editId),
+  getQuery: turmas.findOne(computed(() => editId)),
 
-  methods: {
-    onFinish: onClose,
+  create: async (formData) => {
+    const data: TurmaCreateInputDto = {
+      curso: formData.curso,
+      periodo: formData.periodo,
+      ambientePadraoAula: formData.ambientePadraoAula,
+    };
+    await turmas.create(data);
   },
 
-  crud: {
-    baseQueryKeys: [...turmas.keys],
-
-    create: {
-      perform: async formData => {
-        const data: TurmaCreateInputDto = {
-          curso: formData.curso,
-          periodo: formData.periodo,
-          ambientePadraoAula: formData.ambientePadraoAula,
-        };
-
-        await turmas.create(data);
-
-        return true;
-      },
-    },
-
-    get: {
-      query: formStateQuery,
-    },
-
-    delete: {
-      perform: async id => {
-        await turmas.remove(id);
-        return true;
-      },
-    },
-
-    update: {
-      perform: async (id, formData) => {
-        const data: TurmaUpdateInputDto = {
-          curso: formData.curso,
-          periodo: formData.periodo,
-          ambientePadraoAula: formData.ambientePadraoAula,
-        };
-
-        await turmas.update(id, data);
-
-        return true;
-      },
-    },
+  update: async (id, formData) => {
+    const data: TurmaUpdateInputDto = {
+      curso: formData.curso,
+      periodo: formData.periodo,
+      ambientePadraoAula: formData.ambientePadraoAula,
+    };
+    await turmas.update(id, data);
   },
-} satisfies ICreateOrManageConfig<
-  ITurmaApiModuleTypings['CompleteView']['id'],
-  ITurmaFormSchema
->;
 
-const {
-  methods: { onSubmit },
-  state: { isLoading, isBusy },
-} = setupCreateOrManageControlContext(config);
+  remove: (id) => turmas.remove(id),
+  invalidate: turmas.invalidate,
+  confirmDelete: confirmDelete.confirm,
+  onFinish: () => emit('close'),
+});
 </script>
 
 <template>
   <form @submit.prevent="onSubmit" class="flex gap-4">
-    <FormsCreateOrManageContextualForm
-      title-create="Cadastrar Turma"
-      title-edit="Editar Turma"
+    <UIFormLayout
+      :title="mode === FormMode.MANAGE ? 'Editar Turma' : 'Cadastrar Turma'"
+      :mode="mode"
+      :is-busy="isBusy"
+      :on-close="() => emit('close')"
+      :on-delete="onDelete"
     >
       <VVSelectImage :disabled="isBusy" name="imagem" />
 
@@ -141,7 +76,7 @@ const {
         :disabled="isBusy"
         :is-loading="isLoading"
       />
-    </FormsCreateOrManageContextualForm>
+    </UIFormLayout>
 
     <SectionTurmasFormAvailability
       v-show="isAvailabilityOpen"
@@ -149,4 +84,10 @@ const {
       :is-loading="isLoading"
     />
   </form>
+
+  <DialogConfirm
+    v-model="confirmDelete.isOpen.value"
+    message="Deseja realmente excluir esta turma?"
+    @confirm="confirmDelete.onConfirm"
+  />
 </template>

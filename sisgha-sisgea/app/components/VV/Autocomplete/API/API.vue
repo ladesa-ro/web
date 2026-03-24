@@ -1,4 +1,5 @@
-<script generic="Typings extends IGenericCrudModuleTypesBase" lang="ts" setup>
+<script lang="ts" setup>
+import { useQuery } from '@tanstack/vue-query';
 import filter from 'lodash/filter';
 import uniqBy from 'lodash/uniqBy';
 import { useField } from 'vee-validate';
@@ -7,7 +8,7 @@ import type { IUIAutocompleteApiRetrieverOptions } from './-Base';
 type Props = {
   name: string;
   isLoading?: boolean;
-  options: IUIAutocompleteApiRetrieverOptions<Typings>;
+  options: IUIAutocompleteApiRetrieverOptions;
 };
 
 const {
@@ -18,14 +19,17 @@ const {
 
 const { value } = useField(name);
 
-const { useListQuery, useFindOneQuery } = useGenericCrudComposables(
-  apiRetrieverOptions.crudModule
-);
+const crudModule = apiRetrieverOptions.crudModule;
 
-const { data: activeResourceData, suspense } = useFindOneQuery(
-  computed(() => unref(value))
-);
-await suspense();
+// FindOne query for the currently selected value
+const activeResourceQuery = useQuery({
+  queryKey: computed(() => [...crudModule.baseQueryKeys, 'detail', unref(value)]),
+  queryFn: () => crudModule.getOne(unref(value) as string),
+  enabled: computed(() => !!unref(value)),
+});
+
+const activeResourceData = activeResourceQuery.data;
+await activeResourceQuery.suspense().catch(() => {});
 
 const activeItem = computed(() => {
   if (activeResourceData.value)
@@ -42,10 +46,14 @@ const searchOptions = computed(() => {
   return { search: consideredSearch };
 });
 
-const {
-  queryStatus: { isLoading: listIsLoading },
-  data: { items: listItems },
-} = useListQuery(searchOptions);
+// List query for dropdown options
+const listQuery = useQuery({
+  queryKey: computed(() => [...crudModule.baseQueryKeys, 'list', JSON.stringify(unref(searchOptions))]),
+  queryFn: () => crudModule.list(unref(searchOptions)),
+});
+
+const listItems = computed(() => listQuery.data.value?.data ?? []);
+const listIsLoading = listQuery.isLoading;
 
 const selectItems = computed(() => {
   const listItemsValue = unref(listItems) ?? [];

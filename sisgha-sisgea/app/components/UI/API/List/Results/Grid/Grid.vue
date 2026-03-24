@@ -1,9 +1,7 @@
-<script generic="T = any" lang="ts" setup>
-import { useGenericCrudInfinityListQuery } from '~/composables/integrations/generic-crud/useGenericCrudInfinityListQuery';
+<script lang="ts" setup>
+import { useInfiniteQuery } from '@tanstack/vue-query';
 import { useUIApiListContext } from '../../Context/UIApiListContext';
 import type { IGridItemSlotProps } from './Typings/IGridItemSlotProps';
-
-//
 
 type Slots = {
   item(props: IGridItemSlotProps): any;
@@ -12,17 +10,39 @@ type Slots = {
 
 defineSlots<Slots>();
 
-//
-
 const { formWithFilters, options } = useUIApiListContext();
 
-const {
-  query,
-  items,
-  suspense,
-  paginationMeta,
-  status: { isLoading, isFetching },
-} = useGenericCrudInfinityListQuery(options.crudModule)(formWithFilters);
+const query = useInfiniteQuery({
+  queryKey: computed(() => [
+    ...options.crudModule.baseQueryKeys,
+    'list-infinite',
+    JSON.stringify(unref(formWithFilters)),
+  ]),
+  queryFn: ({ pageParam }) =>
+    options.crudModule.list({ ...unref(formWithFilters), page: pageParam }),
+  getNextPageParam: (last: any) =>
+    last?.meta?.currentPage < last?.meta?.totalPages
+      ? last.meta.currentPage + 1
+      : undefined,
+  initialPageParam: 1,
+});
+
+const items = computed(() => {
+  if (!query.data.value) return null;
+  return query.data.value.pages.flatMap((page: any) => page.data ?? []);
+});
+
+const paginationMeta = computed(() => {
+  const lastPage = query.data.value?.pages.at(-1);
+  return {
+    totalItems: lastPage?.meta?.totalItems ?? 0,
+    currentPage: lastPage?.meta?.currentPage ?? 0,
+    totalPages: lastPage?.meta?.totalPages ?? 0,
+  };
+});
+
+const isLoading = query.isLoading;
+const isFetching = query.isFetching;
 
 type InfiniteScrollSide = 'start' | 'end' | 'both';
 type InfiniteScrollStatus = 'ok' | 'empty' | 'loading' | 'error';
@@ -89,7 +109,7 @@ onMounted(() => {
   }
 });
 
-await suspense();
+await query.suspense().catch(() => null);
 </script>
 
 <template>

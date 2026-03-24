@@ -1,11 +1,4 @@
-<script
-  generic="
-    Typings extends IGenericCrudModuleTypesBase,
-    CrudModule extends IGenericCrudModule<Typings>
-  "
-  lang="ts"
-  setup
->
+<script lang="ts" setup>
 import {
   type ICreateUIApiListContextOptions,
   setupUIApiListContext,
@@ -14,7 +7,7 @@ import type { IGridItemSlotProps } from './Results/Grid/Typings/IGridItemSlotPro
 
 const props = withDefaults(
   defineProps<{
-    options: ICreateUIApiListContextOptions<Typings, CrudModule>;
+    options: ICreateUIApiListContextOptions;
     defaultStyle?: boolean;
     searchBarContainerStyle?: string;
   }>(),

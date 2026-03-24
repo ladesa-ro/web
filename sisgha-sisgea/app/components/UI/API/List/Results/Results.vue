@@ -1,20 +1,16 @@
-<script generic="Typings extends IGenericCrudModuleTypesBase" lang="ts" setup>
+<script lang="ts" setup>
 import {
   UIApiListViewMode,
   useUIApiListContext,
 } from '../Context/UIApiListContext';
 import type { IGridItemSlotProps } from './Grid/Typings/IGridItemSlotProps';
 
-//
-
 type Slots = {
-  'grid-item'(props: IGridItemSlotProps<Typings['List']['ResultItem']>): any;
+  'grid-item'(props: IGridItemSlotProps<any>): any;
   'grid-item-skeleton'(props: any): any;
 };
 
 const slots = defineSlots<Slots>();
-
-//
 
 const { viewMode } = useUIApiListContext();
 </script>

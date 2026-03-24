@@ -23,7 +23,7 @@ const crudModule = {
     });
   },
   getOne: (id: string) => apiClient.ambientes.ambienteFindById({ id }),
-} as any;
+};
 
 const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,

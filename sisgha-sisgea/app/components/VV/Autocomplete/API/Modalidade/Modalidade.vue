@@ -16,7 +16,7 @@ const crudModule = {
   baseQueryKeys: ['modalidades'],
   list: (data: any) => apiClient.modalidades.modalidadeFindAll(data),
   getOne: (id: string) => apiClient.modalidades.modalidadeFindById({ id }),
-} as any;
+};
 
 const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,

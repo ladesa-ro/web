@@ -15,7 +15,7 @@ const crudModule = {
   baseQueryKeys: ['disciplinas'],
   list: (data: any) => apiClient.disciplinas.disciplinaFindAll(data),
   getOne: (id: string) => apiClient.disciplinas.disciplinaFindById({ id }),
-} as any;
+};
 
 const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,

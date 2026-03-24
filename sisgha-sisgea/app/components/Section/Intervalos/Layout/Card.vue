@@ -40,12 +40,9 @@ const emit = defineEmits([
           @update:modelValue="val => emit('updateEdit', val)"
           :on-confirm="() => emit('confirmEdit')"
         />
-        <button
+        <UIButtonModalCancel
           @click="() => emit('cancelEdit')"
-          class="text-xs text-ldsa-grey"
-        >
-          Cancelar
-        </button>
+        />
       </template>
       <template v-else>
         <IntervaloItem

@@ -42,18 +42,14 @@ const fim = computed({
       name="fim"
       class="flex-1 min-w-[110px] self-start"
     />
-    <button
+    <UIButtonModalConfirm
+      class="self-center"
       @click="handleConfirm"
-      class="bg-ldsa-green-1 px-2 py-3 rounded text-[0.75rem] text-ldsa-white self-center"
-    >
-      <IconsConfirm class="flex w-6 h-6" />
-    </button>
-    <button
+    />
+    <UIButtonModalCancel
       v-if="props.onCancel"
+      class="self-center"
       @click="props.onCancel"
-      class="bg-gray-400 px-2 py-1 rounded text-[0.75rem] text-white self-center"
-    >
-      Cancelar
-    </button>
+    />
   </div>
 </template>

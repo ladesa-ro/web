@@ -22,7 +22,7 @@ const crudModule = {
     });
   },
   getOne: (id: string) => apiClient.calendariosLetivos.calendarioLetivoFindById({ id }),
-} as any;
+};
 
 const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,

@@ -1,8 +1,3 @@
-import type {
-  IGenericCrudModule,
-  IGenericCrudModuleTypesBase,
-} from '../../../../../utils';
-
 const SYMBOL_EMPTY = Symbol.for('empty');
 const STORE_KEY = 'UI_API_LIST_CONTEXT';
 
@@ -12,27 +7,27 @@ export enum UIApiListViewMode {
 
 export type UIApiListContext = ReturnType<typeof createUIApiListContext>;
 
-export type ICreateUIApiListContextOptions<
-  Typings extends IGenericCrudModuleTypesBase,
-  CrudModule extends IGenericCrudModule<Typings>,
-> = {
-  crudModule: CrudModule;
-  filter?: ComputedRef<Typings['List']['Queries']> | any;
+/**
+ * Simple interface for entity listing.
+ * Any object with `list` and `baseQueryKeys` can be used.
+ */
+export type IEntityListModule = {
+  baseQueryKeys: readonly string[] | string[];
+  list: (data?: any, contextCampi?: any) => Promise<any>;
+  getOne?: (id: string) => Promise<any>;
 };
 
-export const createApiListContextOptions = <
-  Typings extends IGenericCrudModuleTypesBase,
-  CrudModule extends IGenericCrudModule<Typings>,
-  Options extends ICreateUIApiListContextOptions<Typings, CrudModule>,
->(
-  options: Options
+export type ICreateUIApiListContextOptions = {
+  crudModule: IEntityListModule;
+  filter?: ComputedRef<any> | any;
+};
+
+export const createApiListContextOptions = (
+  options: ICreateUIApiListContextOptions
 ) => options;
 
-export const createUIApiListContext = <
-  Typings extends IGenericCrudModuleTypesBase,
-  CrudModule extends IGenericCrudModule<Typings>,
->(
-  options: ICreateUIApiListContextOptions<Typings, CrudModule>
+export const createUIApiListContext = (
+  options: ICreateUIApiListContextOptions
 ) => {
   const viewMode = ref(UIApiListViewMode.CARDS);
 
@@ -73,11 +68,8 @@ export const useUIApiListContext = (): UIApiListContext => {
   return apiListContext;
 };
 
-export const setupUIApiListContext = <
-  Typings extends IGenericCrudModuleTypesBase,
-  CrudModule extends IGenericCrudModule<Typings>,
->(
-  options: ICreateUIApiListContextOptions<Typings, CrudModule>
+export const setupUIApiListContext = (
+  options: ICreateUIApiListContextOptions
 ) => {
   const apiListContext = createUIApiListContext(options);
   provide(STORE_KEY, apiListContext);

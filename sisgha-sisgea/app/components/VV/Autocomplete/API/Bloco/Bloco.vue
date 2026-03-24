@@ -22,7 +22,7 @@ const crudModule = {
     });
   },
   getOne: (id: string) => apiClient.blocos.blocoFindById({ id }),
-} as any;
+};
 
 const options = createUIAutocompleteApiRetrieverOptions({
   crudModule,

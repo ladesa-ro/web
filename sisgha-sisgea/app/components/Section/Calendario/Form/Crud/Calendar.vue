@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import type Step from '~/components/VV/Calendar/Step.vue';
-import { useCampusUsuarioId } from '~/composables/integrations/ladesa-api/modules/useCampusUsuarioId';
+import { useCampusDoUsuario } from '~/composables/useCampusDoUsuario';
 import { calendarDataMethods } from '../../CalendarDataMethods';
 
 type Props = {
@@ -91,7 +91,7 @@ const { values, validate, setFieldValue } = useForm<FormValues>({
   },
 });
 
-const campusUsuarioDefault = await useCampusUsuarioId();
+const { campusId: campusUsuarioDefault } = useCampusDoUsuario();
 
 watch(
   () => values.campus,
