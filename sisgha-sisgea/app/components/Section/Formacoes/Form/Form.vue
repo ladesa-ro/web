@@ -23,6 +23,7 @@ const $emit = defineEmits(['close']);
 
 const apiClient = useApiClient();
 const queryClient = useQueryClient();
+const campusContext = useCampusContext();
 
 const {
   composables: { useFindOneQuery },
@@ -193,22 +194,16 @@ const handleDelete = async () => {
 };
 
 const onSubmit = async () => {
-  // Validate step 1 fields (already validated when advancing, but re-check)
-  const { valid } = await validate();
-  if (!valid) {
-    step.value = 1;
-    return;
-  }
-
   const editId = editIdRef.value ?? null;
 
+  // Use savedFormData (validated and saved when user clicked "Avançar")
   const requestBody = {
-    nome: formValues.nome,
-    slug: formValues.slug,
-    duracaoPeriodoEmMeses: formValues.duracaoPeriodoEmMeses,
-    modalidade: { id: formValues.modalidade.id! },
-    campus: { id: '' },
-    niveisFormacoes: (formValues.niveisFormacoes ?? []).map((id: string) => ({ id })),
+    nome: savedFormData.nome,
+    slug: savedFormData.slug,
+    duracaoPeriodoEmMeses: savedFormData.duracaoPeriodoEmMeses,
+    modalidade: { id: savedFormData.modalidadeId! },
+    campus: { id: campusContext.value ?? '' },
+    niveisFormacoes: savedFormData.niveisFormacoes.map((id: string) => ({ id })),
     periodos: periodos.value.map(p => ({
       numeroPeriodo: p.numeroPeriodo,
       etapas: p.etapas.filter(e => e.nome.trim() !== '').map(e => ({

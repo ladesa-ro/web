@@ -86,8 +86,14 @@ export class LadesaApiClient {
 
 	public get perfis() {
 		return {
-			perfilFindAll: (data: any) => this.usuarios.perfilFindAll(data),
-			perfilSetVinculos: (data: any) => this.usuarios.perfilSetVinculos(data),
+			perfilFindAll: (data: any) => {
+				const usuarioId = data?.usuarioId ?? data?.filterUsuarioId?.[0] ?? '';
+				return this.usuarios.perfilFindAll({ ...data, usuarioId });
+			},
+			perfilSetVinculos: (data: any) => {
+				const usuarioId = data?.usuarioId ?? data?.requestBody?.usuario?.id ?? '';
+				return this.usuarios.perfilSetVinculos({ ...data, usuarioId });
+			},
 			perfilFindById: (data: any) => this.usuarios.perfilFindById(data),
 		};
 	}
