@@ -22,7 +22,7 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   editId: computed(() => editId),
   getQuery: turmas.findOne(computed(() => editId)),
 
-  create: async (formData) => {
+  create: async formData => {
     const data: TurmaCreateInputDto = {
       curso: formData.curso,
       periodo: formData.periodo,
@@ -40,7 +40,7 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
     await turmas.update(id, data);
   },
 
-  remove: (id) => turmas.remove(id),
+  remove: id => turmas.remove(id),
   invalidate: turmas.invalidate,
   confirmDelete: confirmDelete.confirm,
   onFinish: () => emit('close'),

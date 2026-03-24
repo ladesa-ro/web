@@ -11,7 +11,8 @@ const { disabled, isLoading } = defineProps<{
   isLoading?: boolean;
 }>();
 
-const { dayShifts, weekDays, selectedDayWeek, selectedTimes } = useAvailability();
+const { dayShifts, weekDays, selectedDayWeek, selectedTimes } =
+  useAvailability();
 </script>
 
 <template>

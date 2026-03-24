@@ -9,7 +9,7 @@ export const createInfiniteListQuery = <
   TResult extends IPaginatedResult,
   TParams = unknown,
 >(
-  config: IInfiniteListQueryConfig<TResult, TParams>,
+  config: IInfiniteListQueryConfig<TResult, TParams>
 ) => {
   return (params?: MaybeRef<TParams>) =>
     useInfiniteQuery({

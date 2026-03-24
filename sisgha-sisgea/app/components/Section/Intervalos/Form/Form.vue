@@ -42,10 +42,7 @@ const fim = computed({
       name="fim"
       class="flex-1 min-w-[110px] self-start"
     />
-    <UIButtonModalConfirm
-      class="self-center"
-      @click="handleConfirm"
-    />
+    <UIButtonModalConfirm class="self-center" @click="handleConfirm" />
     <UIButtonModalCancel
       v-if="props.onCancel"
       class="self-center"

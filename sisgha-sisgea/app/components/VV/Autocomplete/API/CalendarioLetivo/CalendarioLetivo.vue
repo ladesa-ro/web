@@ -21,7 +21,8 @@ const crudModule = {
       filterCampusId: contextCampi ? [contextCampi] : undefined,
     });
   },
-  getOne: (id: string) => apiClient.calendariosLetivos.calendarioLetivoFindById({ id }),
+  getOne: (id: string) =>
+    apiClient.calendariosLetivos.calendarioLetivoFindById({ id }),
 };
 
 const options = createUIAutocompleteApiRetrieverOptions({

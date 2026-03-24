@@ -1,5 +1,18 @@
-import { createListQuery, createInfiniteListQuery, createFindOneQuery, createInvalidate } from '~/composables/query-helpers';
-import type { ListFn, ListInfiniteFn, FindOneFn, CreateFn, UpdateFn, RemoveFn, InvalidateFn } from '~/composables/query-helpers';
+import {
+  createListQuery,
+  createInfiniteListQuery,
+  createFindOneQuery,
+  createInvalidate,
+} from '~/composables/query-helpers';
+import type {
+  ListFn,
+  ListInfiniteFn,
+  FindOneFn,
+  CreateFn,
+  UpdateFn,
+  RemoveFn,
+  InvalidateFn,
+} from '~/composables/query-helpers';
 import type {
   DiarioFindAllData,
   DiarioFindAllResponse,
@@ -22,8 +35,13 @@ export type IUseDiarios = {
   create: CreateFn<DiarioCreateData['requestBody'], DiarioCreateResponse>;
   update: UpdateFn<DiarioUpdateData['requestBody'], DiarioUpdateResponse>;
   remove: RemoveFn;
-  listProfessores: ListFn<DiarioProfessorFindAllResponse, DiarioProfessorFindAllData>;
-  bulkReplaceProfessores: (data: DiarioProfessorBulkReplaceData) => Promise<DiarioProfessorBulkReplaceResponse>;
+  listProfessores: ListFn<
+    DiarioProfessorFindAllResponse,
+    DiarioProfessorFindAllData
+  >;
+  bulkReplaceProfessores: (
+    data: DiarioProfessorBulkReplaceData
+  ) => Promise<DiarioProfessorBulkReplaceResponse>;
   invalidate: InvalidateFn;
 };
 
@@ -34,8 +52,7 @@ export const useDiarios = (): IUseDiarios => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: DiarioFindAllData) =>
-      api.diarios.diarioFindAll(params),
+    fetcher: (params?: DiarioFindAllData) => api.diarios.diarioFindAll(params),
   });
 
   const listInfinite = createInfiniteListQuery({
@@ -55,8 +72,7 @@ export const useDiarios = (): IUseDiarios => {
   const update = (id: string, data: DiarioUpdateData['requestBody']) =>
     api.diarios.diarioUpdate({ id, requestBody: data });
 
-  const remove = (id: string) =>
-    api.diarios.diarioDeleteOneById({ id });
+  const remove = (id: string) => api.diarios.diarioDeleteOneById({ id });
 
   // Métodos custom — professores do diário
   const listProfessores = createListQuery({
@@ -71,7 +87,15 @@ export const useDiarios = (): IUseDiarios => {
   const invalidate = createInvalidate(keys);
 
   return {
-    keys, list, listInfinite, findOne, create, update, remove,
-    listProfessores, bulkReplaceProfessores, invalidate,
+    keys,
+    list,
+    listInfinite,
+    findOne,
+    create,
+    update,
+    remove,
+    listProfessores,
+    bulkReplaceProfessores,
+    invalidate,
   };
 };

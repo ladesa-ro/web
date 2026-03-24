@@ -44,21 +44,41 @@ const duracaoOptions = [
 type Etapa = { nome: string; cor: string };
 type Periodo = { numeroPeriodo: number; etapas: Etapa[] };
 
-const defaultColors = ['#39cfed', '#ed393c', '#2f9e41', '#b8a003', '#7c3aed', '#f97316'];
+const defaultColors = [
+  '#39cfed',
+  '#ed393c',
+  '#2f9e41',
+  '#b8a003',
+  '#7c3aed',
+  '#f97316',
+];
 
 const buildDefaultPeriodos = (duracaoMeses: number): Periodo[] => {
   const numPeriodos = Math.floor(12 / duracaoMeses);
-  return Array.from({ length: numPeriodos }, (_, i): Periodo => ({
-    numeroPeriodo: i + 1,
-    etapas: [{ nome: 'Período letivo', cor: defaultColors[0] ?? '#39cfed' }],
-  }));
+  return Array.from(
+    { length: numPeriodos },
+    (_, i): Periodo => ({
+      numeroPeriodo: i + 1,
+      etapas: [{ nome: 'Período letivo', cor: defaultColors[0] ?? '#39cfed' }],
+    })
+  );
 };
 
 const periodos = ref<Periodo[]>(
-  currentFormacao.value?.periodos?.map((p: { numeroPeriodo: number; etapas: Array<{ nome: string; cor: string }> }): Periodo => ({
-    numeroPeriodo: p.numeroPeriodo,
-    etapas: p.etapas.map((e: { nome: string; cor: string }): Etapa => ({ nome: e.nome, cor: e.cor })),
-  })) ?? []
+  currentFormacao.value?.periodos?.map(
+    (p: {
+      numeroPeriodo: number;
+      etapas: Array<{ nome: string; cor: string }>;
+    }): Periodo => ({
+      numeroPeriodo: p.numeroPeriodo,
+      etapas: p.etapas.map(
+        (e: { nome: string; cor: string }): Etapa => ({
+          nome: e.nome,
+          cor: e.cor,
+        })
+      ),
+    })
+  ) ?? []
 );
 
 // ---- State saved outside vee-validate so steps don't lose data ----
@@ -66,8 +86,11 @@ const savedFormData = reactive({
   nome: currentFormacao.value?.nome ?? '',
   slug: currentFormacao.value?.slug ?? '',
   duracaoPeriodoEmMeses: currentFormacao.value?.duracaoPeriodoEmMeses ?? 6,
-  modalidadeId: currentFormacao.value?.modalidade?.id ?? null as string | null,
-  niveisFormacoes: currentFormacao.value?.niveisFormacoes?.map((n: { id: string }) => n.id) ?? [] as string[],
+  modalidadeId:
+    currentFormacao.value?.modalidade?.id ?? (null as string | null),
+  niveisFormacoes:
+    currentFormacao.value?.niveisFormacoes?.map((n: { id: string }) => n.id) ??
+    ([] as string[]),
 });
 
 if (periodos.value.length === 0) {
@@ -78,7 +101,9 @@ if (periodos.value.length === 0) {
 const schema = yup.object().shape({
   nome: yup.string().required('Nome é obrigatório!'),
   slug: yup.string().required('Nome abreviado é obrigatório!'),
-  duracaoPeriodoEmMeses: yup.number().required('Duração do período é obrigatória!'),
+  duracaoPeriodoEmMeses: yup
+    .number()
+    .required('Duração do período é obrigatória!'),
   modalidade: yup.object().shape({
     id: yup.string().required('Modalidade é obrigatória!'),
   }),
@@ -105,7 +130,7 @@ const {
 
 watch(
   () => formValues.duracaoPeriodoEmMeses,
-  (newVal) => {
+  newVal => {
     if (newVal && newVal > 0) {
       periodos.value = buildDefaultPeriodos(newVal);
     }
@@ -119,7 +144,9 @@ const numeroPeriodos = computed(() => {
 });
 
 const duracaoLabel = computed(() => {
-  const opt = duracaoOptions.find(o => o.value === formValues.duracaoPeriodoEmMeses);
+  const opt = duracaoOptions.find(
+    o => o.value === formValues.duracaoPeriodoEmMeses
+  );
   return opt?.label ?? '';
 });
 
@@ -127,7 +154,10 @@ const addEtapa = (periodoIndex: number) => {
   const periodo = periodos.value[periodoIndex];
   if (!periodo) return;
   const colorIndex = periodo.etapas.length % defaultColors.length;
-  periodo.etapas.push({ nome: '', cor: defaultColors[colorIndex] ?? '#39cfed' });
+  periodo.etapas.push({
+    nome: '',
+    cor: defaultColors[colorIndex] ?? '#39cfed',
+  });
 };
 
 const removeEtapa = (periodoIndex: number, etapaIndex: number) => {
@@ -196,13 +226,17 @@ const onSubmit = async () => {
     duracaoPeriodoEmMeses: savedFormData.duracaoPeriodoEmMeses,
     modalidade: { id: savedFormData.modalidadeId! },
     campus: { id: campusContext.value ?? '' },
-    niveisFormacoes: savedFormData.niveisFormacoes.map((id: string) => ({ id })),
+    niveisFormacoes: savedFormData.niveisFormacoes.map((id: string) => ({
+      id,
+    })),
     periodos: periodos.value.map(p => ({
       numeroPeriodo: p.numeroPeriodo,
-      etapas: p.etapas.filter(e => e.nome.trim() !== '').map(e => ({
-        nome: e.nome,
-        cor: e.cor,
-      })),
+      etapas: p.etapas
+        .filter(e => e.nome.trim() !== '')
+        .map(e => ({
+          nome: e.nome,
+          cor: e.cor,
+        })),
     })),
   };
 
@@ -235,8 +269,12 @@ function onClose() {
       :on-close="onClose"
       :title="
         step === 1
-          ? editId ? 'Editar formação' : 'Cadastrar formação'
-          : editId ? 'Editar etapas do ano letivo' : 'Cadastrar etapas do ano letivo'
+          ? editId
+            ? 'Editar formação'
+            : 'Cadastrar formação'
+          : editId
+            ? 'Editar etapas do ano letivo'
+            : 'Cadastrar etapas do ano letivo'
       "
     >
       <!-- Step 1: Basic Info -->
@@ -271,8 +309,8 @@ function onClose() {
           <span class="info-text">
             A duração de cada período foi definida como "{{ duracaoLabel }}" e,
             portanto, em um único ano letivo há {{ numeroPeriodos }}
-            {{ numeroPeriodos === 1 ? 'período' : 'períodos' }}.
-            Clique em "Avançar" para definir as etapas de cada período.
+            {{ numeroPeriodos === 1 ? 'período' : 'períodos' }}. Clique em
+            "Avançar" para definir as etapas de cada período.
           </span>
         </div>
       </template>
@@ -361,7 +399,10 @@ function onClose() {
 
         <UIButtonModalGoBack v-if="step === 2" @click="goToStep1" />
         <UIButtonModalCancel v-if="step === 2" @click="$emit('close')" />
-        <UIButtonModalDelete v-if="step === 2 && editId" @click.prevent="handleDelete" />
+        <UIButtonModalDelete
+          v-if="step === 2 && editId"
+          @click.prevent="handleDelete"
+        />
         <UIButtonModalEdit v-if="step === 2 && editId" />
         <UIButtonModalSave v-if="step === 2 && !editId" />
       </template>

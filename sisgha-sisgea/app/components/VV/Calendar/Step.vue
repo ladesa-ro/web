@@ -12,7 +12,7 @@ type Props = {
 };
 
 const props = defineProps<Props>();
-let _calendarId = toRef(props, "calendarId");
+let _calendarId = toRef(props, 'calendarId');
 
 const schema = yup.object({
   stepColor: yup.string().required('Cor inválida'),

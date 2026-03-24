@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
+import {
+  createApiListContextOptions,
+  type IEntityListModule,
+} from '~~/app/components/UI/API/List/Context/UIApiListContext';
+
 import CursosForm from './Form/Form.vue';
 
 const api = useApiClient();
@@ -8,7 +12,7 @@ const crudModule = {
   baseQueryKeys: ['cursos'] as string[],
   list: (data?: any) => api.cursos.cursoFindAll(data),
   getOne: (id: string) => api.cursos.cursoFindById({ id }),
-} as any;
+} satisfies IEntityListModule;
 
 const options = createApiListContextOptions({ crudModule });
 </script>

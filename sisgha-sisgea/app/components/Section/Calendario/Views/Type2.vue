@@ -51,7 +51,7 @@ function fecharModal() {
         v-if="showEventModal"
         :calendar-data="props.calendarData"
         @close="fecharModal"
-        @refresh="reload" 
+        @refresh="reload"
       />
     </DialogSkeleton>
 

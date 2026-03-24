@@ -1,5 +1,19 @@
-import { createListQuery, createInfiniteListQuery, createFindOneQuery, createInvalidate } from '~/composables/query-helpers';
-import type { ListFn, ListInfiniteFn, FindOneFn, CreateFn, UpdateFn, RemoveFn, InvalidateFn, UploadCoverFn } from '~/composables/query-helpers';
+import {
+  createListQuery,
+  createInfiniteListQuery,
+  createFindOneQuery,
+  createInvalidate,
+} from '~/composables/query-helpers';
+import type {
+  ListFn,
+  ListInfiniteFn,
+  FindOneFn,
+  CreateFn,
+  UpdateFn,
+  RemoveFn,
+  InvalidateFn,
+  UploadCoverFn,
+} from '~/composables/query-helpers';
 import type {
   AmbienteFindAllData,
   AmbienteFindAllResponse,
@@ -50,13 +64,22 @@ export const useAmbientes = (): IUseAmbientes => {
   const update = (id: string, data: AmbienteUpdateData['requestBody']) =>
     api.ambientes.ambienteUpdate({ id, requestBody: data });
 
-  const remove = (id: string) =>
-    api.ambientes.ambienteDeleteOneById({ id });
+  const remove = (id: string) => api.ambientes.ambienteDeleteOneById({ id });
 
   const uploadCover = (id: string, file: Blob) =>
     api.ambientes.ambienteUpdateImagemCapa({ id, formData: { file } });
 
   const invalidate = createInvalidate(keys);
 
-  return { keys, list, listInfinite, findOne, create, update, remove, uploadCover, invalidate };
+  return {
+    keys,
+    list,
+    listInfinite,
+    findOne,
+    create,
+    update,
+    remove,
+    uploadCover,
+    invalidate,
+  };
 };

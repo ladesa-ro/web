@@ -18,7 +18,9 @@ const options = computed(() => ({ filterDiarioId: [diario.value.id] }) as any);
 
 const professoresQuery = diarios_api.listProfessores(options);
 
-const diariosProfessoresList = computed(() => professoresQuery.data.value?.data ?? []);
+const diariosProfessoresList = computed(
+  () => professoresQuery.data.value?.data ?? []
+);
 
 //
 

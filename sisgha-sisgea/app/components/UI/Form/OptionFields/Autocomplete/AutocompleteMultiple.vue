@@ -94,7 +94,10 @@ const selectedLabels = computed(() => {
           class="flex-1 min-w-20 outline-none"
           as-child
         >
-          <TagsInputInput class="outline-none flex-1 min-w-20" @click="open = true" />
+          <TagsInputInput
+            class="outline-none flex-1 min-w-20"
+            @click="open = true"
+          />
         </Input>
       </TagsInputRoot>
 

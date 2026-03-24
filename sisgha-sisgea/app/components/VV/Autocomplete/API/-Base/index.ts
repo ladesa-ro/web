@@ -4,7 +4,7 @@
  */
 export type IAutocompleteCrudModule = {
   baseQueryKeys: readonly string[] | string[];
-  list: (data?: any) => Promise<any>;
+  list: (data?: any, ...args: any[]) => Promise<any>;
   getOne: (id: string) => Promise<any>;
 };
 

@@ -11,9 +11,9 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   schema: nivelFormacaoSchema,
   editId: computed(() => editId),
   getQuery: niveisFormacoes.findOne(computed(() => editId)),
-  create: (data) => niveisFormacoes.create(data),
+  create: data => niveisFormacoes.create(data),
   update: (id, data) => niveisFormacoes.update(id, data),
-  remove: (id) => niveisFormacoes.remove(id),
+  remove: id => niveisFormacoes.remove(id),
   invalidate: niveisFormacoes.invalidate,
   confirmDelete: confirmDelete.confirm,
   onFinish: () => emit('close'),
@@ -23,7 +23,11 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
 <template>
   <form @submit.prevent="onSubmit">
     <UIFormLayout
-      :title="mode === 'manage' ? 'Editar Nível de Formação' : 'Cadastrar Nível de Formação'"
+      :title="
+        mode === 'manage'
+          ? 'Editar Nível de Formação'
+          : 'Cadastrar Nível de Formação'
+      "
       :mode="mode"
       :is-busy="isBusy"
       :on-close="() => emit('close')"

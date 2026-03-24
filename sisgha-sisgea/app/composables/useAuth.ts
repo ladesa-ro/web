@@ -3,9 +3,7 @@ export const useAuth = () => {
 
   const getSession = async () => {
     try {
-      const headers = import.meta.server
-        ? useRequestHeaders(['cookie'])
-        : {};
+      const headers = import.meta.server ? useRequestHeaders(['cookie']) : {};
 
       const session = await $fetch('/api/auth/session', { headers });
 

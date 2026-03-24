@@ -29,7 +29,12 @@ const campusQuery = campi_api.findOne(ref(props.vinculo.campus.id));
 
 const campus = campusQuery.data;
 
-const { dayShifts, selectedDayWeek: selectedDay, selectedTimes, availabilityByDay } = useAvailability();
+const {
+  dayShifts,
+  selectedDayWeek: selectedDay,
+  selectedTimes,
+  availabilityByDay,
+} = useAvailability();
 
 watch(
   () => props.selectedDayWeek,
@@ -89,11 +94,9 @@ watch(
   { immediate: true }
 );
 
-watch(
-  selectedDay,
-  novo => emit('atualizar-dia-selecionado', novo),
-  { immediate: true }
-);
+watch(selectedDay, novo => emit('atualizar-dia-selecionado', novo), {
+  immediate: true,
+});
 
 //
 

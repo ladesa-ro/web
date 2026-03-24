@@ -1,4 +1,9 @@
-import type { Shift, ShiftName, ShiftWhithoutInfo, WeekSchedule } from '../useScheduleTypes';
+import type {
+  Shift,
+  ShiftName,
+  ShiftWhithoutInfo,
+  WeekSchedule,
+} from '../useScheduleTypes';
 import type { Cell } from './useScheduleEditTypes';
 
 const selectedCells = ref(new Set<ActiveCell>());

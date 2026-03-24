@@ -1,4 +1,4 @@
-export default defineNuxtRouteMiddleware(async (to) => {
+export default defineNuxtRouteMiddleware(async to => {
   const { status, getSession } = useAuth();
 
   if (status.value === 'loading') {
@@ -16,10 +16,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   const isAuthenticated = status.value === 'authenticated';
 
-  if (
-    typeof authMeta === 'object' &&
-    authMeta?.unauthenticatedOnly
-  ) {
+  if (typeof authMeta === 'object' && authMeta?.unauthenticatedOnly) {
     if (isAuthenticated) {
       return navigateTo(authMeta.navigateAuthenticatedTo || '/');
     }
@@ -27,8 +24,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
   }
 
   if (!isAuthenticated) {
-    return navigateTo(
-      `/login?callbackUrl=${encodeURIComponent(to.fullPath)}`
-    );
+    return navigateTo(`/login?callbackUrl=${encodeURIComponent(to.fullPath)}`);
   }
 });

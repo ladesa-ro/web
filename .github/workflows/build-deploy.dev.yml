@@ -17,7 +17,7 @@ env:
 
 jobs:
   ci:
-    name: "Build and Deploy"
+    name: 'Build and Deploy'
     runs-on: ubuntu-latest
 
     permissions:
@@ -55,14 +55,14 @@ jobs:
           cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_BASENAME }}/web:cache-development,mode=max
 
   cd:
-    name: "Deploy"
-    
+    name: 'Deploy'
+
     runs-on: dev-deploy
 
     permissions:
       contents: read
 
-    needs: [ ci ]
+    needs: [ci]
 
     environment:
       name: development

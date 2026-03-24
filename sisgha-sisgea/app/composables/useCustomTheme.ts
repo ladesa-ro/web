@@ -2,7 +2,8 @@ export function useCustomTheme() {
   const nuxtColorMode = useColorMode();
 
   const changeTheme = () => {
-    nuxtColorMode.preference = nuxtColorMode.preference === 'dark' ? 'light' : 'dark';
+    nuxtColorMode.preference =
+      nuxtColorMode.preference === 'dark' ? 'light' : 'dark';
   };
 
   const isDark = computed(() => {

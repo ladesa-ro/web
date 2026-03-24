@@ -32,17 +32,13 @@ const popoverOpen = ref(false);
 </script>
 
 <template>
-    <div
-      class="flex max-md:flex-col justify-between max-md:gap-4 pb-6 border-b border-b-ldsa-grey"
-    >
-      <UIToggle
-        class="h-max"
-        v-model="selectedToggleItem"
-        :items="toggleItems"
-      />
+  <div
+    class="flex max-md:flex-col justify-between max-md:gap-4 pb-6 border-b border-b-ldsa-grey"
+  >
+    <UIToggle class="h-max" v-model="selectedToggleItem" :items="toggleItems" />
 
-      <SectionHorarioDapeGeneralVisualizationHeaderSelectWeek
-        v-model="popoverOpen"
-      />
-    </div>
+    <SectionHorarioDapeGeneralVisualizationHeaderSelectWeek
+      v-model="popoverOpen"
+    />
+  </div>
 </template>

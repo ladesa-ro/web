@@ -1,5 +1,19 @@
-import { createListQuery, createInfiniteListQuery, createFindOneQuery, createInvalidate } from '~/composables/query-helpers';
-import type { ListFn, ListInfiniteFn, FindOneFn, CreateFn, UpdateFn, RemoveFn, InvalidateFn, UploadCoverFn } from '~/composables/query-helpers';
+import {
+  createListQuery,
+  createInfiniteListQuery,
+  createFindOneQuery,
+  createInvalidate,
+} from '~/composables/query-helpers';
+import type {
+  ListFn,
+  ListInfiniteFn,
+  FindOneFn,
+  CreateFn,
+  UpdateFn,
+  RemoveFn,
+  InvalidateFn,
+  UploadCoverFn,
+} from '~/composables/query-helpers';
 import type {
   TurmaFindAllData,
   TurmaFindAllResponse,
@@ -29,8 +43,7 @@ export const useTurmas = (): IUseTurmas => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: TurmaFindAllData) =>
-      api.turmas.turmaFindAll(params),
+    fetcher: (params?: TurmaFindAllData) => api.turmas.turmaFindAll(params),
   });
 
   const listInfinite = createInfiniteListQuery({
@@ -50,13 +63,22 @@ export const useTurmas = (): IUseTurmas => {
   const update = (id: string, data: TurmaUpdateData['requestBody']) =>
     api.turmas.turmaUpdate({ id, requestBody: data });
 
-  const remove = (id: string) =>
-    api.turmas.turmaDeleteOneById({ id });
+  const remove = (id: string) => api.turmas.turmaDeleteOneById({ id });
 
   const uploadCover = (id: string, file: Blob) =>
     api.turmas.turmaUpdateImagemCapa({ id, formData: { file } });
 
   const invalidate = createInvalidate(keys);
 
-  return { keys, list, listInfinite, findOne, create, update, remove, uploadCover, invalidate };
+  return {
+    keys,
+    list,
+    listInfinite,
+    findOne,
+    create,
+    update,
+    remove,
+    uploadCover,
+    invalidate,
+  };
 };

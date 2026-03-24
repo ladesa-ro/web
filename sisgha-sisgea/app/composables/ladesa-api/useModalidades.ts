@@ -1,5 +1,18 @@
-import { createListQuery, createInfiniteListQuery, createFindOneQuery, createInvalidate } from '~/composables/query-helpers';
-import type { ListFn, ListInfiniteFn, FindOneFn, CreateFn, UpdateFn, RemoveFn, InvalidateFn } from '~/composables/query-helpers';
+import {
+  createListQuery,
+  createInfiniteListQuery,
+  createFindOneQuery,
+  createInvalidate,
+} from '~/composables/query-helpers';
+import type {
+  ListFn,
+  ListInfiniteFn,
+  FindOneFn,
+  CreateFn,
+  UpdateFn,
+  RemoveFn,
+  InvalidateFn,
+} from '~/composables/query-helpers';
 import type {
   ModalidadeFindAllData,
   ModalidadeFindAllResponse,
@@ -13,10 +26,19 @@ import type {
 export type IUseModalidades = {
   keys: readonly string[];
   list: ListFn<ModalidadeFindAllResponse, ModalidadeFindAllData>;
-  listInfinite: ListInfiniteFn<ModalidadeFindAllResponse, ModalidadeFindAllData>;
+  listInfinite: ListInfiniteFn<
+    ModalidadeFindAllResponse,
+    ModalidadeFindAllData
+  >;
   findOne: FindOneFn<ModalidadeFindByIdResponse>;
-  create: CreateFn<ModalidadeCreateData['requestBody'], ModalidadeCreateResponse>;
-  update: UpdateFn<ModalidadeUpdateData['requestBody'], ModalidadeUpdateResponse>;
+  create: CreateFn<
+    ModalidadeCreateData['requestBody'],
+    ModalidadeCreateResponse
+  >;
+  update: UpdateFn<
+    ModalidadeUpdateData['requestBody'],
+    ModalidadeUpdateResponse
+  >;
   remove: RemoveFn;
   invalidate: InvalidateFn;
 };
@@ -54,5 +76,14 @@ export const useModalidades = (): IUseModalidades => {
 
   const invalidate = createInvalidate(keys);
 
-  return { keys, list, listInfinite, findOne, create, update, remove, invalidate };
+  return {
+    keys,
+    list,
+    listInfinite,
+    findOne,
+    create,
+    update,
+    remove,
+    invalidate,
+  };
 };

@@ -7,7 +7,11 @@ const { name, items } = defineProps<Props>();
 
 const searchValue = defineModel<string>('search', { default: '' });
 
-const { value: modelValue, errorMessage, handleBlur } = useField<string | null>(
+const {
+  value: modelValue,
+  errorMessage,
+  handleBlur,
+} = useField<string | null>(
   name,
   val => (!val ? 'Selecione uma opção' : true),
   { validateOnValueUpdate: true }

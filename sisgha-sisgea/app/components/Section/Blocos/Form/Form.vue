@@ -11,7 +11,7 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   schema: blocoSchema,
   editId: computed(() => editId),
   getQuery: blocos.findOne(computed(() => editId)),
-  create: async (data) => {
+  create: async data => {
     const { imagem, ...rest } = data;
     const created = await blocos.create(rest);
     if (imagem) await blocos.uploadCover(created.id, imagem as Blob);
@@ -21,7 +21,7 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
     await blocos.update(id, rest);
     if (imagem) await blocos.uploadCover(id, imagem as Blob);
   },
-  remove: (id) => blocos.remove(id),
+  remove: id => blocos.remove(id),
   invalidate: blocos.invalidate,
   confirmDelete: confirmDelete.confirm,
   onFinish: () => emit('close'),

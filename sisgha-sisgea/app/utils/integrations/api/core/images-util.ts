@@ -1,10 +1,10 @@
 import type {
-   AmbienteFindOneOutputDto,
-   BlocoFindOneOutputDto,
-   CursoFindOneOutputDto,
-   DisciplinaFindOneOutputDto,
-   TurmaFindOneOutputDto,
-   UsuarioFindOneOutputDto,
+  AmbienteFindOneOutputDto,
+  BlocoFindOneOutputDto,
+  CursoFindOneOutputDto,
+  DisciplinaFindOneOutputDto,
+  TurmaFindOneOutputDto,
+  UsuarioFindOneOutputDto,
 } from '~/helpers/api-client';
 
 export enum ApiImageResource {

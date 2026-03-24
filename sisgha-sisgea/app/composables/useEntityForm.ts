@@ -36,12 +36,12 @@ export interface IEntityFormReturn<TSchema extends ObjectSchema<any>> {
 // ============================================================
 
 export const useEntityForm = <TSchema extends ObjectSchema<any>>(
-  options: IEntityFormOptions<TSchema>,
+  options: IEntityFormOptions<TSchema>
 ): IEntityFormReturn<TSchema> => {
   const { showToast } = useToast();
 
   const mode = computed(() =>
-    unref(options.editId) ? FormMode.MANAGE : FormMode.CREATE,
+    unref(options.editId) ? FormMode.MANAGE : FormMode.CREATE
   );
 
   const form = useForm({
@@ -54,18 +54,16 @@ export const useEntityForm = <TSchema extends ObjectSchema<any>>(
     data => {
       if (data) {
         form.setValues(
-          options.schema.cast(data, { stripUnknown: true, assert: false }),
+          options.schema.cast(data, { stripUnknown: true, assert: false })
         );
       }
     },
-    { immediate: true },
+    { immediate: true }
   );
 
   const isLoading = options.getQuery.isLoading;
 
-  const isBusy = computed(
-    () => form.isSubmitting.value || isLoading.value,
-  );
+  const isBusy = computed(() => form.isSubmitting.value || isLoading.value);
 
   const onSubmit = async (e?: Event) => {
     await form.handleSubmit(async data => {

@@ -18,7 +18,8 @@ const apiClient = useApiClient();
 const crudModule = {
   baseQueryKeys: ['niveis-formacoes'],
   list: (data: any) => apiClient.niveisFormacoes.nivelFormacaoFindAll(data),
-  getOne: (id: string) => apiClient.niveisFormacoes.nivelFormacaoFindById({ id }),
+  getOne: (id: string) =>
+    apiClient.niveisFormacoes.nivelFormacaoFindById({ id }),
 };
 
 const options = createUIAutocompleteApiRetrieverOptions({

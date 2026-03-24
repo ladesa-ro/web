@@ -1,5 +1,18 @@
-import { createListQuery, createInfiniteListQuery, createFindOneQuery, createInvalidate } from '~/composables/query-helpers';
-import type { ListFn, ListInfiniteFn, FindOneFn, CreateFn, UpdateFn, RemoveFn, InvalidateFn } from '~/composables/query-helpers';
+import {
+  createListQuery,
+  createInfiniteListQuery,
+  createFindOneQuery,
+  createInvalidate,
+} from '~/composables/query-helpers';
+import type {
+  ListFn,
+  ListInfiniteFn,
+  FindOneFn,
+  CreateFn,
+  UpdateFn,
+  RemoveFn,
+  InvalidateFn,
+} from '~/composables/query-helpers';
 import type {
   OfertaFormacaoFindAllData,
   OfertaFormacaoFindAllResponse,
@@ -13,10 +26,19 @@ import type {
 export type IUseOfertasFormacoes = {
   keys: readonly string[];
   list: ListFn<OfertaFormacaoFindAllResponse, OfertaFormacaoFindAllData>;
-  listInfinite: ListInfiniteFn<OfertaFormacaoFindAllResponse, OfertaFormacaoFindAllData>;
+  listInfinite: ListInfiniteFn<
+    OfertaFormacaoFindAllResponse,
+    OfertaFormacaoFindAllData
+  >;
   findOne: FindOneFn<OfertaFormacaoFindByIdResponse>;
-  create: CreateFn<OfertaFormacaoCreateData['requestBody'], OfertaFormacaoCreateResponse>;
-  update: UpdateFn<OfertaFormacaoUpdateData['requestBody'], OfertaFormacaoUpdateResponse>;
+  create: CreateFn<
+    OfertaFormacaoCreateData['requestBody'],
+    OfertaFormacaoCreateResponse
+  >;
+  update: UpdateFn<
+    OfertaFormacaoUpdateData['requestBody'],
+    OfertaFormacaoUpdateResponse
+  >;
   remove: RemoveFn;
   invalidate: InvalidateFn;
 };
@@ -40,7 +62,8 @@ export const useOfertasFormacoes = (): IUseOfertasFormacoes => {
 
   const findOne = createFindOneQuery({
     queryKey: keys,
-    fetcher: (id: string) => api.ofertasFormacoes.ofertaFormacaoFindById({ id }),
+    fetcher: (id: string) =>
+      api.ofertasFormacoes.ofertaFormacaoFindById({ id }),
   });
 
   const create = (data: OfertaFormacaoCreateData['requestBody']) =>
@@ -54,5 +77,14 @@ export const useOfertasFormacoes = (): IUseOfertasFormacoes => {
 
   const invalidate = createInvalidate(keys);
 
-  return { keys, list, listInfinite, findOne, create, update, remove, invalidate };
+  return {
+    keys,
+    list,
+    listInfinite,
+    findOne,
+    create,
+    update,
+    remove,
+    invalidate,
+  };
 };

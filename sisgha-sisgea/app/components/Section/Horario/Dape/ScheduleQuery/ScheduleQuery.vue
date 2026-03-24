@@ -25,9 +25,7 @@ const {
   data: scheduleOwner,
   isLoading,
   isError,
-} = isProfessor
-  ? usuarios.findOne(id)
-  : turmasEntity.findOne(id);
+} = isProfessor ? usuarios.findOne(id) : turmasEntity.findOne(id);
 
 const ownerName = getOwnerName(isLoading, isProfessor, scheduleOwner);
 
@@ -74,7 +72,11 @@ provide('editMode', editMode);
           text="Não foi possível buscar os dados"
         />
 
-        <UITitle v-else-if="isLoading" class="default text" text="Carregando..." />
+        <UITitle
+          v-else-if="isLoading"
+          class="default text"
+          text="Carregando..."
+        />
 
         <UITitle
           v-else-if="!editMode"

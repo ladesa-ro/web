@@ -2,7 +2,12 @@
 defineProps<{ disabled?: boolean }>();
 
 const disciplinas = useDisciplinas();
-const { isError, isLoading, data: disciplinasData, suspense } = disciplinas.list();
+const {
+  isError,
+  isLoading,
+  data: disciplinasData,
+  suspense,
+} = disciplinas.list();
 await suspense();
 
 const disciplinasParsedItems = computed<ParsedItem[]>(() =>
@@ -11,7 +16,7 @@ const disciplinasParsedItems = computed<ParsedItem[]>(() =>
         value: disciplina.id,
         label: disciplina.nome,
       }))
-    : [],
+    : []
 );
 </script>
 

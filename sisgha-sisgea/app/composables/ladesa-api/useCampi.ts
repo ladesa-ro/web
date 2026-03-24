@@ -1,5 +1,18 @@
-import { createListQuery, createInfiniteListQuery, createFindOneQuery, createInvalidate } from '~/composables/query-helpers';
-import type { ListFn, ListInfiniteFn, FindOneFn, CreateFn, UpdateFn, RemoveFn, InvalidateFn } from '~/composables/query-helpers';
+import {
+  createListQuery,
+  createInfiniteListQuery,
+  createFindOneQuery,
+  createInvalidate,
+} from '~/composables/query-helpers';
+import type {
+  ListFn,
+  ListInfiniteFn,
+  FindOneFn,
+  CreateFn,
+  UpdateFn,
+  RemoveFn,
+  InvalidateFn,
+} from '~/composables/query-helpers';
 import type {
   CampusFindAllData,
   CampusFindAllResponse,
@@ -28,8 +41,7 @@ export const useCampi = (): IUseCampi => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: CampusFindAllData) =>
-      api.campi.campusFindAll(params),
+    fetcher: (params?: CampusFindAllData) => api.campi.campusFindAll(params),
   });
 
   const listInfinite = createInfiniteListQuery({
@@ -49,10 +61,18 @@ export const useCampi = (): IUseCampi => {
   const update = (id: string, data: CampusUpdateData['requestBody']) =>
     api.campi.campusUpdate({ id, requestBody: data });
 
-  const remove = (id: string) =>
-    api.campi.campusDeleteOneById({ id });
+  const remove = (id: string) => api.campi.campusDeleteOneById({ id });
 
   const invalidate = createInvalidate(keys);
 
-  return { keys, list, listInfinite, findOne, create, update, remove, invalidate };
+  return {
+    keys,
+    list,
+    listInfinite,
+    findOne,
+    create,
+    update,
+    remove,
+    invalidate,
+  };
 };

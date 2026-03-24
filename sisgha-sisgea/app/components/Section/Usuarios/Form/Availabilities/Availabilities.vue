@@ -88,7 +88,7 @@ const onClose = () => emit('close');
     <SectionUsuariosFormAvailabilitiesAvailability
       v-for="vinculo in vinculosComCargoProfessor"
       :key="vinculo.campus.id"
-      v-bind="{vinculo, selectedDayWeek, motivosConfirmados}"
+      v-bind="{ vinculo, selectedDayWeek, motivosConfirmados }"
       @abrir-modal="(...args) => $emit('abrir-modal', ...args)"
       @atualizar-horarios-sem-motivo="
         $emit('atualizar-horarios-sem-motivo', $event)

@@ -91,7 +91,6 @@ const salvarTurmas = () => {
   });
   $emit('save-turmas', turmasObj);
 };
-
 </script>
 
 <template>

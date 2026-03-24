@@ -92,7 +92,9 @@ const professores = computed<ProfessorItem[]>(() => {
       foto: u.foto,
       cargo: u.cargo,
     }))
-    .toSorted((a: ProfessorItem, b: ProfessorItem) => (a.label ?? '').localeCompare(b.label ?? ''));
+    .toSorted((a: ProfessorItem, b: ProfessorItem) =>
+      (a.label ?? '').localeCompare(b.label ?? '')
+    );
 });
 
 const professorSearch = ref('');
@@ -136,9 +138,7 @@ defineExpose({
     >
       <!-- info disciplina -->
       <div class="border-2 border-ldsa-grey p-4 rounded-xl">
-        <span class="font-semibold">{{
-          disciplinaSelecionada?.nome
-        }}</span>
+        <span class="font-semibold">{{ disciplinaSelecionada?.nome }}</span>
         <p class="font-medium text-sm text-ldsa-grey">
           {{ disciplinaSelecionada?.cargaHoraria }}H
         </p>
@@ -238,7 +238,9 @@ defineExpose({
                   <IconsArrow class="w-4 h-4" />
                 </button>
 
-                <span class="text-sm">Total de aulas: {{ aula.totalAulas }}</span>
+                <span class="text-sm"
+                  >Total de aulas: {{ aula.totalAulas }}</span
+                >
 
                 <button
                   type="button"

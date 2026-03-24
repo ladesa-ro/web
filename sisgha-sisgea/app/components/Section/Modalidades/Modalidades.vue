@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import ModalidadesForm from './Form/Form.vue';
-import { createApiListContextOptions } from '~/components/UI/API/List/Context/UIApiListContext';
+
+import {
+  createApiListContextOptions,
+  type IEntityListModule,
+} from '~~/app/components/UI/API/List/Context/UIApiListContext';
 
 const api = useApiClient();
 
@@ -8,7 +12,7 @@ const crudModule = {
   baseQueryKeys: ['modalidades'] as string[],
   list: (data?: any) => api.modalidades.modalidadeFindAll(data),
   getOne: (id: string) => api.modalidades.modalidadeFindById({ id }),
-} as any;
+} satisfies IEntityListModule;
 
 const options = createApiListContextOptions({ crudModule });
 </script>

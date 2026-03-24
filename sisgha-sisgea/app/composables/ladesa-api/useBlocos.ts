@@ -1,5 +1,19 @@
-import { createListQuery, createInfiniteListQuery, createFindOneQuery, createInvalidate } from '~/composables/query-helpers';
-import type { ListFn, ListInfiniteFn, FindOneFn, CreateFn, UpdateFn, RemoveFn, InvalidateFn, UploadCoverFn } from '~/composables/query-helpers';
+import {
+  createListQuery,
+  createInfiniteListQuery,
+  createFindOneQuery,
+  createInvalidate,
+} from '~/composables/query-helpers';
+import type {
+  ListFn,
+  ListInfiniteFn,
+  FindOneFn,
+  CreateFn,
+  UpdateFn,
+  RemoveFn,
+  InvalidateFn,
+  UploadCoverFn,
+} from '~/composables/query-helpers';
 import type {
   BlocoFindAllData,
   BlocoFindAllResponse,
@@ -29,8 +43,7 @@ export const useBlocos = (): IUseBlocos => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: BlocoFindAllData) =>
-      api.blocos.blocoFindAll(params),
+    fetcher: (params?: BlocoFindAllData) => api.blocos.blocoFindAll(params),
   });
 
   const listInfinite = createInfiniteListQuery({
@@ -50,13 +63,22 @@ export const useBlocos = (): IUseBlocos => {
   const update = (id: string, data: BlocoUpdateData['requestBody']) =>
     api.blocos.blocoUpdate({ id, requestBody: data });
 
-  const remove = (id: string) =>
-    api.blocos.blocoDeleteOneById({ id });
+  const remove = (id: string) => api.blocos.blocoDeleteOneById({ id });
 
   const uploadCover = (id: string, file: Blob) =>
     api.blocos.blocoUpdateImagemCapa({ id, formData: { file } });
 
   const invalidate = createInvalidate(keys);
 
-  return { keys, list, listInfinite, findOne, create, update, remove, uploadCover, invalidate };
+  return {
+    keys,
+    list,
+    listInfinite,
+    findOne,
+    create,
+    update,
+    remove,
+    uploadCover,
+    invalidate,
+  };
 };

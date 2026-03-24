@@ -1,5 +1,19 @@
-import { createListQuery, createInfiniteListQuery, createFindOneQuery, createInvalidate } from '~/composables/query-helpers';
-import type { ListFn, ListInfiniteFn, FindOneFn, CreateFn, UpdateFn, RemoveFn, InvalidateFn, UploadProfileFn } from '~/composables/query-helpers';
+import {
+  createListQuery,
+  createInfiniteListQuery,
+  createFindOneQuery,
+  createInvalidate,
+} from '~/composables/query-helpers';
+import type {
+  ListFn,
+  ListInfiniteFn,
+  FindOneFn,
+  CreateFn,
+  UpdateFn,
+  RemoveFn,
+  InvalidateFn,
+  UploadProfileFn,
+} from '~/composables/query-helpers';
 import type {
   UsuarioFindAllData,
   UsuarioFindAllResponse,
@@ -50,13 +64,22 @@ export const useUsuarios = (): IUseUsuarios => {
   const update = (id: string, data: UsuarioUpdateData['requestBody']) =>
     api.usuarios.usuarioUpdate({ id, requestBody: data });
 
-  const remove = (id: string) =>
-    api.usuarios.usuarioDeleteOneById({ id });
+  const remove = (id: string) => api.usuarios.usuarioDeleteOneById({ id });
 
   const uploadProfile = (id: string, file: Blob) =>
     api.usuarios.usuarioUpdateImagemPerfil({ id, formData: { file } });
 
   const invalidate = createInvalidate(keys);
 
-  return { keys, list, listInfinite, findOne, create, update, remove, uploadProfile, invalidate };
+  return {
+    keys,
+    list,
+    listInfinite,
+    findOne,
+    create,
+    update,
+    remove,
+    uploadProfile,
+    invalidate,
+  };
 };

@@ -27,7 +27,9 @@ const cursoSelecionado = cursoQuery.data;
 
 //
 
-const isLoading = computed(() => props.isLoading || unref(cursoQuery.isLoading));
+const isLoading = computed(
+  () => props.isLoading || unref(cursoQuery.isLoading)
+);
 
 const estrategiaModalidade = computed(() => {
   if (cursoSelecionado.value) {
@@ -64,9 +66,13 @@ const estrategiaModalidade = computed(() => {
   </template>
 
   <template v-else-if="cursoSelecionado">
-    <div class="p-4 mb-4 text-sm rounded border border-yellow-200 bg-yellow-100 text-yellow-800">
+    <div
+      class="p-4 mb-4 text-sm rounded border border-yellow-200 bg-yellow-100 text-yellow-800"
+    >
       O sistema ainda não suporta o cadastro de turmas para a modalidade
-      <span class="font-semibold">"{{ cursoSelecionado.ofertaFormacao.nome }}"</span>.
+      <span class="font-semibold"
+        >"{{ cursoSelecionado.ofertaFormacao.nome }}"</span
+      >.
     </div>
   </template>
 </template>

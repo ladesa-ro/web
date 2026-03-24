@@ -61,7 +61,7 @@ const removeField = (targetIndex: number) => {
     @click="addField"
   >
     Novo Vínculo
-    <IconsAdd class="w-4"/>
+    <IconsAdd class="w-4" />
   </button>
 
   <hr class="border border-ldsa-grey my-1" />

@@ -6,7 +6,8 @@ type Props = {
   selectedItemDefaultIndex?: number;
 };
 
-const { items: itemsProps, selectedItemDefaultIndex = 0 } = defineProps<Props>();
+const { items: itemsProps, selectedItemDefaultIndex = 0 } =
+  defineProps<Props>();
 
 const items = getParsedItems(itemsProps);
 const selectedItem = defineModel<Item>();
@@ -31,11 +32,11 @@ onMounted(() => {
       class="flex-1 text-center font-semibold py-4 px-2 rounded-xl border-2 border-ldsa-green-1"
       :class="{
         'bg-ldsa-green-1 text-white': selectedIndex === index,
-        'text-ldsa-text-green': selectedIndex !== index
+        'text-ldsa-text-green': selectedIndex !== index,
       }"
       type="button"
     >
-      {{ item.label.slice(0, 3)}}
+      {{ item.label.slice(0, 3) }}
     </button>
   </div>
 </template>

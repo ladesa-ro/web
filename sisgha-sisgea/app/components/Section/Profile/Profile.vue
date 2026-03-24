@@ -7,20 +7,15 @@ type Props = { userId: string };
 const { userId } = defineProps<Props>();
 
 const usuarios = useUsuarios();
-const {
-  data: user,
-  isLoading,
-  isError,
-} = usuarios.findOne(ref(userId));
+const { data: user, isLoading, isError } = usuarios.findOne(ref(userId));
 
 //
 const { canEdit } = useCanEditProfile(userId);
 const showGoBack = computed(() => !canEdit.value);
 
-
 const router = useRouter();
 const goBack = () => {
-  router.push('/sisgha/dape/usuarios'); 
+  router.push('/sisgha/dape/usuarios');
 };
 </script>
 
@@ -29,10 +24,10 @@ const goBack = () => {
     variant="larger"
     class="flex flex-col justify-center gap-5 lg:gap-6.5 xl:gap-8"
   >
-    <template v-if="user">      
-     <div v-if="showGoBack">
-      <UIButtonModalGoBack @click="goBack"/>
-     </div>
+    <template v-if="user">
+      <div v-if="showGoBack">
+        <UIButtonModalGoBack @click="goBack" />
+      </div>
       <SectionProfileHeader :user="user" />
 
       <!-- TODO: puxar da api -->

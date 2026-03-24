@@ -1,14 +1,14 @@
 <script setup lang="ts">
 defineProps<{
-  professores: string[],
-  semestres: string[],
-  professor: string | null,
-  semestre: string | null,
+  professores: string[];
+  semestres: string[];
+  professor: string | null;
+  semestre: string | null;
 }>();
 
 const emit = defineEmits<{
-  (e: 'update:professor', value: string | null): void,
-  (e: 'update:semestre', value: string | null): void,
+  (e: 'update:professor', value: string | null): void;
+  (e: 'update:semestre', value: string | null): void;
 }>();
 </script>
 

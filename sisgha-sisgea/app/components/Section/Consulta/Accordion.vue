@@ -20,7 +20,6 @@ const selectedOption = defineModel<T>('selectedOption', {
 const open = defineModel<boolean>('open', {
   default: false,
 });
-
 </script>
 
 <template>
@@ -59,18 +58,18 @@ const open = defineModel<boolean>('open', {
       <div v-else-if="error">Ocorreu um erro inesperado.</div>
 
       <template v-else>
-        <div v-if="items.length === 0"> Nenhum resultado encontrado.</div>
+        <div v-if="items.length === 0">Nenhum resultado encontrado.</div>
 
         <SectionConsultaAccordionOptions
-        v-else
-        @option-selected="
-          itemSelected => $emit('option-selected', { itemSelected, title })
-        "
-        v-model="selectedOption"
-        :items="items"
-        :loading
-        :error
-      />
+          v-else
+          @option-selected="
+            itemSelected => $emit('option-selected', { itemSelected, title })
+          "
+          v-model="selectedOption"
+          :items="items"
+          :loading
+          :error
+        />
       </template>
     </div>
   </UICollapsible>

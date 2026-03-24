@@ -34,12 +34,11 @@ export function useAvailability() {
     availabilityByDay.value[day] = [...allTimes];
   });
 
- const selectedTimes = ref([
-  ...(availabilityByDay.value[selectedDayWeek.value]
-    ? [...availabilityByDay.value[selectedDayWeek.value] ?? allTimes]
-    : [...allTimes]),
-]);
-
+  const selectedTimes = ref([
+    ...(availabilityByDay.value[selectedDayWeek.value]
+      ? [...(availabilityByDay.value[selectedDayWeek.value] ?? allTimes)]
+      : [...allTimes]),
+  ]);
 
   watch(selectedDayWeek, (newDay, oldDay) => {
     if (oldDay) {
@@ -47,7 +46,6 @@ export function useAvailability() {
     }
     selectedTimes.value = [...(availabilityByDay.value[newDay] ?? allTimes)];
   });
-
 
   watch(selectedTimes, newTimes => {
     availabilityByDay.value[selectedDayWeek.value] = [...newTimes];

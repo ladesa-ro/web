@@ -23,12 +23,7 @@ const niveisFormacoesText = computed(() => {
 
 <template>
   <UICardAutoSkeleton :skeleton="isLoading || !formacao">
-    <UICard
-      v-if="formacao"
-      :src="null"
-      :title="formacao.nome"
-      variant="block"
-    >
+    <UICard v-if="formacao" :src="null" :title="formacao.nome" variant="block">
       <template #actions>
         <DialogModalEditOrCreateModal
           :edit-id="formacao.id"

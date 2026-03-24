@@ -13,7 +13,12 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
     <header class="header">
       <UITitle variant="small" :text="title" />
 
-      <button v-if="closeButton" type="button" class="close-button" @click="onClose">
+      <button
+        v-if="closeButton"
+        type="button"
+        class="close-button"
+        @click="onClose"
+      >
         <IconsClose class="close-icon" />
       </button>
     </header>

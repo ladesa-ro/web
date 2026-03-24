@@ -6,7 +6,7 @@ description: Refinar código para aumentar qualidade, reduzir débito técnico e
 
 Aumentar a qualidade do código, reduzir débito técnico e evitar overengineering. Cada decisão tomada neste comando deve passar por esse filtro:
 
-- **Simples é melhor.** Não adicione abstrações, patterns ou camadas que o projeto não precisa *agora*.
+- **Simples é melhor.** Não adicione abstrações, patterns ou camadas que o projeto não precisa _agora_.
 - **Menos código é mais.** Se dá pra resolver com menos linhas sem perder clareza, resolva.
 - **Não invente problema.** Só corrija o que está errado ou fora do padrão. Não refatore código funcional e limpo só por preferência estética.
 
@@ -74,16 +74,21 @@ Atualize o CLAUDE.md se alguma convenção nova surgiu ou algo ficou desatualiza
 Ao final de tudo, apresente um relatório executivo com três seções:
 
 ### Corrigido
+
 O que foi efetivamente alterado nesta sessão (com arquivo e descrição breve).
 
 ### Divergências
+
 Problemas pré-existentes encontrados que **não foram corrigidos** por exigirem refactor mais amplo ou decisão de design. Para cada item, descrever:
+
 - Onde está (arquivo/camada)
 - O que foi observado
 - Por que não foi corrigido agora
 
 Exemplo:
+
 > **Observação (pré-existente, não introduzida):** Composable `useAuth` faz fetch direto sem TanStack Query, perdendo cache e deduplicação. Corrigir exigiria migrar o fluxo de autenticação para o padrão de queries do projeto.
 
 ### Recomendações
+
 Sugestões de próximos passos para resolver as divergências encontradas, priorizadas por impacto.

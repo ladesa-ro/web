@@ -1,4 +1,8 @@
-import type { InfiniteData, UseInfiniteQueryReturnType, UseQueryReturnType } from '@tanstack/vue-query';
+import type {
+  InfiniteData,
+  UseInfiniteQueryReturnType,
+  UseQueryReturnType,
+} from '@tanstack/vue-query';
 
 // ============================================================
 // Query helper config interfaces (input para os helpers)
@@ -23,29 +27,31 @@ export interface IFindOneQueryConfig<TResult> {
 // Tipos auxiliares para as capabilities
 // ============================================================
 
-export type ListFn<TResult, TParams = unknown> =
-  (params?: MaybeRef<TParams>) => UseQueryReturnType<TResult, Error>;
+export type ListFn<TResult, TParams = unknown> = (
+  params?: MaybeRef<TParams>
+) => UseQueryReturnType<TResult, Error>;
 
-export type ListInfiniteFn<TResult, TParams = unknown> =
-  (params?: MaybeRef<TParams>) => UseInfiniteQueryReturnType<InfiniteData<TResult, unknown>, Error>;
+export type ListInfiniteFn<TResult, TParams = unknown> = (
+  params?: MaybeRef<TParams>
+) => UseInfiniteQueryReturnType<InfiniteData<TResult, unknown>, Error>;
 
-export type FindOneFn<TResult> =
-  (id: MaybeRef<string | null>) => UseQueryReturnType<TResult | null, Error>;
+export type FindOneFn<TResult> = (
+  id: MaybeRef<string | null>
+) => UseQueryReturnType<TResult | null, Error>;
 
-export type CreateFn<TInput, TResult = unknown> =
-  (data: TInput) => Promise<TResult>;
+export type CreateFn<TInput, TResult = unknown> = (
+  data: TInput
+) => Promise<TResult>;
 
-export type UpdateFn<TInput, TResult = void> =
-  (id: string, data: TInput) => Promise<TResult>;
+export type UpdateFn<TInput, TResult = void> = (
+  id: string,
+  data: TInput
+) => Promise<TResult>;
 
-export type RemoveFn =
-  (id: string) => Promise<unknown>;
+export type RemoveFn = (id: string) => Promise<unknown>;
 
-export type InvalidateFn =
-  () => Promise<void>;
+export type InvalidateFn = () => Promise<void>;
 
-export type UploadCoverFn =
-  (id: string, file: Blob) => Promise<unknown>;
+export type UploadCoverFn = (id: string, file: Blob) => Promise<unknown>;
 
-export type UploadProfileFn =
-  (id: string, file: Blob) => Promise<unknown>;
+export type UploadProfileFn = (id: string, file: Blob) => Promise<unknown>;

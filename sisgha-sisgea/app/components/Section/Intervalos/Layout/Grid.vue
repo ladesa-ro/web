@@ -31,11 +31,15 @@ defineEmits([
       :periodo="periodo"
       :index="i"
       :novo-intervalo="novosIntervalos[i] ?? null"
-      :editando="intervaloEditando && intervaloEditando.periodoIndex === i ? intervaloEditando : null"
+      :editando="
+        intervaloEditando && intervaloEditando.periodoIndex === i
+          ? intervaloEditando
+          : null
+      "
       @add="$emit('add', i)"
       @removeIntervalo="j => $emit('removeIntervalo', i, j)"
       @confirmNovo="$emit('confirmNovo', i)"
-      @updateNovoIntervalo="(val) => $emit('updateNovoIntervalo', i, val)"
+      @updateNovoIntervalo="val => $emit('updateNovoIntervalo', i, val)"
       @edit="j => $emit('edit', i, j)"
       @cancelEdit="$emit('cancelEdit')"
       @updateEdit="$emit('updateEdit', $event)"

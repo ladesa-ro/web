@@ -50,7 +50,8 @@ const scheduleOf: 'professor' | 'turma' | undefined = inject('scheduleOf');
 // TODO: melhorar essa estrutura de querries para fazer apenas 1 query à api em algum componente ancestral a este, ao inves de uma query em todas as instâncias
 const professoresQuery = useQuery({
   queryKey: ['perfis', 'professor-list'],
-  queryFn: () => api.usuarios.perfilFindAll({ filterCargo: ['professor'] } as any),
+  queryFn: () =>
+    api.usuarios.perfilFindAll({ filterCargo: ['professor'] } as any),
   enabled: scheduleOf === 'turma',
 });
 

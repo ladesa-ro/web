@@ -13,7 +13,7 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   editId: computed(() => editId),
   getQuery: disciplinas.findOne(computed(() => editId)),
 
-  create: async (data) => {
+  create: async data => {
     const { imagem, ...rest } = data;
     const created = await disciplinas.create(rest);
     if (imagem) await disciplinas.uploadCover(created.id, imagem as Blob);
@@ -25,7 +25,7 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
     if (imagem) await disciplinas.uploadCover(id, imagem as Blob);
   },
 
-  remove: (id) => disciplinas.remove(id),
+  remove: id => disciplinas.remove(id),
   invalidate: disciplinas.invalidate,
   confirmDelete: confirmDelete.confirm,
   onFinish: () => emit('close'),
@@ -35,7 +35,9 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
 <template>
   <form @submit.prevent="onSubmit">
     <UIFormLayout
-      :title="mode === FormMode.MANAGE ? 'Editar Disciplina' : 'Cadastrar Disciplina'"
+      :title="
+        mode === FormMode.MANAGE ? 'Editar Disciplina' : 'Cadastrar Disciplina'
+      "
       :mode="mode"
       :is-busy="isBusy"
       :on-close="() => emit('close')"
@@ -43,8 +45,17 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
     >
       <VVSelectImage name="imagem" />
       <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
-      <VVTextField name="nomeAbreviado" label="Nome Abreviado" placeholder="Digite aqui" />
-      <VVTextField name="cargaHoraria" label="Carga Horária" placeholder="Digite aqui" type="number" />
+      <VVTextField
+        name="nomeAbreviado"
+        label="Nome Abreviado"
+        placeholder="Digite aqui"
+      />
+      <VVTextField
+        name="cargaHoraria"
+        label="Carga Horária"
+        placeholder="Digite aqui"
+        type="number"
+      />
     </UIFormLayout>
   </form>
 

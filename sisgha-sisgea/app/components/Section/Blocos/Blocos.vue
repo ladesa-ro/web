@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import BlocosForm from '~/components/Section/Blocos/Form/Form.vue';
-import { createApiListContextOptions } from '~~/app/components/UI/API/List/Context/UIApiListContext';
+import {
+  createApiListContextOptions,
+  type IEntityListModule,
+} from '~~/app/components/UI/API/List/Context/UIApiListContext';
 
 const api = useApiClient();
 
@@ -8,7 +11,7 @@ const crudModule = {
   baseQueryKeys: ['blocos'] as string[],
   list: (data?: any) => api.blocos.blocoFindAll(data),
   getOne: (id: string) => api.blocos.blocoFindById({ id }),
-} as any;
+} satisfies IEntityListModule;
 
 const options = createApiListContextOptions({ crudModule });
 </script>

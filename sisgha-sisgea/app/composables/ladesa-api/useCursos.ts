@@ -1,5 +1,19 @@
-import { createListQuery, createInfiniteListQuery, createFindOneQuery, createInvalidate } from '~/composables/query-helpers';
-import type { ListFn, ListInfiniteFn, FindOneFn, CreateFn, UpdateFn, RemoveFn, InvalidateFn, UploadCoverFn } from '~/composables/query-helpers';
+import {
+  createListQuery,
+  createInfiniteListQuery,
+  createFindOneQuery,
+  createInvalidate,
+} from '~/composables/query-helpers';
+import type {
+  ListFn,
+  ListInfiniteFn,
+  FindOneFn,
+  CreateFn,
+  UpdateFn,
+  RemoveFn,
+  InvalidateFn,
+  UploadCoverFn,
+} from '~/composables/query-helpers';
 import type {
   CursoFindAllData,
   CursoFindAllResponse,
@@ -29,8 +43,7 @@ export const useCursos = (): IUseCursos => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: CursoFindAllData) =>
-      api.cursos.cursoFindAll(params),
+    fetcher: (params?: CursoFindAllData) => api.cursos.cursoFindAll(params),
   });
 
   const listInfinite = createInfiniteListQuery({
@@ -50,13 +63,22 @@ export const useCursos = (): IUseCursos => {
   const update = (id: string, data: CursoUpdateData['requestBody']) =>
     api.cursos.cursoUpdate({ id, requestBody: data });
 
-  const remove = (id: string) =>
-    api.cursos.cursoDeleteOneById({ id });
+  const remove = (id: string) => api.cursos.cursoDeleteOneById({ id });
 
   const uploadCover = (id: string, file: Blob) =>
     api.cursos.cursoUpdateImagemCapa({ id, formData: { file } });
 
   const invalidate = createInvalidate(keys);
 
-  return { keys, list, listInfinite, findOne, create, update, remove, uploadCover, invalidate };
+  return {
+    keys,
+    list,
+    listInfinite,
+    findOne,
+    create,
+    update,
+    remove,
+    uploadCover,
+    invalidate,
+  };
 };

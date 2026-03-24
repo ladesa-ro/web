@@ -28,7 +28,11 @@ const searchOptions = computed(() => {
 const crudModule = apiRetrieverOptions.crudModule;
 
 const listQuery = useQuery({
-  queryKey: computed(() => [...crudModule.baseQueryKeys, 'list', JSON.stringify(unref(searchOptions))]),
+  queryKey: computed(() => [
+    ...crudModule.baseQueryKeys,
+    'list',
+    JSON.stringify(unref(searchOptions)),
+  ]),
   queryFn: () => crudModule.list(unref(searchOptions)),
 });
 

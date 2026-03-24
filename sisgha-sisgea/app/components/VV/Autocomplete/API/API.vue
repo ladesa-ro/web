@@ -23,7 +23,11 @@ const crudModule = apiRetrieverOptions.crudModule;
 
 // FindOne query for the currently selected value
 const activeResourceQuery = useQuery({
-  queryKey: computed(() => [...crudModule.baseQueryKeys, 'detail', unref(value)]),
+  queryKey: computed(() => [
+    ...crudModule.baseQueryKeys,
+    'detail',
+    unref(value),
+  ]),
   queryFn: () => crudModule.getOne(unref(value) as string),
   enabled: computed(() => !!unref(value)),
 });
@@ -48,7 +52,11 @@ const searchOptions = computed(() => {
 
 // List query for dropdown options
 const listQuery = useQuery({
-  queryKey: computed(() => [...crudModule.baseQueryKeys, 'list', JSON.stringify(unref(searchOptions))]),
+  queryKey: computed(() => [
+    ...crudModule.baseQueryKeys,
+    'list',
+    JSON.stringify(unref(searchOptions)),
+  ]),
   queryFn: () => crudModule.list(unref(searchOptions)),
 });
 

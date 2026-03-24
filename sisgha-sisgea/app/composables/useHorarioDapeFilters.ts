@@ -1,5 +1,6 @@
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
+import type { IEntityListModule } from '~/components/UI/API/List/Context/UIApiListContext';
 
 export const useHorarioDapeFilters = () => {
   const schema = yup.object().shape({
@@ -26,7 +27,7 @@ export const useHorarioDapeFilters = () => {
     baseQueryKeys: ['turmas'] as string[],
     list: (data?: any) => api.turmas.turmaFindAll(data),
     getOne: (id: string) => api.turmas.turmaFindById({ id }),
-  } as any;
+  } satisfies IEntityListModule;
 
   const turmasOptions = {
     crudModule: turmasCrudModule,

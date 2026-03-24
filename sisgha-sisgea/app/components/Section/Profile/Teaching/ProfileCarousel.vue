@@ -33,10 +33,10 @@ const { items } = defineProps<Props>();
 
 .card::scroll-marker {
   content: '';
-  height: .3em;
-  width: .9em;
+  height: 0.3em;
+  width: 0.9em;
   background-color: var(--ladesa-grey-color);
-  border-radius: .5rem;
+  border-radius: 0.5rem;
 }
 
 .card::scroll-marker:target-current {

@@ -2,4042 +2,4648 @@
 
 import type { CancelablePromise } from './core/CancelablePromise';
 import type { BaseHttpRequest } from './core/BaseHttpRequest';
-import type { AppControllerGetServiceInfoResponse, ModalidadeFindAllData, ModalidadeFindAllResponse, ModalidadeCreateData, ModalidadeCreateResponse, ModalidadeFindByIdData, ModalidadeFindByIdResponse, ModalidadeUpdateData, ModalidadeUpdateResponse, ModalidadeDeleteOneByIdData, ModalidadeDeleteOneByIdResponse, PerfilFindAllData, PerfilFindAllResponse, PerfilSetVinculosData, PerfilSetVinculosResponse, PerfilFindByIdData, PerfilFindByIdResponse, PerfilEnsinoByIdData, PerfilEnsinoByIdResponse, UsuarioFindAllData, UsuarioFindAllResponse, UsuarioCreateData, UsuarioCreateResponse, UsuarioFindByIdData, UsuarioFindByIdResponse, UsuarioUpdateData, UsuarioUpdateResponse, UsuarioDeleteOneByIdData, UsuarioDeleteOneByIdResponse, UsuarioEnsinoByIdData, UsuarioEnsinoByIdResponse, UsuarioHorarioSemanalData, UsuarioHorarioSemanalResponse, UsuarioDisponibilidadeData, UsuarioDisponibilidadeResponse, UsuarioSetDisponibilidadeData, UsuarioSetDisponibilidadeResponse, UsuarioGetImagemCapaData, UsuarioGetImagemCapaResponse, UsuarioUpdateImagemCapaData, UsuarioUpdateImagemCapaResponse, UsuarioGetImagemPerfilData, UsuarioGetImagemPerfilResponse, UsuarioUpdateImagemPerfilData, UsuarioUpdateImagemPerfilResponse, UsuarioEventoFindAllData, UsuarioEventoFindAllResponse, UsuarioEventoCreateData, UsuarioEventoCreateResponse, UsuarioEventoUpdateData, UsuarioEventoUpdateResponse, UsuarioEventoDeleteData, UsuarioEventoDeleteResponse, ArquivoFindByIdData, ArquivoFindByIdResponse, HorarioMescladoData, HorarioMescladoResponse, HorarioEdicaoCreateResponse, HorarioEdicaoApplyChangeData, HorarioEdicaoApplyChangeResponse, HorarioEdicaoSalvarData, HorarioEdicaoSalvarResponse, HorarioEdicaoCancelarData, HorarioEdicaoCancelarResponse, CampusFindAllData, CampusFindAllResponse, CampusCreateData, CampusCreateResponse, CampusFindByIdData, CampusFindByIdResponse, CampusUpdateData, CampusUpdateResponse, CampusDeleteOneByIdData, CampusDeleteOneByIdResponse, CursoFindAllData, CursoFindAllResponse, CursoCreateData, CursoCreateResponse, CursoFindByIdData, CursoFindByIdResponse, CursoUpdateData, CursoUpdateResponse, CursoDeleteOneByIdData, CursoDeleteOneByIdResponse, CursoGetImagemCapaData, CursoGetImagemCapaResponse, CursoUpdateImagemCapaData, CursoUpdateImagemCapaResponse, CursoDisciplinasPorPeriodoFindAllData, CursoDisciplinasPorPeriodoFindAllResponse, CursoDisciplinasPorPeriodoBulkReplaceData, CursoDisciplinasPorPeriodoBulkReplaceResponse, OfertaFormacaoFindAllData, OfertaFormacaoFindAllResponse, OfertaFormacaoCreateData, OfertaFormacaoCreateResponse, OfertaFormacaoFindByIdData, OfertaFormacaoFindByIdResponse, OfertaFormacaoUpdateData, OfertaFormacaoUpdateResponse, OfertaFormacaoDeleteOneByIdData, OfertaFormacaoDeleteOneByIdResponse, NivelFormacaoFindAllData, NivelFormacaoFindAllResponse, NivelFormacaoCreateData, NivelFormacaoCreateResponse, NivelFormacaoFindByIdData, NivelFormacaoFindByIdResponse, NivelFormacaoUpdateData, NivelFormacaoUpdateResponse, NivelFormacaoDeleteOneByIdData, NivelFormacaoDeleteOneByIdResponse, DisciplinaFindAllData, DisciplinaFindAllResponse, DisciplinaCreateData, DisciplinaCreateResponse, DisciplinaFindByIdData, DisciplinaFindByIdResponse, DisciplinaUpdateData, DisciplinaUpdateResponse, DisciplinaDeleteOneByIdData, DisciplinaDeleteOneByIdResponse, DisciplinaGetImagemCapaData, DisciplinaGetImagemCapaResponse, DisciplinaUpdateImagemCapaData, DisciplinaUpdateImagemCapaResponse, CalendarioEventoFindAllData, CalendarioEventoFindAllResponse, CalendarioEventoCreateData, CalendarioEventoCreateResponse, CalendarioEventoFindByIdData, CalendarioEventoFindByIdResponse, CalendarioEventoUpdateData, CalendarioEventoUpdateResponse, CalendarioEventoDeleteData, CalendarioEventoDeleteResponse, CalendarioLetivoFindAllData, CalendarioLetivoFindAllResponse, CalendarioLetivoCreateData, CalendarioLetivoCreateResponse, CalendarioLetivoFindByIdData, CalendarioLetivoFindByIdResponse, CalendarioLetivoUpdateData, CalendarioLetivoUpdateResponse, CalendarioLetivoDeleteOneByIdData, CalendarioLetivoDeleteOneByIdResponse, CalendarioLetivoDiaFindAllData, CalendarioLetivoDiaFindAllResponse, CalendarioLetivoDiaFindByDataData, CalendarioLetivoDiaFindByDataResponse, CalendarioLetivoDiaUpdateData, CalendarioLetivoDiaUpdateResponse, CalendarioLetivoEtapaFindAllData, CalendarioLetivoEtapaFindAllResponse, CalendarioLetivoEtapaBulkReplaceData, CalendarioLetivoEtapaBulkReplaceResponse, CalendarioLetivoDesativarData, CalendarioLetivoDesativarResponse, CidadeFindAllData, CidadeFindAllResponse, CidadeFindByIdData, CidadeFindByIdResponse, AmbienteListDisponiveisResponse, AmbienteFindAllData, AmbienteFindAllResponse, AmbienteCreateData, AmbienteCreateResponse, AmbienteGetDisponibilidadeData, AmbienteGetDisponibilidadeResponse, AmbienteFindByIdData, AmbienteFindByIdResponse, AmbienteUpdateData, AmbienteUpdateResponse, AmbienteDeleteOneByIdData, AmbienteDeleteOneByIdResponse, AmbienteGetImagemCapaData, AmbienteGetImagemCapaResponse, AmbienteUpdateImagemCapaData, AmbienteUpdateImagemCapaResponse, BlocoFindAllData, BlocoFindAllResponse, BlocoCreateData, BlocoCreateResponse, BlocoFindByIdData, BlocoFindByIdResponse, BlocoUpdateData, BlocoUpdateResponse, BlocoDeleteOneByIdData, BlocoDeleteOneByIdResponse, BlocoGetImagemCapaData, BlocoGetImagemCapaResponse, BlocoUpdateImagemCapaData, BlocoUpdateImagemCapaResponse, AutenticacaoWhoAmIensinoResponse, AutenticacaoWhoAmIResponse, AutenticacaoLoginData, AutenticacaoLoginResponse, AutenticacaoRefreshData, AutenticacaoRefreshResponse, AutenticacaoSetInitialPasswordData, AutenticacaoSetInitialPasswordResponse, AutenticacaoRequestPasswordResetData, AutenticacaoRequestPasswordResetResponse, DiarioFindAllData, DiarioFindAllResponse, DiarioCreateData, DiarioCreateResponse, DiarioFindByIdData, DiarioFindByIdResponse, DiarioUpdateData, DiarioUpdateResponse, DiarioDeleteOneByIdData, DiarioDeleteOneByIdResponse, DiarioProfessorFindAllData, DiarioProfessorFindAllResponse, DiarioProfessorBulkReplaceData, DiarioProfessorBulkReplaceResponse, DiarioPreferenciaAgrupamentoFindAllData, DiarioPreferenciaAgrupamentoFindAllResponse, DiarioPreferenciaAgrupamentoBulkReplaceData, DiarioPreferenciaAgrupamentoBulkReplaceResponse, TurmaFindAllData, TurmaFindAllResponse, TurmaCreateData, TurmaCreateResponse, TurmaFindByIdData, TurmaFindByIdResponse, TurmaUpdateData, TurmaUpdateResponse, TurmaDeleteOneByIdData, TurmaDeleteOneByIdResponse, TurmaHorarioSemanalData, TurmaHorarioSemanalResponse, TurmaGetImagemCapaData, TurmaGetImagemCapaResponse, TurmaUpdateImagemCapaData, TurmaUpdateImagemCapaResponse, TurmaHorarioAulaFindAllData, TurmaHorarioAulaFindAllResponse, TurmaHorarioAulaBulkReplaceData, TurmaHorarioAulaBulkReplaceResponse, TurmaEventoFindAllData, TurmaEventoFindAllResponse, TurmaEventoCreateData, TurmaEventoCreateResponse, TurmaEventoUpdateData, TurmaEventoUpdateResponse, TurmaEventoDeleteData, TurmaEventoDeleteResponse, TurmaDiarioConfigurarData, TurmaDiarioConfigurarResponse, GerarHorarioCreateData, GerarHorarioCreateResponse, GerarHorarioFindByIdData, GerarHorarioFindByIdResponse, GerarHorarioAceitarData, GerarHorarioAceitarResponse, GerarHorarioRejeitarData, GerarHorarioRejeitarResponse, EstadoFindAllData, EstadoFindAllResponse, EstadoFindByIdData, EstadoFindByIdResponse, EmpresaFindAllData, EmpresaFindAllResponse, EmpresaCreateData, EmpresaCreateResponse, EmpresaFindByIdData, EmpresaFindByIdResponse, EmpresaUpdateData, EmpresaUpdateResponse, EmpresaDeleteOneByIdData, EmpresaDeleteOneByIdResponse, EstagioFindAllData, EstagioFindAllResponse, EstagioCreateData, EstagioCreateResponse, EstagioFindByIdData, EstagioFindByIdResponse, EstagioUpdateData, EstagioUpdateResponse, EstagioDeleteData, EstagioDeleteResponse, EstagiarioFindAllData, EstagiarioFindAllResponse, EstagiarioCreateData, EstagiarioCreateResponse, EstagiarioFindByIdData, EstagiarioFindByIdResponse, EstagiarioUpdateData, EstagiarioUpdateResponse, EstagiarioDeleteOneByIdData, EstagiarioDeleteOneByIdResponse, NotificacaoFindAllResponse, NotificacaoContagemNaoLidasResponse, NotificacaoMarcarLidaData, NotificacaoMarcarLidaResponse, RelatorioAulasMinistradasData, RelatorioAulasMinistradasResponse, HorarioAulaFindAllData, HorarioAulaFindAllResponse, HorarioAulaCreateData, HorarioAulaCreateResponse, HorarioAulaFindByIdData, HorarioAulaFindByIdResponse, HorarioAulaUpdateData, HorarioAulaUpdateResponse, HorarioAulaDeleteData, HorarioAulaDeleteResponse, HorarioAulaConfiguracaoFindAllData, HorarioAulaConfiguracaoFindAllResponse, HorarioAulaConfiguracaoCreateData, HorarioAulaConfiguracaoCreateResponse, HorarioAulaConfiguracaoFindByIdData, HorarioAulaConfiguracaoFindByIdResponse, HorarioAulaConfiguracaoUpdateData, HorarioAulaConfiguracaoUpdateResponse, HorarioAulaConfiguracaoDeleteData, HorarioAulaConfiguracaoDeleteResponse } from './types.gen';
+import type {
+  AppControllerGetServiceInfoResponse,
+  ModalidadeFindAllData,
+  ModalidadeFindAllResponse,
+  ModalidadeCreateData,
+  ModalidadeCreateResponse,
+  ModalidadeFindByIdData,
+  ModalidadeFindByIdResponse,
+  ModalidadeUpdateData,
+  ModalidadeUpdateResponse,
+  ModalidadeDeleteOneByIdData,
+  ModalidadeDeleteOneByIdResponse,
+  PerfilFindAllData,
+  PerfilFindAllResponse,
+  PerfilSetVinculosData,
+  PerfilSetVinculosResponse,
+  PerfilFindByIdData,
+  PerfilFindByIdResponse,
+  PerfilEnsinoByIdData,
+  PerfilEnsinoByIdResponse,
+  UsuarioFindAllData,
+  UsuarioFindAllResponse,
+  UsuarioCreateData,
+  UsuarioCreateResponse,
+  UsuarioFindByIdData,
+  UsuarioFindByIdResponse,
+  UsuarioUpdateData,
+  UsuarioUpdateResponse,
+  UsuarioDeleteOneByIdData,
+  UsuarioDeleteOneByIdResponse,
+  UsuarioEnsinoByIdData,
+  UsuarioEnsinoByIdResponse,
+  UsuarioHorarioSemanalData,
+  UsuarioHorarioSemanalResponse,
+  UsuarioDisponibilidadeData,
+  UsuarioDisponibilidadeResponse,
+  UsuarioSetDisponibilidadeData,
+  UsuarioSetDisponibilidadeResponse,
+  UsuarioGetImagemCapaData,
+  UsuarioGetImagemCapaResponse,
+  UsuarioUpdateImagemCapaData,
+  UsuarioUpdateImagemCapaResponse,
+  UsuarioGetImagemPerfilData,
+  UsuarioGetImagemPerfilResponse,
+  UsuarioUpdateImagemPerfilData,
+  UsuarioUpdateImagemPerfilResponse,
+  UsuarioEventoFindAllData,
+  UsuarioEventoFindAllResponse,
+  UsuarioEventoCreateData,
+  UsuarioEventoCreateResponse,
+  UsuarioEventoUpdateData,
+  UsuarioEventoUpdateResponse,
+  UsuarioEventoDeleteData,
+  UsuarioEventoDeleteResponse,
+  ArquivoFindByIdData,
+  ArquivoFindByIdResponse,
+  HorarioMescladoData,
+  HorarioMescladoResponse,
+  HorarioEdicaoCreateResponse,
+  HorarioEdicaoApplyChangeData,
+  HorarioEdicaoApplyChangeResponse,
+  HorarioEdicaoSalvarData,
+  HorarioEdicaoSalvarResponse,
+  HorarioEdicaoCancelarData,
+  HorarioEdicaoCancelarResponse,
+  CampusFindAllData,
+  CampusFindAllResponse,
+  CampusCreateData,
+  CampusCreateResponse,
+  CampusFindByIdData,
+  CampusFindByIdResponse,
+  CampusUpdateData,
+  CampusUpdateResponse,
+  CampusDeleteOneByIdData,
+  CampusDeleteOneByIdResponse,
+  CursoFindAllData,
+  CursoFindAllResponse,
+  CursoCreateData,
+  CursoCreateResponse,
+  CursoFindByIdData,
+  CursoFindByIdResponse,
+  CursoUpdateData,
+  CursoUpdateResponse,
+  CursoDeleteOneByIdData,
+  CursoDeleteOneByIdResponse,
+  CursoGetImagemCapaData,
+  CursoGetImagemCapaResponse,
+  CursoUpdateImagemCapaData,
+  CursoUpdateImagemCapaResponse,
+  CursoDisciplinasPorPeriodoFindAllData,
+  CursoDisciplinasPorPeriodoFindAllResponse,
+  CursoDisciplinasPorPeriodoBulkReplaceData,
+  CursoDisciplinasPorPeriodoBulkReplaceResponse,
+  OfertaFormacaoFindAllData,
+  OfertaFormacaoFindAllResponse,
+  OfertaFormacaoCreateData,
+  OfertaFormacaoCreateResponse,
+  OfertaFormacaoFindByIdData,
+  OfertaFormacaoFindByIdResponse,
+  OfertaFormacaoUpdateData,
+  OfertaFormacaoUpdateResponse,
+  OfertaFormacaoDeleteOneByIdData,
+  OfertaFormacaoDeleteOneByIdResponse,
+  NivelFormacaoFindAllData,
+  NivelFormacaoFindAllResponse,
+  NivelFormacaoCreateData,
+  NivelFormacaoCreateResponse,
+  NivelFormacaoFindByIdData,
+  NivelFormacaoFindByIdResponse,
+  NivelFormacaoUpdateData,
+  NivelFormacaoUpdateResponse,
+  NivelFormacaoDeleteOneByIdData,
+  NivelFormacaoDeleteOneByIdResponse,
+  DisciplinaFindAllData,
+  DisciplinaFindAllResponse,
+  DisciplinaCreateData,
+  DisciplinaCreateResponse,
+  DisciplinaFindByIdData,
+  DisciplinaFindByIdResponse,
+  DisciplinaUpdateData,
+  DisciplinaUpdateResponse,
+  DisciplinaDeleteOneByIdData,
+  DisciplinaDeleteOneByIdResponse,
+  DisciplinaGetImagemCapaData,
+  DisciplinaGetImagemCapaResponse,
+  DisciplinaUpdateImagemCapaData,
+  DisciplinaUpdateImagemCapaResponse,
+  CalendarioEventoFindAllData,
+  CalendarioEventoFindAllResponse,
+  CalendarioEventoCreateData,
+  CalendarioEventoCreateResponse,
+  CalendarioEventoFindByIdData,
+  CalendarioEventoFindByIdResponse,
+  CalendarioEventoUpdateData,
+  CalendarioEventoUpdateResponse,
+  CalendarioEventoDeleteData,
+  CalendarioEventoDeleteResponse,
+  CalendarioLetivoFindAllData,
+  CalendarioLetivoFindAllResponse,
+  CalendarioLetivoCreateData,
+  CalendarioLetivoCreateResponse,
+  CalendarioLetivoFindByIdData,
+  CalendarioLetivoFindByIdResponse,
+  CalendarioLetivoUpdateData,
+  CalendarioLetivoUpdateResponse,
+  CalendarioLetivoDeleteOneByIdData,
+  CalendarioLetivoDeleteOneByIdResponse,
+  CalendarioLetivoDiaFindAllData,
+  CalendarioLetivoDiaFindAllResponse,
+  CalendarioLetivoDiaFindByDataData,
+  CalendarioLetivoDiaFindByDataResponse,
+  CalendarioLetivoDiaUpdateData,
+  CalendarioLetivoDiaUpdateResponse,
+  CalendarioLetivoEtapaFindAllData,
+  CalendarioLetivoEtapaFindAllResponse,
+  CalendarioLetivoEtapaBulkReplaceData,
+  CalendarioLetivoEtapaBulkReplaceResponse,
+  CalendarioLetivoDesativarData,
+  CalendarioLetivoDesativarResponse,
+  CidadeFindAllData,
+  CidadeFindAllResponse,
+  CidadeFindByIdData,
+  CidadeFindByIdResponse,
+  AmbienteListDisponiveisResponse,
+  AmbienteFindAllData,
+  AmbienteFindAllResponse,
+  AmbienteCreateData,
+  AmbienteCreateResponse,
+  AmbienteGetDisponibilidadeData,
+  AmbienteGetDisponibilidadeResponse,
+  AmbienteFindByIdData,
+  AmbienteFindByIdResponse,
+  AmbienteUpdateData,
+  AmbienteUpdateResponse,
+  AmbienteDeleteOneByIdData,
+  AmbienteDeleteOneByIdResponse,
+  AmbienteGetImagemCapaData,
+  AmbienteGetImagemCapaResponse,
+  AmbienteUpdateImagemCapaData,
+  AmbienteUpdateImagemCapaResponse,
+  BlocoFindAllData,
+  BlocoFindAllResponse,
+  BlocoCreateData,
+  BlocoCreateResponse,
+  BlocoFindByIdData,
+  BlocoFindByIdResponse,
+  BlocoUpdateData,
+  BlocoUpdateResponse,
+  BlocoDeleteOneByIdData,
+  BlocoDeleteOneByIdResponse,
+  BlocoGetImagemCapaData,
+  BlocoGetImagemCapaResponse,
+  BlocoUpdateImagemCapaData,
+  BlocoUpdateImagemCapaResponse,
+  AutenticacaoWhoAmIensinoResponse,
+  AutenticacaoWhoAmIResponse,
+  AutenticacaoLoginData,
+  AutenticacaoLoginResponse,
+  AutenticacaoRefreshData,
+  AutenticacaoRefreshResponse,
+  AutenticacaoSetInitialPasswordData,
+  AutenticacaoSetInitialPasswordResponse,
+  AutenticacaoRequestPasswordResetData,
+  AutenticacaoRequestPasswordResetResponse,
+  DiarioFindAllData,
+  DiarioFindAllResponse,
+  DiarioCreateData,
+  DiarioCreateResponse,
+  DiarioFindByIdData,
+  DiarioFindByIdResponse,
+  DiarioUpdateData,
+  DiarioUpdateResponse,
+  DiarioDeleteOneByIdData,
+  DiarioDeleteOneByIdResponse,
+  DiarioProfessorFindAllData,
+  DiarioProfessorFindAllResponse,
+  DiarioProfessorBulkReplaceData,
+  DiarioProfessorBulkReplaceResponse,
+  DiarioPreferenciaAgrupamentoFindAllData,
+  DiarioPreferenciaAgrupamentoFindAllResponse,
+  DiarioPreferenciaAgrupamentoBulkReplaceData,
+  DiarioPreferenciaAgrupamentoBulkReplaceResponse,
+  TurmaFindAllData,
+  TurmaFindAllResponse,
+  TurmaCreateData,
+  TurmaCreateResponse,
+  TurmaFindByIdData,
+  TurmaFindByIdResponse,
+  TurmaUpdateData,
+  TurmaUpdateResponse,
+  TurmaDeleteOneByIdData,
+  TurmaDeleteOneByIdResponse,
+  TurmaHorarioSemanalData,
+  TurmaHorarioSemanalResponse,
+  TurmaGetImagemCapaData,
+  TurmaGetImagemCapaResponse,
+  TurmaUpdateImagemCapaData,
+  TurmaUpdateImagemCapaResponse,
+  TurmaHorarioAulaFindAllData,
+  TurmaHorarioAulaFindAllResponse,
+  TurmaHorarioAulaBulkReplaceData,
+  TurmaHorarioAulaBulkReplaceResponse,
+  TurmaEventoFindAllData,
+  TurmaEventoFindAllResponse,
+  TurmaEventoCreateData,
+  TurmaEventoCreateResponse,
+  TurmaEventoUpdateData,
+  TurmaEventoUpdateResponse,
+  TurmaEventoDeleteData,
+  TurmaEventoDeleteResponse,
+  TurmaDiarioConfigurarData,
+  TurmaDiarioConfigurarResponse,
+  GerarHorarioCreateData,
+  GerarHorarioCreateResponse,
+  GerarHorarioFindByIdData,
+  GerarHorarioFindByIdResponse,
+  GerarHorarioAceitarData,
+  GerarHorarioAceitarResponse,
+  GerarHorarioRejeitarData,
+  GerarHorarioRejeitarResponse,
+  EstadoFindAllData,
+  EstadoFindAllResponse,
+  EstadoFindByIdData,
+  EstadoFindByIdResponse,
+  EmpresaFindAllData,
+  EmpresaFindAllResponse,
+  EmpresaCreateData,
+  EmpresaCreateResponse,
+  EmpresaFindByIdData,
+  EmpresaFindByIdResponse,
+  EmpresaUpdateData,
+  EmpresaUpdateResponse,
+  EmpresaDeleteOneByIdData,
+  EmpresaDeleteOneByIdResponse,
+  EstagioFindAllData,
+  EstagioFindAllResponse,
+  EstagioCreateData,
+  EstagioCreateResponse,
+  EstagioFindByIdData,
+  EstagioFindByIdResponse,
+  EstagioUpdateData,
+  EstagioUpdateResponse,
+  EstagioDeleteData,
+  EstagioDeleteResponse,
+  EstagiarioFindAllData,
+  EstagiarioFindAllResponse,
+  EstagiarioCreateData,
+  EstagiarioCreateResponse,
+  EstagiarioFindByIdData,
+  EstagiarioFindByIdResponse,
+  EstagiarioUpdateData,
+  EstagiarioUpdateResponse,
+  EstagiarioDeleteOneByIdData,
+  EstagiarioDeleteOneByIdResponse,
+  NotificacaoFindAllResponse,
+  NotificacaoContagemNaoLidasResponse,
+  NotificacaoMarcarLidaData,
+  NotificacaoMarcarLidaResponse,
+  RelatorioAulasMinistradasData,
+  RelatorioAulasMinistradasResponse,
+  HorarioAulaFindAllData,
+  HorarioAulaFindAllResponse,
+  HorarioAulaCreateData,
+  HorarioAulaCreateResponse,
+  HorarioAulaFindByIdData,
+  HorarioAulaFindByIdResponse,
+  HorarioAulaUpdateData,
+  HorarioAulaUpdateResponse,
+  HorarioAulaDeleteData,
+  HorarioAulaDeleteResponse,
+  HorarioAulaConfiguracaoFindAllData,
+  HorarioAulaConfiguracaoFindAllResponse,
+  HorarioAulaConfiguracaoCreateData,
+  HorarioAulaConfiguracaoCreateResponse,
+  HorarioAulaConfiguracaoFindByIdData,
+  HorarioAulaConfiguracaoFindByIdResponse,
+  HorarioAulaConfiguracaoUpdateData,
+  HorarioAulaConfiguracaoUpdateResponse,
+  HorarioAulaConfiguracaoDeleteData,
+  HorarioAulaConfiguracaoDeleteResponse,
+} from './types.gen';
 
 export class SistemaService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Informações do serviço
-     * @returns unknown
-     * @throws ApiError
-     */
-    public appControllerGetServiceInfo(): CancelablePromise<AppControllerGetServiceInfoResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/'
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Informações do serviço
+   * @returns unknown
+   * @throws ApiError
+   */
+  public appControllerGetServiceInfo(): CancelablePromise<AppControllerGetServiceInfoResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/',
+    });
+  }
 }
 
 export class ModalidadesService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista modalidades
-     * Lista modalidades
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenação
-     * @param data.filterId Filtro por ID
-     * @returns ModalidadeListOutputDto
-     * @throws ApiError
-     */
-    public modalidadeFindAll(data: ModalidadeFindAllData = {}): CancelablePromise<ModalidadeFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/modalidades',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria uma modalidade
-     * Cria uma modalidade
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns ModalidadeFindOneOutputDto
-     * @throws ApiError
-     */
-    public modalidadeCreate(data: ModalidadeCreateData): CancelablePromise<ModalidadeCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/modalidades',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca uma modalidade por ID
-     * Busca uma modalidade por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns ModalidadeFindOneOutputDto
-     * @throws ApiError
-     */
-    public modalidadeFindById(data: ModalidadeFindByIdData): CancelablePromise<ModalidadeFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/modalidades/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza uma modalidade
-     * Atualiza uma modalidade
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns ModalidadeFindOneOutputDto
-     * @throws ApiError
-     */
-    public modalidadeUpdate(data: ModalidadeUpdateData): CancelablePromise<ModalidadeUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/modalidades/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove uma modalidade
-     * Remove uma modalidade
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public modalidadeDeleteOneById(data: ModalidadeDeleteOneByIdData): CancelablePromise<ModalidadeDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/modalidades/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista modalidades
+   * Lista modalidades
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenação
+   * @param data.filterId Filtro por ID
+   * @returns ModalidadeListOutputDto
+   * @throws ApiError
+   */
+  public modalidadeFindAll(
+    data: ModalidadeFindAllData = {}
+  ): CancelablePromise<ModalidadeFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/modalidades',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria uma modalidade
+   * Cria uma modalidade
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns ModalidadeFindOneOutputDto
+   * @throws ApiError
+   */
+  public modalidadeCreate(
+    data: ModalidadeCreateData
+  ): CancelablePromise<ModalidadeCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/modalidades',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca uma modalidade por ID
+   * Busca uma modalidade por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns ModalidadeFindOneOutputDto
+   * @throws ApiError
+   */
+  public modalidadeFindById(
+    data: ModalidadeFindByIdData
+  ): CancelablePromise<ModalidadeFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/modalidades/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza uma modalidade
+   * Atualiza uma modalidade
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns ModalidadeFindOneOutputDto
+   * @throws ApiError
+   */
+  public modalidadeUpdate(
+    data: ModalidadeUpdateData
+  ): CancelablePromise<ModalidadeUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/modalidades/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove uma modalidade
+   * Remove uma modalidade
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public modalidadeDeleteOneById(
+    data: ModalidadeDeleteOneByIdData
+  ): CancelablePromise<ModalidadeDeleteOneByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/modalidades/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class UsuariosService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista perfis de um usuario
-     * Lista perfis de um usuario
-     * @param data The data for the request.
-     * @param data.usuarioId ID do usuario (uuid)
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
-     * @param data.filterId Filtro por ID
-     * @param data.filterAtivo Filtro por ativo
-     * @param data.filterCargo Filtro por cargo
-     * @param data.filterCampusId Filtro por ID do Campus
-     * @param data.filterUsuarioId Filtro por ID do Usuario
-     * @returns PerfilListOutputDto
-     * @throws ApiError
-     */
-    public perfilFindAll(data: PerfilFindAllData): CancelablePromise<PerfilFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/usuarios/{usuarioId}/perfis',
-            path: {
-                usuarioId: data.usuarioId
-            },
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.ativo': data.filterAtivo,
-                'filter.cargo': data.filterCargo,
-                'filter.campus.id': data.filterCampusId,
-                'filter.usuario.id': data.filterUsuarioId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Define vinculos (cargos) de um usuario em um campus
-     * Define os cargos que um usuario possui em um campus. Cargos existentes que nao estiverem na lista serao desativados. Cargos novos serao criados ou reativados.
-     * @param data The data for the request.
-     * @param data.usuarioId ID do usuario (uuid)
-     * @param data.requestBody
-     * @returns PerfilListOutputDto Lista de perfis ativos do usuario no campus apos a operacao
-     * @throws ApiError
-     */
-    public perfilSetVinculos(data: PerfilSetVinculosData): CancelablePromise<PerfilSetVinculosResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/usuarios/{usuarioId}/perfis',
-            path: {
-                usuarioId: data.usuarioId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um perfil por ID
-     * Busca um perfil por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns PerfilFindOneOutputDto
-     * @throws ApiError
-     */
-    public perfilFindById(data: PerfilFindByIdData): CancelablePromise<PerfilFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/usuarios/{usuarioId}/perfis/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca dados de ensino de um perfil
-     * Busca dados de ensino de um perfil
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns PerfilFindOneOutputDto
-     * @throws ApiError
-     */
-    public perfilEnsinoById(data: PerfilEnsinoByIdData): CancelablePromise<PerfilEnsinoByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/usuarios/{usuarioId}/perfis/{id}/ensino',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Lista usuarios
-     * Lista usuarios
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
-     * @param data.filterId Filtro por ID
-     * @param data.filterVinculosCargo Filtro por cargo do vinculo (ex: professor)
-     * @returns UsuarioListOutputDto
-     * @throws ApiError
-     */
-    public usuarioFindAll(data: UsuarioFindAllData = {}): CancelablePromise<UsuarioFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/usuarios',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.vinculos.cargo': data.filterVinculosCargo
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria um usuario
-     * Cria um usuario
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns UsuarioFindOneOutputDto
-     * @throws ApiError
-     */
-    public usuarioCreate(data: UsuarioCreateData): CancelablePromise<UsuarioCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/usuarios',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um usuario por ID
-     * Busca um usuario por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns UsuarioFindOneOutputDto
-     * @throws ApiError
-     */
-    public usuarioFindById(data: UsuarioFindByIdData): CancelablePromise<UsuarioFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/usuarios/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza um usuario
-     * Atualiza um usuario
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns UsuarioFindOneOutputDto
-     * @throws ApiError
-     */
-    public usuarioUpdate(data: UsuarioUpdateData): CancelablePromise<UsuarioUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/usuarios/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove um usuario
-     * Remove um usuario
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public usuarioDeleteOneById(data: UsuarioDeleteOneByIdData): CancelablePromise<UsuarioDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/usuarios/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca dados de ensino de um usuario (disciplinas, cursos e turmas onde leciona)
-     * Busca dados de ensino de um usuario (disciplinas, cursos e turmas onde leciona)
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns UsuarioEnsinoOutputDto
-     * @throws ApiError
-     */
-    public usuarioEnsinoById(data: UsuarioEnsinoByIdData): CancelablePromise<UsuarioEnsinoByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/usuarios/{id}/ensino',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Consulta horario semanal de um usuario (professor)
-     * Consulta horario semanal de um usuario (professor)
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.semana Data da semana desejada (YYYY-MM-DD). Qualquer dia da semana; a API calcula seg-dom.
-     * @returns HorarioSemanalOutputDto
-     * @throws ApiError
-     */
-    public usuarioHorarioSemanal(data: UsuarioHorarioSemanalData): CancelablePromise<UsuarioHorarioSemanalResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/usuarios/{id}/horario',
-            path: {
-                id: data.id
-            },
-            query: {
-                semana: data.semana
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Consulta grade de disponibilidade de um usuario por campus
-     * Consulta grade de disponibilidade de um usuario por campus
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.campusId
-     * @returns unknown
-     * @throws ApiError
-     */
-    public usuarioDisponibilidade(data: UsuarioDisponibilidadeData): CancelablePromise<UsuarioDisponibilidadeResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/usuarios/{id}/disponibilidade',
-            path: {
-                id: data.id
-            },
-            query: {
-                campusId: data.campusId
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Define grade de disponibilidade de um usuario por campus (bulk replace)
-     * Define grade de disponibilidade de um usuario por campus (bulk replace)
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.campusId
-     * @returns unknown
-     * @throws ApiError
-     */
-    public usuarioSetDisponibilidade(data: UsuarioSetDisponibilidadeData): CancelablePromise<UsuarioSetDisponibilidadeResponse> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/usuarios/{id}/disponibilidade',
-            path: {
-                id: data.id
-            },
-            query: {
-                campusId: data.campusId
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca imagem de capa de um usuario
-     * Busca imagem de capa de um usuario
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns unknown
-     * @throws ApiError
-     */
-    public usuarioGetImagemCapa(data: UsuarioGetImagemCapaData): CancelablePromise<UsuarioGetImagemCapaResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/usuarios/{id}/imagem/capa',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Define imagem de capa de um usuario
-     * Define imagem de capa de um usuario
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.formData
-     * @returns boolean
-     * @throws ApiError
-     */
-    public usuarioUpdateImagemCapa(data: UsuarioUpdateImagemCapaData): CancelablePromise<UsuarioUpdateImagemCapaResponse> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/usuarios/{id}/imagem/capa',
-            path: {
-                id: data.id
-            },
-            formData: data.formData,
-            mediaType: 'multipart/form-data',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca imagem de perfil de um usuario
-     * Busca imagem de perfil de um usuario
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns unknown
-     * @throws ApiError
-     */
-    public usuarioGetImagemPerfil(data: UsuarioGetImagemPerfilData): CancelablePromise<UsuarioGetImagemPerfilResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/usuarios/{id}/imagem/perfil',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Define imagem de perfil de um usuario
-     * Define imagem de perfil de um usuario
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.formData
-     * @returns boolean
-     * @throws ApiError
-     */
-    public usuarioUpdateImagemPerfil(data: UsuarioUpdateImagemPerfilData): CancelablePromise<UsuarioUpdateImagemPerfilResponse> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/usuarios/{id}/imagem/perfil',
-            path: {
-                id: data.id
-            },
-            formData: data.formData,
-            mediaType: 'multipart/form-data',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Lista eventos/agenda do usuario (professor)
-     * @param data The data for the request.
-     * @param data.id ID do usuario
-     * @returns UsuarioEventoListOutputDto
-     * @throws ApiError
-     */
-    public usuarioEventoFindAll(data: UsuarioEventoFindAllData): CancelablePromise<UsuarioEventoFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/usuarios/{id}/eventos',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria evento/indisponibilidade escopado ao usuario
-     * @param data The data for the request.
-     * @param data.id ID do usuario
-     * @param data.requestBody
-     * @returns UsuarioEventoFindOneOutputDto
-     * @throws ApiError
-     */
-    public usuarioEventoCreate(data: UsuarioEventoCreateData): CancelablePromise<UsuarioEventoCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/usuarios/{id}/eventos',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza evento do usuario
-     * @param data The data for the request.
-     * @param data.id ID do usuario
-     * @param data.eventoId ID do evento
-     * @param data.requestBody
-     * @returns UsuarioEventoFindOneOutputDto
-     * @throws ApiError
-     */
-    public usuarioEventoUpdate(data: UsuarioEventoUpdateData): CancelablePromise<UsuarioEventoUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/usuarios/{id}/eventos/{eventoId}',
-            path: {
-                id: data.id,
-                eventoId: data.eventoId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove evento do usuario
-     * @param data The data for the request.
-     * @param data.id ID do usuario
-     * @param data.eventoId ID do evento
-     * @returns boolean
-     * @throws ApiError
-     */
-    public usuarioEventoDelete(data: UsuarioEventoDeleteData): CancelablePromise<UsuarioEventoDeleteResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/usuarios/{id}/eventos/{eventoId}',
-            path: {
-                id: data.id,
-                eventoId: data.eventoId
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista perfis de um usuario
+   * Lista perfis de um usuario
+   * @param data The data for the request.
+   * @param data.usuarioId ID do usuario (uuid)
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+   * @param data.filterId Filtro por ID
+   * @param data.filterAtivo Filtro por ativo
+   * @param data.filterCargo Filtro por cargo
+   * @param data.filterCampusId Filtro por ID do Campus
+   * @param data.filterUsuarioId Filtro por ID do Usuario
+   * @returns PerfilListOutputDto
+   * @throws ApiError
+   */
+  public perfilFindAll(
+    data: PerfilFindAllData
+  ): CancelablePromise<PerfilFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/usuarios/{usuarioId}/perfis',
+      path: {
+        usuarioId: data.usuarioId,
+      },
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.ativo': data.filterAtivo,
+        'filter.cargo': data.filterCargo,
+        'filter.campus.id': data.filterCampusId,
+        'filter.usuario.id': data.filterUsuarioId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Define vinculos (cargos) de um usuario em um campus
+   * Define os cargos que um usuario possui em um campus. Cargos existentes que nao estiverem na lista serao desativados. Cargos novos serao criados ou reativados.
+   * @param data The data for the request.
+   * @param data.usuarioId ID do usuario (uuid)
+   * @param data.requestBody
+   * @returns PerfilListOutputDto Lista de perfis ativos do usuario no campus apos a operacao
+   * @throws ApiError
+   */
+  public perfilSetVinculos(
+    data: PerfilSetVinculosData
+  ): CancelablePromise<PerfilSetVinculosResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/usuarios/{usuarioId}/perfis',
+      path: {
+        usuarioId: data.usuarioId,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um perfil por ID
+   * Busca um perfil por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns PerfilFindOneOutputDto
+   * @throws ApiError
+   */
+  public perfilFindById(
+    data: PerfilFindByIdData
+  ): CancelablePromise<PerfilFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/usuarios/{usuarioId}/perfis/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Busca dados de ensino de um perfil
+   * Busca dados de ensino de um perfil
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns PerfilFindOneOutputDto
+   * @throws ApiError
+   */
+  public perfilEnsinoById(
+    data: PerfilEnsinoByIdData
+  ): CancelablePromise<PerfilEnsinoByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/usuarios/{usuarioId}/perfis/{id}/ensino',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Lista usuarios
+   * Lista usuarios
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+   * @param data.filterId Filtro por ID
+   * @param data.filterVinculosCargo Filtro por cargo do vinculo (ex: professor)
+   * @returns UsuarioListOutputDto
+   * @throws ApiError
+   */
+  public usuarioFindAll(
+    data: UsuarioFindAllData = {}
+  ): CancelablePromise<UsuarioFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/usuarios',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.vinculos.cargo': data.filterVinculosCargo,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria um usuario
+   * Cria um usuario
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns UsuarioFindOneOutputDto
+   * @throws ApiError
+   */
+  public usuarioCreate(
+    data: UsuarioCreateData
+  ): CancelablePromise<UsuarioCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/usuarios',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um usuario por ID
+   * Busca um usuario por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns UsuarioFindOneOutputDto
+   * @throws ApiError
+   */
+  public usuarioFindById(
+    data: UsuarioFindByIdData
+  ): CancelablePromise<UsuarioFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/usuarios/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza um usuario
+   * Atualiza um usuario
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns UsuarioFindOneOutputDto
+   * @throws ApiError
+   */
+  public usuarioUpdate(
+    data: UsuarioUpdateData
+  ): CancelablePromise<UsuarioUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/usuarios/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove um usuario
+   * Remove um usuario
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public usuarioDeleteOneById(
+    data: UsuarioDeleteOneByIdData
+  ): CancelablePromise<UsuarioDeleteOneByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/usuarios/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Busca dados de ensino de um usuario (disciplinas, cursos e turmas onde leciona)
+   * Busca dados de ensino de um usuario (disciplinas, cursos e turmas onde leciona)
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns UsuarioEnsinoOutputDto
+   * @throws ApiError
+   */
+  public usuarioEnsinoById(
+    data: UsuarioEnsinoByIdData
+  ): CancelablePromise<UsuarioEnsinoByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/usuarios/{id}/ensino',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Consulta horario semanal de um usuario (professor)
+   * Consulta horario semanal de um usuario (professor)
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.semana Data da semana desejada (YYYY-MM-DD). Qualquer dia da semana; a API calcula seg-dom.
+   * @returns HorarioSemanalOutputDto
+   * @throws ApiError
+   */
+  public usuarioHorarioSemanal(
+    data: UsuarioHorarioSemanalData
+  ): CancelablePromise<UsuarioHorarioSemanalResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/usuarios/{id}/horario',
+      path: {
+        id: data.id,
+      },
+      query: {
+        semana: data.semana,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Consulta grade de disponibilidade de um usuario por campus
+   * Consulta grade de disponibilidade de um usuario por campus
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.campusId
+   * @returns unknown
+   * @throws ApiError
+   */
+  public usuarioDisponibilidade(
+    data: UsuarioDisponibilidadeData
+  ): CancelablePromise<UsuarioDisponibilidadeResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/usuarios/{id}/disponibilidade',
+      path: {
+        id: data.id,
+      },
+      query: {
+        campusId: data.campusId,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Define grade de disponibilidade de um usuario por campus (bulk replace)
+   * Define grade de disponibilidade de um usuario por campus (bulk replace)
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.campusId
+   * @returns unknown
+   * @throws ApiError
+   */
+  public usuarioSetDisponibilidade(
+    data: UsuarioSetDisponibilidadeData
+  ): CancelablePromise<UsuarioSetDisponibilidadeResponse> {
+    return this.httpRequest.request({
+      method: 'PUT',
+      url: '/usuarios/{id}/disponibilidade',
+      path: {
+        id: data.id,
+      },
+      query: {
+        campusId: data.campusId,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Busca imagem de capa de um usuario
+   * Busca imagem de capa de um usuario
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns unknown
+   * @throws ApiError
+   */
+  public usuarioGetImagemCapa(
+    data: UsuarioGetImagemCapaData
+  ): CancelablePromise<UsuarioGetImagemCapaResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/usuarios/{id}/imagem/capa',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Define imagem de capa de um usuario
+   * Define imagem de capa de um usuario
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.formData
+   * @returns boolean
+   * @throws ApiError
+   */
+  public usuarioUpdateImagemCapa(
+    data: UsuarioUpdateImagemCapaData
+  ): CancelablePromise<UsuarioUpdateImagemCapaResponse> {
+    return this.httpRequest.request({
+      method: 'PUT',
+      url: '/usuarios/{id}/imagem/capa',
+      path: {
+        id: data.id,
+      },
+      formData: data.formData,
+      mediaType: 'multipart/form-data',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Busca imagem de perfil de um usuario
+   * Busca imagem de perfil de um usuario
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns unknown
+   * @throws ApiError
+   */
+  public usuarioGetImagemPerfil(
+    data: UsuarioGetImagemPerfilData
+  ): CancelablePromise<UsuarioGetImagemPerfilResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/usuarios/{id}/imagem/perfil',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Define imagem de perfil de um usuario
+   * Define imagem de perfil de um usuario
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.formData
+   * @returns boolean
+   * @throws ApiError
+   */
+  public usuarioUpdateImagemPerfil(
+    data: UsuarioUpdateImagemPerfilData
+  ): CancelablePromise<UsuarioUpdateImagemPerfilResponse> {
+    return this.httpRequest.request({
+      method: 'PUT',
+      url: '/usuarios/{id}/imagem/perfil',
+      path: {
+        id: data.id,
+      },
+      formData: data.formData,
+      mediaType: 'multipart/form-data',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Lista eventos/agenda do usuario (professor)
+   * @param data The data for the request.
+   * @param data.id ID do usuario
+   * @returns UsuarioEventoListOutputDto
+   * @throws ApiError
+   */
+  public usuarioEventoFindAll(
+    data: UsuarioEventoFindAllData
+  ): CancelablePromise<UsuarioEventoFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/usuarios/{id}/eventos',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria evento/indisponibilidade escopado ao usuario
+   * @param data The data for the request.
+   * @param data.id ID do usuario
+   * @param data.requestBody
+   * @returns UsuarioEventoFindOneOutputDto
+   * @throws ApiError
+   */
+  public usuarioEventoCreate(
+    data: UsuarioEventoCreateData
+  ): CancelablePromise<UsuarioEventoCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/usuarios/{id}/eventos',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza evento do usuario
+   * @param data The data for the request.
+   * @param data.id ID do usuario
+   * @param data.eventoId ID do evento
+   * @param data.requestBody
+   * @returns UsuarioEventoFindOneOutputDto
+   * @throws ApiError
+   */
+  public usuarioEventoUpdate(
+    data: UsuarioEventoUpdateData
+  ): CancelablePromise<UsuarioEventoUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/usuarios/{id}/eventos/{eventoId}',
+      path: {
+        id: data.id,
+        eventoId: data.eventoId,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove evento do usuario
+   * @param data The data for the request.
+   * @param data.id ID do usuario
+   * @param data.eventoId ID do evento
+   * @returns boolean
+   * @throws ApiError
+   */
+  public usuarioEventoDelete(
+    data: UsuarioEventoDeleteData
+  ): CancelablePromise<UsuarioEventoDeleteResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/usuarios/{id}/eventos/{eventoId}',
+      path: {
+        id: data.id,
+        eventoId: data.eventoId,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class ArquivosService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Busca um arquivo por ID
-     * Busca um arquivo por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.acessoRecursoId ID do recurso de acesso (uuid)
-     * @param data.acessoRecursoNome Nome do recurso de acesso
-     * @returns unknown Arquivo encontrado
-     * @throws ApiError
-     */
-    public arquivoFindById(data: ArquivoFindByIdData): CancelablePromise<ArquivoFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/arquivos/{id}',
-            path: {
-                id: data.id
-            },
-            query: {
-                'acesso.recurso.id': data.acessoRecursoId,
-                'acesso.recurso.nome': data.acessoRecursoNome
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Busca um arquivo por ID
+   * Busca um arquivo por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.acessoRecursoId ID do recurso de acesso (uuid)
+   * @param data.acessoRecursoNome Nome do recurso de acesso
+   * @returns unknown Arquivo encontrado
+   * @throws ApiError
+   */
+  public arquivoFindById(
+    data: ArquivoFindByIdData
+  ): CancelablePromise<ArquivoFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/arquivos/{id}',
+      path: {
+        id: data.id,
+      },
+      query: {
+        'acesso.recurso.id': data.acessoRecursoId,
+        'acesso.recurso.nome': data.acessoRecursoNome,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class HorariosService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Consulta horario mesclado de multiplas turmas
-     * Consulta horario mesclado de multiplas turmas
-     * @param data The data for the request.
-     * @param data.semana Data da semana desejada (YYYY-MM-DD). Qualquer dia da semana; a API calcula seg-dom.
-     * @param data.ids IDs das turmas, separados por virgula
-     * @param data.professorIds IDs dos professores (perfil), separados por virgula
-     * @returns HorarioSemanalOutputDto
-     * @throws ApiError
-     */
-    public horarioMesclado(data: HorarioMescladoData): CancelablePromise<HorarioMescladoResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/horarios/mesclado',
-            query: {
-                semana: data.semana,
-                ids: data.ids,
-                professorIds: data.professorIds
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria nova sessao de edicao de horario
-     * Cria nova sessao de edicao de horario
-     * @returns HorarioEdicaoSessaoOutputRestDto
-     * @throws ApiError
-     */
-    public horarioEdicaoCreate(): CancelablePromise<HorarioEdicaoCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/horarios/edicao',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Aplica uma mudanca a sessao de edicao de horario
-     * Aplica uma mudanca a sessao de edicao de horario
-     * @param data The data for the request.
-     * @param data.sessaoId
-     * @param data.requestBody
-     * @returns HorarioEdicaoMudancaOutputRestDto
-     * @throws ApiError
-     */
-    public horarioEdicaoApplyChange(data: HorarioEdicaoApplyChangeData): CancelablePromise<HorarioEdicaoApplyChangeResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/horarios/edicao/{sessaoId}',
-            path: {
-                sessaoId: data.sessaoId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                400: '',
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Salva sessao de edicao permanentemente
-     * Salva sessao de edicao permanentemente
-     * @param data The data for the request.
-     * @param data.sessaoId
-     * @returns HorarioEdicaoSessaoOutputRestDto
-     * @throws ApiError
-     */
-    public horarioEdicaoSalvar(data: HorarioEdicaoSalvarData): CancelablePromise<HorarioEdicaoSalvarResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/horarios/edicao/{sessaoId}/salvar',
-            path: {
-                sessaoId: data.sessaoId
-            },
-            errors: {
-                400: '',
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Cancela e descarta sessao de edicao
-     * Cancela e descarta sessao de edicao
-     * @param data The data for the request.
-     * @param data.sessaoId
-     * @returns HorarioEdicaoSessaoOutputRestDto
-     * @throws ApiError
-     */
-    public horarioEdicaoCancelar(data: HorarioEdicaoCancelarData): CancelablePromise<HorarioEdicaoCancelarResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/horarios/edicao/{sessaoId}/cancelar',
-            path: {
-                sessaoId: data.sessaoId
-            },
-            errors: {
-                400: '',
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Consulta horario mesclado de multiplas turmas
+   * Consulta horario mesclado de multiplas turmas
+   * @param data The data for the request.
+   * @param data.semana Data da semana desejada (YYYY-MM-DD). Qualquer dia da semana; a API calcula seg-dom.
+   * @param data.ids IDs das turmas, separados por virgula
+   * @param data.professorIds IDs dos professores (perfil), separados por virgula
+   * @returns HorarioSemanalOutputDto
+   * @throws ApiError
+   */
+  public horarioMesclado(
+    data: HorarioMescladoData
+  ): CancelablePromise<HorarioMescladoResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/horarios/mesclado',
+      query: {
+        semana: data.semana,
+        ids: data.ids,
+        professorIds: data.professorIds,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria nova sessao de edicao de horario
+   * Cria nova sessao de edicao de horario
+   * @returns HorarioEdicaoSessaoOutputRestDto
+   * @throws ApiError
+   */
+  public horarioEdicaoCreate(): CancelablePromise<HorarioEdicaoCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/horarios/edicao',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Aplica uma mudanca a sessao de edicao de horario
+   * Aplica uma mudanca a sessao de edicao de horario
+   * @param data The data for the request.
+   * @param data.sessaoId
+   * @param data.requestBody
+   * @returns HorarioEdicaoMudancaOutputRestDto
+   * @throws ApiError
+   */
+  public horarioEdicaoApplyChange(
+    data: HorarioEdicaoApplyChangeData
+  ): CancelablePromise<HorarioEdicaoApplyChangeResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/horarios/edicao/{sessaoId}',
+      path: {
+        sessaoId: data.sessaoId,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        400: '',
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Salva sessao de edicao permanentemente
+   * Salva sessao de edicao permanentemente
+   * @param data The data for the request.
+   * @param data.sessaoId
+   * @returns HorarioEdicaoSessaoOutputRestDto
+   * @throws ApiError
+   */
+  public horarioEdicaoSalvar(
+    data: HorarioEdicaoSalvarData
+  ): CancelablePromise<HorarioEdicaoSalvarResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/horarios/edicao/{sessaoId}/salvar',
+      path: {
+        sessaoId: data.sessaoId,
+      },
+      errors: {
+        400: '',
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Cancela e descarta sessao de edicao
+   * Cancela e descarta sessao de edicao
+   * @param data The data for the request.
+   * @param data.sessaoId
+   * @returns HorarioEdicaoSessaoOutputRestDto
+   * @throws ApiError
+   */
+  public horarioEdicaoCancelar(
+    data: HorarioEdicaoCancelarData
+  ): CancelablePromise<HorarioEdicaoCancelarResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/horarios/edicao/{sessaoId}/cancelar',
+      path: {
+        sessaoId: data.sessaoId,
+      },
+      errors: {
+        400: '',
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class CampiService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista campi
-     * Lista campi
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenação
-     * @param data.filterId Filtro por ID
-     * @returns CampusListOutputDto
-     * @throws ApiError
-     */
-    public campusFindAll(data: CampusFindAllData = {}): CancelablePromise<CampusFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/campi',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria um campus
-     * Cria um campus
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns CampusFindOneOutputDto
-     * @throws ApiError
-     */
-    public campusCreate(data: CampusCreateData): CancelablePromise<CampusCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/campi',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um campus por ID
-     * Busca um campus por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns CampusFindOneOutputDto
-     * @throws ApiError
-     */
-    public campusFindById(data: CampusFindByIdData): CancelablePromise<CampusFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/campi/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza um campus
-     * Atualiza um campus
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns CampusFindOneOutputDto
-     * @throws ApiError
-     */
-    public campusUpdate(data: CampusUpdateData): CancelablePromise<CampusUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/campi/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove um campus
-     * Remove um campus
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public campusDeleteOneById(data: CampusDeleteOneByIdData): CancelablePromise<CampusDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/campi/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista campi
+   * Lista campi
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenação
+   * @param data.filterId Filtro por ID
+   * @returns CampusListOutputDto
+   * @throws ApiError
+   */
+  public campusFindAll(
+    data: CampusFindAllData = {}
+  ): CancelablePromise<CampusFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/campi',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria um campus
+   * Cria um campus
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns CampusFindOneOutputDto
+   * @throws ApiError
+   */
+  public campusCreate(
+    data: CampusCreateData
+  ): CancelablePromise<CampusCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/campi',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um campus por ID
+   * Busca um campus por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns CampusFindOneOutputDto
+   * @throws ApiError
+   */
+  public campusFindById(
+    data: CampusFindByIdData
+  ): CancelablePromise<CampusFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/campi/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza um campus
+   * Atualiza um campus
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns CampusFindOneOutputDto
+   * @throws ApiError
+   */
+  public campusUpdate(
+    data: CampusUpdateData
+  ): CancelablePromise<CampusUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/campi/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove um campus
+   * Remove um campus
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public campusDeleteOneById(
+    data: CampusDeleteOneByIdData
+  ): CancelablePromise<CampusDeleteOneByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/campi/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class CursosService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista cursos
-     * Lista cursos
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenação
-     * @param data.filterId Filtro por ID
-     * @param data.filterCampusId Filtro por ID do Campus
-     * @param data.filterOfertaFormacaoId Filtro por ID da Oferta de Formacao
-     * @returns CursoListOutputDto
-     * @throws ApiError
-     */
-    public cursoFindAll(data: CursoFindAllData = {}): CancelablePromise<CursoFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/cursos',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.campus.id': data.filterCampusId,
-                'filter.ofertaFormacao.id': data.filterOfertaFormacaoId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria um curso
-     * Cria um curso
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns CursoFindOneOutputDto
-     * @throws ApiError
-     */
-    public cursoCreate(data: CursoCreateData): CancelablePromise<CursoCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/cursos',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um curso por ID
-     * Busca um curso por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns CursoFindOneOutputDto
-     * @throws ApiError
-     */
-    public cursoFindById(data: CursoFindByIdData): CancelablePromise<CursoFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/cursos/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza um curso
-     * Atualiza um curso
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns CursoFindOneOutputDto
-     * @throws ApiError
-     */
-    public cursoUpdate(data: CursoUpdateData): CancelablePromise<CursoUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/cursos/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove um curso
-     * Remove um curso
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public cursoDeleteOneById(data: CursoDeleteOneByIdData): CancelablePromise<CursoDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/cursos/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca imagem de capa de um curso
-     * Busca imagem de capa de um curso
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns unknown
-     * @throws ApiError
-     */
-    public cursoGetImagemCapa(data: CursoGetImagemCapaData): CancelablePromise<CursoGetImagemCapaResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/cursos/{id}/imagem/capa',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Define imagem de capa de um curso
-     * Define imagem de capa de um curso
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.formData
-     * @returns boolean
-     * @throws ApiError
-     */
-    public cursoUpdateImagemCapa(data: CursoUpdateImagemCapaData): CancelablePromise<CursoUpdateImagemCapaResponse> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/cursos/{id}/imagem/capa',
-            path: {
-                id: data.id
-            },
-            formData: data.formData,
-            mediaType: 'multipart/form-data',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Lista disciplinas por periodo de um curso
-     * Lista disciplinas por periodo de um curso
-     * @param data The data for the request.
-     * @param data.cursoId ID do curso
-     * @returns CursoPeriodoDisciplinaListOutputDto
-     * @throws ApiError
-     */
-    public cursoDisciplinasPorPeriodoFindAll(data: CursoDisciplinasPorPeriodoFindAllData): CancelablePromise<CursoDisciplinasPorPeriodoFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/cursos/{cursoId}/disciplinas-por-periodo',
-            path: {
-                cursoId: data.cursoId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Substitui disciplinas por periodo de um curso
-     * Substitui disciplinas por periodo de um curso
-     * @param data The data for the request.
-     * @param data.cursoId ID do curso
-     * @param data.requestBody
-     * @returns CursoPeriodoDisciplinaListOutputDto
-     * @throws ApiError
-     */
-    public cursoDisciplinasPorPeriodoBulkReplace(data: CursoDisciplinasPorPeriodoBulkReplaceData): CancelablePromise<CursoDisciplinasPorPeriodoBulkReplaceResponse> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/cursos/{cursoId}/disciplinas-por-periodo',
-            path: {
-                cursoId: data.cursoId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista cursos
+   * Lista cursos
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenação
+   * @param data.filterId Filtro por ID
+   * @param data.filterCampusId Filtro por ID do Campus
+   * @param data.filterOfertaFormacaoId Filtro por ID da Oferta de Formacao
+   * @returns CursoListOutputDto
+   * @throws ApiError
+   */
+  public cursoFindAll(
+    data: CursoFindAllData = {}
+  ): CancelablePromise<CursoFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/cursos',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.campus.id': data.filterCampusId,
+        'filter.ofertaFormacao.id': data.filterOfertaFormacaoId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria um curso
+   * Cria um curso
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns CursoFindOneOutputDto
+   * @throws ApiError
+   */
+  public cursoCreate(
+    data: CursoCreateData
+  ): CancelablePromise<CursoCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/cursos',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um curso por ID
+   * Busca um curso por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns CursoFindOneOutputDto
+   * @throws ApiError
+   */
+  public cursoFindById(
+    data: CursoFindByIdData
+  ): CancelablePromise<CursoFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/cursos/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza um curso
+   * Atualiza um curso
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns CursoFindOneOutputDto
+   * @throws ApiError
+   */
+  public cursoUpdate(
+    data: CursoUpdateData
+  ): CancelablePromise<CursoUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/cursos/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove um curso
+   * Remove um curso
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public cursoDeleteOneById(
+    data: CursoDeleteOneByIdData
+  ): CancelablePromise<CursoDeleteOneByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/cursos/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Busca imagem de capa de um curso
+   * Busca imagem de capa de um curso
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns unknown
+   * @throws ApiError
+   */
+  public cursoGetImagemCapa(
+    data: CursoGetImagemCapaData
+  ): CancelablePromise<CursoGetImagemCapaResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/cursos/{id}/imagem/capa',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Define imagem de capa de um curso
+   * Define imagem de capa de um curso
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.formData
+   * @returns boolean
+   * @throws ApiError
+   */
+  public cursoUpdateImagemCapa(
+    data: CursoUpdateImagemCapaData
+  ): CancelablePromise<CursoUpdateImagemCapaResponse> {
+    return this.httpRequest.request({
+      method: 'PUT',
+      url: '/cursos/{id}/imagem/capa',
+      path: {
+        id: data.id,
+      },
+      formData: data.formData,
+      mediaType: 'multipart/form-data',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Lista disciplinas por periodo de um curso
+   * Lista disciplinas por periodo de um curso
+   * @param data The data for the request.
+   * @param data.cursoId ID do curso
+   * @returns CursoPeriodoDisciplinaListOutputDto
+   * @throws ApiError
+   */
+  public cursoDisciplinasPorPeriodoFindAll(
+    data: CursoDisciplinasPorPeriodoFindAllData
+  ): CancelablePromise<CursoDisciplinasPorPeriodoFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/cursos/{cursoId}/disciplinas-por-periodo',
+      path: {
+        cursoId: data.cursoId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Substitui disciplinas por periodo de um curso
+   * Substitui disciplinas por periodo de um curso
+   * @param data The data for the request.
+   * @param data.cursoId ID do curso
+   * @param data.requestBody
+   * @returns CursoPeriodoDisciplinaListOutputDto
+   * @throws ApiError
+   */
+  public cursoDisciplinasPorPeriodoBulkReplace(
+    data: CursoDisciplinasPorPeriodoBulkReplaceData
+  ): CancelablePromise<CursoDisciplinasPorPeriodoBulkReplaceResponse> {
+    return this.httpRequest.request({
+      method: 'PUT',
+      url: '/cursos/{cursoId}/disciplinas-por-periodo',
+      path: {
+        cursoId: data.cursoId,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
 }
 
 export class OfertasFormacoesService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista ofertas de formacao
-     * Lista ofertas de formacao
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
-     * @param data.filterId Filtro por ID
-     * @param data.filterModalidadeId Filtro por ID da Modalidade
-     * @param data.filterCampusId Filtro por ID do Campus
-     * @returns OfertaFormacaoListOutputDto
-     * @throws ApiError
-     */
-    public ofertaFormacaoFindAll(data: OfertaFormacaoFindAllData = {}): CancelablePromise<OfertaFormacaoFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/ofertas-formacoes',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.modalidade.id': data.filterModalidadeId,
-                'filter.campus.id': data.filterCampusId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria uma oferta de formacao
-     * Cria uma oferta de formacao
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns OfertaFormacaoFindOneOutputDto
-     * @throws ApiError
-     */
-    public ofertaFormacaoCreate(data: OfertaFormacaoCreateData): CancelablePromise<OfertaFormacaoCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/ofertas-formacoes',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca uma oferta de formacao por ID
-     * Busca uma oferta de formacao por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns OfertaFormacaoFindOneOutputDto
-     * @throws ApiError
-     */
-    public ofertaFormacaoFindById(data: OfertaFormacaoFindByIdData): CancelablePromise<OfertaFormacaoFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/ofertas-formacoes/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza uma oferta de formacao
-     * Atualiza uma oferta de formacao
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns OfertaFormacaoFindOneOutputDto
-     * @throws ApiError
-     */
-    public ofertaFormacaoUpdate(data: OfertaFormacaoUpdateData): CancelablePromise<OfertaFormacaoUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/ofertas-formacoes/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove uma oferta de formacao
-     * Remove uma oferta de formacao
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public ofertaFormacaoDeleteOneById(data: OfertaFormacaoDeleteOneByIdData): CancelablePromise<OfertaFormacaoDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/ofertas-formacoes/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista ofertas de formacao
+   * Lista ofertas de formacao
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+   * @param data.filterId Filtro por ID
+   * @param data.filterModalidadeId Filtro por ID da Modalidade
+   * @param data.filterCampusId Filtro por ID do Campus
+   * @returns OfertaFormacaoListOutputDto
+   * @throws ApiError
+   */
+  public ofertaFormacaoFindAll(
+    data: OfertaFormacaoFindAllData = {}
+  ): CancelablePromise<OfertaFormacaoFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/ofertas-formacoes',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.modalidade.id': data.filterModalidadeId,
+        'filter.campus.id': data.filterCampusId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria uma oferta de formacao
+   * Cria uma oferta de formacao
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns OfertaFormacaoFindOneOutputDto
+   * @throws ApiError
+   */
+  public ofertaFormacaoCreate(
+    data: OfertaFormacaoCreateData
+  ): CancelablePromise<OfertaFormacaoCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/ofertas-formacoes',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca uma oferta de formacao por ID
+   * Busca uma oferta de formacao por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns OfertaFormacaoFindOneOutputDto
+   * @throws ApiError
+   */
+  public ofertaFormacaoFindById(
+    data: OfertaFormacaoFindByIdData
+  ): CancelablePromise<OfertaFormacaoFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/ofertas-formacoes/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza uma oferta de formacao
+   * Atualiza uma oferta de formacao
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns OfertaFormacaoFindOneOutputDto
+   * @throws ApiError
+   */
+  public ofertaFormacaoUpdate(
+    data: OfertaFormacaoUpdateData
+  ): CancelablePromise<OfertaFormacaoUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/ofertas-formacoes/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove uma oferta de formacao
+   * Remove uma oferta de formacao
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public ofertaFormacaoDeleteOneById(
+    data: OfertaFormacaoDeleteOneByIdData
+  ): CancelablePromise<OfertaFormacaoDeleteOneByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/ofertas-formacoes/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class NiveisFormacoesService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista niveis de formacao
-     * Lista niveis de formacao
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenação
-     * @param data.filterId Filtro por ID
-     * @returns NivelFormacaoListOutputDto
-     * @throws ApiError
-     */
-    public nivelFormacaoFindAll(data: NivelFormacaoFindAllData = {}): CancelablePromise<NivelFormacaoFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/niveis-formacoes',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria um nivel de formacao
-     * Cria um nivel de formacao
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns NivelFormacaoFindOneOutputDto
-     * @throws ApiError
-     */
-    public nivelFormacaoCreate(data: NivelFormacaoCreateData): CancelablePromise<NivelFormacaoCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/niveis-formacoes',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um nivel de formacao por ID
-     * Busca um nivel de formacao por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns NivelFormacaoFindOneOutputDto
-     * @throws ApiError
-     */
-    public nivelFormacaoFindById(data: NivelFormacaoFindByIdData): CancelablePromise<NivelFormacaoFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/niveis-formacoes/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza um nivel de formacao
-     * Atualiza um nivel de formacao
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns NivelFormacaoFindOneOutputDto
-     * @throws ApiError
-     */
-    public nivelFormacaoUpdate(data: NivelFormacaoUpdateData): CancelablePromise<NivelFormacaoUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/niveis-formacoes/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove um nivel de formacao
-     * Remove um nivel de formacao
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public nivelFormacaoDeleteOneById(data: NivelFormacaoDeleteOneByIdData): CancelablePromise<NivelFormacaoDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/niveis-formacoes/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista niveis de formacao
+   * Lista niveis de formacao
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenação
+   * @param data.filterId Filtro por ID
+   * @returns NivelFormacaoListOutputDto
+   * @throws ApiError
+   */
+  public nivelFormacaoFindAll(
+    data: NivelFormacaoFindAllData = {}
+  ): CancelablePromise<NivelFormacaoFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/niveis-formacoes',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria um nivel de formacao
+   * Cria um nivel de formacao
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns NivelFormacaoFindOneOutputDto
+   * @throws ApiError
+   */
+  public nivelFormacaoCreate(
+    data: NivelFormacaoCreateData
+  ): CancelablePromise<NivelFormacaoCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/niveis-formacoes',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um nivel de formacao por ID
+   * Busca um nivel de formacao por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns NivelFormacaoFindOneOutputDto
+   * @throws ApiError
+   */
+  public nivelFormacaoFindById(
+    data: NivelFormacaoFindByIdData
+  ): CancelablePromise<NivelFormacaoFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/niveis-formacoes/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza um nivel de formacao
+   * Atualiza um nivel de formacao
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns NivelFormacaoFindOneOutputDto
+   * @throws ApiError
+   */
+  public nivelFormacaoUpdate(
+    data: NivelFormacaoUpdateData
+  ): CancelablePromise<NivelFormacaoUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/niveis-formacoes/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove um nivel de formacao
+   * Remove um nivel de formacao
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public nivelFormacaoDeleteOneById(
+    data: NivelFormacaoDeleteOneByIdData
+  ): CancelablePromise<NivelFormacaoDeleteOneByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/niveis-formacoes/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class DisciplinasService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista disciplinas
-     * Lista disciplinas
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenação
-     * @param data.filterId Filtro por ID
-     * @param data.filterDiariosId Filtro por ID dos Diarios
-     * @returns DisciplinaListOutputDto
-     * @throws ApiError
-     */
-    public disciplinaFindAll(data: DisciplinaFindAllData = {}): CancelablePromise<DisciplinaFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/disciplinas',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.diarios.id': data.filterDiariosId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria uma disciplina
-     * Cria uma disciplina
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns DisciplinaFindOneOutputDto
-     * @throws ApiError
-     */
-    public disciplinaCreate(data: DisciplinaCreateData): CancelablePromise<DisciplinaCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/disciplinas',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca uma disciplina por ID
-     * Busca uma disciplina por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns DisciplinaFindOneOutputDto
-     * @throws ApiError
-     */
-    public disciplinaFindById(data: DisciplinaFindByIdData): CancelablePromise<DisciplinaFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/disciplinas/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza uma disciplina
-     * Atualiza uma disciplina
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns DisciplinaFindOneOutputDto
-     * @throws ApiError
-     */
-    public disciplinaUpdate(data: DisciplinaUpdateData): CancelablePromise<DisciplinaUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/disciplinas/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove uma disciplina
-     * Remove uma disciplina
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public disciplinaDeleteOneById(data: DisciplinaDeleteOneByIdData): CancelablePromise<DisciplinaDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/disciplinas/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca imagem de capa de uma disciplina
-     * Busca imagem de capa de uma disciplina
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns unknown
-     * @throws ApiError
-     */
-    public disciplinaGetImagemCapa(data: DisciplinaGetImagemCapaData): CancelablePromise<DisciplinaGetImagemCapaResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/disciplinas/{id}/imagem/capa',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Define imagem de capa de uma disciplina
-     * Define imagem de capa de uma disciplina
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.formData
-     * @returns boolean
-     * @throws ApiError
-     */
-    public disciplinaUpdateImagemCapa(data: DisciplinaUpdateImagemCapaData): CancelablePromise<DisciplinaUpdateImagemCapaResponse> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/disciplinas/{id}/imagem/capa',
-            path: {
-                id: data.id
-            },
-            formData: data.formData,
-            mediaType: 'multipart/form-data',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista disciplinas
+   * Lista disciplinas
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenação
+   * @param data.filterId Filtro por ID
+   * @param data.filterDiariosId Filtro por ID dos Diarios
+   * @returns DisciplinaListOutputDto
+   * @throws ApiError
+   */
+  public disciplinaFindAll(
+    data: DisciplinaFindAllData = {}
+  ): CancelablePromise<DisciplinaFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/disciplinas',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.diarios.id': data.filterDiariosId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria uma disciplina
+   * Cria uma disciplina
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns DisciplinaFindOneOutputDto
+   * @throws ApiError
+   */
+  public disciplinaCreate(
+    data: DisciplinaCreateData
+  ): CancelablePromise<DisciplinaCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/disciplinas',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca uma disciplina por ID
+   * Busca uma disciplina por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns DisciplinaFindOneOutputDto
+   * @throws ApiError
+   */
+  public disciplinaFindById(
+    data: DisciplinaFindByIdData
+  ): CancelablePromise<DisciplinaFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/disciplinas/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza uma disciplina
+   * Atualiza uma disciplina
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns DisciplinaFindOneOutputDto
+   * @throws ApiError
+   */
+  public disciplinaUpdate(
+    data: DisciplinaUpdateData
+  ): CancelablePromise<DisciplinaUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/disciplinas/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove uma disciplina
+   * Remove uma disciplina
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public disciplinaDeleteOneById(
+    data: DisciplinaDeleteOneByIdData
+  ): CancelablePromise<DisciplinaDeleteOneByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/disciplinas/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Busca imagem de capa de uma disciplina
+   * Busca imagem de capa de uma disciplina
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns unknown
+   * @throws ApiError
+   */
+  public disciplinaGetImagemCapa(
+    data: DisciplinaGetImagemCapaData
+  ): CancelablePromise<DisciplinaGetImagemCapaResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/disciplinas/{id}/imagem/capa',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Define imagem de capa de uma disciplina
+   * Define imagem de capa de uma disciplina
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.formData
+   * @returns boolean
+   * @throws ApiError
+   */
+  public disciplinaUpdateImagemCapa(
+    data: DisciplinaUpdateImagemCapaData
+  ): CancelablePromise<DisciplinaUpdateImagemCapaResponse> {
+    return this.httpRequest.request({
+      method: 'PUT',
+      url: '/disciplinas/{id}/imagem/capa',
+      path: {
+        id: data.id,
+      },
+      formData: data.formData,
+      mediaType: 'multipart/form-data',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class CalendarioService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista eventos do calendario
-     * @param data The data for the request.
-     * @param data.search
-     * @param data.filterTurmaId
-     * @param data.filterOfertaFormacaoId
-     * @param data.filterPeriodo
-     * @returns CalendarioEventoListOutputDto
-     * @throws ApiError
-     */
-    public calendarioEventoFindAll(data: CalendarioEventoFindAllData): CancelablePromise<CalendarioEventoFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/calendario/eventos',
-            query: {
-                search: data.search,
-                'filter.turma.id': data.filterTurmaId,
-                'filter.ofertaFormacao.id': data.filterOfertaFormacaoId,
-                'filter.periodo': data.filterPeriodo
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria um evento no calendario
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns CalendarioEventoFindOneOutputDto
-     * @throws ApiError
-     */
-    public calendarioEventoCreate(data: CalendarioEventoCreateData): CancelablePromise<CalendarioEventoCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/calendario/eventos',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um evento por ID
-     * @param data The data for the request.
-     * @param data.id
-     * @returns CalendarioEventoFindOneOutputDto
-     * @throws ApiError
-     */
-    public calendarioEventoFindById(data: CalendarioEventoFindByIdData): CancelablePromise<CalendarioEventoFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/calendario/eventos/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza um evento
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.requestBody
-     * @returns CalendarioEventoFindOneOutputDto
-     * @throws ApiError
-     */
-    public calendarioEventoUpdate(data: CalendarioEventoUpdateData): CancelablePromise<CalendarioEventoUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/calendario/eventos/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove um evento
-     * @param data The data for the request.
-     * @param data.id
-     * @returns boolean
-     * @throws ApiError
-     */
-    public calendarioEventoDelete(data: CalendarioEventoDeleteData): CancelablePromise<CalendarioEventoDeleteResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/calendario/eventos/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista eventos do calendario
+   * @param data The data for the request.
+   * @param data.search
+   * @param data.filterTurmaId
+   * @param data.filterOfertaFormacaoId
+   * @param data.filterPeriodo
+   * @returns CalendarioEventoListOutputDto
+   * @throws ApiError
+   */
+  public calendarioEventoFindAll(
+    data: CalendarioEventoFindAllData
+  ): CancelablePromise<CalendarioEventoFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/calendario/eventos',
+      query: {
+        search: data.search,
+        'filter.turma.id': data.filterTurmaId,
+        'filter.ofertaFormacao.id': data.filterOfertaFormacaoId,
+        'filter.periodo': data.filterPeriodo,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria um evento no calendario
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns CalendarioEventoFindOneOutputDto
+   * @throws ApiError
+   */
+  public calendarioEventoCreate(
+    data: CalendarioEventoCreateData
+  ): CancelablePromise<CalendarioEventoCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/calendario/eventos',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um evento por ID
+   * @param data The data for the request.
+   * @param data.id
+   * @returns CalendarioEventoFindOneOutputDto
+   * @throws ApiError
+   */
+  public calendarioEventoFindById(
+    data: CalendarioEventoFindByIdData
+  ): CancelablePromise<CalendarioEventoFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/calendario/eventos/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza um evento
+   * @param data The data for the request.
+   * @param data.id
+   * @param data.requestBody
+   * @returns CalendarioEventoFindOneOutputDto
+   * @throws ApiError
+   */
+  public calendarioEventoUpdate(
+    data: CalendarioEventoUpdateData
+  ): CancelablePromise<CalendarioEventoUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/calendario/eventos/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove um evento
+   * @param data The data for the request.
+   * @param data.id
+   * @returns boolean
+   * @throws ApiError
+   */
+  public calendarioEventoDelete(
+    data: CalendarioEventoDeleteData
+  ): CancelablePromise<CalendarioEventoDeleteResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/calendario/eventos/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class CalendariosLetivosService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista calendarios letivos
-     * Lista calendarios letivos
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
-     * @param data.filterId Filtro por ID
-     * @param data.filterAno Filtro por ano letivo
-     * @param data.filterCampusId Filtro por ID do Campus
-     * @param data.filterOfertaFormacaoId Filtro por ID da Oferta de Formacao
-     * @returns CalendarioLetivoListOutputDto
-     * @throws ApiError
-     */
-    public calendarioLetivoFindAll(data: CalendarioLetivoFindAllData = {}): CancelablePromise<CalendarioLetivoFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/calendarios-letivos',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.ano': data.filterAno,
-                'filter.campus.id': data.filterCampusId,
-                'filter.ofertaFormacao.id': data.filterOfertaFormacaoId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria um calendario letivo
-     * Cria um calendario letivo
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns CalendarioLetivoFindOneOutputDto
-     * @throws ApiError
-     */
-    public calendarioLetivoCreate(data: CalendarioLetivoCreateData): CancelablePromise<CalendarioLetivoCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/calendarios-letivos',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um calendario letivo por ID
-     * Busca um calendario letivo por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns CalendarioLetivoFindOneOutputDto
-     * @throws ApiError
-     */
-    public calendarioLetivoFindById(data: CalendarioLetivoFindByIdData): CancelablePromise<CalendarioLetivoFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/calendarios-letivos/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza um calendario letivo
-     * Atualiza um calendario letivo
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns CalendarioLetivoFindOneOutputDto
-     * @throws ApiError
-     */
-    public calendarioLetivoUpdate(data: CalendarioLetivoUpdateData): CancelablePromise<CalendarioLetivoUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/calendarios-letivos/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove um calendario letivo
-     * Remove um calendario letivo
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public calendarioLetivoDeleteOneById(data: CalendarioLetivoDeleteOneByIdData): CancelablePromise<CalendarioLetivoDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/calendarios-letivos/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Lista dias de um calendario letivo
-     * Lista dias de um calendario letivo
-     * @param data The data for the request.
-     * @param data.calendarioLetivoId ID do calendario letivo (uuid)
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
-     * @param data.filterId Filtro por ID
-     * @param data.filterCalendarioNome Filtro por nome do Calendario
-     * @param data.filterCalendarioAno Filtro por ano do Calendario
-     * @returns CalendarioLetivoDiaListOutputDto
-     * @throws ApiError
-     */
-    public calendarioLetivoDiaFindAll(data: CalendarioLetivoDiaFindAllData): CancelablePromise<CalendarioLetivoDiaFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/calendarios-letivos/{calendarioLetivoId}/dias',
-            path: {
-                calendarioLetivoId: data.calendarioLetivoId
-            },
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.calendario.nome': data.filterCalendarioNome,
-                'filter.calendario.ano': data.filterCalendarioAno
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um dia de calendario por data (YYYY-MM-DD)
-     * Busca um dia de calendario por data (YYYY-MM-DD)
-     * @param data The data for the request.
-     * @param data.calendarioLetivoId ID do calendario letivo (uuid)
-     * @param data.data Data do dia no calendario (YYYY-MM-DD)
-     * @returns CalendarioLetivoDiaFindOneOutputDto
-     * @throws ApiError
-     */
-    public calendarioLetivoDiaFindByData(data: CalendarioLetivoDiaFindByDataData): CancelablePromise<CalendarioLetivoDiaFindByDataResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/calendarios-letivos/{calendarioLetivoId}/dias/{data}',
-            path: {
-                calendarioLetivoId: data.calendarioLetivoId,
-                data: data.data
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza um dia de calendario
-     * Atualiza um dia de calendario
-     * @param data The data for the request.
-     * @param data.calendarioLetivoId ID do calendario letivo (uuid)
-     * @param data.data Data do dia no calendario (YYYY-MM-DD)
-     * @param data.requestBody
-     * @returns CalendarioLetivoDiaFindOneOutputDto
-     * @throws ApiError
-     */
-    public calendarioLetivoDiaUpdate(data: CalendarioLetivoDiaUpdateData): CancelablePromise<CalendarioLetivoDiaUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/calendarios-letivos/{calendarioLetivoId}/dias/{data}',
-            path: {
-                calendarioLetivoId: data.calendarioLetivoId,
-                data: data.data
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Lista etapas do calendario letivo
-     * Lista etapas do calendario letivo
-     * @param data The data for the request.
-     * @param data.calendarioLetivoId ID do calendario letivo
-     * @returns CalendarioLetivoEtapaListOutputDto
-     * @throws ApiError
-     */
-    public calendarioLetivoEtapaFindAll(data: CalendarioLetivoEtapaFindAllData): CancelablePromise<CalendarioLetivoEtapaFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/calendarios-letivos/{calendarioLetivoId}/etapas',
-            path: {
-                calendarioLetivoId: data.calendarioLetivoId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Substitui datas das etapas do calendario letivo
-     * Substitui datas das etapas do calendario letivo
-     * @param data The data for the request.
-     * @param data.calendarioLetivoId ID do calendario letivo
-     * @param data.requestBody
-     * @returns CalendarioLetivoEtapaListOutputDto
-     * @throws ApiError
-     */
-    public calendarioLetivoEtapaBulkReplace(data: CalendarioLetivoEtapaBulkReplaceData): CancelablePromise<CalendarioLetivoEtapaBulkReplaceResponse> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/calendarios-letivos/{calendarioLetivoId}/etapas',
-            path: {
-                calendarioLetivoId: data.calendarioLetivoId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Desativa um calendario letivo (sem excluir)
-     * Desativa um calendario letivo (sem excluir)
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public calendarioLetivoDesativar(data: CalendarioLetivoDesativarData): CancelablePromise<CalendarioLetivoDesativarResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/calendarios-letivos/{id}/desativar',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista calendarios letivos
+   * Lista calendarios letivos
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+   * @param data.filterId Filtro por ID
+   * @param data.filterAno Filtro por ano letivo
+   * @param data.filterCampusId Filtro por ID do Campus
+   * @param data.filterOfertaFormacaoId Filtro por ID da Oferta de Formacao
+   * @returns CalendarioLetivoListOutputDto
+   * @throws ApiError
+   */
+  public calendarioLetivoFindAll(
+    data: CalendarioLetivoFindAllData = {}
+  ): CancelablePromise<CalendarioLetivoFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/calendarios-letivos',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.ano': data.filterAno,
+        'filter.campus.id': data.filterCampusId,
+        'filter.ofertaFormacao.id': data.filterOfertaFormacaoId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria um calendario letivo
+   * Cria um calendario letivo
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns CalendarioLetivoFindOneOutputDto
+   * @throws ApiError
+   */
+  public calendarioLetivoCreate(
+    data: CalendarioLetivoCreateData
+  ): CancelablePromise<CalendarioLetivoCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/calendarios-letivos',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um calendario letivo por ID
+   * Busca um calendario letivo por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns CalendarioLetivoFindOneOutputDto
+   * @throws ApiError
+   */
+  public calendarioLetivoFindById(
+    data: CalendarioLetivoFindByIdData
+  ): CancelablePromise<CalendarioLetivoFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/calendarios-letivos/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza um calendario letivo
+   * Atualiza um calendario letivo
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns CalendarioLetivoFindOneOutputDto
+   * @throws ApiError
+   */
+  public calendarioLetivoUpdate(
+    data: CalendarioLetivoUpdateData
+  ): CancelablePromise<CalendarioLetivoUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/calendarios-letivos/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove um calendario letivo
+   * Remove um calendario letivo
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public calendarioLetivoDeleteOneById(
+    data: CalendarioLetivoDeleteOneByIdData
+  ): CancelablePromise<CalendarioLetivoDeleteOneByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/calendarios-letivos/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Lista dias de um calendario letivo
+   * Lista dias de um calendario letivo
+   * @param data The data for the request.
+   * @param data.calendarioLetivoId ID do calendario letivo (uuid)
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+   * @param data.filterId Filtro por ID
+   * @param data.filterCalendarioNome Filtro por nome do Calendario
+   * @param data.filterCalendarioAno Filtro por ano do Calendario
+   * @returns CalendarioLetivoDiaListOutputDto
+   * @throws ApiError
+   */
+  public calendarioLetivoDiaFindAll(
+    data: CalendarioLetivoDiaFindAllData
+  ): CancelablePromise<CalendarioLetivoDiaFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/calendarios-letivos/{calendarioLetivoId}/dias',
+      path: {
+        calendarioLetivoId: data.calendarioLetivoId,
+      },
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.calendario.nome': data.filterCalendarioNome,
+        'filter.calendario.ano': data.filterCalendarioAno,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um dia de calendario por data (YYYY-MM-DD)
+   * Busca um dia de calendario por data (YYYY-MM-DD)
+   * @param data The data for the request.
+   * @param data.calendarioLetivoId ID do calendario letivo (uuid)
+   * @param data.data Data do dia no calendario (YYYY-MM-DD)
+   * @returns CalendarioLetivoDiaFindOneOutputDto
+   * @throws ApiError
+   */
+  public calendarioLetivoDiaFindByData(
+    data: CalendarioLetivoDiaFindByDataData
+  ): CancelablePromise<CalendarioLetivoDiaFindByDataResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/calendarios-letivos/{calendarioLetivoId}/dias/{data}',
+      path: {
+        calendarioLetivoId: data.calendarioLetivoId,
+        data: data.data,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza um dia de calendario
+   * Atualiza um dia de calendario
+   * @param data The data for the request.
+   * @param data.calendarioLetivoId ID do calendario letivo (uuid)
+   * @param data.data Data do dia no calendario (YYYY-MM-DD)
+   * @param data.requestBody
+   * @returns CalendarioLetivoDiaFindOneOutputDto
+   * @throws ApiError
+   */
+  public calendarioLetivoDiaUpdate(
+    data: CalendarioLetivoDiaUpdateData
+  ): CancelablePromise<CalendarioLetivoDiaUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/calendarios-letivos/{calendarioLetivoId}/dias/{data}',
+      path: {
+        calendarioLetivoId: data.calendarioLetivoId,
+        data: data.data,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Lista etapas do calendario letivo
+   * Lista etapas do calendario letivo
+   * @param data The data for the request.
+   * @param data.calendarioLetivoId ID do calendario letivo
+   * @returns CalendarioLetivoEtapaListOutputDto
+   * @throws ApiError
+   */
+  public calendarioLetivoEtapaFindAll(
+    data: CalendarioLetivoEtapaFindAllData
+  ): CancelablePromise<CalendarioLetivoEtapaFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/calendarios-letivos/{calendarioLetivoId}/etapas',
+      path: {
+        calendarioLetivoId: data.calendarioLetivoId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Substitui datas das etapas do calendario letivo
+   * Substitui datas das etapas do calendario letivo
+   * @param data The data for the request.
+   * @param data.calendarioLetivoId ID do calendario letivo
+   * @param data.requestBody
+   * @returns CalendarioLetivoEtapaListOutputDto
+   * @throws ApiError
+   */
+  public calendarioLetivoEtapaBulkReplace(
+    data: CalendarioLetivoEtapaBulkReplaceData
+  ): CancelablePromise<CalendarioLetivoEtapaBulkReplaceResponse> {
+    return this.httpRequest.request({
+      method: 'PUT',
+      url: '/calendarios-letivos/{calendarioLetivoId}/etapas',
+      path: {
+        calendarioLetivoId: data.calendarioLetivoId,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Desativa um calendario letivo (sem excluir)
+   * Desativa um calendario letivo (sem excluir)
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public calendarioLetivoDesativar(
+    data: CalendarioLetivoDesativarData
+  ): CancelablePromise<CalendarioLetivoDesativarResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/calendarios-letivos/{id}/desativar',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class CidadesService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista cidades
-     * Lista cidades
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenação
-     * @param data.filterId Filtro por ID
-     * @param data.filterEstadoId Filtro por ID do Estado
-     * @param data.filterEstadoNome Filtro por nome do Estado
-     * @param data.filterEstadoSigla Filtro por sigla do Estado
-     * @returns CidadeListOutputDto
-     * @throws ApiError
-     */
-    public cidadeFindAll(data: CidadeFindAllData = {}): CancelablePromise<CidadeFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/base/cidades',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.estado.id': data.filterEstadoId,
-                'filter.estado.nome': data.filterEstadoNome,
-                'filter.estado.sigla': data.filterEstadoSigla
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca uma cidade por ID
-     * Busca uma cidade por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (numerico)
-     * @returns CidadeFindOneOutputDto
-     * @throws ApiError
-     */
-    public cidadeFindById(data: CidadeFindByIdData): CancelablePromise<CidadeFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/base/cidades/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista cidades
+   * Lista cidades
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenação
+   * @param data.filterId Filtro por ID
+   * @param data.filterEstadoId Filtro por ID do Estado
+   * @param data.filterEstadoNome Filtro por nome do Estado
+   * @param data.filterEstadoSigla Filtro por sigla do Estado
+   * @returns CidadeListOutputDto
+   * @throws ApiError
+   */
+  public cidadeFindAll(
+    data: CidadeFindAllData = {}
+  ): CancelablePromise<CidadeFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/base/cidades',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.estado.id': data.filterEstadoId,
+        'filter.estado.nome': data.filterEstadoNome,
+        'filter.estado.sigla': data.filterEstadoSigla,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca uma cidade por ID
+   * Busca uma cidade por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (numerico)
+   * @returns CidadeFindOneOutputDto
+   * @throws ApiError
+   */
+  public cidadeFindById(
+    data: CidadeFindByIdData
+  ): CancelablePromise<CidadeFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/base/cidades/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class AmbientesService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista ambientes disponiveis
-     * Lista ambientes disponiveis
-     * @returns unknown
-     * @throws ApiError
-     */
-    public ambienteListDisponiveis(): CancelablePromise<AmbienteListDisponiveisResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/ambientes/disponiveis',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Lista ambientes
-     * Lista ambientes
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenação
-     * @param data.filterId Filtro por ID
-     * @param data.filterBlocoId Filtro por ID do Bloco
-     * @param data.filterBlocoCampusId Filtro por ID do Campus do Bloco
-     * @returns AmbienteListOutputDto
-     * @throws ApiError
-     */
-    public ambienteFindAll(data: AmbienteFindAllData = {}): CancelablePromise<AmbienteFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/ambientes',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.bloco.id': data.filterBlocoId,
-                'filter.bloco.campus.id': data.filterBlocoCampusId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria um ambiente
-     * Cria um ambiente
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns AmbienteFindOneOutputDto
-     * @throws ApiError
-     */
-    public ambienteCreate(data: AmbienteCreateData): CancelablePromise<AmbienteCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/ambientes',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Grade de disponibilidade de um ambiente
-     * Grade de disponibilidade de um ambiente
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns unknown
-     * @throws ApiError
-     */
-    public ambienteGetDisponibilidade(data: AmbienteGetDisponibilidadeData): CancelablePromise<AmbienteGetDisponibilidadeResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/ambientes/{id}/disponibilidade',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um ambiente por ID
-     * Busca um ambiente por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns AmbienteFindOneOutputDto
-     * @throws ApiError
-     */
-    public ambienteFindById(data: AmbienteFindByIdData): CancelablePromise<AmbienteFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/ambientes/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza um ambiente
-     * Atualiza um ambiente
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns AmbienteFindOneOutputDto
-     * @throws ApiError
-     */
-    public ambienteUpdate(data: AmbienteUpdateData): CancelablePromise<AmbienteUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/ambientes/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove um ambiente
-     * Remove um ambiente
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public ambienteDeleteOneById(data: AmbienteDeleteOneByIdData): CancelablePromise<AmbienteDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/ambientes/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Obtem a imagem de capa de um ambiente
-     * Obtem a imagem de capa de um ambiente
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns unknown
-     * @throws ApiError
-     */
-    public ambienteGetImagemCapa(data: AmbienteGetImagemCapaData): CancelablePromise<AmbienteGetImagemCapaResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/ambientes/{id}/imagem/capa',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Define a imagem de capa de um ambiente
-     * Define a imagem de capa de um ambiente
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.formData
-     * @returns boolean
-     * @throws ApiError
-     */
-    public ambienteUpdateImagemCapa(data: AmbienteUpdateImagemCapaData): CancelablePromise<AmbienteUpdateImagemCapaResponse> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/ambientes/{id}/imagem/capa',
-            path: {
-                id: data.id
-            },
-            formData: data.formData,
-            mediaType: 'multipart/form-data',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista ambientes disponiveis
+   * Lista ambientes disponiveis
+   * @returns unknown
+   * @throws ApiError
+   */
+  public ambienteListDisponiveis(): CancelablePromise<AmbienteListDisponiveisResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/ambientes/disponiveis',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Lista ambientes
+   * Lista ambientes
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenação
+   * @param data.filterId Filtro por ID
+   * @param data.filterBlocoId Filtro por ID do Bloco
+   * @param data.filterBlocoCampusId Filtro por ID do Campus do Bloco
+   * @returns AmbienteListOutputDto
+   * @throws ApiError
+   */
+  public ambienteFindAll(
+    data: AmbienteFindAllData = {}
+  ): CancelablePromise<AmbienteFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/ambientes',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.bloco.id': data.filterBlocoId,
+        'filter.bloco.campus.id': data.filterBlocoCampusId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria um ambiente
+   * Cria um ambiente
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns AmbienteFindOneOutputDto
+   * @throws ApiError
+   */
+  public ambienteCreate(
+    data: AmbienteCreateData
+  ): CancelablePromise<AmbienteCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/ambientes',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Grade de disponibilidade de um ambiente
+   * Grade de disponibilidade de um ambiente
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns unknown
+   * @throws ApiError
+   */
+  public ambienteGetDisponibilidade(
+    data: AmbienteGetDisponibilidadeData
+  ): CancelablePromise<AmbienteGetDisponibilidadeResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/ambientes/{id}/disponibilidade',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um ambiente por ID
+   * Busca um ambiente por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns AmbienteFindOneOutputDto
+   * @throws ApiError
+   */
+  public ambienteFindById(
+    data: AmbienteFindByIdData
+  ): CancelablePromise<AmbienteFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/ambientes/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza um ambiente
+   * Atualiza um ambiente
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns AmbienteFindOneOutputDto
+   * @throws ApiError
+   */
+  public ambienteUpdate(
+    data: AmbienteUpdateData
+  ): CancelablePromise<AmbienteUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/ambientes/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove um ambiente
+   * Remove um ambiente
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public ambienteDeleteOneById(
+    data: AmbienteDeleteOneByIdData
+  ): CancelablePromise<AmbienteDeleteOneByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/ambientes/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Obtem a imagem de capa de um ambiente
+   * Obtem a imagem de capa de um ambiente
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns unknown
+   * @throws ApiError
+   */
+  public ambienteGetImagemCapa(
+    data: AmbienteGetImagemCapaData
+  ): CancelablePromise<AmbienteGetImagemCapaResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/ambientes/{id}/imagem/capa',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Define a imagem de capa de um ambiente
+   * Define a imagem de capa de um ambiente
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.formData
+   * @returns boolean
+   * @throws ApiError
+   */
+  public ambienteUpdateImagemCapa(
+    data: AmbienteUpdateImagemCapaData
+  ): CancelablePromise<AmbienteUpdateImagemCapaResponse> {
+    return this.httpRequest.request({
+      method: 'PUT',
+      url: '/ambientes/{id}/imagem/capa',
+      path: {
+        id: data.id,
+      },
+      formData: data.formData,
+      mediaType: 'multipart/form-data',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class BlocosService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista blocos
-     * Lista blocos
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenação
-     * @param data.filterId Filtro por ID
-     * @param data.filterCampusId Filtro por ID de Campus
-     * @returns BlocoListOutputDto
-     * @throws ApiError
-     */
-    public blocoFindAll(data: BlocoFindAllData = {}): CancelablePromise<BlocoFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/blocos',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.campus.id': data.filterCampusId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria um bloco
-     * Cria um bloco
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns BlocoFindOneOutputDto
-     * @throws ApiError
-     */
-    public blocoCreate(data: BlocoCreateData): CancelablePromise<BlocoCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/blocos',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um bloco por ID
-     * Busca um bloco por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns BlocoFindOneOutputDto
-     * @throws ApiError
-     */
-    public blocoFindById(data: BlocoFindByIdData): CancelablePromise<BlocoFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/blocos/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza um bloco
-     * Atualiza um bloco
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns BlocoFindOneOutputDto
-     * @throws ApiError
-     */
-    public blocoUpdate(data: BlocoUpdateData): CancelablePromise<BlocoUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/blocos/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove um bloco
-     * Remove um bloco
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public blocoDeleteOneById(data: BlocoDeleteOneByIdData): CancelablePromise<BlocoDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/blocos/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Obtem a imagem de capa de um bloco
-     * Obtem a imagem de capa de um bloco
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns unknown
-     * @throws ApiError
-     */
-    public blocoGetImagemCapa(data: BlocoGetImagemCapaData): CancelablePromise<BlocoGetImagemCapaResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/blocos/{id}/imagem/capa',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Define a imagem de capa de um bloco
-     * Define a imagem de capa de um bloco
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.formData
-     * @returns boolean
-     * @throws ApiError
-     */
-    public blocoUpdateImagemCapa(data: BlocoUpdateImagemCapaData): CancelablePromise<BlocoUpdateImagemCapaResponse> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/blocos/{id}/imagem/capa',
-            path: {
-                id: data.id
-            },
-            formData: data.formData,
-            mediaType: 'multipart/form-data',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista blocos
+   * Lista blocos
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenação
+   * @param data.filterId Filtro por ID
+   * @param data.filterCampusId Filtro por ID de Campus
+   * @returns BlocoListOutputDto
+   * @throws ApiError
+   */
+  public blocoFindAll(
+    data: BlocoFindAllData = {}
+  ): CancelablePromise<BlocoFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/blocos',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.campus.id': data.filterCampusId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria um bloco
+   * Cria um bloco
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns BlocoFindOneOutputDto
+   * @throws ApiError
+   */
+  public blocoCreate(
+    data: BlocoCreateData
+  ): CancelablePromise<BlocoCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/blocos',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um bloco por ID
+   * Busca um bloco por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns BlocoFindOneOutputDto
+   * @throws ApiError
+   */
+  public blocoFindById(
+    data: BlocoFindByIdData
+  ): CancelablePromise<BlocoFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/blocos/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza um bloco
+   * Atualiza um bloco
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns BlocoFindOneOutputDto
+   * @throws ApiError
+   */
+  public blocoUpdate(
+    data: BlocoUpdateData
+  ): CancelablePromise<BlocoUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/blocos/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove um bloco
+   * Remove um bloco
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public blocoDeleteOneById(
+    data: BlocoDeleteOneByIdData
+  ): CancelablePromise<BlocoDeleteOneByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/blocos/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Obtem a imagem de capa de um bloco
+   * Obtem a imagem de capa de um bloco
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns unknown
+   * @throws ApiError
+   */
+  public blocoGetImagemCapa(
+    data: BlocoGetImagemCapaData
+  ): CancelablePromise<BlocoGetImagemCapaResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/blocos/{id}/imagem/capa',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Define a imagem de capa de um bloco
+   * Define a imagem de capa de um bloco
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.formData
+   * @returns boolean
+   * @throws ApiError
+   */
+  public blocoUpdateImagemCapa(
+    data: BlocoUpdateImagemCapaData
+  ): CancelablePromise<BlocoUpdateImagemCapaResponse> {
+    return this.httpRequest.request({
+      method: 'PUT',
+      url: '/blocos/{id}/imagem/capa',
+      path: {
+        id: data.id,
+      },
+      formData: data.formData,
+      mediaType: 'multipart/form-data',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class AutenticacaoService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Retorna informacoes de ensino do usuario logado
-     * Retorna informacoes de ensino do usuario logado
-     * @returns UsuarioEnsinoOutputDto
-     * @throws ApiError
-     */
-    public autenticacaoWhoAmIensino(): CancelablePromise<AutenticacaoWhoAmIensinoResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/autenticacao/quem-sou-eu/ensino',
-            errors: {
-                400: '',
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Retorna informacoes do usuario logado
-     * Retorna informacoes do usuario logado
-     * @returns AuthWhoAmIOutputDto
-     * @throws ApiError
-     */
-    public autenticacaoWhoAmI(): CancelablePromise<AutenticacaoWhoAmIResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/autenticacao/quem-sou-eu',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Realiza login com matricula e senha
-     * Realiza login com matricula e senha
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns AuthSessionCredentialsDto
-     * @throws ApiError
-     */
-    public autenticacaoLogin(data: AutenticacaoLoginData): CancelablePromise<AutenticacaoLoginResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/autenticacao/login',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza token de acesso usando refresh token
-     * Atualiza token de acesso usando refresh token
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns AuthSessionCredentialsDto
-     * @throws ApiError
-     */
-    public autenticacaoRefresh(data: AutenticacaoRefreshData): CancelablePromise<AutenticacaoRefreshResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/autenticacao/login/refresh',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Define senha inicial do usuario
-     * Define senha inicial do usuario
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns boolean
-     * @throws ApiError
-     */
-    public autenticacaoSetInitialPassword(data: AutenticacaoSetInitialPasswordData): CancelablePromise<AutenticacaoSetInitialPasswordResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/autenticacao/definir-senha',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Envia email para redefinir senha
-     * Envia email para redefinir senha
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns boolean
-     * @throws ApiError
-     */
-    public autenticacaoRequestPasswordReset(data: AutenticacaoRequestPasswordResetData): CancelablePromise<AutenticacaoRequestPasswordResetResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/autenticacao/redefinir-senha',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Retorna informacoes de ensino do usuario logado
+   * Retorna informacoes de ensino do usuario logado
+   * @returns UsuarioEnsinoOutputDto
+   * @throws ApiError
+   */
+  public autenticacaoWhoAmIensino(): CancelablePromise<AutenticacaoWhoAmIensinoResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/autenticacao/quem-sou-eu/ensino',
+      errors: {
+        400: '',
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Retorna informacoes do usuario logado
+   * Retorna informacoes do usuario logado
+   * @returns AuthWhoAmIOutputDto
+   * @throws ApiError
+   */
+  public autenticacaoWhoAmI(): CancelablePromise<AutenticacaoWhoAmIResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/autenticacao/quem-sou-eu',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Realiza login com matricula e senha
+   * Realiza login com matricula e senha
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns AuthSessionCredentialsDto
+   * @throws ApiError
+   */
+  public autenticacaoLogin(
+    data: AutenticacaoLoginData
+  ): CancelablePromise<AutenticacaoLoginResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/autenticacao/login',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza token de acesso usando refresh token
+   * Atualiza token de acesso usando refresh token
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns AuthSessionCredentialsDto
+   * @throws ApiError
+   */
+  public autenticacaoRefresh(
+    data: AutenticacaoRefreshData
+  ): CancelablePromise<AutenticacaoRefreshResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/autenticacao/login/refresh',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Define senha inicial do usuario
+   * Define senha inicial do usuario
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns boolean
+   * @throws ApiError
+   */
+  public autenticacaoSetInitialPassword(
+    data: AutenticacaoSetInitialPasswordData
+  ): CancelablePromise<AutenticacaoSetInitialPasswordResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/autenticacao/definir-senha',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Envia email para redefinir senha
+   * Envia email para redefinir senha
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns boolean
+   * @throws ApiError
+   */
+  public autenticacaoRequestPasswordReset(
+    data: AutenticacaoRequestPasswordResetData
+  ): CancelablePromise<AutenticacaoRequestPasswordResetResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/autenticacao/redefinir-senha',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
 }
 
 export class DiariosService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista diarios
-     * Lista diarios
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
-     * @param data.filterId Filtro por ID
-     * @param data.filterTurmaId Filtro por ID da Turma
-     * @param data.filterDisciplinaId Filtro por ID da Disciplina
-     * @param data.filterAmbientePadraoId Filtro por ID do Ambiente Padrao
-     * @param data.filterCalendarioLetivoId Filtro por ID do Calendario Letivo
-     * @returns DiarioListOutputDto
-     * @throws ApiError
-     */
-    public diarioFindAll(data: DiarioFindAllData = {}): CancelablePromise<DiarioFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/diarios',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.turma.id': data.filterTurmaId,
-                'filter.disciplina.id': data.filterDisciplinaId,
-                'filter.ambientePadrao.id': data.filterAmbientePadraoId,
-                'filter.calendarioLetivo.id': data.filterCalendarioLetivoId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria um diario
-     * Cria um diario
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns DiarioFindOneOutputDto
-     * @throws ApiError
-     */
-    public diarioCreate(data: DiarioCreateData): CancelablePromise<DiarioCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/diarios',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um diario por ID
-     * Busca um diario por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns DiarioFindOneOutputDto
-     * @throws ApiError
-     */
-    public diarioFindById(data: DiarioFindByIdData): CancelablePromise<DiarioFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/diarios/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza um diario
-     * Atualiza um diario
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns DiarioFindOneOutputDto
-     * @throws ApiError
-     */
-    public diarioUpdate(data: DiarioUpdateData): CancelablePromise<DiarioUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/diarios/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove um diario
-     * Remove um diario
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public diarioDeleteOneById(data: DiarioDeleteOneByIdData): CancelablePromise<DiarioDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/diarios/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Lista professores de um diario
-     * Lista professores de um diario
-     * @param data The data for the request.
-     * @param data.diarioId ID do diario (uuid)
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
-     * @param data.filterId Filtro por ID
-     * @param data.filterPerfilUsuarioId Filtro por ID do Usuario do Perfil
-     * @param data.filterPerfilId Filtro por ID do Perfil
-     * @returns DiarioProfessorListOutputDto
-     * @throws ApiError
-     */
-    public diarioProfessorFindAll(data: DiarioProfessorFindAllData): CancelablePromise<DiarioProfessorFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/diarios/{diarioId}/professores',
-            path: {
-                diarioId: data.diarioId
-            },
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.perfil.usuario.id': data.filterPerfilUsuarioId,
-                'filter.perfil.id': data.filterPerfilId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Substitui professores de um diario
-     * Substitui professores de um diario
-     * @param data The data for the request.
-     * @param data.diarioId ID do diario (uuid)
-     * @param data.requestBody
-     * @returns DiarioProfessorListOutputDto
-     * @throws ApiError
-     */
-    public diarioProfessorBulkReplace(data: DiarioProfessorBulkReplaceData): CancelablePromise<DiarioProfessorBulkReplaceResponse> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/diarios/{diarioId}/professores',
-            path: {
-                diarioId: data.diarioId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Lista preferencias de agrupamento de um diario
-     * Lista preferencias de agrupamento de um diario
-     * @param data The data for the request.
-     * @param data.diarioId ID do diario (uuid)
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
-     * @param data.filterId Filtro por ID
-     * @param data.filterDiarioId Filtro por ID do Diario
-     * @returns DiarioPreferenciaAgrupamentoListOutputDto
-     * @throws ApiError
-     */
-    public diarioPreferenciaAgrupamentoFindAll(data: DiarioPreferenciaAgrupamentoFindAllData): CancelablePromise<DiarioPreferenciaAgrupamentoFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/diarios/{diarioId}/preferencias-agrupamento',
-            path: {
-                diarioId: data.diarioId
-            },
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.diario.id': data.filterDiarioId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Substitui preferencias de agrupamento de um diario
-     * Substitui preferencias de agrupamento de um diario
-     * @param data The data for the request.
-     * @param data.diarioId ID do diario (uuid)
-     * @param data.requestBody
-     * @returns DiarioPreferenciaAgrupamentoListOutputDto
-     * @throws ApiError
-     */
-    public diarioPreferenciaAgrupamentoBulkReplace(data: DiarioPreferenciaAgrupamentoBulkReplaceData): CancelablePromise<DiarioPreferenciaAgrupamentoBulkReplaceResponse> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/diarios/{diarioId}/preferencias-agrupamento',
-            path: {
-                diarioId: data.diarioId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista diarios
+   * Lista diarios
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+   * @param data.filterId Filtro por ID
+   * @param data.filterTurmaId Filtro por ID da Turma
+   * @param data.filterDisciplinaId Filtro por ID da Disciplina
+   * @param data.filterAmbientePadraoId Filtro por ID do Ambiente Padrao
+   * @param data.filterCalendarioLetivoId Filtro por ID do Calendario Letivo
+   * @returns DiarioListOutputDto
+   * @throws ApiError
+   */
+  public diarioFindAll(
+    data: DiarioFindAllData = {}
+  ): CancelablePromise<DiarioFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/diarios',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.turma.id': data.filterTurmaId,
+        'filter.disciplina.id': data.filterDisciplinaId,
+        'filter.ambientePadrao.id': data.filterAmbientePadraoId,
+        'filter.calendarioLetivo.id': data.filterCalendarioLetivoId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria um diario
+   * Cria um diario
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns DiarioFindOneOutputDto
+   * @throws ApiError
+   */
+  public diarioCreate(
+    data: DiarioCreateData
+  ): CancelablePromise<DiarioCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/diarios',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um diario por ID
+   * Busca um diario por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns DiarioFindOneOutputDto
+   * @throws ApiError
+   */
+  public diarioFindById(
+    data: DiarioFindByIdData
+  ): CancelablePromise<DiarioFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/diarios/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza um diario
+   * Atualiza um diario
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns DiarioFindOneOutputDto
+   * @throws ApiError
+   */
+  public diarioUpdate(
+    data: DiarioUpdateData
+  ): CancelablePromise<DiarioUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/diarios/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove um diario
+   * Remove um diario
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public diarioDeleteOneById(
+    data: DiarioDeleteOneByIdData
+  ): CancelablePromise<DiarioDeleteOneByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/diarios/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Lista professores de um diario
+   * Lista professores de um diario
+   * @param data The data for the request.
+   * @param data.diarioId ID do diario (uuid)
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+   * @param data.filterId Filtro por ID
+   * @param data.filterPerfilUsuarioId Filtro por ID do Usuario do Perfil
+   * @param data.filterPerfilId Filtro por ID do Perfil
+   * @returns DiarioProfessorListOutputDto
+   * @throws ApiError
+   */
+  public diarioProfessorFindAll(
+    data: DiarioProfessorFindAllData
+  ): CancelablePromise<DiarioProfessorFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/diarios/{diarioId}/professores',
+      path: {
+        diarioId: data.diarioId,
+      },
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.perfil.usuario.id': data.filterPerfilUsuarioId,
+        'filter.perfil.id': data.filterPerfilId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Substitui professores de um diario
+   * Substitui professores de um diario
+   * @param data The data for the request.
+   * @param data.diarioId ID do diario (uuid)
+   * @param data.requestBody
+   * @returns DiarioProfessorListOutputDto
+   * @throws ApiError
+   */
+  public diarioProfessorBulkReplace(
+    data: DiarioProfessorBulkReplaceData
+  ): CancelablePromise<DiarioProfessorBulkReplaceResponse> {
+    return this.httpRequest.request({
+      method: 'PUT',
+      url: '/diarios/{diarioId}/professores',
+      path: {
+        diarioId: data.diarioId,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Lista preferencias de agrupamento de um diario
+   * Lista preferencias de agrupamento de um diario
+   * @param data The data for the request.
+   * @param data.diarioId ID do diario (uuid)
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+   * @param data.filterId Filtro por ID
+   * @param data.filterDiarioId Filtro por ID do Diario
+   * @returns DiarioPreferenciaAgrupamentoListOutputDto
+   * @throws ApiError
+   */
+  public diarioPreferenciaAgrupamentoFindAll(
+    data: DiarioPreferenciaAgrupamentoFindAllData
+  ): CancelablePromise<DiarioPreferenciaAgrupamentoFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/diarios/{diarioId}/preferencias-agrupamento',
+      path: {
+        diarioId: data.diarioId,
+      },
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.diario.id': data.filterDiarioId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Substitui preferencias de agrupamento de um diario
+   * Substitui preferencias de agrupamento de um diario
+   * @param data The data for the request.
+   * @param data.diarioId ID do diario (uuid)
+   * @param data.requestBody
+   * @returns DiarioPreferenciaAgrupamentoListOutputDto
+   * @throws ApiError
+   */
+  public diarioPreferenciaAgrupamentoBulkReplace(
+    data: DiarioPreferenciaAgrupamentoBulkReplaceData
+  ): CancelablePromise<DiarioPreferenciaAgrupamentoBulkReplaceResponse> {
+    return this.httpRequest.request({
+      method: 'PUT',
+      url: '/diarios/{diarioId}/preferencias-agrupamento',
+      path: {
+        diarioId: data.diarioId,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
 }
 
 export class TurmasService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista turmas
-     * Lista turmas
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
-     * @param data.filterId Filtro por ID
-     * @param data.filterPeriodo Filtro por periodo da turma
-     * @param data.filterAmbientePadraoAulaNome Filtro por nome do Ambiente Padrao de Aula
-     * @param data.filterAmbientePadraoAulaCodigo Filtro por codigo do Ambiente Padrao de Aula
-     * @param data.filterAmbientePadraoAulaCapacidade Filtro por capacidade do Ambiente Padrao de Aula
-     * @param data.filterAmbientePadraoAulaTipo Filtro por tipo do Ambiente Padrao de Aula
-     * @param data.filterCursoId Filtro por ID do Curso
-     * @param data.filterCursoNome Filtro por nome do Curso
-     * @param data.filterCursoNomeAbreviado Filtro por nome abreviado do Curso
-     * @param data.filterCursoCampusId Filtro por ID do Campus do Curso
-     * @param data.filterCursoOfertaFormacaoId Filtro por ID da Oferta de Formacao do Curso
-     * @param data.filterCursoOfertaFormacaoNome Filtro por nome da Oferta de Formacao do Curso
-     * @param data.filterCursoOfertaFormacaoSlug Filtro por slug da Oferta de Formacao do Curso
-     * @returns TurmaListOutputDto
-     * @throws ApiError
-     */
-    public turmaFindAll(data: TurmaFindAllData = {}): CancelablePromise<TurmaFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/turmas',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.periodo': data.filterPeriodo,
-                'filter.ambientePadraoAula.nome': data.filterAmbientePadraoAulaNome,
-                'filter.ambientePadraoAula.codigo': data.filterAmbientePadraoAulaCodigo,
-                'filter.ambientePadraoAula.capacidade': data.filterAmbientePadraoAulaCapacidade,
-                'filter.ambientePadraoAula.tipo': data.filterAmbientePadraoAulaTipo,
-                'filter.curso.id': data.filterCursoId,
-                'filter.curso.nome': data.filterCursoNome,
-                'filter.curso.nomeAbreviado': data.filterCursoNomeAbreviado,
-                'filter.curso.campus.id': data.filterCursoCampusId,
-                'filter.curso.ofertaFormacao.id': data.filterCursoOfertaFormacaoId,
-                'filter.curso.ofertaFormacao.nome': data.filterCursoOfertaFormacaoNome,
-                'filter.curso.ofertaFormacao.slug': data.filterCursoOfertaFormacaoSlug
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria uma turma
-     * Cria uma turma
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns TurmaFindOneOutputDto
-     * @throws ApiError
-     */
-    public turmaCreate(data: TurmaCreateData): CancelablePromise<TurmaCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/turmas',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca uma turma por ID
-     * Busca uma turma por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns TurmaFindOneOutputDto
-     * @throws ApiError
-     */
-    public turmaFindById(data: TurmaFindByIdData): CancelablePromise<TurmaFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/turmas/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza uma turma
-     * Atualiza uma turma
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns TurmaFindOneOutputDto
-     * @throws ApiError
-     */
-    public turmaUpdate(data: TurmaUpdateData): CancelablePromise<TurmaUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/turmas/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove uma turma
-     * Remove uma turma
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public turmaDeleteOneById(data: TurmaDeleteOneByIdData): CancelablePromise<TurmaDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/turmas/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Consulta horario semanal de uma turma
-     * Consulta horario semanal de uma turma
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.semana Data da semana desejada (YYYY-MM-DD). Qualquer dia da semana; a API calcula seg-dom.
-     * @returns HorarioSemanalOutputDto
-     * @throws ApiError
-     */
-    public turmaHorarioSemanal(data: TurmaHorarioSemanalData): CancelablePromise<TurmaHorarioSemanalResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/turmas/{id}/horario',
-            path: {
-                id: data.id
-            },
-            query: {
-                semana: data.semana
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca a imagem de capa de uma turma
-     * Busca a imagem de capa de uma turma
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns unknown
-     * @throws ApiError
-     */
-    public turmaGetImagemCapa(data: TurmaGetImagemCapaData): CancelablePromise<TurmaGetImagemCapaResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/turmas/{id}/imagem/capa',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Define a imagem de capa de uma turma
-     * Define a imagem de capa de uma turma
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.formData
-     * @returns boolean
-     * @throws ApiError
-     */
-    public turmaUpdateImagemCapa(data: TurmaUpdateImagemCapaData): CancelablePromise<TurmaUpdateImagemCapaResponse> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/turmas/{id}/imagem/capa',
-            path: {
-                id: data.id
-            },
-            formData: data.formData,
-            mediaType: 'multipart/form-data',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Lista horarios de aula selecionados da turma
-     * Lista horarios de aula selecionados da turma
-     * @param data The data for the request.
-     * @param data.turmaId ID da turma
-     * @returns TurmaHorarioAulaListOutputDto
-     * @throws ApiError
-     */
-    public turmaHorarioAulaFindAll(data: TurmaHorarioAulaFindAllData): CancelablePromise<TurmaHorarioAulaFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/turmas/{turmaId}/horarios-aula',
-            path: {
-                turmaId: data.turmaId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Substitui horarios de aula selecionados da turma
-     * Substitui horarios de aula selecionados da turma
-     * @param data The data for the request.
-     * @param data.turmaId ID da turma
-     * @param data.requestBody
-     * @returns TurmaHorarioAulaListOutputDto
-     * @throws ApiError
-     */
-    public turmaHorarioAulaBulkReplace(data: TurmaHorarioAulaBulkReplaceData): CancelablePromise<TurmaHorarioAulaBulkReplaceResponse> {
-        return this.httpRequest.request({
-            method: 'PUT',
-            url: '/turmas/{turmaId}/horarios-aula',
-            path: {
-                turmaId: data.turmaId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Lista eventos da turma
-     * @param data The data for the request.
-     * @param data.turmaId ID da turma
-     * @returns TurmaEventoListOutputDto
-     * @throws ApiError
-     */
-    public turmaEventoFindAll(data: TurmaEventoFindAllData): CancelablePromise<TurmaEventoFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/turmas/{turmaId}/eventos',
-            path: {
-                turmaId: data.turmaId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria evento escopado a turma
-     * @param data The data for the request.
-     * @param data.turmaId ID da turma
-     * @param data.requestBody
-     * @returns TurmaEventoFindOneOutputDto
-     * @throws ApiError
-     */
-    public turmaEventoCreate(data: TurmaEventoCreateData): CancelablePromise<TurmaEventoCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/turmas/{turmaId}/eventos',
-            path: {
-                turmaId: data.turmaId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza evento da turma
-     * @param data The data for the request.
-     * @param data.turmaId ID da turma
-     * @param data.eventoId ID do evento
-     * @param data.requestBody
-     * @returns TurmaEventoFindOneOutputDto
-     * @throws ApiError
-     */
-    public turmaEventoUpdate(data: TurmaEventoUpdateData): CancelablePromise<TurmaEventoUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/turmas/{turmaId}/eventos/{eventoId}',
-            path: {
-                turmaId: data.turmaId,
-                eventoId: data.eventoId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove evento da turma
-     * @param data The data for the request.
-     * @param data.turmaId ID da turma
-     * @param data.eventoId ID do evento
-     * @returns boolean
-     * @throws ApiError
-     */
-    public turmaEventoDelete(data: TurmaEventoDeleteData): CancelablePromise<TurmaEventoDeleteResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/turmas/{turmaId}/eventos/{eventoId}',
-            path: {
-                turmaId: data.turmaId,
-                eventoId: data.eventoId
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Configura diarios da turma em lote (disciplinas + professores)
-     * @param data The data for the request.
-     * @param data.turmaId ID da turma
-     * @param data.requestBody
-     * @returns TurmaDiarioConfigurarOutputDto
-     * @throws ApiError
-     */
-    public turmaDiarioConfigurar(data: TurmaDiarioConfigurarData): CancelablePromise<TurmaDiarioConfigurarResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/turmas/{turmaId}/diarios/configurar',
-            path: {
-                turmaId: data.turmaId
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista turmas
+   * Lista turmas
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+   * @param data.filterId Filtro por ID
+   * @param data.filterPeriodo Filtro por periodo da turma
+   * @param data.filterAmbientePadraoAulaNome Filtro por nome do Ambiente Padrao de Aula
+   * @param data.filterAmbientePadraoAulaCodigo Filtro por codigo do Ambiente Padrao de Aula
+   * @param data.filterAmbientePadraoAulaCapacidade Filtro por capacidade do Ambiente Padrao de Aula
+   * @param data.filterAmbientePadraoAulaTipo Filtro por tipo do Ambiente Padrao de Aula
+   * @param data.filterCursoId Filtro por ID do Curso
+   * @param data.filterCursoNome Filtro por nome do Curso
+   * @param data.filterCursoNomeAbreviado Filtro por nome abreviado do Curso
+   * @param data.filterCursoCampusId Filtro por ID do Campus do Curso
+   * @param data.filterCursoOfertaFormacaoId Filtro por ID da Oferta de Formacao do Curso
+   * @param data.filterCursoOfertaFormacaoNome Filtro por nome da Oferta de Formacao do Curso
+   * @param data.filterCursoOfertaFormacaoSlug Filtro por slug da Oferta de Formacao do Curso
+   * @returns TurmaListOutputDto
+   * @throws ApiError
+   */
+  public turmaFindAll(
+    data: TurmaFindAllData = {}
+  ): CancelablePromise<TurmaFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/turmas',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.periodo': data.filterPeriodo,
+        'filter.ambientePadraoAula.nome': data.filterAmbientePadraoAulaNome,
+        'filter.ambientePadraoAula.codigo': data.filterAmbientePadraoAulaCodigo,
+        'filter.ambientePadraoAula.capacidade':
+          data.filterAmbientePadraoAulaCapacidade,
+        'filter.ambientePadraoAula.tipo': data.filterAmbientePadraoAulaTipo,
+        'filter.curso.id': data.filterCursoId,
+        'filter.curso.nome': data.filterCursoNome,
+        'filter.curso.nomeAbreviado': data.filterCursoNomeAbreviado,
+        'filter.curso.campus.id': data.filterCursoCampusId,
+        'filter.curso.ofertaFormacao.id': data.filterCursoOfertaFormacaoId,
+        'filter.curso.ofertaFormacao.nome': data.filterCursoOfertaFormacaoNome,
+        'filter.curso.ofertaFormacao.slug': data.filterCursoOfertaFormacaoSlug,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria uma turma
+   * Cria uma turma
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns TurmaFindOneOutputDto
+   * @throws ApiError
+   */
+  public turmaCreate(
+    data: TurmaCreateData
+  ): CancelablePromise<TurmaCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/turmas',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca uma turma por ID
+   * Busca uma turma por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns TurmaFindOneOutputDto
+   * @throws ApiError
+   */
+  public turmaFindById(
+    data: TurmaFindByIdData
+  ): CancelablePromise<TurmaFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/turmas/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza uma turma
+   * Atualiza uma turma
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns TurmaFindOneOutputDto
+   * @throws ApiError
+   */
+  public turmaUpdate(
+    data: TurmaUpdateData
+  ): CancelablePromise<TurmaUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/turmas/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove uma turma
+   * Remove uma turma
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public turmaDeleteOneById(
+    data: TurmaDeleteOneByIdData
+  ): CancelablePromise<TurmaDeleteOneByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/turmas/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Consulta horario semanal de uma turma
+   * Consulta horario semanal de uma turma
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.semana Data da semana desejada (YYYY-MM-DD). Qualquer dia da semana; a API calcula seg-dom.
+   * @returns HorarioSemanalOutputDto
+   * @throws ApiError
+   */
+  public turmaHorarioSemanal(
+    data: TurmaHorarioSemanalData
+  ): CancelablePromise<TurmaHorarioSemanalResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/turmas/{id}/horario',
+      path: {
+        id: data.id,
+      },
+      query: {
+        semana: data.semana,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Busca a imagem de capa de uma turma
+   * Busca a imagem de capa de uma turma
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns unknown
+   * @throws ApiError
+   */
+  public turmaGetImagemCapa(
+    data: TurmaGetImagemCapaData
+  ): CancelablePromise<TurmaGetImagemCapaResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/turmas/{id}/imagem/capa',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Define a imagem de capa de uma turma
+   * Define a imagem de capa de uma turma
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.formData
+   * @returns boolean
+   * @throws ApiError
+   */
+  public turmaUpdateImagemCapa(
+    data: TurmaUpdateImagemCapaData
+  ): CancelablePromise<TurmaUpdateImagemCapaResponse> {
+    return this.httpRequest.request({
+      method: 'PUT',
+      url: '/turmas/{id}/imagem/capa',
+      path: {
+        id: data.id,
+      },
+      formData: data.formData,
+      mediaType: 'multipart/form-data',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Lista horarios de aula selecionados da turma
+   * Lista horarios de aula selecionados da turma
+   * @param data The data for the request.
+   * @param data.turmaId ID da turma
+   * @returns TurmaHorarioAulaListOutputDto
+   * @throws ApiError
+   */
+  public turmaHorarioAulaFindAll(
+    data: TurmaHorarioAulaFindAllData
+  ): CancelablePromise<TurmaHorarioAulaFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/turmas/{turmaId}/horarios-aula',
+      path: {
+        turmaId: data.turmaId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Substitui horarios de aula selecionados da turma
+   * Substitui horarios de aula selecionados da turma
+   * @param data The data for the request.
+   * @param data.turmaId ID da turma
+   * @param data.requestBody
+   * @returns TurmaHorarioAulaListOutputDto
+   * @throws ApiError
+   */
+  public turmaHorarioAulaBulkReplace(
+    data: TurmaHorarioAulaBulkReplaceData
+  ): CancelablePromise<TurmaHorarioAulaBulkReplaceResponse> {
+    return this.httpRequest.request({
+      method: 'PUT',
+      url: '/turmas/{turmaId}/horarios-aula',
+      path: {
+        turmaId: data.turmaId,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Lista eventos da turma
+   * @param data The data for the request.
+   * @param data.turmaId ID da turma
+   * @returns TurmaEventoListOutputDto
+   * @throws ApiError
+   */
+  public turmaEventoFindAll(
+    data: TurmaEventoFindAllData
+  ): CancelablePromise<TurmaEventoFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/turmas/{turmaId}/eventos',
+      path: {
+        turmaId: data.turmaId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria evento escopado a turma
+   * @param data The data for the request.
+   * @param data.turmaId ID da turma
+   * @param data.requestBody
+   * @returns TurmaEventoFindOneOutputDto
+   * @throws ApiError
+   */
+  public turmaEventoCreate(
+    data: TurmaEventoCreateData
+  ): CancelablePromise<TurmaEventoCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/turmas/{turmaId}/eventos',
+      path: {
+        turmaId: data.turmaId,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza evento da turma
+   * @param data The data for the request.
+   * @param data.turmaId ID da turma
+   * @param data.eventoId ID do evento
+   * @param data.requestBody
+   * @returns TurmaEventoFindOneOutputDto
+   * @throws ApiError
+   */
+  public turmaEventoUpdate(
+    data: TurmaEventoUpdateData
+  ): CancelablePromise<TurmaEventoUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/turmas/{turmaId}/eventos/{eventoId}',
+      path: {
+        turmaId: data.turmaId,
+        eventoId: data.eventoId,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove evento da turma
+   * @param data The data for the request.
+   * @param data.turmaId ID da turma
+   * @param data.eventoId ID do evento
+   * @returns boolean
+   * @throws ApiError
+   */
+  public turmaEventoDelete(
+    data: TurmaEventoDeleteData
+  ): CancelablePromise<TurmaEventoDeleteResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/turmas/{turmaId}/eventos/{eventoId}',
+      path: {
+        turmaId: data.turmaId,
+        eventoId: data.eventoId,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Configura diarios da turma em lote (disciplinas + professores)
+   * @param data The data for the request.
+   * @param data.turmaId ID da turma
+   * @param data.requestBody
+   * @returns TurmaDiarioConfigurarOutputDto
+   * @throws ApiError
+   */
+  public turmaDiarioConfigurar(
+    data: TurmaDiarioConfigurarData
+  ): CancelablePromise<TurmaDiarioConfigurarResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/turmas/{turmaId}/diarios/configurar',
+      path: {
+        turmaId: data.turmaId,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
 }
 
 export class GerarHorarioService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Solicita geracao de horario (assincrono)
-     * Solicita geracao de horario (assincrono)
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns GerarHorarioFindOneOutputDto
-     * @throws ApiError
-     */
-    public gerarHorarioCreate(data: GerarHorarioCreateData): CancelablePromise<GerarHorarioCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/gerar-horario',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Consulta status de uma geracao de horario
-     * Consulta status de uma geracao de horario
-     * @param data The data for the request.
-     * @param data.id ID da solicitacao
-     * @returns GerarHorarioFindOneOutputDto
-     * @throws ApiError
-     */
-    public gerarHorarioFindById(data: GerarHorarioFindByIdData): CancelablePromise<GerarHorarioFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/gerar-horario/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Aceita o horario gerado e aplica ao calendario
-     * Aceita o horario gerado e aplica ao calendario
-     * @param data The data for the request.
-     * @param data.id ID da solicitacao
-     * @returns GerarHorarioFindOneOutputDto
-     * @throws ApiError
-     */
-    public gerarHorarioAceitar(data: GerarHorarioAceitarData): CancelablePromise<GerarHorarioAceitarResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/gerar-horario/{id}/aceitar',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Rejeita o horario gerado
-     * Rejeita o horario gerado
-     * @param data The data for the request.
-     * @param data.id ID da solicitacao
-     * @returns GerarHorarioFindOneOutputDto
-     * @throws ApiError
-     */
-    public gerarHorarioRejeitar(data: GerarHorarioRejeitarData): CancelablePromise<GerarHorarioRejeitarResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/gerar-horario/{id}/rejeitar',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Solicita geracao de horario (assincrono)
+   * Solicita geracao de horario (assincrono)
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns GerarHorarioFindOneOutputDto
+   * @throws ApiError
+   */
+  public gerarHorarioCreate(
+    data: GerarHorarioCreateData
+  ): CancelablePromise<GerarHorarioCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/gerar-horario',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Consulta status de uma geracao de horario
+   * Consulta status de uma geracao de horario
+   * @param data The data for the request.
+   * @param data.id ID da solicitacao
+   * @returns GerarHorarioFindOneOutputDto
+   * @throws ApiError
+   */
+  public gerarHorarioFindById(
+    data: GerarHorarioFindByIdData
+  ): CancelablePromise<GerarHorarioFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/gerar-horario/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Aceita o horario gerado e aplica ao calendario
+   * Aceita o horario gerado e aplica ao calendario
+   * @param data The data for the request.
+   * @param data.id ID da solicitacao
+   * @returns GerarHorarioFindOneOutputDto
+   * @throws ApiError
+   */
+  public gerarHorarioAceitar(
+    data: GerarHorarioAceitarData
+  ): CancelablePromise<GerarHorarioAceitarResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/gerar-horario/{id}/aceitar',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Rejeita o horario gerado
+   * Rejeita o horario gerado
+   * @param data The data for the request.
+   * @param data.id ID da solicitacao
+   * @returns GerarHorarioFindOneOutputDto
+   * @throws ApiError
+   */
+  public gerarHorarioRejeitar(
+    data: GerarHorarioRejeitarData
+  ): CancelablePromise<GerarHorarioRejeitarResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/gerar-horario/{id}/rejeitar',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class EstadosService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista estados
-     * Lista estados
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenação
-     * @param data.filterId Filtro por ID
-     * @returns EstadoListOutputDto
-     * @throws ApiError
-     */
-    public estadoFindAll(data: EstadoFindAllData = {}): CancelablePromise<EstadoFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/base/estados',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um estado por ID
-     * Busca um estado por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (numerico)
-     * @returns EstadoFindOneOutputDto
-     * @throws ApiError
-     */
-    public estadoFindById(data: EstadoFindByIdData): CancelablePromise<EstadoFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/base/estados/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista estados
+   * Lista estados
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenação
+   * @param data.filterId Filtro por ID
+   * @returns EstadoListOutputDto
+   * @throws ApiError
+   */
+  public estadoFindAll(
+    data: EstadoFindAllData = {}
+  ): CancelablePromise<EstadoFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/base/estados',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um estado por ID
+   * Busca um estado por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (numerico)
+   * @returns EstadoFindOneOutputDto
+   * @throws ApiError
+   */
+  public estadoFindById(
+    data: EstadoFindByIdData
+  ): CancelablePromise<EstadoFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/base/estados/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class EmpresasService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista empresas
-     * Lista empresas
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
-     * @param data.filterId Filtro por ID
-     * @param data.filterCnpj Filtro por CNPJ
-     * @param data.filterNomeFantasia Filtro por nome fantasia
-     * @param data.filterEnderecoId Filtro por ID de endereço
-     * @returns EmpresaListOutputDto
-     * @throws ApiError
-     */
-    public empresaFindAll(data: EmpresaFindAllData = {}): CancelablePromise<EmpresaFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/empresas',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.cnpj': data.filterCnpj,
-                'filter.nomeFantasia': data.filterNomeFantasia,
-                'filter.endereco.id': data.filterEnderecoId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria uma empresa
-     * Cria uma empresa
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns EmpresaFindOneOutputDto
-     * @throws ApiError
-     */
-    public empresaCreate(data: EmpresaCreateData): CancelablePromise<EmpresaCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/empresas',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca uma empresa por ID
-     * Busca uma empresa por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns EmpresaFindOneOutputDto
-     * @throws ApiError
-     */
-    public empresaFindById(data: EmpresaFindByIdData): CancelablePromise<EmpresaFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/empresas/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza uma empresa
-     * Atualiza uma empresa
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns EmpresaFindOneOutputDto
-     * @throws ApiError
-     */
-    public empresaUpdate(data: EmpresaUpdateData): CancelablePromise<EmpresaUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/empresas/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Deleta uma empresa
-     * Deleta uma empresa
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public empresaDeleteOneById(data: EmpresaDeleteOneByIdData): CancelablePromise<EmpresaDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/empresas/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista empresas
+   * Lista empresas
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+   * @param data.filterId Filtro por ID
+   * @param data.filterCnpj Filtro por CNPJ
+   * @param data.filterNomeFantasia Filtro por nome fantasia
+   * @param data.filterEnderecoId Filtro por ID de endereço
+   * @returns EmpresaListOutputDto
+   * @throws ApiError
+   */
+  public empresaFindAll(
+    data: EmpresaFindAllData = {}
+  ): CancelablePromise<EmpresaFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/empresas',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.cnpj': data.filterCnpj,
+        'filter.nomeFantasia': data.filterNomeFantasia,
+        'filter.endereco.id': data.filterEnderecoId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria uma empresa
+   * Cria uma empresa
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns EmpresaFindOneOutputDto
+   * @throws ApiError
+   */
+  public empresaCreate(
+    data: EmpresaCreateData
+  ): CancelablePromise<EmpresaCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/empresas',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca uma empresa por ID
+   * Busca uma empresa por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns EmpresaFindOneOutputDto
+   * @throws ApiError
+   */
+  public empresaFindById(
+    data: EmpresaFindByIdData
+  ): CancelablePromise<EmpresaFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/empresas/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza uma empresa
+   * Atualiza uma empresa
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns EmpresaFindOneOutputDto
+   * @throws ApiError
+   */
+  public empresaUpdate(
+    data: EmpresaUpdateData
+  ): CancelablePromise<EmpresaUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/empresas/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Deleta uma empresa
+   * Deleta uma empresa
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public empresaDeleteOneById(
+    data: EmpresaDeleteOneByIdData
+  ): CancelablePromise<EmpresaDeleteOneByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/empresas/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class EstagiosService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista estágios
-     * Lista estágios
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
-     * @param data.filterEmpresaId Filtro por empresa
-     * @param data.filterEstagiarioId Filtro por estagiário
-     * @param data.filterStatus Filtro por status (string ou array)
-     * @returns EstagioListOutputDto
-     * @throws ApiError
-     */
-    public estagioFindAll(data: EstagioFindAllData = {}): CancelablePromise<EstagioFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/estagios',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.empresa.id': data.filterEmpresaId,
-                'filter.estagiario.id': data.filterEstagiarioId,
-                'filter.status': data.filterStatus
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria um estágio
-     * Cria um estágio
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns EstagioFindOneOutputDto
-     * @throws ApiError
-     */
-    public estagioCreate(data: EstagioCreateData): CancelablePromise<EstagioCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/estagios',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um estágio por ID
-     * Busca um estágio por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns EstagioFindOneOutputDto
-     * @throws ApiError
-     */
-    public estagioFindById(data: EstagioFindByIdData): CancelablePromise<EstagioFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/estagios/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza um estágio
-     * Atualiza um estágio
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns EstagioFindOneOutputDto
-     * @throws ApiError
-     */
-    public estagioUpdate(data: EstagioUpdateData): CancelablePromise<EstagioUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/estagios/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Deleta um estágio
-     * Deleta um estágio
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns unknown Estágio deletado com sucesso
-     * @throws ApiError
-     */
-    public estagioDelete(data: EstagioDeleteData): CancelablePromise<EstagioDeleteResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/estagios/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista estágios
+   * Lista estágios
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+   * @param data.filterEmpresaId Filtro por empresa
+   * @param data.filterEstagiarioId Filtro por estagiário
+   * @param data.filterStatus Filtro por status (string ou array)
+   * @returns EstagioListOutputDto
+   * @throws ApiError
+   */
+  public estagioFindAll(
+    data: EstagioFindAllData = {}
+  ): CancelablePromise<EstagioFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/estagios',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.empresa.id': data.filterEmpresaId,
+        'filter.estagiario.id': data.filterEstagiarioId,
+        'filter.status': data.filterStatus,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria um estágio
+   * Cria um estágio
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns EstagioFindOneOutputDto
+   * @throws ApiError
+   */
+  public estagioCreate(
+    data: EstagioCreateData
+  ): CancelablePromise<EstagioCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/estagios',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um estágio por ID
+   * Busca um estágio por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns EstagioFindOneOutputDto
+   * @throws ApiError
+   */
+  public estagioFindById(
+    data: EstagioFindByIdData
+  ): CancelablePromise<EstagioFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/estagios/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza um estágio
+   * Atualiza um estágio
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns EstagioFindOneOutputDto
+   * @throws ApiError
+   */
+  public estagioUpdate(
+    data: EstagioUpdateData
+  ): CancelablePromise<EstagioUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/estagios/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Deleta um estágio
+   * Deleta um estágio
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns unknown Estágio deletado com sucesso
+   * @throws ApiError
+   */
+  public estagioDelete(
+    data: EstagioDeleteData
+  ): CancelablePromise<EstagioDeleteResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/estagios/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class EstagiariosService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista estagiários
-     * Lista estagiários
-     * @param data The data for the request.
-     * @param data.page Pagina de consulta
-     * @param data.limit Limite da quantidade de resultados por pagina
-     * @param data.search Busca textual
-     * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
-     * @param data.filterId Filtro por ID
-     * @param data.filterPerfilId Filtro por ID de perfil
-     * @param data.filterCursoId Filtro por ID de curso
-     * @param data.filterTurmaId Filtro por ID de turma
-     * @returns EstagiarioListOutputDto
-     * @throws ApiError
-     */
-    public estagiarioFindAll(data: EstagiarioFindAllData = {}): CancelablePromise<EstagiarioFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/estagiarios',
-            query: {
-                page: data.page,
-                limit: data.limit,
-                search: data.search,
-                sortBy: data.sortBy,
-                'filter.id': data.filterId,
-                'filter.perfil.id': data.filterPerfilId,
-                'filter.curso.id': data.filterCursoId,
-                'filter.turma.id': data.filterTurmaId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria um estagiário
-     * Cria um estagiário
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns EstagiarioFindOneOutputDto
-     * @throws ApiError
-     */
-    public estagiarioCreate(data: EstagiarioCreateData): CancelablePromise<EstagiarioCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/estagiarios',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um estagiário por ID
-     * Busca um estagiário por ID
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns EstagiarioFindOneOutputDto
-     * @throws ApiError
-     */
-    public estagiarioFindById(data: EstagiarioFindByIdData): CancelablePromise<EstagiarioFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/estagiarios/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza um estagiário
-     * Atualiza um estagiário
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @param data.requestBody
-     * @returns EstagiarioFindOneOutputDto
-     * @throws ApiError
-     */
-    public estagiarioUpdate(data: EstagiarioUpdateData): CancelablePromise<EstagiarioUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/estagiarios/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Deleta um estagiário
-     * Deleta um estagiário
-     * @param data The data for the request.
-     * @param data.id Identificador do registro (uuid)
-     * @returns boolean
-     * @throws ApiError
-     */
-    public estagiarioDeleteOneById(data: EstagiarioDeleteOneByIdData): CancelablePromise<EstagiarioDeleteOneByIdResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/estagiarios/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista estagiários
+   * Lista estagiários
+   * @param data The data for the request.
+   * @param data.page Pagina de consulta
+   * @param data.limit Limite da quantidade de resultados por pagina
+   * @param data.search Busca textual
+   * @param data.sortBy Ordenacao (ex: dateCreated:ASC)
+   * @param data.filterId Filtro por ID
+   * @param data.filterPerfilId Filtro por ID de perfil
+   * @param data.filterCursoId Filtro por ID de curso
+   * @param data.filterTurmaId Filtro por ID de turma
+   * @returns EstagiarioListOutputDto
+   * @throws ApiError
+   */
+  public estagiarioFindAll(
+    data: EstagiarioFindAllData = {}
+  ): CancelablePromise<EstagiarioFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/estagiarios',
+      query: {
+        page: data.page,
+        limit: data.limit,
+        search: data.search,
+        sortBy: data.sortBy,
+        'filter.id': data.filterId,
+        'filter.perfil.id': data.filterPerfilId,
+        'filter.curso.id': data.filterCursoId,
+        'filter.turma.id': data.filterTurmaId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria um estagiário
+   * Cria um estagiário
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns EstagiarioFindOneOutputDto
+   * @throws ApiError
+   */
+  public estagiarioCreate(
+    data: EstagiarioCreateData
+  ): CancelablePromise<EstagiarioCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/estagiarios',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um estagiário por ID
+   * Busca um estagiário por ID
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns EstagiarioFindOneOutputDto
+   * @throws ApiError
+   */
+  public estagiarioFindById(
+    data: EstagiarioFindByIdData
+  ): CancelablePromise<EstagiarioFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/estagiarios/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza um estagiário
+   * Atualiza um estagiário
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @param data.requestBody
+   * @returns EstagiarioFindOneOutputDto
+   * @throws ApiError
+   */
+  public estagiarioUpdate(
+    data: EstagiarioUpdateData
+  ): CancelablePromise<EstagiarioUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/estagiarios/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Deleta um estagiário
+   * Deleta um estagiário
+   * @param data The data for the request.
+   * @param data.id Identificador do registro (uuid)
+   * @returns boolean
+   * @throws ApiError
+   */
+  public estagiarioDeleteOneById(
+    data: EstagiarioDeleteOneByIdData
+  ): CancelablePromise<EstagiarioDeleteOneByIdResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/estagiarios/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class NotificacoesService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista notificacoes do usuario autenticado
-     * Lista notificacoes do usuario autenticado
-     * @returns unknown
-     * @throws ApiError
-     */
-    public notificacaoFindAll(): CancelablePromise<NotificacaoFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/notificacoes',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Conta notificacoes nao lidas
-     * Conta notificacoes nao lidas
-     * @returns unknown
-     * @throws ApiError
-     */
-    public notificacaoContagemNaoLidas(): CancelablePromise<NotificacaoContagemNaoLidasResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/notificacoes/contagem-nao-lidas',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Marca notificacao como lida
-     * Marca notificacao como lida
-     * @param data The data for the request.
-     * @param data.id
-     * @returns unknown
-     * @throws ApiError
-     */
-    public notificacaoMarcarLida(data: NotificacaoMarcarLidaData): CancelablePromise<NotificacaoMarcarLidaResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/notificacoes/{id}/lida',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista notificacoes do usuario autenticado
+   * Lista notificacoes do usuario autenticado
+   * @returns unknown
+   * @throws ApiError
+   */
+  public notificacaoFindAll(): CancelablePromise<NotificacaoFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/notificacoes',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Conta notificacoes nao lidas
+   * Conta notificacoes nao lidas
+   * @returns unknown
+   * @throws ApiError
+   */
+  public notificacaoContagemNaoLidas(): CancelablePromise<NotificacaoContagemNaoLidasResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/notificacoes/contagem-nao-lidas',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Marca notificacao como lida
+   * Marca notificacao como lida
+   * @param data The data for the request.
+   * @param data.id
+   * @returns unknown
+   * @throws ApiError
+   */
+  public notificacaoMarcarLida(
+    data: NotificacaoMarcarLidaData
+  ): CancelablePromise<NotificacaoMarcarLidaResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/notificacoes/{id}/lida',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class RelatoriosService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Relatorio de aulas ministradas (JSON)
-     * @param data The data for the request.
-     * @param data.perfilId
-     * @param data.turmaId
-     * @param data.disciplinaId
-     * @param data.cursoId
-     * @param data.periodo
-     * @returns unknown
-     * @throws ApiError
-     */
-    public relatorioAulasMinistradas(data: RelatorioAulasMinistradasData): CancelablePromise<RelatorioAulasMinistradasResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/relatorios/aulas-ministradas',
-            query: {
-                perfilId: data.perfilId,
-                turmaId: data.turmaId,
-                disciplinaId: data.disciplinaId,
-                cursoId: data.cursoId,
-                periodo: data.periodo
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Relatorio de aulas ministradas (PDF)
-     * @throws ApiError
-     */
-    public relatorioAulasMinistradasPdf(): CancelablePromise<void> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/relatorios/aulas-ministradas/pdf',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Relatorio de aulas ministradas (JSON)
+   * @param data The data for the request.
+   * @param data.perfilId
+   * @param data.turmaId
+   * @param data.disciplinaId
+   * @param data.cursoId
+   * @param data.periodo
+   * @returns unknown
+   * @throws ApiError
+   */
+  public relatorioAulasMinistradas(
+    data: RelatorioAulasMinistradasData
+  ): CancelablePromise<RelatorioAulasMinistradasResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/relatorios/aulas-ministradas',
+      query: {
+        perfilId: data.perfilId,
+        turmaId: data.turmaId,
+        disciplinaId: data.disciplinaId,
+        cursoId: data.cursoId,
+        periodo: data.periodo,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Relatorio de aulas ministradas (PDF)
+   * @throws ApiError
+   */
+  public relatorioAulasMinistradasPdf(): CancelablePromise<void> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/relatorios/aulas-ministradas/pdf',
+      errors: {
+        403: '',
+      },
+    });
+  }
 }
 
 export class HorariosAulaService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista horarios de aula (intervalos)
-     * Lista horarios de aula (intervalos)
-     * @param data The data for the request.
-     * @param data.configuracaoId
-     * @returns HorarioAulaListOutputDto
-     * @throws ApiError
-     */
-    public horarioAulaFindAll(data: HorarioAulaFindAllData): CancelablePromise<HorarioAulaFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/horarios-aula',
-            query: {
-                configuracaoId: data.configuracaoId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria um horario de aula
-     * Cria um horario de aula
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns HorarioAulaFindOneOutputDto
-     * @throws ApiError
-     */
-    public horarioAulaCreate(data: HorarioAulaCreateData): CancelablePromise<HorarioAulaCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/horarios-aula',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca um horario de aula por ID
-     * Busca um horario de aula por ID
-     * @param data The data for the request.
-     * @param data.id
-     * @returns HorarioAulaFindOneOutputDto
-     * @throws ApiError
-     */
-    public horarioAulaFindById(data: HorarioAulaFindByIdData): CancelablePromise<HorarioAulaFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/horarios-aula/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza um horario de aula
-     * Atualiza um horario de aula
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.requestBody
-     * @returns HorarioAulaFindOneOutputDto
-     * @throws ApiError
-     */
-    public horarioAulaUpdate(data: HorarioAulaUpdateData): CancelablePromise<HorarioAulaUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/horarios-aula/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove um horario de aula
-     * Remove um horario de aula
-     * @param data The data for the request.
-     * @param data.id
-     * @returns boolean
-     * @throws ApiError
-     */
-    public horarioAulaDelete(data: HorarioAulaDeleteData): CancelablePromise<HorarioAulaDeleteResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/horarios-aula/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista horarios de aula (intervalos)
+   * Lista horarios de aula (intervalos)
+   * @param data The data for the request.
+   * @param data.configuracaoId
+   * @returns HorarioAulaListOutputDto
+   * @throws ApiError
+   */
+  public horarioAulaFindAll(
+    data: HorarioAulaFindAllData
+  ): CancelablePromise<HorarioAulaFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/horarios-aula',
+      query: {
+        configuracaoId: data.configuracaoId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria um horario de aula
+   * Cria um horario de aula
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns HorarioAulaFindOneOutputDto
+   * @throws ApiError
+   */
+  public horarioAulaCreate(
+    data: HorarioAulaCreateData
+  ): CancelablePromise<HorarioAulaCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/horarios-aula',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca um horario de aula por ID
+   * Busca um horario de aula por ID
+   * @param data The data for the request.
+   * @param data.id
+   * @returns HorarioAulaFindOneOutputDto
+   * @throws ApiError
+   */
+  public horarioAulaFindById(
+    data: HorarioAulaFindByIdData
+  ): CancelablePromise<HorarioAulaFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/horarios-aula/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza um horario de aula
+   * Atualiza um horario de aula
+   * @param data The data for the request.
+   * @param data.id
+   * @param data.requestBody
+   * @returns HorarioAulaFindOneOutputDto
+   * @throws ApiError
+   */
+  public horarioAulaUpdate(
+    data: HorarioAulaUpdateData
+  ): CancelablePromise<HorarioAulaUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/horarios-aula/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove um horario de aula
+   * Remove um horario de aula
+   * @param data The data for the request.
+   * @param data.id
+   * @returns boolean
+   * @throws ApiError
+   */
+  public horarioAulaDelete(
+    data: HorarioAulaDeleteData
+  ): CancelablePromise<HorarioAulaDeleteResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/horarios-aula/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }
 
 export class HorariosAulaConfiguracoesService {
-    constructor(public readonly httpRequest: BaseHttpRequest) { }
-    
-    /**
-     * Lista configuracoes de horario de aula
-     * Lista configuracoes de horario de aula
-     * @param data The data for the request.
-     * @param data.campusId
-     * @returns HorarioAulaConfiguracaoListOutputDto
-     * @throws ApiError
-     */
-    public horarioAulaConfiguracaoFindAll(data: HorarioAulaConfiguracaoFindAllData): CancelablePromise<HorarioAulaConfiguracaoFindAllResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/horarios-aula-configuracoes',
-            query: {
-                campusId: data.campusId
-            },
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Cria uma configuracao de horario de aula
-     * Cria uma configuracao de horario de aula
-     * @param data The data for the request.
-     * @param data.requestBody
-     * @returns HorarioAulaConfiguracaoFindOneOutputDto
-     * @throws ApiError
-     */
-    public horarioAulaConfiguracaoCreate(data: HorarioAulaConfiguracaoCreateData): CancelablePromise<HorarioAulaConfiguracaoCreateResponse> {
-        return this.httpRequest.request({
-            method: 'POST',
-            url: '/horarios-aula-configuracoes',
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: ''
-            }
-        });
-    }
-    
-    /**
-     * Busca uma configuracao de horario de aula por ID
-     * Busca uma configuracao de horario de aula por ID
-     * @param data The data for the request.
-     * @param data.id
-     * @returns HorarioAulaConfiguracaoFindOneOutputDto
-     * @throws ApiError
-     */
-    public horarioAulaConfiguracaoFindById(data: HorarioAulaConfiguracaoFindByIdData): CancelablePromise<HorarioAulaConfiguracaoFindByIdResponse> {
-        return this.httpRequest.request({
-            method: 'GET',
-            url: '/horarios-aula-configuracoes/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Atualiza uma configuracao de horario de aula
-     * Atualiza uma configuracao de horario de aula
-     * @param data The data for the request.
-     * @param data.id
-     * @param data.requestBody
-     * @returns HorarioAulaConfiguracaoFindOneOutputDto
-     * @throws ApiError
-     */
-    public horarioAulaConfiguracaoUpdate(data: HorarioAulaConfiguracaoUpdateData): CancelablePromise<HorarioAulaConfiguracaoUpdateResponse> {
-        return this.httpRequest.request({
-            method: 'PATCH',
-            url: '/horarios-aula-configuracoes/{id}',
-            path: {
-                id: data.id
-            },
-            body: data.requestBody,
-            mediaType: 'application/json',
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
-    /**
-     * Remove uma configuracao de horario de aula
-     * Remove uma configuracao de horario de aula
-     * @param data The data for the request.
-     * @param data.id
-     * @returns boolean
-     * @throws ApiError
-     */
-    public horarioAulaConfiguracaoDelete(data: HorarioAulaConfiguracaoDeleteData): CancelablePromise<HorarioAulaConfiguracaoDeleteResponse> {
-        return this.httpRequest.request({
-            method: 'DELETE',
-            url: '/horarios-aula-configuracoes/{id}',
-            path: {
-                id: data.id
-            },
-            errors: {
-                403: '',
-                404: ''
-            }
-        });
-    }
-    
+  constructor(public readonly httpRequest: BaseHttpRequest) {}
+
+  /**
+   * Lista configuracoes de horario de aula
+   * Lista configuracoes de horario de aula
+   * @param data The data for the request.
+   * @param data.campusId
+   * @returns HorarioAulaConfiguracaoListOutputDto
+   * @throws ApiError
+   */
+  public horarioAulaConfiguracaoFindAll(
+    data: HorarioAulaConfiguracaoFindAllData
+  ): CancelablePromise<HorarioAulaConfiguracaoFindAllResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/horarios-aula-configuracoes',
+      query: {
+        campusId: data.campusId,
+      },
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Cria uma configuracao de horario de aula
+   * Cria uma configuracao de horario de aula
+   * @param data The data for the request.
+   * @param data.requestBody
+   * @returns HorarioAulaConfiguracaoFindOneOutputDto
+   * @throws ApiError
+   */
+  public horarioAulaConfiguracaoCreate(
+    data: HorarioAulaConfiguracaoCreateData
+  ): CancelablePromise<HorarioAulaConfiguracaoCreateResponse> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/horarios-aula-configuracoes',
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+      },
+    });
+  }
+
+  /**
+   * Busca uma configuracao de horario de aula por ID
+   * Busca uma configuracao de horario de aula por ID
+   * @param data The data for the request.
+   * @param data.id
+   * @returns HorarioAulaConfiguracaoFindOneOutputDto
+   * @throws ApiError
+   */
+  public horarioAulaConfiguracaoFindById(
+    data: HorarioAulaConfiguracaoFindByIdData
+  ): CancelablePromise<HorarioAulaConfiguracaoFindByIdResponse> {
+    return this.httpRequest.request({
+      method: 'GET',
+      url: '/horarios-aula-configuracoes/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Atualiza uma configuracao de horario de aula
+   * Atualiza uma configuracao de horario de aula
+   * @param data The data for the request.
+   * @param data.id
+   * @param data.requestBody
+   * @returns HorarioAulaConfiguracaoFindOneOutputDto
+   * @throws ApiError
+   */
+  public horarioAulaConfiguracaoUpdate(
+    data: HorarioAulaConfiguracaoUpdateData
+  ): CancelablePromise<HorarioAulaConfiguracaoUpdateResponse> {
+    return this.httpRequest.request({
+      method: 'PATCH',
+      url: '/horarios-aula-configuracoes/{id}',
+      path: {
+        id: data.id,
+      },
+      body: data.requestBody,
+      mediaType: 'application/json',
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
+
+  /**
+   * Remove uma configuracao de horario de aula
+   * Remove uma configuracao de horario de aula
+   * @param data The data for the request.
+   * @param data.id
+   * @returns boolean
+   * @throws ApiError
+   */
+  public horarioAulaConfiguracaoDelete(
+    data: HorarioAulaConfiguracaoDeleteData
+  ): CancelablePromise<HorarioAulaConfiguracaoDeleteResponse> {
+    return this.httpRequest.request({
+      method: 'DELETE',
+      url: '/horarios-aula-configuracoes/{id}',
+      path: {
+        id: data.id,
+      },
+      errors: {
+        403: '',
+        404: '',
+      },
+    });
+  }
 }

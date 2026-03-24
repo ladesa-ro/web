@@ -65,10 +65,7 @@ function nextForm() {
             </span>
           </div>
 
-          <UIRadioCircle
-            :itemValue="item.value"
-            :isSelected="selected"
-          />
+          <UIRadioCircle :itemValue="item.value" :isSelected="selected" />
         </div>
       </UIRadio>
       <span v-else-if="isLoading">Carregando...</span>

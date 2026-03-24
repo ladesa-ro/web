@@ -13,10 +13,7 @@ export default defineNuxtConfig({
   ssr: true,
 
   imports: {
-    dirs: [
-      'composables/ladesa-api',
-      'composables/query-helpers',
-    ],
+    dirs: ['composables/ladesa-api', 'composables/query-helpers'],
   },
 
   // ===========
@@ -70,11 +67,7 @@ export default defineNuxtConfig({
 
   // ==============================================
 
-  modules: [
-    '@nuxtjs/color-mode',
-    'vue3-carousel-nuxt',
-    '@nuxt/eslint',
-  ],
+  modules: ['@nuxtjs/color-mode', 'vue3-carousel-nuxt', '@nuxt/eslint'],
 
   colorMode: {
     preference: 'system',

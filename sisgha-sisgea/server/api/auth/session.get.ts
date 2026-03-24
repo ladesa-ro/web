@@ -6,7 +6,7 @@ const NULL_SESSION = {
   accessTokenExpires: null,
 };
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async event => {
   let accessToken = getCookie(event, AUTH_CONFIG.cookies.accessToken) ?? null;
   const refreshToken =
     getCookie(event, AUTH_CONFIG.cookies.refreshToken) ?? null;

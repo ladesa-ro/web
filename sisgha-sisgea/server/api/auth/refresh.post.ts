@@ -1,4 +1,4 @@
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async event => {
   const refreshToken = getCookie(event, AUTH_CONFIG.cookies.refreshToken);
 
   if (!refreshToken) {

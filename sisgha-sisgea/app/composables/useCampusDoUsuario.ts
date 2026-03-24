@@ -30,7 +30,7 @@ export function useCampusDoUsuario(userId?: MaybeRef<string | null>) {
     }
 
     if (isRef(userId)) {
-      watch(userId, (newId) => {
+      watch(userId, newId => {
         if (newId) fetchCampus(newId);
       });
     }

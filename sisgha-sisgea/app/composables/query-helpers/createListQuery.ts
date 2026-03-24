@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/vue-query';
 import type { IListQueryConfig } from './interfaces';
 
 export const createListQuery = <TResult, TParams = unknown>(
-  config: IListQueryConfig<TResult, TParams>,
+  config: IListQueryConfig<TResult, TParams>
 ) => {
   return (params?: MaybeRef<TParams>) =>
     useQuery({

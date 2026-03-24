@@ -1,5 +1,19 @@
-import { createListQuery, createInfiniteListQuery, createFindOneQuery, createInvalidate } from '~/composables/query-helpers';
-import type { ListFn, ListInfiniteFn, FindOneFn, CreateFn, UpdateFn, RemoveFn, InvalidateFn, UploadCoverFn } from '~/composables/query-helpers';
+import {
+  createListQuery,
+  createInfiniteListQuery,
+  createFindOneQuery,
+  createInvalidate,
+} from '~/composables/query-helpers';
+import type {
+  ListFn,
+  ListInfiniteFn,
+  FindOneFn,
+  CreateFn,
+  UpdateFn,
+  RemoveFn,
+  InvalidateFn,
+  UploadCoverFn,
+} from '~/composables/query-helpers';
 import type {
   DisciplinaFindAllData,
   DisciplinaFindAllResponse,
@@ -13,10 +27,19 @@ import type {
 export type IUseDisciplinas = {
   keys: readonly string[];
   list: ListFn<DisciplinaFindAllResponse, DisciplinaFindAllData>;
-  listInfinite: ListInfiniteFn<DisciplinaFindAllResponse, DisciplinaFindAllData>;
+  listInfinite: ListInfiniteFn<
+    DisciplinaFindAllResponse,
+    DisciplinaFindAllData
+  >;
   findOne: FindOneFn<DisciplinaFindByIdResponse>;
-  create: CreateFn<DisciplinaCreateData['requestBody'], DisciplinaCreateResponse>;
-  update: UpdateFn<DisciplinaUpdateData['requestBody'], DisciplinaUpdateResponse>;
+  create: CreateFn<
+    DisciplinaCreateData['requestBody'],
+    DisciplinaCreateResponse
+  >;
+  update: UpdateFn<
+    DisciplinaUpdateData['requestBody'],
+    DisciplinaUpdateResponse
+  >;
   remove: RemoveFn;
   uploadCover: UploadCoverFn;
   invalidate: InvalidateFn;
@@ -58,5 +81,15 @@ export const useDisciplinas = (): IUseDisciplinas => {
 
   const invalidate = createInvalidate(keys);
 
-  return { keys, list, listInfinite, findOne, create, update, remove, uploadCover, invalidate };
+  return {
+    keys,
+    list,
+    listInfinite,
+    findOne,
+    create,
+    update,
+    remove,
+    uploadCover,
+    invalidate,
+  };
 };

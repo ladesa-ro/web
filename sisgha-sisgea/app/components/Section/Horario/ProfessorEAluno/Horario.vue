@@ -27,6 +27,8 @@ const selectedOption = ref<'dia' | 'semana'>('dia');
     </section>
 
     <!-- Opção "Horário do dia" -->
-    <SectionHorarioProfessorEAlunoDailyViewDaysAndLessons v-show="selectedOption === 'dia'" />
+    <SectionHorarioProfessorEAlunoDailyViewDaysAndLessons
+      v-show="selectedOption === 'dia'"
+    />
   </UIContainer>
 </template>

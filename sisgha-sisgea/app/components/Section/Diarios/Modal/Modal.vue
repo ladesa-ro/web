@@ -12,7 +12,11 @@ const isActive = ref(false);
 
 const onOpen = () => {
   isActive.value = true;
-  showToast('cadastro', 'info', editId ? 'Editando diário...' : 'Criando novo diário...');
+  showToast(
+    'cadastro',
+    'info',
+    editId ? 'Editando diário...' : 'Criando novo diário...'
+  );
 };
 
 const onClose = () => {

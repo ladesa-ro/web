@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import AmbientesForm from '~/components/Section/Ambientes/Form/Form.vue';
-import { createApiListContextOptions } from '~~/app/components/UI/API/List/Context/UIApiListContext';
+import {
+  createApiListContextOptions,
+  type IEntityListModule,
+} from '~~/app/components/UI/API/List/Context/UIApiListContext';
 
 const api = useApiClient();
 
@@ -8,7 +11,7 @@ const crudModule = {
   baseQueryKeys: ['ambientes'] as string[],
   list: (data?: any) => api.ambientes.ambienteFindAll(data),
   getOne: (id: string) => api.ambientes.ambienteFindById({ id }),
-} as any;
+} satisfies IEntityListModule;
 
 const options = createApiListContextOptions({ crudModule });
 </script>

@@ -1,4 +1,4 @@
-import type { DayInShifts } from "~/composables/schedule/useScheduleTypes";
+import type { DayInShifts } from '~/composables/schedule/useScheduleTypes';
 
 export const shiftNames: (keyof DayInShifts['daySchedule'])[] = [
   'morning',

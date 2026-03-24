@@ -54,7 +54,10 @@ const userCampusItems = computed(() =>
       label: v.campus?.apelido ?? 'Desconhecido',
       value: v.campus?.id,
     }))
-    .filter((c: any, i: number, arr: any[]) => arr.findIndex((a: any) => a.value === c.value) === i)
+    .filter(
+      (c: any, i: number, arr: any[]) =>
+        arr.findIndex((a: any) => a.value === c.value) === i
+    )
 );
 
 const search = ref('');

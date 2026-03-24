@@ -1,5 +1,18 @@
-import { createListQuery, createInfiniteListQuery, createFindOneQuery, createInvalidate } from '~/composables/query-helpers';
-import type { ListFn, ListInfiniteFn, FindOneFn, CreateFn, UpdateFn, RemoveFn, InvalidateFn } from '~/composables/query-helpers';
+import {
+  createListQuery,
+  createInfiniteListQuery,
+  createFindOneQuery,
+  createInvalidate,
+} from '~/composables/query-helpers';
+import type {
+  ListFn,
+  ListInfiniteFn,
+  FindOneFn,
+  CreateFn,
+  UpdateFn,
+  RemoveFn,
+  InvalidateFn,
+} from '~/composables/query-helpers';
 import type {
   NivelFormacaoFindAllData,
   NivelFormacaoFindAllResponse,
@@ -13,10 +26,19 @@ import type {
 export type IUseNiveisFormacoes = {
   keys: readonly string[];
   list: ListFn<NivelFormacaoFindAllResponse, NivelFormacaoFindAllData>;
-  listInfinite: ListInfiniteFn<NivelFormacaoFindAllResponse, NivelFormacaoFindAllData>;
+  listInfinite: ListInfiniteFn<
+    NivelFormacaoFindAllResponse,
+    NivelFormacaoFindAllData
+  >;
   findOne: FindOneFn<NivelFormacaoFindByIdResponse>;
-  create: CreateFn<NivelFormacaoCreateData['requestBody'], NivelFormacaoCreateResponse>;
-  update: UpdateFn<NivelFormacaoUpdateData['requestBody'], NivelFormacaoUpdateResponse>;
+  create: CreateFn<
+    NivelFormacaoCreateData['requestBody'],
+    NivelFormacaoCreateResponse
+  >;
+  update: UpdateFn<
+    NivelFormacaoUpdateData['requestBody'],
+    NivelFormacaoUpdateResponse
+  >;
   remove: RemoveFn;
   invalidate: InvalidateFn;
 };
@@ -54,5 +76,14 @@ export const useNiveisFormacoes = (): IUseNiveisFormacoes => {
 
   const invalidate = createInvalidate(keys);
 
-  return { keys, list, listInfinite, findOne, create, update, remove, invalidate };
+  return {
+    keys,
+    list,
+    listInfinite,
+    findOne,
+    create,
+    update,
+    remove,
+    invalidate,
+  };
 };

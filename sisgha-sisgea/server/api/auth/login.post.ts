@@ -1,4 +1,4 @@
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async event => {
   const { matricula, senha } = await readBody(event);
 
   if (!matricula || !senha) {

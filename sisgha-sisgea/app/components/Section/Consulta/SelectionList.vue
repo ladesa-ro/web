@@ -34,27 +34,37 @@ const getFieldRef = (field: any) => {
 
 const formacaoQuery = ofertasFormacoes.list();
 
-const cursoQuery = cursos.list(computed(() => ({
-  filterCampusId: wrapFilter(values.campusId),
-  filterOfertaFormacaoId: wrapFilter(values.formacaoId),
-})));
+const cursoQuery = cursos.list(
+  computed(() => ({
+    filterCampusId: wrapFilter(values.campusId),
+    filterOfertaFormacaoId: wrapFilter(values.formacaoId),
+  }))
+);
 
-const turmaQuery = turmas.list(computed(() => ({
-  filterCursoId: wrapFilter(values.cursoId),
-})));
+const turmaQuery = turmas.list(
+  computed(() => ({
+    filterCursoId: wrapFilter(values.cursoId),
+  }))
+);
 
 type SelectionData = {
   field: string;
   name: string;
 
-  query: { data: Ref<any>; isEnabled: Ref<boolean>; isError: Ref<boolean>; isLoading: Ref<boolean>; isFetching: Ref<boolean> };
+  query: {
+    data: Ref<any>;
+    isEnabled: Ref<boolean>;
+    isError: Ref<boolean>;
+    isLoading: Ref<boolean>;
+    isFetching: Ref<boolean>;
+  };
   open: Ref<boolean>;
   value: Ref<string | null>;
 
   items: ComputedRef<ParsedItem[]>;
 };
 
-const selectionDatas: SelectionData[] = ([
+const selectionDatas: SelectionData[] = [
   {
     field: 'formacaoId',
     name: 'Formação',
@@ -115,10 +125,15 @@ const selectionDatas: SelectionData[] = ([
       }));
     }),
   },
-]);
+];
 
 const allHaveSelected = computed(() => {
-  return values.campusId !== null && values.formacaoId !== null && values.cursoId !== null && values.turmaId !== null;
+  return (
+    values.campusId !== null &&
+    values.formacaoId !== null &&
+    values.cursoId !== null &&
+    values.turmaId !== null
+  );
 });
 
 for (const selectionData of selectionDatas) {
@@ -140,7 +155,7 @@ for (const selectionData of selectionDatas) {
           selectionData.value.value = null;
         }
       }
-    },
+    }
   );
 }
 </script>
@@ -151,26 +166,19 @@ for (const selectionData of selectionDatas) {
   <SectionConsultaAccordion
     v-for="item in selectionDatas"
     :key="item.field"
-
     :open="item.open.value"
-    @update:open="value => item.open.value = value"
-
+    @update:open="value => (item.open.value = value)"
     :selected-option="item.value.value"
-    @update:selected-option="value => item.value.value = value"
-
+    @update:selected-option="value => (item.value.value = value)"
     :title="item.name"
     :items="item.items.value"
-
     :disabled="!item.query.isEnabled.value"
     :error="item.query.isError.value"
     :loading="item.query.isLoading.value || item.query.isFetching.value"
   />
 
   <!-- if all items are selected, send to the schedule of the selected turma  -->
-  <NuxtLink
-    :to="`/sisgha/consulta/horario/${values.turmaId}`"
-    class="w-full"
-  >
+  <NuxtLink :to="`/sisgha/consulta/horario/${values.turmaId}`" class="w-full">
     <UIButtonDefault :disabled="!allHaveSelected" class="w-full">
       Ver horário
     </UIButtonDefault>

@@ -1,5 +1,13 @@
-import { createListQuery, createFindOneQuery, createInvalidate } from '~/composables/query-helpers';
-import type { ListFn, FindOneFn, InvalidateFn } from '~/composables/query-helpers';
+import {
+  createListQuery,
+  createFindOneQuery,
+  createInvalidate,
+} from '~/composables/query-helpers';
+import type {
+  ListFn,
+  FindOneFn,
+  InvalidateFn,
+} from '~/composables/query-helpers';
 import type {
   PerfilFindAllData,
   PerfilFindAllResponse,
