@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@ladesa-ro/web.api.client": "workspace:*",
+    "@ladesa-ro/web.ui.nuxt": "workspace:*",
     "@ladesa-ro/web.utils": "workspace:*",
     "@atlaskit/pragmatic-drag-and-drop": "^1.7.9",
     "@atlaskit/pragmatic-drag-and-drop-auto-scroll": "^2.1.1",

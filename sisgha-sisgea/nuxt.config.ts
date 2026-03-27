@@ -2,6 +2,8 @@ import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineNuxtConfig({
+  extends: ['@ladesa-ro/web.ui.nuxt'],
+
   experimental: {
     normalizeComponentNames: true,
   },
