@@ -7,6 +7,10 @@
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
     "prepack": "nuxt-module-build build"
   },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "tailwindcss": "^4.2.2"
+  },
   "peerDependencies": {
     "nuxt": "^4.0.3"
   },
