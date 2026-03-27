@@ -1,7 +1,9 @@
-import Calendario from '~/components/Icons/Calendar/Calendar.vue';
-import Home from '~/components/Icons/Home.vue';
-import Logout from '~/components/Icons/Logout.vue';
-import User from '~/components/Icons/User.vue';
+import {
+  IconsCalendar,
+  IconsHome,
+  IconsLogout,
+  IconsUser,
+} from '#components';
 import type { ISidebarItem } from '~/components/Sidebar/SidebarItem/ISidebarItem';
 
 const CAMINHO_PROFESSOR: string = '/sisgha/professor';
@@ -11,7 +13,7 @@ export const useLayoutsDashboardSisghaProfessorSidebarItems = () => {
     {
       type: 'link',
       title: 'Início',
-      icon: Home,
+      icon: IconsHome,
       to: `${CAMINHO_PROFESSOR}/`,
       exact: true,
     },
@@ -19,7 +21,7 @@ export const useLayoutsDashboardSisghaProfessorSidebarItems = () => {
     {
       type: 'link',
       title: 'Calendário',
-      icon: Calendario,
+      icon: IconsCalendar,
       to: `${CAMINHO_PROFESSOR}/calendario`,
       exact: false,
     },
@@ -29,7 +31,7 @@ export const useLayoutsDashboardSisghaProfessorSidebarItems = () => {
     {
       type: 'link',
       title: 'Perfil',
-      icon: User,
+      icon: IconsUser,
       to: `${CAMINHO_PROFESSOR}/perfil`,
       exact: false,
     },
@@ -37,7 +39,7 @@ export const useLayoutsDashboardSisghaProfessorSidebarItems = () => {
     {
       type: 'link',
       title: 'Sair',
-      icon: Logout,
+      icon: IconsLogout,
       to: '/logout',
       exact: false,
     },

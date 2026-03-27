@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import ClockGenerate from '~/components/Icons/ClockGenerate.vue';
-import ClockPermanent from '~/components/Icons/ClockPermanent.vue';
-import ClockTemporary from '~/components/Icons/ClockTemporary.vue';
+import { IconsClockGenerate, IconsClockPermanent, IconsClockTemporary } from '#components';
 
 const { mode = 'green' } = defineProps<{
   selectedToggleItem?: 'mesclado' | 'professor' | 'turma';
@@ -15,8 +13,8 @@ const onClose = () => (isModalActive.value = false);
 //
 
 const toggleItems = [
-  { value: 'permanente', text: 'Permanente', icon: ClockPermanent },
-  { value: 'temporario', text: 'Temporário', icon: ClockTemporary },
+  { value: 'permanente', text: 'Permanente', icon: IconsClockPermanent },
+  { value: 'temporario', text: 'Temporário', icon: IconsClockTemporary },
 ];
 
 const toggleValue = ref('permanente');
@@ -56,7 +54,7 @@ const finalDate = ref(dayjs().add(1, 'week').format('DD/MM/YYYY'));
       <SectionInicioCardLink
         v-else
         class="w-full"
-        :icon="ClockGenerate"
+        :icon="IconsClockGenerate"
         title="Gerar Horário"
       />
     </template>

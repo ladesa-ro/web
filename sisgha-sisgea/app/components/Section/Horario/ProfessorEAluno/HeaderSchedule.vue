@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import IconClock from '~/components/Icons/Clock.vue';
-import IconMoreItems from '~/components/Icons/MoreItems.vue';
+import { IconsClock, IconsMoreItems } from '#components';
 import { capitalizeFirst } from '../-Helpers/CapitalizeFirst';
 import { getWeekDays } from '../-Helpers/GetWeekDays';
 
@@ -17,8 +16,8 @@ const lastWeekDay = weekDays[5]!;
 //
 
 const toggleItems = [
-  { text: 'Horário da semana', value: 'semana', icon: IconMoreItems },
-  { text: 'Horário do dia', value: 'dia', icon: IconClock },
+  { text: 'Horário da semana', value: 'semana', icon: IconsMoreItems },
+  { text: 'Horário do dia', value: 'dia', icon: IconsClock },
 ];
 
 const toggleSelectedItem = defineModel<string | number>('toggleOption', {

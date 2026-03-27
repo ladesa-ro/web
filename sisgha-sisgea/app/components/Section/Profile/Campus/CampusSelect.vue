@@ -10,8 +10,7 @@ import {
   ComboboxViewport as Viewport,
 } from 'reka-ui';
 import { computed, ref } from 'vue';
-import Arrow from '~/components/Icons/Arrow/Arrow.vue';
-import IconsIconLocale from '~/components/Icons/IconLocale.vue';
+import { IconsArrow, IconsIconLocale } from '#components';
 import AutoCompleteItem from '../../../UI/Form/OptionFields/Item.vue';
 
 type CampusItem = { label: string; value: string };
@@ -57,7 +56,7 @@ const selectedLabel = computed(
             />
 
             <Trigger>
-              <Arrow
+              <IconsArrow
                 class="w-2.5! h-2.5!"
                 :class="[
                   'text-ldsa-green-1 transition-transform duration-200',

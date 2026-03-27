@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import IconClass from '~/components/Icons/Class.vue';
-import IconEducator from '~/components/Icons/Educator.vue';
+import { IconsClass, IconsEducator } from '#components';
 
 const toggleItems = [
-  { text: 'Professor', value: 'professor', icon: IconEducator },
-  { text: 'Turma', value: 'turma', icon: IconClass },
+  { text: 'Professor', value: 'professor', icon: IconsEducator },
+  { text: 'Turma', value: 'turma', icon: IconsClass },
 ];
 
 const toggleValue = ref<'professor' | 'turma'>('professor');
