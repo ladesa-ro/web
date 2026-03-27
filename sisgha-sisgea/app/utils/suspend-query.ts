@@ -1,5 +1,5 @@
 import type { UseQueryReturnType } from '@tanstack/vue-query';
-import { wait } from './wait';
+import { wait } from '@ladesa-ro/web.utils';
 
 const __ARBITRARY_MAX_SILENT_WAIT = 30;
 

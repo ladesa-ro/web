@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import CursosForm from '../../Form/Form.vue';
 
-import type { CursoFindOneOutputDto } from '~/helpers/api-client';
+import type { CursoFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {

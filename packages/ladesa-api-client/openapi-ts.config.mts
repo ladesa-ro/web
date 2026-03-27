@@ -18,6 +18,6 @@ export default {
   output: {
     lint: 'biome',
     format: 'biome',
-    path: './app/helpers/api-client',
+    path: './src',
   },
 };

@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import AmbientesForm from '~/components/Section/Ambientes/Form/Form.vue';
-import type { AmbienteFindOneOutputDto } from '~/helpers/api-client';
+import type { AmbienteFindOneOutputDto } from '@ladesa-ro/web.api.client';
 
 type Props = {
   isLoading?: boolean;

@@ -21,7 +21,7 @@ import type {
   ModalidadeCreateResponse,
   ModalidadeUpdateData,
   ModalidadeUpdateResponse,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 export type IUseModalidades = {
   keys: readonly string[];

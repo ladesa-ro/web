@@ -21,7 +21,7 @@ import type {
   CalendarioLetivoCreateResponse,
   CalendarioLetivoUpdateData,
   CalendarioLetivoUpdateResponse,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 export type IUseCalendarioLetivo = {
   keys: readonly string[];

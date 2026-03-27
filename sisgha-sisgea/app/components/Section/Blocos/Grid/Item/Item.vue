@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import BlocosForm from '~/components/Section/Blocos/Form/Form.vue';
-import type { BlocoFindOneOutputDto } from '~/helpers/api-client';
+import type { BlocoFindOneOutputDto } from '@ladesa-ro/web.api.client';
 
 type Props = {
   isLoading?: boolean;

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
 import IconDiscipline from '~/components/Icons/Discipline.vue';
-import type { UsuarioFindOneOutputDto } from '~/helpers/api-client';
+import type { UsuarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import ProfileCarousel from './ProfileCarousel.vue';
 
 type Props = { user: UsuarioFindOneOutputDto };

@@ -21,7 +21,7 @@ import type {
   CampusCreateResponse,
   CampusUpdateData,
   CampusUpdateResponse,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 export type IUseCampi = {
   keys: readonly string[];

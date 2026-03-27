@@ -3,7 +3,7 @@ import type {
   CursoFindOneOutputDto,
   DisciplinaFindOneOutputDto,
   TurmaFindOneOutputDto,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 type DisciplinaCursoTurma = {
   disciplina: DisciplinaFindOneOutputDto;

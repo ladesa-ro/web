@@ -1,5 +1,5 @@
 import { useApiContext } from '~/composables/api-context/setup';
-import type { CampusFindOneOutputDto } from '~/helpers/api-client';
+import type { CampusFindOneOutputDto } from '@ladesa-ro/web.api.client';
 
 type campiPorCargo = { cargo: string; campi: CampusFindOneOutputDto[] };
 

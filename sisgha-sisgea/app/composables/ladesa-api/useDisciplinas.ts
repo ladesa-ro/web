@@ -22,7 +22,7 @@ import type {
   DisciplinaCreateResponse,
   DisciplinaUpdateData,
   DisciplinaUpdateResponse,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 export type IUseDisciplinas = {
   keys: readonly string[];

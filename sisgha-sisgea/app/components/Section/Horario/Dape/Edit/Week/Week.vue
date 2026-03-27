@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { capitalizeFirst } from '~/utils/capitalize-first';
+import { capitalizeFirst } from '@ladesa-ro/web.utils';
 import {
   getRowShiftName,
   shiftNames,

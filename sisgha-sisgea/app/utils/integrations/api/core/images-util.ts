@@ -5,7 +5,7 @@ import type {
   DisciplinaFindOneOutputDto,
   TurmaFindOneOutputDto,
   UsuarioFindOneOutputDto,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 export enum ApiImageResource {
   TURMA_COVER,

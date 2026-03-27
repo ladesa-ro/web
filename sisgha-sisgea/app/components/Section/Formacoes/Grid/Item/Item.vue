@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import FormacoesForm from '../../Form/Form.vue';
 
-import type { OfertaFormacaoFindOneOutputDto } from '~/helpers/api-client';
+import type { OfertaFormacaoFindOneOutputDto } from '@ladesa-ro/web.api.client';
 
 type Props = {
   isLoading?: boolean;

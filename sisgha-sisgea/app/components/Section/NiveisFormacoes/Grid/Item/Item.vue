@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import NiveisFormacoesForm from '../../Form/Form.vue';
-import type { NivelFormacaoFindOneOutputDto } from '~/helpers/api-client';
+import type { NivelFormacaoFindOneOutputDto } from '@ladesa-ro/web.api.client';
 
 type Props = {
   isLoading?: boolean;

@@ -21,7 +21,7 @@ import type {
   OfertaFormacaoCreateResponse,
   OfertaFormacaoUpdateData,
   OfertaFormacaoUpdateResponse,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 export type IUseOfertasFormacoes = {
   keys: readonly string[];

@@ -13,10 +13,11 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "types:check": "vue-tsc --noEmit",
-    "types:watch": "vue-tsc --noEmit --watch",
-    "generate-client": "openapi-ts"
+    "types:watch": "vue-tsc --noEmit --watch"
   },
   "dependencies": {
+    "@ladesa-ro/web.api.client": "workspace:*",
+    "@ladesa-ro/web.utils": "workspace:*",
     "@atlaskit/pragmatic-drag-and-drop": "^1.7.9",
     "@atlaskit/pragmatic-drag-and-drop-auto-scroll": "^2.1.1",
     "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.1.0",
@@ -45,7 +46,6 @@
   },
   "devDependencies": {
     "@babel/runtime": "^7.29.2",
-    "@hey-api/openapi-ts": "^0.53.12",
     "@types/lodash": "^4.17.24",
     "type-fest": "^5.4.4",
     "typescript": "5.9.3",

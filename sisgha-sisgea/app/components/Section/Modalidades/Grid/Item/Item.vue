@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import ModalidadesForm from '../../Form/Form.vue';
-import type { ModalidadeFindOneOutputDto } from '~/helpers/api-client';
+import type { ModalidadeFindOneOutputDto } from '@ladesa-ro/web.api.client';
 
 type Props = {
   isLoading?: boolean;

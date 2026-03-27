@@ -2,7 +2,7 @@ import type { UseQueryReturnType } from '@tanstack/vue-query';
 import type {
   AuthWhoAmIOutputDto,
   UsuarioFindOneOutputDto,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 import type { ResumoVinculos } from './resumir-vinculos';
 
 export type DynamicWhoAmIResult<Strict extends boolean = true> =

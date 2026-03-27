@@ -1,5 +1,5 @@
 import type { Dayjs } from 'dayjs';
-import { capitalizeFirst } from './capitalize-first';
+import { capitalizeFirst } from '@ladesa-ro/web.utils';
 import type { IWeekDay } from '~/components/Section/Horario/-Helpers/IWeekDay';
 
 export function getWeekDays(referenceDay: Dayjs): IWeekDay[] {

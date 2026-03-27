@@ -22,7 +22,7 @@ import type {
   CursoCreateResponse,
   CursoUpdateData,
   CursoUpdateResponse,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 export type IUseCursos = {
   keys: readonly string[];

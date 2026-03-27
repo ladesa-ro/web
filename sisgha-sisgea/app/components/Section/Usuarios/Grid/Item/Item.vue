@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useQuery } from '@tanstack/vue-query';
 import uniq from 'lodash/uniq';
-import type { UsuarioFindOneOutputDto } from '~/helpers/api-client';
+import type { UsuarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { TurmaFindOneOutputDto } from '~/helpers/api-client';
+import type { TurmaFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import type { TurmaSelecionada } from '../../../Contexto';
 
 const $emit = defineEmits<{

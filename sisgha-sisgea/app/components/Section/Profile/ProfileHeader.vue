@@ -3,7 +3,7 @@ import { IconsEducator, IconsUser } from '#components';
 import { useCanEditProfile, useUserCargoAndCampi } from '#imports';
 import { useQuery } from '@tanstack/vue-query';
 import { computed, ref } from 'vue';
-import type { UsuarioFindOneOutputDto } from '~/helpers/api-client';
+import type { UsuarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 import CampusSelect from './Campus/CampusSelect.vue';
 

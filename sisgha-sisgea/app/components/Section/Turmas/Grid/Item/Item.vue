@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import EditOrCreateModal from '~/components/Dialog/Modal/EditOrCreateModal.vue';
-import type { TurmaFindOneOutputDto } from '~/helpers/api-client';
+import type { TurmaFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 import TurmasForm from '../../Form/Form.vue';
 

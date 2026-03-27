@@ -1,4 +1,4 @@
-import { LadesaApiClient, type OpenAPIConfig } from '~/helpers/api-client';
+import { LadesaApiClient, type OpenAPIConfig } from '@ladesa-ro/web.api.client';
 
 const API_AUTH_TOKEN = Symbol.for('API_AUTH_TOKEN');
 

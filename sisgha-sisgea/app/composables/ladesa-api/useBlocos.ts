@@ -22,7 +22,7 @@ import type {
   BlocoCreateResponse,
   BlocoUpdateData,
   BlocoUpdateResponse,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 export type IUseBlocos = {
   keys: readonly string[];

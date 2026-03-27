@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { DisciplinaFindOneOutputDto } from '~/helpers/api-client';
+import type { DisciplinaFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 import DisciplinasForm from '../../Form/Form.vue';
 

@@ -21,7 +21,7 @@ import type {
   NivelFormacaoCreateResponse,
   NivelFormacaoUpdateData,
   NivelFormacaoUpdateResponse,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 export type IUseNiveisFormacoes = {
   keys: readonly string[];

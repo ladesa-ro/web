@@ -1,4 +1,4 @@
-import type { ModalidadeFindOneOutputDto } from '~/helpers/api-client';
+import type { ModalidadeFindOneOutputDto } from '@ladesa-ro/web.api.client';
 
 // TODO: não depender dos ids
 export const verificarModalidade = (

@@ -22,7 +22,7 @@ import type {
   TurmaCreateResponse,
   TurmaUpdateData,
   TurmaUpdateResponse,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 export type IUseTurmas = {
   keys: readonly string[];

@@ -12,7 +12,7 @@ import type {
   PerfilFindAllData,
   PerfilFindAllResponse,
   PerfilFindByIdResponse,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 export type IUsePerfis = {
   keys: readonly string[];

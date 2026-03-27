@@ -3,7 +3,7 @@ import { FormMode } from '~/utils/constants';
 import type {
   TurmaCreateInputDto,
   TurmaUpdateInputDto,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 import { useTurmaFormSchema } from './-Helpers/schema';
 import SectionTurmasFormAvailability from './Availability/AvailabilityModal.vue';
 

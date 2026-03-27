@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { DiarioFindOneOutputDto } from '~/helpers/api-client';
+import type { DiarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 // Definição das props ajustadas

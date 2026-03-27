@@ -1,7 +1,7 @@
 import type {
   TurmaFindOneOutputDto,
   UsuarioFindOneOutputDto,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 type ScheduleOwner =
   | Ref<TurmaFindOneOutputDto | null | undefined>

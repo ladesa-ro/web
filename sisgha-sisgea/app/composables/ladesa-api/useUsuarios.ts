@@ -22,7 +22,7 @@ import type {
   UsuarioCreateResponse,
   UsuarioUpdateData,
   UsuarioUpdateResponse,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 export type IUseUsuarios = {
   keys: readonly string[];

@@ -25,7 +25,7 @@ import type {
   DiarioProfessorFindAllResponse,
   DiarioProfessorBulkReplaceData,
   DiarioProfessorBulkReplaceResponse,
-} from '~/helpers/api-client';
+} from '@ladesa-ro/web.api.client';
 
 export type IUseDiarios = {
   keys: readonly string[];
