@@ -83,6 +83,8 @@ const periodos = ref<Periodo[]>(
 
 // ---- State saved outside vee-validate so steps don't lose data ----
 const savedFormData = reactive({
+  campusId:
+    currentFormacao.value?.campus?.id ?? campusContext.value ?? (null as string | null),
   nome: currentFormacao.value?.nome ?? '',
   slug: currentFormacao.value?.slug ?? '',
   duracaoPeriodoEmMeses: currentFormacao.value?.duracaoPeriodoEmMeses ?? 6,
@@ -99,6 +101,9 @@ if (periodos.value.length === 0) {
 
 // Schema for step 1 validation
 const schema = yup.object().shape({
+  campus: yup.object().shape({
+    id: yup.string().required('Campus é obrigatório!'),
+  }),
   nome: yup.string().required('Nome é obrigatório!'),
   slug: yup.string().required('Nome abreviado é obrigatório!'),
   duracaoPeriodoEmMeses: yup
@@ -120,6 +125,7 @@ const {
 } = useForm({
   validationSchema: schema,
   initialValues: {
+    campus: { id: savedFormData.campusId },
     nome: savedFormData.nome,
     slug: savedFormData.slug,
     duracaoPeriodoEmMeses: savedFormData.duracaoPeriodoEmMeses,
@@ -170,6 +176,7 @@ const removeEtapa = (periodoIndex: number, etapaIndex: number) => {
 
 // Save form state before switching steps
 const saveStep1 = () => {
+  savedFormData.campusId = formValues.campus?.id ?? null;
   savedFormData.nome = formValues.nome;
   savedFormData.slug = formValues.slug;
   savedFormData.duracaoPeriodoEmMeses = formValues.duracaoPeriodoEmMeses;
@@ -189,6 +196,7 @@ const goToStep1 = () => {
   // Restore saved data into vee-validate form
   resetForm({
     values: {
+      campus: { id: savedFormData.campusId },
       nome: savedFormData.nome,
       slug: savedFormData.slug,
       duracaoPeriodoEmMeses: savedFormData.duracaoPeriodoEmMeses,
@@ -225,7 +233,7 @@ const onSubmit = async () => {
     slug: savedFormData.slug,
     duracaoPeriodoEmMeses: savedFormData.duracaoPeriodoEmMeses,
     modalidade: { id: savedFormData.modalidadeId! },
-    campus: { id: campusContext.value ?? '' },
+    campus: { id: savedFormData.campusId ?? '' },
     niveisFormacoes: savedFormData.niveisFormacoes.map((id: string) => ({
       id,
     })),
@@ -279,6 +287,8 @@ function onClose() {
     >
       <!-- Step 1: Basic Info -->
       <template v-if="step === 1">
+        <VVAutocompleteAPICampus name="campus.id" />
+
         <VVTextField
           label="Nome"
           name="nome"
