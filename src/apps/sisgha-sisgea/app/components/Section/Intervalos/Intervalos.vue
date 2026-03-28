@@ -1,47 +1,34 @@
 <script setup lang="ts">
-import IntervaloSelectForm from '~/components/Section/Intervalos/Form/SelectForm.vue';
 import PeriodosGrid from '~/components/Section/Intervalos/Layout/Grid.vue';
+import {
+  agruparPorPeriodo,
+  achatarPeriodos,
+  validarIntervalos,
+  toApiFormat,
+  toDisplayFormat,
+} from '~/utils/horarios';
+import type { PeriodoGroup } from '~/utils/horarios';
 
-const fusoHorario = ref([
-  'Amazonas - Manaus (GMT-04:00)',
-  'Fernando de Noronha (UTC-02:00)',
-  'Acre (UTC-05:00)',
-]);
+const campusContext = useCampusContext();
+const { findAtual, replace, invalidate } = useHorariosDeAula();
+const toast = useToast();
 
-const ordem = ref(['Crescente', 'Decrescente']);
+const { data: queryData, isLoading, isError } = findAtual(campusContext);
 
-const form = ref({ fusoHorario: null, ordem: null });
+const periodos = computed<PeriodoGroup[]>(() => {
+  const items = (queryData.value?.data ?? []).map(i => ({
+    inicio: toDisplayFormat(i.inicio),
+    fim: toDisplayFormat(i.fim),
+  }));
+  return agruparPorPeriodo(items);
+});
 
-const periodos = ref([
-  {
-    nome: 'Matutino',
-    intervalos: [
-      { inicio: '07:00', fim: '08:30' },
-      { inicio: '08:40', fim: '10:10' },
-      { inicio: '10:20', fim: '11:50' },
-    ],
-  },
-  {
-    nome: 'Vespertino',
-    intervalos: [
-      { inicio: '13:00', fim: '14:30' },
-      { inicio: '14:40', fim: '16:10' },
-      { inicio: '16:20', fim: '17:50' },
-    ],
-  },
-  {
-    nome: 'Noturno',
-    intervalos: [
-      { inicio: '18:30', fim: '20:00' },
-      { inicio: '20:10', fim: '21:40' },
-      { inicio: '21:50', fim: '23:20' },
-    ],
-  },
-]);
+const isEditing = ref(false);
+const isSaving = ref(false);
+const editingPeriodos = ref<PeriodoGroup[]>([]);
+const validationErrors = ref<string[]>([]);
 
-const novosIntervalos = ref<({ inicio: string; fim: string } | null)[]>(
-  periodos.value.map(() => null)
-);
+const novosIntervalos = ref<({ inicio: string; fim: string } | null)[]>([null, null, null]);
 
 const intervaloEditando = ref<{
   periodoIndex: number;
@@ -49,26 +36,65 @@ const intervaloEditando = ref<{
   dados: { inicio: string; fim: string };
 } | null>(null);
 
-watch(
-  () => form.value.ordem,
-  novaOrdem => {
-    if (!novaOrdem) return;
-
-    periodos.value.forEach(periodo => {
-      periodo.intervalos.sort((a, b) => {
-        const horaA = a.inicio;
-        const horaB = b.inicio;
-        return novaOrdem === 'Crescente'
-          ? horaA.localeCompare(horaB)
-          : horaB.localeCompare(horaA);
-      });
-    });
-  }
+const displayPeriodos = computed(() =>
+  isEditing.value ? editingPeriodos.value : periodos.value
 );
+
+function entrarEdicao() {
+  editingPeriodos.value = JSON.parse(JSON.stringify(periodos.value));
+  novosIntervalos.value = editingPeriodos.value.map(() => null);
+  intervaloEditando.value = null;
+  validationErrors.value = [];
+  isEditing.value = true;
+}
+
+function cancelarEdicao() {
+  isEditing.value = false;
+  editingPeriodos.value = [];
+  novosIntervalos.value = [null, null, null];
+  intervaloEditando.value = null;
+  validationErrors.value = [];
+}
+
+async function salvar() {
+  const todosIntervalos = achatarPeriodos(editingPeriodos.value);
+  const { valid, errors } = validarIntervalos(todosIntervalos);
+
+  if (!valid) {
+    validationErrors.value = errors;
+    return;
+  }
+
+  validationErrors.value = [];
+  const campus = campusContext.value;
+  if (!campus) {
+    toast.error({ title: 'Nenhum campus selecionado.' });
+    return;
+  }
+
+  isSaving.value = true;
+  try {
+    const horarios = todosIntervalos.map(i => ({
+      inicio: toApiFormat(i.inicio),
+      fim: toApiFormat(i.fim),
+    }));
+    await replace(campus, horarios);
+    await invalidate();
+    isEditing.value = false;
+    editingPeriodos.value = [];
+    novosIntervalos.value = [null, null, null];
+    intervaloEditando.value = null;
+    toast.success({ title: 'Horários atualizados com sucesso!' });
+  } catch {
+    toast.error({ title: 'Erro ao salvar horários.' });
+  } finally {
+    isSaving.value = false;
+  }
+}
 
 function confirmarIntervalo(index: number) {
   const intervalo = novosIntervalos.value[index];
-  const periodo = periodos.value[index];
+  const periodo = editingPeriodos.value[index];
   if (!intervalo || !periodo) return;
 
   if (intervalo.inicio && intervalo.fim) {
@@ -78,7 +104,7 @@ function confirmarIntervalo(index: number) {
 }
 
 function removerIntervalo(i: number, j: number) {
-  const periodo = periodos.value[i];
+  const periodo = editingPeriodos.value[i];
   if (!periodo) return;
   periodo.intervalos.splice(j, 1);
 }
@@ -99,16 +125,14 @@ function adicionarIntervalo(index: number) {
 
 function atualizarNovoIntervalo(
   index: number,
-  val: { inicio: string; fim: string }
+  val: { inicio: string; fim: string } | null
 ) {
   novosIntervalos.value[index] = val;
 }
 
 function editarIntervalo(i: number, j: number) {
-  if (intervaloEditando.value !== null) {
-    return;
-  }
-  const periodo = periodos.value[i];
+  if (intervaloEditando.value !== null) return;
+  const periodo = editingPeriodos.value[i];
   const intervalo = periodo?.intervalos?.[j];
   if (!intervalo) return;
   intervaloEditando.value = {
@@ -118,7 +142,7 @@ function editarIntervalo(i: number, j: number) {
   };
 }
 
-function cancelarEdicao() {
+function cancelarEdicaoIntervalo() {
   intervaloEditando.value = null;
 }
 
@@ -131,7 +155,7 @@ function confirmarEdicao() {
   const edit = intervaloEditando.value;
   if (!edit) return;
 
-  const periodo = periodos.value[edit.periodoIndex];
+  const periodo = editingPeriodos.value[edit.periodoIndex];
   if (!periodo?.intervalos?.[edit.intervaloIndex]) return;
 
   periodo.intervalos[edit.intervaloIndex] = { ...edit.dados };
@@ -146,16 +170,70 @@ function confirmarEdicao() {
     >
       <UITitleWithGoBack to="../" text="Horários de aula" />
 
-      <IntervaloSelectForm
-        :fusoHorario="fusoHorario"
-        :ordem="ordem"
-        v-model:fusoHorarioSelecionado="form.fusoHorario"
-        v-model:ordemSelecionada="form.ordem"
-      />
+      <div class="flex gap-4 items-center">
+        <template v-if="!isEditing">
+          <button
+            @click="entrarEdicao"
+            :disabled="isLoading || !campusContext"
+            class="px-4 py-2 bg-ldsa-green-1 text-white rounded-md text-sm font-medium hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            Editar
+          </button>
+        </template>
+        <template v-else>
+          <button
+            @click="salvar"
+            :disabled="isSaving"
+            class="px-4 py-2 bg-ldsa-green-1 text-white rounded-md text-sm font-medium hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {{ isSaving ? 'Salvando...' : 'Salvar' }}
+          </button>
+          <button
+            @click="cancelarEdicao"
+            :disabled="isSaving"
+            class="px-4 py-2 border border-ldsa-grey text-ldsa-grey rounded-md text-sm font-medium hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            Cancelar
+          </button>
+        </template>
+      </div>
     </nav>
 
+    <div
+      v-if="validationErrors.length > 0"
+      class="bg-red-50 border border-ldsa-red rounded-md p-3"
+    >
+      <p
+        v-for="(error, i) in validationErrors"
+        :key="i"
+        class="text-ldsa-red text-sm"
+      >
+        {{ error }}
+      </p>
+    </div>
+
+    <div v-if="isLoading" class="text-center py-12 text-ldsa-grey">
+      Carregando horários...
+    </div>
+
+    <div
+      v-else-if="isError"
+      class="text-center py-12 text-ldsa-red"
+    >
+      Erro ao carregar horários.
+    </div>
+
+    <div
+      v-else-if="!campusContext"
+      class="text-center py-12 text-ldsa-grey"
+    >
+      Selecione um campus para visualizar os horários.
+    </div>
+
     <PeriodosGrid
-      :periodos="periodos"
+      v-else
+      :periodos="displayPeriodos"
+      :is-editing="isEditing"
       :novos-intervalos="novosIntervalos"
       :intervalo-editando="intervaloEditando"
       @confirmNovo="confirmarIntervalo"
@@ -163,7 +241,7 @@ function confirmarEdicao() {
       @add="adicionarIntervalo"
       @updateNovoIntervalo="atualizarNovoIntervalo"
       @edit="editarIntervalo"
-      @cancelEdit="cancelarEdicao"
+      @cancelEdit="cancelarEdicaoIntervalo"
       @updateEdit="atualizarEdicao"
       @confirmEdit="confirmarEdicao"
     />

@@ -286,21 +286,6 @@ import type {
   GerarHorarioRejeitarData,
   GerarHorarioRejeitarErrors,
   GerarHorarioRejeitarResponses,
-  HorarioAulaConfiguracaoCreateData,
-  HorarioAulaConfiguracaoCreateErrors,
-  HorarioAulaConfiguracaoCreateResponses,
-  HorarioAulaConfiguracaoDeleteData,
-  HorarioAulaConfiguracaoDeleteErrors,
-  HorarioAulaConfiguracaoDeleteResponses,
-  HorarioAulaConfiguracaoFindAllData,
-  HorarioAulaConfiguracaoFindAllErrors,
-  HorarioAulaConfiguracaoFindAllResponses,
-  HorarioAulaConfiguracaoFindByIdData,
-  HorarioAulaConfiguracaoFindByIdErrors,
-  HorarioAulaConfiguracaoFindByIdResponses,
-  HorarioAulaConfiguracaoUpdateData,
-  HorarioAulaConfiguracaoUpdateErrors,
-  HorarioAulaConfiguracaoUpdateResponses,
   HorarioEdicaoApplyChangeData,
   HorarioEdicaoApplyChangeErrors,
   HorarioEdicaoApplyChangeResponses,
@@ -316,6 +301,12 @@ import type {
   HorarioMescladoData,
   HorarioMescladoErrors,
   HorarioMescladoResponses,
+  HorariosDeAulaFindAtualData,
+  HorariosDeAulaFindAtualErrors,
+  HorariosDeAulaFindAtualResponses,
+  HorariosDeAulaReplaceData,
+  HorariosDeAulaReplaceErrors,
+  HorariosDeAulaReplaceResponses,
   ModalidadeCreateData,
   ModalidadeCreateErrors,
   ModalidadeCreateResponses,
@@ -3053,92 +3044,33 @@ export const relatorioAulasMinistradasPdf = <
   >({ url: '/relatorios/aulas-ministradas/pdf', ...options });
 
 /**
- * Lista configuracoes de horario de aula
+ * Retorna os horarios de aula ativos de um campus
  *
- * Lista configuracoes de horario de aula
+ * Retorna os horarios de aula ativos de um campus
  */
-export const horarioAulaConfiguracaoFindAll = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<HorarioAulaConfiguracaoFindAllData, ThrowOnError>
+export const horariosDeAulaFindAtual = <ThrowOnError extends boolean = false>(
+  options: Options<HorariosDeAulaFindAtualData, ThrowOnError>
 ) =>
   (options.client ?? client).get<
-    HorarioAulaConfiguracaoFindAllResponses,
-    HorarioAulaConfiguracaoFindAllErrors,
+    HorariosDeAulaFindAtualResponses,
+    HorariosDeAulaFindAtualErrors,
     ThrowOnError
-  >({ url: '/horarios-aula-configuracoes', ...options });
+  >({ url: '/horarios-de-aula/{campusId}/atual', ...options });
 
 /**
- * Cria uma configuracao de horario de aula
+ * Substitui os horarios de aula de um campus
  *
- * Cria uma configuracao de horario de aula
+ * Substitui os horarios de aula de um campus
  */
-export const horarioAulaConfiguracaoCreate = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<HorarioAulaConfiguracaoCreateData, ThrowOnError>
+export const horariosDeAulaReplace = <ThrowOnError extends boolean = false>(
+  options: Options<HorariosDeAulaReplaceData, ThrowOnError>
 ) =>
-  (options.client ?? client).post<
-    HorarioAulaConfiguracaoCreateResponses,
-    HorarioAulaConfiguracaoCreateErrors,
+  (options.client ?? client).put<
+    HorariosDeAulaReplaceResponses,
+    HorariosDeAulaReplaceErrors,
     ThrowOnError
   >({
-    url: '/horarios-aula-configuracoes',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Remove uma configuracao de horario de aula
- *
- * Remove uma configuracao de horario de aula
- */
-export const horarioAulaConfiguracaoDelete = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<HorarioAulaConfiguracaoDeleteData, ThrowOnError>
-) =>
-  (options.client ?? client).delete<
-    HorarioAulaConfiguracaoDeleteResponses,
-    HorarioAulaConfiguracaoDeleteErrors,
-    ThrowOnError
-  >({ url: '/horarios-aula-configuracoes/{id}', ...options });
-
-/**
- * Busca uma configuracao de horario de aula por ID
- *
- * Busca uma configuracao de horario de aula por ID
- */
-export const horarioAulaConfiguracaoFindById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<HorarioAulaConfiguracaoFindByIdData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    HorarioAulaConfiguracaoFindByIdResponses,
-    HorarioAulaConfiguracaoFindByIdErrors,
-    ThrowOnError
-  >({ url: '/horarios-aula-configuracoes/{id}', ...options });
-
-/**
- * Atualiza uma configuracao de horario de aula
- *
- * Atualiza uma configuracao de horario de aula
- */
-export const horarioAulaConfiguracaoUpdate = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<HorarioAulaConfiguracaoUpdateData, ThrowOnError>
-) =>
-  (options.client ?? client).patch<
-    HorarioAulaConfiguracaoUpdateResponses,
-    HorarioAulaConfiguracaoUpdateErrors,
-    ThrowOnError
-  >({
-    url: '/horarios-aula-configuracoes/{id}',
+    url: '/horarios-de-aula/{campusId}',
     ...options,
     headers: {
       'Content-Type': 'application/json',

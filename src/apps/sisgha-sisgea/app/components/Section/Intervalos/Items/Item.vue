@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{
   intervalo: { inicio: string; fim: string };
+  isEditing: boolean;
   onRemove: () => void;
   onEdit?: () => void;
 }>();
@@ -13,7 +14,7 @@ defineProps<{
     <div class="font-medium text-[13px] whitespace-nowrap">
       {{ intervalo.inicio }} - {{ intervalo.fim }}
     </div>
-    <div class="flex gap-4 text-sm">
+    <div v-if="isEditing" class="flex gap-4 text-sm">
       <button @click="onEdit" class="w-[0.9rem] hover:text-ldsa-green-1">
         <IconsEdit />
       </button>

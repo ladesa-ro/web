@@ -3,6 +3,7 @@ import PeriodoCard from './Card.vue';
 
 defineProps<{
   periodos: { nome: string; intervalos: { inicio: string; fim: string }[] }[];
+  isEditing: boolean;
   novosIntervalos: ({ inicio: string; fim: string } | null)[];
   intervaloEditando: {
     periodoIndex: number;
@@ -30,6 +31,7 @@ defineEmits([
       :key="i"
       :periodo="periodo"
       :index="i"
+      :is-editing="isEditing"
       :novo-intervalo="novosIntervalos[i] ?? null"
       :editando="
         intervaloEditando && intervaloEditando.periodoIndex === i

@@ -1,15 +1,35 @@
 <script lang="ts" setup>
-const { moreThanOneCampus, campiList } = useUserCargoAndCampi();
+import { useApiContext } from '~/composables/api-context/setup';
 
-const toggleCampusItems = campiList.map(campus => ({
-  label: campus.apelido,
-  value: campus.id,
-}));
+const { moreThanOneCampus, campiList: userCampiList } = useUserCargoAndCampi();
+const { usuario } = useApiContext();
+
+const isSuperUser = computed(() => usuario.value?.isSuperUser ?? false);
+
+const campi = useCampi();
+const { data: allCampiData } = campi.list();
+
+const toggleCampusItems = computed(() => {
+  if (isSuperUser.value) {
+    return (allCampiData.value?.data ?? []).map(campus => ({
+      label: campus.apelido,
+      value: campus.id,
+    }));
+  }
+  return userCampiList.map(campus => ({
+    label: campus.apelido,
+    value: campus.id,
+  }));
+});
+
+const showSelector = computed(
+  () => isSuperUser.value || moreThanOneCampus
+);
 
 const selectedCampusGlobalState = useCampusContext();
 
 const selectedCampus = ref(
-  selectedCampusGlobalState.value ?? toggleCampusItems[0]?.value ?? null
+  selectedCampusGlobalState.value ?? toggleCampusItems.value[0]?.value ?? null
 );
 
 onMounted(() => {
@@ -26,6 +46,8 @@ const route = useRoute();
 const router = useRouter();
 
 const verifyCargo = () => {
+  if (isSuperUser.value) return;
+
   if (cargos.value.length > 1 || route.path.includes('sisgea')) {
     return;
   }
@@ -57,7 +79,7 @@ const open = ref(false);
 </script>
 
 <template>
-  <UIPopover v-model="open" v-if="moreThanOneCampus">
+  <UIPopover v-model="open" v-if="showSelector">
     <template #activator>
       <div
         class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden"

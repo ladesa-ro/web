@@ -2141,22 +2141,31 @@ export type TurmaUpdateInputDto = {
   } | null;
 };
 
-export type TurmaHorarioAulaFindOneOutputDto = {
-  id: string;
-  horarioAulaId: string;
+export type TurmaHorarioAulaItemOutputDto = {
   inicio: string;
   fim: string;
 };
 
 export type TurmaHorarioAulaListOutputDto = {
-  data: Array<TurmaHorarioAulaFindOneOutputDto>;
+  data: Array<TurmaHorarioAulaItemOutputDto>;
+};
+
+export type TurmaHorarioAulaItemInputDto = {
+  /**
+   * Horario inicio (HH:MM:SS)
+   */
+  inicio: string;
+  /**
+   * Horario fim (HH:MM:SS)
+   */
+  fim: string;
 };
 
 export type TurmaHorarioAulaBulkReplaceInputDto = {
   /**
-   * IDs dos horarios de aula selecionados
+   * Horarios de aula da turma (substituicao completa)
    */
-  horarioAulaIds: Array<string>;
+  horarios: Array<TurmaHorarioAulaItemInputDto>;
 };
 
 export type TurmaEventoFindOneOutputDto = {
@@ -2734,17 +2743,8 @@ export type HorarioAulaItemOutputDto = {
   fim: string;
 };
 
-export type HorarioAulaConfiguracaoFindOneOutputDto = {
-  id: string;
-  dataInicio: string;
-  dataFim?: string | null;
-  ativo: boolean;
-  campusId: string;
-  horarios: Array<HorarioAulaItemOutputDto>;
-};
-
-export type HorarioAulaConfiguracaoListOutputDto = {
-  data: Array<HorarioAulaConfiguracaoFindOneOutputDto>;
+export type HorarioDeAulaListOutputDto = {
+  data: Array<HorarioAulaItemOutputDto>;
 };
 
 export type HorarioAulaItemInputDto = {
@@ -2758,38 +2758,11 @@ export type HorarioAulaItemInputDto = {
   fim: string;
 };
 
-export type HorarioAulaConfiguracaoCreateInputDto = {
-  /**
-   * Data inicio da configuracao
-   */
-  dataInicio: string;
-  /**
-   * Data fim da configuracao
-   */
-  dataFim?: string | null;
-  /**
-   * Configuracao ativa
-   */
-  ativo: boolean;
-  /**
-   * ID do campus
-   */
-  campusId: string;
-  /**
-   * Horarios de aula da configuracao
-   */
-  horarios?: Array<HorarioAulaItemInputDto>;
-};
-
-export type HorarioAulaConfiguracaoUpdateInputDto = {
-  dataInicio?: string;
-  dataFim?: string | null;
-  ativo?: boolean;
-  campusId?: string;
+export type HorarioDeAulaReplaceInputDto = {
   /**
    * Horarios de aula (substituicao completa)
    */
-  horarios?: Array<HorarioAulaItemInputDto>;
+  horarios: Array<HorarioAulaItemInputDto>;
 };
 
 export type AppControllerGetServiceInfoData = {
@@ -6734,103 +6707,48 @@ export type RelatorioAulasMinistradasPdfErrors = {
   403: unknown;
 };
 
-export type HorarioAulaConfiguracaoFindAllData = {
+export type HorariosDeAulaFindAtualData = {
   body?: never;
-  path?: never;
-  query: {
+  path: {
+    /**
+     * ID do campus
+     */
     campusId: string;
   };
-  url: '/horarios-aula-configuracoes';
-};
-
-export type HorarioAulaConfiguracaoFindAllErrors = {
-  403: unknown;
-};
-
-export type HorarioAulaConfiguracaoFindAllResponses = {
-  200: HorarioAulaConfiguracaoListOutputDto;
-};
-
-export type HorarioAulaConfiguracaoFindAllResponse =
-  HorarioAulaConfiguracaoFindAllResponses[keyof HorarioAulaConfiguracaoFindAllResponses];
-
-export type HorarioAulaConfiguracaoCreateData = {
-  body: HorarioAulaConfiguracaoCreateInputDto;
-  path?: never;
   query?: never;
-  url: '/horarios-aula-configuracoes';
+  url: '/horarios-de-aula/{campusId}/atual';
 };
 
-export type HorarioAulaConfiguracaoCreateErrors = {
+export type HorariosDeAulaFindAtualErrors = {
   403: unknown;
 };
 
-export type HorarioAulaConfiguracaoCreateResponses = {
-  201: HorarioAulaConfiguracaoFindOneOutputDto;
+export type HorariosDeAulaFindAtualResponses = {
+  200: HorarioDeAulaListOutputDto;
 };
 
-export type HorarioAulaConfiguracaoCreateResponse =
-  HorarioAulaConfiguracaoCreateResponses[keyof HorarioAulaConfiguracaoCreateResponses];
+export type HorariosDeAulaFindAtualResponse =
+  HorariosDeAulaFindAtualResponses[keyof HorariosDeAulaFindAtualResponses];
 
-export type HorarioAulaConfiguracaoDeleteData = {
-  body?: never;
+export type HorariosDeAulaReplaceData = {
+  body: HorarioDeAulaReplaceInputDto;
   path: {
-    id: string;
+    /**
+     * ID do campus
+     */
+    campusId: string;
   };
   query?: never;
-  url: '/horarios-aula-configuracoes/{id}';
+  url: '/horarios-de-aula/{campusId}';
 };
 
-export type HorarioAulaConfiguracaoDeleteErrors = {
+export type HorariosDeAulaReplaceErrors = {
   403: unknown;
-  404: unknown;
 };
 
-export type HorarioAulaConfiguracaoDeleteResponses = {
-  200: boolean;
+export type HorariosDeAulaReplaceResponses = {
+  200: HorarioDeAulaListOutputDto;
 };
 
-export type HorarioAulaConfiguracaoDeleteResponse =
-  HorarioAulaConfiguracaoDeleteResponses[keyof HorarioAulaConfiguracaoDeleteResponses];
-
-export type HorarioAulaConfiguracaoFindByIdData = {
-  body?: never;
-  path: {
-    id: string;
-  };
-  query?: never;
-  url: '/horarios-aula-configuracoes/{id}';
-};
-
-export type HorarioAulaConfiguracaoFindByIdErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type HorarioAulaConfiguracaoFindByIdResponses = {
-  200: HorarioAulaConfiguracaoFindOneOutputDto;
-};
-
-export type HorarioAulaConfiguracaoFindByIdResponse =
-  HorarioAulaConfiguracaoFindByIdResponses[keyof HorarioAulaConfiguracaoFindByIdResponses];
-
-export type HorarioAulaConfiguracaoUpdateData = {
-  body: HorarioAulaConfiguracaoUpdateInputDto;
-  path: {
-    id: string;
-  };
-  query?: never;
-  url: '/horarios-aula-configuracoes/{id}';
-};
-
-export type HorarioAulaConfiguracaoUpdateErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type HorarioAulaConfiguracaoUpdateResponses = {
-  200: HorarioAulaConfiguracaoFindOneOutputDto;
-};
-
-export type HorarioAulaConfiguracaoUpdateResponse =
-  HorarioAulaConfiguracaoUpdateResponses[keyof HorarioAulaConfiguracaoUpdateResponses];
+export type HorariosDeAulaReplaceResponse =
+  HorariosDeAulaReplaceResponses[keyof HorariosDeAulaReplaceResponses];

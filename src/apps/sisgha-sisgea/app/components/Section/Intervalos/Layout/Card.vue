@@ -5,6 +5,7 @@ import IntervaloItem from '~/components/Section/Intervalos/Items/Item.vue';
 defineProps<{
   periodo: { nome: string; intervalos: { inicio: string; fim: string }[] };
   index: number;
+  isEditing: boolean;
   novoIntervalo: { inicio: string; fim: string } | null;
   editando: {
     periodoIndex: number;
@@ -34,38 +35,49 @@ const emit = defineEmits([
     </div>
 
     <div v-for="(intervalo, j) in periodo.intervalos" :key="j">
-      <template v-if="editando && editando.intervaloIndex === j">
+      <template v-if="isEditing && editando && editando.intervaloIndex === j">
         <IntervaloForm
           :model-value="editando.dados"
           @update:modelValue="val => emit('updateEdit', val)"
           :on-confirm="() => emit('confirmEdit')"
+          :on-cancel="() => emit('cancelEdit')"
         />
-        <UIButtonModalCancel @click="() => emit('cancelEdit')" />
       </template>
       <template v-else>
         <IntervaloItem
           :intervalo="intervalo"
+          :is-editing="isEditing"
           :onRemove="() => emit('removeIntervalo', j)"
           :onEdit="() => emit('edit', j)"
         />
       </template>
     </div>
 
-    <IntervaloForm
-      v-if="novoIntervalo"
-      :model-value="novoIntervalo"
-      @update:modelValue="val => emit('updateNovoIntervalo', val)"
-      :on-confirm="() => emit('confirmNovo')"
-    />
+    <template v-if="isEditing">
+      <IntervaloForm
+        v-if="novoIntervalo"
+        :model-value="novoIntervalo"
+        @update:modelValue="val => emit('updateNovoIntervalo', val)"
+        :on-confirm="() => emit('confirmNovo')"
+        :on-cancel="() => emit('updateNovoIntervalo', null)"
+      />
 
-    <button
-      v-else
-      @click="emit('add')"
-      :disabled="!!editando || !!novoIntervalo"
-      class="mx-auto text-ldsa-grey font-semibold text-[14px] flex items-center gap-1 mt-4 disabled:opacity-40 disabled:cursor-not-allowed"
+      <button
+        v-else
+        @click="emit('add')"
+        :disabled="!!editando || !!novoIntervalo"
+        class="mx-auto text-ldsa-grey font-semibold text-[14px] flex items-center gap-1 mt-4 disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        Adicionar intervalo
+        <IconsAdd class="w-[0.7rem] mb-0.5" />
+      </button>
+    </template>
+
+    <p
+      v-else-if="periodo.intervalos.length === 0"
+      class="text-ldsa-grey text-sm text-center mt-4"
     >
-      Adicionar intervalo
-      <IconsAdd class="w-[0.7rem] mb-0.5" />
-    </button>
+      Nenhum intervalo
+    </p>
   </div>
 </template>
