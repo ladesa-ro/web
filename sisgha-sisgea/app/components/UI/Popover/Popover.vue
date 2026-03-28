@@ -47,7 +47,7 @@ onClickOutside(
       class="shrink-0 text-ldsa-text-default"
       :class="disabled ? 'cursor-auto-class' : 'cursor-pointer'"
       v-bind="$attrs"
-      @pointerdown="!disabled && (open = !open)"
+      @click="!disabled && (open = !open)"
     >
       <slot name="activator" />
     </Trigger>
@@ -56,7 +56,7 @@ onClickOutside(
       <Content
         ref="content"
         :class="[
-          'z-[21] shadow-lg text-ldsa-text-default',
+          'z-21 shadow-lg text-ldsa-text-default',
           !disableAnimation && 'popover-content',
         ]"
         side="bottom"

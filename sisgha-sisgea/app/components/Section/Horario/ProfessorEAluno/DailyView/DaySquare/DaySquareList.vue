@@ -23,7 +23,7 @@ const weekDays = getWeekDays(selectedDay.value);
       :selected="weekDay.dayMonth === activeDayMonth"
       :day-month="weekDay.dayMonth"
       :day-week="weekDay.dayWeek"
-      @pointerdown="selectedDay = weekDay.dayAsDayJs"
+      @click="selectedDay = weekDay.dayAsDayJs"
     />
   </div>
 </template>

@@ -33,8 +33,6 @@ const options = createUIAutocompleteApiRetrieverOptions({
   }),
   filter: computed(() => filter.value),
 });
-
-//
 </script>
 
 <template>

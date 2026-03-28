@@ -5,5 +5,5 @@ definePageMeta({
 </script>
 
 <template>
-  <SectionCalendario />
+  <SectionCalendario :dape-visualization="true" />
 </template>

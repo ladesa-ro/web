@@ -56,7 +56,7 @@ onMounted(() => {
       v-if="omitTogglesWhenItemsLengthIsOne ? items.length > 1 : true"
       :disabled="items.length === 1"
       :style="togglePadding"
-      @pointerdown="navigate(-1)"
+      @click="navigate(-1)"
       class="disabled:opacity-40"
     >
       <slot name="toggleButton" />
@@ -69,7 +69,7 @@ onMounted(() => {
       :disabled="items.length === 1"
       :style="togglePadding"
       class="rotate-180 disabled:opacity-40"
-      @pointerdown="navigate(1)"
+      @click="navigate(1)"
     >
       <slot name="toggleButton" />
     </button>

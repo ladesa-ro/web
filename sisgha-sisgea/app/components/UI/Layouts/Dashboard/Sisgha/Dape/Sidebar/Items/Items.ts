@@ -1,6 +1,7 @@
 import {
   IconsCalendar,
   IconsClass,
+  IconsClassTeacher,
   IconsClock,
   IconsCourse,
   IconsDiary,
@@ -9,6 +10,8 @@ import {
   IconsLogout,
   IconsManagement,
   IconsOthers,
+  IconsReport,
+  IconsSchool,
   IconsTeacherLesson,
   IconsUser,
   IconsUsers,
@@ -76,7 +79,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
     {
       type: 'group',
       title: 'Ensino',
-      icon: IconsOthers,
+      icon: IconsClassTeacher,
       items: [
         {
           type: 'link',
@@ -95,7 +98,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
         {
           type: 'link',
           title: 'Formações',
-          icon: IconsOthers,
+          icon: IconsSchool,
           to: `${CAMINHO_DAPE}/formacoes`,
           exact: false,
         },
@@ -119,7 +122,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
     {
       type: 'group',
       title: 'Relatórios',
-      icon: IconsOthers,
+      icon: IconsReport,
       items: [
         {
           type: 'link',

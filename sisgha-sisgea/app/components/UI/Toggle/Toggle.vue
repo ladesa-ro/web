@@ -19,12 +19,12 @@ watchEffect(() => {
 <template>
   <div class="flex" :class="disabled && 'opacity-50'">
     <UIToggleButton
-      :disabled
       v-for="item in items"
+      :disabled
       :key="item.value"
       :selected="item.value === toggleValue"
       :item
-      @pointerdown="() => !disabled && (toggleValue = item.value)"
+      @click="() => !disabled && (toggleValue = item.value)"
     />
   </div>
 </template>

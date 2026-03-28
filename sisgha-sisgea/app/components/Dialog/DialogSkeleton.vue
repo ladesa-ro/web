@@ -3,7 +3,7 @@ const isActive = defineModel<boolean>({ default: false });
 
 const {
   disableInlineBlock = false,
-  pointerdownEvent = true,
+  pointerdownEvent = false,
   disabled = false,
   closeOnClickOutside = true,
 } = defineProps<{
