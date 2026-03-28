@@ -140,13 +140,19 @@ function confirmarEdicao() {
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-[85%] px-4 sm:px-6 md:px-10 py-6">
-    <IntervaloSelectForm
-      :fusoHorario="fusoHorario"
-      :ordem="ordem"
-      v-model:fusoHorarioSelecionado="form.fusoHorario"
-      v-model:ordemSelecionada="form.ordem"
-    />
+  <UIContainer variant="larger" class="flex flex-col gap-6">
+    <nav
+      class="flex max-md:flex-col items-start gap-3.5 md:justify-between md:items-center"
+    >
+      <UITitleWithGoBack to="../" text="Horários de aula" />
+
+      <IntervaloSelectForm
+        :fusoHorario="fusoHorario"
+        :ordem="ordem"
+        v-model:fusoHorarioSelecionado="form.fusoHorario"
+        v-model:ordemSelecionada="form.ordem"
+      />
+    </nav>
 
     <PeriodosGrid
       :periodos="periodos"
@@ -161,5 +167,5 @@ function confirmarEdicao() {
       @updateEdit="atualizarEdicao"
       @confirmEdit="confirmarEdicao"
     />
-  </div>
+  </UIContainer>
 </template>

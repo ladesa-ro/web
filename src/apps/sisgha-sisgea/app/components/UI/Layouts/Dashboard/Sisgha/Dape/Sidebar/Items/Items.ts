@@ -41,6 +41,14 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
 
     {
       type: 'link',
+      title: 'Horários de aula',
+      icon: IconsClock,
+      to: `${CAMINHO_DAPE}/horarios-de-aula`,
+      exact: false,
+    },
+
+    {
+      type: 'link',
       title: 'Calendário',
       icon: IconsCalendar,
       to: `${CAMINHO_DAPE}/calendario`,
