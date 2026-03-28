@@ -1,1 +1,83 @@
-@import '../../../layers/1.ladesa-ui-nuxt/app/assets/styles/app.css';
+/*
+  ABOUT app.css:
+  this file is the only one imported by nuxt.config, so all the general application styles must be imported here.
+*/
+
+@import 'tailwindcss';
+@import './themes/theme.css' layer(theme);
+@import './fonts/fonts.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+.app {
+  background-color: var(--ladesa-background-color);
+  color: var(--ladesa-text-default-color) !important;
+}
+
+/* ----------- */
+
+*:disabled {
+  cursor: not-allowed;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+input {
+  color: inherit;
+}
+
+input:focus-visible {
+  outline: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* Icons style */
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.svg-fill-text path {
+  fill: var(--ladesa-text-default-color);
+}
+
+.-icon-black {
+  filter: invert(0%);
+}
+
+.-icon-white {
+  filter: invert(100%);
+}
+
+/* Scrollbar style */
+
+::-webkit-scrollbar {
+  width: 0.3rem;
+  height: 0.3rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 75%);
+}
+
+::-webkit-scrollbar-track {
+  background-color: rgb(from var(--ladesa-green-2-color) R G B / 30%);
+}
+
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-track {
+  border-radius: 3.125rem;
+  cursor: pointer;
+}

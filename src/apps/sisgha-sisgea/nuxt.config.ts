@@ -1,3 +1,4 @@
+import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineNuxtConfig({
@@ -10,6 +11,8 @@ export default defineNuxtConfig({
   srcDir: './app',
 
   ssr: true,
+
+  css: ['~/assets/styles/app.css'],
 
   imports: {
     dirs: ['composables/ladesa-api', 'composables/query-helpers'],
@@ -30,6 +33,8 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    plugins: [tailwindcss()],
+
     optimizeDeps: {
       include: [
         '@atlaskit/pragmatic-drag-and-drop',
