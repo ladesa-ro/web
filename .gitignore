@@ -133,3 +133,6 @@ dist
 
 # webstorm folder
 .idea/
+
+# Nx
+**/.nx/**
