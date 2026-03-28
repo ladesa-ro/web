@@ -4,6 +4,19 @@ import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 import type { CalendarData, CalendarEvent } from './Types';
+import {
+  calendarioLetivoCreate,
+  calendarioLetivoDeleteOneById,
+  calendarioLetivoEtapaFindAll,
+  calendarioLetivoEtapaBulkReplace,
+  calendarioLetivoFindAll,
+  calendarioLetivoFindById,
+  calendarioLetivoUpdate,
+  calendarioAgendamentoFindEventos,
+  calendarioAgendamentoCreate,
+  calendarioAgendamentoUpdate,
+  calendarioAgendamentoDeleteOneById,
+} from '@ladesa-ro/web.api.client';
 
 // # CODE
 dayjs.extend(customParseFormat);
@@ -48,10 +61,14 @@ export const calendarDataMethods = {
       };
 
       try {
-        const getCalendar =
-          await getApiClient().calendariosLetivos.calendarioLetivoFindById({
-            id: calendarId,
-          });
+        const getCalendar = await getApiClient().call(
+          calendarioLetivoFindById,
+          {
+            path: {
+              id: calendarId,
+            },
+          }
+        );
 
         if (getCalendar) {
           calendar = {
@@ -76,12 +93,13 @@ export const calendarDataMethods = {
       trainingOffer: string
     ): Promise<string> {
       try {
-        const getCalendar =
-          await getApiClient().calendariosLetivos.calendarioLetivoFindAll({
-            filterCampusId: [campus],
-            filterOfertaFormacaoId: [trainingOffer],
+        const getCalendar = await getApiClient().call(calendarioLetivoFindAll, {
+          query: {
+            "filter.campus.id": [campus],
+            "filter.ofertaFormacao.id": [trainingOffer],
             search: name,
-          });
+          },
+        });
 
         const filterCalendar = getCalendar.data.find(
           item =>
@@ -106,8 +124,8 @@ export const calendarDataMethods = {
       trainingOffer: string
     ): Promise<any> {
       try {
-        await getApiClient().calendariosLetivos.calendarioLetivoCreate({
-          requestBody: {
+        await getApiClient().call(calendarioLetivoCreate, {
+          body: {
             nome: name,
             ano: year,
             campus: { id: campus },
@@ -126,9 +144,11 @@ export const calendarDataMethods = {
       trainingOffer: string
     ): Promise<void> {
       try {
-        await getApiClient().calendariosLetivos.calendarioLetivoUpdate({
-          id,
-          requestBody: {
+        await getApiClient().call(calendarioLetivoUpdate, {
+          path: {
+            id,
+          },
+          body: {
             nome: name,
             ano: year,
             campus: { id: campus },
@@ -142,31 +162,35 @@ export const calendarDataMethods = {
 
     async deleteCalendar(id: string): Promise<void> {
       try {
-        await getApiClient().calendariosLetivos.calendarioLetivoDeleteOneById({
-          id,
+        await getApiClient().call(calendarioLetivoDeleteOneById, {
+          path: {
+            id,
+          },
         });
       } catch (e) {
         console.error(`Erro: ${e}`);
       }
     },
   },
-  // Steps
+  // Steps (etapas — now managed via bulk replace on calendar)
   steps: {
     async getSteps(calendarId: string): Promise<CalendarEvent[]> {
       let remodelSteps: Array<CalendarEvent> = [];
 
       try {
-        const steps = await getApiClient().etapas.etapaFindAll({
-          filterCalendarioId: [calendarId],
+        const steps = await getApiClient().call(calendarioLetivoEtapaFindAll, {
+          path: {
+            calendarioLetivoId: calendarId,
+          },
         });
 
         for (let i = 0; i < steps.data!.length; i++) {
           const step: CalendarEvent = {
             id: steps.data[i]!.id,
-            name: `${steps.data[i]!.numero}° Etapa`,
+            name: `${steps.data[i]!.nomeEtapa}`,
             startDate: steps.data[i]!.dataInicio,
             endDate: steps.data[i]!.dataTermino,
-            color: steps.data[i]!.cor ?? null,
+            color: null,
             calendar: { id: calendarId },
           };
           remodelSteps.push(step);
@@ -180,8 +204,10 @@ export const calendarDataMethods = {
     async getStepByName(name: string, calendarId: string): Promise<any> {
       try {
         const getStep = await getApiClient()
-          .etapas.etapaFindAll({
-            search: `${name.replace(/\D/g, '')}`,
+          .call(calendarioLetivoEtapaFindAll, {
+            path: {
+              calendarioLetivoId: calendarId,
+            },
           })
           .then((res: any) => res.data);
 
@@ -196,60 +222,36 @@ export const calendarDataMethods = {
         return null;
       }
     },
-    async postStep(
-      num: number,
-      color: string,
-      start: { date: string },
-      end: { date: string },
-      calendarId: string
+
+    // Etapas are now managed via bulk replace — individual CRUD is no longer available.
+    // To add/update/remove a single etapa, fetch all, mutate locally, then bulk replace.
+    async bulkReplaceSteps(
+      calendarId: string,
+      etapas: Array<{ ofertaFormacaoPeriodoEtapaId: string; dataInicio: string; dataTermino: string }>
     ): Promise<void> {
       try {
-        await getApiClient().etapas.etapaCreate({
-          requestBody: {
-            numero: num,
-            cor: color,
-            calendario: { id: calendarId },
-            dataInicio: dayjs(start.date).format('YYYY-MM-DD'),
-            dataTermino: dayjs(end.date).format('YYYY-MM-DD'),
-          },
+        await getApiClient().call(calendarioLetivoEtapaBulkReplace, {
+          path: { calendarioLetivoId: calendarId },
+          body: { etapas },
         });
       } catch (e) {
-        console.error(`Erro: ${e}`);
-      }
-    },
-    async putStep(step: CalendarEvent): Promise<void> {
-      try {
-        await getApiClient().etapas.etapaUpdate({
-          id: step.id,
-          requestBody: {
-            numero: Number(step.name.replace(/\D/g, '')),
-            cor: step.color,
-            calendario: { id: step.calendar!.id },
-            dataInicio: step.startDate,
-            dataTermino: step.endDate,
-          },
-        });
-      } catch (e) {
-        console.error('Erro putStep: ', e);
-      }
-    },
-    async deleteStep(id: string): Promise<void> {
-      try {
-        await getApiClient().etapas.etapaDeleteOneById({ id });
-      } catch (e) {
-        console.error('Erro deleteStep: ', e);
+        console.error(`Erro bulkReplaceSteps: `, e);
       }
     },
   },
 
-  // Events
+  // Events (now calendarioAgendamento)
   events: {
     async getEvents(calendarId: string): Promise<CalendarEvent[]> {
       let remodelEvents: Array<CalendarEvent> = [];
 
       try {
-        const events = await getApiClient().eventos.eventoFindAll({
-          filterCalendarioId: [calendarId],
+        const events = await getApiClient().call(calendarioAgendamentoFindEventos, {
+          query: {
+            search: '',
+            'filter.turma.id': '',
+            'filter.ofertaFormacao.id': '',
+          },
         });
 
         for (let i = 0; i < events.data!.length; i++) {
@@ -260,7 +262,6 @@ export const calendarDataMethods = {
             startDate: events.data[i]!.dataInicio!,
             endDate: events.data[i]!.dataFim!,
             calendar: { id: calendarId },
-            locale: events.data[i]?.ambiente?.nome,
           };
           remodelEvents.push(event);
         }
@@ -272,17 +273,17 @@ export const calendarDataMethods = {
     },
     async getEventByName(name: string, calendarId: string): Promise<any> {
       try {
-        const getEvents = await getApiClient()
-          .eventos.eventoFindAll({
-            filterCalendarioId: [calendarId],
-            search: `${name}`,
-          })
-          .then((res: any) => res.data);
+        const result = await getApiClient().call(calendarioAgendamentoFindEventos, {
+          query: {
+            search: name,
+            'filter.turma.id': '',
+            'filter.ofertaFormacao.id': '',
+          },
+        });
 
-        const findEvent = getEvents.find(
+        const findEvent = result.data.find(
           (event: any) =>
-            (event.id === name || event.nome === name) &&
-            event.calendario.id === calendarId
+            (event.id === name || event.nome === name)
         );
 
         return findEvent ? findEvent : null;
@@ -302,6 +303,8 @@ export const calendarDataMethods = {
       try {
         const userTz = dayjs.tz.guess();
 
+        const hasHours = !!start.hour && !!end.hour;
+
         const formattedDates = {
           startDate: start.hour
             ? dayjs(`${start.date} ${start.hour}:00`).tz(userTz).format()
@@ -311,14 +314,16 @@ export const calendarDataMethods = {
             : dayjs(`${end.date} 00:00:00`).tz(userTz).format(),
         };
 
-        const createdEvent = await getApiClient().eventos.eventoCreate({
-          requestBody: {
+        const createdEvent = await getApiClient().call(calendarioAgendamentoCreate, {
+          body: {
             nome: name,
-            rrule: '',
             cor: color,
-            calendario: { id: calendarId },
+            diaInteiro: !hasHours,
             dataInicio: formattedDates.startDate,
             dataFim: formattedDates.endDate,
+            horarioInicio: start.hour,
+            horarioFim: end.hour,
+            calendarioLetivoIds: [calendarId],
           },
         });
 
@@ -346,14 +351,14 @@ export const calendarDataMethods = {
       localArray?: CalendarEvent[]
     ): Promise<void> {
       try {
-        await getApiClient().eventos.eventoUpdate({
-          id: event.id,
-          requestBody: {
+        await getApiClient().call(calendarioAgendamentoUpdate, {
+          path: { id: event.id },
+          body: {
             nome: event.name,
             cor: event.color,
             dataInicio: event.startDate,
             dataFim: event.endDate,
-            calendario: { id: event.calendar!.id },
+            calendarioLetivoIds: event.calendar?.id ? [event.calendar.id] : undefined,
           },
         });
 
@@ -371,7 +376,7 @@ export const calendarDataMethods = {
     },
     async deleteEvent(id: string): Promise<void> {
       try {
-        await getApiClient().eventos.eventoDeleteOneById({ id });
+        await getApiClient().call(calendarioAgendamentoDeleteOneById, { path: { id } });
       } catch (e) {
         console.error('Erro deleteEvent: ', e);
       }

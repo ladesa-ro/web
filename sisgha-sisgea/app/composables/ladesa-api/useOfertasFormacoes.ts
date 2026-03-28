@@ -13,6 +13,13 @@ import type {
   RemoveFn,
   InvalidateFn,
 } from '~/composables/query-helpers';
+import {
+  ofertaFormacaoFindAll,
+  ofertaFormacaoFindById,
+  ofertaFormacaoCreate,
+  ofertaFormacaoUpdate,
+  ofertaFormacaoDeleteOneById,
+} from '@ladesa-ro/web.api.client';
 import type {
   OfertaFormacaoFindAllData,
   OfertaFormacaoFindAllResponse,
@@ -21,22 +28,24 @@ import type {
   OfertaFormacaoCreateResponse,
   OfertaFormacaoUpdateData,
   OfertaFormacaoUpdateResponse,
+  ReqBody,
+  ReqQuery,
 } from '@ladesa-ro/web.api.client';
 
 export type IUseOfertasFormacoes = {
   keys: readonly string[];
-  list: ListFn<OfertaFormacaoFindAllResponse, OfertaFormacaoFindAllData>;
+  list: ListFn<OfertaFormacaoFindAllResponse, ReqQuery<OfertaFormacaoFindAllData>>;
   listInfinite: ListInfiniteFn<
     OfertaFormacaoFindAllResponse,
-    OfertaFormacaoFindAllData
+    ReqQuery<OfertaFormacaoFindAllData>
   >;
   findOne: FindOneFn<OfertaFormacaoFindByIdResponse>;
   create: CreateFn<
-    OfertaFormacaoCreateData['requestBody'],
+    ReqBody<OfertaFormacaoCreateData>,
     OfertaFormacaoCreateResponse
   >;
   update: UpdateFn<
-    OfertaFormacaoUpdateData['requestBody'],
+    ReqBody<OfertaFormacaoUpdateData>,
     OfertaFormacaoUpdateResponse
   >;
   remove: RemoveFn;
@@ -50,30 +59,30 @@ export const useOfertasFormacoes = (): IUseOfertasFormacoes => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: OfertaFormacaoFindAllData) =>
-      api.ofertasFormacoes.ofertaFormacaoFindAll(params),
+    fetcher: (params?: ReqQuery<OfertaFormacaoFindAllData>) =>
+      api.call(ofertaFormacaoFindAll, { query: params }),
   });
 
   const listInfinite = createInfiniteListQuery({
     queryKey: keys,
-    fetcher: (params: OfertaFormacaoFindAllData & { page: number }) =>
-      api.ofertasFormacoes.ofertaFormacaoFindAll(params),
+    fetcher: (params: ReqQuery<OfertaFormacaoFindAllData>) =>
+      api.call(ofertaFormacaoFindAll, { query: params }),
   });
 
   const findOne = createFindOneQuery({
     queryKey: keys,
     fetcher: (id: string) =>
-      api.ofertasFormacoes.ofertaFormacaoFindById({ id }),
+      api.call(ofertaFormacaoFindById, { path: { id } }),
   });
 
-  const create = (data: OfertaFormacaoCreateData['requestBody']) =>
-    api.ofertasFormacoes.ofertaFormacaoCreate({ requestBody: data });
+  const create = (data: ReqBody<OfertaFormacaoCreateData>) =>
+    api.call(ofertaFormacaoCreate, { body: data });
 
-  const update = (id: string, data: OfertaFormacaoUpdateData['requestBody']) =>
-    api.ofertasFormacoes.ofertaFormacaoUpdate({ id, requestBody: data });
+  const update = (id: string, data: ReqBody<OfertaFormacaoUpdateData>) =>
+    api.call(ofertaFormacaoUpdate, { path: { id }, body: data });
 
   const remove = (id: string) =>
-    api.ofertasFormacoes.ofertaFormacaoDeleteOneById({ id });
+    api.call(ofertaFormacaoDeleteOneById, { path: { id } });
 
   const invalidate = createInvalidate(keys);
 

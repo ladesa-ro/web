@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import TurmasForm from './Form/Form.vue';
 import type { IEntityListModule } from '~/components/UI/API/List/Context/UIApiListContext';
+import { turmaFindAll, turmaFindById } from '@ladesa-ro/web.api.client';
 
 const api = useApiClient();
 
 const crudModule = {
   baseQueryKeys: ['turmas'] as string[],
-  list: (data?: any) => api.turmas.turmaFindAll(data),
-  getOne: (id: string) => api.turmas.turmaFindById({ id }),
+  list: (data?: any) => api.call(turmaFindAll, { query: data }),
+  getOne: (id: string) => api.call(turmaFindById, { path: { id } }),
 } satisfies IEntityListModule;
 
 const options = { crudModule };

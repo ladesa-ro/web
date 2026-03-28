@@ -1,11 +1,12 @@
 import { useQuery } from '@tanstack/vue-query';
+import { autenticacaoWhoAmI } from '@ladesa-ro/web.api.client';
 import { resumirVinculos } from './resumir-vinculos';
 import type { IApiContext } from './types';
 
 const ApiContextKey = Symbol();
 
 export const createApiContext = (shouldProvide = true) => {
-  const apiClient = useApiClient();
+  const api = useApiClient();
 
   const { data, status, lastRefreshedAt } = useAuthState();
 
@@ -21,7 +22,7 @@ export const createApiContext = (shouldProvide = true) => {
     queryKey: whoAmIQueryKey,
 
     queryFn: async () => {
-      return apiClient.autenticacao.autenticacaoWhoAmI();
+      return api.call(autenticacaoWhoAmI);
     },
 
     enabled: computed(() => status.value !== 'loading'),

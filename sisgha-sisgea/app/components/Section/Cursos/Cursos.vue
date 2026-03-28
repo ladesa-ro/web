@@ -3,6 +3,7 @@ import {
   createApiListContextOptions,
   type IEntityListModule,
 } from '~~/app/components/UI/API/List/Context/UIApiListContext';
+import { cursoFindAll, cursoFindById } from '@ladesa-ro/web.api.client';
 
 import CursosForm from './Form/Form.vue';
 
@@ -10,8 +11,8 @@ const api = useApiClient();
 
 const crudModule = {
   baseQueryKeys: ['cursos'] as string[],
-  list: (data?: any) => api.cursos.cursoFindAll(data),
-  getOne: (id: string) => api.cursos.cursoFindById({ id }),
+  list: (data?: any) => api.call(cursoFindAll, { query: data }),
+  getOne: (id: string) => api.call(cursoFindById, { path: { id } }),
 } satisfies IEntityListModule;
 
 const options = createApiListContextOptions({ crudModule });

@@ -36,14 +36,14 @@ const formacaoQuery = ofertasFormacoes.list();
 
 const cursoQuery = cursos.list(
   computed(() => ({
-    filterCampusId: wrapFilter(values.campusId),
-    filterOfertaFormacaoId: wrapFilter(values.formacaoId),
+    'filter.campus.id': wrapFilter(values.campusId),
+    'filter.ofertaFormacao.id': wrapFilter(values.formacaoId),
   }))
 );
 
 const turmaQuery = turmas.list(
   computed(() => ({
-    filterCursoId: wrapFilter(values.cursoId),
+    'filter.curso.id': wrapFilter(values.cursoId),
   }))
 );
 

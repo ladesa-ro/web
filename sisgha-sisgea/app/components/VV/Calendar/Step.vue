@@ -34,17 +34,10 @@ let submitted = ref<boolean>(false);
 async function onSubmit() {
   if (submitted.value === false) {
     if (props.isStep) {
-      await calendarDataMethods.steps.postStep(
-        Number(props.text.replace(/\D/g, '')),
-        values.stepColor,
-        {
-          date: values.stepStartDate,
-        },
-        {
-          date: values.stepEndDate,
-        },
-        _calendarId.value
-      );
+      // TODO: individual etapa CRUD was removed from the API.
+      // Etapas are now managed via bulk replace (calendarioLetivoEtapaBulkReplace).
+      // This needs a UI redesign to provide ofertaFormacaoPeriodoEtapaId.
+      console.warn('postStep: individual etapa CRUD is no longer available — use bulkReplaceSteps');
     } else {
       await calendarDataMethods.events.postEvent(
         props.text,

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
+import { blocoFindAll, blocoFindById } from '@ladesa-ro/web.api.client';
 
 type Props = {
   isLoading?: boolean;
@@ -11,17 +12,19 @@ const { name } = toRefs(props);
 
 //
 
-const apiClient = useApiClient();
+const api = useApiClient();
 const crudModule = {
   baseQueryKeys: ['blocos'],
   list: (data: any, contextCampiRef: any) => {
     const contextCampi = unref(contextCampiRef);
-    return apiClient.blocos.blocoFindAll({
-      ...data,
-      filterCampusId: contextCampi ? [contextCampi] : undefined,
+    return api.call(blocoFindAll, {
+      query: {
+        ...data,
+        filterCampusId: contextCampi ? [contextCampi] : undefined,
+      },
     });
   },
-  getOne: (id: string) => apiClient.blocos.blocoFindById({ id }),
+  getOne: (id: string) => api.call(blocoFindById, { path: { id } }),
 };
 
 const options = createUIAutocompleteApiRetrieverOptions({

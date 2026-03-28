@@ -14,6 +14,14 @@ import type {
   InvalidateFn,
   UploadCoverFn,
 } from '~/composables/query-helpers';
+import {
+  cursoFindAll,
+  cursoFindById,
+  cursoCreate,
+  cursoUpdate,
+  cursoDeleteOneById,
+  cursoUpdateImagemCapa,
+} from '@ladesa-ro/web.api.client';
 import type {
   CursoFindAllData,
   CursoFindAllResponse,
@@ -22,15 +30,17 @@ import type {
   CursoCreateResponse,
   CursoUpdateData,
   CursoUpdateResponse,
+  ReqBody,
+  ReqQuery,
 } from '@ladesa-ro/web.api.client';
 
 export type IUseCursos = {
   keys: readonly string[];
-  list: ListFn<CursoFindAllResponse, CursoFindAllData>;
-  listInfinite: ListInfiniteFn<CursoFindAllResponse, CursoFindAllData>;
+  list: ListFn<CursoFindAllResponse, ReqQuery<CursoFindAllData>>;
+  listInfinite: ListInfiniteFn<CursoFindAllResponse, ReqQuery<CursoFindAllData>>;
   findOne: FindOneFn<CursoFindByIdResponse>;
-  create: CreateFn<CursoCreateData['requestBody'], CursoCreateResponse>;
-  update: UpdateFn<CursoUpdateData['requestBody'], CursoUpdateResponse>;
+  create: CreateFn<ReqBody<CursoCreateData>, CursoCreateResponse>;
+  update: UpdateFn<ReqBody<CursoUpdateData>, CursoUpdateResponse>;
   remove: RemoveFn;
   uploadCover: UploadCoverFn;
   invalidate: InvalidateFn;
@@ -43,30 +53,32 @@ export const useCursos = (): IUseCursos => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: CursoFindAllData) => api.cursos.cursoFindAll(params),
+    fetcher: (params?: ReqQuery<CursoFindAllData>) =>
+      api.call(cursoFindAll, { query: params }),
   });
 
   const listInfinite = createInfiniteListQuery({
     queryKey: keys,
-    fetcher: (params: CursoFindAllData & { page: number }) =>
-      api.cursos.cursoFindAll(params),
+    fetcher: (params: ReqQuery<CursoFindAllData>) =>
+      api.call(cursoFindAll, { query: params }),
   });
 
   const findOne = createFindOneQuery({
     queryKey: keys,
-    fetcher: (id: string) => api.cursos.cursoFindById({ id }),
+    fetcher: (id: string) => api.call(cursoFindById, { path: { id } }),
   });
 
-  const create = (data: CursoCreateData['requestBody']) =>
-    api.cursos.cursoCreate({ requestBody: data });
+  const create = (data: ReqBody<CursoCreateData>) =>
+    api.call(cursoCreate, { body: data });
 
-  const update = (id: string, data: CursoUpdateData['requestBody']) =>
-    api.cursos.cursoUpdate({ id, requestBody: data });
+  const update = (id: string, data: ReqBody<CursoUpdateData>) =>
+    api.call(cursoUpdate, { path: { id }, body: data });
 
-  const remove = (id: string) => api.cursos.cursoDeleteOneById({ id });
+  const remove = (id: string) =>
+    api.call(cursoDeleteOneById, { path: { id } });
 
   const uploadCover = (id: string, file: Blob) =>
-    api.cursos.cursoUpdateImagemCapa({ id, formData: { file } });
+    api.call(cursoUpdateImagemCapa, { path: { id }, body: { file } });
 
   const invalidate = createInvalidate(keys);
 

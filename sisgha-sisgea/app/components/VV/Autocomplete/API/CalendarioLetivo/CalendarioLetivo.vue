@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
+import { calendarioLetivoFindAll, calendarioLetivoFindById } from '@ladesa-ro/web.api.client';
 
 type Props = {
   isLoading?: boolean;
@@ -11,18 +12,19 @@ const { name, filter } = toRefs(props);
 
 //
 
-const apiClient = useApiClient();
+const api = useApiClient();
 const crudModule = {
   baseQueryKeys: ['calendarioLetivo'],
   list: (data: any, contextCampiRef: any) => {
     const contextCampi = unref(contextCampiRef);
-    return apiClient.calendariosLetivos.calendarioLetivoFindAll({
-      ...data,
-      filterCampusId: contextCampi ? [contextCampi] : undefined,
+    return api.call(calendarioLetivoFindAll, {
+      query: {
+        ...data,
+        filterCampusId: contextCampi ? [contextCampi] : undefined,
+      },
     });
   },
-  getOne: (id: string) =>
-    apiClient.calendariosLetivos.calendarioLetivoFindById({ id }),
+  getOne: (id: string) => api.call(calendarioLetivoFindById, { path: { id } }),
 };
 
 const options = createUIAutocompleteApiRetrieverOptions({

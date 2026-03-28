@@ -14,6 +14,14 @@ import type {
   InvalidateFn,
   UploadCoverFn,
 } from '~/composables/query-helpers';
+import {
+  disciplinaFindAll,
+  disciplinaFindById,
+  disciplinaCreate,
+  disciplinaUpdate,
+  disciplinaDeleteOneById,
+  disciplinaUpdateImagemCapa,
+} from '@ladesa-ro/web.api.client';
 import type {
   DisciplinaFindAllData,
   DisciplinaFindAllResponse,
@@ -22,22 +30,24 @@ import type {
   DisciplinaCreateResponse,
   DisciplinaUpdateData,
   DisciplinaUpdateResponse,
+  ReqBody,
+  ReqQuery,
 } from '@ladesa-ro/web.api.client';
 
 export type IUseDisciplinas = {
   keys: readonly string[];
-  list: ListFn<DisciplinaFindAllResponse, DisciplinaFindAllData>;
+  list: ListFn<DisciplinaFindAllResponse, ReqQuery<DisciplinaFindAllData>>;
   listInfinite: ListInfiniteFn<
     DisciplinaFindAllResponse,
-    DisciplinaFindAllData
+    ReqQuery<DisciplinaFindAllData>
   >;
   findOne: FindOneFn<DisciplinaFindByIdResponse>;
   create: CreateFn<
-    DisciplinaCreateData['requestBody'],
+    ReqBody<DisciplinaCreateData>,
     DisciplinaCreateResponse
   >;
   update: UpdateFn<
-    DisciplinaUpdateData['requestBody'],
+    ReqBody<DisciplinaUpdateData>,
     DisciplinaUpdateResponse
   >;
   remove: RemoveFn;
@@ -52,32 +62,32 @@ export const useDisciplinas = (): IUseDisciplinas => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: DisciplinaFindAllData) =>
-      api.disciplinas.disciplinaFindAll(params),
+    fetcher: (params?: ReqQuery<DisciplinaFindAllData>) =>
+      api.call(disciplinaFindAll, { query: params }),
   });
 
   const listInfinite = createInfiniteListQuery({
     queryKey: keys,
-    fetcher: (params: DisciplinaFindAllData & { page: number }) =>
-      api.disciplinas.disciplinaFindAll(params),
+    fetcher: (params: ReqQuery<DisciplinaFindAllData>) =>
+      api.call(disciplinaFindAll, { query: params }),
   });
 
   const findOne = createFindOneQuery({
     queryKey: keys,
-    fetcher: (id: string) => api.disciplinas.disciplinaFindById({ id }),
+    fetcher: (id: string) => api.call(disciplinaFindById, { path: { id } }),
   });
 
-  const create = (data: DisciplinaCreateData['requestBody']) =>
-    api.disciplinas.disciplinaCreate({ requestBody: data });
+  const create = (data: ReqBody<DisciplinaCreateData>) =>
+    api.call(disciplinaCreate, { body: data });
 
-  const update = (id: string, data: DisciplinaUpdateData['requestBody']) =>
-    api.disciplinas.disciplinaUpdate({ id, requestBody: data });
+  const update = (id: string, data: ReqBody<DisciplinaUpdateData>) =>
+    api.call(disciplinaUpdate, { path: { id }, body: data });
 
   const remove = (id: string) =>
-    api.disciplinas.disciplinaDeleteOneById({ id });
+    api.call(disciplinaDeleteOneById, { path: { id } });
 
   const uploadCover = (id: string, file: Blob) =>
-    api.disciplinas.disciplinaUpdateImagemCapa({ id, formData: { file } });
+    api.call(disciplinaUpdateImagemCapa, { path: { id }, body: { file } });
 
   const invalidate = createInvalidate(keys);
 

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useToast } from '#imports';
 import { useQueryClient } from '@tanstack/vue-query';
+import { usuarioCreate, usuarioUpdate, usuarioUpdateImagemCapa } from '@ladesa-ro/web.api.client';
 import { type FormUserOutput, useFormUser } from '../FormUtils';
 
 const { showToast } = useToast();
@@ -10,7 +11,7 @@ const { editId = null } = defineProps<Props>();
 
 const $emit = defineEmits(['close']);
 
-const apiClient = useApiClient();
+const api = useApiClient();
 const queryClient = useQueryClient();
 
 const { resetForm, handleSubmit } = useFormUser();
@@ -21,44 +22,30 @@ const onSubmit = handleSubmit(async (values: FormUserOutput) => {
     let id;
 
     if (editId === null) {
-      const usuarioCriado = await apiClient.usuarios.usuarioCreate({
-        requestBody: { ...data },
+      const usuarioCriado = await api.call(usuarioCreate, {
+        body: { ...data },
       });
       id = usuarioCriado.id;
       showToast('cadastro', 'success');
     } else {
-      await apiClient.usuarios.usuarioUpdate({
-        id: editId,
-        requestBody: { ...values },
+      await api.call(usuarioUpdate, {
+        path: { id: editId },
+        body: { ...data },
       });
       id = editId;
       showToast('atualizacao', 'success');
     }
 
-    for (const vinculo of vinculos) {
-      if (
-        !vinculo.ativo &&
-        vinculos.some(
-          vinculoLoop =>
-            vinculoLoop.ativo === true &&
-            vinculoLoop.campus.id === vinculo.campus.id
-        )
-      )
-        continue;
-
-      await apiClient.perfis.perfilSetVinculos({
-        requestBody: {
-          usuario: { id: id },
-          campus: { id: vinculo.campus.id },
-          cargos: vinculo.cargos,
-        },
-      });
-    }
+    // TODO: perfilSetVinculos endpoint was removed from the API.
+    // Vinculos management needs to be updated when a replacement endpoint is available.
+    // for (const vinculo of vinculos) {
+    //   ...
+    // }
 
     if (imagem) {
-      await apiClient.usuarios.usuarioUpdateImagemCapa({
-        id: id,
-        formData: { file: imagem },
+      await api.call(usuarioUpdateImagemCapa, {
+        path: { id },
+        body: { file: imagem },
       });
       showToast('atualizacao', 'success');
     }

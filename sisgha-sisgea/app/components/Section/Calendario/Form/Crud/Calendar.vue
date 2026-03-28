@@ -5,6 +5,10 @@ import * as yup from 'yup';
 import type Step from '~/components/VV/Calendar/Step.vue';
 import { useCampusDoUsuario } from '~/composables/useCampusDoUsuario';
 import { calendarDataMethods } from '../../CalendarDataMethods';
+import {
+  ofertaFormacaoFindAll,
+  ofertaFormacaoFindById,
+} from '@ladesa-ro/web.api.client';
 
 type Props = {
   calendarId?: string;
@@ -30,10 +34,14 @@ async function setCalendarStepAmount() {
     if (values.trainingOffer) {
       const offerSelected = async (): Promise<string> => {
         try {
-          const getTraining =
-            await getApiClient().ofertasFormacoes.ofertaFormacaoFindById({
-              id: values.trainingOffer!,
-            });
+          const getTraining = await getApiClient().call(
+            ofertaFormacaoFindById,
+            {
+              path: {
+                id: values.trainingOffer!,
+              },
+            }
+          );
           if (getTraining) return getTraining.nome;
           return '';
         } catch {
@@ -43,10 +51,11 @@ async function setCalendarStepAmount() {
 
       const higherOffer = async (): Promise<string> => {
         try {
-          const searchOffer =
-            await getApiClient().ofertasFormacoes.ofertaFormacaoFindAll({
+          const searchOffer = await getApiClient().call(ofertaFormacaoFindAll, {
+            query: {
               search: `Superior`,
-            });
+            },
+          });
           const catchOffer = searchOffer.data?.find((offer: any) =>
             offer.nome.includes('Superior')
           );

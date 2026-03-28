@@ -14,6 +14,14 @@ import type {
   InvalidateFn,
   UploadCoverFn,
 } from '~/composables/query-helpers';
+import {
+  blocoFindAll,
+  blocoFindById,
+  blocoCreate,
+  blocoUpdate,
+  blocoDeleteOneById,
+  blocoUpdateImagemCapa,
+} from '@ladesa-ro/web.api.client';
 import type {
   BlocoFindAllData,
   BlocoFindAllResponse,
@@ -22,15 +30,17 @@ import type {
   BlocoCreateResponse,
   BlocoUpdateData,
   BlocoUpdateResponse,
+  ReqBody,
+  ReqQuery,
 } from '@ladesa-ro/web.api.client';
 
 export type IUseBlocos = {
   keys: readonly string[];
-  list: ListFn<BlocoFindAllResponse, BlocoFindAllData>;
-  listInfinite: ListInfiniteFn<BlocoFindAllResponse, BlocoFindAllData>;
+  list: ListFn<BlocoFindAllResponse, ReqQuery<BlocoFindAllData>>;
+  listInfinite: ListInfiniteFn<BlocoFindAllResponse, ReqQuery<BlocoFindAllData>>;
   findOne: FindOneFn<BlocoFindByIdResponse>;
-  create: CreateFn<BlocoCreateData['requestBody'], BlocoCreateResponse>;
-  update: UpdateFn<BlocoUpdateData['requestBody'], BlocoUpdateResponse>;
+  create: CreateFn<ReqBody<BlocoCreateData>, BlocoCreateResponse>;
+  update: UpdateFn<ReqBody<BlocoUpdateData>, BlocoUpdateResponse>;
   remove: RemoveFn;
   uploadCover: UploadCoverFn;
   invalidate: InvalidateFn;
@@ -43,30 +53,33 @@ export const useBlocos = (): IUseBlocos => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: BlocoFindAllData) => api.blocos.blocoFindAll(params),
+    fetcher: (params?: ReqQuery<BlocoFindAllData>) =>
+      api.call(blocoFindAll, { query: params }),
   });
 
   const listInfinite = createInfiniteListQuery({
     queryKey: keys,
-    fetcher: (params: BlocoFindAllData & { page: number }) =>
-      api.blocos.blocoFindAll(params),
+    fetcher: (params: ReqQuery<BlocoFindAllData>) =>
+      api.call(blocoFindAll, { query: params }),
   });
 
   const findOne = createFindOneQuery({
     queryKey: keys,
-    fetcher: (id: string) => api.blocos.blocoFindById({ id }),
+    fetcher: (id: string) => api.call(blocoFindById, { path: { id } }),
   });
 
-  const create = (data: BlocoCreateData['requestBody']) =>
-    api.blocos.blocoCreate({ requestBody: data });
+  const create = (data: ReqBody<BlocoCreateData>) =>
+    api.call(blocoCreate, { body: data });
 
-  const update = (id: string, data: BlocoUpdateData['requestBody']) =>
-    api.blocos.blocoUpdate({ id, requestBody: data });
+  const update = (id: string, data: ReqBody<BlocoUpdateData>) =>
+    api.call(blocoUpdate, { path: { id }, body: data });
 
-  const remove = (id: string) => api.blocos.blocoDeleteOneById({ id });
+  const remove = (id: string) =>
+    api.call(blocoDeleteOneById, { path: { id } });
 
-  const uploadCover = (id: string, file: Blob) =>
-    api.blocos.blocoUpdateImagemCapa({ id, formData: { file } });
+  const uploadCover = (id: string, file: Blob) => {
+    return api.call(blocoUpdateImagemCapa, { path: { id }, body: { file } });
+  };
 
   const invalidate = createInvalidate(keys);
 

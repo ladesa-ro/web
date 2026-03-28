@@ -14,6 +14,14 @@ import type {
   InvalidateFn,
   UploadCoverFn,
 } from '~/composables/query-helpers';
+import {
+  ambienteFindAll,
+  ambienteFindById,
+  ambienteCreate,
+  ambienteUpdate,
+  ambienteDeleteOneById,
+  ambienteUpdateImagemCapa,
+} from '@ladesa-ro/web.api.client';
 import type {
   AmbienteFindAllData,
   AmbienteFindAllResponse,
@@ -22,15 +30,17 @@ import type {
   AmbienteCreateResponse,
   AmbienteUpdateData,
   AmbienteUpdateResponse,
+  ReqBody,
+  ReqQuery,
 } from '@ladesa-ro/web.api.client';
 
 export type IUseAmbientes = {
   keys: readonly string[];
-  list: ListFn<AmbienteFindAllResponse, AmbienteFindAllData>;
-  listInfinite: ListInfiniteFn<AmbienteFindAllResponse, AmbienteFindAllData>;
+  list: ListFn<AmbienteFindAllResponse, ReqQuery<AmbienteFindAllData>>;
+  listInfinite: ListInfiniteFn<AmbienteFindAllResponse, ReqQuery<AmbienteFindAllData>>;
   findOne: FindOneFn<AmbienteFindByIdResponse>;
-  create: CreateFn<AmbienteCreateData['requestBody'], AmbienteCreateResponse>;
-  update: UpdateFn<AmbienteUpdateData['requestBody'], AmbienteUpdateResponse>;
+  create: CreateFn<ReqBody<AmbienteCreateData>, AmbienteCreateResponse>;
+  update: UpdateFn<ReqBody<AmbienteUpdateData>, AmbienteUpdateResponse>;
   remove: RemoveFn;
   uploadCover: UploadCoverFn;
   invalidate: InvalidateFn;
@@ -43,31 +53,43 @@ export const useAmbientes = (): IUseAmbientes => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: AmbienteFindAllData) =>
-      api.ambientes.ambienteFindAll(params),
+    fetcher: (params?: ReqQuery<AmbienteFindAllData>) => {
+      return api.call(ambienteFindAll, { query: params });
+    },
   });
 
   const listInfinite = createInfiniteListQuery({
     queryKey: keys,
-    fetcher: (params: AmbienteFindAllData & { page: number }) =>
-      api.ambientes.ambienteFindAll(params),
+    fetcher: (params?: ReqQuery<AmbienteFindAllData>) => {
+      return api.call(ambienteFindAll, { query: params });
+    },
   });
 
   const findOne = createFindOneQuery({
     queryKey: keys,
-    fetcher: (id: string) => api.ambientes.ambienteFindById({ id }),
+    fetcher: (id: string) => {
+      return api.call(ambienteFindById, { path: { id } });
+    },
   });
 
-  const create = (data: AmbienteCreateData['requestBody']) =>
-    api.ambientes.ambienteCreate({ requestBody: data });
+  const create = (data: ReqBody<AmbienteCreateData>) => {
+    return api.call(ambienteCreate, { body: data });
+  };
 
-  const update = (id: string, data: AmbienteUpdateData['requestBody']) =>
-    api.ambientes.ambienteUpdate({ id, requestBody: data });
+  const update = (id: string, data: ReqBody<AmbienteUpdateData>) =>
+  {
+    return api.call(ambienteUpdate, { path: { id }, body: data });
+  };
 
-  const remove = (id: string) => api.ambientes.ambienteDeleteOneById({ id });
+  const remove = (id: string) =>
+  {
+    return api.call(ambienteDeleteOneById, { path: { id } });
+  };
 
   const uploadCover = (id: string, file: Blob) =>
-    api.ambientes.ambienteUpdateImagemCapa({ id, formData: { file } });
+  {
+    return api.call(ambienteUpdateImagemCapa, { path: { id }, body: { file } });
+  };
 
   const invalidate = createInvalidate(keys);
 

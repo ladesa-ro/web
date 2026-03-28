@@ -3,6 +3,7 @@ import {
   createApiListContextOptions,
   type IEntityListModule,
 } from '~~/app/components/UI/API/List/Context/UIApiListContext';
+import { ofertaFormacaoFindAll, ofertaFormacaoFindById } from '@ladesa-ro/web.api.client';
 
 import FormacoesForm from './Form/Form.vue';
 
@@ -10,8 +11,8 @@ const api = useApiClient();
 
 const crudModule = {
   baseQueryKeys: ['ofertas-formacoes'] as string[],
-  list: (data?: any) => api.ofertasFormacoes.ofertaFormacaoFindAll(data),
-  getOne: (id: string) => api.ofertasFormacoes.ofertaFormacaoFindById({ id }),
+  list: (data?: any) => api.call(ofertaFormacaoFindAll, { query: data }),
+  getOne: (id: string) => api.call(ofertaFormacaoFindById, { path: { id } }),
 } satisfies IEntityListModule;
 
 const options = createApiListContextOptions({ crudModule });

@@ -4,13 +4,14 @@ import {
   createApiListContextOptions,
   type IEntityListModule,
 } from '~~/app/components/UI/API/List/Context/UIApiListContext';
+import { ambienteFindAll, ambienteFindById } from '@ladesa-ro/web.api.client';
 
 const api = useApiClient();
 
 const crudModule = {
   baseQueryKeys: ['ambientes'] as string[],
-  list: (data?: any) => api.ambientes.ambienteFindAll(data),
-  getOne: (id: string) => api.ambientes.ambienteFindById({ id }),
+  list: (data?: any) => api.call(ambienteFindAll, { query: data }),
+  getOne: (id: string) => api.call(ambienteFindById, { path: { id } }),
 } satisfies IEntityListModule;
 
 const options = createApiListContextOptions({ crudModule });

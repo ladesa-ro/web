@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
+import { usuarioFindAll, turmaFindAll } from '@ladesa-ro/web.api.client';
 import type {
   Aula,
   EditableCellType,
@@ -49,15 +50,15 @@ const scheduleOf: 'professor' | 'turma' | undefined = inject('scheduleOf');
 
 // TODO: melhorar essa estrutura de querries para fazer apenas 1 query à api em algum componente ancestral a este, ao inves de uma query em todas as instâncias
 const professoresQuery = useQuery({
-  queryKey: ['perfis', 'professor-list'],
+  queryKey: ['usuarios', 'professor-list'],
   queryFn: () =>
-    api.usuarios.perfilFindAll({ filterCargo: ['professor'] } as any),
+    api.call(usuarioFindAll, { query: {} }),
   enabled: scheduleOf === 'turma',
 });
 
 const turmasQuery = useQuery({
   queryKey: ['turmas', 'turma-list'],
-  queryFn: () => api.turmas.turmaFindAll({}),
+  queryFn: () => api.call(turmaFindAll, { query: {} }),
   enabled: scheduleOf === 'professor',
 });
 

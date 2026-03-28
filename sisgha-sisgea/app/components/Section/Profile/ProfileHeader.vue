@@ -3,6 +3,7 @@ import { IconsEducator, IconsUser } from '#components';
 import { useCanEditProfile, useUserCargoAndCampi } from '#imports';
 import { useQuery } from '@tanstack/vue-query';
 import { computed, ref } from 'vue';
+import { usuarioFindById } from '@ladesa-ro/web.api.client';
 import type { UsuarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 import CampusSelect from './Campus/CampusSelect.vue';
@@ -23,7 +24,7 @@ const profilePictureUrl = useApiImageRoute(
 );
 
 const { campiList } = useUserCargoAndCampi();
-const client = useApiClient();
+const api = useApiClient();
 
 const roleConfig = {
   professor: {
@@ -41,11 +42,10 @@ const toggleCampusItems = campiList.map(c => ({
 
 const { data: userVinculosResponse } = useQuery({
   queryKey: ['usuarios', user.id, 'vinculos'],
-  queryFn: () =>
-    client.perfis.perfilFindAll({
-      filterUsuarioId: [user.id],
-      filterAtivo: ['true'],
-    }),
+  queryFn: async () => {
+    const usuario = await api.call(usuarioFindById, { path: { id: user.id } });
+    return { data: (usuario?.vinculos ?? []).filter((v: any) => v.ativo) };
+  },
 });
 
 const userCampusItems = computed(() =>
@@ -77,12 +77,14 @@ watch(
 
 const { data: vinculosResponse } = useQuery({
   queryKey: ['usuarios', user.id, 'vinculos', selectedCampusLocal],
-  queryFn: () =>
-    client.perfis.perfilFindAll({
-      filterUsuarioId: [user.id],
-      filterAtivo: ['true'],
-      filterCampusId: [selectedCampusLocal.value],
-    }),
+  queryFn: async () => {
+    const usuario = await api.call(usuarioFindById, { path: { id: user.id } });
+    return {
+      data: (usuario?.vinculos ?? []).filter(
+        (v: any) => v.ativo && v.campus?.id === selectedCampusLocal.value,
+      ),
+    };
+  },
 });
 
 const vinculos = computed(() =>

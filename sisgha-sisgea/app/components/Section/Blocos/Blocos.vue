@@ -4,13 +4,14 @@ import {
   createApiListContextOptions,
   type IEntityListModule,
 } from '~~/app/components/UI/API/List/Context/UIApiListContext';
+import { blocoFindAll, blocoFindById } from '@ladesa-ro/web.api.client';
 
 const api = useApiClient();
 
 const crudModule = {
   baseQueryKeys: ['blocos'] as string[],
-  list: (data?: any) => api.blocos.blocoFindAll(data),
-  getOne: (id: string) => api.blocos.blocoFindById({ id }),
+  list: (data?: any) => api.call(blocoFindAll, { query: data }),
+  getOne: (id: string) => api.call(blocoFindById, { path: { id } }),
 } satisfies IEntityListModule;
 
 const options = createApiListContextOptions({ crudModule });

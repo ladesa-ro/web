@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { turmaCreate, turmaUpdate, turmaUpdateImagemCapa } from '@ladesa-ro/web.api.client';
 import type { TurmaFormOutput } from './typings';
 
 export type ITurmaHandleSubmitOptions = {
@@ -7,7 +8,7 @@ export type ITurmaHandleSubmitOptions = {
 };
 
 export const useTurmaSubmit = () => {
-  const apiClient = useApiClient();
+  const api = useApiClient();
 
   const queryClient = useQueryClient();
 
@@ -19,27 +20,24 @@ export const useTurmaSubmit = () => {
     let id;
 
     if (editId === null) {
-      const turmaCriada = await apiClient.turmas.turmaCreate({
-        requestBody: { ...data },
+      const turmaCriada = await api.call(turmaCreate, {
+        body: { ...data },
       });
 
       id = turmaCriada.id;
     } else {
-      await apiClient.turmas.turmaUpdate({
-        id: editId,
-
-        requestBody: {
-          ...values,
-        },
+      await api.call(turmaUpdate, {
+        path: { id: editId },
+        body: { ...values },
       });
 
       id = editId;
     }
 
     if (imagem) {
-      await apiClient.turmas.turmaUpdateImagemCapa({
-        id: id,
-        formData: { file: imagem },
+      await api.call(turmaUpdateImagemCapa, {
+        path: { id },
+        body: { file: imagem },
       });
     }
 

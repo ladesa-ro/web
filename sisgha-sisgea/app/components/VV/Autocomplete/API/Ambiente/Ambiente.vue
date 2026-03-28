@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
+import { ambienteFindAll, ambienteFindById } from '@ladesa-ro/web.api.client';
 //
 
 type Props = {
@@ -12,17 +13,19 @@ const { name } = toRefs(props);
 
 //
 
-const apiClient = useApiClient();
+const api = useApiClient();
 const crudModule = {
   baseQueryKeys: ['ambientes'],
   list: (data: any, contextCampiRef: any) => {
     const contextCampi = unref(contextCampiRef);
-    return apiClient.ambientes.ambienteFindAll({
-      ...data,
-      filterBlocoCampusId: contextCampi ? [contextCampi] : undefined,
+    return api.call(ambienteFindAll, {
+      query: {
+        ...data,
+        filterBlocoCampusId: contextCampi ? [contextCampi] : undefined,
+      },
     });
   },
-  getOne: (id: string) => apiClient.ambientes.ambienteFindById({ id }),
+  getOne: (id: string) => api.call(ambienteFindById, { path: { id } }),
 };
 
 const options = createUIAutocompleteApiRetrieverOptions({

@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
 import { IconsDiscipline } from '#components';
+import { usuarioEnsinoById } from '@ladesa-ro/web.api.client';
 import type { UsuarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import ProfileCarousel from './ProfileCarousel.vue';
 
 type Props = { user: UsuarioFindOneOutputDto };
 const { user } = defineProps<Props>();
 
+const api = useApiClient();
 const { isLoading, isError, data } = useQuery({
   queryKey: ['ensino', user.id],
   queryFn: async () =>
-    await useApiClient().usuarios.usuarioEnsinoById({ id: user.id }),
+    await api.call(usuarioEnsinoById, { path: { id: user.id } }),
 });
 </script>
 

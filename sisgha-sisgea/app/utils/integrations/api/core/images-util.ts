@@ -52,8 +52,8 @@ export const useApiImageRoute: IUseApiImageRouteFunction = (
   resourceImage,
   itemRef
 ) => {
-  const apiClient = useApiClient();
-  const base = apiClient.request.config.BASE;
+  const api = useApiClient();
+  const base = api.baseUrl;
 
   return computed(() => {
     const item = unref(itemRef);

@@ -19,7 +19,6 @@ const quantidadePeriodos = 12 / props.duracaoPerido;
 
 const $emit = defineEmits(['close', 'previous']);
 
-const apiClient = useApiClient();
 const queryClient = useQueryClient();
 
 const ofertasFormacoes = useOfertasFormacoes();

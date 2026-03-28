@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
+import { modalidadeFindAll, modalidadeFindById } from '@ladesa-ro/web.api.client';
 
 type Props = {
   isLoading?: boolean;
@@ -11,11 +12,11 @@ const { name } = toRefs(props);
 
 //
 
-const apiClient = useApiClient();
+const api = useApiClient();
 const crudModule = {
   baseQueryKeys: ['modalidades'],
-  list: (data: any) => apiClient.modalidades.modalidadeFindAll(data),
-  getOne: (id: string) => apiClient.modalidades.modalidadeFindById({ id }),
+  list: (data: any) => api.call(modalidadeFindAll, { query: data }),
+  getOne: (id: string) => api.call(modalidadeFindById, { path: { id } }),
 };
 
 const options = createUIAutocompleteApiRetrieverOptions({

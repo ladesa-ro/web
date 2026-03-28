@@ -42,19 +42,27 @@ export default defineNuxtConfig({
         '@tanstack/query-persist-client-core',
         '@tanstack/query-sync-storage-persister',
         '@tanstack/vue-query',
-        'dayjs',
-        'dayjs/locale/pt-br',
-        'dayjs/plugin/customParseFormat',
-        'dayjs/plugin/isBetween',
-        'dayjs/plugin/updateLocale',
-        'dayjs/plugin/weekOfYear',
-        'lodash/groupBy',
-        'lodash/map',
-        'lodash/mapValues',
-        'lodash/uniq',
-        'lodash/filter',
-        'lodash/uniqBy',
+        'dayjs', // CJS
+        'dayjs/locale/pt-br', // CJS
+        'dayjs/plugin/customParseFormat', // CJS
+        'dayjs/plugin/isBetween', // CJS
+        'dayjs/plugin/updateLocale', // CJS
+        'dayjs/plugin/weekOfYear', // CJS
+        'lodash/groupBy', // CJS
+        'lodash/map', // CJS
+        'lodash/mapValues', // CJS
+        'lodash/uniq', // CJS
+        'lodash/filter', // CJS
+        'lodash/uniqBy', // CJS
         'reka-ui',
+        'vee-validate',
+        'yup',
+        '@vueuse/core',
+        'vue3-dropzone',
+        'dayjs/plugin/customParseFormat.js', // CJS
+        'dayjs/plugin/timezone.js', // CJS
+        'dayjs/plugin/utc.js', // CJS
+        'dayjs/plugin/relativeTime', // CJS
       ],
     },
 

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
+import { cursoFindAll, cursoFindById } from '@ladesa-ro/web.api.client';
 
 type Props = {
   isLoading?: boolean;
@@ -10,17 +11,19 @@ defineProps<Props>();
 
 //
 
-const apiClient = useApiClient();
+const api = useApiClient();
 const crudModule = {
   baseQueryKeys: ['cursos'],
   list: (data: any, contextCampiRef: any) => {
     const contextCampi = unref(contextCampiRef);
-    return apiClient.cursos.cursoFindAll({
-      ...data,
-      filterCampusId: contextCampi ? [contextCampi] : undefined,
+    return api.call(cursoFindAll, {
+      query: {
+        ...data,
+        filterCampusId: contextCampi ? [contextCampi] : undefined,
+      },
     });
   },
-  getOne: (id: string) => apiClient.cursos.cursoFindById({ id }),
+  getOne: (id: string) => api.call(cursoFindById, { path: { id } }),
 };
 
 const options = createUIAutocompleteApiRetrieverOptions({

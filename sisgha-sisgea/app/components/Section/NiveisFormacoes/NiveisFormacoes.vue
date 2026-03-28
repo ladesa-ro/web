@@ -5,13 +5,14 @@ import {
   createApiListContextOptions,
   type IEntityListModule,
 } from '~~/app/components/UI/API/List/Context/UIApiListContext';
+import { nivelFormacaoFindAll, nivelFormacaoFindById } from '@ladesa-ro/web.api.client';
 
 const api = useApiClient();
 
 const crudModule = {
   baseQueryKeys: ['niveis-formacoes'] as string[],
-  list: (data?: any) => api.niveisFormacoes.nivelFormacaoFindAll(data),
-  getOne: (id: string) => api.niveisFormacoes.nivelFormacaoFindById({ id }),
+  list: (data?: any) => api.call(nivelFormacaoFindAll, { query: data }),
+  getOne: (id: string) => api.call(nivelFormacaoFindById, { path: { id } }),
 } satisfies IEntityListModule;
 
 const options = createApiListContextOptions({ crudModule });
