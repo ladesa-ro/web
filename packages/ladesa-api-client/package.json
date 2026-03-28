@@ -14,7 +14,7 @@
     "generate-client": "openapi-ts"
   },
   "devDependencies": {
-    "@hey-api/openapi-ts": "^0.53.12",
+    "@hey-api/openapi-ts": "^0.94.5",
     "typescript": "5.9.3"
   }
 }
