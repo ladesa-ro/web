@@ -143,24 +143,24 @@ function handleActionClick(t: ToastItem) {
   }
 }
 
-::v-deep .ToastRoot[data-state='open'] {
+:deep(.ToastRoot[data-state='open']) {
   animation: toast-slide-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-::v-deep .ToastRoot[data-state='closed'] {
+:deep(.ToastRoot[data-state='closed']) {
   animation: toast-hide 150ms ease-in;
 }
 
-::v-deep .ToastRoot[data-swipe='move'] {
+:deep(.ToastRoot[data-swipe='move']) {
   transform: translateX(var(--reka-toast-swipe-move-x));
 }
 
-::v-deep .ToastRoot[data-swipe='cancel'] {
+:deep(.ToastRoot[data-swipe='cancel']) {
   transform: translateX(0);
   transition: transform 200ms ease-out;
 }
 
-::v-deep .ToastRoot[data-swipe='end'] {
+:deep(.ToastRoot[data-swipe='end']) {
   animation: toast-swipe-out 150ms ease-out;
 }
 </style>
