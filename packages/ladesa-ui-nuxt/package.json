@@ -1,0 +1,21 @@
+{
+  "name": "@ladesa-ro/web.ui.nuxt",
+  "private": true,
+  "type": "module",
+  "main": "./nuxt.config.ts",
+  "scripts": {
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare",
+    "prepack": "nuxt-module-build build"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "tailwindcss": "^4.2.2"
+  },
+  "peerDependencies": {
+    "nuxt": "^4.0.3"
+  },
+  "devDependencies": {
+    "@nuxt/module-builder": "^1.0.1",
+    "typescript": "5.9.3"
+  }
+}

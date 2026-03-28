@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 // # IMPORTS
-import IconCalendar from '~/components/Icons/Calendar/Calendar.vue';
-import IconEvent from '~/components/Icons/Event.vue';
+import { IconsCalendar, IconsEvent } from '#components';
 import { nextTick, ref, watch } from 'vue';
 import type { CalendarEvent } from '../Types';
 
@@ -30,8 +29,8 @@ const eventCrudRef = ref<any>();
 
 // # ICONS
 const cardIcons = [
-  { text: 'Calendário', value: 0, icon: IconCalendar },
-  { text: 'Evento', value: 1, icon: IconEvent },
+  { text: 'Calendário', value: 0, icon: IconsCalendar },
+  { text: 'Evento', value: 1, icon: IconsEvent },
 ];
 
 // # FUNCTIONS

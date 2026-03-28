@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { IconsClose, IconsConfirm, IconsWarning } from '#components';
-import IconInfo from '~/components/Icons/Info.vue';
+import { IconsClose, IconsConfirm, IconsInfo, IconsWarning } from '#components';
 
 type Props = {
   type: 'info' | 'success' | 'warning' | 'error';
@@ -14,7 +13,7 @@ const rgb = (color: string) =>
 const defineType = {
   info: {
     color: { '--color': rgb('blue') },
-    icon: IconInfo,
+    icon: IconsInfo,
   },
   success: {
     color: { '--color': rgb('green-2') },

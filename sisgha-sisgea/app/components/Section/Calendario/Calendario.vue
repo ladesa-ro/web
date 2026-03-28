@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { IconsExclude, SectionCalendarioForm } from '#components';
-import IconCompleteCalendar from '~/components/Icons/Calendar/CompleteCalendar.vue';
-import IconPartialCalendar from '~/components/Icons/Calendar/PartialCalendar.vue';
+import { IconsCalendarCompleteCalendar, IconsCalendarPartialCalendar } from '#components';
 import dayjs from 'dayjs';
 import { ref } from 'vue';
 import { useToast } from '~/composables/useToast';
@@ -36,8 +35,8 @@ watch(filteredCalendars, () => {
 const isCalendarDisabled = computed(() => !selectedTrainingOffer.value);
 
 const toggleItems = [
-  { text: 'Calendário parcial', value: 0, icon: IconPartialCalendar },
-  { text: 'Calendário completo', value: 1, icon: IconCompleteCalendar },
+  { text: 'Calendário parcial', value: 0, icon: IconsCalendarPartialCalendar },
+  { text: 'Calendário completo', value: 1, icon: IconsCalendarCompleteCalendar },
 ];
 
 const { showToast } = useToast();

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
-import IconDiscipline from '~/components/Icons/Discipline.vue';
+import { IconsDiscipline } from '#components';
 import type { UsuarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import ProfileCarousel from './ProfileCarousel.vue';
 
@@ -15,7 +15,7 @@ const { isLoading, isError, data } = useQuery({
 </script>
 
 <template>
-  <SectionProfileSectionsLayout :icon="IconDiscipline" title="Ensino">
+  <SectionProfileSectionsLayout :icon="IconsDiscipline" title="Ensino">
     <div class="state-warning" v-if="isLoading">Carregando...</div>
 
     <div class="state-warning" v-else-if="isError">

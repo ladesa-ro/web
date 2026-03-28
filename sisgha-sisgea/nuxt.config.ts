@@ -1,7 +1,8 @@
-import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineNuxtConfig({
+  extends: ['@ladesa-ro/web.ui.nuxt'],
+
   experimental: {
     normalizeComponentNames: true,
   },
@@ -39,8 +40,6 @@ export default defineNuxtConfig({
       ],
     },
 
-    plugins: [tailwindcss()],
-
     resolve: {
       alias: {
         '~': fileURLToPath(new URL('./app', import.meta.url)),
@@ -60,10 +59,6 @@ export default defineNuxtConfig({
   features: {
     inlineStyles: true,
   },
-
-  // ==============================================
-
-  css: ['~/assets/styles/app.css'],
 
   // ==============================================
 
