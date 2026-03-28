@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useQuery } from '@tanstack/vue-query';
-import filter from 'lodash/filter';
-import uniqBy from 'lodash/uniqBy';
+import { filter, uniqBy } from 'lodash-es';
 import { useField } from 'vee-validate';
 import type { IUIAutocompleteApiRetrieverOptions } from './-Base';
 
