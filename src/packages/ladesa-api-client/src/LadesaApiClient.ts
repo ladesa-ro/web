@@ -50,8 +50,13 @@ export function createLadesaApi(config?: LadesaApiClientConfig): LadesaApi {
   return {
     call: (async (fn: any, options?: any) => {
       const result = await fn({ ...options, client: _client });
-      if (result && typeof result === 'object' && 'data' in result) {
-        return result.data;
+      if (result && typeof result === 'object') {
+        if ('error' in result && result.error) {
+          throw result.error;
+        }
+        if ('data' in result) {
+          return result.data;
+        }
       }
       return result;
     }) as LadesaApi['call'],
