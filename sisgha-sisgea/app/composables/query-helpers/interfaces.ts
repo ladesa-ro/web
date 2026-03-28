@@ -10,12 +10,12 @@ import type {
 
 export interface IListQueryConfig<TResult, TParams = unknown> {
   queryKey: readonly string[];
-  fetcher: (params?: TParams) => Promise<TResult>;
+  fetcher: (params?: TParams | undefined) => Promise<TResult>;
 }
 
 export interface IInfiniteListQueryConfig<TResult, TParams = unknown> {
   queryKey: readonly string[];
-  fetcher: (params: TParams & { page: number }) => Promise<TResult>;
+  fetcher: (params?: ((TParams & { page?: number }) | undefined)) => Promise<TResult>;
 }
 
 export interface IFindOneQueryConfig<TResult> {
@@ -28,11 +28,11 @@ export interface IFindOneQueryConfig<TResult> {
 // ============================================================
 
 export type ListFn<TResult, TParams = unknown> = (
-  params?: MaybeRef<TParams>
+  params?: MaybeRef<TParams | undefined>
 ) => UseQueryReturnType<TResult, Error>;
 
 export type ListInfiniteFn<TResult, TParams = unknown> = (
-  params?: MaybeRef<TParams>
+  params?: MaybeRef<TParams | undefined>
 ) => UseInfiniteQueryReturnType<InfiniteData<TResult, unknown>, Error>;
 
 export type FindOneFn<TResult> = (
