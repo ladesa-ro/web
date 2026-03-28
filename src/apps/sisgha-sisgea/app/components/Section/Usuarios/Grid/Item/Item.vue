@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useQuery } from '@tanstack/vue-query';
-import uniq from 'lodash/uniq';
+import { uniq } from 'lodash-es';
 import { usuarioFindById } from '@ladesa-ro/web.api.client';
 import type { UsuarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';

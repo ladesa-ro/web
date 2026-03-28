@@ -1,8 +1,4 @@
-import type { Dictionary } from 'lodash';
-import groupBy from 'lodash/groupBy';
-import map from 'lodash/map';
-import mapValues from 'lodash/mapValues';
-import uniq from 'lodash/uniq';
+import { groupBy, map, mapValues, uniq } from 'lodash-es';
 import type {
   CampusFindOneOutputDto,
   PerfilFindOneOutputDto,
@@ -31,7 +27,7 @@ export type ResumoVinculos = {
    *  professor: VinculoFindOneResultDto[]
    * }
    */
-  mapaCargoVinculos: Dictionary<PerfilFindOneOutputDto[]>;
+  mapaCargoVinculos: { [key: string]: PerfilFindOneOutputDto[] };
 };
 
 export const resumirVinculos = (todosOsVinculos: PerfilFindOneOutputDto[]) => {

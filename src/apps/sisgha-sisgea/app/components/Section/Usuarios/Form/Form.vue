@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import groupBy from 'lodash/groupBy';
+import { groupBy } from 'lodash-es';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import type { FormUserOutput, FormUserValues } from './FormUtils';

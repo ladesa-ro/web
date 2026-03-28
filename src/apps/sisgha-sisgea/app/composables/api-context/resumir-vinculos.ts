@@ -1,47 +1,48 @@
-import type { Dictionary } from 'lodash';
-import groupBy from 'lodash/groupBy';
-import map from 'lodash/map';
-import mapValues from 'lodash/mapValues';
-import uniq from 'lodash/uniq';
 import type {
   CampusFindOneOutputDto,
   PerfilFindOneOutputDto,
 } from '@ladesa-ro/web.api.client';
 
 export type ResumoVinculos = {
-  /**
-   * ["dape", "professor"]
-   */
-
   cargos: string[];
 
-  /**
-   * {
-   *  dape: CampusFindOneResultDto[],
-   *  professor: CampusFindOneResultDto[]
-   * }
-   */
   mapaCargoCampi: {
     [x: string]: CampusFindOneOutputDto[];
   };
 
-  /**
-   * {
-   *  dape: VinculoFindOneResultDto[],
-   *  professor: VinculoFindOneResultDto[]
-   * }
-   */
-  mapaCargoVinculos: Dictionary<PerfilFindOneOutputDto[]>;
+  mapaCargoVinculos: {
+    [x: string]: PerfilFindOneOutputDto[];
+  };
 };
 
-export const resumirVinculos = (todosOsVinculos: PerfilFindOneOutputDto[]) => {
-  const cargos = uniq(map(todosOsVinculos, 'cargo'));
+export const resumirVinculos = (
+  todosOsVinculos: PerfilFindOneOutputDto[]
+): ResumoVinculos => {
+  const mapaCargoVinculos: Record<string, PerfilFindOneOutputDto[]> =
+    todosOsVinculos.reduce(
+      (acc, vinculo) => {
+        const cargo = vinculo.cargo;
 
-  const mapaCargoVinculos = groupBy(todosOsVinculos, vinculo => vinculo.cargo);
+        if (!acc[cargo]) {
+          acc[cargo] = [];
+        }
 
-  const mapaCargoCampi = mapValues(mapaCargoVinculos, vinculos =>
-    map(vinculos, 'campus')
-  );
+        acc[cargo].push(vinculo);
+
+        return acc;
+      },
+      {} as Record<string, PerfilFindOneOutputDto[]>
+    );
+
+  const cargos = Array.from(new Set(todosOsVinculos.map(v => v.cargo)));
+
+  const mapaCargoCampi: Record<string, CampusFindOneOutputDto[]> =
+    Object.fromEntries(
+      Object.entries(mapaCargoVinculos).map(([cargo, vinculos]) => [
+        cargo,
+        vinculos.map(v => v.campus),
+      ])
+    );
 
   return {
     cargos,
