@@ -16,12 +16,12 @@
     "types:watch": "vue-tsc --noEmit --watch"
   },
   "dependencies": {
-    "@ladesa-ro/web.api.client": "workspace:*",
-    "@ladesa-ro/web.ui.nuxt": "workspace:*",
-    "@ladesa-ro/web.utils": "workspace:*",
     "@atlaskit/pragmatic-drag-and-drop": "^1.7.9",
     "@atlaskit/pragmatic-drag-and-drop-auto-scroll": "^2.1.1",
     "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.1.0",
+    "@ladesa-ro/web.api.client": "workspace:*",
+    "@ladesa-ro/web.ui.nuxt": "workspace:*",
+    "@ladesa-ro/web.utils": "workspace:*",
     "@nuxt/devtools": "4.0.0-alpha.1",
     "@nuxt/eslint": "^1.15.2",
     "@nuxtjs/color-mode": "^3.5.2",
@@ -33,7 +33,6 @@
     "jose": "^6.2.2",
     "nuxt": "^4.4.2",
     "p-mutex": "^1.0.0",
-    "p-queue": "^8.1.0",
     "reka-ui": "^2.9.2",
     "vee-validate": "^4.15.0",
     "vue": "^3.5.31",
