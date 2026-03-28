@@ -1,0 +1,5 @@
+.pnpm*
+pnpm*
+.output
+dist
+.nuxt

@@ -25,7 +25,17 @@ O Sistema Gerador de Horário Acadêmico (SISGHA) e o Sistema de Gestão de Ambi
 
 ## Organização de pastas
 
-<!-- seção pendente -->
+```
+src/
+├── apps/
+│   └── sisgha-sisgea/     # Aplicação Nuxt principal
+├── packages/
+│   ├── ladesa-api-client/  # Cliente da API Ladesa
+│   ├── ladesa-ui-nuxt/     # Componentes UI compartilhados
+│   └── utils/              # Utilitários compartilhados
+├── package.json
+└── pnpm-workspace.yaml
+```
 
 ## Ambientes
 
@@ -45,13 +55,14 @@ cd web
 ### Instalar as dependências do projeto
 
 ```bash
+cd src
 pnpm install
 ```
 
 ### Atualizar o fetch client
 
 ```bash
-cd sisgha-sisgea
+cd src/apps/sisgha-sisgea
 pnpm run generate-client
 ```
 
@@ -60,6 +71,7 @@ pnpm run generate-client
 Comece o servidor de desenvolvimento em [`http://localhost:3000`](http://localhost:3000):
 
 ```bash
+cd src
 pnpm run dev
 ```
 
