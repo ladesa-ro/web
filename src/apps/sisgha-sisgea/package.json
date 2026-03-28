@@ -1,0 +1,53 @@
+{
+  "name": "@ladesa-ro/web.service",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "debug": "nuxt dev --inspect",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "start": "node .output/server/index.mjs",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "types:check": "vue-tsc --noEmit",
+    "types:watch": "vue-tsc --noEmit --watch"
+  },
+  "dependencies": {
+    "@atlaskit/pragmatic-drag-and-drop": "^1.7.9",
+    "@atlaskit/pragmatic-drag-and-drop-auto-scroll": "^2.1.5",
+    "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.1.0",
+    "@ladesa-ro/web.api.client": "workspace:*",
+    "@ladesa-ro/web.ui.nuxt": "workspace:*",
+    "@ladesa-ro/web.utils": "workspace:*",
+    "@nuxt/devtools": "4.0.0-alpha.1",
+    "@nuxt/eslint": "^1.15.2",
+    "@nuxtjs/color-mode": "^4.0.0",
+    "@tanstack/query-persist-client-core": "^5.95.2",
+    "@tanstack/query-sync-storage-persister": "^5.95.2",
+    "@tanstack/vue-query": "^5.95.2",
+    "@vueuse/core": "^14.2.1",
+    "dayjs": "^1.11.20",
+    "jose": "^6.2.2",
+    "nuxt": "^4.4.2",
+    "p-mutex": "^1.0.0",
+    "reka-ui": "^2.9.2",
+    "vee-validate": "^4.15.1",
+    "vue": "^3.5.31",
+    "vue3-carousel": "^0.17.0",
+    "vue3-carousel-nuxt": "^1.1.6",
+    "vue3-dropzone": "^2.2.1",
+    "yarnhook": "^0.6.2",
+    "yup": "^1.7.1"
+  },
+  "devDependencies": {
+    "@babel/runtime": "^7.29.2",
+    "@types/lodash": "^4.17.24",
+    "type-fest": "^5.5.0",
+    "typescript": "5.9.3",
+    "vue-tsc": "3.2.6"
+  },
+  "overrides": {}
+}

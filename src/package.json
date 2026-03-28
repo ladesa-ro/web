@@ -1,0 +1,19 @@
+{
+  "name": "@ladesa-ro/web.root",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm run --recursive --filter !@ladesa-ro/web.root dev",
+    "build:all": "pnpm run --recursive --filter !@ladesa-ro/web.root build",
+    "format:check": "prettier --ignore-unknown \"**/*\" --check",
+    "format:fix": "prettier --ignore-unknown \"**/*\" --write",
+    "code-static:check": "pnpm run format:check",
+    "code-static:fix": "pnpm run format:fix",
+    "chore:update": "corepack use pnpm@10 && pnpm -r update && pnpm run -w code-static:fix",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "husky": "^9.1.7",
+    "prettier": "^3.8.1"
+  },
+  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
+}

@@ -48,8 +48,7 @@ jobs:
         uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294
         with:
           file: .docker/Containerfile
-          context: .
-          # context: ./src/
+          context: ./src/
           target: web-runtime
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_BASENAME }}/web:development
