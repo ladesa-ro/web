@@ -11,6 +11,7 @@ import {
 import type { WeekSchedule } from '~/composables/schedule/useScheduleTypes';
 import GridCell from '../GridCell/GridCell.vue';
 import { dndMonitor } from './dnd-monitor';
+import { useDayJs } from '#imports';
 
 const { commit } = defineProps<{ commit: () => void }>();
 
