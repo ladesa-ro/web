@@ -1,22 +1,16 @@
 import {
-  createListQuery,
   createFindOneQuery,
   createInvalidate,
 } from '~/composables/query-helpers';
 import type {
-  ListFn,
   FindOneFn,
   InvalidateFn,
 } from '~/composables/query-helpers';
-import type {
-  PerfilFindAllData,
-  PerfilFindAllResponse,
-  PerfilFindByIdResponse,
-} from '@ladesa-ro/web.api.client';
+import { perfilFindById } from '@ladesa-ro/web.api.client';
+import type { PerfilFindByIdResponse } from '@ladesa-ro/web.api.client';
 
 export type IUsePerfis = {
   keys: readonly string[];
-  list: ListFn<PerfilFindAllResponse, PerfilFindAllData>;
   findOne: FindOneFn<PerfilFindByIdResponse>;
   invalidate: InvalidateFn;
 };
@@ -26,18 +20,12 @@ export const usePerfis = (): IUsePerfis => {
 
   const keys = ['perfis'] as const;
 
-  const list = createListQuery({
-    queryKey: keys,
-    fetcher: (params?: PerfilFindAllData) =>
-      api.usuarios.perfilFindAll(params as any),
-  });
-
   const findOne = createFindOneQuery({
     queryKey: keys,
-    fetcher: (id: string) => api.usuarios.perfilFindById({ id } as any),
+    fetcher: (id: string) => api.call(perfilFindById, { path: { id } }),
   });
 
   const invalidate = createInvalidate(keys);
 
-  return { keys, list, findOne, invalidate };
+  return { keys, findOne, invalidate };
 };

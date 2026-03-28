@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
+import { nivelFormacaoFindAll, nivelFormacaoFindById } from '@ladesa-ro/web.api.client';
 
 type Props = {
   isLoading?: boolean;
@@ -14,12 +15,11 @@ const { name } = toRefs(props);
 
 //
 
-const apiClient = useApiClient();
+const api = useApiClient();
 const crudModule = {
   baseQueryKeys: ['niveis-formacoes'],
-  list: (data: any) => apiClient.niveisFormacoes.nivelFormacaoFindAll(data),
-  getOne: (id: string) =>
-    apiClient.niveisFormacoes.nivelFormacaoFindById({ id }),
+  list: (data: any) => api.call(nivelFormacaoFindAll, { query: data }),
+  getOne: (id: string) => api.call(nivelFormacaoFindById, { path: { id } }),
 };
 
 const options = createUIAutocompleteApiRetrieverOptions({

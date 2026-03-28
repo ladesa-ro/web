@@ -14,6 +14,14 @@ import type {
   InvalidateFn,
   UploadProfileFn,
 } from '~/composables/query-helpers';
+import {
+  usuarioFindAll,
+  usuarioFindById,
+  usuarioCreate,
+  usuarioUpdate,
+  usuarioDeleteOneById,
+  usuarioUpdateImagemPerfil,
+} from '@ladesa-ro/web.api.client';
 import type {
   UsuarioFindAllData,
   UsuarioFindAllResponse,
@@ -22,15 +30,17 @@ import type {
   UsuarioCreateResponse,
   UsuarioUpdateData,
   UsuarioUpdateResponse,
+  ReqBody,
+  ReqQuery,
 } from '@ladesa-ro/web.api.client';
 
 export type IUseUsuarios = {
   keys: readonly string[];
-  list: ListFn<UsuarioFindAllResponse, UsuarioFindAllData>;
-  listInfinite: ListInfiniteFn<UsuarioFindAllResponse, UsuarioFindAllData>;
+  list: ListFn<UsuarioFindAllResponse, ReqQuery<UsuarioFindAllData>>;
+  listInfinite: ListInfiniteFn<UsuarioFindAllResponse, ReqQuery<UsuarioFindAllData>>;
   findOne: FindOneFn<UsuarioFindByIdResponse>;
-  create: CreateFn<UsuarioCreateData['requestBody'], UsuarioCreateResponse>;
-  update: UpdateFn<UsuarioUpdateData['requestBody'], UsuarioUpdateResponse>;
+  create: CreateFn<ReqBody<UsuarioCreateData>, UsuarioCreateResponse>;
+  update: UpdateFn<ReqBody<UsuarioUpdateData>, UsuarioUpdateResponse>;
   remove: RemoveFn;
   uploadProfile: UploadProfileFn;
   invalidate: InvalidateFn;
@@ -43,31 +53,34 @@ export const useUsuarios = (): IUseUsuarios => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: UsuarioFindAllData) =>
-      api.usuarios.usuarioFindAll(params),
+    fetcher: (params: ReqQuery<UsuarioFindAllData> = {}) => {
+      return api.call(usuarioFindAll, { query: params });
+    },
   });
 
   const listInfinite = createInfiniteListQuery({
     queryKey: keys,
-    fetcher: (params: UsuarioFindAllData & { page: number }) =>
-      api.usuarios.usuarioFindAll(params),
+    fetcher: (params: ReqQuery<UsuarioFindAllData> = {}) => {
+      return api.call(usuarioFindAll, { query: params });
+    },
   });
 
   const findOne = createFindOneQuery({
     queryKey: keys,
-    fetcher: (id: string) => api.usuarios.usuarioFindById({ id }),
+    fetcher: (id: string) => api.call(usuarioFindById, { path: { id } }),
   });
 
-  const create = (data: UsuarioCreateData['requestBody']) =>
-    api.usuarios.usuarioCreate({ requestBody: data });
+  const create = (data: ReqBody<UsuarioCreateData>) =>
+    api.call(usuarioCreate, { body: data });
 
-  const update = (id: string, data: UsuarioUpdateData['requestBody']) =>
-    api.usuarios.usuarioUpdate({ id, requestBody: data });
+  const update = (id: string, data: ReqBody<UsuarioUpdateData>) =>
+    api.call(usuarioUpdate, { path: { id }, body: data });
 
-  const remove = (id: string) => api.usuarios.usuarioDeleteOneById({ id });
+  const remove = (id: string) =>
+    api.call(usuarioDeleteOneById, { path: { id } });
 
   const uploadProfile = (id: string, file: Blob) =>
-    api.usuarios.usuarioUpdateImagemPerfil({ id, formData: { file } });
+    api.call(usuarioUpdateImagemPerfil, { path: { id }, body: { file } });
 
   const invalidate = createInvalidate(keys);
 

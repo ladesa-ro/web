@@ -1,23 +1,25 @@
-/** @type {import('@hey-api/openapi-ts').UserConfig} */
+import { defineConfig } from '@hey-api/openapi-ts';
 
-export default {
-  base: '#',
-
-  client: 'legacy/fetch',
-
-  name: 'LadesaApiClient',
-
-  services: {
-    asClass: true,
-  },
-
-  schemas: { name: (name: any) => `$${name}` },
-
+export default defineConfig({
   input: 'https://dev.ladesa.com.br/api/v1/docs/openapi.v3.json',
 
   output: {
-    lint: 'biome',
-    format: 'biome',
-    path: './src',
+    postProcess: ['biome:lint', 'biome:format'],
+    path: './src/__generated__',
+    clean: true,
   },
-};
+
+  plugins: [
+    {
+      name: '@hey-api/client-fetch',
+      baseUrl: false,
+    },
+    {
+      name: '@hey-api/typescript',
+      identifierCase: 'preserve',
+    },
+    {
+      name: '@hey-api/sdk',
+    },
+  ],
+});

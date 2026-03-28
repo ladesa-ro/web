@@ -1,8 +1,12 @@
-import { LadesaApiClient, type OpenAPIConfig } from '@ladesa-ro/web.api.client';
+import {
+  createLadesaApi,
+  type LadesaApiClientConfig,
+  type LadesaApi,
+} from '@ladesa-ro/web.api.client';
 
 const API_AUTH_TOKEN = Symbol.for('API_AUTH_TOKEN');
 
-export type ApiClient = ReturnType<typeof getApiClient>;
+export type ApiClient = LadesaApi;
 
 const getEndpointUrl = () => {
   return (
@@ -10,15 +14,13 @@ const getEndpointUrl = () => {
   );
 };
 
-export const getApiClient = (config?: Partial<OpenAPIConfig>) => {
+export const getApiClient = (config?: Partial<LadesaApiClientConfig>) => {
   const endpointUrl = getEndpointUrl();
 
-  const apiClient = new LadesaApiClient({
+  return createLadesaApi({
     BASE: endpointUrl,
     ...config,
   });
-
-  return apiClient;
 };
 
 export const setupApiClient = (shouldProvide = true) => {
@@ -26,7 +28,7 @@ export const setupApiClient = (shouldProvide = true) => {
 
   const options = {
     TOKEN: getAccessToken,
-  } satisfies Partial<OpenAPIConfig>;
+  } satisfies Partial<LadesaApiClientConfig>;
 
   const apiClient = getApiClient(options);
 
@@ -38,7 +40,7 @@ export const setupApiClient = (shouldProvide = true) => {
 };
 
 export const useApiClient = () => {
-  const apiClient = inject<LadesaApiClient>(API_AUTH_TOKEN);
+  const apiClient = inject<LadesaApi>(API_AUTH_TOKEN);
 
   if (!apiClient) {
     throw new Error('useApiClient: context not created');

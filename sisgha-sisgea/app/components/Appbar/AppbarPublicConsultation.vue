@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
+import { turmaFindById } from '@ladesa-ro/web.api.client';
 
 const route = useRoute();
 
 const turmaId = computed(() => route.params.id ?? null);
 
-const apiClient = useApiClient();
+const api = useApiClient();
 
 const isQueryEnabled = computed(
   () => turmaId.value !== null && route.params.id !== undefined
@@ -14,8 +15,8 @@ const isQueryEnabled = computed(
 const { isLoading, isError, data } = useQuery({
   queryKey: ['turma', 'turma::id', turmaId],
   queryFn: async () =>
-    await apiClient.turmas.turmaFindById({
-      id: turmaId.value as string,
+    await api.call(turmaFindById, {
+      path: { id: turmaId.value as string },
     }),
   enabled: isQueryEnabled,
 });

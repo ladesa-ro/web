@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { IconsCalendarCompleteCalendar, IconsCalendarPartialCalendar } from '#components';
 import dayjs from 'dayjs';
+import { calendarioLetivoFindAll } from '@ladesa-ro/web.api.client';
 import { useToast } from '~/composables/useToast';
 import { calendarDataMethods } from './CalendarDataMethods';
 import GestaoPopover from './Gestao/GestaoPopover.vue';
@@ -47,11 +48,11 @@ async function loadCalendars() {
     const campusId = selectedCampusGlobalState.value;
     if (!campusId) return;
 
-    const res = await getApiClient().calendariosLetivos.calendarioLetivoFindAll(
-      {
-        filterCampusId: [campusId],
-      }
-    );
+    const res = await getApiClient().call(calendarioLetivoFindAll, {
+      query: {
+        'filter.campus.id': [campusId],
+      },
+    });
 
     const data = res.data || [];
 
@@ -121,9 +122,9 @@ function handleCancelDelete() {
 
 onMounted(async () => {
   try {
-    const res = await getApiClient().calendariosLetivos.calendarioLetivoFindAll(
-      {}
-    );
+    const res = await getApiClient().call(calendarioLetivoFindAll, {
+      query: {},
+    });
     const data = res.data || [];
 
     console.log('RAW CALENDARS', data);

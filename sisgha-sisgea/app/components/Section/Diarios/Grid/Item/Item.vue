@@ -14,9 +14,7 @@ const { diario } = toRefs(props);
 
 const diarios_api = useDiarios();
 
-const options = computed(() => ({ filterDiarioId: [diario.value.id] }) as any);
-
-const professoresQuery = diarios_api.listProfessores(options);
+const professoresQuery = diarios_api.listProfessores(diario.value.id);
 
 const diariosProfessoresList = computed(
   () => professoresQuery.data.value?.data ?? []

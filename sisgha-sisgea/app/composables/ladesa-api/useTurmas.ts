@@ -14,6 +14,14 @@ import type {
   InvalidateFn,
   UploadCoverFn,
 } from '~/composables/query-helpers';
+import {
+  turmaFindAll,
+  turmaFindById,
+  turmaCreate,
+  turmaUpdate,
+  turmaDeleteOneById,
+  turmaUpdateImagemCapa,
+} from '@ladesa-ro/web.api.client';
 import type {
   TurmaFindAllData,
   TurmaFindAllResponse,
@@ -22,15 +30,17 @@ import type {
   TurmaCreateResponse,
   TurmaUpdateData,
   TurmaUpdateResponse,
+  ReqBody,
+  ReqQuery,
 } from '@ladesa-ro/web.api.client';
 
 export type IUseTurmas = {
   keys: readonly string[];
-  list: ListFn<TurmaFindAllResponse, TurmaFindAllData>;
-  listInfinite: ListInfiniteFn<TurmaFindAllResponse, TurmaFindAllData>;
+  list: ListFn<TurmaFindAllResponse, ReqQuery<TurmaFindAllData>>;
+  listInfinite: ListInfiniteFn<TurmaFindAllResponse, ReqQuery<TurmaFindAllData>>;
   findOne: FindOneFn<TurmaFindByIdResponse>;
-  create: CreateFn<TurmaCreateData['requestBody'], TurmaCreateResponse>;
-  update: UpdateFn<TurmaUpdateData['requestBody'], TurmaUpdateResponse>;
+  create: CreateFn<ReqBody<TurmaCreateData>, TurmaCreateResponse>;
+  update: UpdateFn<ReqBody<TurmaUpdateData>, TurmaUpdateResponse>;
   remove: RemoveFn;
   uploadCover: UploadCoverFn;
   invalidate: InvalidateFn;
@@ -43,30 +53,32 @@ export const useTurmas = (): IUseTurmas => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: TurmaFindAllData) => api.turmas.turmaFindAll(params),
+    fetcher: (params?: ReqQuery<TurmaFindAllData>) =>
+      api.call(turmaFindAll, { query: params }),
   });
 
   const listInfinite = createInfiniteListQuery({
     queryKey: keys,
-    fetcher: (params: TurmaFindAllData & { page: number }) =>
-      api.turmas.turmaFindAll(params),
+    fetcher: (params: ReqQuery<TurmaFindAllData>) =>
+      api.call(turmaFindAll, { query: params }),
   });
 
   const findOne = createFindOneQuery({
     queryKey: keys,
-    fetcher: (id: string) => api.turmas.turmaFindById({ id }),
+    fetcher: (id: string) => api.call(turmaFindById, { path: { id } }),
   });
 
-  const create = (data: TurmaCreateData['requestBody']) =>
-    api.turmas.turmaCreate({ requestBody: data });
+  const create = (data: ReqBody<TurmaCreateData>) =>
+    api.call(turmaCreate, { body: data });
 
-  const update = (id: string, data: TurmaUpdateData['requestBody']) =>
-    api.turmas.turmaUpdate({ id, requestBody: data });
+  const update = (id: string, data: ReqBody<TurmaUpdateData>) =>
+    api.call(turmaUpdate, { path: { id }, body: data });
 
-  const remove = (id: string) => api.turmas.turmaDeleteOneById({ id });
+  const remove = (id: string) =>
+    api.call(turmaDeleteOneById, { path: { id } });
 
   const uploadCover = (id: string, file: Blob) =>
-    api.turmas.turmaUpdateImagemCapa({ id, formData: { file } });
+    api.call(turmaUpdateImagemCapa, { path: { id }, body: { file } });
 
   const invalidate = createInvalidate(keys);
 

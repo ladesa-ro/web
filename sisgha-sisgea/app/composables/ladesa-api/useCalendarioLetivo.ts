@@ -13,6 +13,13 @@ import type {
   RemoveFn,
   InvalidateFn,
 } from '~/composables/query-helpers';
+import {
+  calendarioLetivoFindAll,
+  calendarioLetivoFindById,
+  calendarioLetivoCreate,
+  calendarioLetivoUpdate,
+  calendarioLetivoDeleteOneById,
+} from '@ladesa-ro/web.api.client';
 import type {
   CalendarioLetivoFindAllData,
   CalendarioLetivoFindAllResponse,
@@ -21,22 +28,24 @@ import type {
   CalendarioLetivoCreateResponse,
   CalendarioLetivoUpdateData,
   CalendarioLetivoUpdateResponse,
+  ReqBody,
+  ReqQuery,
 } from '@ladesa-ro/web.api.client';
 
 export type IUseCalendarioLetivo = {
   keys: readonly string[];
-  list: ListFn<CalendarioLetivoFindAllResponse, CalendarioLetivoFindAllData>;
+  list: ListFn<CalendarioLetivoFindAllResponse, ReqQuery<CalendarioLetivoFindAllData>>;
   listInfinite: ListInfiniteFn<
     CalendarioLetivoFindAllResponse,
-    CalendarioLetivoFindAllData
+    ReqQuery<CalendarioLetivoFindAllData>
   >;
   findOne: FindOneFn<CalendarioLetivoFindByIdResponse>;
   create: CreateFn<
-    CalendarioLetivoCreateData['requestBody'],
+    ReqBody<CalendarioLetivoCreateData>,
     CalendarioLetivoCreateResponse
   >;
   update: UpdateFn<
-    CalendarioLetivoUpdateData['requestBody'],
+    ReqBody<CalendarioLetivoUpdateData>,
     CalendarioLetivoUpdateResponse
   >;
   remove: RemoveFn;
@@ -50,32 +59,32 @@ export const useCalendarioLetivo = (): IUseCalendarioLetivo => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: CalendarioLetivoFindAllData) =>
-      api.calendariosLetivos.calendarioLetivoFindAll(params),
+    fetcher: (params?: ReqQuery<CalendarioLetivoFindAllData>) =>
+      api.call(calendarioLetivoFindAll, { query: params }),
   });
 
   const listInfinite = createInfiniteListQuery({
     queryKey: keys,
-    fetcher: (params: CalendarioLetivoFindAllData & { page: number }) =>
-      api.calendariosLetivos.calendarioLetivoFindAll(params),
+    fetcher: (params: ReqQuery<CalendarioLetivoFindAllData>) =>
+      api.call(calendarioLetivoFindAll, { query: params }),
   });
 
   const findOne = createFindOneQuery({
     queryKey: keys,
     fetcher: (id: string) =>
-      api.calendariosLetivos.calendarioLetivoFindById({ id }),
+      api.call(calendarioLetivoFindById, { path: { id } }),
   });
 
-  const create = (data: CalendarioLetivoCreateData['requestBody']) =>
-    api.calendariosLetivos.calendarioLetivoCreate({ requestBody: data });
+  const create = (data: ReqBody<CalendarioLetivoCreateData>) =>
+    api.call(calendarioLetivoCreate, { body: data });
 
   const update = (
     id: string,
-    data: CalendarioLetivoUpdateData['requestBody']
-  ) => api.calendariosLetivos.calendarioLetivoUpdate({ id, requestBody: data });
+    data: ReqBody<CalendarioLetivoUpdateData>
+  ) => api.call(calendarioLetivoUpdate, { path: { id }, body: data });
 
   const remove = (id: string) =>
-    api.calendariosLetivos.calendarioLetivoDeleteOneById({ id });
+    api.call(calendarioLetivoDeleteOneById, { path: { id } });
 
   const invalidate = createInvalidate(keys);
 

@@ -13,6 +13,13 @@ import type {
   RemoveFn,
   InvalidateFn,
 } from '~/composables/query-helpers';
+import {
+  modalidadeFindAll,
+  modalidadeFindById,
+  modalidadeCreate,
+  modalidadeUpdate,
+  modalidadeDeleteOneById,
+} from '@ladesa-ro/web.api.client';
 import type {
   ModalidadeFindAllData,
   ModalidadeFindAllResponse,
@@ -21,22 +28,24 @@ import type {
   ModalidadeCreateResponse,
   ModalidadeUpdateData,
   ModalidadeUpdateResponse,
+  ReqBody,
+  ReqQuery,
 } from '@ladesa-ro/web.api.client';
 
 export type IUseModalidades = {
   keys: readonly string[];
-  list: ListFn<ModalidadeFindAllResponse, ModalidadeFindAllData>;
+  list: ListFn<ModalidadeFindAllResponse, ReqQuery<ModalidadeFindAllData>>;
   listInfinite: ListInfiniteFn<
     ModalidadeFindAllResponse,
-    ModalidadeFindAllData
+    ReqQuery<ModalidadeFindAllData>
   >;
   findOne: FindOneFn<ModalidadeFindByIdResponse>;
   create: CreateFn<
-    ModalidadeCreateData['requestBody'],
+    ReqBody<ModalidadeCreateData>,
     ModalidadeCreateResponse
   >;
   update: UpdateFn<
-    ModalidadeUpdateData['requestBody'],
+    ReqBody<ModalidadeUpdateData>,
     ModalidadeUpdateResponse
   >;
   remove: RemoveFn;
@@ -50,29 +59,29 @@ export const useModalidades = (): IUseModalidades => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: ModalidadeFindAllData) =>
-      api.modalidades.modalidadeFindAll(params),
+    fetcher: (params?: ReqQuery<ModalidadeFindAllData>) =>
+      api.call(modalidadeFindAll, { query: params }),
   });
 
   const listInfinite = createInfiniteListQuery({
     queryKey: keys,
-    fetcher: (params: ModalidadeFindAllData & { page: number }) =>
-      api.modalidades.modalidadeFindAll(params),
+    fetcher: (params: ReqQuery<ModalidadeFindAllData>) =>
+      api.call(modalidadeFindAll, { query: params }),
   });
 
   const findOne = createFindOneQuery({
     queryKey: keys,
-    fetcher: (id: string) => api.modalidades.modalidadeFindById({ id }),
+    fetcher: (id: string) => api.call(modalidadeFindById, { path: { id } }),
   });
 
-  const create = (data: ModalidadeCreateData['requestBody']) =>
-    api.modalidades.modalidadeCreate({ requestBody: data });
+  const create = (data: ReqBody<ModalidadeCreateData>) =>
+    api.call(modalidadeCreate, { body: data });
 
-  const update = (id: string, data: ModalidadeUpdateData['requestBody']) =>
-    api.modalidades.modalidadeUpdate({ id, requestBody: data });
+  const update = (id: string, data: ReqBody<ModalidadeUpdateData>) =>
+    api.call(modalidadeUpdate, { path: { id }, body: data });
 
   const remove = (id: string) =>
-    api.modalidades.modalidadeDeleteOneById({ id });
+    api.call(modalidadeDeleteOneById, { path: { id } });
 
   const invalidate = createInvalidate(keys);
 

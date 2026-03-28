@@ -5,13 +5,14 @@ import {
   createApiListContextOptions,
   type IEntityListModule,
 } from '~~/app/components/UI/API/List/Context/UIApiListContext';
+import { modalidadeFindAll, modalidadeFindById } from '@ladesa-ro/web.api.client';
 
 const api = useApiClient();
 
 const crudModule = {
   baseQueryKeys: ['modalidades'] as string[],
-  list: (data?: any) => api.modalidades.modalidadeFindAll(data),
-  getOne: (id: string) => api.modalidades.modalidadeFindById({ id }),
+  list: (data?: any) => api.call(modalidadeFindAll, { query: data }),
+  getOne: (id: string) => api.call(modalidadeFindById, { path: { id } }),
 } satisfies IEntityListModule;
 
 const options = createApiListContextOptions({ crudModule });

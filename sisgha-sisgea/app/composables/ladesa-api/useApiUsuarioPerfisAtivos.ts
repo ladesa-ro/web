@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/vue-query';
+import { usuarioFindById } from '@ladesa-ro/web.api.client';
 
 export const useApiUsuarioPerfisAtivos = async (
   idRef: MaybeRef<string | null | undefined>
 ) => {
-  const apiClient = useApiClient();
+  const api = useApiClient();
 
   const query = useQuery({
     queryKey: [
@@ -15,10 +16,12 @@ export const useApiUsuarioPerfisAtivos = async (
     queryFn: async () => {
       const id = unref(idRef);
       if (id) {
-        return apiClient.perfis.perfilFindAll({
-          filterUsuarioId: [id],
-          filterAtivo: ['true'],
-        });
+        const usuario = await api.call(usuarioFindById, { path: { id } });
+        return {
+          data: (usuario?.vinculos ?? []).filter(
+            (v: any) => v.ativo,
+          ),
+        };
       } else {
         return null;
       }

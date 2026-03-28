@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useQuery } from '@tanstack/vue-query';
 import uniq from 'lodash/uniq';
+import { usuarioFindById } from '@ladesa-ro/web.api.client';
 import type { UsuarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
@@ -17,17 +18,16 @@ let link = linkProps === undefined || linkProps === '' ? 'usuarios' : linkProps;
 
 //
 
+const api = useApiClient();
 const { data: vinculosResponse } = useQuery({
   queryKey: [
     'usuarios',
     computed(() => `usuario::id::${unref(usuario.id)}`),
     'usuarios::vinculos',
   ],
-  queryFn: () => {
-    return useApiClient().perfis.perfilFindAll({
-      filterUsuarioId: [usuario.id],
-      filterAtivo: ['true'],
-    });
+  queryFn: async () => {
+    const user = await api.call(usuarioFindById, { path: { id: usuario.id } });
+    return { data: (user?.vinculos ?? []).filter((v: any) => v.ativo) };
   },
 });
 

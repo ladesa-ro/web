@@ -1,5 +1,6 @@
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
+import { turmaFindAll, turmaFindById } from '@ladesa-ro/web.api.client';
 import type { IEntityListModule } from '~/components/UI/API/List/Context/UIApiListContext';
 
 export const useHorarioDapeFilters = () => {
@@ -25,8 +26,8 @@ export const useHorarioDapeFilters = () => {
 
   const turmasCrudModule = {
     baseQueryKeys: ['turmas'] as string[],
-    list: (data?: any) => api.turmas.turmaFindAll(data),
-    getOne: (id: string) => api.turmas.turmaFindById({ id }),
+    list: (data?: any) => api.call(turmaFindAll, { query: data }),
+    getOne: (id: string) => api.call(turmaFindById, { path: { id } }),
   } satisfies IEntityListModule;
 
   const turmasOptions = {

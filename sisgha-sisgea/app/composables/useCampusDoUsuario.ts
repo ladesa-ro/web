@@ -1,4 +1,4 @@
-import { useApiContext } from '~/composables/api-context/setup';
+import { usuarioFindById } from '@ladesa-ro/web.api.client';
 
 export function useCampusDoUsuario(userId?: MaybeRef<string | null>) {
   const campusId = ref<string | null>(null);
@@ -10,10 +10,8 @@ export function useCampusDoUsuario(userId?: MaybeRef<string | null>) {
   const fetchCampus = async (id: string) => {
     isLoading.value = true;
     try {
-      const response = await api.perfis.perfilFindAll({
-        filterUsuarioId: [id],
-      } as any);
-      const perfil = response.data?.[0];
+      const usuario = await api.call(usuarioFindById, { path: { id } });
+      const perfil = (usuario?.vinculos ?? [])[0];
       campusId.value = perfil?.campus?.id ?? null;
       campusApelido.value = perfil?.campus?.apelido ?? null;
     } catch (error) {

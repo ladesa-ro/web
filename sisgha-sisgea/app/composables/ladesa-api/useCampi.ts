@@ -13,6 +13,13 @@ import type {
   RemoveFn,
   InvalidateFn,
 } from '~/composables/query-helpers';
+import {
+  campusFindAll,
+  campusFindById,
+  campusCreate,
+  campusUpdate,
+  campusDeleteOneById,
+} from '@ladesa-ro/web.api.client';
 import type {
   CampusFindAllData,
   CampusFindAllResponse,
@@ -21,15 +28,17 @@ import type {
   CampusCreateResponse,
   CampusUpdateData,
   CampusUpdateResponse,
+  ReqBody,
+  ReqQuery,
 } from '@ladesa-ro/web.api.client';
 
 export type IUseCampi = {
   keys: readonly string[];
-  list: ListFn<CampusFindAllResponse, CampusFindAllData>;
-  listInfinite: ListInfiniteFn<CampusFindAllResponse, CampusFindAllData>;
+  list: ListFn<CampusFindAllResponse, ReqQuery<CampusFindAllData>>;
+  listInfinite: ListInfiniteFn<CampusFindAllResponse, ReqQuery<CampusFindAllData>>;
   findOne: FindOneFn<CampusFindByIdResponse>;
-  create: CreateFn<CampusCreateData['requestBody'], CampusCreateResponse>;
-  update: UpdateFn<CampusUpdateData['requestBody'], CampusUpdateResponse>;
+  create: CreateFn<ReqBody<CampusCreateData>, CampusCreateResponse>;
+  update: UpdateFn<ReqBody<CampusUpdateData>, CampusUpdateResponse>;
   remove: RemoveFn;
   invalidate: InvalidateFn;
 };
@@ -41,27 +50,29 @@ export const useCampi = (): IUseCampi => {
 
   const list = createListQuery({
     queryKey: keys,
-    fetcher: (params?: CampusFindAllData) => api.campi.campusFindAll(params),
+    fetcher: (params?: ReqQuery<CampusFindAllData>) =>
+      api.call(campusFindAll, { query: params }),
   });
 
   const listInfinite = createInfiniteListQuery({
     queryKey: keys,
-    fetcher: (params: CampusFindAllData & { page: number }) =>
-      api.campi.campusFindAll(params),
+    fetcher: (params: ReqQuery<CampusFindAllData>) =>
+      api.call(campusFindAll, { query: params }),
   });
 
   const findOne = createFindOneQuery({
     queryKey: keys,
-    fetcher: (id: string) => api.campi.campusFindById({ id }),
+    fetcher: (id: string) => api.call(campusFindById, { path: { id } }),
   });
 
-  const create = (data: CampusCreateData['requestBody']) =>
-    api.campi.campusCreate({ requestBody: data });
+  const create = (data: ReqBody<CampusCreateData>) =>
+    api.call(campusCreate, { body: data });
 
-  const update = (id: string, data: CampusUpdateData['requestBody']) =>
-    api.campi.campusUpdate({ id, requestBody: data });
+  const update = (id: string, data: ReqBody<CampusUpdateData>) =>
+    api.call(campusUpdate, { path: { id }, body: data });
 
-  const remove = (id: string) => api.campi.campusDeleteOneById({ id });
+  const remove = (id: string) =>
+    api.call(campusDeleteOneById, { path: { id } });
 
   const invalidate = createInvalidate(keys);
 

@@ -2,6 +2,7 @@
 import { useMutation } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
+import { autenticacaoRequestPasswordReset } from '@ladesa-ro/web.api.client';
 
 const $emit = defineEmits(['close']);
 
@@ -23,7 +24,7 @@ const showAlert = ref(false);
 
 //
 
-const apiClient = useApiClient();
+const api = useApiClient();
 
 const {
   isError,
@@ -31,8 +32,8 @@ const {
   data: canRecoverPassword,
 } = useMutation({
   mutationFn: (email: string) =>
-    apiClient.autenticacao.autenticacaoRequestPasswordReset({
-      requestBody: { email },
+    api.call(autenticacaoRequestPasswordReset, {
+      body: { email },
     }),
 });
 

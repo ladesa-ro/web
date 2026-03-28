@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
+import { ofertaFormacaoFindAll, ofertaFormacaoFindById } from '@ladesa-ro/web.api.client';
 
 type Props = {
   isLoading?: boolean;
@@ -12,12 +13,11 @@ const { name } = toRefs(props);
 
 //
 
-const apiClient = useApiClient();
+const api = useApiClient();
 const crudModule = {
   baseQueryKeys: ['ofertas-formacoes'],
-  list: (data: any) => apiClient.ofertasFormacoes.ofertaFormacaoFindAll(data),
-  getOne: (id: string) =>
-    apiClient.ofertasFormacoes.ofertaFormacaoFindById({ id }),
+  list: (data: any) => api.call(ofertaFormacaoFindAll, { query: data }),
+  getOne: (id: string) => api.call(ofertaFormacaoFindById, { path: { id } }),
 };
 
 const options = createUIAutocompleteApiRetrieverOptions({
