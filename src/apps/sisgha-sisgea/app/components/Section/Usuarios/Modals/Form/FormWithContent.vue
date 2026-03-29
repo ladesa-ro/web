@@ -142,7 +142,7 @@ function setDiaSelecionado(dia: string) {
       v-show="isProfileOpen"
       :edit-id="editId"
       @close="onClose"
-      class="w-full md:w-1/2 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
+      class="w-full flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
     />
     <SectionUsuariosModalsFormDialogAvailability
       v-show="isAvailabilityOpen"
@@ -152,7 +152,7 @@ function setDiaSelecionado(dia: string) {
       @atualizar-horarios-sem-motivo="atualizarHorariosSemMotivo"
       @atualizar-motivos="atualizarMotivos"
       @atualizar-dia-selecionado="setDiaSelecionado"
-      class="w-full md:w-1/2 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
+      class="w-full flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
     />
   </SectionUsuariosForm>
 
