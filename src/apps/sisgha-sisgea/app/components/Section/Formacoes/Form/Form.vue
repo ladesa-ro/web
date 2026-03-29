@@ -1,31 +1,77 @@
 <script lang="ts" setup>
+import { FormMode } from '~/utils/constants';
+import { ofertaFormacaoSchema, transformForApi } from './-Helpers/schema';
 import Form1 from './Form1.vue';
 import Form2 from './Form2.vue';
 
-type Props = { editId?: string | null };
+const { editId = null } = defineProps<{ editId?: string | null }>();
+const emit = defineEmits<{ close: [] }>();
 
-withDefaults(defineProps<Props>(), {
-  editId: null,
+const ofertasFormacoes = useOfertasFormacoes();
+const confirmDelete = useConfirmDelete();
+
+const { form, mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
+  schema: ofertaFormacaoSchema,
+  editId: computed(() => editId),
+  getQuery: ofertasFormacoes.findOne(computed(() => editId)),
+
+  create: data => ofertasFormacoes.create(transformForApi(data)),
+  update: (id, data) => ofertasFormacoes.update(id, transformForApi(data)),
+  remove: id => ofertasFormacoes.remove(id),
+  invalidate: ofertasFormacoes.invalidate,
+  confirmDelete: confirmDelete.confirm,
+  onFinish: () => emit('close'),
 });
 
-const $emit = defineEmits(['close']);
+const currentStep = ref(1);
 
-const currentModal = ref(1);
+const advanceToStep2 = async () => {
+  const result = await form.validate();
+
+  const step1Fields = [
+    'nome',
+    'slug',
+    'duracaoPeriodoEmMeses',
+    'modalidade.id',
+    'campus.id',
+    'niveisFormacoes',
+  ];
+
+  const hasStep1Errors = Object.keys(result.errors).some(key =>
+    step1Fields.some(field => key.startsWith(field))
+  );
+
+  if (!hasStep1Errors) {
+    currentStep.value = 2;
+  }
+};
 </script>
 
 <template>
-  <Form1
-    v-if="currentModal === 1"
-    :edit-id="editId"
-    @close="$emit('close')"
-    @next="currentModal = 2"
-  />
+  <form @submit.prevent="onSubmit">
+    <Form1
+      v-if="currentStep === 1"
+      :mode="mode"
+      :is-busy="isBusy"
+      :is-loading="isLoading"
+      @close="emit('close')"
+      @next="advanceToStep2"
+      @delete="onDelete"
+    />
 
-  <Form2
-    v-else-if="currentModal === 2"
-    :edit-id="editId"
-    :duracao-perido="12"
-    @previous="currentModal = 1"
-    @close="$emit('close')"
+    <Form2
+      v-else-if="currentStep === 2"
+      :mode="mode"
+      :is-busy="isBusy"
+      :edit-id="editId"
+      @previous="currentStep = 1"
+      @close="emit('close')"
+    />
+  </form>
+
+  <DialogConfirm
+    v-model="confirmDelete.isOpen.value"
+    message="Deseja realmente excluir esta formação?"
+    @confirm="confirmDelete.onConfirm"
   />
 </template>

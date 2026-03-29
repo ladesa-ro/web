@@ -1,156 +1,104 @@
 <script lang="ts" setup>
-import { useQueryClient } from '@tanstack/vue-query';
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
-import { useToast } from '~/composables/useToast';
+import { useField } from 'vee-validate';
+import { FormMode } from '~/utils/constants';
 
-type Props = { editId?: string | null };
+defineProps<{
+  mode: FormMode;
+  isBusy: boolean;
+  isLoading: boolean;
+}>();
 
-const props = withDefaults(defineProps<Props>(), {
-  editId: null,
+const emit = defineEmits<{
+  close: [];
+  next: [];
+  delete: [];
+}>();
+
+const { value: duracaoPeriodoEmMeses } = useField<number | undefined>(
+  'duracaoPeriodoEmMeses'
+);
+
+const duracaoItems = [
+  { label: 'Anual', value: 12 },
+  { label: 'Semestral', value: 6 },
+  { label: 'Quadrimestral', value: 4 },
+];
+
+const duracaoSelected = computed({
+  get: () => duracaoPeriodoEmMeses.value as any,
+  set: (val: any) => {
+    duracaoPeriodoEmMeses.value =
+      typeof val === 'object' && val !== null ? val.value : val;
+  },
 });
 
-const editIdRef = toRef(props, 'editId');
+const duracaoLabel = computed(() => {
+  const map: Record<number, { nome: string; periodos: number }> = {
+    12: { nome: 'Anual', periodos: 1 },
+    6: { nome: 'Semestral', periodos: 2 },
+    4: { nome: 'Quadrimestral', periodos: 3 },
+  };
 
-//
+  const entry = duracaoPeriodoEmMeses.value
+    ? map[duracaoPeriodoEmMeses.value]
+    : null;
 
-const $emit = defineEmits(['close', 'next']);
+  if (!entry) return null;
 
-const ofertasFormacoes = useOfertasFormacoes();
-
-const findOneQuery = ofertasFormacoes.findOne(editIdRef);
-const currentOfertaFormacao = findOneQuery.data;
-await findOneQuery.suspense();
-
-const schema = yup.object().shape({
-  imagem: yup.mixed().nullable().optional(),
-  nome: yup.string().required('Nome é obrigatório!'),
-  apelido: yup.string().required('Apelido é obrigatório!'),
-  modalidade: yup.string().required('Modalidade é obrigatório!'),
-  duracaoPeriodo: yup.number().required('Duração do período é obrigatório!'),
+  return `A duração de cada período foi definida como "${entry.nome}" e, portanto, em um único ano letivo há ${entry.periodos} período${entry.periodos > 1 ? 's' : ''}. Clique em "Próximo" para definir as etapas de cada período.`;
 });
-
-const initialFormValues = reactive({
-  imagem: null,
-  nome: currentOfertaFormacao.value?.nome ?? '',
-  apelido: currentOfertaFormacao.value?.slug ?? '',
-  modalidade: currentOfertaFormacao.value?.modalidade?.id ?? '',
-  duracaoPeriodo:
-    currentOfertaFormacao.value?.duracaoPeriodoEmMeses ?? undefined,
-
-  // campus: {
-  //   id: currentOfertaFormacao.value?.campus?.id ?? null,
-  // },
-});
-
-type FormValues = {
-  id: string | null;
-  nome: string;
-  apelido: string;
-  modalidade: string;
-  duracaoPeriodo: number;
-  // campus: {
-  //   id: string | null;
-  // };
-  imagem: Blob | null | undefined;
-};
-
-type FormOutput = {
-  nome: string;
-  apelido: string;
-  modalidade: string;
-  duracaoPeriodo: number;
-  // campus: {
-  //   id: string | null;
-  // };
-  imagem: Blob | null | undefined;
-};
-
-const {
-  resetForm,
-  handleSubmit,
-  values: formValues,
-} = useForm<FormValues, FormOutput>({
-  validationSchema: schema,
-  initialValues: initialFormValues,
-});
-
-const onSubmit = () => {};
-
-const nome: Ref<string> = ref(formValues.nome);
-const nomeAbreviado: Ref<string> = ref(formValues.apelido);
-const duracao = ref(undefined);
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit">
-    <DialogModalBaseLayout
-      :on-close="() => $emit('close')"
-      :title="editId ? 'Editar Formação' : 'Cadastrar Formação'"
+  <DialogModalBaseLayout
+    :on-close="() => emit('close')"
+    :title="
+      mode === FormMode.MANAGE ? 'Editar formação' : 'Cadastrar formação'
+    "
+  >
+    <VVAutocompleteAPINivelFormacao
+      name="niveisFormacoes"
+      multiple
+      :is-loading="isLoading"
+    />
+
+    <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
+
+    <VVTextField
+      name="slug"
+      label="Nome abreviado"
+      placeholder="Digite aqui"
+    />
+
+    <VVAutocompleteAPIModalidade name="modalidade.id" :is-loading="isLoading" />
+
+    <VVAutocompleteAPICampus name="campus.id" :is-loading="isLoading" />
+
+    <UIFormOptionFieldsSelect
+      v-model="duracaoSelected"
+      label="Duração de cada período"
+      placeholder="Selecione uma opção"
+      :items="duracaoItems"
+    />
+
+    <div
+      v-if="duracaoLabel"
+      class="flex gap-3 items-center rounded-[5px] bg-ldsa-blue/10 border border-ldsa-blue/10 px-3 py-2.5 overflow-clip"
     >
-      <VVSelectImage name="imagem" />
+      <span class="i-mdi-information-outline text-ldsa-blue shrink-0 text-lg" />
+      <p class="text-ldsa-blue text-xs font-medium tracking-wide">
+        {{ duracaoLabel }}
+      </p>
+    </div>
 
-      <!-- TODO: conectar esse form a api depois que a rota estiver td certa -->
-      <UIFormOptionFieldsSelect
-        multiple-options
-        label="Níveis de Formação"
-        placeholder="Selecione uma ou várias opções"
-        :items="[
-          { label: 'Médio', value: 'medio' },
-          { label: 'Técnico', value: 'tecnico' },
-          { label: 'Graduação', value: 'graduacao' },
-        ]"
+    <template #button-group>
+      <UIButtonModalCancel @click="emit('close')" />
+      <UIButtonModalDelete
+        v-if="mode === FormMode.MANAGE"
+        :disabled="isBusy"
+        @click.prevent="emit('delete')"
       />
-
-      <VVTextField
-        v-model="nome"
-        label="Nome"
-        name="nome"
-        placeholder="Digite aqui"
-        type="text"
-        :required="false"
-      />
-
-      <VVTextField
-        v-model="nomeAbreviado"
-        label="Apelido"
-        name="apelido"
-        placeholder="Digite aqui"
-        type="text"
-      />
-
-      <UIFormOptionFieldsSelect
-        name="modalidade"
-        label="Modalidade"
-        placeholder="Selecione uma opção"
-        :items="[
-          { label: 'Presencial', value: 'presencial' },
-          { label: 'Semipresencial', value: 'hibrido' },
-          { label: 'À distância e ao vivo', value: 'aDistancia' },
-          { label: 'EAD', value: 'ead' },
-        ]"
-      />
-
-      <UIFormOptionFieldsSelect
-        v-model="duracao"
-        name="duracaoPeriodo"
-        label="Duração de cada período"
-        placeholder="Selecione uma opção"
-        :items="[
-          { label: 'Anual', value: 12 },
-          { label: 'Semestral', value: 6 },
-          { label: 'Quadrimestral', value: 4 },
-        ]"
-      />
-
-      <template #button-group>
-        <UIButtonModalCancel @click="$emit('close')" />
-
-        <!-- <UIButtonModalDelete v-if="editId" @click.prevent="handleDelete" /> -->
-        <UIButtonModalAdvance @click="$emit('next')" />
-        <!-- <UIButtonModalEdit v-if="editId" />
-        <UIButtonModalSave v-else /> -->
-      </template>
-    </DialogModalBaseLayout>
-  </form>
+      <UIButtonModalAdvance :disabled="isBusy" @click="emit('next')" />
+    </template>
+  </DialogModalBaseLayout>
 </template>

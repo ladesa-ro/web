@@ -47,6 +47,7 @@ export const useEntityForm = <TSchema extends ObjectSchema<any>>(
   const form = useForm({
     validationSchema: options.schema,
     initialValues: options.schema.getDefault(),
+    keepValuesOnUnmount: true,
   });
 
   watch(

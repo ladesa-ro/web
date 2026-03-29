@@ -1,25 +1,19 @@
-<script setup lang="ts">
-defineProps<{ periodNumber: number }>();
+<script lang="ts" setup>
+import { useFieldArray } from 'vee-validate';
 
-const etapas = reactive([
-  {
-    id: 0,
-    cor: '#000',
-    nome: '',
-  },
-]);
+const props = defineProps<{
+  periodNumber: number;
+  name: string;
+}>();
 
-const addEtapa = () => {
-  etapas.push({
-    id: etapas[etapas.length - 1]!.id + 1 || 1,
-    cor: '#000',
-    nome: '',
-  });
-};
+const {
+  fields: etapas,
+  push,
+  remove,
+} = useFieldArray<{ nome: string; cor: string }>(`${props.name}.etapas`);
 
-const removeEtapa = (index: number) => {
-  etapas.splice(index, 1);
-};
+const addEtapa = () => push({ nome: '', cor: '#000000' });
+const removeEtapa = (index: number) => remove(index);
 </script>
 
 <template>
@@ -28,17 +22,16 @@ const removeEtapa = (index: number) => {
     <div class="h-[2.5px] flex-1 bg-ldsa-grey" />
   </div>
 
-  <form class="flex flex-col gap-5">
+  <div class="flex flex-col gap-5">
     <div
       v-for="(etapa, index) in etapas"
-      :key="etapa.id"
-      class="flex gap-2.5 items-center"
+      :key="etapa.key"
+      class="flex items-center gap-2.5"
     >
-      <!-- TODO: definir cores especificas para selecao -->
-      <VVTextField type="color" name="cor" />
+      <VVTextField type="color" :name="`${name}.etapas[${index}].cor`" />
 
       <VVTextField
-        name="nome"
+        :name="`${name}.etapas[${index}].nome`"
         placeholder="Digite aqui"
         label="Nome da etapa"
       />
@@ -46,9 +39,9 @@ const removeEtapa = (index: number) => {
       <button
         v-if="index > 0"
         type="button"
-        @click.prevent.stop="removeEtapa(index)"
         class="shrink-0 flex justify-center text-ldsa-red h-12 w-7 hover:bg-ldsa-red/10 rounded-sm"
         aria-label="Remover etapa"
+        @click.prevent.stop="removeEtapa(index)"
       >
         <IconsExclude class="w-5" />
       </button>
@@ -62,5 +55,5 @@ const removeEtapa = (index: number) => {
       Adicionar etapa
       <IconsAdd class="w-3.5" />
     </button>
-  </form>
+  </div>
 </template>
