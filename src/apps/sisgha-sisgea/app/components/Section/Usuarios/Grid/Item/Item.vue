@@ -1,8 +1,6 @@
 <script lang="ts" setup>
-import { useQuery } from '@tanstack/vue-query';
-import { uniq } from 'lodash-es';
-import { usuarioFindById } from '@ladesa-ro/web.api.client';
 import type { UsuarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
+import { CargoLabels, type CargoType } from '~/components/Section/Usuarios/Form/FormUtils';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {
@@ -14,46 +12,11 @@ const { usuario, link: linkProps, editButton = true } = defineProps<Props>();
 
 let link = linkProps === undefined || linkProps === '' ? 'usuarios' : linkProps;
 
-// TODO: adicionar lógica para deixar o link mais dinâmico
-
-//
-
-const api = useApiClient();
-const { data: vinculosResponse } = useQuery({
-  queryKey: [
-    'usuarios',
-    computed(() => `usuario::id::${unref(usuario.id)}`),
-    'usuarios::vinculos',
-  ],
-  queryFn: async () => {
-    const user = await api.call(usuarioFindById, { path: { id: usuario.id } });
-    return { data: (user?.vinculos ?? []).filter((v: any) => v.ativo) };
-  },
-});
-
-const vinculos = computed(() => vinculosResponse.value?.data ?? []);
-
-//
-
-const getRoleLabel = (role: string) => {
-  switch (role.toLowerCase()) {
-    case 'dape':
-      return 'DAPE';
-    case 'professor':
-      return 'Professor';
-    default:
-      return role;
-  }
-};
+const vinculos = computed(() => usuario.vinculos ?? []);
 
 const vinculosConcatenated = computed(() => {
-  const allVinculosLabels = vinculos.value.map((vinculo: any) =>
-    getRoleLabel(vinculo.cargo)
-  );
-
-  const uniqueVinculosLabels = uniq(allVinculosLabels);
-
-  return uniqueVinculosLabels.join(' e ');
+  const labels = [...new Set(vinculos.value.map((v: any) => CargoLabels[v.cargo as CargoType] ?? v.cargo))];
+  return labels.join(' e ');
 });
 
 //

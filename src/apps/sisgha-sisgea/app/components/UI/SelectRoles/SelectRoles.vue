@@ -1,14 +1,23 @@
 <script lang="ts" setup>
-const roles = [
-  { value: 'professor', label: 'Professor' },
-  { value: 'dape', label: 'DAPE' },
-];
+import { CargoOptions } from '~/components/Section/Usuarios/Form/FormUtils';
+
+const value = defineModel<string | null>('value', { default: null });
+
+defineProps<{
+  errorMessages?: string[];
+  onBlur?: () => void;
+}>();
+
+const roles = CargoOptions;
 </script>
 
 <template>
   <UIFormOptionFieldsAutocomplete
+    v-model:selected-option="value"
     label="Função"
     placeholder="Selecione"
     :items="roles"
+    :error="errorMessages?.[0]"
+    :on-blur="onBlur"
   />
 </template>

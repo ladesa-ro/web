@@ -1,47 +1,43 @@
 import type { FormContext } from 'vee-validate';
 
-export type FormUserValues = {
-  imagem: Blob | null | undefined;
+export const Cargo = {
+  DAPE: 'dape',
+  PROFESSOR: 'professor',
+} as const;
 
-  nome: string;
-  email: string;
-  matricula: string;
+export type CargoType = (typeof Cargo)[keyof typeof Cargo];
 
-  vinculos: Array<Vinculo>;
+export const CargoLabels: Record<CargoType, string> = {
+  [Cargo.DAPE]: 'DAPE',
+  [Cargo.PROFESSOR]: 'Professor',
 };
 
-export type FormUserOutput = {
-  imagem: Blob | null | undefined;
-
-  nome: string;
-  matricula: string;
-  email: string;
-
-  vinculos: Array<Vinculo>;
-};
+export const CargoOptions = Object.values(Cargo).map(value => ({
+  value,
+  label: CargoLabels[value],
+}));
 
 export type Vinculo = {
-  ativo: boolean;
   campus: { id: string };
-  cargos: Array<'dape' | 'professor'>;
+  cargo: CargoType;
 };
+
+export type FormUserValues = {
+  imagem: Blob | null | undefined;
+  nome: string;
+  email: string;
+  matricula: string;
+  vinculos: Array<Vinculo>;
+};
+
+export type FormUserOutput = FormUserValues;
 
 export const useFormUser = () => {
   return inject<FormContext<FormUserValues, FormUserOutput>>('FORM_USER')!;
 };
 
 export const checkActiveTeacherRole = (vinculo: Vinculo) => {
-  return (
-    vinculo?.campus?.id &&
-    vinculo.campus.id !== null &&
-    vinculo.cargos.includes('professor')
-  );
-};
-
-export const checkHasAtLeastOneActiveTeacherRole = (
-  vinculos: Array<Vinculo>
-) => {
-  return vinculos.some(checkActiveTeacherRole);
+  return vinculo?.campus?.id && vinculo.cargo === Cargo.PROFESSOR;
 };
 
 export const getActivesTeacherRole = (vinculos: Array<Vinculo>) => {

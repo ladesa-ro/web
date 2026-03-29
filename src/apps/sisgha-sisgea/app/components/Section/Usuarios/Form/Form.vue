@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { groupBy } from 'lodash-es';
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
+import { Cargo } from './FormUtils';
 import type { FormUserOutput, FormUserValues } from './FormUtils';
 
 //
@@ -26,21 +26,6 @@ const findOneQuery = usuarios.findOne(editIdRef);
 const currentUsuario = findOneQuery.data;
 await findOneQuery.suspense();
 
-const { vinculosAtivos } = await useApiUsuarioPerfisAtivos(editIdRef);
-
-const currentUsuarioVinculos = computed(() => {
-  return Object.entries(groupBy(vinculosAtivos.value, 'campus.id')).map(
-    ([campusId, vinculos]) => {
-      return {
-        campus: {
-          id: campusId,
-        },
-        cargos: vinculos.map(vinculo => vinculo.cargo),
-      };
-    }
-  );
-});
-
 const schema = yup.object().shape({
   imagem: yup.mixed().nullable().optional().default(null),
 
@@ -57,57 +42,29 @@ const schema = yup.object().shape({
   vinculos: yup
     .array()
     .of(
-      yup
-        .object({
-          ativo: yup.boolean().default(true),
+      yup.object({
+        campus: yup.object({
+          id: yup
+            .string()
+            .required('Informe o campus deste vínculo!')
+            .default(null),
+        }),
 
-          campus: yup.object({
-            id: yup
-              .string()
-              .required('Informe o campus deste vínculo!')
-              .default(null),
-          }),
-
-          cargos: yup
-            .array()
-
-            .of(yup.string().oneOf(['dape', 'professor']).required())
-
-            .when('ativo', {
-              is: true,
-              then: schema =>
-                schema.min(
-                  1,
-                  'O usuário deve possuir ao menos 1 cargo neste vínculo!'
-                ),
-              otherwise: schema => schema.transform(() => []),
-            })
-            .default([]),
-        })
-        .transform(data => {
-          if (typeof data.cargo === 'string') {
-            return {
-              ...data,
-              cargos: [data.cargo],
-            };
-          }
-          return data;
-        })
+        cargo: yup
+          .string()
+          .oneOf(Object.values(Cargo), 'Selecione um cargo válido!')
+          .required('Informe o cargo deste vínculo!')
+          .default(null),
+      })
     )
-
-    .default([
-      {
-        campus: { id: null },
-        cargos: [],
-      },
-    ] as any),
+    .default([{ campus: { id: null }, cargo: null }] as any),
 });
 
 const initialFormValues = reactive({
   ...schema.cast(
     {
       ...currentUsuario.value,
-      vinculos: currentUsuarioVinculos.value,
+      vinculos: currentUsuario.value?.vinculos ?? [],
     },
     {
       stripUnknown: true,

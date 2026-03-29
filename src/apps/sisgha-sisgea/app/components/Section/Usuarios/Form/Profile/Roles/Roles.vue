@@ -6,23 +6,13 @@ const { value: vinculos } = useField<any[]>('vinculos');
 const addField = () => {
   vinculos.value = [
     ...vinculos.value,
-    { campus: { id: null }, ativo: true, cargos: [] },
+    { campus: { id: null }, cargo: null },
   ];
 };
 
 const removeField = (targetIndex: number) => {
   if (targetIndex > 0) {
-    vinculos.value = vinculos.value.map((vinculo, idx) => {
-      if (idx === targetIndex) {
-        return {
-          ...vinculo,
-          ativo: false,
-          cargos: [],
-          campus: vinculo.campus,
-        };
-      }
-      return vinculo;
-    });
+    vinculos.value = vinculos.value.filter((_, idx) => idx !== targetIndex);
   }
 };
 </script>
@@ -33,13 +23,12 @@ const removeField = (targetIndex: number) => {
   <div
     v-for="(vinculo, index) in vinculos"
     :key="index"
-    :class="{ hidden: !vinculo.ativo }"
   >
-    <div v-if="vinculo.ativo" class="flex gap-4 items-center">
+    <div class="flex gap-4 items-center">
       <VVAutocompleteAPICampus :name="`vinculos[${index}].campus.id`" />
 
       <VVSelectRoles
-        :name="`vinculos[${index}].cargos`"
+        :name="`vinculos[${index}].cargo`"
         class="w-full max-w-[10.65rem]"
       />
 

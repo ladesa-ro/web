@@ -1,13 +1,10 @@
 <script lang="ts" setup>
-import {
-  checkHasAtLeastOneActiveTeacherRole,
-  useFormUser,
-} from '../../../Form/FormUtils';
+import { getActivesTeacherRole, useFormUser } from '../../../Form/FormUtils';
 
 const { values: formValues } = useFormUser();
 
 const hasAtLeastOneActiveTeacherRole = computed(() => {
-  return checkHasAtLeastOneActiveTeacherRole(formValues.vinculos);
+  return getActivesTeacherRole(formValues.vinculos).length > 0;
 });
 
 const emit = defineEmits<{

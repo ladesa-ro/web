@@ -1,11 +1,5 @@
 <script lang="ts" setup>
 import { useToast } from '#imports';
-import { useQueryClient } from '@tanstack/vue-query';
-import {
-  usuarioCreate,
-  usuarioUpdate,
-  usuarioUpdateImagemCapa,
-} from '@ladesa-ro/web.api.client';
 import { type FormUserOutput, useFormUser } from '../FormUtils';
 
 const { showToast } = useToast();
@@ -15,46 +9,41 @@ const { editId = null } = defineProps<Props>();
 
 const $emit = defineEmits(['close']);
 
-const api = useApiClient();
-const queryClient = useQueryClient();
-
+const usuarios = useUsuarios();
 const { resetForm, handleSubmit } = useFormUser();
 
 const onSubmit = handleSubmit(async (values: FormUserOutput) => {
   try {
     const { imagem, vinculos, ...data } = values;
+
+    const vinculosPayload = vinculos
+      .filter(v => v.campus?.id && v.cargo)
+      .map(v => ({ campus: { id: v.campus.id }, cargo: v.cargo }));
+
     let id;
 
     if (editId === null) {
-      const usuarioCriado = await api.call(usuarioCreate, {
-        body: { ...data },
+      const usuarioCriado = await usuarios.create({
+        ...data,
+        vinculos: vinculosPayload,
       });
       id = usuarioCriado.id;
       showToast('cadastro', 'success');
     } else {
-      await api.call(usuarioUpdate, {
-        path: { id: editId },
-        body: { ...data },
+      await usuarios.update(editId, {
+        ...data,
+        vinculos: vinculosPayload,
       });
       id = editId;
       showToast('atualizacao', 'success');
     }
 
-    // TODO: perfilSetVinculos endpoint was removed from the API.
-    // Vinculos management needs to be updated when a replacement endpoint is available.
-    // for (const vinculo of vinculos) {
-    //   ...
-    // }
-
     if (imagem) {
-      await api.call(usuarioUpdateImagemCapa, {
-        path: { id },
-        body: { file: imagem },
-      });
+      await usuarios.uploadProfile(id, imagem);
       showToast('atualizacao', 'success');
     }
 
-    await queryClient.invalidateQueries({ queryKey: ['usuarios'] });
+    await usuarios.invalidate();
 
     resetForm();
     $emit('close');
