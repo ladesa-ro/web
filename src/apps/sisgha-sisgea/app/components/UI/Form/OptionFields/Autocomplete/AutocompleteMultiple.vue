@@ -19,23 +19,25 @@ import type { AutocompleteProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
 import AutocompleteItem from '../Item.vue';
 
-const {
-  items: itemsProps,
-  label,
-  placeholder,
-  error,
-  onBlur,
-} = defineProps<
-  AutocompleteProps & {
-    error?: string | null;
-    onBlur?: () => void;
-    disabled?: boolean;
+const props = withDefaults(
+  defineProps<
+    AutocompleteProps & {
+      error?: string | null;
+      onBlur?: () => void;
+      disabled?: boolean;
+      getValue?: (item: any) => string | number;
+      buildItem?: (value: string | number) => any;
+    }
+  >(),
+  {
+    getValue: undefined,
+    buildItem: undefined,
   }
->();
+);
 
-const items = computed(() => getParsedItems(itemsProps));
+const items = computed(() => getParsedItems(props.items));
 
-const modelValue = defineModel<Array<string | number>>('selectedOptions', {
+const modelValue = defineModel<Array<any>>('selectedOptions', {
   required: false,
   default: () => [],
 });
@@ -47,8 +49,24 @@ const search = defineModel<string>('searchTerm', {
 
 const open = ref(false);
 
+const getValueFn = computed(
+  () => props.getValue ?? ((v: any) => v as string | number)
+);
+
+const buildItemFn = computed(
+  () => props.buildItem ?? ((v: string | number) => v)
+);
+
+// reka-ui precisa de valores primitivos para matching
+const primitiveValues = computed({
+  get: () => (modelValue.value ?? []).map(getValueFn.value),
+  set: (vals: (string | number)[]) => {
+    modelValue.value = vals.map(buildItemFn.value);
+  },
+});
+
 const selectedLabels = computed(() => {
-  const vals = modelValue.value ?? [];
+  const vals = primitiveValues.value;
   return vals.map(v => {
     const item = items.value.find((i: ParsedItem) => i.value === v);
     return item?.label ?? String(v);
@@ -60,7 +78,7 @@ const selectedLabels = computed(() => {
   <AutocompleteRoot
     :disabled
     :class="disabled && 'opacity-90 cursor-not-allowed'"
-    v-model="modelValue"
+    v-model="primitiveValues"
     v-model:open="open"
     multiple
   >
@@ -71,7 +89,7 @@ const selectedLabels = computed(() => {
       <label>{{ label }}</label>
 
       <TagsInputRoot
-        v-model="modelValue"
+        v-model="primitiveValues"
         class="flex flex-wrap gap-1.5 items-center flex-1 py-2"
         delimiter=""
       >

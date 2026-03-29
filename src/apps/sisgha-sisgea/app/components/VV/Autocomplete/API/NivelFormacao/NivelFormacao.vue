@@ -9,10 +9,14 @@ type Props = {
   isLoading?: boolean;
   name: string;
   multiple?: boolean;
+  getValue?: (item: any) => string | number;
+  buildItem?: (value: string | number) => any;
 };
 
 const props = withDefaults(defineProps<Props>(), {
   multiple: false,
+  getValue: (item: any) => item?.id ?? item,
+  buildItem: (value: string | number) => ({ id: String(value) }),
 });
 const { name } = toRefs(props);
 
@@ -41,6 +45,8 @@ const options = createUIAutocompleteApiRetrieverOptions({
     :is-loading="isLoading"
     :name="name"
     :options="options"
+    :get-value="getValue"
+    :build-item="buildItem"
     label="Níveis de Formação"
     placeholder="Selecione os níveis de formação"
     v-bind="$attrs"

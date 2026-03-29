@@ -33,7 +33,11 @@ export const ofertaFormacaoSchema = yup.object({
     .default({ id: '' }),
   niveisFormacoes: yup
     .array()
-    .of(yup.string().required())
+    .of(
+      yup.object({
+        id: yup.string().required().default(''),
+      })
+    )
     .min(1, 'Selecione pelo menos um nível de formação')
     .default([]),
   periodos: yup.array().of(periodoSchema).default([]),
@@ -44,8 +48,5 @@ export type IOfertaFormacaoFormValues = yup.InferType<
 >;
 
 export function transformForApi(data: IOfertaFormacaoFormValues) {
-  return {
-    ...data,
-    niveisFormacoes: (data.niveisFormacoes ?? []).map(id => ({ id: id! })),
-  };
+  return data;
 }

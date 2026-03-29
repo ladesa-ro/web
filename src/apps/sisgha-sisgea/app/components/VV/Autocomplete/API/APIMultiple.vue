@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useQuery } from '@tanstack/vue-query';
+import { useQueries, useQuery } from '@tanstack/vue-query';
 import { filter, uniqBy } from 'lodash-es';
 import { useField } from 'vee-validate';
 import type { IUIAutocompleteApiRetrieverOptions } from './-Base';
@@ -8,23 +8,47 @@ type Props = {
   name: string;
   isLoading?: boolean;
   options: IUIAutocompleteApiRetrieverOptions;
+  getValue?: (item: any) => string | number;
+  buildItem?: (value: string | number) => any;
 };
 
-const {
-  name,
-  isLoading: propIsLoading,
-  options: apiRetrieverOptions,
-} = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  getValue: (item: any) => item?.id ?? item,
+  buildItem: (value: string | number) => ({ id: String(value) }),
+});
 
-const { value } = useField<Array<string | number>>(name);
+const { name, isLoading: propIsLoading, options: apiRetrieverOptions } = props;
+
+const { value } = useField<Array<any>>(name);
+
+const crudModule = apiRetrieverOptions.crudModule;
+
+const selectedIds = computed(() =>
+  (value.value ?? []).map(props.getValue).filter(Boolean)
+);
+
+// getOne per selected item (like single API.vue does)
+const activeResourcesQueries = useQueries({
+  queries: computed(() =>
+    selectedIds.value.map(id => ({
+      queryKey: [...crudModule.baseQueryKeys, 'detail', id],
+      queryFn: () => crudModule.getOne(String(id)),
+      enabled: !!id,
+    }))
+  ),
+});
+
+const activeItems = computed(() =>
+  activeResourcesQueries.value
+    .map(q => q.data)
+    .filter(Boolean)
+);
 
 const searchValue = defineModel('search', { default: '' });
 
 const searchOptions = computed(() => {
   return { search: unref(searchValue) || '' };
 });
-
-const crudModule = apiRetrieverOptions.crudModule;
 
 const listQuery = useQuery({
   queryKey: computed(() => [
@@ -39,8 +63,10 @@ const listItems = computed(() => listQuery.data.value?.data ?? []);
 const listIsLoading = listQuery.isLoading;
 
 const selectItems = computed(() => {
-  const listItemsValue = unref(listItems) ?? [];
-  const combined = filter(listItemsValue, Boolean);
+  const combined = filter(
+    [...activeItems.value, ...listItems.value],
+    Boolean
+  );
   const transformed = combined.map(apiRetrieverOptions.transformer);
   return uniqBy(transformed, 'value');
 });
@@ -72,6 +98,8 @@ const isLoading = computed(() => unref(propIsLoading) || unref(listIsLoading));
     v-model:search="searchValue"
     :items="selectItems"
     :name="name"
+    :get-value="getValue"
+    :build-item="buildItem"
     v-bind="$attrs"
   />
 </template>
