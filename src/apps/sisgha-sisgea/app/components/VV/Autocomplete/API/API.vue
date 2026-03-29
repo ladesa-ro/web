@@ -44,7 +44,6 @@ const activeResourceQuery = useQuery({
 });
 
 const activeResourceData = activeResourceQuery.data;
-await activeResourceQuery.suspense().catch(() => {});
 
 const activeItem = computed(() => {
   if (activeResourceData.value)
