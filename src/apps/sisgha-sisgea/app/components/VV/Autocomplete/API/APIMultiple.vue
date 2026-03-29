@@ -57,6 +57,7 @@ const listQuery = useQuery({
     JSON.stringify(unref(searchOptions)),
   ]),
   queryFn: () => crudModule.list(unref(searchOptions)),
+  staleTime: 0,
 });
 
 const listItems = computed(() => listQuery.data.value?.data ?? []);
