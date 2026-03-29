@@ -40,11 +40,12 @@ const thisGroupIsSelected = computed({
     >
       <div class="divider" />
 
-      <SidebarSidebarItem
-        v-for="(sidebarItem, index) in item.items"
-        :key="index"
-        :item="sidebarItem"
-      />
+      <template v-for="(sidebarItem, index) in item.items" :key="index">
+        <SidebarSidebarItem
+          v-if="!('hidden' in sidebarItem && sidebarItem.hidden)"
+          :item="sidebarItem"
+        />
+      </template>
     </CollapsibleContent>
   </CollapsibleRoot>
 </template>

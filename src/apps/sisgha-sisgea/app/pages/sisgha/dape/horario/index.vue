@@ -9,6 +9,8 @@ const { values, turmasOptions } = useHorarioDapeFilters();
     class="flex flex-col"
     :class="selectedToggleItem !== 'mesclado' ? 'gap-7' : 'gap-3'"
   >
+    <UIBreadcrumbDapeBreadcrumb />
+
     <SectionHorarioDapeGeneralVisualizationHeader
       v-model:toggle="selectedToggleItem"
     />

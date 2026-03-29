@@ -17,6 +17,7 @@ const props = withDefaults(
 );
 
 const slots = defineSlots<{
+  'header'(props: any): any;
   'options-actions'(props: any): any;
   'grid-item'(props: IGridItemSlotProps<any>): any;
   'grid-item-skeleton'(props: any): any;
@@ -28,6 +29,7 @@ setupUIApiListContext(props.options);
 <template>
   <UIContainer :styled="defaultStyle ?? true">
     <div class="flex-1 h-full flex flex-col gap-10">
+      <slot name="header" />
       <UIAPIListOptions :style="searchBarContainerStyle">
         <template #actions>
           <slot name="options-actions" />

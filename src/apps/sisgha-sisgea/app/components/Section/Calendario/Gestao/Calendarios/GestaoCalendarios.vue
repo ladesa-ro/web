@@ -8,11 +8,7 @@ const selectedYear = ref(`${dayjs().year()}`);
 
 <template>
   <UIContainer class="flex flex-col gap-6">
-    <nav
-      class="flex max-md:flex-col items-start gap-3.5 md:justify-between md:items-center"
-    >
-      <UITitleWithGoBack to="../" text="Gestão de Calendários Acadêmicos" />
-
+    <UIBreadcrumbDapeBreadcrumb go-back-to="../">
       <div class="flex gap-3.5 max-md:w-full">
         <NuxtLink to="./dias-nao-letivos" class="max-md:hidden">
           <UIButtonDefaultSquare>
@@ -35,7 +31,7 @@ const selectedYear = ref(`${dayjs().year()}`);
           <IconsAdd class="w-6 h-full" />
         </UIButtonDefaultSquare>
       </div>
-    </nav>
+    </UIBreadcrumbDapeBreadcrumb>
 
     <div class="flex flex-col gap-3.5 -mt-1.5">
       <div class="flex max-lg:flex-col lg:items-center gap-3.5">

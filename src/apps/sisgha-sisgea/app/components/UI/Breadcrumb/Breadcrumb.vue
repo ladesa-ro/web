@@ -3,6 +3,7 @@ import type { ISidebarItem } from '~/components/Sidebar/SidebarItem/ISidebarItem
 
 const props = defineProps<{
   items: ISidebarItem[];
+  goBackTo?: string;
 }>();
 
 const route = useRoute();
@@ -19,7 +20,10 @@ const breadcrumb = computed<BreadcrumbEntry[]>(() => {
       if (path === item.to || (!item.exact && path.startsWith(item.to + '/'))) {
         const matchLen = item.to.length;
         if (!bestMatch || matchLen > bestMatch.length) {
-          bestMatch = { segments: [{ title: item.title, to: item.to }], length: matchLen };
+          bestMatch = {
+            segments: [{ title: item.pageTitle ?? item.title, to: item.to }],
+            length: matchLen,
+          };
         }
       }
     }
@@ -32,8 +36,8 @@ const breadcrumb = computed<BreadcrumbEntry[]>(() => {
           if (!bestMatch || matchLen > bestMatch.length) {
             bestMatch = {
               segments: [
-                { title: item.title },
-                { title: child.title, to: child.to },
+                { title: item.pageTitle ?? item.title },
+                { title: child.pageTitle ?? child.title, to: child.to },
               ],
               length: matchLen,
             };
@@ -48,35 +52,41 @@ const breadcrumb = computed<BreadcrumbEntry[]>(() => {
 </script>
 
 <template>
-  <nav v-if="breadcrumb.length > 0" class="breadcrumb">
-    <template v-for="(entry, index) in breadcrumb" :key="index">
-      <span v-if="index > 0" class="separator">/</span>
-      <NuxtLink
-        v-if="entry.to && index === breadcrumb.length - 1"
-        :to="entry.to"
-        class="entry"
-      >
-        {{ entry.title }}
-      </NuxtLink>
-      <NuxtLink
-        v-else-if="entry.to"
-        :to="entry.to"
-        class="entry parent"
-      >
-        {{ entry.title }}
-      </NuxtLink>
-      <span v-else class="entry parent">{{ entry.title }}</span>
-    </template>
-  </nav>
+  <div v-if="breadcrumb.length > 0" class="flex flex-wrap items-center gap-4">
+    <NuxtLink
+      v-if="goBackTo"
+      :to="goBackTo"
+      class="go-back"
+    >
+      <IconsArrowAlt class="w-5.5 text-ldsa-grey" />
+    </NuxtLink>
+    <UITitle class="flex-1">
+      <nav class="flex items-center">
+        <template v-for="(entry, index) in breadcrumb" :key="index">
+          <span v-if="index > 0" class="separator">/</span>
+          <NuxtLink
+            v-if="entry.to && index < breadcrumb.length - 1"
+            :to="entry.to"
+            class="entry parent"
+          >
+            {{ entry.title }}
+          </NuxtLink>
+          <span
+            v-else
+            class="entry"
+            :class="{ parent: index < breadcrumb.length - 1 }"
+          >
+            {{ entry.title }}
+          </span>
+        </template>
+      </nav>
+    </UITitle>
+    <slot />
+  </div>
 </template>
 
 <style scoped>
 @reference "~/assets/styles/app.css";
-
-.breadcrumb {
-  @apply flex items-center font-semibold text-lg sm:text-xl
-    before:w-1.5 before:bg-ldsa-text-green before:mr-3 before:self-stretch;
-}
 
 .separator {
   @apply mx-2 text-ldsa-grey font-normal;
@@ -88,5 +98,10 @@ const breadcrumb = computed<BreadcrumbEntry[]>(() => {
 
 .entry.parent {
   @apply text-ldsa-text-default/40;
+}
+
+.go-back {
+  @apply hover:shadow-[0_0_0_5px_rgb(0,0,0,0.05)] dark:hover:shadow-[0_0_0_5px_rgb(255,255,255,0.04)]
+    hover:bg-ldsa-grey/15 flex shrink-0 items-center p-1 rounded-full mr-3;
 }
 </style>

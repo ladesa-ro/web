@@ -21,6 +21,8 @@ const searchBarText = ref('');
 <template>
   <UIContainer :styled="defaultStyle ?? true">
     <div class="flex-1 h-full flex flex-col gap-10">
+      <UIBreadcrumbDapeBreadcrumb v-if="defaultStyle !== false" />
+
       <div :class="searchBarContainerStyle ?? 'flex justify-between gap-5'">
         <UISearchBar v-model="searchBarText" />
         <SectionUsuariosModalsForm v-if="crudEnable" />

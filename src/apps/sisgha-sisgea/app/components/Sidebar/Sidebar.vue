@@ -25,12 +25,13 @@ provide('selectedItem', selectedItem);
     }"
     class="sidebar"
   >
-    <SidebarSidebarItem
-      v-for="(item, index) in items"
-      :key="index"
-      :item="item"
-      @click="selectedItem = item"
-    />
+    <template v-for="(item, index) in items" :key="index">
+      <SidebarSidebarItem
+        v-if="!('hidden' in item && item.hidden)"
+        :item="item"
+        @click="selectedItem = item"
+      />
+    </template>
   </nav>
 </template>
 

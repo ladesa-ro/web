@@ -49,7 +49,7 @@ const gerarPDF = () => {
 <template>
   <UIContainer variant="tighter" class="flex justify-center">
     <div class="flex-1 flex flex-col justify-center gap-7 max-w-3xl">
-      <UITitle text="Relatório de Aulas Ministradas" />
+      <UIBreadcrumbDapeBreadcrumb />
 
       <RelatorioFiltrosPrincipais
         :professores="data.professores"

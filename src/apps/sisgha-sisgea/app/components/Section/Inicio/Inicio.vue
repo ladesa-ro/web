@@ -8,6 +8,8 @@ const DAPE_PATH = '/sisgha/dape';
 
 <template>
   <UIContainer class="flex flex-col">
+    <UIBreadcrumbDapeBreadcrumb class="mb-7" />
+
     <Section title="Horário Acadêmico">
       <CardLink
         :to="`${DAPE_PATH}/horario`"

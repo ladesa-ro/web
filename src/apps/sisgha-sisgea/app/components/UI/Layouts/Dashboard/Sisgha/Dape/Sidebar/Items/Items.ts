@@ -26,7 +26,8 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
   const items: ISidebarItem[] = [
     {
       type: 'link',
-      title: 'Início - Acesso Rápido',
+      title: 'Início',
+      pageTitle: 'Início - Acesso Rápido',
       icon: IconsHome,
       to: CAMINHO_DAPE,
       exact: true,
@@ -54,6 +55,30 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
       icon: IconsCalendar,
       to: `${CAMINHO_DAPE}/calendario`,
       exact: false,
+    },
+
+    {
+      type: 'link',
+      title: 'Gestão de Calendários Acadêmicos',
+      icon: IconsCalendar,
+      to: `${CAMINHO_DAPE}/calendario/gestao-calendarios`,
+      hidden: true,
+    },
+
+    {
+      type: 'link',
+      title: 'Dias não letivos',
+      icon: IconsCalendar,
+      to: `${CAMINHO_DAPE}/calendario/gestao-calendarios/dias-nao-letivos`,
+      hidden: true,
+    },
+
+    {
+      type: 'link',
+      title: 'Gestão de Eventos',
+      icon: IconsCalendar,
+      to: `${CAMINHO_DAPE}/calendario/gestao-eventos`,
+      hidden: true,
     },
 
     {
@@ -136,6 +161,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
         {
           type: 'link',
           title: 'Aulas ministradas',
+          pageTitle: 'Relatório de Aulas Ministradas',
           icon: IconsTeacherLesson,
           to: `${CAMINHO_DAPE}/relatorios/aulasMinistradas`,
           exact: false,

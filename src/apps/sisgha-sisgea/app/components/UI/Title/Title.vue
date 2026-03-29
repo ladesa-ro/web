@@ -1,6 +1,6 @@
 <script setup lang="ts">
 type Props = {
-  text: string;
+  text?: string;
   variant?: 'default' | 'small' | 'mini';
 };
 
@@ -8,7 +8,9 @@ const { variant = 'default' } = defineProps<Props>();
 </script>
 
 <template>
-  <h1 class="text-ldsa-text-default" :class="variant">{{ text }}</h1>
+  <h1 class="text-ldsa-text-default" :class="variant">
+    <slot>{{ text }}</slot>
+  </h1>
 </template>
 
 <style scoped>

@@ -52,6 +52,8 @@ provide('editMode', editMode);
   <DialogSmallScreen v-model="smallScreenAlert" />
 
   <UIContainer variant="larger">
+    <UIBreadcrumbDapeBreadcrumb />
+
     <header class="flex justify-between items-center mb-8">
       <span class="flex gap-6 font-semibold text-lg">
         <span

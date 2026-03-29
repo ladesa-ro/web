@@ -5,5 +5,7 @@ const { items } = useLayoutsDashboardSisghaDapeSidebarItems();
 </script>
 
 <template>
-  <UIBreadcrumb :items="items" v-bind="$attrs" />
+  <UIBreadcrumb :items="items" v-bind="$attrs">
+    <slot />
+  </UIBreadcrumb>
 </template>

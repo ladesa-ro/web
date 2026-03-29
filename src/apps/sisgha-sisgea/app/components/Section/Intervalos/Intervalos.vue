@@ -165,11 +165,7 @@ function confirmarEdicao() {
 
 <template>
   <UIContainer variant="larger" class="flex flex-col gap-6">
-    <nav
-      class="flex max-md:flex-col items-start gap-3.5 md:justify-between md:items-center"
-    >
-      <UITitleWithGoBack to="../" text="Horários de aula" />
-
+    <UIBreadcrumbDapeBreadcrumb go-back-to="../">
       <div class="flex gap-4 items-center">
         <template v-if="!isEditing">
           <button
@@ -197,7 +193,7 @@ function confirmarEdicao() {
           </button>
         </template>
       </div>
-    </nav>
+    </UIBreadcrumbDapeBreadcrumb>
 
     <div
       v-if="validationErrors.length > 0"

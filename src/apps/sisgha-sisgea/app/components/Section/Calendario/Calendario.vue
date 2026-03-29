@@ -185,6 +185,8 @@ watch(selectedYear, () => {
 
 <template>
   <UIContainer class="flex flex-col gap-4">
+    <UIBreadcrumbDapeBreadcrumb />
+
     <!-- Menu -->
     <div class="flex items-end gap-3.5 w-full">
       <div class="w-30">

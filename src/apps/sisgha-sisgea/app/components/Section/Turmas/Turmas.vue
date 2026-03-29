@@ -16,6 +16,10 @@ const options = { crudModule };
 
 <template>
   <UIAPIList :options="options">
+    <template #header>
+      <UIBreadcrumbDapeBreadcrumb />
+    </template>
+
     <template #options-actions>
       <DialogModalEditOrCreateModal :form-component="TurmasForm" />
     </template>

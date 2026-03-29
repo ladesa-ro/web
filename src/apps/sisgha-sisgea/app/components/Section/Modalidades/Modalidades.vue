@@ -23,6 +23,10 @@ const options = createApiListContextOptions({ crudModule });
 
 <template>
   <UIAPIList :options="options">
+    <template #header>
+      <UIBreadcrumbDapeBreadcrumb />
+    </template>
+
     <template #options-actions>
       <DialogModalEditOrCreateModal :form-component="ModalidadesForm" />
     </template>

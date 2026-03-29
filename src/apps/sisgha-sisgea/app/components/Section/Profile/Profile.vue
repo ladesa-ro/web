@@ -24,6 +24,8 @@ const goBack = () => {
     variant="larger"
     class="flex flex-col justify-center gap-5 lg:gap-6.5 xl:gap-8"
   >
+    <UIBreadcrumbDapeBreadcrumb />
+
     <template v-if="user">
       <div v-if="showGoBack">
         <UIButtonModalGoBack @click="goBack" />

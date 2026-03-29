@@ -4,14 +4,12 @@ import Card from './Card.vue';
 
 <template>
   <UIContainer class="flex flex-col gap-6">
-    <nav class="flex justify-between items-center">
-      <UITitleWithGoBack to="./" text="Gestão de Eventos" />
-
+    <UIBreadcrumbDapeBreadcrumb go-back-to="./">
       <!-- add EditOrCreateModal aqui -->
       <UIButtonDefaultSquare>
         <IconsAdd class="w-6 h-full" />
       </UIButtonDefaultSquare>
-    </nav>
+    </UIBreadcrumbDapeBreadcrumb>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 grid-flow-row">
       <Card />
