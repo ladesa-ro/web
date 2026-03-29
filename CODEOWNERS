@@ -1,16 +1,16 @@
 CODEOWNERS                          @ladesa-ro/security
-Dockerfile                          @ladesa-ro/security
 
 .github/**/*                        @ladesa-ro/security
 .husky/**/*                         @ladesa-ro/security
-
 .vscode/**/*                        @ladesa-ro/security
-k8s/**/*                            @ladesa-ro/security @ladesa-ro/devops
 
-.dockerignore                       @ladesa-ro/security
+.docker/**/*                        @ladesa-ro/security @ladesa-ro/devops
+.deploy/**/*                        @ladesa-ro/security @ladesa-ro/devops
+
 .gitignore                          @ladesa-ro/security
-.npmrc                               @ladesa-ro/security
+src/.npmrc                          @ladesa-ro/security
 
-package.json                        @ladesa-ro/security
-pnpm*                               @ladesa-ro/security
+src/nx.json                         @ladesa-ro/security
+src/package.json                    @ladesa-ro/security
+src/pnpm*                           @ladesa-ro/security
 
