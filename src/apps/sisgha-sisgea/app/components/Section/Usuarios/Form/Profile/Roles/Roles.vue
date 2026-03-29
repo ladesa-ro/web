@@ -56,7 +56,7 @@ const removeField = (targetIndex: number) => {
     v-for="(vinculo, index) in vinculos"
     :key="index"
   >
-    <div class="flex gap-4 items-center">
+    <div class="flex gap-4 items-start">
       <VVAutocompleteAPICampus :name="`vinculos[${index}].campus.id`" />
 
       <VVSelectRoles
