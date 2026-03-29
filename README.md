@@ -4,37 +4,37 @@
 
 O Sistema Gerador de Horário Acadêmico (SISGHA) e o Sistema de Gestão de Ambientes (SISGEA) são duas ferramentas desenvolvidas para automatizar processos manuais comuns na administração de uma instituição de ensino.
 
-<!-- desenvolver mais sobre os dois sistemas -->
-
 ## Linguagens e ferramentas
 
 ### Frameworks
 
 - Vue.js v3
-- Nuxt.js v4
-- Tailwind v4
+- Nuxt v4
+- Tailwind CSS v4
 
 ### Principais Bibliotecas
 
-- Auth.js
 - Day.js
 - Pragmatic Drag and Drop
 - Reka UI
-- Vee Validate
+- TanStack Query
+- Vee Validate + Yup
 - VueUse
 
 ## Organização de pastas
+
+Monorepo gerenciado com pnpm workspaces e Nx.
 
 ```
 src/
 ├── apps/
 │   └── sisgha-sisgea/     # Aplicação Nuxt principal
 ├── packages/
-│   ├── ladesa-api-client/  # Cliente da API Ladesa
-│   ├── ladesa-ui-nuxt/     # Componentes UI compartilhados
+│   ├── ladesa-api-client/  # Cliente da API Ladesa (gerado via OpenAPI)
 │   └── utils/              # Utilitários compartilhados
 ├── package.json
-└── pnpm-workspace.yaml
+├── pnpm-workspace.yaml
+└── nx.json
 ```
 
 ## Ambientes
@@ -59,10 +59,10 @@ cd src
 pnpm install
 ```
 
-### Atualizar o fetch client
+### Atualizar o cliente da API
 
 ```bash
-cd src/apps/sisgha-sisgea
+cd src/packages/ladesa-api-client
 pnpm run generate-client
 ```
 
@@ -93,14 +93,9 @@ Somos uma equipe de estudantes e servidores do Instituto Federal de Rondônia - 
 [github-web-application-icon]: https://img.shields.io/badge/GitHub-Web-black?style=for-the-badge&logo=GitHub&logoColor=white&labelColor=black&color=white
 [github-web-application-href]: https://github.com/ladesa-ro/web
 
-<!-- Badges / Actions / Production  -->
-
-[action-ci-prod-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/ci-cd.yml?style=flat&logo=github&logoColor=white&label=CI@production&branch=production&labelColor=18181B
-[action-ci-prod-href]: https://github.com/ladesa-ro/web/actions/workflows/ci-cd.yml?query=branch%3Aproduction
-
 <!-- Badges / Actions / Development  -->
 
-[action-ci-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/ci-cd.yml?style=flat&logo=github&logoColor=white&label=CI@development&branch=main&labelColor=18181B
-[action-ci-dev-href]: https://github.com/ladesa-ro/web/actions/workflows/ci-cd.yml?query=branch%3Amain
+[action-ci-dev-src]: https://img.shields.io/github/actions/workflow/status/ladesa-ro/web/build-deploy.dev.yml?style=flat&logo=github&logoColor=white&label=CI@development&branch=main&labelColor=18181B
+[action-ci-dev-href]: https://github.com/ladesa-ro/web/actions/workflows/build-deploy.dev.yml?query=branch%3Amain
 
 <!-- #endregion conteudo -->

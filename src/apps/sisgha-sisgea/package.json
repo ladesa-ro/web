@@ -51,5 +51,12 @@
     "typescript": "5.9.3",
     "vue-tsc": "3.2.6"
   },
+  "nx": {
+    "targets": {
+      "dev": {
+        "dependsOn": ["^generate-client"]
+      }
+    }
+  },
   "overrides": {}
 }

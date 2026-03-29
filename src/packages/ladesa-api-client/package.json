@@ -13,6 +13,19 @@
   "scripts": {
     "generate-client": "openapi-ts"
   },
+  "nx": {
+    "targets": {
+      "generate-client": {
+        "cache": true,
+        "inputs": [
+          "{projectRoot}/openapi-ts.config.mts"
+        ],
+        "outputs": [
+          "{projectRoot}/src/__generated__"
+        ]
+      }
+    }
+  },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.94.5",
     "typescript": "5.9.3"
