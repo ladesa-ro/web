@@ -8,7 +8,7 @@ const selectedYear = ref(`${dayjs().year()}`);
 
 <template>
   <UIContainer class="flex flex-col gap-6">
-    <UIBreadcrumbDapeBreadcrumb go-back-to="../">
+    <UIBreadcrumbDapeBreadcrumb>
       <div class="flex gap-3.5 max-md:w-full">
         <NuxtLink to="./dias-nao-letivos" class="max-md:hidden">
           <UIButtonDefaultSquare>

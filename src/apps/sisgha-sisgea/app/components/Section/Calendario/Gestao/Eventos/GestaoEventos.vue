@@ -4,7 +4,7 @@ import Card from './Card.vue';
 
 <template>
   <UIContainer class="flex flex-col gap-6">
-    <UIBreadcrumbDapeBreadcrumb go-back-to="./">
+    <UIBreadcrumbDapeBreadcrumb>
       <!-- add EditOrCreateModal aqui -->
       <UIButtonDefaultSquare>
         <IconsAdd class="w-6 h-full" />

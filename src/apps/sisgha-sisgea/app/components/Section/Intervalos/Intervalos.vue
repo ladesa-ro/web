@@ -165,7 +165,7 @@ function confirmarEdicao() {
 
 <template>
   <UIContainer variant="larger" class="flex flex-col gap-6">
-    <UIBreadcrumbDapeBreadcrumb go-back-to="../">
+    <UIBreadcrumbDapeBreadcrumb>
       <div class="flex gap-4 items-center">
         <template v-if="!isEditing">
           <button

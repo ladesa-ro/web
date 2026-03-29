@@ -22,7 +22,7 @@ const toggleView = ref('mes');
 
 <template>
   <UIContainer>
-    <UIBreadcrumbDapeBreadcrumb go-back-to=".">
+    <UIBreadcrumbDapeBreadcrumb>
       <!-- add EditOrCreateModal aqui -->
       <UIButtonDefaultSquare>
         <IconsAdd class="w-6 h-full" />

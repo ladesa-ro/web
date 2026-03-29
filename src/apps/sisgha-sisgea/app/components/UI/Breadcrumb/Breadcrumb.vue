@@ -1,28 +1,45 @@
 <script lang="ts" setup>
 import type { ISidebarItem } from '~/components/Sidebar/SidebarItem/ISidebarItem';
 
-const props = defineProps<{
-  items: ISidebarItem[];
-  goBackTo?: string;
-}>();
+const props = withDefaults(
+  defineProps<{
+    items: ISidebarItem[];
+    showGoBack?: boolean;
+  }>(),
+  { showGoBack: true }
+);
 
 const route = useRoute();
+const { goBack } = useSafeBack();
 
 type BreadcrumbEntry = { title: string; to?: string };
 
-const breadcrumb = computed<BreadcrumbEntry[]>(() => {
+const breadcrumbResult = computed<{
+  segments: BreadcrumbEntry[];
+  isHome: boolean;
+}>(() => {
   const path = route.path;
 
-  let bestMatch: { segments: BreadcrumbEntry[]; length: number } | null = null;
+  let bestMatch: {
+    segments: BreadcrumbEntry[];
+    length: number;
+    isHome: boolean;
+  } | null = null;
 
   for (const item of props.items) {
     if (item.type === 'link') {
-      if (path === item.to || (!item.exact && path.startsWith(item.to + '/'))) {
+      if (
+        path === item.to ||
+        (!item.exact && path.startsWith(item.to + '/'))
+      ) {
         const matchLen = item.to.length;
         if (!bestMatch || matchLen > bestMatch.length) {
           bestMatch = {
-            segments: [{ title: item.pageTitle ?? item.title, to: item.to }],
+            segments: [
+              { title: item.pageTitle ?? item.title, to: item.to },
+            ],
             length: matchLen,
+            isHome: !!item.exact && path === item.to,
           };
         }
       }
@@ -40,6 +57,7 @@ const breadcrumb = computed<BreadcrumbEntry[]>(() => {
                 { title: child.pageTitle ?? child.title, to: child.to },
               ],
               length: matchLen,
+              isHome: false,
             };
           }
         }
@@ -47,19 +65,26 @@ const breadcrumb = computed<BreadcrumbEntry[]>(() => {
     }
   }
 
-  return bestMatch?.segments ?? [];
+  return bestMatch ?? { segments: [], isHome: false };
 });
+
+const breadcrumb = computed(() => breadcrumbResult.value.segments);
+const isHome = computed(() => breadcrumbResult.value.isHome);
+const shouldShowGoBack = computed(
+  () => props.showGoBack && !isHome.value && breadcrumb.value.length > 0
+);
 </script>
 
 <template>
   <div v-if="breadcrumb.length > 0" class="flex flex-wrap items-center gap-4">
-    <NuxtLink
-      v-if="goBackTo"
-      :to="goBackTo"
+    <button
+      v-if="shouldShowGoBack"
+      type="button"
       class="go-back"
+      @click="goBack()"
     >
       <IconsArrowAlt class="w-5.5 text-ldsa-grey" />
-    </NuxtLink>
+    </button>
     <UITitle class="flex-1">
       <nav class="flex items-center">
         <template v-for="(entry, index) in breadcrumb" :key="index">
@@ -102,6 +127,6 @@ const breadcrumb = computed<BreadcrumbEntry[]>(() => {
 
 .go-back {
   @apply hover:shadow-[0_0_0_5px_rgb(0,0,0,0.05)] dark:hover:shadow-[0_0_0_5px_rgb(255,255,255,0.04)]
-    hover:bg-ldsa-grey/15 flex shrink-0 items-center p-1 rounded-full mr-3;
+    hover:bg-ldsa-grey/15 flex shrink-0 items-center p-1 rounded-full cursor-pointer;
 }
 </style>
