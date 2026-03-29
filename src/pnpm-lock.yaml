@@ -11,12 +11,13 @@ importers:
       husky:
         specifier: ^9.1.7
         version: 9.1.7
-      nx:
-        specifier: ^22.6.3
-        version: 22.6.3
       prettier:
         specifier: ^3.8.1
         version: 3.8.1
+    devDependencies:
+      nx:
+        specifier: ^22.6.3
+        version: 22.6.3
 
   apps/sisgha-sisgea:
     dependencies:
