@@ -1,15 +1,13 @@
 <script lang="ts" setup>
 import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
 import { ambienteFindAll, ambienteFindById } from '@ladesa-ro/web.api.client';
-//
 
 type Props = {
   isLoading?: boolean;
   name: string;
 };
 
-const props = defineProps<Props>();
-const { name } = toRefs(props);
+defineProps<Props>();
 
 //
 
@@ -36,8 +34,6 @@ const options = createUIAutocompleteApiRetrieverOptions({
     label: item.nome,
   }),
 });
-
-//
 </script>
 
 <template>
