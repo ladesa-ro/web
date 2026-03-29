@@ -26,7 +26,7 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
   const items: ISidebarItem[] = [
     {
       type: 'link',
-      title: 'Início',
+      title: 'Início - Acesso Rápido',
       icon: IconsHome,
       to: CAMINHO_DAPE,
       exact: true,
