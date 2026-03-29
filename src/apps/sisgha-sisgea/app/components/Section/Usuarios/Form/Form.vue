@@ -57,6 +57,13 @@ const schema = yup.object().shape({
           .default(null),
       })
     )
+    .test('unique-vinculos', 'Há vínculos duplicados!', vinculos => {
+      if (!vinculos) return true;
+      const keys = vinculos
+        .filter(v => v.campus?.id && v.cargo)
+        .map(v => `${v.campus.id}::${v.cargo}`);
+      return keys.length === new Set(keys).size;
+    })
     .default([{ campus: { id: null }, cargo: null }] as any),
 });
 
