@@ -11,7 +11,7 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
-    "generate-client": "openapi-ts"
+    "generate-client": "openapi-ts && prettier --write ./src/__generated__"
   },
   "nx": {
     "targets": {

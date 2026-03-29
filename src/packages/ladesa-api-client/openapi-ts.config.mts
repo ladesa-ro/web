@@ -4,7 +4,6 @@ export default defineConfig({
   input: 'https://dev.ladesa.com.br/api/v1/docs/openapi.v3.json',
 
   output: {
-    postProcess: ['biome:lint', 'biome:format'],
     path: './src/__generated__',
     clean: true,
   },
