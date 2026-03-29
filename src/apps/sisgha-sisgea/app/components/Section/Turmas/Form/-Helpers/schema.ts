@@ -9,12 +9,9 @@ const schema = yup
       id: yup.string().required('Curso é obrigatório!').default(null),
     }),
 
-    ambientePadraoAula: yup
-      .object()
-      .shape({
-        id: yup.string().uuid().required().default(null),
-      })
-      .nullable(),
+    ambientePadraoAula: yup.object().shape({
+      id: yup.string().required('Sala de aula é obrigatória!').default(null),
+    }),
 
     //
 
