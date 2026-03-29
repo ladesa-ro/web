@@ -65,11 +65,10 @@ const primitiveValues = computed({
   },
 });
 
-const selectedLabels = computed(() => {
-  const vals = primitiveValues.value;
-  return vals.map(v => {
+const selectedTags = computed(() => {
+  return primitiveValues.value.map(v => {
     const item = items.value.find((i: ParsedItem) => i.value === v);
-    return item?.label ?? String(v);
+    return { value: v, label: item?.label ?? String(v) };
   });
 });
 </script>
@@ -94,12 +93,12 @@ const selectedLabels = computed(() => {
         delimiter=""
       >
         <TagsInputItem
-          v-for="tag in selectedLabels"
-          :key="tag"
-          :value="tag"
+          v-for="tag in selectedTags"
+          :key="tag.value"
+          :value="tag.value"
           class="flex items-center gap-1 px-2 py-0.5 rounded-md bg-ldsa-green-1/15 text-ldsa-green-1 text-xs font-semibold"
         >
-          <TagsInputItemText />
+          <span>{{ tag.label }}</span>
           <TagsInputItemDelete class="cursor-pointer hover:text-ldsa-red">
             <IconsClose class="w-2 h-2" />
           </TagsInputItemDelete>
