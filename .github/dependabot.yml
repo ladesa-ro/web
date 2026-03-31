@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: docker
-    directory: '/'
+    directory: '/.docker'
     schedule:
       interval: 'daily'
     cooldown: 14
@@ -14,7 +14,7 @@ updates:
     cooldown: 14
 
   - package-ecosystem: npm
-    directory: '/'
+    directory: '/src'
     schedule:
       interval: 'daily'
     cooldown: 14
