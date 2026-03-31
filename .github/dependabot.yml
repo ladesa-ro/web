@@ -4,17 +4,20 @@ updates:
     directory: '/'
     schedule:
       interval: 'daily'
+    cooldown: 14
     open-pull-requests-limit: 10
 
   - package-ecosystem: github-actions
     directory: '/.github/workflows'
     schedule:
       interval: 'daily'
+    cooldown: 14
 
   - package-ecosystem: npm
     directory: '/'
     schedule:
       interval: 'daily'
+    cooldown: 14
     groups:
       dev-dependencies:
         applies-to: version-updates
