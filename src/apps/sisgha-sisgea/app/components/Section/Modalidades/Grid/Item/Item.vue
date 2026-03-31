@@ -5,27 +5,47 @@ import type { ModalidadeFindOneOutputDto } from '@ladesa-ro/web.api.client';
 type Props = {
   isLoading?: boolean;
   item?: ModalidadeFindOneOutputDto | null;
+  link?: string;
+  editButton?: boolean;
 };
 
-const { item: modalidade } = defineProps<Props>();
+const props = defineProps<Props>();
+
+const { item: modalidade } = props;
+
+const link = props.link === undefined || props.link === '' ? 'modalidades' : props.link;
 </script>
 
 <template>
   <UICardAutoSkeleton :skeleton="isLoading || !modalidade">
-    <UICard
-      v-if="modalidade"
-      :src="null"
-      :title="modalidade.nome"
-      variant="block"
-    >
-      <template #actions>
-        <DialogModalEditOrCreateModal
-          :edit-id="modalidade.id"
-          :form-component="ModalidadesForm"
-        />
-      </template>
+    <nuxt-link v-if="modalidade" :to="`${link}/${modalidade.id}`">
+      <UICard
+        :src="null"
+        :title="modalidade.nome"
+        variant="block"
+      >
+        <template #actions>
+          <DialogModalEditOrCreateModal
+            v-if="editButton"
+            :edit-id="modalidade.id"
+            :form-component="ModalidadesForm"
+          />
+          <IconsArrowAlt
+            v-else
+            class="w-4.5 rotate-180 mr-1.5 arrow-behaviour transition-transform"
+          />
+        </template>
 
-      <UICardLine :text="`Slug: ${modalidade.slug}`" />
-    </UICard>
+        <UICardLine :text="`Slug: ${modalidade.slug}`" />
+      </UICard>
+    </nuxt-link>
   </UICardAutoSkeleton>
 </template>
+
+<style scoped>
+@reference "~/assets/styles/app.css";
+
+a:hover .arrow-behaviour {
+  @apply translate-x-1;
+}
+</style>

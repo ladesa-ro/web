@@ -5,8 +5,9 @@ const props = withDefaults(
   defineProps<{
     items: ISidebarItem[];
     showGoBack?: boolean;
+    extraSegment?: string | null;
   }>(),
-  { showGoBack: true }
+  { showGoBack: true, extraSegment: null }
 );
 
 const route = useRoute();
@@ -68,7 +69,13 @@ const breadcrumbResult = computed<{
   return bestMatch ?? { segments: [], isHome: false };
 });
 
-const breadcrumb = computed(() => breadcrumbResult.value.segments);
+const breadcrumb = computed(() => {
+  const segments = breadcrumbResult.value.segments;
+  if (props.extraSegment) {
+    return [...segments, { title: props.extraSegment }];
+  }
+  return segments;
+});
 const isHome = computed(() => breadcrumbResult.value.isHome);
 const shouldShowGoBack = computed(
   () => props.showGoBack && !isHome.value && breadcrumb.value.length > 0

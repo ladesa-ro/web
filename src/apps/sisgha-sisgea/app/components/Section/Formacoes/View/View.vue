@@ -1,0 +1,61 @@
+<script lang="ts" setup>
+import FormacoesForm from '../Form/Form.vue';
+
+type Props = { resourceId: string };
+const { resourceId } = defineProps<Props>();
+
+const ofertasFormacoes = useOfertasFormacoes();
+const { data: formacao, isLoading, isError } = ofertasFormacoes.findOne(ref(resourceId));
+
+const modalidadeNome = computed(() => formacao.value?.modalidade?.nome ?? '-');
+
+const niveisFormacoesText = computed(() => {
+  const niveis = formacao.value?.niveisFormacoes;
+  if (!niveis || niveis.length === 0) return '-';
+  return niveis.map(n => n.slug).join(', ');
+});
+
+const confirmDelete = useConfirmDelete();
+const router = useRouter();
+
+const handleDelete = async () => {
+  const confirmed = await confirmDelete.confirm();
+  if (confirmed) {
+    await ofertasFormacoes.remove(resourceId);
+    await ofertasFormacoes.invalidate();
+    router.push('/sisgha/dape/formacoes');
+  }
+};
+</script>
+
+<template>
+  <UIResourceView
+    :title="formacao?.nome ?? ''"
+    :subtitle="formacao?.slug"
+    :is-loading="isLoading"
+    :is-error="isError"
+  >
+    <template #header-actions>
+      <DialogModalEditOrCreateModal
+        :edit-id="resourceId"
+        :form-component="FormacoesForm"
+      />
+      <UIButtonModalDelete @click="handleDelete" />
+    </template>
+
+    <template #details>
+      <UIResourceViewFieldGroup>
+        <UIResourceViewField label="Nome" :value="formacao?.nome" />
+        <UIResourceViewField label="Slug" :value="formacao?.slug" />
+        <UIResourceViewField label="Modalidade" :value="modalidadeNome" />
+        <UIResourceViewField label="Níveis de Formação" :value="niveisFormacoesText" />
+      </UIResourceViewFieldGroup>
+    </template>
+  </UIResourceView>
+
+  <DialogConfirm
+    v-model="confirmDelete.isOpen.value"
+    message="Deseja realmente excluir esta oferta de formação?"
+    @confirm="confirmDelete.onConfirm"
+  />
+</template>
