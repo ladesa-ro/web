@@ -1,20 +1,26 @@
 version: 2
 updates:
   - package-ecosystem: docker
-    directory: '/'
+    directory: '/.docker'
     schedule:
       interval: 'daily'
+    cooldown: 
+      default-days: 14
     open-pull-requests-limit: 10
 
   - package-ecosystem: github-actions
     directory: '/.github/workflows'
     schedule:
       interval: 'daily'
+    cooldown: 
+      default-days: 14
 
   - package-ecosystem: npm
-    directory: '/'
+    directory: '/src'
     schedule:
       interval: 'daily'
+    cooldown: 
+      default-days: 14
     groups:
       dev-dependencies:
         applies-to: version-updates
