@@ -20,7 +20,7 @@ export const useTurmaDisponibilidade = () => {
 
   const fetchWeek = async (id: string, semana: string) => {
     return api.call(turmaDisponibilidadeFindByWeek, {
-      path: { turmaId: id },
+      path: { id },
       query: { semana },
     });
   };
@@ -49,7 +49,7 @@ export const useTurmaDisponibilidade = () => {
         const id = unref(turmaId);
         if (!id) return { configs: [] };
         return api.call(turmaDisponibilidadeFindAllActive, {
-          path: { turmaId: id },
+          path: { id },
         });
       },
       enabled: computed(() => !!unref(turmaId)),
@@ -70,14 +70,14 @@ export const useTurmaDisponibilidade = () => {
     payload: TurmaDisponibilidadeSaveInputDto,
   ) => {
     return api.call(turmaDisponibilidadeSave, {
-      path: { turmaId },
+      path: { id: turmaId },
       body: payload,
     });
   };
 
   const deactivate = async (turmaId: string, configId: string) => {
     await api.call(turmaDisponibilidadeDeactivate, {
-      path: { turmaId, configId },
+      path: { id: turmaId, configId },
     });
     await invalidate();
   };

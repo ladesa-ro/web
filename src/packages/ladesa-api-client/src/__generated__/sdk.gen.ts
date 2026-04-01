@@ -2490,75 +2490,6 @@ export const turmaUpdateImagemCapa = <ThrowOnError extends boolean = false>(
   });
 
 /**
- * Lista todas as configuracoes ativas de disponibilidade da turma
- *
- * Lista todas as configuracoes ativas de disponibilidade da turma
- */
-export const turmaDisponibilidadeFindAllActive = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<TurmaDisponibilidadeFindAllActiveData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    TurmaDisponibilidadeFindAllActiveResponses,
-    TurmaDisponibilidadeFindAllActiveErrors,
-    ThrowOnError
-  >({ url: '/turmas/{turmaId}/disponibilidade/all', ...options });
-
-/**
- * Consulta disponibilidade da turma para uma semana
- *
- * Consulta disponibilidade da turma para uma semana
- */
-export const turmaDisponibilidadeFindByWeek = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<TurmaDisponibilidadeFindByWeekData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    TurmaDisponibilidadeFindByWeekResponses,
-    TurmaDisponibilidadeFindByWeekErrors,
-    ThrowOnError
-  >({ url: '/turmas/{turmaId}/disponibilidade', ...options });
-
-/**
- * Define disponibilidade da turma
- *
- * Define disponibilidade da turma
- */
-export const turmaDisponibilidadeSave = <ThrowOnError extends boolean = false>(
-  options: Options<TurmaDisponibilidadeSaveData, ThrowOnError>
-) =>
-  (options.client ?? client).put<
-    TurmaDisponibilidadeSaveResponses,
-    TurmaDisponibilidadeSaveErrors,
-    ThrowOnError
-  >({
-    url: '/turmas/{turmaId}/disponibilidade',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Desativa uma configuracao de disponibilidade da turma
- *
- * Desativa uma configuracao de disponibilidade da turma
- */
-export const turmaDisponibilidadeDeactivate = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<TurmaDisponibilidadeDeactivateData, ThrowOnError>
-) =>
-  (options.client ?? client).delete<
-    TurmaDisponibilidadeDeactivateResponses,
-    TurmaDisponibilidadeDeactivateErrors,
-    ThrowOnError
-  >({ url: '/turmas/{turmaId}/disponibilidade/{configId}', ...options });
-
-/**
  * Lista eventos da turma
  */
 export const turmaEventoFindAll = <ThrowOnError extends boolean = false>(
@@ -3149,3 +3080,72 @@ export const gradeHorariaReplace = <ThrowOnError extends boolean = false>(
       ...options.headers,
     },
   });
+
+/**
+ * Lista todas as configuracoes ativas de disponibilidade da turma
+ *
+ * Lista todas as configuracoes ativas de disponibilidade da turma
+ */
+export const turmaDisponibilidadeFindAllActive = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<TurmaDisponibilidadeFindAllActiveData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    TurmaDisponibilidadeFindAllActiveResponses,
+    TurmaDisponibilidadeFindAllActiveErrors,
+    ThrowOnError
+  >({ url: '/horarios/turmas/{id}/disponibilidade/all', ...options });
+
+/**
+ * Consulta disponibilidade da turma para uma semana
+ *
+ * Consulta disponibilidade da turma para uma semana
+ */
+export const turmaDisponibilidadeFindByWeek = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<TurmaDisponibilidadeFindByWeekData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    TurmaDisponibilidadeFindByWeekResponses,
+    TurmaDisponibilidadeFindByWeekErrors,
+    ThrowOnError
+  >({ url: '/horarios/turmas/{id}/disponibilidade', ...options });
+
+/**
+ * Define disponibilidade da turma
+ *
+ * Define disponibilidade da turma
+ */
+export const turmaDisponibilidadeSave = <ThrowOnError extends boolean = false>(
+  options: Options<TurmaDisponibilidadeSaveData, ThrowOnError>
+) =>
+  (options.client ?? client).put<
+    TurmaDisponibilidadeSaveResponses,
+    TurmaDisponibilidadeSaveErrors,
+    ThrowOnError
+  >({
+    url: '/horarios/turmas/{id}/disponibilidade',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Desativa uma configuracao de disponibilidade da turma
+ *
+ * Desativa uma configuracao de disponibilidade da turma
+ */
+export const turmaDisponibilidadeDeactivate = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<TurmaDisponibilidadeDeactivateData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    TurmaDisponibilidadeDeactivateResponses,
+    TurmaDisponibilidadeDeactivateErrors,
+    ThrowOnError
+  >({ url: '/horarios/turmas/{id}/disponibilidade/{configId}', ...options });

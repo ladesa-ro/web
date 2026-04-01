@@ -2468,121 +2468,6 @@ export type TurmaUpdateInputDto = {
   } | null;
 };
 
-export type TurmaDisponibilidadeIntervaloDto = {
-  /**
-   * Horario inicio (HH:MM:SS)
-   */
-  inicio: string;
-  /**
-   * Horario fim (HH:MM:SS)
-   */
-  fim: string;
-};
-
-export type TurmaDisponibilidadeDiaDto = {
-  /**
-   * Dia da semana (1=seg..6=sab)
-   */
-  dia_semana: number;
-  /**
-   * Intervalos de disponibilidade
-   */
-  intervalos: Array<TurmaDisponibilidadeIntervaloDto>;
-};
-
-export type TurmaDisponibilidadeConfigWithIdOutputDto = {
-  /**
-   * ID da configuracao
-   */
-  id: string;
-  /**
-   * Data inicio da vigencia
-   */
-  data_inicio: string;
-  /**
-   * Data fim da vigencia
-   */
-  data_fim?: string | null;
-  /**
-   * Identificador externo da grade horaria utilizada (snapshot)
-   */
-  identificador_externo_grade_horaria?: string | null;
-  /**
-   * Horarios de disponibilidade por dia da semana
-   */
-  horarios: Array<TurmaDisponibilidadeDiaDto>;
-};
-
-export type TurmaDisponibilidadeAllOutputDto = {
-  /**
-   * Configuracoes de disponibilidade
-   */
-  configs: Array<TurmaDisponibilidadeConfigWithIdOutputDto>;
-};
-
-export type TurmaDisponibilidadeConfigOutputDto = {
-  /**
-   * Data inicio da vigencia
-   */
-  data_inicio: string;
-  /**
-   * Data fim da vigencia
-   */
-  data_fim?: string | null;
-  /**
-   * Identificador externo da grade horaria utilizada (snapshot)
-   */
-  identificador_externo_grade_horaria?: string | null;
-  /**
-   * Horarios de disponibilidade por dia da semana
-   */
-  horarios: Array<TurmaDisponibilidadeDiaDto>;
-};
-
-export type TurmaDisponibilidadeWeekOutputDto = {
-  /**
-   * Configuracoes de disponibilidade
-   */
-  configs: Array<TurmaDisponibilidadeConfigOutputDto>;
-};
-
-export type TurmaDisponibilidadeDiaInputDto = {
-  /**
-   * Dia da semana (1=seg..6=sab)
-   */
-  dia_semana: number;
-  /**
-   * Intervalos de disponibilidade
-   */
-  intervalos: Array<TurmaDisponibilidadeIntervaloDto>;
-};
-
-export type TurmaDisponibilidadeConfigInputDto = {
-  /**
-   * Data inicio da vigencia
-   */
-  data_inicio: string;
-  /**
-   * Data fim da vigencia
-   */
-  data_fim?: string | null;
-  /**
-   * Identificador externo da grade horaria utilizada
-   */
-  identificador_externo_grade_horaria?: string | null;
-  /**
-   * Horarios de disponibilidade por dia da semana
-   */
-  horarios: Array<TurmaDisponibilidadeDiaInputDto>;
-};
-
-export type TurmaDisponibilidadeSaveInputDto = {
-  /**
-   * Configuracoes de disponibilidade
-   */
-  configs: Array<TurmaDisponibilidadeConfigInputDto>;
-};
-
 export type TurmaEventoFindOneOutputDto = {
   /**
    * Identificador do registro (uuid)
@@ -3324,6 +3209,121 @@ export type GradeHorariaReplaceInputDto = {
    * Lista de grades horarias (substituicao completa)
    */
   gradesHorarias: Array<GradeHorariaItemInputDto>;
+};
+
+export type TurmaDisponibilidadeIntervaloDto = {
+  /**
+   * Horario inicio (HH:MM:SS)
+   */
+  inicio: string;
+  /**
+   * Horario fim (HH:MM:SS)
+   */
+  fim: string;
+};
+
+export type TurmaDisponibilidadeDiaDto = {
+  /**
+   * Dia da semana (1=seg..6=sab)
+   */
+  dia_semana: number;
+  /**
+   * Intervalos de disponibilidade
+   */
+  intervalos: Array<TurmaDisponibilidadeIntervaloDto>;
+};
+
+export type TurmaDisponibilidadeConfigWithIdOutputDto = {
+  /**
+   * ID da configuracao
+   */
+  id: string;
+  /**
+   * Data inicio da vigencia
+   */
+  data_inicio: string;
+  /**
+   * Data fim da vigencia
+   */
+  data_fim?: string | null;
+  /**
+   * Identificador externo da grade horaria utilizada (snapshot)
+   */
+  identificador_externo_grade_horaria?: string | null;
+  /**
+   * Horarios de disponibilidade por dia da semana
+   */
+  horarios: Array<TurmaDisponibilidadeDiaDto>;
+};
+
+export type TurmaDisponibilidadeAllOutputDto = {
+  /**
+   * Configuracoes de disponibilidade
+   */
+  configs: Array<TurmaDisponibilidadeConfigWithIdOutputDto>;
+};
+
+export type TurmaDisponibilidadeConfigOutputDto = {
+  /**
+   * Data inicio da vigencia
+   */
+  data_inicio: string;
+  /**
+   * Data fim da vigencia
+   */
+  data_fim?: string | null;
+  /**
+   * Identificador externo da grade horaria utilizada (snapshot)
+   */
+  identificador_externo_grade_horaria?: string | null;
+  /**
+   * Horarios de disponibilidade por dia da semana
+   */
+  horarios: Array<TurmaDisponibilidadeDiaDto>;
+};
+
+export type TurmaDisponibilidadeWeekOutputDto = {
+  /**
+   * Configuracoes de disponibilidade
+   */
+  configs: Array<TurmaDisponibilidadeConfigOutputDto>;
+};
+
+export type TurmaDisponibilidadeDiaInputDto = {
+  /**
+   * Dia da semana (1=seg..6=sab)
+   */
+  dia_semana: number;
+  /**
+   * Intervalos de disponibilidade
+   */
+  intervalos: Array<TurmaDisponibilidadeIntervaloDto>;
+};
+
+export type TurmaDisponibilidadeConfigInputDto = {
+  /**
+   * Data inicio da vigencia
+   */
+  data_inicio: string;
+  /**
+   * Data fim da vigencia
+   */
+  data_fim?: string | null;
+  /**
+   * Identificador externo da grade horaria utilizada
+   */
+  identificador_externo_grade_horaria?: string | null;
+  /**
+   * Horarios de disponibilidade por dia da semana
+   */
+  horarios: Array<TurmaDisponibilidadeDiaInputDto>;
+};
+
+export type TurmaDisponibilidadeSaveInputDto = {
+  /**
+   * Configuracoes de disponibilidade
+   */
+  configs: Array<TurmaDisponibilidadeConfigInputDto>;
 };
 
 export type AppControllerGetServiceInfoData = {
@@ -6444,110 +6444,6 @@ export type TurmaUpdateImagemCapaResponses = {
 export type TurmaUpdateImagemCapaResponse =
   TurmaUpdateImagemCapaResponses[keyof TurmaUpdateImagemCapaResponses];
 
-export type TurmaDisponibilidadeFindAllActiveData = {
-  body?: never;
-  path: {
-    /**
-     * ID da turma
-     */
-    turmaId: string;
-  };
-  query?: never;
-  url: '/turmas/{turmaId}/disponibilidade/all';
-};
-
-export type TurmaDisponibilidadeFindAllActiveErrors = {
-  403: unknown;
-};
-
-export type TurmaDisponibilidadeFindAllActiveResponses = {
-  200: TurmaDisponibilidadeAllOutputDto;
-};
-
-export type TurmaDisponibilidadeFindAllActiveResponse =
-  TurmaDisponibilidadeFindAllActiveResponses[keyof TurmaDisponibilidadeFindAllActiveResponses];
-
-export type TurmaDisponibilidadeFindByWeekData = {
-  body?: never;
-  path: {
-    /**
-     * ID da turma
-     */
-    turmaId: string;
-  };
-  query: {
-    /**
-     * Data da semana (qualquer dia, normalizado para domingo)
-     */
-    semana: string;
-  };
-  url: '/turmas/{turmaId}/disponibilidade';
-};
-
-export type TurmaDisponibilidadeFindByWeekErrors = {
-  403: unknown;
-};
-
-export type TurmaDisponibilidadeFindByWeekResponses = {
-  200: TurmaDisponibilidadeWeekOutputDto;
-};
-
-export type TurmaDisponibilidadeFindByWeekResponse =
-  TurmaDisponibilidadeFindByWeekResponses[keyof TurmaDisponibilidadeFindByWeekResponses];
-
-export type TurmaDisponibilidadeSaveData = {
-  body: TurmaDisponibilidadeSaveInputDto;
-  path: {
-    /**
-     * ID da turma
-     */
-    turmaId: string;
-  };
-  query?: never;
-  url: '/turmas/{turmaId}/disponibilidade';
-};
-
-export type TurmaDisponibilidadeSaveErrors = {
-  403: unknown;
-};
-
-export type TurmaDisponibilidadeSaveResponses = {
-  200: TurmaDisponibilidadeWeekOutputDto;
-};
-
-export type TurmaDisponibilidadeSaveResponse =
-  TurmaDisponibilidadeSaveResponses[keyof TurmaDisponibilidadeSaveResponses];
-
-export type TurmaDisponibilidadeDeactivateData = {
-  body?: never;
-  path: {
-    /**
-     * ID da turma
-     */
-    turmaId: string;
-    /**
-     * ID da configuracao de disponibilidade
-     */
-    configId: string;
-  };
-  query?: never;
-  url: '/turmas/{turmaId}/disponibilidade/{configId}';
-};
-
-export type TurmaDisponibilidadeDeactivateErrors = {
-  403: unknown;
-};
-
-export type TurmaDisponibilidadeDeactivateResponses = {
-  /**
-   * Configuracao desativada com sucesso
-   */
-  204: void;
-};
-
-export type TurmaDisponibilidadeDeactivateResponse =
-  TurmaDisponibilidadeDeactivateResponses[keyof TurmaDisponibilidadeDeactivateResponses];
-
 export type TurmaEventoFindAllData = {
   body?: never;
   path: {
@@ -7454,3 +7350,107 @@ export type GradeHorariaReplaceResponses = {
 
 export type GradeHorariaReplaceResponse =
   GradeHorariaReplaceResponses[keyof GradeHorariaReplaceResponses];
+
+export type TurmaDisponibilidadeFindAllActiveData = {
+  body?: never;
+  path: {
+    /**
+     * ID da turma
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/horarios/turmas/{id}/disponibilidade/all';
+};
+
+export type TurmaDisponibilidadeFindAllActiveErrors = {
+  403: unknown;
+};
+
+export type TurmaDisponibilidadeFindAllActiveResponses = {
+  200: TurmaDisponibilidadeAllOutputDto;
+};
+
+export type TurmaDisponibilidadeFindAllActiveResponse =
+  TurmaDisponibilidadeFindAllActiveResponses[keyof TurmaDisponibilidadeFindAllActiveResponses];
+
+export type TurmaDisponibilidadeFindByWeekData = {
+  body?: never;
+  path: {
+    /**
+     * ID da turma
+     */
+    id: string;
+  };
+  query: {
+    /**
+     * Data da semana (qualquer dia, normalizado para domingo)
+     */
+    semana: string;
+  };
+  url: '/horarios/turmas/{id}/disponibilidade';
+};
+
+export type TurmaDisponibilidadeFindByWeekErrors = {
+  403: unknown;
+};
+
+export type TurmaDisponibilidadeFindByWeekResponses = {
+  200: TurmaDisponibilidadeWeekOutputDto;
+};
+
+export type TurmaDisponibilidadeFindByWeekResponse =
+  TurmaDisponibilidadeFindByWeekResponses[keyof TurmaDisponibilidadeFindByWeekResponses];
+
+export type TurmaDisponibilidadeSaveData = {
+  body: TurmaDisponibilidadeSaveInputDto;
+  path: {
+    /**
+     * ID da turma
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/horarios/turmas/{id}/disponibilidade';
+};
+
+export type TurmaDisponibilidadeSaveErrors = {
+  403: unknown;
+};
+
+export type TurmaDisponibilidadeSaveResponses = {
+  200: TurmaDisponibilidadeWeekOutputDto;
+};
+
+export type TurmaDisponibilidadeSaveResponse =
+  TurmaDisponibilidadeSaveResponses[keyof TurmaDisponibilidadeSaveResponses];
+
+export type TurmaDisponibilidadeDeactivateData = {
+  body?: never;
+  path: {
+    /**
+     * ID da turma
+     */
+    id: string;
+    /**
+     * ID da configuracao de disponibilidade
+     */
+    configId: string;
+  };
+  query?: never;
+  url: '/horarios/turmas/{id}/disponibilidade/{configId}';
+};
+
+export type TurmaDisponibilidadeDeactivateErrors = {
+  403: unknown;
+};
+
+export type TurmaDisponibilidadeDeactivateResponses = {
+  /**
+   * Configuracao desativada com sucesso
+   */
+  204: void;
+};
+
+export type TurmaDisponibilidadeDeactivateResponse =
+  TurmaDisponibilidadeDeactivateResponses[keyof TurmaDisponibilidadeDeactivateResponses];
