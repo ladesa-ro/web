@@ -67,7 +67,7 @@ const invertItem = (item: ParsedItem) => {
 
       <template v-else>
         <UICheckboxSquare
-          class="mb-2 last:mb-0"
+
           :item="item"
           :active="checkedItems.includes(item.value)"
           :disabled="disabledItems.includes(item.value)"

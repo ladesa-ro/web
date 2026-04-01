@@ -4,9 +4,18 @@ import { capitalizeFirst } from '../../../../Horario/-Helpers/CapitalizeFirst';
 const props = defineProps<{
   dayShifts: { title: string; times: string[] }[];
   selectedTimes: string[];
+  disabled?: boolean;
 }>();
 
 const emit = defineEmits(['update:selectedTimes']);
+
+const disabledItems = computed(() =>
+  props.disabled ? props.dayShifts.flatMap(s => s.times) : []
+);
+
+const disabledSelectAll = computed(() =>
+  props.disabled ? [''] : []
+);
 
 const isAllSelected = (shift: { times: string[] }) => {
   return shift.times.every(time => props.selectedTimes.includes(time));
@@ -36,6 +45,7 @@ const toggleAll = (shift: { times: string[] }) => {
       <div class="flex items-center pb-2 mb-2 border-b-1 border-ldsa-grey">
         <UICheckbox
           :items="['']"
+          :disabled-items="disabledSelectAll"
           :model-value="isAllSelected(shift) ? [''] : []"
           @update:modelValue="() => toggleAll(shift)"
           class="mr-2 w-5 h-5"
@@ -45,6 +55,7 @@ const toggleAll = (shift: { times: string[] }) => {
       <UICheckbox
         v-model="props.selectedTimes"
         :items="shift.times"
+        :disabled-items="disabledItems"
         class="nunito flex flex-col justify-between"
         @update:modelValue="val => emit('update:selectedTimes', val)"
       />

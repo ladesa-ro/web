@@ -17,10 +17,19 @@ const schema = useTurmaFormSchema();
 const turmas = useTurmas();
 const confirmDelete = useConfirmDelete();
 
+const turmaQuery = turmas.findOne(computed(() => editId));
+
+const campusId = computed(() => {
+  const data = turmaQuery.data.value as {
+    curso?: { campus?: { id?: string } };
+  } | null;
+  return data?.curso?.campus?.id ?? null;
+});
+
 const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   schema,
   editId: computed(() => editId),
-  getQuery: turmas.findOne(computed(() => editId)),
+  getQuery: turmaQuery,
 
   create: async formData => {
     const data: TurmaCreateInputDto = {
@@ -45,11 +54,25 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   confirmDelete: confirmDelete.confirm,
   onFinish: () => emit('close'),
 });
+
+const isEditingAvailability = ref(false);
+
+const openSectionsCount = computed(() => {
+  if (isEditingAvailability.value) return 1;
+  return [isClassesOpen, isAvailabilityOpen].filter(Boolean).length || 1;
+});
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit" class="flex gap-4">
+  <form
+    @submit.prevent="onSubmit"
+    class="grid gap-4"
+    :style="{
+      gridTemplateColumns: `repeat(${openSectionsCount}, 1fr)`,
+    }"
+  >
     <UIFormLayout
+      v-show="!isEditingAvailability"
       :title="mode === FormMode.MANAGE ? 'Editar Turma' : 'Cadastrar Turma'"
       :mode="mode"
       :is-busy="isBusy"
@@ -80,8 +103,12 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
 
     <SectionTurmasFormAvailability
       v-show="isAvailabilityOpen"
+      :turma-id="editId"
+      :mode="mode"
+      :campus-id="campusId"
       :disabled="isBusy"
       :is-loading="isLoading"
+      @update:editing="isEditingAvailability = $event"
     />
   </form>
 
