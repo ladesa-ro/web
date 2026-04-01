@@ -155,7 +155,7 @@ export function useGradeHorariaEditor(campusId: MaybeRef<string | null>) {
 
   const gradeSchema = yup.object().shape({
     nome: yup.string().trim().required('Nome é obrigatório'),
-    intervalos: yup.array().of(intervaloSchema).defined(),
+    intervalos: yup.array().of(intervaloSchema).min(1, 'Deve ter ao menos 1 horário de aula').defined(),
   });
 
   function checkOverlaps(intervalos: Array<{ inicio: string; fim: string }>): Map<number, string> {
@@ -198,15 +198,18 @@ export function useGradeHorariaEditor(campusId: MaybeRef<string | null>) {
             if (path === 'nome') {
               errs.nome = inner.message;
               hasError = true;
-            }
-
-            const intervaloMatch = path.match(/^intervalos\[(\d+)]/);
-            if (intervaloMatch) {
-              const idx = Number(intervaloMatch[1]);
-              if (!errs.intervalos[idx]) {
-                errs.intervalos[idx] = inner.message;
-              }
+            } else if (path === 'intervalos') {
+              errs.overlap = inner.message;
               hasError = true;
+            } else {
+              const intervaloMatch = path.match(/^intervalos\[(\d+)]/);
+              if (intervaloMatch) {
+                const idx = Number(intervaloMatch[1]);
+                if (!errs.intervalos[idx]) {
+                  errs.intervalos[idx] = inner.message;
+                }
+                hasError = true;
+              }
             }
           }
         }
