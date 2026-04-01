@@ -35,7 +35,7 @@
     "lodash-es": "^4.17.21",
     "nuxt": "^4.4.2",
     "p-mutex": "^1.0.0",
-    "reka-ui": "^2.9.2",
+    "reka-ui": "^2.9.3",
     "tailwindcss": "^4.2.2",
     "vee-validate": "^4.15.1",
     "vue": "^3.5.31",
