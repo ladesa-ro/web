@@ -14,19 +14,18 @@ const {
   addInterval,
   removeInterval,
   validate,
+  validationErrors,
   save,
 } = useGradeHorariaEditor(campusContext);
 
-const validationErrors = ref<string[]>([]);
+const hasErrors = computed(() => validationErrors.value.size > 0);
 
 async function salvar() {
   const errors = validate();
   if (errors.length > 0) {
-    validationErrors.value = errors;
     return;
   }
 
-  validationErrors.value = [];
   try {
     await save();
     toast.success({ title: 'Grades horárias atualizadas com sucesso!' });
@@ -37,7 +36,7 @@ async function salvar() {
 }
 
 function cancelar() {
-  validationErrors.value = [];
+  validationErrors.value = new Map();
   cancelEdit();
 }
 
@@ -97,18 +96,11 @@ function updateGradeNome(gradeIndex: number, value: string) {
       </div>
     </UIBreadcrumbDapeBreadcrumb>
 
-    <div
-      v-if="validationErrors.length > 0"
-      class="bg-red-50 border border-ldsa-red rounded-md p-3"
-    >
-      <p
-        v-for="(error, i) in validationErrors"
-        :key="i"
-        class="text-ldsa-red text-sm"
-      >
-        {{ error }}
-      </p>
-    </div>
+    <UIAlert
+      v-if="hasErrors"
+      type="warning"
+      message="Verifique as inconsistências destacadas abaixo."
+    />
 
     <div v-if="isLoading" class="text-center py-12 text-ldsa-grey">
       Carregando grades horárias...
@@ -129,6 +121,7 @@ function updateGradeNome(gradeIndex: number, value: string) {
           :grade="grade"
           :grade-index="index"
           :is-editing="isEditing"
+          :errors="validationErrors.get(index)"
           @update:nome="updateGradeNome(index, $event)"
           @update:intervalo-inicio="(idx: number, val: string) => updateIntervalInicio(index, idx, val)"
           @update:intervalo-fim="(idx: number, val: string) => updateIntervalFim(index, idx, val)"
