@@ -9,9 +9,9 @@ import {
 import type { DayShift } from '~/composables/useAvailability';
 import type { IWeekDay } from '~/components/Section/Horario/-Helpers/IWeekDay';
 import type {
-  DisponibilidadeConfig,
-  TurmaDisponibilidadeWeekOutput,
-} from '~/composables/ladesa-api/useTurmaDisponibilidade';
+  TurmaDisponibilidadeConfigInputDto,
+  TurmaDisponibilidadeWeekOutputDto,
+} from '@ladesa-ro/web.api.client';
 
 export function useTurmaAvailabilityState(
   turmaId: MaybeRef<string | null>,
@@ -119,7 +119,7 @@ export function useTurmaAvailabilityState(
   // --- Sync server data to local state ---
 
   const mapConfigToAvailability = (
-    data: TurmaDisponibilidadeWeekOutput | undefined
+    data: TurmaDisponibilidadeWeekOutputDto | undefined
   ): Record<number, string[]> => {
     if (!data?.configs?.length) return {};
     const config = data.configs[0]!;
@@ -135,10 +135,27 @@ export function useTurmaAvailabilityState(
   watch(
     () => weekQuery.data.value,
     data => {
-      const mapped = mapConfigToAvailability(data);
-      serverAvailability.value = JSON.parse(JSON.stringify(mapped));
-      if (!isEditing.value) {
-        editingAvailability.value = JSON.parse(JSON.stringify(mapped));
+      // Se há config pendente para esta semana, usar ela em vez do servidor
+      const weekKey = currentWeekRef.value.format('YYYY-MM-DD');
+      const pending = pendingConfigs.value.get(weekKey);
+
+      if (pending) {
+        const mapped: Record<number, string[]> = {};
+        for (const dia of pending.horarios) {
+          mapped[dia.dia_semana] = dia.intervalos.map(i =>
+            toDisplayFormat(i.inicio)
+          );
+        }
+        serverAvailability.value = JSON.parse(JSON.stringify(mapped));
+        if (!isEditing.value) {
+          editingAvailability.value = JSON.parse(JSON.stringify(mapped));
+        }
+      } else {
+        const mapped = mapConfigToAvailability(data);
+        serverAvailability.value = JSON.parse(JSON.stringify(mapped));
+        if (!isEditing.value) {
+          editingAvailability.value = JSON.parse(JSON.stringify(mapped));
+        }
       }
     }
   );
@@ -154,20 +171,9 @@ export function useTurmaAvailabilityState(
     { immediate: true }
   );
 
-  // --- Grade Divergence Detection ---
-
-  const campusScheduleHash = computed(() => {
-    const items = campusScheduleQuery.data.value?.data ?? [];
-    const sorted = [...items].sort((a, b) => a.inicio.localeCompare(b.inicio));
-    return sorted.map(i => `${i.inicio}-${i.fim}`).join('|');
-  });
+  // --- Grade Divergence Detection (via horários do campus) ---
 
   const hasGradeDivergence = computed(() => {
-    const serverHash = weekQuery.data.value?.grade_campus_hash;
-    if (serverHash && campusScheduleHash.value) {
-      return serverHash !== campusScheduleHash.value;
-    }
-    // Fallback: check if server references times not in current campus schedule
     const currentTimes = new Set(allCampusTimes.value);
     if (currentTimes.size === 0) return false;
     for (const times of Object.values(serverAvailability.value)) {
@@ -178,31 +184,14 @@ export function useTurmaAvailabilityState(
     return false;
   });
 
-  // --- Actions ---
+  // --- Pending Save (deferred to form submit) ---
+  // Acumula configs de múltiplas semanas. Chave = data_inicio (domingo da semana).
 
-  function enterEditMode() {
-    if (hasGradeDivergence.value) {
-      // Reset all checkboxes when grade diverged
-      editingAvailability.value = {};
-    } else {
-      editingAvailability.value = JSON.parse(
-        JSON.stringify(serverAvailability.value)
-      );
-    }
-    isEditing.value = true;
-  }
+  const pendingConfigs = ref<Map<string, TurmaDisponibilidadeConfigInputDto>>(new Map());
 
-  function cancelEdit() {
-    editingAvailability.value = JSON.parse(
-      JSON.stringify(serverAvailability.value)
-    );
-    isEditing.value = false;
-  }
+  const hasPendingSave = computed(() => pendingConfigs.value.size > 0);
 
-  async function saveAvailability(aplicarFuturas: boolean) {
-    const id = unref(turmaId);
-    if (!id) return;
-
+  function buildConfig(aplicarFuturas: boolean): TurmaDisponibilidadeConfigInputDto {
     const sunday = currentWeekRef.value;
     const saturday = sunday.add(6, 'day');
 
@@ -225,18 +214,63 @@ export function useTurmaAvailabilityState(
         };
       });
 
-    const config: DisponibilidadeConfig = {
+    return {
       data_inicio: sunday.format('YYYY-MM-DD'),
       data_fim: aplicarFuturas ? null : saturday.format('YYYY-MM-DD'),
       horarios,
     };
+  }
 
-    await disponibilidade.save(id, {
-      configs: [config],
-      aplicar_futuras: aplicarFuturas,
-    });
+  /** Confirma edição localmente (sem chamar API). Acumula config pendente. */
+  function confirmAvailability(aplicarFuturas: boolean) {
+    const config = buildConfig(aplicarFuturas);
+    const newMap = new Map(pendingConfigs.value);
+    newMap.set(config.data_inicio, config);
+    pendingConfigs.value = newMap;
 
+    // Atualiza estado local para refletir a mudança na UI
+    const mapped: Record<number, string[]> = {};
+    for (const [day, times] of Object.entries(editingAvailability.value)) {
+      if (times.length > 0) {
+        mapped[Number(day)] = [...times];
+      }
+    }
+    serverAvailability.value = JSON.parse(JSON.stringify(mapped));
+    editingAvailability.value = JSON.parse(JSON.stringify(mapped));
+
+    isEditing.value = false;
+  }
+
+  /** Envia todas as configs pendentes para a API. Chamado pelo Form.vue no submit. */
+  async function saveAvailability() {
+    const id = unref(turmaId);
+    if (!id || pendingConfigs.value.size === 0) return;
+
+    const configs = [...pendingConfigs.value.values()];
+
+    await disponibilidade.save(id, { configs });
     await disponibilidade.invalidate();
+    pendingConfigs.value = new Map();
+  }
+
+  // --- Actions ---
+
+  function enterEditMode() {
+    if (hasGradeDivergence.value) {
+      // Reset all checkboxes when grade diverged
+      editingAvailability.value = {};
+    } else {
+      editingAvailability.value = JSON.parse(
+        JSON.stringify(serverAvailability.value)
+      );
+    }
+    isEditing.value = true;
+  }
+
+  function cancelEdit() {
+    editingAvailability.value = JSON.parse(
+      JSON.stringify(serverAvailability.value)
+    );
     isEditing.value = false;
   }
 
@@ -269,8 +303,8 @@ export function useTurmaAvailabilityState(
     if (dir) performNavigation(dir);
   }
 
-  async function confirmNavigationAndSave(aplicarFuturas: boolean) {
-    await saveAvailability(aplicarFuturas);
+  function confirmNavigationAndSave(aplicarFuturas: boolean) {
+    confirmAvailability(aplicarFuturas);
     const dir = pendingNavigation.value;
     if (dir) performNavigation(dir);
   }
@@ -298,7 +332,11 @@ export function useTurmaAvailabilityState(
     isDirty,
     enterEditMode,
     cancelEdit,
+    confirmAvailability,
+
+    // Save (deferred to form submit)
     saveAvailability,
+    hasPendingSave,
 
     // Divergence
     hasGradeDivergence,

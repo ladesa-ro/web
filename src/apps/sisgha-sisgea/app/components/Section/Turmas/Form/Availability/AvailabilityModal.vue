@@ -33,7 +33,9 @@ const {
   isDirty,
   enterEditMode,
   cancelEdit,
+  confirmAvailability,
   saveAvailability,
+  hasPendingSave,
   hasGradeDivergence,
   showNavigationConfirm,
   confirmNavigationDiscard,
@@ -46,17 +48,13 @@ const {
 watch(isEditing, val => emit('update:editing', val));
 
 const showSaveConfirm = ref(false);
-const isSaving = ref(false);
 
-async function handleSave(aplicarFuturas: boolean) {
-  isSaving.value = true;
-  try {
-    await saveAvailability(aplicarFuturas);
-  } finally {
-    isSaving.value = false;
-    showSaveConfirm.value = false;
-  }
+function handleConfirm(aplicarFuturas: boolean) {
+  confirmAvailability(aplicarFuturas);
+  showSaveConfirm.value = false;
 }
+
+defineExpose({ saveAvailability, hasPendingSave });
 
 const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
 </script>
@@ -79,12 +77,6 @@ const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
         v-if="hasGradeDivergence && !isPastWeek"
         type="warning"
         message="Esta turma possui configurações baseadas em uma grade de horários anterior. Ao editar, os horários serão redefinidos."
-      />
-
-      <UIAlert
-        v-if="isEditing"
-        type="info"
-        message="A disponibilidade será salva ao confirmar o cadastro/edição da turma."
       />
 
       <div class="flex flex-col gap-4">
@@ -131,7 +123,7 @@ const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
           <UIButtonModalCommonButtonsGreenWithCheck
             text="Confirmar"
             class="flex-1"
-            :disabled="!isDirty || isSaving"
+            :disabled="!isDirty"
             @click.prevent="showSaveConfirm = true"
           />
         </template>
@@ -155,14 +147,12 @@ const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
               color="var(--ladesa-green-1-color)"
               type="button"
               class="flex-1 whitespace-nowrap"
-              :disabled="isSaving"
-              @click="handleSave(false)"
+              @click="handleConfirm(false)"
             />
             <UIButtonModalCommonButtonsGreenWithCheck
               text="Esta e futuras"
               class="flex-1 whitespace-nowrap"
-              :disabled="isSaving"
-              @click.prevent="handleSave(true)"
+              @click.prevent="handleConfirm(true)"
             />
           </template>
         </ModalBaseLayout>

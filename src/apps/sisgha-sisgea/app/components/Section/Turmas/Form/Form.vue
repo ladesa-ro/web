@@ -13,6 +13,8 @@ const emit = defineEmits<{ close: [] }>();
 const isClassesOpen = ref(true);
 const isAvailabilityOpen = ref(true);
 
+const availabilityRef = ref<{ saveAvailability: () => Promise<void>; hasPendingSave: boolean } | null>(null);
+
 const schema = useTurmaFormSchema();
 const turmas = useTurmas();
 const confirmDelete = useConfirmDelete();
@@ -47,6 +49,7 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
       ambientePadraoAula: formData.ambientePadraoAula,
     };
     await turmas.update(id, data);
+    await availabilityRef.value?.saveAvailability();
   },
 
   remove: id => turmas.remove(id),
@@ -102,6 +105,7 @@ const openSectionsCount = computed(() => {
     </UIFormLayout>
 
     <SectionTurmasFormAvailability
+      ref="availabilityRef"
       v-show="isAvailabilityOpen"
       :turma-id="editId"
       :mode="mode"

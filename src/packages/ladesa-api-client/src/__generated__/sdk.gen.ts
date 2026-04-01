@@ -381,6 +381,12 @@ import type {
   TurmaDiarioConfigurarData,
   TurmaDiarioConfigurarErrors,
   TurmaDiarioConfigurarResponses,
+  TurmaDisponibilidadeFindByWeekData,
+  TurmaDisponibilidadeFindByWeekErrors,
+  TurmaDisponibilidadeFindByWeekResponses,
+  TurmaDisponibilidadeSaveData,
+  TurmaDisponibilidadeSaveErrors,
+  TurmaDisponibilidadeSaveResponses,
   TurmaEventoCreateData,
   TurmaEventoCreateErrors,
   TurmaEventoCreateResponses,
@@ -402,12 +408,6 @@ import type {
   TurmaGetImagemCapaData,
   TurmaGetImagemCapaErrors,
   TurmaGetImagemCapaResponses,
-  TurmaHorarioAulaBulkReplaceData,
-  TurmaHorarioAulaBulkReplaceErrors,
-  TurmaHorarioAulaBulkReplaceResponses,
-  TurmaHorarioAulaFindAllData,
-  TurmaHorarioAulaFindAllErrors,
-  TurmaHorarioAulaFindAllResponses,
   TurmaHorarioSemanalData,
   TurmaHorarioSemanalErrors,
   TurmaHorarioSemanalResponses,
@@ -2450,35 +2450,35 @@ export const turmaUpdateImagemCapa = <ThrowOnError extends boolean = false>(
   });
 
 /**
- * Lista horarios de aula selecionados da turma
+ * Consulta disponibilidade da turma para uma semana
  *
- * Lista horarios de aula selecionados da turma
+ * Consulta disponibilidade da turma para uma semana
  */
-export const turmaHorarioAulaFindAll = <ThrowOnError extends boolean = false>(
-  options: Options<TurmaHorarioAulaFindAllData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    TurmaHorarioAulaFindAllResponses,
-    TurmaHorarioAulaFindAllErrors,
-    ThrowOnError
-  >({ url: '/turmas/{turmaId}/horarios-aula', ...options });
-
-/**
- * Substitui horarios de aula selecionados da turma
- *
- * Substitui horarios de aula selecionados da turma
- */
-export const turmaHorarioAulaBulkReplace = <
+export const turmaDisponibilidadeFindByWeek = <
   ThrowOnError extends boolean = false,
 >(
-  options: Options<TurmaHorarioAulaBulkReplaceData, ThrowOnError>
+  options: Options<TurmaDisponibilidadeFindByWeekData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    TurmaDisponibilidadeFindByWeekResponses,
+    TurmaDisponibilidadeFindByWeekErrors,
+    ThrowOnError
+  >({ url: '/turmas/{turmaId}/disponibilidade', ...options });
+
+/**
+ * Define disponibilidade da turma
+ *
+ * Define disponibilidade da turma
+ */
+export const turmaDisponibilidadeSave = <ThrowOnError extends boolean = false>(
+  options: Options<TurmaDisponibilidadeSaveData, ThrowOnError>
 ) =>
   (options.client ?? client).put<
-    TurmaHorarioAulaBulkReplaceResponses,
-    TurmaHorarioAulaBulkReplaceErrors,
+    TurmaDisponibilidadeSaveResponses,
+    TurmaDisponibilidadeSaveErrors,
     ThrowOnError
   >({
-    url: '/turmas/{turmaId}/horarios-aula',
+    url: '/turmas/{turmaId}/disponibilidade',
     ...options,
     headers: {
       'Content-Type': 'application/json',

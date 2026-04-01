@@ -145,7 +145,7 @@ export type EnderecoFindOneOutputDto = {
    */
   dateDeleted?: string | null;
   /**
-   * Codigo postal (CEP)
+   * CEP
    */
   cep: string;
   /**
@@ -213,38 +213,33 @@ export type CampusFindOneOutputDto = {
   endereco: EnderecoFindOneOutputDto;
 };
 
-export type NivelFormacaoFindOneOutputDto = {
+export type OfertaFormacaoPeriodoEtapaOutputDto = {
   /**
    * Identificador do registro (uuid)
    */
   id: string;
   /**
-   * Data e hora da criacao do registro
+   * Nome da etapa
    */
-  dateCreated: string;
-  /**
-   * Data e hora da alteracao do registro
-   */
-  dateUpdated: string;
-  /**
-   * Data e hora da exclusao do registro
-   */
-  dateDeleted?: string | null;
-  /**
-   * Apelido do nivel de formacao
-   */
-  slug: string;
-};
-
-export type OfertaFormacaoPeriodoEtapaOutputDto = {
-  id: string;
   nome: string;
+  /**
+   * Cor da etapa (hex)
+   */
   cor: string;
 };
 
 export type OfertaFormacaoPeriodoOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
+  /**
+   * Numero do periodo
+   */
   numeroPeriodo: number;
+  /**
+   * Etapas do periodo (ao menos 1)
+   */
   etapas: Array<OfertaFormacaoPeriodoEtapaOutputDto>;
 };
 
@@ -308,23 +303,23 @@ export type ImagemArquivoFindOneFromImagemOutputFromBlocoDto = {
    */
   id: string;
   /**
-   * Largura da imagem
+   * Largura da imagem (em pixels)
    */
-  largura: number;
+  largura?: number | null;
   /**
-   * Altura da imagem
+   * Altura da imagem (em pixels)
    */
-  altura: number;
+  altura?: number | null;
   /**
    * Formato da imagem
    */
-  formato: string;
+  formato?: string | null;
   /**
-   * Mime-type da imagem
+   * Tipo MIME da imagem
    */
-  mimeType: string;
+  mimeType?: string | null;
   /**
-   * Arquivo
+   * Arquivo associado
    */
   arquivo: ArquivoFindOneOutputFromBlocoDto;
 };
@@ -351,7 +346,7 @@ export type ImagemFindOneOutputFromBlocoDto = {
    */
   descricao?: string | null;
   /**
-   * Versoes da imagem
+   * Versoes da imagem (arquivos associados)
    */
   versoes: Array<ImagemArquivoFindOneFromImagemOutputFromBlocoDto>;
 };
@@ -453,18 +448,36 @@ export type CursoUpdateInputDto = {
 };
 
 export type CursoPeriodoDisciplinaOutputItemDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
+  /**
+   * ID da disciplina
+   */
   disciplinaId: string;
+  /**
+   * Nome da disciplina
+   */
   disciplinaNome?: string | null;
+  /**
+   * Carga horaria
+   */
   cargaHoraria?: number | null;
 };
 
 export type CursoPeriodoDisciplinaOutputPeriodoDto = {
+  /**
+   * Numero do periodo
+   */
   numeroPeriodo: number;
   disciplinas: Array<CursoPeriodoDisciplinaOutputItemDto>;
 };
 
 export type CursoPeriodoDisciplinaListOutputDto = {
+  /**
+   * Resultados da busca
+   */
   data: Array<CursoPeriodoDisciplinaOutputPeriodoDto>;
 };
 
@@ -514,7 +527,7 @@ export type CidadeFindOneInputDto = {
 
 export type EnderecoInputDto = {
   /**
-   * Codigo postal (CEP)
+   * CEP
    */
   cep: string;
   /**
@@ -638,20 +651,20 @@ export type OfertaFormacaoCreateInputDto = {
   /**
    * Modalidade da oferta de formacao
    */
-  modalidade: {
-    id?: string;
+  modalidade?: {
+    id: string;
   };
   /**
    * Campus da oferta de formacao
    */
-  campus: {
-    id?: string;
+  campus?: {
+    id: string;
   };
   /**
    * Niveis de formacao vinculados a oferta de formacao
    */
-  niveisFormacoes: Array<{
-    id?: string;
+  niveisFormacoes?: Array<{
+    [key: string]: unknown;
   }>;
   /**
    * Periodos com suas etapas do ano letivo
@@ -688,12 +701,35 @@ export type OfertaFormacaoUpdateInputDto = {
    * Niveis de formacao vinculados a oferta de formacao
    */
   niveisFormacoes?: Array<{
-    id?: string;
+    [key: string]: unknown;
   }>;
   /**
    * Periodos com suas etapas do ano letivo
    */
   periodos?: Array<OfertaFormacaoPeriodoInputDto>;
+};
+
+export type NivelFormacaoFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Apelido do nivel de formacao
+   */
+  slug: string;
 };
 
 export type NivelFormacaoListOutputDto = {
@@ -812,7 +848,7 @@ export type UsuarioListOutputDto = {
 
 export type UsuarioEnsinoTurmaRefDto = {
   /**
-   * ID da turma
+   * Identificador do registro (uuid)
    */
   id: string;
   /**
@@ -823,7 +859,7 @@ export type UsuarioEnsinoTurmaRefDto = {
 
 export type UsuarioEnsinoCursoRefDto = {
   /**
-   * ID do curso
+   * Identificador do registro (uuid)
    */
   id: string;
   /**
@@ -838,7 +874,7 @@ export type UsuarioEnsinoCursoRefDto = {
 
 export type UsuarioEnsinoDisciplinaRefDto = {
   /**
-   * ID da disciplina
+   * Identificador do registro (uuid)
    */
   id: string;
   /**
@@ -914,87 +950,222 @@ export type UsuarioUpdateInputDto = {
 };
 
 export type HorarioAulaItemDisciplinaDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
+  /**
+   * Nome da disciplina
+   */
   nome: string;
+  /**
+   * Nome abreviado da disciplina
+   */
   nomeAbreviado: string;
 };
 
 export type HorarioAulaItemTurmaDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
+  /**
+   * Periodo da turma
+   */
   periodo: number;
 };
 
 export type HorarioAulaItemDiarioDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
+  /**
+   * Disciplina do diario
+   */
   disciplina: HorarioAulaItemDisciplinaDto;
+  /**
+   * Turma do diario
+   */
   turma: HorarioAulaItemTurmaDto;
 };
 
 export type HorarioAulaItemProfessorPerfilDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
+  /**
+   * Cargo do perfil
+   */
   cargo: string;
 };
 
 export type HorarioAulaItemProfessorUsuarioDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
+  /**
+   * Nome do usuario
+   */
   nome?: string | null;
 };
 
 export type HorarioAulaItemProfessorDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
+  /**
+   * Perfil do professor
+   */
   perfil: HorarioAulaItemProfessorPerfilDto;
+  /**
+   * Usuario do professor
+   */
   usuario: HorarioAulaItemProfessorUsuarioDto;
 };
 
 export type HorarioAulaItemAmbienteDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
+  /**
+   * Nome do ambiente
+   */
   nome: string;
+  /**
+   * Codigo do ambiente
+   */
   codigo: string;
 };
 
 export type HorarioAulaItemDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
+  /**
+   * Data de inicio
+   */
   dataInicio: string;
+  /**
+   * Data de fim
+   */
   dataFim?: string | null;
+  /**
+   * Horário de inicio (HH:MM:SS)
+   */
   horarioInicio: string;
+  /**
+   * Horário de fim (HH:MM:SS)
+   */
   horarioFim: string;
+  /**
+   * Nome da aula/evento
+   */
   nome?: string | null;
+  /**
+   * Cor do evento
+   */
   cor?: string | null;
+  /**
+   * Diario vinculado
+   */
   diario?: HorarioAulaItemDiarioDto | null;
+  /**
+   * Professores da aula
+   */
   professores: Array<HorarioAulaItemProfessorDto>;
+  /**
+   * Ambiente da aula
+   */
   ambiente?: HorarioAulaItemAmbienteDto | null;
 };
 
 export type HorarioSemanalDiaDto = {
+  /**
+   * Data do dia
+   */
   data: string;
   /**
-   * 0=dom, 1=seg, ..., 6=sab
+   * Dia da semana (0=dom, 1=seg, ..., 6=sab)
    */
   diaSemana: number;
+  /**
+   * Aulas do dia
+   */
   aulas: Array<HorarioAulaItemDto>;
 };
 
 export type HorarioSemanalOutputDto = {
+  /**
+   * Data inicio da semana
+   */
   semanaInicio: string;
+  /**
+   * Data fim da semana
+   */
   semanaFim: string;
+  /**
+   * Dias da semana com aulas
+   */
   dias: Array<HorarioSemanalDiaDto>;
 };
 
 export type UsuarioEventoFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
+  /**
+   * Nome do evento/atividade
+   */
   nome?: string | null;
+  /**
+   * Tipo: EVENTO (atividade) ou INDISPONIBILIDADE
+   */
   tipo: string;
+  /**
+   * Data de inicio
+   */
   dataInicio: string;
+  /**
+   * Data de fim
+   */
   dataFim?: string | null;
+  /**
+   * Indica se o evento ocupa o dia inteiro
+   */
   diaInteiro: boolean;
+  /**
+   * Horário de inicio (HH:MM)
+   */
   horarioInicio: string;
+  /**
+   * Horário de fim (HH:MM)
+   */
   horarioFim: string;
+  /**
+   * Cor do evento (hex)
+   */
   cor?: string | null;
+  /**
+   * Regra de repetição
+   */
   repeticao?: string | null;
+  /**
+   * Status do evento
+   */
   status?: string | null;
 };
 
 export type UsuarioEventoListOutputDto = {
+  /**
+   * Resultados da busca
+   */
   data: Array<UsuarioEventoFindOneOutputDto>;
 };
 
@@ -1002,28 +1173,73 @@ export type UsuarioEventoCreateInputDto = {
   /**
    * Nome do evento/atividade
    */
-  nome: string;
+  nome: string | null;
+  /**
+   * Data de inicio
+   */
   dataInicio: string;
+  /**
+   * Data de fim
+   */
   dataFim?: string | null;
+  /**
+   * Indica se o evento ocupa o dia inteiro
+   */
   diaInteiro: boolean;
+  /**
+   * Horário de inicio (HH:MM)
+   */
   horarioInicio?: string;
+  /**
+   * Horário de fim (HH:MM)
+   */
   horarioFim?: string;
+  /**
+   * Cor do evento (hex)
+   */
   cor?: string | null;
+  /**
+   * Regra de repetição
+   */
   repeticao?: string | null;
   /**
    * Tipo: EVENTO (atividade) ou INDISPONIBILIDADE
    */
-  tipo?: 'EVENTO' | 'INDISPONIBILIDADE';
+  tipo?: string;
 };
 
 export type UsuarioEventoUpdateInputDto = {
-  nome?: string;
+  /**
+   * Nome do evento/atividade
+   */
+  nome?: string | null;
+  /**
+   * Data de inicio
+   */
   dataInicio?: string;
+  /**
+   * Data de fim
+   */
   dataFim?: string | null;
+  /**
+   * Indica se o evento ocupa o dia inteiro
+   */
   diaInteiro?: boolean;
+  /**
+   * Horário de inicio (HH:MM)
+   */
   horarioInicio?: string;
+  /**
+   * Horário de fim (HH:MM)
+   */
   horarioFim?: string;
+  /**
+   * Cor do evento (hex)
+   */
   cor?: string | null;
+  /**
+   * Regra de repetição
+   */
   repeticao?: string | null;
 };
 
@@ -1139,60 +1355,114 @@ export type DisciplinaUpdateInputDto = {
 };
 
 export type CalendarioEventoFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
+  /**
+   * Nome do evento/atividade
+   */
   nome?: string | null;
+  /**
+   * Data de inicio
+   */
   dataInicio: string;
+  /**
+   * Data de fim
+   */
   dataFim?: string | null;
+  /**
+   * Indica se o evento ocupa o dia inteiro
+   */
   diaInteiro: boolean;
+  /**
+   * Horário de inicio (HH:MM)
+   */
   horarioInicio: string;
+  /**
+   * Horário de fim (HH:MM)
+   */
   horarioFim: string;
+  /**
+   * Cor do evento (hex)
+   */
   cor?: string | null;
+  /**
+   * Regra de repetição
+   */
   repeticao?: string | null;
+  /**
+   * Status do evento
+   */
   status?: string | null;
+  /**
+   * IDs das turmas participantes
+   */
   turmaIds?: Array<string>;
+  /**
+   * IDs dos perfis (professores) participantes
+   */
   perfilIds?: Array<string>;
+  /**
+   * IDs dos calendarios letivos vinculados
+   */
   calendarioLetivoIds?: Array<string>;
+  /**
+   * IDs das ofertas de formacao vinculadas
+   */
   ofertaFormacaoIds?: Array<string>;
+  /**
+   * IDs das modalidades vinculadas
+   */
   modalidadeIds?: Array<string>;
+  /**
+   * IDs dos ambientes vinculados
+   */
   ambienteIds?: Array<string>;
+  /**
+   * IDs dos diarios vinculados
+   */
   diarioIds?: Array<string>;
 };
 
 export type CalendarioEventoListOutputDto = {
+  /**
+   * Resultados da busca
+   */
   data: Array<CalendarioEventoFindOneOutputDto>;
 };
 
 export type CalendarioEventoCreateInputDto = {
   /**
-   * Nome do evento
+   * Nome do evento/atividade
    */
-  nome: string;
+  nome: string | null;
   /**
-   * Data inicio
+   * Data de inicio
    */
   dataInicio: string;
   /**
-   * Data fim
+   * Data de fim
    */
   dataFim?: string | null;
   /**
-   * Evento ocupa o dia inteiro
+   * Indica se o evento ocupa o dia inteiro
    */
   diaInteiro: boolean;
   /**
-   * Horario inicio (HH:MM)
+   * Horário de inicio (HH:MM)
    */
   horarioInicio?: string;
   /**
-   * Horario fim (HH:MM)
+   * Horário de fim (HH:MM)
    */
   horarioFim?: string;
   /**
-   * Cor do evento para exibicao
+   * Cor do evento (hex)
    */
   cor?: string | null;
   /**
-   * Regra de repeticao (iCalendar RRULE)
+   * Regra de repetição
    */
   repeticao?: string | null;
   /**
@@ -1226,13 +1496,37 @@ export type CalendarioEventoCreateInputDto = {
 };
 
 export type CalendarioEventoUpdateInputDto = {
-  nome?: string;
+  /**
+   * Nome do evento/atividade
+   */
+  nome?: string | null;
+  /**
+   * Data de inicio
+   */
   dataInicio?: string;
+  /**
+   * Data de fim
+   */
   dataFim?: string | null;
+  /**
+   * Indica se o evento ocupa o dia inteiro
+   */
   diaInteiro?: boolean;
+  /**
+   * Horário de inicio (HH:MM)
+   */
   horarioInicio?: string;
+  /**
+   * Horário de fim (HH:MM)
+   */
   horarioFim?: string;
+  /**
+   * Cor do evento (hex)
+   */
   cor?: string | null;
+  /**
+   * Regra de repetição
+   */
   repeticao?: string | null;
   /**
    * IDs das turmas participantes
@@ -1402,7 +1696,7 @@ export type CalendarioLetivoDiaFindOneOutputDto = {
     | 'Domingo'
     | 'Outro';
   /**
-   * Nome do feriado (ou null se nao for)
+   * Nome do feriado (vazio se nao for)
    */
   feriado?: string | null;
   /**
@@ -1446,7 +1740,7 @@ export type CalendarioLetivoDiaUpdateInputDto = {
     | 'Domingo'
     | 'Outro';
   /**
-   * Nome do feriado (ou null se nao for)
+   * Nome do feriado (vazio se nao for)
    */
   feriado?: string | null;
   /**
@@ -1456,14 +1750,32 @@ export type CalendarioLetivoDiaUpdateInputDto = {
 };
 
 export type CalendarioLetivoEtapaFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
+  /**
+   * ID da etapa da oferta de formacao periodo
+   */
   ofertaFormacaoPeriodoEtapaId: string;
+  /**
+   * Nome da etapa
+   */
   nomeEtapa: string;
+  /**
+   * Data inicio da etapa
+   */
   dataInicio: string;
+  /**
+   * Data termino da etapa
+   */
   dataTermino: string;
 };
 
 export type CalendarioLetivoEtapaListOutputDto = {
+  /**
+   * Resultados da busca
+   */
   data: Array<CalendarioLetivoEtapaFindOneOutputDto>;
 };
 
@@ -2141,16 +2453,7 @@ export type TurmaUpdateInputDto = {
   } | null;
 };
 
-export type TurmaHorarioAulaItemOutputDto = {
-  inicio: string;
-  fim: string;
-};
-
-export type TurmaHorarioAulaListOutputDto = {
-  data: Array<TurmaHorarioAulaItemOutputDto>;
-};
-
-export type TurmaHorarioAulaItemInputDto = {
+export type TurmaDisponibilidadeIntervaloDto = {
   /**
    * Horario inicio (HH:MM:SS)
    */
@@ -2161,58 +2464,193 @@ export type TurmaHorarioAulaItemInputDto = {
   fim: string;
 };
 
-export type TurmaHorarioAulaBulkReplaceInputDto = {
+export type TurmaDisponibilidadeDiaDto = {
   /**
-   * Horarios de aula da turma (substituicao completa)
+   * Dia da semana (1=seg..6=sab)
    */
-  horarios: Array<TurmaHorarioAulaItemInputDto>;
+  dia_semana: number;
+  /**
+   * Intervalos de disponibilidade
+   */
+  intervalos: Array<TurmaDisponibilidadeIntervaloDto>;
+};
+
+export type TurmaDisponibilidadeConfigOutputDto = {
+  /**
+   * Data inicio da vigencia
+   */
+  data_inicio: string;
+  /**
+   * Data fim da vigencia
+   */
+  data_fim?: string | null;
+  /**
+   * Horarios de disponibilidade por dia da semana
+   */
+  horarios: Array<TurmaDisponibilidadeDiaDto>;
+};
+
+export type TurmaDisponibilidadeWeekOutputDto = {
+  /**
+   * Configuracoes de disponibilidade
+   */
+  configs: Array<TurmaDisponibilidadeConfigOutputDto>;
+};
+
+export type TurmaDisponibilidadeDiaInputDto = {
+  /**
+   * Dia da semana (1=seg..6=sab)
+   */
+  dia_semana: number;
+  /**
+   * Intervalos de disponibilidade
+   */
+  intervalos: Array<TurmaDisponibilidadeIntervaloDto>;
+};
+
+export type TurmaDisponibilidadeConfigInputDto = {
+  /**
+   * Data inicio da vigencia
+   */
+  data_inicio: string;
+  /**
+   * Data fim da vigencia
+   */
+  data_fim?: string | null;
+  /**
+   * Horarios de disponibilidade por dia da semana
+   */
+  horarios: Array<TurmaDisponibilidadeDiaInputDto>;
+};
+
+export type TurmaDisponibilidadeSaveInputDto = {
+  /**
+   * Configuracoes de disponibilidade
+   */
+  configs: Array<TurmaDisponibilidadeConfigInputDto>;
+  /**
+   * Aplicar tambem para semanas futuras
+   */
+  aplicar_futuras?: boolean | null;
 };
 
 export type TurmaEventoFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
+  /**
+   * Nome do evento/atividade
+   */
   nome?: string | null;
+  /**
+   * Data de inicio
+   */
   dataInicio: string;
+  /**
+   * Data de fim
+   */
   dataFim?: string | null;
+  /**
+   * Indica se o evento ocupa o dia inteiro
+   */
   diaInteiro: boolean;
+  /**
+   * Horário de inicio (HH:MM)
+   */
   horarioInicio: string;
+  /**
+   * Horário de fim (HH:MM)
+   */
   horarioFim: string;
+  /**
+   * Cor do evento (hex)
+   */
   cor?: string | null;
+  /**
+   * Regra de repetição
+   */
   repeticao?: string | null;
+  /**
+   * Status do evento
+   */
   status?: string | null;
 };
 
 export type TurmaEventoListOutputDto = {
+  /**
+   * Resultados da busca
+   */
   data: Array<TurmaEventoFindOneOutputDto>;
 };
 
 export type TurmaEventoCreateInputDto = {
   /**
-   * Nome do evento
+   * Nome do evento/atividade
    */
-  nome: string;
+  nome: string | null;
   /**
-   * Data inicio
+   * Data de inicio
    */
   dataInicio: string;
+  /**
+   * Data de fim
+   */
   dataFim?: string | null;
   /**
-   * Evento ocupa o dia inteiro
+   * Indica se o evento ocupa o dia inteiro
    */
   diaInteiro: boolean;
+  /**
+   * Horário de inicio (HH:MM)
+   */
   horarioInicio?: string;
+  /**
+   * Horário de fim (HH:MM)
+   */
   horarioFim?: string;
+  /**
+   * Cor do evento (hex)
+   */
   cor?: string | null;
+  /**
+   * Regra de repetição
+   */
   repeticao?: string | null;
 };
 
 export type TurmaEventoUpdateInputDto = {
-  nome?: string;
+  /**
+   * Nome do evento/atividade
+   */
+  nome?: string | null;
+  /**
+   * Data de inicio
+   */
   dataInicio?: string;
+  /**
+   * Data de fim
+   */
   dataFim?: string | null;
+  /**
+   * Indica se o evento ocupa o dia inteiro
+   */
   diaInteiro?: boolean;
+  /**
+   * Horário de inicio (HH:MM)
+   */
   horarioInicio?: string;
+  /**
+   * Horário de fim (HH:MM)
+   */
   horarioFim?: string;
+  /**
+   * Cor do evento (hex)
+   */
   cor?: string | null;
+  /**
+   * Regra de repetição
+   */
   repeticao?: string | null;
 };
 
@@ -2393,7 +2831,9 @@ export type EmpresaFindOneOutputDto = {
   /**
    * Endereço vinculado à empresa
    */
-  endereco: EnderecoFindOneOutputDto;
+  endereco?: {
+    id: string;
+  };
   /**
    * Se a empresa está ativa
    */
@@ -2435,8 +2875,8 @@ export type EmpresaCreateInputDto = {
   /**
    * Endereço vinculado à empresa
    */
-  endereco: {
-    [key: string]: unknown;
+  endereco?: {
+    id: string;
   };
 };
 
@@ -2465,7 +2905,7 @@ export type EmpresaUpdateInputDto = {
    * Endereço vinculado à empresa
    */
   endereco?: {
-    [key: string]: unknown;
+    id?: string;
   };
 };
 
@@ -2474,9 +2914,21 @@ export type Object = {
 };
 
 export type HorarioEstagioOutputDto = {
+  /**
+   * Dia da semana (0=dom..6=sab)
+   */
   diaSemana: number;
+  /**
+   * Hora de inicio
+   */
   horaInicio: string;
+  /**
+   * Hora de fim
+   */
   horaFim: string;
+  /**
+   * Identificador do registro (uuid)
+   */
   id: string;
 };
 
@@ -2522,25 +2974,46 @@ export type EstagioFindOneOutputDto = {
    */
   ativo: boolean;
   /**
-   * Data de criação do registro
+   * Data e hora da criacao do registro
    */
   dateCreated: string;
   /**
-   * Data da última atualização do registro
+   * Data e hora da alteracao do registro
    */
   dateUpdated: string;
 };
 
 export type EstagioListOutputDto = {
+  /**
+   * Resultados da busca
+   */
   data: Array<EstagioFindOneOutputDto>;
+  /**
+   * Total de itens
+   */
   total: number;
-  page: number;
-  limit: number;
+  /**
+   * Pagina de consulta
+   */
+  page: number | null;
+  /**
+   * Limite da quantidade de resultados por pagina
+   */
+  limit: number | null;
 };
 
 export type HorarioEstagioInputDto = {
+  /**
+   * Dia da semana (0=dom..6=sab)
+   */
   diaSemana: number;
+  /**
+   * Hora de inicio
+   */
   horaInicio: string;
+  /**
+   * Hora de fim
+   */
   horaFim: string;
 };
 
@@ -2634,15 +3107,15 @@ export type EstagiarioFindOneOutputDto = {
   /**
    * Perfil vinculado ao estagiário
    */
-  perfil: PerfilFindOneOutputDto;
+  perfil: PerfilFindOneOutputDto | null;
   /**
    * Curso vinculado ao estagiário
    */
-  curso: CursoFindOneOutputDto;
+  curso: CursoFindOneOutputDto | null;
   /**
    * Turma vinculada ao estagiário
    */
-  turma: TurmaFindOneOutputDto;
+  turma: TurmaFindOneOutputDto | null;
   /**
    * Telefone do estagiário
    */
@@ -2739,11 +3212,20 @@ export type EstagiarioUpdateInputDto = {
 };
 
 export type HorarioAulaItemOutputDto = {
+  /**
+   * Horario inicio (HH:MM:SS)
+   */
   inicio: string;
+  /**
+   * Horario fim (HH:MM:SS)
+   */
   fim: string;
 };
 
 export type HorarioDeAulaListOutputDto = {
+  /**
+   * Resultados da busca
+   */
   data: Array<HorarioAulaItemOutputDto>;
 };
 
@@ -3304,31 +3786,31 @@ export type OfertaFormacaoFindAllData = {
     /**
      * Pagina de consulta
      */
-    page?: number;
+    page?: number | null;
     /**
      * Limite da quantidade de resultados por pagina
      */
-    limit?: number;
+    limit?: number | null;
     /**
      * Busca textual
      */
-    search?: string;
+    search?: string | null;
     /**
-     * Ordenacao (ex: dateCreated:ASC)
+     * Ordenação
      */
-    sortBy?: Array<string>;
+    sortBy?: Array<string> | null;
     /**
      * Filtro por ID
      */
-    'filter.id'?: Array<string>;
+    'filter.id'?: Array<string> | null;
     /**
      * Filtro por ID da Modalidade
      */
-    'filter.modalidade.id'?: Array<string> | null;
+    'filter.modalidade.id'?: Array<string>;
     /**
      * Filtro por ID do Campus
      */
-    'filter.campus.id'?: Array<string> | null;
+    'filter.campus.id'?: Array<string>;
   };
   url: '/ofertas-formacoes';
 };
@@ -3570,23 +4052,23 @@ export type UsuarioFindAllData = {
     /**
      * Pagina de consulta
      */
-    page?: number;
+    page?: number | null;
     /**
      * Limite da quantidade de resultados por pagina
      */
-    limit?: number;
+    limit?: number | null;
     /**
      * Busca textual
      */
-    search?: string;
+    search?: string | null;
     /**
-     * Ordenacao (ex: dateCreated:ASC)
+     * Ordenação
      */
-    sortBy?: Array<string>;
+    sortBy?: Array<string> | null;
     /**
      * Filtro por ID
      */
-    'filter.id'?: Array<string>;
+    'filter.id'?: Array<string> | null;
     /**
      * Filtro por nome do cargo do vinculo (ex: professor)
      */
@@ -3893,7 +4375,7 @@ export type UsuarioEventoFindAllData = {
   body?: never;
   path: {
     /**
-     * ID do usuario
+     * Identificador do registro (uuid)
      */
     id: string;
   };
@@ -3916,7 +4398,7 @@ export type UsuarioEventoCreateData = {
   body: UsuarioEventoCreateInputDto;
   path: {
     /**
-     * ID do usuario
+     * Identificador do registro (uuid)
      */
     id: string;
   };
@@ -3939,7 +4421,7 @@ export type UsuarioEventoDeleteData = {
   body?: never;
   path: {
     /**
-     * ID do usuario
+     * Identificador do registro (uuid)
      */
     id: string;
     /**
@@ -3967,7 +4449,7 @@ export type UsuarioEventoUpdateData = {
   body: UsuarioEventoUpdateInputDto;
   path: {
     /**
-     * ID do usuario
+     * Identificador do registro (uuid)
      */
     id: string;
     /**
@@ -4293,6 +4775,9 @@ export type CalendarioAgendamentoCreateResponse =
 export type CalendarioAgendamentoDeleteOneByIdData = {
   body?: never;
   path: {
+    /**
+     * Identificador do registro (uuid)
+     */
     id: string;
   };
   query?: never;
@@ -4314,6 +4799,9 @@ export type CalendarioAgendamentoDeleteOneByIdResponse =
 export type CalendarioAgendamentoFindByIdData = {
   body?: never;
   path: {
+    /**
+     * Identificador do registro (uuid)
+     */
     id: string;
   };
   query?: never;
@@ -4335,6 +4823,9 @@ export type CalendarioAgendamentoFindByIdResponse =
 export type CalendarioAgendamentoUpdateData = {
   body: CalendarioEventoUpdateInputDto;
   path: {
+    /**
+     * Identificador do registro (uuid)
+     */
     id: string;
   };
   query?: never;
@@ -4360,35 +4851,35 @@ export type CalendarioLetivoFindAllData = {
     /**
      * Pagina de consulta
      */
-    page?: number;
+    page?: number | null;
     /**
      * Limite da quantidade de resultados por pagina
      */
-    limit?: number;
+    limit?: number | null;
     /**
      * Busca textual
      */
-    search?: string;
+    search?: string | null;
     /**
-     * Ordenacao (ex: dateCreated:ASC)
+     * Ordenação
      */
-    sortBy?: Array<string>;
+    sortBy?: Array<string> | null;
     /**
      * Filtro por ID
      */
-    'filter.id'?: Array<string>;
+    'filter.id'?: Array<string> | null;
     /**
      * Filtro por ano letivo
      */
-    'filter.ano'?: Array<string> | null;
+    'filter.ano'?: Array<string>;
     /**
      * Filtro por ID do Campus
      */
-    'filter.campus.id'?: Array<string> | null;
+    'filter.campus.id'?: Array<string>;
     /**
      * Filtro por ID da Oferta de Formacao
      */
-    'filter.ofertaFormacao.id'?: Array<string> | null;
+    'filter.ofertaFormacao.id'?: Array<string>;
   };
   url: '/calendarios-letivos';
 };
@@ -4506,31 +4997,31 @@ export type CalendarioLetivoDiaFindAllData = {
     /**
      * Pagina de consulta
      */
-    page?: number;
+    page?: number | null;
     /**
      * Limite da quantidade de resultados por pagina
      */
-    limit?: number;
+    limit?: number | null;
     /**
      * Busca textual
      */
-    search?: string;
+    search?: string | null;
     /**
-     * Ordenacao (ex: dateCreated:ASC)
+     * Ordenação
      */
-    sortBy?: Array<string>;
+    sortBy?: Array<string> | null;
     /**
      * Filtro por ID
      */
-    'filter.id'?: Array<string>;
+    'filter.id'?: Array<string> | null;
     /**
      * Filtro por nome do Calendario
      */
-    'filter.calendario.nome'?: Array<string> | null;
+    'filter.calendario.nome'?: Array<string>;
     /**
      * Filtro por ano do Calendario
      */
-    'filter.calendario.ano'?: Array<string> | null;
+    'filter.calendario.ano'?: Array<string>;
   };
   url: '/calendarios-letivos/{calendarioLetivoId}/dias';
 };
@@ -5263,23 +5754,23 @@ export type DiarioFindAllData = {
     /**
      * Pagina de consulta
      */
-    page?: number;
+    page?: number | null;
     /**
      * Limite da quantidade de resultados por pagina
      */
-    limit?: number;
+    limit?: number | null;
     /**
      * Busca textual
      */
-    search?: string;
+    search?: string | null;
     /**
-     * Ordenacao (ex: dateCreated:ASC)
+     * Ordenação
      */
-    sortBy?: Array<string>;
+    sortBy?: Array<string> | null;
     /**
      * Filtro por ID
      */
-    'filter.id'?: Array<string>;
+    'filter.id'?: Array<string> | null;
     /**
      * Filtro por ID da Turma
      */
@@ -5413,23 +5904,23 @@ export type DiarioProfessorFindAllData = {
     /**
      * Pagina de consulta
      */
-    page?: number;
+    page?: number | null;
     /**
      * Limite da quantidade de resultados por pagina
      */
-    limit?: number;
+    limit?: number | null;
     /**
      * Busca textual
      */
-    search?: string;
+    search?: string | null;
     /**
-     * Ordenacao (ex: dateCreated:ASC)
+     * Ordenação
      */
-    sortBy?: Array<string>;
+    sortBy?: Array<string> | null;
     /**
      * Filtro por ID
      */
-    'filter.id'?: Array<string>;
+    'filter.id'?: Array<string> | null;
     /**
      * Filtro por ID do Usuario do Perfil
      */
@@ -5488,23 +5979,23 @@ export type DiarioPreferenciaAgrupamentoFindAllData = {
     /**
      * Pagina de consulta
      */
-    page?: number;
+    page?: number | null;
     /**
      * Limite da quantidade de resultados por pagina
      */
-    limit?: number;
+    limit?: number | null;
     /**
      * Busca textual
      */
-    search?: string;
+    search?: string | null;
     /**
-     * Ordenacao (ex: dateCreated:ASC)
+     * Ordenação
      */
-    sortBy?: Array<string>;
+    sortBy?: Array<string> | null;
     /**
      * Filtro por ID
      */
-    'filter.id'?: Array<string>;
+    'filter.id'?: Array<string> | null;
     /**
      * Filtro por ID do Diario
      */
@@ -5554,23 +6045,23 @@ export type TurmaFindAllData = {
     /**
      * Pagina de consulta
      */
-    page?: number;
+    page?: number | null;
     /**
      * Limite da quantidade de resultados por pagina
      */
-    limit?: number;
+    limit?: number | null;
     /**
      * Busca textual
      */
-    search?: string;
+    search?: string | null;
     /**
-     * Ordenacao (ex: dateCreated:ASC)
+     * Ordenação
      */
-    sortBy?: Array<string>;
+    sortBy?: Array<string> | null;
     /**
      * Filtro por ID
      */
-    'filter.id'?: Array<string>;
+    'filter.id'?: Array<string> | null;
     /**
      * Filtro por periodo da turma
      */
@@ -5800,7 +6291,7 @@ export type TurmaUpdateImagemCapaResponses = {
 export type TurmaUpdateImagemCapaResponse =
   TurmaUpdateImagemCapaResponses[keyof TurmaUpdateImagemCapaResponses];
 
-export type TurmaHorarioAulaFindAllData = {
+export type TurmaDisponibilidadeFindByWeekData = {
   body?: never;
   path: {
     /**
@@ -5808,23 +6299,28 @@ export type TurmaHorarioAulaFindAllData = {
      */
     turmaId: string;
   };
-  query?: never;
-  url: '/turmas/{turmaId}/horarios-aula';
+  query: {
+    /**
+     * Data da semana (qualquer dia, normalizado para domingo)
+     */
+    semana: string;
+  };
+  url: '/turmas/{turmaId}/disponibilidade';
 };
 
-export type TurmaHorarioAulaFindAllErrors = {
+export type TurmaDisponibilidadeFindByWeekErrors = {
   403: unknown;
 };
 
-export type TurmaHorarioAulaFindAllResponses = {
-  200: TurmaHorarioAulaListOutputDto;
+export type TurmaDisponibilidadeFindByWeekResponses = {
+  200: TurmaDisponibilidadeWeekOutputDto;
 };
 
-export type TurmaHorarioAulaFindAllResponse =
-  TurmaHorarioAulaFindAllResponses[keyof TurmaHorarioAulaFindAllResponses];
+export type TurmaDisponibilidadeFindByWeekResponse =
+  TurmaDisponibilidadeFindByWeekResponses[keyof TurmaDisponibilidadeFindByWeekResponses];
 
-export type TurmaHorarioAulaBulkReplaceData = {
-  body: TurmaHorarioAulaBulkReplaceInputDto;
+export type TurmaDisponibilidadeSaveData = {
+  body: TurmaDisponibilidadeSaveInputDto;
   path: {
     /**
      * ID da turma
@@ -5832,19 +6328,19 @@ export type TurmaHorarioAulaBulkReplaceData = {
     turmaId: string;
   };
   query?: never;
-  url: '/turmas/{turmaId}/horarios-aula';
+  url: '/turmas/{turmaId}/disponibilidade';
 };
 
-export type TurmaHorarioAulaBulkReplaceErrors = {
+export type TurmaDisponibilidadeSaveErrors = {
   403: unknown;
 };
 
-export type TurmaHorarioAulaBulkReplaceResponses = {
-  200: TurmaHorarioAulaListOutputDto;
+export type TurmaDisponibilidadeSaveResponses = {
+  200: TurmaDisponibilidadeWeekOutputDto;
 };
 
-export type TurmaHorarioAulaBulkReplaceResponse =
-  TurmaHorarioAulaBulkReplaceResponses[keyof TurmaHorarioAulaBulkReplaceResponses];
+export type TurmaDisponibilidadeSaveResponse =
+  TurmaDisponibilidadeSaveResponses[keyof TurmaDisponibilidadeSaveResponses];
 
 export type TurmaEventoFindAllData = {
   body?: never;
@@ -6215,23 +6711,23 @@ export type EmpresaFindAllData = {
     /**
      * Pagina de consulta
      */
-    page?: number;
+    page?: number | null;
     /**
      * Limite da quantidade de resultados por pagina
      */
-    limit?: number;
+    limit?: number | null;
     /**
      * Busca textual
      */
-    search?: string;
+    search?: string | null;
     /**
-     * Ordenacao (ex: dateCreated:ASC)
+     * Ordenação
      */
-    sortBy?: Array<string>;
+    sortBy?: Array<string> | null;
     /**
      * Filtro por ID
      */
-    'filter.id'?: Array<string>;
+    'filter.id'?: Array<string> | null;
     /**
      * Filtro por CNPJ
      */
@@ -6356,19 +6852,19 @@ export type EstagioFindAllData = {
     /**
      * Pagina de consulta
      */
-    page?: number;
+    page?: number | null;
     /**
      * Limite da quantidade de resultados por pagina
      */
-    limit?: number;
+    limit?: number | null;
     /**
      * Busca textual
      */
-    search?: string;
+    search?: string | null;
     /**
-     * Ordenacao (ex: dateCreated:ASC)
+     * Ordenação
      */
-    sortBy?: Array<string>;
+    sortBy?: Array<string> | null;
     /**
      * Filtro por empresa
      */
@@ -6493,23 +6989,23 @@ export type EstagiarioFindAllData = {
     /**
      * Pagina de consulta
      */
-    page?: number;
+    page?: number | null;
     /**
      * Limite da quantidade de resultados por pagina
      */
-    limit?: number;
+    limit?: number | null;
     /**
      * Busca textual
      */
-    search?: string;
+    search?: string | null;
     /**
-     * Ordenacao (ex: dateCreated:ASC)
+     * Ordenação
      */
-    sortBy?: Array<string>;
+    sortBy?: Array<string> | null;
     /**
      * Filtro por ID
      */
-    'filter.id'?: Array<string>;
+    'filter.id'?: Array<string> | null;
     /**
      * Filtro por ID de perfil
      */
