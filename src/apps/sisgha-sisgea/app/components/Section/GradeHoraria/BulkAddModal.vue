@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { BulkAddParams } from '~/composables/useGradeHorariaEditor';
 import ModalBaseLayout from '~/components/Dialog/Modal/ModalBaseLayout.vue';
+import type { BulkAddParams } from '~/composables/useGradeHorariaEditor';
 
 const props = defineProps<{
   defaultStartTime?: string;
@@ -15,7 +15,7 @@ const startTime = ref(props.defaultStartTime ?? '07:30');
 const classCount = ref(5);
 const classDuration = ref(50);
 const breakDuration = ref(20);
-const breakAfterClass = ref(2);
+const breakAfterClass = ref(3);
 
 function addMinutes(time: string, minutes: number): string {
   const [h, m] = time.split(':').map(Number) as [number, number];
