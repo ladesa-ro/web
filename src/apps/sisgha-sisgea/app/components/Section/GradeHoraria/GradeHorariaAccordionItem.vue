@@ -137,14 +137,12 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
     </p>
 
     <!-- Botão limpar todos -->
-    <div v-if="isEditing && props.grade.intervalos.length > 0" class="flex justify-end px-4 pt-3">
-      <button
-        :disabled="disabled"
-        class="text-ldsa-red text-xs hover:opacity-70 disabled:opacity-40 disabled:cursor-not-allowed"
+    <div v-if="isEditing" class="flex justify-end px-4 pt-3">
+      <UIButtonModalClearDanger
+        text="Limpar todos os horários"
+        :disabled="disabled || props.grade.intervalos.length === 0"
         @click="emit('clear-all-intervals')"
-      >
-        Limpar todos os horários
-      </button>
+      />
     </div>
 
     <!-- Conteúdo dividido por turnos (Matutino / Vespertino / Noturno) -->
@@ -158,14 +156,12 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
           <h2 class="font-semibold text-[16px] border-l-4 border-ldsa-green-1 pl-2">
             {{ periodo.nome }}
           </h2>
-          <button
-            v-if="isEditing && periodo.intervalos.length > 0"
-            :disabled="disabled"
-            class="text-ldsa-red text-xs hover:opacity-70 disabled:opacity-40 disabled:cursor-not-allowed"
+          <UIButtonModalClearDanger
+            v-if="isEditing"
+            text="Limpar turno"
+            :disabled="disabled || periodo.intervalos.length === 0"
             @click="emit('remove-intervals-by-periodo', periodo.nome)"
-          >
-            Limpar turno
-          </button>
+          />
         </div>
 
         <div
@@ -178,34 +174,22 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
             :class="getIntervalError(periodo, j) ? 'border-ldsa-red/30' : 'border-ldsa-grey/20'"
           >
             <template v-if="isEditing">
-              <div class="flex items-center gap-2">
-                <input
-                  type="time"
-                  :value="toDisplayFormat(props.grade.intervalos[getOriginalIndex(periodo, j)]?.inicio ?? '')"
-                  :disabled="disabled"
-                  class="border rounded-md px-2 py-1 text-sm w-28 disabled:opacity-40"
-                  :class="getIntervalError(periodo, j) ? 'border-ldsa-red' : 'border-ldsa-grey'"
-                  @input="emit('update:intervalo-inicio', getOriginalIndex(periodo, j), ($event.target as HTMLInputElement).value)"
-                >
-                <span class="text-ldsa-text-default">-</span>
-                <input
-                  type="time"
-                  :value="toDisplayFormat(props.grade.intervalos[getOriginalIndex(periodo, j)]?.fim ?? '')"
-                  :disabled="disabled"
-                  class="border rounded-md px-2 py-1 text-sm w-28 disabled:opacity-40"
-                  :class="getIntervalError(periodo, j) ? 'border-ldsa-red' : 'border-ldsa-grey'"
-                  @input="emit('update:intervalo-fim', getOriginalIndex(periodo, j), ($event.target as HTMLInputElement).value)"
-                >
-              </div>
-              <div class="flex gap-4 text-sm">
-                <button
-                  :disabled="disabled"
-                  class="w-[0.9rem] hover:text-ldsa-red disabled:opacity-40 disabled:cursor-not-allowed"
-                  @click="emit('remove-interval', getOriginalIndex(periodo, j))"
-                >
-                  <IconsExclude />
-                </button>
-              </div>
+              <UIFormTimeRangeField
+                :start="toDisplayFormat(props.grade.intervalos[getOriginalIndex(periodo, j)]?.inicio ?? '')"
+                :end="toDisplayFormat(props.grade.intervalos[getOriginalIndex(periodo, j)]?.fim ?? '')"
+                :disabled="disabled"
+                :error="getIntervalError(periodo, j)"
+                class="flex-1"
+                @update:start="emit('update:intervalo-inicio', getOriginalIndex(periodo, j), $event ?? '')"
+                @update:end="emit('update:intervalo-fim', getOriginalIndex(periodo, j), $event ?? '')"
+              />
+              <button
+                :disabled="disabled"
+                class="w-[0.9rem] hover:text-ldsa-red disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
+                @click="emit('remove-interval', getOriginalIndex(periodo, j))"
+              >
+                <IconsExclude />
+              </button>
             </template>
             <template v-else>
               <div class="font-medium text-[13px] whitespace-nowrap">
@@ -230,22 +214,17 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
           Nenhum intervalo
         </p>
 
-        <div v-if="isEditing" class="flex flex-col items-center gap-2 mt-4">
-          <button
+        <div v-if="isEditing" class="flex items-center justify-center gap-2 mt-4">
+          <SectionGradeHorariaButtonAddHorario
             :disabled="disabled"
-            class="text-ldsa-grey font-semibold text-[14px] flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed"
+            class="flex-1"
             @click="emit('add-interval', periodo.nome)"
-          >
-            Adicionar horário de aula
-            <IconsAdd class="w-[0.7rem] mb-0.5" />
-          </button>
-          <button
+          />
+          <SectionGradeHorariaButtonAddEmMassa
             :disabled="disabled"
-            class="text-ldsa-text-green text-[13px] flex items-center gap-1 hover:opacity-70 disabled:opacity-40 disabled:cursor-not-allowed"
+            class="flex-1"
             @click="openBulkModal(periodo.nome)"
-          >
-            Adicionar em massa
-          </button>
+          />
         </div>
       </div>
     </div>
