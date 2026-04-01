@@ -37,6 +37,7 @@ const {
   saveAvailability,
   hasPendingSave,
   invalidateDisponibilidade,
+  weekQuery,
   hasGradeDivergence,
   showNavigationConfirm,
   confirmNavigationDiscard,
@@ -81,7 +82,9 @@ const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
         message="Esta turma possui configurações baseadas em uma grade de horários anterior. Ao editar, os horários serão redefinidos."
       />
 
-      <div class="flex flex-col gap-4">
+      <UILoading v-if="weekQuery.isFetching.value && !isEditing" />
+
+      <div v-else class="flex flex-col gap-4">
         <WeekdaySelector
           :items="weekDayLabels"
           v-model="selectedDayWeek"
@@ -106,7 +109,7 @@ const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
         <button
           type="button"
           class="editar-disponibilidade-button"
-          :disabled="campusScheduleLoading || props.disabled"
+          :disabled="campusScheduleLoading || weekQuery.isFetching.value || props.disabled"
           @click="enterEditMode"
         >
           Editar disponibilidade

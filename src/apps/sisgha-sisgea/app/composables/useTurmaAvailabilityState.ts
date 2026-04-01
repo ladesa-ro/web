@@ -76,9 +76,6 @@ export function useTurmaAvailabilityState(
 
   const weekQuery = disponibilidade.findByWeek(turmaId, semanaParam);
 
-  // Invalidar cache ao montar para sempre buscar dados frescos
-  disponibilidade.invalidate();
-
   // --- Edit State ---
 
   const isEditing = ref(false);
@@ -138,9 +135,9 @@ export function useTurmaAvailabilityState(
   watch(
     () => weekQuery.data.value,
     data => {
-      // Se há config pendente para esta semana, usar ela em vez do servidor
+      // Se há config pendente para esta semana (exata ou "futuras"), usar ela
       const weekKey = currentWeekRef.value.format('YYYY-MM-DD');
-      const pending = pendingConfigs.value.get(weekKey);
+      const pending = findPendingForWeek(weekKey);
 
       if (pending) {
         const mapped: Record<number, string[]> = {};
@@ -193,6 +190,24 @@ export function useTurmaAvailabilityState(
   const pendingConfigs = ref<Map<string, TurmaDisponibilidadeConfigInputDto>>(new Map());
 
   const hasPendingSave = computed(() => pendingConfigs.value.size > 0);
+
+  /** Resolve a config pendente aplicável a uma semana.
+   *  1. Match exato por data_inicio
+   *  2. Senão, config com data_fim === null cujo data_inicio <= weekSunday (a mais recente) */
+  function findPendingForWeek(weekSunday: string): TurmaDisponibilidadeConfigInputDto | undefined {
+    const exact = pendingConfigs.value.get(weekSunday);
+    if (exact) return exact;
+
+    let best: TurmaDisponibilidadeConfigInputDto | undefined;
+    for (const config of pendingConfigs.value.values()) {
+      if (config.data_fim === null && config.data_inicio <= weekSunday) {
+        if (!best || config.data_inicio > best.data_inicio) {
+          best = config;
+        }
+      }
+    }
+    return best;
+  }
 
   function buildConfig(aplicarFuturas: boolean): TurmaDisponibilidadeConfigInputDto {
     const sunday = currentWeekRef.value;

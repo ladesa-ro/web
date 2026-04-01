@@ -31,6 +31,7 @@ export const useTurmaDisponibilidade = () => {
         });
       },
       enabled: computed(() => !!unref(turmaId)),
+      staleTime: 0,
     });
   };
 
