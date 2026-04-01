@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 defineProps<{
   weekLabel: string;
+  hideButtons?: boolean;
 }>();
 
 defineEmits<{
@@ -12,6 +13,7 @@ defineEmits<{
 <template>
   <div class="flex items-center justify-between w-full gap-2">
     <UIButtonDefaultSquare
+      v-if="!hideButtons"
       type="button"
       class="border-2 border-ldsa-grey !bg-transparent"
       @click="$emit('prev')"
@@ -24,6 +26,7 @@ defineEmits<{
     </span>
 
     <UIButtonDefaultSquare
+      v-if="!hideButtons"
       type="button"
       class="border-2 border-ldsa-grey !bg-transparent rotate-180"
       @click="$emit('next')"

@@ -36,6 +36,7 @@ const {
   confirmAvailability,
   saveAvailability,
   hasPendingSave,
+  invalidateDisponibilidade,
   hasGradeDivergence,
   showNavigationConfirm,
   confirmNavigationDiscard,
@@ -54,7 +55,7 @@ function handleConfirm(aplicarFuturas: boolean) {
   showSaveConfirm.value = false;
 }
 
-defineExpose({ saveAvailability, hasPendingSave });
+defineExpose({ saveAvailability, hasPendingSave, invalidateDisponibilidade });
 
 const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
 </script>
@@ -69,6 +70,7 @@ const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
     >
       <WeekNavigator
         :week-label="weekLabel"
+        :hide-buttons="isEditing"
         @prev="goToPrevWeek"
         @next="goToNextWeek"
       />

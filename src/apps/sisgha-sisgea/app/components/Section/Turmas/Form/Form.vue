@@ -13,7 +13,11 @@ const emit = defineEmits<{ close: [] }>();
 const isClassesOpen = ref(true);
 const isAvailabilityOpen = ref(true);
 
-const availabilityRef = ref<{ saveAvailability: () => Promise<void>; hasPendingSave: boolean } | null>(null);
+const availabilityRef = ref<{
+  saveAvailability: () => Promise<void>;
+  hasPendingSave: boolean;
+  invalidateDisponibilidade: () => Promise<void>;
+} | null>(null);
 
 const schema = useTurmaFormSchema();
 const turmas = useTurmas();
@@ -53,7 +57,10 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   },
 
   remove: id => turmas.remove(id),
-  invalidate: turmas.invalidate,
+  invalidate: async () => {
+    await turmas.invalidate();
+    await availabilityRef.value?.invalidateDisponibilidade();
+  },
   confirmDelete: confirmDelete.confirm,
   onFinish: () => emit('close'),
 });

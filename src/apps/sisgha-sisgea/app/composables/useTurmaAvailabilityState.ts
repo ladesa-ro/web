@@ -76,6 +76,9 @@ export function useTurmaAvailabilityState(
 
   const weekQuery = disponibilidade.findByWeek(turmaId, semanaParam);
 
+  // Invalidar cache ao montar para sempre buscar dados frescos
+  disponibilidade.invalidate();
+
   // --- Edit State ---
 
   const isEditing = ref(false);
@@ -337,6 +340,7 @@ export function useTurmaAvailabilityState(
     // Save (deferred to form submit)
     saveAvailability,
     hasPendingSave,
+    invalidateDisponibilidade: disponibilidade.invalidate,
 
     // Divergence
     hasGradeDivergence,
