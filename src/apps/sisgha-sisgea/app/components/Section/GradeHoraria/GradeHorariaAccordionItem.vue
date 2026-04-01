@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { GradeHorariaEditorGrade, GradeValidationErrors } from '~/composables/useGradeHorariaEditor';
+import type { BulkAddParams, GradeHorariaEditorGrade, GradeValidationErrors } from '~/composables/useGradeHorariaEditor';
 import type { PeriodoGroup } from '~/utils/horarios';
 import {
   agruparPorPeriodo,
@@ -22,10 +22,28 @@ const emit = defineEmits<{
   'remove-interval': [intervalIndex: number];
   'remove-intervals-by-periodo': [periodo: string];
   'clear-all-intervals': [];
+  'add-intervals-bulk': [params: BulkAddParams];
   'remove-grade': [];
 }>();
 
 const open = ref(true);
+const showBulkModal = ref(false);
+const bulkModalDefaultTime = ref('07:00');
+
+function openBulkModal(periodo: string) {
+  const defaults: Record<string, string> = {
+    Matutino: '07:30',
+    Vespertino: '13:00',
+    Noturno: '19:00',
+  };
+  bulkModalDefaultTime.value = defaults[periodo] ?? '07:00';
+  showBulkModal.value = true;
+}
+
+function handleBulkConfirm(params: BulkAddParams) {
+  emit('add-intervals-bulk', params);
+  showBulkModal.value = false;
+}
 
 // Agrupa intervalos por turno para exibição
 const periodos = computed<PeriodoGroup[]>(() => {
@@ -212,15 +230,23 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
           Nenhum intervalo
         </p>
 
-        <button
-          v-if="isEditing"
-          :disabled="disabled"
-          class="mx-auto text-ldsa-grey font-semibold text-[14px] flex items-center gap-1 mt-4 disabled:opacity-40 disabled:cursor-not-allowed"
-          @click="emit('add-interval', periodo.nome)"
-        >
-          Adicionar horário de aula
-          <IconsAdd class="w-[0.7rem] mb-0.5" />
-        </button>
+        <div v-if="isEditing" class="flex flex-col items-center gap-2 mt-4">
+          <button
+            :disabled="disabled"
+            class="text-ldsa-grey font-semibold text-[14px] flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed"
+            @click="emit('add-interval', periodo.nome)"
+          >
+            Adicionar horário de aula
+            <IconsAdd class="w-[0.7rem] mb-0.5" />
+          </button>
+          <button
+            :disabled="disabled"
+            class="text-ldsa-text-green text-[13px] flex items-center gap-1 hover:opacity-70 disabled:opacity-40 disabled:cursor-not-allowed"
+            @click="openBulkModal(periodo.nome)"
+          >
+            Adicionar em massa
+          </button>
+        </div>
       </div>
     </div>
 
@@ -231,5 +257,14 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
     >
       {{ errors.overlap }}
     </p>
+
+    <!-- Modal de adição em massa -->
+    <DialogSkeleton v-model="showBulkModal">
+      <SectionGradeHorariaBulkAddModal
+        :default-start-time="bulkModalDefaultTime"
+        @confirm="handleBulkConfirm"
+        @close="showBulkModal = false"
+      />
+    </DialogSkeleton>
   </UICollapsible>
 </template>

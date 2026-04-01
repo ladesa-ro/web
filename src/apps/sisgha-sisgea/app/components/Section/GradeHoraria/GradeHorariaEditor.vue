@@ -15,6 +15,7 @@ const {
   removeInterval,
   removeIntervalsByPeriodo,
   clearAllIntervals,
+  addIntervalsBulk,
   validate,
   validationErrors,
   save,
@@ -132,6 +133,7 @@ function updateGradeNome(gradeIndex: number, value: string) {
           @remove-interval="(idx: number) => removeInterval(index, idx)"
           @remove-intervals-by-periodo="(periodo: string) => removeIntervalsByPeriodo(index, periodo)"
           @clear-all-intervals="clearAllIntervals(index)"
+          @add-intervals-bulk="(params) => addIntervalsBulk(index, params)"
           @remove-grade="removeGrade(index)"
         />
       </div>

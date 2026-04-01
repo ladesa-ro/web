@@ -8,6 +8,14 @@ export interface GradeHorariaEditorGrade {
   intervalos: Array<{ inicio: string; fim: string }>;
 }
 
+export interface BulkAddParams {
+  startTime: string;
+  classCount: number;
+  classDuration: number;
+  breakDuration: number;
+  breakAfterClass: number;
+}
+
 export interface GradeValidationErrors {
   nome?: string;
   intervalos: Record<number, string>;
@@ -140,6 +148,39 @@ export function useGradeHorariaEditor(campusId: MaybeRef<string | null>) {
     const grade = grades.value[gradeIndex];
     if (!grade) return;
     grade.intervalos = [];
+  }
+
+  function addMinutes(time: string, minutes: number): string {
+    const [h, m] = time.split(':').map(Number) as [number, number];
+    const total = h * 60 + m + minutes;
+    const hh = String(Math.floor(total / 60) % 24).padStart(2, '0');
+    const mm = String(total % 60).padStart(2, '0');
+    return `${hh}:${mm}`;
+  }
+
+  function generateBulkIntervals(params: BulkAddParams): Array<{ inicio: string; fim: string }> {
+    const intervals: Array<{ inicio: string; fim: string }> = [];
+    let cursor = params.startTime;
+
+    for (let i = 1; i <= params.classCount; i++) {
+      const fim = addMinutes(cursor, params.classDuration);
+      intervals.push({ inicio: cursor, fim });
+      cursor = fim;
+      if (params.breakAfterClass > 0 && i === params.breakAfterClass && i < params.classCount) {
+        cursor = addMinutes(cursor, params.breakDuration);
+      }
+    }
+
+    return intervals;
+  }
+
+  function addIntervalsBulk(gradeIndex: number, params: BulkAddParams) {
+    const grade = grades.value[gradeIndex];
+    if (!grade) return;
+
+    const newIntervals = generateBulkIntervals(params);
+    grade.intervalos.push(...newIntervals);
+    grade.intervalos.sort((a, b) => a.inicio.localeCompare(b.inicio));
   }
 
   const validationErrors = ref<Map<number, GradeValidationErrors>>(new Map());
@@ -285,6 +326,8 @@ export function useGradeHorariaEditor(campusId: MaybeRef<string | null>) {
     removeInterval,
     removeIntervalsByPeriodo,
     clearAllIntervals,
+    generateBulkIntervals,
+    addIntervalsBulk,
     validate,
     validationErrors,
     save,
