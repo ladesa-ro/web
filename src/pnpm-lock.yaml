@@ -30,6 +30,9 @@ importers:
       '@atlaskit/pragmatic-drag-and-drop-hitbox':
         specifier: ^1.1.0
         version: 1.1.0
+      '@internationalized/date':
+        specifier: ^3.12.0
+        version: 3.12.0
       '@ladesa-ro/web.api.client':
         specifier: workspace:*
         version: link:../../packages/ladesa-api-client
