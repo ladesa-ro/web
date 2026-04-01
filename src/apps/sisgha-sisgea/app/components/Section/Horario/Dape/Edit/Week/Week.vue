@@ -83,6 +83,7 @@ const startHours: Ref<HoursPerShift> = ref(
           >
             <div
               v-for="(hour, hourShift) in startHours[shift]"
+              v-show="showBreaks ? true : !hour.includes('intervalo')"
               :key="hourShift"
               class="border-b-2 border-b-ldsa-text-default/55 last:border-b-0 text-center min-h-6 max-lg:h-12 text-[0.813rem] font-medium px-1 py-0.5 h-full flex items-center justify-center"
               :class="
@@ -90,7 +91,6 @@ const startHours: Ref<HoursPerShift> = ref(
                   ? 'bg-ldsa-grey/15 text-ldsa-text-default/55'
                   : 'text-ldsa-text-default/95'
               "
-              v-show="showBreaks ? true : !hour.includes('intervalo')"
             >
               {{ hour.replace(' intervalo', '') }}
             </div>
@@ -108,16 +108,16 @@ const startHours: Ref<HoursPerShift> = ref(
                 v-for="(cell, cellIndex) in day.daySchedule[shift]
                   .shiftSchedule"
                 :key="cell.id"
-                :cellIndex="cellIndex"
-                :shiftName="shift"
-                :shiftIndex="shiftIndex"
-                :dayDate="date"
-                @edit-cell="commit()"
                 v-model="
                   weekSchedule[date]!.daySchedule[shift].shiftSchedule[
                     cellIndex
                   ]!
                 "
+                :cell-index="cellIndex"
+                :shift-name="shift"
+                :shift-index="shiftIndex"
+                :day-date="date"
+                @edit-cell="commit()"
               />
             </div>
           </div>

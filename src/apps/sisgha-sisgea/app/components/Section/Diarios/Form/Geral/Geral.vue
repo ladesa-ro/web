@@ -74,8 +74,8 @@ const salvarTurmas = (turmas: TurmaSelecionada[]) => {
     "
   >
     <SectionDiariosFormGeralDisciplinaTurmas
-      :disciplina="contexto.disciplinaSelecionada"
       ref="gerenciarTurmasRef"
+      :disciplina="contexto.disciplinaSelecionada"
       @close="fecharTudo"
       @back="voltarParaSelect"
       @add="abrirVincularTurmas"

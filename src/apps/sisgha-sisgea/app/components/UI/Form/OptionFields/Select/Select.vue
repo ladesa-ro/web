@@ -42,10 +42,10 @@ const open = ref(false);
       >
         <Viewport>
           <SelectItem
-            mode="select"
             v-for="(item, index) of items"
-            :item="item"
             :key="index"
+            mode="select"
+            :item="item"
           />
         </Viewport>
       </Content>

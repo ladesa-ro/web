@@ -80,8 +80,8 @@ const onClose = () => emit('close');
     class="w-full h-auto max-h-[90vh] overflow-x-hidden overflow-y-auto"
   >
     <WeekdaySelector
-      :items="weekDays"
       v-model="selectedDayWeek"
+      :items="weekDays"
       class="font-semibold"
     />
 

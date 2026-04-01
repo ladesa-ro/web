@@ -112,8 +112,8 @@ const onClose = () => emit('fechar');
     >
       <div>
         <VVAutocomplete
-          :items="['Licença médica', 'Atividade externa', 'Reunião', 'Outro']"
           v-model="novoMotivo"
+          :items="['Licença médica', 'Atividade externa', 'Reunião', 'Outro']"
           placeholder="Digite ou selecione um novo motivo"
           label="Motivo"
           name="motivo"
@@ -167,8 +167,8 @@ const onClose = () => emit('fechar');
     >
       <div>
         <WeekdaySelector
-          :items="weekDays"
           v-model="selectedDayWeek"
+          :items="weekDays"
           class="font-semibold mb-4"
         />
 
@@ -182,8 +182,8 @@ const onClose = () => emit('fechar');
               {{ capitalizeFirst(shift.title) }}
             </h3>
             <UICheckbox
-              :items="shift.times"
               v-model="horariosSelecionados"
+              :items="shift.times"
               class="nunito"
             />
           </div>

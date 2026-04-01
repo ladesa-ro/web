@@ -16,7 +16,7 @@ defineProps<Props>();
     <UIImg
       :src="src"
       class="h-44"
-      fallbackBgColor="rgb(from var(--ladesa-grey-color) R G B / 30%)"
+      fallback-bg-color="rgb(from var(--ladesa-grey-color) R G B / 30%)"
     >
       <template #fallbackIcon>
         <slot name="fallbackIcon" />

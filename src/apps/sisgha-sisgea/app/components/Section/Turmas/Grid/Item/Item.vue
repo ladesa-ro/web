@@ -15,7 +15,7 @@ type Props = {
 
 const { item: turma, link: linkProps } = defineProps<Props>();
 
-let link = linkProps === undefined || linkProps === '' ? 'turmas' : linkProps;
+const link = linkProps === undefined || linkProps === '' ? 'turmas' : linkProps;
 
 //
 
@@ -34,7 +34,7 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
           <EditOrCreateModal
             v-if="editButton"
             :edit-id="turma.id"
-            :formComponent="TurmasForm"
+            :form-component="TurmasForm"
           />
           <IconsArrowAlt
             v-else

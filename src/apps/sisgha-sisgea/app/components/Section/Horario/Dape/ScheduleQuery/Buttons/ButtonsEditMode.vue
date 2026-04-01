@@ -10,8 +10,8 @@ const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
 </script>
 
 <template>
-  <span class="flex gap-2.5" v-if="editMode">
-    <slot> </slot>
+  <span v-if="editMode" class="flex gap-2.5">
+    <slot/>
 
     <!-- <div class="divider" /> -->
 
@@ -30,11 +30,11 @@ const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
 
     <div class="divider" />
 
-    <Button @click="editMode = false" color="var(--ladesa-red-color)">
+    <Button color="var(--ladesa-red-color)" @click="editMode = false">
       <IconsClose class="w-4" />
     </Button>
 
-    <Button @click="editMode = false" color="var(--ladesa-text-green-color)">
+    <Button color="var(--ladesa-text-green-color)" @click="editMode = false">
       <IconsConfirm class="w-5" />
     </Button>
   </span>

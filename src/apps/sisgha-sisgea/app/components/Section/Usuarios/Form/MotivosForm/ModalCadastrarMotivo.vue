@@ -102,12 +102,12 @@ const onClose = () => emit('fechar');
 
       <form
         v-else
-        @submit.prevent="registrarMotivos"
         class="flex flex-col gap-5"
+        @submit.prevent="registrarMotivos"
       >
         <WeekdaySelector
-          :items="weekDays"
           v-model="selectedDayWeek"
+          :items="weekDays"
           class="font-semibold mb-1"
         />
 
@@ -122,8 +122,8 @@ const onClose = () => emit('fechar');
               {{ capitalizeFirst(shift.title) }}
             </h1>
             <UICheckbox
-              :items="shift.times"
               v-model="selectedTimes"
+              :items="shift.times"
               :disabled-items="
                 shift.times.filter(
                   time => !props.horariosSemMotivo.includes(time)
@@ -146,8 +146,8 @@ const onClose = () => emit('fechar');
             >
 
             <VVAutocomplete
-              :items="motivosDisponiveis"
               v-model="motivos[horario]"
+              :items="motivosDisponiveis"
               placeholder="Digite ou selecione um motivo"
               label="Motivo"
               name="motivo"
@@ -203,9 +203,9 @@ const onClose = () => emit('fechar');
               }}</span>
 
               <button
-                @click="excluirMotivo(m.horario)"
                 class="text-ldsa-red hover:text-ldsa-red/75"
                 aria-label="Excluir motivo"
+                @click="excluirMotivo(m.horario)"
               >
                 <IconsExclude class="w-3 h-3" />
               </button>

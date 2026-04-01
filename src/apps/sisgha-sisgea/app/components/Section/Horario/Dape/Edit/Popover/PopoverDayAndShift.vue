@@ -21,7 +21,7 @@ const inPersonSelectedItem = ref('presencial');
       <slot />
     </template>
 
-    <UIToggle :items="schoolDayItems" v-model="schoolDaySelectedItem" />
+    <UIToggle v-model="schoolDaySelectedItem" :items="schoolDayItems" />
 
     <UIToggle
       v-if="schoolDaySelectedItem !== 'nao-letivo'"

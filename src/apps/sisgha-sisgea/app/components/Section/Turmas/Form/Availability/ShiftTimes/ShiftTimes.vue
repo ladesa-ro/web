@@ -47,8 +47,8 @@ const toggleAll = (shift: { times: string[] }) => {
           :items="['']"
           :disabled-items="disabledSelectAll"
           :model-value="isAllSelected(shift) ? [''] : []"
-          @update:modelValue="() => toggleAll(shift)"
           class="mr-2 w-5 h-5"
+          @update:model-value="() => toggleAll(shift)"
         />
         <h1 class="font-medium">{{ capitalizeFirst(shift.title) }}</h1>
       </div>
@@ -57,7 +57,7 @@ const toggleAll = (shift: { times: string[] }) => {
         :items="shift.times"
         :disabled-items="disabledItems"
         class="nunito flex flex-col justify-between"
-        @update:modelValue="val => emit('update:selectedTimes', val)"
+        @update:model-value="val => emit('update:selectedTimes', val)"
       />
     </div>
   </section>

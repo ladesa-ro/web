@@ -34,9 +34,9 @@ const {
     :type="props.type"
     :error="errorMessage"
     :name="props.name"
-    @blur="handleBlur"
     v-bind="$attrs"
     :label="props.label"
     :placeholder="props.placeholder"
+    @blur="handleBlur"
   />
 </template>

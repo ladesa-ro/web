@@ -44,13 +44,13 @@ function nextForm() {
       :on-close="closeForm"
       title="Selecione uma Disciplina"
     >
-      <UISearchBar class="mt-1.5" v-model="searchBarText" />
+      <UISearchBar v-model="searchBarText" class="mt-1.5" />
 
       <UIRadio
         v-if="radioItems.length"
+        v-slot="{ item, selected }"
         v-model="disciplinaSelecionada"
         :items="radioItems"
-        v-slot="{ item, selected }"
       >
         <div
           class="flex p-5 justify-between items-center border-2 border-ldsa-grey rounded-lg mb-2"
@@ -65,7 +65,7 @@ function nextForm() {
             </span>
           </div>
 
-          <UIRadioCircle :itemValue="item.value" :isSelected="selected" />
+          <UIRadioCircle :item-value="item.value" :is-selected="selected" />
         </div>
       </UIRadio>
       <span v-else-if="isLoading">Carregando...</span>
@@ -74,8 +74,8 @@ function nextForm() {
       <template #button-group>
         <UIButtonModalCancel @click="closeForm" />
         <UIButtonModalAdvance
-          @click="nextForm"
           :disabled="!disciplinaSelecionada"
+          @click="nextForm"
         />
       </template>
     </DialogModalBaseLayout>

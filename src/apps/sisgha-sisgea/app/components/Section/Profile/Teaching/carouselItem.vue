@@ -56,9 +56,9 @@ const disciplinaImageUrl = useApiImageRoute(
       alt="Capa da disciplina."
       class="image w-full min-h-9.5 max-h-14"
       :src="disciplinaImageUrl ?? undefined"
-    />
+    >
 
-    <div v-else class="bg-ldsa-grey/50 w-full min-h-9.5 max-h-14"></div>
+    <div v-else class="bg-ldsa-grey/50 w-full min-h-9.5 max-h-14"/>
 
     <!-- card body -->
     <main class="p-4">
@@ -67,9 +67,9 @@ const disciplinaImageUrl = useApiImageRoute(
       <div class="course-and-classes border-card">
         <!-- navigation -->
         <UIOptionsCarousel
+          v-model="selectedCourse"
           class="pb-2 mb-2 border-b-2 border-b-ldsa-grey"
           :items="coursesCarousel"
-          v-model="selectedCourse"
         >
           <template #toggleButton>
             <IconsArrow class="text-ldsa-text-green" />

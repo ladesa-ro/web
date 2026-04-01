@@ -42,7 +42,7 @@ const imageSrc = computed(() => {
       </span>
     </div>
 
-    <input v-bind="getInputProps()" />
+    <input v-bind="getInputProps()" >
   </div>
 </template>
 

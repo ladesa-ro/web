@@ -52,8 +52,8 @@ const invertItem = (item: ParsedItem) => {
       }"
     >
       <Checkbox
-        class="w-full"
         v-if="$slots['default']"
+        class="w-full"
         :value="item.value"
         @keyup.enter="invertItem(item)"
       >

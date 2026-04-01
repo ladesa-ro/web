@@ -25,11 +25,11 @@ const emit = defineEmits<{
     <VVAutocomplete
       :items="bimestres"
       :model-value="bimestre"
-      @update:modelValue="emit('update:bimestre', $event)"
       class="w-full mb-3"
       label="Bimestre"
       name="bimestre.id"
       placeholder="Selecione um bimestre"
+      @update:model-value="emit('update:bimestre', $event)"
     />
 
     <VVAutocompleteAPIDisciplina name="disciplina.id" />
@@ -39,11 +39,11 @@ const emit = defineEmits<{
     <VVAutocomplete
       :items="turmas"
       :model-value="turma"
-      @update:modelValue="emit('update:turma', $event)"
       class="w-full"
       label="Turma"
       name="turma.id"
       placeholder="Selecione uma turma"
+      @update:model-value="emit('update:turma', $event)"
     />
   </div>
 </template>

@@ -3,7 +3,7 @@ const open = defineModel<boolean>({ required: true, default: false });
 </script>
 
 <template>
-  <UIPopover arrow v-model="open">
+  <UIPopover v-model="open" arrow>
     <template #activator>
       <slot />
     </template>

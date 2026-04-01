@@ -75,10 +75,10 @@ const selectedTags = computed(() => {
 
 <template>
   <AutocompleteRoot
-    :disabled
-    :class="disabled && 'opacity-90 cursor-not-allowed'"
     v-model="primitiveValues"
     v-model:open="open"
+    :disabled
+    :class="disabled && 'opacity-90 cursor-not-allowed'"
     multiple
   >
     <Anchor
@@ -106,10 +106,10 @@ const selectedTags = computed(() => {
 
         <Input
           :placeholder="modelValue.length === 0 ? placeholder : ''"
-          @blur="onBlur?.()"
-          @click="open = true"
           class="flex-1 min-w-20 outline-none"
           as-child
+          @blur="onBlur?.()"
+          @click="open = true"
         >
           <TagsInputInput
             class="outline-none flex-1 min-w-20"
@@ -121,8 +121,8 @@ const selectedTags = computed(() => {
       <button
         v-if="modelValue.length > 0"
         type="button"
-        @click.stop="modelValue = []"
         class="p-1.5 bg-ldsa-grey/20 rounded-full shrink-0"
+        @click.stop="modelValue = []"
       >
         <IconsClose class="w-2.5 h-2.5 text-ldsa-text-default/50" />
       </button>
@@ -145,10 +145,10 @@ const selectedTags = computed(() => {
           </NoResultsState>
 
           <AutocompleteItem
-            mode="autocomplete"
             v-for="item in items"
-            :item="item"
             :key="item.value"
+            mode="autocomplete"
+            :item="item"
           />
         </Viewport>
       </Content>

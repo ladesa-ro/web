@@ -29,17 +29,17 @@ const emit = defineEmits(['update:modelValue', 'blur']);
         <input
           type="color"
           :value="modelValue"
+          class="absolute inset-0 w-[2rem] h-full opacity-0 cursor-pointer"
           @input="
             (e: Event) =>
               emit('update:modelValue', (e.target as HTMLInputElement).value)
           "
-          class="absolute inset-0 w-[2rem] h-full opacity-0 cursor-pointer"
-        />
+        >
 
         <div
           class="h-7 w-7 rounded-md"
           :style="{ backgroundColor: String(modelValue || '#000000') }"
-        ></div>
+        />
 
         <span class="text-sm font-medium px-2">
           {{ String(modelValue).toUpperCase() }}
@@ -59,7 +59,7 @@ const emit = defineEmits(['update:modelValue', 'blur']);
             emit('update:modelValue', (e.target as HTMLInputElement).value)
         "
         @blur="emit('blur')"
-      />
+      >
     </template>
   </div>
   <p v-if="error" class="text-ldsa-red text-xs font-semibold mt-1">

@@ -1,0 +1,45 @@
+{
+  "name": "@ladesa-ro/web.api.client",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/ladesa-api-client/src",
+  "projectType": "library",
+  "targets": {
+    "fetch-spec": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node scripts/fetch-openapi-spec.js",
+        "cwd": "{projectRoot}"
+      },
+      "cache": false
+    },
+    "generate-client": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "openapi-ts && prettier --write ./src/__generated__",
+        "cwd": "{projectRoot}"
+      },
+      "cache": true,
+      "dependsOn": [
+        "fetch-spec"
+      ],
+      "inputs": [
+        "{projectRoot}/openapi-ts.config.mts",
+        "{projectRoot}/openapi-spec.json"
+      ],
+      "outputs": [
+        "{projectRoot}/src/__generated__"
+      ]
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "echo Generated!"
+      },
+      "cache": false,
+      "dependsOn": [
+        "fetch-spec",
+        "generate-client"
+      ]
+    }
+  }
+}

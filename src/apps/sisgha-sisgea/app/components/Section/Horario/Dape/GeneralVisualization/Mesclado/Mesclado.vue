@@ -56,7 +56,7 @@ const selectedCheckboxes = ref([]);
 <template>
   <div class="flex max-lg:flex-col gap-6 justify-between w-full">
     <div class="flex flex-col gap-5 w-full lg:max-w-3xs">
-      <UIToggle :items="toggleItems" v-model="toggleValue" />
+      <UIToggle v-model="toggleValue" :items="toggleItems" />
 
       <UISearchBar v-model="searchBarValue" />
 

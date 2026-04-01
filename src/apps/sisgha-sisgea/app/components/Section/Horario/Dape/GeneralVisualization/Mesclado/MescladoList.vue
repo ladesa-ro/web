@@ -22,15 +22,15 @@ const selectedCheckboxes = defineModel<AcceptableValue[]>();
 <template>
   <div class="flex flex-col max-h-64 sm:max-h-76 overflow-y-auto">
     <UICheckbox
+      v-slot="{ item, invertItem, selected }"
       v-model="selectedCheckboxes"
       :items="filteredItems"
-      v-slot="{ item, invertItem, selected }"
       gap="0"
     >
       <div
         class="flex items-center p-3 gap-2 border-t-1 border-t-ldsa-grey/50 font-medium"
       >
-        <UICheckboxSquare @click="invertItem(item)" :item :active="selected" />
+        <UICheckboxSquare :item :active="selected" @click="invertItem(item)" />
 
         <span class="truncate text-sm">
           {{ item.label }}

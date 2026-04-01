@@ -45,9 +45,9 @@ const sisgeaTo = computed(() =>
       </NuxtLink>
 
       <UIButtonModalCancel
-        @click="open = false"
         variant="small"
         class="mt-3 w-full"
+        @click="open = false"
       />
     </div>
   </UIPopover>

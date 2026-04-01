@@ -32,15 +32,15 @@ const finalDate = ref(dayjs().add(1, 'week').format('DD/MM/YYYY'));
 
 <template>
   <DialogSkeleton
+    v-model="isModalActive"
     disable-inline-block
     class="flex justify-center"
-    v-model="isModalActive"
   >
     <template #activator>
       <UIButtonDefault
         v-if="mode === 'green'"
-        outlineOnClink
         ref="generateButton"
+        outline-on-clink
         class="fixed bottom-14 sm:bottom-16 md:bottom-18 2xl:bottom-26 z-10 w-max shadow-[0_7.5px_15px_rgba(0,0,0,0.2)] transition-[translate,filter,scale] duration-[400ms,200ms,100ms] ease-in-out will-change-[transform,filter] hover:brightness-95 active:scale-97"
         :class="{
           'translate-y-[100vh] duration-[1050ms,200ms,100ms]':
@@ -62,14 +62,14 @@ const finalDate = ref(dayjs().add(1, 'week').format('DD/MM/YYYY'));
       />
     </template>
 
-    <DialogModalBaseLayout title="Gerar Horário Acadêmico" :onClose="onClose">
+    <DialogModalBaseLayout title="Gerar Horário Acadêmico" :on-close="onClose">
       <VVAutocompleteAPIOfertaFormacao name="ofertaFormacao" class="mt-1" />
 
-      <hr class="border border-ldsa-grey" />
+      <hr class="border border-ldsa-grey" >
 
       <UITitle text="O horário deve ser..." variant="mini" />
 
-      <UIToggle :items="toggleItems" v-model="toggleValue" />
+      <UIToggle v-model="toggleValue" :items="toggleItems" />
 
       <div class="flex max-sm:flex-col gap-5">
         <!-- TODO: implementar date picker do reka-ui nesses dois textfields -->
@@ -101,7 +101,7 @@ const finalDate = ref(dayjs().add(1, 'week').format('DD/MM/YYYY'));
         message="Ao passar a data de término, este horário temporário será substituído pelo horário permanente atualmente utilizado."
       />
 
-      <div class="lg:h-10"></div>
+      <div class="lg:h-10"/>
 
       <template #button-group>
         <UIButtonModalCancel @click="onClose" />

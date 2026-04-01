@@ -75,11 +75,11 @@ const openSectionsCount = computed(() => {
 
 <template>
   <form
-    @submit.prevent="onSubmit"
     class="grid gap-4"
     :style="{
       gridTemplateColumns: `repeat(${openSectionsCount}, 1fr)`,
     }"
+    @submit.prevent="onSubmit"
   >
     <UIFormLayout
       v-show="!isEditingAvailability"
@@ -112,8 +112,8 @@ const openSectionsCount = computed(() => {
     </UIFormLayout>
 
     <SectionTurmasFormAvailability
-      ref="availabilityRef"
       v-show="isAvailabilityOpen"
+      ref="availabilityRef"
       :turma-id="editId"
       :mode="mode"
       :campus-id="campusId"

@@ -60,7 +60,7 @@ function onClose() {
 }
 
 async function formStage(v: 'next' | 'prev') {
-  if (calendarCrudRef && stage.value > 0) {
+  if (calendarCrudRef.value && stage.value > 0) {
     if (v === 'next' && (await calendarCrudRef.value.formValidation()))
       stage.value++;
     else if (v === 'prev') stage.value--;
@@ -163,8 +163,8 @@ async function handleDelete() {
         />
 
         <SectionCalendarioUICardOption
-          class="w-full"
           v-show="props.calendarId"
+          class="w-full"
           :icon="cardIcons[1]!.icon"
           :text="cardIcons[1]!.text"
           @click="(selectRegisterType(cardIcons[1]!.text), formStage('next'))"
@@ -173,18 +173,18 @@ async function handleDelete() {
 
       <!-- Calendar Form -->
       <SectionCalendarioFormCrudCalendar
-        ref="calendarCrudRef"
         v-show="registerType === 'calendar' || props.editMode === 'calendar'"
+        ref="calendarCrudRef"
         :form-stage="stage"
       />
 
       <!-- Event Form -->
       <SectionCalendarioFormCrudEvents
-        ref="eventCrudRef"
         v-show="
           props.editMode === 'events' ||
           (registerType === 'events' && stage > 0)
         "
+        ref="eventCrudRef"
         :form-stage="stage"
         :calendar-id="props.calendarId! || ''"
         :event-name="props.eventName"
@@ -194,24 +194,24 @@ async function handleDelete() {
       <template #button-group>
         <UIButtonModalGoBack
           v-show="stage > 0 && !props.editMode"
-          @click.prevent="formStage('prev')"
           class="flex w-full"
+          @click.prevent="formStage('prev')"
         />
         <UIButtonModalCancel
-          @click="onClose"
           type="close"
           class="flex w-full"
+          @click="onClose"
         />
         <UIButtonModalDelete
           v-show="props.editMode === 'events'"
-          @click.prevent="handleDelete"
           class="flex w-full"
+          @click.prevent="handleDelete"
         />
 
         <UIButtonModalAdvance
           v-if="stage < 3 && stage > 0 && registerType !== 'events'"
-          @click.prevent="formStage('next')"
           class="flex w-full"
+          @click.prevent="formStage('next')"
         />
         <UIButtonModalSave
           v-else-if="stage > 0 && (registerType === 'events' || stage > 2)"

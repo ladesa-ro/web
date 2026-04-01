@@ -34,8 +34,8 @@ const carregarMais = () => {
 
     <div
       v-if="aulasExibidas < aulas.length"
-      @click="carregarMais"
       class="aula-more bg-ldsa-white-1/25 flex items-center justify-center border-ldsa-grey border-x-2 border-b-2 rounded-b-lg p-[0.4rem] cursor-pointer bg-ldsa-grey/25"
+      @click="carregarMais"
     >
       <p class="text-medium text-[11px]">Ver Mais +</p>
     </div>

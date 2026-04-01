@@ -141,18 +141,18 @@ function setDiaSelecionado(dia: string) {
     <SectionUsuariosFormProfile
       v-show="isProfileOpen"
       :edit-id="editId"
-      @close="onClose"
       class="w-full flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
+      @close="onClose"
     />
     <SectionUsuariosModalsFormDialogAvailability
       v-show="isAvailabilityOpen"
       :selected-day-week="diaSelecionado"
       :motivos-confirmados="motivosConfirmados"
+      class="w-full flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
       @abrir-modal="abrirModal"
       @atualizar-horarios-sem-motivo="atualizarHorariosSemMotivo"
       @atualizar-motivos="atualizarMotivos"
       @atualizar-dia-selecionado="setDiaSelecionado"
-      class="w-full flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
     />
   </SectionUsuariosForm>
 
@@ -165,7 +165,7 @@ function setDiaSelecionado(dia: string) {
     "
   >
     <ModalCadastrarMotivo
-      :horariosSemMotivo="horariosSemMotivo"
+      :horarios-sem-motivo="horariosSemMotivo"
       @fechar="fecharTodosModais"
       @cadastrar="adicionarMotivo"
     />
@@ -180,7 +180,7 @@ function setDiaSelecionado(dia: string) {
     "
   >
     <ModalConsultarMotivo
-      :motivosConfirmados="motivosConfirmados"
+      :motivos-confirmados="motivosConfirmados"
       :selected-day-week="diaSelecionado"
       @fechar="fecharTodosModais"
     />
@@ -195,7 +195,7 @@ function setDiaSelecionado(dia: string) {
     "
   >
     <ModalListarMotivos
-      :motivosConfirmados="motivosConfirmados"
+      :motivos-confirmados="motivosConfirmados"
       :selected-day-week="diaSelecionado"
       @fechar="fecharTodosModais"
       @editar="(payload: MotivoSelecionado) => abrirModal('editar', payload)"
@@ -213,10 +213,10 @@ function setDiaSelecionado(dia: string) {
   >
     <ModalEditarMotivo
       v-if="motivoSelecionado"
-      :motivoAtual="motivoSelecionado"
+      :motivo-atual="motivoSelecionado"
       :selected-day-week="diaSelecionado"
       @fechar="fecharTodosModais"
-      @atualizarComHorarios="atualizarMotivoEditadoComHorarios"
+      @atualizar-com-horarios="atualizarMotivoEditadoComHorarios"
       @deletar="deletarMotivo"
     />
   </DialogSkeleton>

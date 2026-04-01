@@ -11,11 +11,11 @@ defineProps<Props>();
 
 <template>
   <a
+    :key="link.href"
     :class="[
       'flex justify-strech items-center gap-2.5 rounded-sm px-3.5 py-2 text-sm font-medium tracking-[0.075em]',
       'hover:bg-ldsa-grey/30 active:bg-ldsa-grey/60 transition-[background-color] duration-200',
     ]"
-    :key="link.href"
     :href="link.href"
     target="_blank"
     rel="noopener noreferrer"

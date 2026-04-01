@@ -40,9 +40,9 @@ const footerLinks = [
       class="flex flex-col-reverse lg:flex-row flex-wrap justify-center md:justify-start items-center gap-2 min-xl:px-24 max-lg:px-16 py-3 w-full max-w-[89%] mx-auto"
     >
       <p
-        class="block"
         v-for="copyrightOwner of copyrightOwners"
         :key="copyrightOwner.id"
+        class="block"
       >
         <span>© </span>
 

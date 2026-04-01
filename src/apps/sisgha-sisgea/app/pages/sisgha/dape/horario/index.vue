@@ -20,7 +20,7 @@ const { values, turmasOptions } = useHorarioDapeFilters();
         v-if="selectedToggleItem === 'professor'"
         items-link="horario/professor"
         :edit-button="false"
-        :defaultStyle="false"
+        :default-style="false"
         :crud-enable="false"
       />
     </KeepAlive>
@@ -29,7 +29,7 @@ const { values, turmasOptions } = useHorarioDapeFilters();
       <UIAPIList
         v-if="selectedToggleItem === 'turma'"
         :options="turmasOptions"
-        :defaultStyle="false"
+        :default-style="false"
         search-bar-container-style="flex max-lg:flex-col sm:gap-3 gap-4"
       >
         <template #options-actions>

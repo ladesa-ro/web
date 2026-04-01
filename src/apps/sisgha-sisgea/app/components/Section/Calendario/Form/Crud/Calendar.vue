@@ -16,7 +16,7 @@ type Props = {
 };
 
 const props = defineProps<Props>();
-let _formStage = ref<number>(0);
+const _formStage = ref<number>(0);
 
 type FormValues = {
   calendarName?: string;
@@ -25,8 +25,8 @@ type FormValues = {
   campus?: string;
 };
 
-let calendarStepAmount = ref<number>(0);
-let calendarRecoveryAmount = ref<number>(0);
+const calendarStepAmount = ref<number>(0);
+const calendarRecoveryAmount = ref<number>(0);
 const stepRefs = ref<InstanceType<typeof Step>[]>([]);
 
 async function setCalendarStepAmount() {
@@ -125,7 +125,7 @@ async function onSubmit(): Promise<string> {
   );
 }
 
-let formValidation = async (): Promise<boolean> => {
+const formValidation = async (): Promise<boolean> => {
   const { valid } = await validate();
   if (!valid) return false;
   return true;
@@ -186,10 +186,10 @@ watch(
       <VVCalendarStep
         v-for="(calendarStep, index) in calendarStepAmount"
         :key="index"
+        ref="stepRefs"
         :text="`Etapa ${index + 1}`"
         :calendar-id="createdCalendarId!"
         :is-step="true"
-        ref="stepRefs"
       />
     </div>
 

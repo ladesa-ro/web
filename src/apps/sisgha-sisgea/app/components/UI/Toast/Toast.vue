@@ -75,7 +75,7 @@ function handleActionClick(t: ToastItem) {
           <ToastTitle class="font-semibold text-sm">{{
             toast.title
           }}</ToastTitle>
-          <ToastDescription as-child v-if="toast.description">
+          <ToastDescription v-if="toast.description" as-child>
             <div class="text-xs font-semibold text-slate-700">
               {{ toast.description }}
             </div>
@@ -90,8 +90,8 @@ function handleActionClick(t: ToastItem) {
             alt-text="Fechar toast"
           >
             <button
-              @click="handleActionClick(toast)"
               class="px-2 py-1 rounded text-xs"
+              @click="handleActionClick(toast)"
             >
               {{ toast.actionLabel }}
             </button>

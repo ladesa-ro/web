@@ -182,12 +182,12 @@ defineExpose({
           <!-- opções -->
           <div class="flex gap-2">
             <UIRadio
+              v-slot="{ item, selected }"
               v-model="selectedOptionMap[turma.id]"
               :items="[
                 { value: 'aulas', label: 'Aulas Agrupadas' },
                 { value: 'professores', label: 'Professores' },
               ]"
-              v-slot="{ item, selected }"
               class="grid grid-cols-2 gap-2 w-full"
             >
               <div
@@ -286,9 +286,9 @@ defineExpose({
             <!-- lista de usuários filtrados -->
             <div class="gap-3 flex flex-col">
               <UICheckbox
+                v-slot="{ item, selected, invertItem }"
                 v-model="professoresSelecionados"
                 :items="professoresFiltrados"
-                v-slot="{ item, selected, invertItem }"
               >
                 <div
                   class="flex items-center gap-3 border-2 rounded-lg pr-3 mb-2 cursor-pointer transition-all duration-200"

@@ -29,7 +29,7 @@ defineSlots<Slots>();
       v-if="src"
       class="flex justify-center w-full h-full backdrop-blur-xs backdrop-brightness-75"
     >
-      <img :alt="alt" :src="src" class="max-h-full object-contain" />
+      <img :alt="alt" :src="src" class="max-h-full object-contain" >
     </div>
 
     <!-- fallback -->

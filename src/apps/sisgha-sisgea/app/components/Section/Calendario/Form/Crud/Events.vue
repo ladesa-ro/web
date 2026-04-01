@@ -83,7 +83,7 @@ const getEvent = async () => {
   }
 };
 
-let isEvent = ref<boolean | null>(null);
+const isEvent = ref<boolean | null>(null);
 
 type FormValues = {
   eventName: string;
@@ -230,56 +230,56 @@ defineExpose({ validateEventCrud, fillForm, deleteEvent });
     <!-- Event - Data -->
     <div v-if="!isLoading" class="flex flex-col gap-4 overflow-visible mt-1">
       <VVTextField
+        v-model="values.eventName"
         name="eventName"
         type="text"
         label="Nome"
         placeholder="Digite aqui"
-        v-model="values.eventName"
         :disabled="!!isEvent"
       />
       <VVAutocompleteAPIAmbiente
+        v-model="values.eventEnvironment"
         name="eventEnvironment"
         type="text"
         label="Ambientes"
         placeholder="Digite aqui"
-        v-model="values.eventEnvironment"
       />
 
       <VVTextField
+        v-model="values.eventColor"
         name="eventColor"
         type="color"
         label="Cor"
-        v-model="values.eventColor"
       />
 
       <div class="flex gap-4">
         <VVTextField
+          v-model="values.eventStartDate"
           name="eventStartDate"
           type="date"
           label="Início"
-          v-model="values.eventStartDate"
           class="flex-1 flex-col"
         />
         <VVTextField
+          v-model="values.eventStartHour"
           name="eventStartHour"
           type="time"
           label="Horario de início"
-          v-model="values.eventStartHour"
         />
       </div>
 
       <div class="flex gap-4">
         <VVTextField
+          v-model="values.eventEndDate"
           name="eventEndDate"
           type="date"
           label="Término"
-          v-model="values.eventEndDate"
         />
         <VVTextField
+          v-model="values.eventEndHour"
           name="eventEndHour"
           type="time"
           label="Horario de Término"
-          v-model="values.eventEndHour"
         />
       </div>
     </div>

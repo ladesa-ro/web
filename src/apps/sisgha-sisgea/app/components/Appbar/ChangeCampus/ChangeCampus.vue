@@ -79,7 +79,7 @@ const open = ref(false);
 </script>
 
 <template>
-  <UIPopover v-model="open" v-if="showSelector">
+  <UIPopover v-if="showSelector" v-model="open">
     <template #activator>
       <div
         class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden"
@@ -103,9 +103,9 @@ const open = ref(false);
       <UITitle variant="mini" text="Alternar campus" class="mb-4" />
 
       <UIRadio
+        v-slot="{ item, selected }"
         v-model="selectedCampus"
         :items="toggleCampusItems"
-        v-slot="{ item, selected }"
       >
         <button
           :class="[
@@ -129,9 +129,9 @@ const open = ref(false);
         <UIButtonModalCancel variant="small" @click="open = false" />
 
         <UIButtonModalConfirm
-          @click="changeCampus()"
           :disabled="selectedCampusGlobalState === selectedCampus"
           variant="small"
+          @click="changeCampus()"
         />
       </span>
     </div>

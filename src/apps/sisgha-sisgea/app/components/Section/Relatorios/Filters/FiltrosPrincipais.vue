@@ -17,21 +17,21 @@ const emit = defineEmits<{
     <VVAutocomplete
       :items="professores"
       :model-value="professor"
-      @update:modelValue="emit('update:professor', $event)"
       class="w-full xl:col-span-2"
       label="Professor"
       name="professor.id"
       placeholder="Selecione um professor"
+      @update:model-value="emit('update:professor', $event)"
     />
 
     <VVAutocomplete
       :items="semestres"
       :model-value="semestre"
-      @update:modelValue="emit('update:semestre', $event)"
       class="w-full"
       label="Semestre"
       name="semestre.id"
       placeholder="Selecione um semestre"
+      @update:model-value="emit('update:semestre', $event)"
     />
   </div>
 </template>

@@ -18,15 +18,15 @@ const { isLoading, isError, data } = useQuery({
 
 <template>
   <SectionProfileSectionsLayout :icon="IconsDiscipline" title="Ensino">
-    <div class="state-warning" v-if="isLoading">Carregando...</div>
+    <div v-if="isLoading" class="state-warning">Carregando...</div>
 
-    <div class="state-warning" v-else-if="isError">
+    <div v-else-if="isError" class="state-warning">
       Ocorreu um erro inesperado ao buscar as disciplinas vinculadas a este
       usuário.
     </div>
 
     <template v-else-if="data">
-      <div class="state-warning" v-if="data.disciplinas.length === 0">
+      <div v-if="data.disciplinas.length === 0" class="state-warning">
         Ainda não há disciplinas vinculadas a este usuário.
       </div>
 

@@ -62,13 +62,13 @@ const open = defineModel<boolean>('open', {
 
         <SectionConsultaAccordionOptions
           v-else
-          @option-selected="
-            itemSelected => $emit('option-selected', { itemSelected, title })
-          "
           v-model="selectedOption"
           :items="items"
           :loading
           :error
+          @option-selected="
+            itemSelected => $emit('option-selected', { itemSelected, title })
+          "
         />
       </template>
     </div>

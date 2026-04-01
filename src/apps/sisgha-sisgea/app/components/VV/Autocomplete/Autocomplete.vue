@@ -20,9 +20,9 @@ const {
 
 <template>
   <UIFormOptionFieldsAutocomplete
+    v-model:search-term="searchValue"
+    v-model:selected-option="modelValue"
     :items="items"
-    v-model:searchTerm="searchValue"
-    v-model:selectedOption="modelValue"
     :error="errorMessage"
     :on-blur="handleBlur"
     v-bind="$attrs"

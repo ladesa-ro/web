@@ -28,13 +28,13 @@ onMounted(() => {
     <button
       v-for="(item, index) in items"
       :key="index"
-      @click="selectItem(index)"
       class="flex-1 text-center font-semibold py-4 px-2 rounded-xl border-2 border-ldsa-green-1"
       :class="{
         'bg-ldsa-green-1 text-white': selectedIndex === index,
         'text-ldsa-text-green': selectedIndex !== index,
       }"
       type="button"
+      @click="selectItem(index)"
     >
       {{ item.label.slice(0, 3) }}
     </button>

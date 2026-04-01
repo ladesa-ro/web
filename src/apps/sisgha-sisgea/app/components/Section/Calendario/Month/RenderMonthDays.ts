@@ -8,7 +8,7 @@ import type { CalendarEvent, Day, EmptyDays } from '../Types';
 
 export const renderDays = {
   EmptyDays: (year: number, month: number): EmptyDays => {
-    let emptyDays: EmptyDays = {
+    const emptyDays: EmptyDays = {
       before: 0,
       after: 0,
     };
@@ -36,7 +36,7 @@ export const renderDays = {
     events: Array<CalendarEvent>,
     calendarId: string
   ): Promise<Day[]> => {
-    let days: Array<Day> = [];
+    const days: Array<Day> = [];
 
     try {
       // Formatting Days
@@ -46,7 +46,7 @@ export const renderDays = {
         Number(dayjs(`${year}-${currentMonth}-01`).endOf('month').format('D'));
         i++
       ) {
-        let day: Day = {
+        const day: Day = {
           date: dayjs(`${year}-${currentMonth}-${i + 1}`).format('YYYY-MM-DD'),
           color: 'none',
         };

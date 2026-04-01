@@ -10,7 +10,7 @@ type Props = {
 };
 const { usuario, link: linkProps, editButton = true } = defineProps<Props>();
 
-let link = linkProps === undefined || linkProps === '' ? 'usuarios' : linkProps;
+const link = linkProps === undefined || linkProps === '' ? 'usuarios' : linkProps;
 
 const vinculos = computed(() => usuario.vinculos ?? []);
 
@@ -47,7 +47,7 @@ const profilePicureUrl = useApiImageRoute(
       </template>
 
       <template #actions>
-        <SectionUsuariosModalsForm v-if="editButton" :editId="usuario.id" />
+        <SectionUsuariosModalsForm v-if="editButton" :edit-id="usuario.id" />
         <IconsArrowAlt
           v-else
           class="w-4.5 rotate-180 mr-1 arrow-behaviour transition-transform"

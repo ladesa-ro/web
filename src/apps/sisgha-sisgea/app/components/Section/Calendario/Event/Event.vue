@@ -74,10 +74,10 @@ const remainingDays = computed(() => {
       </li>
     </ul>
 
-    <p class="text-sm font-medium" v-if="notStarted">
+    <p v-if="notStarted" class="text-sm font-medium">
       Começa em {{ remainingDays }} dias.
     </p>
-    <p class="text-sm font-medium" v-else-if="inProgress">
+    <p v-else-if="inProgress" class="text-sm font-medium">
       Termina em {{ remainingDays }} dias.
     </p>
 

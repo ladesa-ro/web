@@ -61,7 +61,7 @@ const aulasRedes = [
       Relatório de Aulas Ministradas
     </h2>
 
-    <hr class="divider flex-grow pt-5 border-t border-ldsa-grey" />
+    <hr class="divider flex-grow pt-5 border-t border-ldsa-grey" >
 
     <div class="info flex flex-wrap">
       <p class="text-[12px] mb-2 w-1/2">
@@ -78,7 +78,7 @@ const aulasRedes = [
       </p>
     </div>
 
-    <hr class="divider flex-grow pt-5 border-t border-ldsa-grey" />
+    <hr class="divider flex-grow pt-5 border-t border-ldsa-grey" >
 
     <div class="content">
       <RelatorioAula
@@ -101,8 +101,8 @@ const aulasRedes = [
     </div>
 
     <button
-      @click="onClose"
       class="mt-4 px-4 py-2 bg-ldsa-green-1 text-white rounded text-[12px]"
+      @click="onClose"
     >
       Fechar
     </button>

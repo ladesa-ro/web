@@ -29,8 +29,8 @@ const selectedRadio = defineModel<AcceptableValue>({ default: null });
 
       <template v-else>
         <UIRadioCircle
-          :itemValue="item.value"
-          :isSelected="selectedRadio === item.value"
+          :item-value="item.value"
+          :is-selected="selectedRadio === item.value"
         />
 
         {{ item.label }}

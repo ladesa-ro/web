@@ -122,16 +122,16 @@ const onClose = () => emit('fechar');
 
             <div class="flex gap-2 items-center shrink-0">
               <button
-                @click="emit('editar', item)"
                 aria-label="Editar motivo"
                 class="hover:text-ldsa-green-1"
+                @click="emit('editar', item)"
               >
                 <IconsEdit class="text-ldsa-text-default w-3 h-3" />
               </button>
               <button
-                @click="emit('deletar', item.motivo)"
                 aria-label="Excluir motivo"
                 class="hover:text-ldsa-red"
+                @click="emit('deletar', item.motivo)"
               >
                 <IconsExclude class="text-ldsa-red w-3 h-3" />
               </button>

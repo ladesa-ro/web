@@ -33,7 +33,7 @@ const selectedItem = defineModel<Item>();
 
 //
 
-let selectedIndex = ref(selectedItemDefaultIndex);
+const selectedIndex = ref(selectedItemDefaultIndex);
 
 // logic based in modular math!
 function navigate(num: number) {
@@ -56,8 +56,8 @@ onMounted(() => {
       v-if="omitTogglesWhenItemsLengthIsOne ? items.length > 1 : true"
       :disabled="items.length === 1"
       :style="togglePadding"
-      @click="navigate(-1)"
       class="disabled:opacity-40"
+      @click="navigate(-1)"
     >
       <slot name="toggleButton" />
     </button>

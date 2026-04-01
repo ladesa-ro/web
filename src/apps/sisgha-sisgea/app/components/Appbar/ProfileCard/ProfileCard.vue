@@ -32,7 +32,7 @@ const handleCargoClick = (cargo: string) => {
       :src="profilePicureUrl"
       alt="Foto de perfil."
       class="max-[21.5rem]:hidden min-w-9 max-w-9 h-9 sm:min-w-12 sm:max-w-12 sm:h-12 rounded-full"
-      fallbackBgColor="var(--ladesa-green-1-color)"
+      fallback-bg-color="var(--ladesa-green-1-color)"
     >
       <template #fallbackIcon>
         <IconsUser class="text-ldsa-white w-5 mb-px" />

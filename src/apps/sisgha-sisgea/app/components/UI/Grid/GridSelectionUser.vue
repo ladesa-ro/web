@@ -12,7 +12,7 @@ const slots = defineSlots<{
 
 <template>
   <div class="px-4">
-    <div class="grid grid-cols-1 gap-4" v-if="items">
+    <div v-if="items" class="grid grid-cols-1 gap-4">
       <template v-for="item in items" :key="item.id">
         <slot name="item" v-bind="{ item: item as T }" />
       </template>

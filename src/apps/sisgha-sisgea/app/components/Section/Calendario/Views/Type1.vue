@@ -26,7 +26,7 @@ const { events, reload } = useCalendarEvents(calendarId);
         v-for="event in events"
         :key="event.id"
         :event="event"
-        :calendarId="props.calendarData.id"
+        :calendar-id="props.calendarData.id"
         @refresh="reload"
       />
     </div>

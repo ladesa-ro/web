@@ -165,20 +165,20 @@ onBeforeUnmount(() => {
       <VVAutocomplete
         :items="sortOptions"
         :model-value="sortBy"
-        @update:modelValue="sortBy = $event"
         class="w-full"
         label="Classificar por"
         name="sortBy"
         placeholder="Selecione uma opção"
+        @update:model-value="sortBy = $event"
       />
       <VVAutocomplete
         :items="orderOptions"
         :model-value="sortOrder"
-        @update:modelValue="sortOrder = $event"
         class="w-1/2"
         label="Ordem"
         name="sortOrder"
         placeholder="Selecione a ordem"
+        @update:model-value="sortOrder = $event"
       />
     </div>
 
@@ -194,7 +194,7 @@ onBeforeUnmount(() => {
             <div
               class="rounded-full w-3 h-3"
               :style="{ backgroundColor: event.color || '#ddd' }"
-            ></div>
+            />
             <h2 class="font-bold text-base">
               {{ event.name }}
             </h2>
@@ -211,10 +211,10 @@ onBeforeUnmount(() => {
           </li>
         </ul>
 
-        <p class="my-2" v-if="isNotStarted(event)">
+        <p v-if="isNotStarted(event)" class="my-2">
           Começa em <span>{{ remainingDays(event) }}</span> dias.
         </p>
-        <p class="my-2" v-else-if="isInProgress(event)">
+        <p v-else-if="isInProgress(event)" class="my-2">
           Termina em <span>{{ remainingDays(event) }}</span> dias.
         </p>
 
@@ -235,9 +235,9 @@ onBeforeUnmount(() => {
     <!-- Botão fechar -->
     <template #button-group>
       <UIButtonModalCancel
-        @click="closeModal"
         type="close"
         class="flex w-full"
+        @click="closeModal"
       />
     </template>
   </DialogModalBaseLayout>

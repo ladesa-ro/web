@@ -57,10 +57,10 @@ const customError = computed(() =>
 
 <template>
   <AutocompleteRoot
-    :disabled
-    :class="disabled && 'opacity-90 cursor-not-allowed'"
     v-model="selectedOption"
     v-model:open="open"
+    :disabled
+    :class="disabled && 'opacity-90 cursor-not-allowed'"
   >
     <Anchor
       class="input-base flex justify-between items-center"
@@ -71,16 +71,16 @@ const customError = computed(() =>
       <Input
         :v-model="search ?? undefined"
         :placeholder="placeholder"
-        @click="open = !open"
-        @blur="onBlur?.()"
         class="w-full h-full"
         :display-value="value => getDisplayValue(value)"
+        @click="open = !open"
+        @blur="onBlur?.()"
       />
 
       <Cancel
         v-if="selectedOption"
-        @click="selectedOption = null"
         class="p-1.5 bg-ldsa-grey/20 rounded-full"
+        @click="selectedOption = null"
       >
         <IconsClose class="w-2.5 h-2.5 text-ldsa-text-default/50" />
       </Cancel>
@@ -103,10 +103,10 @@ const customError = computed(() =>
           </NoResultsState>
 
           <AutocompleteItem
-            mode="autocomplete"
             v-for="item in items"
-            :item="item"
             :key="item.value"
+            mode="autocomplete"
+            :item="item"
           />
         </Viewport>
       </Content>

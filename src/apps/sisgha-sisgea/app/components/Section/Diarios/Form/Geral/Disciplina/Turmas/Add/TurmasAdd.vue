@@ -142,8 +142,8 @@ const salvarTurmas = () => {
             <UICheckbox
               :items="['']"
               :model-value="isAllSelected(curso) ? [''] : []"
-              @update:modelValue="() => toggleAll(curso)"
               class="mr-2 w-5 h-5"
+              @update:model-value="() => toggleAll(curso)"
               @click.stop
             />
             <p class="flex-grow">{{ curso.nome }}</p>
@@ -167,7 +167,7 @@ const salvarTurmas = () => {
 
       <template #button-group>
         <UIButtonModalGoBack @click="backForm" />
-        <UIButtonModalAdvance @click="salvarTurmas" type="button" /> </template
+        <UIButtonModalAdvance type="button" @click="salvarTurmas" /> </template
       ><!-- botoes -->
     </DialogModalBaseLayout>
   </form>

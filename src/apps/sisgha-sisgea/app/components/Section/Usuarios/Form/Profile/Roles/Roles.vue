@@ -50,7 +50,7 @@ const removeField = (targetIndex: number) => {
 </script>
 
 <template>
-  <hr class="border border-ldsa-grey my-1" />
+  <hr class="border border-ldsa-grey my-1" >
 
   <div
     v-for="(vinculo, index) in vinculos"
@@ -67,9 +67,9 @@ const removeField = (targetIndex: number) => {
       <button
         v-if="index > 0"
         class="shrink-0 flex justify-center text-ldsa-red h-12 w-7 hover:bg-ldsa-red/10 rounded-sm"
-        @click="removeField(index)"
         aria-label="Remover vínculo"
         type="button"
+        @click="removeField(index)"
       >
         <IconsExclude class="w-5" />
       </button>
@@ -90,5 +90,5 @@ const removeField = (targetIndex: number) => {
     <IconsAdd class="w-4" />
   </button>
 
-  <hr class="border border-ldsa-grey my-1" />
+  <hr class="border border-ldsa-grey my-1" >
 </template>

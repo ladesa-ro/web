@@ -1,7 +1,7 @@
 import { defineConfig } from '@hey-api/openapi-ts';
 
 export default defineConfig({
-  input: 'https://dev.ladesa.com.br/api/v1/docs/openapi.v3.json',
+  input: './openapi-spec.json',
 
   output: {
     path: './src/__generated__',

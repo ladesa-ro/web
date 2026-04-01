@@ -11,20 +11,12 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
-    "generate-client": "openapi-ts && prettier --write ./src/__generated__"
+    "fetch-spec": "nx run @ladesa-ro/web.api.client:fetch-spec",
+    "generate-client": "nx run @ladesa-ro/web.api.client:generate-client",
+    "generate": "nx run @ladesa-ro/web.api.client:generate"
   },
   "nx": {
-    "targets": {
-      "generate-client": {
-        "cache": true,
-        "inputs": [
-          "{projectRoot}/openapi-ts.config.mts"
-        ],
-        "outputs": [
-          "{projectRoot}/src/__generated__"
-        ]
-      }
-    }
+    "includedScripts": []
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "^0.94.5",

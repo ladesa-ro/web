@@ -286,6 +286,12 @@ import type {
   GerarHorarioRejeitarData,
   GerarHorarioRejeitarErrors,
   GerarHorarioRejeitarResponses,
+  GradeHorariaFindByCampusData,
+  GradeHorariaFindByCampusErrors,
+  GradeHorariaFindByCampusResponses,
+  GradeHorariaReplaceData,
+  GradeHorariaReplaceErrors,
+  GradeHorariaReplaceResponses,
   HorarioEdicaoApplyChangeData,
   HorarioEdicaoApplyChangeErrors,
   HorarioEdicaoApplyChangeResponses,
@@ -301,12 +307,6 @@ import type {
   HorarioMescladoData,
   HorarioMescladoErrors,
   HorarioMescladoResponses,
-  HorariosDeAulaFindAtualData,
-  HorariosDeAulaFindAtualErrors,
-  HorariosDeAulaFindAtualResponses,
-  HorariosDeAulaReplaceData,
-  HorariosDeAulaReplaceErrors,
-  HorariosDeAulaReplaceResponses,
   ModalidadeCreateData,
   ModalidadeCreateErrors,
   ModalidadeCreateResponses,
@@ -3044,33 +3044,33 @@ export const relatorioAulasMinistradasPdf = <
   >({ url: '/relatorios/aulas-ministradas/pdf', ...options });
 
 /**
- * Retorna os horarios de aula ativos de um campus
+ * Retorna as grades horarias ativas de um campus
  *
- * Retorna os horarios de aula ativos de um campus
+ * Retorna as grades horarias ativas de um campus
  */
-export const horariosDeAulaFindAtual = <ThrowOnError extends boolean = false>(
-  options: Options<HorariosDeAulaFindAtualData, ThrowOnError>
+export const gradeHorariaFindByCampus = <ThrowOnError extends boolean = false>(
+  options: Options<GradeHorariaFindByCampusData, ThrowOnError>
 ) =>
   (options.client ?? client).get<
-    HorariosDeAulaFindAtualResponses,
-    HorariosDeAulaFindAtualErrors,
+    GradeHorariaFindByCampusResponses,
+    GradeHorariaFindByCampusErrors,
     ThrowOnError
-  >({ url: '/horarios-de-aula/{campusId}/atual', ...options });
+  >({ url: '/grades-horarias/{campusId}', ...options });
 
 /**
- * Substitui os horarios de aula de um campus
+ * Substitui as grades horarias de um campus (estado completo)
  *
- * Substitui os horarios de aula de um campus
+ * Substitui as grades horarias de um campus (estado completo)
  */
-export const horariosDeAulaReplace = <ThrowOnError extends boolean = false>(
-  options: Options<HorariosDeAulaReplaceData, ThrowOnError>
+export const gradeHorariaReplace = <ThrowOnError extends boolean = false>(
+  options: Options<GradeHorariaReplaceData, ThrowOnError>
 ) =>
   (options.client ?? client).put<
-    HorariosDeAulaReplaceResponses,
-    HorariosDeAulaReplaceErrors,
+    GradeHorariaReplaceResponses,
+    GradeHorariaReplaceErrors,
     ThrowOnError
   >({
-    url: '/horarios-de-aula/{campusId}',
+    url: '/grades-horarias/{campusId}',
     ...options,
     headers: {
       'Content-Type': 'application/json',

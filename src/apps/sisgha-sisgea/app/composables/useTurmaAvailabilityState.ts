@@ -1,5 +1,5 @@
 import type { Dayjs } from 'dayjs';
-import { FormMode } from '~/utils/constants';
+import type { FormMode } from '~/utils/constants';
 import { getWeekDays } from '~/utils/get-week-days';
 import {
   agruparPorPeriodo,
@@ -9,6 +9,7 @@ import {
 import type { DayShift } from '~/composables/useAvailability';
 import type { IWeekDay } from '~/components/Section/Horario/-Helpers/IWeekDay';
 import type {
+  GradeHorariaItemOutputDto,
   TurmaDisponibilidadeConfigInputDto,
   TurmaDisponibilidadeWeekOutputDto,
 } from '@ladesa-ro/web.api.client';
@@ -19,7 +20,7 @@ export function useTurmaAvailabilityState(
   campusIdExternal?: MaybeRef<string | null>
 ) {
   const dayjs = useDayJs();
-  const horariosDeAula = useHorariosDeAula();
+  const gradesHorarias = useGradesHorarias();
   const disponibilidade = useTurmaDisponibilidade();
 
   // --- Campus ID ---
@@ -45,13 +46,39 @@ export function useTurmaAvailabilityState(
     return currentWeekRef.value.isBefore(thisWeekStart, 'day');
   });
 
-  // --- Campus Schedule (source of checkboxes) ---
+  // --- Campus Grades (multiple grades) ---
 
-  const campusScheduleQuery = horariosDeAula.findAtual(campusId);
+  const campusGradesQuery = gradesHorarias.findByCampus(campusId);
+
+  const campusGrades = computed(() => campusGradesQuery.data.value?.data ?? []);
+
+  // --- Selected Grade ---
+
+  const selectedGradeIdentifier = ref<string | null>(null);
+
+  // Auto-select first grade when grades load and nothing selected
+  watch(
+    campusGrades,
+    (grades) => {
+      if (grades.length > 0 && !selectedGradeIdentifier.value) {
+        selectedGradeIdentifier.value = grades[0]!.identificadorExterno;
+      }
+    },
+    { immediate: true },
+  );
+
+  const selectedGrade = computed((): GradeHorariaItemOutputDto | null =>
+    campusGrades.value.find(
+      (g: GradeHorariaItemOutputDto) => g.identificadorExterno === selectedGradeIdentifier.value,
+    ) ?? null,
+  );
+
+  // --- Campus Shifts (derived from selected grade) ---
 
   const campusShifts = computed<DayShift[]>(() => {
-    const items = campusScheduleQuery.data.value?.data ?? [];
-    const intervalos = items.map(item => ({
+    const grade = selectedGrade.value;
+    if (!grade) return [];
+    const intervalos = grade.intervalos.map((item: { inicio: string; fim: string }) => ({
       inicio: item.inicio,
       fim: item.fim,
     }));
@@ -117,16 +144,11 @@ export function useTurmaAvailabilityState(
   });
 
   // --- Pending Save (deferred to form submit) ---
-  // Acumula configs de múltiplas semanas. Chave = data_inicio (domingo da semana).
-  // MUST be declared before the watch that calls findPendingForWeek.
 
   const pendingConfigs = ref<Map<string, TurmaDisponibilidadeConfigInputDto>>(new Map());
 
   const hasPendingSave = computed(() => pendingConfigs.value.size > 0);
 
-  /** Resolve a config pendente aplicável a uma semana.
-   *  1. Match exato por data_inicio
-   *  2. Senão, config com data_fim === null cujo data_inicio <= weekSunday (a mais recente) */
   function findPendingForWeek(weekSunday: string): TurmaDisponibilidadeConfigInputDto | undefined {
     const exact = pendingConfigs.value.get(weekSunday);
     if (exact) return exact;
@@ -158,6 +180,16 @@ export function useTurmaAvailabilityState(
     return mapped;
   };
 
+  // Sync selected grade from server config
+  function syncGradeFromConfig(data: TurmaDisponibilidadeWeekOutputDto | undefined) {
+    if (!data?.configs?.length) return;
+    const config = data.configs[0]!;
+    const serverGradeId = config.identificador_externo_grade_horaria ?? null;
+    if (serverGradeId) {
+      selectedGradeIdentifier.value = serverGradeId;
+    }
+  }
+
   function mapPendingToAvailability(
     pending: TurmaDisponibilidadeConfigInputDto
   ): Record<number, string[]> {
@@ -186,13 +218,13 @@ export function useTurmaAvailabilityState(
       if (pending) {
         applyAvailability(mapPendingToAvailability(pending));
       } else {
+        syncGradeFromConfig(data);
         applyAvailability(mapConfigToAvailability(data));
       }
     },
     { immediate: true }
   );
 
-  // Also sync when navigating to a week with pending config (weekQuery.data may not change)
   watch(
     semanaParam,
     weekKey => {
@@ -203,7 +235,6 @@ export function useTurmaAvailabilityState(
     }
   );
 
-  // Set initial selected day when weekDays changes
   watch(
     weekDays,
     days => {
@@ -214,9 +245,22 @@ export function useTurmaAvailabilityState(
     { immediate: true }
   );
 
-  // --- Grade Divergence Detection (via horários do campus) ---
+  // --- Grade Divergence Detection ---
 
   const hasGradeDivergence = computed(() => {
+    if (!selectedGradeIdentifier.value) return false;
+    const data = weekQuery.data.value;
+    if (!data?.configs?.length) return false;
+    const config = data.configs[0]!;
+    const serverGradeId = config.identificador_externo_grade_horaria ?? null;
+
+    // No grade stored in config — legacy data
+    if (!serverGradeId) return true;
+
+    // Grade identifier changed
+    if (serverGradeId !== selectedGradeIdentifier.value) return true;
+
+    // Check if times in availability exist in current grade
     const currentTimes = new Set(allCampusTimes.value);
     if (currentTimes.size === 0) return false;
     for (const times of Object.values(serverAvailability.value)) {
@@ -233,13 +277,15 @@ export function useTurmaAvailabilityState(
     const sunday = currentWeekRef.value;
     const saturday = sunday.add(6, 'day');
 
+    const grade = selectedGrade.value;
+    const gradeIntervalos = grade?.intervalos ?? [];
+
     const horarios = Object.entries(editingAvailability.value)
       .filter(([, times]) => times.length > 0)
       .map(([diaSemana, times]) => {
-        const campusItems = campusScheduleQuery.data.value?.data ?? [];
         const intervalos = times.map(displayTime => {
-          const match = campusItems.find(
-            item => toDisplayFormat(item.inicio) === displayTime
+          const match = gradeIntervalos.find(
+            (item: { inicio: string; fim: string }) => toDisplayFormat(item.inicio) === displayTime
           );
           return {
             inicio: match ? match.inicio : toApiFormat(displayTime),
@@ -255,18 +301,17 @@ export function useTurmaAvailabilityState(
     return {
       data_inicio: sunday.format('YYYY-MM-DD'),
       data_fim: aplicarFuturas ? null : saturday.format('YYYY-MM-DD'),
+      identificador_externo_grade_horaria: selectedGradeIdentifier.value,
       horarios,
-    };
+    } as TurmaDisponibilidadeConfigInputDto;
   }
 
-  /** Confirma edição localmente (sem chamar API). Acumula config pendente. */
   function confirmAvailability(aplicarFuturas: boolean) {
     const config = buildConfig(aplicarFuturas);
     const newMap = new Map(pendingConfigs.value);
     newMap.set(config.data_inicio, config);
     pendingConfigs.value = newMap;
 
-    // Atualiza estado local para refletir a mudança na UI
     const mapped: Record<number, string[]> = {};
     for (const [day, times] of Object.entries(editingAvailability.value)) {
       if (times.length > 0) {
@@ -279,7 +324,6 @@ export function useTurmaAvailabilityState(
     isEditing.value = false;
   }
 
-  /** Envia todas as configs pendentes para a API. Chamado pelo Form.vue no submit. */
   async function saveAvailability() {
     const id = unref(turmaId);
     if (!id || pendingConfigs.value.size === 0) return;
@@ -324,7 +368,6 @@ export function useTurmaAvailabilityState(
     }
   }
 
-  // Prefetch na montagem
   watch(
     () => unref(turmaId),
     id => { if (id) prefetchAdjacentWeeks(); },
@@ -376,9 +419,12 @@ export function useTurmaAvailabilityState(
     goToPrevWeek: () => requestWeekChange('prev'),
     goToNextWeek: () => requestWeekChange('next'),
 
-    // Campus
+    // Campus Grades
+    campusGrades,
+    selectedGradeIdentifier,
+    selectedGrade,
     campusShifts,
-    campusScheduleLoading: campusScheduleQuery.isLoading,
+    campusScheduleLoading: campusGradesQuery.isLoading,
 
     // Disponibilidade
     weekQuery,

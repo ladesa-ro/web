@@ -11,7 +11,7 @@ const hamburgerActive = defineModel<boolean>({
   required: true,
 });
 
-let selectedItem = ref<ISidebarItem | undefined>(undefined);
+const selectedItem = ref<ISidebarItem | undefined>(undefined);
 
 // injected in SidebarItemGroup.vue
 provide('selectedItem', selectedItem);

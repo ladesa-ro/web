@@ -73,13 +73,13 @@ const popoverOpen = ref(false);
 
 <template>
   <div
-    ref="el2"
     v-show="showBreaks ? true : cellInfo.type !== 'intervalo'"
+    ref="el2"
     class="font-medium border-b-2 border-b-ldsa-text-default/55 text-ldsa-text-default/95 last:border-b-0 min-h-6 max-lg:h-12"
   >
     <div
-      ref="el"
       id="cell"
+      ref="el"
       class="py-0.5 text-center text-[0.813rem] h-full relative"
       :class="[
         underAnotherElementDragging &&
@@ -90,8 +90,8 @@ const popoverOpen = ref(false);
       ]"
     >
       <span
-        class="max-w-full whitespace-normal break-word lg:whitespace-nowrap lg:overflow-hidden lg:text-ellipsis h-full flex items-center justify-center"
         v-if="cellInfo.type === 'intervalo'"
+        class="max-w-full whitespace-normal break-word lg:whitespace-nowrap lg:overflow-hidden lg:text-ellipsis h-full flex items-center justify-center"
       >
         Intervalo
       </span>

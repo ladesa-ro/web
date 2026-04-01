@@ -69,12 +69,12 @@ const gerarPDF = () => {
         @update:turma="form.turma = $event"
       />
 
-      <hr class="border-t-2 border-ldsa-grey" />
+      <hr class="border-t-2 border-ldsa-grey" >
 
-      <RelatorioBotoes @visualizar="visualizarRelatorio" @gerarPdf="gerarPDF" />
+      <RelatorioBotoes @visualizar="visualizarRelatorio" @gerar-pdf="gerarPDF" />
 
       <DialogSkeleton v-model="showModal">
-        <RelatorioModal :form="form" :onClose="() => (showModal = false)" />
+        <RelatorioModal :form="form" :on-close="() => (showModal = false)" />
       </DialogSkeleton>
     </div>
   </UIContainer>

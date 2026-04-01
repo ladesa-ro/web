@@ -7,7 +7,7 @@ const showIndisponibilidades = ref(true);
 </script>
 
 <template>
-  <span class="flex gap-2.5" v-show="!editMode">
+  <span v-show="!editMode" class="flex gap-2.5">
     <Button
       text="Indisponibilidades"
       @click="showIndisponibilidades = !showIndisponibilidades"

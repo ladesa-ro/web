@@ -3,7 +3,7 @@
 import { ref } from 'vue';
 import SearchBar from '~/components/UI/SearchBar/SearchBar.vue';
 import type { CalendarEvent } from '../Types';
-import Events from './Crud/Events.vue';
+import type Events from './Crud/Events.vue';
 
 // # CODE
 type Props = {
@@ -70,9 +70,9 @@ console.log(props.events);
       <!-- Buttons -->
       <template #button-group>
         <UIButtonModalCancel
-          @click="onClose"
           type="close"
           class="flex w-full"
+          @click="onClose"
         />
       </template>
     </DialogModalBaseLayout>

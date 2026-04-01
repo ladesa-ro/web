@@ -79,7 +79,7 @@ const handleContainerClick = () => {
       :required="required"
       :type="type"
       v-bind="inputAttributes"
-    />
+    >
 
     <div v-if="isTogglePasswordEnabled" class="toggle-password-visibility">
       <button

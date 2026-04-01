@@ -39,9 +39,9 @@ const selectedLabel = computed(
     <template v-if="moreThanOneCampus">
       <div class="w-auto">
         <AutocompleteRoot
+          v-model:open="open"
           :model-value="props.modelValue"
           @update:model-value="emit('update:modelValue', $event)"
-          v-model:open="open"
         >
           <Anchor class="input">
             <IconsIconLocale class="w-2 h-2 text-ldsa-green-1 mr-1" />

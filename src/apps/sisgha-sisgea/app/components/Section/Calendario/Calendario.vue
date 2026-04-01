@@ -16,9 +16,9 @@ const emit = defineEmits<{ (e: 'refresh'): void }>();
 
 const selectedCampusGlobalState = useCampusContext();
 
-let toggleView = ref<number>(0);
-let selectedCalendar = ref<CalendarData | null>(null);
-let selectedYear = ref<number>(dayjs().year());
+const toggleView = ref<number>(0);
+const selectedCalendar = ref<CalendarData | null>(null);
+const selectedYear = ref<number>(dayjs().year());
 const showDeleteModal = ref(false);
 
 const selectedTrainingOffer = ref<string | null>(null);

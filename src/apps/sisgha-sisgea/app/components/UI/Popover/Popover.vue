@@ -62,7 +62,7 @@ onClickOutside(
         side="bottom"
         @escape-key-down="open = false"
       >
-        <Arrow class="w-5 fill-ldsa-green-1" v-if="arrow" />
+        <Arrow v-if="arrow" class="w-5 fill-ldsa-green-1" />
 
         <slot />
       </Content>

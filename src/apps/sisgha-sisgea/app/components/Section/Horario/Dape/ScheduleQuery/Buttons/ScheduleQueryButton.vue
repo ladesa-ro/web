@@ -17,7 +17,7 @@ const buttonColor = { '--color': color };
   >
     <span v-if="text !== ''" class="font-semibold text-sm">{{ text }}</span>
 
-    <span class="shrink-0" v-if="$slots['default']">
+    <span v-if="$slots['default']" class="shrink-0">
       <slot />
     </span>
   </button>

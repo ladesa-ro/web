@@ -25,6 +25,8 @@ const {
   isPastWeek,
   goToPrevWeek,
   goToNextWeek,
+  campusGrades,
+  selectedGradeIdentifier,
   campusShifts,
   campusScheduleLoading,
   isEditing,
@@ -76,6 +78,15 @@ const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
         @next="goToNextWeek"
       />
 
+      <SectionTurmasFormAvailabilityGradeSelector
+        v-if="campusGrades.length > 1 || isEditing"
+        :grades="campusGrades"
+        :selected-identifier="selectedGradeIdentifier"
+        :is-editing="isEditing"
+        :disabled="isPastWeek"
+        @update:selected-identifier="selectedGradeIdentifier = $event"
+      />
+
       <UIAlert
         v-if="hasGradeDivergence && !isPastWeek"
         type="warning"
@@ -86,8 +97,8 @@ const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
 
       <div v-else class="flex flex-col gap-4">
         <WeekdaySelector
-          :items="weekDayLabels"
           v-model="selectedDayWeek"
+          :items="weekDayLabels"
           class="font-semibold gap-2"
         />
 
@@ -120,9 +131,9 @@ const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
       <template #button-group>
         <template v-if="isEditing">
           <UIButtonModalCancel
-            @click="cancelEdit"
             type="close"
             class="flex flex-1"
+            @click="cancelEdit"
           />
 
           <UIButtonModalCommonButtonsGreenWithCheck

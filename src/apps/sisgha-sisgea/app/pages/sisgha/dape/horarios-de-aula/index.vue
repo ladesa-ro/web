@@ -5,5 +5,5 @@ definePageMeta({
 </script>
 
 <template>
-  <SectionIntervalos />
+  <SectionGradeHorariaEditor />
 </template>

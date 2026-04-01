@@ -27,7 +27,7 @@ await listQuery.suspense();
       :key="user.id"
       :usuario="user"
       :link="itemsLink"
-      :editButton="editButton"
+      :edit-button="editButton"
     />
   </div>
 </template>

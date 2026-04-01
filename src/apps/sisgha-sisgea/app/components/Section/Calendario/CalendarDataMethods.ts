@@ -175,7 +175,7 @@ export const calendarDataMethods = {
   // Steps (etapas — now managed via bulk replace on calendar)
   steps: {
     async getSteps(calendarId: string): Promise<CalendarEvent[]> {
-      let remodelSteps: Array<CalendarEvent> = [];
+      const remodelSteps: Array<CalendarEvent> = [];
 
       try {
         const steps = await getApiClient().call(calendarioLetivoEtapaFindAll, {
@@ -247,7 +247,7 @@ export const calendarDataMethods = {
   // Events (now calendarioAgendamento)
   events: {
     async getEvents(calendarId: string): Promise<CalendarEvent[]> {
-      let remodelEvents: Array<CalendarEvent> = [];
+      const remodelEvents: Array<CalendarEvent> = [];
 
       try {
         const events = await getApiClient().call(

@@ -1,4 +1,4 @@
-import { type Item, type ParsedItem } from '~/composables/useOptionItems';
+import type { Item, ParsedItem } from '~/composables/useOptionItems';
 
 type OptionFieldsItems = { items: Item[] };
 

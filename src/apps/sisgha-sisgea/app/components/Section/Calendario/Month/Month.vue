@@ -16,22 +16,22 @@ type Props = {
 
 const props = defineProps<Props>();
 
-let _events = toRef(props, 'events');
+const _events = toRef(props, 'events');
 
 const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 // Current month
-let currentMonth = ref<number>(
+const currentMonth = ref<number>(
   props.monthNum
     ? props.monthNum!
     : Number(dayjs(`${props.year}-${dayjs().format('MM')}-01`).format('MM'))
 );
 
 // Empty Days
-let emptyDays = ref<EmptyDays>({ before: 0, after: 0 });
+const emptyDays = ref<EmptyDays>({ before: 0, after: 0 });
 
 // Month Days
-let monthDays = ref<Day[]>();
+const monthDays = ref<Day[]>();
 
 // Set Month
 async function setMonthDays() {
@@ -80,7 +80,7 @@ watch(
     <div
       class="flex w-full justify-between items-center bg-ldsa-grey/60 p-2 xs:p-4 md:p-4"
     >
-      <UIButtonArrow @click="toggleMonth(-1)" v-show="props.toggleMonth" />
+      <UIButtonArrow v-show="props.toggleMonth" @click="toggleMonth(-1)" />
 
       <h2
         class="text-ldsa-white uppercase text-center w-full font-bold text-xs sm:text-sm md:text-base lg:text-lg"
@@ -89,9 +89,9 @@ watch(
       </h2>
 
       <UIButtonArrow
+        v-show="props.toggleMonth"
         class="rotate-180"
         @click="toggleMonth(1)"
-        v-show="props.toggleMonth"
       />
     </div>
 
@@ -100,7 +100,7 @@ watch(
       class="grid p-4 xs:p-0.5 sm:p-0.5 md:p-4 gap-2 sm:gap-2 md:gap-2 grid-cols-7 place-items-center"
     >
       <!-- Name Columns -->
-      <p class="font-semibold text-center text-xs" v-for="item of weekDays">
+      <p v-for="item of weekDays" class="font-semibold text-center text-xs">
         {{ item }}
       </p>
 

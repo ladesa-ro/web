@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 type Props = {
-  period: Object[] | any;
+  period: object[] | any;
   periodName: string;
 };
 defineProps<Props>();

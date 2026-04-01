@@ -92,16 +92,16 @@ const turmasOrProfessoresSelected = ref();
       <template v-if="changeActivityValue === 'aula'">
         <template v-if="scheduleOf === 'turma'">
           <UIFormOptionFieldsAutocomplete
+            v-if="professoresQuery.data.value"
+            v-model:selected-option="turmasOrProfessoresSelected"
             placeholder="Selecione um professor"
             label="Professor"
-            v-if="professoresQuery.data.value"
             :items="
               professoresQuery.data.value.data.map((professor: any) => ({
                 label: professor.usuario.nome ?? 'Nome não disponível',
                 value: professor.id,
               }))
             "
-            v-model:selected-option="turmasOrProfessoresSelected"
           />
 
           <span v-else-if="professoresQuery.isLoading"> Carregando... </span>
@@ -113,16 +113,16 @@ const turmasOrProfessoresSelected = ref();
 
         <template v-else-if="scheduleOf === 'professor'">
           <UIFormOptionFieldsAutocomplete
+            v-if="turmasQuery.data.value"
+            v-model:selected-option="turmasOrProfessoresSelected"
             placeholder="Selecione uma turma"
             label="Turma"
-            v-if="turmasQuery.data.value"
             :items="
               turmasQuery.data.value.data.map(turma => ({
                 label: `${turma.periodo} ${turma.curso.nomeAbreviado}`,
                 value: turma.id,
               }))
             "
-            v-model:selected-option="turmasOrProfessoresSelected"
           />
 
           <span v-else-if="professoresQuery.isLoading"> Carregando... </span>

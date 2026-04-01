@@ -9,7 +9,7 @@ const open = ref(false);
 </script>
 
 <template>
-  <UIPopover :disabled="!canChangeProfile" v-model="open">
+  <UIPopover v-model="open" :disabled="!canChangeProfile">
     <template #activator>
       <AppbarProfileCard :can-change-profile="canChangeProfile">
         <template #arrowIcon>

@@ -51,8 +51,8 @@ const onClose = () => (isActive.value = false);
         <div class="backdrop" @click="() => closeOnClickOutside && onClose()" />
 
         <div
-          class="modal-container"
           ref="modal"
+          class="modal-container"
           tabindex="0"
           @keyup.esc="onClose"
         >

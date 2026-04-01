@@ -167,14 +167,14 @@ for (const selectionData of selectionDatas) {
     v-for="item in selectionDatas"
     :key="item.field"
     :open="item.open.value"
-    @update:open="value => (item.open.value = value)"
     :selected-option="item.value.value"
-    @update:selected-option="value => (item.value.value = value)"
     :title="item.name"
     :items="item.items.value"
     :disabled="!item.query.isEnabled.value"
     :error="item.query.isError.value"
     :loading="item.query.isLoading.value || item.query.isFetching.value"
+    @update:open="value => (item.open.value = value)"
+    @update:selected-option="value => (item.value.value = value)"
   />
 
   <!-- if all items are selected, send to the schedule of the selected turma  -->

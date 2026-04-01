@@ -1,7 +1,7 @@
 export type DayPeriod = {
-  Matutino: Object[];
-  Vespertino: Object[];
-  Noturno: Object[];
+  Matutino: object[];
+  Vespertino: object[];
+  Noturno: object[];
 };
 
 const dayPeriods: DayPeriod = {

@@ -7,8 +7,8 @@ const editMode = inject('editMode');
   <DialogSkeleton
     v-if="editMode"
     v-model="smallScreenAlert"
-    mustHideInBigScreen
-    :closeOnClickOutside="false"
+    must-hide-in-big-screen
+    :close-on-click-outside="false"
   >
     <div
       class="flex flex-col justify-center items-center gap-5 p-5 lg:p-7 bg-ldsa-bg border-2 border-ldsa-grey rounded-lg max-w-3xl m-5"

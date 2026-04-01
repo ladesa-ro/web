@@ -12,7 +12,7 @@ type Props = {
 };
 
 const props = defineProps<Props>();
-let _calendarId = toRef(props, 'calendarId');
+const _calendarId = toRef(props, 'calendarId');
 
 const schema = yup.object({
   stepColor: yup.string().required('Cor inválida'),
@@ -29,7 +29,7 @@ const { values, validate } = useForm({
   },
 });
 
-let submitted = ref<boolean>(false);
+const submitted = ref<boolean>(false);
 
 async function onSubmit() {
   if (submitted.value === false) {
@@ -76,7 +76,7 @@ defineExpose({ validateStepCrud });
       <div
         class="w-3 h-3 rounded-full bg-ldsa-green-1"
         :style="{ backgroundColor: values.stepColor! }"
-      ></div>
+      />
       <p class="font-bold whitespace-nowrap">{{ props.text }}</p>
     </label>
 

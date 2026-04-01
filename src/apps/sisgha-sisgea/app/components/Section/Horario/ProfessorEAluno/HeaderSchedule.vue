@@ -48,9 +48,9 @@ const open = ref(false);
     </p>
 
     <UIToggle
+      v-model="toggleSelectedItem"
       class="min-w-full lg:min-w-[26.5rem]"
       :items="toggleItems"
-      v-model="toggleSelectedItem"
     />
   </div>
 </template>

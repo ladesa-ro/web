@@ -37,15 +37,15 @@ function confirm() {
     <ModalBaseLayout
       v-if="isOpen"
       :title="props.title || 'Confirmação'"
-      :closeButton="true"
-      :onClose="cancel"
+      :close-button="true"
+      :on-close="cancel"
     >
       <p class="text-ldsa-grey text-center mx-auto max-w-[18rem] break-words">
         {{ props.message }}
       </p>
 
       <template #button-group>
-        <UIButtonModalCancel @click="cancel" type="close" class="flex w-full" />
+        <UIButtonModalCancel type="close" class="flex w-full" @click="cancel" />
         <UIButtonModalConfirm type="submit" @click="confirm" />
       </template>
     </ModalBaseLayout>

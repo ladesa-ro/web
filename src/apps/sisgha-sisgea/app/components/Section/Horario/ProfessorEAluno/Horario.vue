@@ -9,8 +9,8 @@ const selectedOption = ref<'dia' | 'semana'>('dia');
   >
     <!-- Cabeçalho -->
     <SectionHorarioProfessorEAlunoHeaderSchedule
-      class="w-full max-w-screen-2xl mx-auto"
       v-model:toggle-option="selectedOption"
+      class="w-full max-w-screen-2xl mx-auto"
     />
 
     <!-- Opção "Horário da semana" -->

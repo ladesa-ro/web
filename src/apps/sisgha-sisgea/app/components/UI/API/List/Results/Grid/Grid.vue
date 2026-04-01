@@ -114,7 +114,7 @@ await query.suspense().catch(() => null);
 
 <template>
   <div class="flex-1">
-    <div class="ui-api-list-results-grid" ref="infiniteScrollTrigger">
+    <div ref="infiniteScrollTrigger" class="ui-api-list-results-grid">
       <template v-if="items && items.length > 0">
         <template v-for="item in items" :key="item.id">
           <div class="ui-api-list-results-grid-item">
@@ -171,8 +171,8 @@ await query.suspense().catch(() => null);
             Não foi possível buscar mais conteúdo...
           </p>
           <button
-            @click="load({ done: () => {}, side: 'end' })"
             class="border border-red-700 text-red-700 text-sm px-4 py-1 rounded hover:bg-red-200"
+            @click="load({ done: () => {}, side: 'end' })"
           >
             Tentar Novamente
           </button>
