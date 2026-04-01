@@ -28,15 +28,10 @@ const emit = defineEmits<{
 
 const open = ref(true);
 const showBulkModal = ref(false);
-const bulkModalDefaultTime = ref('07:00');
+const bulkModalPeriodo = ref<import('~/utils/horarios').Periodo>('Matutino');
 
 function openBulkModal(periodo: string) {
-  const defaults: Record<string, string> = {
-    Matutino: '07:30',
-    Vespertino: '13:00',
-    Noturno: '19:00',
-  };
-  bulkModalDefaultTime.value = defaults[periodo] ?? '07:00';
+  bulkModalPeriodo.value = periodo as import('~/utils/horarios').Periodo;
   showBulkModal.value = true;
 }
 
@@ -240,7 +235,7 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
     <!-- Modal de adição em massa -->
     <DialogSkeleton v-model="showBulkModal">
       <SectionGradeHorariaBulkAddModal
-        :default-start-time="bulkModalDefaultTime"
+        :default-periodo="bulkModalPeriodo"
         @confirm="handleBulkConfirm"
         @close="showBulkModal = false"
       />

@@ -1,6 +1,7 @@
 import * as yup from 'yup';
 import type { GradeHorariaItemInput } from '~/composables/ladesa-api/useGradesHorarias';
 import type { GradeHorariaItemOutputDto } from '@ladesa-ro/web.api.client';
+import type { Periodo } from '~/utils/horarios';
 
 export interface GradeHorariaEditorGrade {
   identificadorExterno: string;
@@ -14,6 +15,8 @@ export interface BulkAddParams {
   classDuration: number;
   breakDuration: number;
   breakAfterClass: number;
+  periodo: Periodo;
+  mode: 'append' | 'replace';
 }
 
 export interface GradeValidationErrors {
@@ -177,6 +180,10 @@ export function useGradeHorariaEditor(campusId: MaybeRef<string | null>) {
   function addIntervalsBulk(gradeIndex: number, params: BulkAddParams) {
     const grade = grades.value[gradeIndex];
     if (!grade) return;
+
+    if (params.mode === 'replace') {
+      removeIntervalsByPeriodo(gradeIndex, params.periodo);
+    }
 
     const newIntervals = generateBulkIntervals(params);
     grade.intervalos.push(...newIntervals);

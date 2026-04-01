@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import ModalBaseLayout from '~/components/Dialog/Modal/ModalBaseLayout.vue';
 import type { BulkAddParams } from '~/composables/useGradeHorariaEditor';
+import type { Periodo } from '~/utils/horarios';
 
 const props = defineProps<{
-  defaultStartTime?: string;
+  defaultPeriodo?: Periodo;
 }>();
 
 const emit = defineEmits<{
@@ -11,11 +12,34 @@ const emit = defineEmits<{
   close: [];
 }>();
 
-const startTime = ref(props.defaultStartTime ?? '07:30');
+const periodoDefaults: Record<Periodo, string> = {
+  Matutino: '07:30',
+  Vespertino: '13:00',
+  Noturno: '19:00',
+};
+
+const periodoItems = [
+  { text: 'Matutino', value: 'Matutino' },
+  { text: 'Vespertino', value: 'Vespertino' },
+  { text: 'Noturno', value: 'Noturno' },
+];
+
+const modeItems = [
+  { text: 'Acrescentar', value: 'append' },
+  { text: 'Substituir', value: 'replace' },
+];
+
+const selectedPeriodo = ref<Periodo>(props.defaultPeriodo ?? 'Matutino');
+const mode = ref<'append' | 'replace'>('replace');
+const startTime = ref(periodoDefaults[selectedPeriodo.value]);
 const classCount = ref(5);
 const classDuration = ref(50);
 const breakDuration = ref(20);
 const breakAfterClass = ref(3);
+
+watch(selectedPeriodo, (periodo) => {
+  startTime.value = periodoDefaults[periodo];
+});
 
 function addMinutes(time: string, minutes: number): string {
   const [h, m] = time.split(':').map(Number) as [number, number];
@@ -58,6 +82,8 @@ function handleConfirm() {
     classDuration: classDuration.value,
     breakDuration: breakDuration.value,
     breakAfterClass: breakAfterClass.value,
+    periodo: selectedPeriodo.value,
+    mode: mode.value,
   });
 }
 </script>
@@ -70,6 +96,12 @@ function handleConfirm() {
     class="!sm:max-w-[32rem]"
   >
     <div class="flex flex-col gap-4">
+      <!-- Turno toggle -->
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-ldsa-text-default">Turno</label>
+        <UIToggle v-model="selectedPeriodo" :items="periodoItems" />
+      </div>
+
       <div class="grid grid-cols-2 gap-3">
         <div class="flex flex-col gap-1">
           <label class="text-xs font-medium text-ldsa-text-default">Horário inicial</label>
@@ -144,6 +176,12 @@ function handleConfirm() {
             {{ item.inicio }} - {{ item.fim }}
           </div>
         </div>
+      </div>
+
+      <!-- Modo toggle -->
+      <div class="flex flex-col gap-1">
+        <label class="text-xs font-medium text-ldsa-text-default">Modo</label>
+        <UIToggle v-model="mode" :items="modeItems" />
       </div>
     </div>
 
