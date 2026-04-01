@@ -10,6 +10,7 @@ const props = defineProps<{
   grade: GradeHorariaEditorGrade;
   gradeIndex: number;
   isEditing: boolean;
+  disabled?: boolean;
   errors?: GradeValidationErrors;
 }>();
 
@@ -19,6 +20,8 @@ const emit = defineEmits<{
   'update:intervalo-fim': [intervalIndex: number, value: string];
   'add-interval': [periodo: string];
   'remove-interval': [intervalIndex: number];
+  'remove-intervals-by-periodo': [periodo: string];
+  'clear-all-intervals': [];
   'remove-grade': [];
 }>();
 
@@ -75,14 +78,16 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
           <template v-if="isEditing">
             <input
               :value="props.grade.nome"
+              :disabled="disabled"
               placeholder="Nome da grade horária"
-              class="border rounded-md px-2 py-1 text-sm font-semibold flex-1 min-w-0 text-white placeholder-white/60"
+              class="border rounded-md px-2 py-1 text-sm font-semibold flex-1 min-w-0 text-white placeholder-white/60 disabled:opacity-40"
               :class="errors?.nome ? 'border-ldsa-red bg-red-500/20' : 'border-white/30 bg-white/20'"
               @input="emit('update:nome', ($event.target as HTMLInputElement).value)"
               @click.stop
             >
             <button
-              class="text-white/80 hover:text-white text-sm px-2 shrink-0"
+              :disabled="disabled"
+              class="text-white/80 hover:text-white text-sm px-2 shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
               title="Remover grade horária"
               @click.stop="emit('remove-grade')"
             >
@@ -113,6 +118,17 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
       {{ errors.nome }}
     </p>
 
+    <!-- Botão limpar todos -->
+    <div v-if="isEditing && props.grade.intervalos.length > 0" class="flex justify-end px-4 pt-3">
+      <button
+        :disabled="disabled"
+        class="text-ldsa-red text-xs hover:opacity-70 disabled:opacity-40 disabled:cursor-not-allowed"
+        @click="emit('clear-all-intervals')"
+      >
+        Limpar todos os horários
+      </button>
+    </div>
+
     <!-- Conteúdo dividido por turnos (Matutino / Vespertino / Noturno) -->
     <div class="grid grid-cols-1 md:grid-cols-3 md:divide-x md:divide-ldsa-grey py-4 md:py-6">
       <div
@@ -124,6 +140,14 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
           <h2 class="font-semibold text-[16px] border-l-4 border-ldsa-green-1 pl-2">
             {{ periodo.nome }}
           </h2>
+          <button
+            v-if="isEditing && periodo.intervalos.length > 0"
+            :disabled="disabled"
+            class="text-ldsa-red text-xs hover:opacity-70 disabled:opacity-40 disabled:cursor-not-allowed"
+            @click="emit('remove-intervals-by-periodo', periodo.nome)"
+          >
+            Limpar turno
+          </button>
         </div>
 
         <div
@@ -140,7 +164,8 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
                 <input
                   type="time"
                   :value="toDisplayFormat(props.grade.intervalos[getOriginalIndex(periodo, j)]?.inicio ?? '')"
-                  class="border rounded-md px-2 py-1 text-sm w-28"
+                  :disabled="disabled"
+                  class="border rounded-md px-2 py-1 text-sm w-28 disabled:opacity-40"
                   :class="getIntervalError(periodo, j) ? 'border-ldsa-red' : 'border-ldsa-grey'"
                   @input="emit('update:intervalo-inicio', getOriginalIndex(periodo, j), ($event.target as HTMLInputElement).value)"
                 >
@@ -148,14 +173,16 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
                 <input
                   type="time"
                   :value="toDisplayFormat(props.grade.intervalos[getOriginalIndex(periodo, j)]?.fim ?? '')"
-                  class="border rounded-md px-2 py-1 text-sm w-28"
+                  :disabled="disabled"
+                  class="border rounded-md px-2 py-1 text-sm w-28 disabled:opacity-40"
                   :class="getIntervalError(periodo, j) ? 'border-ldsa-red' : 'border-ldsa-grey'"
                   @input="emit('update:intervalo-fim', getOriginalIndex(periodo, j), ($event.target as HTMLInputElement).value)"
                 >
               </div>
               <div class="flex gap-4 text-sm">
                 <button
-                  class="w-[0.9rem] hover:text-ldsa-red"
+                  :disabled="disabled"
+                  class="w-[0.9rem] hover:text-ldsa-red disabled:opacity-40 disabled:cursor-not-allowed"
                   @click="emit('remove-interval', getOriginalIndex(periodo, j))"
                 >
                   <IconsExclude />
@@ -187,7 +214,8 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
 
         <button
           v-if="isEditing"
-          class="mx-auto text-ldsa-grey font-semibold text-[14px] flex items-center gap-1 mt-4"
+          :disabled="disabled"
+          class="mx-auto text-ldsa-grey font-semibold text-[14px] flex items-center gap-1 mt-4 disabled:opacity-40 disabled:cursor-not-allowed"
           @click="emit('add-interval', periodo.nome)"
         >
           Adicionar horário de aula

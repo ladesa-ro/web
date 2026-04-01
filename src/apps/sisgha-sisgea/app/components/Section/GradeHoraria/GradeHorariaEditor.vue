@@ -13,6 +13,8 @@ const {
   removeGrade,
   addInterval,
   removeInterval,
+  removeIntervalsByPeriodo,
+  clearAllIntervals,
   validate,
   validationErrors,
   save,
@@ -121,12 +123,15 @@ function updateGradeNome(gradeIndex: number, value: string) {
           :grade="grade"
           :grade-index="index"
           :is-editing="isEditing"
+          :disabled="isSaving"
           :errors="validationErrors.get(index)"
           @update:nome="updateGradeNome(index, $event)"
           @update:intervalo-inicio="(idx: number, val: string) => updateIntervalInicio(index, idx, val)"
           @update:intervalo-fim="(idx: number, val: string) => updateIntervalFim(index, idx, val)"
           @add-interval="(periodo: string) => addInterval(index, periodo)"
           @remove-interval="(idx: number) => removeInterval(index, idx)"
+          @remove-intervals-by-periodo="(periodo: string) => removeIntervalsByPeriodo(index, periodo)"
+          @clear-all-intervals="clearAllIntervals(index)"
           @remove-grade="removeGrade(index)"
         />
       </div>
@@ -140,7 +145,8 @@ function updateGradeNome(gradeIndex: number, value: string) {
 
       <button
         v-if="isEditing"
-        class="px-4 py-2 border-2 border-dashed border-ldsa-green-2 text-ldsa-text-green rounded-lg text-sm font-medium hover:opacity-70"
+        :disabled="isSaving"
+        class="px-4 py-2 border-2 border-dashed border-ldsa-green-2 text-ldsa-text-green rounded-lg text-sm font-medium hover:opacity-70 disabled:opacity-40 disabled:cursor-not-allowed"
         @click="addGrade"
       >
         + Adicionar grade horária

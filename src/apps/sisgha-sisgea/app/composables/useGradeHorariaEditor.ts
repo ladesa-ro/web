@@ -119,6 +119,29 @@ export function useGradeHorariaEditor(campusId: MaybeRef<string | null>) {
     grades.value[gradeIndex]?.intervalos.splice(intervalIndex, 1);
   }
 
+  function removeIntervalsByPeriodo(gradeIndex: number, periodo: string) {
+    const grade = grades.value[gradeIndex];
+    if (!grade) return;
+
+    const limites: Record<string, [number, number]> = {
+      Matutino: [0, 12],
+      Vespertino: [12, 18],
+      Noturno: [18, 24],
+    };
+    const [min, max] = limites[periodo] ?? [0, 24];
+
+    grade.intervalos = grade.intervalos.filter((iv) => {
+      const h = parseInt(iv.inicio.split(':')[0] ?? '0', 10);
+      return h < min || h >= max;
+    });
+  }
+
+  function clearAllIntervals(gradeIndex: number) {
+    const grade = grades.value[gradeIndex];
+    if (!grade) return;
+    grade.intervalos = [];
+  }
+
   const validationErrors = ref<Map<number, GradeValidationErrors>>(new Map());
 
   const intervaloSchema = yup.object().shape({
@@ -257,6 +280,8 @@ export function useGradeHorariaEditor(campusId: MaybeRef<string | null>) {
     removeGrade,
     addInterval,
     removeInterval,
+    removeIntervalsByPeriodo,
+    clearAllIntervals,
     validate,
     validationErrors,
     save,
