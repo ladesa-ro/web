@@ -116,6 +116,32 @@ export function useTurmaAvailabilityState(
     return false;
   });
 
+  // --- Pending Save (deferred to form submit) ---
+  // Acumula configs de múltiplas semanas. Chave = data_inicio (domingo da semana).
+  // MUST be declared before the watch that calls findPendingForWeek.
+
+  const pendingConfigs = ref<Map<string, TurmaDisponibilidadeConfigInputDto>>(new Map());
+
+  const hasPendingSave = computed(() => pendingConfigs.value.size > 0);
+
+  /** Resolve a config pendente aplicável a uma semana.
+   *  1. Match exato por data_inicio
+   *  2. Senão, config com data_fim === null cujo data_inicio <= weekSunday (a mais recente) */
+  function findPendingForWeek(weekSunday: string): TurmaDisponibilidadeConfigInputDto | undefined {
+    const exact = pendingConfigs.value.get(weekSunday);
+    if (exact) return exact;
+
+    let best: TurmaDisponibilidadeConfigInputDto | undefined;
+    for (const config of pendingConfigs.value.values()) {
+      if (config.data_fim === null && config.data_inicio <= weekSunday) {
+        if (!best || config.data_inicio > best.data_inicio) {
+          best = config;
+        }
+      }
+    }
+    return best;
+  }
+
   // --- Sync server data to local state ---
 
   const mapConfigToAvailability = (
@@ -132,30 +158,47 @@ export function useTurmaAvailabilityState(
     return mapped;
   };
 
+  function mapPendingToAvailability(
+    pending: TurmaDisponibilidadeConfigInputDto
+  ): Record<number, string[]> {
+    const mapped: Record<number, string[]> = {};
+    for (const dia of pending.horarios) {
+      mapped[dia.dia_semana] = dia.intervalos.map(i =>
+        toDisplayFormat(i.inicio)
+      );
+    }
+    return mapped;
+  }
+
+  function applyAvailability(mapped: Record<number, string[]>) {
+    serverAvailability.value = JSON.parse(JSON.stringify(mapped));
+    if (!isEditing.value) {
+      editingAvailability.value = JSON.parse(JSON.stringify(mapped));
+    }
+  }
+
   watch(
     () => weekQuery.data.value,
     data => {
-      // Se há config pendente para esta semana (exata ou "futuras"), usar ela
       const weekKey = currentWeekRef.value.format('YYYY-MM-DD');
       const pending = findPendingForWeek(weekKey);
 
       if (pending) {
-        const mapped: Record<number, string[]> = {};
-        for (const dia of pending.horarios) {
-          mapped[dia.dia_semana] = dia.intervalos.map(i =>
-            toDisplayFormat(i.inicio)
-          );
-        }
-        serverAvailability.value = JSON.parse(JSON.stringify(mapped));
-        if (!isEditing.value) {
-          editingAvailability.value = JSON.parse(JSON.stringify(mapped));
-        }
+        applyAvailability(mapPendingToAvailability(pending));
       } else {
-        const mapped = mapConfigToAvailability(data);
-        serverAvailability.value = JSON.parse(JSON.stringify(mapped));
-        if (!isEditing.value) {
-          editingAvailability.value = JSON.parse(JSON.stringify(mapped));
-        }
+        applyAvailability(mapConfigToAvailability(data));
+      }
+    },
+    { immediate: true }
+  );
+
+  // Also sync when navigating to a week with pending config (weekQuery.data may not change)
+  watch(
+    semanaParam,
+    weekKey => {
+      const pending = findPendingForWeek(weekKey);
+      if (pending) {
+        applyAvailability(mapPendingToAvailability(pending));
       }
     }
   );
@@ -184,30 +227,7 @@ export function useTurmaAvailabilityState(
     return false;
   });
 
-  // --- Pending Save (deferred to form submit) ---
-  // Acumula configs de múltiplas semanas. Chave = data_inicio (domingo da semana).
-
-  const pendingConfigs = ref<Map<string, TurmaDisponibilidadeConfigInputDto>>(new Map());
-
-  const hasPendingSave = computed(() => pendingConfigs.value.size > 0);
-
-  /** Resolve a config pendente aplicável a uma semana.
-   *  1. Match exato por data_inicio
-   *  2. Senão, config com data_fim === null cujo data_inicio <= weekSunday (a mais recente) */
-  function findPendingForWeek(weekSunday: string): TurmaDisponibilidadeConfigInputDto | undefined {
-    const exact = pendingConfigs.value.get(weekSunday);
-    if (exact) return exact;
-
-    let best: TurmaDisponibilidadeConfigInputDto | undefined;
-    for (const config of pendingConfigs.value.values()) {
-      if (config.data_fim === null && config.data_inicio <= weekSunday) {
-        if (!best || config.data_inicio > best.data_inicio) {
-          best = config;
-        }
-      }
-    }
-    return best;
-  }
+  // --- Build / Confirm / Save ---
 
   function buildConfig(aplicarFuturas: boolean): TurmaDisponibilidadeConfigInputDto {
     const sunday = currentWeekRef.value;
@@ -275,7 +295,6 @@ export function useTurmaAvailabilityState(
 
   function enterEditMode() {
     if (hasGradeDivergence.value) {
-      // Reset all checkboxes when grade diverged
       editingAvailability.value = {};
     } else {
       editingAvailability.value = JSON.parse(
@@ -292,6 +311,26 @@ export function useTurmaAvailabilityState(
     isEditing.value = false;
   }
 
+  // --- Prefetch AOT ---
+
+  function prefetchAdjacentWeeks() {
+    const id = unref(turmaId);
+    if (!id) return;
+
+    const offsets = [-1, 1, 2];
+    for (const offset of offsets) {
+      const week = currentWeekRef.value.add(offset, 'week');
+      disponibilidade.prefetchWeek(id, week.format('YYYY-MM-DD'));
+    }
+  }
+
+  // Prefetch na montagem
+  watch(
+    () => unref(turmaId),
+    id => { if (id) prefetchAdjacentWeeks(); },
+    { immediate: true }
+  );
+
   // --- Week Navigation with dirty check ---
 
   const showNavigationConfirm = ref(false);
@@ -305,6 +344,7 @@ export function useTurmaAvailabilityState(
       currentWeekRef.value = currentWeekRef.value.add(1, 'week');
     }
     pendingNavigation.value = null;
+    prefetchAdjacentWeeks();
   }
 
   function requestWeekChange(direction: 'prev' | 'next') {

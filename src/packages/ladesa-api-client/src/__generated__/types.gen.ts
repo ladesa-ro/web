@@ -213,6 +213,29 @@ export type CampusFindOneOutputDto = {
   endereco: EnderecoFindOneOutputDto;
 };
 
+export type NivelFormacaoFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Apelido do nivel de formacao
+   */
+  slug: string;
+};
+
 export type OfertaFormacaoPeriodoEtapaOutputDto = {
   /**
    * Identificador do registro (uuid)
@@ -275,15 +298,19 @@ export type OfertaFormacaoFindOneOutputDto = {
   /**
    * Modalidade da oferta de formacao
    */
-  modalidade: ModalidadeFindOneOutputDto;
+  modalidade?: ModalidadeFindOneOutputDto & {
+    id: string;
+  };
   /**
    * Campus da oferta de formacao
    */
-  campus: CampusFindOneOutputDto;
+  campus?: CampusFindOneOutputDto & {
+    id: string;
+  };
   /**
    * Niveis de formacao vinculados a oferta de formacao
    */
-  niveisFormacoes: Array<NivelFormacaoFindOneOutputDto>;
+  niveisFormacoes?: Array<NivelFormacaoFindOneOutputDto>;
   /**
    * Periodos com suas etapas do ano letivo
    */
@@ -707,29 +734,6 @@ export type OfertaFormacaoUpdateInputDto = {
    * Periodos com suas etapas do ano letivo
    */
   periodos?: Array<OfertaFormacaoPeriodoInputDto>;
-};
-
-export type NivelFormacaoFindOneOutputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-  /**
-   * Data e hora da criacao do registro
-   */
-  dateCreated: string;
-  /**
-   * Data e hora da alteracao do registro
-   */
-  dateUpdated: string;
-  /**
-   * Data e hora da exclusao do registro
-   */
-  dateDeleted?: string | null;
-  /**
-   * Apelido do nivel de formacao
-   */
-  slug: string;
 };
 
 export type NivelFormacaoListOutputDto = {
@@ -2528,10 +2532,6 @@ export type TurmaDisponibilidadeSaveInputDto = {
    * Configuracoes de disponibilidade
    */
   configs: Array<TurmaDisponibilidadeConfigInputDto>;
-  /**
-   * Aplicar tambem para semanas futuras
-   */
-  aplicar_futuras?: boolean | null;
 };
 
 export type TurmaEventoFindOneOutputDto = {
@@ -2831,7 +2831,7 @@ export type EmpresaFindOneOutputDto = {
   /**
    * Endereço vinculado à empresa
    */
-  endereco?: {
+  endereco?: EnderecoFindOneOutputDto & {
     id: string;
   };
   /**

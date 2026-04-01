@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/vue-query';
+import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { createInvalidate } from '~/composables/query-helpers';
 import {
   turmaDisponibilidadeFindByWeek,
@@ -11,8 +11,16 @@ import type {
 
 export const useTurmaDisponibilidade = () => {
   const api = useApiClient();
+  const queryClient = useQueryClient();
 
   const keys = ['turma-disponibilidade'] as const;
+
+  const fetchWeek = async (id: string, semana: string) => {
+    return api.call(turmaDisponibilidadeFindByWeek, {
+      path: { turmaId: id },
+      query: { semana },
+    });
+  };
 
   const findByWeek = (
     turmaId: MaybeRef<string | null>,
@@ -24,13 +32,17 @@ export const useTurmaDisponibilidade = () => {
         const id = unref(turmaId);
         const sem = unref(semana);
         if (!id) return { configs: [] };
-
-        return api.call(turmaDisponibilidadeFindByWeek, {
-          path: { turmaId: id },
-          query: { semana: sem },
-        });
+        return fetchWeek(id, sem);
       },
       enabled: computed(() => !!unref(turmaId)),
+      staleTime: 0,
+    });
+  };
+
+  const prefetchWeek = (turmaId: string, semana: string) => {
+    queryClient.prefetchQuery({
+      queryKey: [...keys, turmaId, semana],
+      queryFn: () => fetchWeek(turmaId, semana),
       staleTime: 0,
     });
   };
@@ -47,5 +59,5 @@ export const useTurmaDisponibilidade = () => {
 
   const invalidate = createInvalidate(keys);
 
-  return { keys, findByWeek, save, invalidate };
+  return { keys, findByWeek, prefetchWeek, save, invalidate };
 };

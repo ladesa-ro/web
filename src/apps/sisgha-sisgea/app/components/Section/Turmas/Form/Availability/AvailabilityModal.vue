@@ -82,7 +82,7 @@ const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
         message="Esta turma possui configurações baseadas em uma grade de horários anterior. Ao editar, os horários serão redefinidos."
       />
 
-      <UILoading v-if="weekQuery.isFetching.value && !isEditing" />
+      <UILoading v-if="weekQuery.isLoading.value" />
 
       <div v-else class="flex flex-col gap-4">
         <WeekdaySelector
