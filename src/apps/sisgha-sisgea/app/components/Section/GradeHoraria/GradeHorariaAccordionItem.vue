@@ -80,7 +80,7 @@ function getOriginalIndex(periodo: (typeof periodos.value)[number], intervaloIdx
               title="Remover grade horária"
               @click.stop="emit('remove-grade')"
             >
-              <IconsTrash class="w-4 h-4" />
+              <IconsExclude class="w-4 h-4" />
             </button>
           </template>
           <template v-else>
