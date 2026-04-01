@@ -364,9 +364,15 @@ import type {
   PerfilEnsinoByIdData,
   PerfilEnsinoByIdErrors,
   PerfilEnsinoByIdResponses,
+  PerfilFindById2Data,
+  PerfilFindById2Errors,
+  PerfilFindById2Responses,
   PerfilFindByIdData,
   PerfilFindByIdErrors,
   PerfilFindByIdResponses,
+  PerfilListData,
+  PerfilListErrors,
+  PerfilListResponses,
   RelatorioAulasMinistradasData,
   RelatorioAulasMinistradasErrors,
   RelatorioAulasMinistradasPdfData,
@@ -381,6 +387,12 @@ import type {
   TurmaDiarioConfigurarData,
   TurmaDiarioConfigurarErrors,
   TurmaDiarioConfigurarResponses,
+  TurmaDisponibilidadeDeactivateData,
+  TurmaDisponibilidadeDeactivateErrors,
+  TurmaDisponibilidadeDeactivateResponses,
+  TurmaDisponibilidadeFindAllActiveData,
+  TurmaDisponibilidadeFindAllActiveErrors,
+  TurmaDisponibilidadeFindAllActiveResponses,
   TurmaDisponibilidadeFindByWeekData,
   TurmaDisponibilidadeFindByWeekErrors,
   TurmaDisponibilidadeFindByWeekResponses,
@@ -1289,6 +1301,20 @@ export const usuarioEventoUpdate = <ThrowOnError extends boolean = false>(
   });
 
 /**
+ * Lista perfis com paginação e filtros
+ *
+ * Lista perfis com paginação e filtros
+ */
+export const perfilList = <ThrowOnError extends boolean = false>(
+  options?: Options<PerfilListData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    PerfilListResponses,
+    PerfilListErrors,
+    ThrowOnError
+  >({ url: '/perfis', ...options });
+
+/**
  * Busca um perfil por ID
  *
  * Busca um perfil por ID
@@ -1299,6 +1325,20 @@ export const perfilFindById = <ThrowOnError extends boolean = false>(
   (options.client ?? client).get<
     PerfilFindByIdResponses,
     PerfilFindByIdErrors,
+    ThrowOnError
+  >({ url: '/perfis/{id}', ...options });
+
+/**
+ * Busca um perfil por ID
+ *
+ * Busca um perfil por ID
+ */
+export const perfilFindById2 = <ThrowOnError extends boolean = false>(
+  options: Options<PerfilFindById2Data, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    PerfilFindById2Responses,
+    PerfilFindById2Errors,
     ThrowOnError
   >({ url: '/usuarios/{usuarioId}/perfis/{id}', ...options });
 
@@ -2450,6 +2490,22 @@ export const turmaUpdateImagemCapa = <ThrowOnError extends boolean = false>(
   });
 
 /**
+ * Lista todas as configuracoes ativas de disponibilidade da turma
+ *
+ * Lista todas as configuracoes ativas de disponibilidade da turma
+ */
+export const turmaDisponibilidadeFindAllActive = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<TurmaDisponibilidadeFindAllActiveData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    TurmaDisponibilidadeFindAllActiveResponses,
+    TurmaDisponibilidadeFindAllActiveErrors,
+    ThrowOnError
+  >({ url: '/turmas/{turmaId}/disponibilidade/all', ...options });
+
+/**
  * Consulta disponibilidade da turma para uma semana
  *
  * Consulta disponibilidade da turma para uma semana
@@ -2485,6 +2541,22 @@ export const turmaDisponibilidadeSave = <ThrowOnError extends boolean = false>(
       ...options.headers,
     },
   });
+
+/**
+ * Desativa uma configuracao de disponibilidade da turma
+ *
+ * Desativa uma configuracao de disponibilidade da turma
+ */
+export const turmaDisponibilidadeDeactivate = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<TurmaDisponibilidadeDeactivateData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    TurmaDisponibilidadeDeactivateResponses,
+    TurmaDisponibilidadeDeactivateErrors,
+    ThrowOnError
+  >({ url: '/turmas/{turmaId}/disponibilidade/{configId}', ...options });
 
 /**
  * Lista eventos da turma

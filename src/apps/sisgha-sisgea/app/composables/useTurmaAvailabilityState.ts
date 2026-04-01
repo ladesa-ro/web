@@ -153,9 +153,15 @@ export function useTurmaAvailabilityState(
     const exact = pendingConfigs.value.get(weekSunday);
     if (exact) return exact;
 
+    const saturday = dayjs(weekSunday).add(6, 'day').format('YYYY-MM-DD');
+
     let best: TurmaDisponibilidadeConfigInputDto | undefined;
     for (const config of pendingConfigs.value.values()) {
-      if (config.data_fim === null && config.data_inicio <= weekSunday) {
+      const configCoversWeek =
+        config.data_inicio <= saturday
+        && (config.data_fim == null || config.data_fim >= weekSunday);
+
+      if (configCoversWeek) {
         if (!best || config.data_inicio > best.data_inicio) {
           best = config;
         }
@@ -271,12 +277,28 @@ export function useTurmaAvailabilityState(
     return false;
   });
 
+  // --- Active config info (for view mode) ---
+
+  const activeConfigInfo = computed(() => {
+    const data = weekQuery.data.value;
+    if (!data?.configs?.length) return null;
+    const config = data.configs[0]!;
+    const dataFim = config.data_fim ?? null;
+    return {
+      dataInicio: config.data_inicio,
+      dataFim,
+      tipo: dataFim ? ('temporario' as const) : ('permanente' as const),
+    };
+  });
+
   // --- Build / Confirm / Save ---
 
-  function buildConfig(aplicarFuturas: boolean): TurmaDisponibilidadeConfigInputDto {
-    const sunday = currentWeekRef.value;
-    const saturday = sunday.add(6, 'day');
+  interface SaveScope {
+    dataInicio: string;
+    dataFim: string | null;
+  }
 
+  function buildConfig(scope: SaveScope): TurmaDisponibilidadeConfigInputDto {
     const grade = selectedGrade.value;
     const gradeIntervalos = grade?.intervalos ?? [];
 
@@ -299,15 +321,15 @@ export function useTurmaAvailabilityState(
       });
 
     return {
-      data_inicio: sunday.format('YYYY-MM-DD'),
-      data_fim: aplicarFuturas ? null : saturday.format('YYYY-MM-DD'),
+      data_inicio: scope.dataInicio,
+      data_fim: scope.dataFim,
       identificador_externo_grade_horaria: selectedGradeIdentifier.value,
       horarios,
     } as TurmaDisponibilidadeConfigInputDto;
   }
 
-  function confirmAvailability(aplicarFuturas: boolean) {
-    const config = buildConfig(aplicarFuturas);
+  function confirmAvailability(scope: SaveScope) {
+    const config = buildConfig(scope);
     const newMap = new Map(pendingConfigs.value);
     newMap.set(config.data_inicio, config);
     pendingConfigs.value = newMap;
@@ -404,8 +426,8 @@ export function useTurmaAvailabilityState(
     if (dir) performNavigation(dir);
   }
 
-  function confirmNavigationAndSave(aplicarFuturas: boolean) {
-    confirmAvailability(aplicarFuturas);
+  function confirmNavigationAndSave(scope: SaveScope) {
+    confirmAvailability(scope);
     const dir = pendingNavigation.value;
     if (dir) performNavigation(dir);
   }
@@ -442,6 +464,13 @@ export function useTurmaAvailabilityState(
     saveAvailability,
     hasPendingSave,
     invalidateDisponibilidade: disponibilidade.invalidate,
+
+    // All configs
+    allConfigsQuery: disponibilidade.findAllActive(turmaId),
+    deactivateConfig: disponibilidade.deactivate,
+
+    // Config info
+    activeConfigInfo,
 
     // Divergence
     hasGradeDivergence,

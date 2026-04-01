@@ -3,8 +3,6 @@ import { FormMode } from '~/utils/constants';
 import WeekdaySelector from '../../../../UI/WeekDaySelector/WeekdaySelector.vue';
 import ShiftTimes from './ShiftTimes/ShiftTimes.vue';
 import WeekNavigator from './WeekNavigator.vue';
-import ModalBaseLayout from '../../../../Dialog/Modal/ModalBaseLayout.vue';
-
 const props = defineProps<{
   turmaId?: string | null;
   mode?: FormMode;
@@ -20,6 +18,7 @@ const emit = defineEmits<{
 const onClose = () => emit('close');
 
 const {
+  currentWeekRef,
   weekDays,
   weekLabel,
   isPastWeek,
@@ -27,6 +26,7 @@ const {
   goToNextWeek,
   campusGrades,
   selectedGradeIdentifier,
+  activeConfigInfo,
   campusShifts,
   campusScheduleLoading,
   isEditing,
@@ -40,6 +40,8 @@ const {
   hasPendingSave,
   invalidateDisponibilidade,
   weekQuery,
+  allConfigsQuery,
+  deactivateConfig,
   hasGradeDivergence,
   showNavigationConfirm,
   confirmNavigationDiscard,
@@ -53,14 +55,31 @@ watch(isEditing, val => emit('update:editing', val));
 
 const showSaveConfirm = ref(false);
 
-function handleConfirm(aplicarFuturas: boolean) {
-  confirmAvailability(aplicarFuturas);
+function handleConfirm(payload: { dataInicio: string; dataFim: string | null }) {
+  confirmAvailability(payload);
   showSaveConfirm.value = false;
+}
+
+const dayjs = useDayJs();
+
+function formatDate(iso: string): string {
+  return dayjs(iso).format('DD/MM/YYYY');
+}
+
+async function handleDeactivateConfig(configId: string) {
+  const id = props.turmaId;
+  if (!id) return;
+  await deactivateConfig(id, configId);
+}
+
+function handleNavigateToConfig(dataInicio: string) {
+  currentWeekRef.value = dayjs(dataInicio).startOf('week');
 }
 
 defineExpose({ saveAvailability, hasPendingSave, invalidateDisponibilidade });
 
 const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
+const allConfigs = computed(() => allConfigsQuery.data.value?.configs ?? []);
 </script>
 
 <template>
@@ -88,7 +107,7 @@ const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
       />
 
       <UIAlert
-        v-if="hasGradeDivergence && !isPastWeek"
+        v-if="isEditing && hasGradeDivergence && !isPastWeek"
         type="warning"
         message="Esta turma possui configurações baseadas em uma grade de horários anterior. Ao editar, os horários serão redefinidos."
       />
@@ -96,6 +115,18 @@ const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
       <UILoading v-if="weekQuery.isLoading.value" />
 
       <div v-else class="flex flex-col gap-4">
+        <!-- Config info chip (between week nav and day selector) -->
+        <div
+          v-if="activeConfigInfo"
+          class="w-full rounded-lg px-3 py-2 text-xs font-medium text-center"
+          :class="activeConfigInfo.tipo === 'permanente'
+            ? 'bg-ldsa-green-2/10 text-ldsa-green-2'
+            : 'bg-ldsa-blue/10 text-ldsa-blue'"
+        >
+          {{ activeConfigInfo.tipo === 'permanente' ? 'Permanente' : 'Temporário' }}
+          a partir de {{ formatDate(activeConfigInfo.dataInicio) }}<template v-if="activeConfigInfo.dataFim"> até {{ formatDate(activeConfigInfo.dataFim) }}</template>
+        </div>
+
         <WeekdaySelector
           v-model="selectedDayWeek"
           :items="weekDayLabels"
@@ -128,6 +159,16 @@ const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
         </button>
       </template>
 
+      <!-- Config list (view mode, after edit button) -->
+      <SectionTurmasFormAvailabilityConfigList
+        v-if="!isEditing"
+        :configs="allConfigs"
+        :is-loading="allConfigsQuery.isLoading.value"
+        :disabled="props.disabled"
+        @navigate-to="handleNavigateToConfig"
+        @deactivate="handleDeactivateConfig"
+      />
+
       <template #button-group>
         <template v-if="isEditing">
           <UIButtonModalCancel
@@ -145,34 +186,12 @@ const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
         </template>
       </template>
 
-      <!-- Save confirmation: apply to current week only or current + future -->
-      <DialogSkeleton v-model="showSaveConfirm">
-        <ModalBaseLayout
-          title="Confirmar"
-          :close-button="true"
-          :on-close="() => (showSaveConfirm = false)"
-          class="!sm:max-w-[38rem]"
-        >
-          <p class="text-ldsa-grey text-center mx-auto break-words">
-            Aplicar alterações apenas nesta semana ou nesta e nas futuras?
-          </p>
-
-          <template #button-group>
-            <UIButtonModalBaseLayout
-              text="Apenas esta semana"
-              color="var(--ladesa-green-1-color)"
-              type="button"
-              class="flex-1 whitespace-nowrap"
-              @click="handleConfirm(false)"
-            />
-            <UIButtonModalCommonButtonsGreenWithCheck
-              text="Esta e futuras"
-              class="flex-1 whitespace-nowrap"
-              @click.prevent="handleConfirm(true)"
-            />
-          </template>
-        </ModalBaseLayout>
-      </DialogSkeleton>
+      <!-- Save scope: permanente ou temporário -->
+      <SectionTurmasFormAvailabilitySaveScopeModal
+        v-model="showSaveConfirm"
+        @confirm="handleConfirm"
+        @close="showSaveConfirm = false"
+      />
 
       <!-- Navigation confirmation when dirty -->
       <DialogConfirm

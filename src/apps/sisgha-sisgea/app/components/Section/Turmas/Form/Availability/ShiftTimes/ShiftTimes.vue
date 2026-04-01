@@ -53,7 +53,7 @@ const toggleAll = (shift: { times: string[] }) => {
         <h1 class="font-medium">{{ capitalizeFirst(shift.title) }}</h1>
       </div>
       <UICheckbox
-        v-model="props.selectedTimes"
+        :model-value="props.selectedTimes"
         :items="shift.times"
         :disabled-items="disabledItems"
         class="nunito flex flex-col justify-between"

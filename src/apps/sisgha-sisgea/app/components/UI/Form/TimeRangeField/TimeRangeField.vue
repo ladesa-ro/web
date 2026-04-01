@@ -16,14 +16,6 @@ const emit = defineEmits<{
 const hasError = computed(() => !!props.error);
 </script>
 
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-.input-base.input-range {
-  @apply justify-center;
-}
-</style>
-
 <template>
   <div class="flex flex-col gap-1">
     <div
@@ -60,6 +52,14 @@ const hasError = computed(() => !!props.error);
     </p>
   </div>
 </template>
+
+<style scoped>
+@reference "~/assets/styles/app.css";
+
+.input-base.input-range {
+  @apply justify-center;
+}
+</style>
 
 <style scoped>
 @import "~/components/UI/Form/-Utils/style/inputStyles.css";

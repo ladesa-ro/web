@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { ParsedItem } from '~/composables/useOptionItems';
+
 interface GradeOption {
   identificadorExterno: string;
   nome: string;
@@ -15,6 +17,18 @@ const emit = defineEmits<{
   'update:selectedIdentifier': [value: string | null];
 }>();
 
+const items = computed<ParsedItem[]>(() =>
+  props.grades.map(grade => ({
+    label: grade.nome,
+    value: grade.identificadorExterno,
+  })),
+);
+
+const selectedOption = computed<string | null>({
+  get: () => props.selectedIdentifier,
+  set: (value) => emit('update:selectedIdentifier', value ?? null),
+});
+
 const selectedGradeName = computed(() => {
   if (!props.selectedIdentifier) return 'Nenhuma grade selecionada';
   const grade = props.grades.find(
@@ -26,28 +40,20 @@ const selectedGradeName = computed(() => {
 
 <template>
   <div class="flex flex-col gap-1">
-    <label class="text-xs font-medium text-ldsa-text-default">
-      Grade horária
-    </label>
-
     <template v-if="isEditing && !disabled">
-      <select
-        :value="props.selectedIdentifier ?? ''"
-        class="border border-ldsa-grey rounded-md px-2 py-1.5 text-sm bg-white"
-        @change="emit('update:selectedIdentifier', ($event.target as HTMLSelectElement).value || null)"
-      >
-        <option value="">Selecione uma grade horária</option>
-        <option
-          v-for="grade in props.grades"
-          :key="grade.identificadorExterno"
-          :value="grade.identificadorExterno"
-        >
-          {{ grade.nome }}
-        </option>
-      </select>
+      <UIFormOptionFieldsAutocomplete
+        v-model:selected-option="selectedOption"
+        label="Grade horária"
+        placeholder="Selecione uma grade horária"
+        :items="items"
+        :disabled="disabled"
+      />
     </template>
 
     <template v-else>
+      <label class="text-xs font-medium text-ldsa-text-default">
+        Grade horária
+      </label>
       <span class="text-sm text-ldsa-text-default">
         {{ selectedGradeName }}
       </span>

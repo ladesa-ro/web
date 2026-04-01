@@ -1,12 +1,15 @@
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { createInvalidate } from '~/composables/query-helpers';
 import {
+  turmaDisponibilidadeDeactivate,
+  turmaDisponibilidadeFindAllActive,
   turmaDisponibilidadeFindByWeek,
   turmaDisponibilidadeSave,
 } from '@ladesa-ro/web.api.client';
 import type {
-  TurmaDisponibilidadeWeekOutputDto,
+  TurmaDisponibilidadeAllOutputDto,
   TurmaDisponibilidadeSaveInputDto,
+  TurmaDisponibilidadeWeekOutputDto,
 } from '@ladesa-ro/web.api.client';
 
 export const useTurmaDisponibilidade = () => {
@@ -24,7 +27,7 @@ export const useTurmaDisponibilidade = () => {
 
   const findByWeek = (
     turmaId: MaybeRef<string | null>,
-    semana: MaybeRef<string>
+    semana: MaybeRef<string>,
   ) => {
     return useQuery<TurmaDisponibilidadeWeekOutputDto>({
       queryKey: computed(() => [...keys, unref(turmaId), unref(semana)]),
@@ -33,6 +36,21 @@ export const useTurmaDisponibilidade = () => {
         const sem = unref(semana);
         if (!id) return { configs: [] };
         return fetchWeek(id, sem);
+      },
+      enabled: computed(() => !!unref(turmaId)),
+      staleTime: 0,
+    });
+  };
+
+  const findAllActive = (turmaId: MaybeRef<string | null>) => {
+    return useQuery<TurmaDisponibilidadeAllOutputDto>({
+      queryKey: computed(() => [...keys, 'all', unref(turmaId)]),
+      queryFn: async () => {
+        const id = unref(turmaId);
+        if (!id) return { configs: [] };
+        return api.call(turmaDisponibilidadeFindAllActive, {
+          path: { turmaId: id },
+        });
       },
       enabled: computed(() => !!unref(turmaId)),
       staleTime: 0,
@@ -49,7 +67,7 @@ export const useTurmaDisponibilidade = () => {
 
   const save = async (
     turmaId: string,
-    payload: TurmaDisponibilidadeSaveInputDto
+    payload: TurmaDisponibilidadeSaveInputDto,
   ) => {
     return api.call(turmaDisponibilidadeSave, {
       path: { turmaId },
@@ -57,7 +75,14 @@ export const useTurmaDisponibilidade = () => {
     });
   };
 
+  const deactivate = async (turmaId: string, configId: string) => {
+    await api.call(turmaDisponibilidadeDeactivate, {
+      path: { turmaId, configId },
+    });
+    await invalidate();
+  };
+
   const invalidate = createInvalidate(keys);
 
-  return { keys, findByWeek, prefetchWeek, save, invalidate };
+  return { keys, findByWeek, findAllActive, prefetchWeek, save, deactivate, invalidate };
 };

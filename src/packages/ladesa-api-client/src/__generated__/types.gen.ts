@@ -1282,6 +1282,17 @@ export type PerfilFindOneOutputDto = {
   usuario: UsuarioFindOneOutputDto;
 };
 
+export type PerfilListOutputDto = {
+  /**
+   * Metadados da busca
+   */
+  meta: PaginationMetaRestDto;
+  /**
+   * Resultados da busca
+   */
+  data: Array<PerfilFindOneOutputDto>;
+};
+
 export type DisciplinaFindOneOutputDto = {
   /**
    * Identificador do registro (uuid)
@@ -2477,6 +2488,36 @@ export type TurmaDisponibilidadeDiaDto = {
    * Intervalos de disponibilidade
    */
   intervalos: Array<TurmaDisponibilidadeIntervaloDto>;
+};
+
+export type TurmaDisponibilidadeConfigWithIdOutputDto = {
+  /**
+   * ID da configuracao
+   */
+  id: string;
+  /**
+   * Data inicio da vigencia
+   */
+  data_inicio: string;
+  /**
+   * Data fim da vigencia
+   */
+  data_fim?: string | null;
+  /**
+   * Identificador externo da grade horaria utilizada (snapshot)
+   */
+  identificador_externo_grade_horaria?: string | null;
+  /**
+   * Horarios de disponibilidade por dia da semana
+   */
+  horarios: Array<TurmaDisponibilidadeDiaDto>;
+};
+
+export type TurmaDisponibilidadeAllOutputDto = {
+  /**
+   * Configuracoes de disponibilidade
+   */
+  configs: Array<TurmaDisponibilidadeConfigWithIdOutputDto>;
 };
 
 export type TurmaDisponibilidadeConfigOutputDto = {
@@ -4511,6 +4552,56 @@ export type UsuarioEventoUpdateResponses = {
 export type UsuarioEventoUpdateResponse =
   UsuarioEventoUpdateResponses[keyof UsuarioEventoUpdateResponses];
 
+export type PerfilListData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por ID de campus
+     */
+    'filter.campus.id'?: Array<string>;
+    /**
+     * Filtro por ID de usuario
+     */
+    'filter.usuario.id'?: Array<string>;
+    /**
+     * Filtro por nome do cargo
+     */
+    'filter.cargo.nome'?: Array<string>;
+  };
+  url: '/perfis';
+};
+
+export type PerfilListErrors = {
+  403: unknown;
+};
+
+export type PerfilListResponses = {
+  200: PerfilListOutputDto;
+};
+
+export type PerfilListResponse = PerfilListResponses[keyof PerfilListResponses];
+
 export type PerfilFindByIdData = {
   body?: never;
   path: {
@@ -4520,7 +4611,7 @@ export type PerfilFindByIdData = {
     id: string;
   };
   query?: never;
-  url: '/usuarios/{usuarioId}/perfis/{id}';
+  url: '/perfis/{id}';
 };
 
 export type PerfilFindByIdErrors = {
@@ -4534,6 +4625,30 @@ export type PerfilFindByIdResponses = {
 
 export type PerfilFindByIdResponse =
   PerfilFindByIdResponses[keyof PerfilFindByIdResponses];
+
+export type PerfilFindById2Data = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/usuarios/{usuarioId}/perfis/{id}';
+};
+
+export type PerfilFindById2Errors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type PerfilFindById2Responses = {
+  200: PerfilFindOneOutputDto;
+};
+
+export type PerfilFindById2Response =
+  PerfilFindById2Responses[keyof PerfilFindById2Responses];
 
 export type PerfilEnsinoByIdData = {
   body?: never;
@@ -6329,6 +6444,29 @@ export type TurmaUpdateImagemCapaResponses = {
 export type TurmaUpdateImagemCapaResponse =
   TurmaUpdateImagemCapaResponses[keyof TurmaUpdateImagemCapaResponses];
 
+export type TurmaDisponibilidadeFindAllActiveData = {
+  body?: never;
+  path: {
+    /**
+     * ID da turma
+     */
+    turmaId: string;
+  };
+  query?: never;
+  url: '/turmas/{turmaId}/disponibilidade/all';
+};
+
+export type TurmaDisponibilidadeFindAllActiveErrors = {
+  403: unknown;
+};
+
+export type TurmaDisponibilidadeFindAllActiveResponses = {
+  200: TurmaDisponibilidadeAllOutputDto;
+};
+
+export type TurmaDisponibilidadeFindAllActiveResponse =
+  TurmaDisponibilidadeFindAllActiveResponses[keyof TurmaDisponibilidadeFindAllActiveResponses];
+
 export type TurmaDisponibilidadeFindByWeekData = {
   body?: never;
   path: {
@@ -6379,6 +6517,36 @@ export type TurmaDisponibilidadeSaveResponses = {
 
 export type TurmaDisponibilidadeSaveResponse =
   TurmaDisponibilidadeSaveResponses[keyof TurmaDisponibilidadeSaveResponses];
+
+export type TurmaDisponibilidadeDeactivateData = {
+  body?: never;
+  path: {
+    /**
+     * ID da turma
+     */
+    turmaId: string;
+    /**
+     * ID da configuracao de disponibilidade
+     */
+    configId: string;
+  };
+  query?: never;
+  url: '/turmas/{turmaId}/disponibilidade/{configId}';
+};
+
+export type TurmaDisponibilidadeDeactivateErrors = {
+  403: unknown;
+};
+
+export type TurmaDisponibilidadeDeactivateResponses = {
+  /**
+   * Configuracao desativada com sucesso
+   */
+  204: void;
+};
+
+export type TurmaDisponibilidadeDeactivateResponse =
+  TurmaDisponibilidadeDeactivateResponses[keyof TurmaDisponibilidadeDeactivateResponses];
 
 export type TurmaEventoFindAllData = {
   body?: never;
