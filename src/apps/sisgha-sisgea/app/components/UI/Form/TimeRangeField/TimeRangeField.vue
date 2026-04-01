@@ -1,102 +1,59 @@
 <script setup lang="ts">
-import { Time } from '@internationalized/date';
-import {
-  TimeRangeFieldInput,
-  TimeRangeFieldRoot,
-} from 'reka-ui';
-
 const props = defineProps<{
+  start?: string | null;
+  end?: string | null;
   label?: string;
   disabled?: boolean;
   error?: string;
   readonly?: boolean;
-  granularity?: 'hour' | 'minute' | 'second';
 }>();
 
-const startModel = defineModel<string | null>('start', { default: null });
-const endModel = defineModel<string | null>('end', { default: null });
-
-function parseTime(value: string | null): Time | undefined {
-  if (!value) return undefined;
-  const parts = value.split(':').map(Number);
-  return new Time(parts[0] ?? 0, parts[1] ?? 0, parts[2] ?? 0);
-}
-
-function formatTime(time: Time | undefined): string | null {
-  if (!time) return null;
-  const h = String(time.hour).padStart(2, '0');
-  const m = String(time.minute).padStart(2, '0');
-  return `${h}:${m}`;
-}
-
-const internalValue = computed({
-  get: () => ({
-    start: parseTime(startModel.value) ?? new Time(0, 0),
-    end: parseTime(endModel.value) ?? new Time(0, 0),
-  }),
-  set: (val: { start: Time; end: Time }) => {
-    startModel.value = formatTime(val.start);
-    endModel.value = formatTime(val.end);
-  },
-});
+const emit = defineEmits<{
+  'update:start': [value: string | null];
+  'update:end': [value: string | null];
+}>();
 
 const hasError = computed(() => !!props.error);
 </script>
 
+<style scoped>
+@reference "~/assets/styles/app.css";
+
+.input-base.input-range {
+  @apply justify-center;
+}
+</style>
+
 <template>
   <div class="flex flex-col gap-1">
-    <TimeRangeFieldRoot
-      v-slot="{ segments }"
-      v-model="internalValue"
-      :hour-cycle="24"
-      :granularity="granularity ?? 'minute'"
-      :disabled="disabled"
-      :readonly="readonly"
-      class="input-base"
+    <div
+      class="input-base input-range"
       :class="{ 'has-error': hasError }"
     >
       <label v-if="label">{{ label }}</label>
 
-      <div class="flex items-center gap-1 py-2 tabular-nums">
-        <!-- Start -->
-        <div class="flex items-center gap-0.5">
-          <template v-for="(segment, i) in segments.start" :key="`start-${i}`">
-            <span
-              v-if="segment.part === 'literal'"
-              class="text-ldsa-grey select-none"
-            >
-              {{ segment.value }}
-            </span>
-            <TimeRangeFieldInput
-              v-else
-              :part="segment.part"
-              type="start"
-              class="rounded px-0.5 py-0.5 text-ldsa-text-default focus:bg-ldsa-green-2/15 focus:outline-none data-placeholder:text-ldsa-grey/60"
-            />
-          </template>
-        </div>
+      <div class="flex items-center justify-center gap-1 py-2 tabular-nums">
+        <input
+          type="time"
+          :value="start ?? ''"
+          :disabled="disabled"
+          :readonly="readonly"
+          class="bg-transparent text-ldsa-text-default text-center focus:outline-none disabled:opacity-40"
+          @input="emit('update:start', ($event.target as HTMLInputElement).value || null)"
+        >
 
         <span class="text-ldsa-grey select-none px-1">—</span>
 
-        <!-- End -->
-        <div class="flex items-center gap-0.5">
-          <template v-for="(segment, i) in segments.end" :key="`end-${i}`">
-            <span
-              v-if="segment.part === 'literal'"
-              class="text-ldsa-grey select-none"
-            >
-              {{ segment.value }}
-            </span>
-            <TimeRangeFieldInput
-              v-else
-              :part="segment.part"
-              type="end"
-              class="rounded px-0.5 py-0.5 text-ldsa-text-default focus:bg-ldsa-green-2/15 focus:outline-none data-placeholder:text-ldsa-grey/60"
-            />
-          </template>
-        </div>
+        <input
+          type="time"
+          :value="end ?? ''"
+          :disabled="disabled"
+          :readonly="readonly"
+          class="bg-transparent text-ldsa-text-default text-center focus:outline-none disabled:opacity-40"
+          @input="emit('update:end', ($event.target as HTMLInputElement).value || null)"
+        >
       </div>
-    </TimeRangeFieldRoot>
+    </div>
 
     <p v-if="error" class="text-ldsa-red text-xs font-semibold px-1">
       {{ error }}

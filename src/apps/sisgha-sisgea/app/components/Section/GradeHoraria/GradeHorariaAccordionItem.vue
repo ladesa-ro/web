@@ -170,7 +170,7 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
           class="mb-2"
         >
           <div
-            class="flex flex-wrap md:flex-nowrap items-center justify-between gap-2 p-3 border-b-2"
+            class="flex flex-wrap md:flex-nowrap items-center justify-center gap-2 p-3 border-b-2"
             :class="getIntervalError(periodo, j) ? 'border-ldsa-red/30' : 'border-ldsa-grey/20'"
           >
             <template v-if="isEditing">
