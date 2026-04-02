@@ -215,6 +215,7 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
             class="flex-1"
             @click="emit('add-interval', periodo.nome)"
           />
+          <div class="w-px h-5 bg-ldsa-grey/40 shrink-0" />
           <SectionGradeHorariaButtonAddEmMassa
             :disabled="disabled"
             class="flex-1"
