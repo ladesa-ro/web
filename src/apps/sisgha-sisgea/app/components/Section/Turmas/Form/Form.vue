@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useField } from 'vee-validate';
 import { FormMode } from '~/utils/constants';
 import type {
   TurmaCreateInputDto,
@@ -25,12 +26,11 @@ const confirmDelete = useConfirmDelete();
 
 const turmaQuery = turmas.findOne(computed(() => editId));
 
-const campusId = computed(() => {
-  const data = turmaQuery.data.value as {
-    curso?: { campus?: { id?: string } };
-  } | null;
-  return data?.curso?.campus?.id ?? null;
-});
+const cursos = useCursos();
+const { value: selectedCursoId } = useField<string | null>('curso.id');
+const cursoQuery = cursos.findOne(selectedCursoId);
+const campusContext = useCampusContext();
+const campusId = computed(() => cursoQuery.data.value?.campus?.id ?? campusContext.value ?? null);
 
 const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   schema,
