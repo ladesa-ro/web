@@ -11,7 +11,7 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const { item: nivelFormacao } = props;
+const { item: nivelFormacao } = toRefs(props);
 
 const link = props.link === undefined || props.link === '' ? 'niveis-formacoes' : props.link;
 

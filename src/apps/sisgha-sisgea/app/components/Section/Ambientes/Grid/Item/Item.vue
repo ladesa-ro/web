@@ -10,7 +10,7 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const { item: ambiente } = props;
+const { item: ambiente } = toRefs(props);
 
 const link = props.link === undefined || props.link === '' ? '/sisgea/ambientes' : props.link;
 
