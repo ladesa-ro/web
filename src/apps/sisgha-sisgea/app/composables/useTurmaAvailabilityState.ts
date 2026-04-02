@@ -95,6 +95,22 @@ export function useTurmaAvailabilityState(
     campusShifts.value.flatMap(s => s.times)
   );
 
+  function selectAllTimes() {
+    const times = allCampusTimes.value;
+    const all: Record<number, string[]> = {};
+    for (let day = 1; day <= 6; day++) {
+      all[day] = [...times];
+    }
+    editingAvailability.value = all;
+  }
+
+  // Auto-select all times when grade changes during edit
+  watch(campusShifts, () => {
+    if (isEditing.value) {
+      selectAllTimes();
+    }
+  });
+
   // --- Turma Disponibilidade per Week ---
 
   const semanaParam = computed(() =>
@@ -360,8 +376,9 @@ export function useTurmaAvailabilityState(
   // --- Actions ---
 
   function enterEditMode() {
-    if (hasGradeDivergence.value) {
-      editingAvailability.value = {};
+    const hasServerData = Object.keys(serverAvailability.value).length > 0;
+    if (hasGradeDivergence.value || !hasServerData) {
+      selectAllTimes();
     } else {
       editingAvailability.value = JSON.parse(
         JSON.stringify(serverAvailability.value)
