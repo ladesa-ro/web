@@ -388,8 +388,8 @@ export function useTurmaAvailabilityState(
     pendingConfigs.value = newMap;
   }
 
-  async function saveAvailability() {
-    const id = unref(turmaId);
+  async function saveAvailability(overrideTurmaId?: string) {
+    const id = overrideTurmaId ?? unref(turmaId);
     if (!id) return;
 
     const hasConfigs = pendingConfigs.value.size > 0;

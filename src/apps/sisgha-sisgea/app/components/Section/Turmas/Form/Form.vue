@@ -15,7 +15,7 @@ const isClassesOpen = ref(true);
 const isAvailabilityOpen = ref(true);
 
 const availabilityRef = ref<{
-  saveAvailability: () => Promise<void>;
+  saveAvailability: (overrideTurmaId?: string) => Promise<void>;
   hasPendingSave: boolean;
   invalidateDisponibilidade: () => Promise<void>;
 } | null>(null);
@@ -43,7 +43,10 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
       periodo: formData.periodo,
       ambientePadraoAula: formData.ambientePadraoAula,
     };
-    await turmas.create(data);
+    const created = await turmas.create(data);
+    if (created?.id) {
+      await availabilityRef.value?.saveAvailability(created.id);
+    }
   },
 
   update: async (id, formData) => {
