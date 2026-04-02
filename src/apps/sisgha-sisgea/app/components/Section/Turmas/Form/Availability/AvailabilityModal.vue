@@ -17,7 +17,13 @@ const emit = defineEmits<{
 }>();
 const onClose = () => emit('close');
 
-const {
+const state = useTurmaAvailabilityState(
+  computed(() => props.turmaId ?? null),
+  computed(() => props.mode ?? FormMode.CREATE),
+  computed(() => props.campusId ?? null)
+);
+
+const  {
   currentWeekRef,
   weekDays,
   weekLabel,
@@ -50,11 +56,7 @@ const {
   hasGradeDivergence,
   showNavigationConfirm,
   confirmNavigationDiscard,
-} = useTurmaAvailabilityState(
-  computed(() => props.turmaId ?? null),
-  computed(() => props.mode ?? FormMode.CREATE),
-  computed(() => props.campusId ?? null)
-);
+} = state;
 
 watch(isEditing, val => emit('update:editing', val));
 
@@ -174,6 +176,7 @@ function getConfigLabel(tipo: 'permanente' | 'temporario', dataInicio: string, d
         />
 
         <ShiftTimes
+          :key="selectedGradeIdentifier ?? ''"
           :day-shifts="campusShifts"
           :selected-times="selectedTimes"
           :disabled="!isEditing"
