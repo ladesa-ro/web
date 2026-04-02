@@ -1720,6 +1720,10 @@ export type CalendarioEventoFindOneOutputDto = {
    */
   identificadorExterno: string;
   /**
+   * Tipo: EVENTO (atividade) ou INDISPONIBILIDADE
+   */
+  tipo: string;
+  /**
    * Nome do evento/atividade
    */
   nome?: string | null;
