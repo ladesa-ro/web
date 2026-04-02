@@ -49,9 +49,12 @@ const { value: classDuration } = useField<number>('classDuration');
 const { value: breakDuration } = useField<number>('breakDuration');
 const { value: breakAfterClass } = useField<number>('breakAfterClass');
 
-// Auto-update startTime when turno changes via toggle
+// Auto-update startTime when turno changes via toggle (only if current time is outside the new turno range)
 watch(selectedPeriodo, (periodo) => {
-  startTime.value = periodoDefaults[periodo];
+  const current = startTime.value;
+  if (!current || classificarPeriodo(current) !== periodo) {
+    startTime.value = periodoDefaults[periodo];
+  }
 });
 
 // Auto-switch turno when startTime changes manually
