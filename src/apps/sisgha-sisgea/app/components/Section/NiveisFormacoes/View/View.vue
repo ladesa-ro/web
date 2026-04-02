@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import NiveisFormacoesForm from '../Form/Form.vue';
+import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
 
 const niveisFormacoes = useNiveisFormacoes();
 const { data: nivelFormacao, isLoading, isError } = niveisFormacoes.findOne(ref(resourceId));
+
+const coverImageSrc = useApiImageRoute(ApiImageResource.NIVEL_FORMACAO_COVER, nivelFormacao);
 
 const confirmDelete = useConfirmDelete();
 const router = useRouter();
@@ -22,7 +25,8 @@ const handleDelete = async () => {
 
 <template>
   <UIResourceView
-    :title="nivelFormacao?.slug ?? ''"
+    :title="nivelFormacao?.nome ?? nivelFormacao?.slug ?? ''"
+    :image-src="coverImageSrc"
     :is-loading="isLoading"
     :is-error="isError"
   >
@@ -36,6 +40,7 @@ const handleDelete = async () => {
 
     <template #details>
       <UIResourceViewFieldGroup>
+        <UIResourceViewField label="Nome" :value="nivelFormacao?.nome" />
         <UIResourceViewField label="Slug" :value="nivelFormacao?.slug" />
       </UIResourceViewFieldGroup>
     </template>

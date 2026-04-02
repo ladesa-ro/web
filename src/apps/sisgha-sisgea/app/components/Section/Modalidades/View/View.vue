@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import ModalidadesForm from '../Form/Form.vue';
+import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
 
 const modalidades = useModalidades();
 const { data: modalidade, isLoading, isError } = modalidades.findOne(ref(resourceId));
+
+const coverImageSrc = useApiImageRoute(ApiImageResource.MODALIDADE_COVER, modalidade);
 
 const confirmDelete = useConfirmDelete();
 const router = useRouter();
@@ -23,6 +26,7 @@ const handleDelete = async () => {
 <template>
   <UIResourceView
     :title="modalidade?.nome ?? ''"
+    :image-src="coverImageSrc"
     :is-loading="isLoading"
     :is-error="isError"
   >

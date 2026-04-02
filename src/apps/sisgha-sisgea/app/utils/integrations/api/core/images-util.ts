@@ -3,6 +3,8 @@ import type {
   BlocoFindOneOutputDto,
   CursoFindOneOutputDto,
   DisciplinaFindOneOutputDto,
+  ModalidadeFindOneOutputDto,
+  NivelFormacaoFindOneOutputDto,
   TurmaFindOneOutputDto,
   UsuarioFindOneOutputDto,
 } from '@ladesa-ro/web.api.client';
@@ -13,6 +15,8 @@ export enum ApiImageResource {
   DISCIPLINA_COVER,
   AMBIENTE_COVER,
   BLOCO_COVER,
+  MODALIDADE_COVER,
+  NIVEL_FORMACAO_COVER,
   USUARIO_PROFILE,
 }
 
@@ -40,6 +44,16 @@ type IUseApiImageRouteFunction = {
   (
     resourceImage: ApiImageResource.BLOCO_COVER,
     item: MaybeRef<BlocoFindOneOutputDto | null | undefined>
+  ): ComputedRef<string | null>;
+
+  (
+    resourceImage: ApiImageResource.MODALIDADE_COVER,
+    item: MaybeRef<ModalidadeFindOneOutputDto | null | undefined>
+  ): ComputedRef<string | null>;
+
+  (
+    resourceImage: ApiImageResource.NIVEL_FORMACAO_COVER,
+    item: MaybeRef<NivelFormacaoFindOneOutputDto | null | undefined>
   ): ComputedRef<string | null>;
 
   (
@@ -108,6 +122,26 @@ export const useApiImageRoute: IUseApiImageRouteFunction = (
 
         if (imagemCapa) {
           return `${base}/blocos/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
+        }
+
+        return null;
+      }
+
+      case ApiImageResource.MODALIDADE_COVER: {
+        const imagemCapa = item?.imagemCapa;
+
+        if (imagemCapa) {
+          return `${base}/modalidades/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
+        }
+
+        return null;
+      }
+
+      case ApiImageResource.NIVEL_FORMACAO_COVER: {
+        const imagemCapa = item?.imagemCapa;
+
+        if (imagemCapa) {
+          return `${base}/niveis-formacoes/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
         }
 
         return null;

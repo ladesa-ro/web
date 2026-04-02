@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import ModalidadesForm from '../../Form/Form.vue';
 import type { ModalidadeFindOneOutputDto } from '@ladesa-ro/web.api.client';
+import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {
   isLoading?: boolean;
@@ -13,13 +14,15 @@ const props = defineProps<Props>();
 const { item: modalidade } = props;
 
 const link = props.link === undefined || props.link === '' ? 'modalidades' : props.link;
+
+const coverImageSrc = useApiImageRoute(ApiImageResource.MODALIDADE_COVER, modalidade);
 </script>
 
 <template>
   <UICardAutoSkeleton :skeleton="isLoading || !modalidade">
     <UICard
       v-if="modalidade"
-      :src="null"
+      :src="coverImageSrc"
       :title="modalidade.nome"
       variant="block"
     >
