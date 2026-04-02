@@ -10,9 +10,11 @@ type Slots = {
 
 defineSlots<Slots>();
 
-const { formWithFilters, options } = useUIApiListContext();
+const { formWithFilters, formOptions, options } = useUIApiListContext();
 
 const customGridClass = options.gridClass ?? null;
+
+const hasSearchQuery = computed(() => !!formOptions.value.search?.trim());
 
 const query = useInfiniteQuery({
   queryKey: computed(() => [
@@ -144,9 +146,9 @@ await query.suspense().catch(() => null);
         </div>
       </template>
 
-      <template v-else-if="!isFetching">
+      <template v-else-if="!isFetching && hasSearchQuery">
         <div
-          key="no-results"
+          key="no-search-results"
           class="col-span-full min-h-min flex-1 flex flex-col items-center justify-center text-center p-8"
         >
           <h3 class="text-lg font-semibold mb-3">
@@ -156,6 +158,20 @@ await query.suspense().catch(() => null);
             Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos
             menos específicos ou consultas mais amplas podem ajudá-lo a
             encontrar o que procura.
+          </p>
+        </div>
+      </template>
+
+      <template v-else-if="!isFetching">
+        <div
+          key="no-records"
+          class="col-span-full min-h-min flex-1 flex flex-col items-center justify-center text-center p-8"
+        >
+          <h3 class="text-lg font-semibold mb-3">
+            Nenhum registro encontrado.
+          </h3>
+          <p class="text-sm">
+            Não há registros cadastrados para exibir.
           </p>
         </div>
       </template>
