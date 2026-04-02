@@ -5,7 +5,6 @@ import { ApiImageResource, useApiImageRoute } from '~/utils';
 type Props = {
   diario: DiarioFindOneOutputDto;
   link?: string;
-  editButton?: boolean;
 };
 
 const props = defineProps<Props>();
@@ -35,39 +34,27 @@ await professoresQuery.suspense();
 </script>
 
 <template>
-  <nuxt-link :to="`${link}/${diario.id}`">
-    <UICard :src="coverImageSrc" :title="diario.disciplina.nome" variant="block">
-      <template #actions>
-        <LazySectionDiariosModal v-if="editButton" :edit-id="diario.id" />
-        <IconsArrowAlt
-          v-else
-          class="w-4.5 rotate-180 mr-1.5 arrow-behaviour transition-transform"
-        />
-      </template>
+  <UICard :src="coverImageSrc" :title="diario.disciplina.nome" variant="block">
+    <template #actions>
+      <UICardActions :to="`${link}/${diario.id}`">
+        <LazySectionDiariosModal :edit-id="diario.id" />
+      </UICardActions>
+    </template>
 
-      <UICardLine>
-        <span>
-          Professores:
-          <template
-            v-for="diarioProfessor in diariosProfessoresList"
-            :key="diarioProfessor.id"
-          >
-            {{ diarioProfessor.perfil.usuario.nome }}
-          </template>
-        </span>
-      </UICardLine>
+    <UICardLine>
+      <span>
+        Professores:
+        <template
+          v-for="diarioProfessor in diariosProfessoresList"
+          :key="diarioProfessor.id"
+        >
+          {{ diarioProfessor.perfil.usuario.nome }}
+        </template>
+      </span>
+    </UICardLine>
 
-      <UICardLine
-        :text="`Turmas: ${diario.turma.periodo} - ${diario.turma.curso.ofertaFormacao.nome}`"
-      />
-    </UICard>
-  </nuxt-link>
+    <UICardLine
+      :text="`Turmas: ${diario.turma.periodo} - ${diario.turma.curso.ofertaFormacao.nome}`"
+    />
+  </UICard>
 </template>
-
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-a:hover .arrow-behaviour {
-  @apply translate-x-1;
-}
-</style>

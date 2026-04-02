@@ -6,7 +6,6 @@ type Props = {
   isLoading?: boolean;
   item?: ModalidadeFindOneOutputDto | null;
   link?: string;
-  editButton?: boolean;
 };
 
 const props = defineProps<Props>();
@@ -18,34 +17,19 @@ const link = props.link === undefined || props.link === '' ? 'modalidades' : pro
 
 <template>
   <UICardAutoSkeleton :skeleton="isLoading || !modalidade">
-    <nuxt-link v-if="modalidade" :to="`${link}/${modalidade.id}`">
-      <UICard
-        :src="null"
-        :title="modalidade.nome"
-        variant="block"
-      >
-        <template #actions>
-          <DialogModalEditOrCreateModal
-            v-if="editButton"
-            :edit-id="modalidade.id"
-            :form-component="ModalidadesForm"
-          />
-          <IconsArrowAlt
-            v-else
-            class="w-4.5 rotate-180 mr-1.5 arrow-behaviour transition-transform"
-          />
-        </template>
+    <UICard
+      v-if="modalidade"
+      :src="null"
+      :title="modalidade.nome"
+      variant="block"
+    >
+      <template #actions>
+        <UICardActions :to="`${link}/${modalidade.id}`">
+          <DialogModalEditOrCreateModal :edit-id="modalidade.id" :form-component="ModalidadesForm" />
+        </UICardActions>
+      </template>
 
-        <UICardLine :text="`Slug: ${modalidade.slug}`" />
-      </UICard>
-    </nuxt-link>
+      <UICardLine :text="`Slug: ${modalidade.slug}`" />
+    </UICard>
   </UICardAutoSkeleton>
 </template>
-
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-a:hover .arrow-behaviour {
-  @apply translate-x-1;
-}
-</style>

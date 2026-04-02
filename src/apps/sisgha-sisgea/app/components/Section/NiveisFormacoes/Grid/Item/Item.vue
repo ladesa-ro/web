@@ -6,7 +6,6 @@ type Props = {
   isLoading?: boolean;
   item?: NivelFormacaoFindOneOutputDto | null;
   link?: string;
-  editButton?: boolean;
 };
 
 const props = defineProps<Props>();
@@ -18,34 +17,19 @@ const link = props.link === undefined || props.link === '' ? 'niveis-formacoes' 
 
 <template>
   <UICardAutoSkeleton :skeleton="isLoading || !nivelFormacao">
-    <nuxt-link v-if="nivelFormacao" :to="`${link}/${nivelFormacao.id}`">
-      <UICard
-        :src="null"
-        :title="nivelFormacao.slug"
-        variant="block"
-      >
-        <template #actions>
-          <DialogModalEditOrCreateModal
-            v-if="editButton"
-            :edit-id="nivelFormacao.id"
-            :form-component="NiveisFormacoesForm"
-          />
-          <IconsArrowAlt
-            v-else
-            class="w-4.5 rotate-180 mr-1.5 arrow-behaviour transition-transform"
-          />
-        </template>
+    <UICard
+      v-if="nivelFormacao"
+      :src="null"
+      :title="nivelFormacao.slug"
+      variant="block"
+    >
+      <template #actions>
+        <UICardActions :to="`${link}/${nivelFormacao.id}`">
+          <DialogModalEditOrCreateModal :edit-id="nivelFormacao.id" :form-component="NiveisFormacoesForm" />
+        </UICardActions>
+      </template>
 
-        <UICardLine :text="`Slug: ${nivelFormacao.slug}`" />
-      </UICard>
-    </nuxt-link>
+      <UICardLine :text="`Slug: ${nivelFormacao.slug}`" />
+    </UICard>
   </UICardAutoSkeleton>
 </template>
-
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-a:hover .arrow-behaviour {
-  @apply translate-x-1;
-}
-</style>

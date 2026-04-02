@@ -6,7 +6,6 @@ type Props = {
   isLoading?: boolean;
   item?: BlocoFindOneOutputDto | null;
   link?: string;
-  editButton?: boolean;
 };
 
 const props = defineProps<Props>();
@@ -22,35 +21,20 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.BLOCO_COVER, bloco);
 
 <template>
   <UICardAutoSkeleton :skeleton="isLoading || !bloco">
-    <nuxt-link v-if="bloco" :to="`${link}/${bloco.id}`">
-      <UICard
-        :src="coverImageSrc"
-        :title="bloco.nome"
-        variant="block"
-      >
-        <template #actions>
-          <DialogModalEditOrCreateModal
-            v-if="editButton"
-            :edit-id="bloco.id"
-            :form-component="BlocosForm"
-          />
-          <IconsArrowAlt
-            v-else
-            class="w-4.5 rotate-180 mr-1.5 arrow-behaviour transition-transform"
-          />
-        </template>
+    <UICard
+      v-if="bloco"
+      :src="coverImageSrc"
+      :title="bloco.nome"
+      variant="block"
+    >
+      <template #actions>
+        <UICardActions :to="`${link}/${bloco.id}`">
+          <DialogModalEditOrCreateModal :edit-id="bloco.id" :form-component="BlocosForm" />
+        </UICardActions>
+      </template>
 
-        <UICardLine :text="`${bloco.nome} - ${bloco.codigo}`" />
-        <UICardLine :text="bloco.campus.apelido" />
-      </UICard>
-    </nuxt-link>
+      <UICardLine :text="`${bloco.nome} - ${bloco.codigo}`" />
+      <UICardLine :text="bloco.campus.apelido" />
+    </UICard>
   </UICardAutoSkeleton>
 </template>
-
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-a:hover .arrow-behaviour {
-  @apply translate-x-1;
-}
-</style>

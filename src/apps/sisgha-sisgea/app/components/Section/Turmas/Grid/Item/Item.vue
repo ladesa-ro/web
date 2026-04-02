@@ -8,7 +8,6 @@ type Props = {
   isLoading?: boolean;
   item?: TurmaFindOneOutputDto | null;
   link?: string;
-  editButton?: boolean;
 };
 
 //
@@ -24,35 +23,20 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
 
 <template>
   <UICardAutoSkeleton :skeleton="isLoading || !turma">
-    <nuxt-link v-if="turma" :to="link + `/${turma.id}`">
-      <UICard
-        :src="coverImageSrc"
-        :title="`${turma.periodo} - ${turma.curso.nomeAbreviado}`"
-        variant="block"
-      >
-        <template #actions>
-          <EditOrCreateModal
-            v-if="editButton"
-            :edit-id="turma.id"
-            :form-component="TurmasForm"
-          />
-          <IconsArrowAlt
-            v-else
-            class="w-4.5 rotate-180 mr-1.5 arrow-behaviour transition-transform"
-          />
-        </template>
+    <UICard
+      v-if="turma"
+      :src="coverImageSrc"
+      :title="`${turma.periodo} - ${turma.curso.nomeAbreviado}`"
+      variant="block"
+    >
+      <template #actions>
+        <UICardActions :to="link + `/${turma.id}`">
+          <EditOrCreateModal :edit-id="turma.id" :form-component="TurmasForm" />
+        </UICardActions>
+      </template>
 
-        <UICardLine :text="`Formação: ${turma.curso.ofertaFormacao.nome}`" />
-        <UICardLine text="Turno: Matutino e Vespertino" />
-      </UICard>
-    </nuxt-link>
+      <UICardLine :text="`Formação: ${turma.curso.ofertaFormacao.nome}`" />
+      <UICardLine text="Turno: Matutino e Vespertino" />
+    </UICard>
   </UICardAutoSkeleton>
 </template>
-
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-a:hover .arrow-behaviour {
-  @apply translate-x-1;
-}
-</style>
