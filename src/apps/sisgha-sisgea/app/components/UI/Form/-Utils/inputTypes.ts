@@ -31,6 +31,7 @@ export type TextFieldProps = FieldMeta & {
   type?: string;
   name: string;
   value?: string | number;
+  mask?: string;
 };
 
 export type SelectProps = FieldMeta &

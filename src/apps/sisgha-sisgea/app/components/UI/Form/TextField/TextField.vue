@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { vMaska } from 'maska/vue';
 import type { TextFieldProps } from '../-Utils/inputTypes';
 
 const {
@@ -8,6 +9,7 @@ const {
   placeholder,
   disabled,
   modelValue,
+  mask,
 } = defineProps<
   TextFieldProps & { error?: string; modelValue?: string | number }
 >();
@@ -45,6 +47,19 @@ const emit = defineEmits(['update:modelValue', 'blur']);
           {{ String(modelValue).toUpperCase() }}
         </span>
       </div>
+    </template>
+
+    <template v-else-if="mask">
+      <input
+        v-maska="mask"
+        class="w-full px-3 pt-2.5 rounded-md disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
+        :type="type"
+        :placeholder="placeholder"
+        :value="modelValue"
+        :disabled="disabled"
+        @maska="(e: any) => emit('update:modelValue', e.detail.masked)"
+        @blur="emit('blur')"
+      >
     </template>
 
     <template v-else>
