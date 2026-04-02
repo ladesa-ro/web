@@ -5,6 +5,7 @@ import { cidadeFindAll, cidadeFindById } from '@ladesa-ro/web.api.client';
 type Props = {
   isLoading?: boolean;
   name: string;
+  filterEstadoId?: number | null;
 };
 const props = defineProps<Props>();
 const { name } = toRefs(props);
@@ -14,7 +15,13 @@ const { name } = toRefs(props);
 const api = useApiClient();
 const crudModule = {
   baseQueryKeys: ['cidades'],
-  list: (data: any) => api.call(cidadeFindAll, { query: data }),
+  list: (data: any) => {
+    const query = { ...data };
+    if (props.filterEstadoId) {
+      query['filter.estado.id'] = [String(props.filterEstadoId)];
+    }
+    return api.call(cidadeFindAll, { query });
+  },
   getOne: (id: string) => api.call(cidadeFindById, { path: { id: Number(id) } }),
 };
 
@@ -32,6 +39,7 @@ const options = createUIAutocompleteApiRetrieverOptions({
 
 <template>
   <VVAutocompleteAPI
+    :key="filterEstadoId ?? 'all'"
     :is-loading="isLoading"
     :name="name"
     :options="options"

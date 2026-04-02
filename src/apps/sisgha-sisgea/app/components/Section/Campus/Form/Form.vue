@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useField } from 'vee-validate';
 import { campusSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -12,15 +13,24 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   editId: computed(() => editId),
   getQuery: campi.findOne(computed(() => editId)),
   create: async data => {
-    await campi.create(data);
+    const { endereco: { estado: _estado, ...enderecoRest }, ...rest } = data;
+    await campi.create({ ...rest, endereco: enderecoRest });
   },
   update: async (id, data) => {
-    await campi.update(id, data);
+    const { endereco: { estado: _estado, ...enderecoRest }, ...rest } = data;
+    await campi.update(id, { ...rest, endereco: enderecoRest });
   },
   remove: id => campi.remove(id),
   invalidate: campi.invalidate,
   confirmDelete: confirmDelete.confirm,
   onFinish: () => emit('close'),
+});
+
+const { value: estadoId } = useField<number | null>('endereco.estado.id');
+const { value: cidadeId } = useField<number | null>('endereco.cidade.id');
+
+watch(estadoId, () => {
+  cidadeId.value = null;
 });
 </script>
 
@@ -36,7 +46,7 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
       <VVTextField name="apelido" label="Apelido" placeholder="Ex: Campus Ji-Paraná" />
       <VVTextField name="nomeFantasia" label="Nome Fantasia" placeholder="Digite aqui" />
       <VVTextField name="razaoSocial" label="Razão Social" placeholder="Digite aqui" />
-      <VVTextField name="cnpj" label="CNPJ" placeholder="00.000.000/0000-00" />
+      <VVTextField name="cnpj" label="CNPJ" placeholder="00.000.000/0000-00" mask="##.###.###/####-##" />
 
       <h3 class="text-sm font-semibold text-ldsa-text-default mt-2">Endereço</h3>
 
@@ -46,7 +56,8 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
       <VVTextField name="endereco.bairro" label="Bairro" placeholder="Digite aqui" />
       <VVTextField name="endereco.complemento" label="Complemento" placeholder="Opcional" />
       <VVTextField name="endereco.pontoReferencia" label="Ponto de Referência" placeholder="Opcional" />
-      <VVAutocompleteAPICidade name="endereco.cidade.id" />
+      <VVAutocompleteAPIEstado name="endereco.estado.id" />
+      <VVAutocompleteAPICidade name="endereco.cidade.id" :filter-estado-id="estadoId" />
     </UIFormLayout>
   </form>
 

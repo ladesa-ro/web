@@ -12,6 +12,9 @@ export const campusSchema = yup.object({
     bairro: yup.string().required('Bairro é obrigatório').default(''),
     complemento: yup.string().nullable().default(null),
     pontoReferencia: yup.string().nullable().default(null),
+    estado: yup.object({
+      id: yup.number().nullable().default(null),
+    }).default({ id: null }),
     cidade: yup.object({
       id: yup.number().required('Cidade é obrigatória').default(0),
     }).default({ id: 0 }),
@@ -22,6 +25,7 @@ export const campusSchema = yup.object({
     bairro: '',
     complemento: null,
     pontoReferencia: null,
+    estado: { id: null },
     cidade: { id: 0 },
   }),
 });
