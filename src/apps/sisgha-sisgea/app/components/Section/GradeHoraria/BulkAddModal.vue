@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { useForm, useField } from 'vee-validate';
 import ModalBaseLayout from '~/components/Dialog/Modal/ModalBaseLayout.vue';
 import type { BulkAddParams } from '~/composables/useGradeHorariaEditor';
-import type { Periodo } from '~/utils/horarios';
+import { classificarPeriodo, type Periodo } from '~/utils/horarios';
 
 const props = defineProps<{
   defaultPeriodo?: Periodo;
@@ -24,21 +25,42 @@ const periodoItems = [
   { text: 'Noturno', value: 'Noturno' },
 ];
 
-const modeItems = [
-  { text: 'Acrescentar', value: 'append' },
-  { text: 'Substituir', value: 'replace' },
-];
+// const modeItems = [
+//   { text: 'Acrescentar', value: 'append' },
+//   { text: 'Substituir', value: 'replace' },
+// ];
 
 const selectedPeriodo = ref<Periodo>(props.defaultPeriodo ?? 'Matutino');
-const mode = ref<'append' | 'replace'>('replace');
-const startTime = ref(periodoDefaults[selectedPeriodo.value]);
-const classCount = ref(5);
-const classDuration = ref(50);
-const breakDuration = ref(20);
-const breakAfterClass = ref(3);
+const mode = ref<'append' | 'replace'>('append');
 
+useForm({
+  initialValues: {
+    startTime: periodoDefaults[selectedPeriodo.value],
+    classCount: 5,
+    classDuration: 50,
+    breakDuration: 20,
+    breakAfterClass: 3,
+  },
+});
+
+const { value: startTime } = useField<string>('startTime');
+const { value: classCount } = useField<number>('classCount');
+const { value: classDuration } = useField<number>('classDuration');
+const { value: breakDuration } = useField<number>('breakDuration');
+const { value: breakAfterClass } = useField<number>('breakAfterClass');
+
+// Auto-update startTime when turno changes via toggle
 watch(selectedPeriodo, (periodo) => {
   startTime.value = periodoDefaults[periodo];
+});
+
+// Auto-switch turno when startTime changes manually
+watch(startTime, (time) => {
+  if (!time) return;
+  const detected = classificarPeriodo(time);
+  if (detected !== selectedPeriodo.value) {
+    selectedPeriodo.value = detected;
+  }
 });
 
 function addMinutes(time: string, minutes: number): string {
@@ -49,18 +71,23 @@ function addMinutes(time: string, minutes: number): string {
   return `${hh}:${mm}`;
 }
 
+const classCountNum = computed(() => Number(classCount.value) || 0);
+const classDurationNum = computed(() => Number(classDuration.value) || 0);
+const breakDurationNum = computed(() => Number(breakDuration.value) || 0);
+const breakAfterClassNum = computed(() => Number(breakAfterClass.value) || 0);
+
 const preview = computed(() => {
-  if (classCount.value < 1 || classDuration.value < 1) return [];
+  if (classCountNum.value < 1 || classDurationNum.value < 1 || !startTime.value) return [];
   const intervals: Array<{ inicio: string; fim: string; isAfterBreak: boolean }> = [];
   let cursor = startTime.value;
 
-  for (let i = 1; i <= classCount.value; i++) {
-    const fim = addMinutes(cursor, classDuration.value);
-    const isAfterBreak = breakAfterClass.value > 0 && i === breakAfterClass.value + 1;
+  for (let i = 1; i <= classCountNum.value; i++) {
+    const fim = addMinutes(cursor, classDurationNum.value);
+    const isAfterBreak = breakAfterClassNum.value > 0 && i === breakAfterClassNum.value + 1;
     intervals.push({ inicio: cursor, fim, isAfterBreak });
     cursor = fim;
-    if (breakAfterClass.value > 0 && i === breakAfterClass.value && i < classCount.value) {
-      cursor = addMinutes(cursor, breakDuration.value);
+    if (breakAfterClassNum.value > 0 && i === breakAfterClassNum.value && i < classCountNum.value) {
+      cursor = addMinutes(cursor, breakDurationNum.value);
     }
   }
 
@@ -68,20 +95,20 @@ const preview = computed(() => {
 });
 
 const isValid = computed(() =>
-  classCount.value >= 1
-  && classDuration.value >= 1
+  classCountNum.value >= 1
+  && classDurationNum.value >= 1
   && startTime.value
-  && (breakAfterClass.value === 0 || breakAfterClass.value < classCount.value),
+  && (breakAfterClassNum.value === 0 || breakAfterClassNum.value < classCountNum.value),
 );
 
 function handleConfirm() {
   if (!isValid.value) return;
   emit('confirm', {
     startTime: startTime.value,
-    classCount: classCount.value,
-    classDuration: classDuration.value,
-    breakDuration: breakDuration.value,
-    breakAfterClass: breakAfterClass.value,
+    classCount: classCountNum.value,
+    classDuration: classDurationNum.value,
+    breakDuration: breakDurationNum.value,
+    breakAfterClass: breakAfterClassNum.value,
     periodo: selectedPeriodo.value,
     mode: mode.value,
   });
@@ -103,57 +130,13 @@ function handleConfirm() {
       </div>
 
       <div class="grid grid-cols-2 gap-3">
-        <div class="flex flex-col gap-1">
-          <label class="text-xs font-medium text-ldsa-text-default">Horário inicial</label>
-          <input
-            v-model="startTime"
-            type="time"
-            class="border border-ldsa-grey rounded-md px-2 py-1.5 text-sm"
-          >
-        </div>
+        <VVTimeField name="startTime" label="Horário inicial" />
+        <VVTextField name="classCount" label="Quantidade de aulas" type="number" placeholder="5" />
+        <VVTextField name="classDuration" label="Duração da aula (min)" type="number" placeholder="50" />
+        <VVTextField name="breakDuration" label="Duração do intervalo (min)" type="number" placeholder="20" />
 
-        <div class="flex flex-col gap-1">
-          <label class="text-xs font-medium text-ldsa-text-default">Quantidade de aulas</label>
-          <input
-            v-model.number="classCount"
-            type="number"
-            min="1"
-            class="border border-ldsa-grey rounded-md px-2 py-1.5 text-sm"
-          >
-        </div>
-
-        <div class="flex flex-col gap-1">
-          <label class="text-xs font-medium text-ldsa-text-default">Duração da aula (min)</label>
-          <input
-            v-model.number="classDuration"
-            type="number"
-            min="1"
-            class="border border-ldsa-grey rounded-md px-2 py-1.5 text-sm"
-          >
-        </div>
-
-        <div class="flex flex-col gap-1">
-          <label class="text-xs font-medium text-ldsa-text-default">Duração do intervalo (min)</label>
-          <input
-            v-model.number="breakDuration"
-            type="number"
-            min="0"
-            class="border border-ldsa-grey rounded-md px-2 py-1.5 text-sm"
-          >
-        </div>
-
-        <div class="col-span-2 flex flex-col gap-1">
-          <label class="text-xs font-medium text-ldsa-text-default">
-            Intervalo após aula nº
-            <span class="text-ldsa-grey font-normal">(0 = sem intervalo)</span>
-          </label>
-          <input
-            v-model.number="breakAfterClass"
-            type="number"
-            min="0"
-            :max="Math.max(classCount - 1, 0)"
-            class="border border-ldsa-grey rounded-md px-2 py-1.5 text-sm"
-          >
+        <div class="col-span-2">
+          <VVTextField name="breakAfterClass" label="Intervalo após aula nº (0 = sem intervalo)" type="number" placeholder="3" />
         </div>
       </div>
 
@@ -170,7 +153,7 @@ function handleConfirm() {
               v-if="item.isAfterBreak"
               class="text-xs text-ldsa-grey italic mb-0.5"
             >
-              — intervalo de {{ breakDuration }} min —
+              — intervalo de {{ breakDurationNum }} min —
             </div>
             <span class="font-medium">Aula {{ i + 1 }}:</span>
             {{ item.inicio }} - {{ item.fim }}
@@ -178,11 +161,11 @@ function handleConfirm() {
         </div>
       </div>
 
-      <!-- Modo toggle -->
-      <div class="flex flex-col gap-1">
+      <!-- Modo toggle (comentado — sempre usa "append") -->
+      <!-- <div class="flex flex-col gap-1">
         <label class="text-xs font-medium text-ldsa-text-default">Modo</label>
         <UIToggle v-model="mode" :items="modeItems" />
-      </div>
+      </div> -->
     </div>
 
     <template #button-group>
