@@ -63,16 +63,14 @@ async function loadCalendars() {
 
     const data = res.data || [];
 
-    allCalendars.value = (data as any[]).map(c => ({
+    allCalendars.value = data.map(c => ({
       id: c.id,
-      name: c.nome ?? c.name ?? c.designacao ?? '',
-      year: c.ano ?? c.year ?? undefined,
+      name: c.nome,
+      year: c.ano,
 
       trainingOffer: { id: c.ofertaFormacao?.id ?? '' },
-      campus: { id: c.campus?.id ?? c.campusId ?? '' },
-
-      ...c,
-    })) as CalendarData[];
+      campus: { id: c.campus?.id ?? '' },
+    }));
 
     console.log('CALENDÁRIOS FILTRADOS POR CAMPUS:', allCalendars.value);
     console.log('Formações disponíveis:', [
@@ -137,19 +135,17 @@ onMounted(async () => {
     console.log('RAW CALENDARS', data);
     console.log('MAPPED CALENDARS', allCalendars.value);
 
-    allCalendars.value = (data as any[]).map(c => ({
+    allCalendars.value = data.map(c => ({
       id: c.id,
-      name: c.nome ?? c.name ?? c.designacao ?? '',
-      year: c.ano ?? c.year ?? undefined,
+      name: c.nome,
+      year: c.ano,
 
       trainingOffer: {
         id: c.ofertaFormacao?.id ?? '',
       },
 
-      campus: { id: c.campus?.id ?? c.campusId ?? '' },
-
-      ...c,
-    })) as CalendarData[];
+      campus: { id: c.campus?.id ?? '' },
+    }));
 
     console.log('MAPPED CALENDARS', allCalendars.value);
 

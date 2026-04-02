@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
+import type { ParsedItem } from '~/composables/useOptionItems';
 import { FormMode } from '~/utils/constants';
 
 defineProps<{
@@ -24,11 +25,11 @@ const duracaoItems = [
   { label: 'Quadrimestral', value: 4 },
 ];
 
-const duracaoSelected = computed({
-  get: () => duracaoPeriodoEmMeses.value as any,
-  set: (val: any) => {
-    duracaoPeriodoEmMeses.value =
-      typeof val === 'object' && val !== null ? val.value : val;
+const duracaoSelected = computed<ParsedItem | undefined>({
+  get: () =>
+    duracaoItems.find(item => item.value === duracaoPeriodoEmMeses.value),
+  set: (val: ParsedItem | undefined) => {
+    duracaoPeriodoEmMeses.value = val?.value;
   },
 });
 

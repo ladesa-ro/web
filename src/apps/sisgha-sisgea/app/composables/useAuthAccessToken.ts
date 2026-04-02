@@ -2,19 +2,19 @@ export const useAuthAccessToken = () => {
   const { data } = useAuth();
 
   const accessToken = computed(
-    (): string | null => data.value?.accessToken ?? null
+    (): string | undefined => data.value?.accessToken ?? undefined
   );
 
-  const getAccessToken = async () => {
+  const getAccessToken = async (): Promise<string | undefined> => {
     if (accessToken.value) {
       return accessToken.value;
     }
 
-    return null;
+    return undefined;
   };
 
   return {
     accessToken,
-    getAccessToken: getAccessToken as any,
+    getAccessToken,
   };
 };
