@@ -3,9 +3,14 @@ const open = ref(false);
 
 const cargos = useCampusContextCargos();
 
-const sisgeaTo = computed(() =>
-  cargos.value.length > 1 ? '/sisgha/dape/' : `/sisgha/${cargos.value[0]}/`
-);
+const cargoPrecedencia = ['dape', 'professor'];
+
+const sisghaTo = computed(() => {
+  const matched = cargoPrecedencia.find(c => cargos.value.includes(c));
+  const cargo = matched ?? cargos.value[0];
+  if (!cargo || typeof cargo !== 'string') return '/sisgha/dape/';
+  return `/sisgha/${cargo}/`;
+});
 </script>
 
 <template>
@@ -38,7 +43,7 @@ const sisgeaTo = computed(() =>
         />
       </NuxtLink>
 
-      <NuxtLink v-else-if="$route.path.includes('sisgea')" :to="sisgeaTo">
+      <NuxtLink v-else-if="$route.path.includes('sisgea')" :to="sisghaTo">
         <LogoSISGHALogomarca
           class="box-content w-[8.75rem] shrink-0 p-3.5 hover:bg-ldsa-grey/15 rounded-lg"
         />

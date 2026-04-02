@@ -47,6 +47,7 @@ const schema = yup.object().shape({
           id: yup
             .string()
             .required('Informe o campus deste vínculo!')
+            .nullable()
             .default(null),
         }),
 
@@ -54,6 +55,7 @@ const schema = yup.object().shape({
           .string()
           .oneOf(Object.values(Cargo), 'Selecione um cargo válido!')
           .required('Informe o cargo deste vínculo!')
+          .nullable()
           .default(null),
       })
     )
@@ -64,25 +66,23 @@ const schema = yup.object().shape({
         .map(v => `${v.campus.id}::${v.cargo}`);
       return keys.length === new Set(keys).size;
     })
-    .default([{ campus: { id: null }, cargo: null }] as any),
+    .default([{ campus: { id: null }, cargo: null }]),
 });
 
-const initialFormValues = reactive({
-  ...schema.cast(
-    {
-      ...currentUsuario.value,
-      vinculos: currentUsuario.value?.vinculos ?? [],
-    },
-    {
-      stripUnknown: true,
-      assert: false,
-    }
-  ),
-});
+const initialFormValues = schema.cast(
+  {
+    ...currentUsuario.value,
+    vinculos: currentUsuario.value?.vinculos ?? [],
+  },
+  {
+    stripUnknown: true,
+    assert: false,
+  }
+) as FormUserValues;
 
 const form = useForm<FormUserValues, FormUserOutput>({
   validationSchema: schema,
-  initialValues: initialFormValues as any,
+  initialValues: initialFormValues,
 });
 
 provide('FORM_USER', form);

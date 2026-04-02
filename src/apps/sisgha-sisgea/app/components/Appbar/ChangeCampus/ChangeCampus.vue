@@ -22,9 +22,12 @@ const toggleCampusItems = computed(() => {
   }));
 });
 
-const showSelector = computed(
-  () => isSuperUser.value || moreThanOneCampus
-);
+const showSelector = computed(() => {
+  if (isSuperUser.value) {
+    return (allCampiData.value?.data ?? []).length > 1;
+  }
+  return moreThanOneCampus;
+});
 
 const selectedCampusGlobalState = useCampusContext();
 
@@ -32,11 +35,18 @@ const selectedCampus = ref(
   selectedCampusGlobalState.value ?? toggleCampusItems.value[0]?.value ?? null
 );
 
-onMounted(() => {
-  if (selectedCampusGlobalState.value === null) {
-    selectedCampusGlobalState.value = selectedCampus.value;
-  }
-});
+// Auto-select first campus when items become available
+watch(
+  toggleCampusItems,
+  (items) => {
+    if (items.length > 0 && !selectedCampusGlobalState.value) {
+      const first = items[0]!.value;
+      selectedCampus.value = first;
+      selectedCampusGlobalState.value = first;
+    }
+  },
+  { immediate: true },
+);
 
 //
 
