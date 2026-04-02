@@ -122,24 +122,26 @@ function getConfigLabel(tipo: 'permanente' | 'temporario', dataInicio: string, d
         @next="goToNextWeek"
       />
 
-      <SectionTurmasFormAvailabilityGradeSelector
-        v-if="campusGrades.length > 1 || isEditing"
-        :grades="campusGrades"
-        :selected-identifier="selectedGradeIdentifier"
-        :is-editing="isEditing"
-        :disabled="isPastWeek"
-        @update:selected-identifier="selectedGradeIdentifier = $event"
-      />
+      <template v-if="isEditing || activeConfigInfo || currentWeekPending">
+        <SectionTurmasFormAvailabilityGradeSelector
+          v-if="campusGrades.length > 1 || isEditing"
+          :grades="campusGrades"
+          :selected-identifier="selectedGradeIdentifier"
+          :is-editing="isEditing"
+          :disabled="isPastWeek"
+          @update:selected-identifier="selectedGradeIdentifier = $event"
+        />
 
-      <UIAlert
-        v-if="isEditing && hasGradeDivergence && !isPastWeek"
-        type="warning"
-        message="Esta turma possui configurações baseadas em uma grade de horários anterior. Ao editar, os horários serão redefinidos."
-      />
+        <UIAlert
+          v-if="isEditing && hasGradeDivergence && !isPastWeek"
+          type="warning"
+          message="Esta turma possui configurações baseadas em uma grade de horários anterior. Ao editar, os horários serão redefinidos."
+        />
+      </template>
 
       <UILoading v-if="weekQuery.isLoading.value" />
 
-      <div v-else class="flex flex-col gap-4">
+      <div v-else-if="isEditing || activeConfigInfo || currentWeekPending" class="flex flex-col gap-4">
         <!-- Config info chip (between week nav and day selector) -->
         <div
           v-if="currentWeekPending"
