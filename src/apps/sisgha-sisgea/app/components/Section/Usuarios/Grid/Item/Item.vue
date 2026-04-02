@@ -4,14 +4,15 @@ import { CargoLabels, type CargoType } from '~/components/Section/Usuarios/Form/
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {
-  usuario: UsuarioFindOneOutputDto;
+  isLoading?: boolean;
+  usuario?: UsuarioFindOneOutputDto | null;
   link?: string;
 };
 const { usuario, link: linkProps } = defineProps<Props>();
 
 const link = linkProps === undefined || linkProps === '' ? 'usuarios' : linkProps;
 
-const vinculos = computed(() => usuario.vinculos ?? []);
+const vinculos = computed(() => usuario?.vinculos ?? []);
 
 const vinculosConcatenated = computed(() => {
   const labels = [...new Set(vinculos.value.map((v: any) => CargoLabels[v.cargo as CargoType] ?? v.cargo))];
@@ -27,7 +28,8 @@ const profilePicureUrl = useApiImageRoute(
 </script>
 
 <template>
-  <UICard v-if="usuario" :src="profilePicureUrl" :title="usuario.nome ?? ''" variant="block">
+  <UICardAutoSkeleton :skeleton="isLoading || !usuario">
+    <UICard v-if="usuario" :src="profilePicureUrl" :title="usuario.nome ?? ''" variant="block">
     <template #fallbackIcon>
       <IconsUser class="w-1/3 2xl:w-1/4 text-ldsa-grey" />
     </template>
@@ -41,4 +43,5 @@ const profilePicureUrl = useApiImageRoute(
     <UICardLine v-if="vinculos.length === 0" text="Sem vínculos" />
     <UICardLine v-else :text="vinculosConcatenated" />
   </UICard>
+  </UICardAutoSkeleton>
 </template>

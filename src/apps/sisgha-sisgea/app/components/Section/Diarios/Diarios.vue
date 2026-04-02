@@ -1,18 +1,37 @@
 <script lang="ts" setup>
-const searchBarText = ref('');
+import {
+  createApiListContextOptions,
+  type IEntityListModule,
+} from '~~/app/components/UI/API/List/Context/UIApiListContext';
+import { diarioFindAll, diarioFindById } from '@ladesa-ro/web.api.client';
+
+const api = useApiClient();
+
+const crudModule = {
+  baseQueryKeys: ['diarios'] as string[],
+  list: (data?: any) => api.call(diarioFindAll, { query: data }),
+  getOne: (id: string) => api.call(diarioFindById, { path: { id } }),
+} satisfies IEntityListModule;
+
+const options = createApiListContextOptions({ crudModule });
 </script>
 
 <template>
-  <UIContainer>
-    <div class="flex-1 h-full flex flex-col gap-10">
+  <UIAPIList :options="options">
+    <template #header>
       <UIBreadcrumbDapeBreadcrumb />
+    </template>
 
-      <div class="flex justify-between items-center mb-10 gap-5">
-        <UISearchBar v-model="searchBarText" />
-        <LazySectionDiariosModal />
-      </div>
+    <template #options-actions>
+      <LazySectionDiariosModal />
+    </template>
 
-      <SectionDiariosGrid :search-bar-text="searchBarText" />
-    </div>
-  </UIContainer>
+    <template #grid-item="{ item }">
+      <SectionDiariosGridItem :diario="item" />
+    </template>
+
+    <template #grid-item-skeleton>
+      <SectionDiariosGridItem :diario="null" />
+    </template>
+  </UIAPIList>
 </template>

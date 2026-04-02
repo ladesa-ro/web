@@ -1,38 +1,36 @@
 <script lang="ts" setup>
-withDefaults(
-  defineProps<{
-    crudEnable?: boolean;
-    itemsLink?: string;
-    defaultStyle?: boolean;
-    searchBarContainerStyle?: string;
-  }>(),
-  {
-    crudEnable: true,
-    itemsLink: undefined,
-    defaultStyle: true,
-  }
-);
+import {
+  createApiListContextOptions,
+  type IEntityListModule,
+} from '~~/app/components/UI/API/List/Context/UIApiListContext';
+import { usuarioFindAll, usuarioFindById } from '@ladesa-ro/web.api.client';
 
-const searchBarText = ref('');
+const api = useApiClient();
+
+const crudModule = {
+  baseQueryKeys: ['usuarios'] as string[],
+  list: (data?: any) => api.call(usuarioFindAll, { query: data }),
+  getOne: (id: string) => api.call(usuarioFindById, { path: { id } }),
+} satisfies IEntityListModule;
+
+const options = createApiListContextOptions({
+  crudModule,
+  gridClass: 'grid grid-cols-[repeat(auto-fill,_minmax(12.5rem,_1fr))] gap-6',
+});
 </script>
 
-<!-- TODO: usar UIAPIList aqui -->
-
 <template>
-  <UIContainer :styled="defaultStyle ?? true">
-    <div class="flex-1 h-full flex flex-col gap-10">
-      <UIBreadcrumbDapeBreadcrumb v-if="defaultStyle !== false" />
+  <UIAPIList :options="options">
+    <template #options-actions>
+      <SectionUsuariosModalsForm />
+    </template>
 
-      <div :class="searchBarContainerStyle ?? 'flex justify-between gap-5'">
-        <UISearchBar v-model="searchBarText" />
-        <SectionUsuariosModalsForm v-if="crudEnable" />
-      </div>
+    <template #grid-item="{ item, isLoading }">
+      <SectionUsuariosGridItem :is-loading="isLoading" :usuario="item" />
+    </template>
 
-      <SectionUsuariosGrid
-        :search-bar-text="searchBarText"
-        :edit-button="crudEnable"
-        :items-link="itemsLink"
-      />
-    </div>
-  </UIContainer>
+    <template #grid-item-skeleton>
+      <SectionUsuariosGridItem :is-loading="true" />
+    </template>
+  </UIAPIList>
 </template>

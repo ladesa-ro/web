@@ -12,6 +12,8 @@ defineSlots<Slots>();
 
 const { formWithFilters, options } = useUIApiListContext();
 
+const customGridClass = options.gridClass ?? null;
+
 const query = useInfiniteQuery({
   queryKey: computed(() => [
     ...options.crudModule.baseQueryKeys,
@@ -114,7 +116,7 @@ await query.suspense().catch(() => null);
 
 <template>
   <div class="flex-1">
-    <div ref="infiniteScrollTrigger" class="ui-api-list-results-grid">
+    <div ref="infiniteScrollTrigger" :class="customGridClass ?? 'ui-api-list-results-grid'">
       <template v-if="items && items.length > 0">
         <template v-for="item in items" :key="item.id">
           <div class="ui-api-list-results-grid-item">
@@ -132,7 +134,7 @@ await query.suspense().catch(() => null);
       </template>
 
       <template v-if="!isFetching && paginationMeta.totalItems > 0">
-        <div class="w-full text-center p-4">
+        <div class="col-span-full text-center p-4">
           <p class="font-normal">Você chegou ao fim dos resultados.</p>
           <p class="text-sm">
             Página: {{ paginationMeta.currentPage }} de
@@ -145,7 +147,7 @@ await query.suspense().catch(() => null);
       <template v-else-if="!isFetching">
         <div
           key="no-results"
-          class="min-h-min flex-1 flex flex-col items-center justify-center text-center p-8"
+          class="col-span-full min-h-min flex-1 flex flex-col items-center justify-center text-center p-8"
         >
           <h3 class="text-lg font-semibold mb-3">
             Nenhum resultado encontrado.
@@ -165,7 +167,7 @@ await query.suspense().catch(() => null);
         "
       >
         <div
-          class="w-full p-4 border border-red-700 bg-red-100 flex items-center justify-between"
+          class="col-span-full p-4 border border-red-700 bg-red-100 flex items-center justify-between"
         >
           <p class="text-red-700 font-semibold">
             Não foi possível buscar mais conteúdo...

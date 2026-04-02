@@ -3,7 +3,7 @@ import type { DiarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {
-  diario: DiarioFindOneOutputDto;
+  diario?: DiarioFindOneOutputDto | null;
   link?: string;
 };
 
@@ -15,26 +15,29 @@ const link = props.link === undefined || props.link === '' ? 'diarios' : props.l
 
 const diarios_api = useDiarios();
 
-const professoresQuery = diarios_api.listProfessores(diario.value.id);
+const professoresQuery = diario.value
+  ? diarios_api.listProfessores(diario.value.id)
+  : null;
 
 const diariosProfessoresList = computed(
-  () => professoresQuery.data.value?.data ?? []
+  () => professoresQuery?.data.value?.data ?? []
 );
 
-//
-
-const disciplina = computed(() => diario.value.disciplina);
+const disciplina = computed(() => diario.value?.disciplina ?? null);
 
 const coverImageSrc = useApiImageRoute(
   ApiImageResource.DISCIPLINA_COVER,
   disciplina
 );
 
-await professoresQuery.suspense();
+if (professoresQuery) {
+  await professoresQuery.suspense();
+}
 </script>
 
 <template>
-  <UICard :src="coverImageSrc" :title="diario.disciplina.nome" variant="block">
+  <UICardAutoSkeleton :skeleton="!diario">
+    <UICard v-if="diario" :src="coverImageSrc" :title="diario.disciplina.nome" variant="block">
     <template #actions>
       <UICardActions :to="`${link}/${diario.id}`">
         <LazySectionDiariosModal :edit-id="diario.id" />
@@ -57,4 +60,5 @@ await professoresQuery.suspense();
       :text="`Turmas: ${diario.turma.periodo} - ${diario.turma.curso.ofertaFormacao.nome}`"
     />
   </UICard>
+  </UICardAutoSkeleton>
 </template>
