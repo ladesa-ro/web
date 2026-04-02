@@ -37,6 +37,67 @@ export type PaginationMetaRestDto = {
   };
 };
 
+export type ArquivoFindOneOutputFromModalidadeDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+};
+
+export type ImagemArquivoFindOneFromImagemOutputFromModalidadeDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Largura da imagem (em pixels)
+   */
+  largura?: number | null;
+  /**
+   * Altura da imagem (em pixels)
+   */
+  altura?: number | null;
+  /**
+   * Formato da imagem
+   */
+  formato?: string | null;
+  /**
+   * Tipo MIME da imagem
+   */
+  mimeType?: string | null;
+  /**
+   * Arquivo associado
+   */
+  arquivo: ArquivoFindOneOutputFromModalidadeDto;
+};
+
+export type ImagemFindOneOutputFromModalidadeDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Descricao da imagem
+   */
+  descricao?: string | null;
+  /**
+   * Versoes da imagem (arquivos associados)
+   */
+  versoes: Array<ImagemArquivoFindOneFromImagemOutputFromModalidadeDto>;
+};
+
 export type ModalidadeFindOneOutputDto = {
   /**
    * Identificador do registro (uuid)
@@ -62,6 +123,10 @@ export type ModalidadeFindOneOutputDto = {
    * Apelido da modalidade
    */
   slug: string;
+  /**
+   * Imagem de capa da modalidade
+   */
+  imagemCapa?: ImagemFindOneOutputFromModalidadeDto | null;
 };
 
 export type ModalidadeListOutputDto = {
@@ -213,6 +278,67 @@ export type CampusFindOneOutputDto = {
   endereco: EnderecoFindOneOutputDto;
 };
 
+export type ArquivoFindOneOutputFromNivelFormacaoDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+};
+
+export type ImagemArquivoFindOneFromImagemOutputFromNivelFormacaoDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Largura da imagem (em pixels)
+   */
+  largura?: number | null;
+  /**
+   * Altura da imagem (em pixels)
+   */
+  altura?: number | null;
+  /**
+   * Formato da imagem
+   */
+  formato?: string | null;
+  /**
+   * Tipo MIME da imagem
+   */
+  mimeType?: string | null;
+  /**
+   * Arquivo associado
+   */
+  arquivo: ArquivoFindOneOutputFromNivelFormacaoDto;
+};
+
+export type ImagemFindOneOutputFromNivelFormacaoDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Descricao da imagem
+   */
+  descricao?: string | null;
+  /**
+   * Versoes da imagem (arquivos associados)
+   */
+  versoes: Array<ImagemArquivoFindOneFromImagemOutputFromNivelFormacaoDto>;
+};
+
 export type NivelFormacaoFindOneOutputDto = {
   /**
    * Identificador do registro (uuid)
@@ -231,9 +357,17 @@ export type NivelFormacaoFindOneOutputDto = {
    */
   dateDeleted?: string | null;
   /**
+   * Nome do nivel de formacao
+   */
+  nome: string;
+  /**
    * Apelido do nivel de formacao
    */
   slug: string;
+  /**
+   * Imagem de capa do nivel de formacao
+   */
+  imagemCapa?: ImagemFindOneOutputFromNivelFormacaoDto | null;
 };
 
 export type OfertaFormacaoPeriodoEtapaOutputDto = {
@@ -749,12 +883,20 @@ export type NivelFormacaoListOutputDto = {
 
 export type NivelFormacaoCreateInputDto = {
   /**
+   * Nome do nivel de formacao
+   */
+  nome: string;
+  /**
    * Apelido do nivel de formacao
    */
   slug: string;
 };
 
 export type NivelFormacaoUpdateInputDto = {
+  /**
+   * Nome do nivel de formacao
+   */
+  nome?: string;
   /**
    * Apelido do nivel de formacao
    */
@@ -3466,6 +3608,86 @@ export type ModalidadeUpdateResponses = {
 export type ModalidadeUpdateResponse =
   ModalidadeUpdateResponses[keyof ModalidadeUpdateResponses];
 
+export type ModalidadeGetImagemCapaData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/modalidades/{id}/imagem/capa';
+};
+
+export type ModalidadeGetImagemCapaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type ModalidadeGetImagemCapaResponses = {
+  200: unknown;
+};
+
+export type ModalidadeUpdateImagemCapaData = {
+  body: {
+    file: Blob | File;
+  };
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/modalidades/{id}/imagem/capa';
+};
+
+export type ModalidadeUpdateImagemCapaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type ModalidadeUpdateImagemCapaResponses = {
+  200: boolean;
+};
+
+export type ModalidadeUpdateImagemCapaResponse =
+  ModalidadeUpdateImagemCapaResponses[keyof ModalidadeUpdateImagemCapaResponses];
+
+export type ArquivoFindByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: {
+    /**
+     * ID do recurso de acesso (uuid)
+     */
+    'acesso.recurso.id'?: string;
+    /**
+     * Nome do recurso de acesso
+     */
+    'acesso.recurso.nome'?: string;
+  };
+  url: '/arquivos/{id}';
+};
+
+export type ArquivoFindByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type ArquivoFindByIdResponses = {
+  /**
+   * Arquivo encontrado
+   */
+  200: unknown;
+};
+
 export type CursoFindAllData = {
   body?: never;
   path?: never;
@@ -3825,39 +4047,6 @@ export type CampusUpdateResponses = {
 export type CampusUpdateResponse =
   CampusUpdateResponses[keyof CampusUpdateResponses];
 
-export type ArquivoFindByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: {
-    /**
-     * ID do recurso de acesso (uuid)
-     */
-    'acesso.recurso.id'?: string;
-    /**
-     * Nome do recurso de acesso
-     */
-    'acesso.recurso.nome'?: string;
-  };
-  url: '/arquivos/{id}';
-};
-
-export type ArquivoFindByIdErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type ArquivoFindByIdResponses = {
-  /**
-   * Arquivo encontrado
-   */
-  200: unknown;
-};
-
 export type OfertaFormacaoFindAllData = {
   body?: never;
   path?: never;
@@ -4123,6 +4312,53 @@ export type NivelFormacaoUpdateResponses = {
 
 export type NivelFormacaoUpdateResponse =
   NivelFormacaoUpdateResponses[keyof NivelFormacaoUpdateResponses];
+
+export type NivelFormacaoGetImagemCapaData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/niveis-formacoes/{id}/imagem/capa';
+};
+
+export type NivelFormacaoGetImagemCapaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type NivelFormacaoGetImagemCapaResponses = {
+  200: unknown;
+};
+
+export type NivelFormacaoUpdateImagemCapaData = {
+  body: {
+    file: Blob | File;
+  };
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/niveis-formacoes/{id}/imagem/capa';
+};
+
+export type NivelFormacaoUpdateImagemCapaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type NivelFormacaoUpdateImagemCapaResponses = {
+  200: boolean;
+};
+
+export type NivelFormacaoUpdateImagemCapaResponse =
+  NivelFormacaoUpdateImagemCapaResponses[keyof NivelFormacaoUpdateImagemCapaResponses];
 
 export type UsuarioFindAllData = {
   body?: never;

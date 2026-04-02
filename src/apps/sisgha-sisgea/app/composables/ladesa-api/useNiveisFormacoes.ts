@@ -19,6 +19,7 @@ import {
   nivelFormacaoCreate,
   nivelFormacaoUpdate,
   nivelFormacaoDeleteOneById,
+  nivelFormacaoUpdateImagemCapa,
 } from '@ladesa-ro/web.api.client';
 import type {
   NivelFormacaoFindAllData,
@@ -52,6 +53,7 @@ export type IUseNiveisFormacoes = {
     NivelFormacaoUpdateResponse
   >;
   remove: RemoveFn;
+  uploadCover: (id: string, file: Blob) => Promise<any>;
   invalidate: InvalidateFn;
 };
 
@@ -86,6 +88,9 @@ export const useNiveisFormacoes = (): IUseNiveisFormacoes => {
   const remove = (id: string) =>
     api.call(nivelFormacaoDeleteOneById, { path: { id } });
 
+  const uploadCover = (id: string, file: Blob) =>
+    api.call(nivelFormacaoUpdateImagemCapa, { path: { id }, body: { file } });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -96,6 +101,7 @@ export const useNiveisFormacoes = (): IUseNiveisFormacoes => {
     create,
     update,
     remove,
+    uploadCover,
     invalidate,
   };
 };

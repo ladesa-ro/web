@@ -19,6 +19,7 @@ import {
   modalidadeCreate,
   modalidadeUpdate,
   modalidadeDeleteOneById,
+  modalidadeUpdateImagemCapa,
 } from '@ladesa-ro/web.api.client';
 import type {
   ModalidadeFindAllData,
@@ -43,6 +44,7 @@ export type IUseModalidades = {
   create: CreateFn<ReqBody<ModalidadeCreateData>, ModalidadeCreateResponse>;
   update: UpdateFn<ReqBody<ModalidadeUpdateData>, ModalidadeUpdateResponse>;
   remove: RemoveFn;
+  uploadCover: (id: string, file: Blob) => Promise<any>;
   invalidate: InvalidateFn;
 };
 
@@ -77,6 +79,9 @@ export const useModalidades = (): IUseModalidades => {
   const remove = (id: string) =>
     api.call(modalidadeDeleteOneById, { path: { id } });
 
+  const uploadCover = (id: string, file: Blob) =>
+    api.call(modalidadeUpdateImagemCapa, { path: { id }, body: { file } });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -87,6 +92,7 @@ export const useModalidades = (): IUseModalidades => {
     create,
     update,
     remove,
+    uploadCover,
     invalidate,
   };
 };

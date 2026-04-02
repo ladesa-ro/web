@@ -11,8 +11,16 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   schema: modalidadeSchema,
   editId: computed(() => editId),
   getQuery: modalidades.findOne(computed(() => editId)),
-  create: data => modalidades.create(data),
-  update: (id, data) => modalidades.update(id, data),
+  create: async data => {
+    const { imagem, ...rest } = data;
+    const created = await modalidades.create(rest);
+    if (imagem && created?.id) await modalidades.uploadCover(created.id, imagem as Blob);
+  },
+  update: async (id, data) => {
+    const { imagem, ...rest } = data;
+    await modalidades.update(id, rest);
+    if (imagem) await modalidades.uploadCover(id, imagem as Blob);
+  },
   remove: id => modalidades.remove(id),
   invalidate: modalidades.invalidate,
   confirmDelete: confirmDelete.confirm,
@@ -29,6 +37,7 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
       :on-close="() => emit('close')"
       :on-delete="onDelete"
     >
+      <VVSelectImage name="imagem" />
       <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
       <VVTextField name="slug" label="Slug" placeholder="Digite aqui" />
     </UIFormLayout>

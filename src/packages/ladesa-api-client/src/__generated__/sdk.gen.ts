@@ -319,8 +319,14 @@ import type {
   ModalidadeFindByIdData,
   ModalidadeFindByIdErrors,
   ModalidadeFindByIdResponses,
+  ModalidadeGetImagemCapaData,
+  ModalidadeGetImagemCapaErrors,
+  ModalidadeGetImagemCapaResponses,
   ModalidadeUpdateData,
   ModalidadeUpdateErrors,
+  ModalidadeUpdateImagemCapaData,
+  ModalidadeUpdateImagemCapaErrors,
+  ModalidadeUpdateImagemCapaResponses,
   ModalidadeUpdateResponses,
   NivelFormacaoCreateData,
   NivelFormacaoCreateErrors,
@@ -334,8 +340,14 @@ import type {
   NivelFormacaoFindByIdData,
   NivelFormacaoFindByIdErrors,
   NivelFormacaoFindByIdResponses,
+  NivelFormacaoGetImagemCapaData,
+  NivelFormacaoGetImagemCapaErrors,
+  NivelFormacaoGetImagemCapaResponses,
   NivelFormacaoUpdateData,
   NivelFormacaoUpdateErrors,
+  NivelFormacaoUpdateImagemCapaData,
+  NivelFormacaoUpdateImagemCapaErrors,
+  NivelFormacaoUpdateImagemCapaResponses,
   NivelFormacaoUpdateResponses,
   NotificacaoContagemNaoLidasData,
   NotificacaoContagemNaoLidasErrors,
@@ -598,6 +610,58 @@ export const modalidadeUpdate = <ThrowOnError extends boolean = false>(
   });
 
 /**
+ * Obtem a imagem de capa de uma modalidade
+ *
+ * Obtem a imagem de capa de uma modalidade
+ */
+export const modalidadeGetImagemCapa = <ThrowOnError extends boolean = false>(
+  options: Options<ModalidadeGetImagemCapaData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    ModalidadeGetImagemCapaResponses,
+    ModalidadeGetImagemCapaErrors,
+    ThrowOnError
+  >({ url: '/modalidades/{id}/imagem/capa', ...options });
+
+/**
+ * Define a imagem de capa de uma modalidade
+ *
+ * Define a imagem de capa de uma modalidade
+ */
+export const modalidadeUpdateImagemCapa = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<ModalidadeUpdateImagemCapaData, ThrowOnError>
+) =>
+  (options.client ?? client).put<
+    ModalidadeUpdateImagemCapaResponses,
+    ModalidadeUpdateImagemCapaErrors,
+    ThrowOnError
+  >({
+    ...formDataBodySerializer,
+    url: '/modalidades/{id}/imagem/capa',
+    ...options,
+    headers: {
+      'Content-Type': null,
+      ...options.headers,
+    },
+  });
+
+/**
+ * Busca um arquivo por ID
+ *
+ * Busca um arquivo por ID
+ */
+export const arquivoFindById = <ThrowOnError extends boolean = false>(
+  options: Options<ArquivoFindByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    ArquivoFindByIdResponses,
+    ArquivoFindByIdErrors,
+    ThrowOnError
+  >({ url: '/arquivos/{id}', ...options });
+
+/**
  * Lista cursos
  *
  * Lista cursos
@@ -841,20 +905,6 @@ export const campusUpdate = <ThrowOnError extends boolean = false>(
   });
 
 /**
- * Busca um arquivo por ID
- *
- * Busca um arquivo por ID
- */
-export const arquivoFindById = <ThrowOnError extends boolean = false>(
-  options: Options<ArquivoFindByIdData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    ArquivoFindByIdResponses,
-    ArquivoFindByIdErrors,
-    ThrowOnError
-  >({ url: '/arquivos/{id}', ...options });
-
-/**
  * Lista ofertas de formacao
  *
  * Lista ofertas de formacao
@@ -1022,6 +1072,46 @@ export const nivelFormacaoUpdate = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Obtem a imagem de capa de um nivel de formacao
+ *
+ * Obtem a imagem de capa de um nivel de formacao
+ */
+export const nivelFormacaoGetImagemCapa = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<NivelFormacaoGetImagemCapaData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    NivelFormacaoGetImagemCapaResponses,
+    NivelFormacaoGetImagemCapaErrors,
+    ThrowOnError
+  >({ url: '/niveis-formacoes/{id}/imagem/capa', ...options });
+
+/**
+ * Define a imagem de capa de um nivel de formacao
+ *
+ * Define a imagem de capa de um nivel de formacao
+ */
+export const nivelFormacaoUpdateImagemCapa = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<NivelFormacaoUpdateImagemCapaData, ThrowOnError>
+) =>
+  (options.client ?? client).put<
+    NivelFormacaoUpdateImagemCapaResponses,
+    NivelFormacaoUpdateImagemCapaErrors,
+    ThrowOnError
+  >({
+    ...formDataBodySerializer,
+    url: '/niveis-formacoes/{id}/imagem/capa',
+    ...options,
+    headers: {
+      'Content-Type': null,
       ...options.headers,
     },
   });

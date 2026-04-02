@@ -11,8 +11,16 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   schema: nivelFormacaoSchema,
   editId: computed(() => editId),
   getQuery: niveisFormacoes.findOne(computed(() => editId)),
-  create: data => niveisFormacoes.create(data),
-  update: (id, data) => niveisFormacoes.update(id, data),
+  create: async data => {
+    const { imagem, ...rest } = data;
+    const created = await niveisFormacoes.create(rest);
+    if (imagem && created?.id) await niveisFormacoes.uploadCover(created.id, imagem as Blob);
+  },
+  update: async (id, data) => {
+    const { imagem, ...rest } = data;
+    await niveisFormacoes.update(id, rest);
+    if (imagem) await niveisFormacoes.uploadCover(id, imagem as Blob);
+  },
   remove: id => niveisFormacoes.remove(id),
   invalidate: niveisFormacoes.invalidate,
   confirmDelete: confirmDelete.confirm,
@@ -33,6 +41,8 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
       :on-close="() => emit('close')"
       :on-delete="onDelete"
     >
+      <VVSelectImage name="imagem" />
+      <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
       <VVTextField name="slug" label="Slug" placeholder="Digite aqui" />
     </UIFormLayout>
   </form>
