@@ -32,7 +32,7 @@ const dataFim = ref('');
 
 const toggleItems = [
   { text: 'Permanente', value: 'permanente' },
-  { text: 'Temporario', value: 'temporario' },
+  { text: 'Temporário', value: 'temporario' },
 ];
 
 const isDataInicioValid = computed(() => {
