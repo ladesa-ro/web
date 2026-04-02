@@ -12,7 +12,7 @@ import {
   calendarioLetivoFindAll,
   calendarioLetivoFindById,
   calendarioLetivoUpdate,
-  calendarioAgendamentoFindEventos,
+  consultaAgendamentosPorData,
   calendarioAgendamentoCreate,
   calendarioAgendamentoUpdate,
   calendarioAgendamentoDeleteOneById,
@@ -250,24 +250,24 @@ export const calendarDataMethods = {
       const remodelEvents: Array<CalendarEvent> = [];
 
       try {
-        const events = await getApiClient().call(
-          calendarioAgendamentoFindEventos,
+        const result = await getApiClient().call(
+          consultaAgendamentosPorData,
           {
             query: {
-              search: '',
-              'filter.turma.id': '',
-              'filter.ofertaFormacao.id': '',
+              dateStart: '2000-01-01',
+              dateEnd: '2100-12-31',
+              tipo: 'EVENTO',
             },
           }
         );
 
-        for (let i = 0; i < events.data!.length; i++) {
+        for (const agendamento of result.agendamentos) {
           const event: CalendarEvent = {
-            id: events.data[i]!.id,
-            name: `${events.data[i]!.nome}`,
-            color: events.data[i]!.cor ?? null,
-            startDate: events.data[i]!.dataInicio!,
-            endDate: events.data[i]!.dataFim!,
+            id: agendamento.id,
+            name: `${agendamento.nome}`,
+            color: agendamento.cor ?? null,
+            startDate: agendamento.dataInicio,
+            endDate: agendamento.dataFim!,
             calendar: { id: calendarId },
           };
           remodelEvents.push(event);
@@ -278,24 +278,32 @@ export const calendarDataMethods = {
 
       return remodelEvents;
     },
-    async getEventByName(name: string, calendarId: string): Promise<any> {
+    async getEventByName(name: string, _calendarId: string): Promise<CalendarEvent | null> {
       try {
         const result = await getApiClient().call(
-          calendarioAgendamentoFindEventos,
+          consultaAgendamentosPorData,
           {
             query: {
-              search: name,
-              'filter.turma.id': '',
-              'filter.ofertaFormacao.id': '',
+              dateStart: '2000-01-01',
+              dateEnd: '2100-12-31',
+              tipo: 'EVENTO',
             },
           }
         );
 
-        const findEvent = result.data.find(
-          (event: any) => event.id === name || event.nome === name
+        const findEvent = result.agendamentos.find(
+          (event) => event.id === name || event.nome === name
         );
 
-        return findEvent ? findEvent : null;
+        return findEvent
+          ? {
+              id: findEvent.id,
+              name: `${findEvent.nome}`,
+              color: findEvent.cor ?? null,
+              startDate: findEvent.dataInicio,
+              endDate: findEvent.dataFim!,
+            }
+          : null;
       } catch (e) {
         console.error(`Erro: ${e}`);
         return null;
@@ -334,7 +342,7 @@ export const calendarDataMethods = {
               dataFim: formattedDates.endDate,
               horarioInicio: start.hour,
               horarioFim: end.hour,
-              calendarioLetivoIds: [calendarId],
+              calendariosLetivos: [{ id: calendarId }],
             },
           }
         );
@@ -370,8 +378,8 @@ export const calendarDataMethods = {
             cor: event.color,
             dataInicio: event.startDate,
             dataFim: event.endDate,
-            calendarioLetivoIds: event.calendar?.id
-              ? [event.calendar.id]
+            calendariosLetivos: event.calendar?.id
+              ? [{ id: event.calendar.id }]
               : undefined,
           },
         });
