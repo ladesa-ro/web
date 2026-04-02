@@ -41,7 +41,12 @@ const {
   invalidateDisponibilidade,
   weekQuery,
   allConfigsQuery,
-  deactivateConfig,
+  pendingDeactivations,
+  addPendingDeactivation,
+  undoPendingDeactivation,
+  pendingConfigs,
+  undoPendingConfig,
+  currentWeekPending,
   hasGradeDivergence,
   showNavigationConfirm,
   confirmNavigationDiscard,
@@ -66,10 +71,8 @@ function formatDate(iso: string): string {
   return dayjs(iso).format('DD/MM/YYYY');
 }
 
-async function handleDeactivateConfig(configId: string) {
-  const id = props.turmaId;
-  if (!id) return;
-  await deactivateConfig(id, configId);
+function handleDeactivateConfig(configId: string) {
+  addPendingDeactivation(configId);
 }
 
 function handleNavigateToConfig(dataInicio: string) {
@@ -80,6 +83,28 @@ defineExpose({ saveAvailability, hasPendingSave, invalidateDisponibilidade });
 
 const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
 const allConfigs = computed(() => allConfigsQuery.data.value?.configs ?? []);
+const pendingConfigsList = computed(() => [...pendingConfigs.value.values()]);
+
+function handleUndoPending(dataInicio: string) {
+  undoPendingConfig(dataInicio);
+}
+
+const today = dayjs().format('YYYY-MM-DD');
+
+function getConfigLabel(tipo: 'permanente' | 'temporario', dataInicio: string, dataFim?: string | null): string {
+  if (tipo === 'permanente') {
+    return dataInicio <= today
+      ? `Permanente desde ${formatDate(dataInicio)}`
+      : `Permanente a partir de ${formatDate(dataInicio)}`;
+  }
+  if (dataFim && dataFim < today) {
+    return `Temporário entre ${formatDate(dataInicio)} e ${formatDate(dataFim)}`;
+  }
+  if (dataInicio <= today) {
+    return `Temporário desde ${formatDate(dataInicio)} até ${formatDate(dataFim!)}`;
+  }
+  return `Temporário a partir de ${formatDate(dataInicio)} até ${formatDate(dataFim!)}`;
+}
 </script>
 
 <template>
@@ -117,14 +142,27 @@ const allConfigs = computed(() => allConfigsQuery.data.value?.configs ?? []);
       <div v-else class="flex flex-col gap-4">
         <!-- Config info chip (between week nav and day selector) -->
         <div
-          v-if="activeConfigInfo"
+          v-if="currentWeekPending"
+          class="w-full rounded-lg px-3 py-2 text-xs font-medium text-center border-2 border-dashed"
+          :class="!currentWeekPending.data_fim
+            ? 'border-ldsa-green-2/40 bg-ldsa-green-2/5 text-ldsa-green-2'
+            : 'border-ldsa-blue/40 bg-ldsa-blue/5 text-ldsa-blue'"
+        >
+          Novo arranjo —
+          {{ getConfigLabel(
+            currentWeekPending.data_fim ? 'temporario' : 'permanente',
+            currentWeekPending.data_inicio,
+            currentWeekPending.data_fim,
+          ) }}
+        </div>
+        <div
+          v-else-if="activeConfigInfo"
           class="w-full rounded-lg px-3 py-2 text-xs font-medium text-center"
           :class="activeConfigInfo.tipo === 'permanente'
             ? 'bg-ldsa-green-2/10 text-ldsa-green-2'
             : 'bg-ldsa-blue/10 text-ldsa-blue'"
         >
-          {{ activeConfigInfo.tipo === 'permanente' ? 'Permanente' : 'Temporário' }}
-          a partir de {{ formatDate(activeConfigInfo.dataInicio) }}<template v-if="activeConfigInfo.dataFim"> até {{ formatDate(activeConfigInfo.dataFim) }}</template>
+          {{ getConfigLabel(activeConfigInfo.tipo, activeConfigInfo.dataInicio, activeConfigInfo.dataFim) }}
         </div>
 
         <WeekdaySelector
@@ -163,10 +201,14 @@ const allConfigs = computed(() => allConfigsQuery.data.value?.configs ?? []);
       <SectionTurmasFormAvailabilityConfigList
         v-if="!isEditing"
         :configs="allConfigs"
+        :pending-configs="pendingConfigsList"
+        :pending-deactivation-ids="[...pendingDeactivations]"
         :is-loading="allConfigsQuery.isLoading.value"
         :disabled="props.disabled"
         @navigate-to="handleNavigateToConfig"
         @deactivate="handleDeactivateConfig"
+        @undo-deactivation="undoPendingDeactivation"
+        @undo-pending="handleUndoPending"
       />
 
       <template #button-group>

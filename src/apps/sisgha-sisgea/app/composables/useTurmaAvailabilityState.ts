@@ -162,8 +162,21 @@ export function useTurmaAvailabilityState(
   // --- Pending Save (deferred to form submit) ---
 
   const pendingConfigs = ref<Map<string, TurmaDisponibilidadeConfigInputDto>>(new Map());
+  const pendingDeactivations = ref<Set<string>>(new Set());
 
-  const hasPendingSave = computed(() => pendingConfigs.value.size > 0);
+  const hasPendingSave = computed(() => pendingConfigs.value.size > 0 || pendingDeactivations.value.size > 0);
+
+  function addPendingDeactivation(configId: string) {
+    const newSet = new Set(pendingDeactivations.value);
+    newSet.add(configId);
+    pendingDeactivations.value = newSet;
+  }
+
+  function undoPendingDeactivation(configId: string) {
+    const newSet = new Set(pendingDeactivations.value);
+    newSet.delete(configId);
+    pendingDeactivations.value = newSet;
+  }
 
   function findPendingForWeek(weekSunday: string): TurmaDisponibilidadeConfigInputDto | undefined {
     const exact = pendingConfigs.value.get(weekSunday);
@@ -267,6 +280,13 @@ export function useTurmaAvailabilityState(
     { immediate: true }
   );
 
+  // --- Pending config for current week ---
+
+  const currentWeekPending = computed(() => {
+    const weekKey = currentWeekRef.value.format('YYYY-MM-DD');
+    return findPendingForWeek(weekKey) ?? null;
+  });
+
   // --- Grade Divergence Detection ---
 
   const hasGradeDivergence = computed(() => {
@@ -362,15 +382,34 @@ export function useTurmaAvailabilityState(
     isEditing.value = false;
   }
 
+  function undoPendingConfig(dataInicio: string) {
+    const newMap = new Map(pendingConfigs.value);
+    newMap.delete(dataInicio);
+    pendingConfigs.value = newMap;
+  }
+
   async function saveAvailability() {
     const id = unref(turmaId);
-    if (!id || pendingConfigs.value.size === 0) return;
+    if (!id) return;
 
-    const configs = [...pendingConfigs.value.values()];
+    const hasConfigs = pendingConfigs.value.size > 0;
+    const hasDeactivations = pendingDeactivations.value.size > 0;
+    if (!hasConfigs && !hasDeactivations) return;
 
-    await disponibilidade.save(id, { configs });
+    if (hasDeactivations) {
+      for (const configId of pendingDeactivations.value) {
+        await disponibilidade.deactivate(id, configId);
+      }
+    }
+
+    if (hasConfigs) {
+      const configs = [...pendingConfigs.value.values()];
+      await disponibilidade.save(id, { configs });
+    }
+
     await disponibilidade.invalidate();
     pendingConfigs.value = new Map();
+    pendingDeactivations.value = new Set();
   }
 
   // --- Actions ---
@@ -478,16 +517,21 @@ export function useTurmaAvailabilityState(
     confirmAvailability,
 
     // Save (deferred to form submit)
+    pendingConfigs,
+    undoPendingConfig,
     saveAvailability,
     hasPendingSave,
     invalidateDisponibilidade: disponibilidade.invalidate,
 
     // All configs
     allConfigsQuery: disponibilidade.findAllActive(turmaId),
-    deactivateConfig: disponibilidade.deactivate,
+    pendingDeactivations,
+    addPendingDeactivation,
+    undoPendingDeactivation,
 
     // Config info
     activeConfigInfo,
+    currentWeekPending,
 
     // Divergence
     hasGradeDivergence,
