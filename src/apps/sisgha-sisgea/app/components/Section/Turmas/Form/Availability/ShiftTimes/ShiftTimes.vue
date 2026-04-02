@@ -50,7 +50,7 @@ const toggleAll = (shift: { times: string[] }) => {
           class="mr-2 w-5 h-5"
           @update:model-value="() => toggleAll(shift)"
         />
-        <h1 class="font-medium">{{ capitalizeFirst(shift.title) }}</h1>
+        <h1 class="font-medium text-ldsa-text-default">{{ capitalizeFirst(shift.title) }}</h1>
       </div>
       <UICheckbox
         :model-value="props.selectedTimes"
