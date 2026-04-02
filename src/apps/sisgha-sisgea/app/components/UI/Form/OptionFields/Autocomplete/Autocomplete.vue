@@ -69,10 +69,11 @@ const customError = computed(() =>
       <label>{{ label }}</label>
 
       <Input
-        :v-model="search ?? undefined"
+        :model-value="search ?? undefined"
         :placeholder="placeholder"
         class="w-full h-full"
-        :display-value="value => getDisplayValue(value)"
+        :display-value="(value: any) => getDisplayValue(value)"
+        @update:model-value="search = $event"
         @click="open = !open"
         @blur="onBlur?.()"
       />
