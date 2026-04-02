@@ -3,6 +3,7 @@ import {
   IconsEnvironment,
   IconsLogout,
   IconsReserve,
+  IconsSchool,
   IconsUser,
 } from '#components';
 
@@ -29,6 +30,13 @@ export const useLayoutsDashboardSisgeaCommonSidebarItems = () => {
       title: 'Blocos',
       icon: IconsBlocks,
       to: '/sisgea/blocos',
+      exact: false,
+    },
+    {
+      type: 'link',
+      title: 'Campus',
+      icon: IconsSchool,
+      to: '/sisgea/campus',
       exact: false,
     },
 
