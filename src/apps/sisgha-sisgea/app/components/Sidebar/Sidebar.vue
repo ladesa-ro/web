@@ -40,7 +40,7 @@ provide('selectedItem', selectedItem);
 
 .sidebar {
   @apply fixed top-14 sm:top-[4.563rem] bottom-0;
-  @apply overflow-y-auto min-[640px]:overflow-hidden z-20;
+  @apply overflow-hidden z-20;
   @apply flex flex-col gap-2.5 lg:gap-3;
   @apply w-14 py-[0.438rem];
   @apply border-r-2 border-r-ldsa-green-2/50 bg-ldsa-green-1;
@@ -49,6 +49,6 @@ provide('selectedItem', selectedItem);
 
 .sidebar:hover,
 .active {
-  @apply max-[345px]:w-56 min-[345px]:w-64;
+  @apply max-[345px]:w-56 min-[345px]:w-64 overflow-y-auto overflow-x-hidden;
 }
 </style>

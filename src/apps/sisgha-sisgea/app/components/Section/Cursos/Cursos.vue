@@ -15,7 +15,14 @@ const crudModule = {
   getOne: (id: string) => api.call(cursoFindById, { path: { id } }),
 } satisfies IEntityListModule;
 
-const options = createApiListContextOptions({ crudModule });
+const campusContext = useCampusContext();
+
+const campusFilter = computed(() => {
+  if (!campusContext.value) return {};
+  return { 'filter.campus.id': [campusContext.value] };
+});
+
+const options = createApiListContextOptions({ crudModule, filter: campusFilter, filteredByCampus: true });
 </script>
 
 <template>

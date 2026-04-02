@@ -21,6 +21,7 @@ export type ICreateUIApiListContextOptions = {
   crudModule: IEntityListModule;
   filter?: ComputedRef<any> | any;
   gridClass?: string;
+  filteredByCampus?: boolean;
 };
 
 export const createApiListContextOptions = (

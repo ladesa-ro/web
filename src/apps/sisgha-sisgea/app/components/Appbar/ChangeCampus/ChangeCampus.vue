@@ -31,6 +31,10 @@ const showSelector = computed(() => {
 
 const selectedCampusGlobalState = useCampusContext();
 
+const selectedCampusLabel = computed(() =>
+  toggleCampusItems.value.find(c => c.value === selectedCampusGlobalState.value)?.label ?? 'Carregando...',
+);
+
 const selectedCampus = ref(
   selectedCampusGlobalState.value ?? toggleCampusItems.value[0]?.value ?? null
 );
@@ -89,17 +93,14 @@ const open = ref(false);
 </script>
 
 <template>
+  <!-- Always show campus name; popover only when multiple options -->
   <UIPopover v-if="showSelector" v-model="open">
     <template #activator>
       <div
-        class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden"
+        class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden cursor-pointer"
       >
         <IconsLocate class="mr-1 text-ldsa-text-green shrink-0" />
-        <span class="truncate">{{
-          toggleCampusItems.find(
-            campus => campus.value === selectedCampusGlobalState
-          )?.label ?? 'Carregando...'
-        }}</span>
+        <span class="truncate">{{ selectedCampusLabel }}</span>
       </div>
 
       <div class="p-2.5 min-[46.2rem]:hidden shrink-0">
@@ -146,4 +147,13 @@ const open = ref(false);
       </span>
     </div>
   </UIPopover>
+
+  <!-- Read-only display when only 1 campus (no selector needed) -->
+  <div
+    v-else-if="selectedCampusLabel !== 'Carregando...'"
+    class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden"
+  >
+    <IconsLocate class="mr-1 text-ldsa-text-green shrink-0" />
+    <span class="truncate">{{ selectedCampusLabel }}</span>
+  </div>
 </template>
