@@ -1,22 +1,23 @@
 // # IMPORT
+import type { CalendarioAgendamentoFindOneOutputDto } from '@ladesa-ro/web.api.client';
+import {
+  calendarioAgendamentoCreate,
+  calendarioAgendamentoDeleteOneById,
+  calendarioAgendamentoUpdate,
+  calendarioLetivoCreate,
+  calendarioLetivoDeleteOneById,
+  calendarioLetivoEtapaBulkReplace,
+  calendarioLetivoEtapaFindAll,
+  calendarioLetivoFindAll,
+  calendarioLetivoFindById,
+  calendarioLetivoUpdate,
+  consultaAgendamentosPorData,
+} from '@ladesa-ro/web.api.client';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat.js';
 import timezone from 'dayjs/plugin/timezone.js';
 import utc from 'dayjs/plugin/utc.js';
 import type { CalendarData, CalendarEvent } from './Types';
-import {
-  calendarioLetivoCreate,
-  calendarioLetivoDeleteOneById,
-  calendarioLetivoEtapaFindAll,
-  calendarioLetivoEtapaBulkReplace,
-  calendarioLetivoFindAll,
-  calendarioLetivoFindById,
-  calendarioLetivoUpdate,
-  consultaAgendamentosPorData,
-  calendarioAgendamentoCreate,
-  calendarioAgendamentoUpdate,
-  calendarioAgendamentoDeleteOneById,
-} from '@ladesa-ro/web.api.client';
 
 // # CODE
 dayjs.extend(customParseFormat);
@@ -292,17 +293,17 @@ export const calendarDataMethods = {
         );
 
         const findEvent = result.agendamentos.find(
-          (event) => event.id === name || event.nome === name
+          (event: CalendarioAgendamentoFindOneOutputDto) => event.id === name || event.nome === name
         );
 
         return findEvent
           ? {
-              id: findEvent.id,
-              name: `${findEvent.nome}`,
-              color: findEvent.cor ?? null,
-              startDate: findEvent.dataInicio,
-              endDate: findEvent.dataFim!,
-            }
+            id: findEvent.id,
+            name: `${findEvent.nome}`,
+            color: findEvent.cor ?? null,
+            startDate: findEvent.dataInicio,
+            endDate: findEvent.dataFim!,
+          }
           : null;
       } catch (e) {
         console.error(`Erro: ${e}`);
@@ -335,6 +336,7 @@ export const calendarDataMethods = {
           calendarioAgendamentoCreate,
           {
             body: {
+              tipo: "EVENTO",
               nome: name,
               cor: color,
               diaInteiro: !hasHours,

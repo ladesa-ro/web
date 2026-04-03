@@ -538,6 +538,10 @@ export type CursoFindOneOutputDto = {
    */
   nomeAbreviado: string;
   /**
+   * Quantidade de períodos do curso
+   */
+  quantidadePeriodos: number;
+  /**
    * Campus que o curso pertence
    */
   campus: CampusFindOneOutputDto;
@@ -572,6 +576,10 @@ export type CursoCreateInputDto = {
    */
   nomeAbreviado: string;
   /**
+   * Quantidade de períodos do curso
+   */
+  quantidadePeriodos: number;
+  /**
    * Campus que o curso pertence
    */
   campus: {
@@ -594,6 +602,10 @@ export type CursoUpdateInputDto = {
    * Nome abreviado do curso
    */
   nomeAbreviado?: string;
+  /**
+   * Quantidade de períodos do curso
+   */
+  quantidadePeriodos?: number;
   /**
    * Campus que o curso pertence
    */
@@ -1511,208 +1523,125 @@ export type DisciplinaUpdateInputDto = {
   cargaHoraria?: number;
 };
 
-export type CalendarioEventoFindOneOutputDto = {
+export type BlocoFindOneOutputDto = {
   /**
    * Identificador do registro (uuid)
    */
   id: string;
   /**
-   * Nome do evento/atividade
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Nome do bloco
+   */
+  nome: string;
+  /**
+   * Codigo do bloco
+   */
+  codigo: string;
+  /**
+   * Campus do bloco
+   */
+  campus: CampusFindOneOutputDto;
+  /**
+   * Imagem de capa do bloco
+   */
+  imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
+};
+
+export type AmbienteFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Nome do ambiente/sala
+   */
+  nome: string;
+  /**
+   * Descricao do ambiente/sala
+   */
+  descricao?: string | null;
+  /**
+   * Codigo do ambiente/sala
+   */
+  codigo: string;
+  /**
+   * Capacidade do ambiente/sala
+   */
+  capacidade?: number | null;
+  /**
+   * Tipo do ambiente/sala. Ex.: sala aula, auditorio, laboratorio de quimica
+   */
+  tipo?: string | null;
+  /**
+   * Bloco que o ambiente/sala pertence
+   */
+  bloco: BlocoFindOneOutputDto;
+  /**
+   * Imagem de capa do ambiente
+   */
+  imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
+};
+
+export type TurmaFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Periodo da turma
+   */
+  periodo: string;
+  /**
+   * Nome da turma
    */
   nome?: string | null;
   /**
-   * Data de inicio
+   * Curso da turma
    */
-  dataInicio: string;
+  curso: CursoFindOneOutputDto;
   /**
-   * Data de fim
+   * Ambiente padrao da sala de aula
    */
-  dataFim?: string | null;
+  ambientePadraoAula?: AmbienteFindOneOutputDto | null;
   /**
-   * Indica se o evento ocupa o dia inteiro
+   * Imagem de capa da turma
    */
-  diaInteiro: boolean;
-  /**
-   * Horário de inicio (HH:MM)
-   */
-  horarioInicio: string;
-  /**
-   * Horário de fim (HH:MM)
-   */
-  horarioFim: string;
-  /**
-   * Cor do evento (hex)
-   */
-  cor?: string | null;
-  /**
-   * Regra de repetição
-   */
-  repeticao?: string | null;
-  /**
-   * Status do evento
-   */
-  status?: string | null;
-  /**
-   * IDs das turmas participantes
-   */
-  turmaIds?: Array<string>;
-  /**
-   * IDs dos perfis (professores) participantes
-   */
-  perfilIds?: Array<string>;
-  /**
-   * IDs dos calendarios letivos vinculados
-   */
-  calendarioLetivoIds?: Array<string>;
-  /**
-   * IDs das ofertas de formacao vinculadas
-   */
-  ofertaFormacaoIds?: Array<string>;
-  /**
-   * IDs das modalidades vinculadas
-   */
-  modalidadeIds?: Array<string>;
-  /**
-   * IDs dos ambientes vinculados
-   */
-  ambienteIds?: Array<string>;
-  /**
-   * IDs dos diarios vinculados
-   */
-  diarioIds?: Array<string>;
-};
-
-export type CalendarioEventoListOutputDto = {
-  /**
-   * Resultados da busca
-   */
-  data: Array<CalendarioEventoFindOneOutputDto>;
-};
-
-export type CalendarioEventoCreateInputDto = {
-  /**
-   * Nome do evento/atividade
-   */
-  nome: string | null;
-  /**
-   * Data de inicio
-   */
-  dataInicio: string;
-  /**
-   * Data de fim
-   */
-  dataFim?: string | null;
-  /**
-   * Indica se o evento ocupa o dia inteiro
-   */
-  diaInteiro: boolean;
-  /**
-   * Horário de inicio (HH:MM)
-   */
-  horarioInicio?: string;
-  /**
-   * Horário de fim (HH:MM)
-   */
-  horarioFim?: string;
-  /**
-   * Cor do evento (hex)
-   */
-  cor?: string | null;
-  /**
-   * Regra de repetição
-   */
-  repeticao?: string | null;
-  /**
-   * IDs das turmas participantes
-   */
-  turmaIds?: Array<string>;
-  /**
-   * IDs dos perfis (professores) participantes
-   */
-  perfilIds?: Array<string>;
-  /**
-   * IDs dos calendarios letivos vinculados
-   */
-  calendarioLetivoIds?: Array<string>;
-  /**
-   * IDs das ofertas de formacao vinculadas
-   */
-  ofertaFormacaoIds?: Array<string>;
-  /**
-   * IDs das modalidades vinculadas
-   */
-  modalidadeIds?: Array<string>;
-  /**
-   * IDs dos ambientes vinculados
-   */
-  ambienteIds?: Array<string>;
-  /**
-   * IDs dos diarios vinculados
-   */
-  diarioIds?: Array<string>;
-};
-
-export type CalendarioEventoUpdateInputDto = {
-  /**
-   * Nome do evento/atividade
-   */
-  nome?: string | null;
-  /**
-   * Data de inicio
-   */
-  dataInicio?: string;
-  /**
-   * Data de fim
-   */
-  dataFim?: string | null;
-  /**
-   * Indica se o evento ocupa o dia inteiro
-   */
-  diaInteiro?: boolean;
-  /**
-   * Horário de inicio (HH:MM)
-   */
-  horarioInicio?: string;
-  /**
-   * Horário de fim (HH:MM)
-   */
-  horarioFim?: string;
-  /**
-   * Cor do evento (hex)
-   */
-  cor?: string | null;
-  /**
-   * Regra de repetição
-   */
-  repeticao?: string | null;
-  /**
-   * IDs das turmas participantes
-   */
-  turmaIds?: Array<string>;
-  /**
-   * IDs dos perfis (professores) participantes
-   */
-  perfilIds?: Array<string>;
-  /**
-   * IDs dos calendarios letivos vinculados
-   */
-  calendarioLetivoIds?: Array<string>;
-  /**
-   * IDs das ofertas de formacao vinculadas
-   */
-  ofertaFormacaoIds?: Array<string>;
-  /**
-   * IDs das modalidades vinculadas
-   */
-  modalidadeIds?: Array<string>;
-  /**
-   * IDs dos ambientes vinculados
-   */
-  ambienteIds?: Array<string>;
-  /**
-   * IDs dos diarios vinculados
-   */
-  diarioIds?: Array<string>;
+  imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
 };
 
 export type CalendarioLetivoFindOneOutputDto = {
@@ -1750,6 +1679,322 @@ export type CalendarioLetivoFindOneOutputDto = {
   ofertaFormacao: OfertaFormacaoFindOneOutputDto;
 };
 
+export type DiarioFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Situacao do diario
+   */
+  ativo: boolean;
+  /**
+   * Calendario letivo vinculado ao diario
+   */
+  calendarioLetivo: CalendarioLetivoFindOneOutputDto;
+  /**
+   * Turma vinculada ao diario
+   */
+  turma: TurmaFindOneOutputDto;
+  /**
+   * Disciplina vinculada ao diario
+   */
+  disciplina: DisciplinaFindOneOutputDto;
+  /**
+   * Ambiente padrao
+   */
+  ambientePadrao?: AmbienteFindOneOutputDto | null;
+  /**
+   * Imagem de capa do diario
+   */
+  imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
+};
+
+export type CalendarioAgendamentoFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Identificador externo estavel
+   */
+  identificadorExterno: string;
+  /**
+   * Tipo: EVENTO (atividade) ou INDISPONIBILIDADE
+   */
+  tipo: string;
+  /**
+   * Nome do evento/atividade
+   */
+  nome?: string | null;
+  /**
+   * Data de inicio
+   */
+  dataInicio: string;
+  /**
+   * Data de fim
+   */
+  dataFim?: string | null;
+  /**
+   * Indica se o evento ocupa o dia inteiro
+   */
+  diaInteiro: boolean;
+  /**
+   * Horário de inicio (HH:MM)
+   */
+  horarioInicio: string;
+  /**
+   * Horário de fim (HH:MM)
+   */
+  horarioFim: string;
+  /**
+   * Cor do evento (hex)
+   */
+  cor?: string | null;
+  /**
+   * Regra de repetição
+   */
+  repeticao?: string | null;
+  /**
+   * Status do evento
+   */
+  status?: string | null;
+  /**
+   * Numero da versao
+   */
+  version: number;
+  /**
+   * Turmas participantes
+   */
+  turmas?: Array<TurmaFindOneOutputDto>;
+  /**
+   * Perfis (professores) participantes
+   */
+  perfis?: Array<PerfilFindOneOutputDto>;
+  /**
+   * Calendarios letivos vinculados
+   */
+  calendariosLetivos?: Array<CalendarioLetivoFindOneOutputDto>;
+  /**
+   * Ofertas de formacao vinculadas
+   */
+  ofertasFormacao?: Array<OfertaFormacaoFindOneOutputDto>;
+  /**
+   * Modalidades vinculadas
+   */
+  modalidades?: Array<ModalidadeFindOneOutputDto>;
+  /**
+   * Ambientes vinculados
+   */
+  ambientes?: Array<AmbienteFindOneOutputDto>;
+  /**
+   * Diarios vinculados
+   */
+  diarios?: Array<DiarioFindOneOutputDto>;
+};
+
+export type TurmaFindOneInputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+};
+
+export type PerfilFindOneInputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+};
+
+export type CalendarioLetivoFindOneInputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+};
+
+export type OfertaFormacaoFindOneInputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+};
+
+export type ModalidadeFindOneInputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+};
+
+export type AmbienteFindOneInputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+};
+
+export type DiarioFindOneInputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+};
+
+export type CalendarioAgendamentoCreateInputDto = {
+  /**
+   * Tipo de agendamento (AULA, EVENTO, INDISPONIBILIDADE, RESERVA)
+   */
+  tipo: 'INDISPONIBILIDADE' | 'AULA' | 'EVENTO' | 'RESERVA';
+  /**
+   * Nome do evento/atividade
+   */
+  nome: string | null;
+  /**
+   * Data de inicio
+   */
+  dataInicio: string;
+  /**
+   * Data de fim
+   */
+  dataFim?: string | null;
+  /**
+   * Indica se o evento ocupa o dia inteiro
+   */
+  diaInteiro: boolean;
+  /**
+   * Horário de inicio (HH:MM)
+   */
+  horarioInicio?: string;
+  /**
+   * Horário de fim (HH:MM)
+   */
+  horarioFim?: string;
+  /**
+   * Cor do evento (hex)
+   */
+  cor?: string | null;
+  /**
+   * Regra de repetição
+   */
+  repeticao?: string | null;
+  /**
+   * Turmas participantes
+   */
+  turmas?: Array<TurmaFindOneInputDto>;
+  /**
+   * Perfis (professores) participantes
+   */
+  perfis?: Array<PerfilFindOneInputDto>;
+  /**
+   * Calendarios letivos vinculados
+   */
+  calendariosLetivos?: Array<CalendarioLetivoFindOneInputDto>;
+  /**
+   * Ofertas de formacao vinculadas
+   */
+  ofertasFormacao?: Array<OfertaFormacaoFindOneInputDto>;
+  /**
+   * Modalidades vinculadas
+   */
+  modalidades?: Array<ModalidadeFindOneInputDto>;
+  /**
+   * Ambientes vinculados
+   */
+  ambientes?: Array<AmbienteFindOneInputDto>;
+  /**
+   * Diarios vinculados
+   */
+  diarios?: Array<DiarioFindOneInputDto>;
+};
+
+export type CalendarioAgendamentoUpdateInputDto = {
+  /**
+   * Tipo de agendamento (AULA, EVENTO, INDISPONIBILIDADE, RESERVA)
+   */
+  tipo?: 'INDISPONIBILIDADE' | 'AULA' | 'EVENTO' | 'RESERVA';
+  /**
+   * Nome do evento/atividade
+   */
+  nome?: string | null;
+  /**
+   * Data de inicio
+   */
+  dataInicio?: string;
+  /**
+   * Data de fim
+   */
+  dataFim?: string | null;
+  /**
+   * Indica se o evento ocupa o dia inteiro
+   */
+  diaInteiro?: boolean;
+  /**
+   * Horário de inicio (HH:MM)
+   */
+  horarioInicio?: string;
+  /**
+   * Horário de fim (HH:MM)
+   */
+  horarioFim?: string;
+  /**
+   * Cor do evento (hex)
+   */
+  cor?: string | null;
+  /**
+   * Regra de repetição
+   */
+  repeticao?: string | null;
+  /**
+   * Turmas participantes
+   */
+  turmas?: Array<TurmaFindOneInputDto>;
+  /**
+   * Perfis (professores) participantes
+   */
+  perfis?: Array<PerfilFindOneInputDto>;
+  /**
+   * Calendarios letivos vinculados
+   */
+  calendariosLetivos?: Array<CalendarioLetivoFindOneInputDto>;
+  /**
+   * Ofertas de formacao vinculadas
+   */
+  ofertasFormacao?: Array<OfertaFormacaoFindOneInputDto>;
+  /**
+   * Modalidades vinculadas
+   */
+  modalidades?: Array<ModalidadeFindOneInputDto>;
+  /**
+   * Ambientes vinculados
+   */
+  ambientes?: Array<AmbienteFindOneInputDto>;
+  /**
+   * Diarios vinculados
+   */
+  diarios?: Array<DiarioFindOneInputDto>;
+};
+
+export type ConsultaAgendamentosOutputDto = {
+  /**
+   * Agendamentos encontrados
+   */
+  agendamentos: Array<CalendarioAgendamentoFindOneOutputDto>;
+};
+
 export type CalendarioLetivoListOutputDto = {
   /**
    * Metadados da busca
@@ -1762,13 +2007,6 @@ export type CalendarioLetivoListOutputDto = {
 };
 
 export type CampusFindOneInputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-};
-
-export type OfertaFormacaoFindOneInputDto = {
   /**
    * Identificador do registro (uuid)
    */
@@ -1964,88 +2202,6 @@ export type CidadeListOutputDto = {
    * Resultados da busca
    */
   data: Array<CidadeFindOneOutputDto>;
-};
-
-export type BlocoFindOneOutputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-  /**
-   * Data e hora da criacao do registro
-   */
-  dateCreated: string;
-  /**
-   * Data e hora da alteracao do registro
-   */
-  dateUpdated: string;
-  /**
-   * Data e hora da exclusao do registro
-   */
-  dateDeleted?: string | null;
-  /**
-   * Nome do bloco
-   */
-  nome: string;
-  /**
-   * Codigo do bloco
-   */
-  codigo: string;
-  /**
-   * Campus do bloco
-   */
-  campus: CampusFindOneOutputDto;
-  /**
-   * Imagem de capa do bloco
-   */
-  imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
-};
-
-export type AmbienteFindOneOutputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-  /**
-   * Data e hora da criacao do registro
-   */
-  dateCreated: string;
-  /**
-   * Data e hora da alteracao do registro
-   */
-  dateUpdated: string;
-  /**
-   * Data e hora da exclusao do registro
-   */
-  dateDeleted?: string | null;
-  /**
-   * Nome do ambiente/sala
-   */
-  nome: string;
-  /**
-   * Descricao do ambiente/sala
-   */
-  descricao?: string | null;
-  /**
-   * Codigo do ambiente/sala
-   */
-  codigo: string;
-  /**
-   * Capacidade do ambiente/sala
-   */
-  capacidade?: number | null;
-  /**
-   * Tipo do ambiente/sala. Ex.: sala aula, auditorio, laboratorio de quimica
-   */
-  tipo?: string | null;
-  /**
-   * Bloco que o ambiente/sala pertence
-   */
-  bloco: BlocoFindOneOutputDto;
-  /**
-   * Imagem de capa do ambiente
-   */
-  imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
 };
 
 export type AmbienteListOutputDto = {
@@ -2250,88 +2406,6 @@ export type AuthRecoverPasswordInputDto = {
   email: string;
 };
 
-export type TurmaFindOneOutputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-  /**
-   * Data e hora da criacao do registro
-   */
-  dateCreated: string;
-  /**
-   * Data e hora da alteracao do registro
-   */
-  dateUpdated: string;
-  /**
-   * Data e hora da exclusao do registro
-   */
-  dateDeleted?: string | null;
-  /**
-   * Periodo da turma
-   */
-  periodo: string;
-  /**
-   * Nome da turma
-   */
-  nome?: string | null;
-  /**
-   * Curso da turma
-   */
-  curso: CursoFindOneOutputDto;
-  /**
-   * Ambiente padrao da sala de aula
-   */
-  ambientePadraoAula?: AmbienteFindOneOutputDto | null;
-  /**
-   * Imagem de capa da turma
-   */
-  imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
-};
-
-export type DiarioFindOneOutputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-  /**
-   * Data e hora da criacao do registro
-   */
-  dateCreated: string;
-  /**
-   * Data e hora da alteracao do registro
-   */
-  dateUpdated: string;
-  /**
-   * Data e hora da exclusao do registro
-   */
-  dateDeleted?: string | null;
-  /**
-   * Situacao do diario
-   */
-  ativo: boolean;
-  /**
-   * Calendario letivo vinculado ao diario
-   */
-  calendarioLetivo: CalendarioLetivoFindOneOutputDto;
-  /**
-   * Turma vinculada ao diario
-   */
-  turma: TurmaFindOneOutputDto;
-  /**
-   * Disciplina vinculada ao diario
-   */
-  disciplina: DisciplinaFindOneOutputDto;
-  /**
-   * Ambiente padrao
-   */
-  ambientePadrao?: AmbienteFindOneOutputDto | null;
-  /**
-   * Imagem de capa do diario
-   */
-  imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
-};
-
 export type DiarioListOutputDto = {
   /**
    * Metadados da busca
@@ -2343,28 +2417,7 @@ export type DiarioListOutputDto = {
   data: Array<DiarioFindOneOutputDto>;
 };
 
-export type CalendarioLetivoFindOneInputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-};
-
-export type TurmaFindOneInputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-};
-
 export type DisciplinaFindOneInputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-};
-
-export type AmbienteFindOneInputDto = {
   /**
    * Identificador do registro (uuid)
    */
@@ -3381,6 +3434,10 @@ export type TurmaDisponibilidadeConfigWithIdOutputDto = {
    */
   id: string;
   /**
+   * Identificador externo da configuracao
+   */
+  identificador_externo: string;
+  /**
    * Data inicio da vigencia
    */
   data_inicio: string;
@@ -3406,6 +3463,10 @@ export type TurmaDisponibilidadeAllOutputDto = {
 };
 
 export type TurmaDisponibilidadeConfigOutputDto = {
+  /**
+   * Identificador externo da configuracao
+   */
+  identificador_externo: string;
   /**
    * Data inicio da vigencia
    */
@@ -5121,46 +5182,6 @@ export type DisciplinaUpdateImagemCapaResponses = {
 export type DisciplinaUpdateImagemCapaResponse =
   DisciplinaUpdateImagemCapaResponses[keyof DisciplinaUpdateImagemCapaResponses];
 
-export type CalendarioAgendamentoFindEventosData = {
-  body?: never;
-  path?: never;
-  query: {
-    search: string;
-    'filter.turma.id': string;
-    'filter.ofertaFormacao.id': string;
-  };
-  url: '/calendario/eventos';
-};
-
-export type CalendarioAgendamentoFindEventosErrors = {
-  403: unknown;
-};
-
-export type CalendarioAgendamentoFindEventosResponses = {
-  200: CalendarioEventoListOutputDto;
-};
-
-export type CalendarioAgendamentoFindEventosResponse =
-  CalendarioAgendamentoFindEventosResponses[keyof CalendarioAgendamentoFindEventosResponses];
-
-export type CalendarioAgendamentoCreateData = {
-  body: CalendarioEventoCreateInputDto;
-  path?: never;
-  query?: never;
-  url: '/calendario/eventos';
-};
-
-export type CalendarioAgendamentoCreateErrors = {
-  403: unknown;
-};
-
-export type CalendarioAgendamentoCreateResponses = {
-  201: CalendarioEventoFindOneOutputDto;
-};
-
-export type CalendarioAgendamentoCreateResponse =
-  CalendarioAgendamentoCreateResponses[keyof CalendarioAgendamentoCreateResponses];
-
 export type CalendarioAgendamentoDeleteOneByIdData = {
   body?: never;
   path: {
@@ -5170,7 +5191,7 @@ export type CalendarioAgendamentoDeleteOneByIdData = {
     id: string;
   };
   query?: never;
-  url: '/calendario/eventos/{id}';
+  url: '/calendario/agendamentos/{id}';
 };
 
 export type CalendarioAgendamentoDeleteOneByIdErrors = {
@@ -5194,7 +5215,7 @@ export type CalendarioAgendamentoFindByIdData = {
     id: string;
   };
   query?: never;
-  url: '/calendario/eventos/{id}';
+  url: '/calendario/agendamentos/{id}';
 };
 
 export type CalendarioAgendamentoFindByIdErrors = {
@@ -5203,14 +5224,14 @@ export type CalendarioAgendamentoFindByIdErrors = {
 };
 
 export type CalendarioAgendamentoFindByIdResponses = {
-  200: CalendarioEventoFindOneOutputDto;
+  200: CalendarioAgendamentoFindOneOutputDto;
 };
 
 export type CalendarioAgendamentoFindByIdResponse =
   CalendarioAgendamentoFindByIdResponses[keyof CalendarioAgendamentoFindByIdResponses];
 
 export type CalendarioAgendamentoUpdateData = {
-  body: CalendarioEventoUpdateInputDto;
+  body: CalendarioAgendamentoUpdateInputDto;
   path: {
     /**
      * Identificador do registro (uuid)
@@ -5218,7 +5239,7 @@ export type CalendarioAgendamentoUpdateData = {
     id: string;
   };
   query?: never;
-  url: '/calendario/eventos/{id}';
+  url: '/calendario/agendamentos/{id}';
 };
 
 export type CalendarioAgendamentoUpdateErrors = {
@@ -5227,11 +5248,72 @@ export type CalendarioAgendamentoUpdateErrors = {
 };
 
 export type CalendarioAgendamentoUpdateResponses = {
-  200: CalendarioEventoFindOneOutputDto;
+  200: CalendarioAgendamentoFindOneOutputDto;
 };
 
 export type CalendarioAgendamentoUpdateResponse =
   CalendarioAgendamentoUpdateResponses[keyof CalendarioAgendamentoUpdateResponses];
+
+export type CalendarioAgendamentoCreateData = {
+  body: CalendarioAgendamentoCreateInputDto;
+  path?: never;
+  query?: never;
+  url: '/calendario/agendamentos';
+};
+
+export type CalendarioAgendamentoCreateErrors = {
+  403: unknown;
+};
+
+export type CalendarioAgendamentoCreateResponses = {
+  201: CalendarioAgendamentoFindOneOutputDto;
+};
+
+export type CalendarioAgendamentoCreateResponse =
+  CalendarioAgendamentoCreateResponses[keyof CalendarioAgendamentoCreateResponses];
+
+export type ConsultaAgendamentosPorDataData = {
+  body?: never;
+  path?: never;
+  query: {
+    /**
+     * Data início do período (YYYY-MM-DD)
+     */
+    dateStart: string;
+    /**
+     * Data fim do período (YYYY-MM-DD)
+     */
+    dateEnd: string;
+    /**
+     * Filtro por campus ID
+     */
+    campus?: string;
+    /**
+     * Filtro por turma ID
+     */
+    turma?: string;
+    /**
+     * Filtro por professor (perfil) ID
+     */
+    professor?: string;
+    /**
+     * Filtro por tipo de agendamento (AULA, EVENTO, INDISPONIBILIDADE, RESERVA)
+     */
+    tipo?: string;
+  };
+  url: '/calendario/consultas/agendamentos';
+};
+
+export type ConsultaAgendamentosPorDataErrors = {
+  403: unknown;
+};
+
+export type ConsultaAgendamentosPorDataResponses = {
+  200: ConsultaAgendamentosOutputDto;
+};
+
+export type ConsultaAgendamentosPorDataResponse =
+  ConsultaAgendamentosPorDataResponses[keyof ConsultaAgendamentosPorDataResponses];
 
 export type CalendarioLetivoFindAllData = {
   body?: never;

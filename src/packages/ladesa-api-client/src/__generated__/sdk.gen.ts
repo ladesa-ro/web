@@ -88,9 +88,6 @@ import type {
   CalendarioAgendamentoFindByIdData,
   CalendarioAgendamentoFindByIdErrors,
   CalendarioAgendamentoFindByIdResponses,
-  CalendarioAgendamentoFindEventosData,
-  CalendarioAgendamentoFindEventosErrors,
-  CalendarioAgendamentoFindEventosResponses,
   CalendarioAgendamentoUpdateData,
   CalendarioAgendamentoUpdateErrors,
   CalendarioAgendamentoUpdateResponses,
@@ -148,6 +145,9 @@ import type {
   CidadeFindByIdData,
   CidadeFindByIdErrors,
   CidadeFindByIdResponses,
+  ConsultaAgendamentosPorDataData,
+  ConsultaAgendamentosPorDataErrors,
+  ConsultaAgendamentosPorDataResponses,
   CursoCreateData,
   CursoCreateErrors,
   CursoCreateResponses,
@@ -1583,45 +1583,6 @@ export const disciplinaUpdateImagemCapa = <
   });
 
 /**
- * Lista eventos do calendario
- *
- * Lista eventos do calendario
- */
-export const calendarioAgendamentoFindEventos = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CalendarioAgendamentoFindEventosData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    CalendarioAgendamentoFindEventosResponses,
-    CalendarioAgendamentoFindEventosErrors,
-    ThrowOnError
-  >({ url: '/calendario/eventos', ...options });
-
-/**
- * Cria um agendamento no calendario
- *
- * Cria um agendamento no calendario
- */
-export const calendarioAgendamentoCreate = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CalendarioAgendamentoCreateData, ThrowOnError>
-) =>
-  (options.client ?? client).post<
-    CalendarioAgendamentoCreateResponses,
-    CalendarioAgendamentoCreateErrors,
-    ThrowOnError
-  >({
-    url: '/calendario/eventos',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
  * Remove um agendamento do calendario
  *
  * Remove um agendamento do calendario
@@ -1635,7 +1596,7 @@ export const calendarioAgendamentoDeleteOneById = <
     CalendarioAgendamentoDeleteOneByIdResponses,
     CalendarioAgendamentoDeleteOneByIdErrors,
     ThrowOnError
-  >({ url: '/calendario/eventos/{id}', ...options });
+  >({ url: '/calendario/agendamentos/{id}', ...options });
 
 /**
  * Busca um agendamento por ID
@@ -1651,7 +1612,7 @@ export const calendarioAgendamentoFindById = <
     CalendarioAgendamentoFindByIdResponses,
     CalendarioAgendamentoFindByIdErrors,
     ThrowOnError
-  >({ url: '/calendario/eventos/{id}', ...options });
+  >({ url: '/calendario/agendamentos/{id}', ...options });
 
 /**
  * Atualiza um agendamento do calendario
@@ -1668,13 +1629,52 @@ export const calendarioAgendamentoUpdate = <
     CalendarioAgendamentoUpdateErrors,
     ThrowOnError
   >({
-    url: '/calendario/eventos/{id}',
+    url: '/calendario/agendamentos/{id}',
     ...options,
     headers: {
       'Content-Type': 'application/json',
       ...options.headers,
     },
   });
+
+/**
+ * Cria um agendamento no calendario
+ *
+ * Cria um agendamento no calendario
+ */
+export const calendarioAgendamentoCreate = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioAgendamentoCreateResponses,
+    CalendarioAgendamentoCreateErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/agendamentos',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Consulta agendamentos por período
+ *
+ * Consulta agendamentos por período
+ */
+export const consultaAgendamentosPorData = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<ConsultaAgendamentosPorDataData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    ConsultaAgendamentosPorDataResponses,
+    ConsultaAgendamentosPorDataErrors,
+    ThrowOnError
+  >({ url: '/calendario/consultas/agendamentos', ...options });
 
 /**
  * Lista calendarios letivos

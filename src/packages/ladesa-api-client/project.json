@@ -18,7 +18,7 @@
         "command": "openapi-ts && prettier --write ./src/__generated__",
         "cwd": "{projectRoot}"
       },
-      "cache": true,
+      "cache": false,
       "dependsOn": [
         "fetch-spec"
       ],
