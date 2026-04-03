@@ -8,29 +8,14 @@ const $emit = defineEmits(['close']);
 
 const contexto = createAndProvideContextDiariosFormGeral();
 
-const activeModal = ref<'select' | 'gerenciar' | 'vincular' | null>('select');
+type DiarioModal = 'select' | 'gerenciar' | 'vincular';
+const modals = useModalManager<DiarioModal>({ initial: 'select', history: true });
 
 const fecharTudo = () => {
   contexto.disciplinaId.value = null;
   contexto.disciplinaSelecionada.value = null;
-  activeModal.value = null;
+  modals.closeAll();
   $emit('close');
-};
-
-const abrirGerenciar = () => {
-  activeModal.value = 'gerenciar';
-};
-
-const voltarParaSelect = () => {
-  activeModal.value = 'select';
-};
-
-const abrirVincularTurmas = () => {
-  activeModal.value = 'vincular';
-};
-
-const voltarParaGerenciar = () => {
-  activeModal.value = 'gerenciar';
 };
 
 const salvarTurmas = (turmas: TurmaSelecionada[]) => {
@@ -44,57 +29,36 @@ const salvarTurmas = (turmas: TurmaSelecionada[]) => {
     ),
   ];
 
-  voltarParaGerenciar();
+  modals.close();
 };
 </script>
 
 <template>
   <!-- selecionar disciplina -->
-  <DialogSkeleton
-    :model-value="activeModal === 'select'"
-    @update:model-value="
-      val => {
-        if (!val) fecharTudo();
-      }
-    "
-  >
+  <DialogManagedDialog name="select" :manager="modals" backdrop-action="close-all">
     <SectionDiariosFormGeralDisciplinaSelect
       @close="fecharTudo"
-      @next="abrirGerenciar"
+      @next="modals.open('gerenciar')"
     />
-  </DialogSkeleton>
+  </DialogManagedDialog>
 
   <!-- gerenciar turmas da disciplina -->
-  <DialogSkeleton
-    :model-value="activeModal === 'gerenciar'"
-    @update:model-value="
-      val => {
-        if (!val) fecharTudo();
-      }
-    "
-  >
+  <DialogManagedDialog name="gerenciar" :manager="modals" backdrop-action="close-all">
     <SectionDiariosFormGeralDisciplinaTurmas
       ref="gerenciarTurmasRef"
       :disciplina="contexto.disciplinaSelecionada"
       @close="fecharTudo"
-      @back="voltarParaSelect"
-      @add="abrirVincularTurmas"
+      @back="modals.close()"
+      @add="modals.open('vincular')"
     />
-  </DialogSkeleton>
+  </DialogManagedDialog>
 
   <!-- vincular turmas à disciplina -->
-  <DialogSkeleton
-    :model-value="activeModal === 'vincular'"
-    @update:model-value="
-      val => {
-        if (!val) fecharTudo();
-      }
-    "
-  >
+  <DialogManagedDialog name="vincular" :manager="modals" backdrop-action="close-all">
     <SectionDiariosFormGeralDisciplinaTurmasAdd
-      @back="voltarParaGerenciar"
+      @back="modals.close()"
       @close="fecharTudo"
       @save-turmas="salvarTurmas"
     />
-  </DialogSkeleton>
+  </DialogManagedDialog>
 </template>

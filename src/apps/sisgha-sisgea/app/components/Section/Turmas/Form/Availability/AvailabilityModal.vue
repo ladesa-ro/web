@@ -1,29 +1,21 @@
 <script lang="ts" setup>
-import { FormMode } from '~/utils/constants';
 import WeekdaySelector from '../../../../UI/WeekDaySelector/WeekdaySelector.vue';
 import ShiftTimes from './ShiftTimes/ShiftTimes.vue';
 import WeekNavigator from './WeekNavigator.vue';
+import SaveScope from './SaveScope.vue';
+import ConfirmContent from '../../../../Dialog/Confirm/ConfirmContent.vue';
+
 const props = defineProps<{
-  turmaId?: string | null;
-  mode?: FormMode;
-  campusId?: string | null;
   disabled?: boolean;
   isLoading?: boolean;
 }>();
 
 const emit = defineEmits<{
   close: [];
-  'update:editing': [value: boolean];
 }>();
 const onClose = () => emit('close');
 
-const state = useTurmaAvailabilityState(
-  computed(() => props.turmaId ?? null),
-  computed(() => props.mode ?? FormMode.CREATE),
-  computed(() => props.campusId ?? null)
-);
-
-const  {
+const {
   currentWeekRef,
   weekDays,
   weekLabel,
@@ -42,9 +34,6 @@ const  {
   enterEditMode,
   cancelEdit,
   confirmAvailability,
-  saveAvailability,
-  hasPendingSave,
-  invalidateDisponibilidade,
   weekQuery,
   allConfigsQuery,
   pendingDeactivations,
@@ -54,17 +43,28 @@ const  {
   undoPendingConfig,
   currentWeekPending,
   hasGradeDivergence,
-  showNavigationConfirm,
+  setOnNavigationBlocked,
   confirmNavigationDiscard,
-} = state;
+} = useInjectTurmaAvailability();
 
-watch(isEditing, val => emit('update:editing', val));
+type TurmaAvailModal = 'saveScope' | 'navConfirm';
+const modals = useModalManager<TurmaAvailModal>({
+  modals: {
+    saveScope: { exclusive: false },
+    navConfirm: { exclusive: false },
+  },
+});
 
-const showSaveConfirm = ref(false);
+setOnNavigationBlocked(() => modals.open('navConfirm'));
 
 function handleConfirm(payload: { dataInicio: string; dataFim: string | null }) {
   confirmAvailability(payload);
-  showSaveConfirm.value = false;
+  modals.close('saveScope');
+}
+
+function handleNavigationConfirm() {
+  modals.close('navConfirm');
+  confirmNavigationDiscard();
 }
 
 const dayjs = useDayJs();
@@ -80,8 +80,6 @@ function handleDeactivateConfig(configId: string) {
 function handleNavigateToConfig(dataInicio: string) {
   currentWeekRef.value = dayjs(dataInicio).startOf('week');
 }
-
-defineExpose({ saveAvailability, hasPendingSave, invalidateDisponibilidade });
 
 const weekDayLabels = computed(() => weekDays.value.map(d => d.dayWeek));
 const allConfigs = computed(() => allConfigsQuery.data.value?.configs ?? []);
@@ -228,24 +226,27 @@ function getConfigLabel(tipo: 'permanente' | 'temporario', dataInicio: string, d
             text="Confirmar"
             class="flex-1"
             :disabled="!isDirty"
-            @click.prevent="showSaveConfirm = true"
+            @click.prevent="modals.open('saveScope')"
           />
         </template>
       </template>
 
       <!-- Save scope: permanente ou temporário -->
-      <SectionTurmasFormAvailabilitySaveScopeModal
-        v-model="showSaveConfirm"
-        @confirm="handleConfirm"
-        @close="showSaveConfirm = false"
-      />
+      <DialogManagedDialog name="saveScope" :manager="modals" backdrop-action="close-self">
+        <SaveScope
+          @confirm="handleConfirm"
+          @close="modals.close('saveScope')"
+        />
+      </DialogManagedDialog>
 
       <!-- Navigation confirmation when dirty -->
-      <DialogConfirm
-        v-model="showNavigationConfirm"
-        message="Você tem alterações não salvas. Deseja descartá-las?"
-        @confirm="confirmNavigationDiscard"
-      />
+      <DialogManagedDialog name="navConfirm" :manager="modals" backdrop-action="close-self">
+        <ConfirmContent
+          message="Você tem alterações não salvas. Deseja descartá-las?"
+          @confirm="handleNavigationConfirm"
+          @cancel="modals.close('navConfirm')"
+        />
+      </DialogManagedDialog>
     </DialogModalBaseLayout>
   </div>
 </template>

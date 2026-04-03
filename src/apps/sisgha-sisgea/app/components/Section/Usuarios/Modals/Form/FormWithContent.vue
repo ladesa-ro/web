@@ -10,27 +10,15 @@ type Props = {
 const { editId = null } = defineProps<Props>();
 const $emit = defineEmits(['close']);
 
-const activeModal = ref<'cadastrar' | 'consultar' | 'listar' | 'editar' | null>(
-  null
-);
+type UsuarioModal = 'cadastrar' | 'consultar' | 'listar' | 'editar';
+const modals = useModalManager<UsuarioModal>();
 
-const isProfileOpen = ref(true);
-const isAvailabilityOpen = ref(true);
+const isMainContentVisible = computed(() => !modals.hasActiveModal.value);
 
 function fecharTodosModais() {
-  activeModal.value = null;
+  modals.closeAll();
   motivoSelecionado.value = null;
 }
-
-watch(activeModal, newVal => {
-  if (newVal !== null) {
-    isProfileOpen.value = false;
-    isAvailabilityOpen.value = false;
-  } else {
-    isProfileOpen.value = true;
-    isAvailabilityOpen.value = true;
-  }
-});
 
 function onClose() {
   $emit('close');
@@ -51,10 +39,10 @@ const motivosConfirmados = ref<Record<string, HorarioMotivo[]>>({});
 const horariosSemMotivo = ref<string[]>([]);
 
 function abrirModal(
-  tipo: 'cadastrar' | 'consultar' | 'listar' | 'editar',
+  tipo: UsuarioModal,
   payload?: MotivoSelecionado
 ) {
-  activeModal.value = tipo;
+  modals.open(tipo);
   if (tipo === 'editar' && payload) {
     motivoSelecionado.value = payload;
   }
@@ -139,13 +127,13 @@ function setDiaSelecionado(dia: string) {
     class="w-full flex flex-col md:flex-row gap-4 h-[90vh]"
   >
     <SectionUsuariosFormProfile
-      v-show="isProfileOpen"
+      v-show="isMainContentVisible"
       :edit-id="editId"
       class="w-full flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
       @close="onClose"
     />
     <SectionUsuariosModalsFormDialogAvailability
-      v-show="isAvailabilityOpen"
+      v-show="isMainContentVisible"
       :selected-day-week="diaSelecionado"
       :motivos-confirmados="motivosConfirmados"
       class="w-full flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
@@ -156,44 +144,23 @@ function setDiaSelecionado(dia: string) {
     />
   </SectionUsuariosForm>
 
-  <DialogSkeleton
-    :model-value="activeModal === 'cadastrar'"
-    @update:model-value="
-      val => {
-        if (!val) fecharTodosModais();
-      }
-    "
-  >
+  <DialogManagedDialog name="cadastrar" :manager="modals" backdrop-action="close-all">
     <ModalCadastrarMotivo
       :horarios-sem-motivo="horariosSemMotivo"
       @fechar="fecharTodosModais"
       @cadastrar="adicionarMotivo"
     />
-  </DialogSkeleton>
+  </DialogManagedDialog>
 
-  <DialogSkeleton
-    :model-value="activeModal === 'consultar'"
-    @update:model-value="
-      val => {
-        if (!val) fecharTodosModais();
-      }
-    "
-  >
+  <DialogManagedDialog name="consultar" :manager="modals" backdrop-action="close-all">
     <ModalConsultarMotivo
       :motivos-confirmados="motivosConfirmados"
       :selected-day-week="diaSelecionado"
       @fechar="fecharTodosModais"
     />
-  </DialogSkeleton>
+  </DialogManagedDialog>
 
-  <DialogSkeleton
-    :model-value="activeModal === 'listar'"
-    @update:model-value="
-      val => {
-        if (!val) fecharTodosModais();
-      }
-    "
-  >
+  <DialogManagedDialog name="listar" :manager="modals" backdrop-action="close-all">
     <ModalListarMotivos
       :motivos-confirmados="motivosConfirmados"
       :selected-day-week="diaSelecionado"
@@ -201,16 +168,9 @@ function setDiaSelecionado(dia: string) {
       @editar="(payload: MotivoSelecionado) => abrirModal('editar', payload)"
       @deletar="deletarMotivo"
     />
-  </DialogSkeleton>
+  </DialogManagedDialog>
 
-  <DialogSkeleton
-    :model-value="activeModal === 'editar'"
-    @update:model-value="
-      val => {
-        if (!val) fecharTodosModais();
-      }
-    "
-  >
+  <DialogManagedDialog name="editar" :manager="modals" backdrop-action="close-all">
     <ModalEditarMotivo
       v-if="motivoSelecionado"
       :motivo-atual="motivoSelecionado"
@@ -219,5 +179,5 @@ function setDiaSelecionado(dia: string) {
       @atualizar-com-horarios="atualizarMotivoEditadoComHorarios"
       @deletar="deletarMotivo"
     />
-  </DialogSkeleton>
+  </DialogManagedDialog>
 </template>

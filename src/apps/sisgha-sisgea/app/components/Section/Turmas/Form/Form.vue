@@ -6,19 +6,9 @@ import type {
   TurmaUpdateInputDto,
 } from '@ladesa-ro/web.api.client';
 import { useTurmaFormSchema } from './-Helpers/schema';
-import SectionTurmasFormAvailability from './Availability/AvailabilityModal.vue';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
 const emit = defineEmits<{ close: [] }>();
-
-const isClassesOpen = ref(true);
-const isAvailabilityOpen = ref(true);
-
-const availabilityRef = ref<{
-  saveAvailability: (overrideTurmaId?: string) => Promise<void>;
-  hasPendingSave: boolean;
-  invalidateDisponibilidade: () => Promise<void>;
-} | null>(null);
 
 const schema = useTurmaFormSchema();
 const turmas = useTurmas();
@@ -31,6 +21,12 @@ const { value: selectedCursoId } = useField<string | null>('curso.id');
 const cursoQuery = cursos.findOne(selectedCursoId);
 const campusContext = useCampusContext();
 const campusId = computed(() => cursoQuery.data.value?.campus?.id ?? campusContext.value ?? null);
+
+const avail = useProvideTurmaAvailability(
+  computed(() => editId),
+  computed(() => mode.value),
+  campusId
+);
 
 const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   schema,
@@ -45,7 +41,7 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
     };
     const created = await turmas.create(data);
     if (created?.id) {
-      await availabilityRef.value?.saveAvailability(created.id);
+      await avail.saveAvailability(created.id);
     }
   },
 
@@ -56,23 +52,21 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
       ambientePadraoAula: formData.ambientePadraoAula,
     };
     await turmas.update(id, data);
-    await availabilityRef.value?.saveAvailability();
+    await avail.saveAvailability();
   },
 
   remove: id => turmas.remove(id),
   invalidate: async () => {
     await turmas.invalidate();
-    await availabilityRef.value?.invalidateDisponibilidade();
+    await avail.invalidateDisponibilidade();
   },
   confirmDelete: confirmDelete.confirm,
   onFinish: () => emit('close'),
 });
 
-const isEditingAvailability = ref(false);
-
 const openSectionsCount = computed(() => {
-  if (isEditingAvailability.value) return 1;
-  return [isClassesOpen, isAvailabilityOpen].filter(Boolean).length || 1;
+  if (avail.isEditing.value) return 1;
+  return 2;
 });
 </script>
 
@@ -85,7 +79,7 @@ const openSectionsCount = computed(() => {
     @submit.prevent="onSubmit"
   >
     <UIFormLayout
-      v-show="!isEditingAvailability"
+      v-show="!avail.isEditing.value"
       :title="mode === FormMode.MANAGE ? 'Editar Turma' : 'Cadastrar Turma'"
       :mode="mode"
       :is-busy="isBusy"
@@ -108,21 +102,14 @@ const openSectionsCount = computed(() => {
       />
 
       <SectionTurmasFormFieldsPeriodo
-        v-show="isClassesOpen"
         :disabled="isBusy"
         :is-loading="isLoading"
       />
     </UIFormLayout>
 
     <SectionTurmasFormAvailability
-      v-show="isAvailabilityOpen"
-      ref="availabilityRef"
-      :turma-id="editId"
-      :mode="mode"
-      :campus-id="campusId"
       :disabled="isBusy"
       :is-loading="isLoading"
-      @update:editing="isEditingAvailability = $event"
     />
   </form>
 

@@ -14,6 +14,30 @@ import type {
   TurmaDisponibilidadeWeekOutputDto,
 } from '@ladesa-ro/web.api.client';
 
+export type TurmaAvailabilityState = ReturnType<typeof useTurmaAvailabilityState>;
+
+const TURMA_AVAILABILITY_KEY = Symbol('turma-availability') as InjectionKey<TurmaAvailabilityState>;
+
+export function useProvideTurmaAvailability(
+  turmaId: MaybeRef<string | null>,
+  mode: MaybeRef<FormMode>,
+  campusIdExternal?: MaybeRef<string | null>
+) {
+  const state = useTurmaAvailabilityState(turmaId, mode, campusIdExternal);
+  provide(TURMA_AVAILABILITY_KEY, state);
+  return state;
+}
+
+export function useInjectTurmaAvailability() {
+  const state = inject(TURMA_AVAILABILITY_KEY);
+
+  if (!state) {
+    throw new Error('useInjectTurmaAvailability: must be used inside a component that calls useProvideTurmaAvailability');
+  }
+
+  return state;
+}
+
 export function useTurmaAvailabilityState(
   turmaId: MaybeRef<string | null>,
   mode: MaybeRef<FormMode>,
@@ -454,8 +478,12 @@ export function useTurmaAvailabilityState(
 
   // --- Week Navigation with dirty check ---
 
-  const showNavigationConfirm = ref(false);
+  let onNavigationBlocked: (() => void) | null = null;
   const pendingNavigation = ref<'prev' | 'next' | null>(null);
+
+  function setOnNavigationBlocked(cb: () => void) {
+    onNavigationBlocked = cb;
+  }
 
   function performNavigation(direction: 'prev' | 'next') {
     isEditing.value = false;
@@ -471,7 +499,7 @@ export function useTurmaAvailabilityState(
   function requestWeekChange(direction: 'prev' | 'next') {
     if (isDirty.value && isEditing.value) {
       pendingNavigation.value = direction;
-      showNavigationConfirm.value = true;
+      onNavigationBlocked?.();
       return;
     }
     performNavigation(direction);
@@ -537,7 +565,7 @@ export function useTurmaAvailabilityState(
     hasGradeDivergence,
 
     // Navigation confirmation
-    showNavigationConfirm,
+    setOnNavigationBlocked,
     pendingNavigation,
     confirmNavigationAndSave,
     confirmNavigationDiscard,
