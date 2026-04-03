@@ -39,5 +39,18 @@ if (!spec) {
 
 delete spec.servers;
 
+if (
+  typeof spec !== 'object' ||
+  spec === null ||
+  Array.isArray(spec) ||
+  typeof spec.openapi !== 'string' ||
+  !spec.openapi.startsWith('3.') ||
+  typeof spec.info !== 'object' ||
+  typeof spec.paths !== 'object'
+) {
+  console.error('Fetched data is not a valid OpenAPI v3 spec');
+  process.exit(1);
+}
+
 writeFileSync(outputPath, JSON.stringify(spec, null, 2));
 console.log(`Spec saved to: ${outputPath} (servers stripped)`);
