@@ -1,17 +1,19 @@
 <script lang="ts" setup>
 type CollapseTarget = 'primary' | 'secondary';
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   collapsed?: boolean;
   collapseTarget?: CollapseTarget;
   primaryLabel?: string;
   secondaryLabel?: string;
   showSecondary?: boolean;
-}>();
+}>(), {
+  showSecondary: true,
+});
 
 const collapseTarget = computed(() => props.collapseTarget ?? 'secondary');
 
-const secondaryEnabled = computed(() => props.showSecondary !== false);
+const secondaryEnabled = computed(() => props.showSecondary);
 
 const isSinglePanel = computed(() => !secondaryEnabled.value || props.collapsed);
 
@@ -68,7 +70,7 @@ const isSecondaryVisible = computed(() => {
 </script>
 
 <template>
-  <div :class="[isGrid ? 'root-grid' : 'root-tabs', !isGrid && collapsed && 'root-tabs-collapsed']">
+  <div :class="[isGrid ? (isSinglePanel ? 'root-grid-single' : 'root-grid') : 'root-tabs', !isGrid && collapsed && 'root-tabs-collapsed']">
     <!-- Tabs header (only in tabs mode, not collapsed, secondary enabled) -->
     <div v-show="!isGrid && !isSinglePanel" class="tabs-header">
       <button
@@ -128,7 +130,11 @@ const isSecondaryVisible = computed(() => {
 /* --- Root modes --- */
 
 .root-grid {
-  /* no width constraint — let content define size */
+  @apply w-full;
+}
+
+.root-grid-single {
+  @apply w-fit;
 }
 
 .root-tabs {
