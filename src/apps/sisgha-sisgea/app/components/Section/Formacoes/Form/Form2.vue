@@ -29,12 +29,16 @@ const { fields: periodos, replace } = useFieldArray<{
 watch(
   quantidadePeriodos,
   count => {
-    const newPeriodos = Array.from({ length: count }, (_, i) => ({
-      numeroPeriodo: i + 1,
-      etapas: periodos.value?.[i]?.value?.etapas ?? [
-        { nome: '', cor: '#000000' },
-      ],
-    }));
+    const newPeriodos = Array.from({ length: count }, (_, i) => {
+      const numeroPeriodo = i + 1;
+      const existing = periodos.value?.find(p => p.value?.numeroPeriodo === numeroPeriodo);
+      return {
+        numeroPeriodo,
+        etapas: existing?.value?.etapas ?? [
+          { nome: '', cor: '#000000' },
+        ],
+      };
+    });
     replace(newPeriodos);
   },
   { immediate: true }

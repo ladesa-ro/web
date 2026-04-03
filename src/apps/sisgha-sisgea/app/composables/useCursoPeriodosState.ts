@@ -202,23 +202,20 @@ function useCursoPeriodosState(
   }
 
   function confirmDisciplinas(ids: Set<string>) {
-    const current = [...localPeriodos.value];
     const numeroPeriodo = selectedNumeroPeriodo.value;
-    const existing = current.find(item => item.numeroPeriodo === numeroPeriodo);
 
-    if (existing) {
-      const nextPeriodo: PeriodoLocal = {
-        numeroPeriodo: existing.numeroPeriodo,
+    localPeriodos.value = localPeriodos.value.map(periodo => {
+      if (periodo.numeroPeriodo !== numeroPeriodo) return periodo;
+
+      return {
+        numeroPeriodo: periodo.numeroPeriodo,
         disciplinas: [...ids].map(id => ({
           disciplinaId: id,
-          cargaHoraria: existing.disciplinas.find(d => d.disciplinaId === id)
+          cargaHoraria: periodo.disciplinas.find(d => d.disciplinaId === id)
             ?.cargaHoraria,
         })),
       };
-      const index = current.findIndex(item => item.numeroPeriodo === numeroPeriodo);
-      current[index] = nextPeriodo;
-      localPeriodos.value = current;
-    }
+    });
 
     modals.close('selectDisciplinas');
   }
