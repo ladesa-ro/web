@@ -1,5 +1,8 @@
-import type { CursoFindByIdResponse } from '@ladesa-ro/web.api.client';
-import type { UseQueryReturnType } from '@tanstack/vue-query';
+import type {
+  CursoFindByIdResponse,
+  DisciplinaFindAllResponse,
+} from '@ladesa-ro/web.api.client';
+import type { InfiniteData, UseQueryReturnType } from '@tanstack/vue-query';
 import { FormMode } from '~/utils/constants';
 
 // ============================================================
@@ -14,6 +17,17 @@ export type PeriodoDisciplinaLocal = {
 export type PeriodoLocal = {
   numeroPeriodo: number;
   disciplinas: PeriodoDisciplinaLocal[];
+};
+
+type DisciplinaResumo = {
+  nome: string;
+  cargaHoraria: number;
+};
+
+type PeriodoVisivel = {
+  numeroPeriodo: number;
+  disciplinas: PeriodoDisciplinaLocal[];
+  removedDisciplinaIds: string[];
 };
 
 export type CursoPeriodosState = ReturnType<typeof useCursoPeriodosState>;
@@ -65,20 +79,47 @@ function useCursoPeriodosState(
   type CursoModal = 'selectDisciplinas';
   const modals = useModalManager<CursoModal>({ history: true });
 
-  const editingPeriodoIndex = ref(0);
   const isEditing = computed(() => modals.isActive('selectDisciplinas'));
 
   // ---- Disciplinas query (compartilhada) ----
   const disciplinasInfiniteQuery = disciplinas.listInfinite(
     computed(() => ({ limit: 50 })),
   );
+  const disciplinasData = computed(
+    () =>
+      disciplinasInfiniteQuery.data.value as
+        | InfiniteData<DisciplinaFindAllResponse>
+        | undefined,
+  );
+  const disciplinasList = computed(() =>
+    disciplinasData.value?.pages.flatMap(page => page.data ?? []) ?? [],
+  );
+  const disciplinasById = computed(() => {
+    const map = new Map<string, DisciplinaResumo>();
+    for (const disciplina of disciplinasList.value) {
+      map.set(disciplina.id, {
+        nome: disciplina.nome,
+        cargaHoraria: disciplina.cargaHoraria,
+      });
+    }
+    return map;
+  });
 
   // ---- Estado local de períodos ----
   const localPeriodos = ref<PeriodoLocal[]>([]);
   const savedPeriodos = ref(new Map<number, Set<string>>());
+  const selectedNumeroPeriodo = ref<number | null>(null);
+  const loadingFromServer = ref(false);
 
-  // Flag para evitar race condition entre watchers
-  let loadingFromServer = false;
+  function normalizePeriodos(
+    count: number,
+    source: PeriodoLocal[],
+  ): PeriodoLocal[] {
+    return Array.from({ length: count }, (_, i) => ({
+      numeroPeriodo: i + 1,
+      disciplinas: source[i]?.disciplinas ?? [],
+    }));
+  }
 
   // ---- Sincronizar dados do servidor (via cursoQuery.data.periodos) ----
   watch(
@@ -86,7 +127,8 @@ function useCursoPeriodosState(
     serverData => {
       if (!serverData?.periodos) return;
 
-      loadingFromServer = true;
+      loadingFromServer.value = true;
+      const count = Math.max(unref(quantidadePeriodos) ?? 0, 1);
 
       const periodosData: PeriodoLocal[] = serverData.periodos.map(p => ({
         numeroPeriodo: p.numeroPeriodo,
@@ -96,7 +138,7 @@ function useCursoPeriodosState(
         })),
       }));
 
-      localPeriodos.value = periodosData;
+      localPeriodos.value = normalizePeriodos(count, periodosData);
 
       const snapshot = new Map<number, Set<string>>();
       for (const p of periodosData) {
@@ -108,7 +150,7 @@ function useCursoPeriodosState(
       savedPeriodos.value = snapshot;
 
       nextTick(() => {
-        loadingFromServer = false;
+        loadingFromServer.value = false;
       });
     },
     { immediate: true },
@@ -118,38 +160,50 @@ function useCursoPeriodosState(
   watch(
     () => unref(quantidadePeriodos),
     count => {
-      if (!count || count < 1 || loadingFromServer) return;
+      if (!count || count < 1 || loadingFromServer.value) return;
 
-      const current = localPeriodos.value;
-      localPeriodos.value = Array.from({ length: count }, (_, i) => ({
-        numeroPeriodo: i + 1,
-        disciplinas: current[i]?.disciplinas ?? [],
-      }));
+      localPeriodos.value = normalizePeriodos(count, localPeriodos.value);
     },
     { immediate: true },
   );
 
   // ---- IDs das disciplinas do período sendo editado ----
-  const currentDisciplinaIds = computed(() => {
-    const periodo = localPeriodos.value[editingPeriodoIndex.value];
+  const selectedDisciplinaIds = computed(() => {
+    const periodo = localPeriodos.value.find(
+      item => item.numeroPeriodo === selectedNumeroPeriodo.value,
+    );
     if (!periodo) return new Set<string>();
     return new Set<string>(periodo.disciplinas.map(d => d.disciplinaId));
+  });
+  const periodosVisiveis = computed<PeriodoVisivel[]>(() => {
+    const saved = savedPeriodos.value;
+
+    return localPeriodos.value.map(periodo => {
+      const currentIds = new Set(periodo.disciplinas.map(d => d.disciplinaId));
+      const savedIds = saved.get(periodo.numeroPeriodo) ?? new Set<string>();
+
+      return {
+        numeroPeriodo: periodo.numeroPeriodo,
+        disciplinas: periodo.disciplinas,
+        removedDisciplinaIds: [...savedIds].filter(id => !currentIds.has(id)),
+      };
+    });
   });
 
   // ---- Ações ----
 
-  function openSelectDisciplinas(periodoIndex: number) {
-    editingPeriodoIndex.value = periodoIndex;
+  function openSelectDisciplinas(numeroPeriodo: number) {
+    selectedNumeroPeriodo.value = numeroPeriodo;
     modals.open('selectDisciplinas');
   }
 
   function confirmDisciplinas(ids: Set<string>) {
     const current = [...localPeriodos.value];
-    const index = editingPeriodoIndex.value;
-    const existing = current[index];
+    const numeroPeriodo = selectedNumeroPeriodo.value;
+    const existing = current.find(item => item.numeroPeriodo === numeroPeriodo);
 
     if (existing) {
-      current[index] = {
+      const nextPeriodo: PeriodoLocal = {
         numeroPeriodo: existing.numeroPeriodo,
         disciplinas: [...ids].map(id => ({
           disciplinaId: id,
@@ -157,6 +211,8 @@ function useCursoPeriodosState(
             ?.cargaHoraria,
         })),
       };
+      const index = current.findIndex(item => item.numeroPeriodo === numeroPeriodo);
+      current[index] = nextPeriodo;
       localPeriodos.value = current;
     }
 
@@ -179,24 +235,34 @@ function useCursoPeriodosState(
     }));
   }
 
+  function isDisciplinaNova(numeroPeriodo: number, disciplinaId: string) {
+    if (isCreateMode.value) return true;
+    const saved = savedPeriodos.value.get(numeroPeriodo) ?? new Set<string>();
+    return !saved.has(disciplinaId);
+  }
+
   const isCreateMode = computed(() => unref(mode) === FormMode.CREATE);
 
   return {
     // Estado
     localPeriodos: readonly(localPeriodos),
     savedPeriodos: readonly(savedPeriodos),
-    editingPeriodoIndex: readonly(editingPeriodoIndex),
     isEditing,
     isCreateMode,
+    selectedNumeroPeriodo: readonly(selectedNumeroPeriodo),
 
     // Queries
     disciplinasInfiniteQuery,
+    disciplinasList,
+    disciplinasById,
 
     // Modal
     modals,
-    currentDisciplinaIds,
+    periodosVisiveis,
+    selectedDisciplinaIds,
 
     // Ações
+    isDisciplinaNova,
     openSelectDisciplinas,
     confirmDisciplinas,
     closeSelectDisciplinas,

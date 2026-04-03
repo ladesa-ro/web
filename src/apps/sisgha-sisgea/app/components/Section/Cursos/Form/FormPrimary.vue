@@ -6,6 +6,8 @@ defineProps<{
   mode: FormMode;
   isBusy: boolean;
   isLoading: boolean;
+  duracaoLabel: string;
+  quantidadePeriodosLabel: string;
 }>();
 
 const emit = defineEmits<{
@@ -16,33 +18,22 @@ const emit = defineEmits<{
 const { value: campusId } = useField<string>('campus.id');
 const { value: ofertaFormacaoId } = useField<string>('ofertaFormacao.id');
 
-watch(campusId, (newVal, oldVal) => {
+function resetOfertaFormacaoWhenCampusChanges(newVal: string, oldVal: string) {
   if (oldVal && newVal !== oldVal) {
     ofertaFormacaoId.value = '';
   }
-});
+}
 
-// Derivar duração do período a partir da formação selecionada
+function closeForm() {
+  emit('close');
+}
 
-const ofertasFormacoes = useOfertasFormacoes();
+function deleteCurso() {
+  emit('delete');
+}
 
-const ofertaFormacaoQuery = ofertasFormacoes.findOne(
-  computed(() => ofertaFormacaoId.value || null),
-);
+watch(campusId, resetOfertaFormacaoWhenCampusChanges);
 
-const duracaoPeriodoEmMeses = computed(
-  () => ofertaFormacaoQuery.data.value?.duracaoPeriodoEmMeses,
-);
-
-const duracaoLabel = computed(() => {
-  const map: Record<number, string> = {
-    12: 'Anual',
-    6: 'Semestral',
-    4: 'Quadrimestral',
-  };
-  const meses = duracaoPeriodoEmMeses.value;
-  return meses ? map[meses] ?? `${meses} meses` : '';
-});
 </script>
 
 <template>
@@ -50,8 +41,8 @@ const duracaoLabel = computed(() => {
     :title="mode === FormMode.MANAGE ? 'Editar Curso' : 'Cadastrar Curso'"
     :mode="mode"
     :is-busy="isBusy"
-    :on-close="() => emit('close')"
-    :on-delete="mode === FormMode.MANAGE ? () => emit('delete') : undefined"
+    :on-close="closeForm"
+    :on-delete="mode === FormMode.MANAGE ? deleteCurso : undefined"
   >
     <VVSelectImage name="imagem" />
 
@@ -76,21 +67,21 @@ const duracaoLabel = computed(() => {
       placeholder="Digite aqui"
     />
 
-    <VVTextField
-      name="quantidadePeriodos"
-      type="number"
-      label="Quantidade de períodos"
-      placeholder="Digite aqui"
-      :min="1"
-      :max="12"
-    />
-
     <UIFormTextField
       name="duracaoPeriodo"
       label="Duração de cada período"
       :model-value="duracaoLabel"
       placeholder="Selecione uma formação primeiro"
       disabled
+    />
+
+    <VVTextField
+      name="quantidadePeriodos"
+      type="number"
+      :label="quantidadePeriodosLabel"
+      placeholder="Digite aqui"
+      :min="1"
+      :max="12"
     />
   </UIFormLayout>
 </template>

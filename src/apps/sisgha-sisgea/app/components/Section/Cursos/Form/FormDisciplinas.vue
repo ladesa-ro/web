@@ -1,48 +1,6 @@
 <script lang="ts" setup>
-import type { InfiniteData } from '@tanstack/vue-query';
-import type { DisciplinaFindAllResponse } from '@ladesa-ro/web.api.client';
-
 const periodos = useInjectCursoPeriodos();
-
-// Cache de nomes/cargaHoraria derivado da query compartilhada
-const disciplinasCache = computed(() => {
-  const data = periodos.disciplinasInfiniteQuery.data.value as
-    | InfiniteData<DisciplinaFindAllResponse>
-    | undefined;
-  if (!data?.pages) return new Map<string, { nome: string; cargaHoraria: number }>();
-
-  const cache = new Map<string, { nome: string; cargaHoraria: number }>();
-  for (const page of data.pages) {
-    for (const d of page.data ?? []) {
-      cache.set(d.id, { nome: d.nome, cargaHoraria: d.cargaHoraria });
-    }
-  }
-  return cache;
-});
-
-const periodosVisiveis = computed(() => {
-  const items = periodos.localPeriodos.value;
-  const saved = periodos.savedPeriodos.value;
-
-  return items.map(periodo => {
-    const currentIds = new Set(periodo.disciplinas.map(d => d.disciplinaId));
-    const savedIds = saved.get(periodo.numeroPeriodo) ?? new Set<string>();
-
-    const removedIds = [...savedIds].filter(id => !currentIds.has(id));
-
-    return {
-      numeroPeriodo: periodo.numeroPeriodo,
-      disciplinas: periodo.disciplinas,
-      removedDisciplinaIds: removedIds,
-    };
-  });
-});
-
-function isNew(numeroPeriodo: number, disciplinaId: string): boolean {
-  if (periodos.isCreateMode.value) return true;
-  const saved = periodos.savedPeriodos.value.get(numeroPeriodo) ?? new Set<string>();
-  return !saved.has(disciplinaId);
-}
+const disciplinasById = periodos.disciplinasById;
 </script>
 
 <template>
@@ -52,14 +10,14 @@ function isNew(numeroPeriodo: number, disciplinaId: string): boolean {
     title="Disciplinas de cada período"
   >
     <div
-      v-if="periodosVisiveis.length === 0"
+      v-if="periodos.periodosVisiveis.value.length === 0"
       class="text-ldsa-grey text-sm text-center py-8"
     >
       Defina a quantidade de períodos no formulário ao lado.
     </div>
 
     <div
-      v-for="periodo in periodosVisiveis"
+      v-for="periodo in periodos.periodosVisiveis.value"
       :key="periodo.numeroPeriodo"
       class="flex flex-col"
     >
@@ -69,7 +27,7 @@ function isNew(numeroPeriodo: number, disciplinaId: string): boolean {
         <button
           type="button"
           class="shrink-0 flex items-center justify-center size-7 rounded-md bg-ldsa-green-1 text-white hover:bg-ldsa-green-2 transition-colors"
-          @click="periodos.openSelectDisciplinas(periodo.numeroPeriodo - 1)"
+          @click="periodos.openSelectDisciplinas(periodo.numeroPeriodo)"
         >
           <IconsEdit class="w-3" />
         </button>
@@ -91,9 +49,9 @@ function isNew(numeroPeriodo: number, disciplinaId: string): boolean {
         class="flex items-center justify-between border-b border-ldsa-grey px-1 py-3.5 overflow-clip"
       >
         <span class="text-ldsa-text-default text-sm font-medium">
-          {{ disciplinasCache.get(disc.disciplinaId)?.nome ?? '...' }}
+          {{ disciplinasById.get(disc.disciplinaId)?.nome ?? '...' }}
           <span
-            v-if="isNew(periodo.numeroPeriodo, disc.disciplinaId)"
+            v-if="periodos.isDisciplinaNova(periodo.numeroPeriodo, disc.disciplinaId)"
             class="text-ldsa-green-1 text-xs font-semibold ml-1"
           >
             Nova
@@ -103,7 +61,7 @@ function isNew(numeroPeriodo: number, disciplinaId: string): boolean {
           Carga Horária:
           {{
             disc.cargaHoraria ??
-            disciplinasCache.get(disc.disciplinaId)?.cargaHoraria ??
+            disciplinasById.get(disc.disciplinaId)?.cargaHoraria ??
             '—'
           }}h
         </span>
@@ -116,14 +74,14 @@ function isNew(numeroPeriodo: number, disciplinaId: string): boolean {
         class="flex items-center justify-between border-b border-ldsa-grey/50 px-1 py-3.5 overflow-clip opacity-50"
       >
         <span class="text-ldsa-text-default text-sm font-medium line-through">
-          {{ disciplinasCache.get(removedId)?.nome ?? '...' }}
+          {{ disciplinasById.get(removedId)?.nome ?? '...' }}
           <span class="text-ldsa-red text-xs font-semibold ml-1 no-underline inline-block">
             Removida
           </span>
         </span>
         <span class="text-ldsa-grey text-xs font-medium line-through">
           Carga Horária:
-          {{ disciplinasCache.get(removedId)?.cargaHoraria ?? '—' }}h
+          {{ disciplinasById.get(removedId)?.cargaHoraria ?? '—' }}h
         </span>
       </div>
     </div>

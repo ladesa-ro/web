@@ -1,15 +1,10 @@
 <script lang="ts" setup>
 import { FormMode } from '~/utils/constants';
-import type { InfiniteData } from '@tanstack/vue-query';
-import type {
-  DisciplinaFindAllResponse,
-  DisciplinaFindOneOutputDto,
-} from '@ladesa-ro/web.api.client';
 
 const props = defineProps<{
-  periodoIndex: number;
+  numeroPeriodo: number;
   formacaoNome: string;
-  currentDisciplinaIds: Set<string>;
+  selectedDisciplinaIds: Set<string>;
   mode: FormMode;
 }>();
 
@@ -20,29 +15,21 @@ const emit = defineEmits<{
 
 // Query compartilhada via inject
 const periodos = useInjectCursoPeriodos();
-const infiniteQuery = periodos.disciplinasInfiniteQuery;
+const { disciplinasInfiniteQuery, disciplinasList } = periodos;
 
 const searchText = ref('');
 const selectedIds = ref(new Set<string>());
 
 watch(
-  () => props.currentDisciplinaIds,
+  () => props.selectedDisciplinaIds,
   ids => {
     selectedIds.value = new Set(ids);
   },
   { immediate: true },
 );
 
-const allDisciplinas = computed<DisciplinaFindOneOutputDto[]>(() => {
-  const data = infiniteQuery.data.value as
-    | InfiniteData<DisciplinaFindAllResponse>
-    | undefined;
-  if (!data?.pages) return [];
-  return data.pages.flatMap(page => page.data ?? []);
-});
-
 const filteredDisciplinas = computed(() => {
-  const items = allDisciplinas.value;
+  const items = disciplinasList.value;
   if (!searchText.value.trim()) return items;
   const term = searchText.value.toLowerCase();
   return items.filter(d => d.nome?.toLowerCase().includes(term));
@@ -58,9 +45,13 @@ const toggleDisciplina = (id: string) => {
   selectedIds.value = copy;
 };
 
-const onConfirm = () => {
+function closeModal() {
+  emit('back');
+}
+
+function confirmSelection() {
   emit('confirm', selectedIds.value);
-};
+}
 
 // Scroll infinito com cleanup
 const scrollTrigger = ref<HTMLElement | null>(null);
@@ -73,10 +64,10 @@ onMounted(() => {
     const entry = entries[0];
     if (
       entry?.isIntersecting &&
-      infiniteQuery.hasNextPage.value &&
-      !infiniteQuery.isFetchingNextPage.value
+      disciplinasInfiniteQuery.hasNextPage.value &&
+      !disciplinasInfiniteQuery.isFetchingNextPage.value
     ) {
-      infiniteQuery.fetchNextPage();
+      disciplinasInfiniteQuery.fetchNextPage();
     }
   });
 
@@ -95,8 +86,8 @@ const titleVerb = computed(() =>
 
 <template>
   <DialogModalBaseLayout
-    :on-close="() => emit('back')"
-    :title="`${titleVerb} disciplinas de Período ${periodoIndex + 1}`"
+    :on-close="closeModal"
+    :title="`${titleVerb} disciplinas de Período ${numeroPeriodo}`"
     class="select-disciplinas-modal"
   >
     <UIFormTextField
@@ -156,12 +147,12 @@ const titleVerb = computed(() =>
       <!-- Trigger para scroll infinito -->
       <div ref="scrollTrigger" class="h-1 shrink-0" />
 
-      <UILoading v-if="infiniteQuery.isFetching.value" />
+      <UILoading v-if="disciplinasInfiniteQuery.isFetching.value" />
 
       <div
         v-if="
           filteredDisciplinas.length === 0 &&
-          !infiniteQuery.isLoading.value
+          !disciplinasInfiniteQuery.isLoading.value
         "
         class="text-ldsa-grey text-sm text-center py-4"
       >
@@ -170,13 +161,13 @@ const titleVerb = computed(() =>
     </div>
 
     <template #button-group>
-      <UIButtonModalGoBack class="flex-1" @click="emit('back')" />
+      <UIButtonModalGoBack class="flex-1" @click="closeModal" />
       <UIButtonModalBaseLayout
         class="flex-1"
         text="Confirmar escolha"
         color="var(--ladesa-green-2-color)"
         type="button"
-        @click="onConfirm"
+        @click="confirmSelection"
       >
         <IconsConfirm />
       </UIButtonModalBaseLayout>
