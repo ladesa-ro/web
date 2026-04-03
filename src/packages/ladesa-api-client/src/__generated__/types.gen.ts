@@ -2416,6 +2416,78 @@ export type DisciplinaFindOneInputDto = {
   id: string;
 };
 
+export type DiarioBatchCreateProfessorItemDto = {
+  /**
+   * ID do perfil (uuid)
+   */
+  perfilId: string;
+  /**
+   * Situacao do vinculo
+   */
+  situacao: boolean;
+};
+
+export type DiarioBatchCreatePreferenciaAgrupamentoItemDto = {
+  /**
+   * Modo da preferencia: DEFINIDO ou POR_DIA_SEMANA
+   */
+  modo: 'DEFINIDO' | 'POR_DIA_SEMANA';
+  /**
+   * Ordem sequencial
+   */
+  ordem: number;
+  /**
+   * Inicio da vigencia
+   */
+  dataInicio: string;
+  /**
+   * Fim da vigencia
+   */
+  dataFim?: string | null;
+  /**
+   * Dia da semana ISO (1=Seg, 7=Dom). Obrigatorio no modo POR_DIA_SEMANA.
+   */
+  diaSemanaIso?: number | null;
+  /**
+   * Quantidade de aulas seguidas
+   */
+  aulasSeguidas: number;
+};
+
+export type DiarioBatchCreateDiarioItemDto = {
+  /**
+   * Disciplina vinculada ao diario
+   */
+  disciplina: DisciplinaFindOneInputDto;
+  /**
+   * Situacao do diario
+   */
+  ativo: boolean;
+  /**
+   * Professores a vincular ao diario
+   */
+  professores: Array<DiarioBatchCreateProfessorItemDto>;
+  /**
+   * Preferencias de agrupamento do diario
+   */
+  preferenciasAgrupamento: Array<DiarioBatchCreatePreferenciaAgrupamentoItemDto>;
+};
+
+export type DiarioBatchCreateInputDto = {
+  /**
+   * Turma vinculada ao diario
+   */
+  turma: TurmaFindOneInputDto;
+  /**
+   * Calendario letivo vinculado ao diario
+   */
+  calendarioLetivo: CalendarioLetivoFindOneInputDto;
+  /**
+   * Lista de diarios a criar
+   */
+  diarios: Array<DiarioBatchCreateDiarioItemDto>;
+};
+
 export type DiarioCreateInputDto = {
   /**
    * Situacao do diario
@@ -2540,6 +2612,14 @@ export type DiarioPreferenciaAgrupamentoFindOneOutputDto = {
    */
   dateDeleted?: string | null;
   /**
+   * Modo da preferencia: DEFINIDO (ordem generica) ou POR_DIA_SEMANA (dia da semana ISO)
+   */
+  modo: 'DEFINIDO' | 'POR_DIA_SEMANA';
+  /**
+   * Ordem sequencial do agrupamento (usado no modo DEFINIDO)
+   */
+  ordem: number;
+  /**
    * Inicio da vigencia da preferencia de agrupamento
    */
   dataInicio: string;
@@ -2548,9 +2628,9 @@ export type DiarioPreferenciaAgrupamentoFindOneOutputDto = {
    */
   dataFim?: string | null;
   /**
-   * Dia da semana (ISO 8601: 1=Segunda, 7=Domingo)
+   * Dia da semana (ISO 8601: 1=Segunda, 7=Domingo). Obrigatorio no modo POR_DIA_SEMANA, null no modo DEFINIDO.
    */
-  diaSemanaIso: number;
+  diaSemanaIso?: number | null;
   /**
    * Quantidade de aulas seguidas
    */
@@ -2574,6 +2654,14 @@ export type DiarioPreferenciaAgrupamentoListOutputDto = {
 
 export type DiarioPreferenciaAgrupamentoBulkReplaceItemDto = {
   /**
+   * Modo da preferencia: DEFINIDO (ordem generica) ou POR_DIA_SEMANA (dia da semana ISO)
+   */
+  modo: 'DEFINIDO' | 'POR_DIA_SEMANA';
+  /**
+   * Ordem sequencial do agrupamento (usado no modo DEFINIDO)
+   */
+  ordem: number;
+  /**
    * Inicio da vigencia da preferencia de agrupamento
    */
   dataInicio: string;
@@ -2582,9 +2670,9 @@ export type DiarioPreferenciaAgrupamentoBulkReplaceItemDto = {
    */
   dataFim?: string | null;
   /**
-   * Dia da semana (ISO 8601: 1=Segunda, 7=Domingo)
+   * Dia da semana (ISO 8601: 1=Segunda, 7=Domingo). Obrigatorio no modo POR_DIA_SEMANA, null no modo DEFINIDO.
    */
-  diaSemanaIso: number;
+  diaSemanaIso?: number | null;
   /**
    * Quantidade de aulas seguidas
    */
@@ -6308,6 +6396,24 @@ export type DiarioUpdateResponses = {
 
 export type DiarioUpdateResponse =
   DiarioUpdateResponses[keyof DiarioUpdateResponses];
+
+export type DiarioBatchCreateData = {
+  body: DiarioBatchCreateInputDto;
+  path?: never;
+  query?: never;
+  url: '/diarios/batch';
+};
+
+export type DiarioBatchCreateErrors = {
+  403: unknown;
+};
+
+export type DiarioBatchCreateResponses = {
+  201: Array<DiarioFindOneOutputDto>;
+};
+
+export type DiarioBatchCreateResponse =
+  DiarioBatchCreateResponses[keyof DiarioBatchCreateResponses];
 
 export type DiarioProfessorFindAllData = {
   body?: never;

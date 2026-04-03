@@ -1,64 +1,60 @@
-<script lang="ts" setup>
-import {
-  createAndProvideContextDiariosFormGeral,
-  type TurmaSelecionada,
-} from './Contexto';
+<script setup lang="ts">
+import { createAndProvideContextDiariosFormGeral } from './Contexto';
 
-const $emit = defineEmits(['close']);
+const props = defineProps<{
+  editId?: string | null;
+}>();
 
-const contexto = createAndProvideContextDiariosFormGeral();
+const emit = defineEmits<{
+  close: [];
+}>();
 
-type DiarioModal = 'select' | 'gerenciar' | 'vincular';
-const modals = useModalManager<DiarioModal>({ initial: 'select', history: true });
+const contexto = createAndProvideContextDiariosFormGeral(
+  computed(() => props.editId ?? null)
+);
 
-const fecharTudo = () => {
-  contexto.disciplinaId.value = null;
-  contexto.disciplinaSelecionada.value = null;
+const isEditMode = computed(() => !!props.editId);
+
+const modals = useModalManager<'selecionar-turma' | 'configurar-disciplinas'>(
+  {
+    initial: isEditMode.value ? 'configurar-disciplinas' : 'selecionar-turma',
+    history: true,
+  }
+);
+
+function fecharTudo() {
   modals.closeAll();
-  $emit('close');
-};
+  emit('close');
+}
 
-const salvarTurmas = (turmas: TurmaSelecionada[]) => {
-  contexto.turmasSelecionadas!.value = [
-    ...(contexto.turmasSelecionadas!.value ?? []),
-    ...turmas.filter(
-      t =>
-        !(contexto.turmasSelecionadas!.value ?? []).some(
-          existing => existing.id === t.id
-        )
-    ),
-  ];
-
-  modals.close();
-};
+function avancarParaDisciplinas() {
+  modals.open('configurar-disciplinas');
+}
 </script>
 
 <template>
-  <!-- selecionar disciplina -->
-  <DialogManagedDialog name="select" :manager="modals" backdrop-action="close-all">
-    <SectionDiariosFormGeralDisciplinaSelect
+  <DialogManagedDialog
+    :manager="modals"
+    name="selecionar-turma"
+    backdrop-action="close-all"
+    @close="fecharTudo"
+  >
+    <SectionDiariosFormGeralTurmaTurmaSelect
+      @next="avancarParaDisciplinas"
       @close="fecharTudo"
-      @next="modals.open('gerenciar')"
     />
   </DialogManagedDialog>
 
-  <!-- gerenciar turmas da disciplina -->
-  <DialogManagedDialog name="gerenciar" :manager="modals" backdrop-action="close-all">
-    <SectionDiariosFormGeralDisciplinaTurmas
-      ref="gerenciarTurmasRef"
-      :disciplina="contexto.disciplinaSelecionada"
+  <DialogManagedDialog
+    :manager="modals"
+    name="configurar-disciplinas"
+    backdrop-action="close-all"
+    @close="fecharTudo"
+  >
+    <SectionDiariosFormGeralDisciplinasDisciplinasConfig
+      :edit-id="editId"
       @close="fecharTudo"
       @back="modals.close()"
-      @add="modals.open('vincular')"
-    />
-  </DialogManagedDialog>
-
-  <!-- vincular turmas à disciplina -->
-  <DialogManagedDialog name="vincular" :manager="modals" backdrop-action="close-all">
-    <SectionDiariosFormGeralDisciplinaTurmasAdd
-      @back="modals.close()"
-      @close="fecharTudo"
-      @save-turmas="salvarTurmas"
     />
   </DialogManagedDialog>
 </template>

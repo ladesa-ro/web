@@ -17,10 +17,12 @@ import {
   diarioFindAll,
   diarioFindById,
   diarioCreate,
+  diarioBatchCreate,
   diarioUpdate,
   diarioDeleteOneById,
   diarioProfessorFindAll,
   diarioProfessorBulkReplace,
+  diarioPreferenciaAgrupamentoBulkReplace,
 } from '@ladesa-ro/web.api.client';
 import type {
   DiarioFindAllData,
@@ -28,12 +30,16 @@ import type {
   DiarioFindByIdResponse,
   DiarioCreateData,
   DiarioCreateResponse,
+  DiarioBatchCreateData,
+  DiarioBatchCreateResponse,
   DiarioUpdateData,
   DiarioUpdateResponse,
   DiarioProfessorFindAllData,
   DiarioProfessorFindAllResponse,
   DiarioProfessorBulkReplaceData,
   DiarioProfessorBulkReplaceResponse,
+  DiarioPreferenciaAgrupamentoBulkReplaceData,
+  DiarioPreferenciaAgrupamentoBulkReplaceResponse,
   ReqBody,
   ReqQuery,
 } from '@ladesa-ro/web.api.client';
@@ -47,6 +53,9 @@ export type IUseDiarios = {
   >;
   findOne: FindOneFn<DiarioFindByIdResponse>;
   create: CreateFn<ReqBody<DiarioCreateData>, DiarioCreateResponse>;
+  batchCreate: (
+    data: ReqBody<DiarioBatchCreateData>
+  ) => Promise<DiarioBatchCreateResponse>;
   update: UpdateFn<ReqBody<DiarioUpdateData>, DiarioUpdateResponse>;
   remove: RemoveFn;
   listProfessores: (
@@ -59,6 +68,10 @@ export type IUseDiarios = {
     diarioId: string,
     data: ReqBody<DiarioProfessorBulkReplaceData>
   ) => Promise<DiarioProfessorBulkReplaceResponse>;
+  bulkReplacePreferenciasAgrupamento: (
+    diarioId: string,
+    data: ReqBody<DiarioPreferenciaAgrupamentoBulkReplaceData>
+  ) => Promise<DiarioPreferenciaAgrupamentoBulkReplaceResponse>;
   invalidate: InvalidateFn;
 };
 
@@ -87,6 +100,9 @@ export const useDiarios = (): IUseDiarios => {
   const create = (data: ReqBody<DiarioCreateData>) =>
     api.call(diarioCreate, { body: data });
 
+  const batchCreate = (data: ReqBody<DiarioBatchCreateData>) =>
+    api.call(diarioBatchCreate, { body: data });
+
   const update = (id: string, data: ReqBody<DiarioUpdateData>) =>
     api.call(diarioUpdate, { path: { id }, body: data });
 
@@ -108,6 +124,15 @@ export const useDiarios = (): IUseDiarios => {
     data: ReqBody<DiarioProfessorBulkReplaceData>
   ) => api.call(diarioProfessorBulkReplace, { path: { diarioId }, body: data });
 
+  const bulkReplacePreferenciasAgrupamento = (
+    diarioId: string,
+    data: ReqBody<DiarioPreferenciaAgrupamentoBulkReplaceData>
+  ) =>
+    api.call(diarioPreferenciaAgrupamentoBulkReplace, {
+      path: { diarioId },
+      body: data,
+    });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -116,10 +141,12 @@ export const useDiarios = (): IUseDiarios => {
     listInfinite,
     findOne,
     create,
+    batchCreate,
     update,
     remove,
     listProfessores,
     bulkReplaceProfessores,
+    bulkReplacePreferenciasAgrupamento,
     invalidate,
   };
 };

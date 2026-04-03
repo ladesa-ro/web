@@ -169,6 +169,9 @@ import type {
   CursoUpdateImagemCapaErrors,
   CursoUpdateImagemCapaResponses,
   CursoUpdateResponses,
+  DiarioBatchCreateData,
+  DiarioBatchCreateErrors,
+  DiarioBatchCreateResponses,
   DiarioCreateData,
   DiarioCreateErrors,
   DiarioCreateResponses,
@@ -2317,6 +2320,27 @@ export const diarioUpdate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     url: '/diarios/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Cria diarios em lote para uma turma
+ *
+ * Cria diarios em lote para uma turma
+ */
+export const diarioBatchCreate = <ThrowOnError extends boolean = false>(
+  options: Options<DiarioBatchCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    DiarioBatchCreateResponses,
+    DiarioBatchCreateErrors,
+    ThrowOnError
+  >({
+    url: '/diarios/batch',
     ...options,
     headers: {
       'Content-Type': 'application/json',
