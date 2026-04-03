@@ -78,7 +78,7 @@ const onClose = () => emit('fechar');
     :close-button="false"
     :on-close="onClose"
     title="Editar motivos de indisponibilidade"
-    class="h-[35rem] max-w-full"
+    class="h-[min(35rem,85vh)] w-[min(95vw,31.5rem)]"
   >
     <div class="overflow-y-auto pr-2">
       <p class="text-[0.62rem] text-ldsa-grey text-center font-medium">

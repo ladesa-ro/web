@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { useField } from 'vee-validate';
-import { FormMode } from '~/utils/constants';
 import type {
   TurmaCreateInputDto,
   TurmaUpdateInputDto,
 } from '@ladesa-ro/web.api.client';
+import { useField } from 'vee-validate';
+import { FormMode } from '~/utils/constants';
 import { useTurmaFormSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -22,9 +22,11 @@ const cursoQuery = cursos.findOne(selectedCursoId);
 const campusContext = useCampusContext();
 const campusId = computed(() => cursoQuery.data.value?.campus?.id ?? campusContext.value ?? null);
 
+const modeRef = ref<FormMode>(FormMode.CREATE);
+
 const avail = useProvideTurmaAvailability(
   computed(() => editId),
-  computed(() => mode.value),
+  modeRef,
   campusId
 );
 
@@ -64,53 +66,54 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   onFinish: () => emit('close'),
 });
 
-const openSectionsCount = computed(() => {
-  if (avail.isEditing.value) return 1;
-  return 2;
-});
+watch(mode, val => { modeRef.value = val; }, { immediate: true });
 </script>
 
 <template>
-  <form
-    class="grid gap-4"
-    :style="{
-      gridTemplateColumns: `repeat(${openSectionsCount}, 1fr)`,
-    }"
-    @submit.prevent="onSubmit"
-  >
-    <UIFormLayout
-      v-show="!avail.isEditing.value"
-      :title="mode === FormMode.MANAGE ? 'Editar Turma' : 'Cadastrar Turma'"
-      :mode="mode"
-      :is-busy="isBusy"
-      :on-close="() => emit('close')"
-      :on-delete="onDelete"
+  <form @submit.prevent="onSubmit">
+    <DialogLayoutSideBySide
+      :collapsed="avail.isEditing.value"
+      collapse-target="secondary"
+      primary-label="Turma"
+      secondary-label="Disponibilidade"
     >
-      <VVSelectImage :disabled="isBusy" name="imagem" />
+      <template #primary>
+        <UIFormLayout
+          :title="mode === FormMode.MANAGE ? 'Editar Turma' : 'Cadastrar Turma'"
+          :mode="mode"
+          :is-busy="isBusy"
+          :on-close="() => emit('close')"
+          :on-delete="onDelete"
+        >
+          <VVSelectImage :disabled="isBusy" name="imagem" />
 
-      <VVAutocompleteAPICurso
-        :disabled="isBusy"
-        :is-loading="isLoading"
-        name="curso.id"
-      />
+          <VVAutocompleteAPICurso
+            :disabled="isBusy"
+            :is-loading="isLoading"
+            name="curso.id"
+          />
 
-      <VVAutocompleteAPIAmbiente
-        :disabled="isBusy"
-        :is-loading="isLoading"
-        label="Sala de Aula"
-        name="ambientePadraoAula.id"
-      />
+          <VVAutocompleteAPIAmbiente
+            :disabled="isBusy"
+            :is-loading="isLoading"
+            label="Sala de Aula"
+            name="ambientePadraoAula.id"
+          />
 
-      <SectionTurmasFormFieldsPeriodo
-        :disabled="isBusy"
-        :is-loading="isLoading"
-      />
-    </UIFormLayout>
+          <SectionTurmasFormFieldsPeriodo
+            :disabled="isBusy"
+            :is-loading="isLoading"
+          />
+        </UIFormLayout>
+      </template>
 
-    <SectionTurmasFormAvailability
-      :disabled="isBusy"
-      :is-loading="isLoading"
-    />
+      <template #secondary>
+        <SectionTurmasFormAvailabilityModal
+          :disabled="isBusy"
+          :is-loading="isLoading"
+        />
+      </template>
+    </DialogLayoutSideBySide>
   </form>
 
   <DialogConfirm

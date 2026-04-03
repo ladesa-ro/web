@@ -86,12 +86,12 @@ const onClose = () => emit('fechar');
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 md:flex-row h-[90vh]">
+  <div class="flex flex-col gap-4 md:flex-row h-[min(90vh,100%)] w-[min(95vw,50rem)]">
     <DialogModalBaseLayout
       :close-button="false"
       :on-close="onClose"
       title="Cadastrar Motivos de Indisponibilidade"
-      class="w-full md:w-1/2 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
+      class="w-full md:w-1/2 h-full overflow-x-hidden overflow-y-auto"
     >
       <div
         v-if="props.horariosSemMotivo.length === 0"

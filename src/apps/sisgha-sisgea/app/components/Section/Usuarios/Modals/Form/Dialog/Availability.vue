@@ -18,12 +18,16 @@ const emit = defineEmits<{
     e: 'atualizar-motivos',
     motivos: Record<string, { horario: string; motivo: string }[]>
   ): void;
+  (e: 'update:has-teacher-role', value: boolean): void;
 }>();
+
+watch(hasAtLeastOneActiveTeacherRole, val => emit('update:has-teacher-role', val), { immediate: true });
 </script>
 
 <template>
   <SectionUsuariosFormAvailabilities
     v-if="hasAtLeastOneActiveTeacherRole"
+    class="h-full"
     @abrir-modal="(...args) => emit('abrir-modal', ...args)"
     @atualizar-horarios-sem-motivo="
       emit('atualizar-horarios-sem-motivo', $event)

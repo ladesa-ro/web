@@ -103,12 +103,12 @@ const onClose = () => emit('fechar');
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 md:flex-row md:gap-4 h-[90vh]">
+  <div class="flex flex-col gap-4 md:flex-row md:gap-4 h-[min(90vh,100%)] w-[min(95vw,50rem)]">
     <DialogModalBaseLayout
       :close-button="false"
       :on-close="onClose"
       title="Editar motivos de indisponibilidade"
-      class="flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto p-4"
+      class="flex-1 h-full overflow-x-hidden overflow-y-auto p-4"
     >
       <div>
         <VVAutocomplete

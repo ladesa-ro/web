@@ -15,6 +15,8 @@ const modals = useModalManager<UsuarioModal>();
 
 const isMainContentVisible = computed(() => !modals.hasActiveModal.value);
 
+const hasTeacherRole = ref(false);
+
 function fecharTodosModais() {
   modals.closeAll();
   motivoSelecionado.value = null;
@@ -124,24 +126,34 @@ function setDiaSelecionado(dia: string) {
   <SectionUsuariosForm
     v-if="true"
     :edit-id="editId"
-    class="w-full flex flex-col md:flex-row gap-4 h-[90vh]"
+    class="w-full"
   >
-    <SectionUsuariosFormProfile
+    <DialogLayoutSideBySide
       v-show="isMainContentVisible"
-      :edit-id="editId"
-      class="w-full flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
-      @close="onClose"
-    />
-    <SectionUsuariosModalsFormDialogAvailability
-      v-show="isMainContentVisible"
-      :selected-day-week="diaSelecionado"
-      :motivos-confirmados="motivosConfirmados"
-      class="w-full flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
-      @abrir-modal="abrirModal"
-      @atualizar-horarios-sem-motivo="atualizarHorariosSemMotivo"
-      @atualizar-motivos="atualizarMotivos"
-      @atualizar-dia-selecionado="setDiaSelecionado"
-    />
+      primary-label="Perfil"
+      secondary-label="Disponibilidade"
+      :show-secondary="hasTeacherRole"
+    >
+      <template #primary>
+        <SectionUsuariosFormProfile
+          :edit-id="editId"
+          class="h-full overflow-x-hidden overflow-y-auto"
+          @close="onClose"
+        />
+      </template>
+      <template #secondary>
+        <SectionUsuariosModalsFormDialogAvailability
+          :selected-day-week="diaSelecionado"
+          :motivos-confirmados="motivosConfirmados"
+          class="h-full overflow-x-hidden overflow-y-auto"
+          @abrir-modal="abrirModal"
+          @atualizar-horarios-sem-motivo="atualizarHorariosSemMotivo"
+          @atualizar-motivos="atualizarMotivos"
+          @atualizar-dia-selecionado="setDiaSelecionado"
+          @update:has-teacher-role="hasTeacherRole = $event"
+        />
+      </template>
+    </DialogLayoutSideBySide>
   </SectionUsuariosForm>
 
   <DialogManagedDialog name="cadastrar" :manager="modals" backdrop-action="close-all">

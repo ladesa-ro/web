@@ -108,7 +108,7 @@ function getConfigLabel(tipo: 'permanente' | 'temporario', dataInicio: string, d
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex h-full">
     <DialogModalBaseLayout
       :close-button="false"
       :on-close="onClose"

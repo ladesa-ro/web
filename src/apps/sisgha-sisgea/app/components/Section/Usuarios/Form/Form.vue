@@ -24,7 +24,10 @@ const usuarios = useUsuarios();
 
 const findOneQuery = usuarios.findOne(editIdRef);
 const currentUsuario = findOneQuery.data;
-await findOneQuery.suspense();
+
+if (editIdRef.value) {
+  await findOneQuery.suspense();
+}
 
 const schema = yup.object().shape({
   imagem: yup.mixed().nullable().optional().default(null),

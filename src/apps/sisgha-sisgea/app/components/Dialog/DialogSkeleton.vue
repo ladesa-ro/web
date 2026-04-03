@@ -78,7 +78,8 @@ const onClose = () => (isActive.value = false);
 .backdrop {
   @apply fixed z-[998] w-full h-full;
   @apply bg-ldsa-black/35 dark:bg-ldsa-white/25;
-  @apply transition-[opacity] duration-300;
+  @apply backdrop-blur-[2px];
+  @apply transition-[opacity,backdrop-filter] duration-500 ease-in-out;
 }
 
 .modal-container {

@@ -63,7 +63,7 @@ const onClose = () => emit('fechar');
     :close-button="false"
     :on-close="onClose"
     title="Consultar motivos de indisponibilidade"
-    class="h-[35rem] max-w-full"
+    class="h-[min(35rem,85vh)] w-[min(95vw,31.5rem)]"
   >
     <div class="overflow-y-auto pr-2">
       <div v-for="item in motivosFormatadosPorDia" :key="item.dia" class="mb-8">

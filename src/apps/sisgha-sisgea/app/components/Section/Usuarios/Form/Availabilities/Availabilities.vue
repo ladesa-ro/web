@@ -77,7 +77,7 @@ const onClose = () => emit('close');
     :close-button="false"
     :on-close="onClose"
     title="Disponibilidade"
-    class="w-full h-auto max-h-[90vh] overflow-x-hidden overflow-y-auto"
+    class="w-full h-full overflow-x-hidden overflow-y-auto"
   >
     <WeekdaySelector
       v-model="selectedDayWeek"

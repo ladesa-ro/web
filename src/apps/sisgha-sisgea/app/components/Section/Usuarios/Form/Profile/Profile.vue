@@ -61,11 +61,11 @@ const onClose = () => $emit('close');
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit">
+  <form class="h-full" @submit.prevent="onSubmit">
     <DialogModalBaseLayout
       :on-close="onClose"
       :title="editId ? 'Editar Usuário' : 'Cadastrar Usuário'"
-      class="w-full h-auto max-h-[90vh] overflow-x-hidden overflow-y-auto"
+      class="w-full h-full overflow-x-hidden overflow-y-auto"
     >
       <VVSelectImage name="imagem" />
 
