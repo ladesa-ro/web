@@ -11,7 +11,9 @@ import type { SelectProps } from '../../-Utils/inputTypes';
 import Arrow from '../IconArrow.vue';
 import SelectItem from '../Item.vue';
 
-const { multipleOptions = false } = defineProps<SelectProps>();
+const props = withDefaults(defineProps<SelectProps>(), {
+  multipleOptions: false,
+});
 
 //
 
@@ -20,12 +22,28 @@ const selectedItem = defineModel<ParsedItem>({
   default: null,
 });
 
+const internalValue = computed({
+  get: () => selectedItem.value?.value ?? undefined,
+  set: (val: any) => {
+    const found = props.items?.find(
+      (i) => (typeof i === 'object' ? i.value : i) === val,
+    );
+    if (found && typeof found === 'object') {
+      selectedItem.value = { label: String(found.label), value: val };
+    } else if (found) {
+      selectedItem.value = { label: String(found), value: val };
+    } else {
+      selectedItem.value = undefined as any;
+    }
+  },
+});
+
 const open = ref(false);
 </script>
 
 <template>
   <SelectRoot
-    v-model="selectedItem"
+    v-model="internalValue"
     v-model:open="open"
     :multiple="multipleOptions"
   >

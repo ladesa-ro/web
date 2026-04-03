@@ -9,9 +9,12 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+body {
+  color: var(--ladesa-text-default-color);
+}
+
 .app {
   background-color: var(--ladesa-background-color);
-  color: var(--ladesa-text-default-color) !important;
 }
 
 /* ----------- */
