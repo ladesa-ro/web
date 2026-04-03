@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/vue-query';
 import { autenticacaoWhoAmI } from '@ladesa-ro/web.api.client';
+import { useQuery } from '@tanstack/vue-query';
+import { QuerySuspenseBehaviourMode, suspendQuery } from '~/utils/suspend-query';
 import { resumirVinculos } from './resumir-vinculos';
 import type { IApiContext } from './types';
 
@@ -39,7 +40,7 @@ export const createApiContext = (shouldProvide = true) => {
   });
 
   const suspense = async () => {
-    await whoAmIQuery.suspense().catch(() => {});
+    await suspendQuery(whoAmIQuery, { mode: QuerySuspenseBehaviourMode.WAIT_UNTIL_FINISH });
   };
 
   const apiContext = {

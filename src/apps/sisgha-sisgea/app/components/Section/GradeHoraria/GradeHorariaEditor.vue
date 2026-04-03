@@ -65,6 +65,10 @@ function updateGradeNome(gradeIndex: number, value: string) {
     grade.nome = value;
   }
 }
+
+const canEdit = computed(() => {
+  return !isLoading.value && campusContext.value;
+})
 </script>
 
 <template>
@@ -73,11 +77,11 @@ function updateGradeNome(gradeIndex: number, value: string) {
       <div class="flex gap-4 items-center">
         <template v-if="!isEditing">
           <button
-            :disabled="isLoading || !campusContext"
+            :disabled="!canEdit"
             class="px-4 py-2 bg-ldsa-green-1 text-white rounded-md text-sm font-medium hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
             @click="enterEditMode"
           >
-            Editar
+            Editar 
           </button>
         </template>
         <template v-else>

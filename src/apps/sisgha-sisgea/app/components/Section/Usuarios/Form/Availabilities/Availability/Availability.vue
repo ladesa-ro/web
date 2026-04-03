@@ -48,7 +48,7 @@ watch(selectedTimes, novos => {
   availabilityByDay.value[selectedDay.value] = [...novos];
 });
 
-await campusQuery.suspense();
+await suspendQuery(campusQuery);
 
 const motivosIndisponibilidade = ref<
   Record<string, { horario: string; motivo: string }[]>

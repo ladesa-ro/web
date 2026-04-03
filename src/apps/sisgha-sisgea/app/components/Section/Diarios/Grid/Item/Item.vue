@@ -31,7 +31,7 @@ const coverImageSrc = useApiImageRoute(
 );
 
 if (professoresQuery) {
-  await professoresQuery.suspense();
+  await suspendQuery(professoresQuery);
 }
 </script>
 

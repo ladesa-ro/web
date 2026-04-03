@@ -1,12 +1,12 @@
-import type { UseQueryReturnType } from '@tanstack/vue-query';
 import { wait } from '@ladesa-ro/web.utils';
+import type { UseQueryReturnType } from '@tanstack/vue-query';
 
-const __ARBITRARY_MAX_SILENT_WAIT = 30;
+const OPTIMISTIC_TIMEOUT_MS = 50;
 
 export enum QuerySuspenseBehaviourMode {
-  ALWAYS_WAIT,
-  NEVER_WAIT,
-  SILENT_WAIT,
+  WAIT_UNTIL_FINISH,
+  NEVER,
+  OPTIMISTIC,
   AUTO,
 }
 
@@ -18,6 +18,8 @@ export const suspendQuery = async (
   query: UseQueryReturnType<any, any>,
   suspenseBehaviour: QuerySuspenseBehaviour = {}
 ) => {
+  if (!unref(query.isEnabled)) return;
+
   const { mode = QuerySuspenseBehaviourMode.AUTO } = suspenseBehaviour;
 
   const doSuspense = () => {
@@ -31,25 +33,25 @@ export const suspendQuery = async (
 
   if (consideredMode === QuerySuspenseBehaviourMode.AUTO) {
     if (import.meta.server) {
-      consideredMode = QuerySuspenseBehaviourMode.ALWAYS_WAIT;
+      consideredMode = QuerySuspenseBehaviourMode.WAIT_UNTIL_FINISH;
     } else {
-      consideredMode = QuerySuspenseBehaviourMode.SILENT_WAIT;
+      consideredMode = QuerySuspenseBehaviourMode.OPTIMISTIC;
     }
   }
 
   switch (consideredMode) {
-    case QuerySuspenseBehaviourMode.ALWAYS_WAIT: {
+    case QuerySuspenseBehaviourMode.WAIT_UNTIL_FINISH: {
       await doSuspense();
       break;
     }
 
-    case QuerySuspenseBehaviourMode.SILENT_WAIT: {
-      await Promise.race([doSuspense(), wait(__ARBITRARY_MAX_SILENT_WAIT)]);
+    case QuerySuspenseBehaviourMode.OPTIMISTIC: {
+      await Promise.race([doSuspense(), wait(OPTIMISTIC_TIMEOUT_MS)]);
       break;
     }
 
     default:
-    case QuerySuspenseBehaviourMode.NEVER_WAIT: {
+    case QuerySuspenseBehaviourMode.NEVER: {
       break;
     }
   }

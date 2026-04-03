@@ -79,7 +79,7 @@ const queries = computed(() => ({ search: searchBarText.value }));
 const listQuery = usuariosComposable.list(queries);
 
 onMounted(async () => {
-  await listQuery.suspense();
+  await suspendQuery(listQuery);
 });
 
 const professores = computed<ProfessorItem[]>(() => {

@@ -8,7 +8,7 @@ export const useQuerySuspend = (query: UseQueryReturnType<any, any>) => {
   };
 
   onServerPrefetch(async () => {
-    await suspend({ mode: QuerySuspenseBehaviourMode.ALWAYS_WAIT });
+    await suspend({ mode: QuerySuspenseBehaviourMode.WAIT_UNTIL_FINISH });
   });
 
   return suspend;

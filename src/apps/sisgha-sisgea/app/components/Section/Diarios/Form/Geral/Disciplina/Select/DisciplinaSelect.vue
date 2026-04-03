@@ -16,7 +16,7 @@ const disciplinas = useDisciplinas();
 const listQuery = disciplinas.list(options);
 const isLoading = listQuery.isLoading;
 
-await listQuery.suspense();
+await suspendQuery(listQuery);
 
 const radioItems = computed(
   () =>

@@ -57,7 +57,7 @@ type LoadOptions = {
 };
 
 const load = async ({ done, side }: LoadOptions) => {
-  const suspend = () => query.suspense().catch(() => null);
+  const suspend = () => suspendQuery(query, { mode: QuerySuspenseBehaviourMode.WAIT_UNTIL_FINISH });
 
   if (side === 'both' || side === 'end') {
     if (query.isFetchingNextPage.value) {
@@ -113,7 +113,7 @@ onMounted(() => {
   }
 });
 
-await query.suspense().catch(() => null);
+await suspendQuery(query);
 </script>
 
 <template>

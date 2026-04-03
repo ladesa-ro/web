@@ -324,7 +324,7 @@ export function useGradeHorariaEditor(campusId: MaybeRef<string | null>) {
     isEditing,
     isSaving,
     isDirty,
-    isLoading: campusQuery.isLoading,
+    isLoading: campusQuery.isFetching,
     enterEditMode,
     cancelEdit,
     addGrade,
