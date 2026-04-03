@@ -31,7 +31,7 @@ const selectedIds = computed(() =>
 const activeResourcesQueries = useQueries({
   queries: computed(() =>
     selectedIds.value.map(id => ({
-      queryKey: [...crudModule.baseQueryKeys, 'detail', id],
+      queryKey: [...unref(crudModule.baseQueryKeys), 'detail', id],
       queryFn: () => crudModule.getOne(String(id)),
       enabled: !!id,
     }))
@@ -52,7 +52,7 @@ const searchOptions = computed(() => {
 
 const listQuery = useQuery({
   queryKey: computed(() => [
-    ...crudModule.baseQueryKeys,
+    ...unref(crudModule.baseQueryKeys),
     'list',
     JSON.stringify(unref(searchOptions)),
   ]),

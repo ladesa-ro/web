@@ -9,6 +9,7 @@ type Props = {
   isLoading?: boolean;
   required?: boolean;
   name: string;
+  campusId?: string;
 };
 
 const props = defineProps<Props>();
@@ -18,8 +19,14 @@ const { name } = toRefs(props);
 
 const api = useApiClient();
 const crudModule = {
-  baseQueryKeys: ['ofertas-formacoes'],
-  list: (data: any) => api.call(ofertaFormacaoFindAll, { query: data }),
+  baseQueryKeys: computed(() => ['ofertas-formacoes', props.campusId ?? '']),
+  list: (data: any) =>
+    api.call(ofertaFormacaoFindAll, {
+      query: {
+        ...data,
+        ...(props.campusId ? { 'filter.campus.id': [props.campusId] } : {}),
+      },
+    }),
   getOne: (id: string) => api.call(ofertaFormacaoFindById, { path: { id } }),
 };
 

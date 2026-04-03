@@ -1,9 +1,11 @@
+import type { MaybeRef } from 'vue';
+
 /**
  * Simple interface for autocomplete data fetching.
  * Any object with `list` and `getOne` can be used.
  */
 export type IAutocompleteCrudModule = {
-  baseQueryKeys: readonly string[] | string[];
+  baseQueryKeys: MaybeRef<readonly string[] | string[]>;
   list: (data?: any, ...args: any[]) => Promise<any>;
   getOne: (id: string) => Promise<any>;
 };

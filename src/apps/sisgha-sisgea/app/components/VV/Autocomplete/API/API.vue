@@ -35,7 +35,7 @@ const crudModule = apiRetrieverOptions.crudModule;
 // FindOne query for the currently selected value
 const activeResourceQuery = useQuery({
   queryKey: computed(() => [
-    ...crudModule.baseQueryKeys,
+    ...unref(crudModule.baseQueryKeys),
     'detail',
     unref(value),
   ]),
@@ -63,7 +63,7 @@ const searchOptions = computed(() => {
 // List query for dropdown options
 const listQuery = useQuery({
   queryKey: computed(() => [
-    ...crudModule.baseQueryKeys,
+    ...unref(crudModule.baseQueryKeys),
     'list',
     JSON.stringify(unref(searchOptions)),
   ]),
