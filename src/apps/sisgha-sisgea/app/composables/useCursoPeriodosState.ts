@@ -1,18 +1,19 @@
+import type { CursoFindByIdResponse } from '@ladesa-ro/web.api.client';
 import type { UseQueryReturnType } from '@tanstack/vue-query';
-import type {
-  CursoPeriodoDisciplinaItemDto,
-  CursoPeriodoDisciplinaPeriodoItemDto,
-  DisciplinaFindAllResponse,
-} from '@ladesa-ro/web.api.client';
-import type { FormMode } from '~/utils/constants';
+import { FormMode } from '~/utils/constants';
 
 // ============================================================
 // Tipos
 // ============================================================
 
+export type PeriodoDisciplinaLocal = {
+  disciplinaId: string;
+  cargaHoraria?: number;
+};
+
 export type PeriodoLocal = {
   numeroPeriodo: number;
-  disciplinas: CursoPeriodoDisciplinaItemDto[];
+  disciplinas: PeriodoDisciplinaLocal[];
 };
 
 export type CursoPeriodosState = ReturnType<typeof useCursoPeriodosState>;
@@ -28,11 +29,11 @@ const CURSO_PERIODOS_KEY = Symbol('curso-periodos') as InjectionKey<CursoPeriodo
 // ============================================================
 
 export function useProvideCursoPeriodos(
-  cursoId: MaybeRef<string | null>,
   mode: MaybeRef<FormMode>,
   quantidadePeriodos: MaybeRef<number>,
+  cursoQuery: UseQueryReturnType<CursoFindByIdResponse | null, Error>,
 ) {
-  const state = useCursoPeriodosState(cursoId, mode, quantidadePeriodos);
+  const state = useCursoPeriodosState(mode, quantidadePeriodos, cursoQuery);
   provide(CURSO_PERIODOS_KEY, state);
   return state;
 }
@@ -54,11 +55,10 @@ export function useInjectCursoPeriodos() {
 // ============================================================
 
 function useCursoPeriodosState(
-  cursoId: MaybeRef<string | null>,
   mode: MaybeRef<FormMode>,
   quantidadePeriodos: MaybeRef<number>,
+  cursoQuery: UseQueryReturnType<CursoFindByIdResponse | null, Error>,
 ) {
-  const cursoDisciplinasPorPeriodo = useCursoDisciplinasPorPeriodo();
   const disciplinas = useDisciplinas();
 
   // ---- Modal manager ----
@@ -73,11 +73,6 @@ function useCursoPeriodosState(
     computed(() => ({ limit: 50 })),
   );
 
-  // ---- Disciplinas por período (TanStack Query com retry) ----
-  const periodosQuery = cursoDisciplinasPorPeriodo.findAllQuery(
-    computed(() => unref(cursoId)),
-  );
-
   // ---- Estado local de períodos ----
   const localPeriodos = ref<PeriodoLocal[]>([]);
   const savedPeriodos = ref(new Map<number, Set<string>>());
@@ -85,15 +80,15 @@ function useCursoPeriodosState(
   // Flag para evitar race condition entre watchers
   let loadingFromServer = false;
 
-  // ---- Sincronizar dados do servidor ----
+  // ---- Sincronizar dados do servidor (via cursoQuery.data.periodos) ----
   watch(
-    () => periodosQuery.data.value,
+    () => cursoQuery.data.value,
     serverData => {
-      if (!serverData?.data) return;
+      if (!serverData?.periodos) return;
 
       loadingFromServer = true;
 
-      const periodosData: PeriodoLocal[] = serverData.data.map(p => ({
+      const periodosData: PeriodoLocal[] = serverData.periodos.map(p => ({
         numeroPeriodo: p.numeroPeriodo,
         disciplinas: p.disciplinas.map(d => ({
           disciplinaId: d.disciplinaId,
@@ -107,7 +102,7 @@ function useCursoPeriodosState(
       for (const p of periodosData) {
         snapshot.set(
           p.numeroPeriodo,
-          new Set(p.disciplinas.map(d => d.disciplinaId)),
+          new Set(p.disciplinas.map((d: PeriodoDisciplinaLocal) => d.disciplinaId)),
         );
       }
       savedPeriodos.value = snapshot;
@@ -172,27 +167,19 @@ function useCursoPeriodosState(
     modals.close('selectDisciplinas');
   }
 
-  // ---- Salvar ----
+  // ---- Converter para payload de envio ----
 
-  async function savePeriodos(overrideCursoId?: string) {
-    const id = overrideCursoId ?? unref(cursoId);
-    if (!id) return;
-
-    const periodos: CursoPeriodoDisciplinaPeriodoItemDto[] =
-      localPeriodos.value.map(p => ({
-        numeroPeriodo: p.numeroPeriodo,
-        disciplinas: p.disciplinas.map(d => ({
-          disciplinaId: d.disciplinaId,
-          ...(d.cargaHoraria != null ? { cargaHoraria: d.cargaHoraria } : {}),
-        })),
-      }));
-
-    await cursoDisciplinasPorPeriodo.bulkReplace(id, { periodos });
+  function toPeriodosPayload() {
+    return localPeriodos.value.map(p => ({
+      numeroPeriodo: p.numeroPeriodo,
+      disciplinas: p.disciplinas.map(d => ({
+        disciplinaId: d.disciplinaId,
+        ...(d.cargaHoraria != null ? { cargaHoraria: d.cargaHoraria } : {}),
+      })),
+    }));
   }
 
-  async function invalidate() {
-    await cursoDisciplinasPorPeriodo.invalidate();
-  }
+  const isCreateMode = computed(() => unref(mode) === FormMode.CREATE);
 
   return {
     // Estado
@@ -200,9 +187,9 @@ function useCursoPeriodosState(
     savedPeriodos: readonly(savedPeriodos),
     editingPeriodoIndex: readonly(editingPeriodoIndex),
     isEditing,
+    isCreateMode,
 
     // Queries
-    periodosQuery,
     disciplinasInfiniteQuery,
 
     // Modal
@@ -213,7 +200,6 @@ function useCursoPeriodosState(
     openSelectDisciplinas,
     confirmDisciplinas,
     closeSelectDisciplinas,
-    savePeriodos,
-    invalidate,
+    toPeriodosPayload,
   };
 }

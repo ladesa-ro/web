@@ -154,12 +154,6 @@ import type {
   CursoDeleteOneByIdData,
   CursoDeleteOneByIdErrors,
   CursoDeleteOneByIdResponses,
-  CursoDisciplinasPorPeriodoBulkReplaceData,
-  CursoDisciplinasPorPeriodoBulkReplaceErrors,
-  CursoDisciplinasPorPeriodoBulkReplaceResponses,
-  CursoDisciplinasPorPeriodoFindAllData,
-  CursoDisciplinasPorPeriodoFindAllErrors,
-  CursoDisciplinasPorPeriodoFindAllResponses,
   CursoFindAllData,
   CursoFindAllErrors,
   CursoFindAllResponses,
@@ -777,45 +771,6 @@ export const cursoUpdateImagemCapa = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       'Content-Type': null,
-      ...options.headers,
-    },
-  });
-
-/**
- * Lista disciplinas por periodo de um curso
- *
- * Lista disciplinas por periodo de um curso
- */
-export const cursoDisciplinasPorPeriodoFindAll = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CursoDisciplinasPorPeriodoFindAllData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    CursoDisciplinasPorPeriodoFindAllResponses,
-    CursoDisciplinasPorPeriodoFindAllErrors,
-    ThrowOnError
-  >({ url: '/cursos/{cursoId}/disciplinas-por-periodo', ...options });
-
-/**
- * Substitui disciplinas por periodo de um curso
- *
- * Substitui disciplinas por periodo de um curso
- */
-export const cursoDisciplinasPorPeriodoBulkReplace = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CursoDisciplinasPorPeriodoBulkReplaceData, ThrowOnError>
-) =>
-  (options.client ?? client).put<
-    CursoDisciplinasPorPeriodoBulkReplaceResponses,
-    CursoDisciplinasPorPeriodoBulkReplaceErrors,
-    ThrowOnError
-  >({
-    url: '/cursos/{cursoId}/disciplinas-por-periodo',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
       ...options.headers,
     },
   });

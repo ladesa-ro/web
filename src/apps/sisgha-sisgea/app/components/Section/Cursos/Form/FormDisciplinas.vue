@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { FormMode } from '~/utils/constants';
 import type { InfiniteData } from '@tanstack/vue-query';
 import type { DisciplinaFindAllResponse } from '@ladesa-ro/web.api.client';
 
@@ -40,8 +39,9 @@ const periodosVisiveis = computed(() => {
 });
 
 function isNew(numeroPeriodo: number, disciplinaId: string): boolean {
+  if (periodos.isCreateMode.value) return true;
   const saved = periodos.savedPeriodos.value.get(numeroPeriodo) ?? new Set<string>();
-  return saved.size > 0 && !saved.has(disciplinaId);
+  return !saved.has(disciplinaId);
 }
 </script>
 

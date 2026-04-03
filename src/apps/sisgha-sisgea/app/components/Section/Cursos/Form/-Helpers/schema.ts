@@ -24,6 +24,23 @@ export const cursoSchema = yup.object({
     .min(1, 'Mínimo 1 período')
     .max(12, 'Máximo 12 períodos')
     .default(1),
+  periodos: yup
+    .array()
+    .of(
+      yup.object({
+        numeroPeriodo: yup.number().required(),
+        disciplinas: yup
+          .array()
+          .of(
+            yup.object({
+              disciplinaId: yup.string().required(),
+              cargaHoraria: yup.number().optional(),
+            }),
+          )
+          .default([]),
+      }),
+    )
+    .default([]),
 });
 
 export type ICursoFormValues = yup.InferType<typeof cursoSchema>;

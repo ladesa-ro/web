@@ -512,6 +512,33 @@ export type ImagemFindOneOutputFromBlocoDto = {
   versoes: Array<ImagemArquivoFindOneFromImagemOutputFromBlocoDto>;
 };
 
+export type CursoPeriodoDisciplinaOutputItemDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * ID da disciplina
+   */
+  disciplinaId: string;
+  /**
+   * Nome da disciplina
+   */
+  disciplinaNome?: string | null;
+  /**
+   * Carga horaria
+   */
+  cargaHoraria?: number | null;
+};
+
+export type CursoPeriodoDisciplinaOutputPeriodoDto = {
+  /**
+   * Numero do periodo
+   */
+  numeroPeriodo: number;
+  disciplinas: Array<CursoPeriodoDisciplinaOutputItemDto>;
+};
+
 export type CursoFindOneOutputDto = {
   /**
    * Identificador do registro (uuid)
@@ -553,6 +580,7 @@ export type CursoFindOneOutputDto = {
    * Imagem de capa do curso
    */
   imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
+  periodos: Array<CursoPeriodoDisciplinaOutputPeriodoDto>;
 };
 
 export type CursoListOutputDto = {
@@ -564,6 +592,28 @@ export type CursoListOutputDto = {
    * Resultados da busca
    */
   data: Array<CursoFindOneOutputDto>;
+};
+
+export type CursoPeriodoDisciplinaItemDto = {
+  /**
+   * ID da disciplina
+   */
+  disciplinaId: string;
+  /**
+   * Carga horaria
+   */
+  cargaHoraria?: number;
+};
+
+export type CursoPeriodoDisciplinaPeriodoItemDto = {
+  /**
+   * Numero do periodo
+   */
+  numeroPeriodo: number;
+  /**
+   * Disciplinas do periodo
+   */
+  disciplinas: Array<CursoPeriodoDisciplinaItemDto>;
 };
 
 export type CursoCreateInputDto = {
@@ -591,6 +641,7 @@ export type CursoCreateInputDto = {
   ofertaFormacao: {
     [key: string]: unknown;
   };
+  periodos?: Array<CursoPeriodoDisciplinaPeriodoItemDto>;
 };
 
 export type CursoUpdateInputDto = {
@@ -618,66 +669,7 @@ export type CursoUpdateInputDto = {
   ofertaFormacao?: {
     [key: string]: unknown;
   };
-};
-
-export type CursoPeriodoDisciplinaOutputItemDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-  /**
-   * ID da disciplina
-   */
-  disciplinaId: string;
-  /**
-   * Nome da disciplina
-   */
-  disciplinaNome?: string | null;
-  /**
-   * Carga horaria
-   */
-  cargaHoraria?: number | null;
-};
-
-export type CursoPeriodoDisciplinaOutputPeriodoDto = {
-  /**
-   * Numero do periodo
-   */
-  numeroPeriodo: number;
-  disciplinas: Array<CursoPeriodoDisciplinaOutputItemDto>;
-};
-
-export type CursoPeriodoDisciplinaListOutputDto = {
-  /**
-   * Resultados da busca
-   */
-  data: Array<CursoPeriodoDisciplinaOutputPeriodoDto>;
-};
-
-export type CursoPeriodoDisciplinaItemDto = {
-  /**
-   * ID da disciplina
-   */
-  disciplinaId: string;
-  /**
-   * Carga horaria
-   */
-  cargaHoraria?: number;
-};
-
-export type CursoPeriodoDisciplinaPeriodoItemDto = {
-  /**
-   * Numero do periodo
-   */
-  numeroPeriodo: number;
-  /**
-   * Disciplinas do periodo
-   */
-  disciplinas: Array<CursoPeriodoDisciplinaItemDto>;
-};
-
-export type CursoPeriodoDisciplinaBulkReplaceInputDto = {
-  periodos: Array<CursoPeriodoDisciplinaPeriodoItemDto>;
+  periodos?: Array<CursoPeriodoDisciplinaPeriodoItemDto>;
 };
 
 export type CampusListOutputDto = {
@@ -3932,52 +3924,6 @@ export type CursoUpdateImagemCapaResponses = {
 
 export type CursoUpdateImagemCapaResponse =
   CursoUpdateImagemCapaResponses[keyof CursoUpdateImagemCapaResponses];
-
-export type CursoDisciplinasPorPeriodoFindAllData = {
-  body?: never;
-  path: {
-    /**
-     * ID do curso
-     */
-    cursoId: string;
-  };
-  query?: never;
-  url: '/cursos/{cursoId}/disciplinas-por-periodo';
-};
-
-export type CursoDisciplinasPorPeriodoFindAllErrors = {
-  403: unknown;
-};
-
-export type CursoDisciplinasPorPeriodoFindAllResponses = {
-  200: CursoPeriodoDisciplinaListOutputDto;
-};
-
-export type CursoDisciplinasPorPeriodoFindAllResponse =
-  CursoDisciplinasPorPeriodoFindAllResponses[keyof CursoDisciplinasPorPeriodoFindAllResponses];
-
-export type CursoDisciplinasPorPeriodoBulkReplaceData = {
-  body: CursoPeriodoDisciplinaBulkReplaceInputDto;
-  path: {
-    /**
-     * ID do curso
-     */
-    cursoId: string;
-  };
-  query?: never;
-  url: '/cursos/{cursoId}/disciplinas-por-periodo';
-};
-
-export type CursoDisciplinasPorPeriodoBulkReplaceErrors = {
-  403: unknown;
-};
-
-export type CursoDisciplinasPorPeriodoBulkReplaceResponses = {
-  200: CursoPeriodoDisciplinaListOutputDto;
-};
-
-export type CursoDisciplinasPorPeriodoBulkReplaceResponse =
-  CursoDisciplinasPorPeriodoBulkReplaceResponses[keyof CursoDisciplinasPorPeriodoBulkReplaceResponses];
 
 export type CampusFindAllData = {
   body?: never;

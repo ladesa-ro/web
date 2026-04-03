@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
-import { FormMode } from '~/utils/constants';
 import { cursoSchema } from './-Helpers/schema';
 import FormPrimary from './FormPrimary.vue';
 import FormDisciplinas from './FormDisciplinas.vue';
@@ -21,37 +20,37 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
 
   create: async data => {
     const { imagem, ...rest } = data;
+    rest.periodos = periodos.toPeriodosPayload();
     const created = await cursos.create(rest);
     if (imagem) await cursos.uploadCover(created.id, imagem as Blob);
-    await periodos.savePeriodos(created.id);
   },
 
   update: async (id, data) => {
     const { imagem, ...rest } = data;
+    rest.periodos = periodos.toPeriodosPayload();
     await cursos.update(id, rest);
     if (imagem) await cursos.uploadCover(id, imagem as Blob);
-    await periodos.savePeriodos();
   },
 
   remove: id => cursos.remove(id),
 
   invalidate: async () => {
     await cursos.invalidate();
-    await periodos.invalidate();
   },
 
   confirmDelete: confirmDelete.confirm,
   onFinish: () => emit('close'),
 });
 
-// Campo reativo para quantidadePeriodos
-const { value: quantidadePeriodos } = useField<number>('quantidadePeriodos');
+// Campo reativo para quantidadePeriodos (fallback evita undefined antes da hidratação do vee-validate)
+const { value: quantidadePeriodosField } = useField<number>('quantidadePeriodos');
+const quantidadePeriodos = computed(() => quantidadePeriodosField.value ?? 1);
 
 // Composable de períodos/disciplinas
 const periodos = useProvideCursoPeriodos(
-  computed(() => editId),
   mode,
   quantidadePeriodos,
+  cursoQuery,
 );
 
 // Nome da formação para o modal de seleção
