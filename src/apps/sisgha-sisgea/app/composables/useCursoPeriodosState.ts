@@ -115,10 +115,14 @@ function useCursoPeriodosState(
     count: number,
     source: PeriodoLocal[],
   ): PeriodoLocal[] {
-    return Array.from({ length: count }, (_, i) => ({
-      numeroPeriodo: i + 1,
-      disciplinas: source[i]?.disciplinas ?? [],
-    }));
+    return Array.from({ length: count }, (_, i) => {
+      const numeroPeriodo = i + 1;
+      const existing = source.find(p => p.numeroPeriodo === numeroPeriodo);
+      return {
+        numeroPeriodo,
+        disciplinas: existing?.disciplinas ?? [],
+      };
+    });
   }
 
   // ---- Sincronizar dados do servidor (via cursoQuery.data.periodos) ----
