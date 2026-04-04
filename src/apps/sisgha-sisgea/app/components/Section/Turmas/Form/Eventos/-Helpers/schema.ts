@@ -35,19 +35,13 @@ const schema = yup
 
     horarioInicio: yup
       .string()
-      .when('diaInteiro', {
-        is: false,
-        then: schema => schema.required('Horário de início é obrigatório!'),
-        otherwise: schema => schema.nullable().default(null),
-      }),
+      .nullable()
+      .default(null),
 
     horarioFim: yup
       .string()
-      .when('diaInteiro', {
-        is: false,
-        then: schema => schema.required('Horário de fim é obrigatório!'),
-        otherwise: schema => schema.nullable().default(null),
-      }),
+      .nullable()
+      .default(null),
   })
   .required();
 
