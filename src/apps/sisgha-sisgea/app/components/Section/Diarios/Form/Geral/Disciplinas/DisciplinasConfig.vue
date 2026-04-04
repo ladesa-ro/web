@@ -27,9 +27,38 @@ const cursoId = computed(() => {
 const { disciplinas, isLoading: isLoadingDisciplinas } =
   useDisciplinasByCurso(cursoId);
 
+// Buscar diários já existentes para turma+calendário (evitar duplicatas)
+const existingDiariosQuery = diarios.list(
+  computed(() => {
+    if (!contexto.turmaId.value || !contexto.calendarioLetivoId.value) return {};
+    return {
+      'filter.turma.id': [contexto.turmaId.value],
+      'filter.calendarioLetivo.id': [contexto.calendarioLetivoId.value],
+      limit: 100,
+    };
+  })
+);
+
+const existingDisciplinaIds = computed(() => {
+  const data = existingDiariosQuery.data.value?.data;
+  if (!data) return new Set<string>();
+  return new Set(
+    (data as Record<string, unknown>[]).map(
+      (d) => ((d.disciplina as Record<string, unknown>)?.id as string) ?? ''
+    )
+  );
+});
+
+// Disciplinas disponíveis (excluindo as que já têm diário)
+const disciplinasDisponiveis = computed(() =>
+  disciplinas.value.filter(
+    (d) => !existingDisciplinaIds.value.has(d.disciplinaId)
+  )
+);
+
 // Inicializar config das disciplinas quando carregarem
 watch(
-  disciplinas,
+  disciplinasDisponiveis,
   (newDisciplinas) => {
     if (isEditMode.value) return;
     if (newDisciplinas.length === 0) return;
@@ -60,13 +89,20 @@ watch(
 );
 
 // Edição: carregar dados existentes
-if (isEditMode.value && props.editId) {
-  const diarioQuery = diarios.findOne(computed(() => props.editId ?? null));
+const editDiarioQuery = isEditMode.value && props.editId
+  ? diarios.findOne(computed(() => props.editId ?? null))
+  : null;
 
+const editProfsQuery = isEditMode.value && props.editId
+  ? diarios.listProfessores(props.editId)
+  : null;
+
+if (editDiarioQuery) {
   watch(
-    () => diarioQuery.data.value,
-    async (diario) => {
+    [() => editDiarioQuery.data.value, () => editProfsQuery?.data.value],
+    ([diario, profsData]) => {
       if (!diario) return;
+      if (contexto.disciplinasConfig.value.length > 0) return;
 
       contexto.turmaSelecionada.value = diario.turma as Record<string, unknown>;
       contexto.turmaId.value = diario.turma.id;
@@ -75,12 +111,10 @@ if (isEditMode.value && props.editId) {
       const curso = diario.turma?.curso as Record<string, unknown> | undefined;
       contexto.cursoId.value = (curso?.id as string) ?? null;
 
-      // Carregar professores do diário
-      const profsQuery = diarios.listProfessores(diario.id);
-      const profs = profsQuery.data;
-
-      // Carregar preferências
-      // TODO: carregar preferencias do diário via API quando disponível
+      const professorIds = (profsData?.data ?? []).map(
+        (p: Record<string, unknown>) =>
+          ((p.perfil as Record<string, unknown>)?.id as string) ?? ''
+      ).filter(Boolean);
 
       contexto.disciplinasConfig.value = [
         {
@@ -105,11 +139,7 @@ if (isEditMode.value && props.editId) {
               dataFim: null,
             },
           ],
-          professoresSelecionados:
-            profs.value?.data?.map(
-              (p: Record<string, unknown>) =>
-                ((p.perfil as Record<string, unknown>)?.id as string) ?? ''
-            ) ?? [],
+          professoresSelecionados: professorIds,
         },
       ];
     },
@@ -175,10 +205,20 @@ function mapPreferencias(prefs: IPreferenciaAgrupamento[]) {
 }
 
 async function submitCreate() {
+  // Filtrar disciplinas que possuem pelo menos um dia de aula
+  const diariosComDias = contexto.disciplinasConfig.value.filter(
+    (dc) => dc.preferenciasAgrupamento.length > 0
+  );
+
+  if (diariosComDias.length === 0) {
+    showToast('cadastro', 'error', 'Nenhuma disciplina possui dias de aula configurados.');
+    return;
+  }
+
   const payload = {
     turma: { id: contexto.turmaId.value! },
     calendarioLetivo: { id: contexto.calendarioLetivoId.value! },
-    diarios: contexto.disciplinasConfig.value.map((dc) => ({
+    diarios: diariosComDias.map((dc) => ({
       disciplina: { id: dc.disciplinaId },
       ativo: true,
       professores: dc.professoresSelecionados.map((perfilId) => ({
@@ -217,6 +257,24 @@ const canSubmit = computed(() => {
   if (contexto.disciplinasConfig.value.length === 0) return false;
   return true;
 });
+
+// Deletar diário (modo edição)
+const confirmDelete = useConfirmDelete();
+
+async function onDelete() {
+  if (!props.editId) return;
+  const confirmed = await confirmDelete.confirm();
+  if (!confirmed) return;
+
+  try {
+    await diarios.remove(props.editId);
+    await diarios.invalidate();
+    showToast('delete', 'success');
+    emit('close');
+  } catch {
+    showToast('delete', 'error');
+  }
+}
 </script>
 
 <template>
@@ -248,11 +306,21 @@ const canSubmit = computed(() => {
 
       <!-- Loading -->
       <div
-        v-if="isLoadingDisciplinas"
+        v-if="isLoadingDisciplinas || (isEditMode && editDiarioQuery?.isLoading.value)"
         class="flex items-center justify-center py-8"
       >
         <span class="text-sm text-ldsa-grey/100">
-          Carregando disciplinas...
+          {{ isEditMode ? 'Carregando diário...' : 'Carregando disciplinas...' }}
+        </span>
+      </div>
+
+      <!-- Todas as disciplinas já possuem diário -->
+      <div
+        v-else-if="!isEditMode && disciplinasDisponiveis.length === 0 && disciplinas.length > 0"
+        class="flex items-center gap-3 bg-amber-50 border border-amber-200 rounded px-3 py-4"
+      >
+        <span class="text-amber-700 text-xs">
+          Todas as disciplinas desta turma já possuem diário cadastrado para o calendário letivo selecionado.
         </span>
       </div>
 
@@ -275,10 +343,21 @@ const canSubmit = computed(() => {
         @click="emit('back')"
       />
       <UIButtonModalCancel @click="emit('close')" />
+      <UIButtonModalDelete
+        v-if="isEditMode"
+        @click="onDelete"
+      />
       <form @submit.prevent="onSubmit">
         <UIButtonModalEdit v-if="isEditMode" :disabled="!canSubmit || isBusy" />
         <UIButtonModalSave v-else :disabled="!canSubmit || isBusy" />
       </form>
     </template>
+
+    <DialogConfirm
+      v-model="confirmDelete.isOpen.value"
+      message="Deseja realmente excluir este diário?"
+      @confirm="confirmDelete.onConfirm"
+      @cancel="confirmDelete.onCancel"
+    />
   </DialogModalBaseLayout>
 </template>

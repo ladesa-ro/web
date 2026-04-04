@@ -60,7 +60,6 @@ function adicionarDia() {
 
 function removerDia(prefIndex: number) {
   const dc = getDc();
-  if (dc.preferenciasAgrupamento.length <= 1) return;
   dc.preferenciasAgrupamento.splice(prefIndex, 1);
   dc.preferenciasAgrupamento.forEach((p, i) => {
     p.ordem = i + 1;
@@ -170,7 +169,6 @@ function setDiaSemana(prefIndex: number, dia: number) {
 
       <!-- Remover -->
       <button
-        v-if="prefs.length > 1"
         class="p-2 mr-2"
         @click="removerDia(prefIndex)"
       >
