@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ParsedItem } from '~/composables/useOptionItems';
 import { useContextDiariosFormGeral } from '../Contexto';
 
 const emit = defineEmits<{
@@ -43,13 +44,23 @@ const turmaListQuery = turmas.list(
 
 const calendarioListQuery = calendariosLetivos.list();
 
-// Opções para selects
+// Opções para selects (ParsedItem[])
+const calendarioItems = computed(
+  () =>
+    calendarioListQuery.data.value?.data?.map(
+      (c: Record<string, unknown>) => ({
+        value: c.id as string,
+        label: (c.nome as string) ?? '',
+      })
+    ) ?? []
+);
+
 const ofertaFormacaoItems = computed(
   () =>
     ofertaFormacaoListQuery.data.value?.data?.map(
       (o: Record<string, unknown>) => ({
         value: o.id as string,
-        label: o.nome as string,
+        label: (o.nome as string) ?? '',
       })
     ) ?? []
 );
@@ -59,17 +70,7 @@ const cursoItems = computed(
     cursoListQuery.data.value?.data?.map(
       (c: Record<string, unknown>) => ({
         value: c.id as string,
-        label: c.nome as string,
-      })
-    ) ?? []
-);
-
-const calendarioItems = computed(
-  () =>
-    calendarioListQuery.data.value?.data?.map(
-      (c: Record<string, unknown>) => ({
-        value: c.id as string,
-        label: c.nome as string,
+        label: (c.nome as string) ?? '',
       })
     ) ?? []
 );
@@ -84,6 +85,36 @@ const turmaRadioItems = computed(
       })
     ) ?? []
 );
+
+// Modelos para selects (ParsedItem)
+const calendarioSelected = computed({
+  get: () =>
+    calendarioItems.value.find(
+      (i) => i.value === contexto.calendarioLetivoId.value
+    ) ?? undefined,
+  set: (val: ParsedItem | undefined) => {
+    contexto.calendarioLetivoId.value = val?.value ?? null;
+  },
+});
+
+const ofertaFormacaoSelected = computed({
+  get: () =>
+    ofertaFormacaoItems.value.find(
+      (i) => i.value === contexto.ofertaFormacaoId.value
+    ) ?? undefined,
+  set: (val: ParsedItem | undefined) => {
+    contexto.ofertaFormacaoId.value = val?.value ?? null;
+  },
+});
+
+const cursoSelected = computed({
+  get: () =>
+    cursoItems.value.find((i) => i.value === contexto.cursoId.value) ??
+    undefined,
+  set: (val: ParsedItem | undefined) => {
+    contexto.cursoId.value = val?.value ?? null;
+  },
+});
 
 // Watchers cascata
 watch(
@@ -130,90 +161,38 @@ function nextForm() {
   >
     <div class="flex flex-col gap-4">
       <!-- Calendário Letivo -->
-      <div class="flex flex-col gap-1">
-        <label class="text-xs font-semibold text-ldsa-grey/100">
-          Calendário Letivo
-        </label>
-        <select
-          :value="contexto.calendarioLetivoId.value ?? ''"
-          class="border-2 border-ldsa-grey/100 rounded-lg px-4 py-3 text-sm"
-          @change="
-            contexto.calendarioLetivoId.value =
-              ($event.target as HTMLSelectElement).value || null
-          "
-        >
-          <option value="">Selecione...</option>
-          <option
-            v-for="item in calendarioItems"
-            :key="item.value"
-            :value="item.value"
-          >
-            {{ item.label }}
-          </option>
-        </select>
-      </div>
+      <UIFormOptionFieldsSelect
+        v-model="calendarioSelected"
+        label="Calendário Letivo"
+        placeholder="Selecione..."
+        :items="calendarioItems"
+      />
 
       <!-- Formação -->
-      <div class="flex flex-col gap-1">
-        <label class="text-xs font-semibold text-ldsa-grey/100">
-          Formação
-        </label>
-        <select
-          :value="contexto.ofertaFormacaoId.value ?? ''"
-          class="border-2 border-ldsa-grey/100 rounded-lg px-4 py-3 text-sm"
-          @change="
-            contexto.ofertaFormacaoId.value =
-              ($event.target as HTMLSelectElement).value || null
-          "
-        >
-          <option value="">Selecione...</option>
-          <option
-            v-for="item in ofertaFormacaoItems"
-            :key="item.value"
-            :value="item.value"
-          >
-            {{ item.label }}
-          </option>
-        </select>
-      </div>
+      <UIFormOptionFieldsSelect
+        v-model="ofertaFormacaoSelected"
+        label="Formação"
+        placeholder="Selecione..."
+        :items="ofertaFormacaoItems"
+      />
 
       <!-- Curso -->
-      <div class="flex flex-col gap-1">
-        <label class="text-xs font-semibold text-ldsa-grey/100">
-          Curso
-        </label>
-        <select
-          :value="contexto.cursoId.value ?? ''"
-          :disabled="!contexto.ofertaFormacaoId.value"
-          class="border-2 border-ldsa-grey/100 rounded-lg px-4 py-3 text-sm disabled:opacity-50"
-          @change="
-            contexto.cursoId.value =
-              ($event.target as HTMLSelectElement).value || null
-          "
-        >
-          <option value="">Selecione...</option>
-          <option
-            v-for="item in cursoItems"
-            :key="item.value"
-            :value="item.value"
-          >
-            {{ item.label }}
-          </option>
-        </select>
-      </div>
+      <UIFormOptionFieldsSelect
+        v-model="cursoSelected"
+        label="Curso"
+        placeholder="Selecione..."
+        :items="cursoItems"
+        :disabled="!contexto.ofertaFormacaoId.value"
+      />
 
       <!-- Pesquisa -->
-      <div class="flex flex-col gap-1">
-        <label class="text-xs font-semibold text-ldsa-grey/100">
-          Pesquisar
-        </label>
-        <input
-          v-model="searchBarText"
-          type="text"
-          placeholder="Digite aqui."
-          class="border-2 border-ldsa-grey/100 rounded-lg px-4 py-3 text-sm"
-        />
-      </div>
+      <UIFormTextField
+        :model-value="searchBarText"
+        label="Pesquisar"
+        placeholder="Digite aqui."
+        name="search"
+        @update:model-value="searchBarText = String($event ?? '')"
+      />
 
       <!-- Lista de turmas -->
       <div class="max-h-[300px] overflow-y-auto flex flex-col gap-2">

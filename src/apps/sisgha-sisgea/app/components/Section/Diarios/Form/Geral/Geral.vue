@@ -27,6 +27,13 @@ function fecharTudo() {
   emit('close');
 }
 
+// Quando todos os modais fecham (ex: via backdrop), propagar close para o pai
+watch(modals.hasActiveModal, (hasActive) => {
+  if (!hasActive) {
+    emit('close');
+  }
+});
+
 function avancarParaDisciplinas() {
   modals.open('configurar-disciplinas');
 }
@@ -39,7 +46,7 @@ function avancarParaDisciplinas() {
     backdrop-action="close-all"
     @close="fecharTudo"
   >
-    <SectionDiariosFormGeralTurmaTurmaSelect
+    <SectionDiariosFormGeralTurmaSelect
       @next="avancarParaDisciplinas"
       @close="fecharTudo"
     />
@@ -51,7 +58,7 @@ function avancarParaDisciplinas() {
     backdrop-action="close-all"
     @close="fecharTudo"
   >
-    <SectionDiariosFormGeralDisciplinasDisciplinasConfig
+    <SectionDiariosFormGeralDisciplinasConfig
       :edit-id="editId"
       @close="fecharTudo"
       @back="modals.close()"

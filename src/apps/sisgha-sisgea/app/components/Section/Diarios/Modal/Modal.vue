@@ -22,6 +22,6 @@ const onClose = () => {
       <UIButtonAdd v-if="!editId" @click="onOpen" />
       <UIButtonEdit v-else @click="onOpen" />
     </template>
-    <SectionDiariosFormGeralGeral :edit-id="editId" @close="onClose" />
+    <SectionDiariosFormGeral :edit-id="editId" @close="onClose" />
   </DialogSkeleton>
 </template>

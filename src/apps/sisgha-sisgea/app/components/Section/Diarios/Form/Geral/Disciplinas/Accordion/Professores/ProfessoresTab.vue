@@ -42,17 +42,13 @@ const professoresSelecionados = computed({
 <template>
   <div class="flex flex-col gap-3">
     <!-- Busca -->
-    <div class="flex flex-col gap-1">
-      <label class="text-xs font-semibold text-ldsa-grey/100">
-        Pesquisar
-      </label>
-      <input
-        v-model="professorSearch"
-        type="text"
-        placeholder="Digite aqui."
-        class="border-2 border-ldsa-grey/100 rounded-lg px-4 py-3 text-sm"
-      />
-    </div>
+    <UIFormTextField
+      :model-value="professorSearch"
+      label="Pesquisar"
+      placeholder="Digite aqui."
+      name="professor-search"
+      @update:model-value="professorSearch = String($event ?? '')"
+    />
 
     <!-- Lista de professores -->
     <div class="max-h-[250px] overflow-y-auto flex flex-col gap-2">

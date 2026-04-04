@@ -69,13 +69,13 @@ const tabItems = [
 
       <!-- Conteúdo da aba ativa -->
       <div v-show="activeTab === 'dias'">
-        <SectionDiariosFormGeralDisciplinasAccordionDiasDeAulaDiasDeAulaTab
+        <SectionDiariosFormGeralDisciplinasAccordionDiasDeAulaTab
           :index="index"
         />
       </div>
 
       <div v-show="activeTab === 'professores'">
-        <SectionDiariosFormGeralDisciplinasAccordionProfessoresProfessoresTab
+        <SectionDiariosFormGeralDisciplinasAccordionProfessoresTab
           :index="index"
         />
       </div>
