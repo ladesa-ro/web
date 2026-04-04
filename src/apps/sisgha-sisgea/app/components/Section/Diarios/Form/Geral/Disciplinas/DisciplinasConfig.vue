@@ -259,7 +259,7 @@ const canSubmit = computed(() => {
       <!-- Lista de accordions -->
       <div
         v-else
-        class="max-h-[400px] overflow-y-auto flex flex-col gap-4"
+        class="overflow-y-auto flex flex-col gap-4"
       >
         <SectionDiariosFormGeralDisciplinasAccordionDisciplinaAccordion
           v-for="(dc, index) in contexto.disciplinasConfig.value"
