@@ -46,12 +46,21 @@ const professores = computed(() => {
   const items = listQuery.data.value?.data;
   if (!items) return [];
   return items
-    .map((u: UsuarioFindOneOutputDto) => ({
-      value: u.id,
-      label: u.nome ?? '',
-      imageUrl: getProfileImageUrl(u),
-      cargo: getCargoLabel(u),
-    }))
+    .flatMap((u: UsuarioFindOneOutputDto) => {
+      const vinculos = u.vinculos ?? [];
+      if (vinculos.length === 0) return [];
+      // Usar o primeiro vinculo ativo como perfilId
+      const vinculo = vinculos.find((v) => v.ativo) ?? vinculos[0];
+      if (!vinculo) return [];
+      return [
+        {
+          value: vinculo.id,
+          label: u.nome ?? '',
+          imageUrl: getProfileImageUrl(u),
+          cargo: getCargoLabel(u),
+        },
+      ];
+    })
     .toSorted((a, b) => a.label.localeCompare(b.label));
 });
 
