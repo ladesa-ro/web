@@ -36,24 +36,28 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   getQuery: turmaQuery,
 
   create: async formData => {
+    const { imagem, ...rest } = formData;
     const data: TurmaCreateInputDto = {
-      curso: formData.curso,
-      periodo: formData.periodo,
-      ambientePadraoAula: formData.ambientePadraoAula,
+      curso: rest.curso,
+      periodo: rest.periodo,
+      ambientePadraoAula: rest.ambientePadraoAula,
     };
     const created = await turmas.create(data);
     if (created?.id) {
+      if (imagem) await turmas.uploadCover(created.id, imagem as Blob);
       await avail.saveAvailability(created.id);
     }
   },
 
   update: async (id, formData) => {
+    const { imagem, ...rest } = formData;
     const data: TurmaUpdateInputDto = {
-      curso: formData.curso,
-      periodo: formData.periodo,
-      ambientePadraoAula: formData.ambientePadraoAula,
+      curso: rest.curso,
+      periodo: rest.periodo,
+      ambientePadraoAula: rest.ambientePadraoAula,
     };
     await turmas.update(id, data);
+    if (imagem) await turmas.uploadCover(id, imagem as Blob);
     await avail.saveAvailability();
   },
 

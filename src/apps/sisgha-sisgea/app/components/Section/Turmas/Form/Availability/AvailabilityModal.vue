@@ -1,9 +1,9 @@
 <script lang="ts" setup>
+import ConfirmContent from '../../../../Dialog/Confirm/ConfirmContent.vue';
 import WeekdaySelector from '../../../../UI/WeekDaySelector/WeekdaySelector.vue';
+import SaveScope from './SaveScope.vue';
 import ShiftTimes from './ShiftTimes/ShiftTimes.vue';
 import WeekNavigator from './WeekNavigator.vue';
-import SaveScope from './SaveScope.vue';
-import ConfirmContent from '../../../../Dialog/Confirm/ConfirmContent.vue';
 
 const props = defineProps<{
   disabled?: boolean;
@@ -57,7 +57,10 @@ const modals = useModalManager<TurmaAvailModal>({
 
 setOnNavigationBlocked(() => modals.open('navConfirm'));
 
-function handleConfirm(payload: { dataInicio: string; dataFim: string | null }) {
+function handleConfirm(payload: {
+  dataInicio: string;
+  dataFim: string | null;
+}) {
   confirmAvailability(payload);
   modals.close('saveScope');
 }
@@ -91,19 +94,21 @@ function handleUndoPending(dataInicio: string) {
 
 const today = dayjs().format('YYYY-MM-DD');
 
-function getConfigLabel(tipo: 'permanente' | 'temporario', dataInicio: string, dataFim?: string | null): string {
+function getConfigLabel(
+  tipo: 'permanente' | 'temporario',
+  dataInicio: string,
+  dataFim?: string | null
+): string {
   if (tipo === 'permanente') {
-    return dataInicio <= today
-      ? `Permanente desde ${formatDate(dataInicio)}`
-      : `Permanente a partir de ${formatDate(dataInicio)}`;
+    return `Permanente (a partir de ${formatDate(dataInicio)})`;
   }
   if (dataFim && dataFim < today) {
-    return `Temporário entre ${formatDate(dataInicio)} e ${formatDate(dataFim)}`;
+    return `Temporário (entre ${formatDate(dataInicio)} - ${formatDate(dataFim)})`;
   }
   if (dataInicio <= today) {
-    return `Temporário desde ${formatDate(dataInicio)} até ${formatDate(dataFim!)}`;
+    return `Temporário (entre ${formatDate(dataInicio)} - ${formatDate(dataFim!)})`;
   }
-  return `Temporário a partir de ${formatDate(dataInicio)} até ${formatDate(dataFim!)}`;
+  return `Temporário (entre ${formatDate(dataInicio)} - ${formatDate(dataFim!)})`;
 }
 </script>
 
@@ -141,36 +146,29 @@ function getConfigLabel(tipo: 'permanente' | 'temporario', dataInicio: string, d
 
       <UILoading v-if="weekQuery.isLoading.value" />
 
-      <div v-else-if="isEditing || activeConfigInfo || currentWeekPending" class="flex flex-col gap-4">
-        <!-- Config info chip (between week nav and day selector) -->
-        <div
-          v-if="currentWeekPending"
-          class="w-full rounded-lg px-3 py-2 text-xs font-medium text-center border-2 border-dashed"
-          :class="!currentWeekPending.data_fim
-            ? 'border-ldsa-green-2/40 bg-ldsa-green-2/5 text-ldsa-green-2'
-            : 'border-ldsa-blue/40 bg-ldsa-blue/5 text-ldsa-blue'"
-        >
-          Novo arranjo —
-          {{ getConfigLabel(
-            currentWeekPending.data_fim ? 'temporario' : 'permanente',
-            currentWeekPending.data_inicio,
-            currentWeekPending.data_fim,
-          ) }}
-        </div>
-        <div
-          v-else-if="activeConfigInfo"
-          class="w-full rounded-lg px-3 py-2 text-xs font-medium text-center"
-          :class="activeConfigInfo.tipo === 'permanente'
-            ? 'bg-ldsa-green-2/10 text-ldsa-green-2'
-            : 'bg-ldsa-blue/10 text-ldsa-blue'"
-        >
-          {{ getConfigLabel(activeConfigInfo.tipo, activeConfigInfo.dataInicio, activeConfigInfo.dataFim) }}
-        </div>
-
+      <div
+        v-else-if="isEditing || activeConfigInfo || currentWeekPending"
+        class="flex flex-col gap-4"
+      >
         <WeekdaySelector
           v-model="selectedDayWeek"
           :items="weekDayLabels"
+          mode="compact"
           class="font-semibold gap-2"
+        />
+
+        <!-- Config list (view mode, after edit button) -->
+        <SectionTurmasFormAvailabilityConfigList
+          v-if="!isEditing"
+          :configs="allConfigs"
+          :pending-configs="pendingConfigsList"
+          :pending-deactivation-ids="[...pendingDeactivations]"
+          :is-loading="allConfigsQuery.isLoading.value"
+          :disabled="props.disabled"
+          @navigate-to="handleNavigateToConfig"
+          @deactivate="handleDeactivateConfig"
+          @undo-deactivation="undoPendingDeactivation"
+          @undo-pending="handleUndoPending"
         />
 
         <ShiftTimes
@@ -192,27 +190,17 @@ function getConfigLabel(tipo: 'permanente' | 'temporario', dataInicio: string, d
         <button
           type="button"
           class="editar-disponibilidade-button"
-          :disabled="campusScheduleLoading || weekQuery.isFetching.value || props.disabled"
+          :disabled="
+            campusScheduleLoading ||
+            weekQuery.isFetching.value ||
+            props.disabled
+          "
           @click="enterEditMode"
         >
-          Editar disponibilidade
+          Editar Horários de Aula
           <IconsEdit class="w-3.5 shrink-0" />
         </button>
       </template>
-
-      <!-- Config list (view mode, after edit button) -->
-      <SectionTurmasFormAvailabilityConfigList
-        v-if="!isEditing"
-        :configs="allConfigs"
-        :pending-configs="pendingConfigsList"
-        :pending-deactivation-ids="[...pendingDeactivations]"
-        :is-loading="allConfigsQuery.isLoading.value"
-        :disabled="props.disabled"
-        @navigate-to="handleNavigateToConfig"
-        @deactivate="handleDeactivateConfig"
-        @undo-deactivation="undoPendingDeactivation"
-        @undo-pending="handleUndoPending"
-      />
 
       <template #button-group>
         <template v-if="isEditing">
@@ -232,7 +220,11 @@ function getConfigLabel(tipo: 'permanente' | 'temporario', dataInicio: string, d
       </template>
 
       <!-- Save scope: permanente ou temporário -->
-      <DialogManagedDialog name="saveScope" :manager="modals" backdrop-action="close-self">
+      <DialogManagedDialog
+        name="saveScope"
+        :manager="modals"
+        backdrop-action="close-self"
+      >
         <SaveScope
           @confirm="handleConfirm"
           @close="modals.close('saveScope')"
@@ -240,7 +232,11 @@ function getConfigLabel(tipo: 'permanente' | 'temporario', dataInicio: string, d
       </DialogManagedDialog>
 
       <!-- Navigation confirmation when dirty -->
-      <DialogManagedDialog name="navConfirm" :manager="modals" backdrop-action="close-self">
+      <DialogManagedDialog
+        name="navConfirm"
+        :manager="modals"
+        backdrop-action="close-self"
+      >
         <ConfirmContent
           message="Você tem alterações não salvas. Deseja descartá-las?"
           @confirm="handleNavigationConfirm"
@@ -255,9 +251,6 @@ function getConfigLabel(tipo: 'permanente' | 'temporario', dataInicio: string, d
 @reference "~/assets/styles/app.css";
 
 .editar-disponibilidade-button {
-  @apply flex justify-center items-center gap-5 border-2 border-ldsa-grey
-         text-ldsa-text-default py-2 rounded-lg w-full font-semibold
-         hover:bg-ldsa-grey/15 active:bg-ldsa-grey/25 transition-colors
-         disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply flex justify-center items-center gap-5 border-2 border-ldsa-grey text-ldsa-text-default py-1 text-sm rounded-lg w-full font-semibold hover:bg-ldsa-grey/15 active:bg-ldsa-grey/25 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
 }
 </style>

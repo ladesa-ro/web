@@ -20,7 +20,7 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'navigate-to': [dataInicio: string];
-  'deactivate': [configId: string];
+  deactivate: [configId: string];
   'undo-deactivation': [configId: string];
   'undo-pending': [dataInicio: string];
 }>();
@@ -42,18 +42,16 @@ function getLabel(config: ConfigItem): string {
   const fim = config.data_fim;
 
   if (tipo === 'permanente') {
-    return inicio <= today
-      ? `Permanente desde ${formatDate(inicio)}`
-      : `Permanente a partir de ${formatDate(inicio)}`;
+    return `Permanente (a partir de ${formatDate(inicio)})`;
   }
 
   if (fim! < today) {
-    return `Temporário entre ${formatDate(inicio)} e ${formatDate(fim!)}`;
+    return `Temporário (entre ${formatDate(inicio)} - ${formatDate(fim!)})`;
   }
   if (inicio <= today) {
-    return `Temporário desde ${formatDate(inicio)} até ${formatDate(fim!)}`;
+    return `Temporário (entre ${formatDate(inicio)} - ${formatDate(fim!)})`;
   }
-  return `Temporário a partir de ${formatDate(inicio)} até ${formatDate(fim!)}`;
+  return `Temporário (entre ${formatDate(inicio)} - ${formatDate(fim!)})`;
 }
 
 function getHorariosCount(config: ConfigItem): number {
@@ -65,23 +63,33 @@ function getDiasCount(config: ConfigItem): number {
 }
 
 function isMarkedForDeactivation(config: ConfigItem): boolean {
-  return !!config.id && (props.pendingDeactivationIds ?? []).includes(config.id);
+  return (
+    !!config.id && (props.pendingDeactivationIds ?? []).includes(config.id)
+  );
 }
 
 const activeConfigs = computed(() =>
-  props.configs.filter(c => !isMarkedForDeactivation(c)),
+  props.configs.filter(c => !isMarkedForDeactivation(c))
 );
 
 const deactivatingConfigs = computed(() =>
-  props.configs.filter(c => isMarkedForDeactivation(c)),
+  props.configs.filter(c => isMarkedForDeactivation(c))
 );
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-2">
     <!-- Pending new configs (novo arranjo) -->
-    <div v-if="(pendingConfigs && pendingConfigs.length > 0) || deactivatingConfigs.length > 0" class="flex flex-col gap-2">
-      <h3 class="text-xs font-semibold text-ldsa-text-default uppercase tracking-wide">
+    <div
+      v-if="
+        (pendingConfigs && pendingConfigs.length > 0) ||
+        deactivatingConfigs.length > 0
+      "
+      class="flex flex-col gap-2"
+    >
+      <h3
+        class="text-xs font-semibold text-ldsa-text-default uppercase tracking-wide"
+      >
         Novo arranjo
       </h3>
 
@@ -90,14 +98,15 @@ const deactivatingConfigs = computed(() =>
         v-for="config in pendingConfigs"
         :key="`pending-${config.data_inicio}`"
         class="flex items-center justify-between w-full rounded-lg px-3 py-2.5 text-xs font-medium border-2 border-dashed cursor-pointer transition-colors"
-        :class="getTipo(config) === 'permanente'
-          ? 'border-ldsa-green-2/40 bg-ldsa-green-2/5 text-ldsa-green-2 hover:bg-ldsa-green-2/10'
-          : 'border-ldsa-blue/40 bg-ldsa-blue/5 text-ldsa-blue hover:bg-ldsa-blue/10'"
+        :class="
+          getTipo(config) === 'permanente'
+            ? 'border-ldsa-green-2/40 bg-ldsa-green-2/5 text-ldsa-green-2 hover:bg-ldsa-green-2/10'
+            : 'border-ldsa-blue/40 bg-ldsa-blue/5 text-ldsa-blue hover:bg-ldsa-blue/10'
+        "
         @click="emit('navigate-to', config.data_inicio)"
       >
         <span class="flex-1 min-w-0">
           {{ getLabel(config) }}
-          <span class="opacity-60">({{ getDiasCount(config) }} dias, {{ getHorariosCount(config) }} horários)</span>
         </span>
 
         <button
@@ -135,13 +144,12 @@ const deactivatingConfigs = computed(() =>
 
     <!-- Active configs (servidor) -->
     <div class="flex flex-col gap-2">
-      <h3 class="text-xs font-semibold text-ldsa-text-default uppercase tracking-wide">
-        Configurações ativas
-      </h3>
-
       <UILoading v-if="isLoading" />
 
-      <div v-else-if="activeConfigs.length === 0" class="text-sm text-ldsa-grey text-center py-3">
+      <div
+        v-else-if="activeConfigs.length === 0"
+        class="text-sm text-ldsa-grey text-center py-3"
+      >
         Nenhuma configuração ativa.
       </div>
 
@@ -149,15 +157,16 @@ const deactivatingConfigs = computed(() =>
         v-for="config in activeConfigs"
         v-else
         :key="config.data_inicio"
-        class="flex items-center justify-between w-full rounded-lg px-3 py-2.5 text-xs font-medium cursor-pointer transition-colors"
-        :class="getTipo(config) === 'permanente'
-          ? 'bg-ldsa-green-2/10 text-ldsa-green-2 hover:bg-ldsa-green-2/20'
-          : 'bg-ldsa-blue/10 text-ldsa-blue hover:bg-ldsa-blue/20'"
+        class="flex items-center justify-between w-full rounded-lg px-3 py-1 text-xs font-medium cursor-pointer transition-colors"
+        :class="
+          getTipo(config) === 'permanente'
+            ? 'bg-ldsa-green-2/10 text-ldsa-green-2 hover:bg-ldsa-green-2/20'
+            : 'bg-ldsa-blue/10 text-ldsa-blue hover:bg-ldsa-blue/20'
+        "
         @click="emit('navigate-to', config.data_inicio)"
       >
         <span class="flex-1 min-w-0">
           {{ getLabel(config) }}
-          <span class="opacity-60">({{ getDiasCount(config) }} dias, {{ getHorariosCount(config) }} horários)</span>
         </span>
 
         <button
