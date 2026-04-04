@@ -184,6 +184,9 @@ import type {
   DiarioFindByIdData,
   DiarioFindByIdErrors,
   DiarioFindByIdResponses,
+  DiarioGetImagemCapaData,
+  DiarioGetImagemCapaErrors,
+  DiarioGetImagemCapaResponses,
   DiarioPreferenciaAgrupamentoBulkReplaceData,
   DiarioPreferenciaAgrupamentoBulkReplaceErrors,
   DiarioPreferenciaAgrupamentoBulkReplaceResponses,
@@ -198,6 +201,9 @@ import type {
   DiarioProfessorFindAllResponses,
   DiarioUpdateData,
   DiarioUpdateErrors,
+  DiarioUpdateImagemCapaData,
+  DiarioUpdateImagemCapaErrors,
+  DiarioUpdateImagemCapaResponses,
   DiarioUpdateResponses,
   DisciplinaCreateData,
   DisciplinaCreateErrors,
@@ -367,8 +373,14 @@ import type {
   OfertaFormacaoFindByIdData,
   OfertaFormacaoFindByIdErrors,
   OfertaFormacaoFindByIdResponses,
+  OfertaFormacaoGetImagemCapaData,
+  OfertaFormacaoGetImagemCapaErrors,
+  OfertaFormacaoGetImagemCapaResponses,
   OfertaFormacaoUpdateData,
   OfertaFormacaoUpdateErrors,
+  OfertaFormacaoUpdateImagemCapaData,
+  OfertaFormacaoUpdateImagemCapaErrors,
+  OfertaFormacaoUpdateImagemCapaResponses,
   OfertaFormacaoUpdateResponses,
   PerfilEnsinoByIdData,
   PerfilEnsinoByIdErrors,
@@ -944,6 +956,46 @@ export const ofertaFormacaoUpdate = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Busca imagem de capa de uma oferta de formacao
+ *
+ * Busca imagem de capa de uma oferta de formacao
+ */
+export const ofertaFormacaoGetImagemCapa = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<OfertaFormacaoGetImagemCapaData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    OfertaFormacaoGetImagemCapaResponses,
+    OfertaFormacaoGetImagemCapaErrors,
+    ThrowOnError
+  >({ url: '/ofertas-formacoes/{id}/imagem/capa', ...options });
+
+/**
+ * Define imagem de capa de uma oferta de formacao
+ *
+ * Define imagem de capa de uma oferta de formacao
+ */
+export const ofertaFormacaoUpdateImagemCapa = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<OfertaFormacaoUpdateImagemCapaData, ThrowOnError>
+) =>
+  (options.client ?? client).put<
+    OfertaFormacaoUpdateImagemCapaResponses,
+    OfertaFormacaoUpdateImagemCapaErrors,
+    ThrowOnError
+  >({
+    ...formDataBodySerializer,
+    url: '/ofertas-formacoes/{id}/imagem/capa',
+    ...options,
+    headers: {
+      'Content-Type': null,
       ...options.headers,
     },
   });
@@ -2344,6 +2396,42 @@ export const diarioBatchCreate = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Busca imagem de capa de um diário
+ *
+ * Busca imagem de capa de um diário
+ */
+export const diarioGetImagemCapa = <ThrowOnError extends boolean = false>(
+  options: Options<DiarioGetImagemCapaData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    DiarioGetImagemCapaResponses,
+    DiarioGetImagemCapaErrors,
+    ThrowOnError
+  >({ url: '/diarios/{id}/imagem/capa', ...options });
+
+/**
+ * Define imagem de capa de um diário
+ *
+ * Define imagem de capa de um diário
+ */
+export const diarioUpdateImagemCapa = <ThrowOnError extends boolean = false>(
+  options: Options<DiarioUpdateImagemCapaData, ThrowOnError>
+) =>
+  (options.client ?? client).put<
+    DiarioUpdateImagemCapaResponses,
+    DiarioUpdateImagemCapaErrors,
+    ThrowOnError
+  >({
+    ...formDataBodySerializer,
+    url: '/diarios/{id}/imagem/capa',
+    ...options,
+    headers: {
+      'Content-Type': null,
       ...options.headers,
     },
   });

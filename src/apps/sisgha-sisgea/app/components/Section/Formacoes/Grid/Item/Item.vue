@@ -2,6 +2,7 @@
 import FormacoesForm from '../../Form/Form.vue';
 
 import type { OfertaFormacaoFindOneOutputDto } from '@ladesa-ro/web.api.client';
+import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {
   isLoading?: boolean;
@@ -17,6 +18,8 @@ const link = props.link === undefined || props.link === '' ? 'formacoes' : props
 
 const modalidadeNome = computed(() => formacao.value?.modalidade?.nome ?? '-');
 
+const coverImageSrc = useApiImageRoute(ApiImageResource.OFERTA_FORMACAO_COVER, formacao);
+
 const _niveisFormacoesText = computed(() => {
   const niveis = formacao.value?.niveisFormacoes;
   if (!niveis || niveis.length === 0) return '-';
@@ -26,7 +29,7 @@ const _niveisFormacoesText = computed(() => {
 
 <template>
   <UICardAutoSkeleton :skeleton="isLoading || !formacao">
-    <UICard v-if="formacao" :src="null" :title="formacao.nome" variant="block">
+    <UICard v-if="formacao" :src="coverImageSrc" :title="formacao.nome" variant="block">
       <template #actions>
         <UICardActions :to="`${link}/${formacao.id}`">
           <DialogModalEditOrCreateModal :edit-id="formacao.id" :form-component="FormacoesForm" />

@@ -400,57 +400,6 @@ export type OfertaFormacaoPeriodoOutputDto = {
   etapas: Array<OfertaFormacaoPeriodoEtapaOutputDto>;
 };
 
-export type OfertaFormacaoFindOneOutputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-  /**
-   * Data e hora da criacao do registro
-   */
-  dateCreated: string;
-  /**
-   * Data e hora da alteracao do registro
-   */
-  dateUpdated: string;
-  /**
-   * Data e hora da exclusao do registro
-   */
-  dateDeleted?: string | null;
-  /**
-   * Nome da oferta de formacao
-   */
-  nome: string;
-  /**
-   * Apelido da oferta de formacao
-   */
-  slug: string;
-  /**
-   * Duracao de cada periodo em meses
-   */
-  duracaoPeriodoEmMeses: number;
-  /**
-   * Modalidade da oferta de formacao
-   */
-  modalidade?: ModalidadeFindOneOutputDto & {
-    id: string;
-  };
-  /**
-   * Campus da oferta de formacao
-   */
-  campus?: CampusFindOneOutputDto & {
-    id: string;
-  };
-  /**
-   * Niveis de formacao vinculados a oferta de formacao
-   */
-  niveisFormacoes?: Array<NivelFormacaoFindOneOutputDto>;
-  /**
-   * Periodos com suas etapas do ano letivo
-   */
-  periodos: Array<OfertaFormacaoPeriodoOutputDto>;
-};
-
 export type ArquivoFindOneOutputFromBlocoDto = {
   /**
    * Identificador do registro (uuid)
@@ -510,6 +459,61 @@ export type ImagemFindOneOutputFromBlocoDto = {
    * Versoes da imagem (arquivos associados)
    */
   versoes: Array<ImagemArquivoFindOneFromImagemOutputFromBlocoDto>;
+};
+
+export type OfertaFormacaoFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Nome da oferta de formacao
+   */
+  nome: string;
+  /**
+   * Apelido da oferta de formacao
+   */
+  slug: string;
+  /**
+   * Duracao de cada periodo em meses
+   */
+  duracaoPeriodoEmMeses: number;
+  /**
+   * Modalidade da oferta de formacao
+   */
+  modalidade?: ModalidadeFindOneOutputDto & {
+    id: string;
+  };
+  /**
+   * Campus da oferta de formacao
+   */
+  campus?: CampusFindOneOutputDto & {
+    id: string;
+  };
+  /**
+   * Niveis de formacao vinculados a oferta de formacao
+   */
+  niveisFormacoes?: Array<NivelFormacaoFindOneOutputDto>;
+  /**
+   * Periodos com suas etapas do ano letivo
+   */
+  periodos: Array<OfertaFormacaoPeriodoOutputDto>;
+  /**
+   * Imagem de capa da oferta de formacao
+   */
+  imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
 };
 
 export type CursoPeriodoDisciplinaOutputItemDto = {
@@ -4279,6 +4283,53 @@ export type OfertaFormacaoUpdateResponses = {
 export type OfertaFormacaoUpdateResponse =
   OfertaFormacaoUpdateResponses[keyof OfertaFormacaoUpdateResponses];
 
+export type OfertaFormacaoGetImagemCapaData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/ofertas-formacoes/{id}/imagem/capa';
+};
+
+export type OfertaFormacaoGetImagemCapaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type OfertaFormacaoGetImagemCapaResponses = {
+  200: unknown;
+};
+
+export type OfertaFormacaoUpdateImagemCapaData = {
+  body: {
+    file: Blob | File;
+  };
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/ofertas-formacoes/{id}/imagem/capa';
+};
+
+export type OfertaFormacaoUpdateImagemCapaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type OfertaFormacaoUpdateImagemCapaResponses = {
+  200: boolean;
+};
+
+export type OfertaFormacaoUpdateImagemCapaResponse =
+  OfertaFormacaoUpdateImagemCapaResponses[keyof OfertaFormacaoUpdateImagemCapaResponses];
+
 export type NivelFormacaoFindAllData = {
   body?: never;
   path?: never;
@@ -6414,6 +6465,53 @@ export type DiarioBatchCreateResponses = {
 
 export type DiarioBatchCreateResponse =
   DiarioBatchCreateResponses[keyof DiarioBatchCreateResponses];
+
+export type DiarioGetImagemCapaData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/diarios/{id}/imagem/capa';
+};
+
+export type DiarioGetImagemCapaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type DiarioGetImagemCapaResponses = {
+  200: unknown;
+};
+
+export type DiarioUpdateImagemCapaData = {
+  body: {
+    file: Blob | File;
+  };
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/diarios/{id}/imagem/capa';
+};
+
+export type DiarioUpdateImagemCapaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type DiarioUpdateImagemCapaResponses = {
+  200: boolean;
+};
+
+export type DiarioUpdateImagemCapaResponse =
+  DiarioUpdateImagemCapaResponses[keyof DiarioUpdateImagemCapaResponses];
 
 export type DiarioProfessorFindAllData = {
   body?: never;

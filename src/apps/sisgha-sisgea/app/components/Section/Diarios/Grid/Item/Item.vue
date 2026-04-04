@@ -23,11 +23,9 @@ const diariosProfessoresList = computed(
   () => professoresQuery?.data.value?.data ?? []
 );
 
-const disciplina = computed(() => diario.value?.disciplina ?? null);
-
 const coverImageSrc = useApiImageRoute(
-  ApiImageResource.DISCIPLINA_COVER,
-  disciplina
+  ApiImageResource.DIARIO_COVER,
+  diario
 );
 
 if (professoresQuery) {

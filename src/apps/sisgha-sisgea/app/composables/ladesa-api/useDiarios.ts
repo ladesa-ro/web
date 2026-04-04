@@ -12,6 +12,7 @@ import type {
   UpdateFn,
   RemoveFn,
   InvalidateFn,
+  UploadCoverFn,
 } from '~/composables/query-helpers';
 import {
   diarioFindAll,
@@ -24,6 +25,7 @@ import {
   diarioProfessorBulkReplace,
   diarioPreferenciaAgrupamentoFindAll,
   diarioPreferenciaAgrupamentoBulkReplace,
+  diarioUpdateImagemCapa,
 } from '@ladesa-ro/web.api.client';
 import type {
   DiarioFindAllData,
@@ -81,6 +83,7 @@ export type IUseDiarios = {
     diarioId: string,
     data: ReqBody<DiarioPreferenciaAgrupamentoBulkReplaceData>
   ) => Promise<DiarioPreferenciaAgrupamentoBulkReplaceResponse>;
+  uploadCover: UploadCoverFn;
   invalidate: InvalidateFn;
 };
 
@@ -155,6 +158,9 @@ export const useDiarios = (): IUseDiarios => {
       body: data,
     });
 
+  const uploadCover = (id: string, file: Blob) =>
+    api.call(diarioUpdateImagemCapa, { path: { id }, body: { file } });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -170,6 +176,7 @@ export const useDiarios = (): IUseDiarios => {
     bulkReplaceProfessores,
     listPreferenciasAgrupamento,
     bulkReplacePreferenciasAgrupamento,
+    uploadCover,
     invalidate,
   };
 };

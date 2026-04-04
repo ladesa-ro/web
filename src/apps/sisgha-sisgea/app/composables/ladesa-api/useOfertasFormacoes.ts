@@ -12,6 +12,7 @@ import type {
   UpdateFn,
   RemoveFn,
   InvalidateFn,
+  UploadCoverFn,
 } from '~/composables/query-helpers';
 import {
   ofertaFormacaoFindAll,
@@ -19,6 +20,7 @@ import {
   ofertaFormacaoCreate,
   ofertaFormacaoUpdate,
   ofertaFormacaoDeleteOneById,
+  ofertaFormacaoUpdateImagemCapa,
 } from '@ladesa-ro/web.api.client';
 import type {
   OfertaFormacaoFindAllData,
@@ -52,6 +54,7 @@ export type IUseOfertasFormacoes = {
     OfertaFormacaoUpdateResponse
   >;
   remove: RemoveFn;
+  uploadCover: UploadCoverFn;
   invalidate: InvalidateFn;
 };
 
@@ -86,6 +89,9 @@ export const useOfertasFormacoes = (): IUseOfertasFormacoes => {
   const remove = (id: string) =>
     api.call(ofertaFormacaoDeleteOneById, { path: { id } });
 
+  const uploadCover = (id: string, file: Blob) =>
+    api.call(ofertaFormacaoUpdateImagemCapa, { path: { id }, body: { file } });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -96,6 +102,7 @@ export const useOfertasFormacoes = (): IUseOfertasFormacoes => {
     create,
     update,
     remove,
+    uploadCover,
     invalidate,
   };
 };

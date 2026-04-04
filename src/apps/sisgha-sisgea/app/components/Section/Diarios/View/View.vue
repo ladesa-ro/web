@@ -19,8 +19,7 @@ const professoresText = computed(() => {
     .join(', ');
 });
 
-const disciplina = computed(() => diario.value?.disciplina);
-const coverImageSrc = useApiImageRoute(ApiImageResource.DISCIPLINA_COVER, disciplina);
+const coverImageSrc = useApiImageRoute(ApiImageResource.DIARIO_COVER, diario);
 
 const confirmDelete = useConfirmDelete();
 const router = useRouter();

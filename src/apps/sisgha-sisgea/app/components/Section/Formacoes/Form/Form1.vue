@@ -57,6 +57,8 @@ const duracaoLabel = computed(() => {
       mode === FormMode.MANAGE ? 'Editar formação' : 'Cadastrar formação'
     "
   >
+    <VVSelectImage :disabled="isBusy" name="imagem" />
+
     <VVAutocompleteAPINivelFormacao
       name="niveisFormacoes"
       multiple

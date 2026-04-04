@@ -17,6 +17,7 @@ const { showToast } = useToast();
 
 const isEditMode = computed(() => !!props.editId);
 const isBusy = ref(false);
+const imagemFile = ref<File | Blob | null>(null);
 
 // Buscar disciplinas do curso da turma selecionada
 const cursoId = computed(() => {
@@ -274,6 +275,10 @@ async function submitEdit(editId: string) {
     preferenciasAgrupamento: mapPreferencias(dc.preferenciasAgrupamento),
   });
 
+  if (imagemFile.value) {
+    await diarios.uploadCover(editId, imagemFile.value);
+  }
+
   showToast('atualizacao', 'success');
 }
 
@@ -318,6 +323,9 @@ async function onDelete() {
           {{ turmaInfo.cursoNome }}
         </p>
       </div>
+
+      <!-- Imagem de capa (modo edição) -->
+      <UISelectImage v-if="isEditMode" v-model="imagemFile" />
 
       <!-- Banner informativo -->
       <div

@@ -15,6 +15,7 @@ const periodoSchema = yup.object({
 });
 
 export const ofertaFormacaoSchema = yup.object({
+  imagem: yup.mixed().nullable().default(null),
   nome: yup.string().required('Nome é obrigatório').default(''),
   slug: yup.string().required('Nome abreviado é obrigatório').default(''),
   duracaoPeriodoEmMeses: yup
@@ -47,6 +48,6 @@ export type IOfertaFormacaoFormValues = yup.InferType<
   typeof ofertaFormacaoSchema
 >;
 
-export function transformForApi(data: IOfertaFormacaoFormValues) {
+export function transformForApi(data: Omit<IOfertaFormacaoFormValues, 'imagem'>) {
   return data;
 }

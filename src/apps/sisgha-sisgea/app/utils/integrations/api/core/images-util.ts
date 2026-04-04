@@ -5,6 +5,8 @@ import type {
   DisciplinaFindOneOutputDto,
   ModalidadeFindOneOutputDto,
   NivelFormacaoFindOneOutputDto,
+  DiarioFindOneOutputDto,
+  OfertaFormacaoFindOneOutputDto,
   TurmaFindOneOutputDto,
   UsuarioFindOneOutputDto,
 } from '@ladesa-ro/web.api.client';
@@ -17,6 +19,8 @@ export enum ApiImageResource {
   BLOCO_COVER,
   MODALIDADE_COVER,
   NIVEL_FORMACAO_COVER,
+  OFERTA_FORMACAO_COVER,
+  DIARIO_COVER,
   USUARIO_PROFILE,
 }
 
@@ -54,6 +58,16 @@ type IUseApiImageRouteFunction = {
   (
     resourceImage: ApiImageResource.NIVEL_FORMACAO_COVER,
     item: MaybeRef<NivelFormacaoFindOneOutputDto | null | undefined>
+  ): ComputedRef<string | null>;
+
+  (
+    resourceImage: ApiImageResource.OFERTA_FORMACAO_COVER,
+    item: MaybeRef<OfertaFormacaoFindOneOutputDto | null | undefined>
+  ): ComputedRef<string | null>;
+
+  (
+    resourceImage: ApiImageResource.DIARIO_COVER,
+    item: MaybeRef<DiarioFindOneOutputDto | null | undefined>
   ): ComputedRef<string | null>;
 
   (
@@ -142,6 +156,26 @@ export const useApiImageRoute: IUseApiImageRouteFunction = (
 
         if (imagemCapa) {
           return `${base}/niveis-formacoes/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
+        }
+
+        return null;
+      }
+
+      case ApiImageResource.OFERTA_FORMACAO_COVER: {
+        const imagemCapa = item?.imagemCapa;
+
+        if (imagemCapa) {
+          return `${base}/ofertas-formacoes/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
+        }
+
+        return null;
+      }
+
+      case ApiImageResource.DIARIO_COVER: {
+        const imagemCapa = item?.imagemCapa;
+
+        if (imagemCapa) {
+          return `${base}/diarios/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
         }
 
         return null;

@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import FormacoesForm from '../Form/Form.vue';
+import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
 
 const ofertasFormacoes = useOfertasFormacoes();
 const { data: formacao, isLoading, isError } = ofertasFormacoes.findOne(ref(resourceId));
+
+const coverImageSrc = useApiImageRoute(ApiImageResource.OFERTA_FORMACAO_COVER, formacao);
 
 const modalidadeNome = computed(() => formacao.value?.modalidade?.nome ?? '-');
 
@@ -34,6 +37,7 @@ const handleDelete = async () => {
     :subtitle="formacao?.slug"
     :is-loading="isLoading"
     :is-error="isError"
+    :image-src="coverImageSrc"
   >
     <template #header-actions>
       <DialogModalEditOrCreateModal
