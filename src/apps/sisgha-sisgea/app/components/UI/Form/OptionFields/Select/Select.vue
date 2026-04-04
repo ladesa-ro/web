@@ -46,8 +46,9 @@ const open = ref(false);
     v-model="internalValue"
     v-model:open="open"
     :multiple="multipleOptions"
+    :disabled="props.disabled"
   >
-    <Trigger class="input-base" v-bind="$attrs">
+    <Trigger class="input-base" :class="{ 'opacity-50 cursor-not-allowed': props.disabled }" v-bind="$attrs">
       <label>{{ label }}</label>
       <Value :placeholder="placeholder" />
       <Arrow :open="open" />
