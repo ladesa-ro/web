@@ -3,12 +3,14 @@ import {
   type LadesaApi,
   type LadesaApiClientConfig,
 } from '@ladesa-ro/web.api.client';
-import { getEndpointUrl } from '../../../shared/options/get-endpoint-url';
-
 const API_AUTH_TOKEN = Symbol.for('API_AUTH_TOKEN');
 
 export type ApiClient = LadesaApi;
 
+function getEndpointUrl() {
+  const config = useRuntimeConfig();
+  return config.public.API as string;
+}
 
 export const getApiClient = (config?: Partial<LadesaApiClientConfig>) => {
   const endpointUrl = getEndpointUrl();
