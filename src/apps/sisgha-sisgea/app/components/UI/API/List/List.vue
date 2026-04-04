@@ -19,6 +19,7 @@ const props = withDefaults(
 const slots = defineSlots<{
   'header'(props: any): any;
   'options-actions'(props: any): any;
+  'filters'(props: any): any;
   'grid-item'(props: IGridItemSlotProps<any>): any;
   'grid-item-skeleton'(props: any): any;
 }>();
@@ -35,6 +36,8 @@ setupUIApiListContext(props.options);
           <slot name="options-actions" />
         </template>
       </UIAPIListOptions>
+
+      <slot name="filters" />
 
       <UIAPIListResults>
         <template #grid-item="options">
