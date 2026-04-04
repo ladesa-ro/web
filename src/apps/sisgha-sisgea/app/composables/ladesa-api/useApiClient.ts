@@ -3,7 +3,7 @@ import {
   type LadesaApi,
   type LadesaApiClientConfig,
 } from '@ladesa-ro/web.api.client';
-import { getEndpointUrl } from '../../options/get-endpoint-url';
+import { getEndpointUrl } from '../../../shared/options/get-endpoint-url';
 
 const API_AUTH_TOKEN = Symbol.for('API_AUTH_TOKEN');
 

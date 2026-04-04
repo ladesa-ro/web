@@ -1,4 +1,4 @@
-import { getEndpointUrl } from "../options/get-endpoint-url";
+import { getEndpointUrl } from "../../shared/options/get-endpoint-url";
 
 export const AUTH_CONFIG = {
   apiBaseUrl: () => getEndpointUrl(),

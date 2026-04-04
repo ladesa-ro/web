@@ -1,10 +1,17 @@
 import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
 
+const DEFAULT_DEV_PUBLIC = "https://dev.ladesa.com.br/api/v1";
+const DEFAULT_DEV_LOCAL = "http://localhost:3701/api";
+
+const useLocal = true;
+
+const fallback = useLocal ? DEFAULT_DEV_LOCAL : DEFAULT_DEV_PUBLIC;
+
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      endpointUrl: process.env.NUXT_PUBLIC_ENPOINT_URL ?? 'https://dev.ladesa.com.br/api/v1',
+      API: process.env.NUXT_PUBLIC_ENPOINT_URL ?? fallback,
     }
   },
 
