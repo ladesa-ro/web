@@ -22,6 +22,7 @@ import {
   diarioDeleteOneById,
   diarioProfessorFindAll,
   diarioProfessorBulkReplace,
+  diarioPreferenciaAgrupamentoFindAll,
   diarioPreferenciaAgrupamentoBulkReplace,
 } from '@ladesa-ro/web.api.client';
 import type {
@@ -38,6 +39,8 @@ import type {
   DiarioProfessorFindAllResponse,
   DiarioProfessorBulkReplaceData,
   DiarioProfessorBulkReplaceResponse,
+  DiarioPreferenciaAgrupamentoFindAllData,
+  DiarioPreferenciaAgrupamentoFindAllResponse,
   DiarioPreferenciaAgrupamentoBulkReplaceData,
   DiarioPreferenciaAgrupamentoBulkReplaceResponse,
   ReqBody,
@@ -68,6 +71,12 @@ export type IUseDiarios = {
     diarioId: string,
     data: ReqBody<DiarioProfessorBulkReplaceData>
   ) => Promise<DiarioProfessorBulkReplaceResponse>;
+  listPreferenciasAgrupamento: (
+    diarioId: string,
+    params?: MaybeRef<ReqQuery<DiarioPreferenciaAgrupamentoFindAllData>>
+  ) => ReturnType<
+    ListFn<DiarioPreferenciaAgrupamentoFindAllResponse, ReqQuery<DiarioPreferenciaAgrupamentoFindAllData>>
+  >;
   bulkReplacePreferenciasAgrupamento: (
     diarioId: string,
     data: ReqBody<DiarioPreferenciaAgrupamentoBulkReplaceData>
@@ -124,6 +133,19 @@ export const useDiarios = (): IUseDiarios => {
     data: ReqBody<DiarioProfessorBulkReplaceData>
   ) => api.call(diarioProfessorBulkReplace, { path: { diarioId }, body: data });
 
+  const listPreferenciasAgrupamento = (
+    diarioId: string,
+    params?: MaybeRef<ReqQuery<DiarioPreferenciaAgrupamentoFindAllData>>
+  ) =>
+    createListQuery({
+      queryKey: [...keys, diarioId, 'preferencias-agrupamento'],
+      fetcher: (query?: ReqQuery<DiarioPreferenciaAgrupamentoFindAllData>) =>
+        api.call(diarioPreferenciaAgrupamentoFindAll, {
+          path: { diarioId },
+          query,
+        }),
+    })(params);
+
   const bulkReplacePreferenciasAgrupamento = (
     diarioId: string,
     data: ReqBody<DiarioPreferenciaAgrupamentoBulkReplaceData>
@@ -146,6 +168,7 @@ export const useDiarios = (): IUseDiarios => {
     remove,
     listProfessores,
     bulkReplaceProfessores,
+    listPreferenciasAgrupamento,
     bulkReplacePreferenciasAgrupamento,
     invalidate,
   };
