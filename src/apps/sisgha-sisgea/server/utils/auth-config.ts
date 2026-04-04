@@ -1,7 +1,8 @@
-import { getEndpointUrl } from "../../shared/options/get-endpoint-url";
-
 export const AUTH_CONFIG = {
-  apiBaseUrl: () => getEndpointUrl(),
+  apiBaseUrl: () => {
+    const config = useRuntimeConfig();
+    return config.public.API as string;
+  },
 
   cookies: {
     accessToken: 'auth_token',
