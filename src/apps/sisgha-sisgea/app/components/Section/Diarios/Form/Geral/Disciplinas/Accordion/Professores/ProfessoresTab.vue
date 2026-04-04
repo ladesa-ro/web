@@ -75,6 +75,15 @@ const professoresSelecionados = computed({
 
 <template>
   <div class="flex flex-col gap-3">
+    <!-- Loading -->
+    <div
+      v-if="listQuery.isLoading.value"
+      class="flex items-center justify-center py-6"
+    >
+      <span class="text-sm text-ldsa-grey/100 animate-pulse">Carregando professores...</span>
+    </div>
+
+    <template v-else>
     <!-- Busca -->
     <UIFormTextField
       :model-value="professorSearch"
@@ -125,5 +134,6 @@ const professoresSelecionados = computed({
         </div>
       </UICheckbox>
     </div>
+    </template>
   </div>
 </template>

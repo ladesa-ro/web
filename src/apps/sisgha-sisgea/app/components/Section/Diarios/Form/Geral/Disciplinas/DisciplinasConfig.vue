@@ -166,6 +166,8 @@ if (editDiarioQuery) {
           professoresSelecionados: professorIds,
         },
       ];
+
+      contexto.isLoadingEdit.value = false;
     },
     { immediate: true }
   );
@@ -330,11 +332,11 @@ async function onDelete() {
 
       <!-- Loading -->
       <div
-        v-if="isLoadingDisciplinas || (isEditMode && editDiarioQuery?.isLoading.value)"
+        v-if="isLoadingDisciplinas || contexto.isLoadingEdit.value"
         class="flex items-center justify-center py-8"
       >
-        <span class="text-sm text-ldsa-grey/100">
-          {{ isEditMode ? 'Carregando diário...' : 'Carregando disciplinas...' }}
+        <span class="text-sm text-ldsa-grey/100 animate-pulse">
+          {{ contexto.isLoadingEdit.value ? 'Carregando diário...' : 'Carregando disciplinas...' }}
         </span>
       </div>
 

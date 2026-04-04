@@ -31,6 +31,7 @@ export interface IContextDiariosFormGeral {
   turmaSelecionada: Ref<Record<string, unknown> | null>;
   disciplinasConfig: Ref<IDisciplinaConfig[]>;
   editId: Ref<string | null>;
+  isLoadingEdit: Ref<boolean>;
 }
 
 export const createContextDiariosFormGeral = (
@@ -44,6 +45,7 @@ export const createContextDiariosFormGeral = (
     turmaSelecionada: ref<Record<string, unknown> | null>(null),
     disciplinasConfig: ref<IDisciplinaConfig[]>([]),
     editId: ref<string | null>(unref(editId) ?? null),
+    isLoadingEdit: ref(!!unref(editId)),
   };
 };
 

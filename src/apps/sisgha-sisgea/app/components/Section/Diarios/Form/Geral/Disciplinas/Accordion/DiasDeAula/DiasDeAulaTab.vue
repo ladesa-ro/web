@@ -89,6 +89,15 @@ function setDiaSemana(prefIndex: number, dia: number) {
 
 <template>
   <div class="flex flex-col gap-3">
+    <!-- Loading -->
+    <div
+      v-if="contexto.isLoadingEdit.value"
+      class="flex items-center justify-center py-6"
+    >
+      <span class="text-sm text-ldsa-grey/100 animate-pulse">Carregando dias de aula...</span>
+    </div>
+
+    <template v-else>
     <!-- Toggle modo -->
     <div class="flex items-center gap-2 text-xs">
       <button
@@ -183,5 +192,6 @@ function setDiaSemana(prefIndex: number, dia: number) {
     >
       Adicionar dia +
     </button>
+    </template>
   </div>
 </template>
