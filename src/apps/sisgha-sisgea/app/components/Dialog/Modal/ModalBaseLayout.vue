@@ -3,6 +3,8 @@ type Props = {
   title?: string;
   closeButton?: boolean;
   onClose: () => any;
+
+  contentClass?: string;
 };
 
 const { title = 'Título', closeButton = true } = defineProps<Props>();
@@ -23,7 +25,7 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
       </button>
     </header>
 
-    <main class="content">
+    <main class="content" :class="contentClass">
       <slot>Conteúdo</slot>
     </main>
 

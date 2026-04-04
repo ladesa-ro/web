@@ -39,7 +39,7 @@ onMounted(() => {
           'bg-ldsa-green-1 text-white': selectedIndex === index,
           'text-ldsa-text-green': selectedIndex !== index,
         },
-        mode === 'compact' ? 'text-sm py-1' : '',
+        mode === 'compact' ? 'text-sm !py-2' : '',
       ]"
       type="button"
       @click="selectItem(index)"

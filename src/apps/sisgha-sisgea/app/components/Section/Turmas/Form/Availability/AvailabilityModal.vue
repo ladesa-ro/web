@@ -119,6 +119,7 @@ function getConfigLabel(
       :on-close="onClose"
       title="Disponibilidade"
       class="flex-1"
+      content-class="!gap-4"
     >
       <WeekNavigator
         :week-label="weekLabel"
