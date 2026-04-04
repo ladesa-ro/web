@@ -1,10 +1,10 @@
 <script lang="ts" setup>
+import { diarioFindAll, diarioFindById } from '@ladesa-ro/web.api.client';
 import type { ParsedItem } from '~/composables/useOptionItems';
 import {
   createApiListContextOptions,
   type IEntityListModule,
 } from '~~/app/components/UI/API/List/Context/UIApiListContext';
-import { diarioFindAll, diarioFindById } from '@ladesa-ro/web.api.client';
 
 const api = useApiClient();
 
@@ -109,9 +109,15 @@ const options = createApiListContextOptions({ crudModule, filter });
   <UIAPIList :options="options">
     <template #header>
       <UIBreadcrumbDapeBreadcrumb />
+    </template>
 
-      <div class="flex flex-wrap gap-3 items-end mt-4">
-        <div class="w-48">
+    <template #options-actions>
+      <LazySectionDiariosModal />
+    </template>
+
+    <template #filters>
+      <div class="flex flex-wrap gap-3 items-end">
+        <div class="min-w-56 flex-1">
           <UIFormOptionFieldsSelect
             v-model="selectedOfertaFormacao"
             label="Formação"
@@ -119,25 +125,23 @@ const options = createApiListContextOptions({ crudModule, filter });
             :items="ofertaFormacaoItems"
           />
         </div>
-        <div class="w-48">
+        <div class="min-w-56 flex-1">
           <UIFormOptionFieldsSelect
             v-model="selectedCurso"
             label="Curso"
             placeholder="Todos"
             :items="cursoItems"
-            :disabled="!selectedOfertaFormacao"
           />
         </div>
-        <div class="w-48">
+        <div class="min-w-56 flex-1">
           <UIFormOptionFieldsSelect
             v-model="selectedTurma"
             label="Turma"
             placeholder="Todas"
             :items="turmaItems"
-            :disabled="!selectedCurso"
           />
         </div>
-        <div class="w-48">
+        <div class="min-w-56 flex-1">
           <UIFormOptionFieldsSelect
             v-model="selectedDisciplina"
             label="Disciplina"
@@ -146,10 +150,6 @@ const options = createApiListContextOptions({ crudModule, filter });
           />
         </div>
       </div>
-    </template>
-
-    <template #options-actions>
-      <LazySectionDiariosModal />
     </template>
 
     <template #grid-item="{ item }">
