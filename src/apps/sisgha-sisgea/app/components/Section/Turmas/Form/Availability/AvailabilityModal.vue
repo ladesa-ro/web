@@ -157,20 +157,6 @@ function getConfigLabel(
           class="font-semibold gap-2"
         />
 
-        <!-- Config list (view mode, after edit button) -->
-        <SectionTurmasFormAvailabilityConfigList
-          v-if="!isEditing"
-          :configs="allConfigs"
-          :pending-configs="pendingConfigsList"
-          :pending-deactivation-ids="[...pendingDeactivations]"
-          :is-loading="allConfigsQuery.isLoading.value"
-          :disabled="props.disabled"
-          @navigate-to="handleNavigateToConfig"
-          @deactivate="handleDeactivateConfig"
-          @undo-deactivation="undoPendingDeactivation"
-          @undo-pending="handleUndoPending"
-        />
-
         <ShiftTimes
           :key="selectedGradeIdentifier ?? ''"
           :day-shifts="campusShifts"
@@ -187,6 +173,20 @@ function getConfigLabel(
       />
 
       <template v-if="!isEditing && !isPastWeek">
+        <!-- Config list (view mode, after edit button) -->
+        <SectionTurmasFormAvailabilityConfigList
+          v-if="!isEditing"
+          :configs="allConfigs"
+          :pending-configs="pendingConfigsList"
+          :pending-deactivation-ids="[...pendingDeactivations]"
+          :is-loading="allConfigsQuery.isLoading.value"
+          :disabled="props.disabled"
+          @navigate-to="handleNavigateToConfig"
+          @deactivate="handleDeactivateConfig"
+          @undo-deactivation="undoPendingDeactivation"
+          @undo-pending="handleUndoPending"
+        />
+
         <button
           type="button"
           class="editar-disponibilidade-button"

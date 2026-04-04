@@ -75,18 +75,65 @@ const activeConfigs = computed(() =>
 const deactivatingConfigs = computed(() =>
   props.configs.filter(c => isMarkedForDeactivation(c))
 );
+
+const possuiPendencias = computed(() => {
+  return (
+    (props.pendingConfigs && props.pendingConfigs.length > 0) ||
+    deactivatingConfigs.value.length > 0
+  );
+});
 </script>
 
 <template>
   <div class="flex flex-col gap-2">
+    <!-- Active configs (servidor) -->
+    <div class="flex flex-col gap-2">
+      <h3
+        v-if="possuiPendencias"
+        class="text-xs font-semibold text-ldsa-text-default uppercase tracking-wide"
+      >
+        Configurações pré-existentes
+      </h3>
+
+      <UILoading v-if="isLoading" />
+
+      <div
+        v-else-if="activeConfigs.length === 0"
+        class="text-sm text-ldsa-grey text-center py-3"
+      >
+        Nenhuma configuração ativa.
+      </div>
+
+      <div
+        v-for="config in activeConfigs"
+        v-else
+        :key="config.data_inicio"
+        class="flex items-center justify-between w-full rounded-lg px-3 py-0.5 text-xs font-medium cursor-pointer transition-colors"
+        :class="
+          getTipo(config) === 'permanente'
+            ? 'bg-ldsa-green-2/10 text-ldsa-green-2 hover:bg-ldsa-green-2/20'
+            : 'bg-ldsa-blue/10 text-ldsa-blue hover:bg-ldsa-blue/20'
+        "
+        @click="emit('navigate-to', config.data_inicio)"
+      >
+        <span class="flex-1 min-w-0">
+          {{ getLabel(config) }}
+        </span>
+
+        <button
+          v-if="config.id"
+          :disabled="disabled"
+          class="shrink-0 p-1 rounded opacity-60 hover:opacity-100 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
+          title="Desativar configuração"
+          @click.stop="emit('deactivate', config.id!)"
+        >
+          <IconsExclude class="w-3.5 h-3.5" />
+        </button>
+      </div>
+    </div>
+
     <!-- Pending new configs (novo arranjo) -->
-    <div
-      v-if="
-        (pendingConfigs && pendingConfigs.length > 0) ||
-        deactivatingConfigs.length > 0
-      "
-      class="flex flex-col gap-2"
-    >
+    <div v-if="possuiPendencias" class="flex flex-col gap-2">
       <h3
         class="text-xs font-semibold text-ldsa-text-default uppercase tracking-wide"
       >
@@ -97,7 +144,7 @@ const deactivatingConfigs = computed(() =>
       <div
         v-for="config in pendingConfigs"
         :key="`pending-${config.data_inicio}`"
-        class="flex items-center justify-between w-full rounded-lg px-3 py-2.5 text-xs font-medium border-2 border-dashed cursor-pointer transition-colors"
+        class="flex items-center justify-between w-full rounded-lg px-3 py-0.5 text-xs font-medium border-2 border-dashed cursor-pointer transition-colors"
         :class="
           getTipo(config) === 'permanente'
             ? 'border-ldsa-green-2/40 bg-ldsa-green-2/5 text-ldsa-green-2 hover:bg-ldsa-green-2/10'
@@ -136,45 +183,6 @@ const deactivatingConfigs = computed(() =>
           class="shrink-0 p-1 rounded opacity-60 hover:opacity-100 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed no-underline"
           title="Desfazer desativação"
           @click.stop="emit('undo-deactivation', config.id!)"
-        >
-          <IconsExclude class="w-3.5 h-3.5" />
-        </button>
-      </div>
-    </div>
-
-    <!-- Active configs (servidor) -->
-    <div class="flex flex-col gap-2">
-      <UILoading v-if="isLoading" />
-
-      <div
-        v-else-if="activeConfigs.length === 0"
-        class="text-sm text-ldsa-grey text-center py-3"
-      >
-        Nenhuma configuração ativa.
-      </div>
-
-      <div
-        v-for="config in activeConfigs"
-        v-else
-        :key="config.data_inicio"
-        class="flex items-center justify-between w-full rounded-lg px-3 py-1 text-xs font-medium cursor-pointer transition-colors"
-        :class="
-          getTipo(config) === 'permanente'
-            ? 'bg-ldsa-green-2/10 text-ldsa-green-2 hover:bg-ldsa-green-2/20'
-            : 'bg-ldsa-blue/10 text-ldsa-blue hover:bg-ldsa-blue/20'
-        "
-        @click="emit('navigate-to', config.data_inicio)"
-      >
-        <span class="flex-1 min-w-0">
-          {{ getLabel(config) }}
-        </span>
-
-        <button
-          v-if="config.id"
-          :disabled="disabled"
-          class="shrink-0 p-1 rounded opacity-60 hover:opacity-100 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
-          title="Desativar configuração"
-          @click.stop="emit('deactivate', config.id!)"
         >
           <IconsExclude class="w-3.5 h-3.5" />
         </button>
