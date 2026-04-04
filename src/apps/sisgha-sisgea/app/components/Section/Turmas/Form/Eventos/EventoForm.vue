@@ -1,7 +1,10 @@
 <script lang="ts" setup>
-import { useForm, useField } from 'vee-validate';
 import type { TurmaEventoCreateInputDto } from '@ladesa-ro/web.api.client';
-import { useTurmaEventoFormSchema, type ITurmaEventoFormOutput } from './-Helpers/schema';
+import { useField, useForm } from 'vee-validate';
+import {
+  useTurmaEventoFormSchema,
+  type ITurmaEventoFormOutput,
+} from './-Helpers/schema';
 
 const props = defineProps<{
   editId?: string | null;
@@ -16,29 +19,62 @@ const emit = defineEmits<{
 }>();
 
 const isEditMode = computed(() => !!props.editId);
-
 const schema = useTurmaEventoFormSchema();
 
-const { handleSubmit } = useForm({
+function buildInitialValues(data?: Partial<TurmaEventoCreateInputDto>) {
+  return {
+    nome: data?.nome ?? '',
+    cor: data?.cor ?? null,
+    repeticao: data?.repeticao ?? null,
+    diaInteiro: data?.diaInteiro ?? false,
+    dataInicio: data?.dataInicio ?? '',
+    dataFim: data?.dataFim ?? null,
+    horarioInicio: data?.horarioInicio ?? '',
+    horarioFim: data?.horarioFim ?? '',
+  };
+}
+
+const { handleSubmit, resetForm } = useForm({
   validationSchema: schema,
-  initialValues: {
-    nome: props.initialData?.nome ?? '',
-    cor: props.initialData?.cor ?? null,
-    repeticao: props.initialData?.repeticao ?? null,
-    diaInteiro: props.initialData?.diaInteiro ?? false,
-    dataInicio: props.initialData?.dataInicio ?? '',
-    dataFim: props.initialData?.dataFim ?? null,
-    horarioInicio: props.initialData?.horarioInicio ?? '',
-    horarioFim: props.initialData?.horarioFim ?? '',
-  },
+  initialValues: buildInitialValues(props.initialData),
 });
 
-const { value: diaInteiro } = useField<boolean>('diaInteiro');
-const { value: corValue } = useField<string | null>('cor');
-const { value: repeticaoValue } = useField<string | null>('repeticao');
+watch(
+  () => props.initialData,
+  newData => {
+    if (newData) {
+      resetForm({ values: buildInitialValues(newData) });
+    }
+  },
+  { immediate: true }
+);
 
-const onSubmit = handleSubmit((values) => {
-  emit('submit', values as ITurmaEventoFormOutput);
+const {
+  value: nome,
+  errorMessage: nomeError,
+  handleBlur: nomeBlur,
+} = useField<string>('nome');
+const { value: cor } = useField<string | null>('cor');
+const { value: repeticao } = useField<string | null>('repeticao');
+const { value: diaInteiro } = useField<boolean>('diaInteiro');
+const {
+  value: dataInicio,
+  errorMessage: dataInicioError,
+  handleBlur: dataInicioBlur,
+} = useField<string>('dataInicio');
+const { value: dataFim, handleBlur: dataFimBlur } = useField<string | null>(
+  'dataFim'
+);
+const { value: horarioInicio } = useField<string | null>('horarioInicio');
+const { value: horarioFim } = useField<string | null>('horarioFim');
+
+const onSubmit = handleSubmit(values => {
+  const output: Record<string, unknown> = { ...values };
+  if (output.diaInteiro) {
+    output.horarioInicio = '00:00:00';
+    output.horarioFim = '23:59:59';
+  }
+  emit('submit', output as ITurmaEventoFormOutput);
 });
 </script>
 
@@ -50,69 +86,89 @@ const onSubmit = handleSubmit((values) => {
     class="evento-form-modal"
   >
     <form class="flex flex-col gap-5" @submit.prevent="onSubmit">
-      <VVTextField
+      <UIFormTextField
+        v-model="nome"
         name="nome"
         label="Nome"
         :disabled="disabled"
+        :error="nomeError"
+        @blur="nomeBlur"
       />
 
       <div class="flex flex-col gap-1.5">
-        <span class="text-[0.813rem] font-semibold text-ldsa-grey px-1">Cor</span>
+        <span class="text-[0.813rem] font-semibold text-ldsa-grey px-1"
+          >Cor</span
+        >
         <SectionTurmasFormEventosEventoColorPalette
-          v-model="corValue"
+          v-model="cor"
           :disabled="disabled"
         />
       </div>
 
       <SectionTurmasFormEventosEventoRRuleEditor
-        v-model="repeticaoValue"
+        v-model="repeticao"
         :disabled="disabled"
       />
 
-      <VVCheckboxField
-        name="diaInteiro"
-        label="Dura todo o dia"
-        :disabled="disabled"
-      />
+      <label
+        class="flex items-center gap-2.5 cursor-pointer"
+        :class="{ 'opacity-60 cursor-not-allowed': disabled }"
+      >
+        <input
+          v-model="diaInteiro"
+          type="checkbox"
+          class="size-4.5 accent-ldsa-green-1 cursor-pointer"
+          :disabled="disabled"
+        />
+        <span class="text-sm font-medium text-ldsa-text-default select-none">
+          Dura todo o dia
+        </span>
+      </label>
 
       <div class="flex gap-4">
-        <VVTextField
-          name="dataInicio"
-          label="Data inicial"
-          type="date"
-          class="flex-1"
-          :disabled="disabled"
-        />
-        <VVTextField
-          name="dataFim"
-          label="Data final"
-          type="date"
-          class="flex-1"
-          :disabled="disabled"
-        />
+        <div class="flex-1">
+          <UIFormTextField
+            v-model="dataInicio"
+            name="dataInicio"
+            label="Data inicial"
+            type="date"
+            :disabled="disabled"
+            :error="dataInicioError"
+            @blur="dataInicioBlur"
+          />
+        </div>
+        <div class="flex-1">
+          <UIFormTextField
+            v-model="dataFim as any"
+            name="dataFim"
+            label="Data final"
+            type="date"
+            :disabled="disabled"
+            @blur="dataFimBlur"
+          />
+        </div>
       </div>
 
       <div v-if="!diaInteiro" class="flex gap-4">
-        <VVTimeField
-          name="horarioInicio"
-          label="Horário inicial"
-          class="flex-1"
-          :disabled="disabled"
-        />
-        <VVTimeField
-          name="horarioFim"
-          label="Horário final"
-          class="flex-1"
-          :disabled="disabled"
-        />
+        <div class="flex-1">
+          <UIFormTimeField
+            v-model="horarioInicio"
+            label="Horário inicial"
+            :disabled="disabled"
+          />
+        </div>
+        <div class="flex-1">
+          <UIFormTimeField
+            v-model="horarioFim"
+            label="Horário final"
+            :disabled="disabled"
+          />
+        </div>
       </div>
     </form>
 
     <template #button-group>
-      <UIButtonModalGoBack
-        class="flex-1"
-        @click="emit('back')"
-      />
+      <UIButtonModalGoBack class="flex-1" @click="emit('back')" />
 
       <UIButtonModalDelete
         v-if="isEditMode"
@@ -120,17 +176,9 @@ const onSubmit = handleSubmit((values) => {
         @click="emit('delete')"
       />
 
-      <UIButtonModalEdit
-        v-if="isEditMode"
-        class="flex-1"
-        @click="onSubmit"
-      />
+      <UIButtonModalEdit v-if="isEditMode" class="flex-1" @click="onSubmit" />
 
-      <UIButtonModalSave
-        v-else
-        class="flex-1"
-        @click="onSubmit"
-      />
+      <UIButtonModalSave v-else class="flex-1" @click="onSubmit" />
     </template>
   </DialogModalBaseLayout>
 </template>
