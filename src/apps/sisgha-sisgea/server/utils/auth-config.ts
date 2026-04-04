@@ -1,6 +1,7 @@
+import { getEndpointUrl } from "../options/get-endpoint-url";
+
 export const AUTH_CONFIG = {
-  apiBaseUrl: () =>
-    process.env.NUXT_PUBLIC_ENPOINT_URL ?? 'https://dev.ladesa.com.br/api/v1',
+  apiBaseUrl: () => getEndpointUrl(),
 
   cookies: {
     accessToken: 'auth_token',

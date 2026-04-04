@@ -1,18 +1,14 @@
 import {
   createLadesaApi,
-  type LadesaApiClientConfig,
   type LadesaApi,
+  type LadesaApiClientConfig,
 } from '@ladesa-ro/web.api.client';
+import { getEndpointUrl } from '../../options/get-endpoint-url';
 
 const API_AUTH_TOKEN = Symbol.for('API_AUTH_TOKEN');
 
 export type ApiClient = LadesaApi;
 
-const getEndpointUrl = () => {
-  return (
-    process.env.NUXT_PUBLIC_ENPOINT_URL ?? 'https://dev.ladesa.com.br/api/v1'
-  );
-};
 
 export const getApiClient = (config?: Partial<LadesaApiClientConfig>) => {
   const endpointUrl = getEndpointUrl();
