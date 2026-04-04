@@ -30,6 +30,41 @@ const avail = useProvideTurmaAvailability(
   campusId
 );
 
+const eventosState = useProvideTurmaEventos(computed(() => editId));
+
+// Evento dialog management
+type EventoDialogName = 'evento-create' | 'evento-edit';
+const eventoModals = useModalManager<EventoDialogName>({
+  modals: {
+    'evento-create': { exclusive: true },
+    'evento-edit': { exclusive: true },
+  },
+});
+const editingEventoId = ref<string | null>(null);
+
+function openEventoCreate() {
+  eventoModals.open('evento-create');
+}
+
+function openEventoEdit(id: string) {
+  editingEventoId.value = id;
+  eventoModals.open('evento-edit');
+}
+
+function closeEventoDialog() {
+  eventoModals.closeAll();
+  editingEventoId.value = null;
+}
+
+const editEventoInitialData = computed(() => {
+  if (!editingEventoId.value) return undefined;
+  const item = eventosState.mergedEventos.value.find(
+    (e: { id: string }) => e.id === editingEventoId.value,
+  );
+  if (!item) return undefined;
+  return item.data as Record<string, unknown>;
+});
+
 const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   schema,
   editId: computed(() => editId),
@@ -46,6 +81,7 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
     if (created?.id) {
       if (imagem) await turmas.uploadCover(created.id, imagem as Blob);
       await avail.saveAvailability(created.id);
+      await eventosState.saveEventos(created.id);
     }
   },
 
@@ -59,12 +95,14 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
     await turmas.update(id, data);
     if (imagem) await turmas.uploadCover(id, imagem as Blob);
     await avail.saveAvailability();
+    await eventosState.saveEventos();
   },
 
   remove: id => turmas.remove(id),
   invalidate: async () => {
     await turmas.invalidate();
     await avail.invalidateDisponibilidade();
+    await eventosState.invalidate();
   },
   confirmDelete: confirmDelete.confirm,
   onFinish: () => emit('close'),
@@ -115,10 +153,43 @@ watch(mode, val => { modeRef.value = val; }, { immediate: true });
         <SectionTurmasFormAvailabilityModal
           :disabled="isBusy"
           :is-loading="isLoading"
+          :mode="mode"
+          @open-evento-create="openEventoCreate"
+          @open-evento-edit="openEventoEdit"
         />
       </template>
     </DialogLayoutSideBySide>
   </form>
+
+  <!-- Dialog: Criar Evento -->
+  <DialogManagedDialog
+    name="evento-create"
+    :manager="eventoModals"
+    backdrop-action="close-self"
+  >
+    <SectionTurmasFormEventosEventoForm
+      :disabled="isBusy"
+      @back="closeEventoDialog"
+      @submit="(data: Record<string, unknown>) => { eventosState.addEvento(data as any); closeEventoDialog(); }"
+    />
+  </DialogManagedDialog>
+
+  <!-- Dialog: Editar Evento -->
+  <DialogManagedDialog
+    name="evento-edit"
+    :manager="eventoModals"
+    backdrop-action="close-self"
+  >
+    <SectionTurmasFormEventosEventoForm
+      :key="editingEventoId ?? undefined"
+      :edit-id="editingEventoId"
+      :initial-data="editEventoInitialData as any"
+      :disabled="isBusy"
+      @back="closeEventoDialog"
+      @submit="(data: Record<string, unknown>) => { if (editingEventoId) eventosState.updateEvento(editingEventoId, data as any); closeEventoDialog(); }"
+      @delete="() => { if (editingEventoId) eventosState.removeEvento(editingEventoId); closeEventoDialog(); }"
+    />
+  </DialogManagedDialog>
 
   <DialogConfirm
     v-model="confirmDelete.isOpen.value"

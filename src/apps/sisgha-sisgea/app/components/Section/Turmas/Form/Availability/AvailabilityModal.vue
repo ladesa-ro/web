@@ -5,13 +5,18 @@ import SaveScope from './SaveScope.vue';
 import ShiftTimes from './ShiftTimes/ShiftTimes.vue';
 import WeekNavigator from './WeekNavigator.vue';
 
+import { FormMode } from '~/utils/constants';
+
 const props = defineProps<{
   disabled?: boolean;
   isLoading?: boolean;
+  mode?: FormMode;
 }>();
 
 const emit = defineEmits<{
   close: [];
+  'open-evento-create': [];
+  'open-evento-edit': [id: string];
 }>();
 const onClose = () => emit('close');
 
@@ -202,6 +207,15 @@ function getConfigLabel(
           <IconsEdit class="w-3.5 shrink-0" />
         </button>
       </template>
+
+      <!-- Eventos da turma -->
+      <SectionTurmasFormEventosSection
+        v-if="!isEditing && props.mode === FormMode.MANAGE"
+        :disabled="props.disabled"
+        :mode="props.mode"
+        @open-create="emit('open-evento-create')"
+        @open-edit="(id: string) => emit('open-evento-edit', id)"
+      />
 
       <template #button-group>
         <template v-if="isEditing">
