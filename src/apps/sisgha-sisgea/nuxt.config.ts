@@ -4,7 +4,7 @@ import { fileURLToPath, URL } from 'node:url';
 const DEFAULT_DEV_PUBLIC = "https://dev.ladesa.com.br/api/v1";
 const DEFAULT_DEV_LOCAL = "http://localhost:3701/api";
 
-const useLocal = true;
+const useLocal = false;
 
 const fallback = useLocal ? DEFAULT_DEV_LOCAL : DEFAULT_DEV_PUBLIC;
 
