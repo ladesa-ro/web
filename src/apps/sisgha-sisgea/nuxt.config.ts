@@ -2,6 +2,12 @@ import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      endpointUrl: process.env.NUXT_PUBLIC_ENPOINT_URL ?? 'https://dev.ladesa.com.br/api/v1',
+    }
+  },
+
   experimental: {
     normalizeComponentNames: true,
   },

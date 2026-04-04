@@ -26,7 +26,7 @@ export type LadesaApi = {
 };
 
 export function createLadesaApi(config?: LadesaApiClientConfig): LadesaApi {
-  const baseUrl = config?.BASE ?? 'https://dev.ladesa.com.br/api/v1';
+  const baseUrl = config?.BASE ?? '/';
   const authToken = config?.TOKEN;
 
   const _client = createClient(
