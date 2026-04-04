@@ -118,6 +118,16 @@ const cursoSelected = computed({
 
 // Watchers cascata
 watch(
+  () => contexto.calendarioLetivoId.value,
+  () => {
+    contexto.ofertaFormacaoId.value = null;
+    contexto.cursoId.value = null;
+    contexto.turmaId.value = null;
+    contexto.turmaSelecionada.value = null;
+  }
+);
+
+watch(
   () => contexto.ofertaFormacaoId.value,
   () => {
     contexto.cursoId.value = null;
@@ -174,6 +184,7 @@ function nextForm() {
         label="Formação"
         placeholder="Selecione..."
         :items="ofertaFormacaoItems"
+        :disabled="!contexto.calendarioLetivoId.value"
       />
 
       <!-- Curso -->
@@ -185,17 +196,18 @@ function nextForm() {
         :disabled="!contexto.ofertaFormacaoId.value"
       />
 
-      <!-- Pesquisa -->
-      <UIFormTextField
-        :model-value="searchBarText"
-        label="Pesquisar"
-        placeholder="Digite aqui."
-        name="search"
-        @update:model-value="searchBarText = String($event ?? '')"
-      />
+      <!-- Pesquisa e turmas (só aparecem com curso selecionado) -->
+      <template v-if="contexto.cursoId.value">
+        <UIFormTextField
+          :model-value="searchBarText"
+          label="Pesquisar"
+          placeholder="Digite aqui."
+          name="search"
+          @update:model-value="searchBarText = String($event ?? '')"
+        />
 
-      <!-- Lista de turmas -->
-      <div class="max-h-[300px] overflow-y-auto flex flex-col gap-2">
+        <!-- Lista de turmas -->
+        <div class="max-h-[300px] overflow-y-auto flex flex-col gap-2">
         <div
           v-for="item in turmaRadioItems"
           :key="item.value"
@@ -242,6 +254,7 @@ function nextForm() {
           Nenhuma turma encontrada.
         </div>
       </div>
+      </template>
     </div>
 
     <template #button-group>

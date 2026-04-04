@@ -67,19 +67,17 @@ const tabItems = [
         </button>
       </div>
 
-      <!-- Conteúdo da aba ativa -->
-      <KeepAlive>
+      <!-- Conteúdo da aba ativa (v-show preserva estado sem desmontar) -->
+      <div v-show="activeTab === 'dias'">
         <SectionDiariosFormGeralDisciplinasAccordionDiasDeAulaTab
-          v-if="activeTab === 'dias'"
-          :key="'dias-' + index"
           :index="index"
         />
+      </div>
+      <div v-show="activeTab === 'professores'">
         <SectionDiariosFormGeralDisciplinasAccordionProfessoresTab
-          v-else
-          :key="'profs-' + index"
           :index="index"
         />
-      </KeepAlive>
+      </div>
     </div>
   </UICollapsible>
 </template>
