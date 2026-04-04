@@ -39,6 +39,15 @@ const internalValue = computed({
 });
 
 const open = ref(false);
+
+const hasValue = computed(() => selectedItem.value != null);
+
+function clear(e: Event) {
+  e.stopPropagation();
+  e.preventDefault();
+  selectedItem.value = undefined as any;
+  open.value = false;
+}
 </script>
 
 <template>
@@ -51,7 +60,15 @@ const open = ref(false);
     <Trigger class="input-base" :class="{ 'opacity-50 cursor-not-allowed': props.disabled }" v-bind="$attrs">
       <label>{{ label }}</label>
       <Value :placeholder="placeholder" />
-      <Arrow :open="open" />
+      <button
+        v-if="hasValue && !props.disabled"
+        class="shrink-0 text-ldsa-grey hover:text-ldsa-red transition-colors"
+        tabindex="-1"
+        @pointerdown="clear"
+      >
+        &#10005;
+      </button>
+      <Arrow v-else :open="open" />
     </Trigger>
 
     <Portal>
