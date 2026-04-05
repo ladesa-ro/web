@@ -106,7 +106,8 @@ function toggleTurma(cursoId: string, turmaId: string) {
   if (!selectedTurmas.value.has(cursoId)) {
     selectedTurmas.value.set(cursoId, new Set());
   }
-  const set = selectedTurmas.value.get(cursoId)!;
+  const set = selectedTurmas.value.get(cursoId);
+  if (!set) return;
   if (set.has(turmaId)) set.delete(turmaId);
   else set.add(turmaId);
   emitUpdate();

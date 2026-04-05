@@ -56,7 +56,7 @@ const remainingDays = computed(() => {
         :edit-id="props.event.id"
         :form-component="SectionCalendarioForm"
         :form-props="{
-          calendarId: props.calendarId!,
+          calendarId: props.calendarId ?? '',
           eventName: props.event.name,
           eventId: props.event.id,
           editMode: 'events',

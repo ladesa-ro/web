@@ -28,9 +28,12 @@ const searchQuery = ref('');
 const dias = ref<CalendarioLetivoDiaFindOneOutputDto[]>([]);
 const isLoadingDias = ref(false);
 
-// Edit dialog
+// Edit dialog — editingDia uses Partial because creation stubs lack server-only fields
+type EditableDia = Pick<CalendarioLetivoDiaFindOneOutputDto, 'id' | 'data' | 'diaLetivo' | 'diaPresencial' | 'extraCurricular'> & {
+  feriado?: string | null;
+};
 const editDialogOpen = ref(false);
-const editingDia = ref<CalendarioLetivoDiaFindOneOutputDto | null>(null);
+const editingDia = ref<EditableDia | null>(null);
 const editingCor = ref<string | null>(null);
 
 const MONTH_NAMES = [
@@ -76,7 +79,7 @@ const diasPorMes = computed(() => {
   for (const dia of diasNaoLetivos.value) {
     const month = dayjs(dia.data).month() + 1;
     if (!grouped.has(month)) grouped.set(month, []);
-    grouped.get(month)!.push(dia);
+    grouped.get(month)?.push(dia);
   }
   return grouped;
 });
@@ -89,8 +92,9 @@ const filteredDiasDoMes = computed(() => {
   );
 });
 
+// TODO: remove Record cast after SDK regeneration includes 'cor' field in CalendarioLetivoDiaFindOneOutputDto
 function getDotColor(dia: CalendarioLetivoDiaFindOneOutputDto): string {
-  return (dia as Record<string, unknown>).cor as string ?? '#6b7280';
+  return ((dia as Record<string, unknown>).cor as string) ?? '#6b7280';
 }
 
 function getDiaLabel(dia: CalendarioLetivoDiaFindOneOutputDto): string {
@@ -107,8 +111,16 @@ function formatDateShort(data: string): string {
 }
 
 function openEdit(dia: CalendarioLetivoDiaFindOneOutputDto) {
-  editingDia.value = { ...dia };
-  editingCor.value = (dia as Record<string, unknown>).cor as string ?? null;
+  editingDia.value = {
+    id: dia.id,
+    data: dia.data,
+    diaLetivo: dia.diaLetivo,
+    feriado: dia.feriado,
+    diaPresencial: dia.diaPresencial,
+    extraCurricular: dia.extraCurricular,
+  };
+  // TODO: remove Record cast after SDK regeneration includes 'cor' field
+  editingCor.value = ((dia as Record<string, unknown>).cor as string) ?? null;
   editDialogOpen.value = true;
 }
 
@@ -121,7 +133,7 @@ function openCreateDialog() {
     feriado: '',
     diaPresencial: false,
     extraCurricular: false,
-  } as CalendarioLetivoDiaFindOneOutputDto;
+  };
   editingCor.value = null;
   editDialogOpen.value = true;
 }
@@ -129,7 +141,7 @@ function openCreateDialog() {
 const editNomeModel = computed({
   get: () => editingDia.value?.feriado ?? '',
   set: (v: string) => {
-    if (editingDia.value) editingDia.value.feriado = v || undefined;
+    if (editingDia.value) editingDia.value.feriado = v || null;
   },
 });
 
@@ -158,7 +170,8 @@ async function saveEdit() {
 // Year for the mini calendars (derived from the loaded data or current year)
 const calendarYear = computed(() => {
   if (dias.value.length > 0) {
-    return dayjs(dias.value[0]!.data).year();
+    const firstDia = dias.value[0];
+    return firstDia ? dayjs(firstDia.data).year() : dayjs().year();
   }
   return dayjs().year();
 });

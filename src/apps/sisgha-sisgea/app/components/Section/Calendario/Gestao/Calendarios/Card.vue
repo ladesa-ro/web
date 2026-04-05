@@ -1,7 +1,5 @@
 <script lang="ts" setup>
 import type { CalendarioLetivoFindOneOutputDto } from '@ladesa-ro/web.api.client';
-import { calendarioLetivoEtapaFindAll } from '@ladesa-ro/web.api.client';
-import { useQuery } from '@tanstack/vue-query';
 
 const props = defineProps<{
   calendario: CalendarioLetivoFindOneOutputDto;
@@ -11,46 +9,22 @@ const emit = defineEmits<{
   edit: [id: string];
 }>();
 
-const api = useApiClient();
 const calendarioLetivo = useCalendarioLetivo();
 const confirmDeactivate = useConfirmDelete();
 
-// TODO: remove type casts after SDK regeneration with situacao field
-const isInativo = computed(() => (props.calendario as any).situacao === 'INATIVO');
+const isInativo = computed(() => props.calendario.situacao === 'INATIVO');
 
 const handleToggleSituacao = async () => {
   const confirmed = await confirmDeactivate.confirm();
   if (confirmed) {
     const novaSituacao = isInativo.value ? 'ATIVO' : 'INATIVO';
-    await calendarioLetivo.update(props.calendario.id, { situacao: novaSituacao } as any);
+    // TODO: remove Record cast after SDK regeneration includes 'situacao' field in update DTO
+    await calendarioLetivo.update(props.calendario.id, { situacao: novaSituacao } as Record<string, string>);
     await calendarioLetivo.invalidate();
   }
 };
 
-const { data: etapasResult, isLoading: etapasLoading } = useQuery({
-  queryKey: computed(() => ['calendario-letivo', props.calendario.id, 'etapas']),
-  queryFn: () =>
-    api.call(calendarioLetivoEtapaFindAll, {
-      path: { calendarioLetivoId: props.calendario.id },
-    }),
-});
-
-const etapas = computed(() => etapasResult.value?.data ?? []);
-
-const ETAPA_COLORS = [
-  '#f59e0b',
-  '#22c55e',
-  '#3b82f6',
-  '#8b5cf6',
-  '#ef4444',
-  '#ec4899',
-  '#14b8a6',
-  '#f97316',
-];
-
-function etapaColor(index: number): string {
-  return ETAPA_COLORS[index % ETAPA_COLORS.length] ?? '#6b7280';
-}
+const etapas = computed(() => props.calendario.etapas ?? []);
 
 function formatDateShort(iso: string): string {
   const date = new Date(iso + 'T00:00:00');
@@ -122,26 +96,21 @@ const qtdPeriodos = computed(() => etapas.value.length);
       <span>Formação: {{ formacaoNome }}</span>
       <span>Duração: {{ duracao }}</span>
       <span>Qtd. períodos: {{ qtdPeriodos }}</span>
-      <span>Situação: {{ (calendario as any).situacao ?? 'ATIVO' }}</span>
-    </div>
-
-    <!-- Etapas loading -->
-    <div v-if="etapasLoading" class="flex flex-col gap-1.5">
-      <div v-for="i in 2" :key="i" class="h-4 w-3/4 rounded bg-ldsa-grey/20 animate-pulse" />
+      <span>Situação: {{ calendario.situacao ?? 'ATIVO' }}</span>
     </div>
 
     <!-- Etapas list -->
-    <div v-else-if="etapas.length > 0" class="flex flex-col gap-1.5 text-sm">
+    <div v-if="etapas.length > 0" class="flex flex-col gap-1.5 text-sm">
       <div
-        v-for="(etapa, index) in etapas"
+        v-for="etapa in etapas"
         :key="etapa.id"
         class="flex gap-2 items-center text-ldsa-grey"
       >
         <div
           class="rounded-full w-1.5 h-1.5 shrink-0"
-          :style="{ backgroundColor: etapaColor(index) }"
+          :style="{ backgroundColor: etapa.cor }"
         />
-        {{ etapa.nomeEtapa }}: {{ formatDateShort(etapa.dataInicio) }} -
+        {{ etapa.nome }}: {{ formatDateShort(etapa.dataInicio) }} -
         {{ formatDateShort(etapa.dataTermino) }}
       </div>
     </div>

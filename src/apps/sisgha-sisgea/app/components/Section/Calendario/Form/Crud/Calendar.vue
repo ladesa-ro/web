@@ -6,8 +6,11 @@ import type Step from '~/components/VV/Calendar/Step.vue';
 import { useCampusDoUsuario } from '~/composables/useCampusDoUsuario';
 import {
   calendarioLetivoFindById,
-  ofertaFormacaoFindAll,
   ofertaFormacaoFindById,
+} from '@ladesa-ro/web.api.client';
+import type {
+  OfertaFormacaoPeriodoOutputDto,
+  CalendarioLetivoEtapaInputDto,
 } from '@ladesa-ro/web.api.client';
 
 const calendarioLetivo = useCalendarioLetivo();
@@ -27,56 +30,25 @@ type FormValues = {
   campus?: string;
 };
 
-const calendarStepAmount = ref<number>(0);
-const calendarRecoveryAmount = ref<number>(0);
+const formacaoPeriodos = ref<OfertaFormacaoPeriodoOutputDto[]>([]);
 const stepRefs = ref<InstanceType<typeof Step>[]>([]);
 
-async function setCalendarStepAmount() {
+async function fetchFormacaoEtapas() {
+  formacaoPeriodos.value = [];
+
+  if (!values.trainingOffer) return;
+
   try {
-    if (values.trainingOffer) {
-      const offerSelected = async (): Promise<string> => {
-        try {
-          const getTraining = await getApiClient().call(
-            ofertaFormacaoFindById,
-            {
-              path: {
-                id: values.trainingOffer!,
-              },
-            }
-          );
-          if (getTraining) return getTraining.nome;
-          return '';
-        } catch {
-          return '';
-        }
-      };
+    const formacao = await getApiClient().call(ofertaFormacaoFindById, {
+      path: { id: values.trainingOffer },
+    });
 
-      const higherOffer = async (): Promise<string> => {
-        try {
-          const searchOffer = await getApiClient().call(ofertaFormacaoFindAll, {
-            query: {
-              search: `Superior`,
-            },
-          });
-          const catchOffer = searchOffer.data?.find((offer: any) =>
-            offer.nome.includes('Superior')
-          );
-          if (catchOffer) return catchOffer.nome;
-          return '';
-        } catch {
-          return '';
-        }
-      };
-
-      if ((await offerSelected()) === (await higherOffer())) {
-        calendarStepAmount.value = 2;
-        calendarRecoveryAmount.value = 1;
-      } else {
-        calendarStepAmount.value = 4;
-        calendarRecoveryAmount.value = 2;
-      }
+    if (formacao?.periodos) {
+      formacaoPeriodos.value = formacao.periodos;
     }
-  } catch {}
+  } catch (e) {
+    console.error('Erro ao buscar etapas da formação:', e);
+  }
 }
 
 const createdCalendarId = ref<string>('');
@@ -148,23 +120,42 @@ watch(
   }
 );
 
+async function collectEtapas(): Promise<CalendarioLetivoEtapaInputDto[]> {
+  const etapas: CalendarioLetivoEtapaInputDto[] = [];
+
+  for (const stepRef of stepRefs.value) {
+    if (!stepRef) continue;
+
+    const valid = await stepRef.validateStep();
+    if (!valid) throw new Error('Etapa com dados inválidos');
+
+    etapas.push(stepRef.getValues());
+  }
+
+  return etapas;
+}
+
 async function onSubmit(): Promise<string> {
+  const etapas = await collectEtapas();
+
   if (isEditMode.value && props.calendarId) {
     await calendarioLetivo.update(props.calendarId, {
-      nome: values.calendarName!,
-      ano: values.calendarYear!,
-      campus: { id: values.campus! },
-      ofertaFormacao: { id: values.trainingOffer! },
+      nome: values.calendarName ?? '',
+      ano: values.calendarYear ?? dayjs().year(),
+      campus: { id: values.campus ?? '' },
+      ofertaFormacao: { id: values.trainingOffer ?? '' },
+      etapas,
     });
     await calendarioLetivo.invalidate();
     return props.calendarId;
   }
 
   const created = await calendarioLetivo.create({
-    nome: values.calendarName!,
-    ano: values.calendarYear!,
-    campus: { id: values.campus! },
-    ofertaFormacao: { id: values.trainingOffer! },
+    nome: values.calendarName ?? '',
+    ano: values.calendarYear ?? dayjs().year(),
+    campus: { id: values.campus ?? '' },
+    ofertaFormacao: { id: values.trainingOffer ?? '' },
+    etapas,
   });
 
   await calendarioLetivo.invalidate();
@@ -179,13 +170,13 @@ const formValidation = async (): Promise<boolean> => {
 
 const validCalendarCrud = async (): Promise<boolean> => {
   if (await formValidation()) {
-    createdCalendarId.value = await onSubmit();
-
-    for (const ref of stepRefs.value) {
-      if (ref) await ref.validateStepCrud();
+    try {
+      createdCalendarId.value = await onSubmit();
+      return true;
+    } catch (e) {
+      console.error('Erro ao salvar calendário com etapas:', e);
+      return false;
     }
-
-    return true;
   }
   return false;
 };
@@ -196,7 +187,7 @@ watch(
   () => props.formStage,
   async n => {
     _formStage.value = n;
-    if (_formStage.value >= 2) await setCalendarStepAmount();
+    if (_formStage.value >= 2) await fetchFormacaoEtapas();
   },
   { immediate: true }
 );
@@ -230,25 +221,18 @@ watch(
     </div>
 
     <div v-show="_formStage === 2" class="flex flex-col gap-4 pr-2">
-      <template v-for="(calendarStep, index) in calendarStepAmount" :key="`step-${index}`">
+      <template v-for="periodo in formacaoPeriodos" :key="periodo.id">
+        <h3 class="font-bold text-lg mt-2">Período {{ periodo.numeroPeriodo }}</h3>
         <VVCalendarStep
+          v-for="etapa in periodo.etapas"
+          :key="etapa.id"
           ref="stepRefs"
-          :text="`Etapa ${index + 1}`"
-          :calendar-id="createdCalendarId!"
-          :is-step="true"
-        />
-        <VVCalendarStep
-          v-if="index < calendarRecoveryAmount"
-          :text="`Recuperação ${index + 1}`"
-          :calendar-id="createdCalendarId!"
-          :is-step="false"
+          :oferta-formacao-periodo-etapa-id="etapa.id"
+          :etapa-nome="etapa.nome"
+          :etapa-cor="etapa.cor"
+          :text="etapa.nome"
         />
       </template>
-      <VVCalendarStep
-        :text="`Exame`"
-        :calendar-id="props.calendarId! || ''"
-        :is-step="false"
-      />
     </div>
   </div>
 </template>

@@ -19,14 +19,16 @@ const handleDelete = async () => {
 
 const confirmDeactivate = useConfirmDelete();
 
-// TODO: remove type casts after SDK regeneration with situacao field
-const isInativo = computed(() => (calendario.value as any)?.situacao === 'INATIVO');
+// TODO: remove after SDK regeneration includes 'situacao' field
+const calendarioRecord = computed(() => calendario.value as Record<string, unknown> | undefined);
+const situacao = computed(() => calendarioRecord.value?.situacao as string | undefined);
+const isInativo = computed(() => situacao.value === 'INATIVO');
 
 const handleToggleSituacao = async () => {
   const confirmed = await confirmDeactivate.confirm();
   if (confirmed) {
     const novaSituacao = isInativo.value ? 'ATIVO' : 'INATIVO';
-    await calendarioLetivo.update(resourceId, { situacao: novaSituacao } as any);
+    await calendarioLetivo.update(resourceId, { situacao: novaSituacao } as Record<string, string>);
     await calendarioLetivo.invalidate();
   }
 };
@@ -67,7 +69,7 @@ const handleToggleSituacao = async () => {
           label="Oferta de Formação"
           :value="calendario?.ofertaFormacao?.nome"
         />
-        <UIResourceViewField label="Situação" :value="(calendario as any)?.situacao" />
+        <UIResourceViewField label="Situação" :value="situacao" />
       </UIResourceViewFieldGroup>
     </template>
   </UIResourceView>

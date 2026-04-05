@@ -18,7 +18,6 @@ const props = defineProps<Props>();
 
 // # STATES
 const showEventModal = ref(false);
-const isViewEventsModalOpen = ref(false);
 
 // # MONTH PAIRS (mantido igual)
 const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];

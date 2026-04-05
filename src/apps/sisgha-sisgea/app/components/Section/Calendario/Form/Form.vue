@@ -2,7 +2,6 @@
 // # IMPORTS
 import { IconsCalendar, IconsEvent } from '#components';
 import { nextTick, ref, watch } from 'vue';
-import type { CalendarEvent } from '../Types';
 
 // # PROPS
 type Props = {
@@ -20,19 +19,16 @@ const emit = defineEmits<{
 }>();
 
 // # STATES
-const events = ref<CalendarEvent[]>([]);
 const stage = ref(0);
 const registerType = ref<'calendar' | 'events' | null>(null);
 const modalTitle = ref(props.editMode ? 'Editar' : 'Cadastrar');
 
-const calendarCrudRef = ref<any>();
-const eventCrudRef = ref<any>();
+const calendarCrudRef = ref<{ validCalendarCrud: () => Promise<boolean>; formValidation: () => Promise<boolean> }>();
+const eventCrudRef = ref<{ validateEventCrud: () => Promise<boolean>; fillForm: () => Promise<void>; deleteEvent: () => Promise<boolean> }>();
 
 // # ICONS
-const cardIcons = [
-  { text: 'Calendário', value: 0, icon: IconsCalendar },
-  { text: 'Evento', value: 1, icon: IconsEvent },
-];
+const cardCalendario = { text: 'Calendário' as const, value: 0, icon: IconsCalendar };
+const cardEvento = { text: 'Evento' as const, value: 1, icon: IconsEvent };
 
 // # FUNCTIONS
 function changeModalTitle(type?: string) {
@@ -89,8 +85,6 @@ async function onSubmit() {
         emit('refresh');
         onClose();
       }
-    } else {
-      console.warn('eventCrudRef ainda não está montado!');
     }
   }
 }
@@ -113,37 +107,15 @@ if (props.editMode) {
 }
 
 async function handleDelete() {
-  console.log('Botão de deletar clicado');
-
   await nextTick();
 
-  if (!eventCrudRef.value) {
-    console.warn('⚠️ eventCrudRef ainda não está montado!');
-    return;
-  }
+  if (!eventCrudRef.value) return;
+  if (!props.eventName || !props.calendarId) return;
 
-  if (!props.eventName || !props.calendarId) {
-    console.warn(
-      '⚠️ Falta props.eventName ou props.calendarId:',
-      props.eventName,
-      props.calendarId
-    );
-    return;
-  }
-
-  try {
-    const deleted = await eventCrudRef.value.deleteEvent();
-    console.log('deleteEvent retornou:', deleted);
-
-    if (deleted) {
-      emit('refresh');
-      onClose();
-      console.log('✅ Evento deletado com sucesso, modal fechado');
-    } else {
-      console.warn('⚠️ deleteEvent não conseguiu deletar');
-    }
-  } catch (err) {
-    console.error('❌ Erro ao chamar deleteEvent:', err);
+  const deleted = await eventCrudRef.value.deleteEvent();
+  if (deleted) {
+    emit('refresh');
+    onClose();
   }
 }
 </script>
@@ -159,17 +131,17 @@ async function handleDelete() {
       <div v-show="stage === 0 && !props.editMode" class="flex flex-row gap-4">
         <SectionCalendarioUICardOption
           class="w-full"
-          :icon="cardIcons[0]!.icon"
-          :text="cardIcons[0]!.text"
-          @click="(selectRegisterType(cardIcons[0]!.text), formStage('next'))"
+          :icon="cardCalendario.icon"
+          :text="cardCalendario.text"
+          @click="(selectRegisterType(cardCalendario.text), formStage('next'))"
         />
 
         <SectionCalendarioUICardOption
           v-show="props.calendarId"
           class="w-full"
-          :icon="cardIcons[1]!.icon"
-          :text="cardIcons[1]!.text"
-          @click="(selectRegisterType(cardIcons[1]!.text), formStage('next'))"
+          :icon="cardEvento.icon"
+          :text="cardEvento.text"
+          @click="(selectRegisterType(cardEvento.text), formStage('next'))"
         />
       </div>
 
@@ -188,7 +160,7 @@ async function handleDelete() {
         "
         ref="eventCrudRef"
         :form-stage="stage"
-        :calendar-id="props.calendarId! || ''"
+        :calendar-id="props.calendarId ?? ''"
         :event-name="props.eventName"
         :show-participants="props.showParticipants"
       />

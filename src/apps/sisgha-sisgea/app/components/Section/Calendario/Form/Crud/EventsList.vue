@@ -1,19 +1,15 @@
 <script lang="ts" setup>
-import {
-  SectionCalendarioEventLocale,
-  UIButtonModalCancel,
-  VVAutocomplete,
-} from '#components';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import isBetween from 'dayjs/plugin/isBetween';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { computed, onBeforeUnmount, onMounted, ref, toRef } from 'vue';
-import DialogModalBaseLayout from '~/components/Dialog/Modal/ModalBaseLayout.vue';
 import SearchBar from '~/components/UI/SearchBar/SearchBar.vue';
 import {
-  calendarioLetivoEtapaFindAll,
+  calendarioLetivoFindById,
   calendarioAgendamentoFindAll,
+} from '@ladesa-ro/web.api.client';
+import type {
+  CalendarioAgendamentoFindOneOutputDto,
 } from '@ladesa-ro/web.api.client';
 import type { CalendarData, CalendarEvent } from '../../Types';
 
@@ -27,9 +23,7 @@ type Props = {
 const props = defineProps<Props>();
 const $emit = defineEmits(['close', 'refresh']);
 
-const calendar = toRef(props, 'calendarData');
 const events = ref<CalendarEvent[]>([]);
-const calendarId = calendar.value.id;
 
 const showEventModal = ref(true);
 const searchQuery = ref('');
@@ -58,13 +52,13 @@ function handleForceClose() {
 }
 
 async function loadEvents() {
-  if (!calendar.value?.id) return;
+  if (!props.calendarData?.id) return;
   const api = getApiClient();
-  const id = calendar.value.id;
+  const id = props.calendarData.id;
 
-  const [stepsRes, eventsRes] = await Promise.all([
-    api.call(calendarioLetivoEtapaFindAll, {
-      path: { calendarioLetivoId: id },
+  const [calendarioRes, eventsRes] = await Promise.all([
+    api.call(calendarioLetivoFindById, {
+      path: { id },
     }),
     api.call(calendarioAgendamentoFindAll, {
       query: {
@@ -74,29 +68,29 @@ async function loadEvents() {
     }),
   ]);
 
-  const steps: CalendarEvent[] = (stepsRes.data ?? []).map((s: any) => ({
+  const etapas = calendarioRes.etapas ?? [];
+
+  const steps: CalendarEvent[] = etapas.map((s) => ({
     id: s.id,
-    name: s.nomeEtapa,
+    name: s.nome,
     startDate: s.dataInicio,
     endDate: s.dataTermino,
-    color: null,
+    color: s.cor ?? null,
     calendar: { id },
   }));
 
-  const evs: CalendarEvent[] = (eventsRes.data ?? []).map((o: any) => ({
+  const evs: CalendarEvent[] = (eventsRes.data ?? []).map((o: CalendarioAgendamentoFindOneOutputDto) => ({
     id: o.id,
-    name: o.nome,
+    name: o.nome ?? '',
     color: o.cor ?? null,
     startDate: o.dataInicio,
-    endDate: o.dataFim,
+    endDate: o.dataFim ?? o.dataInicio,
     calendar: { id },
   }));
 
   events.value = Array.from(
     new Map([...steps, ...evs].map(e => [e.id, e])).values()
-  );
-
-  events.value.sort(
+  ).sort(
     (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
   );
 }
@@ -121,22 +115,19 @@ const filteredEvents = computed(() => {
   }
 
   result = [...result].sort((a, b) => {
-    let aValue: any, bValue: any;
+    let comparison = 0;
     switch (sortBy.value) {
       case 'name':
-        aValue = a.name.toLowerCase();
-        bValue = b.name.toLowerCase();
+        comparison = a.name.toLowerCase().localeCompare(b.name.toLowerCase());
         break;
       case 'startDate':
-        aValue = new Date(a.startDate).getTime();
-        bValue = new Date(b.startDate).getTime();
+        comparison = new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
         break;
       case 'endDate':
-        aValue = new Date(a.endDate).getTime();
-        bValue = new Date(b.endDate).getTime();
+        comparison = new Date(a.endDate).getTime() - new Date(b.endDate).getTime();
         break;
     }
-    return sortOrder.value === 'asc' ? aValue - bValue : bValue - aValue;
+    return sortOrder.value === 'asc' ? comparison : -comparison;
   });
 
   return result;

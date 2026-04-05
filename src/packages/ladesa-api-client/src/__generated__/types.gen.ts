@@ -1269,134 +1269,6 @@ export type HorarioSemanalOutputDto = {
   dias: Array<HorarioSemanalDiaDto>;
 };
 
-export type UsuarioEventoFindOneOutputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-  /**
-   * Nome do evento/atividade
-   */
-  nome?: string | null;
-  /**
-   * Tipo: EVENTO (atividade) ou INDISPONIBILIDADE
-   */
-  tipo: string;
-  /**
-   * Data de inicio
-   */
-  dataInicio: string;
-  /**
-   * Data de fim
-   */
-  dataFim?: string | null;
-  /**
-   * Indica se o evento ocupa o dia inteiro
-   */
-  diaInteiro: boolean;
-  /**
-   * Horário de inicio (HH:MM)
-   */
-  horarioInicio: string;
-  /**
-   * Horário de fim (HH:MM)
-   */
-  horarioFim: string;
-  /**
-   * Cor do evento (hex)
-   */
-  cor?: string | null;
-  /**
-   * Regra de repetição
-   */
-  repeticao?: string | null;
-  /**
-   * Status do evento
-   */
-  status?: string | null;
-};
-
-export type UsuarioEventoListOutputDto = {
-  /**
-   * Resultados da busca
-   */
-  data: Array<UsuarioEventoFindOneOutputDto>;
-};
-
-export type UsuarioEventoCreateInputDto = {
-  /**
-   * Nome do evento/atividade
-   */
-  nome: string | null;
-  /**
-   * Data de inicio
-   */
-  dataInicio: string;
-  /**
-   * Data de fim
-   */
-  dataFim?: string | null;
-  /**
-   * Indica se o evento ocupa o dia inteiro
-   */
-  diaInteiro: boolean;
-  /**
-   * Horário de inicio (HH:MM)
-   */
-  horarioInicio?: string;
-  /**
-   * Horário de fim (HH:MM)
-   */
-  horarioFim?: string;
-  /**
-   * Cor do evento (hex)
-   */
-  cor?: string | null;
-  /**
-   * Regra de repetição
-   */
-  repeticao?: string | null;
-  /**
-   * Tipo: EVENTO (atividade) ou INDISPONIBILIDADE
-   */
-  tipo?: string;
-};
-
-export type UsuarioEventoUpdateInputDto = {
-  /**
-   * Nome do evento/atividade
-   */
-  nome?: string | null;
-  /**
-   * Data de inicio
-   */
-  dataInicio?: string;
-  /**
-   * Data de fim
-   */
-  dataFim?: string | null;
-  /**
-   * Indica se o evento ocupa o dia inteiro
-   */
-  diaInteiro?: boolean;
-  /**
-   * Horário de inicio (HH:MM)
-   */
-  horarioInicio?: string;
-  /**
-   * Horário de fim (HH:MM)
-   */
-  horarioFim?: string;
-  /**
-   * Cor do evento (hex)
-   */
-  cor?: string | null;
-  /**
-   * Regra de repetição
-   */
-  repeticao?: string | null;
-};
-
 export type PerfilFindOneOutputDto = {
   /**
    * Identificador do registro (uuid)
@@ -1640,6 +1512,49 @@ export type TurmaFindOneOutputDto = {
   imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
 };
 
+export type CalendarioLetivoEtapaOutputDto = {
+  /**
+   * ID da etapa
+   */
+  id: string;
+  /**
+   * Identificador externo da etapa
+   */
+  identificadorExterno: string;
+  /**
+   * Versao da etapa
+   */
+  version: number;
+  /**
+   * ID da etapa da oferta de formacao periodo
+   */
+  ofertaFormacaoPeriodoEtapaId: string;
+  /**
+   * Nome da etapa
+   */
+  nome: string;
+  /**
+   * Cor da etapa
+   */
+  cor: string;
+  /**
+   * Ordem da etapa
+   */
+  ordem: number;
+  /**
+   * Numero do periodo
+   */
+  numeroPeriodo: number;
+  /**
+   * Data inicio da etapa
+   */
+  dataInicio: string;
+  /**
+   * Data termino da etapa
+   */
+  dataTermino: string;
+};
+
 export type CalendarioLetivoFindOneOutputDto = {
   /**
    * Identificador do registro (uuid)
@@ -1673,6 +1588,14 @@ export type CalendarioLetivoFindOneOutputDto = {
    * Oferta de formacao do calendario letivo
    */
   ofertaFormacao: OfertaFormacaoFindOneOutputDto;
+  /**
+   * Situação do calendário letivo
+   */
+  situacao: 'ATIVO' | 'INATIVO';
+  /**
+   * Etapas do calendario letivo
+   */
+  etapas: Array<CalendarioLetivoEtapaOutputDto>;
 };
 
 export type DiarioFindOneOutputDto = {
@@ -2027,6 +1950,21 @@ export type CampusFindOneInputDto = {
   id: string;
 };
 
+export type CalendarioLetivoEtapaInputDto = {
+  /**
+   * ID da etapa da oferta de formacao periodo
+   */
+  ofertaFormacaoPeriodoEtapaId: string;
+  /**
+   * Data inicio da etapa
+   */
+  dataInicio: string;
+  /**
+   * Data termino da etapa
+   */
+  dataTermino: string;
+};
+
 export type CalendarioLetivoCreateInputDto = {
   /**
    * Nome do calendario letivo
@@ -2044,6 +1982,14 @@ export type CalendarioLetivoCreateInputDto = {
    * Oferta de formacao do calendario letivo
    */
   ofertaFormacao: OfertaFormacaoFindOneInputDto;
+  /**
+   * Situação do calendário letivo
+   */
+  situacao?: 'ATIVO' | 'INATIVO';
+  /**
+   * Etapas do calendario letivo
+   */
+  etapas?: Array<CalendarioLetivoEtapaInputDto>;
 };
 
 export type CalendarioLetivoUpdateInputDto = {
@@ -2063,6 +2009,14 @@ export type CalendarioLetivoUpdateInputDto = {
    * Oferta de formacao do calendario letivo
    */
   ofertaFormacao?: OfertaFormacaoFindOneInputDto;
+  /**
+   * Situação do calendário letivo
+   */
+  situacao?: 'ATIVO' | 'INATIVO';
+  /**
+   * Etapas do calendario letivo
+   */
+  etapas?: Array<CalendarioLetivoEtapaInputDto>;
 };
 
 export type CalendarioLetivoDiaFindOneOutputDto = {
@@ -2156,55 +2110,6 @@ export type CalendarioLetivoDiaUpdateInputDto = {
    * Indica se o dia e extracurricular
    */
   extraCurricular?: boolean;
-};
-
-export type CalendarioLetivoEtapaFindOneOutputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-  /**
-   * ID da etapa da oferta de formacao periodo
-   */
-  ofertaFormacaoPeriodoEtapaId: string;
-  /**
-   * Nome da etapa
-   */
-  nomeEtapa: string;
-  /**
-   * Data inicio da etapa
-   */
-  dataInicio: string;
-  /**
-   * Data termino da etapa
-   */
-  dataTermino: string;
-};
-
-export type CalendarioLetivoEtapaListOutputDto = {
-  /**
-   * Resultados da busca
-   */
-  data: Array<CalendarioLetivoEtapaFindOneOutputDto>;
-};
-
-export type CalendarioLetivoEtapaBulkReplaceItemDto = {
-  /**
-   * ID da etapa da oferta de formacao periodo
-   */
-  ofertaFormacaoPeriodoEtapaId: string;
-  /**
-   * Data inicio da etapa
-   */
-  dataInicio: string;
-  /**
-   * Data termino da etapa
-   */
-  dataTermino: string;
-};
-
-export type CalendarioLetivoEtapaBulkReplaceInputDto = {
-  etapas: Array<CalendarioLetivoEtapaBulkReplaceItemDto>;
 };
 
 export type CidadeListOutputDto = {
@@ -4730,108 +4635,6 @@ export type UsuarioUpdateImagemPerfilResponses = {
 export type UsuarioUpdateImagemPerfilResponse =
   UsuarioUpdateImagemPerfilResponses[keyof UsuarioUpdateImagemPerfilResponses];
 
-export type UsuarioEventoFindAllData = {
-  body?: never;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/usuarios/{id}/eventos';
-};
-
-export type UsuarioEventoFindAllErrors = {
-  403: unknown;
-};
-
-export type UsuarioEventoFindAllResponses = {
-  200: UsuarioEventoListOutputDto;
-};
-
-export type UsuarioEventoFindAllResponse =
-  UsuarioEventoFindAllResponses[keyof UsuarioEventoFindAllResponses];
-
-export type UsuarioEventoCreateData = {
-  body: UsuarioEventoCreateInputDto;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/usuarios/{id}/eventos';
-};
-
-export type UsuarioEventoCreateErrors = {
-  403: unknown;
-};
-
-export type UsuarioEventoCreateResponses = {
-  201: UsuarioEventoFindOneOutputDto;
-};
-
-export type UsuarioEventoCreateResponse =
-  UsuarioEventoCreateResponses[keyof UsuarioEventoCreateResponses];
-
-export type UsuarioEventoDeleteData = {
-  body?: never;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-    /**
-     * ID do evento
-     */
-    eventoId: string;
-  };
-  query?: never;
-  url: '/usuarios/{id}/eventos/{eventoId}';
-};
-
-export type UsuarioEventoDeleteErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type UsuarioEventoDeleteResponses = {
-  200: boolean;
-};
-
-export type UsuarioEventoDeleteResponse =
-  UsuarioEventoDeleteResponses[keyof UsuarioEventoDeleteResponses];
-
-export type UsuarioEventoUpdateData = {
-  body: UsuarioEventoUpdateInputDto;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-    /**
-     * ID do evento
-     */
-    eventoId: string;
-  };
-  query?: never;
-  url: '/usuarios/{id}/eventos/{eventoId}';
-};
-
-export type UsuarioEventoUpdateErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type UsuarioEventoUpdateResponses = {
-  200: UsuarioEventoFindOneOutputDto;
-};
-
-export type UsuarioEventoUpdateResponse =
-  UsuarioEventoUpdateResponses[keyof UsuarioEventoUpdateResponses];
-
 export type PerfilListData = {
   body?: never;
   path?: never;
@@ -5425,48 +5228,78 @@ export type ConsultaOcorrenciasPorDataResponses = {
 export type ConsultaOcorrenciasPorDataResponse =
   ConsultaOcorrenciasPorDataResponses[keyof ConsultaOcorrenciasPorDataResponses];
 
-export type ConsultaOcorrenciasPorData2Data = {
+export type ProfessorAgendaFindAllData = {
   body?: never;
-  path?: never;
-  query: {
-    /**
-     * Data início do período (YYYY-MM-DD)
-     */
-    dateStart: string;
-    /**
-     * Data fim do período (YYYY-MM-DD)
-     */
-    dateEnd: string;
-    /**
-     * Filtro por campus ID
-     */
-    campus?: string;
-    /**
-     * Filtro por turma ID
-     */
-    turma?: string;
-    /**
-     * Filtro por professor (perfil) ID
-     */
-    professor?: string;
-    /**
-     * Filtro por tipo de ocorrência (AULA, EVENTO, INDISPONIBILIDADE, RESERVA)
-     */
-    tipo?: string;
+  path: {
+    perfilId: string;
   };
-  url: '/calendario/consultas/agendamentos';
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por tipo de agendamento (INDISPONIBILIDADE, AULA, EVENTO, RESERVA)
+     */
+    'filter.tipo'?: Array<string>;
+    /**
+     * Filtro por status do agendamento (RASCUNHO, ATIVO, INATIVO)
+     */
+    'filter.status'?: Array<string>;
+    /**
+     * Filtro por ID da turma vinculada
+     */
+    'filter.turma.id'?: Array<string>;
+    /**
+     * Filtro por ID do perfil vinculado
+     */
+    'filter.perfil.id'?: Array<string>;
+    /**
+     * Filtro por ID do calendario letivo vinculado
+     */
+    'filter.calendarioLetivo.id'?: Array<string>;
+    /**
+     * Filtro por ID da oferta de formacao vinculada
+     */
+    'filter.ofertaFormacao.id'?: Array<string>;
+    /**
+     * Filtro por ID da modalidade vinculada
+     */
+    'filter.modalidade.id'?: Array<string>;
+    /**
+     * Filtro por ID do ambiente vinculado
+     */
+    'filter.ambiente.id'?: Array<string>;
+    /**
+     * Filtro por ID do diario vinculado
+     */
+    'filter.diario.id'?: Array<string>;
+  };
+  url: '/calendario/professores/{perfilId}/agenda';
 };
 
-export type ConsultaOcorrenciasPorData2Errors = {
-  403: unknown;
+export type ProfessorAgendaFindAllResponses = {
+  200: CalendarioAgendamentoListOutputDto;
 };
 
-export type ConsultaOcorrenciasPorData2Responses = {
-  200: ConsultaOcorrenciasOutputDto;
-};
-
-export type ConsultaOcorrenciasPorData2Response =
-  ConsultaOcorrenciasPorData2Responses[keyof ConsultaOcorrenciasPorData2Responses];
+export type ProfessorAgendaFindAllResponse =
+  ProfessorAgendaFindAllResponses[keyof ProfessorAgendaFindAllResponses];
 
 export type CalendarioLetivoFindAllData = {
   body?: never;
@@ -5716,52 +5549,6 @@ export type CalendarioLetivoDiaUpdateResponses = {
 
 export type CalendarioLetivoDiaUpdateResponse =
   CalendarioLetivoDiaUpdateResponses[keyof CalendarioLetivoDiaUpdateResponses];
-
-export type CalendarioLetivoEtapaFindAllData = {
-  body?: never;
-  path: {
-    /**
-     * ID do calendario letivo
-     */
-    calendarioLetivoId: string;
-  };
-  query?: never;
-  url: '/calendarios-letivos/{calendarioLetivoId}/etapas';
-};
-
-export type CalendarioLetivoEtapaFindAllErrors = {
-  403: unknown;
-};
-
-export type CalendarioLetivoEtapaFindAllResponses = {
-  200: CalendarioLetivoEtapaListOutputDto;
-};
-
-export type CalendarioLetivoEtapaFindAllResponse =
-  CalendarioLetivoEtapaFindAllResponses[keyof CalendarioLetivoEtapaFindAllResponses];
-
-export type CalendarioLetivoEtapaBulkReplaceData = {
-  body: CalendarioLetivoEtapaBulkReplaceInputDto;
-  path: {
-    /**
-     * ID do calendario letivo
-     */
-    calendarioLetivoId: string;
-  };
-  query?: never;
-  url: '/calendarios-letivos/{calendarioLetivoId}/etapas';
-};
-
-export type CalendarioLetivoEtapaBulkReplaceErrors = {
-  403: unknown;
-};
-
-export type CalendarioLetivoEtapaBulkReplaceResponses = {
-  200: CalendarioLetivoEtapaListOutputDto;
-};
-
-export type CalendarioLetivoEtapaBulkReplaceResponse =
-  CalendarioLetivoEtapaBulkReplaceResponses[keyof CalendarioLetivoEtapaBulkReplaceResponses];
 
 export type CalendarioLetivoDesativarData = {
   body?: never;

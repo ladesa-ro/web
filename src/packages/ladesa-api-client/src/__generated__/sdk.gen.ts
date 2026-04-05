@@ -118,12 +118,6 @@ import type {
   CalendarioLetivoDiaUpdateData,
   CalendarioLetivoDiaUpdateErrors,
   CalendarioLetivoDiaUpdateResponses,
-  CalendarioLetivoEtapaBulkReplaceData,
-  CalendarioLetivoEtapaBulkReplaceErrors,
-  CalendarioLetivoEtapaBulkReplaceResponses,
-  CalendarioLetivoEtapaFindAllData,
-  CalendarioLetivoEtapaFindAllErrors,
-  CalendarioLetivoEtapaFindAllResponses,
   CalendarioLetivoFindAllData,
   CalendarioLetivoFindAllErrors,
   CalendarioLetivoFindAllResponses,
@@ -154,9 +148,6 @@ import type {
   CidadeFindByIdData,
   CidadeFindByIdErrors,
   CidadeFindByIdResponses,
-  ConsultaOcorrenciasPorData2Data,
-  ConsultaOcorrenciasPorData2Errors,
-  ConsultaOcorrenciasPorData2Responses,
   ConsultaOcorrenciasPorDataData,
   ConsultaOcorrenciasPorDataErrors,
   ConsultaOcorrenciasPorDataResponses,
@@ -406,6 +397,8 @@ import type {
   PerfilListData,
   PerfilListErrors,
   PerfilListResponses,
+  ProfessorAgendaFindAllData,
+  ProfessorAgendaFindAllResponses,
   RelatorioAulasMinistradasData,
   RelatorioAulasMinistradasErrors,
   RelatorioAulasMinistradasPdfData,
@@ -462,18 +455,6 @@ import type {
   UsuarioEnsinoByIdData,
   UsuarioEnsinoByIdErrors,
   UsuarioEnsinoByIdResponses,
-  UsuarioEventoCreateData,
-  UsuarioEventoCreateErrors,
-  UsuarioEventoCreateResponses,
-  UsuarioEventoDeleteData,
-  UsuarioEventoDeleteErrors,
-  UsuarioEventoDeleteResponses,
-  UsuarioEventoFindAllData,
-  UsuarioEventoFindAllErrors,
-  UsuarioEventoFindAllResponses,
-  UsuarioEventoUpdateData,
-  UsuarioEventoUpdateErrors,
-  UsuarioEventoUpdateResponses,
   UsuarioFindAllData,
   UsuarioFindAllErrors,
   UsuarioFindAllResponses,
@@ -1339,68 +1320,6 @@ export const usuarioUpdateImagemPerfil = <ThrowOnError extends boolean = false>(
   });
 
 /**
- * Lista eventos/agenda do usuario (professor)
- */
-export const usuarioEventoFindAll = <ThrowOnError extends boolean = false>(
-  options: Options<UsuarioEventoFindAllData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    UsuarioEventoFindAllResponses,
-    UsuarioEventoFindAllErrors,
-    ThrowOnError
-  >({ url: '/usuarios/{id}/eventos', ...options });
-
-/**
- * Cria evento/indisponibilidade escopado ao usuario
- */
-export const usuarioEventoCreate = <ThrowOnError extends boolean = false>(
-  options: Options<UsuarioEventoCreateData, ThrowOnError>
-) =>
-  (options.client ?? client).post<
-    UsuarioEventoCreateResponses,
-    UsuarioEventoCreateErrors,
-    ThrowOnError
-  >({
-    url: '/usuarios/{id}/eventos',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Remove evento do usuario
- */
-export const usuarioEventoDelete = <ThrowOnError extends boolean = false>(
-  options: Options<UsuarioEventoDeleteData, ThrowOnError>
-) =>
-  (options.client ?? client).delete<
-    UsuarioEventoDeleteResponses,
-    UsuarioEventoDeleteErrors,
-    ThrowOnError
-  >({ url: '/usuarios/{id}/eventos/{eventoId}', ...options });
-
-/**
- * Atualiza evento do usuario
- */
-export const usuarioEventoUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<UsuarioEventoUpdateData, ThrowOnError>
-) =>
-  (options.client ?? client).patch<
-    UsuarioEventoUpdateResponses,
-    UsuarioEventoUpdateErrors,
-    ThrowOnError
-  >({
-    url: '/usuarios/{id}/eventos/{eventoId}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
  * Lista perfis com paginação e filtros
  *
  * Lista perfis com paginação e filtros
@@ -1742,22 +1661,16 @@ export const consultaOcorrenciasPorData = <
   >({ url: '/calendario/consultas/ocorrencias', ...options });
 
 /**
- * Consulta ocorrências por período
- *
- * Consulta ocorrências por período
- *
- * @deprecated
+ * Lista agendamentos de um professor
  */
-export const consultaOcorrenciasPorData2 = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<ConsultaOcorrenciasPorData2Data, ThrowOnError>
+export const professorAgendaFindAll = <ThrowOnError extends boolean = false>(
+  options: Options<ProfessorAgendaFindAllData, ThrowOnError>
 ) =>
   (options.client ?? client).get<
-    ConsultaOcorrenciasPorData2Responses,
-    ConsultaOcorrenciasPorData2Errors,
+    ProfessorAgendaFindAllResponses,
+    unknown,
     ThrowOnError
-  >({ url: '/calendario/consultas/agendamentos', ...options });
+  >({ url: '/calendario/professores/{perfilId}/agenda', ...options });
 
 /**
  * Lista calendarios letivos
@@ -1894,45 +1807,6 @@ export const calendarioLetivoDiaUpdate = <ThrowOnError extends boolean = false>(
     ThrowOnError
   >({
     url: '/calendarios-letivos/{calendarioLetivoId}/dias/{data}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Lista etapas do calendario letivo
- *
- * Lista etapas do calendario letivo
- */
-export const calendarioLetivoEtapaFindAll = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CalendarioLetivoEtapaFindAllData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    CalendarioLetivoEtapaFindAllResponses,
-    CalendarioLetivoEtapaFindAllErrors,
-    ThrowOnError
-  >({ url: '/calendarios-letivos/{calendarioLetivoId}/etapas', ...options });
-
-/**
- * Substitui datas das etapas do calendario letivo
- *
- * Substitui datas das etapas do calendario letivo
- */
-export const calendarioLetivoEtapaBulkReplace = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CalendarioLetivoEtapaBulkReplaceData, ThrowOnError>
-) =>
-  (options.client ?? client).put<
-    CalendarioLetivoEtapaBulkReplaceResponses,
-    CalendarioLetivoEtapaBulkReplaceErrors,
-    ThrowOnError
-  >({
-    url: '/calendarios-letivos/{calendarioLetivoId}/etapas',
     ...options,
     headers: {
       'Content-Type': 'application/json',

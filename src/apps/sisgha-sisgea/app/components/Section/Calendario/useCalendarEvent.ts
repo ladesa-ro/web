@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
 import { ref, watch, type Ref } from 'vue';
 import {
-  calendarioLetivoEtapaFindAll,
+  calendarioLetivoFindById,
   calendarioAgendamentoFindAll,
 } from '@ladesa-ro/web.api.client';
 import type {
-  CalendarioLetivoEtapaFindOneOutputDto,
+  CalendarioLetivoEtapaOutputDto,
   CalendarioAgendamentoFindOneOutputDto,
 } from '@ladesa-ro/web.api.client';
 import type { CalendarEvent } from './Types';
@@ -21,9 +21,9 @@ export function useCalendarEvents(calendarId: Ref<string | undefined>) {
       const api = getApiClient();
       const id = calendarId.value;
 
-      const [stepsRes, eventsRes] = await Promise.all([
-        api.call(calendarioLetivoEtapaFindAll, {
-          path: { calendarioLetivoId: id },
+      const [calendarioRes, eventsRes] = await Promise.all([
+        api.call(calendarioLetivoFindById, {
+          path: { id },
         }),
         api.call(calendarioAgendamentoFindAll, {
           query: {
@@ -33,12 +33,14 @@ export function useCalendarEvents(calendarId: Ref<string | undefined>) {
         }),
       ]);
 
-      const steps: CalendarEvent[] = (stepsRes.data ?? []).map((s: CalendarioLetivoEtapaFindOneOutputDto) => ({
+      const etapas = calendarioRes.etapas ?? [];
+
+      const steps: CalendarEvent[] = etapas.map((s: CalendarioLetivoEtapaOutputDto) => ({
         id: s.id,
-        name: s.nomeEtapa,
+        name: s.nome,
         startDate: s.dataInicio,
         endDate: s.dataTermino,
-        color: null,
+        color: s.cor ?? null,
         calendar: { id },
       }));
 

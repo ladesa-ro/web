@@ -93,38 +93,32 @@ const { value: horarioInicio } = useField<string | null>('horarioInicio');
 const { value: horarioFim } = useField<string | null>('horarioFim');
 
 const onSubmit = handleSubmit(values => {
-  const output: Record<string, unknown> = { ...values };
-  if (output.diaInteiro) {
-    output.horarioInicio = '00:00:00';
-    output.horarioFim = '23:59:59';
-  }
-  if (props.showParticipants) {
-    output.participantes = participantes.value;
-  }
-  emit('submit', output as IAgendamentoFormOutput & { participantes?: IParticipantesData });
+  const isDiaInteiro = values.diaInteiro;
+  const output: IAgendamentoFormOutput & { participantes?: IParticipantesData } = {
+    ...values,
+    horarioInicio: isDiaInteiro ? '00:00:00' : values.horarioInicio,
+    horarioFim: isDiaInteiro ? '23:59:59' : values.horarioFim,
+    ...(props.showParticipants ? { participantes: participantes.value } : {}),
+  };
+  emit('submit', output);
 });
 
 async function validateAndGetValues(): Promise<(IAgendamentoFormOutput & { participantes?: IParticipantesData }) | null> {
   const { valid } = await validate();
   if (!valid) return null;
-  const output: Record<string, unknown> = {
+  const isDiaInteiro = diaInteiro.value;
+  const output: IAgendamentoFormOutput & { participantes?: IParticipantesData } = {
     nome: nome.value,
     cor: cor.value,
     repeticao: repeticao.value,
-    diaInteiro: diaInteiro.value,
+    diaInteiro: isDiaInteiro,
     dataInicio: dataInicio.value,
     dataFim: dataFim.value,
-    horarioInicio: horarioInicio.value,
-    horarioFim: horarioFim.value,
+    horarioInicio: isDiaInteiro ? '00:00:00' : horarioInicio.value,
+    horarioFim: isDiaInteiro ? '23:59:59' : horarioFim.value,
+    ...(props.showParticipants ? { participantes: participantes.value } : {}),
   };
-  if (output.diaInteiro) {
-    output.horarioInicio = '00:00:00';
-    output.horarioFim = '23:59:59';
-  }
-  if (props.showParticipants) {
-    output.participantes = participantes.value;
-  }
-  return output as IAgendamentoFormOutput & { participantes?: IParticipantesData };
+  return output;
 }
 
 const fieldProps = computed(() => ({

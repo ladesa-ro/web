@@ -1,20 +1,15 @@
 <script lang="ts" setup>
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import {
-  calendarioAgendamentoCreate,
-} from '@ladesa-ro/web.api.client';
 
 type Props = {
-  isStep: boolean;
   text: string;
-  calendarId: string;
-  successMessage?: string;
-  submit?: boolean;
+  ofertaFormacaoPeriodoEtapaId: string;
+  etapaNome?: string;
+  etapaCor?: string;
 };
 
 const props = defineProps<Props>();
-const _calendarId = toRef(props, 'calendarId');
 
 const schema = yup.object({
   stepColor: yup.string().required('Cor inválida'),
@@ -25,53 +20,24 @@ const schema = yup.object({
 const { values, validate } = useForm({
   validationSchema: schema,
   initialValues: {
-    stepColor: '#000000',
+    stepColor: props.etapaCor ?? '#000000',
     stepStartDate: '',
     stepEndDate: '',
   },
 });
 
-const submitted = ref<boolean>(false);
+const getValues = () => ({
+  ofertaFormacaoPeriodoEtapaId: props.ofertaFormacaoPeriodoEtapaId,
+  dataInicio: values.stepStartDate ?? '',
+  dataTermino: values.stepEndDate ?? '',
+});
 
-async function onSubmit() {
-  if (submitted.value === false) {
-    if (props.isStep) {
-      // TODO: individual etapa CRUD was removed from the API.
-      // Etapas are now managed via bulk replace (calendarioLetivoEtapaBulkReplace).
-      // This needs a UI redesign to provide ofertaFormacaoPeriodoEtapaId.
-      console.warn(
-        'postStep: individual etapa CRUD is no longer available — use bulkReplaceSteps'
-      );
-    } else {
-      await getApiClient().call(calendarioAgendamentoCreate, {
-        body: {
-          tipo: 'EVENTO',
-          nome: props.text,
-          cor: values.stepColor,
-          diaInteiro: true,
-          dataInicio: values.stepStartDate,
-          dataFim: values.stepEndDate,
-          horarioInicio: '00:00:00',
-          horarioFim: '23:59:59',
-          calendariosLetivos: [{ id: _calendarId.value }],
-        },
-      });
-    }
-
-    submitted.value = true;
-  }
-}
-
-const validateStepCrud = async (): Promise<boolean> => {
+const validateStep = async (): Promise<boolean> => {
   const { valid } = await validate();
-  if (!valid) return false;
-  else {
-    await onSubmit();
-    return true;
-  }
+  return valid;
 };
 
-defineExpose({ validateStepCrud });
+defineExpose({ getValues, validateStep });
 </script>
 
 <template>
@@ -79,7 +45,7 @@ defineExpose({ validateStepCrud });
     <label for="stepColor" class="flex w-full items-center gap-2">
       <div
         class="w-3 h-3 rounded-full bg-ldsa-green-1"
-        :style="{ backgroundColor: values.stepColor! }"
+        :style="{ backgroundColor: values.stepColor ?? '#000000' }"
       />
       <p class="font-bold whitespace-nowrap">{{ props.text }}</p>
     </label>

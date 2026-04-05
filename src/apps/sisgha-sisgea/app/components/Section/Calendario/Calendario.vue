@@ -93,8 +93,8 @@ async function loadCalendars() {
 // On mount: hydrate store from URL query params, then load calendars
 onMounted(async () => {
   if (route.query.ano) filtersStore.anoLetivo = Number(route.query.ano);
-  if (route.query.formacao) filtersStore.formacaoId = route.query.formacao as string;
-  if (route.query.calendario) filtersStore.calendarioId = route.query.calendario as string;
+  if (route.query.formacao && typeof route.query.formacao === 'string') filtersStore.formacaoId = route.query.formacao;
+  if (route.query.calendario && typeof route.query.calendario === 'string') filtersStore.calendarioId = route.query.calendario;
 
   await loadCalendars();
 

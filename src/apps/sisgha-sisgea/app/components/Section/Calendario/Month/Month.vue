@@ -16,14 +16,12 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const _events = toRef(props, 'events');
-
 const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
 // Current month
 const currentMonth = ref<number>(
   props.monthNum
-    ? props.monthNum!
+    ? props.monthNum
     : Number(dayjs(`${props.year}-${dayjs().format('MM')}-01`).format('MM'))
 );
 
@@ -35,12 +33,10 @@ const monthDays = ref<Day[]>();
 
 // Set Month
 async function setMonthDays() {
-  if (!_events.value) _events.value = [];
-
   monthDays.value = await renderDays.MonthDays(
     props.year,
     currentMonth.value,
-    _events.value,
+    props.events ?? [],
     props.calendarId
   );
 
@@ -63,9 +59,7 @@ onMounted(async () => {
 
 watch(
   () => props.events,
-  newEvents => {
-    _events.value = Array.from(new Map(newEvents.map(e => [e.id, e])).values());
-
+  () => {
     setMonthDays().catch(console.error);
   },
   { deep: true, immediate: true }
@@ -100,24 +94,27 @@ watch(
       class="grid p-4 xs:p-0.5 sm:p-0.5 md:p-4 gap-2 sm:gap-2 md:gap-2 grid-cols-7 place-items-center"
     >
       <!-- Name Columns -->
-      <p v-for="item of weekDays" class="font-semibold text-center text-xs">
+      <p v-for="item of weekDays" :key="item" class="font-semibold text-center text-xs">
         {{ item }}
       </p>
 
       <!-- Days -->
       <SectionCalendarioMonthDay
         v-for="firstEmptyDay in emptyDays.before"
+        :key="`before-${firstEmptyDay}`"
         :date="''"
       />
 
       <SectionCalendarioMonthDay
-        v-for="monthDay in monthDays"
+        v-for="(monthDay, idx) in monthDays"
+        :key="monthDay.date ?? `day-${idx}`"
         :date="monthDay.date"
         :color="monthDay.color"
       />
 
       <SectionCalendarioMonthDay
         v-for="lastEmptyDay in emptyDays.after"
+        :key="`after-${lastEmptyDay}`"
         :date="''"
       />
     </div>

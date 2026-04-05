@@ -2,13 +2,12 @@
 import dayjs from 'dayjs';
 import { onMounted, ref } from 'vue';
 import {
-  calendarioLetivoEtapaFindAll,
   calendarioAgendamentoFindAll,
   calendarioAgendamentoFindById,
 } from '@ladesa-ro/web.api.client';
 import type {
   CalendarioAgendamentoFindOneOutputDto,
-  CalendarioLetivoEtapaFindOneOutputDto, CalendarioAgendamentoCreateInputDto 
+  CalendarioAgendamentoCreateInputDto,
 } from '@ladesa-ro/web.api.client';
 import type { IAgendamentoFormOutput } from '../Shared/schema';
 
@@ -80,19 +79,7 @@ const getEvent = async () => {
       }
     }
 
-    let checkSteps: CalendarioLetivoEtapaFindOneOutputDto | null = null;
-    if (props.eventName && props.calendarId) {
-      const stepsRes = await api.call(calendarioLetivoEtapaFindAll, {
-        path: { calendarioLetivoId: props.calendarId },
-      });
-      const eventNameNumber = Number(props.eventName.replace(/\D/g, ''));
-      checkSteps = (stepsRes.data ?? []).find(
-        (step: CalendarioLetivoEtapaFindOneOutputDto) =>
-          step.id === props.eventName ||
-          step.nomeEtapa === props.eventName ||
-          step.ofertaFormacaoPeriodoEtapaId === String(eventNameNumber)
-      ) ?? null;
-    }
+    // TODO: etapas endpoint was removed from the API — integrate etapas from calendarioLetivo.etapas when needed (C1/C2 task)
 
     if (checkEvents) {
       isEvent.value = true;
@@ -104,17 +91,6 @@ const getEvent = async () => {
         dataFim: checkEvents.dataFim ? dayjs(checkEvents.dataFim).format('YYYY-MM-DD') : undefined,
         horarioInicio: checkEvents.dataInicio ? dayjs(checkEvents.dataInicio).format('HH:mm') : undefined,
         horarioFim: checkEvents.dataFim ? dayjs(checkEvents.dataFim).format('HH:mm') : undefined,
-      };
-    } else if (checkSteps) {
-      isEvent.value = false;
-      initialData.value = {
-        nome: checkSteps.nomeEtapa,
-        cor: undefined,
-        diaInteiro: true,
-        dataInicio: checkSteps.dataInicio ? dayjs(checkSteps.dataInicio).format('YYYY-MM-DD') : '',
-        dataFim: checkSteps.dataTermino ? dayjs(checkSteps.dataTermino).format('YYYY-MM-DD') : undefined,
-        horarioInicio: undefined,
-        horarioFim: undefined,
       };
     }
   } catch (e) {
@@ -159,7 +135,6 @@ const validateEventCrud = async (): Promise<boolean> => {
 const deleteEvent = async (): Promise<boolean> => {
   const idToDelete = props.eventId || props.eventName;
   if (!isEvent.value || !idToDelete) {
-    console.warn('Falta eventId/eventName para deletar');
     return false;
   }
 

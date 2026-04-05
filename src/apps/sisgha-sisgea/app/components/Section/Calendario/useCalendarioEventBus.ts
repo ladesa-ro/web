@@ -17,7 +17,7 @@ export function useProvideCalendarioEventBus(): CalendarioEventBus {
   const bus: CalendarioEventBus = {
     on(event, handler) {
       if (!listeners.has(event)) listeners.set(event, new Set());
-      listeners.get(event)!.add(handler);
+      listeners.get(event)?.add(handler);
     },
     off(event, handler) {
       listeners.get(event)?.delete(handler);
@@ -35,9 +35,20 @@ export function useCalendarioEventBus(): CalendarioEventBus {
   const bus = inject(CALENDARIO_EVENT_BUS_KEY);
   if (!bus) {
     // Fallback to window events for backward compatibility during migration
+    const wrapperMap = new Map<EventHandler, EventListener>();
     return {
-      on(event, handler) { window.addEventListener(event, handler as EventListener); },
-      off(event, handler) { window.removeEventListener(event, handler as EventListener); },
+      on(event, handler) {
+        const wrapper: EventListener = () => handler();
+        wrapperMap.set(handler, wrapper);
+        window.addEventListener(event, wrapper);
+      },
+      off(event, handler) {
+        const wrapper = wrapperMap.get(handler);
+        if (wrapper) {
+          window.removeEventListener(event, wrapper);
+          wrapperMap.delete(handler);
+        }
+      },
       emit(event) { window.dispatchEvent(new CustomEvent(event)); },
     };
   }

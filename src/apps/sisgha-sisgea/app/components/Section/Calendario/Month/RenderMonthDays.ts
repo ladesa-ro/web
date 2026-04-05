@@ -47,7 +47,8 @@ export const renderDays = {
 
       if (events) {
         for (let j = 0; j < events.length; j++) {
-          const event = events[j]!;
+          const event = events[j];
+          if (!event) continue;
           let current = dayjs(event.startDate).startOf('day');
           const end = dayjs(event.endDate).startOf('day');
 
