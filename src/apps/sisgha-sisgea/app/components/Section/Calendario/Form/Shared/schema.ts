@@ -49,10 +49,3 @@ export type IAgendamentoFormSchema = typeof schema;
 export type IAgendamentoFormOutput = yup.InferType<IAgendamentoFormSchema>;
 
 export const useAgendamentoFormSchema = () => schema;
-
-/** @deprecated Use IAgendamentoFormSchema instead */
-export type ITurmaEventoFormSchema = IAgendamentoFormSchema;
-/** @deprecated Use IAgendamentoFormOutput instead */
-export type ITurmaEventoFormOutput = IAgendamentoFormOutput;
-/** @deprecated Use useAgendamentoFormSchema instead */
-export const useTurmaEventoFormSchema = useAgendamentoFormSchema;

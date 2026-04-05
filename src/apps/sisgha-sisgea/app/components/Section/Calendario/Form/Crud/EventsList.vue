@@ -11,7 +11,10 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import { computed, onBeforeUnmount, onMounted, ref, toRef } from 'vue';
 import DialogModalBaseLayout from '~/components/Dialog/Modal/ModalBaseLayout.vue';
 import SearchBar from '~/components/UI/SearchBar/SearchBar.vue';
-import { calendarDataMethods } from '../../CalendarDataMethods';
+import {
+  calendarioLetivoEtapaFindAll,
+  calendarioAgendamentoFindAll,
+} from '@ladesa-ro/web.api.client';
 import type { CalendarData, CalendarEvent } from '../../Types';
 
 dayjs.extend(isBetween);
@@ -56,8 +59,38 @@ function handleForceClose() {
 
 async function loadEvents() {
   if (!calendar.value?.id) return;
-  const steps = await calendarDataMethods.steps.getSteps(calendar.value.id);
-  const evs = await calendarDataMethods.events.getEvents(calendar.value.id);
+  const api = getApiClient();
+  const id = calendar.value.id;
+
+  const [stepsRes, eventsRes] = await Promise.all([
+    api.call(calendarioLetivoEtapaFindAll, {
+      path: { calendarioLetivoId: id },
+    }),
+    api.call(calendarioAgendamentoFindAll, {
+      query: {
+        'filter.calendarioLetivo.id': [id],
+        limit: 100,
+      },
+    }),
+  ]);
+
+  const steps: CalendarEvent[] = (stepsRes.data ?? []).map((s: any) => ({
+    id: s.id,
+    name: s.nomeEtapa,
+    startDate: s.dataInicio,
+    endDate: s.dataTermino,
+    color: null,
+    calendar: { id },
+  }));
+
+  const evs: CalendarEvent[] = (eventsRes.data ?? []).map((o: any) => ({
+    id: o.id,
+    name: o.nome,
+    color: o.cor ?? null,
+    startDate: o.dataInicio,
+    endDate: o.dataFim,
+    calendar: { id },
+  }));
 
   events.value = Array.from(
     new Map([...steps, ...evs].map(e => [e.id, e])).values()
@@ -71,9 +104,11 @@ async function loadEvents() {
 onMounted(() => {
   loadEvents();
   window.addEventListener('force-close-inner-modals', handleForceClose);
+  window.addEventListener('calendar-events-updated', handleEventsUpdated);
 });
 onBeforeUnmount(() => {
   window.removeEventListener('force-close-inner-modals', handleForceClose);
+  window.removeEventListener('calendar-events-updated', handleEventsUpdated);
 });
 
 // Computed
@@ -138,17 +173,6 @@ function handleEventsUpdated() {
   loadEvents(); // recarrega a lista de eventos
 }
 
-onMounted(() => {
-  loadEvents();
-
-  window.addEventListener('force-close-inner-modals', handleForceClose);
-  window.addEventListener('calendar-events-updated', handleEventsUpdated);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener('force-close-inner-modals', handleForceClose);
-  window.removeEventListener('calendar-events-updated', handleEventsUpdated);
-});
 </script>
 
 <template>

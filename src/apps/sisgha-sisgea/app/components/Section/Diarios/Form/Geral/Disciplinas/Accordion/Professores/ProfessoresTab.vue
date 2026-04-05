@@ -116,7 +116,7 @@ const professoresSelecionados = computed({
               v-if="(item as Record<string, unknown>).imageUrl"
               :src="(item as Record<string, unknown>).imageUrl as string"
               class="w-full h-full object-cover"
-            />
+            >
             <IconsUser v-else class="w-6 h-6 text-ldsa-grey" />
           </div>
           <div class="flex flex-col flex-1 py-2">

@@ -4,11 +4,13 @@ import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import type Step from '~/components/VV/Calendar/Step.vue';
 import { useCampusDoUsuario } from '~/composables/useCampusDoUsuario';
-import { calendarDataMethods } from '../../CalendarDataMethods';
 import {
+  calendarioLetivoFindById,
   ofertaFormacaoFindAll,
   ofertaFormacaoFindById,
 } from '@ladesa-ro/web.api.client';
+
+const calendarioLetivo = useCalendarioLetivo();
 
 type Props = {
   calendarId?: string;
@@ -102,27 +104,71 @@ const { values, validate, setFieldValue } = useForm<FormValues>({
 
 const { campusId: campusUsuarioDefault } = useCampusDoUsuario();
 
+const isEditMode = computed(() => !!props.calendarId);
+
+async function loadExistingCalendar() {
+  if (!props.calendarId) return;
+  try {
+    const cal = await getApiClient().call(calendarioLetivoFindById, {
+      path: { id: props.calendarId },
+    });
+    if (cal) {
+      setFieldValue('calendarName', cal.nome);
+      setFieldValue('calendarYear', cal.ano);
+      setFieldValue('campus', cal.campus?.id ?? '');
+      await nextTick();
+      setFieldValue('trainingOffer', cal.ofertaFormacao?.id ?? '');
+      createdCalendarId.value = cal.id;
+    }
+  } catch (e) {
+    console.error('Erro ao carregar calendário para edição:', e);
+  }
+}
+
+onMounted(async () => {
+  if (isEditMode.value) {
+    await loadExistingCalendar();
+  } else if (campusUsuarioDefault.value) {
+    setFieldValue('campus', campusUsuarioDefault.value);
+  }
+});
+
+watch(campusUsuarioDefault, (newCampusId) => {
+  if (newCampusId && !isEditMode.value && !values.campus) {
+    setFieldValue('campus', newCampusId);
+  }
+});
+
 watch(
   () => values.campus,
-  () => {
-    setFieldValue('trainingOffer', '');
+  (_newVal, oldVal) => {
+    if (oldVal) {
+      setFieldValue('trainingOffer', '');
+    }
   }
 );
 
 async function onSubmit(): Promise<string> {
-  await calendarDataMethods.calendar.postCalendar(
-    values.calendarName!,
-    values.calendarYear!,
-    values.campus!,
-    values.trainingOffer!
-  );
+  if (isEditMode.value && props.calendarId) {
+    await calendarioLetivo.update(props.calendarId, {
+      nome: values.calendarName!,
+      ano: values.calendarYear!,
+      campus: { id: values.campus! },
+      ofertaFormacao: { id: values.trainingOffer! },
+    });
+    await calendarioLetivo.invalidate();
+    return props.calendarId;
+  }
 
-  return calendarDataMethods.calendar.getCalendarIdByData(
-    values.calendarName!,
-    values.calendarYear!,
-    values.campus!,
-    values.trainingOffer!
-  );
+  const created = await calendarioLetivo.create({
+    nome: values.calendarName!,
+    ano: values.calendarYear!,
+    campus: { id: values.campus! },
+    ofertaFormacao: { id: values.trainingOffer! },
+  });
+
+  await calendarioLetivo.invalidate();
+  return created && typeof created === 'object' && 'id' in created ? String(created.id) : '';
 }
 
 const formValidation = async (): Promise<boolean> => {
@@ -150,8 +196,9 @@ watch(
   () => props.formStage,
   async n => {
     _formStage.value = n;
-    if (_formStage.value > 1) await setCalendarStepAmount();
-  }
+    if (_formStage.value >= 2) await setCalendarStepAmount();
+  },
+  { immediate: true }
 );
 </script>
 
@@ -183,24 +230,20 @@ watch(
     </div>
 
     <div v-show="_formStage === 2" class="flex flex-col gap-4 pr-2">
-      <VVCalendarStep
-        v-for="(calendarStep, index) in calendarStepAmount"
-        :key="index"
-        ref="stepRefs"
-        :text="`Etapa ${index + 1}`"
-        :calendar-id="createdCalendarId!"
-        :is-step="true"
-      />
-    </div>
-
-    <div v-show="_formStage === 3" class="flex flex-col gap-4 pr-2">
-      <VVCalendarStep
-        v-for="(calendarRecovery, index) in calendarRecoveryAmount"
-        :key="index"
-        :text="`Recuperação ${index + 1}`"
-        :calendar-id="createdCalendarId!"
-        :is-step="false"
-      />
+      <template v-for="(calendarStep, index) in calendarStepAmount" :key="`step-${index}`">
+        <VVCalendarStep
+          ref="stepRefs"
+          :text="`Etapa ${index + 1}`"
+          :calendar-id="createdCalendarId!"
+          :is-step="true"
+        />
+        <VVCalendarStep
+          v-if="index < calendarRecoveryAmount"
+          :text="`Recuperação ${index + 1}`"
+          :calendar-id="createdCalendarId!"
+          :is-step="false"
+        />
+      </template>
       <VVCalendarStep
         :text="`Exame`"
         :calendar-id="props.calendarId! || ''"

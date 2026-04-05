@@ -1,32 +1,160 @@
+<script lang="ts" setup>
+import type { CalendarioLetivoFindOneOutputDto } from '@ladesa-ro/web.api.client';
+import { calendarioLetivoEtapaFindAll } from '@ladesa-ro/web.api.client';
+import { useQuery } from '@tanstack/vue-query';
+
+const props = defineProps<{
+  calendario: CalendarioLetivoFindOneOutputDto;
+}>();
+
+const emit = defineEmits<{
+  edit: [id: string];
+}>();
+
+const api = useApiClient();
+const calendarioLetivo = useCalendarioLetivo();
+const confirmDeactivate = useConfirmDelete();
+
+// TODO: remove type casts after SDK regeneration with situacao field
+const isInativo = computed(() => (props.calendario as any).situacao === 'INATIVO');
+
+const handleToggleSituacao = async () => {
+  const confirmed = await confirmDeactivate.confirm();
+  if (confirmed) {
+    const novaSituacao = isInativo.value ? 'ATIVO' : 'INATIVO';
+    await calendarioLetivo.update(props.calendario.id, { situacao: novaSituacao } as any);
+    await calendarioLetivo.invalidate();
+  }
+};
+
+const { data: etapasResult, isLoading: etapasLoading } = useQuery({
+  queryKey: computed(() => ['calendario-letivo', props.calendario.id, 'etapas']),
+  queryFn: () =>
+    api.call(calendarioLetivoEtapaFindAll, {
+      path: { calendarioLetivoId: props.calendario.id },
+    }),
+});
+
+const etapas = computed(() => etapasResult.value?.data ?? []);
+
+const ETAPA_COLORS = [
+  '#f59e0b',
+  '#22c55e',
+  '#3b82f6',
+  '#8b5cf6',
+  '#ef4444',
+  '#ec4899',
+  '#14b8a6',
+  '#f97316',
+];
+
+function etapaColor(index: number): string {
+  return ETAPA_COLORS[index % ETAPA_COLORS.length] ?? '#6b7280';
+}
+
+function formatDateShort(iso: string): string {
+  const date = new Date(iso + 'T00:00:00');
+  return date.toLocaleDateString('pt-BR', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
+const formacaoNome = computed(() => props.calendario.ofertaFormacao?.nome ?? '---');
+
+const duracao = computed(() => {
+  if (etapas.value.length > 0) {
+    const sorted = [...etapas.value].sort(
+      (a, b) => new Date(a.dataInicio).getTime() - new Date(b.dataInicio).getTime()
+    );
+    const first = sorted[0];
+    const last = sorted[sorted.length - 1];
+    if (first && last) {
+      return `${formatDateShort(first.dataInicio)} - ${formatDateShort(last.dataTermino)}`;
+    }
+  }
+  return `Ano ${props.calendario.ano}`;
+});
+
+const qtdPeriodos = computed(() => etapas.value.length);
+</script>
+
 <template>
-  <NuxtLink
-    :to="'./'"
-    class="p-5 rounded-lg border-2 border-ldsa-grey flex flex-col gap-3.5 hover:bg-ldsa-grey/10"
+  <div
+    class="p-5 rounded-lg border-2 border-ldsa-grey flex flex-col gap-3.5 hover:bg-ldsa-grey/10 h-full transition-colors"
   >
     <div class="flex-1 flex justify-between items-center">
-      <h1 class="font-medium text-lg">Campus Party 2026</h1>
+      <div class="flex items-center gap-2 min-w-0">
+        <h2 class="font-medium text-lg truncate min-w-0">{{ calendario.nome }}</h2>
+        <span
+          v-if="isInativo"
+          class="shrink-0 text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700"
+        >
+          Inativo
+        </span>
+      </div>
 
-      <UIButtonEdit />
+      <div class="flex items-center gap-2 shrink-0 ml-2">
+        <UIButtonModalBaseLayout
+          v-if="!isInativo"
+          text="Desativar"
+          variant="small"
+          :opacity="85"
+          color="var(--ladesa-red-color)"
+          type="button"
+          @click.prevent="handleToggleSituacao"
+        />
+        <UIButtonModalBaseLayout
+          v-else
+          text="Reativar"
+          variant="small"
+          :opacity="85"
+          color="var(--ladesa-green-color, #22c55e)"
+          type="button"
+          @click.prevent="handleToggleSituacao"
+        />
+        <UIButtonEdit @click.prevent="emit('edit', calendario.id)" />
+      </div>
     </div>
 
     <div class="flex flex-col gap-1 text-sm">
-      <span> Formação: Técnico Integrado </span>
-      <span> Duração: 7 jun 2026 - 8 ago 2026 </span>
+      <span>Formação: {{ formacaoNome }}</span>
+      <span>Duração: {{ duracao }}</span>
+      <span>Qtd. períodos: {{ qtdPeriodos }}</span>
+      <span>Situação: {{ (calendario as any).situacao ?? 'ATIVO' }}</span>
     </div>
 
-    <div class="flex flex-col gap-1.5 text-sm">
-      <div class="flex gap-2 items-center text-ldsa-grey">
-        <div class="rounded-full w-1.5 h-1.5 bg-amber-500" />
-        1° etapa: 15 jan 2026 - 30 mar 2026
-      </div>
-      <div class="flex gap-2 items-center text-ldsa-grey">
-        <div class="rounded-full w-1.5 h-1.5 bg-amber-500" />
-        1° etapa: 15 jan 2026 - 30 mar 2026
-      </div>
-      <div class="flex gap-2 items-center text-ldsa-grey">
-        <div class="rounded-full w-1.5 h-1.5 bg-amber-500" />
-        1° etapa: 15 jan 2026 - 30 mar 2026
+    <!-- Etapas loading -->
+    <div v-if="etapasLoading" class="flex flex-col gap-1.5">
+      <div v-for="i in 2" :key="i" class="h-4 w-3/4 rounded bg-ldsa-grey/20 animate-pulse" />
+    </div>
+
+    <!-- Etapas list -->
+    <div v-else-if="etapas.length > 0" class="flex flex-col gap-1.5 text-sm">
+      <div
+        v-for="(etapa, index) in etapas"
+        :key="etapa.id"
+        class="flex gap-2 items-center text-ldsa-grey"
+      >
+        <div
+          class="rounded-full w-1.5 h-1.5 shrink-0"
+          :style="{ backgroundColor: etapaColor(index) }"
+        />
+        {{ etapa.nomeEtapa }}: {{ formatDateShort(etapa.dataInicio) }} -
+        {{ formatDateShort(etapa.dataTermino) }}
       </div>
     </div>
-  </NuxtLink>
+
+    <!-- No etapas -->
+    <div v-else class="text-xs text-ldsa-grey">
+      Nenhuma etapa cadastrada.
+    </div>
+
+    <DialogConfirm
+      v-model="confirmDeactivate.isOpen.value"
+      :message="isInativo ? 'Deseja reativar este calendário letivo?' : 'Deseja desativar este calendário letivo?'"
+      @confirm="confirmDeactivate.onConfirm"
+    />
+  </div>
 </template>

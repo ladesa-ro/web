@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
-import { calendarDataMethods } from '~/components/Section/Calendario/CalendarDataMethods';
+import {
+  calendarioAgendamentoCreate,
+} from '@ladesa-ro/web.api.client';
 
 type Props = {
   isStep: boolean;
@@ -41,17 +43,19 @@ async function onSubmit() {
         'postStep: individual etapa CRUD is no longer available — use bulkReplaceSteps'
       );
     } else {
-      await calendarDataMethods.events.postEvent(
-        props.text,
-        values.stepColor,
-        {
-          date: values.stepStartDate,
+      await getApiClient().call(calendarioAgendamentoCreate, {
+        body: {
+          tipo: 'EVENTO',
+          nome: props.text,
+          cor: values.stepColor,
+          diaInteiro: true,
+          dataInicio: values.stepStartDate,
+          dataFim: values.stepEndDate,
+          horarioInicio: '00:00:00',
+          horarioFim: '23:59:59',
+          calendariosLetivos: [{ id: _calendarId.value }],
         },
-        {
-          date: values.stepEndDate,
-        },
-        _calendarId.value
-      );
+      });
     }
 
     submitted.value = true;

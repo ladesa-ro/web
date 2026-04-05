@@ -9,8 +9,9 @@ type Props = {
   calendarId?: string;
   eventName?: string;
   editMode?: 'calendar' | 'events' | null;
+  showParticipants?: boolean;
 };
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), { showParticipants: false });
 
 // # EMITS
 const emit = defineEmits<{
@@ -107,6 +108,7 @@ watch(
 
 if (props.editMode) {
   registerType.value = props.editMode;
+  stage.value = 1;
   changeModalTitle();
 }
 
@@ -188,6 +190,7 @@ async function handleDelete() {
         :form-stage="stage"
         :calendar-id="props.calendarId! || ''"
         :event-name="props.eventName"
+        :show-participants="props.showParticipants"
       />
 
       <!-- Buttons -->
@@ -209,12 +212,12 @@ async function handleDelete() {
         />
 
         <UIButtonModalAdvance
-          v-if="stage < 3 && stage > 0 && registerType !== 'events'"
+          v-if="stage === 1 && registerType === 'calendar' && !props.editMode"
           class="flex w-full"
           @click.prevent="formStage('next')"
         />
         <UIButtonModalSave
-          v-else-if="stage > 0 && (registerType === 'events' || stage > 2)"
+          v-else-if="stage > 0 && (registerType === 'events' || stage === 2)"
           type="submit"
           @click="onSubmit"
         />

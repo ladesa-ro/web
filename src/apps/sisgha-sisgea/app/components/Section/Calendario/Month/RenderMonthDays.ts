@@ -4,6 +4,9 @@ import 'dayjs/locale/pt-br';
 import isBetween from 'dayjs/plugin/isBetween';
 import type { CalendarEvent, Day, EmptyDays } from '../Types';
 
+// # SETUP
+dayjs.extend(isBetween);
+
 // # CODE
 
 export const renderDays = {
@@ -39,47 +42,39 @@ export const renderDays = {
     const days: Array<Day> = [];
 
     try {
-      // Formatting Days
-      for (
-        let i = 0;
-        i <
-        Number(dayjs(`${year}-${currentMonth}-01`).endOf('month').format('D'));
-        i++
-      ) {
-        const day: Day = {
-          date: dayjs(`${year}-${currentMonth}-${i + 1}`).format('YYYY-MM-DD'),
-          color: 'none',
-        };
+      // Pre-process events into a date→color map (O(m) where m = total event-days)
+      const dateColorMap = new Map<string, string>();
 
-        // Set Colors
-        if (events) {
-          dayjs.extend(isBetween);
+      if (events) {
+        for (let j = 0; j < events.length; j++) {
+          const event = events[j]!;
+          let current = dayjs(event.startDate).startOf('day');
+          const end = dayjs(event.endDate).startOf('day');
 
-          for (let j = 0; j < events.length; j++) {
-            // Check Between Date
-            // Dates for Check
-            const startOfEvent = dayjs(events[j]!.startDate).format(
-              'YYYY-MM-DD'
-            );
-            const endOfEvent = dayjs(events[j]!.endDate).format('YYYY-MM-DD');
-            if (
-              dayjs(day.date).isBetween(
-                startOfEvent,
-                endOfEvent,
-                undefined,
-                '[]'
-              ) ||
-              dayjs(day.date).isBetween(
-                startOfEvent,
-                endOfEvent,
-                undefined,
-                '[]'
-              )
-            ) {
-              day.color = `${events[j]!.color}`;
+          while (current.isBefore(end) || current.isSame(end, 'day')) {
+            const key = current.format('YYYY-MM-DD');
+            if (event.color) {
+              dateColorMap.set(key, event.color);
             }
+            current = current.add(1, 'day');
           }
         }
+      }
+
+      // Formatting Days
+      const daysInMonth = Number(
+        dayjs(`${year}-${currentMonth}-01`).endOf('month').format('D')
+      );
+
+      for (let i = 0; i < daysInMonth; i++) {
+        const dateStr = dayjs(`${year}-${currentMonth}-${i + 1}`).format(
+          'YYYY-MM-DD'
+        );
+
+        const day: Day = {
+          date: dateStr,
+          color: dateColorMap.get(dateStr) ?? 'none',
+        };
 
         // Push in Array
         days.push(day);

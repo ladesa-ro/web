@@ -4,25 +4,43 @@ import {
   IconsCalendarPartialCalendar,
 } from '#components';
 import dayjs from 'dayjs';
-import { calendarioLetivoFindAll } from '@ladesa-ro/web.api.client';
+import { calendarioLetivoFindAll, calendarioLetivoFindById } from '@ladesa-ro/web.api.client';
 import { useToast } from '~/composables/useToast';
-import { calendarDataMethods } from './CalendarDataMethods';
+import { useCalendarioFiltersStore } from '~/composables/useCalendarioFiltersStore';
 import GestaoPopover from './Gestao/GestaoPopover.vue';
 import type { CalendarData } from './Types';
+
+const calendarioLetivo = useCalendarioLetivo();
 
 defineProps<{ dapeVisualization?: boolean }>();
 
 const emit = defineEmits<{ (e: 'refresh'): void }>();
 
+const route = useRoute();
+const router = useRouter();
+
+const filtersStore = useCalendarioFiltersStore();
 const selectedCampusGlobalState = useCampusContext();
 
 const toggleView = ref<number>(0);
 const selectedCalendar = ref<CalendarData | null>(null);
-const selectedYear = ref<number>(dayjs().year());
 const showDeleteModal = ref(false);
 
-const selectedTrainingOffer = ref<string | null>(null);
-const selectedCalendarId = ref<string | null>(null);
+// Computed wrappers for store fields (bidirectional)
+const selectedYear = computed({
+  get: () => filtersStore.anoLetivo,
+  set: (v: number) => { filtersStore.anoLetivo = v; },
+});
+
+const selectedTrainingOffer = computed({
+  get: () => filtersStore.formacaoId,
+  set: (v: string | null) => { filtersStore.formacaoId = v; },
+});
+
+const selectedCalendarId = computed({
+  get: () => filtersStore.calendarioId,
+  set: (v: string | null) => { filtersStore.calendarioId = v; },
+});
 
 const allCalendars = ref<CalendarData[]>([]);
 
@@ -33,11 +51,6 @@ const filteredCalendars = computed(() => {
   );
 });
 
-watch(filteredCalendars, () => {
-  console.log('FILTERED:', filteredCalendars.value);
-});
-
-const isCalendarDisabled = computed(() => !selectedTrainingOffer.value);
 
 const toggleItems = [
   { text: 'Calendário parcial', value: 0, icon: IconsCalendarPartialCalendar },
@@ -72,47 +85,82 @@ async function loadCalendars() {
       campus: { id: c.campus?.id ?? '' },
     }));
 
-    console.log('CALENDÁRIOS FILTRADOS POR CAMPUS:', allCalendars.value);
-    console.log('Formações disponíveis:', [
-      ...new Set(
-        allCalendars.value.map(cal => cal.trainingOffer?.id).filter(Boolean)
-      ),
-    ]);
   } catch (e) {
     console.error(e);
   }
 }
 
+// On mount: hydrate store from URL query params, then load calendars
 onMounted(async () => {
+  if (route.query.ano) filtersStore.anoLetivo = Number(route.query.ano);
+  if (route.query.formacao) filtersStore.formacaoId = route.query.formacao as string;
+  if (route.query.calendario) filtersStore.calendarioId = route.query.calendario as string;
+
   await loadCalendars();
+
+  // If a calendar was restored from URL/store, load its full data
+  if (filtersStore.calendarioId) {
+    await selectCalendar(filtersStore.calendarioId);
+  }
+});
+
+// Sync store → URL (deep linking without page reload)
+watch(
+  [() => filtersStore.anoLetivo, () => filtersStore.formacaoId, () => filtersStore.calendarioId],
+  () => {
+    router.replace({
+      query: {
+        ...route.query,
+        ano: filtersStore.anoLetivo?.toString(),
+        formacao: filtersStore.formacaoId || undefined,
+        calendario: filtersStore.calendarioId || undefined,
+      },
+    });
+  },
+);
+
+// Sync campus context → store
+watch(selectedCampusGlobalState, (newCampus) => {
+  filtersStore.campusId = newCampus;
 });
 
 watch(selectedCampusGlobalState, async () => {
   await loadCalendars();
 });
 
-async function toggleSelectedCalendarItem(value: string | null) {
-  if (!value) {
+async function selectCalendar(id: string | null) {
+  selectedCalendarId.value = id;
+  if (!id) {
     selectedCalendar.value = null;
     return;
   }
-  selectedCalendar.value =
-    await calendarDataMethods.calendar.getCalendarById(value);
-}
-async function apagarCalendario() {
-  if (!selectedCalendar.value) return;
-  showDeleteModal.value = true;
+  try {
+    const cal = await getApiClient().call(calendarioLetivoFindById, {
+      path: { id },
+    });
+    if (cal) {
+      selectedCalendar.value = {
+        id: cal.id,
+        name: cal.nome,
+        year: cal.ano,
+        trainingOffer: { id: cal.ofertaFormacao.id },
+        campus: { id: cal.campus.id },
+      };
+    }
+  } catch (e) {
+    console.error('Erro ao buscar calendario:', e);
+  }
 }
 
 function handleConfirmDelete() {
   if (!selectedCalendar.value) return;
 
-  calendarDataMethods.calendar
-    .deleteCalendar(selectedCalendar.value.id)
+  calendarioLetivo
+    .remove(selectedCalendar.value.id)
     .then(() => {
       selectedCalendar.value = null;
+      selectedCalendarId.value = null;
       emit('refresh');
-
       showToast('delete', 'success', 'O calendário foi apagado com sucesso.');
     })
     .catch(e => {
@@ -120,46 +168,6 @@ function handleConfirmDelete() {
       showToast('delete', 'error', 'Falha ao apagar o calendário.');
     });
 }
-
-function handleCancelDelete() {
-  showToast('delete', 'success', 'O calendário foi apagado com sucesso.');
-}
-
-onMounted(async () => {
-  try {
-    const res = await getApiClient().call(calendarioLetivoFindAll, {
-      query: {},
-    });
-    const data = res.data || [];
-
-    console.log('RAW CALENDARS', data);
-    console.log('MAPPED CALENDARS', allCalendars.value);
-
-    allCalendars.value = data.map(c => ({
-      id: c.id,
-      name: c.nome,
-      year: c.ano,
-
-      trainingOffer: {
-        id: c.ofertaFormacao?.id ?? '',
-      },
-
-      campus: { id: c.campus?.id ?? '' },
-    }));
-
-    console.log('MAPPED CALENDARS', allCalendars.value);
-
-    console.table(
-      allCalendars.value.map(c => ({
-        id: c.id,
-        nome: c.name,
-        trainingOffer: c.trainingOffer?.id,
-      }))
-    );
-  } catch (e) {
-    console.error(e);
-  }
-});
 
 watch(selectedTrainingOffer, () => {
   selectedCalendarId.value = null;
@@ -176,6 +184,20 @@ watch(selectedYear, () => {
   if (selectedYear.value > dayjs().year()) {
     selectedYear.value = dayjs().year();
   }
+});
+
+const calendarSelectItems = computed(() =>
+  filteredCalendars.value.map(c => ({ label: c.name, value: c.id })),
+);
+
+const selectedCalendarItem = computed({
+  get: () => {
+    if (!selectedCalendarId.value) return undefined;
+    return calendarSelectItems.value.find(i => i.value === selectedCalendarId.value) ?? undefined;
+  },
+  set: (item: { label: string; value: string } | undefined) => {
+    selectCalendar(item?.value ?? null);
+  },
 });
 </script>
 
@@ -208,11 +230,14 @@ watch(selectedYear, () => {
         }"
       />
 
-      <UIButtonDefaultSquare
-        :disabled="!selectedTrainingOffer || !selectedCalendarId"
-      >
-        <IconsSearch class="w-5 h-5" />
-      </UIButtonDefaultSquare>
+      <UIFormOptionFieldsSelect
+        v-if="filteredCalendars.length > 0"
+        v-model="selectedCalendarItem"
+        :items="calendarSelectItems"
+        label="Calendário"
+        placeholder="Selecione um calendário"
+        class="flex-1"
+      />
 
       <GestaoPopover v-if="dapeVisualization" />
     </div>

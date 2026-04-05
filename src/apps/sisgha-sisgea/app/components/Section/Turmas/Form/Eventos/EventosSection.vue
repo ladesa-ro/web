@@ -47,7 +47,7 @@ async function handleEdit(id: string) {
   if (isExclusive(id)) {
     emit('open-edit', id);
   } else {
-    window.open('/sisgha/dape/calendario', '_blank');
+    window.open(`/sisgha/dape/calendario/gestao-eventos?evento=${id}`, '_blank');
   }
 }
 

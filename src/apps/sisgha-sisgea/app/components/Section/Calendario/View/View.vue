@@ -16,6 +16,20 @@ const handleDelete = async () => {
     router.push('/sisgha/dape/calendario');
   }
 };
+
+const confirmDeactivate = useConfirmDelete();
+
+// TODO: remove type casts after SDK regeneration with situacao field
+const isInativo = computed(() => (calendario.value as any)?.situacao === 'INATIVO');
+
+const handleToggleSituacao = async () => {
+  const confirmed = await confirmDeactivate.confirm();
+  if (confirmed) {
+    const novaSituacao = isInativo.value ? 'ATIVO' : 'INATIVO';
+    await calendarioLetivo.update(resourceId, { situacao: novaSituacao } as any);
+    await calendarioLetivo.invalidate();
+  }
+};
 </script>
 
 <template>
@@ -25,6 +39,22 @@ const handleDelete = async () => {
     :is-error="isError"
   >
     <template #header-actions>
+      <UIButtonModalBaseLayout
+        v-if="!isInativo"
+        text="Desativar"
+        :opacity="85"
+        color="var(--ladesa-red-color)"
+        type="button"
+        @click="handleToggleSituacao"
+      />
+      <UIButtonModalBaseLayout
+        v-else
+        text="Reativar"
+        :opacity="85"
+        color="var(--ladesa-green-color, #22c55e)"
+        type="button"
+        @click="handleToggleSituacao"
+      />
       <UIButtonModalDelete @click="handleDelete" />
     </template>
 
@@ -37,6 +67,7 @@ const handleDelete = async () => {
           label="Oferta de Formação"
           :value="calendario?.ofertaFormacao?.nome"
         />
+        <UIResourceViewField label="Situação" :value="(calendario as any)?.situacao" />
       </UIResourceViewFieldGroup>
     </template>
   </UIResourceView>
@@ -45,5 +76,11 @@ const handleDelete = async () => {
     v-model="confirmDelete.isOpen.value"
     message="Deseja realmente excluir este calendário letivo?"
     @confirm="confirmDelete.onConfirm"
+  />
+
+  <DialogConfirm
+    v-model="confirmDeactivate.isOpen.value"
+    :message="isInativo ? 'Deseja reativar este calendário letivo?' : 'Deseja desativar este calendário letivo?'"
+    @confirm="confirmDeactivate.onConfirm"
   />
 </template>

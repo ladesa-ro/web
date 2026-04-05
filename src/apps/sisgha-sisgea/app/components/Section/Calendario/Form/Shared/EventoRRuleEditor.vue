@@ -24,6 +24,12 @@ const frequencyItems: ParsedItem[] = [
   { label: 'Anual', value: 'yearly' },
 ];
 
+const endConditionItems = [
+  { label: 'Nunca', value: 'never' },
+  { label: 'Após N ocorrências', value: 'count' },
+  { label: 'Até uma data', value: 'until' },
+];
+
 const weekdayMap: { label: string; value: Weekday }[] = [
   { label: 'Seg', value: RRule.MO },
   { label: 'Ter', value: RRule.TU },
@@ -46,6 +52,16 @@ const selectedDayLabels = ref<string[]>([]);
 const endCondition = ref<EndCondition>('never');
 const count = ref(10);
 const untilDate = ref('');
+
+const intervalStr = computed({
+  get: () => String(interval.value),
+  set: (val: string | number) => { interval.value = Number(val) || 1; },
+});
+
+const countStr = computed({
+  get: () => String(count.value),
+  set: (val: string | number) => { count.value = Number(val) || 1; },
+});
 
 const frequencyToRRule: Record<Exclude<FrequencyOption, 'none'>, number> = {
   daily: RRule.DAILY,
@@ -168,11 +184,11 @@ function buildRRuleString(): string | null {
     options.count = count.value;
   } else if (endCondition.value === 'until' && untilDate.value) {
     const parts = untilDate.value.split('-').map(Number);
-    options.until = new Date(Date.UTC(parts[0] ?? 2026, (parts[1] ?? 1) - 1, parts[2] ?? 1, 23, 59, 59));
+    options.until = new Date(Date.UTC(parts[0] ?? new Date().getFullYear(), (parts[1] ?? 1) - 1, parts[2] ?? 1, 23, 59, 59));
   }
 
   const rule = new RRule(options as ConstructorParameters<typeof RRule>[0]);
-  let str = rule.toString();
+  const str = rule.toString();
   const lines = str.split('\n');
   const rruleLine = lines.find(l => l.startsWith('RRULE:'));
   return rruleLine ? rruleLine.replace('RRULE:', '') : str.replace('RRULE:', '');
@@ -223,21 +239,17 @@ watch(
     />
 
     <template v-if="frequency !== 'none'">
-      <div class="flex flex-col gap-1">
-        <div class="input-base min-h-12" :class="{ 'opacity-60': disabled }">
-          <label>Intervalo</label>
-          <div class="flex items-center gap-2 w-full px-1 py-2">
-            <span class="text-sm text-ldsa-grey shrink-0">A cada</span>
-            <input
-              v-model.number="interval"
-              type="number"
-              min="1"
-              :disabled="disabled"
-              class="w-14 text-center bg-transparent text-ldsa-text-default focus:outline-none disabled:cursor-not-allowed"
-            />
-            <span class="text-sm text-ldsa-grey shrink-0">{{ intervalSuffix }}</span>
-          </div>
-        </div>
+      <div class="flex items-center gap-2">
+        <span class="text-sm text-ldsa-grey shrink-0">A cada</span>
+        <UIFormTextField
+          v-model="intervalStr"
+          name="rruleInterval"
+          type="number"
+          min="1"
+          :disabled="disabled"
+          class="w-20"
+        />
+        <span class="text-sm text-ldsa-grey shrink-0">{{ intervalSuffix }}</span>
       </div>
 
       <div v-if="frequency === 'weekly'" class="flex flex-col gap-1.5">
@@ -262,63 +274,36 @@ watch(
       </div>
 
       <div class="flex flex-col gap-2">
-        <span class="text-[0.813rem] font-semibold text-ldsa-grey">Término</span>
+        <UIFormOptionFieldsRadioGroup
+          v-model="endCondition"
+          :items="endConditionItems"
+          label="Término"
+          :disabled="disabled"
+        />
 
-        <label class="flex items-center gap-2.5 cursor-pointer">
-          <input
-            v-model="endCondition"
-            type="radio"
-            value="never"
+        <div v-if="endCondition === 'count'" class="flex items-center gap-2 ml-7">
+          <UIFormTextField
+            v-model="countStr"
+            name="rruleCount"
+            type="number"
+            min="1"
             :disabled="disabled"
-            class="accent-ldsa-green-1"
+            class="w-20"
           />
-          <span class="text-sm font-medium text-ldsa-text-default">Nunca</span>
-        </label>
-
-        <label class="flex items-center gap-2.5 cursor-pointer">
-          <input
-            v-model="endCondition"
-            type="radio"
-            value="count"
-            :disabled="disabled"
-            class="accent-ldsa-green-1"
-          />
-          <span class="text-sm font-medium text-ldsa-text-default">Após</span>
-          <div class="input-base !w-16 !min-h-9 !px-1 !mt-0" :class="{ 'opacity-60': disabled || endCondition !== 'count' }">
-            <input
-              v-model.number="count"
-              type="number"
-              min="1"
-              :disabled="disabled || endCondition !== 'count'"
-              class="w-full text-center bg-transparent text-sm text-ldsa-text-default focus:outline-none"
-            />
-          </div>
           <span class="text-sm font-medium text-ldsa-text-default">ocorrências</span>
-        </label>
+        </div>
 
-        <label class="flex items-center gap-2.5 cursor-pointer">
-          <input
-            v-model="endCondition"
-            type="radio"
-            value="until"
+        <div v-if="endCondition === 'until'" class="flex items-center gap-2 ml-7">
+          <UIFormTextField
+            v-model="untilDate"
+            name="rruleUntil"
+            type="date"
             :disabled="disabled"
-            class="accent-ldsa-green-1"
+            class="flex-1"
           />
-          <span class="text-sm font-medium text-ldsa-text-default shrink-0">Até</span>
-          <div class="input-base !min-h-9 !px-2 !mt-0 flex-1" :class="{ 'opacity-60': disabled || endCondition !== 'until' }">
-            <input
-              v-model="untilDate"
-              type="date"
-              :disabled="disabled || endCondition !== 'until'"
-              class="w-full bg-transparent text-sm text-ldsa-text-default focus:outline-none"
-            />
-          </div>
-        </label>
+        </div>
       </div>
     </template>
   </div>
 </template>
 
-<style scoped>
-@import "~/components/UI/Form/-Utils/style/inputStyles.css";
-</style>

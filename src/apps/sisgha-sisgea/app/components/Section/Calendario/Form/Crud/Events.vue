@@ -1,209 +1,178 @@
 <script lang="ts" setup>
-// # IMPORT
 import dayjs from 'dayjs';
-import { useForm } from 'vee-validate';
 import { onMounted, ref } from 'vue';
-import * as yup from 'yup';
-import { calendarDataMethods } from '../../CalendarDataMethods';
+import {
+  calendarioLetivoEtapaFindAll,
+  calendarioAgendamentoFindAll,
+  calendarioAgendamentoFindById,
+} from '@ladesa-ro/web.api.client';
+import type {
+  CalendarioAgendamentoFindOneOutputDto,
+  CalendarioLetivoEtapaFindOneOutputDto, CalendarioAgendamentoCreateInputDto 
+} from '@ladesa-ro/web.api.client';
+import type { IAgendamentoFormOutput } from '../Shared/schema';
 
-// # CODE
 type Props = {
-  calendarId: string;
+  calendarId?: string;
   eventName?: string;
   eventId?: string;
+  showParticipants?: boolean;
 };
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), { showParticipants: false });
+
+const agendamento = useCalendarioAgendamento();
+
 const isLoading = ref(true);
+const isEvent = ref<boolean | null>(null);
+const formReady = ref(false);
+
+const initialData = ref<Partial<CalendarioAgendamentoCreateInputDto>>({});
+
+const formBaseRef = ref<{
+  validateAndGetValues: () => Promise<IAgendamentoFormOutput | null>;
+  setValues: (vals: Record<string, unknown>) => void;
+  resetForm: (opts?: { values: Record<string, unknown> }) => void;
+}>();
 
 const getEvent = async () => {
   if (!props.eventName && !props.eventId) return;
 
   try {
-    let checkEvents = null; // colocar tipagem
+    const api = getApiClient();
+    let checkEvents: { id: string; nome: string; cor: string | null; dataInicio: string; dataFim: string } | null = null;
 
     if (props.eventId) {
-      const events = await calendarDataMethods.events.getEvents(
-        props.calendarId
-      );
-      checkEvents = events.find(e => e.id === props.eventId);
+      try {
+        const found = await api.call(calendarioAgendamentoFindById, {
+          path: { id: props.eventId },
+        });
+        if (found) {
+          checkEvents = {
+            id: found.id,
+            nome: found.nome ?? '',
+            cor: found.cor ?? null,
+            dataInicio: found.dataInicio ?? '',
+            dataFim: found.dataFim ?? found.dataInicio ?? '',
+          };
+        }
+      } catch {}
     } else if (props.eventName) {
-      checkEvents = await calendarDataMethods.events.getEventByName(
-        props.eventName,
-        props.calendarId
+      const query: Record<string, unknown> = {
+        search: props.eventName,
+        limit: 10,
+      };
+      if (props.calendarId) {
+        query['filter.calendarioLetivo.id'] = [props.calendarId];
+      }
+      const result = await api.call(calendarioAgendamentoFindAll, { query });
+      const found = (result.data ?? []).find(
+        (o: CalendarioAgendamentoFindOneOutputDto) => o.id === props.eventName || o.nome === props.eventName
       );
+      if (found) {
+        checkEvents = {
+          id: found.id,
+          nome: found.nome ?? '',
+          cor: found.cor ?? null,
+          dataInicio: found.dataInicio ?? '',
+          dataFim: found.dataFim ?? found.dataInicio ?? '',
+        };
+      }
     }
 
-    const checkSteps = props.eventName
-      ? await calendarDataMethods.steps.getStepByName(
-          props.eventName,
-          props.calendarId
-        )
-      : null;
+    let checkSteps: CalendarioLetivoEtapaFindOneOutputDto | null = null;
+    if (props.eventName && props.calendarId) {
+      const stepsRes = await api.call(calendarioLetivoEtapaFindAll, {
+        path: { calendarioLetivoId: props.calendarId },
+      });
+      const eventNameNumber = Number(props.eventName.replace(/\D/g, ''));
+      checkSteps = (stepsRes.data ?? []).find(
+        (step: CalendarioLetivoEtapaFindOneOutputDto) =>
+          step.id === props.eventName ||
+          step.nomeEtapa === props.eventName ||
+          step.ofertaFormacaoPeriodoEtapaId === String(eventNameNumber)
+      ) ?? null;
+    }
 
     if (checkEvents) {
       isEvent.value = true;
-
-      await setValues({
-        eventName: checkEvents.name ?? '',
-        eventEnvironment: checkEvents.locale ?? '',
-        eventColor: checkEvents.color ?? '#000000',
-        eventStartDate: checkEvents.startDate
-          ? dayjs(checkEvents.startDate).format('YYYY-MM-DD')
-          : '',
-        eventStartHour: checkEvents.startDate
-          ? dayjs(checkEvents.startDate).format('HH:mm')
-          : '',
-        eventEndDate: checkEvents.endDate
-          ? dayjs(checkEvents.endDate).format('YYYY-MM-DD')
-          : '',
-        eventEndHour: checkEvents.endDate
-          ? dayjs(checkEvents.endDate).format('HH:mm')
-          : '',
-      });
+      initialData.value = {
+        nome: checkEvents.nome ?? '',
+        cor: checkEvents.cor ?? undefined,
+        diaInteiro: false,
+        dataInicio: checkEvents.dataInicio ? dayjs(checkEvents.dataInicio).format('YYYY-MM-DD') : '',
+        dataFim: checkEvents.dataFim ? dayjs(checkEvents.dataFim).format('YYYY-MM-DD') : undefined,
+        horarioInicio: checkEvents.dataInicio ? dayjs(checkEvents.dataInicio).format('HH:mm') : undefined,
+        horarioFim: checkEvents.dataFim ? dayjs(checkEvents.dataFim).format('HH:mm') : undefined,
+      };
     } else if (checkSteps) {
       isEvent.value = false;
-
-      await setValues({
-        eventName: checkSteps.nome,
-        eventColor: checkSteps.cor,
-        eventStartDate: checkSteps.dataInicio
-          ? dayjs(checkSteps.dataInicio).format('YYYY-MM-DD')
-          : '',
-        eventStartHour: '',
-        eventEndDate: checkSteps.dataFim
-          ? dayjs(checkSteps.dataFim).format('YYYY-MM-DD')
-          : '',
-        eventEndHour: '',
-        eventEnvironment: '',
-      });
+      initialData.value = {
+        nome: checkSteps.nomeEtapa,
+        cor: undefined,
+        diaInteiro: true,
+        dataInicio: checkSteps.dataInicio ? dayjs(checkSteps.dataInicio).format('YYYY-MM-DD') : '',
+        dataFim: checkSteps.dataTermino ? dayjs(checkSteps.dataTermino).format('YYYY-MM-DD') : undefined,
+        horarioInicio: undefined,
+        horarioFim: undefined,
+      };
     }
   } catch (e) {
     console.error('Erro ao buscar evento:', e);
   }
 };
 
-const isEvent = ref<boolean | null>(null);
+const validateEventCrud = async (): Promise<boolean> => {
+  const data = await formBaseRef.value?.validateAndGetValues();
+  if (!data) return false;
 
-type FormValues = {
-  eventName: string;
-  eventEnvironment?: string;
-  eventColor: string;
-  eventStartDate: string;
-  eventStartHour?: string;
-  eventEndDate: string;
-  eventEndHour?: string;
-};
-
-// Event - Data
-const schemaCalendar = yup.object({
-  eventName: yup.string().required('Nome inválido'),
-  eventEnvironment: yup.string().notRequired(),
-  eventColor: yup.string().required('Cor inválida'),
-  eventStartDate: yup.date().required('Data inválida'),
-  eventStartHour: yup
-    .string()
-    .notRequired()
-    .test('valid-hour', 'Horário inválido', async hour => {
-      return await calendarDataMethods.check.validHour(hour);
-    }),
-  eventEndDate: yup.date().required('Data inválida'),
-  eventEndHour: yup
-    .string()
-    .notRequired()
-    .test('valid-hour', 'Horário inválido', async hour => {
-      return await calendarDataMethods.check.validHour(hour);
-    }),
-});
-
-const { values, validate, setValues } = useForm<FormValues>({
-  validationSchema: schemaCalendar,
-  initialValues: {
-    eventName: '',
-    eventColor: '',
-    eventStartDate: '',
-    eventStartHour: '',
-    eventEndDate: '',
-    eventEndHour: '',
-    eventEnvironment: '',
-  },
-});
-
-async function onSubmit() {
-  if (isEvent.value) {
-    console.log('✅ Enviando evento para salvar:', {
-      id: props.eventId,
-      name: values.eventName,
-      color: values.eventColor,
-      startDate: values.eventStartDate,
-      endDate: values.eventEndDate,
-      calendarId: props.calendarId,
-    });
-    await calendarDataMethods.events.putEvent({
-      id: props.eventId!,
-      name: values.eventName,
-      color: values.eventColor,
-      startDate: values.eventStartDate,
-      endDate: values.eventEndDate,
-      calendar: { id: props.calendarId },
+  if (isEvent.value && props.eventId) {
+    await agendamento.update(props.eventId, {
+      nome: data.nome,
+      cor: data.cor ?? undefined,
+      diaInteiro: data.diaInteiro,
+      dataInicio: data.dataInicio,
+      dataFim: data.dataFim ?? undefined,
+      horarioInicio: data.horarioInicio ?? undefined,
+      horarioFim: data.horarioFim ?? undefined,
+      ...(props.calendarId ? { calendariosLetivos: [{ id: props.calendarId }] } : {}),
     });
   } else {
-    await calendarDataMethods.events.postEvent(
-      values.eventName,
-      values.eventColor,
-      { date: values.eventStartDate, hour: values.eventStartHour },
-      { date: values.eventEndDate, hour: values.eventEndHour },
-      props.calendarId
-    );
+    await agendamento.create({
+      tipo: 'EVENTO',
+      nome: data.nome,
+      cor: data.cor ?? undefined,
+      diaInteiro: data.diaInteiro,
+      dataInicio: data.dataInicio,
+      dataFim: data.dataFim ?? undefined,
+      horarioInicio: data.horarioInicio ?? undefined,
+      horarioFim: data.horarioFim ?? undefined,
+      ...(props.calendarId ? { calendariosLetivos: [{ id: props.calendarId }] } : {}),
+    });
   }
 
+  await agendamento.invalidate();
   window.dispatchEvent(new CustomEvent('calendar-events-updated'));
-}
-
-const validateEventCrud = async (): Promise<boolean> => {
-  const { valid } = await validate();
-  if (!valid) return false;
-  else {
-    await onSubmit();
-    return true;
-  }
+  return true;
 };
 
 const deleteEvent = async (): Promise<boolean> => {
-  if (!isEvent.value || !props.eventName) {
-    console.warn('⚠️ Falta eventName para deletar');
+  const idToDelete = props.eventId || props.eventName;
+  if (!isEvent.value || !idToDelete) {
+    console.warn('Falta eventId/eventName para deletar');
     return false;
   }
 
   try {
-    const event = await calendarDataMethods.events.getEventByName(
-      props.eventName,
-      props.calendarId
-    );
-    if (!event?.id) {
-      console.warn('⚠️ Evento não encontrado para deletar');
-      return false;
-    }
-
-    await calendarDataMethods.events.deleteEvent(event.id);
+    await agendamento.remove(idToDelete);
+    await agendamento.invalidate();
+    window.dispatchEvent(new CustomEvent('calendar-events-updated'));
     return true;
   } catch (e) {
     console.error('Erro deleteEvent:', e);
     return false;
   }
-
-  window.dispatchEvent(new CustomEvent('calendar-events-updated'));
 };
-
-const formReady = ref(false);
-
-onMounted(async () => {
-  formReady.value = true;
-  if (props.eventName) {
-    await getEvent();
-  }
-  isLoading.value = false;
-});
 
 const fillForm = async () => {
   if (!formReady.value) {
@@ -222,66 +191,22 @@ const fillForm = async () => {
   }
 };
 
+onMounted(() => {
+  formReady.value = true;
+  isLoading.value = false;
+});
+
 defineExpose({ validateEventCrud, fillForm, deleteEvent });
 </script>
 
 <template>
-  <div>
-    <!-- Event - Data -->
-    <div v-if="!isLoading" class="flex flex-col gap-4 overflow-visible mt-1">
-      <VVTextField
-        v-model="values.eventName"
-        name="eventName"
-        type="text"
-        label="Nome"
-        placeholder="Digite aqui"
-        :disabled="!!isEvent"
-      />
-      <VVAutocompleteAPIAmbiente
-        v-model="values.eventEnvironment"
-        name="eventEnvironment"
-        type="text"
-        label="Ambientes"
-        placeholder="Digite aqui"
-      />
-
-      <VVTextField
-        v-model="values.eventColor"
-        name="eventColor"
-        type="color"
-        label="Cor"
-      />
-
-      <div class="flex gap-4">
-        <VVTextField
-          v-model="values.eventStartDate"
-          name="eventStartDate"
-          type="date"
-          label="Início"
-          class="flex-1 flex-col"
-        />
-        <VVTextField
-          v-model="values.eventStartHour"
-          name="eventStartHour"
-          type="time"
-          label="Horario de início"
-        />
-      </div>
-
-      <div class="flex gap-4">
-        <VVTextField
-          v-model="values.eventEndDate"
-          name="eventEndDate"
-          type="date"
-          label="Término"
-        />
-        <VVTextField
-          v-model="values.eventEndHour"
-          name="eventEndHour"
-          type="time"
-          label="Horario de Término"
-        />
-      </div>
-    </div>
+  <div v-if="!isLoading">
+    <SectionCalendarioFormSharedEventoFormBase
+      ref="formBaseRef"
+      bare
+      :initial-data="initialData"
+      :disabled="!!isEvent"
+      :show-participants="showParticipants"
+    />
   </div>
 </template>
