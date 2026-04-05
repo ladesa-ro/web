@@ -1984,11 +1984,11 @@ export type CalendarioAgendamentoUpdateInputDto = {
   diarios?: Array<DiarioFindOneInputDto>;
 };
 
-export type ConsultaAgendamentosOutputDto = {
+export type ConsultaOcorrenciasOutputDto = {
   /**
-   * Agendamentos encontrados
+   * Ocorrências encontradas
    */
-  agendamentos: Array<CalendarioAgendamentoFindOneOutputDto>;
+  ocorrencias: Array<CalendarioAgendamentoFindOneOutputDto>;
 };
 
 export type CalendarioLetivoListOutputDto = {
@@ -5357,7 +5357,7 @@ export type CalendarioAgendamentoCreateResponses = {
 export type CalendarioAgendamentoCreateResponse =
   CalendarioAgendamentoCreateResponses[keyof CalendarioAgendamentoCreateResponses];
 
-export type ConsultaAgendamentosPorDataData = {
+export type ConsultaOcorrenciasPorDataData = {
   body?: never;
   path?: never;
   query: {
@@ -5382,23 +5382,66 @@ export type ConsultaAgendamentosPorDataData = {
      */
     professor?: string;
     /**
-     * Filtro por tipo de agendamento (AULA, EVENTO, INDISPONIBILIDADE, RESERVA)
+     * Filtro por tipo de ocorrência (AULA, EVENTO, INDISPONIBILIDADE, RESERVA)
+     */
+    tipo?: string;
+  };
+  url: '/calendario/consultas/ocorrencias';
+};
+
+export type ConsultaOcorrenciasPorDataErrors = {
+  403: unknown;
+};
+
+export type ConsultaOcorrenciasPorDataResponses = {
+  200: ConsultaOcorrenciasOutputDto;
+};
+
+export type ConsultaOcorrenciasPorDataResponse =
+  ConsultaOcorrenciasPorDataResponses[keyof ConsultaOcorrenciasPorDataResponses];
+
+export type ConsultaOcorrenciasPorData2Data = {
+  body?: never;
+  path?: never;
+  query: {
+    /**
+     * Data início do período (YYYY-MM-DD)
+     */
+    dateStart: string;
+    /**
+     * Data fim do período (YYYY-MM-DD)
+     */
+    dateEnd: string;
+    /**
+     * Filtro por campus ID
+     */
+    campus?: string;
+    /**
+     * Filtro por turma ID
+     */
+    turma?: string;
+    /**
+     * Filtro por professor (perfil) ID
+     */
+    professor?: string;
+    /**
+     * Filtro por tipo de ocorrência (AULA, EVENTO, INDISPONIBILIDADE, RESERVA)
      */
     tipo?: string;
   };
   url: '/calendario/consultas/agendamentos';
 };
 
-export type ConsultaAgendamentosPorDataErrors = {
+export type ConsultaOcorrenciasPorData2Errors = {
   403: unknown;
 };
 
-export type ConsultaAgendamentosPorDataResponses = {
-  200: ConsultaAgendamentosOutputDto;
+export type ConsultaOcorrenciasPorData2Responses = {
+  200: ConsultaOcorrenciasOutputDto;
 };
 
-export type ConsultaAgendamentosPorDataResponse =
-  ConsultaAgendamentosPorDataResponses[keyof ConsultaAgendamentosPorDataResponses];
+export type ConsultaOcorrenciasPorData2Response =
+  ConsultaOcorrenciasPorData2Responses[keyof ConsultaOcorrenciasPorData2Responses];
 
 export type CalendarioLetivoFindAllData = {
   body?: never;

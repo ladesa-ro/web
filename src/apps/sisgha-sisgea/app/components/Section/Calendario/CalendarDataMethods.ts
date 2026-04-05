@@ -11,7 +11,7 @@ import {
   calendarioLetivoFindAll,
   calendarioLetivoFindById,
   calendarioLetivoUpdate,
-  consultaAgendamentosPorData,
+  consultaOcorrenciasPorData,
 } from '@ladesa-ro/web.api.client';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat.js';
@@ -252,7 +252,7 @@ export const calendarDataMethods = {
 
       try {
         const result = await getApiClient().call(
-          consultaAgendamentosPorData,
+          consultaOcorrenciasPorData,
           {
             query: {
               dateStart: '2000-01-01',
@@ -262,13 +262,13 @@ export const calendarDataMethods = {
           }
         );
 
-        for (const agendamento of result.agendamentos) {
+        for (const ocorrencia of result.ocorrencias) {
           const event: CalendarEvent = {
-            id: agendamento.id,
-            name: `${agendamento.nome}`,
-            color: agendamento.cor ?? null,
-            startDate: agendamento.dataInicio,
-            endDate: agendamento.dataFim!,
+            id: ocorrencia.id,
+            name: `${ocorrencia.nome}`,
+            color: ocorrencia.cor ?? null,
+            startDate: ocorrencia.dataInicio,
+            endDate: ocorrencia.dataFim!,
             calendar: { id: calendarId },
           };
           remodelEvents.push(event);
@@ -282,7 +282,7 @@ export const calendarDataMethods = {
     async getEventByName(name: string, _calendarId: string): Promise<CalendarEvent | null> {
       try {
         const result = await getApiClient().call(
-          consultaAgendamentosPorData,
+          consultaOcorrenciasPorData,
           {
             query: {
               dateStart: '2000-01-01',
@@ -292,7 +292,7 @@ export const calendarDataMethods = {
           }
         );
 
-        const findEvent = result.agendamentos.find(
+        const findEvent = result.ocorrencias.find(
           (event: CalendarioAgendamentoFindOneOutputDto) => event.id === name || event.nome === name
         );
 

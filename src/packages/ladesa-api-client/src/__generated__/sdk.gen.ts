@@ -145,9 +145,12 @@ import type {
   CidadeFindByIdData,
   CidadeFindByIdErrors,
   CidadeFindByIdResponses,
-  ConsultaAgendamentosPorDataData,
-  ConsultaAgendamentosPorDataErrors,
-  ConsultaAgendamentosPorDataResponses,
+  ConsultaOcorrenciasPorData2Data,
+  ConsultaOcorrenciasPorData2Errors,
+  ConsultaOcorrenciasPorData2Responses,
+  ConsultaOcorrenciasPorDataData,
+  ConsultaOcorrenciasPorDataErrors,
+  ConsultaOcorrenciasPorDataResponses,
   CursoCreateData,
   CursoCreateErrors,
   CursoCreateResponses,
@@ -1671,18 +1674,36 @@ export const calendarioAgendamentoCreate = <
   });
 
 /**
- * Consulta agendamentos por período
+ * Consulta ocorrências por período
  *
- * Consulta agendamentos por período
+ * Consulta ocorrências por período
  */
-export const consultaAgendamentosPorData = <
+export const consultaOcorrenciasPorData = <
   ThrowOnError extends boolean = false,
 >(
-  options: Options<ConsultaAgendamentosPorDataData, ThrowOnError>
+  options: Options<ConsultaOcorrenciasPorDataData, ThrowOnError>
 ) =>
   (options.client ?? client).get<
-    ConsultaAgendamentosPorDataResponses,
-    ConsultaAgendamentosPorDataErrors,
+    ConsultaOcorrenciasPorDataResponses,
+    ConsultaOcorrenciasPorDataErrors,
+    ThrowOnError
+  >({ url: '/calendario/consultas/ocorrencias', ...options });
+
+/**
+ * Consulta ocorrências por período
+ *
+ * Consulta ocorrências por período
+ *
+ * @deprecated
+ */
+export const consultaOcorrenciasPorData2 = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<ConsultaOcorrenciasPorData2Data, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    ConsultaOcorrenciasPorData2Responses,
+    ConsultaOcorrenciasPorData2Errors,
     ThrowOnError
   >({ url: '/calendario/consultas/agendamentos', ...options });
 

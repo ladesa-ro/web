@@ -15,7 +15,7 @@ import {
   calendarioAgendamentoCreate,
   calendarioAgendamentoUpdate,
   calendarioAgendamentoDeleteOneById,
-  consultaAgendamentosPorData,
+  consultaOcorrenciasPorData,
 } from '@ladesa-ro/web.api.client';
 import type {
   CalendarioAgendamentoFindByIdResponse,
@@ -23,7 +23,7 @@ import type {
   CalendarioAgendamentoCreateResponse,
   CalendarioAgendamentoUpdateData,
   CalendarioAgendamentoUpdateResponse,
-  ConsultaAgendamentosPorDataResponse,
+  ConsultaOcorrenciasPorDataResponse,
   ReqBody,
 } from '@ladesa-ro/web.api.client';
 
@@ -38,7 +38,7 @@ type ConsultaParams = {
 
 type ConsultaFn = (
   params: MaybeRef<ConsultaParams>
-) => UseQueryReturnType<ConsultaAgendamentosPorDataResponse, Error>;
+) => UseQueryReturnType<ConsultaOcorrenciasPorDataResponse, Error>;
 
 export type IUseCalendarioAgendamento = {
   keys: readonly string[];
@@ -71,7 +71,7 @@ export const useCalendarioAgendamento = (): IUseCalendarioAgendamento => {
     return useQuery({
       queryKey,
       queryFn: () =>
-        api.call(consultaAgendamentosPorData, { query: unref(params) }),
+        api.call(consultaOcorrenciasPorData, { query: unref(params) }),
     });
   };
 
