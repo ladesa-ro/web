@@ -62,9 +62,16 @@ const {
   errorMessage: dataInicioError,
   handleBlur: dataInicioBlur,
 } = useField<string>('dataInicio');
-const { value: dataFim, handleBlur: dataFimBlur } = useField<string | null>(
-  'dataFim'
-);
+const {
+  value: dataFim,
+  handleBlur: dataFimBlur,
+} = useField<string | null>('dataFim');
+const dataFimModel = computed({
+  get: () => dataFim.value ?? '',
+  set: (v: string) => {
+    dataFim.value = v || null;
+  },
+});
 const { value: horarioInicio } = useField<string | null>('horarioInicio');
 const { value: horarioFim } = useField<string | null>('horarioFim');
 
@@ -139,7 +146,7 @@ const onSubmit = handleSubmit(values => {
         </div>
         <div class="flex-1">
           <UIFormTextField
-            v-model="dataFim as any"
+            v-model="dataFimModel"
             name="dataFim"
             label="Data final"
             type="date"
