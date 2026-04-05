@@ -85,12 +85,21 @@ import type {
   CalendarioAgendamentoDeleteOneByIdData,
   CalendarioAgendamentoDeleteOneByIdErrors,
   CalendarioAgendamentoDeleteOneByIdResponses,
+  CalendarioAgendamentoDesvincularTurmaData,
+  CalendarioAgendamentoDesvincularTurmaErrors,
+  CalendarioAgendamentoDesvincularTurmaResponses,
+  CalendarioAgendamentoFindAllData,
+  CalendarioAgendamentoFindAllErrors,
+  CalendarioAgendamentoFindAllResponses,
   CalendarioAgendamentoFindByIdData,
   CalendarioAgendamentoFindByIdErrors,
   CalendarioAgendamentoFindByIdResponses,
   CalendarioAgendamentoUpdateData,
   CalendarioAgendamentoUpdateErrors,
   CalendarioAgendamentoUpdateResponses,
+  CalendarioAgendamentoUpdateStatusData,
+  CalendarioAgendamentoUpdateStatusErrors,
+  CalendarioAgendamentoUpdateStatusResponses,
   CalendarioLetivoCreateData,
   CalendarioLetivoCreateErrors,
   CalendarioLetivoCreateResponses,
@@ -423,18 +432,6 @@ import type {
   TurmaDisponibilidadeSaveData,
   TurmaDisponibilidadeSaveErrors,
   TurmaDisponibilidadeSaveResponses,
-  TurmaEventoCreateData,
-  TurmaEventoCreateErrors,
-  TurmaEventoCreateResponses,
-  TurmaEventoDeleteData,
-  TurmaEventoDeleteErrors,
-  TurmaEventoDeleteResponses,
-  TurmaEventoFindAllData,
-  TurmaEventoFindAllErrors,
-  TurmaEventoFindAllResponses,
-  TurmaEventoUpdateData,
-  TurmaEventoUpdateErrors,
-  TurmaEventoUpdateResponses,
   TurmaFindAllData,
   TurmaFindAllErrors,
   TurmaFindAllResponses,
@@ -1596,6 +1593,45 @@ export const disciplinaUpdateImagemCapa = <
   });
 
 /**
+ * Lista agendamentos
+ *
+ * Lista agendamentos
+ */
+export const calendarioAgendamentoFindAll = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<CalendarioAgendamentoFindAllData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    CalendarioAgendamentoFindAllResponses,
+    CalendarioAgendamentoFindAllErrors,
+    ThrowOnError
+  >({ url: '/calendario/agendamentos', ...options });
+
+/**
+ * Cria um agendamento no calendario
+ *
+ * Cria um agendamento no calendario
+ */
+export const calendarioAgendamentoCreate = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioAgendamentoCreateResponses,
+    CalendarioAgendamentoCreateErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/agendamentos',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
  * Remove um agendamento do calendario
  *
  * Remove um agendamento do calendario
@@ -1651,21 +1687,37 @@ export const calendarioAgendamentoUpdate = <
   });
 
 /**
- * Cria um agendamento no calendario
+ * Desvincula turma do agendamento
  *
- * Cria um agendamento no calendario
+ * Desvincula turma do agendamento
  */
-export const calendarioAgendamentoCreate = <
+export const calendarioAgendamentoDesvincularTurma = <
   ThrowOnError extends boolean = false,
 >(
-  options: Options<CalendarioAgendamentoCreateData, ThrowOnError>
+  options: Options<CalendarioAgendamentoDesvincularTurmaData, ThrowOnError>
 ) =>
-  (options.client ?? client).post<
-    CalendarioAgendamentoCreateResponses,
-    CalendarioAgendamentoCreateErrors,
+  (options.client ?? client).delete<
+    CalendarioAgendamentoDesvincularTurmaResponses,
+    CalendarioAgendamentoDesvincularTurmaErrors,
+    ThrowOnError
+  >({ url: '/calendario/agendamentos/{id}/turmas/{turmaId}', ...options });
+
+/**
+ * Atualiza status do agendamento
+ *
+ * Atualiza status do agendamento
+ */
+export const calendarioAgendamentoUpdateStatus = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoUpdateStatusData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    CalendarioAgendamentoUpdateStatusResponses,
+    CalendarioAgendamentoUpdateStatusErrors,
     ThrowOnError
   >({
-    url: '/calendario/agendamentos',
+    url: '/calendario/agendamentos/{id}/status',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -2663,68 +2715,6 @@ export const turmaUpdateImagemCapa = <ThrowOnError extends boolean = false>(
     ...options,
     headers: {
       'Content-Type': null,
-      ...options.headers,
-    },
-  });
-
-/**
- * Lista eventos da turma
- */
-export const turmaEventoFindAll = <ThrowOnError extends boolean = false>(
-  options: Options<TurmaEventoFindAllData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    TurmaEventoFindAllResponses,
-    TurmaEventoFindAllErrors,
-    ThrowOnError
-  >({ url: '/turmas/{turmaId}/eventos', ...options });
-
-/**
- * Cria evento escopado a turma
- */
-export const turmaEventoCreate = <ThrowOnError extends boolean = false>(
-  options: Options<TurmaEventoCreateData, ThrowOnError>
-) =>
-  (options.client ?? client).post<
-    TurmaEventoCreateResponses,
-    TurmaEventoCreateErrors,
-    ThrowOnError
-  >({
-    url: '/turmas/{turmaId}/eventos',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Remove evento da turma
- */
-export const turmaEventoDelete = <ThrowOnError extends boolean = false>(
-  options: Options<TurmaEventoDeleteData, ThrowOnError>
-) =>
-  (options.client ?? client).delete<
-    TurmaEventoDeleteResponses,
-    TurmaEventoDeleteErrors,
-    ThrowOnError
-  >({ url: '/turmas/{turmaId}/eventos/{eventoId}', ...options });
-
-/**
- * Atualiza evento da turma
- */
-export const turmaEventoUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<TurmaEventoUpdateData, ThrowOnError>
-) =>
-  (options.client ?? client).patch<
-    TurmaEventoUpdateResponses,
-    TurmaEventoUpdateErrors,
-    ThrowOnError
-  >({
-    url: '/turmas/{turmaId}/eventos/{eventoId}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
       ...options.headers,
     },
   });

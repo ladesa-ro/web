@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { TurmaEventoMergedItem } from '~/composables/useTurmaEventosState';
+import type { AgendamentoMergedItem } from '~/composables/useAgendamentosState';
 
 defineProps<{
-  eventos: TurmaEventoMergedItem[];
+  eventos: AgendamentoMergedItem[];
   disabled?: boolean;
 }>();
 
@@ -19,7 +19,7 @@ const TIPO_LABELS: Record<string, { label: string; color: string }> = {
   RESERVA: { label: 'Reserva', color: 'bg-ldsa-yellow' },
 };
 
-function getTipoInfo(evento: TurmaEventoMergedItem): { label: string; color: string } {
+function getTipoInfo(evento: AgendamentoMergedItem): { label: string; color: string } {
   const status = (evento.data as Record<string, unknown>).status as string | undefined;
   const tipo = (evento.data as Record<string, unknown>).tipo as string | undefined;
   if (tipo && TIPO_LABELS[tipo]) return TIPO_LABELS[tipo]!;
@@ -27,15 +27,15 @@ function getTipoInfo(evento: TurmaEventoMergedItem): { label: string; color: str
   return TIPO_LABELS.EVENTO!;
 }
 
-function getCorHex(evento: TurmaEventoMergedItem): string {
+function getCorHex(evento: AgendamentoMergedItem): string {
   return ((evento.data as Record<string, unknown>).cor as string) ?? '#2f9e41';
 }
 
-function getNome(evento: TurmaEventoMergedItem): string {
+function getNome(evento: AgendamentoMergedItem): string {
   return ((evento.data as Record<string, unknown>).nome as string) ?? 'Sem nome';
 }
 
-function formatPeriodo(evento: TurmaEventoMergedItem): string {
+function formatPeriodo(evento: AgendamentoMergedItem): string {
   const d = evento.data as Record<string, unknown>;
   const dataInicio = d.dataInicio as string;
   const dataFim = d.dataFim as string | null | undefined;

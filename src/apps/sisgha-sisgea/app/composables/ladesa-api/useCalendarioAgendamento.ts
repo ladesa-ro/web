@@ -11,18 +11,24 @@ import type {
   InvalidateFn,
 } from '~/composables/query-helpers';
 import {
+  calendarioAgendamentoFindAll,
   calendarioAgendamentoFindById,
   calendarioAgendamentoCreate,
   calendarioAgendamentoUpdate,
   calendarioAgendamentoDeleteOneById,
+  calendarioAgendamentoDesvincularTurma,
+  calendarioAgendamentoUpdateStatus,
   consultaOcorrenciasPorData,
 } from '@ladesa-ro/web.api.client';
 import type {
   CalendarioAgendamentoFindByIdResponse,
+  CalendarioAgendamentoFindAllData,
+  CalendarioAgendamentoListOutputDto,
   CalendarioAgendamentoCreateData,
   CalendarioAgendamentoCreateResponse,
   CalendarioAgendamentoUpdateData,
   CalendarioAgendamentoUpdateResponse,
+  CalendarioAgendamentoUpdateStatusInputDto,
   ConsultaOcorrenciasPorDataResponse,
   ReqBody,
 } from '@ladesa-ro/web.api.client';
@@ -36,13 +42,24 @@ type ConsultaParams = {
   tipo?: string;
 };
 
+type FindAllQuery = CalendarioAgendamentoFindAllData['query'];
+
 type ConsultaFn = (
   params: MaybeRef<ConsultaParams>
 ) => UseQueryReturnType<ConsultaOcorrenciasPorDataResponse, Error>;
 
+type FindAllFn = (
+  params?: MaybeRef<FindAllQuery | undefined>
+) => UseQueryReturnType<CalendarioAgendamentoListOutputDto, Error>;
+
+type DesvincularTurmaFn = (agendamentoId: string, turmaId: string) => Promise<unknown>;
+
+type UpdateStatusFn = (id: string, status: CalendarioAgendamentoUpdateStatusInputDto['status']) => Promise<unknown>;
+
 export type IUseCalendarioAgendamento = {
   keys: readonly string[];
   consulta: ConsultaFn;
+  findAll: FindAllFn;
   findOne: FindOneFn<CalendarioAgendamentoFindByIdResponse>;
   create: CreateFn<
     ReqBody<CalendarioAgendamentoCreateData>,
@@ -53,6 +70,8 @@ export type IUseCalendarioAgendamento = {
     CalendarioAgendamentoUpdateResponse
   >;
   remove: RemoveFn;
+  desvincularTurma: DesvincularTurmaFn;
+  updateStatus: UpdateStatusFn;
   invalidate: InvalidateFn;
 };
 
@@ -75,6 +94,21 @@ export const useCalendarioAgendamento = (): IUseCalendarioAgendamento => {
     });
   };
 
+  const findAll: FindAllFn = (params?) => {
+    const queryKey = computed(() => [
+      ...keys,
+      'list',
+      JSON.stringify(unref(params)),
+    ]);
+
+    return useQuery({
+      queryKey,
+      queryFn: () =>
+        api.call(calendarioAgendamentoFindAll, { query: unref(params) }),
+      enabled: computed(() => unref(params) !== undefined),
+    });
+  };
+
   const findOne = createFindOneQuery({
     queryKey: keys,
     fetcher: (id: string) =>
@@ -90,15 +124,24 @@ export const useCalendarioAgendamento = (): IUseCalendarioAgendamento => {
   const remove = (id: string) =>
     api.call(calendarioAgendamentoDeleteOneById, { path: { id } });
 
+  const desvincularTurma: DesvincularTurmaFn = (agendamentoId, turmaId) =>
+    api.call(calendarioAgendamentoDesvincularTurma, { path: { id: agendamentoId, turmaId } });
+
+  const updateStatusFn: UpdateStatusFn = (id, status) =>
+    api.call(calendarioAgendamentoUpdateStatus, { path: { id }, body: { status } });
+
   const invalidate = createInvalidate(keys);
 
   return {
     keys,
     consulta,
+    findAll,
     findOne,
     create,
     update,
     remove,
+    desvincularTurma,
+    updateStatus: updateStatusFn,
     invalidate,
   };
 };

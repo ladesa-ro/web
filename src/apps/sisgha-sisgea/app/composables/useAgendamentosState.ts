@@ -1,51 +1,57 @@
 import type {
-  TurmaEventoFindOneOutputDto,
-  TurmaEventoCreateInputDto,
-  TurmaEventoUpdateInputDto,
+  CalendarioAgendamentoFindOneOutputDto,
+  CalendarioAgendamentoCreateInputDto,
+  CalendarioAgendamentoUpdateInputDto,
 } from '@ladesa-ro/web.api.client';
 import { calendarioAgendamentoFindById } from '@ladesa-ro/web.api.client';
 
-export type TurmaEventoLocalItem = {
+export type AgendamentoLocalItem = {
   tempId: string;
-  data: TurmaEventoCreateInputDto;
+  data: CalendarioAgendamentoCreateInputDto;
 };
 
-export type TurmaEventoMergedItem = {
+export type AgendamentoMergedItem = {
   id: string;
   isLocal: boolean;
   isPendingDelete: boolean;
   isPendingUpdate: boolean;
-  data: TurmaEventoFindOneOutputDto | TurmaEventoCreateInputDto;
+  data: CalendarioAgendamentoFindOneOutputDto | CalendarioAgendamentoCreateInputDto;
 };
 
-export type TurmaEventosState = ReturnType<typeof useTurmaEventosStateInternal>;
+export type AgendamentosState = ReturnType<typeof useAgendamentosStateInternal>;
 
-const TURMA_EVENTOS_KEY = Symbol('turma-eventos') as InjectionKey<TurmaEventosState>;
+const AGENDAMENTOS_KEY = Symbol('agendamentos') as InjectionKey<AgendamentosState>;
 
-export function useProvideTurmaEventos(turmaId: MaybeRef<string | null>) {
-  const state = useTurmaEventosStateInternal(turmaId);
-  provide(TURMA_EVENTOS_KEY, state);
+export function useProvideAgendamentos(turmaId: MaybeRef<string | null>) {
+  const state = useAgendamentosStateInternal(turmaId);
+  provide(AGENDAMENTOS_KEY, state);
   return state;
 }
 
-export function useInjectTurmaEventos() {
-  const state = inject(TURMA_EVENTOS_KEY);
+export function useInjectAgendamentos() {
+  const state = inject(AGENDAMENTOS_KEY);
 
   if (!state) {
-    throw new Error('useInjectTurmaEventos: must be used inside a component that calls useProvideTurmaEventos');
+    throw new Error('useInjectAgendamentos: must be used inside a component that calls useProvideAgendamentos');
   }
 
   return state;
 }
 
-function useTurmaEventosStateInternal(turmaId: MaybeRef<string | null>) {
-  const turmaEventos = useTurmaEventos();
+function useAgendamentosStateInternal(turmaId: MaybeRef<string | null>) {
+  const agendamentos = useCalendarioAgendamento();
   const api = useApiClient();
 
-  const eventosQuery = turmaEventos.findAll(turmaId);
+  const eventosQuery = agendamentos.findAll(
+    computed(() => {
+      const tid = unref(turmaId);
+      if (!tid) return undefined;
+      return { 'filter.turma.id': [tid], limit: 100 };
+    }),
+  );
 
-  const pendingCreates = ref<Map<string, TurmaEventoCreateInputDto>>(new Map());
-  const pendingUpdates = ref<Map<string, TurmaEventoUpdateInputDto>>(new Map());
+  const pendingCreates = ref<Map<string, CalendarioAgendamentoCreateInputDto>>(new Map());
+  const pendingUpdates = ref<Map<string, CalendarioAgendamentoUpdateInputDto>>(new Map());
   const pendingDeletes = ref<Set<string>>(new Set());
 
   const exclusivityCache = ref<Map<string, number>>(new Map());
@@ -55,12 +61,12 @@ function useTurmaEventosStateInternal(turmaId: MaybeRef<string | null>) {
     return `__temp_${++tempIdCounter}`;
   }
 
-  const serverEventos = computed<TurmaEventoFindOneOutputDto[]>(() =>
+  const serverEventos = computed<CalendarioAgendamentoFindOneOutputDto[]>(() =>
     eventosQuery.data.value?.data ?? [],
   );
 
-  const mergedEventos = computed<TurmaEventoMergedItem[]>(() => {
-    const items: TurmaEventoMergedItem[] = [];
+  const mergedEventos = computed<AgendamentoMergedItem[]>(() => {
+    const items: AgendamentoMergedItem[] = [];
 
     for (const evento of serverEventos.value) {
       const isDeleted = pendingDeletes.value.has(evento.id);
@@ -71,7 +77,7 @@ function useTurmaEventosStateInternal(turmaId: MaybeRef<string | null>) {
         isLocal: false,
         isPendingDelete: isDeleted,
         isPendingUpdate: !!pendingUpdate,
-        data: pendingUpdate ? { ...evento, ...pendingUpdate } : evento,
+        data: pendingUpdate ? { ...evento, ...pendingUpdate } as CalendarioAgendamentoFindOneOutputDto : evento,
       });
     }
 
@@ -100,16 +106,16 @@ function useTurmaEventosStateInternal(turmaId: MaybeRef<string | null>) {
     pendingDeletes.value.size > 0,
   );
 
-  function addEvento(data: TurmaEventoCreateInputDto): string {
+  function addEvento(data: CalendarioAgendamentoCreateInputDto): string {
     const tempId = nextTempId();
     pendingCreates.value = new Map(pendingCreates.value).set(tempId, data);
     return tempId;
   }
 
-  function updateEvento(id: string, data: TurmaEventoUpdateInputDto) {
+  function updateEvento(id: string, data: CalendarioAgendamentoUpdateInputDto) {
     if (pendingCreates.value.has(id)) {
       const existing = pendingCreates.value.get(id)!;
-      const merged = { ...existing, ...data } as TurmaEventoCreateInputDto;
+      const merged = { ...existing, ...data } as CalendarioAgendamentoCreateInputDto;
       pendingCreates.value = new Map(pendingCreates.value).set(id, merged);
     } else {
       const existing = pendingUpdates.value.get(id) ?? {};
@@ -164,15 +170,19 @@ function useTurmaEventosStateInternal(turmaId: MaybeRef<string | null>) {
     const promises: Promise<unknown>[] = [];
 
     for (const [, data] of creates) {
-      promises.push(turmaEventos.create(tid, data));
+      promises.push(agendamentos.create({
+        ...data,
+        tipo: 'EVENTO',
+        turmas: [{ id: tid }],
+      }));
     }
 
     for (const [id, data] of updates) {
-      promises.push(turmaEventos.update(tid, id, data));
+      promises.push(agendamentos.update(id, data));
     }
 
     for (const id of deletes) {
-      promises.push(turmaEventos.remove(tid, id));
+      promises.push(agendamentos.remove(id));
     }
 
     await Promise.all(promises);
@@ -200,7 +210,7 @@ function useTurmaEventosStateInternal(turmaId: MaybeRef<string | null>) {
   }
 
   async function invalidate() {
-    await turmaEventos.invalidate();
+    await agendamentos.invalidate();
   }
 
   return {

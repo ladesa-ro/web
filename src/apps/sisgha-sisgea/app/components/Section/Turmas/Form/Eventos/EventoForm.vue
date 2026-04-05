@@ -1,27 +1,27 @@
 <script lang="ts" setup>
-import type { TurmaEventoCreateInputDto } from '@ladesa-ro/web.api.client';
+import type { CalendarioAgendamentoCreateInputDto } from '@ladesa-ro/web.api.client';
 import { useField, useForm } from 'vee-validate';
 import {
-  useTurmaEventoFormSchema,
-  type ITurmaEventoFormOutput,
+  useAgendamentoFormSchema,
+  type IAgendamentoFormOutput,
 } from './-Helpers/schema';
 
 const props = defineProps<{
   editId?: string | null;
-  initialData?: Partial<TurmaEventoCreateInputDto>;
+  initialData?: Partial<CalendarioAgendamentoCreateInputDto>;
   disabled?: boolean;
 }>();
 
 const emit = defineEmits<{
   back: [];
-  submit: [data: ITurmaEventoFormOutput];
+  submit: [data: IAgendamentoFormOutput];
   delete: [];
 }>();
 
 const isEditMode = computed(() => !!props.editId);
-const schema = useTurmaEventoFormSchema();
+const schema = useAgendamentoFormSchema();
 
-function buildInitialValues(data?: Partial<TurmaEventoCreateInputDto>) {
+function buildInitialValues(data?: Partial<CalendarioAgendamentoCreateInputDto>) {
   return {
     nome: data?.nome ?? '',
     cor: data?.cor ?? null,
@@ -81,7 +81,7 @@ const onSubmit = handleSubmit(values => {
     output.horarioInicio = '00:00:00';
     output.horarioFim = '23:59:59';
   }
-  emit('submit', output as ITurmaEventoFormOutput);
+  emit('submit', output as IAgendamentoFormOutput);
 });
 </script>
 

@@ -1801,6 +1801,17 @@ export type CalendarioAgendamentoFindOneOutputDto = {
   diarios?: Array<DiarioFindOneOutputDto>;
 };
 
+export type CalendarioAgendamentoListOutputDto = {
+  /**
+   * Metadados da busca
+   */
+  meta: PaginationMetaRestDto;
+  /**
+   * Resultados da busca
+   */
+  data: Array<CalendarioAgendamentoFindOneOutputDto>;
+};
+
 export type TurmaFindOneInputDto = {
   /**
    * Identificador do registro (uuid)
@@ -1982,6 +1993,13 @@ export type CalendarioAgendamentoUpdateInputDto = {
    * Diarios vinculados
    */
   diarios?: Array<DiarioFindOneInputDto>;
+};
+
+export type CalendarioAgendamentoUpdateStatusInputDto = {
+  /**
+   * Novo status do agendamento (ATIVO, INATIVO, RASCUNHO)
+   */
+  status: 'ATIVO' | 'INATIVO' | 'RASCUNHO';
 };
 
 export type ConsultaOcorrenciasOutputDto = {
@@ -2745,126 +2763,6 @@ export type TurmaUpdateInputDto = {
   ambientePadraoAula?: {
     [key: string]: unknown;
   } | null;
-};
-
-export type TurmaEventoFindOneOutputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-  /**
-   * Nome do evento/atividade
-   */
-  nome?: string | null;
-  /**
-   * Data de inicio
-   */
-  dataInicio: string;
-  /**
-   * Data de fim
-   */
-  dataFim?: string | null;
-  /**
-   * Indica se o evento ocupa o dia inteiro
-   */
-  diaInteiro: boolean;
-  /**
-   * Horário de inicio (HH:MM)
-   */
-  horarioInicio: string;
-  /**
-   * Horário de fim (HH:MM)
-   */
-  horarioFim: string;
-  /**
-   * Cor do evento (hex)
-   */
-  cor?: string | null;
-  /**
-   * Regra de repetição
-   */
-  repeticao?: string | null;
-  /**
-   * Status do evento
-   */
-  status?: string | null;
-};
-
-export type TurmaEventoListOutputDto = {
-  /**
-   * Resultados da busca
-   */
-  data: Array<TurmaEventoFindOneOutputDto>;
-};
-
-export type TurmaEventoCreateInputDto = {
-  /**
-   * Nome do evento/atividade
-   */
-  nome: string | null;
-  /**
-   * Data de inicio
-   */
-  dataInicio: string;
-  /**
-   * Data de fim
-   */
-  dataFim?: string | null;
-  /**
-   * Indica se o evento ocupa o dia inteiro
-   */
-  diaInteiro: boolean;
-  /**
-   * Horário de inicio (HH:MM)
-   */
-  horarioInicio?: string;
-  /**
-   * Horário de fim (HH:MM)
-   */
-  horarioFim?: string;
-  /**
-   * Cor do evento (hex)
-   */
-  cor?: string | null;
-  /**
-   * Regra de repetição
-   */
-  repeticao?: string | null;
-};
-
-export type TurmaEventoUpdateInputDto = {
-  /**
-   * Nome do evento/atividade
-   */
-  nome?: string | null;
-  /**
-   * Data de inicio
-   */
-  dataInicio?: string;
-  /**
-   * Data de fim
-   */
-  dataFim?: string | null;
-  /**
-   * Indica se o evento ocupa o dia inteiro
-   */
-  diaInteiro?: boolean;
-  /**
-   * Horário de inicio (HH:MM)
-   */
-  horarioInicio?: string;
-  /**
-   * Horário de fim (HH:MM)
-   */
-  horarioFim?: string;
-  /**
-   * Cor do evento (hex)
-   */
-  cor?: string | null;
-  /**
-   * Regra de repetição
-   */
-  repeticao?: string | null;
 };
 
 export type TurmaDiarioConfigurarItemDto = {
@@ -5267,6 +5165,99 @@ export type DisciplinaUpdateImagemCapaResponses = {
 export type DisciplinaUpdateImagemCapaResponse =
   DisciplinaUpdateImagemCapaResponses[keyof DisciplinaUpdateImagemCapaResponses];
 
+export type CalendarioAgendamentoFindAllData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por tipo de agendamento (INDISPONIBILIDADE, AULA, EVENTO, RESERVA)
+     */
+    'filter.tipo'?: Array<string>;
+    /**
+     * Filtro por status do agendamento (RASCUNHO, ATIVO, INATIVO)
+     */
+    'filter.status'?: Array<string>;
+    /**
+     * Filtro por ID da turma vinculada
+     */
+    'filter.turma.id'?: Array<string>;
+    /**
+     * Filtro por ID do perfil vinculado
+     */
+    'filter.perfil.id'?: Array<string>;
+    /**
+     * Filtro por ID do calendario letivo vinculado
+     */
+    'filter.calendarioLetivo.id'?: Array<string>;
+    /**
+     * Filtro por ID da oferta de formacao vinculada
+     */
+    'filter.ofertaFormacao.id'?: Array<string>;
+    /**
+     * Filtro por ID da modalidade vinculada
+     */
+    'filter.modalidade.id'?: Array<string>;
+    /**
+     * Filtro por ID do ambiente vinculado
+     */
+    'filter.ambiente.id'?: Array<string>;
+    /**
+     * Filtro por ID do diario vinculado
+     */
+    'filter.diario.id'?: Array<string>;
+  };
+  url: '/calendario/agendamentos';
+};
+
+export type CalendarioAgendamentoFindAllErrors = {
+  403: unknown;
+};
+
+export type CalendarioAgendamentoFindAllResponses = {
+  200: CalendarioAgendamentoListOutputDto;
+};
+
+export type CalendarioAgendamentoFindAllResponse =
+  CalendarioAgendamentoFindAllResponses[keyof CalendarioAgendamentoFindAllResponses];
+
+export type CalendarioAgendamentoCreateData = {
+  body: CalendarioAgendamentoCreateInputDto;
+  path?: never;
+  query?: never;
+  url: '/calendario/agendamentos';
+};
+
+export type CalendarioAgendamentoCreateErrors = {
+  403: unknown;
+};
+
+export type CalendarioAgendamentoCreateResponses = {
+  201: CalendarioAgendamentoFindOneOutputDto;
+};
+
+export type CalendarioAgendamentoCreateResponse =
+  CalendarioAgendamentoCreateResponses[keyof CalendarioAgendamentoCreateResponses];
+
 export type CalendarioAgendamentoDeleteOneByIdData = {
   body?: never;
   path: {
@@ -5339,23 +5330,57 @@ export type CalendarioAgendamentoUpdateResponses = {
 export type CalendarioAgendamentoUpdateResponse =
   CalendarioAgendamentoUpdateResponses[keyof CalendarioAgendamentoUpdateResponses];
 
-export type CalendarioAgendamentoCreateData = {
-  body: CalendarioAgendamentoCreateInputDto;
-  path?: never;
+export type CalendarioAgendamentoDesvincularTurmaData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+    /**
+     * ID da turma a desvincular
+     */
+    turmaId: string;
+  };
   query?: never;
-  url: '/calendario/agendamentos';
+  url: '/calendario/agendamentos/{id}/turmas/{turmaId}';
 };
 
-export type CalendarioAgendamentoCreateErrors = {
+export type CalendarioAgendamentoDesvincularTurmaErrors = {
   403: unknown;
+  404: unknown;
 };
 
-export type CalendarioAgendamentoCreateResponses = {
-  201: CalendarioAgendamentoFindOneOutputDto;
+export type CalendarioAgendamentoDesvincularTurmaResponses = {
+  200: boolean;
 };
 
-export type CalendarioAgendamentoCreateResponse =
-  CalendarioAgendamentoCreateResponses[keyof CalendarioAgendamentoCreateResponses];
+export type CalendarioAgendamentoDesvincularTurmaResponse =
+  CalendarioAgendamentoDesvincularTurmaResponses[keyof CalendarioAgendamentoDesvincularTurmaResponses];
+
+export type CalendarioAgendamentoUpdateStatusData = {
+  body: CalendarioAgendamentoUpdateStatusInputDto;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/agendamentos/{id}/status';
+};
+
+export type CalendarioAgendamentoUpdateStatusErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioAgendamentoUpdateStatusResponses = {
+  200: CalendarioAgendamentoFindOneOutputDto;
+};
+
+export type CalendarioAgendamentoUpdateStatusResponse =
+  CalendarioAgendamentoUpdateStatusResponses[keyof CalendarioAgendamentoUpdateStatusResponses];
 
 export type ConsultaOcorrenciasPorDataData = {
   body?: never;
@@ -6954,108 +6979,6 @@ export type TurmaUpdateImagemCapaResponses = {
 
 export type TurmaUpdateImagemCapaResponse =
   TurmaUpdateImagemCapaResponses[keyof TurmaUpdateImagemCapaResponses];
-
-export type TurmaEventoFindAllData = {
-  body?: never;
-  path: {
-    /**
-     * ID da turma
-     */
-    turmaId: string;
-  };
-  query?: never;
-  url: '/turmas/{turmaId}/eventos';
-};
-
-export type TurmaEventoFindAllErrors = {
-  403: unknown;
-};
-
-export type TurmaEventoFindAllResponses = {
-  200: TurmaEventoListOutputDto;
-};
-
-export type TurmaEventoFindAllResponse =
-  TurmaEventoFindAllResponses[keyof TurmaEventoFindAllResponses];
-
-export type TurmaEventoCreateData = {
-  body: TurmaEventoCreateInputDto;
-  path: {
-    /**
-     * ID da turma
-     */
-    turmaId: string;
-  };
-  query?: never;
-  url: '/turmas/{turmaId}/eventos';
-};
-
-export type TurmaEventoCreateErrors = {
-  403: unknown;
-};
-
-export type TurmaEventoCreateResponses = {
-  201: TurmaEventoFindOneOutputDto;
-};
-
-export type TurmaEventoCreateResponse =
-  TurmaEventoCreateResponses[keyof TurmaEventoCreateResponses];
-
-export type TurmaEventoDeleteData = {
-  body?: never;
-  path: {
-    /**
-     * ID da turma
-     */
-    turmaId: string;
-    /**
-     * ID do evento
-     */
-    eventoId: string;
-  };
-  query?: never;
-  url: '/turmas/{turmaId}/eventos/{eventoId}';
-};
-
-export type TurmaEventoDeleteErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type TurmaEventoDeleteResponses = {
-  200: boolean;
-};
-
-export type TurmaEventoDeleteResponse =
-  TurmaEventoDeleteResponses[keyof TurmaEventoDeleteResponses];
-
-export type TurmaEventoUpdateData = {
-  body: TurmaEventoUpdateInputDto;
-  path: {
-    /**
-     * ID da turma
-     */
-    turmaId: string;
-    /**
-     * ID do evento
-     */
-    eventoId: string;
-  };
-  query?: never;
-  url: '/turmas/{turmaId}/eventos/{eventoId}';
-};
-
-export type TurmaEventoUpdateErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type TurmaEventoUpdateResponses = {
-  200: TurmaEventoFindOneOutputDto;
-};
-
-export type TurmaEventoUpdateResponse =
-  TurmaEventoUpdateResponses[keyof TurmaEventoUpdateResponses];
 
 export type TurmaDiarioConfigurarData = {
   body: TurmaDiarioConfigurarInputDto;

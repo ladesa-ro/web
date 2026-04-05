@@ -1,9 +1,14 @@
 <script lang="ts" setup>
+import {
+  calendarioAgendamentoUpdateStatus,
+  calendarioAgendamentoDesvincularTurma,
+} from '@ladesa-ro/web.api.client';
 import { FormMode } from '~/utils/constants';
 
 const props = defineProps<{
   disabled?: boolean;
   mode: FormMode;
+  turmaId?: string | null;
 }>();
 
 const emit = defineEmits<{
@@ -17,10 +22,17 @@ const {
   undoRemove,
   checkExclusivity,
   isExclusive,
-} = useInjectTurmaEventos();
+  invalidate,
+} = useInjectAgendamentos();
+
+const api = useApiClient();
 
 const confirmDelete = useConfirmDelete();
 const confirmMessage = ref('');
+
+// Exclusive delete dialog state (3-option: delete / inactivate / cancel)
+const exclusiveDeleteDialog = ref(false);
+const exclusiveDeleteEventoId = ref<string | null>(null);
 
 const isManageMode = computed(() => props.mode === FormMode.MANAGE);
 
@@ -48,14 +60,58 @@ async function handleRemove(id: string) {
   await checkExclusivity(id);
   const exclusive = isExclusive(id);
 
-  confirmMessage.value = exclusive
-    ? 'Deseja realmente excluir este evento?'
-    : 'Este evento pertence a outras turmas. Deseja desvincular desta turma?';
+  if (exclusive) {
+    // Show 3-option dialog: delete / inactivate / cancel
+    exclusiveDeleteEventoId.value = id;
+    exclusiveDeleteDialog.value = true;
+  } else {
+    // Shared evento: desvincular from this turma
+    const turmaId = props.turmaId;
+    if (!turmaId) return;
 
-  const confirmed = await confirmDelete.confirm();
-  if (confirmed) {
-    removeEvento(id);
+    confirmMessage.value = 'Este evento pertence a outras turmas. Deseja desvincular desta turma?';
+    const confirmed = await confirmDelete.confirm();
+    if (confirmed) {
+      try {
+        await api.call(calendarioAgendamentoDesvincularTurma, {
+          path: { id, turmaId },
+        });
+        await invalidate();
+      } catch (e) {
+        console.error('Erro ao desvincular turma:', e);
+      }
+    }
   }
+}
+
+async function handleExclusiveDelete() {
+  const id = exclusiveDeleteEventoId.value;
+  if (!id) return;
+  exclusiveDeleteDialog.value = false;
+  exclusiveDeleteEventoId.value = null;
+  removeEvento(id);
+}
+
+async function handleExclusiveInactivate() {
+  const id = exclusiveDeleteEventoId.value;
+  if (!id) return;
+  exclusiveDeleteDialog.value = false;
+  exclusiveDeleteEventoId.value = null;
+
+  try {
+    await api.call(calendarioAgendamentoUpdateStatus, {
+      path: { id },
+      body: { status: 'INATIVO' },
+    });
+    await invalidate();
+  } catch (e) {
+    console.error('Erro ao inativar evento:', e);
+  }
+}
+
+function handleExclusiveCancel() {
+  exclusiveDeleteDialog.value = false;
+  exclusiveDeleteEventoId.value = null;
 }
 </script>
 
@@ -113,4 +169,42 @@ async function handleRemove(id: string) {
     :message="confirmMessage"
     @confirm="confirmDelete.onConfirm"
   />
+
+  <!-- Exclusive delete dialog: delete / inactivate / cancel -->
+  <DialogSkeleton v-model="exclusiveDeleteDialog">
+    <DialogModalBaseLayout
+      v-if="exclusiveDeleteDialog"
+      title="Remover evento"
+      :close-button="true"
+      :on-close="handleExclusiveCancel"
+    >
+      <p class="text-ldsa-grey text-center mx-auto max-w-[20rem] break-words">
+        Este evento pertence apenas a esta turma. O que deseja fazer?
+      </p>
+
+      <template #button-group>
+        <button
+          type="button"
+          class="flex-1 rounded-lg border border-ldsa-grey/30 px-4 py-2 text-sm font-medium text-ldsa-text-default hover:bg-ldsa-grey/10"
+          @click="handleExclusiveCancel"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="flex-1 rounded-lg bg-ldsa-yellow/90 px-4 py-2 text-sm font-medium text-white hover:bg-ldsa-yellow"
+          @click="handleExclusiveInactivate"
+        >
+          Inativar evento
+        </button>
+        <button
+          type="button"
+          class="flex-1 rounded-lg bg-ldsa-red px-4 py-2 text-sm font-medium text-white hover:bg-ldsa-red/90"
+          @click="handleExclusiveDelete"
+        >
+          Deletar evento
+        </button>
+      </template>
+    </DialogModalBaseLayout>
+  </DialogSkeleton>
 </template>

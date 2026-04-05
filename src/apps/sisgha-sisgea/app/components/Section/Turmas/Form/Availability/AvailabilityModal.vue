@@ -11,6 +11,7 @@ const props = defineProps<{
   disabled?: boolean;
   isLoading?: boolean;
   mode?: FormMode;
+  turmaId?: string | null;
 }>();
 
 const emit = defineEmits<{
@@ -213,6 +214,7 @@ function getConfigLabel(
         v-if="!isEditing && props.mode === FormMode.MANAGE"
         :disabled="props.disabled"
         :mode="props.mode"
+        :turma-id="props.turmaId"
         @open-create="emit('open-evento-create')"
         @open-edit="(id: string) => emit('open-evento-edit', id)"
       />

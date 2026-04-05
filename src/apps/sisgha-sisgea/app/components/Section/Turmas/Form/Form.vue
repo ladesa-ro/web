@@ -30,7 +30,7 @@ const avail = useProvideTurmaAvailability(
   campusId
 );
 
-const eventosState = useProvideTurmaEventos(computed(() => editId));
+const eventosState = useProvideAgendamentos(computed(() => editId));
 
 // Evento dialog management
 type EventoDialogName = 'evento-create' | 'evento-edit';
@@ -154,6 +154,7 @@ watch(mode, val => { modeRef.value = val; }, { immediate: true });
           :disabled="isBusy"
           :is-loading="isLoading"
           :mode="mode"
+          :turma-id="editId"
           @open-evento-create="openEventoCreate"
           @open-evento-edit="openEventoEdit"
         />
