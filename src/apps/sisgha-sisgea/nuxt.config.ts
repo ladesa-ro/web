@@ -95,7 +95,7 @@ export default defineNuxtConfig({
 
   // ==============================================
 
-  modules: ['@nuxtjs/color-mode', 'vue3-carousel-nuxt', '@nuxt/eslint'],
+  modules: ['@pinia/nuxt', '@nuxtjs/color-mode', 'vue3-carousel-nuxt', '@nuxt/eslint'],
 
   colorMode: {
     preference: 'system',
