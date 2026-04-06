@@ -149,6 +149,7 @@ async function handleDelete() {
       <SectionCalendarioFormCrudCalendar
         v-show="registerType === 'calendar' || props.editMode === 'calendar'"
         ref="calendarCrudRef"
+        :calendar-id="props.calendarId"
         :form-stage="stage"
       />
 
@@ -168,7 +169,7 @@ async function handleDelete() {
       <!-- Buttons -->
       <template #button-group>
         <UIButtonModalGoBack
-          v-show="stage > 0 && !props.editMode"
+          v-show="stage > 0 && (!props.editMode || (props.editMode === 'calendar' && stage > 1))"
           class="flex w-full"
           @click.prevent="formStage('prev')"
         />
@@ -184,16 +185,15 @@ async function handleDelete() {
         />
 
         <UIButtonModalAdvance
-          v-if="stage === 1 && registerType === 'calendar' && !props.editMode"
+          v-if="stage === 1 && (registerType === 'calendar' || props.editMode === 'calendar')"
           class="flex w-full"
           @click.prevent="formStage('next')"
         />
         <UIButtonModalSave
-          v-else-if="stage > 0 && (registerType === 'events' || stage === 2)"
+          v-else-if="stage > 0 && (registerType === 'events' || stage === 2) && !props.editMode"
           type="submit"
-          @click="onSubmit"
         />
-        <UIButtonModalEdit v-show="props.editMode" type="submit" />
+        <UIButtonModalEdit v-show="props.editMode && !(props.editMode === 'calendar' && stage === 1)" type="submit" />
       </template>
     </DialogModalBaseLayout>
   </form>

@@ -1,17 +1,11 @@
 <script lang="ts" setup>
 import type { CalendarioAgendamentoCreateInputDto } from '@ladesa-ro/web.api.client';
-import { useField, useForm } from 'vee-validate';
+import { useForm } from 'vee-validate';
 import {
   useAgendamentoFormSchema,
   type IAgendamentoFormOutput,
+  type IParticipantesData,
 } from './schema';
-
-export interface IParticipantesData {
-  todosParticipam: boolean;
-  turmas: Array<{ id: string }>;
-  perfis: Array<{ id: string }>;
-  ofertasFormacao: Array<{ id: string }>;
-}
 
 const props = withDefaults(defineProps<{
   editId?: string | null;
@@ -24,16 +18,9 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   back: [];
-  submit: [data: IAgendamentoFormOutput & { participantes?: IParticipantesData }];
+  submit: [data: IAgendamentoFormOutput];
   delete: [];
 }>();
-
-const participantes = ref<IParticipantesData>({
-  todosParticipam: false,
-  turmas: [],
-  perfis: [],
-  ofertasFormacao: [],
-});
 
 const isEditMode = computed(() => !!props.editId);
 const schema = useAgendamentoFormSchema();
@@ -48,10 +35,16 @@ function buildInitialValues(data?: Partial<CalendarioAgendamentoCreateInputDto>)
     dataFim: data?.dataFim ?? null,
     horarioInicio: data?.horarioInicio ?? '',
     horarioFim: data?.horarioFim ?? '',
+    participantes: {
+      todosParticipam: false,
+      turmas: [],
+      perfis: [],
+      ofertasFormacao: [],
+    } as IParticipantesData,
   };
 }
 
-const { handleSubmit, resetForm, validate, setValues } = useForm({
+const { handleSubmit, resetForm, validate, setValues, values } = useForm({
   validationSchema: schema,
   initialValues: buildInitialValues(props.initialData),
 });
@@ -66,89 +59,27 @@ watch(
   { immediate: true }
 );
 
-const {
-  value: nome,
-  errorMessage: nomeError,
-  handleBlur: nomeBlur,
-} = useField<string>('nome');
-const { value: cor } = useField<string | null>('cor');
-const { value: repeticao } = useField<string | null>('repeticao');
-const { value: diaInteiro } = useField<boolean>('diaInteiro');
-const {
-  value: dataInicio,
-  errorMessage: dataInicioError,
-  handleBlur: dataInicioBlur,
-} = useField<string>('dataInicio');
-const {
-  value: dataFim,
-  handleBlur: dataFimBlur,
-} = useField<string | null>('dataFim');
-const dataFimModel = computed({
-  get: () => dataFim.value ?? '',
-  set: (v: string) => {
-    dataFim.value = v || null;
-  },
-});
-const { value: horarioInicio } = useField<string | null>('horarioInicio');
-const { value: horarioFim } = useField<string | null>('horarioFim');
-
-const onSubmit = handleSubmit(values => {
-  const isDiaInteiro = values.diaInteiro;
-  const output: IAgendamentoFormOutput & { participantes?: IParticipantesData } = {
-    ...values,
-    horarioInicio: isDiaInteiro ? '00:00:00' : values.horarioInicio,
-    horarioFim: isDiaInteiro ? '23:59:59' : values.horarioFim,
-    ...(props.showParticipants ? { participantes: participantes.value } : {}),
+const onSubmit = handleSubmit(formValues => {
+  const isDiaInteiro = formValues.diaInteiro;
+  const output: IAgendamentoFormOutput = {
+    ...formValues,
+    horarioInicio: isDiaInteiro ? '00:00:00' : formValues.horarioInicio,
+    horarioFim: isDiaInteiro ? '23:59:59' : formValues.horarioFim,
   };
   emit('submit', output);
 });
 
-async function validateAndGetValues(): Promise<(IAgendamentoFormOutput & { participantes?: IParticipantesData }) | null> {
+async function validateAndGetValues(): Promise<IAgendamentoFormOutput | null> {
   const { valid } = await validate();
   if (!valid) return null;
-  const isDiaInteiro = diaInteiro.value;
-  const output: IAgendamentoFormOutput & { participantes?: IParticipantesData } = {
-    nome: nome.value,
-    cor: cor.value,
-    repeticao: repeticao.value,
-    diaInteiro: isDiaInteiro,
-    dataInicio: dataInicio.value,
-    dataFim: dataFim.value,
-    horarioInicio: isDiaInteiro ? '00:00:00' : horarioInicio.value,
-    horarioFim: isDiaInteiro ? '23:59:59' : horarioFim.value,
-    ...(props.showParticipants ? { participantes: participantes.value } : {}),
+  const isDiaInteiro = values.diaInteiro;
+  const output: IAgendamentoFormOutput = {
+    ...values,
+    horarioInicio: isDiaInteiro ? '00:00:00' : values.horarioInicio,
+    horarioFim: isDiaInteiro ? '23:59:59' : values.horarioFim,
   };
   return output;
 }
-
-const fieldProps = computed(() => ({
-  disabled: props.disabled,
-  showParticipants: props.showParticipants,
-  origemProfessor: props.origemProfessor,
-  nome: nome.value,
-  nomeError: nomeError.value,
-  cor: cor.value,
-  repeticao: repeticao.value,
-  diaInteiro: diaInteiro.value,
-  dataInicio: dataInicio.value,
-  dataInicioError: dataInicioError.value,
-  dataFim: dataFimModel.value,
-  horarioInicio: horarioInicio.value,
-  horarioFim: horarioFim.value,
-  participantes: participantes.value,
-  'onUpdate:nome': (v: string) => { nome.value = v; },
-  'onUpdate:cor': (v: string | null) => { cor.value = v; },
-  'onUpdate:repeticao': (v: string | null) => { repeticao.value = v; },
-  'onUpdate:diaInteiro': (v: boolean) => { diaInteiro.value = v; },
-  'onUpdate:dataInicio': (v: string) => { dataInicio.value = v; },
-  'onUpdate:dataFim': (v: string) => { dataFim.value = v || null; },
-  'onUpdate:horarioInicio': (v: string | null) => { horarioInicio.value = v; },
-  'onUpdate:horarioFim': (v: string | null) => { horarioFim.value = v; },
-  'onUpdate:participantes': (v: IParticipantesData) => { participantes.value = v; },
-  'onBlur:nome': () => nomeBlur(),
-  'onBlur:dataInicio': () => dataInicioBlur(),
-  'onBlur:dataFim': () => dataFimBlur(),
-}));
 
 defineExpose({ validateAndGetValues, setValues, resetForm });
 </script>
@@ -156,7 +87,11 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
 <template>
   <!-- Bare mode: just the form fields, no modal wrapper -->
   <div v-if="bare" class="flex flex-col gap-5">
-    <SectionCalendarioFormSharedEventoFormFields v-bind="fieldProps" />
+    <SectionCalendarioFormSharedEventoFormFields
+      :disabled="disabled"
+      :show-participants="showParticipants"
+      :origem-professor="origemProfessor"
+    />
   </div>
 
   <!-- Modal mode: wrapped in dialog layout -->
@@ -168,7 +103,11 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
     class="evento-form-modal"
   >
     <form class="flex flex-col gap-5" @submit.prevent="onSubmit">
-      <SectionCalendarioFormSharedEventoFormFields v-bind="fieldProps" />
+      <SectionCalendarioFormSharedEventoFormFields
+        :disabled="disabled"
+        :show-participants="showParticipants"
+        :origem-professor="origemProfessor"
+      />
     </form>
 
     <template #button-group>

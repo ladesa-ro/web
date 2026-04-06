@@ -68,10 +68,7 @@ const queryParams = computed(() => {
   if (filtersStore.searchQuery.trim()) params.search = filtersStore.searchQuery.trim();
   if (filtersStore.gestaoEventosStatus) params['filter.status'] = [filtersStore.gestaoEventosStatus];
   if (filtersStore.gestaoEventosTipo) params['filter.tipo'] = [filtersStore.gestaoEventosTipo];
-  if (filtersStore.gestaoEventosCalendarioId) params['filter.calendarioId'] = [filtersStore.gestaoEventosCalendarioId];
-  if (filtersStore.gestaoEventosParticipantes) params['filter.participantes'] = [filtersStore.gestaoEventosParticipantes];
-  if (filtersStore.gestaoEventosPeriodoInicio) params['filter.dataInicio'] = filtersStore.gestaoEventosPeriodoInicio;
-  if (filtersStore.gestaoEventosPeriodoFim) params['filter.dataFim'] = filtersStore.gestaoEventosPeriodoFim;
+  if (filtersStore.gestaoEventosCalendarioId) params['filter.calendarioLetivo.id'] = [filtersStore.gestaoEventosCalendarioId];
   return params;
 });
 

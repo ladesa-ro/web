@@ -58,7 +58,7 @@ const qtdPeriodos = computed(() => etapas.value.length);
   <div
     class="p-5 rounded-lg border-2 border-ldsa-grey flex flex-col gap-3.5 hover:bg-ldsa-grey/10 h-full transition-colors"
   >
-    <div class="flex-1 flex justify-between items-center">
+    <div class="flex justify-between items-center">
       <div class="flex items-center gap-2 min-w-0">
         <h2 class="font-medium text-lg truncate min-w-0">{{ calendario.nome }}</h2>
         <span

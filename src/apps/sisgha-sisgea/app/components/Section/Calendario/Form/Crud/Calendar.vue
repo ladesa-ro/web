@@ -1,17 +1,18 @@
 <script lang="ts" setup>
-import dayjs from 'dayjs';
-import { useForm } from 'vee-validate';
-import * as yup from 'yup';
-import type Step from '~/components/VV/Calendar/Step.vue';
-import { useCampusDoUsuario } from '~/composables/useCampusDoUsuario';
+import type {
+  CalendarioLetivoEtapaInputDto,
+  CalendarioLetivoEtapaOutputDto,
+  OfertaFormacaoPeriodoOutputDto,
+} from '@ladesa-ro/web.api.client';
 import {
   calendarioLetivoFindById,
   ofertaFormacaoFindById,
 } from '@ladesa-ro/web.api.client';
-import type {
-  OfertaFormacaoPeriodoOutputDto,
-  CalendarioLetivoEtapaInputDto,
-} from '@ladesa-ro/web.api.client';
+import dayjs from 'dayjs';
+import { useForm } from 'vee-validate';
+import type Step from '~/components/VV/Calendar/Step.vue';
+import { useCampusDoUsuario } from '~/composables/useCampusDoUsuario';
+import { calendarSchema, type ICalendarFormValues } from './-Helpers/calendarSchema';
 
 const calendarioLetivo = useCalendarioLetivo();
 
@@ -23,15 +24,17 @@ type Props = {
 const props = defineProps<Props>();
 const _formStage = ref<number>(0);
 
-type FormValues = {
-  calendarName?: string;
-  calendarYear?: number;
-  trainingOffer?: string;
-  campus?: string;
-};
-
 const formacaoPeriodos = ref<OfertaFormacaoPeriodoOutputDto[]>([]);
 const stepRefs = ref<InstanceType<typeof Step>[]>([]);
+const loadedEtapas = ref<CalendarioLetivoEtapaOutputDto[]>([]);
+
+const loadedEtapaMap = computed(() => {
+  const map: Record<string, CalendarioLetivoEtapaOutputDto> = {};
+  for (const etapa of loadedEtapas.value) {
+    map[etapa.ofertaFormacaoPeriodoEtapaId] = etapa;
+  }
+  return map;
+});
 
 async function fetchFormacaoEtapas() {
   formacaoPeriodos.value = [];
@@ -53,25 +56,9 @@ async function fetchFormacaoEtapas() {
 
 const createdCalendarId = ref<string>('');
 
-const schemaCalendar = yup.object({
-  calendarName: yup.string().required('Nome inválido'),
-  calendarYear: yup
-    .number()
-    .required('Ano letivo inválido')
-    .min(2000, 'Ano inválido')
-    .max(2125, 'Ano inválido'),
-  campus: yup.string().required('Campus inválido'),
-  trainingOffer: yup.string().required('Formação inválida'),
-});
-
-const { values, validate, setFieldValue } = useForm<FormValues>({
-  validationSchema: schemaCalendar,
-  initialValues: {
-    calendarName: '',
-    calendarYear: dayjs().year(),
-    trainingOffer: '',
-    campus: '',
-  },
+const { values, validate, setFieldValue } = useForm<ICalendarFormValues>({
+  validationSchema: calendarSchema,
+  initialValues: calendarSchema.getDefault(),
 });
 
 const { campusId: campusUsuarioDefault } = useCampusDoUsuario();
@@ -91,6 +78,7 @@ async function loadExistingCalendar() {
       await nextTick();
       setFieldValue('trainingOffer', cal.ofertaFormacao?.id ?? '');
       createdCalendarId.value = cal.id;
+      loadedEtapas.value = cal.etapas ?? [];
     }
   } catch (e) {
     console.error('Erro ao carregar calendário para edição:', e);
@@ -105,7 +93,7 @@ onMounted(async () => {
   }
 });
 
-watch(campusUsuarioDefault, (newCampusId) => {
+watch(campusUsuarioDefault, newCampusId => {
   if (newCampusId && !isEditMode.value && !values.campus) {
     setFieldValue('campus', newCampusId);
   }
@@ -159,7 +147,9 @@ async function onSubmit(): Promise<string> {
   });
 
   await calendarioLetivo.invalidate();
-  return created && typeof created === 'object' && 'id' in created ? String(created.id) : '';
+  return created && typeof created === 'object' && 'id' in created
+    ? String(created.id)
+    : '';
 }
 
 const formValidation = async (): Promise<boolean> => {
@@ -222,14 +212,18 @@ watch(
 
     <div v-show="_formStage === 2" class="flex flex-col gap-4 pr-2">
       <template v-for="periodo in formacaoPeriodos" :key="periodo.id">
-        <h3 class="font-bold text-lg mt-2">Período {{ periodo.numeroPeriodo }}</h3>
+        <h3 class="font-bold text-lg mt-2">
+          Período {{ periodo.numeroPeriodo }}
+        </h3>
         <VVCalendarStep
           v-for="etapa in periodo.etapas"
           :key="etapa.id"
           ref="stepRefs"
           :oferta-formacao-periodo-etapa-id="etapa.id"
           :etapa-nome="etapa.nome"
-          :etapa-cor="etapa.cor"
+          :etapa-cor="loadedEtapaMap[etapa.id]?.cor ?? etapa.cor"
+          :data-inicio="loadedEtapaMap[etapa.id]?.dataInicio"
+          :data-termino="loadedEtapaMap[etapa.id]?.dataTermino"
           :text="etapa.nome"
         />
       </template>

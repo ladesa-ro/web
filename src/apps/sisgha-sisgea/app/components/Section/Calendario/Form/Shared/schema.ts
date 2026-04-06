@@ -1,5 +1,14 @@
 import * as yup from 'yup';
 
+const participantesSchema = yup.object({
+  todosParticipam: yup.boolean().required().default(false),
+  turmas: yup.array().of(yup.object({ id: yup.string().required() })).default([]),
+  perfis: yup.array().of(yup.object({ id: yup.string().required() })).default([]),
+  ofertasFormacao: yup.array().of(yup.object({ id: yup.string().required() })).default([]),
+}).default({ todosParticipam: false, turmas: [], perfis: [], ofertasFormacao: [] });
+
+export type IParticipantesData = yup.InferType<typeof participantesSchema>;
+
 const schema = yup
   .object()
   .shape({
@@ -42,6 +51,8 @@ const schema = yup
       .string()
       .nullable()
       .default(null),
+
+    participantes: participantesSchema,
   })
   .required();
 

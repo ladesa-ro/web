@@ -12,6 +12,8 @@ import {
 import type {
   CalendarioLetivoDiaFindOneOutputDto,
 } from '@ladesa-ro/web.api.client';
+import { useForm } from 'vee-validate';
+import { diaEditSchema } from './-Helpers/schema';
 
 dayjs.locale('pt-br');
 
@@ -29,12 +31,14 @@ const dias = ref<CalendarioLetivoDiaFindOneOutputDto[]>([]);
 const isLoadingDias = ref(false);
 
 // Edit dialog — editingDia uses Partial because creation stubs lack server-only fields
-type EditableDia = Pick<CalendarioLetivoDiaFindOneOutputDto, 'id' | 'data' | 'diaLetivo' | 'diaPresencial' | 'extraCurricular'> & {
-  feriado?: string | null;
-};
+type EditableDia = Pick<CalendarioLetivoDiaFindOneOutputDto, 'id' | 'data'>;
 const editDialogOpen = ref(false);
 const editingDia = ref<EditableDia | null>(null);
-const editingCor = ref<string | null>(null);
+
+const { handleSubmit: handleEditSubmit, resetForm: resetEditForm } = useForm({
+  validationSchema: diaEditSchema,
+  initialValues: diaEditSchema.getDefault(),
+});
 
 const MONTH_NAMES = [
   'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
@@ -114,13 +118,17 @@ function openEdit(dia: CalendarioLetivoDiaFindOneOutputDto) {
   editingDia.value = {
     id: dia.id,
     data: dia.data,
-    diaLetivo: dia.diaLetivo,
-    feriado: dia.feriado,
-    diaPresencial: dia.diaPresencial,
-    extraCurricular: dia.extraCurricular,
   };
   // TODO: remove Record cast after SDK regeneration includes 'cor' field
-  editingCor.value = ((dia as Record<string, unknown>).cor as string) ?? null;
+  resetEditForm({
+    values: {
+      feriado: dia.feriado ?? '',
+      cor: ((dia as Record<string, unknown>).cor as string) ?? null,
+      diaLetivo: dia.diaLetivo,
+      diaPresencial: dia.diaPresencial,
+      extraCurricular: dia.extraCurricular,
+    } as Record<string, unknown>,
+  });
   editDialogOpen.value = true;
 }
 
@@ -129,23 +137,14 @@ function openCreateDialog() {
   editingDia.value = {
     id: '',
     data: dayjs().format('YYYY-MM-DD'),
-    diaLetivo: false,
-    feriado: '',
-    diaPresencial: false,
-    extraCurricular: false,
   };
-  editingCor.value = null;
+  resetEditForm({
+    values: diaEditSchema.getDefault(),
+  });
   editDialogOpen.value = true;
 }
 
-const editNomeModel = computed({
-  get: () => editingDia.value?.feriado ?? '',
-  set: (v: string) => {
-    if (editingDia.value) editingDia.value.feriado = v || null;
-  },
-});
-
-async function saveEdit() {
+const saveEdit = handleEditSubmit(async (formValues) => {
   if (!editingDia.value || !selectedCalendarioId.value) return;
   try {
     await api.call(calendarioLetivoDiaUpdate, {
@@ -154,10 +153,10 @@ async function saveEdit() {
         data: editingDia.value.data,
       },
       body: {
-        diaLetivo: editingDia.value.diaLetivo,
-        feriado: editingDia.value.feriado ?? '',
-        diaPresencial: editingDia.value.diaPresencial,
-        extraCurricular: editingDia.value.extraCurricular,
+        diaLetivo: formValues.diaLetivo,
+        feriado: formValues.feriado ?? '',
+        diaPresencial: formValues.diaPresencial,
+        extraCurricular: formValues.extraCurricular,
       },
     });
     editDialogOpen.value = false;
@@ -165,7 +164,7 @@ async function saveEdit() {
   } catch (e) {
     console.error('Erro ao salvar dia:', e);
   }
-}
+});
 
 // Year for the mini calendars (derived from the loaded data or current year)
 const calendarYear = computed(() => {
@@ -330,29 +329,26 @@ const calendarEvents = computed(() => {
         :close-button="true"
         :on-close="() => { editDialogOpen = false; }"
       >
-        <div class="flex flex-col gap-4">
-          <UIFormTextField
-            v-model="editNomeModel"
+        <form class="flex flex-col gap-4" @submit.prevent="saveEdit">
+          <VVTextField
+            name="feriado"
             label="Nome"
-            name="editNome"
             placeholder="Nome do dia"
           />
 
           <div class="flex flex-col gap-1.5">
             <span class="text-[0.813rem] font-semibold text-ldsa-grey px-1">Cor</span>
-            <SectionCalendarioFormSharedEventoColorPalette
-              v-model="editingCor"
-            />
+            <VVColorPalette name="cor" />
           </div>
 
           <div class="text-sm text-ldsa-grey">
             Data: <strong>{{ formatDate(editingDia.data) }}</strong>
           </div>
 
-          <UIFormCheckbox v-model="editingDia.diaLetivo" label="É dia letivo" />
-          <UIFormCheckbox v-model="editingDia.diaPresencial" label="É presencial" />
-          <UIFormCheckbox v-model="editingDia.extraCurricular" label="É extracurricular" />
-        </div>
+          <VVCheckboxField name="diaLetivo" label="É dia letivo" />
+          <VVCheckboxField name="diaPresencial" label="É presencial" />
+          <VVCheckboxField name="extraCurricular" label="É extracurricular" />
+        </form>
 
         <template #button-group>
           <button
