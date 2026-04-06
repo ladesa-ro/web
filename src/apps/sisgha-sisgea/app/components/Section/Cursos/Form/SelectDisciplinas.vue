@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import { FormMode } from '~/utils/constants';
 
+const api = useApiClient();
+
+function getDisciplinaCoverUrl(disc: { id: string; imagemCapa?: { id: string } | null }) {
+  if (!disc.imagemCapa) return null;
+  return `${api.baseUrl}/disciplinas/${disc.id}/imagem/capa?imgCapa=${disc.imagemCapa.id}`;
+}
+
 const props = defineProps<{
   numeroPeriodo: number;
   formacaoNome: string;
@@ -111,7 +118,7 @@ const titleVerb = computed(() =>
         >
           <img
             v-if="disc.imagemCapa"
-            :src="`/api/disciplinas/${disc.id}/imagem/capa`"
+            :src="getDisciplinaCoverUrl(disc) ?? undefined"
             class="w-full h-full object-cover"
             alt=""
           >
