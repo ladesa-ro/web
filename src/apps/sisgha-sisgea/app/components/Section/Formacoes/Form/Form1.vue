@@ -3,7 +3,7 @@ import { useField } from 'vee-validate';
 import type { ParsedItem } from '~/composables/useOptionItems';
 import { FormMode } from '~/utils/constants';
 
-defineProps<{
+const props = defineProps<{
   mode: FormMode;
   isBusy: boolean;
   isLoading: boolean;
@@ -33,6 +33,8 @@ const duracaoSelected = computed<ParsedItem | undefined>({
   },
 });
 
+useProvideFormContext({ isBusy: computed(() => props.isBusy), mode: computed(() => props.mode) });
+
 const duracaoLabel = computed(() => {
   const map: Record<number, { nome: string; periodos: number }> = {
     12: { nome: 'Anual', periodos: 1 },
@@ -57,7 +59,7 @@ const duracaoLabel = computed(() => {
       mode === FormMode.MANAGE ? 'Editar formação' : 'Cadastrar formação'
     "
   >
-    <VVSelectImage :disabled="isBusy" name="imagem" />
+    <VVSelectImage name="imagem" />
 
     <VVAutocompleteAPINivelFormacao
       name="niveisFormacoes"

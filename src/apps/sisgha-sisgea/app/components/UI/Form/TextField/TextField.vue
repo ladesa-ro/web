@@ -23,7 +23,10 @@ const emit = defineEmits(['update:modelValue', 'blur']);
 
 <template>
   <template v-if="type === 'color'">
-    <div v-bind="$attrs" class="relative inline-flex items-center p-1 cursor-pointer">
+    <div
+      v-bind="$attrs"
+      class="relative inline-flex items-center p-1 cursor-pointer"
+    >
       <input
         type="color"
         :value="modelValue"
@@ -41,46 +44,48 @@ const emit = defineEmits(['update:modelValue', 'blur']);
   </template>
 
   <template v-else>
-    <div
-      v-bind="$attrs"
-      class="input-base min-h-4 flex flex-col gap-1 rounded-md transition"
-      :class="{ 'has-error': !!error }"
-    >
-      <label v-if="label" class="text-sm font-medium text-ldsa-grey px-1">
-        {{ label }}
-      </label>
+    <div>
+      <div
+        v-bind="$attrs"
+        class="input-base min-h-4 flex flex-col gap-1 rounded-md transition"
+        :class="{ 'has-error': !!error }"
+      >
+        <label v-if="label" class="text-sm font-medium text-ldsa-grey px-1">
+          {{ label }}
+        </label>
 
-      <template v-if="mask">
-        <input
-          v-maska="mask"
-          class="w-full px-3 pt-2.5 rounded-md disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
-          :type="type"
-          :placeholder="placeholder"
-          :value="modelValue"
-          :disabled="disabled"
-          @maska="(e: any) => emit('update:modelValue', e.detail.masked)"
-          @blur="emit('blur')"
-        />
-      </template>
+        <template v-if="mask">
+          <input
+            v-maska="mask"
+            class="w-full px-3 pt-2.5 rounded-md disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
+            :type="type"
+            :placeholder="placeholder"
+            :value="modelValue"
+            :disabled="disabled"
+            @maska="(e: any) => emit('update:modelValue', e.detail.masked)"
+            @blur="emit('blur')"
+          />
+        </template>
 
-      <template v-else>
-        <input
-          class="w-full px-3 pt-2.5 rounded-md disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
-          :type="type"
-          :placeholder="placeholder"
-          :value="modelValue"
-          :disabled="disabled"
-          @input="
-            (e: Event) =>
-              emit('update:modelValue', (e.target as HTMLInputElement).value)
-          "
-          @blur="emit('blur')"
-        />
-      </template>
+        <template v-else>
+          <input
+            class="w-full px-3 pt-2.5 rounded-md disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
+            :type="type"
+            :placeholder="placeholder"
+            :value="modelValue"
+            :disabled="disabled"
+            @input="
+              (e: Event) =>
+                emit('update:modelValue', (e.target as HTMLInputElement).value)
+            "
+            @blur="emit('blur')"
+          />
+        </template>
+      </div>
+      <p v-if="error" class="text-ldsa-red text-xs font-semibold mt-1">
+        {{ error }}
+      </p>
     </div>
-    <p v-if="error" class="text-ldsa-red text-xs font-semibold mt-1">
-      {{ error }}
-    </p>
   </template>
 </template>
 

@@ -8,6 +8,8 @@ const props = defineProps<{
   disabled?: boolean;
 }>();
 
+const fieldDisabled = useFieldDisabled(() => props.disabled);
+
 const {
   errorMessage,
   handleBlur,
@@ -32,7 +34,7 @@ const {
     :error="errorMessage"
     :name="name"
     :label="label"
-    :disabled="disabled"
+    :disabled="fieldDisabled"
     v-bind="$attrs"
     @blur="handleBlur"
   />

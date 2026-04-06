@@ -7,6 +7,8 @@ const props = defineProps<{
   disabled?: boolean;
 }>();
 
+const fieldDisabled = useFieldDisabled(() => props.disabled);
+
 const {
   value: fieldValue,
   errorMessage,
@@ -23,7 +25,7 @@ const {
   <UIFormColorPalette
     v-model="fieldValue"
     :colors="colors"
-    :disabled="disabled"
+    :disabled="fieldDisabled"
     :error="errorMessage"
   />
 </template>

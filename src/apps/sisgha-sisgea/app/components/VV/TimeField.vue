@@ -8,6 +8,8 @@ const props = defineProps<{
   required?: boolean;
 }>();
 
+const fieldDisabled = useFieldDisabled(() => props.disabled);
+
 const {
   errorMessage,
   value: modelValue,
@@ -27,7 +29,7 @@ const {
   <UIFormTimeField
     v-model="modelValue"
     :label="props.label"
-    :disabled="props.disabled"
+    :disabled="fieldDisabled"
     :error="errorMessage"
   />
 </template>

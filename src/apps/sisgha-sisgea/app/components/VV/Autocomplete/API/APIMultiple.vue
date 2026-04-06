@@ -7,6 +7,7 @@ import type { IUIAutocompleteApiRetrieverOptions } from './-Base';
 type Props = {
   name: string;
   isLoading?: boolean;
+  disabled?: boolean;
   options: IUIAutocompleteApiRetrieverOptions;
   getValue?: (item: any) => string | number;
   buildItem?: (value: string | number) => any;
@@ -18,6 +19,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const { name, isLoading: propIsLoading, options: apiRetrieverOptions } = props;
+
+const fieldDisabled = useFieldDisabled(() => props.disabled);
 
 const { value } = useField<Array<any>>(name);
 
@@ -81,6 +84,7 @@ const isLoading = computed(() => unref(propIsLoading) || unref(listIsLoading));
     v-model:search-term="searchValue"
     v-bind="$attrs"
     placeholder="Carregando..."
+    :disabled="fieldDisabled"
     :items="[]"
     :selected-options="[]"
   />
@@ -90,6 +94,7 @@ const isLoading = computed(() => unref(propIsLoading) || unref(listIsLoading));
     v-model:search-term="searchValue"
     v-bind="$attrs"
     placeholder="Carregando..."
+    :disabled="fieldDisabled"
     :items="[]"
     :selected-options="[]"
   />
@@ -99,6 +104,7 @@ const isLoading = computed(() => unref(propIsLoading) || unref(listIsLoading));
     v-model:search="searchValue"
     :items="selectItems"
     :name="name"
+    :disabled="fieldDisabled"
     :get-value="getValue"
     :build-item="buildItem"
     v-bind="$attrs"

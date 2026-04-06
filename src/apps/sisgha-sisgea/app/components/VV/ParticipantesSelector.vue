@@ -13,6 +13,8 @@ const props = defineProps<{
   disabled?: boolean;
 }>();
 
+const fieldDisabled = useFieldDisabled(() => props.disabled);
+
 const {
   value: fieldValue,
   errorMessage,
@@ -29,7 +31,7 @@ const {
   <div class="flex flex-col gap-1">
     <SectionCalendarioFormSharedParticipantesSelector
       :model-value="fieldValue"
-      :disabled="disabled"
+      :disabled="fieldDisabled"
       @update:model-value="fieldValue = $event"
     />
 

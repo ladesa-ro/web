@@ -3,7 +3,7 @@ import { useField, useFieldArray } from 'vee-validate';
 import { FormMode } from '~/utils/constants';
 import EtapasFormacao from './EtapasFormacao.vue';
 
-defineProps<{
+const props = defineProps<{
   mode: FormMode;
   isBusy: boolean;
   editId?: string | null;
@@ -13,6 +13,8 @@ const emit = defineEmits<{
   close: [];
   previous: [];
 }>();
+
+useProvideFormContext({ isBusy: computed(() => props.isBusy), mode: computed(() => props.mode) });
 
 const { value: duracaoPeriodoEmMeses } =
   useField<number>('duracaoPeriodoEmMeses');

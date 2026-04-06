@@ -6,6 +6,8 @@ const props = defineProps<{
   disabled?: boolean;
 }>();
 
+const fieldDisabled = useFieldDisabled(() => props.disabled);
+
 const {
   value: fieldValue,
   errorMessage,
@@ -21,7 +23,7 @@ const {
 <template>
   <UIFormRRuleEditor
     v-model="fieldValue"
-    :disabled="disabled"
+    :disabled="fieldDisabled"
     :error="errorMessage"
   />
 </template>

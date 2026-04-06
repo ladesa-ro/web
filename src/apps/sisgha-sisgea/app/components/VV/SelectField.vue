@@ -9,6 +9,8 @@ const props = defineProps<{
   disabled?: boolean;
 }>();
 
+const fieldDisabled = useFieldDisabled(() => props.disabled);
+
 const {
   errorMessage,
   value: modelValue,
@@ -26,7 +28,7 @@ const {
       :items="items"
       :label="label"
       :placeholder="placeholder"
-      :disabled="disabled"
+      :disabled="fieldDisabled"
       v-bind="$attrs"
     />
     <p v-if="errorMessage" class="text-ldsa-red text-xs font-semibold px-1">

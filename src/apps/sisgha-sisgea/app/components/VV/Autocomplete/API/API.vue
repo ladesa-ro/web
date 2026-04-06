@@ -8,15 +8,20 @@ type Props = {
   name: string;
   isLoading?: boolean;
   required?: boolean;
+  disabled?: boolean;
   options: IUIAutocompleteApiRetrieverOptions;
 };
+
+const props = defineProps<Props>();
 
 const {
   name,
   isLoading: propIsLoading,
   options: apiRetrieverOptions,
   required,
-} = defineProps<Props>();
+} = props;
+
+const fieldDisabled = useFieldDisabled(() => props.disabled);
 
 const { value } = useField(name, inputValue => {
   if (!required) {
@@ -106,6 +111,7 @@ const isFilterDisabled = computed(() => !isFilterEnabled.value);
     v-model:search="searchValue"
     v-bind="$attrs"
     placeholder="Carregando..."
+    :disabled="fieldDisabled"
     :items="[]"
   />
 
@@ -114,6 +120,7 @@ const isFilterDisabled = computed(() => !isFilterEnabled.value);
     v-model:search="searchValue"
     v-bind="$attrs"
     placeholder="Carregando..."
+    :disabled="fieldDisabled"
     :items="[]"
   />
 
@@ -122,6 +129,7 @@ const isFilterDisabled = computed(() => !isFilterEnabled.value);
     v-model:search="searchValue"
     :items="selectItems"
     :name="name"
+    :disabled="fieldDisabled"
     :no-filter="isFilterDisabled"
     v-bind="$attrs"
   />

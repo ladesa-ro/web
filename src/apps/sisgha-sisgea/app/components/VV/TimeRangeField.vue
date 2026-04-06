@@ -9,6 +9,8 @@ const props = defineProps<{
   readonly?: boolean;
 }>();
 
+const fieldDisabled = useFieldDisabled(() => props.disabled);
+
 const {
   value: startValue,
   errorMessage: startError,
@@ -39,7 +41,7 @@ const combinedError = computed(() => startError.value || endError.value);
     :start="startValue"
     :end="endValue"
     :label="label"
-    :disabled="disabled"
+    :disabled="fieldDisabled"
     :readonly="readonly"
     :error="combinedError"
     @update:start="startValue = $event"

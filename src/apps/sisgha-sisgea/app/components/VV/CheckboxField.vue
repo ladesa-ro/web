@@ -9,6 +9,7 @@ const props = defineProps<{
 }>();
 
 const name = computed(() => props.name);
+const fieldDisabled = useFieldDisabled(() => props.disabled);
 
 const { value: fieldValue } = useField<boolean>(name);
 </script>
@@ -16,14 +17,14 @@ const { value: fieldValue } = useField<boolean>(name);
 <template>
   <label
     class="flex items-center gap-2.5 cursor-pointer"
-    :class="{ 'opacity-60 cursor-not-allowed': disabled }"
+    :class="{ 'opacity-60 cursor-not-allowed': fieldDisabled }"
   >
     <span
       class="rounded-full checkbox-shadow focus-within:shadow-(--green-shadow) hover:shadow-(--green-shadow)"
     >
       <Checkbox
         v-model:model-value="fieldValue"
-        :disabled="disabled"
+        :disabled="fieldDisabled"
         :class="fieldValue ? 'border-ldsa-green-2' : 'border-ldsa-grey'"
         class="flex border-2 hover:bg-ldsa-green-2/10 rounded-sm w-5.5 h-5.5 focus-visible:outline-ldsa-green-2"
       >

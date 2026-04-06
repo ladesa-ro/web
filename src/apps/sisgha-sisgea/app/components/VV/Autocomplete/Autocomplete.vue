@@ -2,8 +2,11 @@
 import { useField } from 'vee-validate';
 import type { Item } from '~/composables/useOptionItems';
 
-type Props = { name: string; items: Item[] };
-const { name, items } = defineProps<Props>();
+type Props = { name: string; items: Item[]; disabled?: boolean };
+const props = defineProps<Props>();
+const { name, items } = props;
+
+const fieldDisabled = useFieldDisabled(() => props.disabled);
 
 const searchValue = defineModel<string>('search', { default: '' });
 
@@ -23,6 +26,7 @@ const {
     v-model:search-term="searchValue"
     v-model:selected-option="modelValue"
     :items="items"
+    :disabled="fieldDisabled"
     :error="errorMessage"
     :on-blur="handleBlur"
     v-bind="$attrs"

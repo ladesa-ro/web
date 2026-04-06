@@ -9,7 +9,12 @@ type Props = {
   onDelete?: () => void;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+useProvideFormContext({
+  isBusy: computed(() => !!props.isBusy),
+  mode: computed(() => props.mode),
+});
 </script>
 
 <template>

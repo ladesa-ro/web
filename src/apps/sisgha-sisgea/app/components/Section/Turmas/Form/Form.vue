@@ -127,16 +127,14 @@ watch(mode, val => { modeRef.value = val; }, { immediate: true });
           :on-close="() => emit('close')"
           :on-delete="onDelete"
         >
-          <VVSelectImage :disabled="isBusy" name="imagem" />
+          <VVSelectImage name="imagem" />
 
           <VVAutocompleteAPICurso
-            :disabled="isBusy"
             :is-loading="isLoading"
             name="curso.id"
           />
 
           <VVAutocompleteAPIAmbiente
-            :disabled="isBusy"
             :is-loading="isLoading"
             label="Sala de Aula"
             name="ambientePadraoAula.id"

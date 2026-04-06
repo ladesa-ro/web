@@ -10,6 +10,8 @@ const props = defineProps<{
   disabled?: boolean;
 }>();
 
+const fieldDisabled = useFieldDisabled(() => props.disabled);
+
 const {
   value: fieldValue,
   errorMessage,
@@ -29,7 +31,7 @@ const {
     :min="min"
     :max="max"
     :step="step"
-    :disabled="disabled"
+    :disabled="fieldDisabled"
     :error="errorMessage"
   />
 </template>

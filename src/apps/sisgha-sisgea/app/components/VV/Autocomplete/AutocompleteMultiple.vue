@@ -5,11 +5,14 @@ import type { Item } from '~/composables/useOptionItems';
 type Props = {
   name: string;
   items: Item[];
+  disabled?: boolean;
   getValue?: (item: any) => string | number;
   buildItem?: (value: string | number) => any;
 };
 
 const props = defineProps<Props>();
+
+const fieldDisabled = useFieldDisabled(() => props.disabled);
 
 const searchValue = defineModel<string>('search', { default: '' });
 
@@ -29,6 +32,7 @@ const {
     v-model:selected-options="modelValue"
     v-model:search-term="searchValue"
     :items="items"
+    :disabled="fieldDisabled"
     :error="errorMessage"
     :on-blur="handleBlur"
     :get-value="getValue"

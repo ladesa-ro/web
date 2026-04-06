@@ -4,6 +4,8 @@ import type { TextFieldProps } from '../UI/Form/-Utils/inputTypes';
 
 const props = defineProps<TextFieldProps & { required?: boolean }>();
 
+const fieldDisabled = useFieldDisabled(() => props.disabled);
+
 const {
   errorMessage,
   handleBlur,
@@ -35,6 +37,7 @@ const {
     :error="errorMessage"
     :name="props.name"
     v-bind="$attrs"
+    :disabled="fieldDisabled"
     :label="props.label"
     :placeholder="props.placeholder"
     @blur="handleBlur"
