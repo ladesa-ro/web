@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { FormValidationResult } from 'vee-validate';
 import type { IDisciplinaConfig, IPreferenciaAgrupamento } from '../Contexto';
 import { useContextDiariosFormGeral } from '../Contexto';
 
@@ -14,6 +15,8 @@ const emit = defineEmits<{
 const contexto = useContextDiariosFormGeral();
 const diarios = useDiarios();
 const { showToast } = useToast();
+
+const formValidate = inject<() => Promise<FormValidationResult<Record<string, unknown>>>>('diarios-form-validate');
 
 const isEditMode = computed(() => !!props.editId);
 const isBusy = ref(false);
@@ -195,6 +198,19 @@ const turmaInfo = computed(() => {
 // Submissão
 async function onSubmit() {
   if (isBusy.value) return;
+
+  // Validar via form global do VeeValidate
+  if (formValidate) {
+    const { valid, errors } = await formValidate();
+    if (!valid) {
+      const firstError = Object.values(errors)[0];
+      if (firstError) {
+        showToast(isEditMode.value ? 'atualizacao' : 'cadastro', 'error', firstError);
+      }
+      return;
+    }
+  }
+
   isBusy.value = true;
 
   try {
