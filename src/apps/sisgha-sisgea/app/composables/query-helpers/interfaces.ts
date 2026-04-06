@@ -26,19 +26,31 @@ export interface IFindOneQueryConfig<TResult> {
 }
 
 // ============================================================
+// Opções de chamada (call-site)
+// ============================================================
+
+export type QueryCallOptions = {
+  /** Se `false`, desabilita o suspend automático no SSR. Default: `true`. */
+  suspend?: boolean;
+};
+
+// ============================================================
 // Tipos auxiliares para as capabilities
 // ============================================================
 
 export type ListFn<TResult, TParams = unknown> = (
-  params?: MaybeRef<TParams | undefined>
+  params?: MaybeRef<TParams | undefined>,
+  options?: QueryCallOptions
 ) => UseQueryReturnType<TResult, Error>;
 
 export type ListInfiniteFn<TResult, TParams = unknown> = (
-  params?: MaybeRef<TParams | undefined>
+  params?: MaybeRef<TParams | undefined>,
+  options?: QueryCallOptions
 ) => UseInfiniteQueryReturnType<InfiniteData<TResult, unknown>, Error>;
 
 export type FindOneFn<TResult> = (
-  id: MaybeRef<string | null>
+  id: MaybeRef<string | null>,
+  options?: QueryCallOptions
 ) => UseQueryReturnType<TResult | null, Error>;
 
 export type CreateFn<TInput, TResult = unknown> = (

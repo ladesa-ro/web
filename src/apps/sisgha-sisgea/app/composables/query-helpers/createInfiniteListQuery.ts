@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/vue-query';
-import type { IInfiniteListQueryConfig } from './interfaces';
+import type { IInfiniteListQueryConfig, QueryCallOptions } from './interfaces';
 
 export interface IPaginatedResult {
   meta: { currentPage: number; totalPages: number };
@@ -11,8 +11,8 @@ export const createInfiniteListQuery = <
 >(
   config: IInfiniteListQueryConfig<TResult, TParams>
 ) => {
-  return (params?: MaybeRef<TParams | undefined>) =>
-    useInfiniteQuery({
+  return (params?: MaybeRef<TParams | undefined>, options?: QueryCallOptions) => {
+    const query = useInfiniteQuery({
       queryKey: computed(() => [
         ...config.queryKey,
         'list-infinite',
@@ -28,4 +28,11 @@ export const createInfiniteListQuery = <
           : undefined,
       initialPageParam: 1,
     });
+
+    if (options?.suspend !== false) {
+      useQuerySuspend(query);
+    }
+
+    return query;
+  };
 };

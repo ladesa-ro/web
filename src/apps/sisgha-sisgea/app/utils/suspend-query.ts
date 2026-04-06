@@ -1,7 +1,6 @@
 import { wait } from '@ladesa-ro/web.utils';
-import type { UseQueryReturnType } from '@tanstack/vue-query';
 
-const OPTIMISTIC_TIMEOUT_MS = 50;
+const OPTIMISTIC_TIMEOUT_MS = 200;
 
 export enum QuerySuspenseBehaviourMode {
   WAIT_UNTIL_FINISH,
@@ -14,8 +13,14 @@ export type QuerySuspenseBehaviour = {
   mode?: QuerySuspenseBehaviourMode;
 };
 
+/** Tipo mínimo que representa uma query suspendível (compatível com UseQueryReturnType e UseInfiniteQueryReturnType). */
+export type SuspendableQuery = {
+  suspense: () => Promise<unknown>;
+  isEnabled: Ref<boolean>;
+};
+
 export const suspendQuery = async (
-  query: UseQueryReturnType<any, any>,
+  query: SuspendableQuery,
   suspenseBehaviour: QuerySuspenseBehaviour = {}
 ) => {
   if (!unref(query.isEnabled)) return;

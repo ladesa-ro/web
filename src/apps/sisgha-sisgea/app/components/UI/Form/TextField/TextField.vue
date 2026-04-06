@@ -1,3 +1,7 @@
+<script lang="ts">
+export default { inheritAttrs: false };
+</script>
+
 <script setup lang="ts">
 import { vMaska } from 'maska/vue';
 import type { TextFieldProps } from '../-Utils/inputTypes';
@@ -19,7 +23,7 @@ const emit = defineEmits(['update:modelValue', 'blur']);
 
 <template>
   <template v-if="type === 'color'">
-    <div class="relative inline-flex items-center p-1 cursor-pointer">
+    <div v-bind="$attrs" class="relative inline-flex items-center p-1 cursor-pointer">
       <input
         type="color"
         :value="modelValue"
@@ -28,7 +32,7 @@ const emit = defineEmits(['update:modelValue', 'blur']);
           (e: Event) =>
             emit('update:modelValue', (e.target as HTMLInputElement).value)
         "
-      >
+      />
       <div
         class="h-7 w-7 rounded-md border border-ldsa-grey/50"
         :style="{ backgroundColor: String(modelValue || '#000000') }"
@@ -38,6 +42,7 @@ const emit = defineEmits(['update:modelValue', 'blur']);
 
   <template v-else>
     <div
+      v-bind="$attrs"
       class="input-base min-h-4 flex flex-col gap-1 rounded-md transition"
       :class="{ 'has-error': !!error }"
     >
@@ -55,7 +60,7 @@ const emit = defineEmits(['update:modelValue', 'blur']);
           :disabled="disabled"
           @maska="(e: any) => emit('update:modelValue', e.detail.masked)"
           @blur="emit('blur')"
-        >
+        />
       </template>
 
       <template v-else>
@@ -70,7 +75,7 @@ const emit = defineEmits(['update:modelValue', 'blur']);
               emit('update:modelValue', (e.target as HTMLInputElement).value)
           "
           @blur="emit('blur')"
-        >
+        />
       </template>
     </div>
     <p v-if="error" class="text-ldsa-red text-xs font-semibold mt-1">

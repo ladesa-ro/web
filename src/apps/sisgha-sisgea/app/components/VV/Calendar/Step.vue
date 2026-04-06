@@ -19,7 +19,7 @@ const schema = yup.object({
   stepEndDate: yup.string().required('Data de término inválida'),
 });
 
-const { values, validate } = useForm({
+const { values, validate, setValues } = useForm({
   validationSchema: schema,
   initialValues: {
     stepColor: props.etapaCor ?? '#000000',
@@ -27,6 +27,19 @@ const { values, validate } = useForm({
     stepEndDate: props.dataTermino ?? '',
   },
 });
+
+// Reagir a props assíncronas (edição: dados carregam depois do mount)
+watch(
+  () => [props.dataInicio, props.dataTermino],
+  ([inicio, termino]) => {
+    if (inicio || termino) {
+      setValues({
+        stepStartDate: inicio ?? '',
+        stepEndDate: termino ?? '',
+      }, false);
+    }
+  },
+);
 
 const getValues = () => ({
   ofertaFormacaoPeriodoEtapaId: props.ofertaFormacaoPeriodoEtapaId,
@@ -52,10 +65,15 @@ defineExpose({ getValues, validateStep });
       <p class="font-bold whitespace-nowrap">{{ props.text }}</p>
     </label>
 
-    <VVTextField v-if="!dataInicio && !dataTermino" name="stepColor" type="color" label="Cor" />
+    <VVTextField
+      v-if="!dataInicio && !dataTermino"
+      name="stepColor"
+      type="color"
+      label="Cor"
+    />
     <div class="flex gap-4">
-      <VVTextField name="stepStartDate" type="date" label="Início" />
-      <VVTextField name="stepEndDate" type="date" label="Término" />
+      <VVDateField name="stepStartDate" label="Início" />
+      <VVDateField name="stepEndDate" label="Término" />
     </div>
   </div>
 </template>

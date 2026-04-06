@@ -1,15 +1,4 @@
 <script lang="ts" setup>
-import {
-  ofertaFormacaoFindAll,
-  cursoFindAll,
-  turmaFindAll,
-} from '@ladesa-ro/web.api.client';
-import type {
-  OfertaFormacaoFindOneOutputDto,
-  CursoFindOneOutputDto,
-  TurmaFindOneOutputDto,
-} from '@ladesa-ro/web.api.client';
-
 const props = defineProps<{
   modelValue: {
     todosParticipam: boolean;
@@ -24,40 +13,53 @@ const emit = defineEmits<{
   'update:modelValue': [value: typeof props.modelValue];
 }>();
 
-const api = useApiClient();
+// Composables reativos
+const ofertasFormacoes = useOfertasFormacoes();
+const cursosComposable = useCursos();
+const turmasComposable = useTurmas();
 
 // Local state
 const todosParticipam = ref(props.modelValue.todosParticipam);
 const selectedFormacoes = ref<Array<{ id: string; nome: string }>>([]);
 const selectedTurmas = ref<Map<string, Set<string>>>(new Map());
 const selectedPerfis = ref<Set<string>>(new Set());
-
-// Data from API
-const formacoes = ref<Array<{ id: string; nome: string }>>([]);
-const cursosByFormacao = ref<Map<string, Array<{ id: string; nome: string }>>>(new Map());
-const turmasByCurso = ref<Map<string, Array<{ id: string; nome: string }>>>(new Map());
 const expandedFormacoes = ref<Set<string>>(new Set());
 
-// Reservado para uso futuro: checkboxes "Inclui todas as turmas" / "Inclui todos os professores" por formação
+// Queries reativas
+const formacoesList = ofertasFormacoes.list();
+const formacoes = computed(() =>
+  (formacoesList.data.value?.data ?? []).map((f) => ({ id: f.id, nome: f.nome }))
+);
 
-onMounted(async () => {
-  try {
-    const result = await api.call(ofertaFormacaoFindAll, { query: { limit: 100 } });
-    formacoes.value = (result.data ?? []).map((f: OfertaFormacaoFindOneOutputDto) => ({ id: f.id, nome: f.nome }));
-  } catch (e) {
-    console.error('Erro ao carregar formações:', e);
-  }
-});
+// IDs de formações selecionadas para carregar cursos
+const selectedFormacaoIds = computed(() => selectedFormacoes.value.map(f => f.id));
+
+// Cursos filtrados por formações selecionadas
+const cursosByFormacao = ref<Map<string, Array<{ id: string; nome: string }>>>(new Map());
+const turmasByCurso = ref<Map<string, Array<{ id: string; nome: string }>>>(new Map());
 
 async function loadCursos(formacaoId: string) {
   if (cursosByFormacao.value.has(formacaoId)) return;
   try {
-    const result = await api.call(cursoFindAll, {
-      query: { 'filter.ofertaFormacao.id': [formacaoId], limit: 100 },
-    });
-    cursosByFormacao.value.set(
-      formacaoId,
-      (result.data ?? []).map((c: CursoFindOneOutputDto) => ({ id: c.id, nome: c.nome }))
+    const result = cursosComposable.list(
+      computed(() => ({
+        'filter.ofertaFormacao.id': [formacaoId],
+        limit: 100,
+      }))
+    );
+    // Aguardar dados carregarem
+    const stop = watch(
+      () => result.data.value,
+      (data) => {
+        if (data) {
+          cursosByFormacao.value.set(
+            formacaoId,
+            (data.data ?? []).map((c) => ({ id: c.id, nome: c.nome }))
+          );
+          stop();
+        }
+      },
+      { immediate: true },
     );
   } catch (e) {
     console.error('Erro ao carregar cursos:', e);
@@ -67,12 +69,24 @@ async function loadCursos(formacaoId: string) {
 async function loadTurmas(cursoId: string) {
   if (turmasByCurso.value.has(cursoId)) return;
   try {
-    const result = await api.call(turmaFindAll, {
-      query: { 'filter.curso.id': [cursoId], limit: 100 },
-    });
-    turmasByCurso.value.set(
-      cursoId,
-      (result.data ?? []).map((t: TurmaFindOneOutputDto) => ({ id: t.id, nome: t.nome ?? t.id.substring(0, 8) }))
+    const result = turmasComposable.list(
+      computed(() => ({
+        'filter.curso.id': [cursoId],
+        limit: 100,
+      }))
+    );
+    const stop = watch(
+      () => result.data.value,
+      (data) => {
+        if (data) {
+          turmasByCurso.value.set(
+            cursoId,
+            (data.data ?? []).map((t) => ({ id: t.id, nome: t.nome ?? t.id.substring(0, 8) }))
+          );
+          stop();
+        }
+      },
+      { immediate: true },
     );
   } catch (e) {
     console.error('Erro ao carregar turmas:', e);
@@ -85,7 +99,6 @@ async function toggleFormacao(formacao: { id: string; nome: string }) {
     selectedFormacoes.value.splice(idx, 1);
     expandedFormacoes.value.delete(formacao.id);
 
-    // Limpar turmas selecionadas dos cursos desta formação
     const coursesInFormacao = cursosByFormacao.value.get(formacao.id) ?? [];
     for (const curso of coursesInFormacao) {
       selectedTurmas.value.delete(curso.id);
@@ -95,7 +108,6 @@ async function toggleFormacao(formacao: { id: string; nome: string }) {
     expandedFormacoes.value.add(formacao.id);
     await loadCursos(formacao.id);
 
-    // Carregar turmas automaticamente para cada curso
     const courses = cursosByFormacao.value.get(formacao.id) ?? [];
     await Promise.all(courses.map(c => loadTurmas(c.id)));
   }

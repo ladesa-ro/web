@@ -1,12 +1,6 @@
 <script lang="ts" setup>
 import dayjs from 'dayjs';
-import { onMounted, ref } from 'vue';
-import {
-  calendarioAgendamentoFindAll,
-  calendarioAgendamentoFindById,
-} from '@ladesa-ro/web.api.client';
 import type {
-  CalendarioAgendamentoFindOneOutputDto,
   CalendarioAgendamentoCreateInputDto,
 } from '@ladesa-ro/web.api.client';
 import type { IAgendamentoFormOutput } from '../Shared/schema';
@@ -22,10 +16,7 @@ const props = withDefaults(defineProps<Props>(), { showParticipants: false });
 
 const agendamento = useCalendarioAgendamento();
 
-const isLoading = ref(true);
 const isEvent = ref<boolean | null>(null);
-const formReady = ref(false);
-
 const initialData = ref<Partial<CalendarioAgendamentoCreateInputDto>>({});
 
 const formBaseRef = ref<{
@@ -34,69 +25,28 @@ const formBaseRef = ref<{
   resetForm: (opts?: { values: Record<string, unknown> }) => void;
 }>();
 
-const getEvent = async () => {
-  if (!props.eventName && !props.eventId) return;
+// Query reativa: carrega evento existente por ID
+const eventQuery = agendamento.findOne(
+  computed(() => props.eventId ?? null),
+);
 
-  try {
-    const api = getApiClient();
-    let checkEvents: { id: string; nome: string; cor: string | null; dataInicio: string; dataFim: string } | null = null;
-
-    if (props.eventId) {
-      try {
-        const found = await api.call(calendarioAgendamentoFindById, {
-          path: { id: props.eventId },
-        });
-        if (found) {
-          checkEvents = {
-            id: found.id,
-            nome: found.nome ?? '',
-            cor: found.cor ?? null,
-            dataInicio: found.dataInicio ?? '',
-            dataFim: found.dataFim ?? found.dataInicio ?? '',
-          };
-        }
-      } catch {}
-    } else if (props.eventName) {
-      const query: Record<string, unknown> = {
-        search: props.eventName,
-        limit: 10,
-      };
-      if (props.calendarId) {
-        query['filter.calendarioLetivo.id'] = [props.calendarId];
-      }
-      const result = await api.call(calendarioAgendamentoFindAll, { query });
-      const found = (result.data ?? []).find(
-        (o: CalendarioAgendamentoFindOneOutputDto) => o.id === props.eventName || o.nome === props.eventName
-      );
-      if (found) {
-        checkEvents = {
-          id: found.id,
-          nome: found.nome ?? '',
-          cor: found.cor ?? null,
-          dataInicio: found.dataInicio ?? '',
-          dataFim: found.dataFim ?? found.dataInicio ?? '',
-        };
-      }
-    }
-
-    // TODO: etapas endpoint was removed from the API — integrate etapas from calendarioLetivo.etapas when needed (C1/C2 task)
-
-    if (checkEvents) {
-      isEvent.value = true;
-      initialData.value = {
-        nome: checkEvents.nome ?? '',
-        cor: checkEvents.cor ?? undefined,
-        diaInteiro: false,
-        dataInicio: checkEvents.dataInicio ? dayjs(checkEvents.dataInicio).format('YYYY-MM-DD') : '',
-        dataFim: checkEvents.dataFim ? dayjs(checkEvents.dataFim).format('YYYY-MM-DD') : undefined,
-        horarioInicio: checkEvents.dataInicio ? dayjs(checkEvents.dataInicio).format('HH:mm') : undefined,
-        horarioFim: checkEvents.dataFim ? dayjs(checkEvents.dataFim).format('HH:mm') : undefined,
-      };
-    }
-  } catch (e) {
-    console.error('Erro ao buscar evento:', e);
-  }
-};
+watch(
+  () => eventQuery.data.value,
+  (found) => {
+    if (!found) return;
+    isEvent.value = true;
+    initialData.value = {
+      nome: found.nome ?? '',
+      cor: found.cor ?? undefined,
+      diaInteiro: false,
+      dataInicio: found.dataInicio ? dayjs(found.dataInicio).format('YYYY-MM-DD') : '',
+      dataFim: found.dataFim ? dayjs(found.dataFim).format('YYYY-MM-DD') : undefined,
+      horarioInicio: found.dataInicio ? dayjs(found.dataInicio).format('HH:mm') : undefined,
+      horarioFim: found.dataFim ? dayjs(found.dataFim).format('HH:mm') : undefined,
+    };
+  },
+  { immediate: true },
+);
 
 const validateEventCrud = async (): Promise<boolean> => {
   const data = await formBaseRef.value?.validateAndGetValues();
@@ -150,32 +100,14 @@ const deleteEvent = async (): Promise<boolean> => {
 };
 
 const fillForm = async () => {
-  if (!formReady.value) {
-    await new Promise<void>(resolve => {
-      const stop = watch(formReady, ready => {
-        if (ready) {
-          resolve();
-          stop();
-        }
-      });
-    });
-  }
-
-  if (props.eventName) {
-    await getEvent();
-  }
+  // No-op: dados carregam reativamente via eventQuery
 };
-
-onMounted(() => {
-  formReady.value = true;
-  isLoading.value = false;
-});
 
 defineExpose({ validateEventCrud, fillForm, deleteEvent });
 </script>
 
 <template>
-  <div v-if="!isLoading">
+  <div v-if="!eventQuery.isLoading.value">
     <SectionCalendarioFormSharedEventoFormBase
       ref="formBaseRef"
       bare

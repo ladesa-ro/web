@@ -2,11 +2,6 @@
 import type {
   CalendarioLetivoEtapaInputDto,
   CalendarioLetivoEtapaOutputDto,
-  OfertaFormacaoPeriodoOutputDto,
-} from '@ladesa-ro/web.api.client';
-import {
-  calendarioLetivoFindById,
-  ofertaFormacaoFindById,
 } from '@ladesa-ro/web.api.client';
 import dayjs from 'dayjs';
 import { useForm } from 'vee-validate';
@@ -15,6 +10,7 @@ import { useCampusDoUsuario } from '~/composables/useCampusDoUsuario';
 import { calendarSchema, type ICalendarFormValues } from './-Helpers/calendarSchema';
 
 const calendarioLetivo = useCalendarioLetivo();
+const ofertasFormacoes = useOfertasFormacoes();
 
 type Props = {
   calendarId?: string;
@@ -24,7 +20,6 @@ type Props = {
 const props = defineProps<Props>();
 const _formStage = ref<number>(0);
 
-const formacaoPeriodos = ref<OfertaFormacaoPeriodoOutputDto[]>([]);
 const stepRefs = ref<InstanceType<typeof Step>[]>([]);
 const loadedEtapas = ref<CalendarioLetivoEtapaOutputDto[]>([]);
 
@@ -35,24 +30,6 @@ const loadedEtapaMap = computed(() => {
   }
   return map;
 });
-
-async function fetchFormacaoEtapas() {
-  formacaoPeriodos.value = [];
-
-  if (!values.trainingOffer) return;
-
-  try {
-    const formacao = await getApiClient().call(ofertaFormacaoFindById, {
-      path: { id: values.trainingOffer },
-    });
-
-    if (formacao?.periodos) {
-      formacaoPeriodos.value = formacao.periodos;
-    }
-  } catch (e) {
-    console.error('Erro ao buscar etapas da formação:', e);
-  }
-}
 
 const createdCalendarId = ref<string>('');
 
@@ -65,39 +42,40 @@ const { campusId: campusUsuarioDefault } = useCampusDoUsuario();
 
 const isEditMode = computed(() => !!props.calendarId);
 
-async function loadExistingCalendar() {
-  if (!props.calendarId) return;
-  try {
-    const cal = await getApiClient().call(calendarioLetivoFindById, {
-      path: { id: props.calendarId },
-    });
-    if (cal) {
-      setFieldValue('calendarName', cal.nome);
-      setFieldValue('calendarYear', cal.ano);
-      setFieldValue('campus', cal.campus?.id ?? '');
-      await nextTick();
-      setFieldValue('trainingOffer', cal.ofertaFormacao?.id ?? '');
-      createdCalendarId.value = cal.id;
-      loadedEtapas.value = cal.etapas ?? [];
-    }
-  } catch (e) {
-    console.error('Erro ao carregar calendário para edição:', e);
-  }
-}
+// Query reativa: carrega calendário existente para edição
+const calendarQuery = calendarioLetivo.findOne(
+  computed(() => props.calendarId ?? null),
+);
 
-onMounted(async () => {
-  if (isEditMode.value) {
-    await loadExistingCalendar();
-  } else if (campusUsuarioDefault.value) {
-    setFieldValue('campus', campusUsuarioDefault.value);
-  }
-});
+watch(
+  () => calendarQuery.data.value,
+  (cal) => {
+    if (!cal) return;
+    setFieldValue('calendarName', cal.nome);
+    setFieldValue('calendarYear', cal.ano);
+    setFieldValue('campus', cal.campus?.id ?? '');
+    nextTick(() => setFieldValue('trainingOffer', cal.ofertaFormacao?.id ?? ''));
+    createdCalendarId.value = cal.id;
+    loadedEtapas.value = cal.etapas ?? [];
+  },
+  { immediate: true },
+);
 
+// Query reativa: carrega períodos da formação selecionada
+const formacaoQuery = ofertasFormacoes.findOne(
+  computed(() => values.trainingOffer || null),
+);
+
+const formacaoPeriodos = computed(
+  () => formacaoQuery.data.value?.periodos ?? [],
+);
+
+// Campus default para criação
 watch(campusUsuarioDefault, newCampusId => {
   if (newCampusId && !isEditMode.value && !values.campus) {
     setFieldValue('campus', newCampusId);
   }
-});
+}, { immediate: true });
 
 watch(
   () => values.campus,
@@ -175,10 +153,7 @@ defineExpose({ validCalendarCrud, formValidation });
 
 watch(
   () => props.formStage,
-  async n => {
-    _formStage.value = n;
-    if (_formStage.value >= 2) await fetchFormacaoEtapas();
-  },
+  n => { _formStage.value = n; },
   { immediate: true }
 );
 </script>

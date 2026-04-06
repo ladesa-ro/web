@@ -22,7 +22,7 @@ const {
     return true;
   },
   {
-    initialValue: props.value ?? undefined,
+    ...(props.value !== undefined ? { initialValue: props.value } : {}),
     validateOnValueUpdate: false,
   }
 );

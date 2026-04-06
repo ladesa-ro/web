@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-import {
-  calendarioAgendamentoUpdateStatus,
-  calendarioAgendamentoDesvincularTurma,
-} from '@ladesa-ro/web.api.client';
 import { FormMode } from '~/utils/constants';
 
 const props = defineProps<{
@@ -25,7 +21,7 @@ const {
   invalidate,
 } = useInjectAgendamentos();
 
-const api = useApiClient();
+const agendamento = useCalendarioAgendamento();
 
 const confirmDelete = useConfirmDelete();
 const confirmMessage = ref('');
@@ -73,9 +69,7 @@ async function handleRemove(id: string) {
     const confirmed = await confirmDelete.confirm();
     if (confirmed) {
       try {
-        await api.call(calendarioAgendamentoDesvincularTurma, {
-          path: { id, turmaId },
-        });
+        await agendamento.desvincularTurma(id, turmaId);
         await invalidate();
       } catch (e) {
         console.error('Erro ao desvincular turma:', e);
@@ -99,10 +93,7 @@ async function handleExclusiveInactivate() {
   exclusiveDeleteEventoId.value = null;
 
   try {
-    await api.call(calendarioAgendamentoUpdateStatus, {
-      path: { id },
-      body: { status: 'INATIVO' },
-    });
+    await agendamento.updateStatus(id, 'INATIVO');
     await invalidate();
   } catch (e) {
     console.error('Erro ao inativar evento:', e);

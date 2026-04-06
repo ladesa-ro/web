@@ -102,12 +102,19 @@ export default defineNuxtConfig({
     fallback: 'light',
     classPrefix: '',
     classSuffix: '',
+    storage: 'cookie',
+    storageKey: 'nuxt-color-mode',
   },
 
   // ===========
 
   routeRules: {
     '/': { redirect: '/sisgha/dape' },
+    '/**': {
+      headers: {
+        'Accept-CH': 'Sec-CH-Prefers-Color-Scheme',
+      },
+    },
   },
 
   nitro: {},

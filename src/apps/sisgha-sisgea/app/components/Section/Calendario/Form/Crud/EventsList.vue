@@ -4,10 +4,6 @@ import 'dayjs/locale/pt-br';
 import isBetween from 'dayjs/plugin/isBetween';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import SearchBar from '~/components/UI/SearchBar/SearchBar.vue';
-import {
-  calendarioLetivoFindById,
-  calendarioAgendamentoFindAll,
-} from '@ladesa-ro/web.api.client';
 import type {
   CalendarioAgendamentoFindOneOutputDto,
 } from '@ladesa-ro/web.api.client';
@@ -22,8 +18,6 @@ type Props = {
 };
 const props = defineProps<Props>();
 const $emit = defineEmits(['close', 'refresh']);
-
-const events = ref<CalendarEvent[]>([]);
 
 const showEventModal = ref(true);
 const searchQuery = ref('');
@@ -51,24 +45,30 @@ function handleForceClose() {
   closeModal();
 }
 
-async function loadEvents() {
-  if (!props.calendarData?.id) return;
-  const api = getApiClient();
-  const id = props.calendarData.id;
+// Queries reativas
+const calendarioLetivo = useCalendarioLetivo();
+const agendamento = useCalendarioAgendamento();
 
-  const [calendarioRes, eventsRes] = await Promise.all([
-    api.call(calendarioLetivoFindById, {
-      path: { id },
-    }),
-    api.call(calendarioAgendamentoFindAll, {
-      query: {
-        'filter.calendarioLetivo.id': [id],
-        limit: 100,
-      },
-    }),
-  ]);
+const calendarId = computed(() => props.calendarData?.id ?? null);
 
-  const etapas = calendarioRes.etapas ?? [];
+const calendarQuery = calendarioLetivo.findOne(calendarId);
+
+const eventsQuery = agendamento.findAll(
+  computed(() => {
+    if (!calendarId.value) return {};
+    return {
+      'filter.calendarioLetivo.id': [calendarId.value],
+      limit: 100,
+    };
+  }),
+);
+
+const events = computed(() => {
+  const id = calendarId.value;
+  if (!id) return [];
+
+  const cal = calendarQuery.data.value;
+  const etapas = cal?.etapas ?? [];
 
   const steps: CalendarEvent[] = etapas.map((s) => ({
     id: s.id,
@@ -79,7 +79,7 @@ async function loadEvents() {
     calendar: { id },
   }));
 
-  const evs: CalendarEvent[] = (eventsRes.data ?? []).map((o: CalendarioAgendamentoFindOneOutputDto) => ({
+  const evs: CalendarEvent[] = (eventsQuery.data.value?.data ?? []).map((o: CalendarioAgendamentoFindOneOutputDto) => ({
     id: o.id,
     name: o.nome ?? '',
     color: o.cor ?? null,
@@ -88,15 +88,14 @@ async function loadEvents() {
     calendar: { id },
   }));
 
-  events.value = Array.from(
+  return Array.from(
     new Map([...steps, ...evs].map(e => [e.id, e])).values()
   ).sort(
     (a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
   );
-}
+});
 
 onMounted(() => {
-  loadEvents();
   window.addEventListener('force-close-inner-modals', handleForceClose);
   window.addEventListener('calendar-events-updated', handleEventsUpdated);
 });
@@ -161,7 +160,8 @@ function remainingDays(event: CalendarEvent) {
 }
 
 function handleEventsUpdated() {
-  loadEvents(); // recarrega a lista de eventos
+  calendarioLetivo.invalidate();
+  agendamento.invalidate();
 }
 
 </script>

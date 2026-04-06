@@ -7,14 +7,17 @@ import {
   type IParticipantesData,
 } from './schema';
 
-const props = withDefaults(defineProps<{
-  editId?: string | null;
-  initialData?: Partial<CalendarioAgendamentoCreateInputDto>;
-  disabled?: boolean;
-  bare?: boolean;
-  showParticipants?: boolean;
-  origemProfessor?: boolean;
-}>(), { bare: false, showParticipants: false, origemProfessor: false });
+const props = withDefaults(
+  defineProps<{
+    editId?: string | null;
+    initialData?: Partial<CalendarioAgendamentoCreateInputDto>;
+    disabled?: boolean;
+    bare?: boolean;
+    showParticipants?: boolean;
+    origemProfessor?: boolean;
+  }>(),
+  { bare: false, showParticipants: false, origemProfessor: false }
+);
 
 const emit = defineEmits<{
   back: [];
@@ -25,7 +28,9 @@ const emit = defineEmits<{
 const isEditMode = computed(() => !!props.editId);
 const schema = useAgendamentoFormSchema();
 
-function buildInitialValues(data?: Partial<CalendarioAgendamentoCreateInputDto>) {
+function buildInitialValues(
+  data?: Partial<CalendarioAgendamentoCreateInputDto>
+) {
   return {
     nome: data?.nome ?? '',
     cor: data?.cor ?? null,
@@ -112,7 +117,11 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
 
     <template #button-group>
       <UIButtonModalGoBack class="flex-1" @click="emit('back')" />
-      <UIButtonModalDelete v-if="isEditMode" class="flex-1" @click="emit('delete')" />
+      <UIButtonModalDelete
+        v-if="isEditMode"
+        class="flex-1"
+        @click="emit('delete')"
+      />
       <UIButtonModalEdit v-if="isEditMode" class="flex-1" @click="onSubmit" />
       <UIButtonModalSave v-else class="flex-1" @click="onSubmit" />
     </template>

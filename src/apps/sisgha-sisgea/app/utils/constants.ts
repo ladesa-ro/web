@@ -48,21 +48,6 @@ export const VUE_QUERY_STATE_KEY = 'vue-query' as const;
 export const QUERY_CACHE_STORAGE_KEY = 'LADESA_WEB_QUERY_CACHE' as const;
 
 // ============================================================
-// API Image Resources
-// ============================================================
-
-export enum ApiImageResource {
-  TURMA_COVER = 'TURMA_COVER',
-  CURSO_COVER = 'CURSO_COVER',
-  DISCIPLINA_COVER = 'DISCIPLINA_COVER',
-  AMBIENTE_COVER = 'AMBIENTE_COVER',
-  BLOCO_COVER = 'BLOCO_COVER',
-  MODALIDADE_COVER = 'MODALIDADE_COVER',
-  NIVEL_FORMACAO_COVER = 'NIVEL_FORMACAO_COVER',
-  USUARIO_PROFILE = 'USUARIO_PROFILE',
-}
-
-// ============================================================
 // Auth Refresh
 // ============================================================
 

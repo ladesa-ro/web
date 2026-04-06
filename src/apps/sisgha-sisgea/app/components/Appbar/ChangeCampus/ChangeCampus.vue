@@ -73,10 +73,14 @@ const verifyCargo = () => {
   }
 };
 
-onBeforeRouteUpdate(to => {
+const removeGuard = router.beforeEach((to) => {
   if (!to.path.includes('sisgea')) {
     verifyCargo();
   }
+});
+
+onBeforeUnmount(() => {
+  removeGuard();
 });
 
 //
@@ -93,67 +97,78 @@ const open = ref(false);
 </script>
 
 <template>
-  <!-- Always show campus name; popover only when multiple options -->
-  <UIPopover v-if="showSelector" v-model="open">
-    <template #activator>
+  <ClientOnly>
+    <!-- Always show campus name; popover only when multiple options -->
+    <UIPopover v-if="showSelector" v-model="open">
+      <template #activator>
+        <div
+          class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden cursor-pointer"
+        >
+          <IconsLocate class="mr-1 text-ldsa-text-green shrink-0" />
+          <span class="truncate">{{ selectedCampusLabel }}</span>
+        </div>
+
+        <div class="p-2.5 min-[46.2rem]:hidden shrink-0">
+          <IconsLocate class="w-4.5" />
+        </div>
+      </template>
+
       <div
-        class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden cursor-pointer"
+        class="flex flex-col border-2 border-ldsa-grey rounded-lg p-4 bg-ldsa-bg mt-2"
+      >
+        <UITitle variant="mini" text="Alternar campus" class="mb-4" />
+
+        <UIRadio
+          v-slot="{ item, selected }"
+          v-model="selectedCampus"
+          :items="toggleCampusItems"
+        >
+          <button
+            :class="[
+              'flex items-center text-left gap-2 p-1.5 w-full max-[21.8rem]:min-w-24 min-w-48 sm:min-w-3xs max-[21.8rem]:max-w-[80vw] min-[21.8rem]:max-w-2xs sm:max-w-xs text-sm font-medium border-2 rounded-lg mb-2',
+              selected &&
+                'bg-ldsa-green-2/10 border-ldsa-green-2/60 text-ldsa-text-green',
+              !selected && 'border-ldsa-grey/75',
+            ]"
+          >
+            <UIRadioCircle
+              class="scale-60 shrink-0"
+              :item-value="item.value"
+              :is-selected="selected"
+            />
+
+            {{ item.label }}
+          </button>
+        </UIRadio>
+
+        <span class="mt-2 flex max-[21.8rem]:flex-col justify-between gap-2">
+          <UIButtonModalCancel variant="small" @click="open = false" />
+
+          <UIButtonModalConfirm
+            :disabled="selectedCampusGlobalState === selectedCampus"
+            variant="small"
+            @click="changeCampus()"
+          />
+        </span>
+      </div>
+    </UIPopover>
+
+    <!-- Read-only display when only 1 campus (no selector needed) -->
+    <div
+      v-else-if="selectedCampusLabel !== 'Carregando...'"
+      class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden"
+    >
+      <IconsLocate class="mr-1 text-ldsa-text-green shrink-0" />
+      <span class="truncate">{{ selectedCampusLabel }}</span>
+    </div>
+
+    <template #fallback>
+      <div
+        class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden"
       >
         <IconsLocate class="mr-1 text-ldsa-text-green shrink-0" />
-        <span class="truncate">{{ selectedCampusLabel }}</span>
-      </div>
-
-      <div class="p-2.5 min-[46.2rem]:hidden shrink-0">
-        <IconsLocate class="w-4.5" />
+        <span class="truncate animate-pulse bg-ldsa-grey/20 rounded h-3 w-20 inline-block" />
       </div>
     </template>
-
-    <div
-      class="flex flex-col border-2 border-ldsa-grey rounded-lg p-4 bg-ldsa-bg mt-2"
-    >
-      <UITitle variant="mini" text="Alternar campus" class="mb-4" />
-
-      <UIRadio
-        v-slot="{ item, selected }"
-        v-model="selectedCampus"
-        :items="toggleCampusItems"
-      >
-        <button
-          :class="[
-            'flex items-center text-left gap-2 p-1.5 w-full max-[21.8rem]:min-w-24 min-w-48 sm:min-w-3xs max-[21.8rem]:max-w-[80vw] min-[21.8rem]:max-w-2xs sm:max-w-xs text-sm font-medium border-2 rounded-lg mb-2',
-            selected &&
-              'bg-ldsa-green-2/10 border-ldsa-green-2/60 text-ldsa-text-green',
-            !selected && 'border-ldsa-grey/75',
-          ]"
-        >
-          <UIRadioCircle
-            class="scale-60 shrink-0"
-            :item-value="item.value"
-            :is-selected="selected"
-          />
-
-          {{ item.label }}
-        </button>
-      </UIRadio>
-
-      <span class="mt-2 flex max-[21.8rem]:flex-col justify-between gap-2">
-        <UIButtonModalCancel variant="small" @click="open = false" />
-
-        <UIButtonModalConfirm
-          :disabled="selectedCampusGlobalState === selectedCampus"
-          variant="small"
-          @click="changeCampus()"
-        />
-      </span>
-    </div>
-  </UIPopover>
-
-  <!-- Read-only display when only 1 campus (no selector needed) -->
-  <div
-    v-else-if="selectedCampusLabel !== 'Carregando...'"
-    class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden"
-  >
-    <IconsLocate class="mr-1 text-ldsa-text-green shrink-0" />
-    <span class="truncate">{{ selectedCampusLabel }}</span>
-  </div>
+  </ClientOnly>
 </template>

@@ -75,7 +75,7 @@ const diaInteiro = computed(() => formValues.value.diaInteiro as boolean);
 
   <template v-if="showParticipants">
     <div v-if="origemProfessor" class="flex items-start gap-2.5 p-3 rounded-lg bg-blue-50 border border-blue-200">
-      <Icon name="lucide:info" class="text-blue-600 shrink-0 mt-0.5" size="18" />
+      <IconsInfo class="text-blue-600 shrink-0 mt-0.5 w-[18px] h-[18px]" />
       <span class="text-sm text-blue-800">
         Este evento foi criado na edição de agenda do professor e, portanto, não é possível vinculá-lo a mais nenhum professor ou turma.
       </span>

@@ -19,7 +19,7 @@ const {
 </script>
 
 <template>
-  <UIFormRRuleEditorRRuleEditor
+  <UIFormRRuleEditor
     v-model="fieldValue"
     :disabled="disabled"
     :error="errorMessage"

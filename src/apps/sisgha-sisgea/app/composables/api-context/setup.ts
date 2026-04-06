@@ -29,6 +29,8 @@ export const createApiContext = (shouldProvide = true) => {
     enabled: computed(() => status.value !== 'loading'),
   });
 
+  useQuerySuspend(whoAmIQuery);
+
   const whoAmI = computed(() => whoAmIQuery.data.value ?? null);
 
   const usuario = computed(() => whoAmI.value?.usuario ?? null);

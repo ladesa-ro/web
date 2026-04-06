@@ -20,7 +20,7 @@ const {
 </script>
 
 <template>
-  <UIFormColorPaletteColorPalette
+  <UIFormColorPalette
     v-model="fieldValue"
     :colors="colors"
     :disabled="disabled"

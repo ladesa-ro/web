@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useCalendarioFiltersStore = defineStore('calendario-filters', () => {
   // Shared filters
-  const anoLetivo = ref<number>(new Date().getFullYear());
+  const anoLetivo = useState<number>('calendario:anoLetivo', () => new Date().getFullYear());
   const formacaoId = ref<string | null>(null);
   const calendarioId = ref<string | null>(null);
   const campusId = ref<string | null>(null);

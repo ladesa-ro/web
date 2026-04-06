@@ -1,3 +1,7 @@
+<script lang="ts">
+export default { inheritAttrs: false };
+</script>
+
 <script lang="ts" setup>
 import {
   SelectContent as Content,

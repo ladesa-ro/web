@@ -4,7 +4,6 @@ import {
   IconsCalendarPartialCalendar,
 } from '#components';
 import dayjs from 'dayjs';
-import { calendarioLetivoFindAll, calendarioLetivoFindById } from '@ladesa-ro/web.api.client';
 import { useToast } from '~/composables/useToast';
 import { useCalendarioFiltersStore } from '~/composables/useCalendarioFiltersStore';
 import GestaoPopover from './Gestao/GestaoPopover.vue';
@@ -23,7 +22,6 @@ const filtersStore = useCalendarioFiltersStore();
 const selectedCampusGlobalState = useCampusContext();
 
 const toggleView = ref<number>(0);
-const selectedCalendar = ref<CalendarData | null>(null);
 const showDeleteModal = ref(false);
 
 // Computed wrappers for store fields (bidirectional)
@@ -42,7 +40,24 @@ const selectedCalendarId = computed({
   set: (v: string | null) => { filtersStore.calendarioId = v; },
 });
 
-const allCalendars = ref<CalendarData[]>([]);
+// Query reativa: listar calendários por campus
+const calendarsQuery = calendarioLetivo.list(
+  computed(() => {
+    const campusId = selectedCampusGlobalState.value;
+    if (!campusId) return { limit: 0 };
+    return { 'filter.campus.id': [campusId] };
+  }),
+);
+
+const allCalendars = computed<CalendarData[]>(() =>
+  (calendarsQuery.data.value?.data ?? []).map(c => ({
+    id: c.id,
+    name: c.nome,
+    year: c.ano,
+    trainingOffer: { id: c.ofertaFormacao?.id ?? '' },
+    campus: { id: c.campus?.id ?? '' },
+  })),
+);
 
 const filteredCalendars = computed(() => {
   if (!selectedTrainingOffer.value) return [];
@@ -51,6 +66,20 @@ const filteredCalendars = computed(() => {
   );
 });
 
+// Query reativa: carregar calendário selecionado
+const calendarDetailQuery = calendarioLetivo.findOne(selectedCalendarId);
+
+const selectedCalendar = computed<CalendarData | null>(() => {
+  const cal = calendarDetailQuery.data.value;
+  if (!cal) return null;
+  return {
+    id: cal.id,
+    name: cal.nome,
+    year: cal.ano,
+    trainingOffer: { id: cal.ofertaFormacao?.id ?? '' },
+    campus: { id: cal.campus?.id ?? '' },
+  };
+});
 
 const toggleItems = [
   { text: 'Calendário parcial', value: 0, icon: IconsCalendarPartialCalendar },
@@ -63,45 +92,11 @@ const toggleItems = [
 
 const { showToast } = useToast();
 
-async function loadCalendars() {
-  try {
-    const campusId = selectedCampusGlobalState.value;
-    if (!campusId) return;
-
-    const res = await getApiClient().call(calendarioLetivoFindAll, {
-      query: {
-        'filter.campus.id': [campusId],
-      },
-    });
-
-    const data = res.data || [];
-
-    allCalendars.value = data.map(c => ({
-      id: c.id,
-      name: c.nome,
-      year: c.ano,
-
-      trainingOffer: { id: c.ofertaFormacao?.id ?? '' },
-      campus: { id: c.campus?.id ?? '' },
-    }));
-
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-// On mount: hydrate store from URL query params, then load calendars
-onMounted(async () => {
+// On mount: hydrate store from URL query params
+onMounted(() => {
   if (route.query.ano) filtersStore.anoLetivo = Number(route.query.ano);
   if (route.query.formacao && typeof route.query.formacao === 'string') filtersStore.formacaoId = route.query.formacao;
   if (route.query.calendario && typeof route.query.calendario === 'string') filtersStore.calendarioId = route.query.calendario;
-
-  await loadCalendars();
-
-  // If a calendar was restored from URL/store, load its full data
-  if (filtersStore.calendarioId) {
-    await selectCalendar(filtersStore.calendarioId);
-  }
 });
 
 // Sync store → URL (deep linking without page reload)
@@ -124,41 +119,12 @@ watch(selectedCampusGlobalState, (newCampus) => {
   filtersStore.campusId = newCampus;
 });
 
-watch(selectedCampusGlobalState, async () => {
-  await loadCalendars();
-});
-
-async function selectCalendar(id: string | null) {
-  selectedCalendarId.value = id;
-  if (!id) {
-    selectedCalendar.value = null;
-    return;
-  }
-  try {
-    const cal = await getApiClient().call(calendarioLetivoFindById, {
-      path: { id },
-    });
-    if (cal) {
-      selectedCalendar.value = {
-        id: cal.id,
-        name: cal.nome,
-        year: cal.ano,
-        trainingOffer: { id: cal.ofertaFormacao.id },
-        campus: { id: cal.campus.id },
-      };
-    }
-  } catch (e) {
-    console.error('Erro ao buscar calendario:', e);
-  }
-}
-
 function handleConfirmDelete() {
   if (!selectedCalendar.value) return;
 
   calendarioLetivo
     .remove(selectedCalendar.value.id)
     .then(() => {
-      selectedCalendar.value = null;
       selectedCalendarId.value = null;
       emit('refresh');
       showToast('delete', 'success', 'O calendário foi apagado com sucesso.');
@@ -171,13 +137,11 @@ function handleConfirmDelete() {
 
 watch(selectedTrainingOffer, () => {
   selectedCalendarId.value = null;
-  selectedCalendar.value = null;
 });
 
 watch(selectedCampusGlobalState, () => {
   selectedTrainingOffer.value = null;
   selectedCalendarId.value = null;
-  selectedCalendar.value = null;
 });
 
 watch(selectedYear, () => {
@@ -196,7 +160,7 @@ const selectedCalendarItem = computed({
     return calendarSelectItems.value.find(i => i.value === selectedCalendarId.value) ?? undefined;
   },
   set: (item: { label: string; value: string } | undefined) => {
-    selectCalendar(item?.value ?? null);
+    selectedCalendarId.value = item?.value ?? null;
   },
 });
 </script>

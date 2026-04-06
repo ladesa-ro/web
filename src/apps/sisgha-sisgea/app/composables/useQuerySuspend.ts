@@ -1,8 +1,7 @@
-import type { UseQueryReturnType } from '@tanstack/vue-query';
-import type { QuerySuspenseBehaviour } from '~/utils';
+import type { SuspendableQuery, QuerySuspenseBehaviour } from '~/utils';
 import { QuerySuspenseBehaviourMode, suspendQuery } from '~/utils';
 
-export const useQuerySuspend = (query: UseQueryReturnType<any, any>) => {
+export const useQuerySuspend = (query: SuspendableQuery) => {
   const suspend = (suspenseBehaviour: QuerySuspenseBehaviour = {}) => {
     return suspendQuery(query, suspenseBehaviour);
   };
