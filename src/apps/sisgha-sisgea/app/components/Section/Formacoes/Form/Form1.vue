@@ -7,6 +7,7 @@ const props = defineProps<{
   mode: FormMode;
   isBusy: boolean;
   isLoading: boolean;
+  coverSrc: string | null;
 }>();
 
 const emit = defineEmits<{
@@ -59,7 +60,7 @@ const duracaoLabel = computed(() => {
       mode === FormMode.MANAGE ? 'Editar formação' : 'Cadastrar formação'
     "
   >
-    <VVSelectImage name="imagem" />
+    <VVSelectImage name="imagem" :existing-src="coverSrc" />
 
     <VVAutocompleteAPINivelFormacao
       name="niveisFormacoes"

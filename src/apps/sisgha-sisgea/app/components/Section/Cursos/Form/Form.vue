@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
+import { ApiImageResource, useApiImageRoute } from '~/utils/integrations/api/core/images-util';
 import { cursoSchema } from './-Helpers/schema';
 import FormPrimary from './FormPrimary.vue';
 import FormDisciplinas from './FormDisciplinas.vue';
@@ -12,6 +13,7 @@ const cursos = useCursos();
 const confirmDelete = useConfirmDelete();
 
 const cursoQuery = cursos.findOne(computed(() => editId));
+const coverSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, cursoQuery.data);
 
 const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   schema: cursoSchema,
@@ -102,6 +104,7 @@ watchEffect(() => {
           :is-loading="isLoading"
           :duracao-label="duracaoLabel"
           :quantidade-periodos-label="quantidadePeriodosLabel"
+          :cover-src="coverSrc"
           @close="emit('close')"
           @delete="onDelete"
         />

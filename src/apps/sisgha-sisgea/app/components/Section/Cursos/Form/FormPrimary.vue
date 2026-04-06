@@ -8,6 +8,7 @@ defineProps<{
   isLoading: boolean;
   duracaoLabel: string;
   quantidadePeriodosLabel: string;
+  coverSrc: string | null;
 }>();
 
 const emit = defineEmits<{
@@ -44,7 +45,7 @@ watch(campusId, resetOfertaFormacaoWhenCampusChanges);
     :on-close="closeForm"
     :on-delete="mode === FormMode.MANAGE ? deleteCurso : undefined"
   >
-    <VVSelectImage name="imagem" />
+    <VVSelectImage name="imagem" :existing-src="coverSrc" />
 
     <VVAutocompleteAPICampus
       name="campus.id"

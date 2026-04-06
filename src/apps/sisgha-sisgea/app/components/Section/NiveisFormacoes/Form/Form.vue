@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { FormMode } from '~/utils/constants';
+import { ApiImageResource, useApiImageRoute } from '~/utils/integrations/api/core/images-util';
 import { nivelFormacaoSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -8,10 +9,13 @@ const emit = defineEmits<{ close: [] }>();
 const niveisFormacoes = useNiveisFormacoes();
 const confirmDelete = useConfirmDelete();
 
+const nivelFormacaoQuery = niveisFormacoes.findOne(computed(() => editId));
+const coverSrc = useApiImageRoute(ApiImageResource.NIVEL_FORMACAO_COVER, nivelFormacaoQuery.data);
+
 const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   schema: nivelFormacaoSchema,
   editId: computed(() => editId),
-  getQuery: niveisFormacoes.findOne(computed(() => editId)),
+  getQuery: nivelFormacaoQuery,
   create: async data => {
     const { imagem, ...rest } = data;
     const created = await niveisFormacoes.create(rest);
@@ -42,7 +46,7 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
       :on-close="() => emit('close')"
       :on-delete="onDelete"
     >
-      <VVSelectImage name="imagem" />
+      <VVSelectImage name="imagem" :existing-src="coverSrc" />
       <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
       <VVTextField name="slug" label="Slug" placeholder="Digite aqui" />
     </UIFormLayout>

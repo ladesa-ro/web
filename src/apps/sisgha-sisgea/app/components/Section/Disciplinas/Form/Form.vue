@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { FormMode } from '~/utils/constants';
+import { ApiImageResource, useApiImageRoute } from '~/utils/integrations/api/core/images-util';
 import { disciplinaSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -8,10 +9,13 @@ const emit = defineEmits<{ close: [] }>();
 const disciplinas = useDisciplinas();
 const confirmDelete = useConfirmDelete();
 
+const disciplinaQuery = disciplinas.findOne(computed(() => editId));
+const coverSrc = useApiImageRoute(ApiImageResource.DISCIPLINA_COVER, disciplinaQuery.data);
+
 const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   schema: disciplinaSchema,
   editId: computed(() => editId),
-  getQuery: disciplinas.findOne(computed(() => editId)),
+  getQuery: disciplinaQuery,
 
   create: async data => {
     const { imagem, ...rest } = data;
@@ -43,7 +47,7 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
       :on-close="() => emit('close')"
       :on-delete="onDelete"
     >
-      <VVSelectImage name="imagem" />
+      <VVSelectImage name="imagem" :existing-src="coverSrc" />
       <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
       <VVTextField
         name="nomeAbreviado"

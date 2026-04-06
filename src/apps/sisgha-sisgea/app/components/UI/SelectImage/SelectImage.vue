@@ -1,15 +1,19 @@
-<!-- TODO: mover para UI/Form -->
-
 <script lang="ts" setup>
 import { useDropzone } from 'vue3-dropzone';
 
 const model = defineModel<File | Blob | null | undefined>();
 
+const props = defineProps<{
+  existingSrc?: string | null;
+  disabled?: boolean;
+}>();
+
 function onDrop(acceptedFiles: any) {
-  model.value = acceptedFiles[0]; //retorna mais de um arquivo
+  if (props.disabled) return;
+  model.value = acceptedFiles[0];
 }
 
-const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
+const { getRootProps, getInputProps, isDragActive } = useDropzone({
   onDrop,
   accept: '.jpeg, .jpg, .png',
 });
@@ -18,13 +22,16 @@ const imageSrc = computed(() => {
   if (model.value) {
     return URL.createObjectURL(model.value);
   }
+  if (props.existingSrc) {
+    return props.existingSrc;
+  }
   return null;
 });
 </script>
 <template>
   <div
-    :class="{ selected: imageSrc !== null }"
-    :style="{ backgroundImage: `url(${imageSrc})` }"
+    :class="{ selected: imageSrc !== null, disabled: disabled }"
+    :style="{ backgroundImage: imageSrc ? `url(${imageSrc})` : undefined }"
     class="drop-area flex"
     v-bind="getRootProps()"
   >
@@ -42,7 +49,7 @@ const imageSrc = computed(() => {
       </span>
     </div>
 
-    <input v-bind="getInputProps()" >
+    <input v-bind="getInputProps()" />
   </div>
 </template>
 
@@ -85,9 +92,14 @@ const imageSrc = computed(() => {
   transition: 0.15s ease-in-out;
 }
 
-.drop-area:hover .dropzone-info {
+.drop-area:not(.disabled):hover .dropzone-info {
   opacity: 1;
   @apply bg-ldsa-grey/20;
+}
+
+.drop-area.disabled {
+  @apply opacity-60 cursor-not-allowed;
+  pointer-events: none;
 }
 
 @media screen and (max-width: 800px) {

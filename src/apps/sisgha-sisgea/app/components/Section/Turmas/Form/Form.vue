@@ -5,6 +5,7 @@ import type {
 } from '@ladesa-ro/web.api.client';
 import { useField } from 'vee-validate';
 import { FormMode } from '~/utils/constants';
+import { ApiImageResource, useApiImageRoute } from '~/utils/integrations/api/core/images-util';
 import { useTurmaFormSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -15,6 +16,7 @@ const turmas = useTurmas();
 const confirmDelete = useConfirmDelete();
 
 const turmaQuery = turmas.findOne(computed(() => editId));
+const coverSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turmaQuery.data);
 
 const cursos = useCursos();
 const { value: selectedCursoId } = useField<string | null>('curso.id');
@@ -127,7 +129,7 @@ watch(mode, val => { modeRef.value = val; }, { immediate: true });
           :on-close="() => emit('close')"
           :on-delete="onDelete"
         >
-          <VVSelectImage name="imagem" />
+          <VVSelectImage name="imagem" :existing-src="coverSrc" />
 
           <VVAutocompleteAPICurso
             :is-loading="isLoading"

@@ -4,6 +4,7 @@ import { useField } from 'vee-validate';
 type Props = {
   name: string;
   disabled?: boolean;
+  existingSrc?: string | null;
 };
 const props = defineProps<Props>();
 const name = toRef(props, 'name');
@@ -20,9 +21,16 @@ const { errorMessage, value: modelValue } = useField<FieldType>(
 </script>
 
 <template>
-  <UISelectImage v-model="modelValue" :disabled="fieldDisabled" v-bind="$attrs" />
+  <div>
+    <UISelectImage
+      v-model="modelValue"
+      :disabled="fieldDisabled"
+      :existing-src="props.existingSrc"
+      v-bind="$attrs"
+    />
 
-  <div v-if="errorMessage">
-    {{ errorMessage }}
+    <div v-if="errorMessage">
+      {{ errorMessage }}
+    </div>
   </div>
 </template>
