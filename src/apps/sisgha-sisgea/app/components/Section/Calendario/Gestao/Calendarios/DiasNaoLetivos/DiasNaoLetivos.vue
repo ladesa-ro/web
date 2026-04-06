@@ -12,6 +12,7 @@ import {
 import type {
   CalendarioLetivoDiaFindOneOutputDto,
 } from '@ladesa-ro/web.api.client';
+import type { CalendarEvent } from '~/components/Section/Calendario/Types';
 import { useForm } from 'vee-validate';
 import { diaEditSchema } from './-Helpers/schema';
 
@@ -176,14 +177,13 @@ const calendarYear = computed(() => {
 });
 
 // Convert dias to CalendarEvent format for mini calendars
-const calendarEvents = computed(() => {
+const calendarEvents = computed((): CalendarEvent[] => {
   return dias.value.map((d) => ({
     id: d.id,
-    nome: getDiaLabel(d),
-    cor: getDotColor(d),
-    dataInicio: d.data,
-    dataFim: d.data,
-    diaInteiro: true,
+    name: getDiaLabel(d),
+    color: getDotColor(d),
+    startDate: d.data,
+    endDate: d.data,
   }));
 });
 </script>
@@ -224,7 +224,7 @@ const calendarEvents = computed(() => {
       <div class="flex flex-col lg:flex-row gap-6">
         <!-- Mini calendar with navigation -->
         <div class="lg:w-[340px] shrink-0">
-          <SectionCalendarioMonthMonth
+          <SectionCalendarioMonth
             :year="calendarYear"
             :events="calendarEvents"
             :toggle-month="true"
@@ -283,7 +283,7 @@ const calendarEvents = computed(() => {
             <div class="flex flex-col lg:flex-row gap-4">
               <!-- Mini calendar without navigation -->
               <div class="lg:w-[300px] shrink-0">
-                <SectionCalendarioMonthMonth
+                <SectionCalendarioMonth
                   :year="calendarYear"
                   :events="calendarEvents"
                   :toggle-month="false"

@@ -84,7 +84,7 @@ const validateEventCrud = async (): Promise<boolean> => {
 
 const deleteEvent = async (): Promise<boolean> => {
   const idToDelete = props.eventId || props.eventName;
-  if (!isEvent.value || !idToDelete) {
+  if (!idToDelete) {
     return false;
   }
 

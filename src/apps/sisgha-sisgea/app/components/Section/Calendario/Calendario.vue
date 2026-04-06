@@ -60,7 +60,7 @@ const allCalendars = computed<CalendarData[]>(() =>
 );
 
 const filteredCalendars = computed(() => {
-  if (!selectedTrainingOffer.value) return [];
+  if (!selectedTrainingOffer.value) return allCalendars.value;
   return allCalendars.value.filter(
     c => c.trainingOffer?.id === selectedTrainingOffer.value
   );
@@ -195,7 +195,6 @@ const selectedCalendarItem = computed({
       />
 
       <UIFormOptionFieldsSelect
-        v-if="filteredCalendars.length > 0"
         v-model="selectedCalendarItem"
         :items="calendarSelectItems"
         label="Calendário"

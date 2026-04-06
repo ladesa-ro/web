@@ -7,6 +7,7 @@ import { nextTick, ref, watch } from 'vue';
 type Props = {
   calendarId?: string;
   eventName?: string;
+  eventId?: string;
   editMode?: 'calendar' | 'events' | null;
   showParticipants?: boolean;
 };
@@ -23,7 +24,7 @@ const stage = ref(0);
 const registerType = ref<'calendar' | 'events' | null>(null);
 const modalTitle = ref(props.editMode ? 'Editar' : 'Cadastrar');
 
-const calendarCrudRef = ref<{ validCalendarCrud: () => Promise<boolean>; formValidation: () => Promise<boolean> }>();
+const calendarCrudRef = ref<{ validCalendarCrud: () => Promise<boolean>; formValidation: () => Promise<boolean>; deleteCalendar: () => Promise<boolean> }>();
 const eventCrudRef = ref<{ validateEventCrud: () => Promise<boolean>; fillForm: () => Promise<void>; deleteEvent: () => Promise<boolean> }>();
 
 // # ICONS
@@ -106,22 +107,49 @@ if (props.editMode) {
   changeModalTitle();
 }
 
+const isDeleting = ref(false);
+const confirmDelete = useConfirmDelete();
+
 async function handleDelete() {
   await nextTick();
 
   if (!eventCrudRef.value) return;
-  if (!props.eventName || !props.calendarId) return;
+  if (!props.eventId && !props.eventName) return;
 
-  const deleted = await eventCrudRef.value.deleteEvent();
-  if (deleted) {
-    emit('refresh');
-    onClose();
+  isDeleting.value = true;
+  try {
+    const deleted = await eventCrudRef.value.deleteEvent();
+    if (deleted) {
+      emit('refresh');
+      onClose();
+    }
+  } finally {
+    isDeleting.value = false;
+  }
+}
+
+async function handleDeleteCalendar() {
+  if (!calendarCrudRef.value || !props.calendarId) return;
+
+  const confirmed = await confirmDelete.confirm();
+  if (!confirmed) return;
+
+  isDeleting.value = true;
+  try {
+    const deleted = await calendarCrudRef.value.deleteCalendar();
+    if (deleted) {
+      emit('refresh');
+      onClose();
+    }
+  } finally {
+    isDeleting.value = false;
   }
 }
 </script>
 
 <template>
   <form @submit.prevent="onSubmit">
+    <fieldset :disabled="isDeleting">
     <DialogModalBaseLayout
       :on-close="onClose"
       :title="modalTitle"
@@ -163,6 +191,7 @@ async function handleDelete() {
         :form-stage="stage"
         :calendar-id="props.calendarId ?? ''"
         :event-name="props.eventName"
+        :event-id="props.eventId"
         :show-participants="props.showParticipants"
       />
 
@@ -183,6 +212,11 @@ async function handleDelete() {
           class="flex w-full"
           @click.prevent="handleDelete"
         />
+        <UIButtonModalDelete
+          v-show="props.editMode === 'calendar'"
+          class="flex w-full"
+          @click.prevent="handleDeleteCalendar"
+        />
 
         <UIButtonModalAdvance
           v-if="stage === 1 && (registerType === 'calendar' || props.editMode === 'calendar')"
@@ -196,5 +230,12 @@ async function handleDelete() {
         <UIButtonModalEdit v-show="props.editMode && !(props.editMode === 'calendar' && stage === 1)" type="submit" />
       </template>
     </DialogModalBaseLayout>
+    </fieldset>
   </form>
+
+  <DialogConfirm
+    v-model="confirmDelete.isOpen.value"
+    message="Deseja excluir este calendário letivo? Esta ação não pode ser desfeita."
+    @confirm="confirmDelete.onConfirm"
+  />
 </template>

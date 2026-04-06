@@ -252,7 +252,7 @@ function handleModalClose() {
     <DialogSkeleton v-model="editModalOpen">
       <SectionCalendarioForm
         v-if="editEventoId"
-        :edit-id="editEventoId"
+        :event-id="editEventoId"
         edit-mode="events"
         show-participants
         @close="handleModalClose"

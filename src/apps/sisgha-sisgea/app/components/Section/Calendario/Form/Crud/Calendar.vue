@@ -162,7 +162,19 @@ const validCalendarCrud = async (): Promise<boolean> => {
   return false;
 };
 
-defineExpose({ validCalendarCrud, formValidation });
+const deleteCalendar = async (): Promise<boolean> => {
+  if (!props.calendarId) return false;
+  try {
+    await calendarioLetivo.remove(props.calendarId);
+    await calendarioLetivo.invalidate();
+    return true;
+  } catch (e) {
+    console.error('Erro ao excluir calendário:', e);
+    return false;
+  }
+};
+
+defineExpose({ validCalendarCrud, formValidation, deleteCalendar });
 
 watch(
   () => props.formStage,
