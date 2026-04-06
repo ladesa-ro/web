@@ -16,7 +16,15 @@ const props = defineProps<Props>();
 const schema = yup.object({
   stepColor: yup.string().required('Cor inválida'),
   stepStartDate: yup.string().required('Data de início inválida'),
-  stepEndDate: yup.string().required('Data de término inválida'),
+  stepEndDate: yup.string().required('Data de término inválida').test(
+    'after-start',
+    'Data de término deve ser igual ou posterior à data de início',
+    function (value) {
+      const start = this.parent.stepStartDate;
+      if (!start || !value) return true;
+      return value >= start;
+    },
+  ),
 });
 
 const { values, validate, setValues } = useForm({
@@ -30,12 +38,13 @@ const { values, validate, setValues } = useForm({
 
 // Reagir a props assíncronas (edição: dados carregam depois do mount)
 watch(
-  () => [props.dataInicio, props.dataTermino],
-  ([inicio, termino]) => {
-    if (inicio || termino) {
+  () => [props.dataInicio, props.dataTermino, props.etapaCor],
+  ([inicio, termino, cor]) => {
+    if (inicio || termino || cor) {
       setValues({
-        stepStartDate: inicio ?? '',
-        stepEndDate: termino ?? '',
+        stepStartDate: inicio ?? values.stepStartDate ?? '',
+        stepEndDate: termino ?? values.stepEndDate ?? '',
+        stepColor: cor ?? values.stepColor ?? '#000000',
       }, false);
     }
   },
@@ -66,7 +75,6 @@ defineExpose({ getValues, validateStep });
     </label>
 
     <VVTextField
-      v-if="!dataInicio && !dataTermino"
       name="stepColor"
       type="color"
       label="Cor"

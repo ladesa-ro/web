@@ -66,7 +66,7 @@ async function formStage(v: 'next' | 'prev') {
   }
 
   if (stage.value === 0) selectRegisterType(null);
-  changeModalTitle(String(registerType.value));
+  else changeModalTitle(String(registerType.value));
 }
 
 async function onSubmit() {

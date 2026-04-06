@@ -82,9 +82,16 @@ watch(
   (_newVal, oldVal) => {
     if (oldVal) {
       setFieldValue('trainingOffer', '');
+      loadedEtapas.value = [];
+      stepRefs.value = [];
     }
   }
 );
+
+// Limpar refs stale quando a lista de períodos muda (ex: troca de oferta)
+watch(formacaoPeriodos, () => {
+  stepRefs.value = [];
+});
 
 async function collectEtapas(): Promise<CalendarioLetivoEtapaInputDto[]> {
   const etapas: CalendarioLetivoEtapaInputDto[] = [];
@@ -136,12 +143,18 @@ const formValidation = async (): Promise<boolean> => {
   return true;
 };
 
+const submitError = ref<string | null>(null);
+
 const validCalendarCrud = async (): Promise<boolean> => {
+  submitError.value = null;
+
   if (await formValidation()) {
     try {
       createdCalendarId.value = await onSubmit();
       return true;
     } catch (e) {
+      const message = e instanceof Error ? e.message : 'Erro ao salvar calendário';
+      submitError.value = message;
       console.error('Erro ao salvar calendário com etapas:', e);
       return false;
     }
@@ -186,7 +199,19 @@ watch(
     </div>
 
     <div v-show="_formStage === 2" class="flex flex-col gap-4 pr-2">
-      <template v-for="periodo in formacaoPeriodos" :key="periodo.id">
+      <div v-if="isEditMode && calendarQuery.isLoading.value" class="flex items-center justify-center py-8">
+        <div class="animate-spin w-6 h-6 border-2 border-ldsa-green-2 border-t-transparent rounded-full" />
+      </div>
+
+      <div v-else-if="formacaoQuery.isLoading.value" class="flex items-center justify-center py-8">
+        <div class="animate-spin w-6 h-6 border-2 border-ldsa-green-2 border-t-transparent rounded-full" />
+      </div>
+
+      <p v-else-if="formacaoPeriodos.length === 0" class="text-sm text-ldsa-text-default/60 py-4 text-center">
+        Nenhuma etapa configurada para esta formação.
+      </p>
+
+      <template v-else v-for="periodo in formacaoPeriodos" :key="periodo.id">
         <h3 class="font-bold text-lg mt-2">
           Período {{ periodo.numeroPeriodo }}
         </h3>
@@ -203,5 +228,9 @@ watch(
         />
       </template>
     </div>
+
+    <p v-if="submitError" class="text-red-500 text-sm mt-2">
+      {{ submitError }}
+    </p>
   </div>
 </template>
