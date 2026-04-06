@@ -7,6 +7,8 @@ type Props = {
   ofertaFormacaoPeriodoEtapaId: string;
   etapaNome?: string;
   etapaCor?: string;
+  dataInicio?: string;
+  dataTermino?: string;
 };
 
 const props = defineProps<Props>();
@@ -21,8 +23,8 @@ const { values, validate } = useForm({
   validationSchema: schema,
   initialValues: {
     stepColor: props.etapaCor ?? '#000000',
-    stepStartDate: '',
-    stepEndDate: '',
+    stepStartDate: props.dataInicio ?? '',
+    stepEndDate: props.dataTermino ?? '',
   },
 });
 
@@ -50,7 +52,7 @@ defineExpose({ getValues, validateStep });
       <p class="font-bold whitespace-nowrap">{{ props.text }}</p>
     </label>
 
-    <VVTextField name="stepColor" type="color" label="Cor" />
+    <VVTextField v-if="!dataInicio && !dataTermino" name="stepColor" type="color" label="Cor" />
     <div class="flex gap-4">
       <VVTextField name="stepStartDate" type="date" label="Início" />
       <VVTextField name="stepEndDate" type="date" label="Término" />
