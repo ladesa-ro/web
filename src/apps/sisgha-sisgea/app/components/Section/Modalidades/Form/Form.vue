@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { FormMode } from '~/utils/constants';
 import { modalidadeSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -14,12 +15,12 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   create: async data => {
     const { imagem, ...rest } = data;
     const created = await modalidades.create(rest);
-    if (imagem && created?.id) await modalidades.uploadCover(created.id, imagem as Blob);
+    if (imagem && created?.id) await modalidades.uploadCover(created.id, imagem);
   },
   update: async (id, data) => {
     const { imagem, ...rest } = data;
     await modalidades.update(id, rest);
-    if (imagem) await modalidades.uploadCover(id, imagem as Blob);
+    if (imagem) await modalidades.uploadCover(id, imagem);
   },
   remove: id => modalidades.remove(id),
   invalidate: modalidades.invalidate,
@@ -31,7 +32,7 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
 <template>
   <form @submit.prevent="onSubmit">
     <UIFormLayout
-      :title="mode === 'manage' ? 'Editar Modalidade' : 'Cadastrar Modalidade'"
+      :title="mode === FormMode.MANAGE ? 'Editar Modalidade' : 'Cadastrar Modalidade'"
       :mode="mode"
       :is-busy="isBusy"
       :on-close="() => emit('close')"

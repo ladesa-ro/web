@@ -16,13 +16,13 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   create: async data => {
     const { imagem, ...rest } = data;
     const created = await disciplinas.create(rest);
-    if (imagem) await disciplinas.uploadCover(created.id, imagem as Blob);
+    if (imagem) await disciplinas.uploadCover(created.id, imagem);
   },
 
   update: async (id, data) => {
     const { imagem, ...rest } = data;
     await disciplinas.update(id, rest);
-    if (imagem) await disciplinas.uploadCover(id, imagem as Blob);
+    if (imagem) await disciplinas.uploadCover(id, imagem);
   },
 
   remove: id => disciplinas.remove(id),

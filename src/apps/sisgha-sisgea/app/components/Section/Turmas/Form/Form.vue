@@ -79,7 +79,7 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
     };
     const created = await turmas.create(data);
     if (created?.id) {
-      if (imagem) await turmas.uploadCover(created.id, imagem as Blob);
+      if (imagem) await turmas.uploadCover(created.id, imagem);
       await avail.saveAvailability(created.id);
       await eventosState.saveEventos(created.id);
     }
@@ -93,7 +93,7 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
       ambientePadraoAula: rest.ambientePadraoAula,
     };
     await turmas.update(id, data);
-    if (imagem) await turmas.uploadCover(id, imagem as Blob);
+    if (imagem) await turmas.uploadCover(id, imagem);
     await avail.saveAvailability();
     await eventosState.saveEventos();
   },
@@ -184,7 +184,7 @@ watch(mode, val => { modeRef.value = val; }, { immediate: true });
     <SectionTurmasFormEventosEventoForm
       :key="editingEventoId ?? undefined"
       :edit-id="editingEventoId"
-      :initial-data="editEventoInitialData as any"
+      :initial-data="editEventoInitialData"
       :disabled="isBusy"
       @back="closeEventoDialog"
       @submit="(data: Record<string, unknown>) => { if (editingEventoId) eventosState.updateEvento(editingEventoId, data as any); closeEventoDialog(); }"

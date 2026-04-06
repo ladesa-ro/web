@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { FormMode } from '~/utils/constants';
 import { blocoSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -14,12 +15,12 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   create: async data => {
     const { imagem, ...rest } = data;
     const created = await blocos.create(rest);
-    if (imagem) await blocos.uploadCover(created.id, imagem as Blob);
+    if (imagem) await blocos.uploadCover(created.id, imagem);
   },
   update: async (id, data) => {
     const { imagem, ...rest } = data;
     await blocos.update(id, rest);
-    if (imagem) await blocos.uploadCover(id, imagem as Blob);
+    if (imagem) await blocos.uploadCover(id, imagem);
   },
   remove: id => blocos.remove(id),
   invalidate: blocos.invalidate,
@@ -31,14 +32,14 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
 <template>
   <form @submit.prevent="onSubmit">
     <UIFormLayout
-      :title="mode === 'manage' ? 'Editar Bloco' : 'Cadastrar Bloco'"
+      :title="mode === FormMode.MANAGE ? 'Editar Bloco' : 'Cadastrar Bloco'"
       :mode="mode"
       :is-busy="isBusy"
       :on-close="() => emit('close')"
       :on-delete="onDelete"
     >
       <VVSelectImage name="imagem" />
-      <VVAutocompleteAPICampus :disabled="mode === 'manage'" name="campus.id" />
+      <VVAutocompleteAPICampus :disabled="mode === FormMode.MANAGE" name="campus.id" />
       <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
       <VVTextField name="codigo" label="Código" placeholder="Digite aqui" />
     </UIFormLayout>

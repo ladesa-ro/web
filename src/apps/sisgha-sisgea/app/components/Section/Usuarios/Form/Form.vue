@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { useForm } from 'vee-validate';
-import * as yup from 'yup';
-import { Cargo } from './FormUtils';
 import type { FormUserOutput, FormUserValues } from './FormUtils';
+import { usuarioSchema } from './-Helpers/schema';
 
 //
 
@@ -27,50 +26,7 @@ const currentUsuario = findOneQuery.data;
 
 await suspendQuery(findOneQuery);
 
-const schema = yup.object().shape({
-  imagem: yup.mixed().nullable().optional().default(null),
-
-  nome: yup.string().required('Nome é obrigatório!').default(''),
-
-  email: yup
-    .string()
-    .required('Email é obrigatório!')
-    .email('Informe um e-mail válido!')
-    .default(''),
-
-  matricula: yup.string().required('Matrícula é obrigatório!').default(''),
-
-  vinculos: yup
-    .array()
-    .of(
-      yup.object({
-        campus: yup.object({
-          id: yup
-            .string()
-            .required('Informe o campus deste vínculo!')
-            .nullable()
-            .default(null),
-        }),
-
-        cargo: yup
-          .string()
-          .oneOf(Object.values(Cargo), 'Selecione um cargo válido!')
-          .required('Informe o cargo deste vínculo!')
-          .nullable()
-          .default(null),
-      })
-    )
-    .test('unique-vinculos', 'Há vínculos duplicados!', vinculos => {
-      if (!vinculos) return true;
-      const keys = vinculos
-        .filter(v => v.campus?.id && v.cargo)
-        .map(v => `${v.campus.id}::${v.cargo}`);
-      return keys.length === new Set(keys).size;
-    })
-    .default([{ campus: { id: null }, cargo: null }]),
-});
-
-const initialFormValues = schema.cast(
+const initialFormValues = usuarioSchema.cast(
   {
     ...currentUsuario.value,
     vinculos: currentUsuario.value?.vinculos ?? [],
@@ -82,7 +38,7 @@ const initialFormValues = schema.cast(
 ) as FormUserValues;
 
 const form = useForm<FormUserValues, FormUserOutput>({
-  validationSchema: schema,
+  validationSchema: usuarioSchema,
   initialValues: initialFormValues,
 });
 

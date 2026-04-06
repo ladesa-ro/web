@@ -12,8 +12,8 @@ export function useFormField<T>(
     handleBlur,
   } = useField<T>(name, validateFn);
 
-  watch(model, val => (fieldValue.value = val));
-  watch(fieldValue, val => (model.value = val));
+  watch(model, val => { if (val !== fieldValue.value) fieldValue.value = val; });
+  watch(fieldValue, val => { if (val !== model.value) model.value = val; });
 
   return { fieldValue, errorMessage, handleBlur };
 }

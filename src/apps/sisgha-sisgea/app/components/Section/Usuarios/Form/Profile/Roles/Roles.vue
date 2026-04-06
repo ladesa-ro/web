@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
-import { Cargo } from '../../FormUtils';
+import { Cargo } from '~/utils/constants';
 
 const { value: vinculos } = useField<any[]>('vinculos');
 

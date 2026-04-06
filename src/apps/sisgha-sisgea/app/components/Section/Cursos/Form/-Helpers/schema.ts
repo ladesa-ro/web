@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 
 export const cursoSchema = yup.object({
-  imagem: yup.mixed().nullable().default(null),
+  imagem: yup.mixed<Blob>().nullable().default(null),
   ofertaFormacao: yup
     .object({
       id: yup.string().required('Formação é obrigatória').default(''),

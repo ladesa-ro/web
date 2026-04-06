@@ -1,22 +1,15 @@
 <script lang="ts" setup>
 import { useMutation } from '@tanstack/vue-query';
 import { useForm } from 'vee-validate';
-import * as yup from 'yup';
 import { autenticacaoRequestPasswordReset } from '@ladesa-ro/web.api.client';
+import { resetPasswordSchema } from './-Helpers/schema';
 
 const $emit = defineEmits(['close']);
-
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .email('Por favor, digite um e-mail válido!')
-    .required('Email é obrigatório.'),
-});
 
 const formInput = ref({ email: '' });
 
 const { values, errors, handleSubmit } = useForm({
-  validationSchema: schema,
+  validationSchema: resetPasswordSchema,
   initialValues: formInput.value,
 });
 
@@ -44,16 +37,10 @@ const onSubmit = handleSubmit(
 
       if (canRecoverPassword) {
         showAlert.value = true;
-        console.log('Formulário válido, pronto para enviar!', formData);
-      } else {
-        console.log('Este e-mail não está disponível.');
       }
-    } catch (e) {
-      console.error('Ocorreu um erro:', e);
+    } catch {
+      // erro tratado pelo useMutation (isError)
     }
-  },
-  errors => {
-    console.error('Erro de validação:', errors);
   }
 );
 </script>

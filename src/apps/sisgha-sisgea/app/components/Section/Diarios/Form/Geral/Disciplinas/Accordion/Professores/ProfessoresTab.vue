@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { UsuarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
-import { CargoLabels, type CargoType } from '~/components/Section/Usuarios/Form/FormUtils';
+import { CargoLabels, type CargoType } from '~/utils/constants';
 import { useContextDiariosFormGeral } from '../../../Contexto';
 
 const props = defineProps<{

@@ -15,7 +15,7 @@ const periodoSchema = yup.object({
 });
 
 export const ofertaFormacaoSchema = yup.object({
-  imagem: yup.mixed().nullable().default(null),
+  imagem: yup.mixed<Blob>().nullable().default(null),
   nome: yup.string().required('Nome é obrigatório').default(''),
   slug: yup.string().required('Nome abreviado é obrigatório').default(''),
   duracaoPeriodoEmMeses: yup

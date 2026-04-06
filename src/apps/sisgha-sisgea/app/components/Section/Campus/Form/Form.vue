@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
+import { FormMode } from '~/utils/constants';
 import { campusSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -37,7 +38,7 @@ watch(estadoId, () => {
 <template>
   <form @submit.prevent="onSubmit">
     <UIFormLayout
-      :title="mode === 'manage' ? 'Editar Campus' : 'Cadastrar Campus'"
+      :title="mode === FormMode.MANAGE ? 'Editar Campus' : 'Cadastrar Campus'"
       :mode="mode"
       :is-busy="isBusy"
       :on-close="() => emit('close')"

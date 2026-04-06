@@ -3,7 +3,7 @@ import * as yup from 'yup';
 const schema = yup
   .object()
   .shape({
-    imagem: yup.mixed().nullable().default(null),
+    imagem: yup.mixed<Blob>().nullable().default(null),
 
     curso: yup.object().shape({
       id: yup.string().required('Curso é obrigatório!').default(null),

@@ -1,21 +1,5 @@
 import type { FormContext } from 'vee-validate';
-
-export const Cargo = {
-  DAPE: 'dape',
-  PROFESSOR: 'professor',
-} as const;
-
-export type CargoType = (typeof Cargo)[keyof typeof Cargo];
-
-export const CargoLabels: Record<CargoType, string> = {
-  [Cargo.DAPE]: 'DAPE',
-  [Cargo.PROFESSOR]: 'Professor',
-};
-
-export const CargoOptions = Object.values(Cargo).map(value => ({
-  value,
-  label: CargoLabels[value],
-}));
+import { Cargo, type CargoType } from '~/utils/constants';
 
 export type Vinculo = {
   campus: { id: string };

@@ -18,12 +18,12 @@ const { form, mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   create: async (data) => {
     const { imagem, ...rest } = data;
     const created = await ofertasFormacoes.create(transformForApi(rest));
-    if (imagem && created?.id) await ofertasFormacoes.uploadCover(created.id, imagem as Blob);
+    if (imagem && created?.id) await ofertasFormacoes.uploadCover(created.id, imagem);
   },
   update: async (id, data) => {
     const { imagem, ...rest } = data;
     await ofertasFormacoes.update(id, transformForApi(rest));
-    if (imagem) await ofertasFormacoes.uploadCover(id, imagem as Blob);
+    if (imagem) await ofertasFormacoes.uploadCover(id, imagem);
   },
   remove: id => ofertasFormacoes.remove(id),
   invalidate: ofertasFormacoes.invalidate,

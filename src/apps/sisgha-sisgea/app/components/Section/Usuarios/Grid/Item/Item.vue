@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { UsuarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
-import { CargoLabels, type CargoType } from '~/components/Section/Usuarios/Form/FormUtils';
+import { CargoLabels, type CargoType } from '~/utils/constants';
 import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {

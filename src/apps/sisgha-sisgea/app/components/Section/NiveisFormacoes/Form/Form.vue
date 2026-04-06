@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { FormMode } from '~/utils/constants';
 import { nivelFormacaoSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -14,12 +15,12 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   create: async data => {
     const { imagem, ...rest } = data;
     const created = await niveisFormacoes.create(rest);
-    if (imagem && created?.id) await niveisFormacoes.uploadCover(created.id, imagem as Blob);
+    if (imagem && created?.id) await niveisFormacoes.uploadCover(created.id, imagem);
   },
   update: async (id, data) => {
     const { imagem, ...rest } = data;
     await niveisFormacoes.update(id, rest);
-    if (imagem) await niveisFormacoes.uploadCover(id, imagem as Blob);
+    if (imagem) await niveisFormacoes.uploadCover(id, imagem);
   },
   remove: id => niveisFormacoes.remove(id),
   invalidate: niveisFormacoes.invalidate,
@@ -32,7 +33,7 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   <form @submit.prevent="onSubmit">
     <UIFormLayout
       :title="
-        mode === 'manage'
+        mode === FormMode.MANAGE
           ? 'Editar Nível de Formação'
           : 'Cadastrar Nível de Formação'
       "

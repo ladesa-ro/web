@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { CargoOptions } from '~/components/Section/Usuarios/Form/FormUtils';
+import { CargoOptions } from '~/utils/constants';
 
 const value = defineModel<string | null>('value', { default: null });
 
