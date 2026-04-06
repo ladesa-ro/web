@@ -1,38 +1,19 @@
 <script setup lang="ts">
+import { useForm } from 'vee-validate';
 import RelatorioBotoes from '~/components/Section/Relatorios/Buttons/Buttons.vue';
 import RelatorioFiltrosOpcionais from '~/components/Section/Relatorios/Filters/FiltrosOpcionais.vue';
 import RelatorioFiltrosPrincipais from '~/components/Section/Relatorios/Filters/FiltrosPrincipais.vue';
 import RelatorioModal from '~/components/Section/Relatorios/Modal/Modal.vue';
 
-const data = {
-  professores: [
-    'albanita',
-    'xurrasco',
-    'boliro',
-    'bolzani',
-    'ana castela',
-    'manu',
-    'mariluz',
-  ],
-  semestres: ['2024.1', '2024.2', '2023.1', '2023.2', '2022.1', '2022.2'],
-  bimestres: ['1º Bimestre', '2º Bimestre', '3º Bimestre', '4º Bimestre'],
-  turmas: ['1º Ano', '2º Ano', '3º Ano'],
-};
-
-const form = ref<{
-  professor: string | null;
-  semestre: string | null;
-  bimestre: string | null;
-  disciplina: string | null;
-  curso: string | null;
-  turma: string | null;
-}>({
-  professor: 'Danilo',
-  semestre: null,
-  bimestre: null,
-  disciplina: null,
-  curso: null,
-  turma: null,
+const { values } = useForm({
+  initialValues: {
+    professor: { id: null as string | null },
+    calendarioLetivo: { id: null as string | null },
+    etapa: { id: null as string | null },
+    disciplina: { id: null as string | null },
+    curso: { id: null as string | null },
+    turma: { id: null as string | null },
+  },
 });
 
 const showModal = ref(false);
@@ -51,30 +32,16 @@ const gerarPDF = () => {
     <div class="flex-1 flex flex-col justify-center gap-7 max-w-3xl">
       <UIBreadcrumbDapeBreadcrumb />
 
-      <RelatorioFiltrosPrincipais
-        :professores="data.professores"
-        :semestres="data.semestres"
-        :professor="form.professor"
-        :semestre="form.semestre"
-        @update:professor="form.professor = $event"
-        @update:semestre="form.semestre = $event"
-      />
+      <RelatorioFiltrosPrincipais />
 
-      <RelatorioFiltrosOpcionais
-        :bimestres="data.bimestres"
-        :turmas="data.turmas"
-        :bimestre="form.bimestre"
-        :turma="form.turma"
-        @update:bimestre="form.bimestre = $event"
-        @update:turma="form.turma = $event"
-      />
+      <RelatorioFiltrosOpcionais />
 
-      <hr class="border-t-2 border-ldsa-grey" >
+      <hr class="border-t-2 border-ldsa-grey">
 
       <RelatorioBotoes @visualizar="visualizarRelatorio" @gerar-pdf="gerarPDF" />
 
       <DialogSkeleton v-model="showModal">
-        <RelatorioModal :form="form" :on-close="() => (showModal = false)" />
+        <RelatorioModal :form="values" :on-close="() => (showModal = false)" />
       </DialogSkeleton>
     </div>
   </UIContainer>

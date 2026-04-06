@@ -3,12 +3,12 @@ import RelatorioAula from './Aula/Aula.vue';
 
 const props = defineProps<{
   form: {
-    professor: string | null;
-    semestre: string | null;
-    bimestre: string | null;
-    disciplina: string | null;
-    curso: string | null;
-    turma: string | null;
+    professor: { id: string | null };
+    calendarioLetivo: { id: string | null };
+    etapa: { id: string | null };
+    disciplina: { id: string | null };
+    curso: { id: string | null };
+    turma: { id: string | null };
   };
   onClose: () => void;
 }>();
@@ -16,12 +16,11 @@ const props = defineProps<{
 const filtrosUsados = computed(() => {
   const filtros: string[] = [];
 
-  if (props.form.semestre) filtros.push(`Semestre: ${props.form.semestre}`);
-  if (props.form.bimestre) filtros.push(`Bimestre: ${props.form.bimestre}`);
-  if (props.form.disciplina)
-    filtros.push(`Disciplina: ${props.form.disciplina}`);
-  if (props.form.curso) filtros.push(`Curso: ${props.form.curso}`);
-  if (props.form.turma) filtros.push(`Turma: ${props.form.turma}`);
+  if (props.form.calendarioLetivo?.id) filtros.push('Calendário selecionado');
+  if (props.form.etapa?.id) filtros.push('Etapa selecionada');
+  if (props.form.disciplina?.id) filtros.push('Disciplina selecionada');
+  if (props.form.curso?.id) filtros.push('Curso selecionado');
+  if (props.form.turma?.id) filtros.push('Turma selecionada');
 
   return filtros.length ? filtros.join(' | ') : 'Nenhum';
 });
@@ -65,16 +64,16 @@ const aulasRedes = [
 
     <div class="info flex flex-wrap">
       <p class="text-[12px] mb-2 w-1/2">
-        <strong>Professor:</strong> {{ form.professor }}
+        <strong>Professor:</strong> {{ form.professor?.id ?? '—' }}
       </p>
       <p class="text-[12px] mb-2 w-1/2">
         <strong>Filtros:</strong> {{ filtrosUsados }}
       </p>
       <p class="text-[12px] mb-2 w-1/2">
-        <strong>Semestre:</strong> {{ form.semestre }}
+        <strong>Calendário:</strong> {{ form.calendarioLetivo?.id ?? '—' }}
       </p>
       <p class="text-[12px] mb-2 w-1/2">
-        <strong>Campus:</strong> {{ form.curso }} - Ji-Paraná
+        <strong>Campus:</strong> —
       </p>
     </div>
 

@@ -1,15 +1,35 @@
 <script setup lang="ts">
-const props = defineProps<{
-  bimestres: string[];
-  turmas: string[];
-  bimestre: string | null;
-  turma: string | null;
-}>();
+import { useField } from 'vee-validate';
+import dayjs from 'dayjs';
 
-const emit = defineEmits<{
-  (e: 'update:bimestre', value: string | null): void;
-  (e: 'update:turma', value: string | null): void;
-}>();
+const { value: calendarioLetivoId } = useField<string | null>('calendarioLetivo.id');
+const { value: cursoId } = useField<string | null>('curso.id');
+const { value: etapaId } = useField<string | null>('etapa.id');
+
+const calendarioLetivo = useCalendarioLetivo();
+const calendarioQuery = calendarioLetivo.findOne(calendarioLetivoId);
+
+const etapaItems = computed(() => {
+  const etapas = calendarioQuery.data.value?.etapas;
+  if (!etapas?.length) return [];
+
+  return etapas
+    .slice()
+    .sort((a: any, b: any) => (a.ordem ?? 0) - (b.ordem ?? 0))
+    .map((etapa: any) => {
+      const inicio = etapa.dataInicio ? dayjs(etapa.dataInicio).format('DD/MM') : '';
+      const termino = etapa.dataTermino ? dayjs(etapa.dataTermino).format('DD/MM') : '';
+      const datas = inicio && termino ? ` - ${inicio} a ${termino}` : '';
+      return {
+        label: `${etapa.nome}${datas}`,
+        value: etapa.id,
+      };
+    });
+});
+
+watch(calendarioLetivoId, () => {
+  etapaId.value = null;
+});
 </script>
 
 <template>
@@ -22,28 +42,21 @@ const emit = defineEmits<{
   </div>
 
   <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 w-full">
-    <VVAutocomplete
-      :items="bimestres"
-      :model-value="bimestre"
-      class="w-full mb-3"
-      label="Bimestre"
-      name="bimestre.id"
-      placeholder="Selecione um bimestre"
-      @update:model-value="emit('update:bimestre', $event)"
+    <VVSelectField
+      :items="etapaItems"
+      :disabled="!calendarioLetivoId"
+      name="etapa.id"
+      label="Etapa"
+      placeholder="Selecione uma etapa"
     />
 
     <VVAutocompleteAPIDisciplina name="disciplina.id" />
 
     <VVAutocompleteAPICurso name="curso.id" />
 
-    <VVAutocomplete
-      :items="turmas"
-      :model-value="turma"
-      class="w-full"
-      label="Turma"
+    <VVAutocompleteAPITurma
       name="turma.id"
-      placeholder="Selecione uma turma"
-      @update:model-value="emit('update:turma', $event)"
+      :filter-curso-id="cursoId"
     />
   </div>
 </template>
