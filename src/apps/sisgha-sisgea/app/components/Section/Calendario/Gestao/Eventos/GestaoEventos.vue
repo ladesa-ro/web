@@ -33,7 +33,9 @@ const participantesOptions = [
 const selectedStatus = computed({
   get: () => {
     const val = filtersStore.gestaoEventosStatus;
-    return val ? statusOptions.find(o => o.value === val) ?? undefined : undefined;
+    return val
+      ? (statusOptions.find(o => o.value === val) ?? undefined)
+      : undefined;
   },
   set: (opt: { label: string; value: string } | undefined) => {
     filtersStore.gestaoEventosStatus = opt?.value ?? null;
@@ -43,7 +45,9 @@ const selectedStatus = computed({
 const selectedTipo = computed({
   get: () => {
     const val = filtersStore.gestaoEventosTipo;
-    return val ? tipoOptions.find(o => o.value === val) ?? undefined : undefined;
+    return val
+      ? (tipoOptions.find(o => o.value === val) ?? undefined)
+      : undefined;
   },
   set: (opt: { label: string; value: string } | undefined) => {
     filtersStore.gestaoEventosTipo = opt?.value ?? null;
@@ -53,7 +57,9 @@ const selectedTipo = computed({
 const selectedParticipantes = computed({
   get: () => {
     const val = filtersStore.gestaoEventosParticipantes;
-    return val ? participantesOptions.find(o => o.value === val) ?? undefined : undefined;
+    return val
+      ? (participantesOptions.find(o => o.value === val) ?? undefined)
+      : undefined;
   },
   set: (opt: { label: string; value: string } | undefined) => {
     filtersStore.gestaoEventosParticipantes = opt?.value ?? null;
@@ -65,10 +71,16 @@ const queryParams = computed(() => {
     page: currentPage.value,
     limit: pageSize,
   };
-  if (filtersStore.searchQuery.trim()) params.search = filtersStore.searchQuery.trim();
-  if (filtersStore.gestaoEventosStatus) params['filter.status'] = [filtersStore.gestaoEventosStatus];
-  if (filtersStore.gestaoEventosTipo) params['filter.tipo'] = [filtersStore.gestaoEventosTipo];
-  if (filtersStore.gestaoEventosCalendarioId) params['filter.calendarioLetivo.id'] = [filtersStore.gestaoEventosCalendarioId];
+  if (filtersStore.searchQuery.trim())
+    params.search = filtersStore.searchQuery.trim();
+  if (filtersStore.gestaoEventosStatus)
+    params['filter.status'] = [filtersStore.gestaoEventosStatus];
+  if (filtersStore.gestaoEventosTipo)
+    params['filter.tipo'] = [filtersStore.gestaoEventosTipo];
+  if (filtersStore.gestaoEventosCalendarioId)
+    params['filter.calendarioLetivo.id'] = [
+      filtersStore.gestaoEventosCalendarioId,
+    ];
   return params;
 });
 
@@ -89,7 +101,7 @@ watch(
   ],
   () => {
     currentPage.value = 1;
-  },
+  }
 );
 
 // Edit modal
@@ -165,7 +177,9 @@ function handleModalClose() {
             name="filterPeriodoInicio"
             label="Período início"
             type="date"
-            @update:model-value="filtersStore.gestaoEventosPeriodoInicio = $event || null"
+            @update:model-value="
+              filtersStore.gestaoEventosPeriodoInicio = $event || null
+            "
           />
         </div>
         <span class="pb-2 text-ldsa-grey">—</span>
@@ -175,16 +189,20 @@ function handleModalClose() {
             name="filterPeriodoFim"
             label="Período fim"
             type="date"
-            @update:model-value="filtersStore.gestaoEventosPeriodoFim = $event || null"
+            @update:model-value="
+              filtersStore.gestaoEventosPeriodoFim = $event || null
+            "
           />
         </div>
       </div>
 
       <button
         class="flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-medium transition-colors"
-        :class="showOutrosFiltros
-          ? 'border-ldsa-green-1 text-ldsa-green-1 bg-ldsa-green-1/10'
-          : 'border-ldsa-grey/30 text-ldsa-grey hover:border-ldsa-grey/60'"
+        :class="
+          showOutrosFiltros
+            ? 'border-ldsa-green-1 text-ldsa-green-1 bg-ldsa-green-1/10'
+            : 'border-ldsa-grey/30 text-ldsa-grey hover:border-ldsa-grey/60'
+        "
         @click="showOutrosFiltros = !showOutrosFiltros"
       >
         Outros filtros
@@ -194,7 +212,11 @@ function handleModalClose() {
           viewBox="0 0 20 20"
           fill="currentColor"
         >
-          <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+          <path
+            fill-rule="evenodd"
+            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+            clip-rule="evenodd"
+          />
         </svg>
       </button>
     </div>
@@ -212,7 +234,10 @@ function handleModalClose() {
       </div>
     </div>
 
-    <UISearchBar v-model="filtersStore.searchQuery" placeholder="Pesquisar evento..." />
+    <UISearchBar
+      v-model="filtersStore.searchQuery"
+      placeholder="Pesquisar evento..."
+    />
 
     <!-- Loading -->
     <div v-if="isLoading" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
@@ -225,10 +250,14 @@ function handleModalClose() {
     </div>
 
     <!-- Empty -->
-    <div v-else-if="eventos.length === 0" class="flex flex-col justify-center items-center gap-5 py-8">
+    <div
+      v-else-if="eventos.length === 0"
+      class="flex flex-col justify-center items-center gap-5 py-8"
+    >
       <UIContentStateEmpty class="dark:saturate-75 dark:opacity-50" />
       <span class="text-ldsa-grey dark:contrast-0 text-center">
-        Nenhum evento encontrado. Tente ajustar os filtros ou criar um novo evento.
+        Nenhum evento encontrado. Tente ajustar os filtros ou criar um novo
+        evento.
       </span>
     </div>
 

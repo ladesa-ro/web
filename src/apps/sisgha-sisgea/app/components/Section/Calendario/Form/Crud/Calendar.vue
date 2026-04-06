@@ -7,7 +7,10 @@ import dayjs from 'dayjs';
 import { useForm } from 'vee-validate';
 import type Step from '~/components/VV/Calendar/Step.vue';
 import { useCampusDoUsuario } from '~/composables/useCampusDoUsuario';
-import { calendarSchema, type ICalendarFormValues } from './-Helpers/calendarSchema';
+import {
+  calendarSchema,
+  type ICalendarFormValues,
+} from './-Helpers/calendarSchema';
 
 const calendarioLetivo = useCalendarioLetivo();
 const ofertasFormacoes = useOfertasFormacoes();
@@ -44,38 +47,44 @@ const isEditMode = computed(() => !!props.calendarId);
 
 // Query reativa: carrega calendário existente para edição
 const calendarQuery = calendarioLetivo.findOne(
-  computed(() => props.calendarId ?? null),
+  computed(() => props.calendarId ?? null)
 );
 
 watch(
   () => calendarQuery.data.value,
-  (cal) => {
+  cal => {
     if (!cal) return;
     setFieldValue('calendarName', cal.nome);
     setFieldValue('calendarYear', cal.ano);
     setFieldValue('campus', cal.campus?.id ?? '');
-    nextTick(() => setFieldValue('trainingOffer', cal.ofertaFormacao?.id ?? ''));
+    nextTick(() =>
+      setFieldValue('trainingOffer', cal.ofertaFormacao?.id ?? '')
+    );
     createdCalendarId.value = cal.id;
     loadedEtapas.value = cal.etapas ?? [];
   },
-  { immediate: true },
+  { immediate: true }
 );
 
 // Query reativa: carrega períodos da formação selecionada
 const formacaoQuery = ofertasFormacoes.findOne(
-  computed(() => values.trainingOffer || null),
+  computed(() => values.trainingOffer || null)
 );
 
 const formacaoPeriodos = computed(
-  () => formacaoQuery.data.value?.periodos ?? [],
+  () => formacaoQuery.data.value?.periodos ?? []
 );
 
 // Campus default para criação
-watch(campusUsuarioDefault, newCampusId => {
-  if (newCampusId && !isEditMode.value && !values.campus) {
-    setFieldValue('campus', newCampusId);
-  }
-}, { immediate: true });
+watch(
+  campusUsuarioDefault,
+  newCampusId => {
+    if (newCampusId && !isEditMode.value && !values.campus) {
+      setFieldValue('campus', newCampusId);
+    }
+  },
+  { immediate: true }
+);
 
 watch(
   () => values.campus,
@@ -153,7 +162,8 @@ const validCalendarCrud = async (): Promise<boolean> => {
       createdCalendarId.value = await onSubmit();
       return true;
     } catch (e) {
-      const message = e instanceof Error ? e.message : 'Erro ao salvar calendário';
+      const message =
+        e instanceof Error ? e.message : 'Erro ao salvar calendário';
       submitError.value = message;
       console.error('Erro ao salvar calendário com etapas:', e);
       return false;
@@ -178,7 +188,9 @@ defineExpose({ validCalendarCrud, formValidation, deleteCalendar });
 
 watch(
   () => props.formStage,
-  n => { _formStage.value = n; },
+  n => {
+    _formStage.value = n;
+  },
   { immediate: true }
 );
 </script>
@@ -211,15 +223,28 @@ watch(
     </div>
 
     <div v-show="_formStage === 2" class="flex flex-col gap-4 pr-2">
-      <div v-if="isEditMode && calendarQuery.isLoading.value" class="flex items-center justify-center py-8">
-        <div class="animate-spin w-6 h-6 border-2 border-ldsa-green-2 border-t-transparent rounded-full" />
+      <div
+        v-if="isEditMode && calendarQuery.isLoading.value"
+        class="flex items-center justify-center py-8"
+      >
+        <div
+          class="animate-spin w-6 h-6 border-2 border-ldsa-green-2 border-t-transparent rounded-full"
+        />
       </div>
 
-      <div v-else-if="formacaoQuery.isLoading.value" class="flex items-center justify-center py-8">
-        <div class="animate-spin w-6 h-6 border-2 border-ldsa-green-2 border-t-transparent rounded-full" />
+      <div
+        v-else-if="formacaoQuery.isLoading.value"
+        class="flex items-center justify-center py-8"
+      >
+        <div
+          class="animate-spin w-6 h-6 border-2 border-ldsa-green-2 border-t-transparent rounded-full"
+        />
       </div>
 
-      <p v-else-if="formacaoPeriodos.length === 0" class="text-sm text-ldsa-text-default/60 py-4 text-center">
+      <p
+        v-else-if="formacaoPeriodos.length === 0"
+        class="text-sm text-ldsa-text-default/60 py-4 text-center"
+      >
         Nenhuma etapa configurada para esta formação.
       </p>
 

@@ -24,11 +24,23 @@ const stage = ref(0);
 const registerType = ref<'calendar' | 'events' | null>(null);
 const modalTitle = ref(props.editMode ? 'Editar' : 'Cadastrar');
 
-const calendarCrudRef = ref<{ validCalendarCrud: () => Promise<boolean>; formValidation: () => Promise<boolean>; deleteCalendar: () => Promise<boolean> }>();
-const eventCrudRef = ref<{ validateEventCrud: () => Promise<boolean>; fillForm: () => Promise<void>; deleteEvent: () => Promise<boolean> }>();
+const calendarCrudRef = ref<{
+  validCalendarCrud: () => Promise<boolean>;
+  formValidation: () => Promise<boolean>;
+  deleteCalendar: () => Promise<boolean>;
+}>();
+const eventCrudRef = ref<{
+  validateEventCrud: () => Promise<boolean>;
+  fillForm: () => Promise<void>;
+  deleteEvent: () => Promise<boolean>;
+}>();
 
 // # ICONS
-const cardCalendario = { text: 'Calendário' as const, value: 0, icon: IconsCalendar };
+const cardCalendario = {
+  text: 'Calendário' as const,
+  value: 0,
+  icon: IconsCalendar,
+};
 const cardEvento = { text: 'Evento' as const, value: 1, icon: IconsEvent };
 
 // # FUNCTIONS
@@ -150,86 +162,106 @@ async function handleDeleteCalendar() {
 <template>
   <form @submit.prevent="onSubmit">
     <fieldset :disabled="isDeleting">
-    <DialogModalBaseLayout
-      :on-close="onClose"
-      :title="modalTitle"
-      class="min-w-[550px]"
-    >
-      <!-- Choose Register -->
-      <div v-show="stage === 0 && !props.editMode" class="flex flex-row gap-4">
-        <SectionCalendarioUICardOption
-          class="w-full"
-          :icon="cardCalendario.icon"
-          :text="cardCalendario.text"
-          @click="(selectRegisterType(cardCalendario.text), formStage('next'))"
+      <DialogModalBaseLayout
+        :on-close="onClose"
+        :title="modalTitle"
+        class="min-w-[550px]"
+      >
+        <!-- Choose Register -->
+        <div
+          v-show="stage === 0 && !props.editMode"
+          class="flex flex-row gap-4"
+        >
+          <SectionCalendarioUICardOption
+            class="w-full"
+            :icon="cardCalendario.icon"
+            :text="cardCalendario.text"
+            @click="
+              (selectRegisterType(cardCalendario.text), formStage('next'))
+            "
+          />
+
+          <SectionCalendarioUICardOption
+            v-show="props.calendarId"
+            class="w-full"
+            :icon="cardEvento.icon"
+            :text="cardEvento.text"
+            @click="(selectRegisterType(cardEvento.text), formStage('next'))"
+          />
+        </div>
+
+        <!-- Calendar Form -->
+        <SectionCalendarioFormCrudCalendar
+          v-show="registerType === 'calendar' || props.editMode === 'calendar'"
+          ref="calendarCrudRef"
+          :calendar-id="props.calendarId"
+          :form-stage="stage"
         />
 
-        <SectionCalendarioUICardOption
-          v-show="props.calendarId"
-          class="w-full"
-          :icon="cardEvento.icon"
-          :text="cardEvento.text"
-          @click="(selectRegisterType(cardEvento.text), formStage('next'))"
-        />
-      </div>
-
-      <!-- Calendar Form -->
-      <SectionCalendarioFormCrudCalendar
-        v-show="registerType === 'calendar' || props.editMode === 'calendar'"
-        ref="calendarCrudRef"
-        :calendar-id="props.calendarId"
-        :form-stage="stage"
-      />
-
-      <!-- Event Form -->
-      <SectionCalendarioFormCrudEvents
-        v-show="
-          props.editMode === 'events' ||
-          (registerType === 'events' && stage > 0)
-        "
-        ref="eventCrudRef"
-        :form-stage="stage"
-        :calendar-id="props.calendarId ?? ''"
-        :event-name="props.eventName"
-        :event-id="props.eventId"
-        :show-participants="props.showParticipants"
-      />
-
-      <!-- Buttons -->
-      <template #button-group>
-        <UIButtonModalGoBack
-          v-show="stage > 0 && (!props.editMode || (props.editMode === 'calendar' && stage > 1))"
-          class="flex w-full"
-          @click.prevent="formStage('prev')"
-        />
-        <UIButtonModalCancel
-          type="close"
-          class="flex w-full"
-          @click="onClose"
-        />
-        <UIButtonModalDelete
-          v-show="props.editMode === 'events'"
-          class="flex w-full"
-          @click.prevent="handleDelete"
-        />
-        <UIButtonModalDelete
-          v-show="props.editMode === 'calendar'"
-          class="flex w-full"
-          @click.prevent="handleDeleteCalendar"
+        <!-- Event Form -->
+        <SectionCalendarioFormCrudEvents
+          v-show="
+            props.editMode === 'events' ||
+            (registerType === 'events' && stage > 0)
+          "
+          ref="eventCrudRef"
+          :form-stage="stage"
+          :calendar-id="props.calendarId ?? ''"
+          :event-name="props.eventName"
+          :event-id="props.eventId"
+          :show-participants="props.showParticipants"
         />
 
-        <UIButtonModalAdvance
-          v-if="stage === 1 && (registerType === 'calendar' || props.editMode === 'calendar')"
-          class="flex w-full"
-          @click.prevent="formStage('next')"
-        />
-        <UIButtonModalSave
-          v-else-if="stage > 0 && (registerType === 'events' || stage === 2) && !props.editMode"
-          type="submit"
-        />
-        <UIButtonModalEdit v-show="props.editMode && !(props.editMode === 'calendar' && stage === 1)" type="submit" />
-      </template>
-    </DialogModalBaseLayout>
+        <!-- Buttons -->
+        <template #button-group>
+          <UIButtonModalGoBack
+            v-show="
+              stage > 0 &&
+              (!props.editMode || (props.editMode === 'calendar' && stage > 1))
+            "
+            class="flex w-full"
+            @click.prevent="formStage('prev')"
+          />
+          <UIButtonModalCancel
+            type="close"
+            class="flex w-full"
+            @click="onClose"
+          />
+          <UIButtonModalDelete
+            v-show="props.editMode === 'events'"
+            class="flex w-full"
+            @click.prevent="handleDelete"
+          />
+          <UIButtonModalDelete
+            v-show="props.editMode === 'calendar'"
+            class="flex w-full"
+            @click.prevent="handleDeleteCalendar"
+          />
+
+          <UIButtonModalAdvance
+            v-if="
+              stage === 1 &&
+              (registerType === 'calendar' || props.editMode === 'calendar')
+            "
+            class="flex w-full"
+            @click.prevent="formStage('next')"
+          />
+          <UIButtonModalSave
+            v-else-if="
+              stage > 0 &&
+              (registerType === 'events' || stage === 2) &&
+              !props.editMode
+            "
+            type="submit"
+          />
+          <UIButtonModalEdit
+            v-show="
+              props.editMode && !(props.editMode === 'calendar' && stage === 1)
+            "
+            type="submit"
+          />
+        </template>
+      </DialogModalBaseLayout>
     </fieldset>
   </form>
 

@@ -9,6 +9,7 @@ export type CalendarEvent = {
   color: string | null;
   locale?: string | null | undefined;
   calendar?: { id: string };
+  type: 'etapa' | 'agendamento';
 };
 
 export type CalendarData = {

@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import dayjs from 'dayjs';
-import type {
-  CalendarioAgendamentoCreateInputDto,
-} from '@ladesa-ro/web.api.client';
+import type { CalendarioAgendamentoCreateInputDto } from '@ladesa-ro/web.api.client';
 import type { IAgendamentoFormOutput } from '../Shared/schema';
 
 type Props = {
@@ -18,6 +16,7 @@ const agendamento = useCalendarioAgendamento();
 
 const isEvent = ref<boolean | null>(null);
 const initialData = ref<Partial<CalendarioAgendamentoCreateInputDto>>({});
+const selectedCalendarId = ref<string | null>(props.calendarId ?? null);
 
 const formBaseRef = ref<{
   validateAndGetValues: () => Promise<IAgendamentoFormOutput | null>;
@@ -26,31 +25,50 @@ const formBaseRef = ref<{
 }>();
 
 // Query reativa: carrega evento existente por ID
-const eventQuery = agendamento.findOne(
-  computed(() => props.eventId ?? null),
-);
+const eventQuery = agendamento.findOne(computed(() => props.eventId ?? null));
 
 watch(
   () => eventQuery.data.value,
-  (found) => {
+  found => {
     if (!found) return;
     isEvent.value = true;
     initialData.value = {
       nome: found.nome ?? '',
       cor: found.cor ?? undefined,
       diaInteiro: false,
-      dataInicio: found.dataInicio ? dayjs(found.dataInicio).format('YYYY-MM-DD') : '',
-      dataFim: found.dataFim ? dayjs(found.dataFim).format('YYYY-MM-DD') : undefined,
-      horarioInicio: found.dataInicio ? dayjs(found.dataInicio).format('HH:mm') : undefined,
-      horarioFim: found.dataFim ? dayjs(found.dataFim).format('HH:mm') : undefined,
+      dataInicio: found.dataInicio
+        ? dayjs(found.dataInicio).format('YYYY-MM-DD')
+        : '',
+      dataFim: found.dataFim
+        ? dayjs(found.dataFim).format('YYYY-MM-DD')
+        : undefined,
+      horarioInicio: found.dataInicio
+        ? dayjs(found.dataInicio).format('HH:mm')
+        : undefined,
+      horarioFim: found.dataFim
+        ? dayjs(found.dataFim).format('HH:mm')
+        : undefined,
     };
+
+    // Preencher calendário vinculado ao evento existente
+    const calendarios = (found as Record<string, unknown>)
+      .calendariosLetivos as Array<{ id: string }> | undefined;
+    if (calendarios && calendarios.length > 0 && calendarios[0]) {
+      selectedCalendarId.value = calendarios[0].id;
+    }
   },
-  { immediate: true },
+  { immediate: true }
+);
+
+const effectiveCalendarId = computed(
+  () => selectedCalendarId.value || props.calendarId || null
 );
 
 const validateEventCrud = async (): Promise<boolean> => {
   const data = await formBaseRef.value?.validateAndGetValues();
   if (!data) return false;
+
+  const calId = effectiveCalendarId.value;
 
   if (isEvent.value && props.eventId) {
     await agendamento.update(props.eventId, {
@@ -61,7 +79,7 @@ const validateEventCrud = async (): Promise<boolean> => {
       dataFim: data.dataFim ?? undefined,
       horarioInicio: data.horarioInicio ?? undefined,
       horarioFim: data.horarioFim ?? undefined,
-      ...(props.calendarId ? { calendariosLetivos: [{ id: props.calendarId }] } : {}),
+      ...(calId ? { calendariosLetivos: [{ id: calId }] } : {}),
     });
   } else {
     await agendamento.create({
@@ -73,7 +91,7 @@ const validateEventCrud = async (): Promise<boolean> => {
       dataFim: data.dataFim ?? undefined,
       horarioInicio: data.horarioInicio ?? undefined,
       horarioFim: data.horarioFim ?? undefined,
-      ...(props.calendarId ? { calendariosLetivos: [{ id: props.calendarId }] } : {}),
+      ...(calId ? { calendariosLetivos: [{ id: calId }] } : {}),
     });
   }
 
@@ -107,7 +125,14 @@ defineExpose({ validateEventCrud, fillForm, deleteEvent });
 </script>
 
 <template>
-  <div v-if="!eventQuery.isLoading.value">
+  <div v-if="!eventQuery.isLoading.value" class="flex flex-col gap-5">
+    <VVAutocompleteAPICalendarioLetivo
+      v-model="selectedCalendarId"
+      name="calendarioLetivo"
+      label="Calendário Letivo"
+      :disabled="!!props.calendarId"
+    />
+
     <SectionCalendarioFormSharedEventoFormBase
       ref="formBaseRef"
       bare

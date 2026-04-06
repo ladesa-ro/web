@@ -4,9 +4,7 @@ import 'dayjs/locale/pt-br';
 import isBetween from 'dayjs/plugin/isBetween';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import SearchBar from '~/components/UI/SearchBar/SearchBar.vue';
-import type {
-  CalendarioAgendamentoFindOneOutputDto,
-} from '@ladesa-ro/web.api.client';
+import type { CalendarioAgendamentoFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import type { CalendarData, CalendarEvent } from '../../Types';
 
 dayjs.extend(isBetween);
@@ -60,7 +58,7 @@ const eventsQuery = agendamento.findAll(
       'filter.calendarioLetivo.id': [calendarId.value],
       limit: 100,
     };
-  }),
+  })
 );
 
 const events = computed(() => {
@@ -70,23 +68,27 @@ const events = computed(() => {
   const cal = calendarQuery.data.value;
   const etapas = cal?.etapas ?? [];
 
-  const steps: CalendarEvent[] = etapas.map((s) => ({
+  const steps: CalendarEvent[] = etapas.map(s => ({
     id: s.id,
     name: s.nome,
     startDate: s.dataInicio,
     endDate: s.dataTermino,
     color: s.cor ?? null,
     calendar: { id },
+    type: 'etapa',
   }));
 
-  const evs: CalendarEvent[] = (eventsQuery.data.value?.data ?? []).map((o: CalendarioAgendamentoFindOneOutputDto) => ({
-    id: o.id,
-    name: o.nome ?? '',
-    color: o.cor ?? null,
-    startDate: o.dataInicio,
-    endDate: o.dataFim ?? o.dataInicio,
-    calendar: { id },
-  }));
+  const evs: CalendarEvent[] = (eventsQuery.data.value?.data ?? []).map(
+    (o: CalendarioAgendamentoFindOneOutputDto) => ({
+      id: o.id,
+      name: o.nome ?? '',
+      color: o.cor ?? null,
+      startDate: o.dataInicio,
+      endDate: o.dataFim ?? o.dataInicio,
+      calendar: { id },
+      type: 'agendamento',
+    })
+  );
 
   return Array.from(
     new Map([...steps, ...evs].map(e => [e.id, e])).values()
@@ -120,10 +122,12 @@ const filteredEvents = computed(() => {
         comparison = a.name.toLowerCase().localeCompare(b.name.toLowerCase());
         break;
       case 'startDate':
-        comparison = new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+        comparison =
+          new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
         break;
       case 'endDate':
-        comparison = new Date(a.endDate).getTime() - new Date(b.endDate).getTime();
+        comparison =
+          new Date(a.endDate).getTime() - new Date(b.endDate).getTime();
         break;
     }
     return sortOrder.value === 'asc' ? comparison : -comparison;
@@ -163,7 +167,6 @@ function handleEventsUpdated() {
   calendarioLetivo.invalidate();
   agendamento.invalidate();
 }
-
 </script>
 
 <template>
@@ -213,6 +216,16 @@ function handleEventsUpdated() {
             <h2 class="font-bold text-base">
               {{ event.name }}
             </h2>
+            <span
+              class="text-xs px-2 py-0.5 rounded-full"
+              :class="
+                event.type === 'etapa'
+                  ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+                  : 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
+              "
+            >
+              {{ event.type === 'etapa' ? 'Etapa' : 'Evento' }}
+            </span>
           </div>
         </div>
 

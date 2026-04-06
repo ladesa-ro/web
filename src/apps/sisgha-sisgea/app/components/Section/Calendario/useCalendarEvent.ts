@@ -35,23 +35,29 @@ export function useCalendarEvents(calendarId: Ref<string | undefined>) {
 
       const etapas = calendarioRes.etapas ?? [];
 
-      const steps: CalendarEvent[] = etapas.map((s: CalendarioLetivoEtapaOutputDto) => ({
-        id: s.id,
-        name: s.nome,
-        startDate: s.dataInicio,
-        endDate: s.dataTermino,
-        color: s.cor ?? null,
-        calendar: { id },
-      }));
+      const steps: CalendarEvent[] = etapas.map(
+        (s: CalendarioLetivoEtapaOutputDto) => ({
+          id: s.id,
+          name: s.nome,
+          startDate: s.dataInicio,
+          endDate: s.dataTermino,
+          color: s.cor ?? null,
+          calendar: { id },
+          type: 'etapa',
+        })
+      );
 
-      const evs: CalendarEvent[] = (eventsRes.data ?? []).map((o: CalendarioAgendamentoFindOneOutputDto) => ({
-        id: o.id,
-        name: o.nome ?? '',
-        color: o.cor ?? null,
-        startDate: o.dataInicio,
-        endDate: o.dataFim ?? o.dataInicio,
-        calendar: { id },
-      }));
+      const evs: CalendarEvent[] = (eventsRes.data ?? []).map(
+        (o: CalendarioAgendamentoFindOneOutputDto) => ({
+          id: o.id,
+          name: o.nome ?? '',
+          color: o.cor ?? null,
+          startDate: o.dataInicio,
+          endDate: o.dataFim ?? o.dataInicio,
+          calendar: { id },
+          type: 'agendamento',
+        })
+      );
 
       events.value = Array.from(
         new Map([...steps, ...evs].map(e => [e.id, e])).values()

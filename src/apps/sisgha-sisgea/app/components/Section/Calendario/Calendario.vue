@@ -27,17 +27,23 @@ const showDeleteModal = ref(false);
 // Computed wrappers for store fields (bidirectional)
 const selectedYear = computed({
   get: () => filtersStore.anoLetivo,
-  set: (v: number) => { filtersStore.anoLetivo = v; },
+  set: (v: number) => {
+    filtersStore.anoLetivo = v;
+  },
 });
 
 const selectedTrainingOffer = computed({
   get: () => filtersStore.formacaoId,
-  set: (v: string | null) => { filtersStore.formacaoId = v; },
+  set: (v: string | null) => {
+    filtersStore.formacaoId = v;
+  },
 });
 
 const selectedCalendarId = computed({
   get: () => filtersStore.calendarioId,
-  set: (v: string | null) => { filtersStore.calendarioId = v; },
+  set: (v: string | null) => {
+    filtersStore.calendarioId = v;
+  },
 });
 
 // Query reativa: listar calendários por campus
@@ -46,7 +52,7 @@ const calendarsQuery = calendarioLetivo.list(
     const campusId = selectedCampusGlobalState.value;
     if (!campusId) return { limit: 0 };
     return { 'filter.campus.id': [campusId] };
-  }),
+  })
 );
 
 const allCalendars = computed<CalendarData[]>(() =>
@@ -56,7 +62,7 @@ const allCalendars = computed<CalendarData[]>(() =>
     year: c.ano,
     trainingOffer: { id: c.ofertaFormacao?.id ?? '' },
     campus: { id: c.campus?.id ?? '' },
-  })),
+  }))
 );
 
 const filteredCalendars = computed(() => {
@@ -95,13 +101,19 @@ const { showToast } = useToast();
 // On mount: hydrate store from URL query params
 onMounted(() => {
   if (route.query.ano) filtersStore.anoLetivo = Number(route.query.ano);
-  if (route.query.formacao && typeof route.query.formacao === 'string') filtersStore.formacaoId = route.query.formacao;
-  if (route.query.calendario && typeof route.query.calendario === 'string') filtersStore.calendarioId = route.query.calendario;
+  if (route.query.formacao && typeof route.query.formacao === 'string')
+    filtersStore.formacaoId = route.query.formacao;
+  if (route.query.calendario && typeof route.query.calendario === 'string')
+    filtersStore.calendarioId = route.query.calendario;
 });
 
 // Sync store → URL (deep linking without page reload)
 watch(
-  [() => filtersStore.anoLetivo, () => filtersStore.formacaoId, () => filtersStore.calendarioId],
+  [
+    () => filtersStore.anoLetivo,
+    () => filtersStore.formacaoId,
+    () => filtersStore.calendarioId,
+  ],
   () => {
     router.replace({
       query: {
@@ -111,11 +123,11 @@ watch(
         calendario: filtersStore.calendarioId || undefined,
       },
     });
-  },
+  }
 );
 
 // Sync campus context → store
-watch(selectedCampusGlobalState, (newCampus) => {
+watch(selectedCampusGlobalState, newCampus => {
   filtersStore.campusId = newCampus;
 });
 
@@ -151,13 +163,17 @@ watch(selectedYear, () => {
 });
 
 const calendarSelectItems = computed(() =>
-  filteredCalendars.value.map(c => ({ label: c.name, value: c.id })),
+  filteredCalendars.value.map(c => ({ label: c.name, value: c.id }))
 );
 
 const selectedCalendarItem = computed({
   get: () => {
     if (!selectedCalendarId.value) return undefined;
-    return calendarSelectItems.value.find(i => i.value === selectedCalendarId.value) ?? undefined;
+    return (
+      calendarSelectItems.value.find(
+        i => i.value === selectedCalendarId.value
+      ) ?? undefined
+    );
   },
   set: (item: { label: string; value: string } | undefined) => {
     selectedCalendarId.value = item?.value ?? null;

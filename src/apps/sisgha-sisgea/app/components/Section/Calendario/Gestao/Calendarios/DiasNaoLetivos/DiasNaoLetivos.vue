@@ -9,9 +9,7 @@ import {
   calendarioLetivoDiaFindAll,
   calendarioLetivoDiaUpdate,
 } from '@ladesa-ro/web.api.client';
-import type {
-  CalendarioLetivoDiaFindOneOutputDto,
-} from '@ladesa-ro/web.api.client';
+import type { CalendarioLetivoDiaFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import type { CalendarEvent } from '~/components/Section/Calendario/Types';
 import { useForm } from 'vee-validate';
 import { diaEditSchema } from './-Helpers/schema';
@@ -19,8 +17,16 @@ import { diaEditSchema } from './-Helpers/schema';
 dayjs.locale('pt-br');
 
 const toggleItems = [
-  { text: 'Dias não letivos do mês', value: 'mes', icon: IconsCalendarPartialCalendar },
-  { text: 'Dias não letivos do ano', value: 'ano', icon: IconsCalendarCompleteCalendar },
+  {
+    text: 'Dias não letivos do mês',
+    value: 'mes',
+    icon: IconsCalendarPartialCalendar,
+  },
+  {
+    text: 'Dias não letivos do ano',
+    value: 'ano',
+    icon: IconsCalendarCompleteCalendar,
+  },
 ];
 
 const toggleView = ref('mes');
@@ -42,8 +48,18 @@ const { handleSubmit: handleEditSubmit, resetForm: resetEditForm } = useForm({
 });
 
 const MONTH_NAMES = [
-  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
+  'Janeiro',
+  'Fevereiro',
+  'Março',
+  'Abril',
+  'Maio',
+  'Junho',
+  'Julho',
+  'Agosto',
+  'Setembro',
+  'Outubro',
+  'Novembro',
+  'Dezembro',
 ];
 
 const api = useApiClient();
@@ -68,12 +84,10 @@ async function loadDias() {
   }
 }
 
-const diasNaoLetivos = computed(() =>
-  dias.value.filter((d) => !d.diaLetivo)
-);
+const diasNaoLetivos = computed(() => dias.value.filter(d => !d.diaLetivo));
 
 const diasDoMes = computed(() =>
-  diasNaoLetivos.value.filter((d) => {
+  diasNaoLetivos.value.filter(d => {
     const month = dayjs(d.data).month() + 1;
     return month === currentMonth.value;
   })
@@ -92,7 +106,7 @@ const diasPorMes = computed(() => {
 const filteredDiasDoMes = computed(() => {
   if (!searchQuery.value.trim()) return diasDoMes.value;
   const q = searchQuery.value.toLowerCase();
-  return diasDoMes.value.filter((d) =>
+  return diasDoMes.value.filter(d =>
     (d.feriado ?? '').toLowerCase().includes(q)
   );
 });
@@ -145,7 +159,7 @@ function openCreateDialog() {
   editDialogOpen.value = true;
 }
 
-const saveEdit = handleEditSubmit(async (formValues) => {
+const saveEdit = handleEditSubmit(async formValues => {
   if (!editingDia.value || !selectedCalendarioId.value) return;
   try {
     await api.call(calendarioLetivoDiaUpdate, {
@@ -178,12 +192,13 @@ const calendarYear = computed(() => {
 
 // Convert dias to CalendarEvent format for mini calendars
 const calendarEvents = computed((): CalendarEvent[] => {
-  return dias.value.map((d) => ({
+  return dias.value.map(d => ({
     id: d.id,
     name: getDiaLabel(d),
     color: getDotColor(d),
     startDate: d.data,
     endDate: d.data,
+    type: 'agendamento',
   }));
 });
 </script>
@@ -191,7 +206,10 @@ const calendarEvents = computed((): CalendarEvent[] => {
 <template>
   <UIContainer class="flex flex-col gap-6">
     <UIBreadcrumbDapeBreadcrumb>
-      <UIButtonDefaultSquare :disabled="!selectedCalendarioId" @click="openCreateDialog">
+      <UIButtonDefaultSquare
+        :disabled="!selectedCalendarioId"
+        @click="openCreateDialog"
+      >
         <IconsAdd class="w-6 h-full" />
       </UIButtonDefaultSquare>
     </UIBreadcrumbDapeBreadcrumb>
@@ -237,7 +255,10 @@ const calendarEvents = computed((): CalendarEvent[] => {
         <div class="flex-1 flex flex-col gap-3">
           <UISearchBar v-model="searchQuery" placeholder="Pesquisar dia..." />
 
-          <div v-if="filteredDiasDoMes.length === 0" class="text-center text-ldsa-grey py-4">
+          <div
+            v-if="filteredDiasDoMes.length === 0"
+            class="text-center text-ldsa-grey py-4"
+          >
             Nenhum dia não letivo neste mês.
           </div>
 
@@ -248,11 +269,18 @@ const calendarEvents = computed((): CalendarEvent[] => {
               class="flex items-center justify-between border-b border-ldsa-grey/20 py-2.5 px-2 hover:bg-ldsa-grey/5"
             >
               <div class="flex items-center gap-2">
-                <span class="inline-block size-2.5 rounded-full" :style="{ backgroundColor: getDotColor(dia) }" />
-                <span class="text-sm font-medium text-ldsa-text-default">{{ getDiaLabel(dia) }}</span>
+                <span
+                  class="inline-block size-2.5 rounded-full"
+                  :style="{ backgroundColor: getDotColor(dia) }"
+                />
+                <span class="text-sm font-medium text-ldsa-text-default">{{
+                  getDiaLabel(dia)
+                }}</span>
               </div>
               <div class="flex items-center gap-2">
-                <span class="text-xs text-ldsa-grey">{{ formatDateShort(dia.data) }}</span>
+                <span class="text-xs text-ldsa-grey">{{
+                  formatDateShort(dia.data)
+                }}</span>
                 <button
                   class="p-1 rounded hover:bg-ldsa-grey/10 text-ldsa-grey hover:text-ldsa-green-1 transition-colors"
                   title="Editar"
@@ -274,8 +302,12 @@ const calendarEvents = computed((): CalendarEvent[] => {
       <div class="flex flex-col gap-8">
         <div v-for="month in 12" :key="month">
           <template v-if="(diasPorMes.get(month) ?? []).length > 0">
-            <div class="flex h-[13px] items-center border-l-3 border-ldsa-green-1 pl-1 mb-4">
-              <span class="text-[13px] font-semibold tracking-wide text-ldsa-text-default">
+            <div
+              class="flex h-[13px] items-center border-l-3 border-ldsa-green-1 pl-1 mb-4"
+            >
+              <span
+                class="text-[13px] font-semibold tracking-wide text-ldsa-text-default"
+              >
                 {{ MONTH_NAMES[month - 1] }}
               </span>
             </div>
@@ -295,16 +327,23 @@ const calendarEvents = computed((): CalendarEvent[] => {
               <!-- List of dias nao letivos for this month -->
               <div class="flex-1 flex flex-col">
                 <div
-                  v-for="dia in (diasPorMes.get(month) ?? [])"
+                  v-for="dia in diasPorMes.get(month) ?? []"
                   :key="dia.id"
                   class="flex items-center justify-between border-b border-ldsa-grey/20 py-2.5 px-2 hover:bg-ldsa-grey/5"
                 >
                   <div class="flex items-center gap-2">
-                    <span class="inline-block size-2.5 rounded-full" :style="{ backgroundColor: getDotColor(dia) }" />
-                    <span class="text-sm font-medium text-ldsa-text-default">{{ getDiaLabel(dia) }}</span>
+                    <span
+                      class="inline-block size-2.5 rounded-full"
+                      :style="{ backgroundColor: getDotColor(dia) }"
+                    />
+                    <span class="text-sm font-medium text-ldsa-text-default">{{
+                      getDiaLabel(dia)
+                    }}</span>
                   </div>
                   <div class="flex items-center gap-2">
-                    <span class="text-xs text-ldsa-grey">{{ formatDateShort(dia.data) }}</span>
+                    <span class="text-xs text-ldsa-grey">{{
+                      formatDateShort(dia.data)
+                    }}</span>
                     <button
                       class="p-1 rounded hover:bg-ldsa-grey/10 text-ldsa-grey hover:text-ldsa-green-1 transition-colors"
                       title="Editar"
@@ -327,17 +366,19 @@ const calendarEvents = computed((): CalendarEvent[] => {
         v-if="editingDia"
         title="Editar dia"
         :close-button="true"
-        :on-close="() => { editDialogOpen = false; }"
+        :on-close="
+          () => {
+            editDialogOpen = false;
+          }
+        "
       >
         <form class="flex flex-col gap-4" @submit.prevent="saveEdit">
-          <VVTextField
-            name="feriado"
-            label="Nome"
-            placeholder="Nome do dia"
-          />
+          <VVTextField name="feriado" label="Nome" placeholder="Nome do dia" />
 
           <div class="flex flex-col gap-1.5">
-            <span class="text-[0.813rem] font-semibold text-ldsa-grey px-1">Cor</span>
+            <span class="text-[0.813rem] font-semibold text-ldsa-grey px-1"
+              >Cor</span
+            >
             <VVColorPalette name="cor" />
           </div>
 

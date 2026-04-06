@@ -49,9 +49,21 @@ const remainingDays = computed(() => {
         />
 
         <h1>{{ props.event.name }}</h1>
+
+        <span
+          class="text-xs px-2 py-0.5 rounded-full"
+          :class="
+            props.event.type === 'etapa'
+              ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
+              : 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
+          "
+        >
+          {{ props.event.type === 'etapa' ? 'Etapa' : 'Evento' }}
+        </span>
       </div>
 
       <DialogModalEditOrCreateModal
+        v-if="props.event.type === 'agendamento'"
         ref="editModalRef"
         :edit-id="props.event.id"
         :form-component="SectionCalendarioForm"
@@ -60,6 +72,17 @@ const remainingDays = computed(() => {
           eventName: props.event.name,
           eventId: props.event.id,
           editMode: 'events',
+        }"
+        @refresh="$emit('refresh')"
+      />
+
+      <DialogModalEditOrCreateModal
+        v-else-if="props.event.type === 'etapa'"
+        :edit-id="props.event.id"
+        :form-component="SectionCalendarioForm"
+        :form-props="{
+          calendarId: props.calendarId ?? '',
+          editMode: 'calendar',
         }"
         @refresh="$emit('refresh')"
       />
