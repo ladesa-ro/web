@@ -40,8 +40,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/utils
       '@nuxt/devtools':
-        specifier: 4.0.0-alpha.2
-        version: 4.0.0-alpha.2(@pnpm/logger@1001.0.1)(db0@0.3.4)(ioredis@5.10.1)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vue@3.5.32(typescript@5.9.3))
+        specifier: 4.0.0-alpha.3
+        version: 4.0.0-alpha.3(@pnpm/logger@1001.0.1)(db0@0.3.4)(ioredis@5.10.1)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vue@3.5.32(typescript@5.9.3))
       '@nuxt/eslint':
         specifier: ^1.15.2
         version: 1.15.2(@typescript-eslint/utils@8.57.2(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@vue/compiler-sfc@3.5.32)(eslint@9.39.2(jiti@2.6.1))(magicast@0.5.2)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))
@@ -725,8 +725,8 @@ packages:
     peerDependencies:
       vite: '>=6.0'
 
-  '@nuxt/devtools-kit@4.0.0-alpha.2':
-    resolution: {integrity: sha512-JGiC1R3BjGHpdVsOGz8AXu5WcGwke+tfqH3i/A5Q//7P/zbXceah+uu2/d5vSoFP/LWBMyzOk+wCIDjeFDaJPw==}
+  '@nuxt/devtools-kit@4.0.0-alpha.3':
+    resolution: {integrity: sha512-ymp4jqS3hFfwRw8uDkv8cpu4kWvhQrX+S4jnA/oOc76s4AXf2HCZZJgrncKxh+txqi1NJj8nsQNBbaqRAo3g4w==}
     peerDependencies:
       vite: '>=6.0'
 
@@ -744,8 +744,8 @@ packages:
       '@vitejs/devtools':
         optional: true
 
-  '@nuxt/devtools@4.0.0-alpha.2':
-    resolution: {integrity: sha512-YV0mHEYTKVuOOik1WpE5UjFoHKH0i9pFVArcQqA35G7WblqHkOC/7SRGgdYkI+wCh2SX16vGN+k/CIRlgysYzQ==}
+  '@nuxt/devtools@4.0.0-alpha.3':
+    resolution: {integrity: sha512-+3F1RBTT5OSjStkX91XSoqmgRMbrOZ8Fs+yZAwnAmj/v0wj4yz1j0rIFZWuQ0omWvkDqCN+k9QiELflV0h2LAA==}
     peerDependencies:
       vite: '>=6.0'
 
@@ -2747,6 +2747,9 @@ packages:
 
   defu@6.1.6:
     resolution: {integrity: sha512-f8mefEW4WIVg4LckePx3mALjQSPQgFlg9U8yaPdlsbdYcHQyj9n2zL2LJEA52smeYxOvmd/nB7TpMtHGMTHcug==}
+
+  defu@6.1.7:
+    resolution: {integrity: sha512-7z22QmUWiQ/2d0KkdYmANbRUVABpZ9SNYyH5vx6PZ+nE5bcC0l7uFvEfHlyld/HcGBFTL536ClDt3DEcSlEJAQ==}
 
   delayed-stream@1.0.0:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
@@ -5223,8 +5226,8 @@ packages:
     peerDependencies:
       typescript: '>=5.0.0'
 
-  vue-virtual-scroller@2.0.0:
-    resolution: {integrity: sha512-FmLgxTmt5iG7cqVrlifX0aTCo12Gsuo1zLutHpkbQTuOTA6XVsaSJ2CAfsk8MyPPxxU7oGiQSQKLM7oUyKllwA==}
+  vue-virtual-scroller@2.0.1:
+    resolution: {integrity: sha512-3Drq8C61C4B3reSaZJr5nXBf/B7Beq1+h5/kYZB25MLYljTy97ISeUufRX9z6ZSZlFDXyafAOLK9XwajOWJY1A==}
     peerDependencies:
       vue: ^3.3.0
 
@@ -6030,7 +6033,7 @@ snapshots:
     transitivePeerDependencies:
       - magicast
 
-  '@nuxt/devtools-kit@4.0.0-alpha.2(magicast@0.5.2)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))':
+  '@nuxt/devtools-kit@4.0.0-alpha.3(magicast@0.5.2)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))':
     dependencies:
       '@nuxt/kit': 4.4.2(magicast@0.5.2)
       tinyexec: 1.0.4
@@ -6092,9 +6095,9 @@ snapshots:
       - utf-8-validate
       - vue
 
-  '@nuxt/devtools@4.0.0-alpha.2(@pnpm/logger@1001.0.1)(db0@0.3.4)(ioredis@5.10.1)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vue@3.5.32(typescript@5.9.3))':
+  '@nuxt/devtools@4.0.0-alpha.3(@pnpm/logger@1001.0.1)(db0@0.3.4)(ioredis@5.10.1)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(vue@3.5.32(typescript@5.9.3))':
     dependencies:
-      '@nuxt/devtools-kit': 4.0.0-alpha.2(magicast@0.5.2)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))
+      '@nuxt/devtools-kit': 4.0.0-alpha.3(magicast@0.5.2)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))
       '@nuxt/kit': 4.4.2(magicast@0.5.2)
       '@vitejs/devtools': 0.1.13(@pnpm/logger@1001.0.1)(db0@0.3.4)(ioredis@5.10.1)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))
       '@vitejs/devtools-kit': 0.1.13(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.1)(yaml@2.8.3))(ws@8.20.0)
@@ -6250,7 +6253,7 @@ snapshots:
     dependencies:
       c12: 3.3.4(magicast@0.5.2)
       consola: 3.4.2
-      defu: 6.1.6
+      defu: 6.1.7
       destr: 2.0.5
       errx: 0.1.0
       exsolve: 1.0.8
@@ -7326,7 +7329,7 @@ snapshots:
       tinyglobby: 0.2.15
       unconfig: 7.5.0
       unstorage: 1.17.5(db0@0.3.4)(ioredis@5.10.1)
-      vue-virtual-scroller: 2.0.0(vue@3.5.32(typescript@5.9.3))
+      vue-virtual-scroller: 2.0.1(vue@3.5.32(typescript@5.9.3))
       ws: 8.20.0
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -7865,7 +7868,7 @@ snapshots:
     dependencies:
       chokidar: 5.0.0
       confbox: 0.2.4
-      defu: 6.1.6
+      defu: 6.1.7
       dotenv: 17.4.1
       exsolve: 1.0.8
       giget: 3.2.0
@@ -8148,6 +8151,8 @@ snapshots:
   defu@6.1.4: {}
 
   defu@6.1.6: {}
+
+  defu@6.1.7: {}
 
   delayed-stream@1.0.0: {}
 
@@ -8699,7 +8704,7 @@ snapshots:
     dependencies:
       citty: 0.1.6
       consola: 3.4.2
-      defu: 6.1.6
+      defu: 6.1.7
       node-fetch-native: 1.6.7
       nypm: 0.6.5
       pathe: 2.0.3
@@ -8760,7 +8765,7 @@ snapshots:
     dependencies:
       cookie-es: 1.2.2
       crossws: 0.3.5
-      defu: 6.1.6
+      defu: 6.1.7
       destr: 2.0.5
       iron-webcrypto: 1.2.1
       node-mock-http: 1.0.4
@@ -8772,7 +8777,7 @@ snapshots:
     dependencies:
       cookie-es: 1.2.3
       crossws: 0.3.5
-      defu: 6.1.6
+      defu: 6.1.7
       destr: 2.0.5
       iron-webcrypto: 1.2.1
       node-mock-http: 1.0.4
@@ -9089,7 +9094,7 @@ snapshots:
       clipboardy: 4.0.0
       consola: 3.4.2
       crossws: 0.3.5
-      defu: 6.1.6
+      defu: 6.1.7
       get-port-please: 3.2.0
       h3: 1.15.11
       http-shutdown: 1.2.2
@@ -9283,7 +9288,7 @@ snapshots:
       croner: 10.0.1
       crossws: 0.3.5
       db0: 0.3.4
-      defu: 6.1.6
+      defu: 6.1.7
       destr: 2.0.5
       dot-prop: 10.1.0
       esbuild: 0.27.4
@@ -10066,17 +10071,17 @@ snapshots:
 
   rc9@2.1.2:
     dependencies:
-      defu: 6.1.6
+      defu: 6.1.7
       destr: 2.0.5
 
   rc9@3.0.0:
     dependencies:
-      defu: 6.1.6
+      defu: 6.1.7
       destr: 2.0.5
 
   rc9@3.0.1:
     dependencies:
-      defu: 6.1.6
+      defu: 6.1.7
       destr: 2.0.5
 
   react-is@18.3.1: {}
@@ -10282,7 +10287,7 @@ snapshots:
 
   serve-placeholder@2.0.2:
     dependencies:
-      defu: 6.1.6
+      defu: 6.1.7
 
   serve-static@2.2.1:
     dependencies:
@@ -10585,7 +10590,7 @@ snapshots:
   unconfig@7.5.0:
     dependencies:
       '@quansync/fs': 1.0.0
-      defu: 6.1.6
+      defu: 6.1.7
       jiti: 2.6.1
       quansync: 1.0.0
       unconfig-core: 7.5.0
@@ -10900,7 +10905,7 @@ snapshots:
       '@vue/language-core': 3.2.6
       typescript: 5.9.3
 
-  vue-virtual-scroller@2.0.0(vue@3.5.32(typescript@5.9.3)):
+  vue-virtual-scroller@2.0.1(vue@3.5.32(typescript@5.9.3)):
     dependencies:
       mitt: 2.1.0
       vue: 3.5.32(typescript@5.9.3)
