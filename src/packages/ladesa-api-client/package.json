@@ -19,7 +19,7 @@
     "includedScripts": []
   },
   "devDependencies": {
-    "@hey-api/openapi-ts": "^0.94.5",
+    "@hey-api/openapi-ts": "^0.95.0",
     "typescript": "5.9.3"
   }
 }
