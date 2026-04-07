@@ -1,15 +1,10 @@
 <script lang="ts" setup>
-import type { IDiasDaSemana, ITurno } from '../IGradeHorario';
+import type { IDiasDaSemana, IGradeDisciplina, ITurno } from '../IGradeHorario';
 
 type Props = {
   turno: ITurno;
   diasDaSemana: IDiasDaSemana;
-  gradeDisciplinas: Array<{
-    diaDaSemana: number;
-    horarios: number[];
-    disciplina: string;
-    professor: string;
-  }>;
+  gradeDisciplinas: IGradeDisciplina[];
 };
 
 const props = defineProps<Props>();
@@ -29,7 +24,8 @@ function getAula(dia: number, horario: number) {
 
 <template>
   <div
-    class="grid mt-4 pr-2 grid-cols-subgrid grid-rows-subgrid col-span-full row-span-6 border-2 border-ldsa-green-1 overflow-hidden"
+    :style="{ gridRow: `span ${props.turno.horarios.length}` }"
+    class="grid mt-4 pr-2 grid-cols-subgrid grid-rows-subgrid col-span-full border-2 border-ldsa-green-1 overflow-hidden"
   >
     <SectionHorarioProfessorEAlunoShiftTag :turno="props.turno" />
 

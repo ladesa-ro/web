@@ -5,12 +5,13 @@ type Props = {
   turno: ITurno;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
 </script>
 
 <template>
   <p
-    class="turno col-start-1 row-span-6 block font-medium text-ldsa-white h-[205px] w-11 text-center content-center bg-ldsa-green-1"
+    :style="{ gridRow: `span ${props.turno.horarios.length}` }"
+    class="turno col-start-1 block font-medium text-ldsa-white w-11 text-center content-center bg-ldsa-green-1"
   >
     {{ turno.nome }}
   </p>

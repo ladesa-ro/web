@@ -1,17 +1,11 @@
 <script lang="ts" setup>
+import type { Dayjs } from 'dayjs';
 import { getWeekDays } from '../../../-Helpers/GetWeekDays';
 
-//by default, the selected day is the current day. if today is sunday, the selected day will be monday
-const selectedDay =
-  useCurrentDay().value.day() !== 0
-    ? useCurrentDay()
-    : ref(useCurrentDay().value.day(1));
+const selectedDay = defineModel<Dayjs>({ required: true });
 
-//formats the selected day
 const activeDayMonth = computed(() => selectedDay.value.format('DD/MM'));
-
-//array with the days of the week that the selected day belongs
-const weekDays = getWeekDays(selectedDay.value);
+const weekDays = computed(() => getWeekDays(selectedDay.value));
 </script>
 
 <template>

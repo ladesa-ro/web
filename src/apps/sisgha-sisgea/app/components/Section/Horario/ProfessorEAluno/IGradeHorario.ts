@@ -6,7 +6,8 @@ export type IDiasDaSemana = Array<IDiaDaSemana>;
 
 export type ITurnoHorario = {
   hora: string;
-  tipo: 'intervalo' | 'aula'; ////////
+  horaFim?: string;
+  tipo: 'intervalo' | 'aula';
 };
 
 export type ITurnoHorarios = ITurnoHorario[];
@@ -17,3 +18,10 @@ export type ITurno = {
 };
 
 export type ITurnos = ITurno[];
+
+export type IGradeDisciplina = {
+  diaDaSemana: number;
+  horarios: number[];
+  disciplina: string;
+  professor: string;
+};

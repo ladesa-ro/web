@@ -2,18 +2,16 @@
 import { IconsClock, IconsMoreItems } from '#components';
 import { capitalizeFirst } from '../-Helpers/CapitalizeFirst';
 import { getWeekDays } from '../-Helpers/GetWeekDays';
+import type { Dayjs } from 'dayjs';
 
-// set month and week
-const selectedDay = useCurrentDay();
+const currentDay = useCurrentDay();
 
-const month = capitalizeFirst(selectedDay.value.format('MMMM'));
+const month = computed(() => capitalizeFirst(currentDay.value.format('MMMM')));
 
-const weekDays = getWeekDays(selectedDay.value);
+const weekDays = computed(() => getWeekDays(currentDay.value));
 
-const firstWeekDay = weekDays[0]!;
-const lastWeekDay = weekDays[5]!;
-
-//
+const firstWeekDay = computed(() => weekDays.value[0]!);
+const lastWeekDay = computed(() => weekDays.value[5]!);
 
 const toggleItems = [
   { text: 'Horário da semana', value: 'semana', icon: IconsMoreItems },
@@ -25,9 +23,11 @@ const toggleSelectedItem = defineModel<string | number>('toggleOption', {
   default: 'dia',
 });
 
-//
-
 const open = ref(false);
+
+function onSelectDay(day: Dayjs) {
+  currentDay.value = day;
+}
 </script>
 
 <template>
@@ -39,7 +39,11 @@ const open = ref(false);
     >
       {{ month }} - Dias {{ firstWeekDay.day }} a {{ lastWeekDay.day }}
 
-      <UIPopoverCalendar v-model="open">
+      <UIPopoverCalendar
+        v-model="open"
+        :selected-day="currentDay"
+        @select="onSelectDay"
+      >
         <IconsArrow
           :class="open ? 'rotate-90' : '-rotate-90'"
           class="text-ldsa-text-green transition-transform duration-300 m-3"
