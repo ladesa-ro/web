@@ -30,7 +30,7 @@ const internalValue = computed({
   get: () => selectedItem.value?.value ?? undefined,
   set: (val: any) => {
     const found = props.items?.find(
-      (i) => (typeof i === 'object' ? i.value : i) === val,
+      i => (typeof i === 'object' ? i.value : i) === val
     );
     if (found && typeof found === 'object') {
       selectedItem.value = { label: String(found.label), value: val };
@@ -61,9 +61,16 @@ function clear(e: Event) {
     :multiple="multipleOptions"
     :disabled="props.disabled"
   >
-    <Trigger class="input-base" :class="{ 'opacity-50 cursor-not-allowed': props.disabled }" v-bind="$attrs">
+    <Trigger
+      class="input-base"
+      :class="{ 'opacity-50 cursor-not-allowed': props.disabled }"
+      v-bind="$attrs"
+    >
       <label>{{ label }}</label>
-      <Value :placeholder="placeholder" />
+      <Value
+        class="text-nowrap text-ellipsis overflow-hidden"
+        :placeholder="placeholder"
+      />
       <button
         v-if="hasValue && !props.disabled"
         class="shrink-0 text-ldsa-grey hover:text-ldsa-red transition-colors"
