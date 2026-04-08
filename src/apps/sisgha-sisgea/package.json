@@ -53,7 +53,7 @@
     "@babel/runtime": "^7.29.2",
     "@types/lodash-es": "^4.17.12",
     "type-fest": "^5.5.0",
-    "typescript": "5.9.3",
+    "typescript": "6.0.2",
     "vue-tsc": "3.2.6"
   },
   "nx": {
