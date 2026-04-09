@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { FormValidationResult } from 'vee-validate';
-import type { IDisciplinaConfig, IPreferenciaAgrupamento } from '../Contexto';
+import type { IDisciplinaConfig } from '../Contexto';
 import { useContextDiariosFormGeral } from '../Contexto';
+import { useDisciplinasConfigEdit } from './useDisciplinasConfigEdit';
+import { useDisciplinasConfigSubmit } from './useDisciplinasConfigSubmit';
 
 const props = defineProps<{
   editId?: string | null;
@@ -13,14 +15,9 @@ const emit = defineEmits<{
 }>();
 
 const contexto = useContextDiariosFormGeral();
-const diarios = useDiarios();
-const { showToast } = useToast();
-
 const formValidate = inject<() => Promise<FormValidationResult<Record<string, unknown>>>>('diarios-form-validate');
 
 const isEditMode = computed(() => !!props.editId);
-const isBusy = ref(false);
-const imagemFile = ref<File | Blob | null>(null);
 
 // Buscar disciplinas do curso da turma selecionada
 const cursoId = computed(() => {
@@ -32,6 +29,7 @@ const { disciplinas, isLoading: isLoadingDisciplinas } =
   useDisciplinasByCurso(cursoId);
 
 // Buscar diários já existentes para turma+calendário (evitar duplicatas)
+const diarios = useDiarios();
 const existingDiariosQuery = diarios.list(
   computed(() => {
     if (!contexto.turmaId.value || !contexto.calendarioLetivoId.value) return {};
@@ -53,14 +51,13 @@ const existingDisciplinaIds = computed(() => {
   );
 });
 
-// Disciplinas disponíveis (excluindo as que já têm diário)
 const disciplinasDisponiveis = computed(() =>
   disciplinas.value.filter(
     (d) => !existingDisciplinaIds.value.has(d.disciplinaId)
   )
 );
 
-// Inicializar config das disciplinas quando carregarem
+// Inicializar config das disciplinas quando carregarem (modo criação)
 watch(
   disciplinasDisponiveis,
   (newDisciplinas) => {
@@ -93,98 +90,23 @@ watch(
 );
 
 // Edição: carregar dados existentes
-const editDiarioQuery = isEditMode.value && props.editId
-  ? diarios.findOne(computed(() => props.editId ?? null))
-  : null;
+useDisciplinasConfigEdit(props.editId, contexto);
 
-const editProfsQuery = isEditMode.value && props.editId
-  ? diarios.listProfessores(props.editId)
-  : null;
-
-const editPrefsQuery = isEditMode.value && props.editId
-  ? diarios.listPreferenciasAgrupamento(props.editId)
-  : null;
-
-if (editDiarioQuery) {
-  watch(
-    [
-      () => editDiarioQuery.data.value,
-      () => editProfsQuery?.data.value,
-      () => editPrefsQuery?.data.value,
-    ],
-    ([diario, profsData, prefsData]) => {
-      if (!diario) return;
-      if (contexto.disciplinasConfig.value.length > 0) return;
-
-      contexto.turmaSelecionada.value = diario.turma as Record<string, unknown>;
-      contexto.turmaId.value = diario.turma.id;
-      contexto.calendarioLetivoId.value = diario.calendarioLetivo.id;
-
-      const curso = diario.turma?.curso as Record<string, unknown> | undefined;
-      contexto.cursoId.value = (curso?.id as string) ?? null;
-
-      const professorIds = (profsData?.data ?? []).map(
-        (p: Record<string, unknown>) =>
-          ((p.perfil as Record<string, unknown>)?.id as string) ?? ''
-      ).filter(Boolean);
-
-      // Mapear preferências existentes ou usar default
-      const existingPrefs = (prefsData?.data ?? []) as Record<string, unknown>[];
-      const preferenciasAgrupamento: IPreferenciaAgrupamento[] =
-        existingPrefs.length > 0
-          ? existingPrefs.map((p) => ({
-              modo: (p.modo as string as IPreferenciaAgrupamento['modo']) ?? 'DEFINIDO',
-              ordem: (p.ordem as number) ?? 1,
-              diaSemanaIso: (p.diaSemanaIso as number | null) ?? null,
-              aulasSeguidas: (p.aulasSeguidas as number) ?? 1,
-              dataInicio: (p.dataInicio as string) ?? '',
-              dataFim: (p.dataFim as string | null) ?? null,
-            }))
-          : [
-              {
-                modo: 'DEFINIDO',
-                ordem: 1,
-                diaSemanaIso: null,
-                aulasSeguidas: 1,
-                dataInicio: '',
-                dataFim: null,
-              },
-            ];
-
-      const modoAgrupamento = preferenciasAgrupamento[0]?.modo ?? 'DEFINIDO';
-
-      contexto.disciplinasConfig.value = [
-        {
-          disciplinaId: diario.disciplina.id,
-          disciplina: {
-            id: '',
-            disciplinaId: diario.disciplina.id,
-            disciplinaNome: diario.disciplina.nome,
-            cargaHoraria: null,
-            numeroPeriodo: 0,
-          },
-          accordionOpen: true,
-          activeTab: 'dias',
-          modoAgrupamento,
-          preferenciasAgrupamento,
-          professoresSelecionados: professorIds,
-        },
-      ];
-
-      contexto.isLoadingEdit.value = false;
-    },
-    { immediate: true }
+// Submissão e ações
+const { onSubmit, onDelete, canSubmit, isBusy, imagemFile, confirmDelete } =
+  useDisciplinasConfigSubmit(
+    computed(() => props.editId),
+    contexto,
+    { close: () => emit('close') },
+    formValidate,
   );
-}
 
-// Título do modal
 const title = computed(() =>
   isEditMode.value
     ? 'Editar diário: Configurar disciplinas'
     : 'Cadastrar diários: Configurar disciplinas'
 );
 
-// Turma info para exibição
 const turmaInfo = computed(() => {
   const turma = contexto.turmaSelecionada.value;
   if (!turma) return null;
@@ -194,134 +116,6 @@ const turmaInfo = computed(() => {
     cursoNome: (curso?.nome as string) ?? '',
   };
 });
-
-// Submissão
-async function onSubmit() {
-  if (isBusy.value) return;
-
-  // Validar via form global do VeeValidate
-  if (formValidate) {
-    const { valid, errors } = await formValidate();
-    if (!valid) {
-      const firstError = Object.values(errors)[0];
-      if (firstError) {
-        showToast(isEditMode.value ? 'atualizacao' : 'cadastro', 'error', firstError);
-      }
-      return;
-    }
-  }
-
-  isBusy.value = true;
-
-  try {
-    if (isEditMode.value && props.editId) {
-      await submitEdit(props.editId);
-    } else {
-      await submitCreate();
-    }
-
-    await diarios.invalidate();
-    emit('close');
-  } catch (err) {
-    showToast(
-      isEditMode.value ? 'atualizacao' : 'cadastro',
-      'error'
-    );
-  } finally {
-    isBusy.value = false;
-  }
-}
-
-function getDataInicioFallback(): string {
-  return new Date().toISOString().split('T')[0] ?? '';
-}
-
-function mapPreferencias(prefs: IPreferenciaAgrupamento[]) {
-  return prefs.map((p) => ({
-    modo: p.modo,
-    ordem: p.ordem,
-    diaSemanaIso: p.diaSemanaIso,
-    aulasSeguidas: p.aulasSeguidas,
-    dataInicio: p.dataInicio || getDataInicioFallback(),
-    dataFim: p.dataFim,
-  }));
-}
-
-async function submitCreate() {
-  // Filtrar disciplinas que possuem pelo menos um dia de aula
-  const diariosComDias = contexto.disciplinasConfig.value.filter(
-    (dc) => dc.preferenciasAgrupamento.length > 0
-  );
-
-  if (diariosComDias.length === 0) {
-    showToast('cadastro', 'error', 'Nenhuma disciplina possui dias de aula configurados.');
-    return;
-  }
-
-  const payload = {
-    turma: { id: contexto.turmaId.value! },
-    calendarioLetivo: { id: contexto.calendarioLetivoId.value! },
-    diarios: diariosComDias.map((dc) => ({
-      disciplina: { id: dc.disciplinaId },
-      ativo: true,
-      professores: dc.professoresSelecionados.map((perfilId) => ({
-        perfilId,
-        situacao: true,
-      })),
-      preferenciasAgrupamento: mapPreferencias(dc.preferenciasAgrupamento),
-    })),
-  };
-
-  await diarios.batchCreate(payload);
-  showToast('cadastro', 'success');
-}
-
-async function submitEdit(editId: string) {
-  const dc = contexto.disciplinasConfig.value[0];
-  if (!dc) return;
-
-  await diarios.bulkReplaceProfessores(editId, {
-    professores: dc.professoresSelecionados.map((perfilId) => ({
-      perfilId,
-      situacao: true,
-    })),
-  });
-
-  await diarios.bulkReplacePreferenciasAgrupamento(editId, {
-    preferenciasAgrupamento: mapPreferencias(dc.preferenciasAgrupamento),
-  });
-
-  if (imagemFile.value) {
-    await diarios.uploadCover(editId, imagemFile.value);
-  }
-
-  showToast('atualizacao', 'success');
-}
-
-const canSubmit = computed(() => {
-  if (!contexto.turmaId.value) return false;
-  if (!contexto.calendarioLetivoId.value) return false;
-  if (contexto.disciplinasConfig.value.length === 0) return false;
-  return true;
-});
-
-// Deletar diário (modo edição)
-const confirmDelete = useConfirmDelete();
-
-async function onDelete() {
-  if (!props.editId) return;
-  const confirmed = await confirmDelete.confirm();
-  if (!confirmed) return;
-
-  try {
-    await diarios.remove(props.editId);
-    await diarios.invalidate();
-    showToast('delete', 'success');
-    emit('close');
-  } catch {
-    showToast('delete', 'error');
-  }
-}
 </script>
 
 <template>

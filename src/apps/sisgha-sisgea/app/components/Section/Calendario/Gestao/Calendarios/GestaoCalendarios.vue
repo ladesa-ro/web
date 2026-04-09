@@ -2,6 +2,7 @@
 import { SectionCalendarioForm } from '#components';
 import dayjs from 'dayjs';
 import Card from './Card.vue';
+import { createFilterComputed } from '../-Helpers/createFilterComputed';
 
 const route = useRoute();
 const calendarioLetivo = useCalendarioLetivo();
@@ -27,16 +28,7 @@ const selectedYear = computed({
   },
 });
 
-// Computed wrapper for status autocomplete (object form)
-const selectedStatus = computed({
-  get: () => {
-    const val = filtersStore.gestaoCalendariosStatus;
-    return val ? statusOptions.find(o => o.value === val) ?? undefined : undefined;
-  },
-  set: (opt: { label: string; value: string } | undefined) => {
-    filtersStore.gestaoCalendariosStatus = opt?.value ?? null;
-  },
-});
+const selectedStatus = createFilterComputed(filtersStore, 'gestaoCalendariosStatus', statusOptions);
 
 const queryParams = computed(() => {
   const params: Record<string, unknown> = {

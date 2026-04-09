@@ -78,10 +78,6 @@ function handleNavigationConfirm() {
 
 const dayjs = useDayJs();
 
-function formatDate(iso: string): string {
-  return dayjs(iso).format('DD/MM/YYYY');
-}
-
 function handleDeactivateConfig(configId: string) {
   addPendingDeactivation(configId);
 }
@@ -98,24 +94,6 @@ function handleUndoPending(dataInicio: string) {
   undoPendingConfig(dataInicio);
 }
 
-const today = dayjs().format('YYYY-MM-DD');
-
-function getConfigLabel(
-  tipo: 'permanente' | 'temporario',
-  dataInicio: string,
-  dataFim?: string | null
-): string {
-  if (tipo === 'permanente') {
-    return `Permanente (a partir de ${formatDate(dataInicio)})`;
-  }
-  if (dataFim && dataFim < today) {
-    return `Temporário (entre ${formatDate(dataInicio)} - ${formatDate(dataFim)})`;
-  }
-  if (dataInicio <= today) {
-    return `Temporário (entre ${formatDate(dataInicio)} - ${formatDate(dataFim!)})`;
-  }
-  return `Temporário (entre ${formatDate(dataInicio)} - ${formatDate(dataFim!)})`;
-}
 </script>
 
 <template>

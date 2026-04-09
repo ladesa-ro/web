@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { SectionCalendarioForm } from '#components';
 import Card from './Card.vue';
+import { createFilterComputed } from '../-Helpers/createFilterComputed';
 
 const route = useRoute();
 const agendamento = useCalendarioAgendamento();
@@ -29,42 +30,9 @@ const participantesOptions = [
   { label: 'Só turmas', value: 'TURMAS' },
 ];
 
-// Computed wrappers for autocomplete v-model (object form)
-const selectedStatus = computed({
-  get: () => {
-    const val = filtersStore.gestaoEventosStatus;
-    return val
-      ? (statusOptions.find(o => o.value === val) ?? undefined)
-      : undefined;
-  },
-  set: (opt: { label: string; value: string } | undefined) => {
-    filtersStore.gestaoEventosStatus = opt?.value ?? null;
-  },
-});
-
-const selectedTipo = computed({
-  get: () => {
-    const val = filtersStore.gestaoEventosTipo;
-    return val
-      ? (tipoOptions.find(o => o.value === val) ?? undefined)
-      : undefined;
-  },
-  set: (opt: { label: string; value: string } | undefined) => {
-    filtersStore.gestaoEventosTipo = opt?.value ?? null;
-  },
-});
-
-const selectedParticipantes = computed({
-  get: () => {
-    const val = filtersStore.gestaoEventosParticipantes;
-    return val
-      ? (participantesOptions.find(o => o.value === val) ?? undefined)
-      : undefined;
-  },
-  set: (opt: { label: string; value: string } | undefined) => {
-    filtersStore.gestaoEventosParticipantes = opt?.value ?? null;
-  },
-});
+const selectedStatus = createFilterComputed(filtersStore, 'gestaoEventosStatus', statusOptions);
+const selectedTipo = createFilterComputed(filtersStore, 'gestaoEventosTipo', tipoOptions);
+const selectedParticipantes = createFilterComputed(filtersStore, 'gestaoEventosParticipantes', participantesOptions);
 
 const queryParams = computed(() => {
   const params: Record<string, unknown> = {

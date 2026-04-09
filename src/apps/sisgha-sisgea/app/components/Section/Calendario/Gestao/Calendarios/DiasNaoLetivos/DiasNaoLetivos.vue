@@ -7,12 +7,11 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import {
   calendarioLetivoDiaFindAll,
-  calendarioLetivoDiaUpdate,
 } from '@ladesa-ro/web.api.client';
 import type { CalendarioLetivoDiaFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import type { CalendarEvent } from '~/components/Section/Calendario/Types';
-import { useForm } from 'vee-validate';
-import { diaEditSchema } from './-Helpers/schema';
+import DiaListItem from './DiaListItem.vue';
+import DiaEditDialog from './DiaEditDialog.vue';
 
 dayjs.locale('pt-br');
 
@@ -37,29 +36,14 @@ const searchQuery = ref('');
 const dias = ref<CalendarioLetivoDiaFindOneOutputDto[]>([]);
 const isLoadingDias = ref(false);
 
-// Edit dialog — editingDia uses Partial because creation stubs lack server-only fields
 type EditableDia = Pick<CalendarioLetivoDiaFindOneOutputDto, 'id' | 'data'>;
 const editDialogOpen = ref(false);
 const editingDia = ref<EditableDia | null>(null);
-
-const { handleSubmit: handleEditSubmit, resetForm: resetEditForm } = useForm({
-  validationSchema: diaEditSchema,
-  initialValues: diaEditSchema.getDefault(),
-});
+const editDialogRef = ref<InstanceType<typeof DiaEditDialog> | null>(null);
 
 const MONTH_NAMES = [
-  'Janeiro',
-  'Fevereiro',
-  'Março',
-  'Abril',
-  'Maio',
-  'Junho',
-  'Julho',
-  'Agosto',
-  'Setembro',
-  'Outubro',
-  'Novembro',
-  'Dezembro',
+  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
 ];
 
 const api = useApiClient();
@@ -111,77 +95,6 @@ const filteredDiasDoMes = computed(() => {
   );
 });
 
-// TODO: remove Record cast after SDK regeneration includes 'cor' field in CalendarioLetivoDiaFindOneOutputDto
-function getDotColor(dia: CalendarioLetivoDiaFindOneOutputDto): string {
-  return ((dia as Record<string, unknown>).cor as string) ?? '#6b7280';
-}
-
-function getDiaLabel(dia: CalendarioLetivoDiaFindOneOutputDto): string {
-  if (dia.feriado) return dia.feriado;
-  return 'Dia não letivo';
-}
-
-function formatDate(data: string): string {
-  return dayjs(data).format('DD/MM/YYYY');
-}
-
-function formatDateShort(data: string): string {
-  return dayjs(data).format('ddd, D MMM');
-}
-
-function openEdit(dia: CalendarioLetivoDiaFindOneOutputDto) {
-  editingDia.value = {
-    id: dia.id,
-    data: dia.data,
-  };
-  // TODO: remove Record cast after SDK regeneration includes 'cor' field
-  resetEditForm({
-    values: {
-      feriado: dia.feriado ?? '',
-      cor: ((dia as Record<string, unknown>).cor as string) ?? null,
-      diaLetivo: dia.diaLetivo,
-      diaPresencial: dia.diaPresencial,
-      extraCurricular: dia.extraCurricular,
-    } as Record<string, unknown>,
-  });
-  editDialogOpen.value = true;
-}
-
-function openCreateDialog() {
-  if (!selectedCalendarioId.value) return;
-  editingDia.value = {
-    id: '',
-    data: dayjs().format('YYYY-MM-DD'),
-  };
-  resetEditForm({
-    values: diaEditSchema.getDefault(),
-  });
-  editDialogOpen.value = true;
-}
-
-const saveEdit = handleEditSubmit(async formValues => {
-  if (!editingDia.value || !selectedCalendarioId.value) return;
-  try {
-    await api.call(calendarioLetivoDiaUpdate, {
-      path: {
-        calendarioLetivoId: selectedCalendarioId.value,
-        data: editingDia.value.data,
-      },
-      body: {
-        diaLetivo: formValues.diaLetivo,
-        feriado: formValues.feriado ?? '',
-        diaPresencial: formValues.diaPresencial,
-        extraCurricular: formValues.extraCurricular,
-      },
-    });
-    editDialogOpen.value = false;
-    await loadDias();
-  } catch (e) {
-    console.error('Erro ao salvar dia:', e);
-  }
-});
-
-// Year for the mini calendars (derived from the loaded data or current year)
 const calendarYear = computed(() => {
   if (dias.value.length > 0) {
     const firstDia = dias.value[0];
@@ -190,17 +103,33 @@ const calendarYear = computed(() => {
   return dayjs().year();
 });
 
-// Convert dias to CalendarEvent format for mini calendars
 const calendarEvents = computed((): CalendarEvent[] => {
   return dias.value.map(d => ({
     id: d.id,
-    name: getDiaLabel(d),
-    color: getDotColor(d),
+    name: d.feriado || 'Dia não letivo',
+    color: ((d as Record<string, unknown>).cor as string) ?? '#6b7280',
     startDate: d.data,
     endDate: d.data,
     type: 'agendamento',
   }));
 });
+
+function openEdit(dia: CalendarioLetivoDiaFindOneOutputDto) {
+  editingDia.value = { id: dia.id, data: dia.data };
+  editDialogRef.value?.resetForEdit(dia);
+  editDialogOpen.value = true;
+}
+
+function openCreateDialog() {
+  if (!selectedCalendarioId.value) return;
+  editingDia.value = { id: '', data: dayjs().format('YYYY-MM-DD') };
+  editDialogRef.value?.resetForCreate();
+  editDialogOpen.value = true;
+}
+
+async function onDialogSaved() {
+  await loadDias();
+}
 </script>
 
 <template>
@@ -240,7 +169,6 @@ const calendarEvents = computed((): CalendarEvent[] => {
     <!-- Month view -->
     <template v-else-if="toggleView === 'mes'">
       <div class="flex flex-col lg:flex-row gap-6">
-        <!-- Mini calendar with navigation -->
         <div class="lg:w-[340px] shrink-0">
           <SectionCalendarioMonth
             :year="calendarYear"
@@ -251,7 +179,6 @@ const calendarEvents = computed((): CalendarEvent[] => {
           />
         </div>
 
-        <!-- List of dias nao letivos -->
         <div class="flex-1 flex flex-col gap-3">
           <UISearchBar v-model="searchQuery" placeholder="Pesquisar dia..." />
 
@@ -263,33 +190,12 @@ const calendarEvents = computed((): CalendarEvent[] => {
           </div>
 
           <div class="flex flex-col">
-            <div
+            <DiaListItem
               v-for="dia in filteredDiasDoMes"
               :key="dia.id"
-              class="flex items-center justify-between border-b border-ldsa-grey/20 py-2.5 px-2 hover:bg-ldsa-grey/5"
-            >
-              <div class="flex items-center gap-2">
-                <span
-                  class="inline-block size-2.5 rounded-full"
-                  :style="{ backgroundColor: getDotColor(dia) }"
-                />
-                <span class="text-sm font-medium text-ldsa-text-default">{{
-                  getDiaLabel(dia)
-                }}</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-xs text-ldsa-grey">{{
-                  formatDateShort(dia.data)
-                }}</span>
-                <button
-                  class="p-1 rounded hover:bg-ldsa-grey/10 text-ldsa-grey hover:text-ldsa-green-1 transition-colors"
-                  title="Editar"
-                  @click="openEdit(dia)"
-                >
-                  <IconsEdit class="size-4" />
-                </button>
-              </div>
-            </div>
+              :dia="dia"
+              @edit="openEdit"
+            />
           </div>
         </div>
       </div>
@@ -313,7 +219,6 @@ const calendarEvents = computed((): CalendarEvent[] => {
             </div>
 
             <div class="flex flex-col lg:flex-row gap-4">
-              <!-- Mini calendar without navigation -->
               <div class="lg:w-[300px] shrink-0">
                 <SectionCalendarioMonth
                   :year="calendarYear"
@@ -324,35 +229,13 @@ const calendarEvents = computed((): CalendarEvent[] => {
                 />
               </div>
 
-              <!-- List of dias nao letivos for this month -->
               <div class="flex-1 flex flex-col">
-                <div
+                <DiaListItem
                   v-for="dia in diasPorMes.get(month) ?? []"
                   :key="dia.id"
-                  class="flex items-center justify-between border-b border-ldsa-grey/20 py-2.5 px-2 hover:bg-ldsa-grey/5"
-                >
-                  <div class="flex items-center gap-2">
-                    <span
-                      class="inline-block size-2.5 rounded-full"
-                      :style="{ backgroundColor: getDotColor(dia) }"
-                    />
-                    <span class="text-sm font-medium text-ldsa-text-default">{{
-                      getDiaLabel(dia)
-                    }}</span>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <span class="text-xs text-ldsa-grey">{{
-                      formatDateShort(dia.data)
-                    }}</span>
-                    <button
-                      class="p-1 rounded hover:bg-ldsa-grey/10 text-ldsa-grey hover:text-ldsa-green-1 transition-colors"
-                      title="Editar"
-                      @click="openEdit(dia)"
-                    >
-                      <IconsEdit class="size-4" />
-                    </button>
-                  </div>
-                </div>
+                  :dia="dia"
+                  @edit="openEdit"
+                />
               </div>
             </div>
           </template>
@@ -361,53 +244,12 @@ const calendarEvents = computed((): CalendarEvent[] => {
     </template>
 
     <!-- Edit Dialog -->
-    <DialogSkeleton v-model="editDialogOpen">
-      <DialogModalBaseLayout
-        v-if="editingDia"
-        title="Editar dia"
-        :close-button="true"
-        :on-close="
-          () => {
-            editDialogOpen = false;
-          }
-        "
-      >
-        <form class="flex flex-col gap-4" @submit.prevent="saveEdit">
-          <VVTextField name="feriado" label="Nome" placeholder="Nome do dia" />
-
-          <div class="flex flex-col gap-1.5">
-            <span class="text-[0.813rem] font-semibold text-ldsa-grey px-1"
-              >Cor</span
-            >
-            <VVColorPalette name="cor" />
-          </div>
-
-          <div class="text-sm text-ldsa-grey">
-            Data: <strong>{{ formatDate(editingDia.data) }}</strong>
-          </div>
-
-          <VVCheckboxField name="diaLetivo" label="É dia letivo" />
-          <VVCheckboxField name="diaPresencial" label="É presencial" />
-          <VVCheckboxField name="extraCurricular" label="É extracurricular" />
-        </form>
-
-        <template #button-group>
-          <button
-            type="button"
-            class="flex-1 rounded-lg border border-ldsa-grey/30 px-4 py-2 text-sm font-medium"
-            @click="editDialogOpen = false"
-          >
-            Cancelar
-          </button>
-          <button
-            type="button"
-            class="flex-1 rounded-lg bg-ldsa-green-1 px-4 py-2 text-sm font-medium text-white"
-            @click="saveEdit"
-          >
-            Salvar
-          </button>
-        </template>
-      </DialogModalBaseLayout>
-    </DialogSkeleton>
+    <DiaEditDialog
+      ref="editDialogRef"
+      v-model="editDialogOpen"
+      :calendario-id="selectedCalendarioId"
+      :dia="editingDia"
+      @saved="onDialogSaved"
+    />
   </UIContainer>
 </template>
