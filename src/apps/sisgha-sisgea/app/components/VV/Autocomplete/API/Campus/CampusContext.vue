@@ -68,7 +68,7 @@ const displayItems = computed(() => {
 });
 
 const displaySelectedId = computed(() => {
-  return campusContext.value ?? null;
+  return null;
 });
 </script>
 
