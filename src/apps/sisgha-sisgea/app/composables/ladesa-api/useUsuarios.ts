@@ -15,6 +15,12 @@ import type {
   UploadProfileFn,
 } from '~/composables/query-helpers';
 import {
+  createCreateFn,
+  createUpdateFn,
+  createRemoveFn,
+  createUploadImageFn,
+} from './-helpers/crudHelpers';
+import {
   usuarioFindAll,
   usuarioFindById,
   usuarioCreate,
@@ -73,17 +79,10 @@ export const useUsuarios = (): IUseUsuarios => {
     fetcher: (id: string) => api.call(usuarioFindById, { path: { id } }),
   });
 
-  const create = (data: ReqBody<UsuarioCreateData>) =>
-    api.call(usuarioCreate, { body: data });
-
-  const update = (id: string, data: ReqBody<UsuarioUpdateData>) =>
-    api.call(usuarioUpdate, { path: { id }, body: data });
-
-  const remove = (id: string) =>
-    api.call(usuarioDeleteOneById, { path: { id } });
-
-  const uploadProfile = (id: string, file: Blob) =>
-    api.call(usuarioUpdateImagemPerfil, { path: { id }, body: { file } });
+  const create = createCreateFn<ReqBody<UsuarioCreateData>, UsuarioCreateResponse>(api, usuarioCreate);
+  const update = createUpdateFn<ReqBody<UsuarioUpdateData>, UsuarioUpdateResponse>(api, usuarioUpdate);
+  const remove = createRemoveFn(api, usuarioDeleteOneById);
+  const uploadProfile = createUploadImageFn(api, usuarioUpdateImagemPerfil);
 
   const invalidate = createInvalidate(keys);
 

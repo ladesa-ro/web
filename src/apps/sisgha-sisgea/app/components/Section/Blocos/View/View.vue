@@ -10,17 +10,11 @@ const { data: bloco, isLoading, isError } = blocos.findOne(ref(resourceId));
 
 const coverImageSrc = useApiImageRoute(ApiImageResource.BLOCO_COVER, bloco);
 
-const confirmDelete = useConfirmDelete();
-const router = useRouter();
-
-const handleDelete = async () => {
-  const confirmed = await confirmDelete.confirm();
-  if (confirmed) {
-    await blocos.remove(resourceId);
-    await blocos.invalidate();
-    router.push('/sisgea/blocos');
-  }
-};
+const { confirmDelete, handleDelete } = useResourceDelete({
+  remove: (id) => blocos.remove(id),
+  invalidate: () => blocos.invalidate(),
+  redirectTo: '/sisgea/blocos',
+});
 </script>
 
 <template>
@@ -38,7 +32,7 @@ const handleDelete = async () => {
         :edit-id="resourceId"
         :form-component="BlocosForm"
       />
-      <UIButtonModalDelete @click="handleDelete" />
+      <UIButtonModalDelete @click="handleDelete(resourceId)" />
     </template>
 
     <template #details>

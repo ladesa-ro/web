@@ -1,34 +1,24 @@
 <script lang="ts" setup>
-import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
+import { useAutocompleteEntity } from '../-Base/createAutocompleteComponent';
 import { usuarioFindAll, usuarioFindById } from '@ladesa-ro/web.api.client';
 
-type Props = {
-  isLoading?: boolean;
-  name: string;
-};
+defineProps<{ isLoading?: boolean; name: string }>();
 
-defineProps<Props>();
-
-const api = useApiClient();
-
-const crudModule = {
+const { options } = useAutocompleteEntity({
   baseQueryKeys: ['usuarios', 'professores'],
-  list: (data: any) =>
+  listFn: usuarioFindAll,
+  getOneFn: usuarioFindById,
+  transformer: (item: any) => ({
+    value: item.id,
+    label: item.matricula ? `${item.nome} (${item.matricula})` : item.nome,
+  }),
+  listAdapter: (api, data) =>
     api.call(usuarioFindAll, {
       query: {
         ...data,
         'filter.vinculos.cargo.nome': 'professor',
       },
     }),
-  getOne: (id: string) => api.call(usuarioFindById, { path: { id } }),
-};
-
-const options = createUIAutocompleteApiRetrieverOptions({
-  crudModule,
-  transformer: (item: any) => ({
-    value: item.id,
-    label: item.matricula ? `${item.nome} (${item.matricula})` : item.nome,
-  }),
 });
 </script>
 

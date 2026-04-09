@@ -3,6 +3,9 @@ import { SectionCalendarioForm } from '#components';
 import dayjs from 'dayjs';
 import Card from './Card.vue';
 import { createFilterComputed } from '../-Helpers/createFilterComputed';
+import { useProvideCalendarioEvents } from '../../useCalendarioEventBus';
+
+useProvideCalendarioEvents();
 
 const route = useRoute();
 const calendarioLetivo = useCalendarioLetivo();

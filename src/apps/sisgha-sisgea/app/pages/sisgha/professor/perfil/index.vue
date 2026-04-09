@@ -1,12 +1,10 @@
 <script lang="ts" setup>
-import { HeadTitleContext } from '~/utils';
-
 definePageMeta({
   layout: 'sisgha-professor',
   auth: true,
 });
 
-useTitle(HeadTitleContext.DASHBOARD, 'Perfil');
+useTitle('dashboard', 'Perfil');
 </script>
 
 <template>

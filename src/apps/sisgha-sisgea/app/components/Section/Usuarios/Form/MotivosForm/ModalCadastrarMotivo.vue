@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import WeekdaySelector from '~/components/UI/WeekDaySelector/WeekdaySelector.vue';
-import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
-import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
+import { capitalizeFirst } from '@ladesa-ro/web.utils';
+import { getWeekDays } from '~/utils/get-week-days';
+import { dayShifts, motivosDisponiveis } from './-Helpers/motivos-utils';
 
 const props = defineProps<{
   horariosSemMotivo: string[];
@@ -29,33 +30,12 @@ const week = getWeekDays(currentDay.value);
 const weekDays = week.map(day => day.dayWeek);
 const selectedDayWeek = ref<string>(weekDays[0] ?? 'segunda');
 
-const motivosDisponiveis = [
-  'Licença médica',
-  'Atividade externa',
-  'Reunião',
-  'Outro',
-];
-
 const podeRegistrar = computed(
   () =>
     selectedTimes.value.length > 0 &&
     selectedTimes.value.every(h => (motivos.value[h] ?? '').trim().length > 0)
 );
 
-const dayShifts = [
-  {
-    title: 'matutino',
-    times: ['07:30', '08:20', '09:10', '10:00', '10:20', '11:10'],
-  },
-  {
-    title: 'vespertino',
-    times: ['13:00', '13:50', '14:40', '15:30', '15:50', '16:40'],
-  },
-  {
-    title: 'noturno',
-    times: ['19:00', '19:50', '20:40', '21:30', '21:50', '22:40'],
-  },
-];
 function registrarMotivos() {
   selectedTimes.value.forEach(horario => {
     const motivo = motivos.value[horario]?.trim();

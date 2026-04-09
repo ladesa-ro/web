@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { IconsClock, IconsMoreItems } from '#components';
-import { capitalizeFirst } from '../-Helpers/CapitalizeFirst';
-import { getWeekDays } from '../-Helpers/GetWeekDays';
+import { capitalizeFirst } from '@ladesa-ro/web.utils';
+import { getWeekDays } from '~/utils/get-week-days';
 import type { Dayjs } from 'dayjs';
 
 const currentDay = useCurrentDay();

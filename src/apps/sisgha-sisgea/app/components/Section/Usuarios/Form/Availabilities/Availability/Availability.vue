@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { capitalizeFirst } from '../../../../Horario/-Helpers/CapitalizeFirst';
+import { capitalizeFirst } from '@ladesa-ro/web.utils';
 import type { Vinculo } from '../../FormUtils';
 import { useAvailability } from '../../../../../../composables/useAvailability';
 

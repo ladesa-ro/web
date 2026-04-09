@@ -2,13 +2,13 @@ import type {
   DayInShiftsWithoutInfo,
   Horario,
   HorDayjs,
-} from './useScheduleTypes';
+} from './types';
 
 /**
  * Divide o horário de um dia de aula em turnos.
  * @param horarioDoDia Horário de um dia completo.
  * */
-export const useSeparateScheduleInShifts = (
+export const separateScheduleInShifts = (
   horarioDoDia: (Horario & HorDayjs)[]
 ): DayInShiftsWithoutInfo => {
   // utilizado para definir horários de início e endHour dos turnos em dayjs

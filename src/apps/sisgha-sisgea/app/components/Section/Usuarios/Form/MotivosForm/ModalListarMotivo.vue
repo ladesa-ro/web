@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { formatarDia } from './-Helpers/motivos-utils';
+
 const props = defineProps<{
   motivosConfirmados: Record<string, { horario: string; motivo: string }[]>;
   selectedDayWeek: string | null;
@@ -66,10 +68,6 @@ function formatarTooltip(item: any): string {
     .join(' | ');
 }
 
-function formatarDia(dia: string): string {
-  const diasComFeira = ['segunda', 'terca', 'quarta', 'quinta', 'sexta'];
-  return diasComFeira.includes(dia.toLowerCase()) ? `${dia}-feira` : dia;
-}
 const onClose = () => emit('fechar');
 </script>
 

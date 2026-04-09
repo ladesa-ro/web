@@ -1,10 +1,10 @@
 <script setup lang="ts">
-type Props = { outlineOnClink?: boolean };
-const { outlineOnClink = true } = defineProps<Props>();
+type Props = { outlineOnClick?: boolean };
+const { outlineOnClick = true } = defineProps<Props>();
 </script>
 
 <template>
-  <button class="ui-button" :class="{ 'button-outline': outlineOnClink }">
+  <button class="ui-button" :class="{ 'button-outline': outlineOnClick }">
     <span v-if="$slots['start-icon']" class="w-5">
       <slot name="start-icon" />
     </span>

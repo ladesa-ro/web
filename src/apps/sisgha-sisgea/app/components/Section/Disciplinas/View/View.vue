@@ -10,17 +10,11 @@ const { data: disciplina, isLoading, isError } = disciplinas.findOne(ref(resourc
 
 const coverImageSrc = useApiImageRoute(ApiImageResource.DISCIPLINA_COVER, disciplina);
 
-const confirmDelete = useConfirmDelete();
-const router = useRouter();
-
-const handleDelete = async () => {
-  const confirmed = await confirmDelete.confirm();
-  if (confirmed) {
-    await disciplinas.remove(resourceId);
-    await disciplinas.invalidate();
-    router.push('/sisgha/dape/disciplinas');
-  }
-};
+const { confirmDelete, handleDelete } = useResourceDelete({
+  remove: (id) => disciplinas.remove(id),
+  invalidate: () => disciplinas.invalidate(),
+  redirectTo: '/sisgha/dape/disciplinas',
+});
 </script>
 
 <template>
@@ -36,7 +30,7 @@ const handleDelete = async () => {
         :edit-id="resourceId"
         :form-component="DisciplinasForm"
       />
-      <UIButtonModalDelete @click="handleDelete" />
+      <UIButtonModalDelete @click="handleDelete(resourceId)" />
     </template>
 
     <template #details>

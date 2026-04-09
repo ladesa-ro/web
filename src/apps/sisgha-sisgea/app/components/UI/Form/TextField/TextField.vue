@@ -89,9 +89,9 @@ const emit = defineEmits(['update:modelValue', 'blur']);
   </template>
 </template>
 
-<style scoped src="../-Utils/style/inputStyles.css"></style>
-
 <style scoped>
+@import "~/components/UI/Form/-Utils/style/inputStyles.css";
+
 .input-base {
   padding: 0;
 }

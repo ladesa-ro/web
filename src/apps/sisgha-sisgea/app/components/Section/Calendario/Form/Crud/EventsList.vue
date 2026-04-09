@@ -6,6 +6,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import SearchBar from '~/components/UI/SearchBar/SearchBar.vue';
 import type { CalendarioAgendamentoFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import type { CalendarData, CalendarEvent } from '../../Types';
+import { useInjectCalendarioEvents, useOnCalendarioEventsUpdated, useOnCalendarioForceClose } from '../../useCalendarioEventBus';
 
 dayjs.extend(isBetween);
 dayjs.extend(relativeTime);
@@ -33,10 +34,12 @@ const orderOptions = [
   { label: 'Decrescente', value: 'desc' },
 ];
 
+const calendarioEvents = useInjectCalendarioEvents();
+
 function closeModal() {
   showEventModal.value = false;
   $emit('close');
-  window.dispatchEvent(new CustomEvent('calendar-events-updated'));
+  calendarioEvents.emitEventsUpdated();
 }
 
 function handleForceClose() {
@@ -97,14 +100,8 @@ const events = computed(() => {
   );
 });
 
-onMounted(() => {
-  window.addEventListener('force-close-inner-modals', handleForceClose);
-  window.addEventListener('calendar-events-updated', handleEventsUpdated);
-});
-onBeforeUnmount(() => {
-  window.removeEventListener('force-close-inner-modals', handleForceClose);
-  window.removeEventListener('calendar-events-updated', handleEventsUpdated);
-});
+useOnCalendarioForceClose(handleForceClose);
+useOnCalendarioEventsUpdated(handleEventsUpdated);
 
 // Computed
 const filteredEvents = computed(() => {

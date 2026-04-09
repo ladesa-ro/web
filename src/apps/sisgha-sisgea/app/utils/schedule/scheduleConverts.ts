@@ -1,5 +1,5 @@
 import type { Dayjs } from 'dayjs';
-import type { Horario, HorDayjs, HorString } from './useScheduleTypes';
+import type { Horario, HorDayjs, HorString } from './types';
 
 export const convertStringToDayJs = (
   horario: Horario & HorString

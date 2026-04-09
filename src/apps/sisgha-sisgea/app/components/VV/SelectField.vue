@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useField } from 'vee-validate';
+import { useVVField } from './-Helpers/useVVField';
 
 const props = defineProps<{
   name: string;
@@ -9,16 +9,10 @@ const props = defineProps<{
   disabled?: boolean;
 }>();
 
-const fieldDisabled = useFieldDisabled(() => props.disabled);
-
-const {
-  errorMessage,
-  value: modelValue,
-} = useField<ParsedItem | undefined>(
-  props.name,
-  undefined,
-  { validateOnValueUpdate: false },
-);
+const { fieldValue: modelValue, errorMessage, fieldDisabled } = useVVField<ParsedItem | undefined>({
+  name: props.name,
+  disabled: props.disabled,
+});
 </script>
 
 <template>

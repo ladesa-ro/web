@@ -1,4 +1,4 @@
-import type { Horario, HorDayjs } from './useScheduleTypes';
+import type { Horario, HorDayjs } from './types';
 
 export type ScheduleInDaysWithoutShifts = Record<
   string,
@@ -10,7 +10,7 @@ export type ScheduleInDaysWithoutShifts = Record<
  * @param horarioCompleto Array com horários do tipo `TransicaoDia`.
  * @returns Um array do tipo `Horario`, caso o parâmetro `horarioCompleto` não tenha sido dividido em transições de dia, ou, caso contrário, um objeto do tipo `Dias`. Cada chave deste objeto é uma data no formato `YYYY-MM-DD` e o valor é um array dos horários correspondentes a essa data.
  */
-export const useSeparateScheduleInDays = (
+export const separateScheduleInDays = (
   horarioCompleto: (Horario & HorDayjs)[]
 ): Horario[] | ScheduleInDaysWithoutShifts => {
   const idxTransicoes = horarioCompleto

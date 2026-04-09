@@ -4,12 +4,12 @@ import type {
   HorString,
   TimeSlotObj,
   TimeSlots,
-} from './useScheduleTypes';
+} from './types';
 
 // TODO: aceitar um parâmetro do tipo Ladesa_ManagementService_Domain_Contracts_AulaFindOneOutput ao integrar à api
 
 /** Adiciona o dia da semana de um horário à sua estrutura com base em sua date. */
-export const useAddWeekDayToClass = (
+export const addWeekDayToClass = (
   aula: Omit<Aula & HorString, 'weekday' | 'id'>
 ): Aula & HorString => {
   const weekday = useFilterText(useDayJs()(aula.date).format('dddd'));
@@ -22,7 +22,7 @@ export const useAddWeekDayToClass = (
 };
 
 /** Adiciona o dia do mês à estrutura de tempo de aulas com base na date e dia da semana de uma aula. */
-export const useAddDayMonthToTempoDeAula = (
+export const addDayMonthToTempoDeAula = (
   aula: Aula & HorString,
   temposDeAula: TimeSlotObj
 ): TimeSlots => {

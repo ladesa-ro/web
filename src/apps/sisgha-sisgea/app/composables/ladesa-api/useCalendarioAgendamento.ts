@@ -11,6 +11,11 @@ import type {
   InvalidateFn,
 } from '~/composables/query-helpers';
 import {
+  createCreateFn,
+  createUpdateFn,
+  createRemoveFn,
+} from './-helpers/crudHelpers';
+import {
   calendarioAgendamentoFindAll,
   calendarioAgendamentoFindById,
   calendarioAgendamentoCreate,
@@ -115,14 +120,9 @@ export const useCalendarioAgendamento = (): IUseCalendarioAgendamento => {
       api.call(calendarioAgendamentoFindById, { path: { id } }),
   });
 
-  const create = (data: ReqBody<CalendarioAgendamentoCreateData>) =>
-    api.call(calendarioAgendamentoCreate, { body: data });
-
-  const update = (id: string, data: ReqBody<CalendarioAgendamentoUpdateData>) =>
-    api.call(calendarioAgendamentoUpdate, { path: { id }, body: data });
-
-  const remove = (id: string) =>
-    api.call(calendarioAgendamentoDeleteOneById, { path: { id } });
+  const create = createCreateFn<ReqBody<CalendarioAgendamentoCreateData>, CalendarioAgendamentoCreateResponse>(api, calendarioAgendamentoCreate);
+  const update = createUpdateFn<ReqBody<CalendarioAgendamentoUpdateData>, CalendarioAgendamentoUpdateResponse>(api, calendarioAgendamentoUpdate);
+  const remove = createRemoveFn(api, calendarioAgendamentoDeleteOneById);
 
   const desvincularTurma: DesvincularTurmaFn = (agendamentoId, turmaId) =>
     api.call(calendarioAgendamentoDesvincularTurma, { path: { id: agendamentoId, turmaId } });

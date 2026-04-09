@@ -12,7 +12,14 @@ import type {
   UpdateFn,
   RemoveFn,
   InvalidateFn,
+  UploadCoverFn,
 } from '~/composables/query-helpers';
+import {
+  createCreateFn,
+  createUpdateFn,
+  createRemoveFn,
+  createUploadImageFn,
+} from './-helpers/crudHelpers';
 import {
   modalidadeFindAll,
   modalidadeFindById,
@@ -44,7 +51,7 @@ export type IUseModalidades = {
   create: CreateFn<ReqBody<ModalidadeCreateData>, ModalidadeCreateResponse>;
   update: UpdateFn<ReqBody<ModalidadeUpdateData>, ModalidadeUpdateResponse>;
   remove: RemoveFn;
-  uploadCover: (id: string, file: Blob) => Promise<any>;
+  uploadCover: UploadCoverFn;
   invalidate: InvalidateFn;
 };
 
@@ -70,17 +77,10 @@ export const useModalidades = (): IUseModalidades => {
     fetcher: (id: string) => api.call(modalidadeFindById, { path: { id } }),
   });
 
-  const create = (data: ReqBody<ModalidadeCreateData>) =>
-    api.call(modalidadeCreate, { body: data });
-
-  const update = (id: string, data: ReqBody<ModalidadeUpdateData>) =>
-    api.call(modalidadeUpdate, { path: { id }, body: data });
-
-  const remove = (id: string) =>
-    api.call(modalidadeDeleteOneById, { path: { id } });
-
-  const uploadCover = (id: string, file: Blob) =>
-    api.call(modalidadeUpdateImagemCapa, { path: { id }, body: { file } });
+  const create = createCreateFn<ReqBody<ModalidadeCreateData>, ModalidadeCreateResponse>(api, modalidadeCreate);
+  const update = createUpdateFn<ReqBody<ModalidadeUpdateData>, ModalidadeUpdateResponse>(api, modalidadeUpdate);
+  const remove = createRemoveFn(api, modalidadeDeleteOneById);
+  const uploadCover = createUploadImageFn(api, modalidadeUpdateImagemCapa);
 
   const invalidate = createInvalidate(keys);
 

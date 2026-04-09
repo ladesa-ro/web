@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { HeadTitleContext } from '~/utils';
 import { provideLayoutsDashboardContext } from './context';
 
 import { UIToast } from '#components';
@@ -11,7 +10,7 @@ type Slots = {
 defineSlots<Slots>();
 
 //defines the tab name
-useTitle(HeadTitleContext.DASHBOARD);
+useTitle('dashboard');
 
 //defines if the hamburguer sidebar is active
 const { hamburguerActive } = provideLayoutsDashboardContext();

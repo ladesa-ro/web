@@ -1,4 +1,4 @@
-import type { Aula, HorString, TimeSlotObj } from './useScheduleTypes';
+import type { Aula, HorString, TimeSlotObj } from '~/utils/schedule/types';
 
 export const temposDeAulaExemplo: TimeSlotObj = {
   segunda: [

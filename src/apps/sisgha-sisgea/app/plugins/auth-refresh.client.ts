@@ -1,3 +1,5 @@
+import { AUTH_REFRESH_INTERVAL_MS } from '~/utils/constants';
+
 export default defineNuxtPlugin(() => {
   const { getSession, status } = useAuth();
 
@@ -7,7 +9,7 @@ export default defineNuxtPlugin(() => {
     }
   };
 
-  const intervalId = setInterval(refreshIfAuthenticated, 15_000);
+  const intervalId = setInterval(refreshIfAuthenticated, AUTH_REFRESH_INTERVAL_MS);
 
   window.addEventListener('focus', refreshIfAuthenticated);
 

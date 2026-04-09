@@ -16,21 +16,15 @@ const link = props.link === undefined || props.link === '' ? '/sisgea/campus' : 
 </script>
 
 <template>
-  <UICardAutoSkeleton :skeleton="isLoading || !campus">
-    <UICard
-      v-if="campus"
-      :src="null"
-      :title="campus.apelido"
-      variant="block"
-    >
-      <template #actions>
-        <UICardActions :to="`${link}/${campus.id}`">
-          <DialogModalEditOrCreateModal :edit-id="campus.id" :form-component="CampusForm" />
-        </UICardActions>
-      </template>
-
-      <UICardLine :text="`Nome: ${campus.nomeFantasia}`" />
-      <UICardLine :text="`CNPJ: ${campus.cnpj}`" />
-    </UICard>
-  </UICardAutoSkeleton>
+  <UIGenericCrudItem
+    :is-loading="isLoading"
+    :item="campus"
+    :src="null"
+    :title="campus?.apelido ?? null"
+    :link="link"
+    :form-component="CampusForm"
+  >
+    <UICardLine :text="`Nome: ${campus?.nomeFantasia}`" />
+    <UICardLine :text="`CNPJ: ${campus?.cnpj}`" />
+  </UIGenericCrudItem>
 </template>

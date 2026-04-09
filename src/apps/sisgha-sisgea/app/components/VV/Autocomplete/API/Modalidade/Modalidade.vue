@@ -1,34 +1,14 @@
 <script lang="ts" setup>
-import { createUIAutocompleteApiRetrieverOptions } from '../-Base';
-import {
-  modalidadeFindAll,
-  modalidadeFindById,
-} from '@ladesa-ro/web.api.client';
+import { useAutocompleteEntity } from '../-Base/createAutocompleteComponent';
+import { modalidadeFindAll, modalidadeFindById } from '@ladesa-ro/web.api.client';
 
-type Props = {
-  isLoading?: boolean;
-  name: string;
-};
+defineProps<{ isLoading?: boolean; name: string }>();
 
-const props = defineProps<Props>();
-const { name } = toRefs(props);
-
-//
-
-const api = useApiClient();
-const crudModule = {
+const { options } = useAutocompleteEntity({
   baseQueryKeys: ['modalidades'],
-  list: (data: any) => api.call(modalidadeFindAll, { query: data }),
-  getOne: (id: string) => api.call(modalidadeFindById, { path: { id } }),
-};
-
-const options = createUIAutocompleteApiRetrieverOptions({
-  crudModule,
-
-  transformer: item => ({
-    value: item.id,
-    label: item.nome,
-  }),
+  listFn: modalidadeFindAll,
+  getOneFn: modalidadeFindById,
+  transformer: item => ({ value: item.id, label: item.nome }),
 });
 </script>
 

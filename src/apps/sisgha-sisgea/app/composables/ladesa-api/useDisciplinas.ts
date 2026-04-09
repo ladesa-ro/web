@@ -15,6 +15,12 @@ import type {
   UploadCoverFn,
 } from '~/composables/query-helpers';
 import {
+  createCreateFn,
+  createUpdateFn,
+  createRemoveFn,
+  createUploadImageFn,
+} from './-helpers/crudHelpers';
+import {
   disciplinaFindAll,
   disciplinaFindById,
   disciplinaCreate,
@@ -71,17 +77,10 @@ export const useDisciplinas = (): IUseDisciplinas => {
     fetcher: (id: string) => api.call(disciplinaFindById, { path: { id } }),
   });
 
-  const create = (data: ReqBody<DisciplinaCreateData>) =>
-    api.call(disciplinaCreate, { body: data });
-
-  const update = (id: string, data: ReqBody<DisciplinaUpdateData>) =>
-    api.call(disciplinaUpdate, { path: { id }, body: data });
-
-  const remove = (id: string) =>
-    api.call(disciplinaDeleteOneById, { path: { id } });
-
-  const uploadCover = (id: string, file: Blob) =>
-    api.call(disciplinaUpdateImagemCapa, { path: { id }, body: { file } });
+  const create = createCreateFn<ReqBody<DisciplinaCreateData>, DisciplinaCreateResponse>(api, disciplinaCreate);
+  const update = createUpdateFn<ReqBody<DisciplinaUpdateData>, DisciplinaUpdateResponse>(api, disciplinaUpdate);
+  const remove = createRemoveFn(api, disciplinaDeleteOneById);
+  const uploadCover = createUploadImageFn(api, disciplinaUpdateImagemCapa);
 
   const invalidate = createInvalidate(keys);
 

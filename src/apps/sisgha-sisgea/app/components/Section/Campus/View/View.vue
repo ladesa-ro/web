@@ -7,17 +7,11 @@ const { resourceId } = defineProps<Props>();
 const campi = useCampi();
 const { data: campus, isLoading, isError } = campi.findOne(ref(resourceId));
 
-const confirmDelete = useConfirmDelete();
-const router = useRouter();
-
-const handleDelete = async () => {
-  const confirmed = await confirmDelete.confirm();
-  if (confirmed) {
-    await campi.remove(resourceId);
-    await campi.invalidate();
-    router.push('/sisgea/campus');
-  }
-};
+const { confirmDelete, handleDelete } = useResourceDelete({
+  remove: (id) => campi.remove(id),
+  invalidate: () => campi.invalidate(),
+  redirectTo: '/sisgea/campus',
+});
 </script>
 
 <template>
@@ -35,7 +29,7 @@ const handleDelete = async () => {
         :edit-id="resourceId"
         :form-component="CampusForm"
       />
-      <UIButtonModalDelete @click="handleDelete" />
+      <UIButtonModalDelete @click="handleDelete(resourceId)" />
     </template>
 
     <template #details>

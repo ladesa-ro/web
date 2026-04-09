@@ -1,6 +1,6 @@
 <script setup>
 import SISGHALogo from '~/components/Logo/SISGHA/Logo.vue';
-import { getWeekDays } from '../../Horario/-Helpers/GetWeekDays';
+import { getWeekDays } from '~/utils/get-week-days';
 import dayPeriods from './dayPeriods';
 
 const currentDay = useCurrentDay();

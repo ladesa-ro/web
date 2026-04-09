@@ -18,17 +18,11 @@ const niveisFormacoesText = computed(() => {
   return niveis.map(n => n.slug).join(', ');
 });
 
-const confirmDelete = useConfirmDelete();
-const router = useRouter();
-
-const handleDelete = async () => {
-  const confirmed = await confirmDelete.confirm();
-  if (confirmed) {
-    await ofertasFormacoes.remove(resourceId);
-    await ofertasFormacoes.invalidate();
-    router.push('/sisgha/dape/formacoes');
-  }
-};
+const { confirmDelete, handleDelete } = useResourceDelete({
+  remove: (id) => ofertasFormacoes.remove(id),
+  invalidate: () => ofertasFormacoes.invalidate(),
+  redirectTo: '/sisgha/dape/formacoes',
+});
 </script>
 
 <template>
@@ -44,7 +38,7 @@ const handleDelete = async () => {
         :edit-id="resourceId"
         :form-component="FormacoesForm"
       />
-      <UIButtonModalDelete @click="handleDelete" />
+      <UIButtonModalDelete @click="handleDelete(resourceId)" />
     </template>
 
     <template #details>

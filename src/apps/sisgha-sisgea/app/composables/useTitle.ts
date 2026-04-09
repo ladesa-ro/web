@@ -1,5 +1,5 @@
 import type { MaybeArray } from 'vee-validate';
-import { HeadTitleContext } from '~/utils/head-title-context';
+import type { HeadTitleContext } from '~/utils/head-title-context';
 import { castArray } from '../utils';
 
 // this composable defines the tab name (the <title>). for example: "Painel - SISGHA" or "Perfil - SISGHA"
@@ -17,15 +17,8 @@ export const buildTitle = (
     }
   }
 
-  switch (context) {
-    case HeadTitleContext.DASHBOARD: {
-      elements.push('Painel');
-      break;
-    }
-
-    default: {
-      break;
-    }
+  if (context === 'dashboard') {
+    elements.push('Painel');
   }
 
   elements.push('SISGHA');

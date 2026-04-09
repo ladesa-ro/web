@@ -1,4 +1,4 @@
-import type { Aula, HorDayjs, Intervalo, Vago } from '../useScheduleTypes';
+import type { Aula, HorDayjs, Intervalo, Vago } from '~/utils/schedule/types';
 
 export type EditableCell = Aula | Vago;
 

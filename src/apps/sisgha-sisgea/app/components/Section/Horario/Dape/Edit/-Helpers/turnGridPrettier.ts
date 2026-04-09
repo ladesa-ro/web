@@ -2,7 +2,7 @@ import type { Cell } from '~/composables/schedule/edit/useScheduleEditTypes';
 import type {
   ShiftName,
   WeekSchedule,
-} from '~/composables/schedule/useScheduleTypes';
+} from '~/utils/schedule/types';
 
 // TODO: refatorar essas 2 funções para usarem os tempos de aula (terão que calcular quando é a hora do intervalo, mas serão mais precisas do que isso que eu fiz aqui)
 export function getEmptyShift(

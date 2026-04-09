@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { CheckboxIndicator as Check, CheckboxRoot as Checkbox } from 'reka-ui';
-import { useField } from 'vee-validate';
+import { useVVField } from './-Helpers/useVVField';
 
 const props = defineProps<{
   name: string;
@@ -8,10 +8,10 @@ const props = defineProps<{
   disabled?: boolean;
 }>();
 
-const name = computed(() => props.name);
-const fieldDisabled = useFieldDisabled(() => props.disabled);
-
-const { value: fieldValue } = useField<boolean>(name);
+const { fieldValue, fieldDisabled } = useVVField<boolean>({
+  name: () => props.name,
+  disabled: props.disabled,
+});
 </script>
 
 <template>

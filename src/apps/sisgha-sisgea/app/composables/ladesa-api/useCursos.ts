@@ -15,6 +15,12 @@ import type {
   UploadCoverFn,
 } from '~/composables/query-helpers';
 import {
+  createCreateFn,
+  createUpdateFn,
+  createRemoveFn,
+  createUploadImageFn,
+} from './-helpers/crudHelpers';
+import {
   cursoFindAll,
   cursoFindById,
   cursoCreate,
@@ -71,16 +77,10 @@ export const useCursos = (): IUseCursos => {
     fetcher: (id: string) => api.call(cursoFindById, { path: { id } }),
   });
 
-  const create = (data: ReqBody<CursoCreateData>) =>
-    api.call(cursoCreate, { body: data });
-
-  const update = (id: string, data: ReqBody<CursoUpdateData>) =>
-    api.call(cursoUpdate, { path: { id }, body: data });
-
-  const remove = (id: string) => api.call(cursoDeleteOneById, { path: { id } });
-
-  const uploadCover = (id: string, file: Blob) =>
-    api.call(cursoUpdateImagemCapa, { path: { id }, body: { file } });
+  const create = createCreateFn<ReqBody<CursoCreateData>, CursoCreateResponse>(api, cursoCreate);
+  const update = createUpdateFn<ReqBody<CursoUpdateData>, CursoUpdateResponse>(api, cursoUpdate);
+  const remove = createRemoveFn(api, cursoDeleteOneById);
+  const uploadCover = createUploadImageFn(api, cursoUpdateImagemCapa);
 
   const invalidate = createInvalidate(keys);
 

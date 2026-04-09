@@ -49,5 +49,12 @@ export type IOfertaFormacaoFormValues = yup.InferType<
 >;
 
 export function transformForApi(data: Omit<IOfertaFormacaoFormValues, 'imagem'>) {
-  return data;
+  return {
+    ...data,
+    niveisFormacoes: data.niveisFormacoes.map(nf => ({ id: nf.id })),
+    periodos: data.periodos.map((p, index) => ({
+      ...p,
+      numeroPeriodo: index + 1,
+    })),
+  };
 }

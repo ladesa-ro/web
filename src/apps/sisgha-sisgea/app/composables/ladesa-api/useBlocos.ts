@@ -15,6 +15,12 @@ import type {
   UploadCoverFn,
 } from '~/composables/query-helpers';
 import {
+  createCreateFn,
+  createUpdateFn,
+  createRemoveFn,
+  createUploadImageFn,
+} from './-helpers/crudHelpers';
+import {
   blocoFindAll,
   blocoFindById,
   blocoCreate,
@@ -71,17 +77,10 @@ export const useBlocos = (): IUseBlocos => {
     fetcher: (id: string) => api.call(blocoFindById, { path: { id } }),
   });
 
-  const create = (data: ReqBody<BlocoCreateData>) =>
-    api.call(blocoCreate, { body: data });
-
-  const update = (id: string, data: ReqBody<BlocoUpdateData>) =>
-    api.call(blocoUpdate, { path: { id }, body: data });
-
-  const remove = (id: string) => api.call(blocoDeleteOneById, { path: { id } });
-
-  const uploadCover = (id: string, file: Blob) => {
-    return api.call(blocoUpdateImagemCapa, { path: { id }, body: { file } });
-  };
+  const create = createCreateFn<ReqBody<BlocoCreateData>, BlocoCreateResponse>(api, blocoCreate);
+  const update = createUpdateFn<ReqBody<BlocoUpdateData>, BlocoUpdateResponse>(api, blocoUpdate);
+  const remove = createRemoveFn(api, blocoDeleteOneById);
+  const uploadCover = createUploadImageFn(api, blocoUpdateImagemCapa);
 
   const invalidate = createInvalidate(keys);
 

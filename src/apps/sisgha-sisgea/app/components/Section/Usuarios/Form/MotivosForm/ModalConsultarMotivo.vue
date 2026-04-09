@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { formatarDia, normalizarChave } from './-Helpers/motivos-utils';
+
 const props = defineProps<{
   motivosConfirmados: Record<string, { horario: string; motivo: string }[]>;
   selectedDayWeek: string | null;
@@ -22,18 +24,6 @@ const motivosDoDia = computed(() => {
     ? props.motivosConfirmados[props.selectedDayWeek] || []
     : [];
 });
-
-function normalizarChave(str: string): string {
-  return str
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase();
-}
-
-function formatarDia(dia: string): string {
-  const diasComFeira = ['segunda', 'terça', 'quarta', 'quinta', 'sexta'];
-  return diasComFeira.includes(dia.toLowerCase()) ? `${dia}-feira` : dia;
-}
 
 const motivosFormatadosPorDia = computed(() => {
   const chavesNormalizadas = Object.keys(props.motivosConfirmados).reduce(

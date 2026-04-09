@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import WeekdaySelector from '~/components/UI/WeekDaySelector/WeekdaySelector.vue';
-import { capitalizeFirst } from '../../../Horario/-Helpers/CapitalizeFirst';
-import { getWeekDays } from '../../../Horario/-Helpers/GetWeekDays';
+import { capitalizeFirst } from '@ladesa-ro/web.utils';
+import { getWeekDays } from '~/utils/get-week-days';
+import { dayShifts, motivosDisponiveis, formatarDia, agruparHorarios } from './-Helpers/motivos-utils';
 
 const props = defineProps<{
   motivoAtual: {
@@ -33,21 +34,6 @@ watch(selectedDayWeek, novoDia => {
   ];
 });
 
-const dayShifts = [
-  {
-    title: 'matutino',
-    times: ['07:30', '08:20', '09:10', '10:00', '10:20', '11:10'],
-  },
-  {
-    title: 'vespertino',
-    times: ['13:00', '13:50', '14:40', '15:30', '15:50', '16:40'],
-  },
-  {
-    title: 'noturno',
-    times: ['19:00', '19:50', '20:40', '21:30', '21:50', '22:40'],
-  },
-];
-
 const podeSalvar = computed(() => !!novoMotivo.value.trim());
 
 function salvarAlteracoes() {
@@ -62,43 +48,10 @@ function salvarAlteracoes() {
   });
 }
 
-function agruparHorarios(horarios: string[]) {
-  const ordenados = [...horarios].sort();
-  const blocos: string[] = [];
-
-  for (let i = 0; i < ordenados.length; i++) {
-    const inicio = ordenados[i];
-    let fim = inicio;
-
-    while (
-      i + 1 < ordenados.length &&
-      getProximoHorario(fim ?? '') === ordenados[i + 1]
-    ) {
-      fim = ordenados[++i];
-    }
-
-    blocos.push(
-      inicio === fim ? (inicio ?? '') : `${inicio ?? ''}-${fim ?? ''}`
-    );
-  }
-
-  return blocos;
-}
-
-function getProximoHorario(horario: string) {
-  const todos = dayShifts.flatMap(s => s.times);
-  const idx = todos.indexOf(horario);
-  return todos[idx + 1] || null;
-}
-
 const currentDay = useCurrentDay();
 const week = getWeekDays(currentDay.value);
 const weekDays = week.map(day => day.dayWeek);
 
-function formatarDia(dia: string): string {
-  const diasComFeira = ['segunda', 'terça', 'quarta', 'quinta', 'sexta'];
-  return diasComFeira.includes(dia.toLowerCase()) ? `${dia}-feira` : dia;
-}
 const onClose = () => emit('fechar');
 </script>
 
@@ -113,7 +66,7 @@ const onClose = () => emit('fechar');
       <div>
         <VVAutocomplete
           v-model="novoMotivo"
-          :items="['Licença médica', 'Atividade externa', 'Reunião', 'Outro']"
+          :items="motivosDisponiveis"
           placeholder="Digite ou selecione um novo motivo"
           label="Motivo"
           name="motivo"

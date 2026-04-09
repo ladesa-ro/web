@@ -19,25 +19,18 @@ const link = props.link === undefined || props.link === '' ? 'formacoes' : props
 const modalidadeNome = computed(() => formacao.value?.modalidade?.nome ?? '-');
 
 const coverImageSrc = useApiImageRoute(ApiImageResource.OFERTA_FORMACAO_COVER, formacao);
-
-const _niveisFormacoesText = computed(() => {
-  const niveis = formacao.value?.niveisFormacoes;
-  if (!niveis || niveis.length === 0) return '-';
-  return niveis.map(n => n.slug).join(', ');
-});
 </script>
 
 <template>
-  <UICardAutoSkeleton :skeleton="isLoading || !formacao">
-    <UICard v-if="formacao" :src="coverImageSrc" :title="formacao.nome" variant="block">
-      <template #actions>
-        <UICardActions :to="`${link}/${formacao.id}`">
-          <DialogModalEditOrCreateModal :edit-id="formacao.id" :form-component="FormacoesForm" />
-        </UICardActions>
-      </template>
-
-      <UICardLine :text="`Abreviação: ${formacao.slug}`" />
-      <UICardLine :text="`Modalidade: ${modalidadeNome}`" />
-    </UICard>
-  </UICardAutoSkeleton>
+  <UIGenericCrudItem
+    :is-loading="isLoading"
+    :item="formacao"
+    :src="coverImageSrc"
+    :title="formacao?.nome ?? null"
+    :link="link"
+    :form-component="FormacoesForm"
+  >
+    <UICardLine :text="`Abreviacao: ${formacao?.slug}`" />
+    <UICardLine :text="`Modalidade: ${modalidadeNome}`" />
+  </UIGenericCrudItem>
 </template>

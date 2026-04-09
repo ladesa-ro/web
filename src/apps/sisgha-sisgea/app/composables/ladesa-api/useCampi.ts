@@ -14,6 +14,11 @@ import type {
   InvalidateFn,
 } from '~/composables/query-helpers';
 import {
+  createCreateFn,
+  createUpdateFn,
+  createRemoveFn,
+} from './-helpers/crudHelpers';
+import {
   campusFindAll,
   campusFindById,
   campusCreate,
@@ -68,14 +73,9 @@ export const useCampi = (): IUseCampi => {
     fetcher: (id: string) => api.call(campusFindById, { path: { id } }),
   });
 
-  const create = (data: ReqBody<CampusCreateData>) =>
-    api.call(campusCreate, { body: data });
-
-  const update = (id: string, data: ReqBody<CampusUpdateData>) =>
-    api.call(campusUpdate, { path: { id }, body: data });
-
-  const remove = (id: string) =>
-    api.call(campusDeleteOneById, { path: { id } });
+  const create = createCreateFn<ReqBody<CampusCreateData>, CampusCreateResponse>(api, campusCreate);
+  const update = createUpdateFn<ReqBody<CampusUpdateData>, CampusUpdateResponse>(api, campusUpdate);
+  const remove = createRemoveFn(api, campusDeleteOneById);
 
   const invalidate = createInvalidate(keys);
 

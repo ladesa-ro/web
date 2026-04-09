@@ -2,6 +2,7 @@
 // # IMPORT
 import SearchBar from '~/components/UI/SearchBar/SearchBar.vue';
 import type { CalendarEvent } from '../Types';
+import { useInjectCalendarioEvents, useOnCalendarioForceClose } from '../useCalendarioEventBus';
 
 // # CODE
 type Props = {
@@ -13,18 +14,14 @@ const props = defineProps<Props>();
 // # EMITS
 const $emit = defineEmits(['close', 'refresh']);
 
+const calendarioEvents = useInjectCalendarioEvents();
+
 function onClose() {
   $emit('close');
-  window.dispatchEvent(new CustomEvent('calendar-events-updated'));
+  calendarioEvents.emitEventsUpdated();
 }
 
-onMounted(() => {
-  window.addEventListener('force-close-inner-modals', onClose);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener('force-close-inner-modals', onClose);
-});
+useOnCalendarioForceClose(onClose);
 
 </script>
 

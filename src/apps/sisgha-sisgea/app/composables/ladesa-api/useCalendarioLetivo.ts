@@ -14,6 +14,11 @@ import type {
   InvalidateFn,
 } from '~/composables/query-helpers';
 import {
+  createCreateFn,
+  createUpdateFn,
+  createRemoveFn,
+} from './-helpers/crudHelpers';
+import {
   calendarioLetivoFindAll,
   calendarioLetivoFindById,
   calendarioLetivoCreate,
@@ -78,14 +83,9 @@ export const useCalendarioLetivo = (): IUseCalendarioLetivo => {
       api.call(calendarioLetivoFindById, { path: { id } }),
   });
 
-  const create = (data: ReqBody<CalendarioLetivoCreateData>) =>
-    api.call(calendarioLetivoCreate, { body: data });
-
-  const update = (id: string, data: ReqBody<CalendarioLetivoUpdateData>) =>
-    api.call(calendarioLetivoUpdate, { path: { id }, body: data });
-
-  const remove = (id: string) =>
-    api.call(calendarioLetivoDeleteOneById, { path: { id } });
+  const create = createCreateFn<ReqBody<CalendarioLetivoCreateData>, CalendarioLetivoCreateResponse>(api, calendarioLetivoCreate);
+  const update = createUpdateFn<ReqBody<CalendarioLetivoUpdateData>, CalendarioLetivoUpdateResponse>(api, calendarioLetivoUpdate);
+  const remove = createRemoveFn(api, calendarioLetivoDeleteOneById);
 
   const invalidate = createInvalidate(keys);
 

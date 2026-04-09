@@ -10,17 +10,11 @@ const { data: curso, isLoading, isError } = cursos.findOne(ref(resourceId));
 
 const coverImageSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, curso);
 
-const confirmDelete = useConfirmDelete();
-const router = useRouter();
-
-const handleDelete = async () => {
-  const confirmed = await confirmDelete.confirm();
-  if (confirmed) {
-    await cursos.remove(resourceId);
-    await cursos.invalidate();
-    router.push('/sisgha/dape/cursos');
-  }
-};
+const { confirmDelete, handleDelete } = useResourceDelete({
+  remove: (id) => cursos.remove(id),
+  invalidate: () => cursos.invalidate(),
+  redirectTo: '/sisgha/dape/cursos',
+});
 </script>
 
 <template>
@@ -36,7 +30,7 @@ const handleDelete = async () => {
         :edit-id="resourceId"
         :form-component="CursosForm"
       />
-      <UIButtonModalDelete @click="handleDelete" />
+      <UIButtonModalDelete @click="handleDelete(resourceId)" />
     </template>
 
     <template #details>

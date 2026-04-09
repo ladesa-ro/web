@@ -5,7 +5,7 @@ import type {
   HorDayjs,
   ShiftName,
   WeekSchedule,
-} from '~/composables/schedule/useScheduleTypes';
+} from '~/utils/schedule/types';
 
 export const dndMonitor = (
   weekSchedule: Ref<WeekSchedule>,

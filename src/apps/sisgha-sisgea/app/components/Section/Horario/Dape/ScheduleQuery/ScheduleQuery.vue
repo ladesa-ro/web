@@ -6,8 +6,8 @@ import Button from '~/components/Section/Horario/Dape/ScheduleQuery/Buttons/Sche
 import {
   aulasSemDiaSemanaExemplo,
   temposDeAulaExemplo,
-} from '~/composables/schedule/EXEMPLO';
-import type { WeekSchedule } from '~/composables/schedule/useScheduleTypes';
+} from '~/../tests/fixtures/schedule-exemplo';
+import type { WeekSchedule } from '~/utils/schedule/types';
 import { useWeekSchedule } from '~/composables/schedule/useWeekSchedule';
 import { getOwnerName } from './-Helpers/get-owner-name';
 import DialogSmallScreen from './DialogSmallScreen.vue';

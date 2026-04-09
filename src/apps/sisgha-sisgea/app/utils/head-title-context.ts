@@ -1,3 +1,1 @@
-export enum HeadTitleContext {
-  DASHBOARD,
-}
+export type HeadTitleContext = 'dashboard';

@@ -1,5 +1,5 @@
 import type { Dayjs } from 'dayjs';
-import { convertStringToDayJs } from './useScheduleConverts';
+import { convertStringToDayJs } from './scheduleConverts';
 import type {
   Horario,
   HorDayjs,
@@ -7,14 +7,14 @@ import type {
   Intervalo,
   QuebraTurno,
   TransicaoDia,
-} from './useScheduleTypes';
+} from './types';
 
 /**
  * Adiciona intervalos entre aulas, quebras de turno e, caso especificado nos parâmetros, transição entre dias de aula.
  * @param horarioSemIntervalos Horário que contenha apenas aulas (type `Aula`) e tempos vagos (type `Vago`).
  * @param deveTerTransicaoDeDias Indica se o tempo de transição entre a última aula de um dia e primeira aula do dia seguinte deve vir contabilizado como um horário do type TransicaoDias.
  */
-export const useNonTeachingPeriods = (
+export const getNonTeachingPeriods = (
   horarioSemIntervalos: (Horario & HorString)[],
   deveTerTransicaoDeDias: boolean = true
 ): (Horario & HorDayjs)[] => {

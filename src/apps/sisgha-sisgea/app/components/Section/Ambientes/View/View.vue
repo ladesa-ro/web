@@ -10,17 +10,11 @@ const { data: ambiente, isLoading, isError } = ambientes.findOne(ref(resourceId)
 
 const coverImageSrc = useApiImageRoute(ApiImageResource.AMBIENTE_COVER, ambiente);
 
-const confirmDelete = useConfirmDelete();
-const router = useRouter();
-
-const handleDelete = async () => {
-  const confirmed = await confirmDelete.confirm();
-  if (confirmed) {
-    await ambientes.remove(resourceId);
-    await ambientes.invalidate();
-    router.push('/sisgea/ambientes');
-  }
-};
+const { confirmDelete, handleDelete } = useResourceDelete({
+  remove: (id) => ambientes.remove(id),
+  invalidate: () => ambientes.invalidate(),
+  redirectTo: '/sisgea/ambientes',
+});
 </script>
 
 <template>
@@ -38,7 +32,7 @@ const handleDelete = async () => {
         :edit-id="resourceId"
         :form-component="AmbientesForm"
       />
-      <UIButtonModalDelete @click="handleDelete" />
+      <UIButtonModalDelete @click="handleDelete(resourceId)" />
     </template>
 
     <template #details>

@@ -5,7 +5,7 @@ import type {
   Aula,
   EditableCellType,
   Vago,
-} from '~/composables/schedule/useScheduleTypes';
+} from '~/utils/schedule/types';
 
 const api = useApiClient();
 

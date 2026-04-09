@@ -1,10 +1,10 @@
-* {
-  font-family: 'Poppins', sans-serif !important;
+body {
+  font-family: 'Poppins', sans-serif;
   text-decoration: none;
 }
 
 .nunito {
-  font-family: 'Nunito', 'Poppins', sans-serif !important;
+  font-family: 'Nunito', 'Poppins', sans-serif;
   text-decoration: none;
   font-weight: 600;
 }

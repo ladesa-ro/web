@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getWeekDays } from '../../../-Helpers/GetWeekDays';
+import { getWeekDays } from '~/utils/get-week-days';
 
 const today = useCurrentDay();
 

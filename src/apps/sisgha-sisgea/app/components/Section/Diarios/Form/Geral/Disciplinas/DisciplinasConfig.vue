@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import type { FormValidationResult } from 'vee-validate';
 import type { IDisciplinaConfig } from '../Contexto';
-import { useContextDiariosFormGeral } from '../Contexto';
+import { useContextDiariosFormGeral, diariosFormValidateKey } from '../Contexto';
 import { useDisciplinasConfigEdit } from './useDisciplinasConfigEdit';
 import { useDisciplinasConfigSubmit } from './useDisciplinasConfigSubmit';
 
@@ -15,7 +14,7 @@ const emit = defineEmits<{
 }>();
 
 const contexto = useContextDiariosFormGeral();
-const formValidate = inject<() => Promise<FormValidationResult<Record<string, unknown>>>>('diarios-form-validate');
+const formValidate = inject(diariosFormValidateKey);
 
 const isEditMode = computed(() => !!props.editId);
 

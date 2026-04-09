@@ -15,6 +15,12 @@ import type {
   UploadCoverFn,
 } from '~/composables/query-helpers';
 import {
+  createCreateFn,
+  createUpdateFn,
+  createRemoveFn,
+  createUploadImageFn,
+} from './-helpers/crudHelpers';
+import {
   ambienteFindAll,
   ambienteFindById,
   ambienteCreate,
@@ -75,21 +81,10 @@ export const useAmbientes = (): IUseAmbientes => {
     },
   });
 
-  const create = (data: ReqBody<AmbienteCreateData>) => {
-    return api.call(ambienteCreate, { body: data });
-  };
-
-  const update = (id: string, data: ReqBody<AmbienteUpdateData>) => {
-    return api.call(ambienteUpdate, { path: { id }, body: data });
-  };
-
-  const remove = (id: string) => {
-    return api.call(ambienteDeleteOneById, { path: { id } });
-  };
-
-  const uploadCover = (id: string, file: Blob) => {
-    return api.call(ambienteUpdateImagemCapa, { path: { id }, body: { file } });
-  };
+  const create = createCreateFn<ReqBody<AmbienteCreateData>, AmbienteCreateResponse>(api, ambienteCreate);
+  const update = createUpdateFn<ReqBody<AmbienteUpdateData>, AmbienteUpdateResponse>(api, ambienteUpdate);
+  const remove = createRemoveFn(api, ambienteDeleteOneById);
+  const uploadCover = createUploadImageFn(api, ambienteUpdateImagemCapa);
 
   const invalidate = createInvalidate(keys);
 

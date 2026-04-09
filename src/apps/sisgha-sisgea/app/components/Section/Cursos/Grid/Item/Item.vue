@@ -16,27 +16,19 @@ const { item: curso } = toRefs(props);
 
 const link = props.link === undefined || props.link === '' ? 'cursos' : props.link;
 
-//
-
 const coverImageSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, curso);
 </script>
 
 <template>
-  <UICardAutoSkeleton :skeleton="isLoading || !curso">
-    <UICard
-      v-if="curso"
-      :src="coverImageSrc"
-      :title="curso.nome"
-      variant="block"
-    >
-      <template #actions>
-        <UICardActions :to="`${link}/${curso.id}`">
-          <DialogModalEditOrCreateModal :edit-id="curso.id" :form-component="CursosForm" />
-        </UICardActions>
-      </template>
-
-      <UICardLine :text="`Abreviação: ${curso.nomeAbreviado}`" />
-      <UICardLine :text="`Formação: ${curso.ofertaFormacao.nome}`" />
-    </UICard>
-  </UICardAutoSkeleton>
+  <UIGenericCrudItem
+    :is-loading="isLoading"
+    :item="curso"
+    :src="coverImageSrc"
+    :title="curso?.nome ?? null"
+    :link="link"
+    :form-component="CursosForm"
+  >
+    <UICardLine :text="`Abreviacao: ${curso?.nomeAbreviado}`" />
+    <UICardLine :text="`Formacao: ${curso?.ofertaFormacao.nome}`" />
+  </UIGenericCrudItem>
 </template>

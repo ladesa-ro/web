@@ -12,7 +12,14 @@ import type {
   UpdateFn,
   RemoveFn,
   InvalidateFn,
+  UploadCoverFn,
 } from '~/composables/query-helpers';
+import {
+  createCreateFn,
+  createUpdateFn,
+  createRemoveFn,
+  createUploadImageFn,
+} from './-helpers/crudHelpers';
 import {
   nivelFormacaoFindAll,
   nivelFormacaoFindById,
@@ -53,7 +60,7 @@ export type IUseNiveisFormacoes = {
     NivelFormacaoUpdateResponse
   >;
   remove: RemoveFn;
-  uploadCover: (id: string, file: Blob) => Promise<any>;
+  uploadCover: UploadCoverFn;
   invalidate: InvalidateFn;
 };
 
@@ -79,17 +86,10 @@ export const useNiveisFormacoes = (): IUseNiveisFormacoes => {
     fetcher: (id: string) => api.call(nivelFormacaoFindById, { path: { id } }),
   });
 
-  const create = (data: ReqBody<NivelFormacaoCreateData>) =>
-    api.call(nivelFormacaoCreate, { body: data });
-
-  const update = (id: string, data: ReqBody<NivelFormacaoUpdateData>) =>
-    api.call(nivelFormacaoUpdate, { path: { id }, body: data });
-
-  const remove = (id: string) =>
-    api.call(nivelFormacaoDeleteOneById, { path: { id } });
-
-  const uploadCover = (id: string, file: Blob) =>
-    api.call(nivelFormacaoUpdateImagemCapa, { path: { id }, body: { file } });
+  const create = createCreateFn<ReqBody<NivelFormacaoCreateData>, NivelFormacaoCreateResponse>(api, nivelFormacaoCreate);
+  const update = createUpdateFn<ReqBody<NivelFormacaoUpdateData>, NivelFormacaoUpdateResponse>(api, nivelFormacaoUpdate);
+  const remove = createRemoveFn(api, nivelFormacaoDeleteOneById);
+  const uploadCover = createUploadImageFn(api, nivelFormacaoUpdateImagemCapa);
 
   const invalidate = createInvalidate(keys);
 

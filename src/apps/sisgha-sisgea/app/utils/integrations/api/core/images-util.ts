@@ -24,6 +24,25 @@ export enum ApiImageResource {
   USUARIO_PROFILE,
 }
 
+type ImageResourceConfig = {
+  path: string;
+  prop: string;
+  type: string;
+};
+
+const IMAGE_RESOURCE_CONFIG: Record<ApiImageResource, ImageResourceConfig> = {
+  [ApiImageResource.TURMA_COVER]: { path: 'turmas', prop: 'imagemCapa', type: 'capa' },
+  [ApiImageResource.CURSO_COVER]: { path: 'cursos', prop: 'imagemCapa', type: 'capa' },
+  [ApiImageResource.DISCIPLINA_COVER]: { path: 'disciplinas', prop: 'imagemCapa', type: 'capa' },
+  [ApiImageResource.AMBIENTE_COVER]: { path: 'ambientes', prop: 'imagemCapa', type: 'capa' },
+  [ApiImageResource.BLOCO_COVER]: { path: 'blocos', prop: 'imagemCapa', type: 'capa' },
+  [ApiImageResource.MODALIDADE_COVER]: { path: 'modalidades', prop: 'imagemCapa', type: 'capa' },
+  [ApiImageResource.NIVEL_FORMACAO_COVER]: { path: 'niveis-formacoes', prop: 'imagemCapa', type: 'capa' },
+  [ApiImageResource.OFERTA_FORMACAO_COVER]: { path: 'ofertas-formacoes', prop: 'imagemCapa', type: 'capa' },
+  [ApiImageResource.DIARIO_COVER]: { path: 'diarios', prop: 'imagemCapa', type: 'capa' },
+  [ApiImageResource.USUARIO_PROFILE]: { path: 'usuarios', prop: 'imagemPerfil', type: 'perfil' },
+};
+
 type IUseApiImageRouteFunction = {
   (
     resourceImage: ApiImageResource.TURMA_COVER,
@@ -90,110 +109,18 @@ export const useApiImageRoute: IUseApiImageRouteFunction = (
       return null;
     }
 
-    switch (resourceImage) {
-      case ApiImageResource.TURMA_COVER: {
-        const imagemCapa = item?.imagemCapa;
+    const config = IMAGE_RESOURCE_CONFIG[resourceImage as ApiImageResource];
 
-        if (imagemCapa) {
-          return `${base}/turmas/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
-        }
-
-        return null;
-      }
-
-      case ApiImageResource.CURSO_COVER: {
-        const imagemCapa = item?.imagemCapa;
-
-        if (imagemCapa) {
-          return `${base}/cursos/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
-        }
-
-        return null;
-      }
-
-      case ApiImageResource.DISCIPLINA_COVER: {
-        const imagemCapa = item?.imagemCapa;
-
-        if (imagemCapa) {
-          return `${base}/disciplinas/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
-        }
-
-        return null;
-      }
-
-      case ApiImageResource.AMBIENTE_COVER: {
-        const imagemCapa = item?.imagemCapa;
-
-        if (imagemCapa) {
-          return `${base}/ambientes/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
-        }
-
-        return null;
-      }
-
-      case ApiImageResource.BLOCO_COVER: {
-        const imagemCapa = item?.imagemCapa;
-
-        if (imagemCapa) {
-          return `${base}/blocos/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
-        }
-
-        return null;
-      }
-
-      case ApiImageResource.MODALIDADE_COVER: {
-        const imagemCapa = item?.imagemCapa;
-
-        if (imagemCapa) {
-          return `${base}/modalidades/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
-        }
-
-        return null;
-      }
-
-      case ApiImageResource.NIVEL_FORMACAO_COVER: {
-        const imagemCapa = item?.imagemCapa;
-
-        if (imagemCapa) {
-          return `${base}/niveis-formacoes/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
-        }
-
-        return null;
-      }
-
-      case ApiImageResource.OFERTA_FORMACAO_COVER: {
-        const imagemCapa = item?.imagemCapa;
-
-        if (imagemCapa) {
-          return `${base}/ofertas-formacoes/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
-        }
-
-        return null;
-      }
-
-      case ApiImageResource.DIARIO_COVER: {
-        const imagemCapa = item?.imagemCapa;
-
-        if (imagemCapa) {
-          return `${base}/diarios/${item.id}/imagem/capa?imgCapa=${imagemCapa.id}`;
-        }
-
-        return null;
-      }
-
-      case ApiImageResource.USUARIO_PROFILE: {
-        const imagemPerfil = (<UsuarioFindOneOutputDto>item)?.imagemPerfil;
-
-        if (imagemPerfil) {
-          return `${base}/usuarios/${item.id}/imagem/perfil?imgCapa=${imagemPerfil.id}`;
-        }
-
-        return null;
-      }
-
-      default: {
-        return null;
-      }
+    if (!config) {
+      return null;
     }
+
+    const image = (item as Record<string, any>)[config.prop];
+
+    if (!image) {
+      return null;
+    }
+
+    return `${base}/${config.path}/${item.id}/imagem/${config.type}?imgCapa=${image.id}`;
   });
 };

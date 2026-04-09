@@ -1,56 +1,86 @@
-import { provide, inject } from 'vue';
+import { provide, inject, onBeforeUnmount } from 'vue';
 import type { InjectionKey } from 'vue';
 
 type EventHandler = () => void;
 
-interface CalendarioEventBus {
-  on(event: string, handler: EventHandler): void;
-  off(event: string, handler: EventHandler): void;
-  emit(event: string): void;
+interface CalendarioEvents {
+  onEventsUpdated(handler: EventHandler): void;
+  offEventsUpdated(handler: EventHandler): void;
+  emitEventsUpdated(): void;
+
+  onForceCloseInnerModals(handler: EventHandler): void;
+  offForceCloseInnerModals(handler: EventHandler): void;
+  emitForceCloseInnerModals(): void;
 }
 
-const CALENDARIO_EVENT_BUS_KEY: InjectionKey<CalendarioEventBus> = Symbol('calendario-event-bus');
+const CALENDARIO_EVENTS_KEY: InjectionKey<CalendarioEvents> = Symbol('calendario-events');
 
-export function useProvideCalendarioEventBus(): CalendarioEventBus {
-  const listeners = new Map<string, Set<EventHandler>>();
+function createHandlerSet() {
+  const handlers = new Set<EventHandler>();
 
-  const bus: CalendarioEventBus = {
-    on(event, handler) {
-      if (!listeners.has(event)) listeners.set(event, new Set());
-      listeners.get(event)?.add(handler);
+  return {
+    on(handler: EventHandler) {
+      handlers.add(handler);
     },
-    off(event, handler) {
-      listeners.get(event)?.delete(handler);
+    off(handler: EventHandler) {
+      handlers.delete(handler);
     },
-    emit(event) {
-      listeners.get(event)?.forEach(handler => handler());
+    emit() {
+      handlers.forEach((handler) => handler());
     },
   };
-
-  provide(CALENDARIO_EVENT_BUS_KEY, bus);
-  return bus;
 }
 
-export function useCalendarioEventBus(): CalendarioEventBus {
-  const bus = inject(CALENDARIO_EVENT_BUS_KEY);
-  if (!bus) {
-    // Fallback to window events for backward compatibility during migration
-    const wrapperMap = new Map<EventHandler, EventListener>();
-    return {
-      on(event, handler) {
-        const wrapper: EventListener = () => handler();
-        wrapperMap.set(handler, wrapper);
-        window.addEventListener(event, wrapper);
-      },
-      off(event, handler) {
-        const wrapper = wrapperMap.get(handler);
-        if (wrapper) {
-          window.removeEventListener(event, wrapper);
-          wrapperMap.delete(handler);
-        }
-      },
-      emit(event) { window.dispatchEvent(new CustomEvent(event)); },
-    };
+export function useProvideCalendarioEvents(): CalendarioEvents {
+  const eventsUpdated = createHandlerSet();
+  const forceClose = createHandlerSet();
+
+  const events: CalendarioEvents = {
+    onEventsUpdated: eventsUpdated.on,
+    offEventsUpdated: eventsUpdated.off,
+    emitEventsUpdated: eventsUpdated.emit,
+
+    onForceCloseInnerModals: forceClose.on,
+    offForceCloseInnerModals: forceClose.off,
+    emitForceCloseInnerModals: forceClose.emit,
+  };
+
+  provide(CALENDARIO_EVENTS_KEY, events);
+  return events;
+}
+
+export function useInjectCalendarioEvents(): CalendarioEvents {
+  const events = inject(CALENDARIO_EVENTS_KEY);
+
+  if (!events) {
+    throw new Error(
+      'useInjectCalendarioEvents: Contexto não encontrado. Certifique-se de que useProvideCalendarioEvents foi chamado em um componente pai.',
+    );
   }
-  return bus;
+
+  return events;
+}
+
+/**
+ * Registers a handler for `eventsUpdated` that is automatically cleaned up on unmount.
+ */
+export function useOnCalendarioEventsUpdated(handler: EventHandler) {
+  const events = useInjectCalendarioEvents();
+  events.onEventsUpdated(handler);
+
+  onBeforeUnmount(() => {
+    events.offEventsUpdated(handler);
+  });
+}
+
+/**
+ * Registers a handler for `forceCloseInnerModals` that is automatically cleaned up on unmount.
+ */
+export function useOnCalendarioForceClose(handler: EventHandler) {
+  const events = useInjectCalendarioEvents();
+  events.onForceCloseInnerModals(handler);
+
+  onBeforeUnmount(() => {
+    events.offForceCloseInnerModals(handler);
+  });
 }

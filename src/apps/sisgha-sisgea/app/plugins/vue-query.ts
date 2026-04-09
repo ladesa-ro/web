@@ -21,7 +21,7 @@ export default defineNuxtPlugin(nuxt => {
       queries: {
         staleTime: 1 * 60 * 60 * 1000,
         refetchOnMount: 'always',
-        placeholderData: (prev: any) => prev,
+        placeholderData: (prev: unknown) => prev,
         experimental_prefetchInRender: true,
       },
     },
@@ -30,7 +30,7 @@ export default defineNuxtPlugin(nuxt => {
   const options: VueQueryPluginOptions = {
     queryClient,
 
-    clientPersister: (queryClient: any) => {
+    clientPersister: (queryClient: QueryClient) => {
       let storage: Storage | null = null;
 
       if (typeof window !== 'undefined') {

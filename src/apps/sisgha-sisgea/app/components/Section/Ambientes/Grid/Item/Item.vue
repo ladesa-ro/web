@@ -14,8 +14,6 @@ const { item: ambiente } = toRefs(props);
 
 const link = props.link === undefined || props.link === '' ? '/sisgea/ambientes' : props.link;
 
-//
-
 const coverImageSrc = useApiImageRoute(
   ApiImageResource.AMBIENTE_COVER,
   ambiente
@@ -23,21 +21,15 @@ const coverImageSrc = useApiImageRoute(
 </script>
 
 <template>
-  <UICardAutoSkeleton :skeleton="isLoading || !ambiente">
-    <UICard
-      v-if="ambiente"
-      :src="coverImageSrc"
-      :title="ambiente.nome"
-      variant="block"
-    >
-      <template #actions>
-        <UICardActions :to="`${link}/${ambiente.id}`">
-          <DialogModalEditOrCreateModal :edit-id="ambiente.id" :form-component="AmbientesForm" />
-        </UICardActions>
-      </template>
-
-      <UICardLine :text="ambiente.bloco.nome" />
-      <UICardLine :text="`Capacidade: ${ambiente.capacidade} pessoas`" />
-    </UICard>
-  </UICardAutoSkeleton>
+  <UIGenericCrudItem
+    :is-loading="isLoading"
+    :item="ambiente"
+    :src="coverImageSrc"
+    :title="ambiente?.nome ?? null"
+    :link="link"
+    :form-component="AmbientesForm"
+  >
+    <UICardLine :text="ambiente?.bloco.nome ?? '-'" />
+    <UICardLine :text="`Capacidade: ${ambiente?.capacidade} pessoas`" />
+  </UIGenericCrudItem>
 </template>

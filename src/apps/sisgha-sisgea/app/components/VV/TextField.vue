@@ -1,33 +1,15 @@
 <script lang="ts" setup>
-import { useField } from 'vee-validate';
+import { useVVField } from './-Helpers/useVVField';
 import type { TextFieldProps } from '../UI/Form/-Utils/inputTypes';
 
 const props = defineProps<TextFieldProps & { required?: boolean }>();
 
-const fieldDisabled = useFieldDisabled(() => props.disabled);
-
-const {
-  errorMessage,
-  handleBlur,
-  value: modelValue,
-} = useField(
-  props.name,
-  inputValue => {
-    if (!props.required) {
-      return true;
-    }
-
-    if (!inputValue) {
-      return false;
-    }
-
-    return true;
-  },
-  {
-    ...(props.value !== undefined ? { initialValue: props.value } : {}),
-    validateOnValueUpdate: false,
-  }
-);
+const { fieldValue: modelValue, errorMessage, fieldDisabled, handleBlur } = useVVField({
+  name: props.name,
+  disabled: props.disabled,
+  required: props.required,
+  initialValue: props.value,
+});
 </script>
 
 <template>

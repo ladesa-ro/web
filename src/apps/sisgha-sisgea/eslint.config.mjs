@@ -9,6 +9,6 @@ export default withNuxt({
   // Your custom configs here,
   rules: {
     // ...Override rules, for example:
-    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-explicit-any': 'warn',
   },
 });

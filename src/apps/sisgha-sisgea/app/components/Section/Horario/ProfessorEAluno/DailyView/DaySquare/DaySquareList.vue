@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Dayjs } from 'dayjs';
-import { getWeekDays } from '../../../-Helpers/GetWeekDays';
+import { getWeekDays } from '~/utils/get-week-days';
 
 const selectedDay = defineModel<Dayjs>({ required: true });
 

@@ -6,8 +6,11 @@ import {
 import dayjs from 'dayjs';
 import { useToast } from '~/composables/useToast';
 import { useCalendarioFiltersStore } from '~/composables/useCalendarioFiltersStore';
+import { useProvideCalendarioEvents } from './useCalendarioEventBus';
 import GestaoPopover from './Gestao/GestaoPopover.vue';
 import type { CalendarData } from './Types';
+
+useProvideCalendarioEvents();
 
 const calendarioLetivo = useCalendarioLetivo();
 
@@ -230,13 +233,13 @@ const selectedCalendarItem = computed({
     />
 
     <KeepAlive>
-      <SectionCalendarioViewsType1
+      <SectionCalendarioViewsCalendarGridView
         v-if="selectedCalendar && toggleView === 0"
         :calendar-data="selectedCalendar"
       />
     </KeepAlive>
 
-    <SectionCalendarioViewsType2
+    <SectionCalendarioViewsCalendarEventsView
       v-if="selectedCalendar && toggleView === 1"
       :calendar-data="selectedCalendar"
       :calendar-id="selectedCalendar.id"

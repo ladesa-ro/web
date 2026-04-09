@@ -117,32 +117,20 @@ const cursoSelected = computed({
 });
 
 // Watchers cascata
-watch(
-  () => contexto.calendarioLetivoId.value,
-  () => {
-    contexto.ofertaFormacaoId.value = null;
-    contexto.cursoId.value = null;
-    contexto.turmaId.value = null;
-    contexto.turmaSelecionada.value = null;
-  }
-);
-
-watch(
-  () => contexto.ofertaFormacaoId.value,
-  () => {
-    contexto.cursoId.value = null;
-    contexto.turmaId.value = null;
-    contexto.turmaSelecionada.value = null;
-  }
-);
-
-watch(
-  () => contexto.cursoId.value,
-  () => {
-    contexto.turmaId.value = null;
-    contexto.turmaSelecionada.value = null;
-  }
-);
+useCascadingFilters([
+  {
+    ref: contexto.calendarioLetivoId,
+    resetOnChange: [contexto.ofertaFormacaoId, contexto.cursoId, contexto.turmaId, contexto.turmaSelecionada],
+  },
+  {
+    ref: contexto.ofertaFormacaoId,
+    resetOnChange: [contexto.cursoId, contexto.turmaId, contexto.turmaSelecionada],
+  },
+  {
+    ref: contexto.cursoId,
+    resetOnChange: [contexto.turmaId, contexto.turmaSelecionada],
+  },
+]);
 
 function onTurmaSelect(turmaId: string) {
   contexto.turmaId.value = turmaId;

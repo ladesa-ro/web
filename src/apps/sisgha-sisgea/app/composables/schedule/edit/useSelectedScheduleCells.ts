@@ -3,7 +3,7 @@ import type {
   ShiftName,
   ShiftWhithoutInfo,
   WeekSchedule,
-} from '../useScheduleTypes';
+} from '~/utils/schedule/types';
 import type { Cell } from './useScheduleEditTypes';
 
 const selectedCells = ref(new Set<ActiveCell>());

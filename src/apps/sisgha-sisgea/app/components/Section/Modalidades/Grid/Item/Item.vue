@@ -19,20 +19,14 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.MODALIDADE_COVER, modali
 </script>
 
 <template>
-  <UICardAutoSkeleton :skeleton="isLoading || !modalidade">
-    <UICard
-      v-if="modalidade"
-      :src="coverImageSrc"
-      :title="modalidade.nome"
-      variant="block"
-    >
-      <template #actions>
-        <UICardActions :to="`${link}/${modalidade.id}`">
-          <DialogModalEditOrCreateModal :edit-id="modalidade.id" :form-component="ModalidadesForm" />
-        </UICardActions>
-      </template>
-
-      <UICardLine :text="`Slug: ${modalidade.slug}`" />
-    </UICard>
-  </UICardAutoSkeleton>
+  <UIGenericCrudItem
+    :is-loading="isLoading"
+    :item="modalidade"
+    :src="coverImageSrc"
+    :title="modalidade?.nome ?? null"
+    :link="link"
+    :form-component="ModalidadesForm"
+  >
+    <UICardLine :text="`Slug: ${modalidade?.slug}`" />
+  </UIGenericCrudItem>
 </template>

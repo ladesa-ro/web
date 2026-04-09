@@ -2,6 +2,7 @@
 import dayjs from 'dayjs';
 import type { CalendarioAgendamentoCreateInputDto } from '@ladesa-ro/web.api.client';
 import type { IAgendamentoFormOutput } from '../Shared/schema';
+import { useInjectCalendarioEvents } from '../../useCalendarioEventBus';
 
 type Props = {
   calendarId?: string;
@@ -13,6 +14,7 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), { showParticipants: false });
 
 const agendamento = useCalendarioAgendamento();
+const calendarioEvents = useInjectCalendarioEvents();
 
 const isEvent = ref<boolean | null>(null);
 const initialData = ref<Partial<CalendarioAgendamentoCreateInputDto>>({});
@@ -96,7 +98,7 @@ const validateEventCrud = async (): Promise<boolean> => {
   }
 
   await agendamento.invalidate();
-  window.dispatchEvent(new CustomEvent('calendar-events-updated'));
+  calendarioEvents.emitEventsUpdated();
   return true;
 };
 
@@ -109,7 +111,7 @@ const deleteEvent = async (): Promise<boolean> => {
   try {
     await agendamento.remove(idToDelete);
     await agendamento.invalidate();
-    window.dispatchEvent(new CustomEvent('calendar-events-updated'));
+    calendarioEvents.emitEventsUpdated();
     return true;
   } catch (e) {
     console.error('Erro deleteEvent:', e);

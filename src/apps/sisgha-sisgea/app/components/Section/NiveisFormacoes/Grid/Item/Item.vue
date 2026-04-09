@@ -19,20 +19,14 @@ const coverImageSrc = useApiImageRoute(ApiImageResource.NIVEL_FORMACAO_COVER, ni
 </script>
 
 <template>
-  <UICardAutoSkeleton :skeleton="isLoading || !nivelFormacao">
-    <UICard
-      v-if="nivelFormacao"
-      :src="coverImageSrc"
-      :title="nivelFormacao.nome ?? nivelFormacao.slug"
-      variant="block"
-    >
-      <template #actions>
-        <UICardActions :to="`${link}/${nivelFormacao.id}`">
-          <DialogModalEditOrCreateModal :edit-id="nivelFormacao.id" :form-component="NiveisFormacoesForm" />
-        </UICardActions>
-      </template>
-
-      <UICardLine :text="`Slug: ${nivelFormacao.slug}`" />
-    </UICard>
-  </UICardAutoSkeleton>
+  <UIGenericCrudItem
+    :is-loading="isLoading"
+    :item="nivelFormacao"
+    :src="coverImageSrc"
+    :title="nivelFormacao?.nome ?? nivelFormacao?.slug ?? null"
+    :link="link"
+    :form-component="NiveisFormacoesForm"
+  >
+    <UICardLine :text="`Slug: ${nivelFormacao?.slug}`" />
+  </UIGenericCrudItem>
 </template>

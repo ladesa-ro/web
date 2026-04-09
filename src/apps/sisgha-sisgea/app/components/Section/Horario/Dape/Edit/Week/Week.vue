@@ -8,9 +8,8 @@ import {
   getAllStartHours,
   type HoursPerShift,
 } from '~/components/Section/Horario/Dape/Edit/-Helpers/turnGridPrettier';
-import type { WeekSchedule } from '~/composables/schedule/useScheduleTypes';
+import type { WeekSchedule } from '~/utils/schedule/types';
 import GridCell from '../GridCell/GridCell.vue';
-import { dndMonitor } from './dnd-monitor';
 import { useDayJs } from '#imports';
 
 const { commit } = defineProps<{ commit: () => void }>();
@@ -20,9 +19,7 @@ const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
 
 const weekSchedule = defineModel<WeekSchedule>({ default: {}, required: true });
 
-let cleanup = () => {};
-onMounted(() => (cleanup = dndMonitor(weekSchedule, commit)));
-onUnmounted(cleanup);
+useDragAndDropSchedule(weekSchedule, commit);
 
 const startHours: Ref<HoursPerShift> = ref(
   getAllStartHours(weekSchedule.value)

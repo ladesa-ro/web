@@ -2,6 +2,9 @@
 import { SectionCalendarioForm } from '#components';
 import Card from './Card.vue';
 import { createFilterComputed } from '../-Helpers/createFilterComputed';
+import { useProvideCalendarioEvents } from '../../useCalendarioEventBus';
+
+useProvideCalendarioEvents();
 
 const route = useRoute();
 const agendamento = useCalendarioAgendamento();

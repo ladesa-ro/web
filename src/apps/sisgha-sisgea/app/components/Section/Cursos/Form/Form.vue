@@ -2,6 +2,7 @@
 import { useField } from 'vee-validate';
 import { ApiImageResource, useApiImageRoute } from '~/utils/integrations/api/core/images-util';
 import { cursoSchema } from './-Helpers/schema';
+import { getDuracaoLabel, getQuantidadePeriodosLabel } from './-Helpers/constants';
 import FormPrimary from './FormPrimary.vue';
 import FormDisciplinas from './FormDisciplinas.vue';
 import SelectDisciplinas from './SelectDisciplinas.vue';
@@ -54,12 +55,6 @@ const periodos = useProvideCursoPeriodos(
   cursoQuery,
 );
 
-const DURACAO_LABELS: Record<number, string> = {
-  12: 'Anual',
-  6: 'Semestral',
-  4: 'Quadrimestral',
-};
-
 // Metadados da formação compartilhados entre painel principal e modal
 const ofertasFormacoes = useOfertasFormacoes();
 const { value: ofertaFormacaoId } = useField<string>('ofertaFormacao.id');
@@ -69,20 +64,12 @@ const ofertaFormacaoQuery = ofertasFormacoes.findOne(
 const formacaoNome = computed(
   () => ofertaFormacaoQuery.data.value?.nome ?? '',
 );
-const duracaoLabel = computed(() => {
-  const meses = ofertaFormacaoQuery.data.value?.duracaoPeriodoEmMeses;
-  return meses ? DURACAO_LABELS[meses] ?? `${meses} meses` : '';
-});
-const quantidadePeriodosLabel = computed(() => {
-  const meses = ofertaFormacaoQuery.data.value?.duracaoPeriodoEmMeses;
-
-  if (meses === 12) return 'Quantidade de períodos (anos)';
-  if (meses === 6) return 'Quantidade de períodos (semestres)';
-  if (meses === 4) return 'Quantidade de períodos (quadrimestres)';
-  if (meses) return `Quantidade de períodos (${meses} meses)`;
-
-  return 'Quantidade de períodos';
-});
+const duracaoLabel = computed(() =>
+  getDuracaoLabel(ofertaFormacaoQuery.data.value?.duracaoPeriodoEmMeses),
+);
+const quantidadePeriodosLabel = computed(() =>
+  getQuantidadePeriodosLabel(ofertaFormacaoQuery.data.value?.duracaoPeriodoEmMeses),
+);
 
 watchEffect(() => {
   periodosField.value = periodos.toPeriodosPayload();

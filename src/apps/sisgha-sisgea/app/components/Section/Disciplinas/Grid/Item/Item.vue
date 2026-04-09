@@ -11,8 +11,6 @@ type Props = {
 
 const props = defineProps<Props>();
 
-//
-
 const { item: disciplina } = toRefs(props);
 
 const link = props.link === undefined || props.link === '' ? 'disciplinas' : props.link;
@@ -24,21 +22,15 @@ const coverImageSrc = useApiImageRoute(
 </script>
 
 <template>
-  <UICardAutoSkeleton :skeleton="isLoading || !disciplina">
-    <UICard
-      v-if="disciplina"
-      :src="coverImageSrc"
-      :title="disciplina.nome"
-      variant="block"
-    >
-      <template #actions>
-        <UICardActions :to="`${link}/${disciplina.id}`">
-          <DialogModalEditOrCreateModal :edit-id="disciplina.id" :form-component="DisciplinasForm" />
-        </UICardActions>
-      </template>
-
-      <UICardLine :text="`Carga Horária: ${disciplina.cargaHoraria} horas`" />
-      <UICardLine :text="`Abreviação: ${disciplina.nomeAbreviado}`" />
-    </UICard>
-  </UICardAutoSkeleton>
+  <UIGenericCrudItem
+    :is-loading="isLoading"
+    :item="disciplina"
+    :src="coverImageSrc"
+    :title="disciplina?.nome ?? null"
+    :link="link"
+    :form-component="DisciplinasForm"
+  >
+    <UICardLine :text="`Carga Horaria: ${disciplina?.cargaHoraria} horas`" />
+    <UICardLine :text="`Abreviacao: ${disciplina?.nomeAbreviado}`" />
+  </UIGenericCrudItem>
 </template>

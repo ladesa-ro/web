@@ -15,6 +15,12 @@ import type {
   UploadCoverFn,
 } from '~/composables/query-helpers';
 import {
+  createCreateFn,
+  createUpdateFn,
+  createRemoveFn,
+  createUploadImageFn,
+} from './-helpers/crudHelpers';
+import {
   turmaFindAll,
   turmaFindById,
   turmaCreate,
@@ -71,16 +77,10 @@ export const useTurmas = (): IUseTurmas => {
     fetcher: (id: string) => api.call(turmaFindById, { path: { id } }),
   });
 
-  const create = (data: ReqBody<TurmaCreateData>) =>
-    api.call(turmaCreate, { body: data });
-
-  const update = (id: string, data: ReqBody<TurmaUpdateData>) =>
-    api.call(turmaUpdate, { path: { id }, body: data });
-
-  const remove = (id: string) => api.call(turmaDeleteOneById, { path: { id } });
-
-  const uploadCover = (id: string, file: Blob) =>
-    api.call(turmaUpdateImagemCapa, { path: { id }, body: { file } });
+  const create = createCreateFn<ReqBody<TurmaCreateData>, TurmaCreateResponse>(api, turmaCreate);
+  const update = createUpdateFn<ReqBody<TurmaUpdateData>, TurmaUpdateResponse>(api, turmaUpdate);
+  const remove = createRemoveFn(api, turmaDeleteOneById);
+  const uploadCover = createUploadImageFn(api, turmaUpdateImagemCapa);
 
   const invalidate = createInvalidate(keys);
 

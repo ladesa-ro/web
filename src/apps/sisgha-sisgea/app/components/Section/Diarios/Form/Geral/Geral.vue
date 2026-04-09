@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate';
-import { createAndProvideContextDiariosFormGeral } from './Contexto';
+import { createAndProvideContextDiariosFormGeral, diariosFormValidateKey } from './Contexto';
 import { diariosFormSchema } from './-Helpers/schema';
 
 const props = defineProps<{
@@ -11,60 +11,20 @@ const emit = defineEmits<{
   close: [];
 }>();
 
-const contexto = createAndProvideContextDiariosFormGeral(
-  computed(() => props.editId ?? null)
-);
-
 const { validate, setValues, values } = useForm({
   validationSchema: diariosFormSchema,
   initialValues: diariosFormSchema.getDefault(),
   keepValuesOnUnmount: true,
 });
 
-// Provide form utilities to children
-provide('diarios-form-validate', validate);
-provide('diarios-form-values', values);
-
-// Sync context → form state (context is source of truth for data flow)
-watch(
-  [
-    () => contexto.calendarioLetivoId.value,
-    () => contexto.ofertaFormacaoId.value,
-    () => contexto.cursoId.value,
-    () => contexto.turmaId.value,
-  ],
-  ([calendarioId, ofertaId, cursoId, turmaId]) => {
-    setValues({
-      calendarioLetivoId: calendarioId ?? '',
-      ofertaFormacaoId: ofertaId ?? undefined,
-      cursoId: cursoId ?? undefined,
-      turmaId: turmaId ?? '',
-    } as Record<string, unknown>, false);
-  },
-  { immediate: true },
+// Context is backed by form values — form is the source of truth
+const contexto = createAndProvideContextDiariosFormGeral(
+  { values, setValues },
+  computed(() => props.editId ?? null),
 );
 
-// Sync disciplinasConfig: context → form (extract form-only fields)
-watch(
-  () => contexto.disciplinasConfig.value,
-  (configs) => {
-    const formConfigs = configs.map((dc) => ({
-      disciplinaId: dc.disciplinaId,
-      modoAgrupamento: dc.modoAgrupamento,
-      preferenciasAgrupamento: dc.preferenciasAgrupamento.map((p) => ({
-        modo: p.modo,
-        ordem: p.ordem,
-        diaSemanaIso: p.diaSemanaIso,
-        aulasSeguidas: p.aulasSeguidas,
-        dataInicio: p.dataInicio,
-        dataFim: p.dataFim,
-      })),
-      professoresSelecionados: [...dc.professoresSelecionados],
-    }));
-    setValues({ disciplinasConfig: formConfigs } as Record<string, unknown>, false);
-  },
-  { deep: true },
-);
+// Provide form validate to children
+provide(diariosFormValidateKey, validate);
 
 const isEditMode = computed(() => !!props.editId);
 

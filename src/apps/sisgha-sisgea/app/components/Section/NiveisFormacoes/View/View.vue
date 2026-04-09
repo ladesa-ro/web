@@ -10,17 +10,11 @@ const { data: nivelFormacao, isLoading, isError } = niveisFormacoes.findOne(ref(
 
 const coverImageSrc = useApiImageRoute(ApiImageResource.NIVEL_FORMACAO_COVER, nivelFormacao);
 
-const confirmDelete = useConfirmDelete();
-const router = useRouter();
-
-const handleDelete = async () => {
-  const confirmed = await confirmDelete.confirm();
-  if (confirmed) {
-    await niveisFormacoes.remove(resourceId);
-    await niveisFormacoes.invalidate();
-    router.push('/sisgha/dape/niveis-formacoes');
-  }
-};
+const { confirmDelete, handleDelete } = useResourceDelete({
+  remove: (id) => niveisFormacoes.remove(id),
+  invalidate: () => niveisFormacoes.invalidate(),
+  redirectTo: '/sisgha/dape/niveis-formacoes',
+});
 </script>
 
 <template>
@@ -35,7 +29,7 @@ const handleDelete = async () => {
         :edit-id="resourceId"
         :form-component="NiveisFormacoesForm"
       />
-      <UIButtonModalDelete @click="handleDelete" />
+      <UIButtonModalDelete @click="handleDelete(resourceId)" />
     </template>
 
     <template #details>

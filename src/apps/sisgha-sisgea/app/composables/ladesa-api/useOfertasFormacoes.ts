@@ -15,6 +15,12 @@ import type {
   UploadCoverFn,
 } from '~/composables/query-helpers';
 import {
+  createCreateFn,
+  createUpdateFn,
+  createRemoveFn,
+  createUploadImageFn,
+} from './-helpers/crudHelpers';
+import {
   ofertaFormacaoFindAll,
   ofertaFormacaoFindById,
   ofertaFormacaoCreate,
@@ -80,17 +86,10 @@ export const useOfertasFormacoes = (): IUseOfertasFormacoes => {
     fetcher: (id: string) => api.call(ofertaFormacaoFindById, { path: { id } }),
   });
 
-  const create = (data: ReqBody<OfertaFormacaoCreateData>) =>
-    api.call(ofertaFormacaoCreate, { body: data });
-
-  const update = (id: string, data: ReqBody<OfertaFormacaoUpdateData>) =>
-    api.call(ofertaFormacaoUpdate, { path: { id }, body: data });
-
-  const remove = (id: string) =>
-    api.call(ofertaFormacaoDeleteOneById, { path: { id } });
-
-  const uploadCover = (id: string, file: Blob) =>
-    api.call(ofertaFormacaoUpdateImagemCapa, { path: { id }, body: { file } });
+  const create = createCreateFn<ReqBody<OfertaFormacaoCreateData>, OfertaFormacaoCreateResponse>(api, ofertaFormacaoCreate);
+  const update = createUpdateFn<ReqBody<OfertaFormacaoUpdateData>, OfertaFormacaoUpdateResponse>(api, ofertaFormacaoUpdate);
+  const remove = createRemoveFn(api, ofertaFormacaoDeleteOneById);
+  const uploadCover = createUploadImageFn(api, ofertaFormacaoUpdateImagemCapa);
 
   const invalidate = createInvalidate(keys);
 
