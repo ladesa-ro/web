@@ -5,7 +5,10 @@ import type {
 } from '@ladesa-ro/web.api.client';
 import { useField } from 'vee-validate';
 import { FormMode } from '~/utils/constants';
-import { ApiImageResource, useApiImageRoute } from '~/utils/integrations/api/core/images-util';
+import {
+  ApiImageResource,
+  useApiImageRoute,
+} from '~/utils/integrations/api/core/images-util';
 import { useTurmaFormSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -16,13 +19,18 @@ const turmas = useTurmas();
 const confirmDelete = useConfirmDelete();
 
 const turmaQuery = turmas.findOne(computed(() => editId));
-const coverSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turmaQuery.data);
+const coverSrc = useApiImageRoute(
+  ApiImageResource.TURMA_COVER,
+  turmaQuery.data
+);
 
 const cursos = useCursos();
 const { value: selectedCursoId } = useField<string | null>('curso.id');
 const cursoQuery = cursos.findOne(selectedCursoId);
 const campusContext = useCampusContext();
-const campusId = computed(() => cursoQuery.data.value?.campus?.id ?? campusContext.value ?? null);
+const campusId = computed(
+  () => cursoQuery.data.value?.campus?.id ?? campusContext.value ?? null
+);
 
 const modeRef = ref<FormMode>(FormMode.CREATE);
 
@@ -61,7 +69,7 @@ function closeEventoDialog() {
 const editEventoInitialData = computed(() => {
   if (!editingEventoId.value) return undefined;
   const item = eventosState.mergedEventos.value.find(
-    (e: { id: string }) => e.id === editingEventoId.value,
+    (e: { id: string }) => e.id === editingEventoId.value
   );
   if (!item) return undefined;
   return item.data as Record<string, unknown>;
@@ -110,7 +118,13 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   onFinish: () => emit('close'),
 });
 
-watch(mode, val => { modeRef.value = val; }, { immediate: true });
+watch(
+  mode,
+  val => {
+    modeRef.value = val;
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
@@ -131,10 +145,7 @@ watch(mode, val => { modeRef.value = val; }, { immediate: true });
         >
           <VVSelectImage name="imagem" :existing-src="coverSrc" />
 
-          <VVAutocompleteAPICurso
-            :is-loading="isLoading"
-            name="curso.id"
-          />
+          <VVAutocompleteAPICurso :is-loading="isLoading" name="curso.id" />
 
           <VVAutocompleteAPIAmbiente
             :is-loading="isLoading"
@@ -171,7 +182,12 @@ watch(mode, val => { modeRef.value = val; }, { immediate: true });
     <SectionTurmasFormEventosEventoForm
       :disabled="isBusy"
       @back="closeEventoDialog"
-      @submit="(data: Record<string, unknown>) => { eventosState.addEvento(data as any); closeEventoDialog(); }"
+      @submit="
+        (data: Record<string, unknown>) => {
+          eventosState.addEvento(data as any);
+          closeEventoDialog();
+        }
+      "
     />
   </DialogManagedDialog>
 
@@ -187,8 +203,19 @@ watch(mode, val => { modeRef.value = val; }, { immediate: true });
       :initial-data="editEventoInitialData"
       :disabled="isBusy"
       @back="closeEventoDialog"
-      @submit="(data: Record<string, unknown>) => { if (editingEventoId) eventosState.updateEvento(editingEventoId, data as any); closeEventoDialog(); }"
-      @delete="() => { if (editingEventoId) eventosState.removeEvento(editingEventoId); closeEventoDialog(); }"
+      @submit="
+        (data: Record<string, unknown>) => {
+          if (editingEventoId)
+            eventosState.updateEvento(editingEventoId, data as any);
+          closeEventoDialog();
+        }
+      "
+      @delete="
+        () => {
+          if (editingEventoId) eventosState.removeEvento(editingEventoId);
+          closeEventoDialog();
+        }
+      "
     />
   </DialogManagedDialog>
 

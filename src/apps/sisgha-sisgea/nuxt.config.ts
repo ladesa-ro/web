@@ -1,8 +1,8 @@
 import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
 
-const DEFAULT_DEV_PUBLIC = "https://dev.ladesa.com.br/api/v1";
-const DEFAULT_DEV_LOCAL = "http://localhost:3701/api";
+const DEFAULT_DEV_PUBLIC = 'https://dev.ladesa.com.br/api/v1';
+const DEFAULT_DEV_LOCAL = 'http://localhost:3701/api';
 
 const useLocal = false;
 
@@ -12,7 +12,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       API: process.env.NUXT_PUBLIC_ENPOINT_URL ?? fallback,
-    }
+    },
   },
 
   experimental: {
@@ -95,7 +95,12 @@ export default defineNuxtConfig({
 
   // ==============================================
 
-  modules: ['@pinia/nuxt', '@nuxtjs/color-mode', 'vue3-carousel-nuxt', '@nuxt/eslint'],
+  modules: [
+    '@pinia/nuxt',
+    '@nuxtjs/color-mode',
+    'vue3-carousel-nuxt',
+    '@nuxt/eslint',
+  ],
 
   colorMode: {
     preference: 'system',

@@ -21,7 +21,14 @@ export const motivosDisponiveis = [
 ];
 
 export function formatarDia(dia: string): string {
-  const diasComFeira = ['segunda', 'terca', 'terça', 'quarta', 'quinta', 'sexta'];
+  const diasComFeira = [
+    'segunda',
+    'terca',
+    'terça',
+    'quarta',
+    'quinta',
+    'sexta',
+  ];
   return diasComFeira.includes(dia.toLowerCase()) ? `${dia}-feira` : dia;
 }
 

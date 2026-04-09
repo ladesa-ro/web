@@ -29,7 +29,9 @@ export function useInjectFormContext(): FormContext | undefined {
  * Computes the effective disabled state for a form field.
  * Merges the explicit `disabled` prop with the context's `isBusy`.
  */
-export function useFieldDisabled(propsDisabled: () => boolean | undefined): ComputedRef<boolean> {
+export function useFieldDisabled(
+  propsDisabled: () => boolean | undefined
+): ComputedRef<boolean> {
   const context = useInjectFormContext();
   return computed(() => !!(propsDisabled() || context?.isBusy.value));
 }

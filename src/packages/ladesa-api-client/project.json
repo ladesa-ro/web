@@ -19,16 +19,12 @@
         "cwd": "{projectRoot}"
       },
       "cache": false,
-      "dependsOn": [
-        "fetch-spec"
-      ],
+      "dependsOn": ["fetch-spec"],
       "inputs": [
         "{projectRoot}/openapi-ts.config.mts",
         "{projectRoot}/openapi-spec.json"
       ],
-      "outputs": [
-        "{projectRoot}/src/__generated__"
-      ]
+      "outputs": ["{projectRoot}/src/__generated__"]
     },
     "generate": {
       "executor": "nx:run-commands",
@@ -36,10 +32,7 @@
         "command": "echo Generated!"
       },
       "cache": false,
-      "dependsOn": [
-        "fetch-spec",
-        "generate-client"
-      ]
+      "dependsOn": ["fetch-spec", "generate-client"]
     }
   }
 }

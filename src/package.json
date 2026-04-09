@@ -20,6 +20,8 @@
     "nx": "^22.6.4"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["nx"]
+    "onlyBuiltDependencies": [
+      "nx"
+    ]
   }
 }

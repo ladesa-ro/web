@@ -52,32 +52,26 @@ const ofertaFormacaoItems = computed(
 
 const cursoItems = computed(
   () =>
-    cursoListQuery.data.value?.data?.map(
-      (c: Record<string, unknown>) => ({
-        value: c.id as string,
-        label: (c.nome as string) ?? '',
-      })
-    ) ?? []
+    cursoListQuery.data.value?.data?.map((c: Record<string, unknown>) => ({
+      value: c.id as string,
+      label: (c.nome as string) ?? '',
+    })) ?? []
 );
 
 const turmaItems = computed(
   () =>
-    turmaListQuery.data.value?.data?.map(
-      (t: Record<string, unknown>) => ({
-        value: t.id as string,
-        label: (t.periodo as string) ?? '',
-      })
-    ) ?? []
+    turmaListQuery.data.value?.data?.map((t: Record<string, unknown>) => ({
+      value: t.id as string,
+      label: (t.periodo as string) ?? '',
+    })) ?? []
 );
 
 const disciplinaItems = computed(
   () =>
-    disciplinaListQuery.data.value?.data?.map(
-      (d: Record<string, unknown>) => ({
-        value: d.id as string,
-        label: (d.nome as string) ?? '',
-      })
-    ) ?? []
+    disciplinaListQuery.data.value?.data?.map((d: Record<string, unknown>) => ({
+      value: d.id as string,
+      label: (d.nome as string) ?? '',
+    })) ?? []
 );
 
 // Cascata: limpar filtros dependentes
@@ -90,9 +84,15 @@ watch(selectedCurso, () => {
   selectedTurma.value = undefined;
 });
 
+// Filtro de campus
+const campusContext = useCampusContext();
+
 // Filtro reativo para a listagem
 const filter = computed(() => {
   const f: Record<string, unknown> = {};
+  if (campusContext.value) {
+    f['filter.turma.curso.campus.id'] = [campusContext.value];
+  }
   if (selectedTurma.value) {
     f['filter.turma.id'] = [selectedTurma.value.value];
   }
@@ -102,7 +102,11 @@ const filter = computed(() => {
   return f;
 });
 
-const options = createApiListContextOptions({ crudModule, filter });
+const options = createApiListContextOptions({
+  crudModule,
+  filter,
+  filteredByCampus: true,
+});
 </script>
 
 <template>

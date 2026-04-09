@@ -5,9 +5,7 @@ import {
 } from '#components';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
-import {
-  calendarioLetivoDiaFindAll,
-} from '@ladesa-ro/web.api.client';
+import { calendarioLetivoDiaFindAll } from '@ladesa-ro/web.api.client';
 import type { CalendarioLetivoDiaFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import type { CalendarEvent } from '~/components/Section/Calendario/Types';
 import DiaListItem from './DiaListItem.vue';
@@ -42,8 +40,18 @@ const editingDia = ref<EditableDia | null>(null);
 const editDialogRef = ref<InstanceType<typeof DiaEditDialog> | null>(null);
 
 const MONTH_NAMES = [
-  'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-  'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro',
+  'Janeiro',
+  'Fevereiro',
+  'Março',
+  'Abril',
+  'Maio',
+  'Junho',
+  'Julho',
+  'Agosto',
+  'Setembro',
+  'Outubro',
+  'Novembro',
+  'Dezembro',
 ];
 
 const api = useApiClient();

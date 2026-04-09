@@ -7,7 +7,7 @@ const props = withDefaults(
     disabled?: boolean;
     error?: string;
   }>(),
-  { disabled: false },
+  { disabled: false }
 );
 
 const emit = defineEmits<{
@@ -51,11 +51,15 @@ const {
           :disabled="disabled"
           class="w-20"
         />
-        <span class="text-sm text-ldsa-grey shrink-0">{{ intervalSuffix }}</span>
+        <span class="text-sm text-ldsa-grey shrink-0">{{
+          intervalSuffix
+        }}</span>
       </div>
 
       <div v-if="frequency === 'weekly'" class="flex flex-col gap-1.5">
-        <span class="text-[0.813rem] font-semibold text-ldsa-grey">Dias da semana</span>
+        <span class="text-[0.813rem] font-semibold text-ldsa-grey"
+          >Dias da semana</span
+        >
         <div class="flex justify-between gap-1.5 w-full">
           <button
             v-for="day in weekdayMap"
@@ -83,7 +87,10 @@ const {
           :disabled="disabled"
         />
 
-        <div v-if="endCondition === 'count'" class="flex items-center gap-2 ml-7">
+        <div
+          v-if="endCondition === 'count'"
+          class="flex items-center gap-2 ml-7"
+        >
           <UIFormTextField
             v-model="countStr"
             name="rruleCount"
@@ -92,10 +99,15 @@ const {
             :disabled="disabled"
             class="w-20"
           />
-          <span class="text-sm font-medium text-ldsa-text-default">ocorrências</span>
+          <span class="text-sm font-medium text-ldsa-text-default"
+            >ocorrências</span
+          >
         </div>
 
-        <div v-if="endCondition === 'until'" class="flex items-center gap-2 ml-7">
+        <div
+          v-if="endCondition === 'until'"
+          class="flex items-center gap-2 ml-7"
+        >
           <UIFormTextField
             v-model="untilDate"
             name="rruleUntil"

@@ -13,9 +13,15 @@ const props = defineProps<Props>();
 
 const { item: nivelFormacao } = toRefs(props);
 
-const link = props.link === undefined || props.link === '' ? 'niveis-formacoes' : props.link;
+const link =
+  props.link === undefined || props.link === ''
+    ? 'niveis-formacoes'
+    : props.link;
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.NIVEL_FORMACAO_COVER, nivelFormacao);
+const coverImageSrc = useApiImageRoute(
+  ApiImageResource.NIVEL_FORMACAO_COVER,
+  nivelFormacao
+);
 </script>
 
 <template>

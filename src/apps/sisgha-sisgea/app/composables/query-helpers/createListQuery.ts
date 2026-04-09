@@ -4,7 +4,10 @@ import type { IListQueryConfig, QueryCallOptions } from './interfaces';
 export const createListQuery = <TResult, TParams = unknown>(
   config: IListQueryConfig<TResult, TParams>
 ) => {
-  return (params?: MaybeRef<TParams | undefined>, options?: QueryCallOptions) => {
+  return (
+    params?: MaybeRef<TParams | undefined>,
+    options?: QueryCallOptions
+  ) => {
     const queryKey = computed(() => [
       ...config.queryKey,
       'list',

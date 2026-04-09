@@ -8,8 +8,12 @@ const { options } = useAutocompleteEntity({
   baseQueryKeys: ['estados'],
   listFn: estadoFindAll,
   getOneFn: estadoFindById,
-  transformer: (item: any) => ({ value: item.id, label: `${item.nome} (${item.sigla})` }),
-  getOneAdapter: (api, id) => api.call(estadoFindById, { path: { id: Number(id) } }),
+  transformer: (item: any) => ({
+    value: item.id,
+    label: `${item.nome} (${item.sigla})`,
+  }),
+  getOneAdapter: (api, id) =>
+    api.call(estadoFindById, { path: { id: Number(id) } }),
 });
 </script>
 

@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { useAutocompleteEntity } from '../-Base/createAutocompleteComponent';
-import { disciplinaFindAll, disciplinaFindById } from '@ladesa-ro/web.api.client';
+import {
+  disciplinaFindAll,
+  disciplinaFindById,
+} from '@ladesa-ro/web.api.client';
 
 defineProps<{ isLoading?: boolean; name: string }>();
 

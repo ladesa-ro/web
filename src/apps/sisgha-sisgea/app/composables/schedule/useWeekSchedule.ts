@@ -64,9 +64,7 @@ export const useWeekSchedule = (
 
   const horarioDiasETurnos: DayInShiftsWithoutInfo | WeekScheduleWhithoutInfo =
     horarioTemUmDia
-      ? separateScheduleInShifts(
-          aulasSeparadasDias as (Horario & HorDayjs)[]
-        )
+      ? separateScheduleInShifts(aulasSeparadasDias as (Horario & HorDayjs)[])
       : Object.fromEntries(
           Object.entries(aulasSeparadasDias as ScheduleInDaysWithoutShifts).map(
             ([date, daySchedule]) => [

@@ -6,12 +6,19 @@ type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
 
 const niveisFormacoes = useNiveisFormacoes();
-const { data: nivelFormacao, isLoading, isError } = niveisFormacoes.findOne(ref(resourceId));
+const {
+  data: nivelFormacao,
+  isLoading,
+  isError,
+} = niveisFormacoes.findOne(ref(resourceId));
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.NIVEL_FORMACAO_COVER, nivelFormacao);
+const coverImageSrc = useApiImageRoute(
+  ApiImageResource.NIVEL_FORMACAO_COVER,
+  nivelFormacao
+);
 
 const { confirmDelete, handleDelete } = useResourceDelete({
-  remove: (id) => niveisFormacoes.remove(id),
+  remove: id => niveisFormacoes.remove(id),
   invalidate: () => niveisFormacoes.invalidate(),
   redirectTo: '/sisgha/dape/niveis-formacoes',
 });

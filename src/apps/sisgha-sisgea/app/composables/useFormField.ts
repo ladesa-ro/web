@@ -6,11 +6,7 @@ export function useFormField<T>(
   model: any,
   validateFn?: (val: T) => string | boolean
 ) {
-  const {
-    value,
-    errorMessage,
-    handleBlur,
-  } = useField<T>(name, validateFn, {
+  const { value, errorMessage, handleBlur } = useField<T>(name, validateFn, {
     syncVModel: false,
     initialValue: unref(model),
   });

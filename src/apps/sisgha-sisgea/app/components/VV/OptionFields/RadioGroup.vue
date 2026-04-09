@@ -15,15 +15,12 @@ const props = defineProps<{
   orientation?: 'vertical' | 'horizontal';
 }>();
 
-const {
-  value: fieldValue,
-  errorMessage,
-} = useField<string | number>(
+const { value: fieldValue, errorMessage } = useField<string | number>(
   () => props.name,
   undefined,
   {
     validateOnValueUpdate: false,
-  },
+  }
 );
 </script>
 

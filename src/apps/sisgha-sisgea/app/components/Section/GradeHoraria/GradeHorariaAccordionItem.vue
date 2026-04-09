@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import type { BulkAddParams, GradeHorariaEditorGrade, GradeValidationErrors } from '~/composables/useGradeHorariaEditor';
+import type {
+  BulkAddParams,
+  GradeHorariaEditorGrade,
+  GradeValidationErrors,
+} from '~/composables/useGradeHorariaEditor';
 import type { PeriodoGroup } from '~/utils/horarios';
-import {
-  agruparPorPeriodo,
-  toDisplayFormat,
-} from '~/utils/horarios';
+import { agruparPorPeriodo, toDisplayFormat } from '~/utils/horarios';
 
 const props = defineProps<{
   grade: GradeHorariaEditorGrade;
@@ -48,16 +49,23 @@ const periodos = computed<PeriodoGroup[]>(() => {
     _originalIndex: originalIndex,
   }));
 
-  const grupos = agruparPorPeriodo(formatted.map(f => ({ inicio: f.inicio, fim: f.fim })));
+  const grupos = agruparPorPeriodo(
+    formatted.map(f => ({ inicio: f.inicio, fim: f.fim }))
+  );
 
   let cursor = 0;
-  const sorted = [...formatted].sort((a, b) => a.inicio.localeCompare(b.inicio));
+  const sorted = [...formatted].sort((a, b) =>
+    a.inicio.localeCompare(b.inicio)
+  );
 
   return grupos.map(g => ({
     ...g,
     intervalos: g.intervalos.map(intervalo => {
       const match = sorted.find(
-        s => s.inicio === intervalo.inicio && s.fim === intervalo.fim && s._originalIndex >= 0,
+        s =>
+          s.inicio === intervalo.inicio &&
+          s.fim === intervalo.fim &&
+          s._originalIndex >= 0
       );
       const originalIndex = match?._originalIndex ?? cursor;
       if (match) match._originalIndex = -1;
@@ -67,12 +75,20 @@ const periodos = computed<PeriodoGroup[]>(() => {
   }));
 });
 
-function getOriginalIndex(periodo: (typeof periodos.value)[number], intervaloIdx: number): number {
-  const item = periodo.intervalos[intervaloIdx] as { _originalIndex?: number } | undefined;
+function getOriginalIndex(
+  periodo: (typeof periodos.value)[number],
+  intervaloIdx: number
+): number {
+  const item = periodo.intervalos[intervaloIdx] as
+    | { _originalIndex?: number }
+    | undefined;
   return item?._originalIndex ?? 0;
 }
 
-function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx: number): string | undefined {
+function getIntervalError(
+  periodo: (typeof periodos.value)[number],
+  intervaloIdx: number
+): string | undefined {
   if (!props.errors) return undefined;
   const originalIdx = getOriginalIndex(periodo, intervaloIdx);
   return props.errors.intervalos[originalIdx];
@@ -86,7 +102,9 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
     :class="open ? 'border-ldsa-green-2' : 'border-ldsa-grey'"
   >
     <template #trigger>
-      <div class="p-3 sm:p-4 flex justify-between items-center bg-ldsa-green-1 text-white rounded-t-md">
+      <div
+        class="p-3 sm:p-4 flex justify-between items-center bg-ldsa-green-1 text-white rounded-t-md"
+      >
         <div class="flex items-center gap-2 flex-1 min-w-0">
           <template v-if="isEditing">
             <input
@@ -94,10 +112,16 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
               :disabled="disabled"
               placeholder="Nome da grade horária"
               class="border rounded-md px-2 py-1 text-sm font-semibold flex-1 min-w-0 text-white placeholder-white/60 disabled:opacity-40"
-              :class="errors?.nome ? 'border-ldsa-red bg-red-500/20' : 'border-white/30 bg-white/20'"
-              @input="emit('update:nome', ($event.target as HTMLInputElement).value)"
+              :class="
+                errors?.nome
+                  ? 'border-ldsa-red bg-red-500/20'
+                  : 'border-white/30 bg-white/20'
+              "
+              @input="
+                emit('update:nome', ($event.target as HTMLInputElement).value)
+              "
               @click.stop
-            >
+            />
             <button
               :disabled="disabled"
               class="text-white/80 hover:text-white text-sm px-2 shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
@@ -115,19 +139,13 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
         </div>
         <IconsArrow
           class="transition-[rotate] duration-200 shrink-0 ml-2"
-          :class="[
-            open ? 'rotate-90' : '-rotate-90',
-            'text-white',
-          ]"
+          :class="[open ? 'rotate-90' : '-rotate-90', 'text-white']"
         />
       </div>
     </template>
 
     <!-- Erro no nome (abaixo do header) -->
-    <p
-      v-if="errors?.nome && isEditing"
-      class="text-ldsa-red text-xs px-4 pt-2"
-    >
+    <p v-if="errors?.nome && isEditing" class="text-ldsa-red text-xs px-4 pt-2">
       {{ errors.nome }}
     </p>
 
@@ -141,14 +159,14 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
     </div>
 
     <!-- Conteúdo dividido por turnos (Matutino / Vespertino / Noturno) -->
-    <div class="grid grid-cols-1 md:grid-cols-3 md:divide-x md:divide-ldsa-grey py-4 md:py-6">
-      <div
-        v-for="periodo in periodos"
-        :key="periodo.nome"
-        class="px-4"
-      >
+    <div
+      class="grid grid-cols-1 md:grid-cols-3 md:divide-x md:divide-ldsa-grey py-4 md:py-6"
+    >
+      <div v-for="periodo in periodos" :key="periodo.nome" class="px-4">
         <div class="flex justify-between items-center mb-3">
-          <h2 class="font-semibold text-[16px] border-l-4 border-ldsa-green-1 pl-2">
+          <h2
+            class="font-semibold text-[16px] border-l-4 border-ldsa-green-1 pl-2"
+          >
             {{ periodo.nome }}
           </h2>
           <UIButtonModalClearDanger
@@ -159,24 +177,46 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
           />
         </div>
 
-        <div
-          v-for="(intervalo, j) in periodo.intervalos"
-          :key="j"
-          class="mb-2"
-        >
+        <div v-for="(intervalo, j) in periodo.intervalos" :key="j" class="mb-2">
           <div
             class="flex flex-wrap md:flex-nowrap items-center justify-center gap-2 p-3 border-b-2"
-            :class="getIntervalError(periodo, j) ? 'border-ldsa-red/30' : 'border-ldsa-grey/20'"
+            :class="
+              getIntervalError(periodo, j)
+                ? 'border-ldsa-red/30'
+                : 'border-ldsa-grey/20'
+            "
           >
             <template v-if="isEditing">
               <UIFormTimeRangeField
-                :start="toDisplayFormat(props.grade.intervalos[getOriginalIndex(periodo, j)]?.inicio ?? '')"
-                :end="toDisplayFormat(props.grade.intervalos[getOriginalIndex(periodo, j)]?.fim ?? '')"
+                :start="
+                  toDisplayFormat(
+                    props.grade.intervalos[getOriginalIndex(periodo, j)]
+                      ?.inicio ?? ''
+                  )
+                "
+                :end="
+                  toDisplayFormat(
+                    props.grade.intervalos[getOriginalIndex(periodo, j)]?.fim ??
+                      ''
+                  )
+                "
                 :disabled="disabled"
                 :error="getIntervalError(periodo, j)"
                 class="flex-1"
-                @update:start="emit('update:intervalo-inicio', getOriginalIndex(periodo, j), $event ?? '')"
-                @update:end="emit('update:intervalo-fim', getOriginalIndex(periodo, j), $event ?? '')"
+                @update:start="
+                  emit(
+                    'update:intervalo-inicio',
+                    getOriginalIndex(periodo, j),
+                    $event ?? ''
+                  )
+                "
+                @update:end="
+                  emit(
+                    'update:intervalo-fim',
+                    getOriginalIndex(periodo, j),
+                    $event ?? ''
+                  )
+                "
               />
               <button
                 :disabled="disabled"
@@ -209,7 +249,10 @@ function getIntervalError(periodo: (typeof periodos.value)[number], intervaloIdx
           Nenhum intervalo
         </p>
 
-        <div v-if="isEditing" class="flex items-center justify-center gap-2 mt-4">
+        <div
+          v-if="isEditing"
+          class="flex items-center justify-center gap-2 mt-4"
+        >
           <SectionGradeHorariaButtonAddHorario
             :disabled="disabled"
             class="flex-1"

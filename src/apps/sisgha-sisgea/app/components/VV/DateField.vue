@@ -8,7 +8,12 @@ const props = defineProps<{
   disabled?: boolean;
 }>();
 
-const { fieldValue: modelValue, errorMessage, fieldDisabled, handleBlur } = useVVField<string>({
+const {
+  fieldValue: modelValue,
+  errorMessage,
+  fieldDisabled,
+  handleBlur,
+} = useVVField<string>({
   name: () => props.name,
   disabled: props.disabled,
   required: props.required,

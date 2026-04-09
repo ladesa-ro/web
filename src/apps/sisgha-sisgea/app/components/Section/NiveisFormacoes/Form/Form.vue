@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { FormMode } from '~/utils/constants';
-import { ApiImageResource, useApiImageRoute } from '~/utils/integrations/api/core/images-util';
+import {
+  ApiImageResource,
+  useApiImageRoute,
+} from '~/utils/integrations/api/core/images-util';
 import { nivelFormacaoSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -10,7 +13,10 @@ const niveisFormacoes = useNiveisFormacoes();
 const confirmDelete = useConfirmDelete();
 
 const nivelFormacaoQuery = niveisFormacoes.findOne(computed(() => editId));
-const coverSrc = useApiImageRoute(ApiImageResource.NIVEL_FORMACAO_COVER, nivelFormacaoQuery.data);
+const coverSrc = useApiImageRoute(
+  ApiImageResource.NIVEL_FORMACAO_COVER,
+  nivelFormacaoQuery.data
+);
 
 const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   schema: nivelFormacaoSchema,
@@ -19,7 +25,8 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   create: async data => {
     const { imagem, ...rest } = data;
     const created = await niveisFormacoes.create(rest);
-    if (imagem && created?.id) await niveisFormacoes.uploadCover(created.id, imagem);
+    if (imagem && created?.id)
+      await niveisFormacoes.uploadCover(created.id, imagem);
   },
   update: async (id, data) => {
     const { imagem, ...rest } = data;

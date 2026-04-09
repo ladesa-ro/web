@@ -1,6 +1,4 @@
-import type {
-  CursoFindByIdResponse,
-} from '@ladesa-ro/web.api.client';
+import type { CursoFindByIdResponse } from '@ladesa-ro/web.api.client';
 import type { UseQueryReturnType } from '@tanstack/vue-query';
 
 export type PeriodoDisciplinaLocal = {
@@ -15,7 +13,7 @@ export type PeriodoLocal = {
 
 export function useCursoPeriodosSync(
   quantidadePeriodos: MaybeRef<number>,
-  cursoQuery: UseQueryReturnType<CursoFindByIdResponse | null, Error>,
+  cursoQuery: UseQueryReturnType<CursoFindByIdResponse | null, Error>
 ) {
   const localPeriodos = ref<PeriodoLocal[]>([]);
   const savedPeriodos = ref(new Map<number, Set<string>>());
@@ -23,7 +21,7 @@ export function useCursoPeriodosSync(
 
   function normalizePeriodos(
     count: number,
-    source: PeriodoLocal[],
+    source: PeriodoLocal[]
   ): PeriodoLocal[] {
     return Array.from({ length: count }, (_, i) => {
       const numeroPeriodo = i + 1;
@@ -58,7 +56,9 @@ export function useCursoPeriodosSync(
       for (const p of periodosData) {
         snapshot.set(
           p.numeroPeriodo,
-          new Set(p.disciplinas.map((d: PeriodoDisciplinaLocal) => d.disciplinaId)),
+          new Set(
+            p.disciplinas.map((d: PeriodoDisciplinaLocal) => d.disciplinaId)
+          )
         );
       }
       savedPeriodos.value = snapshot;
@@ -67,7 +67,7 @@ export function useCursoPeriodosSync(
         loadingFromServer.value = false;
       });
     },
-    { immediate: true },
+    { immediate: true }
   );
 
   // ---- Ajustar array local quando quantidadePeriodos muda ----
@@ -78,7 +78,7 @@ export function useCursoPeriodosSync(
 
       localPeriodos.value = normalizePeriodos(count, localPeriodos.value);
     },
-    { immediate: true },
+    { immediate: true }
   );
 
   // ---- Converter para payload de envio ----

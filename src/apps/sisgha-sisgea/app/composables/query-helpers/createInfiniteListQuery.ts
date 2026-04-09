@@ -11,7 +11,10 @@ export const createInfiniteListQuery = <
 >(
   config: IInfiniteListQueryConfig<TResult, TParams>
 ) => {
-  return (params?: MaybeRef<TParams | undefined>, options?: QueryCallOptions) => {
+  return (
+    params?: MaybeRef<TParams | undefined>,
+    options?: QueryCallOptions
+  ) => {
     const query = useInfiniteQuery({
       queryKey: computed(() => [
         ...config.queryKey,

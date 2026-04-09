@@ -21,7 +21,7 @@ const emit = defineEmits<{
     :initial-data="props.initialData"
     :disabled="props.disabled"
     @back="emit('back')"
-    @submit="(data) => emit('submit', data)"
+    @submit="data => emit('submit', data)"
     @delete="emit('delete')"
   />
 </template>

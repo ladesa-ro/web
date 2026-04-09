@@ -1,8 +1,4 @@
-import type {
-  DayInShiftsWithoutInfo,
-  Horario,
-  HorDayjs,
-} from './types';
+import type { DayInShiftsWithoutInfo, Horario, HorDayjs } from './types';
 
 /**
  * Divide o horário de um dia de aula em turnos.

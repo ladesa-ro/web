@@ -14,11 +14,15 @@ const props = defineProps<Props>();
 
 const { item: formacao } = toRefs(props);
 
-const link = props.link === undefined || props.link === '' ? 'formacoes' : props.link;
+const link =
+  props.link === undefined || props.link === '' ? 'formacoes' : props.link;
 
 const modalidadeNome = computed(() => formacao.value?.modalidade?.nome ?? '-');
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.OFERTA_FORMACAO_COVER, formacao);
+const coverImageSrc = useApiImageRoute(
+  ApiImageResource.OFERTA_FORMACAO_COVER,
+  formacao
+);
 </script>
 
 <template>

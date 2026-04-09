@@ -81,7 +81,10 @@ export type IUseDiarios = {
     diarioId: string,
     params?: MaybeRef<ReqQuery<DiarioPreferenciaAgrupamentoFindAllData>>
   ) => ReturnType<
-    ListFn<DiarioPreferenciaAgrupamentoFindAllResponse, ReqQuery<DiarioPreferenciaAgrupamentoFindAllData>>
+    ListFn<
+      DiarioPreferenciaAgrupamentoFindAllResponse,
+      ReqQuery<DiarioPreferenciaAgrupamentoFindAllData>
+    >
   >;
   bulkReplacePreferenciasAgrupamento: (
     diarioId: string,
@@ -113,9 +116,18 @@ export const useDiarios = (): IUseDiarios => {
     fetcher: (id: string) => api.call(diarioFindById, { path: { id } }),
   });
 
-  const create = createCreateFn<ReqBody<DiarioCreateData>, DiarioCreateResponse>(api, diarioCreate);
-  const batchCreate = createCreateFn<ReqBody<DiarioBatchCreateData>, DiarioBatchCreateResponse>(api, diarioBatchCreate);
-  const update = createUpdateFn<ReqBody<DiarioUpdateData>, DiarioUpdateResponse>(api, diarioUpdate);
+  const create = createCreateFn<
+    ReqBody<DiarioCreateData>,
+    DiarioCreateResponse
+  >(api, diarioCreate);
+  const batchCreate = createCreateFn<
+    ReqBody<DiarioBatchCreateData>,
+    DiarioBatchCreateResponse
+  >(api, diarioBatchCreate);
+  const update = createUpdateFn<
+    ReqBody<DiarioUpdateData>,
+    DiarioUpdateResponse
+  >(api, diarioUpdate);
   const remove = createRemoveFn(api, diarioDeleteOneById);
 
   const professores = useDiariosProfessores(keys);

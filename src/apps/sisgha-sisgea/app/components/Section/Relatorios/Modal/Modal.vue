@@ -60,7 +60,7 @@ const aulasRedes = [
       Relatório de Aulas Ministradas
     </h2>
 
-    <hr class="divider flex-grow pt-5 border-t border-ldsa-grey" >
+    <hr class="divider flex-grow pt-5 border-t border-ldsa-grey" />
 
     <div class="info flex flex-wrap">
       <p class="text-[12px] mb-2 w-1/2">
@@ -72,12 +72,10 @@ const aulasRedes = [
       <p class="text-[12px] mb-2 w-1/2">
         <strong>Calendário:</strong> {{ form.calendarioLetivo?.id ?? '—' }}
       </p>
-      <p class="text-[12px] mb-2 w-1/2">
-        <strong>Campus:</strong> —
-      </p>
+      <p class="text-[12px] mb-2 w-1/2"><strong>Campus:</strong> —</p>
     </div>
 
-    <hr class="divider flex-grow pt-5 border-t border-ldsa-grey" >
+    <hr class="divider flex-grow pt-5 border-t border-ldsa-grey" />
 
     <div class="content">
       <RelatorioAula

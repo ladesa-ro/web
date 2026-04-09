@@ -34,7 +34,10 @@ const disciplinasById = periodos.disciplinasById;
       </div>
 
       <div
-        v-if="periodo.disciplinas.length === 0 && periodo.removedDisciplinaIds.length === 0"
+        v-if="
+          periodo.disciplinas.length === 0 &&
+          periodo.removedDisciplinaIds.length === 0
+        "
         class="py-3 px-1"
       >
         <span class="text-ldsa-grey text-sm">
@@ -51,7 +54,12 @@ const disciplinasById = periodos.disciplinasById;
         <span class="text-ldsa-text-default text-sm font-medium">
           {{ disciplinasById.get(disc.disciplinaId)?.nome ?? '...' }}
           <span
-            v-if="periodos.isDisciplinaNova(periodo.numeroPeriodo, disc.disciplinaId)"
+            v-if="
+              periodos.isDisciplinaNova(
+                periodo.numeroPeriodo,
+                disc.disciplinaId
+              )
+            "
             class="text-ldsa-green-1 text-xs font-semibold ml-1"
           >
             Nova
@@ -75,7 +83,9 @@ const disciplinasById = periodos.disciplinasById;
       >
         <span class="text-ldsa-text-default text-sm font-medium line-through">
           {{ disciplinasById.get(removedId)?.nome ?? '...' }}
-          <span class="text-ldsa-red text-xs font-semibold ml-1 no-underline inline-block">
+          <span
+            class="text-ldsa-red text-xs font-semibold ml-1 no-underline inline-block"
+          >
             Removida
           </span>
         </span>

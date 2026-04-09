@@ -78,7 +78,7 @@ function confirm() {
           type="date"
           :min="today"
           class="date-input"
-        >
+        />
         <p v-if="dataInicio && !isDataInicioValid" class="text-xs text-red-500">
           A data de inicio nao pode ser no passado.
         </p>
@@ -94,7 +94,7 @@ function confirm() {
           type="date"
           :min="dataInicio || today"
           class="date-input"
-        >
+        />
         <p v-if="dataFim && !isDataFimValid" class="text-xs text-red-500">
           A data de fim deve ser igual ou posterior a data de inicio.
         </p>
@@ -102,11 +102,7 @@ function confirm() {
     </div>
 
     <template #button-group>
-      <UIButtonModalCancel
-        type="close"
-        class="flex flex-1"
-        @click="cancel"
-      />
+      <UIButtonModalCancel type="close" class="flex flex-1" @click="cancel" />
 
       <UIButtonModalCommonButtonsGreenWithCheck
         text="Confirmar"

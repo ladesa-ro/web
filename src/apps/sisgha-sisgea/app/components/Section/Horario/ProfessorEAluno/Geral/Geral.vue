@@ -15,7 +15,9 @@ const diasDaSemana: IDiasDaSemana = [
 
 const { perfisAtivos, resumoVinculos } = useApiContext();
 const perfilId = computed(() => perfisAtivos.value?.[0]?.id ?? null);
-const campusId = computed(() => resumoVinculos.value.mapaCargoCampi.professor?.[0]?.id ?? null);
+const campusId = computed(
+  () => resumoVinculos.value.mapaCargoCampi.professor?.[0]?.id ?? null
+);
 
 // Grade horária do campus
 const gradesHorarias = useGradesHorarias();
@@ -66,7 +68,7 @@ const turnos = computed(() => {
     g.intervalos.map(i => ({
       inicio: i.inicio.substring(0, 5),
       fim: i.fim.substring(0, 5),
-    })),
+    }))
   );
 
   // Deduplicar por início
@@ -110,7 +112,7 @@ const gradeDisciplinas = computed<IGradeDisciplina[]>(() => {
     g.intervalos.map(i => ({
       inicio: i.inicio.substring(0, 5),
       fim: i.fim.substring(0, 5),
-    })),
+    }))
   );
 
   return ocorrencias
@@ -123,7 +125,9 @@ const gradeDisciplinas = computed<IGradeDisciplina[]>(() => {
       const hFim = (o.horarioFim as string).substring(0, 5);
 
       const matchedIndices = allSlots
-        .map((slot, idx) => (slot.inicio >= hInicio && slot.inicio < hFim ? idx + 1 : -1))
+        .map((slot, idx) =>
+          slot.inicio >= hInicio && slot.inicio < hFim ? idx + 1 : -1
+        )
         .filter(idx => idx > 0);
 
       return {
@@ -135,7 +139,9 @@ const gradeDisciplinas = computed<IGradeDisciplina[]>(() => {
     });
 });
 
-const isLoading = computed(() => gradeQuery.isLoading.value || consultaQuery.isLoading.value);
+const isLoading = computed(
+  () => gradeQuery.isLoading.value || consultaQuery.isLoading.value
+);
 </script>
 
 <template>

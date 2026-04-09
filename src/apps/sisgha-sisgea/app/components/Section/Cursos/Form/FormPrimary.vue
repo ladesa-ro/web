@@ -34,7 +34,6 @@ function deleteCurso() {
 }
 
 watch(campusId, resetOfertaFormacaoWhenCampusChanges);
-
 </script>
 
 <template>

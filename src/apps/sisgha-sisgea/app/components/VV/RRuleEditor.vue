@@ -8,15 +8,12 @@ const props = defineProps<{
 
 const fieldDisabled = useFieldDisabled(() => props.disabled);
 
-const {
-  value: fieldValue,
-  errorMessage,
-} = useField<string | null>(
+const { value: fieldValue, errorMessage } = useField<string | null>(
   () => props.name,
   undefined,
   {
     validateOnValueUpdate: false,
-  },
+  }
 );
 </script>
 

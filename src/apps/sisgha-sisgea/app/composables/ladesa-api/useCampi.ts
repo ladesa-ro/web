@@ -73,8 +73,14 @@ export const useCampi = (): IUseCampi => {
     fetcher: (id: string) => api.call(campusFindById, { path: { id } }),
   });
 
-  const create = createCreateFn<ReqBody<CampusCreateData>, CampusCreateResponse>(api, campusCreate);
-  const update = createUpdateFn<ReqBody<CampusUpdateData>, CampusUpdateResponse>(api, campusUpdate);
+  const create = createCreateFn<
+    ReqBody<CampusCreateData>,
+    CampusCreateResponse
+  >(api, campusCreate);
+  const update = createUpdateFn<
+    ReqBody<CampusUpdateData>,
+    CampusUpdateResponse
+  >(api, campusUpdate);
   const remove = createRemoveFn(api, campusDeleteOneById);
 
   const invalidate = createInvalidate(keys);

@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-import type { IDiasDaSemana, IGradeDisciplina, ITurnos } from '../IGradeHorario';
+import type {
+  IDiasDaSemana,
+  IGradeDisciplina,
+  ITurnos,
+} from '../IGradeHorario';
 
 type Props = {
   turnos: ITurnos;

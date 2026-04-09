@@ -13,7 +13,8 @@ const props = defineProps<Props>();
 
 const { item: disciplina } = toRefs(props);
 
-const link = props.link === undefined || props.link === '' ? 'disciplinas' : props.link;
+const link =
+  props.link === undefined || props.link === '' ? 'disciplinas' : props.link;
 
 const coverImageSrc = useApiImageRoute(
   ApiImageResource.DISCIPLINA_COVER,

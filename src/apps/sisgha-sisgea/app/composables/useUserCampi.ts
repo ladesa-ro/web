@@ -29,7 +29,9 @@ export const useUserCargoAndCampi = () => {
     });
   }
 
-  const moreThanOneCargo = isSuperUser ? true : resumoVinculos.value.cargos.length > 1;
+  const moreThanOneCargo = isSuperUser
+    ? true
+    : resumoVinculos.value.cargos.length > 1;
 
   const campi1 = campiPorCargo[0]?.campi ?? [];
   const campi2 = campiPorCargo[1]?.campi ?? [];
@@ -44,7 +46,13 @@ export const useUserCargoAndCampi = () => {
 
   const moreThanOneCampus = isSuperUser ? true : campiList.length > 1;
 
-  return { campiPorCargo, moreThanOneCargo, moreThanOneCampus, campiList, isSuperUser };
+  return {
+    campiPorCargo,
+    moreThanOneCargo,
+    moreThanOneCampus,
+    campiList,
+    isSuperUser,
+  };
 };
 
 export const useCampusContextCargos = () => {

@@ -93,7 +93,6 @@ const pendingConfigsList = computed(() => [...pendingConfigs.value.values()]);
 function handleUndoPending(dataInicio: string) {
   undoPendingConfig(dataInicio);
 }
-
 </script>
 
 <template>

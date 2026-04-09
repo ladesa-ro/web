@@ -14,7 +14,9 @@ export type AgendamentoMergedItem = {
   isLocal: boolean;
   isPendingDelete: boolean;
   isPendingUpdate: boolean;
-  data: CalendarioAgendamentoFindOneOutputDto | CalendarioAgendamentoCreateInputDto;
+  data:
+    | CalendarioAgendamentoFindOneOutputDto
+    | CalendarioAgendamentoCreateInputDto;
 };
 
 export function useAgendamentosStateCore(turmaId: MaybeRef<string | null>) {
@@ -25,11 +27,15 @@ export function useAgendamentosStateCore(turmaId: MaybeRef<string | null>) {
       const tid = unref(turmaId);
       if (!tid) return undefined;
       return { 'filter.turma.id': [tid], limit: 100 };
-    }),
+    })
   );
 
-  const pendingCreates = ref<Map<string, CalendarioAgendamentoCreateInputDto>>(new Map());
-  const pendingUpdates = ref<Map<string, CalendarioAgendamentoUpdateInputDto>>(new Map());
+  const pendingCreates = ref<Map<string, CalendarioAgendamentoCreateInputDto>>(
+    new Map()
+  );
+  const pendingUpdates = ref<Map<string, CalendarioAgendamentoUpdateInputDto>>(
+    new Map()
+  );
   const pendingDeletes = ref<Set<string>>(new Set());
 
   let tempIdCounter = 0;
@@ -37,8 +43,8 @@ export function useAgendamentosStateCore(turmaId: MaybeRef<string | null>) {
     return `__temp_${++tempIdCounter}`;
   }
 
-  const serverEventos = computed<CalendarioAgendamentoFindOneOutputDto[]>(() =>
-    eventosQuery.data.value?.data ?? [],
+  const serverEventos = computed<CalendarioAgendamentoFindOneOutputDto[]>(
+    () => eventosQuery.data.value?.data ?? []
   );
 
   const mergedEventos = computed<AgendamentoMergedItem[]>(() => {
@@ -53,7 +59,12 @@ export function useAgendamentosStateCore(turmaId: MaybeRef<string | null>) {
         isLocal: false,
         isPendingDelete: isDeleted,
         isPendingUpdate: !!pendingUpdate,
-        data: pendingUpdate ? { ...evento, ...pendingUpdate } as CalendarioAgendamentoFindOneOutputDto : evento,
+        data: pendingUpdate
+          ? ({
+              ...evento,
+              ...pendingUpdate,
+            } as CalendarioAgendamentoFindOneOutputDto)
+          : evento,
       });
     }
 
@@ -73,13 +84,14 @@ export function useAgendamentosStateCore(turmaId: MaybeRef<string | null>) {
   });
 
   const visibleEventos = computed(() =>
-    mergedEventos.value.filter(e => !e.isPendingDelete),
+    mergedEventos.value.filter(e => !e.isPendingDelete)
   );
 
-  const hasPendingChanges = computed(() =>
-    pendingCreates.value.size > 0 ||
-    pendingUpdates.value.size > 0 ||
-    pendingDeletes.value.size > 0,
+  const hasPendingChanges = computed(
+    () =>
+      pendingCreates.value.size > 0 ||
+      pendingUpdates.value.size > 0 ||
+      pendingDeletes.value.size > 0
   );
 
   function addEvento(data: CalendarioAgendamentoCreateInputDto): string {
@@ -91,7 +103,10 @@ export function useAgendamentosStateCore(turmaId: MaybeRef<string | null>) {
   function updateEvento(id: string, data: CalendarioAgendamentoUpdateInputDto) {
     if (pendingCreates.value.has(id)) {
       const existing = pendingCreates.value.get(id)!;
-      const merged = { ...existing, ...data } as CalendarioAgendamentoCreateInputDto;
+      const merged = {
+        ...existing,
+        ...data,
+      } as CalendarioAgendamentoCreateInputDto;
       pendingCreates.value = new Map(pendingCreates.value).set(id, merged);
     } else {
       const existing = pendingUpdates.value.get(id) ?? {};
@@ -134,23 +149,28 @@ export function useAgendamentosStateCore(turmaId: MaybeRef<string | null>) {
     const tid = turmaIdOverride ?? unref(turmaId);
     if (!tid) return;
 
-    const creates = [...pendingCreates.value.entries()]
-      .filter(([tempId]) => !pendingDeletes.value.has(tempId));
+    const creates = [...pendingCreates.value.entries()].filter(
+      ([tempId]) => !pendingDeletes.value.has(tempId)
+    );
 
-    const updates = [...pendingUpdates.value.entries()]
-      .filter(([id]) => !pendingDeletes.value.has(id));
+    const updates = [...pendingUpdates.value.entries()].filter(
+      ([id]) => !pendingDeletes.value.has(id)
+    );
 
-    const deletes = [...pendingDeletes.value]
-      .filter(id => !id.startsWith('__temp_'));
+    const deletes = [...pendingDeletes.value].filter(
+      id => !id.startsWith('__temp_')
+    );
 
     const promises: Promise<unknown>[] = [];
 
     for (const [, data] of creates) {
-      promises.push(agendamentos.create({
-        ...data,
-        tipo: 'EVENTO',
-        turmas: [{ id: tid }],
-      }));
+      promises.push(
+        agendamentos.create({
+          ...data,
+          tipo: 'EVENTO',
+          turmas: [{ id: tid }],
+        })
+      );
     }
 
     for (const [id, data] of updates) {

@@ -16,10 +16,7 @@ const hasError = computed(() => !!props.error);
 
 <template>
   <div class="flex flex-col gap-1">
-    <div
-      class="input-base justify-center"
-      :class="{ 'has-error': hasError }"
-    >
+    <div class="input-base justify-center" :class="{ 'has-error': hasError }">
       <label v-if="label">{{ label }}</label>
 
       <div class="flex items-center justify-center gap-0.5 py-2 tabular-nums">
@@ -29,8 +26,13 @@ const hasError = computed(() => !!props.error);
           :disabled="disabled"
           :readonly="readonly"
           class="bg-transparent text-ldsa-text-default text-center focus:outline-none disabled:opacity-40"
-          @input="emit('update:modelValue', ($event.target as HTMLInputElement).value || null)"
-        >
+          @input="
+            emit(
+              'update:modelValue',
+              ($event.target as HTMLInputElement).value || null
+            )
+          "
+        />
       </div>
     </div>
 
@@ -41,5 +43,5 @@ const hasError = computed(() => !!props.error);
 </template>
 
 <style scoped>
-@import "~/components/UI/Form/-Utils/style/inputStyles.css";
+@import '~/components/UI/Form/-Utils/style/inputStyles.css';
 </style>

@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { useAutocompleteEntity } from '../-Base/createAutocompleteComponent';
-import { calendarioLetivoFindAll, calendarioLetivoFindById } from '@ladesa-ro/web.api.client';
+import {
+  calendarioLetivoFindAll,
+  calendarioLetivoFindById,
+} from '@ladesa-ro/web.api.client';
 
 const props = defineProps<{
   isLoading?: boolean;

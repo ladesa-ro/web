@@ -17,12 +17,14 @@ export function useTurmaWeekNavigation(
   currentWeekRef: Ref<Dayjs>,
   isDirty: Ref<boolean>,
   isEditing: Ref<boolean>,
-  options?: UseTurmaWeekNavigationOptions,
+  options?: UseTurmaWeekNavigationOptions
 ) {
   const dayjs = useDayJs();
   const disponibilidade = useTurmaDisponibilidade();
 
-  const weekDays = computed<IWeekDay[]>(() => getWeekDays(currentWeekRef.value));
+  const weekDays = computed<IWeekDay[]>(() =>
+    getWeekDays(currentWeekRef.value)
+  );
 
   const weekLabel = computed(() => {
     const days = weekDays.value;
@@ -52,7 +54,9 @@ export function useTurmaWeekNavigation(
 
   watch(
     () => unref(turmaId),
-    id => { if (id) prefetchAdjacentWeeks(); },
+    id => {
+      if (id) prefetchAdjacentWeeks();
+    },
     { immediate: true }
   );
 

@@ -83,8 +83,14 @@ export const useCalendarioLetivo = (): IUseCalendarioLetivo => {
       api.call(calendarioLetivoFindById, { path: { id } }),
   });
 
-  const create = createCreateFn<ReqBody<CalendarioLetivoCreateData>, CalendarioLetivoCreateResponse>(api, calendarioLetivoCreate);
-  const update = createUpdateFn<ReqBody<CalendarioLetivoUpdateData>, CalendarioLetivoUpdateResponse>(api, calendarioLetivoUpdate);
+  const create = createCreateFn<
+    ReqBody<CalendarioLetivoCreateData>,
+    CalendarioLetivoCreateResponse
+  >(api, calendarioLetivoCreate);
+  const update = createUpdateFn<
+    ReqBody<CalendarioLetivoUpdateData>,
+    CalendarioLetivoUpdateResponse
+  >(api, calendarioLetivoUpdate);
   const remove = createRemoveFn(api, calendarioLetivoDeleteOneById);
 
   const invalidate = createInvalidate(keys);

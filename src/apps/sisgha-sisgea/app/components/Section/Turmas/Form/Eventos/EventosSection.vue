@@ -43,7 +43,10 @@ async function handleEdit(id: string) {
   if (isExclusive(id)) {
     emit('open-edit', id);
   } else {
-    window.open(`/sisgha/dape/calendario/gestao-eventos?evento=${id}`, '_blank');
+    window.open(
+      `/sisgha/dape/calendario/gestao-eventos?evento=${id}`,
+      '_blank'
+    );
   }
 }
 
@@ -65,7 +68,8 @@ async function handleRemove(id: string) {
     const turmaId = props.turmaId;
     if (!turmaId) return;
 
-    confirmMessage.value = 'Este evento pertence a outras turmas. Deseja desvincular desta turma?';
+    confirmMessage.value =
+      'Este evento pertence a outras turmas. Deseja desvincular desta turma?';
     const confirmed = await confirmDelete.confirm();
     if (confirmed) {
       try {
@@ -109,8 +113,12 @@ function handleExclusiveCancel() {
 <template>
   <div v-if="isManageMode" class="flex flex-col gap-3 pt-2">
     <div class="flex items-center justify-between">
-      <div class="flex h-[13px] items-center border-l-3 border-ldsa-green-1 pl-1">
-        <span class="text-[13px] font-semibold tracking-wide text-ldsa-text-default">
+      <div
+        class="flex h-[13px] items-center border-l-3 border-ldsa-green-1 pl-1"
+      >
+        <span
+          class="text-[13px] font-semibold tracking-wide text-ldsa-text-default"
+        >
           Eventos
         </span>
       </div>
@@ -137,16 +145,18 @@ function handleExclusiveCancel() {
 
     <template v-else>
       <p class="px-2 text-center text-[11px] leading-relaxed text-ldsa-grey">
-        Nenhum evento registrado. Você pode criar um novo evento pelo
-        botão superior direito ou vincular a turma a um evento já
-        existente na funcionalidade de "Calendário".
+        Nenhum evento registrado. Você pode criar um novo evento pelo botão
+        superior direito ou vincular a turma a um evento já existente na
+        funcionalidade de "Calendário".
       </p>
     </template>
   </div>
 
   <div v-else class="flex flex-col gap-3 pt-2">
     <div class="flex h-[13px] items-center border-l-3 border-ldsa-green-1 pl-1">
-      <span class="text-[13px] font-semibold tracking-wide text-ldsa-text-default">
+      <span
+        class="text-[13px] font-semibold tracking-wide text-ldsa-text-default"
+      >
         Eventos
       </span>
     </div>

@@ -3,3 +3,4 @@ pnpm*
 .output
 dist
 .nuxt
+.nx

@@ -1,15 +1,17 @@
-import type {
-  TurmaDisponibilidadeConfigInputDto,
-} from '@ladesa-ro/web.api.client';
+import type { TurmaDisponibilidadeConfigInputDto } from '@ladesa-ro/web.api.client';
 import { toDisplayFormat } from '~/utils/horarios';
 
 export function useTurmaPendingConfigs() {
   const dayjs = useDayJs();
 
-  const pendingConfigs = ref<Map<string, TurmaDisponibilidadeConfigInputDto>>(new Map());
+  const pendingConfigs = ref<Map<string, TurmaDisponibilidadeConfigInputDto>>(
+    new Map()
+  );
   const pendingDeactivations = ref<Set<string>>(new Set());
 
-  const hasPendingSave = computed(() => pendingConfigs.value.size > 0 || pendingDeactivations.value.size > 0);
+  const hasPendingSave = computed(
+    () => pendingConfigs.value.size > 0 || pendingDeactivations.value.size > 0
+  );
 
   function addPendingDeactivation(configId: string) {
     const newSet = new Set(pendingDeactivations.value);
@@ -23,7 +25,9 @@ export function useTurmaPendingConfigs() {
     pendingDeactivations.value = newSet;
   }
 
-  function findPendingForWeek(weekSunday: string): TurmaDisponibilidadeConfigInputDto | undefined {
+  function findPendingForWeek(
+    weekSunday: string
+  ): TurmaDisponibilidadeConfigInputDto | undefined {
     const exact = pendingConfigs.value.get(weekSunday);
     if (exact) return exact;
 
@@ -32,8 +36,8 @@ export function useTurmaPendingConfigs() {
     let best: TurmaDisponibilidadeConfigInputDto | undefined;
     for (const config of pendingConfigs.value.values()) {
       const configCoversWeek =
-        config.data_inicio <= saturday
-        && (config.data_fim == null || config.data_fim >= weekSunday);
+        config.data_inicio <= saturday &&
+        (config.data_fim == null || config.data_fim >= weekSunday);
 
       if (configCoversWeek) {
         if (!best || config.data_inicio > best.data_inicio) {

@@ -31,7 +31,10 @@ export const useGradesHorarias = () => {
     });
   };
 
-  const replace = (campusId: string, gradesHorarias: GradeHorariaItemInput[]) => {
+  const replace = (
+    campusId: string,
+    gradesHorarias: GradeHorariaItemInput[]
+  ) => {
     return api.call(gradeHorariaReplace, {
       path: { campusId },
       body: { gradesHorarias },

@@ -27,7 +27,7 @@ export const useTurmaDisponibilidade = () => {
 
   const findByWeek = (
     turmaId: MaybeRef<string | null>,
-    semana: MaybeRef<string>,
+    semana: MaybeRef<string>
   ) => {
     return useQuery<TurmaDisponibilidadeWeekOutputDto>({
       queryKey: computed(() => [...keys, unref(turmaId), unref(semana)]),
@@ -67,7 +67,7 @@ export const useTurmaDisponibilidade = () => {
 
   const save = async (
     turmaId: string,
-    payload: TurmaDisponibilidadeSaveInputDto,
+    payload: TurmaDisponibilidadeSaveInputDto
   ) => {
     return api.call(turmaDisponibilidadeSave, {
       path: { id: turmaId },
@@ -84,5 +84,13 @@ export const useTurmaDisponibilidade = () => {
 
   const invalidate = createInvalidate(keys);
 
-  return { keys, findByWeek, findAllActive, prefetchWeek, save, deactivate, invalidate };
+  return {
+    keys,
+    findByWeek,
+    findAllActive,
+    prefetchWeek,
+    save,
+    deactivate,
+    invalidate,
+  };
 };

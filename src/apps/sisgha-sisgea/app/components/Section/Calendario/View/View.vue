@@ -3,7 +3,11 @@ type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
 
 const calendarioLetivo = useCalendarioLetivo();
-const { data: calendario, isLoading, isError } = calendarioLetivo.findOne(ref(resourceId));
+const {
+  data: calendario,
+  isLoading,
+  isError,
+} = calendarioLetivo.findOne(ref(resourceId));
 
 const confirmDelete = useConfirmDelete();
 const router = useRouter();
@@ -20,15 +24,21 @@ const handleDelete = async () => {
 const confirmDeactivate = useConfirmDelete();
 
 // TODO: remove after SDK regeneration includes 'situacao' field
-const calendarioRecord = computed(() => calendario.value as Record<string, unknown> | undefined);
-const situacao = computed(() => calendarioRecord.value?.situacao as string | undefined);
+const calendarioRecord = computed(
+  () => calendario.value as Record<string, unknown> | undefined
+);
+const situacao = computed(
+  () => calendarioRecord.value?.situacao as string | undefined
+);
 const isInativo = computed(() => situacao.value === 'INATIVO');
 
 const handleToggleSituacao = async () => {
   const confirmed = await confirmDeactivate.confirm();
   if (confirmed) {
     const novaSituacao = isInativo.value ? 'ATIVO' : 'INATIVO';
-    await calendarioLetivo.update(resourceId, { situacao: novaSituacao } as Record<string, string>);
+    await calendarioLetivo.update(resourceId, {
+      situacao: novaSituacao,
+    } as Record<string, string>);
     await calendarioLetivo.invalidate();
   }
 };
@@ -64,7 +74,10 @@ const handleToggleSituacao = async () => {
       <UIResourceViewFieldGroup>
         <UIResourceViewField label="Nome" :value="calendario?.nome" />
         <UIResourceViewField label="Ano" :value="calendario?.ano" />
-        <UIResourceViewField label="Campus" :value="calendario?.campus?.apelido" />
+        <UIResourceViewField
+          label="Campus"
+          :value="calendario?.campus?.apelido"
+        />
         <UIResourceViewField
           label="Oferta de Formação"
           :value="calendario?.ofertaFormacao?.nome"
@@ -82,7 +95,11 @@ const handleToggleSituacao = async () => {
 
   <DialogConfirm
     v-model="confirmDeactivate.isOpen.value"
-    :message="isInativo ? 'Deseja reativar este calendário letivo?' : 'Deseja desativar este calendário letivo?'"
+    :message="
+      isInativo
+        ? 'Deseja reativar este calendário letivo?'
+        : 'Deseja desativar este calendário letivo?'
+    "
     @confirm="confirmDeactivate.onConfirm"
   />
 </template>

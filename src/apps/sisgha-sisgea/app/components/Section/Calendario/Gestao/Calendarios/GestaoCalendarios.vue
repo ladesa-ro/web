@@ -31,7 +31,11 @@ const selectedYear = computed({
   },
 });
 
-const selectedStatus = createFilterComputed(filtersStore, 'gestaoCalendariosStatus', statusOptions);
+const selectedStatus = createFilterComputed(
+  filtersStore,
+  'gestaoCalendariosStatus',
+  statusOptions
+);
 
 const queryParams = computed(() => {
   const params: Record<string, unknown> = {
@@ -77,7 +81,7 @@ watch(
   ],
   () => {
     currentPage.value = 1;
-  },
+  }
 );
 
 // Edit modal
@@ -112,7 +116,9 @@ function handleModalClose() {
   <UIContainer class="flex flex-col gap-6">
     <UIBreadcrumbDapeBreadcrumb>
       <div class="flex gap-3.5">
-        <NuxtLink to="/sisgha/dape/calendario/gestao-calendarios/dias-nao-letivos">
+        <NuxtLink
+          to="/sisgha/dape/calendario/gestao-calendarios/dias-nao-letivos"
+        >
           <UIButtonDefaultSquare>
             <IconsCalendarX class="w-6 h-full" />
           </UIButtonDefaultSquare>
@@ -164,7 +170,10 @@ function handleModalClose() {
         </div>
       </div>
 
-      <UISearchBar v-model="filtersStore.searchQuery" placeholder="Pesquisar calendário..." />
+      <UISearchBar
+        v-model="filtersStore.searchQuery"
+        placeholder="Pesquisar calendário..."
+      />
     </div>
 
     <!-- Loading -->
@@ -178,10 +187,14 @@ function handleModalClose() {
     </div>
 
     <!-- Empty -->
-    <div v-else-if="calendarios.length === 0" class="flex flex-col justify-center items-center gap-5 py-8">
+    <div
+      v-else-if="calendarios.length === 0"
+      class="flex flex-col justify-center items-center gap-5 py-8"
+    >
       <UIContentStateEmpty class="dark:saturate-75 dark:opacity-50" />
       <span class="text-ldsa-grey dark:contrast-0 text-center">
-        Nenhum calendário encontrado. Tente ajustar os filtros ou criar um novo calendário.
+        Nenhum calendário encontrado. Tente ajustar os filtros ou criar um novo
+        calendário.
       </span>
     </div>
 

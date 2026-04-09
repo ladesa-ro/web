@@ -11,7 +11,7 @@ const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
 
 <template>
   <span v-if="editMode" class="flex gap-2.5">
-    <slot/>
+    <slot />
 
     <!-- <div class="divider" /> -->
 

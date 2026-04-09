@@ -8,15 +8,11 @@ const diarios = useDiarios();
 const { data: diario, isLoading, isError } = diarios.findOne(ref(resourceId));
 
 const professoresQuery = diarios.listProfessores(resourceId);
-const professoresList = computed(
-  () => professoresQuery.data.value?.data ?? []
-);
+const professoresList = computed(() => professoresQuery.data.value?.data ?? []);
 
 const professoresText = computed(() => {
   if (professoresList.value.length === 0) return '-';
-  return professoresList.value
-    .map(p => p.perfil.usuario.nome)
-    .join(', ');
+  return professoresList.value.map(p => p.perfil.usuario.nome).join(', ');
 });
 
 const coverImageSrc = useApiImageRoute(ApiImageResource.DIARIO_COVER, diario);
@@ -55,7 +51,11 @@ const handleDelete = async () => {
         />
         <UIResourceViewField
           label="Turma"
-          :value="diario?.turma?.periodo ? `${diario.turma.periodo} - ${diario.turma.curso?.nomeAbreviado ?? ''}` : null"
+          :value="
+            diario?.turma?.periodo
+              ? `${diario.turma.periodo} - ${diario.turma.curso?.nomeAbreviado ?? ''}`
+              : null
+          "
         />
         <UIResourceViewField
           label="Ativo"
@@ -69,10 +69,7 @@ const handleDelete = async () => {
           label="Ambiente Padrão"
           :value="diario?.ambientePadrao?.nome"
         />
-        <UIResourceViewField
-          label="Professores"
-          :value="professoresText"
-        />
+        <UIResourceViewField label="Professores" :value="professoresText" />
       </UIResourceViewFieldGroup>
     </template>
   </UIResourceView>

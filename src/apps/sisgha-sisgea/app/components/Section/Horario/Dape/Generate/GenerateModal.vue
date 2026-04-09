@@ -65,7 +65,7 @@ const finalDate = ref(dayjs().add(1, 'week').format('DD/MM/YYYY'));
     <DialogModalBaseLayout title="Gerar Horário Acadêmico" :on-close="onClose">
       <VVAutocompleteAPIOfertaFormacao name="ofertaFormacao" class="mt-1" />
 
-      <hr class="border border-ldsa-grey" >
+      <hr class="border border-ldsa-grey" />
 
       <UITitle text="O horário deve ser..." variant="mini" />
 
@@ -101,7 +101,7 @@ const finalDate = ref(dayjs().add(1, 'week').format('DD/MM/YYYY'));
         message="Ao passar a data de término, este horário temporário será substituído pelo horário permanente atualmente utilizado."
       />
 
-      <div class="lg:h-10"/>
+      <div class="lg:h-10" />
 
       <template #button-group>
         <UIButtonModalCancel @click="onClose" />

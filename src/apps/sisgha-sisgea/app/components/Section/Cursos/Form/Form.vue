@@ -1,8 +1,14 @@
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
-import { ApiImageResource, useApiImageRoute } from '~/utils/integrations/api/core/images-util';
+import {
+  ApiImageResource,
+  useApiImageRoute,
+} from '~/utils/integrations/api/core/images-util';
 import { cursoSchema } from './-Helpers/schema';
-import { getDuracaoLabel, getQuantidadePeriodosLabel } from './-Helpers/constants';
+import {
+  getDuracaoLabel,
+  getQuantidadePeriodosLabel,
+} from './-Helpers/constants';
 import FormPrimary from './FormPrimary.vue';
 import FormDisciplinas from './FormDisciplinas.vue';
 import SelectDisciplinas from './SelectDisciplinas.vue';
@@ -14,7 +20,10 @@ const cursos = useCursos();
 const confirmDelete = useConfirmDelete();
 
 const cursoQuery = cursos.findOne(computed(() => editId));
-const coverSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, cursoQuery.data);
+const coverSrc = useApiImageRoute(
+  ApiImageResource.CURSO_COVER,
+  cursoQuery.data
+);
 
 const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   schema: cursoSchema,
@@ -44,31 +53,29 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
 });
 
 // Campo reativo para quantidadePeriodos (fallback evita undefined antes da hidratação do vee-validate)
-const { value: quantidadePeriodosField } = useField<number>('quantidadePeriodos');
-const { value: periodosField } = useField<typeof cursoSchema.__outputType.periodos>('periodos');
+const { value: quantidadePeriodosField } =
+  useField<number>('quantidadePeriodos');
+const { value: periodosField } =
+  useField<typeof cursoSchema.__outputType.periodos>('periodos');
 const quantidadePeriodos = computed(() => quantidadePeriodosField.value ?? 1);
 
 // Composable de períodos/disciplinas
-const periodos = useProvideCursoPeriodos(
-  mode,
-  quantidadePeriodos,
-  cursoQuery,
-);
+const periodos = useProvideCursoPeriodos(mode, quantidadePeriodos, cursoQuery);
 
 // Metadados da formação compartilhados entre painel principal e modal
 const ofertasFormacoes = useOfertasFormacoes();
 const { value: ofertaFormacaoId } = useField<string>('ofertaFormacao.id');
 const ofertaFormacaoQuery = ofertasFormacoes.findOne(
-  computed(() => ofertaFormacaoId.value || null),
+  computed(() => ofertaFormacaoId.value || null)
 );
-const formacaoNome = computed(
-  () => ofertaFormacaoQuery.data.value?.nome ?? '',
-);
+const formacaoNome = computed(() => ofertaFormacaoQuery.data.value?.nome ?? '');
 const duracaoLabel = computed(() =>
-  getDuracaoLabel(ofertaFormacaoQuery.data.value?.duracaoPeriodoEmMeses),
+  getDuracaoLabel(ofertaFormacaoQuery.data.value?.duracaoPeriodoEmMeses)
 );
 const quantidadePeriodosLabel = computed(() =>
-  getQuantidadePeriodosLabel(ofertaFormacaoQuery.data.value?.duracaoPeriodoEmMeses),
+  getQuantidadePeriodosLabel(
+    ofertaFormacaoQuery.data.value?.duracaoPeriodoEmMeses
+  )
 );
 
 watchEffect(() => {

@@ -33,7 +33,10 @@ function selectColor(color: string) {
 
 <template>
   <div class="flex flex-col gap-1.5">
-    <div class="flex flex-wrap gap-2.5" :class="{ 'opacity-60 cursor-not-allowed': disabled }">
+    <div
+      class="flex flex-wrap gap-2.5"
+      :class="{ 'opacity-60 cursor-not-allowed': disabled }"
+    >
       <button
         v-for="color in paletteColors"
         :key="color"

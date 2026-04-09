@@ -32,11 +32,13 @@ const tabItems = [
 </script>
 
 <template>
-  <UICollapsible v-if="dcRef" v-model="isOpen" class="border-2 border-ldsa-grey/100 rounded-lg">
+  <UICollapsible
+    v-if="dcRef"
+    v-model="isOpen"
+    class="border-2 border-ldsa-grey/100 rounded-lg"
+  >
     <template #trigger>
-      <div
-        class="flex items-center justify-between px-5 py-4 cursor-pointer"
-      >
+      <div class="flex items-center justify-between px-5 py-4 cursor-pointer">
         <span class="font-semibold text-sm text-ldsa-text-default">
           {{ dcRef.disciplina.disciplinaNome ?? dcRef.disciplinaId }}
         </span>

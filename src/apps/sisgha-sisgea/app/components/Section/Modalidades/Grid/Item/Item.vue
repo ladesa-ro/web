@@ -13,9 +13,13 @@ const props = defineProps<Props>();
 
 const { item: modalidade } = toRefs(props);
 
-const link = props.link === undefined || props.link === '' ? 'modalidades' : props.link;
+const link =
+  props.link === undefined || props.link === '' ? 'modalidades' : props.link;
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.MODALIDADE_COVER, modalidade);
+const coverImageSrc = useApiImageRoute(
+  ApiImageResource.MODALIDADE_COVER,
+  modalidade
+);
 </script>
 
 <template>

@@ -14,7 +14,8 @@ const props = defineProps<Props>();
 
 const { item: curso } = toRefs(props);
 
-const link = props.link === undefined || props.link === '' ? 'cursos' : props.link;
+const link =
+  props.link === undefined || props.link === '' ? 'cursos' : props.link;
 
 const coverImageSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, curso);
 </script>

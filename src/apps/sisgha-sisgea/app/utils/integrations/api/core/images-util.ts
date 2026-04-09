@@ -31,16 +31,56 @@ type ImageResourceConfig = {
 };
 
 const IMAGE_RESOURCE_CONFIG: Record<ApiImageResource, ImageResourceConfig> = {
-  [ApiImageResource.TURMA_COVER]: { path: 'turmas', prop: 'imagemCapa', type: 'capa' },
-  [ApiImageResource.CURSO_COVER]: { path: 'cursos', prop: 'imagemCapa', type: 'capa' },
-  [ApiImageResource.DISCIPLINA_COVER]: { path: 'disciplinas', prop: 'imagemCapa', type: 'capa' },
-  [ApiImageResource.AMBIENTE_COVER]: { path: 'ambientes', prop: 'imagemCapa', type: 'capa' },
-  [ApiImageResource.BLOCO_COVER]: { path: 'blocos', prop: 'imagemCapa', type: 'capa' },
-  [ApiImageResource.MODALIDADE_COVER]: { path: 'modalidades', prop: 'imagemCapa', type: 'capa' },
-  [ApiImageResource.NIVEL_FORMACAO_COVER]: { path: 'niveis-formacoes', prop: 'imagemCapa', type: 'capa' },
-  [ApiImageResource.OFERTA_FORMACAO_COVER]: { path: 'ofertas-formacoes', prop: 'imagemCapa', type: 'capa' },
-  [ApiImageResource.DIARIO_COVER]: { path: 'diarios', prop: 'imagemCapa', type: 'capa' },
-  [ApiImageResource.USUARIO_PROFILE]: { path: 'usuarios', prop: 'imagemPerfil', type: 'perfil' },
+  [ApiImageResource.TURMA_COVER]: {
+    path: 'turmas',
+    prop: 'imagemCapa',
+    type: 'capa',
+  },
+  [ApiImageResource.CURSO_COVER]: {
+    path: 'cursos',
+    prop: 'imagemCapa',
+    type: 'capa',
+  },
+  [ApiImageResource.DISCIPLINA_COVER]: {
+    path: 'disciplinas',
+    prop: 'imagemCapa',
+    type: 'capa',
+  },
+  [ApiImageResource.AMBIENTE_COVER]: {
+    path: 'ambientes',
+    prop: 'imagemCapa',
+    type: 'capa',
+  },
+  [ApiImageResource.BLOCO_COVER]: {
+    path: 'blocos',
+    prop: 'imagemCapa',
+    type: 'capa',
+  },
+  [ApiImageResource.MODALIDADE_COVER]: {
+    path: 'modalidades',
+    prop: 'imagemCapa',
+    type: 'capa',
+  },
+  [ApiImageResource.NIVEL_FORMACAO_COVER]: {
+    path: 'niveis-formacoes',
+    prop: 'imagemCapa',
+    type: 'capa',
+  },
+  [ApiImageResource.OFERTA_FORMACAO_COVER]: {
+    path: 'ofertas-formacoes',
+    prop: 'imagemCapa',
+    type: 'capa',
+  },
+  [ApiImageResource.DIARIO_COVER]: {
+    path: 'diarios',
+    prop: 'imagemCapa',
+    type: 'capa',
+  },
+  [ApiImageResource.USUARIO_PROFILE]: {
+    path: 'usuarios',
+    prop: 'imagemPerfil',
+    type: 'perfil',
+  },
 };
 
 type IUseApiImageRouteFunction = {

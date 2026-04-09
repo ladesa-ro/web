@@ -11,7 +11,7 @@ const props = withDefaults(
   }>(),
   {
     step: 1,
-  },
+  }
 );
 
 const emit = defineEmits<{
@@ -32,12 +32,16 @@ function decrement() {
   emit('update:modelValue', next);
 }
 
-const canDecrement = computed(() =>
-  !props.disabled && (props.min === undefined || props.modelValue - props.step >= props.min),
+const canDecrement = computed(
+  () =>
+    !props.disabled &&
+    (props.min === undefined || props.modelValue - props.step >= props.min)
 );
 
-const canIncrement = computed(() =>
-  !props.disabled && (props.max === undefined || props.modelValue + props.step <= props.max),
+const canIncrement = computed(
+  () =>
+    !props.disabled &&
+    (props.max === undefined || props.modelValue + props.step <= props.max)
 );
 </script>
 

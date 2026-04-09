@@ -11,26 +11,20 @@ const props = defineProps<{
 
 const fieldDisabled = useFieldDisabled(() => props.disabled);
 
-const {
-  value: startValue,
-  errorMessage: startError,
-} = useField<string | null>(
+const { value: startValue, errorMessage: startError } = useField<string | null>(
   () => props.nameStart,
   undefined,
   {
     validateOnValueUpdate: false,
-  },
+  }
 );
 
-const {
-  value: endValue,
-  errorMessage: endError,
-} = useField<string | null>(
+const { value: endValue, errorMessage: endError } = useField<string | null>(
   () => props.nameEnd,
   undefined,
   {
     validateOnValueUpdate: false,
-  },
+  }
 );
 
 const combinedError = computed(() => startError.value || endError.value);

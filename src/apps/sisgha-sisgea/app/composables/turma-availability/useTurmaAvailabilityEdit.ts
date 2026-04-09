@@ -1,9 +1,7 @@
 import type { Dayjs } from 'dayjs';
 import type { FormMode } from '~/utils/constants';
 import { toApiFormat, toDisplayFormat } from '~/utils/horarios';
-import type {
-  TurmaDisponibilidadeConfigInputDto,
-} from '@ladesa-ro/web.api.client';
+import type { TurmaDisponibilidadeConfigInputDto } from '@ladesa-ro/web.api.client';
 import type { useTurmaGradeSelection } from './useTurmaGradeSelection';
 import { useTurmaEditState } from './useTurmaEditState';
 import { useTurmaPendingConfigs } from './useTurmaPendingConfigs';
@@ -18,13 +16,19 @@ export function useTurmaAvailabilityEdit(
   turmaId: MaybeRef<string | null>,
   mode: MaybeRef<FormMode>,
   currentWeekRef: Ref<Dayjs>,
-  grade: ReturnType<typeof useTurmaGradeSelection>,
+  grade: ReturnType<typeof useTurmaGradeSelection>
 ) {
   const { selectedGrade, selectedGradeIdentifier, allCampusTimes } = grade;
 
   const editState = useTurmaEditState(currentWeekRef);
   const pending = useTurmaPendingConfigs();
-  const sync = useTurmaSyncLogic(turmaId, currentWeekRef, grade, editState, pending);
+  const sync = useTurmaSyncLogic(
+    turmaId,
+    currentWeekRef,
+    grade,
+    editState,
+    pending
+  );
 
   // --- Build / Confirm / Save ---
 
@@ -37,7 +41,8 @@ export function useTurmaAvailabilityEdit(
       .map(([diaSemana, times]) => {
         const intervalos = times.map(displayTime => {
           const match = gradeIntervalos.find(
-            (item: { inicio: string; fim: string }) => toDisplayFormat(item.inicio) === displayTime
+            (item: { inicio: string; fim: string }) =>
+              toDisplayFormat(item.inicio) === displayTime
           );
           return {
             inicio: match ? match.inicio : toApiFormat(displayTime),
@@ -63,7 +68,9 @@ export function useTurmaAvailabilityEdit(
     pending.addPendingConfig(config);
 
     const mapped: Record<number, string[]> = {};
-    for (const [day, times] of Object.entries(editState.editingAvailability.value)) {
+    for (const [day, times] of Object.entries(
+      editState.editingAvailability.value
+    )) {
       if (times.length > 0) {
         mapped[Number(day)] = [...times];
       }

@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { useAutocompleteEntity } from '../-Base/createAutocompleteComponent';
-import { nivelFormacaoFindAll, nivelFormacaoFindById } from '@ladesa-ro/web.api.client';
+import {
+  nivelFormacaoFindAll,
+  nivelFormacaoFindById,
+} from '@ladesa-ro/web.api.client';
 
 const props = withDefaults(
   defineProps<{
@@ -14,7 +17,7 @@ const props = withDefaults(
     multiple: false,
     getValue: (item: any) => item?.id ?? item,
     buildItem: (value: string | number) => ({ id: String(value) }),
-  },
+  }
 );
 
 const { options } = useAutocompleteEntity({

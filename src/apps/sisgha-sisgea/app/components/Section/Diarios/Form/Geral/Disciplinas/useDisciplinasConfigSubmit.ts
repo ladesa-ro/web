@@ -1,11 +1,16 @@
 import type { FormValidationResult } from 'vee-validate';
-import type { IContextDiariosFormGeral, IPreferenciaAgrupamento } from '../Contexto';
+import type {
+  IContextDiariosFormGeral,
+  IPreferenciaAgrupamento,
+} from '../Contexto';
 
 export function useDisciplinasConfigSubmit(
   editId: Ref<string | null | undefined>,
   contexto: IContextDiariosFormGeral,
   emit: { close: () => void },
-  formValidate: (() => Promise<FormValidationResult<Record<string, unknown>>>) | undefined,
+  formValidate:
+    | (() => Promise<FormValidationResult<Record<string, unknown>>>)
+    | undefined
 ) {
   const diarios = useDiarios();
   const { showToast } = useToast();
@@ -27,7 +32,7 @@ export function useDisciplinasConfigSubmit(
   }
 
   function mapPreferencias(prefs: IPreferenciaAgrupamento[]) {
-    return prefs.map((p) => ({
+    return prefs.map(p => ({
       modo: p.modo,
       ordem: p.ordem,
       diaSemanaIso: p.diaSemanaIso,
@@ -39,21 +44,25 @@ export function useDisciplinasConfigSubmit(
 
   async function submitCreate() {
     const diariosComDias = contexto.disciplinasConfig.value.filter(
-      (dc) => dc.preferenciasAgrupamento.length > 0,
+      dc => dc.preferenciasAgrupamento.length > 0
     );
 
     if (diariosComDias.length === 0) {
-      showToast('cadastro', 'error', 'Nenhuma disciplina possui dias de aula configurados.');
+      showToast(
+        'cadastro',
+        'error',
+        'Nenhuma disciplina possui dias de aula configurados.'
+      );
       return;
     }
 
     const payload = {
       turma: { id: contexto.turmaId.value! },
       calendarioLetivo: { id: contexto.calendarioLetivoId.value! },
-      diarios: diariosComDias.map((dc) => ({
+      diarios: diariosComDias.map(dc => ({
         disciplina: { id: dc.disciplinaId },
         ativo: true,
-        professores: dc.professoresSelecionados.map((perfilId) => ({
+        professores: dc.professoresSelecionados.map(perfilId => ({
           perfilId,
           situacao: true,
         })),
@@ -70,7 +79,7 @@ export function useDisciplinasConfigSubmit(
     if (!dc) return;
 
     await diarios.bulkReplaceProfessores(id, {
-      professores: dc.professoresSelecionados.map((perfilId) => ({
+      professores: dc.professoresSelecionados.map(perfilId => ({
         perfilId,
         situacao: true,
       })),
@@ -95,7 +104,11 @@ export function useDisciplinasConfigSubmit(
       if (!valid) {
         const firstError = Object.values(errors)[0];
         if (firstError) {
-          showToast(isEditMode.value ? 'atualizacao' : 'cadastro', 'error', firstError);
+          showToast(
+            isEditMode.value ? 'atualizacao' : 'cadastro',
+            'error',
+            firstError
+          );
         }
         return;
       }
@@ -113,10 +126,7 @@ export function useDisciplinasConfigSubmit(
       await diarios.invalidate();
       emit.close();
     } catch {
-      showToast(
-        isEditMode.value ? 'atualizacao' : 'cadastro',
-        'error',
-      );
+      showToast(isEditMode.value ? 'atualizacao' : 'cadastro', 'error');
     } finally {
       isBusy.value = false;
     }

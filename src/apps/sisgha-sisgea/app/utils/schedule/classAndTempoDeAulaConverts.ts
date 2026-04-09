@@ -1,10 +1,5 @@
 import { getWeekDays } from '~/utils/get-week-days';
-import type {
-  Aula,
-  HorString,
-  TimeSlotObj,
-  TimeSlots,
-} from './types';
+import type { Aula, HorString, TimeSlotObj, TimeSlots } from './types';
 
 // TODO: aceitar um parâmetro do tipo Ladesa_ManagementService_Domain_Contracts_AulaFindOneOutput ao integrar à api
 

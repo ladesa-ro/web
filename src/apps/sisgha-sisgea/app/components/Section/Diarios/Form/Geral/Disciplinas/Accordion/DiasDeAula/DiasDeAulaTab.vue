@@ -24,15 +24,14 @@ const modo = computed({
   set: (val: DiarioPreferenciaAgrupamentoModo) => {
     const dc = getDc();
     dc.modoAgrupamento = val;
-    dc.preferenciasAgrupamento = dc.preferenciasAgrupamento.map(
-      (p) => ({ ...p, modo: val })
-    );
+    dc.preferenciasAgrupamento = dc.preferenciasAgrupamento.map(p => ({
+      ...p,
+      modo: val,
+    }));
   },
 });
 
-const prefs = computed(
-  () => dcRef.value?.preferenciasAgrupamento ?? []
-);
+const prefs = computed(() => dcRef.value?.preferenciasAgrupamento ?? []);
 
 const diasSemana = [
   { value: 1, label: 'Segunda' },
@@ -94,104 +93,99 @@ function setDiaSemana(prefIndex: number, dia: number) {
       v-if="contexto.isLoadingEdit.value"
       class="flex items-center justify-center py-6"
     >
-      <span class="text-sm text-ldsa-grey/100 animate-pulse">Carregando dias de aula...</span>
+      <span class="text-sm text-ldsa-grey/100 animate-pulse"
+        >Carregando dias de aula...</span
+      >
     </div>
 
     <template v-else>
-    <!-- Toggle modo -->
-    <div class="flex items-center gap-2 text-xs">
-      <button
-        class="px-3 py-1 rounded-full border transition-colors"
-        :class="
-          modo === 'DEFINIDO'
-            ? 'bg-ldsa-green-1 text-white border-ldsa-green-1'
-            : 'border-ldsa-grey/100 text-ldsa-text-default'
-        "
-        @click="modo = 'DEFINIDO'"
-      >
-        Simples
-      </button>
-      <button
-        class="px-3 py-1 rounded-full border transition-colors"
-        :class="
-          modo === 'POR_DIA_SEMANA'
-            ? 'bg-ldsa-green-1 text-white border-ldsa-green-1'
-            : 'border-ldsa-grey/100 text-ldsa-text-default'
-        "
-        @click="modo = 'POR_DIA_SEMANA'"
-      >
-        Por dia da semana
-      </button>
-    </div>
-
-    <!-- Lista de dias -->
-    <div
-      v-for="(pref, prefIndex) in prefs"
-      :key="prefIndex"
-      class="flex items-center gap-3 border-2 border-ldsa-grey/100 rounded-lg overflow-hidden"
-    >
-      <!-- Badge do dia -->
-      <div
-        v-if="modo === 'DEFINIDO'"
-        class="bg-ldsa-green-1 text-white font-semibold text-xs px-4 py-3 min-w-[70px] text-center"
-      >
-        Dia {{ pref.ordem }}
-      </div>
-
-      <!-- Selector dia da semana -->
-      <select
-        v-if="modo === 'POR_DIA_SEMANA'"
-        :value="pref.diaSemanaIso ?? 1"
-        class="bg-ldsa-green-1 text-white font-semibold text-xs px-2 py-3 min-w-[100px] border-none"
-        @change="
-          setDiaSemana(
-            prefIndex,
-            Number(($event.target as HTMLSelectElement).value)
-          )
-        "
-      >
-        <option
-          v-for="dia in diasSemana"
-          :key="dia.value"
-          :value="dia.value"
-        >
-          {{ dia.label }}
-        </option>
-      </select>
-
-      <!-- Stepper de aulas -->
-      <div class="flex items-center gap-3 flex-1 justify-center">
+      <!-- Toggle modo -->
+      <div class="flex items-center gap-2 text-xs">
         <button
-          class="p-1"
-          :disabled="pref.aulasSeguidas <= 1"
-          @click="decrementarAulas(prefIndex)"
+          class="px-3 py-1 rounded-full border transition-colors"
+          :class="
+            modo === 'DEFINIDO'
+              ? 'bg-ldsa-green-1 text-white border-ldsa-green-1'
+              : 'border-ldsa-grey/100 text-ldsa-text-default'
+          "
+          @click="modo = 'DEFINIDO'"
         >
-          <IconsArrow class="w-3 h-3 rotate-90" />
+          Simples
         </button>
-        <span class="font-semibold text-xs">
-          Total de aulas: {{ pref.aulasSeguidas }}
-        </span>
-        <button class="p-1" @click="incrementarAulas(prefIndex)">
-          <IconsArrow class="w-3 h-3 -rotate-90" />
+        <button
+          class="px-3 py-1 rounded-full border transition-colors"
+          :class="
+            modo === 'POR_DIA_SEMANA'
+              ? 'bg-ldsa-green-1 text-white border-ldsa-green-1'
+              : 'border-ldsa-grey/100 text-ldsa-text-default'
+          "
+          @click="modo = 'POR_DIA_SEMANA'"
+        >
+          Por dia da semana
         </button>
       </div>
 
-      <!-- Remover -->
-      <button
-        class="p-2 mr-2"
-        @click="removerDia(prefIndex)"
+      <!-- Lista de dias -->
+      <div
+        v-for="(pref, prefIndex) in prefs"
+        :key="prefIndex"
+        class="flex items-center gap-3 border-2 border-ldsa-grey/100 rounded-lg overflow-hidden"
       >
-        <span class="text-ldsa-grey/100 text-xs">&#10005;</span>
-      </button>
-    </div>
+        <!-- Badge do dia -->
+        <div
+          v-if="modo === 'DEFINIDO'"
+          class="bg-ldsa-green-1 text-white font-semibold text-xs px-4 py-3 min-w-[70px] text-center"
+        >
+          Dia {{ pref.ordem }}
+        </div>
 
-    <!-- Botão adicionar dia -->
-    <button
-      class="flex items-center justify-center gap-1 border-2 border-dashed border-ldsa-grey/100 rounded-lg py-3 text-sm font-semibold text-ldsa-text-default cursor-pointer hover:bg-gray-50 transition-colors"
-      @click="adicionarDia"
-    >
-      Adicionar dia +
-    </button>
+        <!-- Selector dia da semana -->
+        <select
+          v-if="modo === 'POR_DIA_SEMANA'"
+          :value="pref.diaSemanaIso ?? 1"
+          class="bg-ldsa-green-1 text-white font-semibold text-xs px-2 py-3 min-w-[100px] border-none"
+          @change="
+            setDiaSemana(
+              prefIndex,
+              Number(($event.target as HTMLSelectElement).value)
+            )
+          "
+        >
+          <option v-for="dia in diasSemana" :key="dia.value" :value="dia.value">
+            {{ dia.label }}
+          </option>
+        </select>
+
+        <!-- Stepper de aulas -->
+        <div class="flex items-center gap-3 flex-1 justify-center">
+          <button
+            class="p-1"
+            :disabled="pref.aulasSeguidas <= 1"
+            @click="decrementarAulas(prefIndex)"
+          >
+            <IconsArrow class="w-3 h-3 rotate-90" />
+          </button>
+          <span class="font-semibold text-xs">
+            Total de aulas: {{ pref.aulasSeguidas }}
+          </span>
+          <button class="p-1" @click="incrementarAulas(prefIndex)">
+            <IconsArrow class="w-3 h-3 -rotate-90" />
+          </button>
+        </div>
+
+        <!-- Remover -->
+        <button class="p-2 mr-2" @click="removerDia(prefIndex)">
+          <span class="text-ldsa-grey/100 text-xs">&#10005;</span>
+        </button>
+      </div>
+
+      <!-- Botão adicionar dia -->
+      <button
+        class="flex items-center justify-center gap-1 border-2 border-dashed border-ldsa-grey/100 rounded-lg py-3 text-sm font-semibold text-ldsa-text-default cursor-pointer hover:bg-gray-50 transition-colors"
+        @click="adicionarDia"
+      >
+        Adicionar dia +
+      </button>
     </template>
   </div>
 </template>

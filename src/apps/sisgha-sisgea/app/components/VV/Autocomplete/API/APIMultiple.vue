@@ -42,9 +42,7 @@ const activeResourcesQueries = useQueries({
 });
 
 const activeItems = computed(() =>
-  activeResourcesQueries.value
-    .map(q => q.data)
-    .filter(Boolean)
+  activeResourcesQueries.value.map(q => q.data).filter(Boolean)
 );
 
 const searchValue = defineModel('search', { default: '' });
@@ -67,10 +65,7 @@ const listItems = computed(() => listQuery.data.value?.data ?? []);
 const listIsLoading = listQuery.isLoading;
 
 const selectItems = computed(() => {
-  const combined = filter(
-    [...activeItems.value, ...listItems.value],
-    Boolean
-  );
+  const combined = filter([...activeItems.value, ...listItems.value], Boolean);
   const transformed = combined.map(apiRetrieverOptions.transformer);
   return uniqBy(transformed, 'value');
 });

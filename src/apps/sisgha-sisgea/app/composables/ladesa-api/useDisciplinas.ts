@@ -77,8 +77,14 @@ export const useDisciplinas = (): IUseDisciplinas => {
     fetcher: (id: string) => api.call(disciplinaFindById, { path: { id } }),
   });
 
-  const create = createCreateFn<ReqBody<DisciplinaCreateData>, DisciplinaCreateResponse>(api, disciplinaCreate);
-  const update = createUpdateFn<ReqBody<DisciplinaUpdateData>, DisciplinaUpdateResponse>(api, disciplinaUpdate);
+  const create = createCreateFn<
+    ReqBody<DisciplinaCreateData>,
+    DisciplinaCreateResponse
+  >(api, disciplinaCreate);
+  const update = createUpdateFn<
+    ReqBody<DisciplinaUpdateData>,
+    DisciplinaUpdateResponse
+  >(api, disciplinaUpdate);
   const remove = createRemoveFn(api, disciplinaDeleteOneById);
   const uploadCover = createUploadImageFn(api, disciplinaUpdateImagemCapa);
 

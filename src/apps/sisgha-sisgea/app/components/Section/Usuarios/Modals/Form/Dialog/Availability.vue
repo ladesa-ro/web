@@ -21,7 +21,11 @@ const emit = defineEmits<{
   (e: 'update:has-teacher-role', value: boolean): void;
 }>();
 
-watch(hasAtLeastOneActiveTeacherRole, val => emit('update:has-teacher-role', val), { immediate: true });
+watch(
+  hasAtLeastOneActiveTeacherRole,
+  val => emit('update:has-teacher-role', val),
+  { immediate: true }
+);
 </script>
 
 <template>

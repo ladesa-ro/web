@@ -13,7 +13,8 @@ interface CalendarioEvents {
   emitForceCloseInnerModals(): void;
 }
 
-const CALENDARIO_EVENTS_KEY: InjectionKey<CalendarioEvents> = Symbol('calendario-events');
+const CALENDARIO_EVENTS_KEY: InjectionKey<CalendarioEvents> =
+  Symbol('calendario-events');
 
 function createHandlerSet() {
   const handlers = new Set<EventHandler>();
@@ -26,7 +27,7 @@ function createHandlerSet() {
       handlers.delete(handler);
     },
     emit() {
-      handlers.forEach((handler) => handler());
+      handlers.forEach(handler => handler());
     },
   };
 }
@@ -54,7 +55,7 @@ export function useInjectCalendarioEvents(): CalendarioEvents {
 
   if (!events) {
     throw new Error(
-      'useInjectCalendarioEvents: Contexto não encontrado. Certifique-se de que useProvideCalendarioEvents foi chamado em um componente pai.',
+      'useInjectCalendarioEvents: Contexto não encontrado. Certifique-se de que useProvideCalendarioEvents foi chamado em um componente pai.'
     );
   }
 

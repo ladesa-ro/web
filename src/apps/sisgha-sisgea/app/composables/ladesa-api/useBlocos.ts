@@ -77,8 +77,14 @@ export const useBlocos = (): IUseBlocos => {
     fetcher: (id: string) => api.call(blocoFindById, { path: { id } }),
   });
 
-  const create = createCreateFn<ReqBody<BlocoCreateData>, BlocoCreateResponse>(api, blocoCreate);
-  const update = createUpdateFn<ReqBody<BlocoUpdateData>, BlocoUpdateResponse>(api, blocoUpdate);
+  const create = createCreateFn<ReqBody<BlocoCreateData>, BlocoCreateResponse>(
+    api,
+    blocoCreate
+  );
+  const update = createUpdateFn<ReqBody<BlocoUpdateData>, BlocoUpdateResponse>(
+    api,
+    blocoUpdate
+  );
   const remove = createRemoveFn(api, blocoDeleteOneById);
   const uploadCover = createUploadImageFn(api, blocoUpdateImagemCapa);
 

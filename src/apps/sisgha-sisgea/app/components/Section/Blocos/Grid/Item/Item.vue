@@ -12,7 +12,8 @@ const props = defineProps<Props>();
 
 const { item: bloco } = toRefs(props);
 
-const link = props.link === undefined || props.link === '' ? '/sisgea/blocos' : props.link;
+const link =
+  props.link === undefined || props.link === '' ? '/sisgea/blocos' : props.link;
 
 const coverImageSrc = useApiImageRoute(ApiImageResource.BLOCO_COVER, bloco);
 </script>

@@ -29,16 +29,11 @@ const breadcrumbResult = computed<{
 
   for (const item of props.items) {
     if (item.type === 'link') {
-      if (
-        path === item.to ||
-        (!item.exact && path.startsWith(item.to + '/'))
-      ) {
+      if (path === item.to || (!item.exact && path.startsWith(item.to + '/'))) {
         const matchLen = item.to.length;
         if (!bestMatch || matchLen > bestMatch.length) {
           bestMatch = {
-            segments: [
-              { title: item.pageTitle ?? item.title, to: item.to },
-            ],
+            segments: [{ title: item.pageTitle ?? item.title, to: item.to }],
             length: matchLen,
             isHome: !!item.exact && path === item.to,
           };

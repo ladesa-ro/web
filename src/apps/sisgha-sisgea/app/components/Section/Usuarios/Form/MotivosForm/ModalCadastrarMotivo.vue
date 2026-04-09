@@ -66,7 +66,9 @@ const onClose = () => emit('fechar');
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 md:flex-row h-[min(90vh,100%)] w-[min(95vw,50rem)]">
+  <div
+    class="flex flex-col gap-4 md:flex-row h-[min(90vh,100%)] w-[min(95vw,50rem)]"
+  >
     <DialogModalBaseLayout
       :close-button="false"
       :on-close="onClose"

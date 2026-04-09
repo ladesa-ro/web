@@ -6,7 +6,11 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import SearchBar from '~/components/UI/SearchBar/SearchBar.vue';
 import type { CalendarioAgendamentoFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import type { CalendarData, CalendarEvent } from '../../Types';
-import { useInjectCalendarioEvents, useOnCalendarioEventsUpdated, useOnCalendarioForceClose } from '../../useCalendarioEventBus';
+import {
+  useInjectCalendarioEvents,
+  useOnCalendarioEventsUpdated,
+  useOnCalendarioForceClose,
+} from '../../useCalendarioEventBus';
 
 dayjs.extend(isBetween);
 dayjs.extend(relativeTime);

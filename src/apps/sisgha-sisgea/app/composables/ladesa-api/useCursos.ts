@@ -77,8 +77,14 @@ export const useCursos = (): IUseCursos => {
     fetcher: (id: string) => api.call(cursoFindById, { path: { id } }),
   });
 
-  const create = createCreateFn<ReqBody<CursoCreateData>, CursoCreateResponse>(api, cursoCreate);
-  const update = createUpdateFn<ReqBody<CursoUpdateData>, CursoUpdateResponse>(api, cursoUpdate);
+  const create = createCreateFn<ReqBody<CursoCreateData>, CursoCreateResponse>(
+    api,
+    cursoCreate
+  );
+  const update = createUpdateFn<ReqBody<CursoUpdateData>, CursoUpdateResponse>(
+    api,
+    cursoUpdate
+  );
   const remove = createRemoveFn(api, cursoDeleteOneById);
   const uploadCover = createUploadImageFn(api, cursoUpdateImagemCapa);
 

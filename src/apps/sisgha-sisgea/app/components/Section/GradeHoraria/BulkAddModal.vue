@@ -50,7 +50,7 @@ const { value: breakDuration } = useField<number>('breakDuration');
 const { value: breakAfterClass } = useField<number>('breakAfterClass');
 
 // Auto-update startTime when turno changes via toggle (only if current time is outside the new turno range)
-watch(selectedPeriodo, (periodo) => {
+watch(selectedPeriodo, periodo => {
   const current = startTime.value;
   if (!current || classificarPeriodo(current) !== periodo) {
     startTime.value = periodoDefaults[periodo];
@@ -58,7 +58,7 @@ watch(selectedPeriodo, (periodo) => {
 });
 
 // Auto-switch turno when startTime changes manually
-watch(startTime, (time) => {
+watch(startTime, time => {
   if (!time) return;
   const detected = classificarPeriodo(time);
   if (detected !== selectedPeriodo.value) {
@@ -80,16 +80,26 @@ const breakDurationNum = computed(() => Number(breakDuration.value) || 0);
 const breakAfterClassNum = computed(() => Number(breakAfterClass.value) || 0);
 
 const preview = computed(() => {
-  if (classCountNum.value < 1 || classDurationNum.value < 1 || !startTime.value) return [];
-  const intervals: Array<{ inicio: string; fim: string; isAfterBreak: boolean }> = [];
+  if (classCountNum.value < 1 || classDurationNum.value < 1 || !startTime.value)
+    return [];
+  const intervals: Array<{
+    inicio: string;
+    fim: string;
+    isAfterBreak: boolean;
+  }> = [];
   let cursor = startTime.value;
 
   for (let i = 1; i <= classCountNum.value; i++) {
     const fim = addMinutes(cursor, classDurationNum.value);
-    const isAfterBreak = breakAfterClassNum.value > 0 && i === breakAfterClassNum.value + 1;
+    const isAfterBreak =
+      breakAfterClassNum.value > 0 && i === breakAfterClassNum.value + 1;
     intervals.push({ inicio: cursor, fim, isAfterBreak });
     cursor = fim;
-    if (breakAfterClassNum.value > 0 && i === breakAfterClassNum.value && i < classCountNum.value) {
+    if (
+      breakAfterClassNum.value > 0 &&
+      i === breakAfterClassNum.value &&
+      i < classCountNum.value
+    ) {
       cursor = addMinutes(cursor, breakDurationNum.value);
     }
   }
@@ -97,11 +107,13 @@ const preview = computed(() => {
   return intervals;
 });
 
-const isValid = computed(() =>
-  classCountNum.value >= 1
-  && classDurationNum.value >= 1
-  && startTime.value
-  && (breakAfterClassNum.value === 0 || breakAfterClassNum.value < classCountNum.value),
+const isValid = computed(
+  () =>
+    classCountNum.value >= 1 &&
+    classDurationNum.value >= 1 &&
+    startTime.value &&
+    (breakAfterClassNum.value === 0 ||
+      breakAfterClassNum.value < classCountNum.value)
 );
 
 function handleConfirm() {
@@ -134,18 +146,43 @@ function handleConfirm() {
 
       <div class="grid grid-cols-2 gap-3">
         <VVTimeField name="startTime" label="Horário inicial" />
-        <VVTextField name="classCount" label="Quantidade de aulas" type="number" placeholder="5" />
-        <VVTextField name="classDuration" label="Duração da aula (min)" type="number" placeholder="50" />
-        <VVTextField name="breakDuration" label="Duração do intervalo (min)" type="number" placeholder="20" />
+        <VVTextField
+          name="classCount"
+          label="Quantidade de aulas"
+          type="number"
+          placeholder="5"
+        />
+        <VVTextField
+          name="classDuration"
+          label="Duração da aula (min)"
+          type="number"
+          placeholder="50"
+        />
+        <VVTextField
+          name="breakDuration"
+          label="Duração do intervalo (min)"
+          type="number"
+          placeholder="20"
+        />
 
         <div class="col-span-2">
-          <VVTextField name="breakAfterClass" label="Intervalo após aula nº (0 = sem intervalo)" type="number" placeholder="3" />
+          <VVTextField
+            name="breakAfterClass"
+            label="Intervalo após aula nº (0 = sem intervalo)"
+            type="number"
+            placeholder="3"
+          />
         </div>
       </div>
 
       <!-- Preview -->
-      <div v-if="preview.length > 0" class="border border-ldsa-grey/30 rounded-md p-3">
-        <p class="text-xs font-medium text-ldsa-grey mb-2">Prévia dos horários:</p>
+      <div
+        v-if="preview.length > 0"
+        class="border border-ldsa-grey/30 rounded-md p-3"
+      >
+        <p class="text-xs font-medium text-ldsa-grey mb-2">
+          Prévia dos horários:
+        </p>
         <div class="flex flex-col gap-1">
           <div
             v-for="(item, i) in preview"

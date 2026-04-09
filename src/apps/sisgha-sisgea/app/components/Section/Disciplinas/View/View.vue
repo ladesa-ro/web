@@ -6,12 +6,19 @@ type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
 
 const disciplinas = useDisciplinas();
-const { data: disciplina, isLoading, isError } = disciplinas.findOne(ref(resourceId));
+const {
+  data: disciplina,
+  isLoading,
+  isError,
+} = disciplinas.findOne(ref(resourceId));
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.DISCIPLINA_COVER, disciplina);
+const coverImageSrc = useApiImageRoute(
+  ApiImageResource.DISCIPLINA_COVER,
+  disciplina
+);
 
 const { confirmDelete, handleDelete } = useResourceDelete({
-  remove: (id) => disciplinas.remove(id),
+  remove: id => disciplinas.remove(id),
   invalidate: () => disciplinas.invalidate(),
   redirectTo: '/sisgha/dape/disciplinas',
 });
@@ -42,7 +49,9 @@ const { confirmDelete, handleDelete } = useResourceDelete({
         />
         <UIResourceViewField
           label="Carga Horária"
-          :value="disciplina?.cargaHoraria ? `${disciplina.cargaHoraria} horas` : null"
+          :value="
+            disciplina?.cargaHoraria ? `${disciplina.cargaHoraria} horas` : null
+          "
         />
       </UIResourceViewFieldGroup>
     </template>

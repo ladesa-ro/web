@@ -19,7 +19,9 @@ export const cursoSchema = yup.object({
     .default(''),
   quantidadePeriodos: yup
     .number()
-    .transform((value, original) => (original === '' ? undefined : Number(original)))
+    .transform((value, original) =>
+      original === '' ? undefined : Number(original)
+    )
     .required('Quantidade de períodos é obrigatória')
     .min(1, 'Mínimo 1 período')
     .max(12, 'Máximo 12 períodos')
@@ -35,10 +37,10 @@ export const cursoSchema = yup.object({
             yup.object({
               disciplinaId: yup.string().required(),
               cargaHoraria: yup.number().optional(),
-            }),
+            })
           )
           .default([]),
-      }),
+      })
     )
     .default([]),
 });

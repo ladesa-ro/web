@@ -23,10 +23,7 @@ const disciplinaConfigSchema = yup.object({
     .array()
     .of(preferenciaAgrupamentoSchema)
     .default([]),
-  professoresSelecionados: yup
-    .array()
-    .of(yup.string().required())
-    .default([]),
+  professoresSelecionados: yup.array().of(yup.string().required()).default([]),
 });
 
 export const diariosFormSchema = yup.object({
@@ -36,10 +33,7 @@ export const diariosFormSchema = yup.object({
     .default(''),
   ofertaFormacaoId: yup.string().nullable().default(null),
   cursoId: yup.string().nullable().default(null),
-  turmaId: yup
-    .string()
-    .required('Turma é obrigatória')
-    .default(''),
+  turmaId: yup.string().required('Turma é obrigatória').default(''),
   disciplinasConfig: yup
     .array()
     .of(disciplinaConfigSchema)
@@ -47,10 +41,14 @@ export const diariosFormSchema = yup.object({
     .test(
       'min-dias',
       'Pelo menos uma disciplina deve ter dias de aula configurados',
-      (arr) => (arr ?? []).some((d) => d.preferenciasAgrupamento.length > 0),
+      arr => (arr ?? []).some(d => d.preferenciasAgrupamento.length > 0)
     ),
 });
 
 export type IDiariosFormValues = yup.InferType<typeof diariosFormSchema>;
-export type IDisciplinaConfigForm = yup.InferType<typeof disciplinaConfigSchema>;
-export type IPreferenciaAgrupamentoForm = yup.InferType<typeof preferenciaAgrupamentoSchema>;
+export type IDisciplinaConfigForm = yup.InferType<
+  typeof disciplinaConfigSchema
+>;
+export type IPreferenciaAgrupamentoForm = yup.InferType<
+  typeof preferenciaAgrupamentoSchema
+>;

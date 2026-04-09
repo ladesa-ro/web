@@ -13,9 +13,7 @@ const disabledItems = computed(() =>
   props.disabled ? props.dayShifts.flatMap(s => s.times) : []
 );
 
-const disabledSelectAll = computed(() =>
-  props.disabled ? [''] : []
-);
+const disabledSelectAll = computed(() => (props.disabled ? [''] : []));
 
 const isAllSelected = (shift: { times: string[] }) => {
   return shift.times.every(time => props.selectedTimes.includes(time));
@@ -50,7 +48,9 @@ const toggleAll = (shift: { times: string[] }) => {
           class="mr-2 w-5 h-5"
           @update:model-value="() => toggleAll(shift)"
         />
-        <h1 class="font-medium text-ldsa-text-default">{{ capitalizeFirst(shift.title) }}</h1>
+        <h1 class="font-medium text-ldsa-text-default">
+          {{ capitalizeFirst(shift.title) }}
+        </h1>
       </div>
       <UICheckbox
         :model-value="props.selectedTimes"

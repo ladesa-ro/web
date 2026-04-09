@@ -16,7 +16,7 @@ import type { ApiClient } from '../useApiClient';
  */
 export function createCreateFn<TBody, TResult>(
   api: ApiClient,
-  apiFn: (opts: any) => Promise<any>,
+  apiFn: (opts: any) => Promise<any>
 ) {
   return (data: TBody): Promise<TResult> => {
     return api.call(apiFn, { body: data });
@@ -30,7 +30,7 @@ export function createCreateFn<TBody, TResult>(
  */
 export function createUpdateFn<TBody, TResult>(
   api: ApiClient,
-  apiFn: (opts: any) => Promise<any>,
+  apiFn: (opts: any) => Promise<any>
 ) {
   return (id: string, data: TBody): Promise<TResult> => {
     return api.call(apiFn, { path: { id }, body: data });
@@ -44,7 +44,7 @@ export function createUpdateFn<TBody, TResult>(
  */
 export function createRemoveFn(
   api: ApiClient,
-  apiFn: (opts: any) => Promise<any>,
+  apiFn: (opts: any) => Promise<any>
 ) {
   return (id: string): Promise<unknown> => {
     return api.call(apiFn, { path: { id } });
@@ -59,7 +59,7 @@ export function createRemoveFn(
  */
 export function createUploadImageFn(
   api: ApiClient,
-  apiFn: (opts: any) => Promise<any>,
+  apiFn: (opts: any) => Promise<any>
 ) {
   return (id: string, file: Blob): Promise<unknown> => {
     return api.call(apiFn, { path: { id }, body: { file } });

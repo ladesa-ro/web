@@ -1,9 +1,5 @@
-import {
-  createListQuery,
-} from '~/composables/query-helpers';
-import type {
-  ListFn,
-} from '~/composables/query-helpers';
+import { createListQuery } from '~/composables/query-helpers';
+import type { ListFn } from '~/composables/query-helpers';
 import {
   diarioPreferenciaAgrupamentoFindAll,
   diarioPreferenciaAgrupamentoBulkReplace,
@@ -22,7 +18,10 @@ export type IUseDiariosPreferencias = {
     diarioId: string,
     params?: MaybeRef<ReqQuery<DiarioPreferenciaAgrupamentoFindAllData>>
   ) => ReturnType<
-    ListFn<DiarioPreferenciaAgrupamentoFindAllResponse, ReqQuery<DiarioPreferenciaAgrupamentoFindAllData>>
+    ListFn<
+      DiarioPreferenciaAgrupamentoFindAllResponse,
+      ReqQuery<DiarioPreferenciaAgrupamentoFindAllData>
+    >
   >;
   bulkReplacePreferenciasAgrupamento: (
     diarioId: string,
@@ -30,7 +29,9 @@ export type IUseDiariosPreferencias = {
   ) => Promise<DiarioPreferenciaAgrupamentoBulkReplaceResponse>;
 };
 
-export function useDiariosPreferencias(keys: readonly string[]): IUseDiariosPreferencias {
+export function useDiariosPreferencias(
+  keys: readonly string[]
+): IUseDiariosPreferencias {
   const api = useApiClient();
 
   const listPreferenciasAgrupamento = (

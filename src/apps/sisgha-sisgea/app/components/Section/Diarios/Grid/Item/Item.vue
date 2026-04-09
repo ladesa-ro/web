@@ -11,7 +11,8 @@ const props = defineProps<Props>();
 
 const { diario } = toRefs(props);
 
-const link = props.link === undefined || props.link === '' ? 'diarios' : props.link;
+const link =
+  props.link === undefined || props.link === '' ? 'diarios' : props.link;
 
 const diarios_api = useDiarios();
 
@@ -23,10 +24,7 @@ const diariosProfessoresList = computed(
   () => professoresQuery?.data.value?.data ?? []
 );
 
-const coverImageSrc = useApiImageRoute(
-  ApiImageResource.DIARIO_COVER,
-  diario
-);
+const coverImageSrc = useApiImageRoute(ApiImageResource.DIARIO_COVER, diario);
 
 if (professoresQuery) {
   await suspendQuery(professoresQuery);
@@ -35,28 +33,33 @@ if (professoresQuery) {
 
 <template>
   <UICardAutoSkeleton :skeleton="!diario">
-    <UICard v-if="diario" :src="coverImageSrc" :title="diario.disciplina.nome" variant="block">
-    <template #actions>
-      <UICardActions :to="`${link}/${diario.id}`">
-        <LazySectionDiariosModal :edit-id="diario.id" />
-      </UICardActions>
-    </template>
+    <UICard
+      v-if="diario"
+      :src="coverImageSrc"
+      :title="diario.disciplina.nome"
+      variant="block"
+    >
+      <template #actions>
+        <UICardActions :to="`${link}/${diario.id}`">
+          <LazySectionDiariosModal :edit-id="diario.id" />
+        </UICardActions>
+      </template>
 
-    <UICardLine>
-      <span>
-        Professores:
-        <template
-          v-for="diarioProfessor in diariosProfessoresList"
-          :key="diarioProfessor.id"
-        >
-          {{ diarioProfessor.perfil.usuario.nome }}
-        </template>
-      </span>
-    </UICardLine>
+      <UICardLine>
+        <span>
+          Professores:
+          <template
+            v-for="diarioProfessor in diariosProfessoresList"
+            :key="diarioProfessor.id"
+          >
+            {{ diarioProfessor.perfil.usuario.nome }}
+          </template>
+        </span>
+      </UICardLine>
 
-    <UICardLine
-      :text="`Turmas: ${diario.turma.periodo} - ${diario.turma.curso.ofertaFormacao.nome}`"
-    />
-  </UICard>
+      <UICardLine
+        :text="`Turmas: ${diario.turma.periodo} - ${diario.turma.curso.ofertaFormacao.nome}`"
+      />
+    </UICard>
   </UICardAutoSkeleton>
 </template>

@@ -2,7 +2,9 @@
 import { useField } from 'vee-validate';
 import dayjs from 'dayjs';
 
-const { value: calendarioLetivoId } = useField<string | null>('calendarioLetivo.id');
+const { value: calendarioLetivoId } = useField<string | null>(
+  'calendarioLetivo.id'
+);
 const { value: cursoId } = useField<string | null>('curso.id');
 const { value: etapaId } = useField<string | null>('etapa.id');
 
@@ -17,8 +19,12 @@ const etapaItems = computed(() => {
     .slice()
     .sort((a: any, b: any) => (a.ordem ?? 0) - (b.ordem ?? 0))
     .map((etapa: any) => {
-      const inicio = etapa.dataInicio ? dayjs(etapa.dataInicio).format('DD/MM') : '';
-      const termino = etapa.dataTermino ? dayjs(etapa.dataTermino).format('DD/MM') : '';
+      const inicio = etapa.dataInicio
+        ? dayjs(etapa.dataInicio).format('DD/MM')
+        : '';
+      const termino = etapa.dataTermino
+        ? dayjs(etapa.dataTermino).format('DD/MM')
+        : '';
       const datas = inicio && termino ? ` - ${inicio} a ${termino}` : '';
       return {
         label: `${etapa.nome}${datas}`,
@@ -54,9 +60,6 @@ watch(calendarioLetivoId, () => {
 
     <VVAutocompleteAPICurso name="curso.id" />
 
-    <VVAutocompleteAPITurma
-      name="turma.id"
-      :filter-curso-id="cursoId"
-    />
+    <VVAutocompleteAPITurma name="turma.id" :filter-curso-id="cursoId" />
   </div>
 </template>

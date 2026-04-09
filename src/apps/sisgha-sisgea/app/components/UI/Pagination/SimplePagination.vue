@@ -23,7 +23,10 @@ function nextPage() {
 </script>
 
 <template>
-  <div v-if="totalPages > 1" class="flex justify-center items-center gap-4 py-2">
+  <div
+    v-if="totalPages > 1"
+    class="flex justify-center items-center gap-4 py-2"
+  >
     <button
       :disabled="currentPage <= 1"
       class="px-3 py-1.5 rounded border border-ldsa-grey/30 text-sm disabled:opacity-40"
@@ -31,7 +34,9 @@ function nextPage() {
     >
       Anterior
     </button>
-    <span class="text-sm text-ldsa-grey">{{ currentPage }} / {{ totalPages }}</span>
+    <span class="text-sm text-ldsa-grey"
+      >{{ currentPage }} / {{ totalPages }}</span
+    >
     <button
       :disabled="currentPage >= totalPages"
       class="px-3 py-1.5 rounded border border-ldsa-grey/30 text-sm disabled:opacity-40"

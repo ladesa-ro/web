@@ -86,8 +86,14 @@ export const useNiveisFormacoes = (): IUseNiveisFormacoes => {
     fetcher: (id: string) => api.call(nivelFormacaoFindById, { path: { id } }),
   });
 
-  const create = createCreateFn<ReqBody<NivelFormacaoCreateData>, NivelFormacaoCreateResponse>(api, nivelFormacaoCreate);
-  const update = createUpdateFn<ReqBody<NivelFormacaoUpdateData>, NivelFormacaoUpdateResponse>(api, nivelFormacaoUpdate);
+  const create = createCreateFn<
+    ReqBody<NivelFormacaoCreateData>,
+    NivelFormacaoCreateResponse
+  >(api, nivelFormacaoCreate);
+  const update = createUpdateFn<
+    ReqBody<NivelFormacaoUpdateData>,
+    NivelFormacaoUpdateResponse
+  >(api, nivelFormacaoUpdate);
   const remove = createRemoveFn(api, nivelFormacaoDeleteOneById);
   const uploadCover = createUploadImageFn(api, nivelFormacaoUpdateImagemCapa);
 

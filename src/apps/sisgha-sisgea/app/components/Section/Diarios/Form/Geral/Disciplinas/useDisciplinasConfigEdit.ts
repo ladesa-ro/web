@@ -1,8 +1,11 @@
-import type { IContextDiariosFormGeral, IPreferenciaAgrupamento } from '../Contexto';
+import type {
+  IContextDiariosFormGeral,
+  IPreferenciaAgrupamento,
+} from '../Contexto';
 
 export function useDisciplinasConfigEdit(
   editId: string | null | undefined,
-  contexto: IContextDiariosFormGeral,
+  contexto: IContextDiariosFormGeral
 ) {
   const isEditMode = !!editId;
   if (!isEditMode) return;
@@ -32,16 +35,23 @@ export function useDisciplinasConfigEdit(
       const curso = diario.turma?.curso as Record<string, unknown> | undefined;
       contexto.cursoId.value = (curso?.id as string) ?? null;
 
-      const professorIds = (profsData?.data ?? []).map(
-        (p: Record<string, unknown>) =>
-          ((p.perfil as Record<string, unknown>)?.id as string) ?? '',
-      ).filter(Boolean);
+      const professorIds = (profsData?.data ?? [])
+        .map(
+          (p: Record<string, unknown>) =>
+            ((p.perfil as Record<string, unknown>)?.id as string) ?? ''
+        )
+        .filter(Boolean);
 
-      const existingPrefs = (prefsData?.data ?? []) as Record<string, unknown>[];
+      const existingPrefs = (prefsData?.data ?? []) as Record<
+        string,
+        unknown
+      >[];
       const preferenciasAgrupamento: IPreferenciaAgrupamento[] =
         existingPrefs.length > 0
-          ? existingPrefs.map((p) => ({
-              modo: (p.modo as string as IPreferenciaAgrupamento['modo']) ?? 'DEFINIDO',
+          ? existingPrefs.map(p => ({
+              modo:
+                (p.modo as string as IPreferenciaAgrupamento['modo']) ??
+                'DEFINIDO',
               ordem: (p.ordem as number) ?? 1,
               diaSemanaIso: (p.diaSemanaIso as number | null) ?? null,
               aulasSeguidas: (p.aulasSeguidas as number) ?? 1,
@@ -81,6 +91,6 @@ export function useDisciplinasConfigEdit(
 
       contexto.isLoadingEdit.value = false;
     },
-    { immediate: true },
+    { immediate: true }
   );
 }

@@ -4,9 +4,7 @@ export type IDisciplinaDoCurso = CursoPeriodoDisciplinaOutputItemDto & {
   numeroPeriodo: number;
 };
 
-export const useDisciplinasByCurso = (
-  cursoId: MaybeRef<string | null>
-) => {
+export const useDisciplinasByCurso = (cursoId: MaybeRef<string | null>) => {
   const cursos = useCursos();
   const query = cursos.findOne(cursoId);
 
@@ -14,8 +12,8 @@ export const useDisciplinasByCurso = (
     const curso = query.data.value;
     if (!curso?.periodos) return [];
 
-    return curso.periodos.flatMap((periodo) =>
-      periodo.disciplinas.map((d) => ({
+    return curso.periodos.flatMap(periodo =>
+      periodo.disciplinas.map(d => ({
         ...d,
         numeroPeriodo: periodo.numeroPeriodo,
       }))

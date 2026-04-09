@@ -77,8 +77,14 @@ export const useModalidades = (): IUseModalidades => {
     fetcher: (id: string) => api.call(modalidadeFindById, { path: { id } }),
   });
 
-  const create = createCreateFn<ReqBody<ModalidadeCreateData>, ModalidadeCreateResponse>(api, modalidadeCreate);
-  const update = createUpdateFn<ReqBody<ModalidadeUpdateData>, ModalidadeUpdateResponse>(api, modalidadeUpdate);
+  const create = createCreateFn<
+    ReqBody<ModalidadeCreateData>,
+    ModalidadeCreateResponse
+  >(api, modalidadeCreate);
+  const update = createUpdateFn<
+    ReqBody<ModalidadeUpdateData>,
+    ModalidadeUpdateResponse
+  >(api, modalidadeUpdate);
   const remove = createRemoveFn(api, modalidadeDeleteOneById);
   const uploadCover = createUploadImageFn(api, modalidadeUpdateImagemCapa);
 

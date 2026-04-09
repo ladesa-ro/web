@@ -33,18 +33,25 @@ export function useGradeHorariaState(campusId: MaybeRef<string | null>) {
   // Sync server data
   watch(
     () => campusQuery.data.value,
-    (data) => {
-      const items: GradeHorariaEditorGrade[] = (data?.data ?? []).map((g: GradeHorariaItemOutputDto) => ({
-        identificadorExterno: g.identificadorExterno,
-        nome: g.nome,
-        intervalos: g.intervalos.map((i: { inicio: string; fim: string }) => ({ inicio: i.inicio, fim: i.fim })),
-      }));
+    data => {
+      const items: GradeHorariaEditorGrade[] = (data?.data ?? []).map(
+        (g: GradeHorariaItemOutputDto) => ({
+          identificadorExterno: g.identificadorExterno,
+          nome: g.nome,
+          intervalos: g.intervalos.map(
+            (i: { inicio: string; fim: string }) => ({
+              inicio: i.inicio,
+              fim: i.fim,
+            })
+          ),
+        })
+      );
       serverGrades.value = JSON.parse(JSON.stringify(items));
       if (!isEditing.value) {
         grades.value = JSON.parse(JSON.stringify(items));
       }
     },
-    { immediate: true },
+    { immediate: true }
   );
 
   function enterEditMode() {
@@ -90,11 +97,15 @@ export function useGradeHorariaState(campusId: MaybeRef<string | null>) {
         Noturno: 24,
       };
       const limite = limites[periodo] ?? 24;
-      const limiteInferior = periodo === 'Matutino' ? 0 : periodo === 'Vespertino' ? 12 : 18;
+      const limiteInferior =
+        periodo === 'Matutino' ? 0 : periodo === 'Vespertino' ? 12 : 18;
 
       let insertIndex = grade.intervalos.length;
       for (let i = grade.intervalos.length - 1; i >= 0; i--) {
-        const h = parseInt(grade.intervalos[i]!.inicio.split(':')[0] ?? '0', 10);
+        const h = parseInt(
+          grade.intervalos[i]!.inicio.split(':')[0] ?? '0',
+          10
+        );
         if (h >= limiteInferior && h < limite) {
           insertIndex = i + 1;
           break;
@@ -132,7 +143,7 @@ export function useGradeHorariaState(campusId: MaybeRef<string | null>) {
     };
     const [min, max] = limites[periodo] ?? [0, 24];
 
-    grade.intervalos = grade.intervalos.filter((iv) => {
+    grade.intervalos = grade.intervalos.filter(iv => {
       const h = parseInt(iv.inicio.split(':')[0] ?? '0', 10);
       return h < min || h >= max;
     });
@@ -152,7 +163,9 @@ export function useGradeHorariaState(campusId: MaybeRef<string | null>) {
     return `${hh}:${mm}`;
   }
 
-  function generateBulkIntervals(params: BulkAddParams): Array<{ inicio: string; fim: string }> {
+  function generateBulkIntervals(
+    params: BulkAddParams
+  ): Array<{ inicio: string; fim: string }> {
     const intervals: Array<{ inicio: string; fim: string }> = [];
     let cursor = params.startTime;
 
@@ -160,7 +173,11 @@ export function useGradeHorariaState(campusId: MaybeRef<string | null>) {
       const fim = addMinutes(cursor, params.classDuration);
       intervals.push({ inicio: cursor, fim });
       cursor = fim;
-      if (params.breakAfterClass > 0 && i === params.breakAfterClass && i < params.classCount) {
+      if (
+        params.breakAfterClass > 0 &&
+        i === params.breakAfterClass &&
+        i < params.classCount
+      ) {
         cursor = addMinutes(cursor, params.breakDuration);
       }
     }

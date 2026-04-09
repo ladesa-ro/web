@@ -1,9 +1,5 @@
 <script lang="ts" setup>
-import {
-  RadioGroupRoot,
-  RadioGroupItem,
-  RadioGroupIndicator,
-} from 'reka-ui';
+import { RadioGroupRoot, RadioGroupItem, RadioGroupIndicator } from 'reka-ui';
 
 type RadioItem = {
   label: string;
@@ -21,7 +17,7 @@ const props = withDefaults(
   }>(),
   {
     orientation: 'vertical',
-  },
+  }
 );
 
 const emit = defineEmits<{
@@ -51,7 +47,11 @@ function isItemDisabled(item: RadioItem): boolean {
       v-model="selected"
       :disabled="disabled"
       :orientation="orientation"
-      :class="orientation === 'horizontal' ? 'flex flex-row gap-4' : 'flex flex-col gap-2'"
+      :class="
+        orientation === 'horizontal'
+          ? 'flex flex-row gap-4'
+          : 'flex flex-col gap-2'
+      "
     >
       <label
         v-for="item in items"
@@ -59,12 +59,18 @@ function isItemDisabled(item: RadioItem): boolean {
         class="flex items-center gap-2.5 cursor-pointer"
         :class="{ 'opacity-60 cursor-not-allowed': isItemDisabled(item) }"
       >
-        <span class="rounded-full radio-shadow focus-within:shadow-(--green-shadow) hover:shadow-(--green-shadow)">
+        <span
+          class="rounded-full radio-shadow focus-within:shadow-(--green-shadow) hover:shadow-(--green-shadow)"
+        >
           <RadioGroupItem
             :value="item.value"
             :disabled="isItemDisabled(item)"
             class="radio-circle flex items-center justify-center border-2 rounded-full w-5 h-5 sm:w-5.5 sm:h-5.5 shrink-0 grow-0 focus-visible:outline-ldsa-green-2"
-            :class="selected === item.value ? 'border-ldsa-green-2' : 'border-ldsa-grey'"
+            :class="
+              selected === item.value
+                ? 'border-ldsa-green-2'
+                : 'border-ldsa-grey'
+            "
           >
             <RadioGroupIndicator
               class="h-3 w-3 sm:h-3.5 sm:w-3.5 bg-ldsa-green-2 rounded-full"

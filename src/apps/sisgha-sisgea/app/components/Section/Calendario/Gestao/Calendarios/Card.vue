@@ -19,7 +19,9 @@ const handleToggleSituacao = async () => {
   if (confirmed) {
     const novaSituacao = isInativo.value ? 'ATIVO' : 'INATIVO';
     // TODO: remove Record cast after SDK regeneration includes 'situacao' field in update DTO
-    await calendarioLetivo.update(props.calendario.id, { situacao: novaSituacao } as Record<string, string>);
+    await calendarioLetivo.update(props.calendario.id, {
+      situacao: novaSituacao,
+    } as Record<string, string>);
     await calendarioLetivo.invalidate();
   }
 };
@@ -35,12 +37,15 @@ function formatDateShort(iso: string): string {
   });
 }
 
-const formacaoNome = computed(() => props.calendario.ofertaFormacao?.nome ?? '---');
+const formacaoNome = computed(
+  () => props.calendario.ofertaFormacao?.nome ?? '---'
+);
 
 const duracao = computed(() => {
   if (etapas.value.length > 0) {
     const sorted = [...etapas.value].sort(
-      (a, b) => new Date(a.dataInicio).getTime() - new Date(b.dataInicio).getTime()
+      (a, b) =>
+        new Date(a.dataInicio).getTime() - new Date(b.dataInicio).getTime()
     );
     const first = sorted[0];
     const last = sorted[sorted.length - 1];
@@ -60,7 +65,9 @@ const qtdPeriodos = computed(() => etapas.value.length);
   >
     <div class="flex justify-between items-center">
       <div class="flex items-center gap-2 min-w-0">
-        <h2 class="font-medium text-lg truncate min-w-0">{{ calendario.nome }}</h2>
+        <h2 class="font-medium text-lg truncate min-w-0">
+          {{ calendario.nome }}
+        </h2>
         <span
           v-if="isInativo"
           class="shrink-0 text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700"
@@ -116,13 +123,15 @@ const qtdPeriodos = computed(() => etapas.value.length);
     </div>
 
     <!-- No etapas -->
-    <div v-else class="text-xs text-ldsa-grey">
-      Nenhuma etapa cadastrada.
-    </div>
+    <div v-else class="text-xs text-ldsa-grey">Nenhuma etapa cadastrada.</div>
 
     <DialogConfirm
       v-model="confirmDeactivate.isOpen.value"
-      :message="isInativo ? 'Deseja reativar este calendário letivo?' : 'Deseja desativar este calendário letivo?'"
+      :message="
+        isInativo
+          ? 'Deseja reativar este calendário letivo?'
+          : 'Deseja desativar este calendário letivo?'
+      "
       @confirm="confirmDeactivate.onConfirm"
     />
   </div>

@@ -30,19 +30,17 @@ const {
     }),
 });
 
-const onSubmit = handleSubmit(
-  async formData => {
-    try {
-      await mutateAsync(formData.email);
+const onSubmit = handleSubmit(async formData => {
+  try {
+    await mutateAsync(formData.email);
 
-      if (canRecoverPassword) {
-        showAlert.value = true;
-      }
-    } catch {
-      // erro tratado pelo useMutation (isError)
+    if (canRecoverPassword) {
+      showAlert.value = true;
     }
+  } catch {
+    // erro tratado pelo useMutation (isError)
   }
-);
+});
 </script>
 
 <template>

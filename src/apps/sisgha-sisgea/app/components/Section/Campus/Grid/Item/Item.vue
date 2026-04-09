@@ -12,7 +12,8 @@ const props = defineProps<Props>();
 
 const { item: campus } = toRefs(props);
 
-const link = props.link === undefined || props.link === '' ? '/sisgea/campus' : props.link;
+const link =
+  props.link === undefined || props.link === '' ? '/sisgea/campus' : props.link;
 </script>
 
 <template>

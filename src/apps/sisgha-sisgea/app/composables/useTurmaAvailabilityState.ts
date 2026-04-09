@@ -4,9 +4,13 @@ import { useTurmaGradeSelection } from './turma-availability/useTurmaGradeSelect
 import { useTurmaWeekNavigation } from './turma-availability/useTurmaWeekNavigation';
 import { useTurmaAvailabilityEdit } from './turma-availability/useTurmaAvailabilityEdit';
 
-export type TurmaAvailabilityState = ReturnType<typeof useTurmaAvailabilityState>;
+export type TurmaAvailabilityState = ReturnType<
+  typeof useTurmaAvailabilityState
+>;
 
-const TURMA_AVAILABILITY_KEY = Symbol('turma-availability') as InjectionKey<TurmaAvailabilityState>;
+const TURMA_AVAILABILITY_KEY = Symbol(
+  'turma-availability'
+) as InjectionKey<TurmaAvailabilityState>;
 
 export function useProvideTurmaAvailability(
   turmaId: MaybeRef<string | null>,
@@ -22,7 +26,9 @@ export function useInjectTurmaAvailability() {
   const state = inject(TURMA_AVAILABILITY_KEY);
 
   if (!state) {
-    throw new Error('useInjectTurmaAvailability: must be used inside a component that calls useProvideTurmaAvailability');
+    throw new Error(
+      'useInjectTurmaAvailability: must be used inside a component that calls useProvideTurmaAvailability'
+    );
   }
 
   return state;
@@ -40,19 +46,14 @@ export function useTurmaAvailabilityState(
 
   const grade = useTurmaGradeSelection(campusId);
 
-  const edit = useTurmaAvailabilityEdit(
-    turmaId,
-    mode,
-    currentWeekRef,
-    grade,
-  );
+  const edit = useTurmaAvailabilityEdit(turmaId, mode, currentWeekRef, grade);
 
   const week = useTurmaWeekNavigation(
     turmaId,
     currentWeekRef,
     edit.isDirty,
     edit.isEditing,
-    { onConfirmSave: edit.confirmAvailability },
+    { onConfirmSave: edit.confirmAvailability }
   );
 
   // Auto-select all times when grade changes during edit

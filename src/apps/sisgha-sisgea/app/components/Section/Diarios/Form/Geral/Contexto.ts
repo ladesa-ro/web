@@ -4,9 +4,12 @@ import type { IDisciplinaDoCurso } from '~/composables/ladesa-api/useDisciplinas
 
 const identificadorContexto = 'contexto-diarios-form-geral';
 
-type DiariosFormValidateFn = (opts?: Partial<{ mode: 'validated-only' | 'silent' | 'force' }>) => Promise<FormValidationResult<Record<string, unknown>>>;
+type DiariosFormValidateFn = (
+  opts?: Partial<{ mode: 'validated-only' | 'silent' | 'force' }>
+) => Promise<FormValidationResult<Record<string, unknown>>>;
 
-export const diariosFormValidateKey: InjectionKey<DiariosFormValidateFn> = Symbol('diarios-form-validate');
+export const diariosFormValidateKey: InjectionKey<DiariosFormValidateFn> =
+  Symbol('diarios-form-validate');
 
 export type DiarioPreferenciaAgrupamentoModo = 'DEFINIDO' | 'POR_DIA_SEMANA';
 
@@ -47,7 +50,7 @@ export interface IFormAccessor {
 
 export const createContextDiariosFormGeral = (
   form: IFormAccessor,
-  editId?: MaybeRef<string | null>,
+  editId?: MaybeRef<string | null>
 ): IContextDiariosFormGeral => {
   // Form-backed writable computeds — form is the source of truth
   const calendarioLetivoId = computed({
@@ -85,11 +88,11 @@ export const createContextDiariosFormGeral = (
   // Sync disciplinasConfig -> form (extract form-only fields)
   watch(
     disciplinasConfig,
-    (configs) => {
-      const formConfigs = configs.map((dc) => ({
+    configs => {
+      const formConfigs = configs.map(dc => ({
         disciplinaId: dc.disciplinaId,
         modoAgrupamento: dc.modoAgrupamento,
-        preferenciasAgrupamento: dc.preferenciasAgrupamento.map((p) => ({
+        preferenciasAgrupamento: dc.preferenciasAgrupamento.map(p => ({
           modo: p.modo,
           ordem: p.ordem,
           diaSemanaIso: p.diaSemanaIso,
@@ -101,7 +104,7 @@ export const createContextDiariosFormGeral = (
       }));
       form.setValues({ disciplinasConfig: formConfigs }, false);
     },
-    { deep: true },
+    { deep: true }
   );
 
   return {
@@ -118,7 +121,7 @@ export const createContextDiariosFormGeral = (
 
 export const createAndProvideContextDiariosFormGeral = (
   form: IFormAccessor,
-  editId?: MaybeRef<string | null>,
+  editId?: MaybeRef<string | null>
 ) => {
   const contexto = createContextDiariosFormGeral(form, editId);
   provide(identificadorContexto, contexto);
@@ -129,7 +132,7 @@ export function useContextDiariosFormGeral(): IContextDiariosFormGeral {
   const contexto = inject<IContextDiariosFormGeral>(identificadorContexto);
   if (!contexto) {
     throw new Error(
-      'useContextDiariosFormGeral: Contexto não encontrado. Certifique-se de que createAndProvideContextDiariosFormGeral foi chamado em um componente pai.',
+      'useContextDiariosFormGeral: Contexto não encontrado. Certifique-se de que createAndProvideContextDiariosFormGeral foi chamado em um componente pai.'
     );
   }
   return contexto;

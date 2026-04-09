@@ -15,15 +15,12 @@ const props = defineProps<{
 
 const fieldDisabled = useFieldDisabled(() => props.disabled);
 
-const {
-  value: fieldValue,
-  errorMessage,
-} = useField<IParticipantesData>(
+const { value: fieldValue, errorMessage } = useField<IParticipantesData>(
   () => props.name,
   undefined,
   {
     validateOnValueUpdate: false,
-  },
+  }
 );
 </script>
 

@@ -8,7 +8,7 @@ const value = defineModel<string>({ required: false, default: '' });
     name="pesquisar"
     label="Pesquisar"
     placeholder="Digite aqui"
-    class="max-w-[30rem]"
+    class="w-full"
   >
     <IconsSearch />
   </UIFormTextField>

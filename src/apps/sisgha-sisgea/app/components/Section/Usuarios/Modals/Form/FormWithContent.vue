@@ -40,10 +40,7 @@ const motivosConfirmados = ref<Record<string, HorarioMotivo[]>>({});
 
 const horariosSemMotivo = ref<string[]>([]);
 
-function abrirModal(
-  tipo: UsuarioModal,
-  payload?: MotivoSelecionado
-) {
+function abrirModal(tipo: UsuarioModal, payload?: MotivoSelecionado) {
   modals.open(tipo);
   if (tipo === 'editar' && payload) {
     motivoSelecionado.value = payload;
@@ -123,11 +120,7 @@ function setDiaSelecionado(dia: string) {
 </script>
 
 <template>
-  <SectionUsuariosForm
-    v-if="true"
-    :edit-id="editId"
-    class="w-full"
-  >
+  <SectionUsuariosForm v-if="true" :edit-id="editId" class="w-full">
     <DialogLayoutSideBySide
       v-show="isMainContentVisible"
       primary-label="Perfil"
@@ -156,7 +149,11 @@ function setDiaSelecionado(dia: string) {
     </DialogLayoutSideBySide>
   </SectionUsuariosForm>
 
-  <DialogManagedDialog name="cadastrar" :manager="modals" backdrop-action="close-all">
+  <DialogManagedDialog
+    name="cadastrar"
+    :manager="modals"
+    backdrop-action="close-all"
+  >
     <ModalCadastrarMotivo
       :horarios-sem-motivo="horariosSemMotivo"
       @fechar="fecharTodosModais"
@@ -164,7 +161,11 @@ function setDiaSelecionado(dia: string) {
     />
   </DialogManagedDialog>
 
-  <DialogManagedDialog name="consultar" :manager="modals" backdrop-action="close-all">
+  <DialogManagedDialog
+    name="consultar"
+    :manager="modals"
+    backdrop-action="close-all"
+  >
     <ModalConsultarMotivo
       :motivos-confirmados="motivosConfirmados"
       :selected-day-week="diaSelecionado"
@@ -172,7 +173,11 @@ function setDiaSelecionado(dia: string) {
     />
   </DialogManagedDialog>
 
-  <DialogManagedDialog name="listar" :manager="modals" backdrop-action="close-all">
+  <DialogManagedDialog
+    name="listar"
+    :manager="modals"
+    backdrop-action="close-all"
+  >
     <ModalListarMotivos
       :motivos-confirmados="motivosConfirmados"
       :selected-day-week="diaSelecionado"
@@ -182,7 +187,11 @@ function setDiaSelecionado(dia: string) {
     />
   </DialogManagedDialog>
 
-  <DialogManagedDialog name="editar" :manager="modals" backdrop-action="close-all">
+  <DialogManagedDialog
+    name="editar"
+    :manager="modals"
+    backdrop-action="close-all"
+  >
     <ModalEditarMotivo
       v-if="motivoSelecionado"
       :motivo-atual="motivoSelecionado"

@@ -79,8 +79,14 @@ export const useUsuarios = (): IUseUsuarios => {
     fetcher: (id: string) => api.call(usuarioFindById, { path: { id } }),
   });
 
-  const create = createCreateFn<ReqBody<UsuarioCreateData>, UsuarioCreateResponse>(api, usuarioCreate);
-  const update = createUpdateFn<ReqBody<UsuarioUpdateData>, UsuarioUpdateResponse>(api, usuarioUpdate);
+  const create = createCreateFn<
+    ReqBody<UsuarioCreateData>,
+    UsuarioCreateResponse
+  >(api, usuarioCreate);
+  const update = createUpdateFn<
+    ReqBody<UsuarioUpdateData>,
+    UsuarioUpdateResponse
+  >(api, usuarioUpdate);
   const remove = createRemoveFn(api, usuarioDeleteOneById);
   const uploadProfile = createUploadImageFn(api, usuarioUpdateImagemPerfil);
 

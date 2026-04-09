@@ -57,7 +57,8 @@ type LoadOptions = {
 };
 
 const load = async ({ done, side }: LoadOptions) => {
-  const suspend = () => suspendQuery(query, { mode: QuerySuspenseBehaviourMode.WAIT_UNTIL_FINISH });
+  const suspend = () =>
+    suspendQuery(query, { mode: QuerySuspenseBehaviourMode.WAIT_UNTIL_FINISH });
 
   if (side === 'both' || side === 'end') {
     if (query.isFetchingNextPage.value) {
@@ -118,7 +119,10 @@ await suspendQuery(query);
 
 <template>
   <div class="flex-1">
-    <div ref="infiniteScrollTrigger" :class="customGridClass ?? 'ui-api-list-results-grid'">
+    <div
+      ref="infiniteScrollTrigger"
+      :class="customGridClass ?? 'ui-api-list-results-grid'"
+    >
       <template v-if="items && items.length > 0">
         <template v-for="item in items" :key="item.id">
           <div class="ui-api-list-results-grid-item">
@@ -170,9 +174,7 @@ await suspendQuery(query);
           <h3 class="text-lg font-semibold mb-3">
             Nenhum registro encontrado.
           </h3>
-          <p class="text-sm">
-            Não há registros cadastrados para exibir.
-          </p>
+          <p class="text-sm">Não há registros cadastrados para exibir.</p>
         </div>
       </template>
 

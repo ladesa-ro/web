@@ -8,7 +8,12 @@ await suspense();
 const route = useRoute();
 
 const needsAccessDenied = computed(() => {
-  if (route.path === '/sem-acesso' || route.path === '/login' || route.path === '/logout') return false;
+  if (
+    route.path === '/sem-acesso' ||
+    route.path === '/login' ||
+    route.path === '/logout'
+  )
+    return false;
   const user = usuario.value;
   if (!user) return true;
   if (user.isSuperUser) return false;
@@ -18,10 +23,10 @@ const needsAccessDenied = computed(() => {
 
 watch(
   needsAccessDenied,
-  (denied) => {
+  denied => {
     if (denied) navigateTo('/sem-acesso');
   },
-  { immediate: true },
+  { immediate: true }
 );
 </script>
 

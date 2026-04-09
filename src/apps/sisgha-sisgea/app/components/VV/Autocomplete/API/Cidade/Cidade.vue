@@ -23,7 +23,8 @@ const { options } = useAutocompleteEntity({
     }
     return api.call(cidadeFindAll, { query });
   },
-  getOneAdapter: (api, id) => api.call(cidadeFindById, { path: { id: Number(id) } }),
+  getOneAdapter: (api, id) =>
+    api.call(cidadeFindById, { path: { id: Number(id) } }),
 });
 </script>
 

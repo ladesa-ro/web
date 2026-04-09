@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { FormMode } from '~/utils/constants';
-import { ApiImageResource, useApiImageRoute } from '~/utils/integrations/api/core/images-util';
+import {
+  ApiImageResource,
+  useApiImageRoute,
+} from '~/utils/integrations/api/core/images-util';
 import { ofertaFormacaoSchema, transformForApi } from './-Helpers/schema';
 import Form1 from './Form1.vue';
 import Form2 from './Form2.vue';
@@ -12,17 +15,21 @@ const ofertasFormacoes = useOfertasFormacoes();
 const confirmDelete = useConfirmDelete();
 
 const ofertaFormacaoQuery = ofertasFormacoes.findOne(computed(() => editId));
-const coverSrc = useApiImageRoute(ApiImageResource.OFERTA_FORMACAO_COVER, ofertaFormacaoQuery.data);
+const coverSrc = useApiImageRoute(
+  ApiImageResource.OFERTA_FORMACAO_COVER,
+  ofertaFormacaoQuery.data
+);
 
 const { form, mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   schema: ofertaFormacaoSchema,
   editId: computed(() => editId),
   getQuery: ofertaFormacaoQuery,
 
-  create: async (data) => {
+  create: async data => {
     const { imagem, ...rest } = data;
     const created = await ofertasFormacoes.create(transformForApi(rest));
-    if (imagem && created?.id) await ofertasFormacoes.uploadCover(created.id, imagem);
+    if (imagem && created?.id)
+      await ofertasFormacoes.uploadCover(created.id, imagem);
   },
   update: async (id, data) => {
     const { imagem, ...rest } = data;

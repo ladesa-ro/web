@@ -5,11 +5,7 @@ export const useSafeBack = () => {
   const goBack = (fallback = '/') => {
     const back = router.options.history.state.back;
 
-    if (
-      history.length <= 1 ||
-      !back ||
-      back === route.fullPath
-    ) {
+    if (history.length <= 1 || !back || back === route.fullPath) {
       router.replace(fallback);
       return;
     }

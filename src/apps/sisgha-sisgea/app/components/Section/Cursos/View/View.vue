@@ -11,7 +11,7 @@ const { data: curso, isLoading, isError } = cursos.findOne(ref(resourceId));
 const coverImageSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, curso);
 
 const { confirmDelete, handleDelete } = useResourceDelete({
-  remove: (id) => cursos.remove(id),
+  remove: id => cursos.remove(id),
   invalidate: () => cursos.invalidate(),
   redirectTo: '/sisgha/dape/cursos',
 });

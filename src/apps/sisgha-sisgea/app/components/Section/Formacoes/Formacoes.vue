@@ -25,7 +25,11 @@ const campusFilter = computed(() => {
   return { 'filter.campus.id': [campusContext.value] };
 });
 
-const options = createApiListContextOptions({ crudModule, filter: campusFilter, filteredByCampus: true });
+const options = createApiListContextOptions({
+  crudModule,
+  filter: campusFilter,
+  filteredByCampus: true,
+});
 </script>
 
 <template>

@@ -19,9 +19,16 @@ const TIPO_LABELS: Record<string, { label: string; color: string }> = {
   RESERVA: { label: 'Reserva', color: 'bg-ldsa-yellow' },
 };
 
-function getTipoInfo(evento: AgendamentoMergedItem): { label: string; color: string } {
-  const status = (evento.data as Record<string, unknown>).status as string | undefined;
-  const tipo = (evento.data as Record<string, unknown>).tipo as string | undefined;
+function getTipoInfo(evento: AgendamentoMergedItem): {
+  label: string;
+  color: string;
+} {
+  const status = (evento.data as Record<string, unknown>).status as
+    | string
+    | undefined;
+  const tipo = (evento.data as Record<string, unknown>).tipo as
+    | string
+    | undefined;
   if (tipo && TIPO_LABELS[tipo]) return TIPO_LABELS[tipo]!;
   if (status && TIPO_LABELS[status]) return TIPO_LABELS[status]!;
   return TIPO_LABELS.EVENTO!;
@@ -32,7 +39,9 @@ function getCorHex(evento: AgendamentoMergedItem): string {
 }
 
 function getNome(evento: AgendamentoMergedItem): string {
-  return ((evento.data as Record<string, unknown>).nome as string) ?? 'Sem nome';
+  return (
+    ((evento.data as Record<string, unknown>).nome as string) ?? 'Sem nome'
+  );
 }
 
 function formatPeriodo(evento: AgendamentoMergedItem): string {
@@ -76,7 +85,9 @@ function formatPeriodo(evento: AgendamentoMergedItem): string {
           :style="{ backgroundColor: getCorHex(evento) }"
         />
 
-        <span class="flex-1 truncate text-xs font-medium text-ldsa-text-default">
+        <span
+          class="flex-1 truncate text-xs font-medium text-ldsa-text-default"
+        >
           {{ getNome(evento) }}
         </span>
 
@@ -88,7 +99,9 @@ function formatPeriodo(evento: AgendamentoMergedItem): string {
         </span>
 
         <template v-if="evento.isLocal">
-          <span class="shrink-0 rounded bg-ldsa-grey/20 px-1.5 py-0.5 text-[9px] font-medium text-ldsa-grey">
+          <span
+            class="shrink-0 rounded bg-ldsa-grey/20 px-1.5 py-0.5 text-[9px] font-medium text-ldsa-grey"
+          >
             pendente
           </span>
         </template>

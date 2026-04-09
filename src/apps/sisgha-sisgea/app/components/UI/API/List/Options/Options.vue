@@ -11,12 +11,18 @@ const campusContext = useCampusContext();
 const campi = useCampi();
 const { data: allCampiData } = campi.list();
 
-const campusLabel = computed(() => {
-  if (!isFilteredByCampus || !campusContext.value) return 'Todos os campi';
-  const campus = (allCampiData.value?.data ?? []).find(
-    (c: { id: string; apelido: string }) => c.id === campusContext.value,
+const campusItems = computed(() => {
+  return (allCampiData.value?.data ?? []).map(
+    (c: { id: string; apelido: string }) => ({
+      value: c.id,
+      label: c.apelido,
+    })
   );
-  return campus?.apelido ?? 'Todos os campi';
+});
+
+const selectedCampusId = computed(() => {
+  if (!isFilteredByCampus) return null;
+  return campusContext.value;
 });
 
 //
@@ -28,14 +34,20 @@ defineSlots<Slots>();
 
 <template>
   <div :class="style || 'w-full justify-between items-center flex gap-4'">
-    <div
-      class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 border-ldsa-grey/40 text-xs font-medium text-ldsa-text-default shrink-0"
-    >
-      <IconsLocate class="w-3.5 h-3.5 text-ldsa-green-2 shrink-0" />
-      <span class="truncate max-w-40">{{ campusLabel }}</span>
+    <div class="flex-1">
+      <UISearchBar v-model="formOptions.search" />
     </div>
 
-    <UISearchBar v-model="formOptions.search" />
+    <UIFormOptionFieldsAutocomplete
+      :selected-option="selectedCampusId"
+      :items="campusItems"
+      :disabled="true"
+      label="Campus"
+      :placeholder="
+        isFilteredByCampus ? 'Selecione um campus' : 'Todos os campi'
+      "
+      class="shrink-0 w-[20rem]"
+    />
 
     <div class="flex items-center shrink-0">
       <slot name="actions" />

@@ -81,8 +81,14 @@ export const useAmbientes = (): IUseAmbientes => {
     },
   });
 
-  const create = createCreateFn<ReqBody<AmbienteCreateData>, AmbienteCreateResponse>(api, ambienteCreate);
-  const update = createUpdateFn<ReqBody<AmbienteUpdateData>, AmbienteUpdateResponse>(api, ambienteUpdate);
+  const create = createCreateFn<
+    ReqBody<AmbienteCreateData>,
+    AmbienteCreateResponse
+  >(api, ambienteCreate);
+  const update = createUpdateFn<
+    ReqBody<AmbienteUpdateData>,
+    AmbienteUpdateResponse
+  >(api, ambienteUpdate);
   const remove = createRemoveFn(api, ambienteDeleteOneById);
   const uploadCover = createUploadImageFn(api, ambienteUpdateImagemCapa);
 

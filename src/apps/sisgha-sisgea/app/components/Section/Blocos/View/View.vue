@@ -11,7 +11,7 @@ const { data: bloco, isLoading, isError } = blocos.findOne(ref(resourceId));
 const coverImageSrc = useApiImageRoute(ApiImageResource.BLOCO_COVER, bloco);
 
 const { confirmDelete, handleDelete } = useResourceDelete({
-  remove: (id) => blocos.remove(id),
+  remove: id => blocos.remove(id),
   invalidate: () => blocos.invalidate(),
   redirectTo: '/sisgea/blocos',
 });

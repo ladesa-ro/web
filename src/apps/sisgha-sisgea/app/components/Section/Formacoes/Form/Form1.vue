@@ -34,7 +34,10 @@ const duracaoSelected = computed<ParsedItem | undefined>({
   },
 });
 
-useProvideFormContext({ isBusy: computed(() => props.isBusy), mode: computed(() => props.mode) });
+useProvideFormContext({
+  isBusy: computed(() => props.isBusy),
+  mode: computed(() => props.mode),
+});
 
 const duracaoLabel = computed(() => {
   const map: Record<number, { nome: string; periodos: number }> = {
@@ -56,9 +59,7 @@ const duracaoLabel = computed(() => {
 <template>
   <DialogModalBaseLayout
     :on-close="() => emit('close')"
-    :title="
-      mode === FormMode.MANAGE ? 'Editar formação' : 'Cadastrar formação'
-    "
+    :title="mode === FormMode.MANAGE ? 'Editar formação' : 'Cadastrar formação'"
   >
     <VVSelectImage name="imagem" :existing-src="coverSrc" />
 
@@ -70,11 +71,7 @@ const duracaoLabel = computed(() => {
 
     <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
 
-    <VVTextField
-      name="slug"
-      label="Nome abreviado"
-      placeholder="Digite aqui"
-    />
+    <VVTextField name="slug" label="Nome abreviado" placeholder="Digite aqui" />
 
     <VVAutocompleteAPIModalidade name="modalidade.id" :is-loading="isLoading" />
 

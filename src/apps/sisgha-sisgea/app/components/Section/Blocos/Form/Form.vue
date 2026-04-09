@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import { FormMode } from '~/utils/constants';
-import { ApiImageResource, useApiImageRoute } from '~/utils/integrations/api/core/images-util';
+import {
+  ApiImageResource,
+  useApiImageRoute,
+} from '~/utils/integrations/api/core/images-util';
 import { blocoSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -10,7 +13,10 @@ const blocos = useBlocos();
 const confirmDelete = useConfirmDelete();
 
 const blocoQuery = blocos.findOne(computed(() => editId));
-const coverSrc = useApiImageRoute(ApiImageResource.BLOCO_COVER, blocoQuery.data);
+const coverSrc = useApiImageRoute(
+  ApiImageResource.BLOCO_COVER,
+  blocoQuery.data
+);
 
 const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   schema: blocoSchema,
@@ -43,7 +49,10 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
       :on-delete="onDelete"
     >
       <VVSelectImage name="imagem" :existing-src="coverSrc" />
-      <VVAutocompleteAPICampus :disabled="mode === FormMode.MANAGE" name="campus.id" />
+      <VVAutocompleteAPICampus
+        :disabled="mode === FormMode.MANAGE"
+        name="campus.id"
+      />
       <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
       <VVTextField name="codigo" label="Código" placeholder="Digite aqui" />
     </UIFormLayout>

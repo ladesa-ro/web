@@ -28,15 +28,21 @@ const expandedFormacoes = ref<Set<string>>(new Set());
 // Queries reativas
 const formacoesList = ofertasFormacoes.list();
 const formacoes = computed(() =>
-  (formacoesList.data.value?.data ?? []).map((f) => ({ id: f.id, nome: f.nome }))
+  (formacoesList.data.value?.data ?? []).map(f => ({ id: f.id, nome: f.nome }))
 );
 
 // IDs de formações selecionadas para carregar cursos
-const selectedFormacaoIds = computed(() => selectedFormacoes.value.map(f => f.id));
+const selectedFormacaoIds = computed(() =>
+  selectedFormacoes.value.map(f => f.id)
+);
 
 // Cursos filtrados por formações selecionadas
-const cursosByFormacao = ref<Map<string, Array<{ id: string; nome: string }>>>(new Map());
-const turmasByCurso = ref<Map<string, Array<{ id: string; nome: string }>>>(new Map());
+const cursosByFormacao = ref<Map<string, Array<{ id: string; nome: string }>>>(
+  new Map()
+);
+const turmasByCurso = ref<Map<string, Array<{ id: string; nome: string }>>>(
+  new Map()
+);
 
 async function loadCursos(formacaoId: string) {
   if (cursosByFormacao.value.has(formacaoId)) return;
@@ -50,16 +56,16 @@ async function loadCursos(formacaoId: string) {
     // Aguardar dados carregarem
     const stop = watch(
       () => result.data.value,
-      (data) => {
+      data => {
         if (data) {
           cursosByFormacao.value.set(
             formacaoId,
-            (data.data ?? []).map((c) => ({ id: c.id, nome: c.nome }))
+            (data.data ?? []).map(c => ({ id: c.id, nome: c.nome }))
           );
           stop();
         }
       },
-      { immediate: true },
+      { immediate: true }
     );
   } catch (e) {
     console.error('Erro ao carregar cursos:', e);
@@ -77,16 +83,19 @@ async function loadTurmas(cursoId: string) {
     );
     const stop = watch(
       () => result.data.value,
-      (data) => {
+      data => {
         if (data) {
           turmasByCurso.value.set(
             cursoId,
-            (data.data ?? []).map((t) => ({ id: t.id, nome: t.nome ?? t.id.substring(0, 8) }))
+            (data.data ?? []).map(t => ({
+              id: t.id,
+              nome: t.nome ?? t.id.substring(0, 8),
+            }))
           );
           stop();
         }
       },
-      { immediate: true },
+      { immediate: true }
     );
   } catch (e) {
     console.error('Erro ao carregar turmas:', e);
@@ -153,13 +162,19 @@ watch(todosParticipam, () => emitUpdate());
 <template>
   <div class="flex flex-col gap-4">
     <div class="flex h-[13px] items-center border-l-3 border-ldsa-green-1 pl-1">
-      <span class="text-[13px] font-semibold tracking-wide text-ldsa-text-default">
+      <span
+        class="text-[13px] font-semibold tracking-wide text-ldsa-text-default"
+      >
         Turmas e professores participantes
       </span>
     </div>
 
     <!-- Global checkbox -->
-    <UIFormCheckbox v-model="todosParticipam" label="Todas as turmas e professores participam" :disabled="disabled" />
+    <UIFormCheckbox
+      v-model="todosParticipam"
+      label="Todas as turmas e professores participam"
+      :disabled="disabled"
+    />
 
     <!-- Formações -->
     <template v-if="!todosParticipam">
@@ -172,9 +187,11 @@ watch(todosParticipam, () => emitUpdate());
             type="button"
             :disabled="disabled"
             class="px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors"
-            :class="isFormacaoSelected(formacao.id)
-              ? 'bg-ldsa-green-1 text-white border-ldsa-green-1'
-              : 'border-ldsa-grey/30 text-ldsa-text-default hover:bg-ldsa-grey/10'"
+            :class="
+              isFormacaoSelected(formacao.id)
+                ? 'bg-ldsa-green-1 text-white border-ldsa-green-1'
+                : 'border-ldsa-grey/30 text-ldsa-text-default hover:bg-ldsa-grey/10'
+            "
             @click="toggleFormacao(formacao)"
           >
             {{ formacao.nome }}
@@ -191,24 +208,34 @@ watch(todosParticipam, () => emitUpdate());
         <button
           type="button"
           class="flex items-center justify-between w-full"
-          @click="expandedFormacoes.has(formacao.id) ? expandedFormacoes.delete(formacao.id) : expandedFormacoes.add(formacao.id)"
+          @click="
+            expandedFormacoes.has(formacao.id)
+              ? expandedFormacoes.delete(formacao.id)
+              : expandedFormacoes.add(formacao.id)
+          "
         >
-          <span class="text-sm font-semibold text-ldsa-text-default">{{ formacao.nome }}</span>
-          <span class="text-ldsa-green-1 text-xs">{{ expandedFormacoes.has(formacao.id) ? '▲' : '▼' }}</span>
+          <span class="text-sm font-semibold text-ldsa-text-default">{{
+            formacao.nome
+          }}</span>
+          <span class="text-ldsa-green-1 text-xs">{{
+            expandedFormacoes.has(formacao.id) ? '▲' : '▼'
+          }}</span>
         </button>
 
         <template v-if="expandedFormacoes.has(formacao.id)">
           <!-- Cursos and Turmas -->
           <div
-            v-for="curso in (cursosByFormacao.get(formacao.id) ?? [])"
+            v-for="curso in cursosByFormacao.get(formacao.id) ?? []"
             :key="curso.id"
             class="pl-3 flex flex-col gap-2"
           >
-            <span class="text-xs font-medium text-ldsa-grey">{{ curso.nome }}</span>
+            <span class="text-xs font-medium text-ldsa-grey">{{
+              curso.nome
+            }}</span>
 
             <div class="flex flex-wrap gap-2 pl-2">
               <UIFormCheckbox
-                v-for="turma in (turmasByCurso.get(curso.id) ?? [])"
+                v-for="turma in turmasByCurso.get(curso.id) ?? []"
                 :key="turma.id"
                 :model-value="isTurmaSelected(curso.id, turma.id)"
                 :disabled="disabled"

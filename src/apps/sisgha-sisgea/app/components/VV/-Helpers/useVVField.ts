@@ -25,15 +25,17 @@ export function useVVField<T = any>(options: UseVVFieldOptions<T>) {
     value: fieldValue,
   } = useField<T>(
     typeof options.name === 'function' ? options.name : options.name,
-    (inputValue) => {
+    inputValue => {
       if (!options.required) return true;
       if (!inputValue) return false;
       return true;
     },
     {
-      ...(options.initialValue !== undefined ? { initialValue: options.initialValue } : {}),
+      ...(options.initialValue !== undefined
+        ? { initialValue: options.initialValue }
+        : {}),
       validateOnValueUpdate: options.validateOnValueUpdate ?? false,
-    },
+    }
   );
 
   return { fieldValue, errorMessage, fieldDisabled, handleBlur };

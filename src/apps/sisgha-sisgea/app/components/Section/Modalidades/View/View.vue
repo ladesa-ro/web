@@ -6,12 +6,19 @@ type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
 
 const modalidades = useModalidades();
-const { data: modalidade, isLoading, isError } = modalidades.findOne(ref(resourceId));
+const {
+  data: modalidade,
+  isLoading,
+  isError,
+} = modalidades.findOne(ref(resourceId));
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.MODALIDADE_COVER, modalidade);
+const coverImageSrc = useApiImageRoute(
+  ApiImageResource.MODALIDADE_COVER,
+  modalidade
+);
 
 const { confirmDelete, handleDelete } = useResourceDelete({
-  remove: (id) => modalidades.remove(id),
+  remove: id => modalidades.remove(id),
   invalidate: () => modalidades.invalidate(),
   redirectTo: '/sisgha/dape/modalidades',
 });

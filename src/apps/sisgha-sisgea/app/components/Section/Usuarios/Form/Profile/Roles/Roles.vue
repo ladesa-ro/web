@@ -26,36 +26,37 @@ const isDuplicate = (index: number) => {
   const key = `${v.campus.id}::${v.cargo}`;
   return vinculos.value.some(
     (other: any, i: number) =>
-      i < index && other.campus?.id && other.cargo && `${other.campus.id}::${other.cargo}` === key
+      i < index &&
+      other.campus?.id &&
+      other.cargo &&
+      `${other.campus.id}::${other.cargo}` === key
   );
 };
 
 const canAddMore = computed(() => {
-  const filled = vinculos.value.filter((v: any) => v.campus?.id && v.cargo).length;
+  const filled = vinculos.value.filter(
+    (v: any) => v.campus?.id && v.cargo
+  ).length;
   return filled < maxVinculos.value;
 });
 
 const addField = () => {
-  vinculos.value = [
-    ...vinculos.value,
-    { campus: { id: null }, cargo: null },
-  ];
+  vinculos.value = [...vinculos.value, { campus: { id: null }, cargo: null }];
 };
 
 const removeField = (targetIndex: number) => {
   if (targetIndex > 0) {
-    vinculos.value = vinculos.value.filter((_: any, idx: number) => idx !== targetIndex);
+    vinculos.value = vinculos.value.filter(
+      (_: any, idx: number) => idx !== targetIndex
+    );
   }
 };
 </script>
 
 <template>
-  <hr class="border border-ldsa-grey my-1" >
+  <hr class="border border-ldsa-grey my-1" />
 
-  <div
-    v-for="(vinculo, index) in vinculos"
-    :key="index"
-  >
+  <div v-for="(vinculo, index) in vinculos" :key="index">
     <div class="flex gap-4 items-start">
       <VVAutocompleteAPICampus :name="`vinculos[${index}].campus.id`" />
 
@@ -90,5 +91,5 @@ const removeField = (targetIndex: number) => {
     <IconsAdd class="w-4" />
   </button>
 
-  <hr class="border border-ldsa-grey my-1" >
+  <hr class="border border-ldsa-grey my-1" />
 </template>

@@ -7,24 +7,35 @@ export interface GradeValidationErrors {
   overlap?: string;
 }
 
-export function useGradeHorariaValidation(grades: Ref<GradeHorariaEditorGrade[]>) {
+export function useGradeHorariaValidation(
+  grades: Ref<GradeHorariaEditorGrade[]>
+) {
   const validationErrors = ref<Map<number, GradeValidationErrors>>(new Map());
 
-  const intervaloSchema = yup.object().shape({
-    inicio: yup.string().required('Início é obrigatório'),
-    fim: yup.string().required('Término é obrigatório'),
-  }).test(
-    'inicio-antes-fim',
-    'Início deve ser anterior ao término',
-    (value) => !value.inicio || !value.fim || value.inicio < value.fim,
-  );
+  const intervaloSchema = yup
+    .object()
+    .shape({
+      inicio: yup.string().required('Início é obrigatório'),
+      fim: yup.string().required('Término é obrigatório'),
+    })
+    .test(
+      'inicio-antes-fim',
+      'Início deve ser anterior ao término',
+      value => !value.inicio || !value.fim || value.inicio < value.fim
+    );
 
   const gradeSchema = yup.object().shape({
     nome: yup.string().trim().required('Nome é obrigatório'),
-    intervalos: yup.array().of(intervaloSchema).min(1, 'Deve ter ao menos 1 horário de aula').defined(),
+    intervalos: yup
+      .array()
+      .of(intervaloSchema)
+      .min(1, 'Deve ter ao menos 1 horário de aula')
+      .defined(),
   });
 
-  function checkOverlaps(intervalos: Array<{ inicio: string; fim: string }>): Map<number, string> {
+  function checkOverlaps(
+    intervalos: Array<{ inicio: string; fim: string }>
+  ): Map<number, string> {
     const overlaps = new Map<number, string>();
     const indexed = intervalos
       .map((iv, idx) => ({ ...iv, idx }))

@@ -6,12 +6,19 @@ type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
 
 const ambientes = useAmbientes();
-const { data: ambiente, isLoading, isError } = ambientes.findOne(ref(resourceId));
+const {
+  data: ambiente,
+  isLoading,
+  isError,
+} = ambientes.findOne(ref(resourceId));
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.AMBIENTE_COVER, ambiente);
+const coverImageSrc = useApiImageRoute(
+  ApiImageResource.AMBIENTE_COVER,
+  ambiente
+);
 
 const { confirmDelete, handleDelete } = useResourceDelete({
-  remove: (id) => ambientes.remove(id),
+  remove: id => ambientes.remove(id),
   invalidate: () => ambientes.invalidate(),
   redirectTo: '/sisgea/ambientes',
 });
@@ -41,7 +48,9 @@ const { confirmDelete, handleDelete } = useResourceDelete({
         <UIResourceViewField label="Código" :value="ambiente?.codigo" />
         <UIResourceViewField
           label="Capacidade"
-          :value="ambiente?.capacidade ? `${ambiente.capacidade} pessoas` : null"
+          :value="
+            ambiente?.capacidade ? `${ambiente.capacidade} pessoas` : null
+          "
         />
         <UIResourceViewField label="Tipo" :value="ambiente?.tipo" />
         <UIResourceViewField label="Bloco" :value="ambiente?.bloco?.nome" />

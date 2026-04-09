@@ -21,7 +21,7 @@ function ensureWeekday(day: Dayjs): Dayjs {
 const selectedDay = ref<Dayjs>(ensureWeekday(currentDay.value));
 
 // Quando currentDay mudar (ex: via popover do calendário), sincronizar
-watch(currentDay, (val) => {
+watch(currentDay, val => {
   selectedDay.value = ensureWeekday(val);
 });
 
@@ -49,16 +49,20 @@ const lessons = computed<ILesson[]>(() => {
 
   return ocorrencias
     .filter((o: any) => o.horarioInicio && o.horarioFim)
-    .sort((a: any, b: any) => (a.horarioInicio ?? '').localeCompare(b.horarioInicio ?? ''))
-    .map((o: any): ILesson => ({
-      discipline: o.nome ?? 'Sem nome',
-      class: o.turmas?.[0]?.nome ?? o.turmas?.[0]?.periodo ?? '—',
-      environment: o.ambientes?.[0]?.nome ?? '—',
-      campus: o.turmas?.[0]?.curso?.campus?.apelido ?? '—',
-      teacher: o.perfis?.[0]?.usuario?.nome ?? '—',
-      startsAt: o.horarioInicio,
-      endsAt: o.horarioFim,
-    }));
+    .sort((a: any, b: any) =>
+      (a.horarioInicio ?? '').localeCompare(b.horarioInicio ?? '')
+    )
+    .map(
+      (o: any): ILesson => ({
+        discipline: o.nome ?? 'Sem nome',
+        class: o.turmas?.[0]?.nome ?? o.turmas?.[0]?.periodo ?? '—',
+        environment: o.ambientes?.[0]?.nome ?? '—',
+        campus: o.turmas?.[0]?.curso?.campus?.apelido ?? '—',
+        teacher: o.perfis?.[0]?.usuario?.nome ?? '—',
+        startsAt: o.horarioInicio,
+        endsAt: o.horarioFim,
+      })
+    );
 });
 
 const isLoading = computed(() => consultaQuery.isLoading.value);

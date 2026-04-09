@@ -86,8 +86,14 @@ export const useOfertasFormacoes = (): IUseOfertasFormacoes => {
     fetcher: (id: string) => api.call(ofertaFormacaoFindById, { path: { id } }),
   });
 
-  const create = createCreateFn<ReqBody<OfertaFormacaoCreateData>, OfertaFormacaoCreateResponse>(api, ofertaFormacaoCreate);
-  const update = createUpdateFn<ReqBody<OfertaFormacaoUpdateData>, OfertaFormacaoUpdateResponse>(api, ofertaFormacaoUpdate);
+  const create = createCreateFn<
+    ReqBody<OfertaFormacaoCreateData>,
+    OfertaFormacaoCreateResponse
+  >(api, ofertaFormacaoCreate);
+  const update = createUpdateFn<
+    ReqBody<OfertaFormacaoUpdateData>,
+    OfertaFormacaoUpdateResponse
+  >(api, ofertaFormacaoUpdate);
   const remove = createRemoveFn(api, ofertaFormacaoDeleteOneById);
   const uploadCover = createUploadImageFn(api, ofertaFormacaoUpdateImagemCapa);
 

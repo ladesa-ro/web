@@ -68,7 +68,10 @@ export const useEntityForm = <TSchema extends ObjectSchema<any>>(
 
   const onSubmit = async (e?: Event) => {
     await form.handleSubmit(async rawData => {
-      const data = options.schema.cast(rawData, { stripUnknown: true, assert: false }) as InferType<TSchema>;
+      const data = options.schema.cast(rawData, {
+        stripUnknown: true,
+        assert: false,
+      }) as InferType<TSchema>;
       const id = unref(options.editId);
 
       try {

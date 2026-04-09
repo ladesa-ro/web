@@ -2,7 +2,10 @@
 // # IMPORT
 import SearchBar from '~/components/UI/SearchBar/SearchBar.vue';
 import type { CalendarEvent } from '../Types';
-import { useInjectCalendarioEvents, useOnCalendarioForceClose } from '../useCalendarioEventBus';
+import {
+  useInjectCalendarioEvents,
+  useOnCalendarioForceClose,
+} from '../useCalendarioEventBus';
 
 // # CODE
 type Props = {
@@ -22,7 +25,6 @@ function onClose() {
 }
 
 useOnCalendarioForceClose(onClose);
-
 </script>
 
 <template>

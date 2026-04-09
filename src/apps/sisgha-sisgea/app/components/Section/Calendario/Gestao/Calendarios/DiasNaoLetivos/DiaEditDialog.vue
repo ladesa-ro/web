@@ -27,7 +27,7 @@ const { handleSubmit: handleEditSubmit, resetForm: resetEditForm } = useForm({
 
 watch(
   () => props.dia,
-  (newDia) => {
+  newDia => {
     if (!newDia) return;
     if (newDia.id) {
       // Edit mode — values are set by the parent before opening
@@ -36,10 +36,10 @@ watch(
       // Create mode
       resetEditForm({ values: diaEditSchema.getDefault() });
     }
-  },
+  }
 );
 
-const saveEdit = handleEditSubmit(async (formValues) => {
+const saveEdit = handleEditSubmit(async formValues => {
   if (!props.dia || !props.calendarioId) return;
   try {
     await api.call(calendarioLetivoDiaUpdate, {
@@ -86,7 +86,10 @@ defineExpose({ resetForEdit, resetForCreate });
 </script>
 
 <template>
-  <DialogSkeleton :model-value="modelValue" @update:model-value="emit('update:modelValue', $event)">
+  <DialogSkeleton
+    :model-value="modelValue"
+    @update:model-value="emit('update:modelValue', $event)"
+  >
     <DialogModalBaseLayout
       v-if="dia"
       title="Editar dia"
@@ -97,7 +100,9 @@ defineExpose({ resetForEdit, resetForCreate });
         <VVTextField name="feriado" label="Nome" placeholder="Nome do dia" />
 
         <div class="flex flex-col gap-1.5">
-          <span class="text-[0.813rem] font-semibold text-ldsa-grey px-1">Cor</span>
+          <span class="text-[0.813rem] font-semibold text-ldsa-grey px-1"
+            >Cor</span
+          >
           <VVColorPalette name="cor" />
         </div>
 

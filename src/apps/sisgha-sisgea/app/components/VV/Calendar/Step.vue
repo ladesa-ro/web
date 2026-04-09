@@ -16,15 +16,18 @@ const props = defineProps<Props>();
 const schema = yup.object({
   stepColor: yup.string().required('Cor inválida'),
   stepStartDate: yup.string().required('Data de início inválida'),
-  stepEndDate: yup.string().required('Data de término inválida').test(
-    'after-start',
-    'Data de término deve ser igual ou posterior à data de início',
-    function (value) {
-      const start = this.parent.stepStartDate;
-      if (!start || !value) return true;
-      return value >= start;
-    },
-  ),
+  stepEndDate: yup
+    .string()
+    .required('Data de término inválida')
+    .test(
+      'after-start',
+      'Data de término deve ser igual ou posterior à data de início',
+      function (value) {
+        const start = this.parent.stepStartDate;
+        if (!start || !value) return true;
+        return value >= start;
+      }
+    ),
 });
 
 const { values, validate, setValues } = useForm({
@@ -41,13 +44,16 @@ watch(
   () => [props.dataInicio, props.dataTermino, props.etapaCor],
   ([inicio, termino, cor]) => {
     if (inicio || termino || cor) {
-      setValues({
-        stepStartDate: inicio ?? values.stepStartDate ?? '',
-        stepEndDate: termino ?? values.stepEndDate ?? '',
-        stepColor: cor ?? values.stepColor ?? '#000000',
-      }, false);
+      setValues(
+        {
+          stepStartDate: inicio ?? values.stepStartDate ?? '',
+          stepEndDate: termino ?? values.stepEndDate ?? '',
+          stepColor: cor ?? values.stepColor ?? '#000000',
+        },
+        false
+      );
     }
-  },
+  }
 );
 
 const getValues = () => ({
@@ -74,11 +80,7 @@ defineExpose({ getValues, validateStep });
       <p class="font-bold whitespace-nowrap">{{ props.text }}</p>
     </label>
 
-    <VVTextField
-      name="stepColor"
-      type="color"
-      label="Cor"
-    />
+    <VVTextField name="stepColor" type="color" label="Cor" />
     <div class="flex gap-4">
       <VVDateField name="stepStartDate" label="Início" />
       <VVDateField name="stepEndDate" label="Término" />

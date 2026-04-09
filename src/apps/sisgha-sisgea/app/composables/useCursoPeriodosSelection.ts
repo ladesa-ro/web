@@ -1,8 +1,9 @@
 import type { InfiniteData } from '@tanstack/vue-query';
+import type { DisciplinaFindAllResponse } from '@ladesa-ro/web.api.client';
 import type {
-  DisciplinaFindAllResponse,
-} from '@ladesa-ro/web.api.client';
-import type { PeriodoDisciplinaLocal, PeriodoLocal } from './useCursoPeriodosSync';
+  PeriodoDisciplinaLocal,
+  PeriodoLocal,
+} from './useCursoPeriodosSync';
 import { FormMode } from '~/utils/constants';
 
 type DisciplinaResumo = {
@@ -19,7 +20,7 @@ type PeriodoVisivel = {
 export function useCursoPeriodosSelection(
   mode: MaybeRef<FormMode>,
   localPeriodos: Ref<PeriodoLocal[]>,
-  savedPeriodos: Ref<Map<number, Set<string>>>,
+  savedPeriodos: Ref<Map<number, Set<string>>>
 ) {
   const disciplinas = useDisciplinas();
 
@@ -31,16 +32,16 @@ export function useCursoPeriodosSelection(
 
   // ---- Disciplinas query (compartilhada) ----
   const disciplinasInfiniteQuery = disciplinas.listInfinite(
-    computed(() => ({ limit: 50 })),
+    computed(() => ({ limit: 50 }))
   );
   const disciplinasData = computed(
     () =>
       disciplinasInfiniteQuery.data.value as
         | InfiniteData<DisciplinaFindAllResponse>
-        | undefined,
+        | undefined
   );
-  const disciplinasList = computed(() =>
-    disciplinasData.value?.pages.flatMap(page => page.data ?? []) ?? [],
+  const disciplinasList = computed(
+    () => disciplinasData.value?.pages.flatMap(page => page.data ?? []) ?? []
   );
   const disciplinasById = computed(() => {
     const map = new Map<string, DisciplinaResumo>();
@@ -58,7 +59,7 @@ export function useCursoPeriodosSelection(
   // ---- IDs das disciplinas do período sendo editado ----
   const selectedDisciplinaIds = computed(() => {
     const periodo = localPeriodos.value.find(
-      item => item.numeroPeriodo === selectedNumeroPeriodo.value,
+      item => item.numeroPeriodo === selectedNumeroPeriodo.value
     );
     if (!periodo) return new Set<string>();
     return new Set<string>(periodo.disciplinas.map(d => d.disciplinaId));

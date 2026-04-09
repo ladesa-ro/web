@@ -12,7 +12,11 @@ const { items } = useLayoutsDashboardSisghaDapeSidebarItems();
 </script>
 
 <template>
-  <UIBreadcrumb :items="items" :extra-segment="props.extraSegment" v-bind="$attrs">
+  <UIBreadcrumb
+    :items="items"
+    :extra-segment="props.extraSegment"
+    v-bind="$attrs"
+  >
     <slot />
   </UIBreadcrumb>
 </template>

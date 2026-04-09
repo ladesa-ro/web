@@ -9,7 +9,11 @@ const props = defineProps<{
 }>();
 
 const { options } = useAutocompleteEntity({
-  baseQueryKeys: computed(() => ['turmas', 'byCurso', props.filterCursoId ?? 'all']),
+  baseQueryKeys: computed(() => [
+    'turmas',
+    'byCurso',
+    props.filterCursoId ?? 'all',
+  ]),
   listFn: turmaFindAll,
   getOneFn: turmaFindById,
   transformer: (item: any) => ({
@@ -20,7 +24,9 @@ const { options } = useAutocompleteEntity({
     api.call(turmaFindAll, {
       query: {
         ...data,
-        'filter.curso.id': props.filterCursoId ? [props.filterCursoId] : undefined,
+        'filter.curso.id': props.filterCursoId
+          ? [props.filterCursoId]
+          : undefined,
       },
     }),
 });

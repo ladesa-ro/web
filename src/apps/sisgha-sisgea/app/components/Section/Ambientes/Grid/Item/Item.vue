@@ -12,7 +12,10 @@ const props = defineProps<Props>();
 
 const { item: ambiente } = toRefs(props);
 
-const link = props.link === undefined || props.link === '' ? '/sisgea/ambientes' : props.link;
+const link =
+  props.link === undefined || props.link === ''
+    ? '/sisgea/ambientes'
+    : props.link;
 
 const coverImageSrc = useApiImageRoute(
   ApiImageResource.AMBIENTE_COVER,

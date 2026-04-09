@@ -2,7 +2,12 @@
 import WeekdaySelector from '~/components/UI/WeekDaySelector/WeekdaySelector.vue';
 import { capitalizeFirst } from '@ladesa-ro/web.utils';
 import { getWeekDays } from '~/utils/get-week-days';
-import { dayShifts, motivosDisponiveis, formatarDia, agruparHorarios } from './-Helpers/motivos-utils';
+import {
+  dayShifts,
+  motivosDisponiveis,
+  formatarDia,
+  agruparHorarios,
+} from './-Helpers/motivos-utils';
 
 const props = defineProps<{
   motivoAtual: {
@@ -56,7 +61,9 @@ const onClose = () => emit('fechar');
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 md:flex-row md:gap-4 h-[min(90vh,100%)] w-[min(95vw,50rem)]">
+  <div
+    class="flex flex-col gap-4 md:flex-row md:gap-4 h-[min(90vh,100%)] w-[min(95vw,50rem)]"
+  >
     <DialogModalBaseLayout
       :close-button="false"
       :on-close="onClose"

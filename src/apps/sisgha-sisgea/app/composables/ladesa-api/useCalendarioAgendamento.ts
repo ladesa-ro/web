@@ -57,9 +57,15 @@ type FindAllFn = (
   params?: MaybeRef<FindAllQuery | undefined>
 ) => UseQueryReturnType<CalendarioAgendamentoListOutputDto, Error>;
 
-type DesvincularTurmaFn = (agendamentoId: string, turmaId: string) => Promise<unknown>;
+type DesvincularTurmaFn = (
+  agendamentoId: string,
+  turmaId: string
+) => Promise<unknown>;
 
-type UpdateStatusFn = (id: string, status: CalendarioAgendamentoUpdateStatusInputDto['status']) => Promise<unknown>;
+type UpdateStatusFn = (
+  id: string,
+  status: CalendarioAgendamentoUpdateStatusInputDto['status']
+) => Promise<unknown>;
 
 export type IUseCalendarioAgendamento = {
   keys: readonly string[];
@@ -85,7 +91,7 @@ export const useCalendarioAgendamento = (): IUseCalendarioAgendamento => {
 
   const keys = ['calendario-agendamento'] as const;
 
-  const consulta: ConsultaFn = (params) => {
+  const consulta: ConsultaFn = params => {
     const queryKey = computed(() => [
       ...keys,
       'consulta',
@@ -120,15 +126,26 @@ export const useCalendarioAgendamento = (): IUseCalendarioAgendamento => {
       api.call(calendarioAgendamentoFindById, { path: { id } }),
   });
 
-  const create = createCreateFn<ReqBody<CalendarioAgendamentoCreateData>, CalendarioAgendamentoCreateResponse>(api, calendarioAgendamentoCreate);
-  const update = createUpdateFn<ReqBody<CalendarioAgendamentoUpdateData>, CalendarioAgendamentoUpdateResponse>(api, calendarioAgendamentoUpdate);
+  const create = createCreateFn<
+    ReqBody<CalendarioAgendamentoCreateData>,
+    CalendarioAgendamentoCreateResponse
+  >(api, calendarioAgendamentoCreate);
+  const update = createUpdateFn<
+    ReqBody<CalendarioAgendamentoUpdateData>,
+    CalendarioAgendamentoUpdateResponse
+  >(api, calendarioAgendamentoUpdate);
   const remove = createRemoveFn(api, calendarioAgendamentoDeleteOneById);
 
   const desvincularTurma: DesvincularTurmaFn = (agendamentoId, turmaId) =>
-    api.call(calendarioAgendamentoDesvincularTurma, { path: { id: agendamentoId, turmaId } });
+    api.call(calendarioAgendamentoDesvincularTurma, {
+      path: { id: agendamentoId, turmaId },
+    });
 
   const updateStatusFn: UpdateStatusFn = (id, status) =>
-    api.call(calendarioAgendamentoUpdateStatus, { path: { id }, body: { status } });
+    api.call(calendarioAgendamentoUpdateStatus, {
+      path: { id },
+      body: { status },
+    });
 
   const invalidate = createInvalidate(keys);
 

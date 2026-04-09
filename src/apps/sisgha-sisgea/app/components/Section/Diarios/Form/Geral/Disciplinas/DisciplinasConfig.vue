@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { IDisciplinaConfig } from '../Contexto';
-import { useContextDiariosFormGeral, diariosFormValidateKey } from '../Contexto';
+import {
+  useContextDiariosFormGeral,
+  diariosFormValidateKey,
+} from '../Contexto';
 import { useDisciplinasConfigEdit } from './useDisciplinasConfigEdit';
 import { useDisciplinasConfigSubmit } from './useDisciplinasConfigSubmit';
 
@@ -21,7 +24,9 @@ const isEditMode = computed(() => !!props.editId);
 // Buscar disciplinas do curso da turma selecionada
 const cursoId = computed(() => {
   const turma = contexto.turmaSelecionada.value;
-  return (turma?.curso as Record<string, unknown>)?.id as string | null ?? null;
+  return (
+    ((turma?.curso as Record<string, unknown>)?.id as string | null) ?? null
+  );
 });
 
 const { disciplinas, isLoading: isLoadingDisciplinas } =
@@ -31,7 +36,8 @@ const { disciplinas, isLoading: isLoadingDisciplinas } =
 const diarios = useDiarios();
 const existingDiariosQuery = diarios.list(
   computed(() => {
-    if (!contexto.turmaId.value || !contexto.calendarioLetivoId.value) return {};
+    if (!contexto.turmaId.value || !contexto.calendarioLetivoId.value)
+      return {};
     return {
       'filter.turma.id': [contexto.turmaId.value],
       'filter.calendarioLetivo.id': [contexto.calendarioLetivoId.value],
@@ -45,21 +51,21 @@ const existingDisciplinaIds = computed(() => {
   if (!data) return new Set<string>();
   return new Set(
     (data as Record<string, unknown>[]).map(
-      (d) => ((d.disciplina as Record<string, unknown>)?.id as string) ?? ''
+      d => ((d.disciplina as Record<string, unknown>)?.id as string) ?? ''
     )
   );
 });
 
 const disciplinasDisponiveis = computed(() =>
   disciplinas.value.filter(
-    (d) => !existingDisciplinaIds.value.has(d.disciplinaId)
+    d => !existingDisciplinaIds.value.has(d.disciplinaId)
   )
 );
 
 // Inicializar config das disciplinas quando carregarem (modo criação)
 watch(
   disciplinasDisponiveis,
-  (newDisciplinas) => {
+  newDisciplinas => {
     if (isEditMode.value) return;
     if (newDisciplinas.length === 0) return;
     if (contexto.disciplinasConfig.value.length > 0) return;
@@ -97,7 +103,7 @@ const { onSubmit, onDelete, canSubmit, isBusy, imagemFile, confirmDelete } =
     computed(() => props.editId),
     contexto,
     { close: () => emit('close') },
-    formValidate,
+    formValidate
   );
 
 const title = computed(() =>
@@ -153,25 +159,31 @@ const turmaInfo = computed(() => {
         class="flex items-center justify-center py-8"
       >
         <span class="text-sm text-ldsa-grey/100 animate-pulse">
-          {{ contexto.isLoadingEdit.value ? 'Carregando diário...' : 'Carregando disciplinas...' }}
+          {{
+            contexto.isLoadingEdit.value
+              ? 'Carregando diário...'
+              : 'Carregando disciplinas...'
+          }}
         </span>
       </div>
 
       <!-- Todas as disciplinas já possuem diário -->
       <div
-        v-else-if="!isEditMode && disciplinasDisponiveis.length === 0 && disciplinas.length > 0"
+        v-else-if="
+          !isEditMode &&
+          disciplinasDisponiveis.length === 0 &&
+          disciplinas.length > 0
+        "
         class="flex items-center gap-3 bg-amber-50 border border-amber-200 rounded px-3 py-4"
       >
         <span class="text-amber-700 text-xs">
-          Todas as disciplinas desta turma já possuem diário cadastrado para o calendário letivo selecionado.
+          Todas as disciplinas desta turma já possuem diário cadastrado para o
+          calendário letivo selecionado.
         </span>
       </div>
 
       <!-- Lista de accordions -->
-      <div
-        v-else
-        class="overflow-y-auto flex flex-col gap-4"
-      >
+      <div v-else class="overflow-y-auto flex flex-col gap-4">
         <SectionDiariosFormGeralDisciplinasAccordionDisciplinaAccordion
           v-for="(dc, index) in contexto.disciplinasConfig.value"
           :key="dc.disciplinaId"
@@ -181,15 +193,9 @@ const turmaInfo = computed(() => {
     </div>
 
     <template #button-group>
-      <UIButtonModalGoBack
-        v-if="!isEditMode"
-        @click="emit('back')"
-      />
+      <UIButtonModalGoBack v-if="!isEditMode" @click="emit('back')" />
       <UIButtonModalCancel @click="emit('close')" />
-      <UIButtonModalDelete
-        v-if="isEditMode"
-        @click="onDelete"
-      />
+      <UIButtonModalDelete v-if="isEditMode" @click="onDelete" />
       <form @submit.prevent="onSubmit">
         <UIButtonModalEdit v-if="isEditMode" :disabled="!canSubmit || isBusy" />
         <UIButtonModalSave v-else :disabled="!canSubmit || isBusy" />

@@ -9,7 +9,9 @@ export function getDuracaoLabel(meses: number | null | undefined): string {
   return DURACAO_LABELS[meses] ?? `${meses} meses`;
 }
 
-export function getQuantidadePeriodosLabel(meses: number | null | undefined): string {
+export function getQuantidadePeriodosLabel(
+  meses: number | null | undefined
+): string {
   if (meses === 12) return 'Quantidade de períodos (anos)';
   if (meses === 6) return 'Quantidade de períodos (semestres)';
   if (meses === 4) return 'Quantidade de períodos (quadrimestres)';

@@ -33,7 +33,8 @@ async function salvar() {
     await save();
     toast.success({ title: 'Grades horárias atualizadas com sucesso!' });
   } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : 'Erro ao salvar grades horárias.';
+    const msg =
+      e instanceof Error ? e.message : 'Erro ao salvar grades horárias.';
     toast.error({ title: msg });
   }
 }
@@ -43,7 +44,11 @@ function cancelar() {
   cancelEdit();
 }
 
-function updateIntervalInicio(gradeIndex: number, intervalIndex: number, value: string) {
+function updateIntervalInicio(
+  gradeIndex: number,
+  intervalIndex: number,
+  value: string
+) {
   const grade = grades.value[gradeIndex];
   const intervalo = grade?.intervalos[intervalIndex];
   if (intervalo) {
@@ -51,7 +56,11 @@ function updateIntervalInicio(gradeIndex: number, intervalIndex: number, value: 
   }
 }
 
-function updateIntervalFim(gradeIndex: number, intervalIndex: number, value: string) {
+function updateIntervalFim(
+  gradeIndex: number,
+  intervalIndex: number,
+  value: string
+) {
   const grade = grades.value[gradeIndex];
   const intervalo = grade?.intervalos[intervalIndex];
   if (intervalo) {
@@ -68,7 +77,7 @@ function updateGradeNome(gradeIndex: number, value: string) {
 
 const canEdit = computed(() => {
   return !isLoading.value && campusContext.value;
-})
+});
 </script>
 
 <template>
@@ -81,7 +90,7 @@ const canEdit = computed(() => {
             class="px-4 py-2 bg-ldsa-green-1 text-white rounded-md text-sm font-medium hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
             @click="enterEditMode"
           >
-            Editar 
+            Editar
           </button>
         </template>
         <template v-else>
@@ -113,10 +122,7 @@ const canEdit = computed(() => {
       Carregando grades horárias...
     </div>
 
-    <div
-      v-else-if="!campusContext"
-      class="text-center py-12 text-ldsa-grey"
-    >
+    <div v-else-if="!campusContext" class="text-center py-12 text-ldsa-grey">
       Selecione um campus para visualizar as grades horárias.
     </div>
 
@@ -131,13 +137,19 @@ const canEdit = computed(() => {
           :disabled="isSaving"
           :errors="validationErrors.get(index)"
           @update:nome="updateGradeNome(index, $event)"
-          @update:intervalo-inicio="(idx: number, val: string) => updateIntervalInicio(index, idx, val)"
-          @update:intervalo-fim="(idx: number, val: string) => updateIntervalFim(index, idx, val)"
+          @update:intervalo-inicio="
+            (idx: number, val: string) => updateIntervalInicio(index, idx, val)
+          "
+          @update:intervalo-fim="
+            (idx: number, val: string) => updateIntervalFim(index, idx, val)
+          "
           @add-interval="(periodo: string) => addInterval(index, periodo)"
           @remove-interval="(idx: number) => removeInterval(index, idx)"
-          @remove-intervals-by-periodo="(periodo: string) => removeIntervalsByPeriodo(index, periodo)"
+          @remove-intervals-by-periodo="
+            (periodo: string) => removeIntervalsByPeriodo(index, periodo)
+          "
           @clear-all-intervals="clearAllIntervals(index)"
-          @add-intervals-bulk="(params) => addIntervalsBulk(index, params)"
+          @add-intervals-bulk="params => addIntervalsBulk(index, params)"
           @remove-grade="removeGrade(index)"
         />
       </div>

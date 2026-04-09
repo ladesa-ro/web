@@ -1,9 +1,7 @@
 import type { Dayjs } from 'dayjs';
 import { getWeekDays } from '~/utils/get-week-days';
 
-export function useTurmaEditState(
-  currentWeekRef: Ref<Dayjs>,
-) {
+export function useTurmaEditState(currentWeekRef: Ref<Dayjs>) {
   const isEditing = ref(false);
   const selectedDayWeek = ref<string>('');
 
@@ -26,10 +24,7 @@ export function useTurmaEditState(
   const isDirty = computed(() => {
     const editing = editingAvailability.value;
     const server = serverAvailability.value;
-    const allDays = new Set([
-      ...Object.keys(editing),
-      ...Object.keys(server),
-    ]);
+    const allDays = new Set([...Object.keys(editing), ...Object.keys(server)]);
     for (const day of allDays) {
       const eTimes = (editing[Number(day)] ?? []).slice().sort();
       const sTimes = (server[Number(day)] ?? []).slice().sort();

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { useForm } from 'vee-validate';
-import { createAndProvideContextDiariosFormGeral, diariosFormValidateKey } from './Contexto';
+import {
+  createAndProvideContextDiariosFormGeral,
+  diariosFormValidateKey,
+} from './Contexto';
 import { diariosFormSchema } from './-Helpers/schema';
 
 const props = defineProps<{
@@ -20,7 +23,7 @@ const { validate, setValues, values } = useForm({
 // Context is backed by form values — form is the source of truth
 const contexto = createAndProvideContextDiariosFormGeral(
   { values, setValues },
-  computed(() => props.editId ?? null),
+  computed(() => props.editId ?? null)
 );
 
 // Provide form validate to children
@@ -28,12 +31,10 @@ provide(diariosFormValidateKey, validate);
 
 const isEditMode = computed(() => !!props.editId);
 
-const modals = useModalManager<'selecionar-turma' | 'configurar-disciplinas'>(
-  {
-    initial: isEditMode.value ? 'configurar-disciplinas' : 'selecionar-turma',
-    history: true,
-  }
-);
+const modals = useModalManager<'selecionar-turma' | 'configurar-disciplinas'>({
+  initial: isEditMode.value ? 'configurar-disciplinas' : 'selecionar-turma',
+  history: true,
+});
 
 function fecharTudo() {
   modals.closeAll();
@@ -41,7 +42,7 @@ function fecharTudo() {
 }
 
 // Quando todos os modais fecham (ex: via backdrop), propagar close para o pai
-watch(modals.hasActiveModal, (hasActive) => {
+watch(modals.hasActiveModal, hasActive => {
   if (!hasActive) {
     emit('close');
   }

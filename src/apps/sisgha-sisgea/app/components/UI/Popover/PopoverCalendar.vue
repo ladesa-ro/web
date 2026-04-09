@@ -33,7 +33,7 @@ const calendarValue = computed({
     const d = props.selectedDay ?? dayjs();
     return new CalendarDate(d.year(), d.month() + 1, d.date());
   },
-  set: (val) => {
+  set: val => {
     if (val) {
       const selected = dayjs(new Date(val.year, val.month - 1, val.day));
       emit('select', selected);

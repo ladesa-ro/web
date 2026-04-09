@@ -1,7 +1,5 @@
 import type { Dayjs } from 'dayjs';
-import type {
-  TurmaDisponibilidadeWeekOutputDto,
-} from '@ladesa-ro/web.api.client';
+import type { TurmaDisponibilidadeWeekOutputDto } from '@ladesa-ro/web.api.client';
 import { toDisplayFormat } from '~/utils/horarios';
 import type { useTurmaGradeSelection } from './useTurmaGradeSelection';
 import type { useTurmaEditState } from './useTurmaEditState';
@@ -12,7 +10,7 @@ export function useTurmaSyncLogic(
   currentWeekRef: Ref<Dayjs>,
   grade: ReturnType<typeof useTurmaGradeSelection>,
   editState: ReturnType<typeof useTurmaEditState>,
-  pending: ReturnType<typeof useTurmaPendingConfigs>,
+  pending: ReturnType<typeof useTurmaPendingConfigs>
 ) {
   const disponibilidade = useTurmaDisponibilidade();
 
@@ -22,9 +20,7 @@ export function useTurmaSyncLogic(
 
   // --- Week query ---
 
-  const semanaParam = computed(() =>
-    currentWeekRef.value.format('YYYY-MM-DD')
-  );
+  const semanaParam = computed(() => currentWeekRef.value.format('YYYY-MM-DD'));
 
   const weekQuery = disponibilidade.findByWeek(turmaId, semanaParam);
 
@@ -44,7 +40,9 @@ export function useTurmaSyncLogic(
     return mapped;
   };
 
-  function syncGradeFromConfig(data: TurmaDisponibilidadeWeekOutputDto | undefined) {
+  function syncGradeFromConfig(
+    data: TurmaDisponibilidadeWeekOutputDto | undefined
+  ) {
     if (!data?.configs?.length) return;
     const config = data.configs[0]!;
     const serverGradeId = config.identificador_externo_grade_horaria ?? null;
@@ -69,15 +67,12 @@ export function useTurmaSyncLogic(
     { immediate: true }
   );
 
-  watch(
-    semanaParam,
-    weekKey => {
-      const pendingConfig = findPendingForWeek(weekKey);
-      if (pendingConfig) {
-        applyAvailability(mapPendingToAvailability(pendingConfig));
-      }
+  watch(semanaParam, weekKey => {
+    const pendingConfig = findPendingForWeek(weekKey);
+    if (pendingConfig) {
+      applyAvailability(mapPendingToAvailability(pendingConfig));
     }
-  );
+  });
 
   // --- Pending config for current week ---
 

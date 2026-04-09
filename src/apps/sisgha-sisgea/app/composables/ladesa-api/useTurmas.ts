@@ -77,8 +77,14 @@ export const useTurmas = (): IUseTurmas => {
     fetcher: (id: string) => api.call(turmaFindById, { path: { id } }),
   });
 
-  const create = createCreateFn<ReqBody<TurmaCreateData>, TurmaCreateResponse>(api, turmaCreate);
-  const update = createUpdateFn<ReqBody<TurmaUpdateData>, TurmaUpdateResponse>(api, turmaUpdate);
+  const create = createCreateFn<ReqBody<TurmaCreateData>, TurmaCreateResponse>(
+    api,
+    turmaCreate
+  );
+  const update = createUpdateFn<ReqBody<TurmaUpdateData>, TurmaUpdateResponse>(
+    api,
+    turmaUpdate
+  );
   const remove = createRemoveFn(api, turmaDeleteOneById);
   const uploadCover = createUploadImageFn(api, turmaUpdateImagemCapa);
 

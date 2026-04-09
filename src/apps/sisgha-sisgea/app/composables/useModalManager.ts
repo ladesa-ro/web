@@ -20,13 +20,21 @@ export interface IModalManagerReturn<T extends string> {
 }
 
 export function useModalManager<T extends string>(
-  options?: IModalManagerOptions<T>,
+  options?: IModalManagerOptions<T>
 ): IModalManagerReturn<T> {
-  const { initial = null, history = false, modals: modalConfigs = {} } = options ?? {};
+  const {
+    initial = null,
+    history = false,
+    modals: modalConfigs = {},
+  } = options ?? {};
 
-  const activeModals = ref<Set<T>>(new Set(initial ? [initial] : [])) as Ref<Set<T>>;
+  const activeModals = ref<Set<T>>(new Set(initial ? [initial] : [])) as Ref<
+    Set<T>
+  >;
   const stack = ref<T[]>([]) as Ref<T[]>;
-  const lastExclusive = ref<T | null>(initial && isExclusiveFn(initial) ? initial : null) as Ref<T | null>;
+  const lastExclusive = ref<T | null>(
+    initial && isExclusiveFn(initial) ? initial : null
+  ) as Ref<T | null>;
 
   function isExclusiveFn(name: T): boolean {
     const config = (modalConfigs as Partial<Record<T, IModalConfig>>)[name];

@@ -3,7 +3,10 @@ import { FormMode } from '~/utils/constants';
 
 const api = useApiClient();
 
-function getDisciplinaCoverUrl(disc: { id: string; imagemCapa?: { id: string } | null }) {
+function getDisciplinaCoverUrl(disc: {
+  id: string;
+  imagemCapa?: { id: string } | null;
+}) {
   if (!disc.imagemCapa) return null;
   return `${api.baseUrl}/disciplinas/${disc.id}/imagem/capa?imgCapa=${disc.imagemCapa.id}`;
 }
@@ -32,7 +35,7 @@ watch(
   ids => {
     selectedIds.value = new Set(ids);
   },
-  { immediate: true },
+  { immediate: true }
 );
 
 const filteredDisciplinas = computed(() => {
@@ -87,7 +90,7 @@ onUnmounted(() => {
 });
 
 const titleVerb = computed(() =>
-  props.mode === FormMode.MANAGE ? 'Editar' : 'Definir',
+  props.mode === FormMode.MANAGE ? 'Editar' : 'Definir'
 );
 </script>
 
@@ -121,7 +124,7 @@ const titleVerb = computed(() =>
             :src="getDisciplinaCoverUrl(disc) ?? undefined"
             class="w-full h-full object-cover"
             alt=""
-          >
+          />
           <IconsImage v-else class="w-6 text-ldsa-grey" />
         </div>
 

@@ -11,9 +11,15 @@ export function useAgendamentosExclusivity() {
     }
 
     try {
-      const result = await api.call(calendarioAgendamentoFindById, { path: { id: eventoId } });
-      const turmasCount = (result as { turmas?: unknown[] } | undefined)?.turmas?.length ?? 1;
-      exclusivityCache.value = new Map(exclusivityCache.value).set(eventoId, turmasCount);
+      const result = await api.call(calendarioAgendamentoFindById, {
+        path: { id: eventoId },
+      });
+      const turmasCount =
+        (result as { turmas?: unknown[] } | undefined)?.turmas?.length ?? 1;
+      exclusivityCache.value = new Map(exclusivityCache.value).set(
+        eventoId,
+        turmasCount
+      );
       return turmasCount;
     } catch {
       return 1;

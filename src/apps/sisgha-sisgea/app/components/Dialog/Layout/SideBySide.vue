@@ -1,21 +1,26 @@
 <script lang="ts" setup>
 type CollapseTarget = 'primary' | 'secondary';
 
-const props = withDefaults(defineProps<{
-  collapsed?: boolean;
-  collapseTarget?: CollapseTarget;
-  primaryLabel?: string;
-  secondaryLabel?: string;
-  showSecondary?: boolean;
-}>(), {
-  showSecondary: true,
-});
+const props = withDefaults(
+  defineProps<{
+    collapsed?: boolean;
+    collapseTarget?: CollapseTarget;
+    primaryLabel?: string;
+    secondaryLabel?: string;
+    showSecondary?: boolean;
+  }>(),
+  {
+    showSecondary: true,
+  }
+);
 
 const collapseTarget = computed(() => props.collapseTarget ?? 'secondary');
 
 const secondaryEnabled = computed(() => props.showSecondary);
 
-const isSinglePanel = computed(() => !secondaryEnabled.value || props.collapsed);
+const isSinglePanel = computed(
+  () => !secondaryEnabled.value || props.collapsed
+);
 
 const showPrimary = computed(() => {
   if (!secondaryEnabled.value) return true;
@@ -70,7 +75,12 @@ const isSecondaryVisible = computed(() => {
 </script>
 
 <template>
-  <div :class="[isGrid ? (isSinglePanel ? 'root-grid-single' : 'root-grid') : 'root-tabs', !isGrid && collapsed && 'root-tabs-collapsed']">
+  <div
+    :class="[
+      isGrid ? (isSinglePanel ? 'root-grid-single' : 'root-grid') : 'root-tabs',
+      !isGrid && collapsed && 'root-tabs-collapsed',
+    ]"
+  >
     <!-- Tabs header (only in tabs mode, not collapsed, secondary enabled) -->
     <div v-show="!isGrid && !isSinglePanel" class="tabs-header">
       <button
@@ -100,13 +110,18 @@ const isSecondaryVisible = computed(() => {
         isGrid ? 'content-grid' : 'content-tabs',
         isGrid && (isSinglePanel ? 'single-panel' : 'side-by-side'),
       ]"
-      :style="isGrid ? { gridTemplateColumns: `repeat(${columns}, 1fr)` } : undefined"
+      :style="
+        isGrid ? { gridTemplateColumns: `repeat(${columns}, 1fr)` } : undefined
+      "
     >
       <div
         v-show="isGrid ? isPrimaryVisible : true"
         :class="[
           isGrid ? 'grid-panel' : 'tab-panel',
-          !isGrid && (activeTab === 'primary' ? 'tab-panel-active' : 'tab-panel-hidden-left'),
+          !isGrid &&
+            (activeTab === 'primary'
+              ? 'tab-panel-active'
+              : 'tab-panel-hidden-left'),
         ]"
       >
         <slot name="primary" />
@@ -115,7 +130,10 @@ const isSecondaryVisible = computed(() => {
         v-show="isGrid ? isSecondaryVisible : true"
         :class="[
           isGrid ? 'grid-panel' : 'tab-panel',
-          !isGrid && (activeTab === 'secondary' ? 'tab-panel-active' : 'tab-panel-hidden-right'),
+          !isGrid &&
+            (activeTab === 'secondary'
+              ? 'tab-panel-active'
+              : 'tab-panel-hidden-right'),
         ]"
       >
         <slot name="secondary" />
@@ -197,8 +215,9 @@ const isSecondaryVisible = computed(() => {
 
 .tab-panel {
   @apply absolute inset-0 flex flex-col items-stretch;
-  transition: opacity 400ms cubic-bezier(0.22, 1, 0.36, 1),
-              transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    opacity 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .tab-panel-active {

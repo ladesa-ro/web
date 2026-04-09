@@ -36,9 +36,12 @@ const gerarPDF = () => {
 
       <RelatorioFiltrosOpcionais />
 
-      <hr class="border-t-2 border-ldsa-grey">
+      <hr class="border-t-2 border-ldsa-grey" />
 
-      <RelatorioBotoes @visualizar="visualizarRelatorio" @gerar-pdf="gerarPDF" />
+      <RelatorioBotoes
+        @visualizar="visualizarRelatorio"
+        @gerar-pdf="gerarPDF"
+      />
 
       <DialogSkeleton v-model="showModal">
         <RelatorioModal :form="values" :on-close="() => (showModal = false)" />

@@ -33,9 +33,21 @@ const participantesOptions = [
   { label: 'Só turmas', value: 'TURMAS' },
 ];
 
-const selectedStatus = createFilterComputed(filtersStore, 'gestaoEventosStatus', statusOptions);
-const selectedTipo = createFilterComputed(filtersStore, 'gestaoEventosTipo', tipoOptions);
-const selectedParticipantes = createFilterComputed(filtersStore, 'gestaoEventosParticipantes', participantesOptions);
+const selectedStatus = createFilterComputed(
+  filtersStore,
+  'gestaoEventosStatus',
+  statusOptions
+);
+const selectedTipo = createFilterComputed(
+  filtersStore,
+  'gestaoEventosTipo',
+  tipoOptions
+);
+const selectedParticipantes = createFilterComputed(
+  filtersStore,
+  'gestaoEventosParticipantes',
+  participantesOptions
+);
 
 const queryParams = computed(() => {
   const params: Record<string, unknown> = {

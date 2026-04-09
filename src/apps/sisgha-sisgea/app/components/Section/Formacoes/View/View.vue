@@ -6,9 +6,16 @@ type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
 
 const ofertasFormacoes = useOfertasFormacoes();
-const { data: formacao, isLoading, isError } = ofertasFormacoes.findOne(ref(resourceId));
+const {
+  data: formacao,
+  isLoading,
+  isError,
+} = ofertasFormacoes.findOne(ref(resourceId));
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.OFERTA_FORMACAO_COVER, formacao);
+const coverImageSrc = useApiImageRoute(
+  ApiImageResource.OFERTA_FORMACAO_COVER,
+  formacao
+);
 
 const modalidadeNome = computed(() => formacao.value?.modalidade?.nome ?? '-');
 
@@ -19,7 +26,7 @@ const niveisFormacoesText = computed(() => {
 });
 
 const { confirmDelete, handleDelete } = useResourceDelete({
-  remove: (id) => ofertasFormacoes.remove(id),
+  remove: id => ofertasFormacoes.remove(id),
   invalidate: () => ofertasFormacoes.invalidate(),
   redirectTo: '/sisgha/dape/formacoes',
 });
@@ -46,7 +53,10 @@ const { confirmDelete, handleDelete } = useResourceDelete({
         <UIResourceViewField label="Nome" :value="formacao?.nome" />
         <UIResourceViewField label="Slug" :value="formacao?.slug" />
         <UIResourceViewField label="Modalidade" :value="modalidadeNome" />
-        <UIResourceViewField label="Níveis de Formação" :value="niveisFormacoesText" />
+        <UIResourceViewField
+          label="Níveis de Formação"
+          :value="niveisFormacoesText"
+        />
       </UIResourceViewFieldGroup>
     </template>
   </UIResourceView>

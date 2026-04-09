@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import TurmasForm from './Form/Form.vue';
-import type { IEntityListModule } from '~/components/UI/API/List/Context/UIApiListContext';
+import {
+  createApiListContextOptions,
+  type IEntityListModule,
+} from '~~/app/components/UI/API/List/Context/UIApiListContext';
 import { turmaFindAll, turmaFindById } from '@ladesa-ro/web.api.client';
 
 const api = useApiClient();
@@ -11,7 +14,18 @@ const crudModule = {
   getOne: (id: string) => api.call(turmaFindById, { path: { id } }),
 } satisfies IEntityListModule;
 
-const options = { crudModule };
+const campusContext = useCampusContext();
+
+const campusFilter = computed(() => {
+  if (!campusContext.value) return {};
+  return { 'filter.curso.campus.id': [campusContext.value] };
+});
+
+const options = createApiListContextOptions({
+  crudModule,
+  filter: campusFilter,
+  filteredByCampus: true,
+});
 </script>
 
 <template>

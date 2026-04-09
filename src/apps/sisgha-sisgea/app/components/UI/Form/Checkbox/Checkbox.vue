@@ -18,8 +18,13 @@ const checked = computed({
 </script>
 
 <template>
-  <label class="flex items-center gap-2.5 cursor-pointer" :class="{ 'opacity-60 cursor-not-allowed': disabled }">
-    <span class="rounded-full checkbox-shadow focus-within:shadow-(--green-shadow) hover:shadow-(--green-shadow)">
+  <label
+    class="flex items-center gap-2.5 cursor-pointer"
+    :class="{ 'opacity-60 cursor-not-allowed': disabled }"
+  >
+    <span
+      class="rounded-full checkbox-shadow focus-within:shadow-(--green-shadow) hover:shadow-(--green-shadow)"
+    >
       <Checkbox
         v-model:model-value="checked"
         :disabled="disabled"
@@ -31,7 +36,10 @@ const checked = computed({
         </Check>
       </Checkbox>
     </span>
-    <span v-if="label || $slots.default" class="text-sm font-medium text-ldsa-text-default select-none">
+    <span
+      v-if="label || $slots.default"
+      class="text-sm font-medium text-ldsa-text-default select-none"
+    >
       <slot>{{ label }}</slot>
     </span>
   </label>

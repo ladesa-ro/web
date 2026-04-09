@@ -8,7 +8,9 @@ const { isDark, changeTheme } = useCustomTheme();
       <IconsColorThemeMoon v-if="isDark" />
       <IconsColorThemeSun v-else />
       <template #fallback>
-        <div class="w-[22px] h-[23px] rounded-full animate-pulse bg-current opacity-20" />
+        <div
+          class="w-[22px] h-[23px] rounded-full animate-pulse bg-current opacity-20"
+        />
       </template>
     </ClientOnly>
   </button>

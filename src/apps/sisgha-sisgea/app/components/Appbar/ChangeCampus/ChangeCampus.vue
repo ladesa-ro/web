@@ -31,8 +31,11 @@ const showSelector = computed(() => {
 
 const selectedCampusGlobalState = useCampusContext();
 
-const selectedCampusLabel = computed(() =>
-  toggleCampusItems.value.find(c => c.value === selectedCampusGlobalState.value)?.label ?? 'Carregando...',
+const selectedCampusLabel = computed(
+  () =>
+    toggleCampusItems.value.find(
+      c => c.value === selectedCampusGlobalState.value
+    )?.label ?? 'Carregando...'
 );
 
 const selectedCampus = ref(
@@ -42,14 +45,14 @@ const selectedCampus = ref(
 // Auto-select first campus when items become available
 watch(
   toggleCampusItems,
-  (items) => {
+  items => {
     if (items.length > 0 && !selectedCampusGlobalState.value) {
       const first = items[0]!.value;
       selectedCampus.value = first;
       selectedCampusGlobalState.value = first;
     }
   },
-  { immediate: true },
+  { immediate: true }
 );
 
 //
@@ -73,7 +76,7 @@ const verifyCargo = () => {
   }
 };
 
-const removeGuard = router.beforeEach((to) => {
+const removeGuard = router.beforeEach(to => {
   if (!to.path.includes('sisgea')) {
     verifyCargo();
   }
@@ -167,7 +170,9 @@ const open = ref(false);
         class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden"
       >
         <IconsLocate class="mr-1 text-ldsa-text-green shrink-0" />
-        <span class="truncate animate-pulse bg-ldsa-grey/20 rounded h-3 w-20 inline-block" />
+        <span
+          class="truncate animate-pulse bg-ldsa-grey/20 rounded h-3 w-20 inline-block"
+        />
       </div>
     </template>
   </ClientOnly>

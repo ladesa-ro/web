@@ -23,7 +23,11 @@ const emit = defineEmits<{
     </p>
 
     <template #button-group>
-      <UIButtonModalCancel type="close" class="flex w-full" @click="emit('cancel')" />
+      <UIButtonModalCancel
+        type="close"
+        class="flex w-full"
+        @click="emit('cancel')"
+      />
       <UIButtonModalConfirm type="submit" @click="emit('confirm')" />
     </template>
   </ModalBaseLayout>

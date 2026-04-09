@@ -6,7 +6,7 @@ export function useGradeHorariaSave(
   grades: Ref<GradeHorariaEditorGrade[]>,
   isEditing: Ref<boolean>,
   validate: () => string[],
-  gradesHorarias: ReturnType<typeof useGradesHorarias>,
+  gradesHorarias: ReturnType<typeof useGradesHorarias>
 ) {
   const isSaving = ref(false);
 
@@ -21,7 +21,7 @@ export function useGradeHorariaSave(
 
     isSaving.value = true;
     try {
-      const payload: GradeHorariaItemInput[] = grades.value.map((g) => ({
+      const payload: GradeHorariaItemInput[] = grades.value.map(g => ({
         identificadorExterno: g.identificadorExterno,
         nome: g.nome,
         intervalos: g.intervalos,

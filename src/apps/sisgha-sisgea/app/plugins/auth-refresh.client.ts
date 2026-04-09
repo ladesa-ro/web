@@ -9,7 +9,10 @@ export default defineNuxtPlugin(() => {
     }
   };
 
-  const intervalId = setInterval(refreshIfAuthenticated, AUTH_REFRESH_INTERVAL_MS);
+  const intervalId = setInterval(
+    refreshIfAuthenticated,
+    AUTH_REFRESH_INTERVAL_MS
+  );
 
   window.addEventListener('focus', refreshIfAuthenticated);
 

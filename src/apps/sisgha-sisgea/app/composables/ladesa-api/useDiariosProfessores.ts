@@ -1,9 +1,5 @@
-import {
-  createListQuery,
-} from '~/composables/query-helpers';
-import type {
-  ListFn,
-} from '~/composables/query-helpers';
+import { createListQuery } from '~/composables/query-helpers';
+import type { ListFn } from '~/composables/query-helpers';
 import {
   diarioProfessorFindAll,
   diarioProfessorBulkReplace,
@@ -30,7 +26,9 @@ export type IUseDiariosProfessores = {
   ) => Promise<DiarioProfessorBulkReplaceResponse>;
 };
 
-export function useDiariosProfessores(keys: readonly string[]): IUseDiariosProfessores {
+export function useDiariosProfessores(
+  keys: readonly string[]
+): IUseDiariosProfessores {
   const api = useApiClient();
 
   const listProfessores = (

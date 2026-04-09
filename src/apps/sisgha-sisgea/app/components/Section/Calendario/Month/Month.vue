@@ -94,7 +94,11 @@ watch(
       class="grid p-4 xs:p-0.5 sm:p-0.5 md:p-4 gap-2 sm:gap-2 md:gap-2 grid-cols-7 place-items-center"
     >
       <!-- Name Columns -->
-      <p v-for="item of weekDays" :key="item" class="font-semibold text-center text-xs">
+      <p
+        v-for="item of weekDays"
+        :key="item"
+        class="font-semibold text-center text-xs"
+      >
         {{ item }}
       </p>
 

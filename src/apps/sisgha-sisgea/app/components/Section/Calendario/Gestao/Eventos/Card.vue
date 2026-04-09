@@ -18,7 +18,8 @@ const TIPO_COLORS: Record<string, string> = {
 
 const dotColor = computed(() => {
   if (props.evento.cor) return props.evento.cor;
-  if (props.evento.tipo && TIPO_COLORS[props.evento.tipo]) return TIPO_COLORS[props.evento.tipo];
+  if (props.evento.tipo && TIPO_COLORS[props.evento.tipo])
+    return TIPO_COLORS[props.evento.tipo];
   return '#6b7280';
 });
 
@@ -26,7 +27,11 @@ const nome = computed(() => props.evento.nome ?? 'Sem nome');
 
 function formatDateShort(iso: string): string {
   const date = new Date(iso + 'T00:00:00');
-  return date.toLocaleDateString('pt-BR', { day: 'numeric', month: 'short', year: 'numeric' });
+  return date.toLocaleDateString('pt-BR', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  });
 }
 
 function formatTime(t: string): string {
@@ -34,7 +39,8 @@ function formatTime(t: string): string {
 }
 
 const periodo = computed(() => {
-  const { dataInicio, dataFim, diaInteiro, horarioInicio, horarioFim } = props.evento;
+  const { dataInicio, dataFim, diaInteiro, horarioInicio, horarioFim } =
+    props.evento;
 
   if (dataFim && dataFim !== dataInicio) {
     return `${formatDateShort(dataInicio)} - ${formatDateShort(dataFim)}`;
@@ -50,14 +56,14 @@ const periodo = computed(() => {
 const turmasText = computed(() => {
   const turmas = props.evento.turmas;
   if (!turmas || turmas.length === 0) return null;
-  return turmas.map((t) => t.nome ?? t.id.substring(0, 8)).join(', ');
+  return turmas.map(t => t.nome ?? t.id.substring(0, 8)).join(', ');
 });
 
 const professoresText = computed(() => {
   const perfis = props.evento.perfis;
   if (!perfis || perfis.length === 0) return null;
   return perfis
-    .map((p) => {
+    .map(p => {
       if (p.usuario?.nome) return p.usuario.nome;
       return p.id.substring(0, 8);
     })
@@ -67,7 +73,7 @@ const professoresText = computed(() => {
 const locais = computed(() => {
   const ambientes = props.evento.ambientes;
   if (!ambientes || ambientes.length === 0) return null;
-  return ambientes.map((a) => a.nome ?? a.id.substring(0, 8)).join(', ');
+  return ambientes.map(a => a.nome ?? a.id.substring(0, 8)).join(', ');
 });
 
 const statusLabel = computed(() => {
@@ -121,17 +127,10 @@ const statusClass = computed(() => {
     <span class="text-sm text-ldsa-text-default">{{ periodo }}</span>
 
     <div class="flex flex-col gap-1.5 text-sm text-ldsa-grey">
-      <span v-if="turmasText">
-        Turmas: {{ turmasText }}
-      </span>
-      <span v-if="professoresText">
-        Professores: {{ professoresText }}
-      </span>
+      <span v-if="turmasText"> Turmas: {{ turmasText }} </span>
+      <span v-if="professoresText"> Professores: {{ professoresText }} </span>
     </div>
 
-    <SectionCalendarioEventLocale
-      v-if="locais"
-      :locale="locais"
-    />
+    <SectionCalendarioEventLocale v-if="locais" :locale="locais" />
   </div>
 </template>

@@ -1,10 +1,19 @@
-export type { GradeHorariaEditorGrade, BulkAddParams } from '~/composables/useGradeHorariaState';
+export type {
+  GradeHorariaEditorGrade,
+  BulkAddParams,
+} from '~/composables/useGradeHorariaState';
 export type { GradeValidationErrors } from '~/composables/useGradeHorariaValidation';
 
 export function useGradeHorariaEditor(campusId: MaybeRef<string | null>) {
   const state = useGradeHorariaState(campusId);
   const validation = useGradeHorariaValidation(state.grades);
-  const saving = useGradeHorariaSave(campusId, state.grades, state.isEditing, validation.validate, state.gradesHorarias);
+  const saving = useGradeHorariaSave(
+    campusId,
+    state.grades,
+    state.isEditing,
+    validation.validate,
+    state.gradesHorarias
+  );
 
   return {
     grades: state.grades,

@@ -22,8 +22,8 @@ const handleLogout = async () => {
       </h1>
 
       <p class="text-sm text-ldsa-grey leading-relaxed">
-        Você não possui perfil vinculado a nenhum campus.
-        Entre em contato com o setor responsável do seu campus ou escola para solicitar acesso.
+        Você não possui perfil vinculado a nenhum campus. Entre em contato com o
+        setor responsável do seu campus ou escola para solicitar acesso.
       </p>
 
       <button

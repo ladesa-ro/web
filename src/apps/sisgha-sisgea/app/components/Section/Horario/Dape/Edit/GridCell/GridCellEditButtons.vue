@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
 import { usuarioFindAll, turmaFindAll } from '@ladesa-ro/web.api.client';
-import type {
-  Aula,
-  EditableCellType,
-  Vago,
-} from '~/utils/schedule/types';
+import type { Aula, EditableCellType, Vago } from '~/utils/schedule/types';
 
 const api = useApiClient();
 

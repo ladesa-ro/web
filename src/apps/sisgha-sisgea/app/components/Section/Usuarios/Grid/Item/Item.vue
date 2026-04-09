@@ -10,12 +10,19 @@ type Props = {
 };
 const { usuario, link: linkProps } = defineProps<Props>();
 
-const link = linkProps === undefined || linkProps === '' ? 'usuarios' : linkProps;
+const link =
+  linkProps === undefined || linkProps === '' ? 'usuarios' : linkProps;
 
 const vinculos = computed(() => usuario?.vinculos ?? []);
 
 const vinculosConcatenated = computed(() => {
-  const labels = [...new Set(vinculos.value.map((v: any) => CargoLabels[v.cargo as CargoType] ?? v.cargo))];
+  const labels = [
+    ...new Set(
+      vinculos.value.map(
+        (v: any) => CargoLabels[v.cargo as CargoType] ?? v.cargo
+      )
+    ),
+  ];
   return labels.join(' e ');
 });
 
@@ -29,19 +36,24 @@ const profilePicureUrl = useApiImageRoute(
 
 <template>
   <UICardAutoSkeleton :skeleton="isLoading || !usuario">
-    <UICard v-if="usuario" :src="profilePicureUrl" :title="usuario.nome ?? ''" variant="block">
-    <template #fallbackIcon>
-      <IconsUser class="w-1/3 2xl:w-1/4 text-ldsa-grey" />
-    </template>
+    <UICard
+      v-if="usuario"
+      :src="profilePicureUrl"
+      :title="usuario.nome ?? ''"
+      variant="block"
+    >
+      <template #fallbackIcon>
+        <IconsUser class="w-1/3 2xl:w-1/4 text-ldsa-grey" />
+      </template>
 
-    <template #actions>
-      <UICardActions :to="link + `/${usuario.id}`">
-        <SectionUsuariosModalsForm :edit-id="usuario.id" />
-      </UICardActions>
-    </template>
+      <template #actions>
+        <UICardActions :to="link + `/${usuario.id}`">
+          <SectionUsuariosModalsForm :edit-id="usuario.id" />
+        </UICardActions>
+      </template>
 
-    <UICardLine v-if="vinculos.length === 0" text="Sem vínculos" />
-    <UICardLine v-else :text="vinculosConcatenated" />
-  </UICard>
+      <UICardLine v-if="vinculos.length === 0" text="Sem vínculos" />
+      <UICardLine v-else :text="vinculosConcatenated" />
+    </UICard>
   </UICardAutoSkeleton>
 </template>
