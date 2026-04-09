@@ -52,6 +52,7 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
       :on-delete="onDelete"
     >
       <VVSelectImage name="imagem" :existing-src="coverSrc" />
+      <VVAutocompleteAPICampusContext :functional="false" />
       <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
       <VVTextField name="slug" label="Slug" placeholder="Digite aqui" />
     </UIFormLayout>

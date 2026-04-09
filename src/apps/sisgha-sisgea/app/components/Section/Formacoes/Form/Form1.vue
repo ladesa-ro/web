@@ -75,7 +75,11 @@ const duracaoLabel = computed(() => {
 
     <VVAutocompleteAPIModalidade name="modalidade.id" :is-loading="isLoading" />
 
-    <VVAutocompleteAPICampus name="campus.id" :is-loading="isLoading" />
+    <VVAutocompleteAPICampusContext
+      :mode="mode"
+      name="campus.id"
+      :is-loading="isLoading"
+    />
 
     <UIFormOptionFieldsSelect
       v-model="duracaoSelected"

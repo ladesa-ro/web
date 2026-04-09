@@ -79,7 +79,7 @@ const customError = computed(() =>
       />
 
       <Cancel
-        v-if="selectedOption"
+        v-if="selectedOption && !disabled"
         class="p-1.5 bg-ldsa-grey/20 rounded-full"
         @click="selectedOption = null"
       >

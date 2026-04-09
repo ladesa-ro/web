@@ -158,6 +158,9 @@ function nextForm() {
     title="Cadastrar diários: Selecionar turma"
   >
     <div class="flex flex-col gap-4">
+      <!-- Campus (indicador visual) -->
+      <VVAutocompleteAPICampusContext :functional="false" />
+
       <!-- Calendário Letivo -->
       <UIFormOptionFieldsSelect
         v-model="calendarioSelected"

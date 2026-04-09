@@ -145,6 +145,8 @@ watch(
         >
           <VVSelectImage name="imagem" :existing-src="coverSrc" />
 
+          <VVAutocompleteAPICampusContext :mode="mode" :functional="false" />
+
           <VVAutocompleteAPICurso :is-loading="isLoading" name="curso.id" />
 
           <VVAutocompleteAPIAmbiente

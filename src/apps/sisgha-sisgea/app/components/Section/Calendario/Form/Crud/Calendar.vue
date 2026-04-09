@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import { useForm } from 'vee-validate';
 import type Step from '~/components/VV/Calendar/Step.vue';
 import { useCampusDoUsuario } from '~/composables/useCampusDoUsuario';
+import { FormMode } from '~/utils/constants';
 import {
   calendarSchema,
   type ICalendarFormValues,
@@ -212,7 +213,10 @@ watch(
         placeholder="Digite aqui"
       />
 
-      <VVAutocompleteAPICampus name="campus" label="Campus" />
+      <VVAutocompleteAPICampusContext
+        name="campus"
+        :mode="isEditMode ? FormMode.MANAGE : FormMode.CREATE"
+      />
 
       <VVAutocompleteAPIOfertaFormacao
         name="trainingOffer"

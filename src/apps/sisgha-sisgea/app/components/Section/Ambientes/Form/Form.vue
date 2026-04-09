@@ -54,6 +54,7 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
       :on-delete="onDelete"
     >
       <VVSelectImage name="imagem" :existing-src="coverSrc" />
+      <VVAutocompleteAPICampusContext :mode="mode" :functional="false" />
       <VVAutocompleteAPIBloco
         :disabled="mode === FormMode.MANAGE"
         name="bloco.id"

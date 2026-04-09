@@ -46,10 +46,10 @@ watch(campusId, resetOfertaFormacaoWhenCampusChanges);
   >
     <VVSelectImage name="imagem" :existing-src="coverSrc" />
 
-    <VVAutocompleteAPICampus
+    <VVAutocompleteAPICampusContext
+      :mode="mode"
       name="campus.id"
       :is-loading="isLoading"
-      :disabled="mode === FormMode.MANAGE"
     />
 
     <VVAutocompleteAPIOfertaFormacao
