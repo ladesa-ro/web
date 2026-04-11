@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import FormacoesForm from '../Form/Form.vue';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
@@ -12,10 +11,7 @@ const {
   isError,
 } = ofertasFormacoes.findOne(ref(resourceId));
 
-const coverImageSrc = useApiImageRoute(
-  ApiImageResource.OFERTA_FORMACAO_COVER,
-  formacao
-);
+const { data: coverImageSrc } = ofertasFormacoes.imageCover(ref(resourceId));
 
 const modalidadeNome = computed(() => formacao.value?.modalidade?.nome ?? '-');
 

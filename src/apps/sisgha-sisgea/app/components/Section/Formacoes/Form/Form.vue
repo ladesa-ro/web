@@ -1,9 +1,5 @@
 <script lang="ts" setup>
 import { FormMode } from '~/utils/constants';
-import {
-  ApiImageResource,
-  useApiImageRoute,
-} from '~/utils/integrations/api/core/images-util';
 import { ofertaFormacaoSchema, transformForApi } from './-Helpers/schema';
 import Form1 from './Form1.vue';
 import Form2 from './Form2.vue';
@@ -15,10 +11,7 @@ const ofertasFormacoes = useOfertasFormacoes();
 const confirmDelete = useConfirmDelete();
 
 const ofertaFormacaoQuery = ofertasFormacoes.findOne(computed(() => editId));
-const coverSrc = useApiImageRoute(
-  ApiImageResource.OFERTA_FORMACAO_COVER,
-  ofertaFormacaoQuery.data
-);
+const { data: coverSrc } = ofertasFormacoes.imageCover(computed(() => editId));
 
 const { form, mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   schema: ofertaFormacaoSchema,

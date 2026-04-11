@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import NiveisFormacoesForm from '../Form/Form.vue';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
@@ -12,10 +11,7 @@ const {
   isError,
 } = niveisFormacoes.findOne(ref(resourceId));
 
-const coverImageSrc = useApiImageRoute(
-  ApiImageResource.NIVEL_FORMACAO_COVER,
-  nivelFormacao
-);
+const { data: coverImageSrc } = niveisFormacoes.imageCover(ref(resourceId));
 
 const { confirmDelete, handleDelete } = useResourceDelete({
   remove: id => niveisFormacoes.remove(id),

@@ -1,9 +1,5 @@
 <script lang="ts" setup>
 import { FormMode } from '~/utils/constants';
-import {
-  ApiImageResource,
-  useApiImageRoute,
-} from '~/utils/integrations/api/core/images-util';
 import { blocoSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -13,10 +9,7 @@ const blocos = useBlocos();
 const confirmDelete = useConfirmDelete();
 
 const blocoQuery = blocos.findOne(computed(() => editId));
-const coverSrc = useApiImageRoute(
-  ApiImageResource.BLOCO_COVER,
-  blocoQuery.data
-);
+const { data: coverSrc } = blocos.imageCover(computed(() => editId));
 
 const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   schema: blocoSchema,

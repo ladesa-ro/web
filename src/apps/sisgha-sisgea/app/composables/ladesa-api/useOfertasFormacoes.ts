@@ -3,6 +3,7 @@ import {
   createInfiniteListQuery,
   createFindOneQuery,
   createInvalidate,
+  createImageBlobQuery,
 } from '~/composables/query-helpers';
 import type {
   ListFn,
@@ -13,6 +14,7 @@ import type {
   RemoveFn,
   InvalidateFn,
   UploadCoverFn,
+  ImageBlobFn,
 } from '~/composables/query-helpers';
 import {
   createCreateFn,
@@ -27,6 +29,7 @@ import {
   ofertaFormacaoUpdate,
   ofertaFormacaoDeleteOneById,
   ofertaFormacaoUpdateImagemCapa,
+  ofertaFormacaoGetImagemCapa,
 } from '@ladesa-ro/web.api.client';
 import type {
   OfertaFormacaoFindAllData,
@@ -61,6 +64,7 @@ export type IUseOfertasFormacoes = {
   >;
   remove: RemoveFn;
   uploadCover: UploadCoverFn;
+  imageCover: ImageBlobFn;
   invalidate: InvalidateFn;
 };
 
@@ -97,6 +101,11 @@ export const useOfertasFormacoes = (): IUseOfertasFormacoes => {
   const remove = createRemoveFn(api, ofertaFormacaoDeleteOneById);
   const uploadCover = createUploadImageFn(api, ofertaFormacaoUpdateImagemCapa);
 
+  const imageCover = createImageBlobQuery({
+    queryKey: keys,
+    fetcher: (id: string) => api.call(ofertaFormacaoGetImagemCapa, { path: { id } }),
+  });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -108,6 +117,7 @@ export const useOfertasFormacoes = (): IUseOfertasFormacoes => {
     update,
     remove,
     uploadCover,
+    imageCover,
     invalidate,
   };
 };

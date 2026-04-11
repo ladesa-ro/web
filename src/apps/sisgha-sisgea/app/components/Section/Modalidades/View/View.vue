@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import ModalidadesForm from '../Form/Form.vue';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
@@ -12,10 +11,7 @@ const {
   isError,
 } = modalidades.findOne(ref(resourceId));
 
-const coverImageSrc = useApiImageRoute(
-  ApiImageResource.MODALIDADE_COVER,
-  modalidade
-);
+const { data: coverImageSrc } = modalidades.imageCover(ref(resourceId));
 
 const { confirmDelete, handleDelete } = useResourceDelete({
   remove: id => modalidades.remove(id),

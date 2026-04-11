@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import DisciplinasForm from '../Form/Form.vue';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
@@ -12,10 +11,7 @@ const {
   isError,
 } = disciplinas.findOne(ref(resourceId));
 
-const coverImageSrc = useApiImageRoute(
-  ApiImageResource.DISCIPLINA_COVER,
-  disciplina
-);
+const { data: coverImageSrc } = disciplinas.imageCover(ref(resourceId));
 
 const { confirmDelete, handleDelete } = useResourceDelete({
   remove: id => disciplinas.remove(id),

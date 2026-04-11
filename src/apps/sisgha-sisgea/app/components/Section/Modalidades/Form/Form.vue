@@ -1,9 +1,5 @@
 <script lang="ts" setup>
 import { FormMode } from '~/utils/constants';
-import {
-  ApiImageResource,
-  useApiImageRoute,
-} from '~/utils/integrations/api/core/images-util';
 import { modalidadeSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -13,10 +9,7 @@ const modalidades = useModalidades();
 const confirmDelete = useConfirmDelete();
 
 const modalidadeQuery = modalidades.findOne(computed(() => editId));
-const coverSrc = useApiImageRoute(
-  ApiImageResource.MODALIDADE_COVER,
-  modalidadeQuery.data
-);
+const { data: coverSrc } = modalidades.imageCover(computed(() => editId));
 
 const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   schema: modalidadeSchema,

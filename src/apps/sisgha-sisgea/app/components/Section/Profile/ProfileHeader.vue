@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/vue-query';
 import { computed, ref } from 'vue';
 import { usuarioFindById } from '@ladesa-ro/web.api.client';
 import type { UsuarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
 import CampusSelect from './Campus/CampusSelect.vue';
 
 type Props = { user: UsuarioFindOneOutputDto };
@@ -18,10 +17,7 @@ const closeEditModal = () => {
   showEditModal.value = false;
 };
 
-const profilePictureUrl = useApiImageRoute(
-  ApiImageResource.USUARIO_PROFILE,
-  user
-);
+const { data: profilePictureUrl } = useUsuarios().imageProfile(computed(() => user?.id ?? null));
 
 const { campiList } = useUserCargoAndCampi();
 const api = useApiClient();

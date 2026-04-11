@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import TurmasForm from '../Form/Form.vue';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
@@ -8,7 +7,7 @@ const { resourceId } = defineProps<Props>();
 const turmas = useTurmas();
 const { data: turma, isLoading, isError } = turmas.findOne(ref(resourceId));
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
+const { data: coverImageSrc } = turmas.imageCover(ref(resourceId));
 
 const confirmDelete = useConfirmDelete();
 const router = useRouter();

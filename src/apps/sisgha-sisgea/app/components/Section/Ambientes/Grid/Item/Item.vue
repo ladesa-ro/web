@@ -17,10 +17,8 @@ const link =
     ? '/sisgea/ambientes'
     : props.link;
 
-const coverImageSrc = useApiImageRoute(
-  ApiImageResource.AMBIENTE_COVER,
-  ambiente
-);
+const ambientes = useAmbientes();
+const { data: coverImageSrc } = ambientes.imageCover(computed(() => unref(ambiente)?.id ?? null));
 </script>
 
 <template>

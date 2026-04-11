@@ -3,6 +3,7 @@ import {
   createInfiniteListQuery,
   createFindOneQuery,
   createInvalidate,
+  createImageBlobQuery,
 } from '~/composables/query-helpers';
 import type {
   ListFn,
@@ -13,6 +14,7 @@ import type {
   RemoveFn,
   InvalidateFn,
   UploadCoverFn,
+  ImageBlobFn,
 } from '~/composables/query-helpers';
 import {
   createCreateFn,
@@ -27,6 +29,7 @@ import {
   cursoUpdate,
   cursoDeleteOneById,
   cursoUpdateImagemCapa,
+  cursoGetImagemCapa,
 } from '@ladesa-ro/web.api.client';
 import type {
   CursoFindAllData,
@@ -52,6 +55,7 @@ export type IUseCursos = {
   update: UpdateFn<ReqBody<CursoUpdateData>, CursoUpdateResponse>;
   remove: RemoveFn;
   uploadCover: UploadCoverFn;
+  imageCover: ImageBlobFn;
   invalidate: InvalidateFn;
 };
 
@@ -88,6 +92,11 @@ export const useCursos = (): IUseCursos => {
   const remove = createRemoveFn(api, cursoDeleteOneById);
   const uploadCover = createUploadImageFn(api, cursoUpdateImagemCapa);
 
+  const imageCover = createImageBlobQuery({
+    queryKey: keys,
+    fetcher: (id: string) => api.call(cursoGetImagemCapa, { path: { id } }),
+  });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -99,6 +108,7 @@ export const useCursos = (): IUseCursos => {
     update,
     remove,
     uploadCover,
+    imageCover,
     invalidate,
   };
 };

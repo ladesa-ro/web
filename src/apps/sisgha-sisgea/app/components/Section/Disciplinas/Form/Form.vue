@@ -1,9 +1,5 @@
 <script lang="ts" setup>
 import { FormMode } from '~/utils/constants';
-import {
-  ApiImageResource,
-  useApiImageRoute,
-} from '~/utils/integrations/api/core/images-util';
 import { disciplinaSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -13,10 +9,7 @@ const disciplinas = useDisciplinas();
 const confirmDelete = useConfirmDelete();
 
 const disciplinaQuery = disciplinas.findOne(computed(() => editId));
-const coverSrc = useApiImageRoute(
-  ApiImageResource.DISCIPLINA_COVER,
-  disciplinaQuery.data
-);
+const { data: coverSrc } = disciplinas.imageCover(computed(() => editId));
 
 const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   schema: disciplinaSchema,

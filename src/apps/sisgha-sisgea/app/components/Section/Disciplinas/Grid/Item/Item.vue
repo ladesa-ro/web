@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { DisciplinaFindOneOutputDto } from '@ladesa-ro/web.api.client';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
 import DisciplinasForm from '../../Form/Form.vue';
 
 type Props = {
@@ -16,10 +15,8 @@ const { item: disciplina } = toRefs(props);
 const link =
   props.link === undefined || props.link === '' ? 'disciplinas' : props.link;
 
-const coverImageSrc = useApiImageRoute(
-  ApiImageResource.DISCIPLINA_COVER,
-  disciplina
-);
+const disciplinas = useDisciplinas();
+const { data: coverImageSrc } = disciplinas.imageCover(computed(() => unref(disciplina)?.id ?? null));
 </script>
 
 <template>

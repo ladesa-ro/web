@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { ApiImageResource, useApiImageRoute } from '~/utils';
-
 type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
 
@@ -15,7 +13,7 @@ const professoresText = computed(() => {
   return professoresList.value.map(p => p.perfil.usuario.nome).join(', ');
 });
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.DIARIO_COVER, diario);
+const { data: coverImageSrc } = diarios.imageCover(ref(resourceId));
 
 const confirmDelete = useConfirmDelete();
 const router = useRouter();

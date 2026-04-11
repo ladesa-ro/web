@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { DiarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
+
 
 type Props = {
   diario?: DiarioFindOneOutputDto | null;
@@ -24,7 +24,7 @@ const diariosProfessoresList = computed(
   () => professoresQuery?.data.value?.data ?? []
 );
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.DIARIO_COVER, diario);
+const { data: coverImageSrc } = diarios_api.imageCover(computed(() => unref(diario)?.id ?? null));
 
 if (professoresQuery) {
   await suspendQuery(professoresQuery);

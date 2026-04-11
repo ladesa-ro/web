@@ -3,6 +3,7 @@ import {
   createInfiniteListQuery,
   createFindOneQuery,
   createInvalidate,
+  createImageBlobQuery,
 } from '~/composables/query-helpers';
 import type {
   ListFn,
@@ -13,6 +14,7 @@ import type {
   RemoveFn,
   InvalidateFn,
   UploadCoverFn,
+  ImageBlobFn,
 } from '~/composables/query-helpers';
 import {
   createCreateFn,
@@ -27,6 +29,7 @@ import {
   turmaUpdate,
   turmaDeleteOneById,
   turmaUpdateImagemCapa,
+  turmaGetImagemCapa,
 } from '@ladesa-ro/web.api.client';
 import type {
   TurmaFindAllData,
@@ -52,6 +55,7 @@ export type IUseTurmas = {
   update: UpdateFn<ReqBody<TurmaUpdateData>, TurmaUpdateResponse>;
   remove: RemoveFn;
   uploadCover: UploadCoverFn;
+  imageCover: ImageBlobFn;
   invalidate: InvalidateFn;
 };
 
@@ -88,6 +92,11 @@ export const useTurmas = (): IUseTurmas => {
   const remove = createRemoveFn(api, turmaDeleteOneById);
   const uploadCover = createUploadImageFn(api, turmaUpdateImagemCapa);
 
+  const imageCover = createImageBlobQuery({
+    queryKey: keys,
+    fetcher: (id: string) => api.call(turmaGetImagemCapa, { path: { id } }),
+  });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -99,6 +108,7 @@ export const useTurmas = (): IUseTurmas => {
     update,
     remove,
     uploadCover,
+    imageCover,
     invalidate,
   };
 };

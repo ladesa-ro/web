@@ -3,6 +3,7 @@ import {
   createInfiniteListQuery,
   createFindOneQuery,
   createInvalidate,
+  createImageBlobQuery,
 } from '~/composables/query-helpers';
 import type {
   ListFn,
@@ -13,6 +14,7 @@ import type {
   RemoveFn,
   InvalidateFn,
   UploadCoverFn,
+  ImageBlobFn,
 } from '~/composables/query-helpers';
 import {
   createCreateFn,
@@ -27,6 +29,7 @@ import {
   ambienteUpdate,
   ambienteDeleteOneById,
   ambienteUpdateImagemCapa,
+  ambienteGetImagemCapa,
 } from '@ladesa-ro/web.api.client';
 import type {
   AmbienteFindAllData,
@@ -52,6 +55,7 @@ export type IUseAmbientes = {
   update: UpdateFn<ReqBody<AmbienteUpdateData>, AmbienteUpdateResponse>;
   remove: RemoveFn;
   uploadCover: UploadCoverFn;
+  imageCover: ImageBlobFn;
   invalidate: InvalidateFn;
 };
 
@@ -92,6 +96,11 @@ export const useAmbientes = (): IUseAmbientes => {
   const remove = createRemoveFn(api, ambienteDeleteOneById);
   const uploadCover = createUploadImageFn(api, ambienteUpdateImagemCapa);
 
+  const imageCover = createImageBlobQuery({
+    queryKey: keys,
+    fetcher: (id: string) => api.call(ambienteGetImagemCapa, { path: { id } }),
+  });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -103,6 +112,7 @@ export const useAmbientes = (): IUseAmbientes => {
     update,
     remove,
     uploadCover,
+    imageCover,
     invalidate,
   };
 };

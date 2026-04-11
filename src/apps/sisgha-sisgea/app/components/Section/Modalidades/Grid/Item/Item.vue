@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import ModalidadesForm from '../../Form/Form.vue';
 import type { ModalidadeFindOneOutputDto } from '@ladesa-ro/web.api.client';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
+
 
 type Props = {
   isLoading?: boolean;
@@ -16,10 +16,8 @@ const { item: modalidade } = toRefs(props);
 const link =
   props.link === undefined || props.link === '' ? 'modalidades' : props.link;
 
-const coverImageSrc = useApiImageRoute(
-  ApiImageResource.MODALIDADE_COVER,
-  modalidade
-);
+const modalidades = useModalidades();
+const { data: coverImageSrc } = modalidades.imageCover(computed(() => unref(modalidade)?.id ?? null));
 </script>
 
 <template>

@@ -2,7 +2,6 @@
 import CursosForm from '../../Form/Form.vue';
 
 import type { CursoFindOneOutputDto } from '@ladesa-ro/web.api.client';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = {
   isLoading?: boolean;
@@ -17,7 +16,8 @@ const { item: curso } = toRefs(props);
 const link =
   props.link === undefined || props.link === '' ? 'cursos' : props.link;
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, curso);
+const cursos = useCursos();
+const { data: coverImageSrc } = cursos.imageCover(computed(() => unref(curso)?.id ?? null));
 </script>
 
 <template>

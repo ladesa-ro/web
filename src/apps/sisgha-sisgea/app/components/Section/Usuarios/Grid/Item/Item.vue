@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { UsuarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import { CargoLabels, type CargoType } from '~/utils/constants';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
+
 
 type Props = {
   isLoading?: boolean;
@@ -28,10 +28,8 @@ const vinculosConcatenated = computed(() => {
 
 //
 
-const profilePicureUrl = useApiImageRoute(
-  ApiImageResource.USUARIO_PROFILE,
-  usuario
-);
+const usuarios = useUsuarios();
+const { data: profilePicureUrl } = usuarios.imageProfile(computed(() => usuario?.id ?? null));
 </script>
 
 <template>

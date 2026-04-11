@@ -3,6 +3,7 @@ import {
   createInfiniteListQuery,
   createFindOneQuery,
   createInvalidate,
+  createImageBlobQuery,
 } from '~/composables/query-helpers';
 import type {
   ListFn,
@@ -13,6 +14,7 @@ import type {
   RemoveFn,
   InvalidateFn,
   UploadCoverFn,
+  ImageBlobFn,
 } from '~/composables/query-helpers';
 import {
   createCreateFn,
@@ -27,6 +29,7 @@ import {
   blocoUpdate,
   blocoDeleteOneById,
   blocoUpdateImagemCapa,
+  blocoGetImagemCapa,
 } from '@ladesa-ro/web.api.client';
 import type {
   BlocoFindAllData,
@@ -52,6 +55,7 @@ export type IUseBlocos = {
   update: UpdateFn<ReqBody<BlocoUpdateData>, BlocoUpdateResponse>;
   remove: RemoveFn;
   uploadCover: UploadCoverFn;
+  imageCover: ImageBlobFn;
   invalidate: InvalidateFn;
 };
 
@@ -88,6 +92,11 @@ export const useBlocos = (): IUseBlocos => {
   const remove = createRemoveFn(api, blocoDeleteOneById);
   const uploadCover = createUploadImageFn(api, blocoUpdateImagemCapa);
 
+  const imageCover = createImageBlobQuery({
+    queryKey: keys,
+    fetcher: (id: string) => api.call(blocoGetImagemCapa, { path: { id } }),
+  });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -99,6 +108,7 @@ export const useBlocos = (): IUseBlocos => {
     update,
     remove,
     uploadCover,
+    imageCover,
     invalidate,
   };
 };

@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import CursosForm from '../Form/Form.vue';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
@@ -8,7 +7,7 @@ const { resourceId } = defineProps<Props>();
 const cursos = useCursos();
 const { data: curso, isLoading, isError } = cursos.findOne(ref(resourceId));
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.CURSO_COVER, curso);
+const { data: coverImageSrc } = cursos.imageCover(ref(resourceId));
 
 const { confirmDelete, handleDelete } = useResourceDelete({
   remove: id => cursos.remove(id),

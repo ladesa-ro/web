@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { ApiImageResource, useApiImageRoute } from '~/utils';
 import { useApiContext } from '../../API/Context/setup-context';
 
 type Props = { canChangeProfile: boolean };
@@ -7,10 +6,7 @@ defineProps<Props>();
 
 const { usuario } = useApiContext();
 
-const profilePicureUrl = useApiImageRoute(
-  ApiImageResource.USUARIO_PROFILE,
-  usuario
-);
+const { data: profilePicureUrl } = useUsuarios().imageProfile(computed(() => usuario.value?.id ?? null));
 
 //
 

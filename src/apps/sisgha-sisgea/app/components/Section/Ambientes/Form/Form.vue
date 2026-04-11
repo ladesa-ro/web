@@ -1,9 +1,5 @@
 <script lang="ts" setup>
 import { FormMode } from '~/utils/constants';
-import {
-  ApiImageResource,
-  useApiImageRoute,
-} from '~/utils/integrations/api/core/images-util';
 import { ambienteSchema } from './-Helpers/schema';
 
 const { editId = null } = defineProps<{ editId?: string | null }>();
@@ -13,10 +9,7 @@ const ambientes = useAmbientes();
 const confirmDelete = useConfirmDelete();
 
 const ambienteQuery = ambientes.findOne(computed(() => editId));
-const coverSrc = useApiImageRoute(
-  ApiImageResource.AMBIENTE_COVER,
-  ambienteQuery.data
-);
+const { data: coverSrc } = ambientes.imageCover(computed(() => editId));
 
 const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   schema: ambienteSchema,

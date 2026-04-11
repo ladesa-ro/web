@@ -1,9 +1,5 @@
 <script lang="ts" setup>
 import { useField } from 'vee-validate';
-import {
-  ApiImageResource,
-  useApiImageRoute,
-} from '~/utils/integrations/api/core/images-util';
 import { cursoSchema } from './-Helpers/schema';
 import {
   getDuracaoLabel,
@@ -20,10 +16,7 @@ const cursos = useCursos();
 const confirmDelete = useConfirmDelete();
 
 const cursoQuery = cursos.findOne(computed(() => editId));
-const coverSrc = useApiImageRoute(
-  ApiImageResource.CURSO_COVER,
-  cursoQuery.data
-);
+const { data: coverSrc } = cursos.imageCover(computed(() => editId));
 
 const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   schema: cursoSchema,

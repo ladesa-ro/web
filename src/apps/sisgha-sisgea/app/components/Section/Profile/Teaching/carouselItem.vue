@@ -43,10 +43,7 @@ const selectedCourseTurmas = computed(() => {
   return item.turmas.map(turma => turma.turma.periodo);
 });
 
-const disciplinaImageUrl = useApiImageRoute(
-  ApiImageResource.DISCIPLINA_COVER,
-  subject.disciplina
-);
+const { data: disciplinaImageUrl } = useDisciplinas().imageCover(computed(() => subject.disciplina?.id ?? null));
 </script>
 
 <template>

@@ -3,6 +3,7 @@ import {
   createInfiniteListQuery,
   createFindOneQuery,
   createInvalidate,
+  createImageBlobQuery,
 } from '~/composables/query-helpers';
 import type {
   ListFn,
@@ -13,6 +14,7 @@ import type {
   RemoveFn,
   InvalidateFn,
   UploadCoverFn,
+  ImageBlobFn,
 } from '~/composables/query-helpers';
 import {
   createCreateFn,
@@ -28,6 +30,7 @@ import {
   diarioUpdate,
   diarioDeleteOneById,
   diarioUpdateImagemCapa,
+  diarioGetImagemCapa,
 } from '@ladesa-ro/web.api.client';
 import type {
   DiarioFindAllData,
@@ -91,6 +94,7 @@ export type IUseDiarios = {
     data: ReqBody<DiarioPreferenciaAgrupamentoBulkReplaceData>
   ) => Promise<DiarioPreferenciaAgrupamentoBulkReplaceResponse>;
   uploadCover: UploadCoverFn;
+  imageCover: ImageBlobFn;
   invalidate: InvalidateFn;
 };
 
@@ -135,6 +139,11 @@ export const useDiarios = (): IUseDiarios => {
 
   const uploadCover = createUploadImageFn(api, diarioUpdateImagemCapa);
 
+  const imageCover = createImageBlobQuery({
+    queryKey: keys,
+    fetcher: (id: string) => api.call(diarioGetImagemCapa, { path: { id } }),
+  });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -149,6 +158,7 @@ export const useDiarios = (): IUseDiarios => {
     ...professores,
     ...preferencias,
     uploadCover,
+    imageCover,
     invalidate,
   };
 };

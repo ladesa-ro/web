@@ -3,6 +3,7 @@ import {
   createInfiniteListQuery,
   createFindOneQuery,
   createInvalidate,
+  createImageBlobQuery,
 } from '~/composables/query-helpers';
 import type {
   ListFn,
@@ -13,6 +14,7 @@ import type {
   RemoveFn,
   InvalidateFn,
   UploadProfileFn,
+  ImageBlobFn,
 } from '~/composables/query-helpers';
 import {
   createCreateFn,
@@ -27,6 +29,7 @@ import {
   usuarioUpdate,
   usuarioDeleteOneById,
   usuarioUpdateImagemPerfil,
+  usuarioGetImagemPerfil,
 } from '@ladesa-ro/web.api.client';
 import type {
   UsuarioFindAllData,
@@ -52,6 +55,7 @@ export type IUseUsuarios = {
   update: UpdateFn<ReqBody<UsuarioUpdateData>, UsuarioUpdateResponse>;
   remove: RemoveFn;
   uploadProfile: UploadProfileFn;
+  imageProfile: ImageBlobFn;
   invalidate: InvalidateFn;
 };
 
@@ -90,6 +94,11 @@ export const useUsuarios = (): IUseUsuarios => {
   const remove = createRemoveFn(api, usuarioDeleteOneById);
   const uploadProfile = createUploadImageFn(api, usuarioUpdateImagemPerfil);
 
+  const imageProfile = createImageBlobQuery({
+    queryKey: keys,
+    fetcher: (id: string) => api.call(usuarioGetImagemPerfil, { path: { id } }),
+  });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -101,6 +110,7 @@ export const useUsuarios = (): IUseUsuarios => {
     update,
     remove,
     uploadProfile,
+    imageProfile,
     invalidate,
   };
 };

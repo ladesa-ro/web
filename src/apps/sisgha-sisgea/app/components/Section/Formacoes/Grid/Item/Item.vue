@@ -2,7 +2,7 @@
 import FormacoesForm from '../../Form/Form.vue';
 
 import type { OfertaFormacaoFindOneOutputDto } from '@ladesa-ro/web.api.client';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
+
 
 type Props = {
   isLoading?: boolean;
@@ -19,10 +19,8 @@ const link =
 
 const modalidadeNome = computed(() => formacao.value?.modalidade?.nome ?? '-');
 
-const coverImageSrc = useApiImageRoute(
-  ApiImageResource.OFERTA_FORMACAO_COVER,
-  formacao
-);
+const ofertasFormacoes = useOfertasFormacoes();
+const { data: coverImageSrc } = ofertasFormacoes.imageCover(computed(() => unref(formacao)?.id ?? null));
 </script>
 
 <template>

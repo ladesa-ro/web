@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import AmbientesForm from '../Form/Form.vue';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
@@ -12,10 +11,7 @@ const {
   isError,
 } = ambientes.findOne(ref(resourceId));
 
-const coverImageSrc = useApiImageRoute(
-  ApiImageResource.AMBIENTE_COVER,
-  ambiente
-);
+const { data: coverImageSrc } = ambientes.imageCover(ref(resourceId));
 
 const { confirmDelete, handleDelete } = useResourceDelete({
   remove: id => ambientes.remove(id),

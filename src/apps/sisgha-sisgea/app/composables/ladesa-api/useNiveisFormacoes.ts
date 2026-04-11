@@ -3,6 +3,7 @@ import {
   createInfiniteListQuery,
   createFindOneQuery,
   createInvalidate,
+  createImageBlobQuery,
 } from '~/composables/query-helpers';
 import type {
   ListFn,
@@ -13,6 +14,7 @@ import type {
   RemoveFn,
   InvalidateFn,
   UploadCoverFn,
+  ImageBlobFn,
 } from '~/composables/query-helpers';
 import {
   createCreateFn,
@@ -27,6 +29,7 @@ import {
   nivelFormacaoUpdate,
   nivelFormacaoDeleteOneById,
   nivelFormacaoUpdateImagemCapa,
+  nivelFormacaoGetImagemCapa,
 } from '@ladesa-ro/web.api.client';
 import type {
   NivelFormacaoFindAllData,
@@ -61,6 +64,7 @@ export type IUseNiveisFormacoes = {
   >;
   remove: RemoveFn;
   uploadCover: UploadCoverFn;
+  imageCover: ImageBlobFn;
   invalidate: InvalidateFn;
 };
 
@@ -97,6 +101,11 @@ export const useNiveisFormacoes = (): IUseNiveisFormacoes => {
   const remove = createRemoveFn(api, nivelFormacaoDeleteOneById);
   const uploadCover = createUploadImageFn(api, nivelFormacaoUpdateImagemCapa);
 
+  const imageCover = createImageBlobQuery({
+    queryKey: keys,
+    fetcher: (id: string) => api.call(nivelFormacaoGetImagemCapa, { path: { id } }),
+  });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -108,6 +117,7 @@ export const useNiveisFormacoes = (): IUseNiveisFormacoes => {
     update,
     remove,
     uploadCover,
+    imageCover,
     invalidate,
   };
 };

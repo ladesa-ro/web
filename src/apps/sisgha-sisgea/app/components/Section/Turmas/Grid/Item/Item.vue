@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import EditOrCreateModal from '~/components/Dialog/Modal/EditOrCreateModal.vue';
 import type { TurmaFindOneOutputDto } from '@ladesa-ro/web.api.client';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
 import TurmasForm from '../../Form/Form.vue';
 
 type Props = {
@@ -18,7 +17,8 @@ const link = linkProps === undefined || linkProps === '' ? 'turmas' : linkProps;
 
 //
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.TURMA_COVER, turma);
+const turmas = useTurmas();
+const { data: coverImageSrc } = turmas.imageCover(computed(() => turma?.id ?? null));
 </script>
 
 <template>

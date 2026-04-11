@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import NiveisFormacoesForm from '../../Form/Form.vue';
 import type { NivelFormacaoFindOneOutputDto } from '@ladesa-ro/web.api.client';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
+
 
 type Props = {
   isLoading?: boolean;
@@ -18,10 +18,8 @@ const link =
     ? 'niveis-formacoes'
     : props.link;
 
-const coverImageSrc = useApiImageRoute(
-  ApiImageResource.NIVEL_FORMACAO_COVER,
-  nivelFormacao
-);
+const niveisFormacoes = useNiveisFormacoes();
+const { data: coverImageSrc } = niveisFormacoes.imageCover(computed(() => unref(nivelFormacao)?.id ?? null));
 </script>
 
 <template>

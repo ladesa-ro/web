@@ -69,3 +69,13 @@ export type InvalidateFn = () => Promise<void>;
 export type UploadCoverFn = (id: string, file: Blob) => Promise<unknown>;
 
 export type UploadProfileFn = (id: string, file: Blob) => Promise<unknown>;
+
+export interface IImageBlobQueryConfig {
+  queryKey: readonly string[];
+  fetcher: (id: string) => Promise<unknown>;
+}
+
+export type ImageBlobFn = (
+  id: MaybeRef<string | null>,
+  options?: QueryCallOptions
+) => Omit<UseQueryReturnType<string, Error>, 'data'> & { data: ComputedRef<string | null> };

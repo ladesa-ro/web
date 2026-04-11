@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import BlocosForm from '../Form/Form.vue';
-import { ApiImageResource, useApiImageRoute } from '~/utils';
 
 type Props = { resourceId: string };
 const { resourceId } = defineProps<Props>();
@@ -8,7 +7,7 @@ const { resourceId } = defineProps<Props>();
 const blocos = useBlocos();
 const { data: bloco, isLoading, isError } = blocos.findOne(ref(resourceId));
 
-const coverImageSrc = useApiImageRoute(ApiImageResource.BLOCO_COVER, bloco);
+const { data: coverImageSrc } = blocos.imageCover(ref(resourceId));
 
 const { confirmDelete, handleDelete } = useResourceDelete({
   remove: id => blocos.remove(id),
