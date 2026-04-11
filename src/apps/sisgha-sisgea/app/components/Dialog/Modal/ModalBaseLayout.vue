@@ -65,7 +65,7 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
 }
 
 .button-group {
-  @apply flex max-sm:flex-col gap-3 w-full mt-6 mx-3;
+  @apply flex max-sm:flex-col max-sm:*:w-full gap-3 w-full mt-6 mx-3;
 }
 
 .button-group:has(*):has(> :first-child:last-child) {

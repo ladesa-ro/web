@@ -101,21 +101,16 @@ const onClose = () => emit('fechar');
       </div>
 
       <template #button-group>
-        <div class="flex flex-col sm:flex-row gap-2 justify-center w-full">
-          <UIButtonModalCancel
-            class="sm:flex-1 md:flex-none"
-            @click="emit('fechar')"
-          />
-          <UIButtonModalDelete
-            class="sm:flex-1 md:flex-none"
-            @click="emit('deletar', props.motivoAtual.motivo)"
-          />
-          <UIButtonModalSave
-            class="sm:flex-1 md:flex-none"
-            :disabled="!podeSalvar"
-            @click="salvarAlteracoes"
-          />
-        </div>
+        <UIButtonModalCancel
+          @click="emit('fechar')"
+        />
+        <UIButtonModalDelete
+          @click="emit('deletar', props.motivoAtual.motivo)"
+        />
+        <UIButtonModalSave
+          :disabled="!podeSalvar"
+          @click="salvarAlteracoes"
+        />
       </template>
     </DialogModalBaseLayout>
 

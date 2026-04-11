@@ -171,9 +171,8 @@ const titleVerb = computed(() =>
     </div>
 
     <template #button-group>
-      <UIButtonModalGoBack class="flex-1" @click="closeModal" />
+      <UIButtonModalGoBack @click="closeModal" />
       <UIButtonModalBaseLayout
-        class="flex-1"
         text="Confirmar escolha"
         color="var(--ladesa-green-2-color)"
         type="button"

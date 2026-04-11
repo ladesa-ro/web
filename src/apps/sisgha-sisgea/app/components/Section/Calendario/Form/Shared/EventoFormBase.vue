@@ -116,14 +116,13 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
     </form>
 
     <template #button-group>
-      <UIButtonModalGoBack class="flex-1" @click="emit('back')" />
+      <UIButtonModalGoBack @click="emit('back')" />
       <UIButtonModalDelete
         v-if="isEditMode"
-        class="flex-1"
         @click="emit('delete')"
       />
-      <UIButtonModalEdit v-if="isEditMode" class="flex-1" @click="onSubmit" />
-      <UIButtonModalSave v-else class="flex-1" @click="onSubmit" />
+      <UIButtonModalEdit v-if="isEditMode" @click="onSubmit" />
+      <UIButtonModalSave v-else @click="onSubmit" />
     </template>
   </DialogModalBaseLayout>
 </template>

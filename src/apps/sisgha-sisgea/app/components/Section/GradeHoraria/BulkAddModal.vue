@@ -211,12 +211,10 @@ function handleConfirm() {
     <template #button-group>
       <UIButtonModalCancel
         type="close"
-        class="flex flex-1"
         @click="emit('close')"
       />
       <UIButtonModalCommonButtonsGreenWithCheck
         text="Adicionar"
-        class="flex-1"
         :disabled="!isValid"
         @click.prevent="handleConfirm"
       />

@@ -118,14 +118,14 @@ defineExpose({ resetForEdit, resetForCreate });
       <template #button-group>
         <button
           type="button"
-          class="flex-1 rounded-lg border border-ldsa-grey/30 px-4 py-2 text-sm font-medium"
+          class="rounded-lg border border-ldsa-grey/30 px-4 py-2 text-sm font-medium"
           @click="close"
         >
           Cancelar
         </button>
         <button
           type="button"
-          class="flex-1 rounded-lg bg-ldsa-green-1 px-4 py-2 text-sm font-medium text-white"
+          class="rounded-lg bg-ldsa-green-1 px-4 py-2 text-sm font-medium text-white"
           @click="saveEdit"
         >
           Salvar

@@ -200,13 +200,11 @@ function handleUndoPending(dataInicio: string) {
         <template v-if="isEditing">
           <UIButtonModalCancel
             type="close"
-            class="flex flex-1"
             @click="cancelEdit"
           />
 
           <UIButtonModalCommonButtonsGreenWithCheck
             text="Confirmar"
-            class="flex-1"
             :disabled="!isDirty"
             @click.prevent="modals.open('saveScope')"
           />

@@ -102,11 +102,10 @@ function confirm() {
     </div>
 
     <template #button-group>
-      <UIButtonModalCancel type="close" class="flex flex-1" @click="cancel" />
+      <UIButtonModalCancel type="close" @click="cancel" />
 
       <UIButtonModalCommonButtonsGreenWithCheck
         text="Confirmar"
-        class="flex-1"
         :disabled="!isFormValid"
         @click.prevent="confirm"
       />

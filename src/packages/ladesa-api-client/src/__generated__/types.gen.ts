@@ -6187,6 +6187,10 @@ export type DiarioFindAllData = {
      */
     'filter.turma.id'?: Array<string>;
     /**
+     * Filtro por ID do Campus do Curso da Turma
+     */
+    'filter.turma.curso.campus.id'?: Array<string>;
+    /**
      * Filtro por ID da Disciplina
      */
     'filter.disciplina.id'?: Array<string>;
