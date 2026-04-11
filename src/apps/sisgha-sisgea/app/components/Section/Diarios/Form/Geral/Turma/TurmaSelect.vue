@@ -12,20 +12,32 @@ const contexto = useContextDiariosFormGeral();
 const searchBarText = ref('');
 
 // Composables
+const campi = useCampi();
 const ofertaFormacoes = useOfertasFormacoes();
 const cursos = useCursos();
 const turmas = useTurmas();
 const calendariosLetivos = useCalendarioLetivo();
 
 // Queries
-const ofertaFormacaoListQuery = ofertaFormacoes.list();
+const campiListQuery = campi.list();
+
+const ofertaFormacaoListQuery = ofertaFormacoes.list(
+  computed(() => {
+    if (!contexto.campusId.value) return {};
+    return { 'filter.campus.id': [contexto.campusId.value] };
+  })
+);
 
 const cursoListQuery = cursos.list(
   computed(() => {
-    if (!contexto.ofertaFormacaoId.value) return {};
-    return {
-      'filter.ofertaFormacao.id': [contexto.ofertaFormacaoId.value],
-    };
+    const params: Record<string, unknown> = {};
+    if (contexto.campusId.value) {
+      params['filter.campus.id'] = [contexto.campusId.value];
+    }
+    if (contexto.ofertaFormacaoId.value) {
+      params['filter.ofertaFormacao.id'] = [contexto.ofertaFormacaoId.value];
+    }
+    return params;
   })
 );
 
@@ -42,9 +54,24 @@ const turmaListQuery = turmas.list(
   })
 );
 
-const calendarioListQuery = calendariosLetivos.list();
+const calendarioListQuery = calendariosLetivos.list(
+  computed(() => {
+    if (!contexto.campusId.value) return {};
+    return { 'filter.campus.id': [contexto.campusId.value] };
+  })
+);
 
 // Opções para selects (ParsedItem[])
+const campusItems = computed(
+  () =>
+    campiListQuery.data.value?.data?.map(
+      (c: Record<string, unknown>) => ({
+        value: c.id as string,
+        label: (c.apelido as string) ?? '',
+      })
+    ) ?? []
+);
+
 const calendarioItems = computed(
   () =>
     calendarioListQuery.data.value?.data?.map(
@@ -87,6 +114,16 @@ const turmaRadioItems = computed(
 );
 
 // Modelos para selects (ParsedItem)
+const campusSelected = computed({
+  get: () =>
+    campusItems.value.find(
+      (i) => i.value === contexto.campusId.value
+    ) ?? undefined,
+  set: (val: ParsedItem | undefined) => {
+    contexto.campusId.value = val?.value ?? null;
+  },
+});
+
 const calendarioSelected = computed({
   get: () =>
     calendarioItems.value.find(
@@ -118,6 +155,10 @@ const cursoSelected = computed({
 
 // Watchers cascata
 useCascadingFilters([
+  {
+    ref: contexto.campusId,
+    resetOnChange: [contexto.calendarioLetivoId, contexto.ofertaFormacaoId, contexto.cursoId, contexto.turmaId, contexto.turmaSelecionada],
+  },
   {
     ref: contexto.calendarioLetivoId,
     resetOnChange: [contexto.ofertaFormacaoId, contexto.cursoId, contexto.turmaId, contexto.turmaSelecionada],
@@ -158,8 +199,13 @@ function nextForm() {
     title="Cadastrar diários: Selecionar turma"
   >
     <div class="flex flex-col gap-4">
-      <!-- Campus (indicador visual) -->
-      <VVAutocompleteAPICampusContext :functional="false" />
+      <!-- Campus -->
+      <UIFormOptionFieldsSelect
+        v-model="campusSelected"
+        label="Campus"
+        placeholder="Selecione um campus"
+        :items="campusItems"
+      />
 
       <!-- Calendário Letivo -->
       <UIFormOptionFieldsSelect
@@ -167,6 +213,7 @@ function nextForm() {
         label="Calendário Letivo"
         placeholder="Selecione..."
         :items="calendarioItems"
+        :disabled="!contexto.campusId.value"
       />
 
       <!-- Formação -->
@@ -175,7 +222,7 @@ function nextForm() {
         label="Formação"
         placeholder="Selecione..."
         :items="ofertaFormacaoItems"
-        :disabled="!contexto.calendarioLetivoId.value"
+        :disabled="!contexto.campusId.value || !contexto.calendarioLetivoId.value"
       />
 
       <!-- Curso -->

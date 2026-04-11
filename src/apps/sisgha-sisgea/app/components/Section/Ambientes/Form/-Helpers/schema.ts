@@ -2,6 +2,11 @@ import * as yup from 'yup';
 
 export const ambienteSchema = yup.object({
   imagem: yup.mixed<Blob>().nullable().default(null),
+  campus: yup
+    .object({
+      id: yup.string().default(''),
+    })
+    .default({ id: '' }),
   bloco: yup
     .object({
       id: yup.string().required('Bloco é obrigatório').default(''),

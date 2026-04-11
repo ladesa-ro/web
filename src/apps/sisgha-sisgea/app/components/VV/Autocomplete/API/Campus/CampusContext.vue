@@ -1,8 +1,10 @@
 <script lang="ts" setup>
-import { useAutocompleteEntity } from '../-Base/createAutocompleteComponent';
 import { campusFindAll, campusFindById } from '@ladesa-ro/web.api.client';
 import { useField } from 'vee-validate';
 import { FormMode } from '~/utils/constants';
+import { useAutocompleteEntity } from '../-Base/createAutocompleteComponent';
+
+const NotProvided = Symbol('NotProvided');
 
 const props = withDefaults(
   defineProps<{
@@ -10,11 +12,18 @@ const props = withDefaults(
     isLoading?: boolean;
     mode?: FormMode;
     functional?: boolean;
+    selectedId?: string | null;
   }>(),
   {
     name: 'campus.id',
     functional: true,
   }
+);
+
+const selectedId = props.selectedId ?? NotProvided;
+
+const isSelectedIdProvided = computed(
+  () => selectedId && selectedId !== NotProvided
 );
 
 const campusContext = useCampusContext();
@@ -25,7 +34,7 @@ const { options } = useAutocompleteEntity({
   baseQueryKeys: ['campi'],
   listFn: campusFindAll,
   getOneFn: campusFindById,
-  transformer: (item) => ({ value: item.id, label: item.apelido }),
+  transformer: item => ({ value: item.id, label: item.apelido }),
 });
 
 const isDisabled = computed(() => {
@@ -44,7 +53,7 @@ const fieldValue = props.functional
 if (props.functional) {
   watch(
     campusContext,
-    (ctx) => {
+    ctx => {
       if (ctx && props.mode !== FormMode.MANAGE) {
         fieldValue.value = ctx;
       }
@@ -68,7 +77,7 @@ const displayItems = computed(() => {
 });
 
 const displaySelectedId = computed(() => {
-  return null;
+  return isSelectedIdProvided && selectedId !== NotProvided ? selectedId : null;
 });
 </script>
 
@@ -92,7 +101,7 @@ const displaySelectedId = computed(() => {
     :items="displayItems"
     :disabled="true"
     label="Campus"
-    placeholder="Todos os campi"
+    :placeholder="isSelectedIdProvided ? 'Campus' : 'Todos os campi'"
     v-bind="$attrs"
   />
 </template>

@@ -76,7 +76,12 @@ watch(estadoId, () => {
         Endereço
       </h3>
 
-      <VVTextField name="endereco.cep" label="CEP" placeholder="00000-000" />
+      <VVTextField
+        name="endereco.cep"
+        label="CEP"
+        placeholder="00000-000"
+        mask="#####-###"
+      />
       <VVTextField
         name="endereco.logradouro"
         label="Logradouro"

@@ -2,13 +2,24 @@
 import { useAutocompleteEntity } from '../-Base/createAutocompleteComponent';
 import { blocoFindAll, blocoFindById } from '@ladesa-ro/web.api.client';
 
-defineProps<{ isLoading?: boolean; name: string }>();
+const props = defineProps<{
+  isLoading?: boolean;
+  name: string;
+  campusId?: string;
+}>();
 
 const { options } = useAutocompleteEntity({
-  baseQueryKeys: ['blocos'],
+  baseQueryKeys: computed(() => ['blocos', props.campusId ?? '']),
   listFn: blocoFindAll,
   getOneFn: blocoFindById,
   transformer: item => ({ value: item.id, label: item.nome }),
+  listAdapter: (api, data) =>
+    api.call(blocoFindAll, {
+      query: {
+        ...data,
+        ...(props.campusId ? { 'filter.campus.id': [props.campusId] } : {}),
+      },
+    }),
 });
 </script>
 

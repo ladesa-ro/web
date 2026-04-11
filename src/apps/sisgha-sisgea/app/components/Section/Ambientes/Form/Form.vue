@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { useField } from 'vee-validate';
 import { FormMode } from '~/utils/constants';
 import { ambienteSchema } from './-Helpers/schema';
 
@@ -17,13 +18,13 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   getQuery: ambienteQuery,
 
   create: async data => {
-    const { imagem, ...rest } = data;
+    const { imagem, campus: _campus, ...rest } = data;
     const created = await ambientes.create(rest);
     if (imagem) await ambientes.uploadCover(created.id, imagem);
   },
 
   update: async (id, data) => {
-    const { imagem, ...rest } = data;
+    const { imagem, campus: _campus, ...rest } = data;
     await ambientes.update(id, rest);
     if (imagem) await ambientes.uploadCover(id, imagem);
   },
@@ -33,6 +34,19 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
   confirmDelete: confirmDelete.confirm,
   onFinish: () => emit('close'),
 });
+
+const { value: campusId } = useField<string | null>('campus.id');
+
+// Em edição, preencher campus.id a partir de bloco.campus.id
+watch(
+  () => ambienteQuery.data.value?.bloco?.campus?.id,
+  campusFromBloco => {
+    if (campusFromBloco) {
+      campusId.value = campusFromBloco;
+    }
+  },
+  { immediate: true },
+);
 </script>
 
 <template>
@@ -47,11 +61,15 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
       :on-delete="onDelete"
     >
       <VVSelectImage name="imagem" :existing-src="coverSrc" />
-      <VVAutocompleteAPICampusContext :mode="mode" :functional="false" />
+
+      <VVAutocompleteAPICampusContext :mode="mode" />
+
       <VVAutocompleteAPIBloco
-        :disabled="mode === FormMode.MANAGE"
+        :disabled="!campusId || mode === FormMode.MANAGE"
+        :campus-id="campusId ?? undefined"
         name="bloco.id"
       />
+
       <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
       <VVTextField
         name="descricao"

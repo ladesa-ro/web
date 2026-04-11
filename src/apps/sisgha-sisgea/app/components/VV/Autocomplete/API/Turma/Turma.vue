@@ -6,6 +6,7 @@ const props = defineProps<{
   isLoading?: boolean;
   name: string;
   filterCursoId?: string | null;
+  campusId?: string;
 }>();
 
 const { options } = useAutocompleteEntity({
@@ -13,6 +14,7 @@ const { options } = useAutocompleteEntity({
     'turmas',
     'byCurso',
     props.filterCursoId ?? 'all',
+    props.campusId ?? '',
   ]),
   listFn: turmaFindAll,
   getOneFn: turmaFindById,
@@ -27,6 +29,7 @@ const { options } = useAutocompleteEntity({
         'filter.curso.id': props.filterCursoId
           ? [props.filterCursoId]
           : undefined,
+        ...(props.campusId ? { 'filter.curso.campus.id': [props.campusId] } : {}),
       },
     }),
 });

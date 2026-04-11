@@ -20,9 +20,17 @@ const { data: coverSrc } = turmas.imageCover(computed(() => editId));
 const cursos = useCursos();
 const { value: selectedCursoId } = useField<string | null>('curso.id');
 const cursoQuery = cursos.findOne(selectedCursoId);
-const campusContext = useCampusContext();
-const campusId = computed(
-  () => cursoQuery.data.value?.campus?.id ?? campusContext.value ?? null
+const { value: campusId } = useField<string | null>('campus.id');
+
+// Em edição, preencher campus.id a partir de curso.campus.id
+watch(
+  () => turmaQuery.data.value?.curso?.campus?.id,
+  campusFromCurso => {
+    if (campusFromCurso) {
+      campusId.value = campusFromCurso;
+    }
+  },
+  { immediate: true },
 );
 
 const modeRef = ref<FormMode>(FormMode.CREATE);
@@ -74,7 +82,7 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   getQuery: turmaQuery,
 
   create: async formData => {
-    const { imagem, ...rest } = formData;
+    const { imagem, campus: _campus, ...rest } = formData;
     const data: TurmaCreateInputDto = {
       curso: rest.curso,
       periodo: rest.periodo,
@@ -89,7 +97,7 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   },
 
   update: async (id, formData) => {
-    const { imagem, ...rest } = formData;
+    const { imagem, campus: _campus, ...rest } = formData;
     const data: TurmaUpdateInputDto = {
       curso: rest.curso,
       periodo: rest.periodo,
@@ -138,12 +146,19 @@ watch(
         >
           <VVSelectImage name="imagem" :existing-src="coverSrc" />
 
-          <VVAutocompleteAPICampusContext :mode="mode" :functional="false" />
+          <VVAutocompleteAPICampusContext :mode="mode" />
 
-          <VVAutocompleteAPICurso :is-loading="isLoading" name="curso.id" />
+          <VVAutocompleteAPICurso
+            :is-loading="isLoading"
+            :campus-id="campusId ?? undefined"
+            :disabled="!campusId"
+            name="curso.id"
+          />
 
           <VVAutocompleteAPIAmbiente
             :is-loading="isLoading"
+            :campus-id="campusId ?? undefined"
+            :disabled="!campusId"
             label="Sala de Aula"
             name="ambientePadraoAula.id"
           />

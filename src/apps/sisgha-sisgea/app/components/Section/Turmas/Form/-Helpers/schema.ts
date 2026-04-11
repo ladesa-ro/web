@@ -5,6 +5,10 @@ const schema = yup
   .shape({
     imagem: yup.mixed<Blob>().nullable().default(null),
 
+    campus: yup.object().shape({
+      id: yup.string().default(''),
+    }),
+
     curso: yup.object().shape({
       id: yup.string().required('Curso é obrigatório!').default(null),
     }),

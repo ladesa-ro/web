@@ -9,16 +9,24 @@ const props = defineProps<{
   isLoading?: boolean;
   name: string;
   filter?: Record<string, any>;
+  campusId?: string;
 }>();
 
 const { options } = useAutocompleteEntity({
-  baseQueryKeys: ['calendarioLetivo'],
+  baseQueryKeys: computed(() => ['calendarioLetivo', props.campusId ?? '']),
   listFn: calendarioLetivoFindAll,
   getOneFn: calendarioLetivoFindById,
   transformer: item => ({
     value: item.id,
     label: item.nome || item.slug || `Calendário ${item.id.substring(0, 5)}`,
   }),
+  listAdapter: (api, data) =>
+    api.call(calendarioLetivoFindAll, {
+      query: {
+        ...data,
+        ...(props.campusId ? { 'filter.campus.id': [props.campusId] } : {}),
+      },
+    }),
 });
 </script>
 

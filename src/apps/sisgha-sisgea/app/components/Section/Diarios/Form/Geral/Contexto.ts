@@ -33,6 +33,7 @@ export interface IDisciplinaConfig {
 }
 
 export interface IContextDiariosFormGeral {
+  campusId: Ref<string | null>;
   ofertaFormacaoId: Ref<string | null>;
   cursoId: Ref<string | null>;
   turmaId: Ref<string | null>;
@@ -53,6 +54,13 @@ export const createContextDiariosFormGeral = (
   editId?: MaybeRef<string | null>
 ): IContextDiariosFormGeral => {
   // Form-backed writable computeds — form is the source of truth
+  const campusId = computed({
+    get: () => (form.values.campusId as string) || null,
+    set: (val: string | null) => {
+      form.setValues({ campusId: val ?? '' }, false);
+    },
+  });
+
   const calendarioLetivoId = computed({
     get: () => (form.values.calendarioLetivoId as string) || null,
     set: (val: string | null) => {
@@ -108,6 +116,7 @@ export const createContextDiariosFormGeral = (
   );
 
   return {
+    campusId,
     ofertaFormacaoId,
     cursoId,
     turmaId,
