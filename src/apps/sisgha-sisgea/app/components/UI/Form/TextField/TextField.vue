@@ -3,8 +3,11 @@ export default { inheritAttrs: false };
 </script>
 
 <script setup lang="ts">
+import { type MaskInputOptions } from 'maska';
 import { vMaska } from 'maska/vue';
 import type { TextFieldProps } from '../-Utils/inputTypes';
+
+type Props = TextFieldProps & { error?: string; modelValue?: string | number };
 
 const {
   type = 'text',
@@ -14,9 +17,17 @@ const {
   disabled,
   modelValue,
   mask,
-} = defineProps<
-  TextFieldProps & { error?: string; modelValue?: string | number }
->();
+} = defineProps<Props>();
+
+const maskOptions = computed((): MaskInputOptions | null => {
+  if (mask) {
+    return {
+      mask,
+      eager: true,
+    };
+  }
+  return null;
+});
 
 const emit = defineEmits(['update:modelValue', 'blur']);
 </script>
@@ -54,9 +65,9 @@ const emit = defineEmits(['update:modelValue', 'blur']);
           {{ label }}
         </label>
 
-        <template v-if="mask">
+        <template v-if="maskOptions">
           <input
-            v-maska="mask"
+            v-maska="maskOptions"
             class="w-full px-3 pt-2.5 rounded-md disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none"
             :type="type"
             :placeholder="placeholder"

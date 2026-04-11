@@ -27,6 +27,7 @@ const {
     :disabled="fieldDisabled"
     :label="props.label"
     :placeholder="props.placeholder"
+    :mask="props.mask"
     @blur="handleBlur"
   />
 </template>
