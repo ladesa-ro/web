@@ -52,7 +52,7 @@
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
     "type-fest": "^5.5.0",
-    "typescript": "6.0.2",
+    "typescript": "6.0.3",
     "vue-tsc": "3.2.6"
   },
   "nx": {
