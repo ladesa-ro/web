@@ -55,14 +55,14 @@ importers:
         specifier: ^4.2.4
         version: 4.2.4(vite@7.3.2(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.2)(yaml@2.8.3))
       '@tanstack/query-persist-client-core':
-        specifier: ^5.100.6
-        version: 5.100.6
+        specifier: ^5.100.9
+        version: 5.100.9
       '@tanstack/query-sync-storage-persister':
-        specifier: ^5.100.6
-        version: 5.100.6
+        specifier: ^5.100.9
+        version: 5.100.9
       '@tanstack/vue-query':
-        specifier: ^5.100.6
-        version: 5.100.6(vue@3.5.33(typescript@6.0.3))
+        specifier: ^5.100.9
+        version: 5.100.9(vue@3.5.33(typescript@6.0.3))
       '@vueuse/core':
         specifier: ^14.3.0
         version: 14.3.0(vue@3.5.33(typescript@6.0.3))
@@ -1968,20 +1968,20 @@ packages:
     resolution: {integrity: sha512-Wo1iKt2b9OT7d+YGhvEPD3DXvPv2etTusIMhMUoG7fbhmxcXCtIjJDEygy91Y2JFlwGyjqiBPRozme7UD8hoqg==}
     engines: {node: '>=12'}
 
-  '@tanstack/query-core@5.100.6':
-    resolution: {integrity: sha512-Os2CPUr98to98RYm+D4qGqGkiffn7MGSyl2547a4MljVkHE30AMJRqTiyCqBfMwzAx/I91vCkAxp5tHSla6Twg==}
+  '@tanstack/query-core@5.100.9':
+    resolution: {integrity: sha512-SJSFw1S8+kQ0+knv/XGfrbocWoAlT7vDKsSImtLx3ZPQmEcR46hkDjLSvynSy25N8Ms4tIEini1FuBd5k7IscQ==}
 
-  '@tanstack/query-persist-client-core@5.100.6':
-    resolution: {integrity: sha512-SLJXsn5x2XAwKgOVulBFh0KXop7zeDoRmmB7ImKODLflyBnvLBmPQPadmwTgBiZQUa/Kx/y1MxzAXC/4Nfg8kQ==}
+  '@tanstack/query-persist-client-core@5.100.9':
+    resolution: {integrity: sha512-sCPZZp3D9sOeqcA4SDxjUIm4wVq8PwHebH4ouFZetwjT4xvGjT/cLBQ4Sst+BFcFuk745pCPkf3T4MFliLHECQ==}
 
-  '@tanstack/query-sync-storage-persister@5.100.6':
-    resolution: {integrity: sha512-hfQjg4xtfaAAFw/Sm46i4R4fu2J2jC5iEHTBMNZApSAC6iIAlc2xF2mU7Zzq0Nc7RabaUupnDBvFk+y7b85xPw==}
+  '@tanstack/query-sync-storage-persister@5.100.9':
+    resolution: {integrity: sha512-v3cShfFtrxiLwc8b/fjQbUO4wIT//wLT5x4WWl8k/11s2ZyW9qpXE4xFWhiuAHCvKLluF0iI7ZnhT7BAlihwgg==}
 
   '@tanstack/virtual-core@3.13.23':
     resolution: {integrity: sha512-zSz2Z2HNyLjCplANTDyl3BcdQJc2k1+yyFoKhNRmCr7V7dY8o8q5m8uFTI1/Pg1kL+Hgrz6u3Xo6eFUB7l66cg==}
 
-  '@tanstack/vue-query@5.100.6':
-    resolution: {integrity: sha512-aUvBla5roKKI311C4KHg+n0dHe+s9MKXwhUcro6Ajvu0L6IERoZ+/CjRqUCUgd5Y51ytuZAJl85uahgp7ViVlg==}
+  '@tanstack/vue-query@5.100.9':
+    resolution: {integrity: sha512-wGiv/AirRuITlTDl87zdBRaZIZTejMItUswKgMzzcX/1gfn95iKw2EaCuz7qlX9ceB0DwBj9FqaroLnDoJCecg==}
     peerDependencies:
       '@vue/composition-api': ^1.1.2
       vue: ^2.6.0 || ^3.3.0
@@ -7374,23 +7374,23 @@ snapshots:
     dependencies:
       remove-accents: 0.5.0
 
-  '@tanstack/query-core@5.100.6': {}
+  '@tanstack/query-core@5.100.9': {}
 
-  '@tanstack/query-persist-client-core@5.100.6':
+  '@tanstack/query-persist-client-core@5.100.9':
     dependencies:
-      '@tanstack/query-core': 5.100.6
+      '@tanstack/query-core': 5.100.9
 
-  '@tanstack/query-sync-storage-persister@5.100.6':
+  '@tanstack/query-sync-storage-persister@5.100.9':
     dependencies:
-      '@tanstack/query-core': 5.100.6
-      '@tanstack/query-persist-client-core': 5.100.6
+      '@tanstack/query-core': 5.100.9
+      '@tanstack/query-persist-client-core': 5.100.9
 
   '@tanstack/virtual-core@3.13.23': {}
 
-  '@tanstack/vue-query@5.100.6(vue@3.5.33(typescript@6.0.3))':
+  '@tanstack/vue-query@5.100.9(vue@3.5.33(typescript@6.0.3))':
     dependencies:
       '@tanstack/match-sorter-utils': 8.19.4
-      '@tanstack/query-core': 5.100.6
+      '@tanstack/query-core': 5.100.9
       '@vue/devtools-api': 6.6.4
       vue: 3.5.33(typescript@6.0.3)
       vue-demi: 0.14.10(vue@3.5.33(typescript@6.0.3))
