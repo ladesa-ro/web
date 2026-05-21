@@ -5515,18 +5515,6 @@ packages:
     resolution: {integrity: sha512-FdNA4RyH1L43TlvGG8qOMIfcEczwA5ij+zLXUy3Z83CjxhLvcV7/Q/8pk22wnCgYw7PJhtK+7lhO+qqyT4NdvQ==}
     engines: {node: '>=16.14'}
 
-  ws@8.20.0:
-    resolution: {integrity: sha512-sAt8BhgNbzCtgGbt2OxmpuryO63ZoDk/sqaB/znQm94T4fCEsy/yV+7CdC1kJhOU9lboAEU7R3kquuycDoibVA==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-
   ws@8.20.1:
     resolution: {integrity: sha512-It4dO0K5v//JtTXuPkfEOaI3uUN87iYPnqo/ZzqCoG3g8uhA66QUMs/SrM0YK7/NAu+r4LMh/9dq2A7k+rHs+w==}
     engines: {node: '>=10.0.0'}
@@ -6122,7 +6110,7 @@ snapshots:
       eslint: 9.39.2(jiti@2.7.0)
       h3: 1.15.11
       tinyglobby: 0.2.16
-      ws: 8.20.0
+      ws: 8.20.1
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -6466,7 +6454,7 @@ snapshots:
       '@nuxt/devtools-kit': 4.0.0-alpha.4(magicast@0.5.2)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))
       '@nuxt/kit': 4.4.2(magicast@0.5.2)
       '@vitejs/devtools': 0.1.13(@pnpm/logger@1001.0.1)(db0@0.3.4)(ioredis@5.10.1)(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))
-      '@vitejs/devtools-kit': 0.1.13(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(ws@8.20.0)
+      '@vitejs/devtools-kit': 0.1.13(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(ws@8.20.1)
       '@vue/devtools-core': 8.1.1(vue@3.5.34(typescript@6.0.3))
       '@vue/devtools-kit': 8.1.1
       birpc: 4.0.0
@@ -6490,10 +6478,10 @@ snapshots:
       tinyexec: 1.1.1
       tinyglobby: 0.2.16
       vite: 7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0)
-      vite-plugin-inspect: 12.0.0-beta.1(@nuxt/kit@4.4.2(magicast@0.5.2))(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(ws@8.20.0)
+      vite-plugin-inspect: 12.0.0-beta.1(@nuxt/kit@4.4.2(magicast@0.5.2))(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(ws@8.20.1)
       vite-plugin-vue-tracer: 1.3.0(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(vue@3.5.34(typescript@6.0.3))
       which: 6.0.1
-      ws: 8.20.0
+      ws: 8.20.1
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -7733,16 +7721,6 @@ snapshots:
       - rollup
       - supports-color
 
-  '@vitejs/devtools-kit@0.1.13(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(ws@8.20.0)':
-    dependencies:
-      '@vitejs/devtools-rpc': 0.1.13(typescript@6.0.3)(ws@8.20.0)
-      birpc: 4.0.0
-      ohash: 2.0.11
-      vite: 7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0)
-    transitivePeerDependencies:
-      - typescript
-      - ws
-
   '@vitejs/devtools-kit@0.1.13(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(ws@8.20.1)':
     dependencies:
       '@vitejs/devtools-rpc': 0.1.13(typescript@6.0.3)(ws@8.20.1)
@@ -7808,18 +7786,6 @@ snapshots:
       - vite
       - vue
 
-  '@vitejs/devtools-rpc@0.1.13(typescript@6.0.3)(ws@8.20.0)':
-    dependencies:
-      birpc: 4.0.0
-      ohash: 2.0.11
-      p-limit: 7.3.0
-      structured-clone-es: 2.0.0
-      valibot: 1.3.1(typescript@6.0.3)
-    optionalDependencies:
-      ws: 8.20.0
-    transitivePeerDependencies:
-      - typescript
-
   '@vitejs/devtools-rpc@0.1.13(typescript@6.0.3)(ws@8.20.1)':
     dependencies:
       birpc: 4.0.0
@@ -7834,9 +7800,9 @@ snapshots:
 
   '@vitejs/devtools@0.1.13(@pnpm/logger@1001.0.1)(db0@0.3.4)(ioredis@5.10.1)(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))':
     dependencies:
-      '@vitejs/devtools-kit': 0.1.13(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(ws@8.20.0)
+      '@vitejs/devtools-kit': 0.1.13(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(ws@8.20.1)
       '@vitejs/devtools-rolldown': 0.1.13(@pnpm/logger@1001.0.1)(db0@0.3.4)(ioredis@5.10.1)(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(vue@3.5.34(typescript@6.0.3))
-      '@vitejs/devtools-rpc': 0.1.13(typescript@6.0.3)(ws@8.20.0)
+      '@vitejs/devtools-rpc': 0.1.13(typescript@6.0.3)(ws@8.20.1)
       birpc: 4.0.0
       cac: 7.0.0
       h3: 1.15.11
@@ -7851,7 +7817,7 @@ snapshots:
       tinyexec: 1.1.1
       vite: 7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0)
       vue: 3.5.34(typescript@6.0.3)
-      ws: 8.20.0
+      ws: 8.20.1
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -11349,9 +11315,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-inspect@12.0.0-beta.1(@nuxt/kit@4.4.2(magicast@0.5.2))(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(ws@8.20.0):
+  vite-plugin-inspect@12.0.0-beta.1(@nuxt/kit@4.4.2(magicast@0.5.2))(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(ws@8.20.1):
     dependencies:
-      '@vitejs/devtools-kit': 0.1.13(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(ws@8.20.0)
+      '@vitejs/devtools-kit': 0.1.13(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(ws@8.20.1)
       ansis: 4.2.0
       error-stack-parser-es: 1.0.5
       obug: 2.1.1
@@ -11546,8 +11512,6 @@ snapshots:
     dependencies:
       js-yaml: 4.1.1
       write-file-atomic: 5.0.1
-
-  ws@8.20.0: {}
 
   ws@8.20.1: {}
 
