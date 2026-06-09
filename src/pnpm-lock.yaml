@@ -134,8 +134,8 @@ importers:
   packages/ladesa-api-client:
     devDependencies:
       '@hey-api/openapi-ts':
-        specifier: ^0.96.1
-        version: 0.96.1(magicast@0.5.3)(typescript@6.0.3)
+        specifier: ^0.98.2
+        version: 0.98.2(magicast@0.5.3)(typescript@6.0.3)
       typescript:
         specifier: 6.0.3
         version: 6.0.3
@@ -803,24 +803,24 @@ packages:
     resolution: {integrity: sha512-7bQW+gkKa2kKZPeJf6+c6gFK9ARxQfn+FKy9ScTBppyKRWH2KzsmweXUoklqeEiHiNVWaeP5csIdsNq6w7QhzA==}
     engines: {node: '>=12.20'}
 
-  '@hey-api/codegen-core@0.8.0':
-    resolution: {integrity: sha512-OuF/jenX9wz7AWHRBfb37v+jLkrfCt0FJXQuALNH2UsW6+bdZBmoibHl0K778SiHwneotJbAaEvX2S05wEqUQw==}
-    engines: {node: '>=22.13.0'}
+  '@hey-api/codegen-core@0.9.0':
+    resolution: {integrity: sha512-OK9/R8WuujwgvnrDIPnEiIf6WnfUOi3GaEr6kIngqoI5FUQwYbeDKHE/frTVUl2A76ZQPCrMknHtPx6Gqtwf8Q==}
+    engines: {node: '>=22.18.0'}
 
-  '@hey-api/json-schema-ref-parser@1.4.1':
-    resolution: {integrity: sha512-DoPJGxVApDlktP1yYLjmOrF0YBEqb32ieCbx1S1i09n8TyCgdoh4yQaQ3kp0sMTauH+bwNKPsFh7S8qiWCoKZA==}
-    engines: {node: '>=22.13.0'}
+  '@hey-api/json-schema-ref-parser@1.4.3':
+    resolution: {integrity: sha512-UzGSDzh3QUhrnwl4atnHc2YqDO6KemYVEOwl1Ynowm/tcr0XlpdHOpyWr5UaWIJfiXTXdYRIC9k2Yxm19pcPzQ==}
+    engines: {node: '>=22.18.0'}
 
-  '@hey-api/openapi-ts@0.96.1':
-    resolution: {integrity: sha512-EnH+6ncaVC1yNvYWcsO7MoeBSqCvYZaKvRDRqh+S7dsfb9lhe2mKUR2+7sDacGUBm7VDZZ7hg4q4egxlpZaf0g==}
-    engines: {node: '>=22.13.0'}
+  '@hey-api/openapi-ts@0.98.2':
+    resolution: {integrity: sha512-2nVJXH8tpFPGTBOhxyjEd1Jw0hsRqJqeTQW3kltAjVdSU4YWxeu97x5sgNOmsbsfeg6Dqz7Wfzs26walBOuswA==}
+    engines: {node: '>=22.18.0'}
     hasBin: true
     peerDependencies:
       typescript: '>=5.5.3 || >=6.0.0 || 6.0.1-rc'
 
-  '@hey-api/shared@0.4.1':
-    resolution: {integrity: sha512-EDAjvGpEamn2fOB7W87ZStyDSv5mEpnQCciVbiZ+Ll4EfawwIjHMMtDtRQOYol0YjTkAeEm274GFPAtg3xfPGA==}
-    engines: {node: '>=22.13.0'}
+  '@hey-api/shared@0.4.8':
+    resolution: {integrity: sha512-29Pg2FB0UW20pplYgcfiQn1hQYpbZ9D2gdDJc7nDK3xh3pvHOTGP0v3R2ueFpFnw9GN1SRhIdhiVuAYWMDimjA==}
+    engines: {node: '>=22.18.0'}
 
   '@hey-api/spec-types@0.2.0':
     resolution: {integrity: sha512-ibQ8Is7evMavzr8GNyJCcTg975d8DpaMUyLmOrQ85UBdy1l6t1KuRAwgChAbesJsIlNV6gjmlXruWyegDX18Fg==}
@@ -896,6 +896,10 @@ packages:
 
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
+
+  '@lukeed/ms@2.0.2':
+    resolution: {integrity: sha512-9I2Zn6+NJLfaGoz9jN3lpwDgAYvfGeNYdbAIjJOqzs4Tpc+VU3Jqq4IofSUBKajiDS8k9fZIg18/z13mpk1bsA==}
+    engines: {node: '>=8'}
 
   '@mapbox/node-pre-gyp@2.0.3':
     resolution: {integrity: sha512-uwPAhccfFJlsfCxMYTwOdVfOz3xqyj8xYL3zJj8f0pb30tLohnnFPhLuqp4/qoEz8sNxe4SESZedcBojRefIzg==}
@@ -2761,9 +2765,9 @@ packages:
     resolution: {integrity: sha512-yPVavfyCcRhmorC7rWlkHn15b4wDVgVmBA7kV4QVBsF7kv/9TKJAbAXVTxvTnwP8HHKjRCJDClKbciiYS7p0DQ==}
     engines: {node: '>=16'}
 
-  commander@14.0.3:
-    resolution: {integrity: sha512-H+y0Jo/T1RZ9qPP4Eh1pkcQcLRglraJaSLoyOtHxu6AapkjWVCy2Sit1QQ4x3Dng8qDlSsZEet7g5Pq06MvTgw==}
-    engines: {node: '>=20'}
+  commander@15.0.0:
+    resolution: {integrity: sha512-z67u4ZhzCL/Tydu1lJARtEZYWbWaN7oYLHbsuzocr6y4N6WZAagG3RQ4FW61V1/0+jImpj293XfrcYnd1qxtPg==}
+    engines: {node: '>=22.12.0'}
 
   commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
@@ -4801,6 +4805,16 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.8.2:
+    resolution: {integrity: sha512-c8jsqUZm3omBOI66G90z1Dyw5z622G8oLG+omfsHBJf3CWQTlOcwOjvOG6wtiNfW6anKm/eA39LMwMtMez2TiQ==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.8.3:
+    resolution: {integrity: sha512-wnilbGyMxzbY7dNOl7jpKbLSjcfeweJWU5j4+u5qW+6/wuGD9KzIGOyZnQVSBM9E7DtWaaH3CyHkppYrKYoxwg==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   send@1.2.1:
     resolution: {integrity: sha512-1gnZf7DFcoIcajTjTwjwuDjzuz4PPcY2StKPlsGAQ1+YH20IRVrBaXSWmdjowTJ6u8Rc01PoYOGHXfP1mYcZNQ==}
     engines: {node: '>= 18'}
@@ -5594,11 +5608,6 @@ packages:
     resolution: {integrity: sha512-YgvUTfwqyc7UXVMrB+SImsVYSmTS8X/tSrtdNZMImM+n7+QTriRXyXim0mBrTXNeqzVF0KWGgHPeiyViFFrNDw==}
     engines: {node: '>=18'}
 
-  yaml@2.8.3:
-    resolution: {integrity: sha512-AvbaCLOO2Otw/lW5bmh9d/WEdcDFdQp2Z2ZUH3pX9U2ihyUY0nvLv7J6TrWowklRGPYbB/IuIMfYgxaCPg5Bpg==}
-    engines: {node: '>= 14.6'}
-    hasBin: true
-
   yaml@2.9.0:
     resolution: {integrity: sha512-2AvhNX3mb8zd6Zy7INTtSpl1F15HW6Wnqj0srWlkKLcpYl/gMIMJiyuGq2KeI2YFxUPjdlB+3Lc10seMLtL4cA==}
     engines: {node: '>= 14.6'}
@@ -5655,7 +5664,7 @@ snapshots:
   '@apidevtools/json-schema-ref-parser@14.2.1(@types/json-schema@7.0.15)':
     dependencies:
       '@types/json-schema': 7.0.15
-      js-yaml: 4.1.1
+      js-yaml: 4.2.0
 
   '@atlaskit/pragmatic-drag-and-drop-auto-scroll@2.1.5':
     dependencies:
@@ -6227,7 +6236,7 @@ snapshots:
 
   '@gwhitney/detect-indent@7.0.1': {}
 
-  '@hey-api/codegen-core@0.8.0(magicast@0.5.3)':
+  '@hey-api/codegen-core@0.9.0(magicast@0.5.3)':
     dependencies:
       '@hey-api/types': 0.1.4
       ansi-colors: 4.1.3
@@ -6236,37 +6245,38 @@ snapshots:
     transitivePeerDependencies:
       - magicast
 
-  '@hey-api/json-schema-ref-parser@1.4.1':
+  '@hey-api/json-schema-ref-parser@1.4.3':
     dependencies:
       '@jsdevtools/ono': 7.1.3
       '@types/json-schema': 7.0.15
-      yaml: 2.8.3
+      js-yaml: 4.1.1
 
-  '@hey-api/openapi-ts@0.96.1(magicast@0.5.3)(typescript@6.0.3)':
+  '@hey-api/openapi-ts@0.98.2(magicast@0.5.3)(typescript@6.0.3)':
     dependencies:
-      '@hey-api/codegen-core': 0.8.0(magicast@0.5.3)
-      '@hey-api/json-schema-ref-parser': 1.4.1
-      '@hey-api/shared': 0.4.1(magicast@0.5.3)
+      '@hey-api/codegen-core': 0.9.0(magicast@0.5.3)
+      '@hey-api/json-schema-ref-parser': 1.4.3
+      '@hey-api/shared': 0.4.8(magicast@0.5.3)
       '@hey-api/spec-types': 0.2.0
       '@hey-api/types': 0.1.4
+      '@lukeed/ms': 2.0.2
       ansi-colors: 4.1.3
       color-support: 1.1.3
-      commander: 14.0.3
+      commander: 15.0.0
       get-tsconfig: 4.14.0
       typescript: 6.0.3
     transitivePeerDependencies:
       - magicast
 
-  '@hey-api/shared@0.4.1(magicast@0.5.3)':
+  '@hey-api/shared@0.4.8(magicast@0.5.3)':
     dependencies:
-      '@hey-api/codegen-core': 0.8.0(magicast@0.5.3)
-      '@hey-api/json-schema-ref-parser': 1.4.1
+      '@hey-api/codegen-core': 0.9.0(magicast@0.5.3)
+      '@hey-api/json-schema-ref-parser': 1.4.3
       '@hey-api/spec-types': 0.2.0
       '@hey-api/types': 0.1.4
       ansi-colors: 4.1.3
       cross-spawn: 7.0.6
       open: 11.0.0
-      semver: 7.7.4
+      semver: 7.8.2
     transitivePeerDependencies:
       - magicast
 
@@ -6351,6 +6361,8 @@ snapshots:
 
   '@kwsites/promise-deferred@1.1.1': {}
 
+  '@lukeed/ms@2.0.2': {}
+
   '@mapbox/node-pre-gyp@2.0.3':
     dependencies:
       consola: 3.4.2
@@ -6358,7 +6370,7 @@ snapshots:
       https-proxy-agent: 7.0.6
       node-fetch: 2.7.0
       nopt: 8.1.0
-      semver: 7.8.0
+      semver: 7.8.3
       tar: 7.5.15
     transitivePeerDependencies:
       - encoding
@@ -6461,7 +6473,7 @@ snapshots:
       magicast: 0.5.3
       pathe: 2.0.3
       pkg-types: 2.3.1
-      semver: 7.8.0
+      semver: 7.8.3
 
   '@nuxt/devtools@3.2.4(@vitejs/devtools@0.1.13(@pnpm/logger@1001.0.1)(db0@0.3.4)(ioredis@5.10.1)(typescript@6.0.3)(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0)))(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(vue@3.5.35(typescript@6.0.3))':
     dependencies:
@@ -7244,7 +7256,7 @@ snapshots:
       '@pnpm/logger': 1001.0.1
       '@pnpm/semver.peer-range': 1000.0.0
       '@pnpm/types': 1001.3.0
-      semver: 7.7.4
+      semver: 7.8.3
 
   '@pnpm/read-project-manifest@1001.2.6(@pnpm/logger@1001.0.1)':
     dependencies:
@@ -7265,7 +7277,7 @@ snapshots:
 
   '@pnpm/semver.peer-range@1000.0.0':
     dependencies:
-      semver: 7.7.4
+      semver: 7.8.3
 
   '@pnpm/text.comments-parser@1000.0.0':
     dependencies:
@@ -7671,7 +7683,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 8.58.1
       debug: 4.4.3
       minimatch: 10.2.5
-      semver: 7.8.1
+      semver: 7.8.3
       tinyglobby: 0.2.16
       ts-api-utils: 2.5.0(typescript@6.0.3)
       typescript: 6.0.3
@@ -8479,7 +8491,7 @@ snapshots:
 
   commander@11.1.0: {}
 
-  commander@14.0.3: {}
+  commander@15.0.0: {}
 
   commander@2.20.3: {}
 
@@ -8865,7 +8877,7 @@ snapshots:
       eslint-import-context: 0.1.9(unrs-resolver@1.11.1)
       is-glob: 4.0.3
       minimatch: 10.2.5
-      semver: 7.8.1
+      semver: 7.8.3
       stable-hash-x: 0.2.0
       unrs-resolver: 1.11.1
     optionalDependencies:
@@ -8887,7 +8899,7 @@ snapshots:
       html-entities: 2.6.0
       object-deep-merge: 2.0.0
       parse-imports-exports: 0.2.4
-      semver: 7.8.1
+      semver: 7.8.3
       spdx-expression-parse: 4.0.0
       to-valid-identifier: 1.0.0
     transitivePeerDependencies:
@@ -8921,7 +8933,7 @@ snapshots:
       pluralize: 8.0.0
       regexp-tree: 0.1.27
       regjsparser: 0.13.1
-      semver: 7.8.1
+      semver: 7.8.3
       strip-indent: 4.1.1
 
   eslint-plugin-vue@10.8.0(@stylistic/eslint-plugin@5.10.0(eslint@9.39.2(jiti@2.7.0)))(@typescript-eslint/parser@8.58.1(eslint@9.39.2(jiti@2.7.0))(typescript@6.0.3))(eslint@9.39.2(jiti@2.7.0))(vue-eslint-parser@10.4.0(eslint@9.39.2(jiti@2.7.0))):
@@ -8931,7 +8943,7 @@ snapshots:
       natural-compare: 1.4.0
       nth-check: 2.1.1
       postcss-selector-parser: 7.1.1
-      semver: 7.8.1
+      semver: 7.8.3
       vue-eslint-parser: 10.4.0(eslint@9.39.2(jiti@2.7.0))
       xml-name-validator: 4.0.0
     optionalDependencies:
@@ -9822,7 +9834,7 @@ snapshots:
       rollup: 4.60.4
       rollup-plugin-visualizer: 7.0.1(rollup@4.60.4)
       scule: 1.3.0
-      semver: 7.8.0
+      semver: 7.8.3
       serve-placeholder: 2.0.2
       serve-static: 2.2.1
       source-map: 0.7.6
@@ -10651,7 +10663,7 @@ snapshots:
 
   read-yaml-file@2.1.0:
     dependencies:
-      js-yaml: 4.1.1
+      js-yaml: 4.2.0
       strip-bom: 4.0.0
 
   readable-stream@2.3.8:
@@ -10832,6 +10844,10 @@ snapshots:
   semver@7.8.0: {}
 
   semver@7.8.1: {}
+
+  semver@7.8.2: {}
+
+  semver@7.8.3: {}
 
   send@1.2.1:
     dependencies:
@@ -11470,7 +11486,7 @@ snapshots:
       eslint-visitor-keys: 5.0.1
       espree: 11.2.0
       esquery: 1.7.0
-      semver: 7.8.1
+      semver: 7.8.3
     transitivePeerDependencies:
       - supports-color
 
@@ -11591,7 +11607,7 @@ snapshots:
 
   write-yaml-file@5.0.0:
     dependencies:
-      js-yaml: 4.1.1
+      js-yaml: 4.2.0
       write-file-atomic: 5.0.1
 
   ws@8.20.0: {}
@@ -11614,8 +11630,6 @@ snapshots:
   yallist@3.1.1: {}
 
   yallist@5.0.0: {}
-
-  yaml@2.8.3: {}
 
   yaml@2.9.0: {}
 
