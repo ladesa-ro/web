@@ -28,8 +28,8 @@ importers:
         specifier: ^2.1.5
         version: 2.1.5
       '@atlaskit/pragmatic-drag-and-drop-hitbox':
-        specifier: ^1.1.0
-        version: 1.1.0
+        specifier: ^2.0.0
+        version: 2.0.0
       '@internationalized/date':
         specifier: ^3.12.2
         version: 3.12.2
@@ -160,11 +160,14 @@ packages:
   '@atlaskit/pragmatic-drag-and-drop-auto-scroll@2.1.5':
     resolution: {integrity: sha512-InLvVhZAHPBfv3CxuG4AfOQuhNJjaFy69YBfodPMWtRFQNQAKa9Yb3vL9Ho6qsD9qKUBuJa4A5k7QddaXQ4Eyw==}
 
-  '@atlaskit/pragmatic-drag-and-drop-hitbox@1.1.0':
-    resolution: {integrity: sha512-JWt6eVp6Br2FPHRM8s0dUIHQk/jFInGP1f3ti5CdtM1Ji5/pt8Akm44wDC063Gv2i5RGseixtbW0z/t6RYtbdg==}
+  '@atlaskit/pragmatic-drag-and-drop-hitbox@2.0.0':
+    resolution: {integrity: sha512-vkXCB/23pT8YgYU8biGmR9uu0fr9oWoaq2GMSKyiNPk3reA12XVrCdgB2SLBoB24Ic1FOm9PdaQJ9ZSUQdCVpw==}
 
   '@atlaskit/pragmatic-drag-and-drop@1.8.1':
     resolution: {integrity: sha512-uXWNPpL8n4OmTVbduH7nq8pk8htqGo/prR5cYEE8sVCPJGAUMWn6lzvWTfI+4VCeQvHiDRODVz4YzH06OVAxhw==}
+
+  '@atlaskit/pragmatic-drag-and-drop@2.0.1':
+    resolution: {integrity: sha512-5iSbCveKuWYh0HijDxfSsYKD2VE0UPObI9jO1pqq+RBk9LzaoOYeKyW0Fobv/6db8HAPcyT3vhRy8bmk5TMcMw==}
 
   '@babel/code-frame@7.29.0':
     resolution: {integrity: sha512-9NhCeYjq9+3uxgdtp20LSiJXJvN0FeCtNGpJxuMFZ1Kv3cWUNb6DOhJwUvcVCzKGR66cw4njwM6hrJLqgOwbcw==}
@@ -311,6 +314,10 @@ packages:
 
   '@babel/runtime@7.29.2':
     resolution: {integrity: sha512-JiDShH45zKHWyGe4ZNVRrCjBz8Nh9TMmZG1kh4QTK8hCBTWBi8Da+i7s1fJw7/lYpM4ccepSNfqzZ/QvABBi5g==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/runtime@7.29.7':
+    resolution: {integrity: sha512-Nq8OhGWiZIZGV6hLHoyAKLLcJihP/xFeBMGJoUrxTX2psI8dCifzLhZISFb+VWS3wFMRDmCGw5R+dOySCqPLhw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.28.6':
@@ -3761,8 +3768,8 @@ packages:
     resolution: {integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==}
     hasBin: true
 
-  js-yaml@4.2.0:
-    resolution: {integrity: sha512-ePWsvanv0DWuDRsW8dnt+R4jQ31SCRCQ7hhNcPXZPsoBZiemuZNYGf7adZdqX2D86j6rvKp3RpCxVTSb8WQlOw==}
+  js-yaml@4.3.0:
+    resolution: {integrity: sha512-1td788aAnnZ5qs7V2QIRl1owjtYpbKt749Y3xauqQgwIIGF/xXWz1wMTEBx5O3LK3lXLVuqXPdPxj2BoFHaW9Q==}
     hasBin: true
 
   jsdoc-type-pratt-parser@7.2.0:
@@ -5662,14 +5669,20 @@ snapshots:
       '@atlaskit/pragmatic-drag-and-drop': 1.8.1
       '@babel/runtime': 7.29.2
 
-  '@atlaskit/pragmatic-drag-and-drop-hitbox@1.1.0':
+  '@atlaskit/pragmatic-drag-and-drop-hitbox@2.0.0':
     dependencies:
-      '@atlaskit/pragmatic-drag-and-drop': 1.8.1
-      '@babel/runtime': 7.29.2
+      '@atlaskit/pragmatic-drag-and-drop': 2.0.1
+      '@babel/runtime': 7.29.7
 
   '@atlaskit/pragmatic-drag-and-drop@1.8.1':
     dependencies:
       '@babel/runtime': 7.29.2
+      bind-event-listener: 3.0.0
+      raf-schd: 4.0.3
+
+  '@atlaskit/pragmatic-drag-and-drop@2.0.1':
+    dependencies:
+      '@babel/runtime': 7.29.7
       bind-event-listener: 3.0.0
       raf-schd: 4.0.3
 
@@ -5847,6 +5860,8 @@ snapshots:
       - supports-color
 
   '@babel/runtime@7.29.2': {}
+
+  '@babel/runtime@7.29.7': {}
 
   '@babel/template@7.28.6':
     dependencies:
@@ -6188,7 +6203,7 @@ snapshots:
       globals: 14.0.0
       ignore: 5.3.2
       import-fresh: 3.3.1
-      js-yaml: 4.2.0
+      js-yaml: 4.3.0
       minimatch: 3.1.5
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
@@ -9482,7 +9497,7 @@ snapshots:
     dependencies:
       argparse: 2.0.1
 
-  js-yaml@4.2.0:
+  js-yaml@4.3.0:
     dependencies:
       argparse: 2.0.1
 
