@@ -1,0 +1,35 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ladesa-ro-web
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: ladesa-satellites
+  source:
+    repoURL: https://github.com/ladesa-ro/web.git
+    targetRevision: main
+    path: gitops/apps/web
+    helm:
+      releaseName: ladesa-ro-web
+      valueFiles:
+        - values-development.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ladesa-ro-development
+  revisionHistoryLimit: 3
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - FailOnSharedResource=true
+      - PruneLast=true
+      - PrunePropagationPolicy=foreground
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m

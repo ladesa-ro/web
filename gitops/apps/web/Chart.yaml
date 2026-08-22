@@ -1,0 +1,9 @@
+apiVersion: v2
+name: web
+description: Frontend do Ladesa, servido em dev.ladesa.com.br
+type: application
+version: 0.1.0
+dependencies:
+  - name: application
+    version: 9.3.1
+    repository: https://stakater.github.io/stakater-charts

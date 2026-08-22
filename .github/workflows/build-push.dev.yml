@@ -1,13 +1,17 @@
-name: Build, Push and Deploy
+name: "[DEV] Build & Push"
 
 on:
   workflow_dispatch:
   push:
     branches:
       - main
+    paths:
+      - .github/workflows/build-push.dev.yml
+      - src/**/*
+      - .docker/**/*
 
 concurrency:
-  group: ci-cd-${{ github.ref }}
+  group: build-push-dev
 
 env:
   REGISTRY: ghcr.io
@@ -17,15 +21,12 @@ env:
 
 jobs:
   ci:
-    name: 'Build and Deploy'
+    name: "CI: Build & Push"
     runs-on: ubuntu-latest
 
     permissions:
       contents: read
       packages: write
-
-    environment:
-      name: ci-cd-web-dev
 
     steps:
       - name: Checkout do código-fonte
@@ -54,26 +55,3 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_BASENAME }}/web:development
           cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_BASENAME }}/web:cache-development
           cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_BASENAME }}/web:cache-development,mode=max
-
-  cd:
-    name: 'Deploy'
-
-    runs-on: dev-deploy
-
-    permissions:
-      contents: read
-
-    needs: [ci]
-
-    environment:
-      name: development
-      url: ${{ vars.DEPLOY_URL }}
-
-    steps:
-      - name: Checkout do código-fonte
-        uses: actions/checkout@v6
-
-      - name: Implantação da aplicação no Kubernetes
-        shell: bash
-        working-directory: ./.deploy/development/
-        run: bash ./deploy.sh

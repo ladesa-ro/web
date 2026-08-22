@@ -1,0 +1,51 @@
+name: "GitOps Lint"
+
+on:
+  pull_request:
+    paths:
+      - gitops/**
+      - .github/workflows/gitops-lint.yml
+  push:
+    branches:
+      - main
+    paths:
+      - gitops/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chart:
+    name: "Renderizar e conferir o chart"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: "Instalar o helm"
+        uses: azure/setup-helm@b9e51907a09c216f16ebe8536097933489208112
+        with:
+          version: v3.19.0
+
+      - name: "Conferir dependência, lint e render"
+        run: |
+          set -euo pipefail
+          helm repo add stakater https://stakater.github.io/stakater-charts
+          helm repo update
+          for chart in gitops/apps/*; do
+            helm dependency build "$chart"
+            helm lint "$chart" -f "$chart/values-development.yaml"
+            helm template "$(basename "$chart")" "$chart" -f "$chart/values-development.yaml" >> /tmp/render.yaml
+          done
+
+      - name: "Exigir que toda imagem tenha tag ou digest"
+        run: |
+          set -euo pipefail
+          if grep -nE "^\s+image: [^:@[:space:]]+$" /tmp/render.yaml; then
+            echo "::error::há imagem renderizada sem tag nem digest"
+            exit 1
+          fi
+          echo "toda imagem renderizada tem tag ou digest"

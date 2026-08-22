@@ -1,0 +1,52 @@
+application:
+  applicationName: ladesa-ro-web
+  deployment:
+    containerSecurityContext:
+      readOnlyRootFilesystem: false
+      runAsNonRoot: false
+    enabled: true
+    envFrom:
+      web-config:
+        name: ladesa-ro-web-config
+        type: secret
+    image:
+      pullPolicy: Always
+      repository: ghcr.io/ladesa-ro/web/web
+      tag: development
+    ports:
+    - containerPort: 3000
+      name: web-port
+    reloadOnChange: false
+    replicas: 1
+    resources:
+      limits:
+        cpu: '1'
+        memory: 1Gi
+      requests:
+        cpu: 50m
+        memory: 100Mi
+    strategy:
+      rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+  ingress:
+    annotations:
+      cert-manager.io/cluster-issuer: ladesa-ro-issuer-production
+    enabled: true
+    hosts:
+    - host: dev.ladesa.com.br
+      paths:
+      - path: /
+        pathType: ImplementationSpecific
+        servicePort: web-service
+    tls:
+    - hosts:
+      - dev.ladesa.com.br
+      secretName: ladesa-ro-development-web-tls
+  service:
+    enabled: true
+    ports:
+    - name: web-service
+      port: 80
+      targetPort: web-port
+    type: NodePort
