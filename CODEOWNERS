@@ -5,7 +5,7 @@ CODEOWNERS                          @ladesa-ro/security
 .vscode/**/*                        @ladesa-ro/security
 
 .docker/**/*                        @ladesa-ro/security @ladesa-ro/devops
-.deploy/**/*                        @ladesa-ro/security @ladesa-ro/devops
+gitops/**/*                         @ladesa-ro/security @ladesa-ro/devops
 
 .gitignore                          @ladesa-ro/security
 src/.npmrc                          @ladesa-ro/security
