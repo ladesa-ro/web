@@ -18,7 +18,7 @@
   "dependencies": {
     "@atlaskit/pragmatic-drag-and-drop": "^1.8.1",
     "@atlaskit/pragmatic-drag-and-drop-auto-scroll": "^2.1.5",
-    "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.1.0",
+    "@atlaskit/pragmatic-drag-and-drop-hitbox": "^2.0.0",
     "@internationalized/date": "^3.12.2",
     "@ladesa-ro/web.api.client": "workspace:*",
     "@ladesa-ro/web.utils": "workspace:*",
