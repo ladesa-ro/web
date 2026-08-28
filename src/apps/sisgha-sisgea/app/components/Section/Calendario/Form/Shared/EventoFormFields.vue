@@ -58,6 +58,25 @@ const diaInteiro = computed(() => formValues.value.diaInteiro as boolean);
     </div>
   </div>
 
+  <VVAutocompleteAPICalendarioColecao
+    name="colecao.id"
+    label="Coleção"
+    :disabled="disabled"
+  />
+
+  <VVAutocompleteAPICampus
+    name="campus.id"
+    label="Campus"
+    :disabled="disabled"
+  />
+
+  <VVTextField
+    name="motivo"
+    label="Motivo"
+    placeholder="Por que esta mudança?"
+    :disabled="disabled"
+  />
+
   <template v-if="showParticipants">
     <div
       v-if="origemProfessor"

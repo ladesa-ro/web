@@ -56,8 +56,15 @@ export function useCalendarEvents(calendarId: Ref<string | undefined>) {
           endDate: o.dataFim ?? o.dataInicio,
           calendar: { id },
           type: 'agendamento',
-          colecao: (o.colecao as { id: string } | undefined) ?? null,
-          campus: (o.campus as { id: string } | undefined) ?? null,
+          colecao:
+            (o.colecao as {
+              id: string;
+              nome?: string | null;
+              cor?: string | null;
+            } | undefined) ?? null,
+          campus:
+            (o.campus as { id: string; apelido?: string | null } | undefined) ??
+            null,
           autorId: o.autorId ?? null,
           motivo: o.motivo ?? null,
           repeticao: o.repeticao ?? null,

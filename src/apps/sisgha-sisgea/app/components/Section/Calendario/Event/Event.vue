@@ -87,6 +87,19 @@ function onOccurrenceAdded() {
         >
           {{ props.event.type === 'etapa' ? 'Etapa' : 'Evento' }}
         </span>
+
+        <span
+          v-if="props.event.colecao"
+          class="flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full bg-ldsa-grey/15 text-ldsa-text-default"
+        >
+          <span
+            class="rounded-full w-2 h-2 shrink-0"
+            :style="{
+              backgroundColor: props.event.colecao.cor || 'var(--ladesa-grey-color)',
+            }"
+          />
+          {{ props.event.colecao.nome ?? 'Coleção' }}
+        </span>
       </div>
 
       <div
