@@ -56,6 +56,27 @@ const { confirmDelete, handleDelete } = useResourceDelete({
         />
       </UIResourceViewFieldGroup>
     </template>
+
+    <template #related>
+      <UICollapsible class="border-2 border-ldsa-grey rounded-lg">
+        <template #trigger>
+          <div
+            class="flex items-center justify-between p-5 hover:bg-ldsa-grey/10 font-medium"
+          >
+            Indisponibilidade
+
+            <IconsArrow class="text-ldsa-text-green" />
+          </div>
+        </template>
+
+        <div class="p-5 pt-0">
+          <SectionCalendarioIndisponibilidadeProfessor
+            tipo-entidade="ambiente"
+            :entidade-id="resourceId"
+          />
+        </div>
+      </UICollapsible>
+    </template>
   </UIResourceView>
 
   <DialogConfirm
