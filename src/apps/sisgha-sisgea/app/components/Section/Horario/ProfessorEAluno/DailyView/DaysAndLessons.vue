@@ -3,9 +3,12 @@ import type { Dayjs } from 'dayjs';
 import { useApiContext } from '~/composables/api-context/setup';
 import type { ILesson } from '../../-Helpers/ILesson';
 
+const props = defineProps<{ turmaId?: string | null }>();
+
 const { resumoVinculos, perfisAtivos } = useApiContext();
 
 const viewFor = computed(() => {
+  if (props.turmaId) return 'student';
   if (resumoVinculos.value.cargos.includes('professor')) return 'teacher';
   return 'student';
 });
@@ -36,7 +39,9 @@ const consultaParams = computed(() => {
   return {
     dateStart: dateStr,
     dateEnd: dateStr,
-    professor: perfilId.value ?? '',
+    ...(props.turmaId
+      ? { turma: props.turmaId }
+      : { professor: perfilId.value ?? '' }),
   };
 });
 
@@ -54,6 +59,10 @@ const lessons = computed<ILesson[]>(() => {
     )
     .map(
       (o: any): ILesson => ({
+        id: o.id,
+        version: o.version,
+        occurrenceDate: o.dataInicio,
+        repeticao: o.repeticao ?? null,
         discipline: o.nome ?? 'Sem nome',
         class: o.turmas?.[0]?.nome ?? o.turmas?.[0]?.periodo ?? '—',
         environment: o.ambientes?.[0]?.nome ?? '—',

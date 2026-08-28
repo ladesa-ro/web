@@ -96,10 +96,20 @@ const statusClass = computed(() => {
   };
   return s && map[s] ? map[s] : 'bg-gray-100 text-gray-600';
 });
+
+const timelineDrawerOpen = ref(false);
 </script>
 
 <template>
+  <SectionCalendarioEventOcupado
+    v-if="evento.detalhesOcultos"
+    :horario-inicio="evento.horarioInicio"
+    :horario-fim="evento.horarioFim"
+    :ambientes="evento.ambientes"
+  />
+
   <div
+    v-else
     class="p-5 rounded-lg border-2 border-ldsa-grey flex flex-col gap-3.5 hover:bg-ldsa-grey/10 h-full transition-colors"
   >
     <div class="flex-1 flex justify-between items-center">
@@ -120,6 +130,16 @@ const statusClass = computed(() => {
           {{ statusLabel }}
         </span>
 
+        <button
+          v-if="!evento.detalhesOcultos"
+          type="button"
+          class="flex p-2 justify-center items-center rounded-lg transition-colors duration-150 hover:bg-ldsa-grey/30"
+          title="Histórico"
+          @click.prevent="timelineDrawerOpen = true"
+        >
+          <IconsClock class="text-ldsa-text-default w-5 h-5" />
+        </button>
+
         <UIButtonEdit @click.prevent="emit('edit', evento.id)" />
       </div>
     </div>
@@ -132,5 +152,10 @@ const statusClass = computed(() => {
     </div>
 
     <SectionCalendarioEventLocale v-if="locais" :locale="locais" />
+
+    <SectionCalendarioTimelineAgendamentoTimelineDrawer
+      v-model="timelineDrawerOpen"
+      :identificador-externo="evento.identificadorExterno ?? null"
+    />
   </div>
 </template>

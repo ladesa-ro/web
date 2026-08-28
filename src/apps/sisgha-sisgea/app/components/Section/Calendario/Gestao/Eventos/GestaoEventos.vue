@@ -69,6 +69,22 @@ const queryParams = computed(() => {
 
 const { data: result, isLoading, isError } = agendamento.findAll(queryParams);
 
+function toIsoDate(date: Date): string {
+  return date.toISOString().slice(0, 10);
+}
+
+const exportDefaultStart = computed(() => {
+  const now = new Date();
+  now.setDate(now.getDate() - 30);
+  return toIsoDate(now);
+});
+
+const exportDefaultEnd = computed(() => {
+  const now = new Date();
+  now.setDate(now.getDate() + 30);
+  return toIsoDate(now);
+});
+
 const eventos = computed(() => result.value?.data ?? []);
 const totalPages = computed(() => result.value?.meta?.totalPages ?? 1);
 
@@ -118,9 +134,19 @@ function handleModalClose() {
 <template>
   <UIContainer class="flex flex-col gap-6">
     <UIBreadcrumbDapeBreadcrumb>
-      <UIButtonDefaultSquare @click="createModalOpen = true">
-        <IconsAdd class="w-6 h-full" />
-      </UIButtonDefaultSquare>
+      <div class="flex items-center gap-2">
+        <SectionCalendarioExportIcsModal
+          :date-start="filtersStore.gestaoEventosPeriodoInicio ?? exportDefaultStart"
+          :date-end="filtersStore.gestaoEventosPeriodoFim ?? exportDefaultEnd"
+          :tipo="filtersStore.gestaoEventosTipo"
+        />
+        <SectionCalendarioGestaoEventosImportIcsModal
+          @imported="agendamento.invalidate()"
+        />
+        <UIButtonDefaultSquare @click="createModalOpen = true">
+          <IconsAdd class="w-6 h-full" />
+        </UIButtonDefaultSquare>
+      </div>
     </UIBreadcrumbDapeBreadcrumb>
 
     <!-- Filters -->

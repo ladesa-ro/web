@@ -79,6 +79,12 @@ import type {
   BlocoUpdateImagemCapaErrors,
   BlocoUpdateImagemCapaResponses,
   BlocoUpdateResponses,
+  CalendarioAgendamentoAdicionarDataAvulsaData,
+  CalendarioAgendamentoAdicionarDataAvulsaErrors,
+  CalendarioAgendamentoAdicionarDataAvulsaResponses,
+  CalendarioAgendamentoCancelarOcorrenciaData,
+  CalendarioAgendamentoCancelarOcorrenciaErrors,
+  CalendarioAgendamentoCancelarOcorrenciaResponses,
   CalendarioAgendamentoCreateData,
   CalendarioAgendamentoCreateErrors,
   CalendarioAgendamentoCreateResponses,
@@ -88,18 +94,93 @@ import type {
   CalendarioAgendamentoDesvincularTurmaData,
   CalendarioAgendamentoDesvincularTurmaErrors,
   CalendarioAgendamentoDesvincularTurmaResponses,
+  CalendarioAgendamentoEditarOcorrenciaData,
+  CalendarioAgendamentoEditarOcorrenciaErrors,
+  CalendarioAgendamentoEditarOcorrenciaResponses,
+  CalendarioAgendamentoEditarSerieData,
+  CalendarioAgendamentoEditarSerieErrors,
+  CalendarioAgendamentoEditarSerieResponses,
+  CalendarioAgendamentoExportarIcsData,
+  CalendarioAgendamentoExportarIcsErrors,
+  CalendarioAgendamentoExportarIcsResponses,
   CalendarioAgendamentoFindAllData,
   CalendarioAgendamentoFindAllErrors,
   CalendarioAgendamentoFindAllResponses,
   CalendarioAgendamentoFindByIdData,
   CalendarioAgendamentoFindByIdErrors,
   CalendarioAgendamentoFindByIdResponses,
+  CalendarioAgendamentoImportarIcsData,
+  CalendarioAgendamentoImportarIcsErrors,
+  CalendarioAgendamentoImportarIcsResponses,
+  CalendarioAgendamentoLinhaDoTempoData,
+  CalendarioAgendamentoLinhaDoTempoErrors,
+  CalendarioAgendamentoLinhaDoTempoResponses,
   CalendarioAgendamentoUpdateData,
   CalendarioAgendamentoUpdateErrors,
   CalendarioAgendamentoUpdateResponses,
   CalendarioAgendamentoUpdateStatusData,
   CalendarioAgendamentoUpdateStatusErrors,
   CalendarioAgendamentoUpdateStatusResponses,
+  CalendarioColecaoAcessoConcederData,
+  CalendarioColecaoAcessoConcederErrors,
+  CalendarioColecaoAcessoConcederResponses,
+  CalendarioColecaoAcessoFindAllData,
+  CalendarioColecaoAcessoFindAllErrors,
+  CalendarioColecaoAcessoFindAllResponses,
+  CalendarioColecaoAcessoRevogarOneByIdData,
+  CalendarioColecaoAcessoRevogarOneByIdErrors,
+  CalendarioColecaoAcessoRevogarOneByIdResponses,
+  CalendarioColecaoCreateData,
+  CalendarioColecaoCreateErrors,
+  CalendarioColecaoCreateResponses,
+  CalendarioColecaoDeleteOneByIdData,
+  CalendarioColecaoDeleteOneByIdErrors,
+  CalendarioColecaoDeleteOneByIdResponses,
+  CalendarioColecaoFindAllData,
+  CalendarioColecaoFindAllErrors,
+  CalendarioColecaoFindAllResponses,
+  CalendarioColecaoFindOneByIdData,
+  CalendarioColecaoFindOneByIdErrors,
+  CalendarioColecaoFindOneByIdResponses,
+  CalendarioColecaoMudancasDesdeData,
+  CalendarioColecaoMudancasDesdeErrors,
+  CalendarioColecaoMudancasDesdeResponses,
+  CalendarioColecaoTransferirDonoData,
+  CalendarioColecaoTransferirDonoErrors,
+  CalendarioColecaoTransferirDonoResponses,
+  CalendarioColecaoUpdateData,
+  CalendarioColecaoUpdateErrors,
+  CalendarioColecaoUpdateResponses,
+  CalendarioIndisponibilidadeAmbienteCreateData,
+  CalendarioIndisponibilidadeAmbienteCreateErrors,
+  CalendarioIndisponibilidadeAmbienteCreateResponses,
+  CalendarioIndisponibilidadeAmbienteDeleteOneByIdData,
+  CalendarioIndisponibilidadeAmbienteDeleteOneByIdErrors,
+  CalendarioIndisponibilidadeAmbienteDeleteOneByIdResponses,
+  CalendarioIndisponibilidadeAmbienteFindAllData,
+  CalendarioIndisponibilidadeAmbienteFindAllErrors,
+  CalendarioIndisponibilidadeAmbienteFindAllResponses,
+  CalendarioIndisponibilidadeAmbienteFindOneByIdData,
+  CalendarioIndisponibilidadeAmbienteFindOneByIdErrors,
+  CalendarioIndisponibilidadeAmbienteFindOneByIdResponses,
+  CalendarioIndisponibilidadeAmbientePorPeriodoData,
+  CalendarioIndisponibilidadeAmbientePorPeriodoErrors,
+  CalendarioIndisponibilidadeAmbientePorPeriodoResponses,
+  CalendarioIndisponibilidadeProfessorCreateData,
+  CalendarioIndisponibilidadeProfessorCreateErrors,
+  CalendarioIndisponibilidadeProfessorCreateResponses,
+  CalendarioIndisponibilidadeProfessorDeleteOneByIdData,
+  CalendarioIndisponibilidadeProfessorDeleteOneByIdErrors,
+  CalendarioIndisponibilidadeProfessorDeleteOneByIdResponses,
+  CalendarioIndisponibilidadeProfessorFindAllData,
+  CalendarioIndisponibilidadeProfessorFindAllErrors,
+  CalendarioIndisponibilidadeProfessorFindAllResponses,
+  CalendarioIndisponibilidadeProfessorFindOneByIdData,
+  CalendarioIndisponibilidadeProfessorFindOneByIdErrors,
+  CalendarioIndisponibilidadeProfessorFindOneByIdResponses,
+  CalendarioIndisponibilidadeProfessorPorPeriodoData,
+  CalendarioIndisponibilidadeProfessorPorPeriodoErrors,
+  CalendarioIndisponibilidadeProfessorPorPeriodoResponses,
   CalendarioLetivoCreateData,
   CalendarioLetivoCreateErrors,
   CalendarioLetivoCreateResponses,
@@ -127,6 +208,24 @@ import type {
   CalendarioLetivoUpdateData,
   CalendarioLetivoUpdateErrors,
   CalendarioLetivoUpdateResponses,
+  CalendarioOcupacaoSemDetalheData,
+  CalendarioOcupacaoSemDetalheErrors,
+  CalendarioOcupacaoSemDetalheResponses,
+  CalendarioSolicitacaoMudancaAprovarData,
+  CalendarioSolicitacaoMudancaAprovarErrors,
+  CalendarioSolicitacaoMudancaAprovarResponses,
+  CalendarioSolicitacaoMudancaCreateData,
+  CalendarioSolicitacaoMudancaCreateErrors,
+  CalendarioSolicitacaoMudancaCreateResponses,
+  CalendarioSolicitacaoMudancaFindAllData,
+  CalendarioSolicitacaoMudancaFindAllErrors,
+  CalendarioSolicitacaoMudancaFindAllResponses,
+  CalendarioSolicitacaoMudancaFindOneByIdData,
+  CalendarioSolicitacaoMudancaFindOneByIdErrors,
+  CalendarioSolicitacaoMudancaFindOneByIdResponses,
+  CalendarioSolicitacaoMudancaRecusarData,
+  CalendarioSolicitacaoMudancaRecusarErrors,
+  CalendarioSolicitacaoMudancaRecusarResponses,
   CampusCreateData,
   CampusCreateErrors,
   CampusCreateResponses,
@@ -142,6 +241,21 @@ import type {
   CampusUpdateData,
   CampusUpdateErrors,
   CampusUpdateResponses,
+  CargoRestControllerCreateData,
+  CargoRestControllerCreateErrors,
+  CargoRestControllerCreateResponses,
+  CargoRestControllerDeleteData,
+  CargoRestControllerDeleteErrors,
+  CargoRestControllerDeleteResponses,
+  CargoRestControllerFindOneData,
+  CargoRestControllerFindOneErrors,
+  CargoRestControllerFindOneResponses,
+  CargoRestControllerListData,
+  CargoRestControllerListErrors,
+  CargoRestControllerListResponses,
+  CargoRestControllerUpdateData,
+  CargoRestControllerUpdateErrors,
+  CargoRestControllerUpdateResponses,
   CidadeFindAllData,
   CidadeFindAllErrors,
   CidadeFindAllResponses,
@@ -229,6 +343,33 @@ import type {
   DisciplinaUpdateImagemCapaErrors,
   DisciplinaUpdateImagemCapaResponses,
   DisciplinaUpdateResponses,
+  EmpresaAvaliacaoCreateData,
+  EmpresaAvaliacaoCreateErrors,
+  EmpresaAvaliacaoCreateResponses,
+  EmpresaAvaliacaoDeleteData,
+  EmpresaAvaliacaoDeleteErrors,
+  EmpresaAvaliacaoDeleteResponses,
+  EmpresaAvaliacaoFindByIdData,
+  EmpresaAvaliacaoFindByIdErrors,
+  EmpresaAvaliacaoFindByIdResponses,
+  EmpresaAvaliacaoFindMyData,
+  EmpresaAvaliacaoFindMyErrors,
+  EmpresaAvaliacaoFindMyResponses,
+  EmpresaAvaliacaoHistoricoListData,
+  EmpresaAvaliacaoHistoricoListErrors,
+  EmpresaAvaliacaoHistoricoListResponses,
+  EmpresaAvaliacaoLikeData,
+  EmpresaAvaliacaoLikeErrors,
+  EmpresaAvaliacaoLikeResponses,
+  EmpresaAvaliacaoListData,
+  EmpresaAvaliacaoListErrors,
+  EmpresaAvaliacaoListResponses,
+  EmpresaAvaliacaoUnlikeData,
+  EmpresaAvaliacaoUnlikeErrors,
+  EmpresaAvaliacaoUnlikeResponses,
+  EmpresaAvaliacaoUpdateData,
+  EmpresaAvaliacaoUpdateErrors,
+  EmpresaAvaliacaoUpdateResponses,
   EmpresaCreateData,
   EmpresaCreateErrors,
   EmpresaCreateResponses,
@@ -241,9 +382,36 @@ import type {
   EmpresaFindByIdData,
   EmpresaFindByIdErrors,
   EmpresaFindByIdResponses,
+  EmpresaGetFotoEmpresaData,
+  EmpresaGetFotoEmpresaErrors,
+  EmpresaGetFotoEmpresaResponses,
+  EmpresaScoreFindOneData,
+  EmpresaScoreFindOneErrors,
+  EmpresaScoreFindOneResponses,
+  EmpresaScoreRecalculateData,
+  EmpresaScoreRecalculateErrors,
+  EmpresaScoreRecalculateResponses,
   EmpresaUpdateData,
   EmpresaUpdateErrors,
+  EmpresaUpdateFotoEmpresaData,
+  EmpresaUpdateFotoEmpresaErrors,
+  EmpresaUpdateFotoEmpresaResponses,
   EmpresaUpdateResponses,
+  EnderecoCreateData,
+  EnderecoCreateErrors,
+  EnderecoCreateResponses,
+  EnderecoDeleteData,
+  EnderecoDeleteErrors,
+  EnderecoDeleteResponses,
+  EnderecoFindOneData,
+  EnderecoFindOneErrors,
+  EnderecoFindOneResponses,
+  EnderecoListData,
+  EnderecoListErrors,
+  EnderecoListResponses,
+  EnderecoUpdateData,
+  EnderecoUpdateErrors,
+  EnderecoUpdateResponses,
   EstadoFindAllData,
   EstadoFindAllErrors,
   EstadoFindAllResponses,
@@ -277,9 +445,46 @@ import type {
   EstagioFindByIdData,
   EstagioFindByIdErrors,
   EstagioFindByIdResponses,
+  EstagioFindByOrientadorMatriculaData,
+  EstagioFindByOrientadorMatriculaErrors,
+  EstagioFindByOrientadorMatriculaResponses,
+  EstagioImportCsvData,
+  EstagioImportCsvErrors,
+  EstagioImportCsvResponses,
+  EstagioRelatorioDeleteData,
+  EstagioRelatorioDeleteErrors,
+  EstagioRelatorioDeleteResponses,
+  EstagioRelatorioDownloadPdfData,
+  EstagioRelatorioDownloadPdfErrors,
+  EstagioRelatorioDownloadPdfResponses,
+  EstagioRelatorioUploadPdfAliasData,
+  EstagioRelatorioUploadPdfAliasErrors,
+  EstagioRelatorioUploadPdfAliasResponses,
+  EstagioRelatorioUploadPdfData,
+  EstagioRelatorioUploadPdfErrors,
+  EstagioRelatorioUploadPdfResponses,
+  EstagioReplaceData,
+  EstagioReplaceErrors,
+  EstagioReplaceResponses,
   EstagioUpdateData,
   EstagioUpdateErrors,
   EstagioUpdateResponses,
+  FolhaPontoCancelData,
+  FolhaPontoCancelErrors,
+  FolhaPontoCancelResponses,
+  FolhaPontoCreateData,
+  FolhaPontoCreateErrors,
+  FolhaPontoCreateResponses,
+  FolhaPontoFindAllData,
+  FolhaPontoFindAllErrors,
+  FolhaPontoFindAllResponses,
+  FolhaPontoFindByIdData,
+  FolhaPontoFindByIdErrors,
+  FolhaPontoFindByIdResponses,
+  FolhaPontoTokenConfirmarData,
+  FolhaPontoTokenConfirmarResponses,
+  FolhaPontoTokenExibirConfirmacaoData,
+  FolhaPontoTokenExibirConfirmacaoResponses,
   GerarHorarioAceitarData,
   GerarHorarioAceitarErrors,
   GerarHorarioAceitarResponses,
@@ -307,9 +512,21 @@ import type {
   HorarioEdicaoCreateData,
   HorarioEdicaoCreateErrors,
   HorarioEdicaoCreateResponses,
+  HorarioEdicaoDesfazerMudancaData,
+  HorarioEdicaoDesfazerMudancaErrors,
+  HorarioEdicaoDesfazerMudancaResponses,
+  HorarioEdicaoFindOneData,
+  HorarioEdicaoFindOneErrors,
+  HorarioEdicaoFindOneResponses,
+  HorarioEdicaoPublicarData,
+  HorarioEdicaoPublicarErrors,
+  HorarioEdicaoPublicarResponses,
   HorarioEdicaoSalvarData,
   HorarioEdicaoSalvarErrors,
   HorarioEdicaoSalvarResponses,
+  HorarioEdicaoSessaoDiferencaData,
+  HorarioEdicaoSessaoDiferencaErrors,
+  HorarioEdicaoSessaoDiferencaResponses,
   HorarioMescladoData,
   HorarioMescladoErrors,
   HorarioMescladoResponses,
@@ -388,15 +605,21 @@ import type {
   PerfilEnsinoByIdData,
   PerfilEnsinoByIdErrors,
   PerfilEnsinoByIdResponses,
-  PerfilFindById2Data,
-  PerfilFindById2Errors,
-  PerfilFindById2Responses,
   PerfilFindByIdData,
   PerfilFindByIdErrors,
   PerfilFindByIdResponses,
+  PerfilFindByIdViaUsuarioData,
+  PerfilFindByIdViaUsuarioErrors,
+  PerfilFindByIdViaUsuarioResponses,
   PerfilListData,
   PerfilListErrors,
   PerfilListResponses,
+  PerfilUpdateData,
+  PerfilUpdateErrors,
+  PerfilUpdateResponses,
+  PerfilVinculosFiltroData,
+  PerfilVinculosFiltroErrors,
+  PerfilVinculosFiltroResponses,
   ProfessorAgendaFindAllData,
   ProfessorAgendaFindAllResponses,
   RelatorioAulasMinistradasData,
@@ -404,6 +627,30 @@ import type {
   RelatorioAulasMinistradasPdfData,
   RelatorioAulasMinistradasPdfErrors,
   RelatorioAulasMinistradasResponses,
+  RelatorioCreateData,
+  RelatorioCreateErrors,
+  RelatorioCreateResponses,
+  RelatorioDeleteData,
+  RelatorioDeleteErrors,
+  RelatorioDeleteResponses,
+  RelatorioFindAllData,
+  RelatorioFindAllErrors,
+  RelatorioFindAllResponses,
+  RelatorioFindByEstagioIdData,
+  RelatorioFindByEstagioIdErrors,
+  RelatorioFindByEstagioIdResponses,
+  RelatorioFindByIdData,
+  RelatorioFindByIdErrors,
+  RelatorioFindByIdResponses,
+  RelatorioGetPdfData,
+  RelatorioGetPdfErrors,
+  RelatorioGetPdfResponses,
+  RelatorioReplaceData,
+  RelatorioReplaceErrors,
+  RelatorioReplaceResponses,
+  RelatorioUpdateData,
+  RelatorioUpdateErrors,
+  RelatorioUpdateResponses,
   TurmaCreateData,
   TurmaCreateErrors,
   TurmaCreateResponses,
@@ -437,6 +684,18 @@ import type {
   TurmaHorarioSemanalData,
   TurmaHorarioSemanalErrors,
   TurmaHorarioSemanalResponses,
+  TurmaListEstagiariosData,
+  TurmaListEstagiariosErrors,
+  TurmaListEstagiariosResponses,
+  TurmaMatriculaDesvincularOneByIdData,
+  TurmaMatriculaDesvincularOneByIdErrors,
+  TurmaMatriculaDesvincularOneByIdResponses,
+  TurmaMatriculaFindAllData,
+  TurmaMatriculaFindAllErrors,
+  TurmaMatriculaFindAllResponses,
+  TurmaMatriculaVincularData,
+  TurmaMatriculaVincularErrors,
+  TurmaMatriculaVincularResponses,
   TurmaUpdateData,
   TurmaUpdateErrors,
   TurmaUpdateImagemCapaData,
@@ -470,6 +729,15 @@ import type {
   UsuarioHorarioSemanalData,
   UsuarioHorarioSemanalErrors,
   UsuarioHorarioSemanalResponses,
+  UsuarioImportAlunosSuapXlsData,
+  UsuarioImportAlunosSuapXlsErrors,
+  UsuarioImportAlunosSuapXlsResponses,
+  UsuarioImportCsvData,
+  UsuarioImportCsvErrors,
+  UsuarioImportCsvResponses,
+  UsuarioRestControllerDefinirPerfisData,
+  UsuarioRestControllerDefinirPerfisErrors,
+  UsuarioRestControllerDefinirPerfisResponses,
   UsuarioSetDisponibilidadeData,
   UsuarioSetDisponibilidadeErrors,
   UsuarioSetDisponibilidadeResponses,
@@ -482,6 +750,17 @@ import type {
   UsuarioUpdateImagemPerfilErrors,
   UsuarioUpdateImagemPerfilResponses,
   UsuarioUpdateResponses,
+  WhatsappNotificationsControllerGetPairingCodeData,
+  WhatsappNotificationsControllerGetPairingCodeErrors,
+  WhatsappNotificationsControllerGetPairingCodeResponses,
+  WhatsappNotificationsControllerGetStatusData,
+  WhatsappNotificationsControllerGetStatusErrors,
+  WhatsappNotificationsControllerGetStatusResponses,
+  WhatsappNotificationsControllerSendWhatsAppMessageData,
+  WhatsappNotificationsControllerSendWhatsAppMessageErrors,
+  WhatsappNotificationsControllerSendWhatsAppMessageResponses,
+  WhatsappWebhooksControllerHandleWebhookData,
+  WhatsappWebhooksControllerHandleWebhookResponses,
 } from './types.gen';
 
 export type Options<
@@ -857,6 +1136,86 @@ export const campusUpdate = <ThrowOnError extends boolean = false>(
   });
 
 /**
+ * Lista os endereços
+ *
+ * Lista os endereços
+ */
+export const enderecoList = <ThrowOnError extends boolean = false>(
+  options?: Options<EnderecoListData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    EnderecoListResponses,
+    EnderecoListErrors,
+    ThrowOnError
+  >({ url: '/enderecos', ...options });
+
+/**
+ * Cria um endereço
+ */
+export const enderecoCreate = <ThrowOnError extends boolean = false>(
+  options: Options<EnderecoCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    EnderecoCreateResponses,
+    EnderecoCreateErrors,
+    ThrowOnError
+  >({
+    url: '/enderecos',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Deleta um endereço
+ *
+ * Deleta um endereço
+ */
+export const enderecoDelete = <ThrowOnError extends boolean = false>(
+  options: Options<EnderecoDeleteData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    EnderecoDeleteResponses,
+    EnderecoDeleteErrors,
+    ThrowOnError
+  >({ url: '/enderecos/{id}', ...options });
+
+/**
+ * Busca um endereço pelo ID
+ *
+ * Busca um endereço pelo ID
+ */
+export const enderecoFindOne = <ThrowOnError extends boolean = false>(
+  options: Options<EnderecoFindOneData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    EnderecoFindOneResponses,
+    EnderecoFindOneErrors,
+    ThrowOnError
+  >({ url: '/enderecos/{id}', ...options });
+
+/**
+ * Atualiza um endereço
+ */
+export const enderecoUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<EnderecoUpdateData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    EnderecoUpdateResponses,
+    EnderecoUpdateErrors,
+    ThrowOnError
+  >({
+    url: '/enderecos/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
  * Lista ofertas de formacao
  *
  * Lista ofertas de formacao
@@ -1207,6 +1566,51 @@ export const usuarioEnsinoById = <ThrowOnError extends boolean = false>(
   >({ url: '/usuarios/{id}/ensino', ...options });
 
 /**
+ * Importa varios usuarios a partir de um CSV ou XLSX em background
+ */
+export const usuarioImportCsv = <ThrowOnError extends boolean = false>(
+  options: Options<UsuarioImportCsvData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    UsuarioImportCsvResponses,
+    UsuarioImportCsvErrors,
+    ThrowOnError
+  >({
+    ...formDataBodySerializer,
+    url: '/usuarios/importar/csv',
+    ...options,
+    headers: {
+      'Content-Type': null,
+      ...options.headers,
+    },
+  });
+
+/**
+ * Importa alunos a partir do relatório XLS do SUAP
+ *
+ * Lê o relatório XLS exportado do SUAP, ignora alunos transferidos/cancelados, cadastra o usuário com email pessoal e cargo de aluno, vinculando ao campus e turma corretos.
+ */
+export const usuarioImportAlunosSuapXls = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<UsuarioImportAlunosSuapXlsData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    UsuarioImportAlunosSuapXlsResponses,
+    UsuarioImportAlunosSuapXlsErrors,
+    ThrowOnError
+  >({
+    ...formDataBodySerializer,
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/usuarios/importar/alunos-xls',
+    ...options,
+    headers: {
+      'Content-Type': null,
+      ...options.headers,
+    },
+  });
+
+/**
  * Consulta horario semanal de um usuario (professor)
  *
  * Consulta horario semanal de um usuario (professor)
@@ -1321,6 +1725,27 @@ export const usuarioUpdateImagemPerfil = <ThrowOnError extends boolean = false>(
   });
 
 /**
+ * Adiciona ou redefine os perfis (vínculos) de um usuário para os campi informados
+ */
+export const usuarioRestControllerDefinirPerfis = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<UsuarioRestControllerDefinirPerfisData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    UsuarioRestControllerDefinirPerfisResponses,
+    UsuarioRestControllerDefinirPerfisErrors,
+    ThrowOnError
+  >({
+    url: '/usuarios/{id}/perfis',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
  * Lista perfis com paginação e filtros
  *
  * Lista perfis com paginação e filtros
@@ -1333,6 +1758,20 @@ export const perfilList = <ThrowOnError extends boolean = false>(
     PerfilListErrors,
     ThrowOnError
   >({ url: '/perfis', ...options });
+
+/**
+ * Busca vínculos de perfis com filtros específicos de campus, cargo e curso
+ *
+ * Busca vínculos de perfis com filtros específicos de campus, cargo e curso
+ */
+export const perfilVinculosFiltro = <ThrowOnError extends boolean = false>(
+  options?: Options<PerfilVinculosFiltroData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    PerfilVinculosFiltroResponses,
+    PerfilVinculosFiltroErrors,
+    ThrowOnError
+  >({ url: '/perfis/vinculos', ...options });
 
 /**
  * Busca um perfil por ID
@@ -1349,16 +1788,37 @@ export const perfilFindById = <ThrowOnError extends boolean = false>(
   >({ url: '/perfis/{id}', ...options });
 
 /**
- * Busca um perfil por ID
+ * Atualiza um perfil (vinculo)
  *
- * Busca um perfil por ID
+ * Atualiza um perfil (vinculo)
  */
-export const perfilFindById2 = <ThrowOnError extends boolean = false>(
-  options: Options<PerfilFindById2Data, ThrowOnError>
+export const perfilUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<PerfilUpdateData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    PerfilUpdateResponses,
+    PerfilUpdateErrors,
+    ThrowOnError
+  >({
+    url: '/perfis/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Busca um perfil de um usuario por ID
+ *
+ * Busca um perfil de um usuario por ID
+ */
+export const perfilFindByIdViaUsuario = <ThrowOnError extends boolean = false>(
+  options: Options<PerfilFindByIdViaUsuarioData, ThrowOnError>
 ) =>
   (options.client ?? client).get<
-    PerfilFindById2Responses,
-    PerfilFindById2Errors,
+    PerfilFindByIdViaUsuarioResponses,
+    PerfilFindByIdViaUsuarioErrors,
     ThrowOnError
   >({ url: '/usuarios/{usuarioId}/perfis/{id}', ...options });
 
@@ -1377,6 +1837,82 @@ export const perfilEnsinoById = <ThrowOnError extends boolean = false>(
   >({ url: '/usuarios/{usuarioId}/perfis/{id}/ensino', ...options });
 
 /**
+ * Lista cargos
+ */
+export const cargoRestControllerList = <ThrowOnError extends boolean = false>(
+  options?: Options<CargoRestControllerListData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    CargoRestControllerListResponses,
+    CargoRestControllerListErrors,
+    ThrowOnError
+  >({ url: '/cargos', ...options });
+
+/**
+ * Cria um novo cargo
+ */
+export const cargoRestControllerCreate = <ThrowOnError extends boolean = false>(
+  options: Options<CargoRestControllerCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CargoRestControllerCreateResponses,
+    CargoRestControllerCreateErrors,
+    ThrowOnError
+  >({
+    url: '/cargos',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Deleta um cargo
+ */
+export const cargoRestControllerDelete = <ThrowOnError extends boolean = false>(
+  options: Options<CargoRestControllerDeleteData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    CargoRestControllerDeleteResponses,
+    CargoRestControllerDeleteErrors,
+    ThrowOnError
+  >({ url: '/cargos/{id}', ...options });
+
+/**
+ * Busca cargo por ID
+ */
+export const cargoRestControllerFindOne = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CargoRestControllerFindOneData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    CargoRestControllerFindOneResponses,
+    CargoRestControllerFindOneErrors,
+    ThrowOnError
+  >({ url: '/cargos/{id}', ...options });
+
+/**
+ * Atualiza um cargo
+ */
+export const cargoRestControllerUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<CargoRestControllerUpdateData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    CargoRestControllerUpdateResponses,
+    CargoRestControllerUpdateErrors,
+    ThrowOnError
+  >({
+    url: '/cargos/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
  * Consulta horario mesclado de multiplas turmas
  *
  * Consulta horario mesclado de multiplas turmas
@@ -1391,33 +1927,33 @@ export const horarioMesclado = <ThrowOnError extends boolean = false>(
   >({ url: '/horarios/mesclado', ...options });
 
 /**
- * Lista disciplinas
+ * Lista turmas
  *
- * Lista disciplinas
+ * Lista turmas
  */
-export const disciplinaFindAll = <ThrowOnError extends boolean = false>(
-  options?: Options<DisciplinaFindAllData, ThrowOnError>
+export const turmaFindAll = <ThrowOnError extends boolean = false>(
+  options?: Options<TurmaFindAllData, ThrowOnError>
 ) =>
   (options?.client ?? client).get<
-    DisciplinaFindAllResponses,
-    DisciplinaFindAllErrors,
+    TurmaFindAllResponses,
+    TurmaFindAllErrors,
     ThrowOnError
-  >({ url: '/disciplinas', ...options });
+  >({ url: '/turmas', ...options });
 
 /**
- * Cria uma disciplina
+ * Cria uma turma
  *
- * Cria uma disciplina
+ * Cria uma turma
  */
-export const disciplinaCreate = <ThrowOnError extends boolean = false>(
-  options: Options<DisciplinaCreateData, ThrowOnError>
+export const turmaCreate = <ThrowOnError extends boolean = false>(
+  options: Options<TurmaCreateData, ThrowOnError>
 ) =>
   (options.client ?? client).post<
-    DisciplinaCreateResponses,
-    DisciplinaCreateErrors,
+    TurmaCreateResponses,
+    TurmaCreateErrors,
     ThrowOnError
   >({
-    url: '/disciplinas',
+    url: '/turmas',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -1426,47 +1962,47 @@ export const disciplinaCreate = <ThrowOnError extends boolean = false>(
   });
 
 /**
- * Remove uma disciplina
+ * Remove uma turma
  *
- * Remove uma disciplina
+ * Remove uma turma
  */
-export const disciplinaDeleteOneById = <ThrowOnError extends boolean = false>(
-  options: Options<DisciplinaDeleteOneByIdData, ThrowOnError>
+export const turmaDeleteOneById = <ThrowOnError extends boolean = false>(
+  options: Options<TurmaDeleteOneByIdData, ThrowOnError>
 ) =>
   (options.client ?? client).delete<
-    DisciplinaDeleteOneByIdResponses,
-    DisciplinaDeleteOneByIdErrors,
+    TurmaDeleteOneByIdResponses,
+    TurmaDeleteOneByIdErrors,
     ThrowOnError
-  >({ url: '/disciplinas/{id}', ...options });
+  >({ url: '/turmas/{id}', ...options });
 
 /**
- * Busca uma disciplina por ID
+ * Busca uma turma por ID
  *
- * Busca uma disciplina por ID
+ * Busca uma turma por ID
  */
-export const disciplinaFindById = <ThrowOnError extends boolean = false>(
-  options: Options<DisciplinaFindByIdData, ThrowOnError>
+export const turmaFindById = <ThrowOnError extends boolean = false>(
+  options: Options<TurmaFindByIdData, ThrowOnError>
 ) =>
   (options.client ?? client).get<
-    DisciplinaFindByIdResponses,
-    DisciplinaFindByIdErrors,
+    TurmaFindByIdResponses,
+    TurmaFindByIdErrors,
     ThrowOnError
-  >({ url: '/disciplinas/{id}', ...options });
+  >({ url: '/turmas/{id}', ...options });
 
 /**
- * Atualiza uma disciplina
+ * Atualiza uma turma
  *
- * Atualiza uma disciplina
+ * Atualiza uma turma
  */
-export const disciplinaUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<DisciplinaUpdateData, ThrowOnError>
+export const turmaUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<TurmaUpdateData, ThrowOnError>
 ) =>
   (options.client ?? client).patch<
-    DisciplinaUpdateResponses,
-    DisciplinaUpdateErrors,
+    TurmaUpdateResponses,
+    TurmaUpdateErrors,
     ThrowOnError
   >({
-    url: '/disciplinas/{id}',
+    url: '/turmas/{id}',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -1475,36 +2011,62 @@ export const disciplinaUpdate = <ThrowOnError extends boolean = false>(
   });
 
 /**
- * Busca imagem de capa de uma disciplina
+ * Lista os estagiários de uma turma com seus respectivos estágios
  *
- * Busca imagem de capa de uma disciplina
+ * Lista os estagiários de uma turma com seus respectivos estágios
  */
-export const disciplinaGetImagemCapa = <ThrowOnError extends boolean = false>(
-  options: Options<DisciplinaGetImagemCapaData, ThrowOnError>
+export const turmaListEstagiarios = <ThrowOnError extends boolean = false>(
+  options: Options<TurmaListEstagiariosData, ThrowOnError>
 ) =>
   (options.client ?? client).get<
-    DisciplinaGetImagemCapaResponses,
-    DisciplinaGetImagemCapaErrors,
+    TurmaListEstagiariosResponses,
+    TurmaListEstagiariosErrors,
     ThrowOnError
-  >({ url: '/disciplinas/{id}/imagem/capa', ...options });
+  >({ url: '/turmas/{id}/estagiarios', ...options });
 
 /**
- * Define imagem de capa de uma disciplina
+ * Consulta horario semanal de uma turma
  *
- * Define imagem de capa de uma disciplina
+ * Consulta horario semanal de uma turma
  */
-export const disciplinaUpdateImagemCapa = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<DisciplinaUpdateImagemCapaData, ThrowOnError>
+export const turmaHorarioSemanal = <ThrowOnError extends boolean = false>(
+  options: Options<TurmaHorarioSemanalData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    TurmaHorarioSemanalResponses,
+    TurmaHorarioSemanalErrors,
+    ThrowOnError
+  >({ url: '/turmas/{id}/horario', ...options });
+
+/**
+ * Busca a imagem de capa de uma turma
+ *
+ * Busca a imagem de capa de uma turma
+ */
+export const turmaGetImagemCapa = <ThrowOnError extends boolean = false>(
+  options: Options<TurmaGetImagemCapaData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    TurmaGetImagemCapaResponses,
+    TurmaGetImagemCapaErrors,
+    ThrowOnError
+  >({ url: '/turmas/{id}/imagem/capa', ...options });
+
+/**
+ * Define a imagem de capa de uma turma
+ *
+ * Define a imagem de capa de uma turma
+ */
+export const turmaUpdateImagemCapa = <ThrowOnError extends boolean = false>(
+  options: Options<TurmaUpdateImagemCapaData, ThrowOnError>
 ) =>
   (options.client ?? client).put<
-    DisciplinaUpdateImagemCapaResponses,
-    DisciplinaUpdateImagemCapaErrors,
+    TurmaUpdateImagemCapaResponses,
+    TurmaUpdateImagemCapaErrors,
     ThrowOnError
   >({
     ...formDataBodySerializer,
-    url: '/disciplinas/{id}/imagem/capa',
+    url: '/turmas/{id}/imagem/capa',
     ...options,
     headers: {
       'Content-Type': null,
@@ -1513,349 +2075,23 @@ export const disciplinaUpdateImagemCapa = <
   });
 
 /**
- * Lista agendamentos
- *
- * Lista agendamentos
+ * Configura diarios da turma em lote (disciplinas + professores)
  */
-export const calendarioAgendamentoFindAll = <
-  ThrowOnError extends boolean = false,
->(
-  options?: Options<CalendarioAgendamentoFindAllData, ThrowOnError>
-) =>
-  (options?.client ?? client).get<
-    CalendarioAgendamentoFindAllResponses,
-    CalendarioAgendamentoFindAllErrors,
-    ThrowOnError
-  >({ url: '/calendario/agendamentos', ...options });
-
-/**
- * Cria um agendamento no calendario
- *
- * Cria um agendamento no calendario
- */
-export const calendarioAgendamentoCreate = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CalendarioAgendamentoCreateData, ThrowOnError>
+export const turmaDiarioConfigurar = <ThrowOnError extends boolean = false>(
+  options: Options<TurmaDiarioConfigurarData, ThrowOnError>
 ) =>
   (options.client ?? client).post<
-    CalendarioAgendamentoCreateResponses,
-    CalendarioAgendamentoCreateErrors,
+    TurmaDiarioConfigurarResponses,
+    TurmaDiarioConfigurarErrors,
     ThrowOnError
   >({
-    url: '/calendario/agendamentos',
+    url: '/turmas/{turmaId}/diarios/configurar',
     ...options,
     headers: {
       'Content-Type': 'application/json',
       ...options.headers,
     },
   });
-
-/**
- * Remove um agendamento do calendario
- *
- * Remove um agendamento do calendario
- */
-export const calendarioAgendamentoDeleteOneById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CalendarioAgendamentoDeleteOneByIdData, ThrowOnError>
-) =>
-  (options.client ?? client).delete<
-    CalendarioAgendamentoDeleteOneByIdResponses,
-    CalendarioAgendamentoDeleteOneByIdErrors,
-    ThrowOnError
-  >({ url: '/calendario/agendamentos/{id}', ...options });
-
-/**
- * Busca um agendamento por ID
- *
- * Busca um agendamento por ID
- */
-export const calendarioAgendamentoFindById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CalendarioAgendamentoFindByIdData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    CalendarioAgendamentoFindByIdResponses,
-    CalendarioAgendamentoFindByIdErrors,
-    ThrowOnError
-  >({ url: '/calendario/agendamentos/{id}', ...options });
-
-/**
- * Atualiza um agendamento do calendario
- *
- * Atualiza um agendamento do calendario
- */
-export const calendarioAgendamentoUpdate = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CalendarioAgendamentoUpdateData, ThrowOnError>
-) =>
-  (options.client ?? client).patch<
-    CalendarioAgendamentoUpdateResponses,
-    CalendarioAgendamentoUpdateErrors,
-    ThrowOnError
-  >({
-    url: '/calendario/agendamentos/{id}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Desvincula turma do agendamento
- *
- * Desvincula turma do agendamento
- */
-export const calendarioAgendamentoDesvincularTurma = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CalendarioAgendamentoDesvincularTurmaData, ThrowOnError>
-) =>
-  (options.client ?? client).delete<
-    CalendarioAgendamentoDesvincularTurmaResponses,
-    CalendarioAgendamentoDesvincularTurmaErrors,
-    ThrowOnError
-  >({ url: '/calendario/agendamentos/{id}/turmas/{turmaId}', ...options });
-
-/**
- * Atualiza status do agendamento
- *
- * Atualiza status do agendamento
- */
-export const calendarioAgendamentoUpdateStatus = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CalendarioAgendamentoUpdateStatusData, ThrowOnError>
-) =>
-  (options.client ?? client).patch<
-    CalendarioAgendamentoUpdateStatusResponses,
-    CalendarioAgendamentoUpdateStatusErrors,
-    ThrowOnError
-  >({
-    url: '/calendario/agendamentos/{id}/status',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Consulta ocorrências por período
- *
- * Consulta ocorrências por período
- */
-export const consultaOcorrenciasPorData = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<ConsultaOcorrenciasPorDataData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    ConsultaOcorrenciasPorDataResponses,
-    ConsultaOcorrenciasPorDataErrors,
-    ThrowOnError
-  >({ url: '/calendario/consultas/ocorrencias', ...options });
-
-/**
- * Lista agendamentos de um professor
- */
-export const professorAgendaFindAll = <ThrowOnError extends boolean = false>(
-  options: Options<ProfessorAgendaFindAllData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    ProfessorAgendaFindAllResponses,
-    unknown,
-    ThrowOnError
-  >({ url: '/calendario/professores/{perfilId}/agenda', ...options });
-
-/**
- * Lista calendarios letivos
- *
- * Lista calendarios letivos
- */
-export const calendarioLetivoFindAll = <ThrowOnError extends boolean = false>(
-  options?: Options<CalendarioLetivoFindAllData, ThrowOnError>
-) =>
-  (options?.client ?? client).get<
-    CalendarioLetivoFindAllResponses,
-    CalendarioLetivoFindAllErrors,
-    ThrowOnError
-  >({ url: '/calendarios-letivos', ...options });
-
-/**
- * Cria um calendario letivo
- *
- * Cria um calendario letivo
- */
-export const calendarioLetivoCreate = <ThrowOnError extends boolean = false>(
-  options: Options<CalendarioLetivoCreateData, ThrowOnError>
-) =>
-  (options.client ?? client).post<
-    CalendarioLetivoCreateResponses,
-    CalendarioLetivoCreateErrors,
-    ThrowOnError
-  >({
-    url: '/calendarios-letivos',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Remove um calendario letivo
- *
- * Remove um calendario letivo
- */
-export const calendarioLetivoDeleteOneById = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CalendarioLetivoDeleteOneByIdData, ThrowOnError>
-) =>
-  (options.client ?? client).delete<
-    CalendarioLetivoDeleteOneByIdResponses,
-    CalendarioLetivoDeleteOneByIdErrors,
-    ThrowOnError
-  >({ url: '/calendarios-letivos/{id}', ...options });
-
-/**
- * Busca um calendario letivo por ID
- *
- * Busca um calendario letivo por ID
- */
-export const calendarioLetivoFindById = <ThrowOnError extends boolean = false>(
-  options: Options<CalendarioLetivoFindByIdData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    CalendarioLetivoFindByIdResponses,
-    CalendarioLetivoFindByIdErrors,
-    ThrowOnError
-  >({ url: '/calendarios-letivos/{id}', ...options });
-
-/**
- * Atualiza um calendario letivo
- *
- * Atualiza um calendario letivo
- */
-export const calendarioLetivoUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<CalendarioLetivoUpdateData, ThrowOnError>
-) =>
-  (options.client ?? client).patch<
-    CalendarioLetivoUpdateResponses,
-    CalendarioLetivoUpdateErrors,
-    ThrowOnError
-  >({
-    url: '/calendarios-letivos/{id}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Lista dias de um calendario letivo
- *
- * Lista dias de um calendario letivo
- */
-export const calendarioLetivoDiaFindAll = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CalendarioLetivoDiaFindAllData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    CalendarioLetivoDiaFindAllResponses,
-    CalendarioLetivoDiaFindAllErrors,
-    ThrowOnError
-  >({ url: '/calendarios-letivos/{calendarioLetivoId}/dias', ...options });
-
-/**
- * Busca um dia de calendario por data (YYYY-MM-DD)
- *
- * Busca um dia de calendario por data (YYYY-MM-DD)
- */
-export const calendarioLetivoDiaFindByData = <
-  ThrowOnError extends boolean = false,
->(
-  options: Options<CalendarioLetivoDiaFindByDataData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    CalendarioLetivoDiaFindByDataResponses,
-    CalendarioLetivoDiaFindByDataErrors,
-    ThrowOnError
-  >({
-    url: '/calendarios-letivos/{calendarioLetivoId}/dias/{data}',
-    ...options,
-  });
-
-/**
- * Atualiza um dia de calendario
- *
- * Atualiza um dia de calendario
- */
-export const calendarioLetivoDiaUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<CalendarioLetivoDiaUpdateData, ThrowOnError>
-) =>
-  (options.client ?? client).patch<
-    CalendarioLetivoDiaUpdateResponses,
-    CalendarioLetivoDiaUpdateErrors,
-    ThrowOnError
-  >({
-    url: '/calendarios-letivos/{calendarioLetivoId}/dias/{data}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Desativa um calendario letivo (sem excluir)
- *
- * Desativa um calendario letivo (sem excluir)
- */
-export const calendarioLetivoDesativar = <ThrowOnError extends boolean = false>(
-  options: Options<CalendarioLetivoDesativarData, ThrowOnError>
-) =>
-  (options.client ?? client).post<
-    CalendarioLetivoDesativarResponses,
-    CalendarioLetivoDesativarErrors,
-    ThrowOnError
-  >({ url: '/calendarios-letivos/{id}/desativar', ...options });
-
-/**
- * Lista cidades
- *
- * Lista cidades
- */
-export const cidadeFindAll = <ThrowOnError extends boolean = false>(
-  options?: Options<CidadeFindAllData, ThrowOnError>
-) =>
-  (options?.client ?? client).get<
-    CidadeFindAllResponses,
-    CidadeFindAllErrors,
-    ThrowOnError
-  >({ url: '/base/cidades', ...options });
-
-/**
- * Busca uma cidade por ID
- *
- * Busca uma cidade por ID
- */
-export const cidadeFindById = <ThrowOnError extends boolean = false>(
-  options: Options<CidadeFindByIdData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    CidadeFindByIdResponses,
-    CidadeFindByIdErrors,
-    ThrowOnError
-  >({ url: '/base/cidades/{id}', ...options });
 
 /**
  * Lista ambientes disponiveis
@@ -2126,6 +2362,1141 @@ export const blocoUpdateImagemCapa = <ThrowOnError extends boolean = false>(
       ...options.headers,
     },
   });
+
+/**
+ * Lista estagiários
+ *
+ * Lista estagiários
+ */
+export const estagiarioFindAll = <ThrowOnError extends boolean = false>(
+  options?: Options<EstagiarioFindAllData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    EstagiarioFindAllResponses,
+    EstagiarioFindAllErrors,
+    ThrowOnError
+  >({ url: '/estagiarios', ...options });
+
+/**
+ * Cria um estagiário
+ *
+ * Cria um estagiário
+ */
+export const estagiarioCreate = <ThrowOnError extends boolean = false>(
+  options: Options<EstagiarioCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    EstagiarioCreateResponses,
+    EstagiarioCreateErrors,
+    ThrowOnError
+  >({
+    url: '/estagiarios',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Deleta um estagiário
+ *
+ * Deleta um estagiário
+ */
+export const estagiarioDeleteOneById = <ThrowOnError extends boolean = false>(
+  options: Options<EstagiarioDeleteOneByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    EstagiarioDeleteOneByIdResponses,
+    EstagiarioDeleteOneByIdErrors,
+    ThrowOnError
+  >({ url: '/estagiarios/{id}', ...options });
+
+/**
+ * Busca um estagiário por ID
+ *
+ * Busca um estagiário por ID
+ */
+export const estagiarioFindById = <ThrowOnError extends boolean = false>(
+  options: Options<EstagiarioFindByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    EstagiarioFindByIdResponses,
+    EstagiarioFindByIdErrors,
+    ThrowOnError
+  >({ url: '/estagiarios/{id}', ...options });
+
+/**
+ * Atualiza um estagiário
+ *
+ * Atualiza um estagiário
+ */
+export const estagiarioUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<EstagiarioUpdateData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    EstagiarioUpdateResponses,
+    EstagiarioUpdateErrors,
+    ThrowOnError
+  >({
+    url: '/estagiarios/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Lista estágios
+ *
+ * Lista estágios
+ */
+export const estagioFindAll = <ThrowOnError extends boolean = false>(
+  options?: Options<EstagioFindAllData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    EstagioFindAllResponses,
+    EstagioFindAllErrors,
+    ThrowOnError
+  >({ url: '/estagios', ...options });
+
+/**
+ * Cria um estágio
+ *
+ * Cria um estágio
+ */
+export const estagioCreate = <ThrowOnError extends boolean = false>(
+  options: Options<EstagioCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    EstagioCreateResponses,
+    EstagioCreateErrors,
+    ThrowOnError
+  >({
+    url: '/estagios',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Lista os estágios de um orientador pela matrícula
+ *
+ * Retorna os estágios associados a um orientador específico, buscando pela matrícula.
+ */
+export const estagioFindByOrientadorMatricula = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<EstagioFindByOrientadorMatriculaData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    EstagioFindByOrientadorMatriculaResponses,
+    EstagioFindByOrientadorMatriculaErrors,
+    ThrowOnError
+  >({ url: '/estagios/orientador/{matricula}', ...options });
+
+/**
+ * Deleta um estágio
+ *
+ * Deleta um estágio
+ */
+export const estagioDelete = <ThrowOnError extends boolean = false>(
+  options: Options<EstagioDeleteData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    EstagioDeleteResponses,
+    EstagioDeleteErrors,
+    ThrowOnError
+  >({ url: '/estagios/{id}', ...options });
+
+/**
+ * Busca um estágio por ID
+ *
+ * Busca um estágio por ID
+ */
+export const estagioFindById = <ThrowOnError extends boolean = false>(
+  options: Options<EstagioFindByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    EstagioFindByIdResponses,
+    EstagioFindByIdErrors,
+    ThrowOnError
+  >({ url: '/estagios/{id}', ...options });
+
+/**
+ * Atualiza um estágio
+ *
+ * Atualiza um estágio
+ */
+export const estagioUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<EstagioUpdateData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    EstagioUpdateResponses,
+    EstagioUpdateErrors,
+    ThrowOnError
+  >({
+    url: '/estagios/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Substitui completamente um estágio
+ *
+ * Substitui todos os campos do estágio identificado pelo ID. Semântica idempotente (PUT): campos não enviados são tratados como ausentes/nulos.
+ */
+export const estagioReplace = <ThrowOnError extends boolean = false>(
+  options: Options<EstagioReplaceData, ThrowOnError>
+) =>
+  (options.client ?? client).put<
+    EstagioReplaceResponses,
+    EstagioReplaceErrors,
+    ThrowOnError
+  >({
+    url: '/estagios/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Importa vários estágios a partir de uma planilha (CSV ou XLSX)
+ */
+export const estagioImportCsv = <ThrowOnError extends boolean = false>(
+  options: Options<EstagioImportCsvData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    EstagioImportCsvResponses,
+    EstagioImportCsvErrors,
+    ThrowOnError
+  >({
+    ...formDataBodySerializer,
+    url: '/estagios/importar/csv',
+    ...options,
+    headers: {
+      'Content-Type': null,
+      ...options.headers,
+    },
+  });
+
+/**
+ * Lista notificacoes do usuario autenticado
+ *
+ * Lista notificacoes do usuario autenticado
+ */
+export const notificacaoFindAll = <ThrowOnError extends boolean = false>(
+  options?: Options<NotificacaoFindAllData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    NotificacaoFindAllResponses,
+    NotificacaoFindAllErrors,
+    ThrowOnError
+  >({ url: '/notificacoes', ...options });
+
+/**
+ * Conta notificacoes nao lidas
+ *
+ * Conta notificacoes nao lidas
+ */
+export const notificacaoContagemNaoLidas = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<NotificacaoContagemNaoLidasData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    NotificacaoContagemNaoLidasResponses,
+    NotificacaoContagemNaoLidasErrors,
+    ThrowOnError
+  >({ url: '/notificacoes/contagem-nao-lidas', ...options });
+
+/**
+ * Marca notificacao como lida
+ *
+ * Marca notificacao como lida
+ */
+export const notificacaoMarcarLida = <ThrowOnError extends boolean = false>(
+  options: Options<NotificacaoMarcarLidaData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    NotificacaoMarcarLidaResponses,
+    NotificacaoMarcarLidaErrors,
+    ThrowOnError
+  >({ url: '/notificacoes/{id}/lida', ...options });
+
+/**
+ * Lista disciplinas
+ *
+ * Lista disciplinas
+ */
+export const disciplinaFindAll = <ThrowOnError extends boolean = false>(
+  options?: Options<DisciplinaFindAllData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    DisciplinaFindAllResponses,
+    DisciplinaFindAllErrors,
+    ThrowOnError
+  >({ url: '/disciplinas', ...options });
+
+/**
+ * Cria uma disciplina
+ *
+ * Cria uma disciplina
+ */
+export const disciplinaCreate = <ThrowOnError extends boolean = false>(
+  options: Options<DisciplinaCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    DisciplinaCreateResponses,
+    DisciplinaCreateErrors,
+    ThrowOnError
+  >({
+    url: '/disciplinas',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Remove uma disciplina
+ *
+ * Remove uma disciplina
+ */
+export const disciplinaDeleteOneById = <ThrowOnError extends boolean = false>(
+  options: Options<DisciplinaDeleteOneByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    DisciplinaDeleteOneByIdResponses,
+    DisciplinaDeleteOneByIdErrors,
+    ThrowOnError
+  >({ url: '/disciplinas/{id}', ...options });
+
+/**
+ * Busca uma disciplina por ID
+ *
+ * Busca uma disciplina por ID
+ */
+export const disciplinaFindById = <ThrowOnError extends boolean = false>(
+  options: Options<DisciplinaFindByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    DisciplinaFindByIdResponses,
+    DisciplinaFindByIdErrors,
+    ThrowOnError
+  >({ url: '/disciplinas/{id}', ...options });
+
+/**
+ * Atualiza uma disciplina
+ *
+ * Atualiza uma disciplina
+ */
+export const disciplinaUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<DisciplinaUpdateData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    DisciplinaUpdateResponses,
+    DisciplinaUpdateErrors,
+    ThrowOnError
+  >({
+    url: '/disciplinas/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Busca imagem de capa de uma disciplina
+ *
+ * Busca imagem de capa de uma disciplina
+ */
+export const disciplinaGetImagemCapa = <ThrowOnError extends boolean = false>(
+  options: Options<DisciplinaGetImagemCapaData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    DisciplinaGetImagemCapaResponses,
+    DisciplinaGetImagemCapaErrors,
+    ThrowOnError
+  >({ url: '/disciplinas/{id}/imagem/capa', ...options });
+
+/**
+ * Define imagem de capa de uma disciplina
+ *
+ * Define imagem de capa de uma disciplina
+ */
+export const disciplinaUpdateImagemCapa = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<DisciplinaUpdateImagemCapaData, ThrowOnError>
+) =>
+  (options.client ?? client).put<
+    DisciplinaUpdateImagemCapaResponses,
+    DisciplinaUpdateImagemCapaErrors,
+    ThrowOnError
+  >({
+    ...formDataBodySerializer,
+    url: '/disciplinas/{id}/imagem/capa',
+    ...options,
+    headers: {
+      'Content-Type': null,
+      ...options.headers,
+    },
+  });
+
+/**
+ * Lista agendamentos
+ *
+ * Lista agendamentos
+ */
+export const calendarioAgendamentoFindAll = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<CalendarioAgendamentoFindAllData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    CalendarioAgendamentoFindAllResponses,
+    CalendarioAgendamentoFindAllErrors,
+    ThrowOnError
+  >({ url: '/calendario/agendamentos', ...options });
+
+/**
+ * Cria um agendamento no calendario
+ *
+ * Cria um agendamento no calendario
+ */
+export const calendarioAgendamentoCreate = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioAgendamentoCreateResponses,
+    CalendarioAgendamentoCreateErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/agendamentos',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Remove um agendamento do calendario
+ *
+ * Remove um agendamento do calendario
+ */
+export const calendarioAgendamentoDeleteOneById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoDeleteOneByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    CalendarioAgendamentoDeleteOneByIdResponses,
+    CalendarioAgendamentoDeleteOneByIdErrors,
+    ThrowOnError
+  >({ url: '/calendario/agendamentos/{id}', ...options });
+
+/**
+ * Busca um agendamento por ID
+ *
+ * Busca um agendamento por ID
+ */
+export const calendarioAgendamentoFindById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoFindByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    CalendarioAgendamentoFindByIdResponses,
+    CalendarioAgendamentoFindByIdErrors,
+    ThrowOnError
+  >({ url: '/calendario/agendamentos/{id}', ...options });
+
+/**
+ * Atualiza um agendamento do calendario
+ *
+ * Atualiza um agendamento do calendario
+ */
+export const calendarioAgendamentoUpdate = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoUpdateData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    CalendarioAgendamentoUpdateResponses,
+    CalendarioAgendamentoUpdateErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/agendamentos/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Histórico de versões de um agendamento, com autor, motivo e o que mudou entre versões
+ *
+ * Histórico de versões de um agendamento, com autor, motivo e o que mudou entre versões
+ */
+export const calendarioAgendamentoLinhaDoTempo = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoLinhaDoTempoData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    CalendarioAgendamentoLinhaDoTempoResponses,
+    CalendarioAgendamentoLinhaDoTempoErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/agendamentos/identificador-externo/{identificadorExterno}/linha-do-tempo',
+    ...options,
+  });
+
+/**
+ * Desvincula turma do agendamento
+ *
+ * Desvincula turma do agendamento
+ */
+export const calendarioAgendamentoDesvincularTurma = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoDesvincularTurmaData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    CalendarioAgendamentoDesvincularTurmaResponses,
+    CalendarioAgendamentoDesvincularTurmaErrors,
+    ThrowOnError
+  >({ url: '/calendario/agendamentos/{id}/turmas/{turmaId}', ...options });
+
+/**
+ * Atualiza status do agendamento
+ *
+ * Atualiza status do agendamento
+ */
+export const calendarioAgendamentoUpdateStatus = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoUpdateStatusData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    CalendarioAgendamentoUpdateStatusResponses,
+    CalendarioAgendamentoUpdateStatusErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/agendamentos/{id}/status',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Edita uma única ocorrência de um agendamento recorrente (RECURRENCE-ID)
+ *
+ * Edita uma única ocorrência de um agendamento recorrente (RECURRENCE-ID)
+ */
+export const calendarioAgendamentoEditarOcorrencia = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoEditarOcorrenciaData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioAgendamentoEditarOcorrenciaResponses,
+    CalendarioAgendamentoEditarOcorrenciaErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/agendamentos/{id}/editar-ocorrencia',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Cancela uma única ocorrência de um agendamento recorrente (EXDATE)
+ *
+ * Cancela uma única ocorrência de um agendamento recorrente (EXDATE)
+ */
+export const calendarioAgendamentoCancelarOcorrencia = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoCancelarOcorrenciaData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioAgendamentoCancelarOcorrenciaResponses,
+    CalendarioAgendamentoCancelarOcorrenciaErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/agendamentos/{id}/cancelar-ocorrencia',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Edita uma série recorrente inteira ou a partir de uma ocorrência (ESTA_E_SEGUINTES/TODAS)
+ *
+ * Edita uma série recorrente inteira ou a partir de uma ocorrência (ESTA_E_SEGUINTES/TODAS)
+ */
+export const calendarioAgendamentoEditarSerie = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoEditarSerieData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioAgendamentoEditarSerieResponses,
+    CalendarioAgendamentoEditarSerieErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/agendamentos/{id}/editar-serie',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Adiciona uma data avulsa a um agendamento recorrente (RDATE)
+ *
+ * Adiciona uma data avulsa a um agendamento recorrente (RDATE)
+ */
+export const calendarioAgendamentoAdicionarDataAvulsa = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoAdicionarDataAvulsaData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioAgendamentoAdicionarDataAvulsaResponses,
+    CalendarioAgendamentoAdicionarDataAvulsaErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/agendamentos/{id}/adicionar-data-avulsa',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Importa agendamentos a partir do conteúdo de um arquivo .ics (RFC 5545)
+ *
+ * Importa agendamentos a partir do conteúdo de um arquivo .ics (RFC 5545)
+ */
+export const calendarioAgendamentoImportarIcs = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoImportarIcsData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioAgendamentoImportarIcsResponses,
+    CalendarioAgendamentoImportarIcsErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/agendamentos/importar-ics',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Lista coleções de calendário visíveis ao requisitante
+ *
+ * Lista coleções de calendário visíveis ao requisitante
+ */
+export const calendarioColecaoFindAll = <ThrowOnError extends boolean = false>(
+  options?: Options<CalendarioColecaoFindAllData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    CalendarioColecaoFindAllResponses,
+    CalendarioColecaoFindAllErrors,
+    ThrowOnError
+  >({ url: '/calendario/colecoes', ...options });
+
+/**
+ * Cria uma coleção de calendário
+ *
+ * Cria uma coleção de calendário
+ */
+export const calendarioColecaoCreate = <ThrowOnError extends boolean = false>(
+  options: Options<CalendarioColecaoCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioColecaoCreateResponses,
+    CalendarioColecaoCreateErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/colecoes',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Remove uma coleção de calendário
+ *
+ * Remove uma coleção de calendário
+ */
+export const calendarioColecaoDeleteOneById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioColecaoDeleteOneByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    CalendarioColecaoDeleteOneByIdResponses,
+    CalendarioColecaoDeleteOneByIdErrors,
+    ThrowOnError
+  >({ url: '/calendario/colecoes/{id}', ...options });
+
+/**
+ * Busca uma coleção de calendário por ID
+ *
+ * Busca uma coleção de calendário por ID
+ */
+export const calendarioColecaoFindOneById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioColecaoFindOneByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    CalendarioColecaoFindOneByIdResponses,
+    CalendarioColecaoFindOneByIdErrors,
+    ThrowOnError
+  >({ url: '/calendario/colecoes/{id}', ...options });
+
+/**
+ * Atualiza uma coleção de calendário
+ *
+ * Atualiza uma coleção de calendário
+ */
+export const calendarioColecaoUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<CalendarioColecaoUpdateData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    CalendarioColecaoUpdateResponses,
+    CalendarioColecaoUpdateErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/colecoes/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Transfere a titularidade (dono) de uma coleção de calendário
+ *
+ * Transfere a titularidade (dono) de uma coleção de calendário
+ */
+export const calendarioColecaoTransferirDono = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioColecaoTransferirDonoData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioColecaoTransferirDonoResponses,
+    CalendarioColecaoTransferirDonoErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/colecoes/{id}/transferir-dono',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Lista os acessos (ACL) concedidos a uma coleção de calendário
+ *
+ * Lista os acessos (ACL) concedidos a uma coleção de calendário
+ */
+export const calendarioColecaoAcessoFindAll = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioColecaoAcessoFindAllData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    CalendarioColecaoAcessoFindAllResponses,
+    CalendarioColecaoAcessoFindAllErrors,
+    ThrowOnError
+  >({ url: '/calendario/colecoes/{colecaoId}/acessos', ...options });
+
+/**
+ * Concede um acesso (ACL) a uma coleção de calendário
+ *
+ * Concede um acesso (ACL) a uma coleção de calendário
+ */
+export const calendarioColecaoAcessoConceder = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioColecaoAcessoConcederData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioColecaoAcessoConcederResponses,
+    CalendarioColecaoAcessoConcederErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/colecoes/{colecaoId}/acessos',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Revoga (soft-delete) um acesso (ACL) de uma coleção de calendário
+ *
+ * Revoga (soft-delete) um acesso (ACL) de uma coleção de calendário
+ */
+export const calendarioColecaoAcessoRevogarOneById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioColecaoAcessoRevogarOneByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    CalendarioColecaoAcessoRevogarOneByIdResponses,
+    CalendarioColecaoAcessoRevogarOneByIdErrors,
+    ThrowOnError
+  >({ url: '/calendario/colecoes/{colecaoId}/acessos/{id}', ...options });
+
+/**
+ * Consulta ocorrências por período
+ *
+ * Consulta ocorrências por período
+ */
+export const consultaOcorrenciasPorData = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<ConsultaOcorrenciasPorDataData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    ConsultaOcorrenciasPorDataResponses,
+    ConsultaOcorrenciasPorDataErrors,
+    ThrowOnError
+  >({ url: '/calendario/consultas/ocorrencias', ...options });
+
+/**
+ * Exporta ocorrências de agendamento como arquivo .ics (RFC 5545)
+ *
+ * Exporta ocorrências de agendamento como arquivo .ics (RFC 5545)
+ */
+export const calendarioAgendamentoExportarIcs = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioAgendamentoExportarIcsData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    CalendarioAgendamentoExportarIcsResponses,
+    CalendarioAgendamentoExportarIcsErrors,
+    ThrowOnError
+  >({ url: '/calendario/consultas/ocorrencias/ics', ...options });
+
+/**
+ * Consulta ocupação sem detalhe por campus e período
+ *
+ * Consulta ocupação sem detalhe por campus e período
+ */
+export const calendarioOcupacaoSemDetalhe = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioOcupacaoSemDetalheData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    CalendarioOcupacaoSemDetalheResponses,
+    CalendarioOcupacaoSemDetalheErrors,
+    ThrowOnError
+  >({ url: '/calendario/consultas/ocupacao', ...options });
+
+/**
+ * Consulta agendamentos de uma coleção mudados desde um marcador de sincronização
+ *
+ * Consulta agendamentos de uma coleção mudados desde um marcador de sincronização
+ */
+export const calendarioColecaoMudancasDesde = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioColecaoMudancasDesdeData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    CalendarioColecaoMudancasDesdeResponses,
+    CalendarioColecaoMudancasDesdeErrors,
+    ThrowOnError
+  >({ url: '/calendario/consultas/colecao/mudancas-desde', ...options });
+
+/**
+ * Lista agendamentos de um professor
+ */
+export const professorAgendaFindAll = <ThrowOnError extends boolean = false>(
+  options: Options<ProfessorAgendaFindAllData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    ProfessorAgendaFindAllResponses,
+    unknown,
+    ThrowOnError
+  >({ url: '/calendario/professores/{perfilId}/agenda', ...options });
+
+/**
+ * Lista matriculas — por turma (alunos da turma) ou por perfil (turmas do aluno)
+ *
+ * Lista matriculas — por turma (alunos da turma) ou por perfil (turmas do aluno)
+ */
+export const turmaMatriculaFindAll = <ThrowOnError extends boolean = false>(
+  options?: Options<TurmaMatriculaFindAllData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    TurmaMatriculaFindAllResponses,
+    TurmaMatriculaFindAllErrors,
+    ThrowOnError
+  >({ url: '/matriculas', ...options });
+
+/**
+ * Matricula um perfil (aluno) em uma turma
+ *
+ * Matricula um perfil (aluno) em uma turma
+ */
+export const turmaMatriculaVincular = <ThrowOnError extends boolean = false>(
+  options: Options<TurmaMatriculaVincularData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    TurmaMatriculaVincularResponses,
+    TurmaMatriculaVincularErrors,
+    ThrowOnError
+  >({
+    url: '/matriculas',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Desmatricula (soft-delete) um perfil (aluno) de uma turma
+ *
+ * Desmatricula (soft-delete) um perfil (aluno) de uma turma
+ */
+export const turmaMatriculaDesvincularOneById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<TurmaMatriculaDesvincularOneByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    TurmaMatriculaDesvincularOneByIdResponses,
+    TurmaMatriculaDesvincularOneByIdErrors,
+    ThrowOnError
+  >({ url: '/matriculas/{id}', ...options });
+
+/**
+ * Lista calendarios letivos
+ *
+ * Lista calendarios letivos
+ */
+export const calendarioLetivoFindAll = <ThrowOnError extends boolean = false>(
+  options?: Options<CalendarioLetivoFindAllData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    CalendarioLetivoFindAllResponses,
+    CalendarioLetivoFindAllErrors,
+    ThrowOnError
+  >({ url: '/calendarios-letivos', ...options });
+
+/**
+ * Cria um calendario letivo
+ *
+ * Cria um calendario letivo
+ */
+export const calendarioLetivoCreate = <ThrowOnError extends boolean = false>(
+  options: Options<CalendarioLetivoCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioLetivoCreateResponses,
+    CalendarioLetivoCreateErrors,
+    ThrowOnError
+  >({
+    url: '/calendarios-letivos',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Remove um calendario letivo
+ *
+ * Remove um calendario letivo
+ */
+export const calendarioLetivoDeleteOneById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioLetivoDeleteOneByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    CalendarioLetivoDeleteOneByIdResponses,
+    CalendarioLetivoDeleteOneByIdErrors,
+    ThrowOnError
+  >({ url: '/calendarios-letivos/{id}', ...options });
+
+/**
+ * Busca um calendario letivo por ID
+ *
+ * Busca um calendario letivo por ID
+ */
+export const calendarioLetivoFindById = <ThrowOnError extends boolean = false>(
+  options: Options<CalendarioLetivoFindByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    CalendarioLetivoFindByIdResponses,
+    CalendarioLetivoFindByIdErrors,
+    ThrowOnError
+  >({ url: '/calendarios-letivos/{id}', ...options });
+
+/**
+ * Atualiza um calendario letivo
+ *
+ * Atualiza um calendario letivo
+ */
+export const calendarioLetivoUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<CalendarioLetivoUpdateData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    CalendarioLetivoUpdateResponses,
+    CalendarioLetivoUpdateErrors,
+    ThrowOnError
+  >({
+    url: '/calendarios-letivos/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Lista dias de um calendario letivo
+ *
+ * Lista dias de um calendario letivo
+ */
+export const calendarioLetivoDiaFindAll = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioLetivoDiaFindAllData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    CalendarioLetivoDiaFindAllResponses,
+    CalendarioLetivoDiaFindAllErrors,
+    ThrowOnError
+  >({ url: '/calendarios-letivos/{calendarioLetivoId}/dias', ...options });
+
+/**
+ * Busca um dia de calendario por data (YYYY-MM-DD)
+ *
+ * Busca um dia de calendario por data (YYYY-MM-DD)
+ */
+export const calendarioLetivoDiaFindByData = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioLetivoDiaFindByDataData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    CalendarioLetivoDiaFindByDataResponses,
+    CalendarioLetivoDiaFindByDataErrors,
+    ThrowOnError
+  >({
+    url: '/calendarios-letivos/{calendarioLetivoId}/dias/{data}',
+    ...options,
+  });
+
+/**
+ * Atualiza um dia de calendario
+ *
+ * Atualiza um dia de calendario
+ */
+export const calendarioLetivoDiaUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<CalendarioLetivoDiaUpdateData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    CalendarioLetivoDiaUpdateResponses,
+    CalendarioLetivoDiaUpdateErrors,
+    ThrowOnError
+  >({
+    url: '/calendarios-letivos/{calendarioLetivoId}/dias/{data}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Desativa um calendario letivo (sem excluir)
+ *
+ * Desativa um calendario letivo (sem excluir)
+ */
+export const calendarioLetivoDesativar = <ThrowOnError extends boolean = false>(
+  options: Options<CalendarioLetivoDesativarData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioLetivoDesativarResponses,
+    CalendarioLetivoDesativarErrors,
+    ThrowOnError
+  >({ url: '/calendarios-letivos/{id}/desativar', ...options });
+
+/**
+ * Lista cidades
+ *
+ * Lista cidades
+ */
+export const cidadeFindAll = <ThrowOnError extends boolean = false>(
+  options?: Options<CidadeFindAllData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    CidadeFindAllResponses,
+    CidadeFindAllErrors,
+    ThrowOnError
+  >({ url: '/base/cidades', ...options });
+
+/**
+ * Busca uma cidade por ID
+ *
+ * Busca uma cidade por ID
+ */
+export const cidadeFindById = <ThrowOnError extends boolean = false>(
+  options: Options<CidadeFindByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    CidadeFindByIdResponses,
+    CidadeFindByIdErrors,
+    ThrowOnError
+  >({ url: '/base/cidades/{id}', ...options });
 
 /**
  * Retorna informacoes de ensino do usuario logado
@@ -2461,159 +3832,6 @@ export const diarioPreferenciaAgrupamentoBulkReplace = <
   });
 
 /**
- * Lista turmas
- *
- * Lista turmas
- */
-export const turmaFindAll = <ThrowOnError extends boolean = false>(
-  options?: Options<TurmaFindAllData, ThrowOnError>
-) =>
-  (options?.client ?? client).get<
-    TurmaFindAllResponses,
-    TurmaFindAllErrors,
-    ThrowOnError
-  >({ url: '/turmas', ...options });
-
-/**
- * Cria uma turma
- *
- * Cria uma turma
- */
-export const turmaCreate = <ThrowOnError extends boolean = false>(
-  options: Options<TurmaCreateData, ThrowOnError>
-) =>
-  (options.client ?? client).post<
-    TurmaCreateResponses,
-    TurmaCreateErrors,
-    ThrowOnError
-  >({
-    url: '/turmas',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Remove uma turma
- *
- * Remove uma turma
- */
-export const turmaDeleteOneById = <ThrowOnError extends boolean = false>(
-  options: Options<TurmaDeleteOneByIdData, ThrowOnError>
-) =>
-  (options.client ?? client).delete<
-    TurmaDeleteOneByIdResponses,
-    TurmaDeleteOneByIdErrors,
-    ThrowOnError
-  >({ url: '/turmas/{id}', ...options });
-
-/**
- * Busca uma turma por ID
- *
- * Busca uma turma por ID
- */
-export const turmaFindById = <ThrowOnError extends boolean = false>(
-  options: Options<TurmaFindByIdData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    TurmaFindByIdResponses,
-    TurmaFindByIdErrors,
-    ThrowOnError
-  >({ url: '/turmas/{id}', ...options });
-
-/**
- * Atualiza uma turma
- *
- * Atualiza uma turma
- */
-export const turmaUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<TurmaUpdateData, ThrowOnError>
-) =>
-  (options.client ?? client).patch<
-    TurmaUpdateResponses,
-    TurmaUpdateErrors,
-    ThrowOnError
-  >({
-    url: '/turmas/{id}',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Consulta horario semanal de uma turma
- *
- * Consulta horario semanal de uma turma
- */
-export const turmaHorarioSemanal = <ThrowOnError extends boolean = false>(
-  options: Options<TurmaHorarioSemanalData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    TurmaHorarioSemanalResponses,
-    TurmaHorarioSemanalErrors,
-    ThrowOnError
-  >({ url: '/turmas/{id}/horario', ...options });
-
-/**
- * Busca a imagem de capa de uma turma
- *
- * Busca a imagem de capa de uma turma
- */
-export const turmaGetImagemCapa = <ThrowOnError extends boolean = false>(
-  options: Options<TurmaGetImagemCapaData, ThrowOnError>
-) =>
-  (options.client ?? client).get<
-    TurmaGetImagemCapaResponses,
-    TurmaGetImagemCapaErrors,
-    ThrowOnError
-  >({ url: '/turmas/{id}/imagem/capa', ...options });
-
-/**
- * Define a imagem de capa de uma turma
- *
- * Define a imagem de capa de uma turma
- */
-export const turmaUpdateImagemCapa = <ThrowOnError extends boolean = false>(
-  options: Options<TurmaUpdateImagemCapaData, ThrowOnError>
-) =>
-  (options.client ?? client).put<
-    TurmaUpdateImagemCapaResponses,
-    TurmaUpdateImagemCapaErrors,
-    ThrowOnError
-  >({
-    ...formDataBodySerializer,
-    url: '/turmas/{id}/imagem/capa',
-    ...options,
-    headers: {
-      'Content-Type': null,
-      ...options.headers,
-    },
-  });
-
-/**
- * Configura diarios da turma em lote (disciplinas + professores)
- */
-export const turmaDiarioConfigurar = <ThrowOnError extends boolean = false>(
-  options: Options<TurmaDiarioConfigurarData, ThrowOnError>
-) =>
-  (options.client ?? client).post<
-    TurmaDiarioConfigurarResponses,
-    TurmaDiarioConfigurarErrors,
-    ThrowOnError
-  >({
-    url: '/turmas/{turmaId}/diarios/configurar',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
  * Solicita geracao de horario (assincrono)
  *
  * Solicita geracao de horario (assincrono)
@@ -2691,6 +3909,20 @@ export const horarioEdicaoCreate = <ThrowOnError extends boolean = false>(
   >({ url: '/horarios/edicao', ...options });
 
 /**
+ * Busca uma sessao de edicao de horario por id
+ *
+ * Busca uma sessao de edicao de horario por id
+ */
+export const horarioEdicaoFindOne = <ThrowOnError extends boolean = false>(
+  options: Options<HorarioEdicaoFindOneData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    HorarioEdicaoFindOneResponses,
+    HorarioEdicaoFindOneErrors,
+    ThrowOnError
+  >({ url: '/horarios/edicao/{sessaoId}', ...options });
+
+/**
  * Aplica uma mudanca a sessao de edicao de horario
  *
  * Aplica uma mudanca a sessao de edicao de horario
@@ -2738,6 +3970,350 @@ export const horarioEdicaoCancelar = <ThrowOnError extends boolean = false>(
     HorarioEdicaoCancelarErrors,
     ThrowOnError
   >({ url: '/horarios/edicao/{sessaoId}/cancelar', ...options });
+
+/**
+ * Publica as mudancas da sessao de edicao no calendario oficial
+ *
+ * Publica as mudancas da sessao de edicao no calendario oficial
+ */
+export const horarioEdicaoPublicar = <ThrowOnError extends boolean = false>(
+  options: Options<HorarioEdicaoPublicarData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    HorarioEdicaoPublicarResponses,
+    HorarioEdicaoPublicarErrors,
+    ThrowOnError
+  >({ url: '/horarios/edicao/{sessaoId}/publicar', ...options });
+
+/**
+ * Desfaz uma mudanca pendente da sessao de edicao
+ *
+ * Desfaz uma mudanca pendente da sessao de edicao
+ */
+export const horarioEdicaoDesfazerMudanca = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<HorarioEdicaoDesfazerMudancaData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    HorarioEdicaoDesfazerMudancaResponses,
+    HorarioEdicaoDesfazerMudancaErrors,
+    ThrowOnError
+  >({
+    url: '/horarios/edicao/{sessaoId}/mudancas/{mudancaId}/desfazer',
+    ...options,
+  });
+
+/**
+ * Compara o que uma sessao de edicao propoe com o estado atual da agenda
+ *
+ * Compara o que uma sessao de edicao propoe com o estado atual da agenda
+ */
+export const horarioEdicaoSessaoDiferenca = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<HorarioEdicaoSessaoDiferencaData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    HorarioEdicaoSessaoDiferencaResponses,
+    HorarioEdicaoSessaoDiferencaErrors,
+    ThrowOnError
+  >({ url: '/horarios/edicao/{sessaoId}/diferenca', ...options });
+
+/**
+ * Lista solicitações de mudança de agendamento
+ *
+ * Lista solicitações de mudança de agendamento
+ */
+export const calendarioSolicitacaoMudancaFindAll = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<CalendarioSolicitacaoMudancaFindAllData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    CalendarioSolicitacaoMudancaFindAllResponses,
+    CalendarioSolicitacaoMudancaFindAllErrors,
+    ThrowOnError
+  >({ url: '/calendario/solicitacoes-mudanca', ...options });
+
+/**
+ * Cria uma solicitação de mudança para um agendamento
+ *
+ * Cria uma solicitação de mudança para um agendamento
+ */
+export const calendarioSolicitacaoMudancaCreate = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioSolicitacaoMudancaCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioSolicitacaoMudancaCreateResponses,
+    CalendarioSolicitacaoMudancaCreateErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/solicitacoes-mudanca',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Busca uma solicitação de mudança por ID
+ *
+ * Busca uma solicitação de mudança por ID
+ */
+export const calendarioSolicitacaoMudancaFindOneById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioSolicitacaoMudancaFindOneByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    CalendarioSolicitacaoMudancaFindOneByIdResponses,
+    CalendarioSolicitacaoMudancaFindOneByIdErrors,
+    ThrowOnError
+  >({ url: '/calendario/solicitacoes-mudanca/{id}', ...options });
+
+/**
+ * Aprova uma solicitação de mudança, abrindo uma sessão de edição com a mudança proposta
+ *
+ * Aprova uma solicitação de mudança, abrindo uma sessão de edição com a mudança proposta
+ */
+export const calendarioSolicitacaoMudancaAprovar = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioSolicitacaoMudancaAprovarData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioSolicitacaoMudancaAprovarResponses,
+    CalendarioSolicitacaoMudancaAprovarErrors,
+    ThrowOnError
+  >({ url: '/calendario/solicitacoes-mudanca/{id}/aprovar', ...options });
+
+/**
+ * Recusa uma solicitação de mudança
+ *
+ * Recusa uma solicitação de mudança
+ */
+export const calendarioSolicitacaoMudancaRecusar = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioSolicitacaoMudancaRecusarData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioSolicitacaoMudancaRecusarResponses,
+    CalendarioSolicitacaoMudancaRecusarErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/solicitacoes-mudanca/{id}/recusar',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Lista indisponibilidades de professor
+ *
+ * Lista indisponibilidades de professor
+ */
+export const calendarioIndisponibilidadeProfessorFindAll = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<
+    CalendarioIndisponibilidadeProfessorFindAllData,
+    ThrowOnError
+  >
+) =>
+  (options?.client ?? client).get<
+    CalendarioIndisponibilidadeProfessorFindAllResponses,
+    CalendarioIndisponibilidadeProfessorFindAllErrors,
+    ThrowOnError
+  >({ url: '/calendario/indisponibilidades-professor', ...options });
+
+/**
+ * Cria uma indisponibilidade de professor
+ *
+ * Cria uma indisponibilidade de professor
+ */
+export const calendarioIndisponibilidadeProfessorCreate = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioIndisponibilidadeProfessorCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioIndisponibilidadeProfessorCreateResponses,
+    CalendarioIndisponibilidadeProfessorCreateErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/indisponibilidades-professor',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Lista indisponibilidades de um professor aplicáveis a um período: regras semanais (sempre) e exceções pontuais (quando a data cai no período)
+ *
+ * Lista indisponibilidades de um professor aplicáveis a um período: regras semanais (sempre) e exceções pontuais (quando a data cai no período)
+ */
+export const calendarioIndisponibilidadeProfessorPorPeriodo = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    CalendarioIndisponibilidadeProfessorPorPeriodoData,
+    ThrowOnError
+  >
+) =>
+  (options.client ?? client).get<
+    CalendarioIndisponibilidadeProfessorPorPeriodoResponses,
+    CalendarioIndisponibilidadeProfessorPorPeriodoErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/indisponibilidades-professor/por-periodo',
+    ...options,
+  });
+
+/**
+ * Remove uma indisponibilidade de professor
+ *
+ * Remove uma indisponibilidade de professor
+ */
+export const calendarioIndisponibilidadeProfessorDeleteOneById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    CalendarioIndisponibilidadeProfessorDeleteOneByIdData,
+    ThrowOnError
+  >
+) =>
+  (options.client ?? client).delete<
+    CalendarioIndisponibilidadeProfessorDeleteOneByIdResponses,
+    CalendarioIndisponibilidadeProfessorDeleteOneByIdErrors,
+    ThrowOnError
+  >({ url: '/calendario/indisponibilidades-professor/{id}', ...options });
+
+/**
+ * Busca uma indisponibilidade de professor por ID
+ *
+ * Busca uma indisponibilidade de professor por ID
+ */
+export const calendarioIndisponibilidadeProfessorFindOneById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    CalendarioIndisponibilidadeProfessorFindOneByIdData,
+    ThrowOnError
+  >
+) =>
+  (options.client ?? client).get<
+    CalendarioIndisponibilidadeProfessorFindOneByIdResponses,
+    CalendarioIndisponibilidadeProfessorFindOneByIdErrors,
+    ThrowOnError
+  >({ url: '/calendario/indisponibilidades-professor/{id}', ...options });
+
+/**
+ * Lista indisponibilidades de ambiente
+ *
+ * Lista indisponibilidades de ambiente
+ */
+export const calendarioIndisponibilidadeAmbienteFindAll = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<
+    CalendarioIndisponibilidadeAmbienteFindAllData,
+    ThrowOnError
+  >
+) =>
+  (options?.client ?? client).get<
+    CalendarioIndisponibilidadeAmbienteFindAllResponses,
+    CalendarioIndisponibilidadeAmbienteFindAllErrors,
+    ThrowOnError
+  >({ url: '/calendario/indisponibilidades-ambiente', ...options });
+
+/**
+ * Cria uma indisponibilidade de ambiente
+ *
+ * Cria uma indisponibilidade de ambiente
+ */
+export const calendarioIndisponibilidadeAmbienteCreate = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<CalendarioIndisponibilidadeAmbienteCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    CalendarioIndisponibilidadeAmbienteCreateResponses,
+    CalendarioIndisponibilidadeAmbienteCreateErrors,
+    ThrowOnError
+  >({
+    url: '/calendario/indisponibilidades-ambiente',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Lista indisponibilidades de um ambiente aplicáveis a um período: regras semanais (sempre) e exceções pontuais (quando a data cai no período)
+ *
+ * Lista indisponibilidades de um ambiente aplicáveis a um período: regras semanais (sempre) e exceções pontuais (quando a data cai no período)
+ */
+export const calendarioIndisponibilidadeAmbientePorPeriodo = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    CalendarioIndisponibilidadeAmbientePorPeriodoData,
+    ThrowOnError
+  >
+) =>
+  (options.client ?? client).get<
+    CalendarioIndisponibilidadeAmbientePorPeriodoResponses,
+    CalendarioIndisponibilidadeAmbientePorPeriodoErrors,
+    ThrowOnError
+  >({ url: '/calendario/indisponibilidades-ambiente/por-periodo', ...options });
+
+/**
+ * Remove uma indisponibilidade de ambiente
+ *
+ * Remove uma indisponibilidade de ambiente
+ */
+export const calendarioIndisponibilidadeAmbienteDeleteOneById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    CalendarioIndisponibilidadeAmbienteDeleteOneByIdData,
+    ThrowOnError
+  >
+) =>
+  (options.client ?? client).delete<
+    CalendarioIndisponibilidadeAmbienteDeleteOneByIdResponses,
+    CalendarioIndisponibilidadeAmbienteDeleteOneByIdErrors,
+    ThrowOnError
+  >({ url: '/calendario/indisponibilidades-ambiente/{id}', ...options });
+
+/**
+ * Busca uma indisponibilidade de ambiente por ID
+ *
+ * Busca uma indisponibilidade de ambiente por ID
+ */
+export const calendarioIndisponibilidadeAmbienteFindOneById = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    CalendarioIndisponibilidadeAmbienteFindOneByIdData,
+    ThrowOnError
+  >
+) =>
+  (options.client ?? client).get<
+    CalendarioIndisponibilidadeAmbienteFindOneByIdResponses,
+    CalendarioIndisponibilidadeAmbienteFindOneByIdErrors,
+    ThrowOnError
+  >({ url: '/calendario/indisponibilidades-ambiente/{id}', ...options });
 
 /**
  * Lista estados
@@ -2852,166 +4428,69 @@ export const empresaUpdate = <ThrowOnError extends boolean = false>(
   });
 
 /**
- * Lista estágios
+ * Obtém a foto de uma empresa
  *
- * Lista estágios
+ * Obtém a foto de uma empresa
  */
-export const estagioFindAll = <ThrowOnError extends boolean = false>(
-  options?: Options<EstagioFindAllData, ThrowOnError>
-) =>
-  (options?.client ?? client).get<
-    EstagioFindAllResponses,
-    EstagioFindAllErrors,
-    ThrowOnError
-  >({ url: '/estagios', ...options });
-
-/**
- * Cria um estágio
- *
- * Cria um estágio
- */
-export const estagioCreate = <ThrowOnError extends boolean = false>(
-  options: Options<EstagioCreateData, ThrowOnError>
-) =>
-  (options.client ?? client).post<
-    EstagioCreateResponses,
-    EstagioCreateErrors,
-    ThrowOnError
-  >({
-    url: '/estagios',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Deleta um estágio
- *
- * Deleta um estágio
- */
-export const estagioDelete = <ThrowOnError extends boolean = false>(
-  options: Options<EstagioDeleteData, ThrowOnError>
-) =>
-  (options.client ?? client).delete<
-    EstagioDeleteResponses,
-    EstagioDeleteErrors,
-    ThrowOnError
-  >({ url: '/estagios/{id}', ...options });
-
-/**
- * Busca um estágio por ID
- *
- * Busca um estágio por ID
- */
-export const estagioFindById = <ThrowOnError extends boolean = false>(
-  options: Options<EstagioFindByIdData, ThrowOnError>
+export const empresaGetFotoEmpresa = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaGetFotoEmpresaData, ThrowOnError>
 ) =>
   (options.client ?? client).get<
-    EstagioFindByIdResponses,
-    EstagioFindByIdErrors,
+    EmpresaGetFotoEmpresaResponses,
+    EmpresaGetFotoEmpresaErrors,
     ThrowOnError
-  >({ url: '/estagios/{id}', ...options });
+  >({ url: '/empresas/{id}/imagem/foto-empresa', ...options });
 
 /**
- * Atualiza um estágio
+ * Define a foto da empresa
  *
- * Atualiza um estágio
+ * Define a foto da empresa
  */
-export const estagioUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<EstagioUpdateData, ThrowOnError>
+export const empresaUpdateFotoEmpresa = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaUpdateFotoEmpresaData, ThrowOnError>
 ) =>
-  (options.client ?? client).patch<
-    EstagioUpdateResponses,
-    EstagioUpdateErrors,
+  (options.client ?? client).put<
+    EmpresaUpdateFotoEmpresaResponses,
+    EmpresaUpdateFotoEmpresaErrors,
     ThrowOnError
   >({
-    url: '/estagios/{id}',
+    ...formDataBodySerializer,
+    url: '/empresas/{id}/imagem/foto-empresa',
     ...options,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': null,
       ...options.headers,
     },
   });
 
 /**
- * Lista estagiários
+ * Lista avaliações e comentários de uma empresa ordenados por relevância ou filtros
  *
- * Lista estagiários
+ * Lista avaliações e comentários de uma empresa ordenados por relevância ou filtros
  */
-export const estagiarioFindAll = <ThrowOnError extends boolean = false>(
-  options?: Options<EstagiarioFindAllData, ThrowOnError>
-) =>
-  (options?.client ?? client).get<
-    EstagiarioFindAllResponses,
-    EstagiarioFindAllErrors,
-    ThrowOnError
-  >({ url: '/estagiarios', ...options });
-
-/**
- * Cria um estagiário
- *
- * Cria um estagiário
- */
-export const estagiarioCreate = <ThrowOnError extends boolean = false>(
-  options: Options<EstagiarioCreateData, ThrowOnError>
-) =>
-  (options.client ?? client).post<
-    EstagiarioCreateResponses,
-    EstagiarioCreateErrors,
-    ThrowOnError
-  >({
-    url: '/estagiarios',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
-    },
-  });
-
-/**
- * Deleta um estagiário
- *
- * Deleta um estagiário
- */
-export const estagiarioDeleteOneById = <ThrowOnError extends boolean = false>(
-  options: Options<EstagiarioDeleteOneByIdData, ThrowOnError>
-) =>
-  (options.client ?? client).delete<
-    EstagiarioDeleteOneByIdResponses,
-    EstagiarioDeleteOneByIdErrors,
-    ThrowOnError
-  >({ url: '/estagiarios/{id}', ...options });
-
-/**
- * Busca um estagiário por ID
- *
- * Busca um estagiário por ID
- */
-export const estagiarioFindById = <ThrowOnError extends boolean = false>(
-  options: Options<EstagiarioFindByIdData, ThrowOnError>
+export const empresaAvaliacaoList = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoListData, ThrowOnError>
 ) =>
   (options.client ?? client).get<
-    EstagiarioFindByIdResponses,
-    EstagiarioFindByIdErrors,
+    EmpresaAvaliacaoListResponses,
+    EmpresaAvaliacaoListErrors,
     ThrowOnError
-  >({ url: '/estagiarios/{id}', ...options });
+  >({ url: '/empresas/{empresaId}/avaliacoes', ...options });
 
 /**
- * Atualiza um estagiário
+ * Cria uma nova avaliação para uma empresa pelo estagiário autenticado
  *
- * Atualiza um estagiário
+ * Cria uma nova avaliação para uma empresa pelo estagiário autenticado
  */
-export const estagiarioUpdate = <ThrowOnError extends boolean = false>(
-  options: Options<EstagiarioUpdateData, ThrowOnError>
+export const empresaAvaliacaoCreate = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoCreateData, ThrowOnError>
 ) =>
-  (options.client ?? client).patch<
-    EstagiarioUpdateResponses,
-    EstagiarioUpdateErrors,
+  (options.client ?? client).post<
+    EmpresaAvaliacaoCreateResponses,
+    EmpresaAvaliacaoCreateErrors,
     ThrowOnError
   >({
-    url: '/estagiarios/{id}',
+    url: '/empresas/{empresaId}/avaliacoes',
     ...options,
     headers: {
       'Content-Type': 'application/json',
@@ -3020,48 +4499,319 @@ export const estagiarioUpdate = <ThrowOnError extends boolean = false>(
   });
 
 /**
- * Lista notificacoes do usuario autenticado
+ * Busca a avaliação do usuário autenticado para uma determinada empresa
  *
- * Lista notificacoes do usuario autenticado
+ * Busca a avaliação do usuário autenticado para uma determinada empresa
  */
-export const notificacaoFindAll = <ThrowOnError extends boolean = false>(
-  options?: Options<NotificacaoFindAllData, ThrowOnError>
+export const empresaAvaliacaoFindMy = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoFindMyData, ThrowOnError>
 ) =>
-  (options?.client ?? client).get<
-    NotificacaoFindAllResponses,
-    NotificacaoFindAllErrors,
+  (options.client ?? client).get<
+    EmpresaAvaliacaoFindMyResponses,
+    EmpresaAvaliacaoFindMyErrors,
     ThrowOnError
-  >({ url: '/notificacoes', ...options });
+  >({ url: '/empresas/{empresaId}/avaliacoes/minha', ...options });
 
 /**
- * Conta notificacoes nao lidas
+ * Inativa/remove uma avaliação de empresa pelo próprio autor ou superusuário
  *
- * Conta notificacoes nao lidas
+ * Inativa/remove uma avaliação de empresa pelo próprio autor ou superusuário
  */
-export const notificacaoContagemNaoLidas = <
+export const empresaAvaliacaoDelete = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoDeleteData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    EmpresaAvaliacaoDeleteResponses,
+    EmpresaAvaliacaoDeleteErrors,
+    ThrowOnError
+  >({ url: '/empresas/avaliacoes/{id}', ...options });
+
+/**
+ * Busca uma avaliação de empresa por ID
+ *
+ * Busca uma avaliação de empresa por ID
+ */
+export const empresaAvaliacaoFindById = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoFindByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    EmpresaAvaliacaoFindByIdResponses,
+    EmpresaAvaliacaoFindByIdErrors,
+    ThrowOnError
+  >({ url: '/empresas/avaliacoes/{id}', ...options });
+
+/**
+ * Atualiza uma avaliação existente pelo próprio autor
+ *
+ * Atualiza uma avaliação existente pelo próprio autor
+ */
+export const empresaAvaliacaoUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoUpdateData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    EmpresaAvaliacaoUpdateResponses,
+    EmpresaAvaliacaoUpdateErrors,
+    ThrowOnError
+  >({
+    url: '/empresas/avaliacoes/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Remove uma curtida previamente registrada em uma avaliação
+ *
+ * Remove uma curtida previamente registrada em uma avaliação
+ */
+export const empresaAvaliacaoUnlike = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoUnlikeData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    EmpresaAvaliacaoUnlikeResponses,
+    EmpresaAvaliacaoUnlikeErrors,
+    ThrowOnError
+  >({ url: '/empresas/avaliacoes/{id}/curtidas', ...options });
+
+/**
+ * Registra uma curtida em uma avaliação por um usuário autenticado
+ *
+ * Registra uma curtida em uma avaliação por um usuário autenticado
+ */
+export const empresaAvaliacaoLike = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoLikeData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    EmpresaAvaliacaoLikeResponses,
+    EmpresaAvaliacaoLikeErrors,
+    ThrowOnError
+  >({ url: '/empresas/avaliacoes/{id}/curtidas', ...options });
+
+/**
+ * Consulta histórico completo de alterações de uma avaliação
+ *
+ * Consulta histórico completo de alterações de uma avaliação
+ */
+export const empresaAvaliacaoHistoricoList = <
   ThrowOnError extends boolean = false,
 >(
-  options?: Options<NotificacaoContagemNaoLidasData, ThrowOnError>
+  options: Options<EmpresaAvaliacaoHistoricoListData, ThrowOnError>
 ) =>
-  (options?.client ?? client).get<
-    NotificacaoContagemNaoLidasResponses,
-    NotificacaoContagemNaoLidasErrors,
+  (options.client ?? client).get<
+    EmpresaAvaliacaoHistoricoListResponses,
+    EmpresaAvaliacaoHistoricoListErrors,
     ThrowOnError
-  >({ url: '/notificacoes/contagem-nao-lidas', ...options });
+  >({ url: '/empresas/avaliacoes/{id}/historico', ...options });
 
 /**
- * Marca notificacao como lida
+ * Consulta métricas e Score de Reputação da Empresa (0 a 100)
  *
- * Marca notificacao como lida
+ * Consulta métricas e Score de Reputação da Empresa (0 a 100)
  */
-export const notificacaoMarcarLida = <ThrowOnError extends boolean = false>(
-  options: Options<NotificacaoMarcarLidaData, ThrowOnError>
+export const empresaScoreFindOne = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaScoreFindOneData, ThrowOnError>
 ) =>
-  (options.client ?? client).patch<
-    NotificacaoMarcarLidaResponses,
-    NotificacaoMarcarLidaErrors,
+  (options.client ?? client).get<
+    EmpresaScoreFindOneResponses,
+    EmpresaScoreFindOneErrors,
     ThrowOnError
-  >({ url: '/notificacoes/{id}/lida', ...options });
+  >({ url: '/empresas/{id}/score', ...options });
+
+/**
+ * Recalcula forçadamente o Score e distribuição de uma empresa
+ *
+ * Recalcula forçadamente o Score e distribuição de uma empresa
+ */
+export const empresaScoreRecalculate = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaScoreRecalculateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    EmpresaScoreRecalculateResponses,
+    EmpresaScoreRecalculateErrors,
+    ThrowOnError
+  >({ url: '/empresas/{id}/score/recalcular', ...options });
+
+/**
+ * Exibe tela de confirmação da folha de ponto para o supervisor
+ */
+export const folhaPontoTokenExibirConfirmacao = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<FolhaPontoTokenExibirConfirmacaoData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    FolhaPontoTokenExibirConfirmacaoResponses,
+    unknown,
+    ThrowOnError
+  >({ url: '/folha-ponto/tokens/{tokenId}/confirmar', ...options });
+
+/**
+ * Confirma aprovação/rejeição/cancelamento da folha de ponto
+ */
+export const folhaPontoTokenConfirmar = <ThrowOnError extends boolean = false>(
+  options: Options<FolhaPontoTokenConfirmarData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    FolhaPontoTokenConfirmarResponses,
+    unknown,
+    ThrowOnError
+  >({ url: '/folha-ponto/tokens/{tokenId}/confirmar', ...options });
+
+/**
+ * Busca folhas de ponto paginadas
+ *
+ * Busca folhas de ponto paginadas
+ */
+export const folhaPontoFindAll = <ThrowOnError extends boolean = false>(
+  options?: Options<FolhaPontoFindAllData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    FolhaPontoFindAllResponses,
+    FolhaPontoFindAllErrors,
+    ThrowOnError
+  >({ url: '/folha-ponto', ...options });
+
+/**
+ * Cria uma nova folha de ponto para um estágio.
+ *
+ * Cria uma nova folha de ponto para um estágio.
+ */
+export const folhaPontoCreate = <ThrowOnError extends boolean = false>(
+  options: Options<FolhaPontoCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    FolhaPontoCreateResponses,
+    FolhaPontoCreateErrors,
+    ThrowOnError
+  >({
+    url: '/folha-ponto',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Cancela uma folha de ponto com status PENDING.
+ *
+ * Cancela uma folha de ponto com status PENDING.
+ */
+export const folhaPontoCancel = <ThrowOnError extends boolean = false>(
+  options: Options<FolhaPontoCancelData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    FolhaPontoCancelResponses,
+    FolhaPontoCancelErrors,
+    ThrowOnError
+  >({ url: '/folha-ponto/{id}', ...options });
+
+/**
+ * Busca uma folha de ponto pelo ID
+ *
+ * Busca uma folha de ponto pelo ID
+ */
+export const folhaPontoFindById = <ThrowOnError extends boolean = false>(
+  options: Options<FolhaPontoFindByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    FolhaPontoFindByIdResponses,
+    FolhaPontoFindByIdErrors,
+    ThrowOnError
+  >({ url: '/folha-ponto/{id}', ...options });
+
+/**
+ * Envia uma mensagem WhatsApp via WAHA
+ */
+export const whatsappNotificationsControllerSendWhatsAppMessage = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    WhatsappNotificationsControllerSendWhatsAppMessageData,
+    ThrowOnError
+  >
+) =>
+  (options.client ?? client).post<
+    WhatsappNotificationsControllerSendWhatsAppMessageResponses,
+    WhatsappNotificationsControllerSendWhatsAppMessageErrors,
+    ThrowOnError
+  >({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/notifications/whatsapp/send',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Obtém o status da sessão do WhatsApp (WAHA)
+ */
+export const whatsappNotificationsControllerGetStatus = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<WhatsappNotificationsControllerGetStatusData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    WhatsappNotificationsControllerGetStatusResponses,
+    WhatsappNotificationsControllerGetStatusErrors,
+    ThrowOnError
+  >({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/notifications/whatsapp/status',
+    ...options,
+  });
+
+/**
+ * Obtém o código de pareamento para login
+ */
+export const whatsappNotificationsControllerGetPairingCode = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<
+    WhatsappNotificationsControllerGetPairingCodeData,
+    ThrowOnError
+  >
+) =>
+  (options.client ?? client).post<
+    WhatsappNotificationsControllerGetPairingCodeResponses,
+    WhatsappNotificationsControllerGetPairingCodeErrors,
+    ThrowOnError
+  >({
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/notifications/whatsapp/pairing-code',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Recebe os eventos Webhook enviados pelo container do WAHA
+ *
+ * Autenticação via assinatura HMAC-SHA512. O WAHA calcula o hash do payload JSON usando WAHA_WEBHOOK_HMAC_KEY e envia no header X-Webhook-Hmac. O backend recalcula e compara com timing-safe para prevenir timing attacks.
+ */
+export const whatsappWebhooksControllerHandleWebhook = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<WhatsappWebhooksControllerHandleWebhookData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    WhatsappWebhooksControllerHandleWebhookResponses,
+    unknown,
+    ThrowOnError
+  >({
+    url: '/webhooks/whatsapp',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
 
 /**
  * Relatorio de aulas ministradas (JSON)
@@ -3088,6 +4838,207 @@ export const relatorioAulasMinistradasPdf = <
     RelatorioAulasMinistradasPdfErrors,
     ThrowOnError
   >({ url: '/relatorios/aulas-ministradas/pdf', ...options });
+
+/**
+ * Busca relatórios de estágio paginados
+ *
+ * Busca relatórios de estágio paginados
+ */
+export const relatorioFindAll = <ThrowOnError extends boolean = false>(
+  options?: Options<RelatorioFindAllData, ThrowOnError>
+) =>
+  (options?.client ?? client).get<
+    RelatorioFindAllResponses,
+    RelatorioFindAllErrors,
+    ThrowOnError
+  >({ url: '/relatorios-estagio', ...options });
+
+/**
+ * Envia ou salva um relatório de estágio
+ *
+ * Envia ou salva um relatório de estágio
+ */
+export const relatorioCreate = <ThrowOnError extends boolean = false>(
+  options: Options<RelatorioCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    RelatorioCreateResponses,
+    RelatorioCreateErrors,
+    ThrowOnError
+  >({
+    url: '/relatorios-estagio',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Deleta um relatório de estágio
+ *
+ * Deleta um relatório de estágio
+ */
+export const relatorioDelete = <ThrowOnError extends boolean = false>(
+  options: Options<RelatorioDeleteData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    RelatorioDeleteResponses,
+    RelatorioDeleteErrors,
+    ThrowOnError
+  >({ url: '/relatorios-estagio/{id}', ...options });
+
+/**
+ * Busca um relatório de estágio pelo ID
+ *
+ * Busca um relatório de estágio pelo ID
+ */
+export const relatorioFindById = <ThrowOnError extends boolean = false>(
+  options: Options<RelatorioFindByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    RelatorioFindByIdResponses,
+    RelatorioFindByIdErrors,
+    ThrowOnError
+  >({ url: '/relatorios-estagio/{id}', ...options });
+
+/**
+ * Atualiza um relatório de estágio
+ *
+ * Atualiza um relatório de estágio
+ */
+export const relatorioUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<RelatorioUpdateData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    RelatorioUpdateResponses,
+    RelatorioUpdateErrors,
+    ThrowOnError
+  >({
+    url: '/relatorios-estagio/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Substitui o relatório de estágio
+ */
+export const relatorioReplace = <ThrowOnError extends boolean = false>(
+  options: Options<RelatorioReplaceData, ThrowOnError>
+) =>
+  (options.client ?? client).put<
+    RelatorioReplaceResponses,
+    RelatorioReplaceErrors,
+    ThrowOnError
+  >({
+    url: '/relatorios-estagio/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Remove o relatório do estágio
+ */
+export const estagioRelatorioDelete = <ThrowOnError extends boolean = false>(
+  options: Options<EstagioRelatorioDeleteData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    EstagioRelatorioDeleteResponses,
+    EstagioRelatorioDeleteErrors,
+    ThrowOnError
+  >({ url: '/estagios/{id}/relatorio', ...options });
+
+/**
+ * Busca o relatório de estágio pelo ID do estágio
+ *
+ * Busca o relatório de estágio pelo ID do estágio
+ */
+export const relatorioFindByEstagioId = <ThrowOnError extends boolean = false>(
+  options: Options<RelatorioFindByEstagioIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    RelatorioFindByEstagioIdResponses,
+    RelatorioFindByEstagioIdErrors,
+    ThrowOnError
+  >({ url: '/estagios/{id}/relatorio', ...options });
+
+/**
+ * Envia o relatório de estágio em formato PDF
+ *
+ * Faz upload do arquivo PDF do relatório e vincula ao estágio.
+ */
+export const estagioRelatorioUploadPdf = <ThrowOnError extends boolean = false>(
+  options: Options<EstagioRelatorioUploadPdfData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    EstagioRelatorioUploadPdfResponses,
+    EstagioRelatorioUploadPdfErrors,
+    ThrowOnError
+  >({
+    ...formDataBodySerializer,
+    url: '/estagios/{id}/relatorio',
+    ...options,
+    headers: {
+      'Content-Type': null,
+      ...options.headers,
+    },
+  });
+
+/**
+ * Envia o relatório de estágio em formato PDF (alias)
+ */
+export const estagioRelatorioUploadPdfAlias = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<EstagioRelatorioUploadPdfAliasData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    EstagioRelatorioUploadPdfAliasResponses,
+    EstagioRelatorioUploadPdfAliasErrors,
+    ThrowOnError
+  >({
+    ...formDataBodySerializer,
+    url: '/estagios/{id}/relatorio/upload',
+    ...options,
+    headers: {
+      'Content-Type': null,
+      ...options.headers,
+    },
+  });
+
+/**
+ * Obtém o arquivo PDF do relatório de estágio para download ou visualização
+ *
+ * Obtém o arquivo PDF do relatório de estágio para download ou visualização
+ */
+export const relatorioGetPdf = <ThrowOnError extends boolean = false>(
+  options: Options<RelatorioGetPdfData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    RelatorioGetPdfResponses,
+    RelatorioGetPdfErrors,
+    ThrowOnError
+  >({ url: '/estagios/{id}/relatorio/pdf', ...options });
+
+/**
+ * Download do arquivo PDF do relatório de estágio
+ */
+export const estagioRelatorioDownloadPdf = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<EstagioRelatorioDownloadPdfData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    EstagioRelatorioDownloadPdfResponses,
+    EstagioRelatorioDownloadPdfErrors,
+    ThrowOnError
+  >({ url: '/estagios/{id}/relatorio/download', ...options });
 
 /**
  * Retorna as grades horarias ativas de um campus

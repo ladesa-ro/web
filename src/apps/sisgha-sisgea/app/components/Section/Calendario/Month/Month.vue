@@ -114,6 +114,7 @@ watch(
         :key="monthDay.date ?? `day-${idx}`"
         :date="monthDay.date"
         :color="monthDay.color"
+        :occupied="monthDay.occupied"
       />
 
       <SectionCalendarioMonthDay

@@ -4,7 +4,7 @@ import type { AcceptableValue } from 'reka-ui';
 type Props = { items: ParsedItem[]; loading?: boolean; error?: boolean };
 defineProps<Props>();
 
-defineEmits(['option-selected']);
+defineEmits<{ 'option-selected': [item: ParsedItem] }>();
 
 const selectedOption = defineModel<AcceptableValue>({ required: true });
 </script>

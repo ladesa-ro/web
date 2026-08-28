@@ -6,15 +6,11 @@ import {
 import type {
   FindOneFn,
   CreateFn,
-  UpdateFn,
   RemoveFn,
   InvalidateFn,
 } from '~/composables/query-helpers';
-import {
-  createCreateFn,
-  createUpdateFn,
-  createRemoveFn,
-} from './-helpers/crudHelpers';
+import { createCreateFn, createRemoveFn } from './-helpers/crudHelpers';
+import { buildIfMatchHeaders } from './-helpers/ifMatch';
 import {
   calendarioAgendamentoFindAll,
   calendarioAgendamentoFindById,
@@ -23,6 +19,12 @@ import {
   calendarioAgendamentoDeleteOneById,
   calendarioAgendamentoDesvincularTurma,
   calendarioAgendamentoUpdateStatus,
+  calendarioAgendamentoEditarOcorrencia,
+  calendarioAgendamentoCancelarOcorrencia,
+  calendarioAgendamentoEditarSerie,
+  calendarioAgendamentoAdicionarDataAvulsa,
+  calendarioAgendamentoLinhaDoTempo,
+  calendarioAgendamentoImportarIcs,
   consultaOcorrenciasPorData,
 } from '@ladesa-ro/web.api.client';
 import type {
@@ -31,9 +33,20 @@ import type {
   CalendarioAgendamentoListOutputDto,
   CalendarioAgendamentoCreateData,
   CalendarioAgendamentoCreateResponse,
-  CalendarioAgendamentoUpdateData,
+  CalendarioAgendamentoUpdateInputDto,
   CalendarioAgendamentoUpdateResponse,
   CalendarioAgendamentoUpdateStatusInputDto,
+  CalendarioAgendamentoEditarOcorrenciaInputDto,
+  CalendarioAgendamentoEditarOcorrenciaResponse,
+  CalendarioAgendamentoCancelarOcorrenciaInputDto,
+  CalendarioAgendamentoCancelarOcorrenciaResponse,
+  CalendarioAgendamentoEditarSerieInputDto,
+  CalendarioAgendamentoEditarSerieResponse,
+  CalendarioAgendamentoAdicionarDataAvulsaInputDto,
+  CalendarioAgendamentoAdicionarDataAvulsaResponse,
+  CalendarioAgendamentoLinhaDoTempoResponse,
+  CalendarioAgendamentoImportarIcsInputDto,
+  CalendarioAgendamentoImportarIcsResponse,
   ConsultaOcorrenciasPorDataResponse,
   ReqBody,
 } from '@ladesa-ro/web.api.client';
@@ -67,22 +80,48 @@ type UpdateStatusFn = (
   status: CalendarioAgendamentoUpdateStatusInputDto['status']
 ) => Promise<unknown>;
 
+type UpdateWithIfMatchFn<TBody, TResult> = (
+  id: string,
+  data: TBody,
+  version: number
+) => Promise<TResult>;
+
 export type IUseCalendarioAgendamento = {
   keys: readonly string[];
   consulta: ConsultaFn;
   findAll: FindAllFn;
   findOne: FindOneFn<CalendarioAgendamentoFindByIdResponse>;
+  linhaDoTempo: FindOneFn<CalendarioAgendamentoLinhaDoTempoResponse>;
   create: CreateFn<
     ReqBody<CalendarioAgendamentoCreateData>,
     CalendarioAgendamentoCreateResponse
   >;
-  update: UpdateFn<
-    ReqBody<CalendarioAgendamentoUpdateData>,
+  update: UpdateWithIfMatchFn<
+    CalendarioAgendamentoUpdateInputDto,
     CalendarioAgendamentoUpdateResponse
+  >;
+  editarOcorrencia: UpdateWithIfMatchFn<
+    CalendarioAgendamentoEditarOcorrenciaInputDto,
+    CalendarioAgendamentoEditarOcorrenciaResponse
+  >;
+  cancelarOcorrencia: UpdateWithIfMatchFn<
+    CalendarioAgendamentoCancelarOcorrenciaInputDto,
+    CalendarioAgendamentoCancelarOcorrenciaResponse
+  >;
+  editarSerie: UpdateWithIfMatchFn<
+    CalendarioAgendamentoEditarSerieInputDto,
+    CalendarioAgendamentoEditarSerieResponse
+  >;
+  adicionarDataAvulsa: UpdateWithIfMatchFn<
+    CalendarioAgendamentoAdicionarDataAvulsaInputDto,
+    CalendarioAgendamentoAdicionarDataAvulsaResponse
   >;
   remove: RemoveFn;
   desvincularTurma: DesvincularTurmaFn;
   updateStatus: UpdateStatusFn;
+  importarIcs: (
+    data: CalendarioAgendamentoImportarIcsInputDto
+  ) => Promise<CalendarioAgendamentoImportarIcsResponse>;
   invalidate: InvalidateFn;
 };
 
@@ -126,14 +165,67 @@ export const useCalendarioAgendamento = (): IUseCalendarioAgendamento => {
       api.call(calendarioAgendamentoFindById, { path: { id } }),
   });
 
+  const linhaDoTempo = createFindOneQuery({
+    queryKey: [...keys, 'linha-do-tempo'],
+    fetcher: (identificadorExterno: string) =>
+      api.call(calendarioAgendamentoLinhaDoTempo, {
+        path: { identificadorExterno },
+      }),
+  });
+
   const create = createCreateFn<
     ReqBody<CalendarioAgendamentoCreateData>,
     CalendarioAgendamentoCreateResponse
   >(api, calendarioAgendamentoCreate);
-  const update = createUpdateFn<
-    ReqBody<CalendarioAgendamentoUpdateData>,
-    CalendarioAgendamentoUpdateResponse
-  >(api, calendarioAgendamentoUpdate);
+
+  const update: IUseCalendarioAgendamento['update'] = (id, data, version) =>
+    api.call(calendarioAgendamentoUpdate, {
+      path: { id },
+      body: data,
+      headers: buildIfMatchHeaders(version),
+    });
+
+  const editarOcorrencia: IUseCalendarioAgendamento['editarOcorrencia'] = (
+    id,
+    data,
+    version
+  ) =>
+    api.call(calendarioAgendamentoEditarOcorrencia, {
+      path: { id },
+      body: data,
+      headers: buildIfMatchHeaders(version),
+    });
+
+  const cancelarOcorrencia: IUseCalendarioAgendamento['cancelarOcorrencia'] = (
+    id,
+    data,
+    version
+  ) =>
+    api.call(calendarioAgendamentoCancelarOcorrencia, {
+      path: { id },
+      body: data,
+      headers: buildIfMatchHeaders(version),
+    });
+
+  const editarSerie: IUseCalendarioAgendamento['editarSerie'] = (
+    id,
+    data,
+    version
+  ) =>
+    api.call(calendarioAgendamentoEditarSerie, {
+      path: { id },
+      body: data,
+      headers: buildIfMatchHeaders(version),
+    });
+
+  const adicionarDataAvulsa: IUseCalendarioAgendamento['adicionarDataAvulsa'] =
+    (id, data, version) =>
+      api.call(calendarioAgendamentoAdicionarDataAvulsa, {
+        path: { id },
+        body: data,
+        headers: buildIfMatchHeaders(version),
+      });
+
   const remove = createRemoveFn(api, calendarioAgendamentoDeleteOneById);
 
   const desvincularTurma: DesvincularTurmaFn = (agendamentoId, turmaId) =>
@@ -147,6 +239,9 @@ export const useCalendarioAgendamento = (): IUseCalendarioAgendamento => {
       body: { status },
     });
 
+  const importarIcs: IUseCalendarioAgendamento['importarIcs'] = data =>
+    api.call(calendarioAgendamentoImportarIcs, { body: data });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -154,11 +249,17 @@ export const useCalendarioAgendamento = (): IUseCalendarioAgendamento => {
     consulta,
     findAll,
     findOne,
+    linhaDoTempo,
     create,
     update,
+    editarOcorrencia,
+    cancelarOcorrencia,
+    editarSerie,
+    adicionarDataAvulsa,
     remove,
     desvincularTurma,
     updateStatus: updateStatusFn,
+    importarIcs,
     invalidate,
   };
 };

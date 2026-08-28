@@ -19,6 +19,32 @@ const calendarioEvents = useInjectCalendarioEvents();
 const isEvent = ref<boolean | null>(null);
 const initialData = ref<Partial<CalendarioAgendamentoCreateInputDto>>({});
 const selectedCalendarId = ref<string | null>(props.calendarId ?? null);
+const eventVersion = ref<number | null>(null);
+const repeticaoOriginal = ref<string | null>(null);
+
+const scopeModalOpen = ref(false);
+const scopeModalMode = ref<'edit' | 'delete'>('edit');
+let scopeResolve:
+  | ((v: { scope: string; motivo?: string } | null) => void)
+  | null = null;
+
+function promptScope(mode: 'edit' | 'delete') {
+  scopeModalMode.value = mode;
+  scopeModalOpen.value = true;
+  return new Promise<{ scope: string; motivo?: string } | null>(resolve => {
+    scopeResolve = resolve;
+  });
+}
+
+function onScopeConfirm(payload: { scope: string; motivo?: string }) {
+  scopeResolve?.(payload);
+  scopeResolve = null;
+}
+
+function onScopeCancel() {
+  scopeResolve?.(null);
+  scopeResolve = null;
+}
 
 const formBaseRef = ref<{
   validateAndGetValues: () => Promise<IAgendamentoFormOutput | null>;
@@ -29,11 +55,20 @@ const formBaseRef = ref<{
 // Query reativa: carrega evento existente por ID
 const eventQuery = agendamento.findOne(computed(() => props.eventId ?? null));
 
+const { handle: handleWriteError, conflictMessage } =
+  useApiWriteErrorHandler({
+    onReload: async () => {
+      await eventQuery.refetch();
+    },
+  });
+
 watch(
   () => eventQuery.data.value,
   found => {
     if (!found) return;
     isEvent.value = true;
+    eventVersion.value = found.version;
+    repeticaoOriginal.value = found.repeticao ?? null;
     initialData.value = {
       nome: found.nome ?? '',
       cor: found.cor ?? undefined,
@@ -50,6 +85,13 @@ watch(
       horarioFim: found.dataFim
         ? dayjs(found.dataFim).format('HH:mm')
         : undefined,
+      colecao: (found as Record<string, unknown>).colecao
+        ? { id: ((found as Record<string, any>).colecao as { id: string }).id }
+        : undefined,
+      campus: (found as Record<string, unknown>).campus
+        ? { id: ((found as Record<string, any>).campus as { id: string }).id }
+        : undefined,
+      motivo: (found as Record<string, unknown>).motivo as string | undefined,
     };
 
     // Preencher calendário vinculado ao evento existente
@@ -66,35 +108,92 @@ const effectiveCalendarId = computed(
   () => selectedCalendarId.value || props.calendarId || null
 );
 
+const occurrenceDate = computed(() => initialData.value.dataInicio || '');
+
 const validateEventCrud = async (): Promise<boolean> => {
   const data = await formBaseRef.value?.validateAndGetValues();
   if (!data) return false;
 
   const calId = effectiveCalendarId.value;
 
-  if (isEvent.value && props.eventId) {
-    await agendamento.update(props.eventId, {
-      nome: data.nome,
-      cor: data.cor ?? undefined,
-      diaInteiro: data.diaInteiro,
-      dataInicio: data.dataInicio,
-      dataFim: data.dataFim ?? undefined,
-      horarioInicio: data.horarioInicio ?? undefined,
-      horarioFim: data.horarioFim ?? undefined,
-      ...(calId ? { calendariosLetivos: [{ id: calId }] } : {}),
-    });
-  } else {
-    await agendamento.create({
-      tipo: 'EVENTO',
-      nome: data.nome,
-      cor: data.cor ?? undefined,
-      diaInteiro: data.diaInteiro,
-      dataInicio: data.dataInicio,
-      dataFim: data.dataFim ?? undefined,
-      horarioInicio: data.horarioInicio ?? undefined,
-      horarioFim: data.horarioFim ?? undefined,
-      ...(calId ? { calendariosLetivos: [{ id: calId }] } : {}),
-    });
+  conflictMessage.value = null;
+
+  try {
+    if (isEvent.value && props.eventId) {
+      if (eventVersion.value === null) return false;
+
+      if (repeticaoOriginal.value) {
+        const choice = await promptScope('edit');
+        if (!choice) return false;
+
+        if (choice.scope === 'ESTA_OCORRENCIA') {
+          await agendamento.editarOcorrencia(
+            props.eventId,
+            {
+              dataOcorrencia: occurrenceDate.value,
+              diaInteiro: data.diaInteiro,
+              horarioInicio: data.horarioInicio ?? undefined,
+              horarioFim: data.horarioFim ?? undefined,
+              ...(calId ? { calendariosLetivos: [{ id: calId }] } : {}),
+            },
+            eventVersion.value
+          );
+        } else {
+          await agendamento.editarSerie(
+            props.eventId,
+            {
+              dataOcorrencia: occurrenceDate.value,
+              escopo: choice.scope === 'TODAS' ? 'TODAS' : 'ESTA_E_SEGUINTES',
+              dataInicio: data.dataInicio,
+              dataFim: data.dataFim ?? undefined,
+              diaInteiro: data.diaInteiro,
+              horarioInicio: data.horarioInicio ?? undefined,
+              horarioFim: data.horarioFim ?? undefined,
+              repeticao: data.repeticao ?? undefined,
+              ...(calId ? { calendariosLetivos: [{ id: calId }] } : {}),
+            },
+            eventVersion.value
+          );
+        }
+      } else {
+        await agendamento.update(
+          props.eventId,
+          {
+            nome: data.nome,
+            cor: data.cor ?? undefined,
+            diaInteiro: data.diaInteiro,
+            dataInicio: data.dataInicio,
+            dataFim: data.dataFim ?? undefined,
+            horarioInicio: data.horarioInicio ?? undefined,
+            horarioFim: data.horarioFim ?? undefined,
+            colecao: data.colecao?.id ? { id: data.colecao.id } : undefined,
+            campus: data.campus?.id ? { id: data.campus.id } : undefined,
+            motivo: data.motivo ?? undefined,
+            ...(calId ? { calendariosLetivos: [{ id: calId }] } : {}),
+          },
+          eventVersion.value
+        );
+      }
+    } else {
+      await agendamento.create({
+        tipo: 'EVENTO',
+        nome: data.nome,
+        cor: data.cor ?? undefined,
+        diaInteiro: data.diaInteiro,
+        dataInicio: data.dataInicio,
+        dataFim: data.dataFim ?? undefined,
+        horarioInicio: data.horarioInicio ?? undefined,
+        horarioFim: data.horarioFim ?? undefined,
+        colecao: data.colecao?.id ? { id: data.colecao.id } : undefined,
+        campus: data.campus?.id ? { id: data.campus.id } : undefined,
+        motivo: data.motivo ?? undefined,
+        ...(calId ? { calendariosLetivos: [{ id: calId }] } : {}),
+      });
+    }
+  } catch (err) {
+    const handled = await handleWriteError(err);
+    if (!handled) throw err;
+    return false;
   }
 
   await agendamento.invalidate();
@@ -109,11 +208,34 @@ const deleteEvent = async (): Promise<boolean> => {
   }
 
   try {
-    await agendamento.remove(idToDelete);
+    if (isEvent.value && props.eventId && repeticaoOriginal.value) {
+      if (eventVersion.value === null) return false;
+
+      const choice = await promptScope('delete');
+      if (!choice) return false;
+
+      if (choice.scope === 'ESTA_OCORRENCIA') {
+        await agendamento.cancelarOcorrencia(
+          props.eventId,
+          {
+            dataOcorrencia: occurrenceDate.value,
+            motivo: choice.motivo,
+          },
+          eventVersion.value
+        );
+      } else {
+        await agendamento.remove(idToDelete);
+      }
+    } else {
+      await agendamento.remove(idToDelete);
+    }
+
     await agendamento.invalidate();
     calendarioEvents.emitEventsUpdated();
     return true;
   } catch (e) {
+    const handled = await handleWriteError(e);
+    if (handled) return false;
     console.error('Erro deleteEvent:', e);
     return false;
   }
@@ -128,6 +250,13 @@ defineExpose({ validateEventCrud, fillForm, deleteEvent });
 
 <template>
   <div v-if="!eventQuery.isLoading.value" class="flex flex-col gap-5">
+    <p
+      v-if="conflictMessage"
+      class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 rounded-md p-3"
+    >
+      {{ conflictMessage }}
+    </p>
+
     <VVAutocompleteAPICalendarioLetivo
       v-model="selectedCalendarId"
       name="calendarioLetivo"
@@ -143,4 +272,11 @@ defineExpose({ validateEventCrud, fillForm, deleteEvent });
       :show-participants="showParticipants"
     />
   </div>
+
+  <SectionCalendarioEventRecurrenceScopeModal
+    v-model="scopeModalOpen"
+    :mode="scopeModalMode"
+    @confirm="onScopeConfirm"
+    @cancel="onScopeCancel"
+  />
 </template>

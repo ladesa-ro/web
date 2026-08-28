@@ -74,6 +74,14 @@ export const useLayoutsDashboardSisghaDapeSidebarItems = () => {
     },
 
     {
+      type: 'link',
+      title: 'Coleções de Calendário',
+      icon: IconsCalendar,
+      to: `${CAMINHO_DAPE}/calendario/colecoes`,
+      hidden: true,
+    },
+
+    {
       type: 'group',
       title: 'Gestão',
       icon: IconsManagement,

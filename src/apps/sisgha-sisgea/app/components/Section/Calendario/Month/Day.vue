@@ -14,6 +14,8 @@ const props = defineProps<Day>();
     :class="{
       'bg-ldsa-grey/30': !props.date,
       'bg-ldsa-grey/60 ': props.color === 'none',
+      'bg-[repeating-linear-gradient(135deg,rgba(107,114,128,0.6)_0,rgba(107,114,128,0.6)_2px,transparent_2px,transparent_6px)]':
+        props.occupied,
     }"
     :style="{ backgroundColor: props.color }"
   >

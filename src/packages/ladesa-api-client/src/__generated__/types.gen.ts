@@ -494,13 +494,13 @@ export type OfertaFormacaoFindOneOutputDto = {
    * Modalidade da oferta de formacao
    */
   modalidade?: ModalidadeFindOneOutputDto & {
-    id: string;
+    id?: string;
   };
   /**
    * Campus da oferta de formacao
    */
   campus?: CampusFindOneOutputDto & {
-    id: string;
+    id?: string;
   };
   /**
    * Niveis de formacao vinculados a oferta de formacao
@@ -575,15 +575,21 @@ export type CursoFindOneOutputDto = {
   /**
    * Campus que o curso pertence
    */
-  campus: CampusFindOneOutputDto;
+  campus?: CampusFindOneOutputDto;
   /**
    * Oferta de formacao do curso
    */
-  ofertaFormacao: OfertaFormacaoFindOneOutputDto;
+  ofertaFormacao?: OfertaFormacaoFindOneOutputDto;
   /**
    * Imagem de capa do curso
    */
   imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
+  /**
+   * Coleção do calendário herdada por agendamentos criados a partir de turmas deste curso, quando não informada explicitamente
+   */
+  colecaoPadrao?: {
+    [key: string]: unknown;
+  } | null;
   periodos: Array<CursoPeriodoDisciplinaOutputPeriodoDto>;
 };
 
@@ -645,6 +651,12 @@ export type CursoCreateInputDto = {
   ofertaFormacao: {
     [key: string]: unknown;
   };
+  /**
+   * Coleção do calendário herdada por agendamentos criados a partir de turmas deste curso, quando não informada explicitamente
+   */
+  colecaoPadrao?: {
+    [key: string]: unknown;
+  } | null;
   periodos?: Array<CursoPeriodoDisciplinaPeriodoItemDto>;
 };
 
@@ -673,6 +685,12 @@ export type CursoUpdateInputDto = {
   ofertaFormacao?: {
     [key: string]: unknown;
   };
+  /**
+   * Coleção do calendário herdada por agendamentos criados a partir de turmas deste curso, quando não informada explicitamente
+   */
+  colecaoPadrao?: {
+    [key: string]: unknown;
+  } | null;
   periodos?: Array<CursoPeriodoDisciplinaPeriodoItemDto>;
 };
 
@@ -769,6 +787,17 @@ export type CampusUpdateInputDto = {
    * Endereco do campus
    */
   endereco?: EnderecoInputDto;
+};
+
+export type EnderecoListOutputDto = {
+  /**
+   * Metadados da busca
+   */
+  meta: PaginationMetaRestDto;
+  /**
+   * Resultados da busca
+   */
+  data: Array<EnderecoFindOneOutputDto>;
 };
 
 export type OfertaFormacaoListOutputDto = {
@@ -1084,6 +1113,10 @@ export type UsuarioCreateInputDto = {
   vinculos?: Array<VinculoInputDto>;
 };
 
+export type UsuarioImportJobOutputDto = {
+  message: string;
+};
+
 export type UsuarioUpdateInputDto = {
   /**
    * Nome do usuario
@@ -1269,6 +1302,13 @@ export type HorarioSemanalOutputDto = {
   dias: Array<HorarioSemanalDiaDto>;
 };
 
+export type UsuarioDefinirPerfisInputDto = {
+  /**
+   * Vinculos (cargos por campus) do usuario
+   */
+  vinculos: Array<VinculoInputDto>;
+};
+
 export type PerfilFindOneOutputDto = {
   /**
    * Identificador do registro (uuid)
@@ -1302,6 +1342,10 @@ export type PerfilFindOneOutputDto = {
    * Usuario associado ao vinculo
    */
   usuario: UsuarioFindOneOutputDto;
+  /**
+   * Carga horária semanal máxima do professor, em horas — nulo significa sem limite
+   */
+  cargaMaximaSemanal?: number | null;
 };
 
 export type PerfilListOutputDto = {
@@ -1315,80 +1359,49 @@ export type PerfilListOutputDto = {
   data: Array<PerfilFindOneOutputDto>;
 };
 
-export type DisciplinaFindOneOutputDto = {
+export type PerfilUpdateInputDto = {
   /**
-   * Identificador do registro (uuid)
+   * Indica se o vinculo esta ativo
+   */
+  ativo?: boolean;
+  /**
+   * Cargo do usuario no vinculo
+   */
+  cargo?: string;
+  /**
+   * Carga horária semanal máxima do professor, em horas — nulo significa sem limite
+   */
+  cargaMaximaSemanal?: number | null;
+};
+
+export type CargoCreateInputDto = {
+  /**
+   * Nome do cargo
+   */
+  nome: string;
+};
+
+export type CargoOutputDto = {
+  /**
+   * ID do cargo
    */
   id: string;
   /**
-   * Data e hora da criacao do registro
-   */
-  dateCreated: string;
-  /**
-   * Data e hora da alteracao do registro
-   */
-  dateUpdated: string;
-  /**
-   * Data e hora da exclusao do registro
-   */
-  dateDeleted?: string | null;
-  /**
-   * Nome da disciplina
+   * Nome do cargo
    */
   nome: string;
-  /**
-   * Nome abreviado da disciplina
-   */
-  nomeAbreviado: string;
-  /**
-   * Carga horaria da disciplina
-   */
-  cargaHoraria: number;
-  /**
-   * Imagem de capa da disciplina
-   */
-  imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
 };
 
-export type DisciplinaListOutputDto = {
-  /**
-   * Metadados da busca
-   */
+export type CargoListOutputDto = {
   meta: PaginationMetaRestDto;
-  /**
-   * Resultados da busca
-   */
-  data: Array<DisciplinaFindOneOutputDto>;
+  data: Array<CargoOutputDto>;
 };
 
-export type DisciplinaCreateInputDto = {
+export type CargoUpdateInputDto = {
   /**
-   * Nome da disciplina
-   */
-  nome: string;
-  /**
-   * Nome abreviado da disciplina
-   */
-  nomeAbreviado: string;
-  /**
-   * Carga horaria da disciplina
-   */
-  cargaHoraria: number;
-};
-
-export type DisciplinaUpdateInputDto = {
-  /**
-   * Nome da disciplina
+   * Nome do cargo
    */
   nome?: string;
-  /**
-   * Nome abreviado da disciplina
-   */
-  nomeAbreviado?: string;
-  /**
-   * Carga horaria da disciplina
-   */
-  cargaHoraria?: number;
 };
 
 export type BlocoFindOneOutputDto = {
@@ -1510,6 +1523,776 @@ export type TurmaFindOneOutputDto = {
    * Imagem de capa da turma
    */
   imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
+  /**
+   * Número estimado de alunos da turma, usado para validar a capacidade dos ambientes agendados — nulo significa não informado
+   */
+  numeroEstimadoAlunos?: number | null;
+};
+
+export type TurmaListOutputDto = {
+  /**
+   * Metadados da busca
+   */
+  meta: PaginationMetaRestDto;
+  /**
+   * Resultados da busca
+   */
+  data: Array<TurmaFindOneOutputDto>;
+};
+
+export type TurmaCreateInputDto = {
+  /**
+   * Periodo da turma
+   */
+  periodo: string;
+  /**
+   * Nome da turma
+   */
+  nome?: string | null;
+  /**
+   * Curso da turma
+   */
+  curso: {
+    [key: string]: unknown;
+  };
+  /**
+   * Ambiente padrao da sala de aula
+   */
+  ambientePadraoAula?: {
+    [key: string]: unknown;
+  } | null;
+  /**
+   * Número estimado de alunos da turma, usado para validar a capacidade dos ambientes agendados — nulo significa não informado
+   */
+  numeroEstimadoAlunos?: number | null;
+};
+
+export type TurmaUpdateInputDto = {
+  /**
+   * Periodo da turma
+   */
+  periodo?: string;
+  /**
+   * Nome da turma
+   */
+  nome?: string | null;
+  /**
+   * Curso da turma
+   */
+  curso?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Ambiente padrao da sala de aula
+   */
+  ambientePadraoAula?: {
+    [key: string]: unknown;
+  } | null;
+  /**
+   * Número estimado de alunos da turma, usado para validar a capacidade dos ambientes agendados — nulo significa não informado
+   */
+  numeroEstimadoAlunos?: number | null;
+};
+
+export type EstagiarioFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Perfil vinculado ao estagiário
+   */
+  perfil: PerfilFindOneOutputDto | null;
+  /**
+   * Curso vinculado ao estagiário
+   */
+  curso: CursoFindOneOutputDto | null;
+  /**
+   * Período do estagiário
+   */
+  periodo: string;
+  /**
+   * Telefone do estagiário
+   */
+  telefone: string;
+  /**
+   * Email institucional do estagiário
+   */
+  emailInstitucional?: string | null;
+  /**
+   * Data de nascimento do estagiário
+   */
+  dataNascimento: string;
+  /**
+   * Se o estagiário está ativo
+   */
+  ativo: boolean;
+};
+
+export type HorarioEstagioOutputDto = {
+  /**
+   * Dia da semana (0=dom..6=sab)
+   */
+  diaSemana: number;
+  /**
+   * Hora de inicio
+   */
+  horaInicio?: string;
+  /**
+   * Hora de fim
+   */
+  horaFim?: string;
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+};
+
+export type EstagioFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Campus do estágio
+   */
+  campus?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Empresa do estágio
+   */
+  empresa: {
+    [key: string]: unknown;
+  };
+  /**
+   * Estagiário (opcional enquanto a vaga estiver aberta)
+   */
+  estagiario?: {
+    [key: string]: unknown;
+  } | null;
+  /**
+   * Referência ao curso (opcional)
+   */
+  CursoReferencia?: {
+    [key: string]: unknown;
+  } | null;
+  /**
+   * Usuário orientador do estágio
+   */
+  usuarioOrientador?: {
+    [key: string]: unknown;
+  } | null;
+  /**
+   * Carga horária semanal
+   */
+  cargaHoraria: number;
+  /**
+   * Data de início do estágio
+   */
+  dataInicio?: string | null;
+  /**
+   * Data de fim do estágio
+   */
+  dataFim?: string | null;
+  /**
+   * Status do estágio
+   */
+  status:
+    | 'DISPONIVEL'
+    | 'EM_FASE_INICIAL'
+    | 'EM_ANDAMENTO'
+    | 'RESCINDIDO'
+    | 'COM_PENDENCIA'
+    | 'ENCERRADO'
+    | 'APTO_PARA_ENCERRAMENTO';
+  /**
+   * Nome do supervisor
+   */
+  nomeSupervisor?: string | null;
+  /**
+   * Email do supervisor
+   */
+  emailSupervisor?: string | null;
+  /**
+   * Telefone do supervisor
+   */
+  telefoneSupervisor?: string | null;
+  /**
+   * Se há aditivo ao contrato
+   */
+  aditivo: boolean;
+  /**
+   * Tipo de aditivo
+   */
+  tipoAditivo?: string | null;
+  /**
+   * Horários do estágio
+   */
+  horariosEstagio: Array<HorarioEstagioOutputDto>;
+  /**
+   * Se o estágio está ativo
+   */
+  ativo: boolean;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+};
+
+export type TurmaEstagiarioItemOutputDto = {
+  /**
+   * Dados completos do estagiário
+   */
+  estagiario: EstagiarioFindOneOutputDto;
+  /**
+   * Estágios associados ao estagiário. Array vazio quando não há estágio cadastrado. Múltiplos itens representam o histórico completo (estágios encerrados, rescindidos, em andamento, etc.)
+   */
+  estagios: Array<EstagioFindOneOutputDto>;
+};
+
+export type TurmaListEstagiariosOutputDto = {
+  /**
+   * Lista de estagiários da turma com seus respectivos estágios
+   */
+  items: Array<TurmaEstagiarioItemOutputDto>;
+};
+
+export type TurmaDiarioConfigurarItemDto = {
+  /**
+   * ID da disciplina
+   */
+  disciplinaId: string;
+  /**
+   * IDs dos professores (perfis)
+   */
+  professorPerfilIds?: Array<string>;
+};
+
+export type TurmaDiarioConfigurarInputDto = {
+  /**
+   * ID do calendario letivo
+   */
+  calendarioLetivoId: string;
+  /**
+   * Configuracao de disciplinas
+   */
+  diarios: Array<TurmaDiarioConfigurarItemDto>;
+};
+
+export type TurmaDiarioConfigurarOutputDto = {
+  /**
+   * Quantidade de diarios criados
+   */
+  created: number;
+};
+
+export type AmbienteListOutputDto = {
+  /**
+   * Metadados da busca
+   */
+  meta: PaginationMetaRestDto;
+  /**
+   * Resultados da busca
+   */
+  data: Array<AmbienteFindOneOutputDto>;
+};
+
+export type AmbienteBlocoRefInputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+};
+
+export type AmbienteCreateInputDto = {
+  /**
+   * Nome do ambiente/sala
+   */
+  nome: string;
+  /**
+   * Descricao do ambiente/sala
+   */
+  descricao?: string | null;
+  /**
+   * Codigo do ambiente/sala
+   */
+  codigo: string;
+  /**
+   * Capacidade do ambiente/sala
+   */
+  capacidade?: number | null;
+  /**
+   * Tipo do ambiente/sala. Ex.: sala aula, auditorio, laboratorio de quimica
+   */
+  tipo?: string | null;
+  /**
+   * Bloco que o ambiente/sala pertence
+   */
+  bloco: AmbienteBlocoRefInputDto;
+};
+
+export type AmbienteUpdateInputDto = {
+  /**
+   * Nome do ambiente/sala
+   */
+  nome?: string;
+  /**
+   * Descricao do ambiente/sala
+   */
+  descricao?: string | null;
+  /**
+   * Codigo do ambiente/sala
+   */
+  codigo?: string;
+  /**
+   * Capacidade do ambiente/sala
+   */
+  capacidade?: number | null;
+  /**
+   * Tipo do ambiente/sala. Ex.: sala aula, auditorio, laboratorio de quimica
+   */
+  tipo?: string | null;
+  /**
+   * Bloco que o ambiente/sala pertence
+   */
+  bloco?: AmbienteBlocoRefInputDto;
+};
+
+export type BlocoListOutputDto = {
+  /**
+   * Metadados da busca
+   */
+  meta: PaginationMetaRestDto;
+  /**
+   * Resultados da busca
+   */
+  data: Array<BlocoFindOneOutputDto>;
+};
+
+export type BlocoCampusRefInputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+};
+
+export type BlocoCreateInputDto = {
+  /**
+   * Nome do bloco
+   */
+  nome: string;
+  /**
+   * Codigo do bloco
+   */
+  codigo: string;
+  /**
+   * Campus do bloco
+   */
+  campus: BlocoCampusRefInputDto;
+};
+
+export type BlocoUpdateInputDto = {
+  /**
+   * Nome do bloco
+   */
+  nome?: string;
+  /**
+   * Codigo do bloco
+   */
+  codigo?: string;
+  /**
+   * Campus do bloco
+   */
+  campus?: BlocoCampusRefInputDto;
+};
+
+export type EstagiarioListOutputDto = {
+  /**
+   * Metadados da busca
+   */
+  meta: PaginationMetaRestDto;
+  /**
+   * Resultados da busca
+   */
+  data: Array<EstagiarioFindOneOutputDto>;
+};
+
+export type EstagiarioPerfilRefInputDto = {
+  /**
+   * ID do perfil
+   */
+  id: string;
+};
+
+export type EstagiarioCursoRefInputDto = {
+  /**
+   * ID do curso
+   */
+  id: string;
+};
+
+export type EstagiarioCreateInputDto = {
+  /**
+   * Perfil vinculado ao estagiário
+   */
+  perfil: EstagiarioPerfilRefInputDto;
+  /**
+   * Curso vinculado ao estagiário
+   */
+  curso: EstagiarioCursoRefInputDto;
+  /**
+   * Período do estagiário
+   */
+  periodo: string;
+  /**
+   * Telefone do estagiário
+   */
+  telefone: string;
+  /**
+   * Email institucional do estagiário
+   */
+  emailInstitucional: string | null;
+  /**
+   * Data de nascimento do estagiário
+   */
+  dataNascimento: string;
+};
+
+export type EstagiarioUpdateInputDto = {
+  /**
+   * Perfil vinculado ao estagiário
+   */
+  perfil?: EstagiarioPerfilRefInputDto;
+  /**
+   * Curso vinculado ao estagiário
+   */
+  curso?: EstagiarioCursoRefInputDto;
+  /**
+   * Período do estagiário
+   */
+  periodo?: string;
+  /**
+   * Telefone do estagiário
+   */
+  telefone?: string;
+  /**
+   * Email institucional do estagiário
+   */
+  emailInstitucional?: string | null;
+  /**
+   * Data de nascimento do estagiário
+   */
+  dataNascimento?: string;
+};
+
+export type Object = {
+  [key: string]: unknown;
+};
+
+export type EstagioListOutputDto = {
+  /**
+   * Resultados da busca
+   */
+  data: Array<EstagioFindOneOutputDto>;
+  /**
+   * Total de itens
+   */
+  total: number;
+  /**
+   * Pagina de consulta
+   */
+  page: number | null;
+  /**
+   * Limite da quantidade de resultados por pagina
+   */
+  limit: number | null;
+};
+
+export type EstagioCampusRefInputDto = {
+  /**
+   * Campus do estágio
+   */
+  id: string;
+};
+
+export type EstagioEmpresaRefInputDto = {
+  /**
+   * Empresa do estágio
+   */
+  id: string;
+};
+
+export type EstagioEstagiarioRefInputDto = {
+  /**
+   * Estagiário (opcional enquanto a vaga estiver aberta)
+   */
+  id: string | null;
+};
+
+export type EstagioUsuarioOrientadorRefInputDto = {
+  /**
+   * Usuário orientador do estágio
+   */
+  id: string | null;
+};
+
+export type EstagioCursoRefInputDto = {
+  /**
+   * Referência ao curso (opcional)
+   */
+  id: string | null;
+};
+
+export type HorarioEstagioInputDto = {
+  /**
+   * Dia da semana (0=dom..6=sab)
+   */
+  diaSemana: number;
+  /**
+   * Hora de inicio
+   */
+  horaInicio?: string;
+  /**
+   * Hora de fim
+   */
+  horaFim?: string;
+};
+
+export type EstagioCreateInputDto = {
+  /**
+   * Campus do estágio
+   */
+  campus?: EstagioCampusRefInputDto;
+  /**
+   * Empresa do estágio
+   */
+  empresa: EstagioEmpresaRefInputDto;
+  /**
+   * Estagiário (opcional enquanto a vaga estiver aberta)
+   */
+  estagiario?: EstagioEstagiarioRefInputDto | null;
+  /**
+   * Usuário orientador do estágio
+   */
+  usuarioOrientador?: EstagioUsuarioOrientadorRefInputDto | null;
+  /**
+   * Carga horária semanal
+   */
+  cargaHoraria: number;
+  /**
+   * Referência ao curso (opcional)
+   */
+  CursoReferencia?: EstagioCursoRefInputDto | null;
+  /**
+   * Data de início do estágio
+   */
+  dataInicio?: string | null;
+  /**
+   * Data de fim do estágio
+   */
+  dataFim?: string | null;
+  /**
+   * Status do estágio
+   */
+  status?:
+    | 'DISPONIVEL'
+    | 'EM_FASE_INICIAL'
+    | 'EM_ANDAMENTO'
+    | 'RESCINDIDO'
+    | 'COM_PENDENCIA'
+    | 'ENCERRADO'
+    | 'APTO_PARA_ENCERRAMENTO';
+  /**
+   * Nome do supervisor
+   */
+  nomeSupervisor?: string | null;
+  /**
+   * Email do supervisor
+   */
+  emailSupervisor?: string | null;
+  /**
+   * Telefone do supervisor
+   */
+  telefoneSupervisor?: string | null;
+  /**
+   * Se há aditivo ao contrato
+   */
+  aditivo?: boolean;
+  /**
+   * Tipo de aditivo
+   */
+  tipoAditivo?: string | null;
+  /**
+   * Horários do estágio
+   */
+  horariosEstagio?: Array<HorarioEstagioInputDto>;
+};
+
+export type EstagioImportJobOutputDto = {
+  message: string;
+};
+
+export type EstagioUpdateInputDto = {
+  /**
+   * Campus do estágio
+   */
+  campus?: EstagioCampusRefInputDto;
+  /**
+   * Empresa do estágio
+   */
+  empresa?: EstagioEmpresaRefInputDto;
+  /**
+   * Estagiário (opcional enquanto a vaga estiver aberta)
+   */
+  estagiario?: EstagioEstagiarioRefInputDto | null;
+  /**
+   * Usuário orientador do estágio
+   */
+  usuarioOrientador?: EstagioUsuarioOrientadorRefInputDto | null;
+  /**
+   * Carga horária semanal
+   */
+  cargaHoraria?: number;
+  /**
+   * Referência ao curso (opcional)
+   */
+  CursoReferencia?: EstagioCursoRefInputDto | null;
+  /**
+   * Data de início do estágio
+   */
+  dataInicio?: string | null;
+  /**
+   * Data de fim do estágio
+   */
+  dataFim?: string | null;
+  /**
+   * Status do estágio
+   */
+  status?:
+    | 'DISPONIVEL'
+    | 'EM_FASE_INICIAL'
+    | 'EM_ANDAMENTO'
+    | 'RESCINDIDO'
+    | 'COM_PENDENCIA'
+    | 'ENCERRADO'
+    | 'APTO_PARA_ENCERRAMENTO';
+  /**
+   * Nome do supervisor
+   */
+  nomeSupervisor?: string | null;
+  /**
+   * Email do supervisor
+   */
+  emailSupervisor?: string | null;
+  /**
+   * Telefone do supervisor
+   */
+  telefoneSupervisor?: string | null;
+  /**
+   * Se há aditivo ao contrato
+   */
+  aditivo?: boolean;
+  /**
+   * Tipo de aditivo
+   */
+  tipoAditivo?: string | null;
+  /**
+   * Horários do estágio
+   */
+  horariosEstagio?: Array<HorarioEstagioInputDto>;
+};
+
+export type DisciplinaFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Nome da disciplina
+   */
+  nome: string;
+  /**
+   * Nome abreviado da disciplina
+   */
+  nomeAbreviado: string;
+  /**
+   * Carga horaria da disciplina
+   */
+  cargaHoraria: number;
+  /**
+   * Imagem de capa da disciplina
+   */
+  imagemCapa?: ImagemFindOneOutputFromBlocoDto | null;
+};
+
+export type DisciplinaListOutputDto = {
+  /**
+   * Metadados da busca
+   */
+  meta: PaginationMetaRestDto;
+  /**
+   * Resultados da busca
+   */
+  data: Array<DisciplinaFindOneOutputDto>;
+};
+
+export type DisciplinaCreateInputDto = {
+  /**
+   * Nome da disciplina
+   */
+  nome: string;
+  /**
+   * Nome abreviado da disciplina
+   */
+  nomeAbreviado: string;
+  /**
+   * Carga horaria da disciplina
+   */
+  cargaHoraria: number;
+};
+
+export type DisciplinaUpdateInputDto = {
+  /**
+   * Nome da disciplina
+   */
+  nome?: string;
+  /**
+   * Nome abreviado da disciplina
+   */
+  nomeAbreviado?: string;
+  /**
+   * Carga horaria da disciplina
+   */
+  cargaHoraria?: number;
 };
 
 export type CalendarioLetivoEtapaOutputDto = {
@@ -1695,6 +2478,38 @@ export type CalendarioAgendamentoFindOneOutputDto = {
    */
   version: number;
   /**
+   * Campus do agendamento. Derivado do ambiente ou da turma quando não informado
+   */
+  campus?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Coleção do calendário à qual este agendamento pertence
+   */
+  colecao?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Id do usuário autor da versão vigente, quando registrado
+   */
+  autorId?: string;
+  /**
+   * Motivo do agendamento ou da alteração, para histórico e auditoria
+   */
+  motivo?: string;
+  /**
+   * Identificador externo da série da qual este agendamento é uma exceção (RECURRENCE-ID), nulo quando não é uma exceção
+   */
+  identificadorExternoSerieOrigem?: string;
+  /**
+   * Data da ocorrência da série original que este agendamento substitui ou cancela
+   */
+  dataOcorrenciaReferenciada?: string;
+  /**
+   * true quando nome, motivo, autor e as listas de turmas/perfis vêm vazios porque o requisitante só tem papel OCUPACAO na coleção deste agendamento
+   */
+  detalhesOcultos: boolean;
+  /**
    * Turmas participantes
    */
   turmas?: Array<TurmaFindOneOutputDto>;
@@ -1733,6 +2548,85 @@ export type CalendarioAgendamentoListOutputDto = {
    * Resultados da busca
    */
   data: Array<CalendarioAgendamentoFindOneOutputDto>;
+};
+
+export type CalendarioAgendamentoLinhaDoTempoMudancaDto = {
+  /**
+   * Campo que mudou em relação à versão anterior
+   */
+  campo: string;
+  /**
+   * Valor do campo antes da mudança
+   */
+  de: {
+    [key: string]: unknown;
+  };
+  /**
+   * Valor do campo depois da mudança
+   */
+  para: {
+    [key: string]: unknown;
+  };
+};
+
+export type CalendarioAgendamentoLinhaDoTempoEntradaDto = {
+  /**
+   * Id da linha desta versão
+   */
+  id: string;
+  /**
+   * Número da versão
+   */
+  version: number;
+  /**
+   * Id do usuário autor desta versão, quando registrado
+   */
+  autorId?: string;
+  /**
+   * Nome do autor desta versão, quando registrado
+   */
+  autorNome?: string;
+  /**
+   * Motivo registrado para esta versão
+   */
+  motivo?: string;
+  /**
+   * Início da vigência desta versão
+   */
+  validFrom: string;
+  /**
+   * Fim da vigência desta versão, nulo se ainda vigente
+   */
+  validTo?: string;
+  /**
+   * O que mudou em relação à versão anterior
+   */
+  mudancas: Array<CalendarioAgendamentoLinhaDoTempoMudancaDto>;
+};
+
+export type CalendarioAgendamentoLinhaDoTempoOutputDto = {
+  /**
+   * Identificador externo do agendamento
+   */
+  identificadorExterno: string;
+  /**
+   * Versões do agendamento, da mais antiga para a mais recente
+   */
+  versoes: Array<CalendarioAgendamentoLinhaDoTempoEntradaDto>;
+};
+
+export type CalendarioAgendamentoCampusRefInputDto = {
+  /**
+   * Campus do agendamento. Derivado do ambiente ou da turma quando não informado
+   */
+  id: string;
+};
+
+export type CalendarioAgendamentoColecaoRefInputDto = {
+  /**
+   * Coleção do calendário à qual este agendamento pertence
+   */
+  id: string;
 };
 
 export type TurmaFindOneInputDto = {
@@ -1822,6 +2716,18 @@ export type CalendarioAgendamentoCreateInputDto = {
    */
   repeticao?: string | null;
   /**
+   * Campus do agendamento. Derivado do ambiente ou da turma quando não informado
+   */
+  campus?: CalendarioAgendamentoCampusRefInputDto;
+  /**
+   * Coleção do calendário à qual este agendamento pertence
+   */
+  colecao?: CalendarioAgendamentoColecaoRefInputDto;
+  /**
+   * Motivo do agendamento ou da alteração, para histórico e auditoria
+   */
+  motivo?: string;
+  /**
    * Turmas participantes
    */
   turmas?: Array<TurmaFindOneInputDto>;
@@ -1889,6 +2795,18 @@ export type CalendarioAgendamentoUpdateInputDto = {
    */
   repeticao?: string | null;
   /**
+   * Campus do agendamento. Derivado do ambiente ou da turma quando não informado
+   */
+  campus?: CalendarioAgendamentoCampusRefInputDto;
+  /**
+   * Coleção do calendário à qual este agendamento pertence
+   */
+  colecao?: CalendarioAgendamentoColecaoRefInputDto;
+  /**
+   * Motivo do agendamento ou da alteração, para histórico e auditoria
+   */
+  motivo?: string;
+  /**
    * Turmas participantes
    */
   turmas?: Array<TurmaFindOneInputDto>;
@@ -1925,11 +2843,544 @@ export type CalendarioAgendamentoUpdateStatusInputDto = {
   status: 'ATIVO' | 'INATIVO' | 'RASCUNHO';
 };
 
+export type CalendarioAgendamentoEditarOcorrenciaInputDto = {
+  /**
+   * Data da ocorrência da série a editar ou cancelar (formato AAAA-MM-DD)
+   */
+  dataOcorrencia: string;
+  /**
+   * Indica se o evento ocupa o dia inteiro
+   */
+  diaInteiro?: boolean;
+  /**
+   * Horário de inicio (HH:MM)
+   */
+  horarioInicio?: string;
+  /**
+   * Horário de fim (HH:MM)
+   */
+  horarioFim?: string;
+  /**
+   * Novo status desta ocorrência (ATIVO, INATIVO, RASCUNHO)
+   */
+  status?: 'ATIVO' | 'INATIVO' | 'RASCUNHO';
+  /**
+   * Campus do agendamento. Derivado do ambiente ou da turma quando não informado
+   */
+  campus?: CalendarioAgendamentoCampusRefInputDto;
+  /**
+   * Coleção do calendário à qual este agendamento pertence
+   */
+  colecao?: CalendarioAgendamentoColecaoRefInputDto;
+  /**
+   * Motivo do agendamento ou da alteração, para histórico e auditoria
+   */
+  motivo?: string;
+  /**
+   * Turmas participantes
+   */
+  turmas?: Array<TurmaFindOneInputDto>;
+  /**
+   * Perfis (professores) participantes
+   */
+  perfis?: Array<PerfilFindOneInputDto>;
+  /**
+   * Calendarios letivos vinculados
+   */
+  calendariosLetivos?: Array<CalendarioLetivoFindOneInputDto>;
+  /**
+   * Ofertas de formacao vinculadas
+   */
+  ofertasFormacao?: Array<OfertaFormacaoFindOneInputDto>;
+  /**
+   * Modalidades vinculadas
+   */
+  modalidades?: Array<ModalidadeFindOneInputDto>;
+  /**
+   * Ambientes vinculados
+   */
+  ambientes?: Array<AmbienteFindOneInputDto>;
+  /**
+   * Diarios vinculados
+   */
+  diarios?: Array<DiarioFindOneInputDto>;
+};
+
+export type CalendarioAgendamentoCancelarOcorrenciaInputDto = {
+  /**
+   * Data da ocorrência da série a editar ou cancelar (formato AAAA-MM-DD)
+   */
+  dataOcorrencia: string;
+  /**
+   * Motivo do agendamento ou da alteração, para histórico e auditoria
+   */
+  motivo?: string;
+};
+
+export type CalendarioAgendamentoEditarSerieInputDto = {
+  /**
+   * Data da ocorrência da série a editar ou cancelar (formato AAAA-MM-DD)
+   */
+  dataOcorrencia: string;
+  /**
+   * Alcance da edição de série: ESTA_E_SEGUINTES corta a série na data e cria outra; TODAS altera a série inteira
+   */
+  escopo: 'ESTA_E_SEGUINTES' | 'TODAS';
+  /**
+   * Data de inicio
+   */
+  dataInicio?: string;
+  /**
+   * Data de fim
+   */
+  dataFim?: string | null;
+  /**
+   * Indica se o evento ocupa o dia inteiro
+   */
+  diaInteiro?: boolean;
+  /**
+   * Horário de inicio (HH:MM)
+   */
+  horarioInicio?: string;
+  /**
+   * Horário de fim (HH:MM)
+   */
+  horarioFim?: string;
+  /**
+   * Regra de repetição
+   */
+  repeticao?: string | null;
+  /**
+   * Campus do agendamento. Derivado do ambiente ou da turma quando não informado
+   */
+  campus?: CalendarioAgendamentoCampusRefInputDto;
+  /**
+   * Coleção do calendário à qual este agendamento pertence
+   */
+  colecao?: CalendarioAgendamentoColecaoRefInputDto;
+  /**
+   * Motivo do agendamento ou da alteração, para histórico e auditoria
+   */
+  motivo?: string;
+  /**
+   * Turmas participantes
+   */
+  turmas?: Array<TurmaFindOneInputDto>;
+  /**
+   * Perfis (professores) participantes
+   */
+  perfis?: Array<PerfilFindOneInputDto>;
+  /**
+   * Calendarios letivos vinculados
+   */
+  calendariosLetivos?: Array<CalendarioLetivoFindOneInputDto>;
+  /**
+   * Ofertas de formacao vinculadas
+   */
+  ofertasFormacao?: Array<OfertaFormacaoFindOneInputDto>;
+  /**
+   * Modalidades vinculadas
+   */
+  modalidades?: Array<ModalidadeFindOneInputDto>;
+  /**
+   * Ambientes vinculados
+   */
+  ambientes?: Array<AmbienteFindOneInputDto>;
+  /**
+   * Diarios vinculados
+   */
+  diarios?: Array<DiarioFindOneInputDto>;
+};
+
+export type CalendarioAgendamentoAdicionarDataAvulsaInputDto = {
+  /**
+   * Data da ocorrência da série a editar ou cancelar (formato AAAA-MM-DD)
+   */
+  dataOcorrencia: string;
+  /**
+   * Indica se o evento ocupa o dia inteiro
+   */
+  diaInteiro?: boolean;
+  /**
+   * Horário de inicio (HH:MM)
+   */
+  horarioInicio?: string;
+  /**
+   * Horário de fim (HH:MM)
+   */
+  horarioFim?: string;
+  /**
+   * Status desta ocorrência avulsa (ATIVO, INATIVO, RASCUNHO)
+   */
+  status?: 'ATIVO' | 'INATIVO' | 'RASCUNHO';
+  /**
+   * Campus do agendamento. Derivado do ambiente ou da turma quando não informado
+   */
+  campus?: CalendarioAgendamentoCampusRefInputDto;
+  /**
+   * Coleção do calendário à qual este agendamento pertence
+   */
+  colecao?: CalendarioAgendamentoColecaoRefInputDto;
+  /**
+   * Motivo do agendamento ou da alteração, para histórico e auditoria
+   */
+  motivo?: string;
+  /**
+   * Turmas participantes
+   */
+  turmas?: Array<TurmaFindOneInputDto>;
+  /**
+   * Perfis (professores) participantes
+   */
+  perfis?: Array<PerfilFindOneInputDto>;
+  /**
+   * Calendarios letivos vinculados
+   */
+  calendariosLetivos?: Array<CalendarioLetivoFindOneInputDto>;
+  /**
+   * Ofertas de formacao vinculadas
+   */
+  ofertasFormacao?: Array<OfertaFormacaoFindOneInputDto>;
+  /**
+   * Modalidades vinculadas
+   */
+  modalidades?: Array<ModalidadeFindOneInputDto>;
+  /**
+   * Ambientes vinculados
+   */
+  ambientes?: Array<AmbienteFindOneInputDto>;
+  /**
+   * Diarios vinculados
+   */
+  diarios?: Array<DiarioFindOneInputDto>;
+};
+
+export type CalendarioAgendamentoImportarIcsInputDto = {
+  /**
+   * Conteúdo do arquivo .ics (RFC 5545) a importar
+   */
+  conteudo: string;
+  /**
+   * Campus do agendamento. Derivado do ambiente ou da turma quando não informado
+   */
+  campus?: CalendarioAgendamentoCampusRefInputDto;
+  /**
+   * Coleção do calendário à qual este agendamento pertence
+   */
+  colecao?: CalendarioAgendamentoColecaoRefInputDto;
+};
+
+export type CalendarioAgendamentoImportarIcsRejeitadoDto = {
+  /**
+   * Posição (1-based) do VEVENT rejeitado no arquivo
+   */
+  index: number;
+  /**
+   * UID do VEVENT rejeitado, quando presente no arquivo
+   */
+  uid?: string;
+  /**
+   * Motivo pelo qual o VEVENT foi rejeitado
+   */
+  motivo: string;
+};
+
+export type CalendarioAgendamentoImportarIcsOutputDto = {
+  /**
+   * Quantidade de agendamentos criados
+   */
+  criados: number;
+  /**
+   * Quantidade de VEVENTs pulados por já existir um agendamento com o mesmo UID
+   */
+  puladosPorUidDuplicado: number;
+  /**
+   * VEVENTs rejeitados durante o parse ou a criação, com o motivo de cada um
+   */
+  rejeitados: Array<CalendarioAgendamentoImportarIcsRejeitadoDto>;
+  /**
+   * Ids dos agendamentos criados
+   */
+  idsCriados: Array<string>;
+};
+
+export type CalendarioColecaoFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Usuário dono da coleção
+   */
+  dono: UsuarioFindOneOutputDto;
+  /**
+   * Campus da coleção. Obrigatório quando visibilidade é CAMPUS; opcional nas demais
+   */
+  campus?: CampusFindOneOutputDto | null;
+  /**
+   * Nome da coleção
+   */
+  nome: string;
+  /**
+   * Cor da coleção para exibição
+   */
+  cor?: string | null;
+  /**
+   * PRIVADA (só dono e concessões explícitas), CAMPUS (todo perfil ativo no campus) ou PUBLICA (toda a instituição)
+   */
+  visibilidade: 'PRIVADA' | 'CAMPUS' | 'PUBLICA';
+};
+
+export type CalendarioColecaoListOutputDto = {
+  /**
+   * Metadados da busca
+   */
+  meta: PaginationMetaRestDto;
+  /**
+   * Resultados da busca
+   */
+  data: Array<CalendarioColecaoFindOneOutputDto>;
+};
+
+export type CampusFindOneInputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+};
+
+export type CalendarioColecaoCreateInputDto = {
+  /**
+   * Nome da coleção
+   */
+  nome: string;
+  /**
+   * Cor da coleção para exibição
+   */
+  cor?: string | null;
+  /**
+   * Campus da coleção. Obrigatório quando visibilidade é CAMPUS; opcional nas demais
+   */
+  campus?: CampusFindOneInputDto | null;
+  /**
+   * PRIVADA (só dono e concessões explícitas), CAMPUS (todo perfil ativo no campus) ou PUBLICA (toda a instituição)
+   */
+  visibilidade?: 'PRIVADA' | 'CAMPUS' | 'PUBLICA';
+};
+
+export type CalendarioColecaoUpdateInputDto = {
+  /**
+   * Nome da coleção
+   */
+  nome?: string;
+  /**
+   * Cor da coleção para exibição
+   */
+  cor?: string | null;
+  /**
+   * Campus da coleção. Obrigatório quando visibilidade é CAMPUS; opcional nas demais
+   */
+  campus?: CampusFindOneInputDto | null;
+  /**
+   * PRIVADA (só dono e concessões explícitas), CAMPUS (todo perfil ativo no campus) ou PUBLICA (toda a instituição)
+   */
+  visibilidade?: 'PRIVADA' | 'CAMPUS' | 'PUBLICA';
+};
+
+export type CalendarioColecaoTransferirDonoInputDto = {
+  /**
+   * ID do usuário que se tornará o novo dono da coleção
+   */
+  novoDonoId: string;
+};
+
+export type CalendarioColecaoAcessoFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * ID da coleção
+   */
+  colecaoId: string;
+  /**
+   * Escopo do acesso concedido: USUARIO (perfil específico), CAMPUS (todo perfil ativo no campus) ou PUBLICO (toda a instituição)
+   */
+  escopo: 'USUARIO' | 'CAMPUS' | 'PUBLICO';
+  /**
+   * Usuário beneficiado pelo acesso. Obrigatório e exclusivo quando escopo é USUARIO
+   */
+  usuario?: UsuarioFindOneOutputDto | null;
+  /**
+   * Campus beneficiado pelo acesso. Obrigatório e exclusivo quando escopo é CAMPUS
+   */
+  campus?: CampusFindOneOutputDto | null;
+  /**
+   * Papel efetivo concedido: OCUPACAO, LEITOR ou EDITOR
+   */
+  papel: 'OCUPACAO' | 'LEITOR' | 'EDITOR';
+};
+
+export type CalendarioColecaoAcessoListOutputDto = {
+  /**
+   * Metadados da busca
+   */
+  meta: PaginationMetaRestDto;
+  /**
+   * Resultados da busca
+   */
+  data: Array<CalendarioColecaoAcessoFindOneOutputDto>;
+};
+
+export type UsuarioFindOneInputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+};
+
+export type CalendarioColecaoAcessoConcederInputDto = {
+  /**
+   * Escopo do acesso concedido: USUARIO (perfil específico), CAMPUS (todo perfil ativo no campus) ou PUBLICO (toda a instituição)
+   */
+  escopo: 'USUARIO' | 'CAMPUS' | 'PUBLICO';
+  /**
+   * Usuário beneficiado pelo acesso. Obrigatório e exclusivo quando escopo é USUARIO
+   */
+  usuario?: UsuarioFindOneInputDto | null;
+  /**
+   * Campus beneficiado pelo acesso. Obrigatório e exclusivo quando escopo é CAMPUS
+   */
+  campus?: CampusFindOneInputDto | null;
+  /**
+   * Papel efetivo concedido: OCUPACAO, LEITOR ou EDITOR
+   */
+  papel: 'OCUPACAO' | 'LEITOR' | 'EDITOR';
+};
+
 export type ConsultaOcorrenciasOutputDto = {
   /**
    * Ocorrências encontradas
    */
   ocorrencias: Array<CalendarioAgendamentoFindOneOutputDto>;
+};
+
+export type CalendarioOcupacaoSemDetalheItemDto = {
+  /**
+   * Data da ocupação (YYYY-MM-DD)
+   */
+  data: string;
+  /**
+   * Horário de início
+   */
+  horarioInicio: string;
+  /**
+   * Horário de fim
+   */
+  horarioFim: string;
+  /**
+   * IDs dos ambientes ocupados
+   */
+  ambienteIds: Array<string>;
+  /**
+   * IDs dos professores (perfis) envolvidos
+   */
+  professorIds: Array<string>;
+};
+
+export type CalendarioOcupacaoSemDetalheOutputDto = {
+  /**
+   * Ocupações encontradas, sem detalhes do evento
+   */
+  ocupacoes: Array<CalendarioOcupacaoSemDetalheItemDto>;
+};
+
+export type CalendarioColecaoMudancasDesdeOutputDto = {
+  /**
+   * Marcador de sincronização atual da coleção
+   */
+  syncToken: number;
+  /**
+   * Agendamentos considerados mudados desde o marcador informado (snapshot completo quando houve mudança — sem tabela de auditoria, não é possível devolver um diff exato)
+   */
+  agendamentos: Array<CalendarioAgendamentoFindOneOutputDto>;
+};
+
+export type TurmaMatriculaObjectRefDto = {
+  id: string;
+};
+
+export type TurmaMatriculaFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Turma em que o perfil esta matriculado
+   */
+  turma: TurmaMatriculaObjectRefDto;
+  /**
+   * Perfil do aluno matriculado (nao o usuario diretamente — a matricula e por campus/oferta)
+   */
+  perfil: TurmaMatriculaObjectRefDto;
+};
+
+export type TurmaMatriculaListOutputDto = {
+  /**
+   * Metadados da busca
+   */
+  meta: PaginationMetaRestDto;
+  /**
+   * Resultados da busca
+   */
+  data: Array<TurmaMatriculaFindOneOutputDto>;
+};
+
+export type TurmaMatriculaVincularInputDto = {
+  /**
+   * Turma em que o perfil esta matriculado
+   */
+  turma: TurmaMatriculaObjectRefDto;
+  /**
+   * Perfil do aluno matriculado (nao o usuario diretamente — a matricula e por campus/oferta)
+   */
+  perfil: TurmaMatriculaObjectRefDto;
 };
 
 export type CalendarioLetivoListOutputDto = {
@@ -1941,13 +3392,6 @@ export type CalendarioLetivoListOutputDto = {
    * Resultados da busca
    */
   data: Array<CalendarioLetivoFindOneOutputDto>;
-};
-
-export type CampusFindOneInputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
 };
 
 export type CalendarioLetivoEtapaInputDto = {
@@ -2121,126 +3565,6 @@ export type CidadeListOutputDto = {
    * Resultados da busca
    */
   data: Array<CidadeFindOneOutputDto>;
-};
-
-export type AmbienteListOutputDto = {
-  /**
-   * Metadados da busca
-   */
-  meta: PaginationMetaRestDto;
-  /**
-   * Resultados da busca
-   */
-  data: Array<AmbienteFindOneOutputDto>;
-};
-
-export type AmbienteBlocoRefInputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-};
-
-export type AmbienteCreateInputDto = {
-  /**
-   * Nome do ambiente/sala
-   */
-  nome: string;
-  /**
-   * Descricao do ambiente/sala
-   */
-  descricao?: string | null;
-  /**
-   * Codigo do ambiente/sala
-   */
-  codigo: string;
-  /**
-   * Capacidade do ambiente/sala
-   */
-  capacidade?: number | null;
-  /**
-   * Tipo do ambiente/sala. Ex.: sala aula, auditorio, laboratorio de quimica
-   */
-  tipo?: string | null;
-  /**
-   * Bloco que o ambiente/sala pertence
-   */
-  bloco: AmbienteBlocoRefInputDto;
-};
-
-export type AmbienteUpdateInputDto = {
-  /**
-   * Nome do ambiente/sala
-   */
-  nome?: string;
-  /**
-   * Descricao do ambiente/sala
-   */
-  descricao?: string | null;
-  /**
-   * Codigo do ambiente/sala
-   */
-  codigo?: string;
-  /**
-   * Capacidade do ambiente/sala
-   */
-  capacidade?: number | null;
-  /**
-   * Tipo do ambiente/sala. Ex.: sala aula, auditorio, laboratorio de quimica
-   */
-  tipo?: string | null;
-  /**
-   * Bloco que o ambiente/sala pertence
-   */
-  bloco?: AmbienteBlocoRefInputDto;
-};
-
-export type BlocoListOutputDto = {
-  /**
-   * Metadados da busca
-   */
-  meta: PaginationMetaRestDto;
-  /**
-   * Resultados da busca
-   */
-  data: Array<BlocoFindOneOutputDto>;
-};
-
-export type BlocoCampusRefInputDto = {
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-};
-
-export type BlocoCreateInputDto = {
-  /**
-   * Nome do bloco
-   */
-  nome: string;
-  /**
-   * Codigo do bloco
-   */
-  codigo: string;
-  /**
-   * Campus do bloco
-   */
-  campus: BlocoCampusRefInputDto;
-};
-
-export type BlocoUpdateInputDto = {
-  /**
-   * Nome do bloco
-   */
-  nome?: string;
-  /**
-   * Codigo do bloco
-   */
-  codigo?: string;
-  /**
-   * Campus do bloco
-   */
-  campus?: BlocoCampusRefInputDto;
 };
 
 export type AuthWhoAmIOutputDto = {
@@ -2613,92 +3937,6 @@ export type DiarioPreferenciaAgrupamentoBulkReplaceInputDto = {
   preferenciasAgrupamento: Array<DiarioPreferenciaAgrupamentoBulkReplaceItemDto>;
 };
 
-export type TurmaListOutputDto = {
-  /**
-   * Metadados da busca
-   */
-  meta: PaginationMetaRestDto;
-  /**
-   * Resultados da busca
-   */
-  data: Array<TurmaFindOneOutputDto>;
-};
-
-export type TurmaCreateInputDto = {
-  /**
-   * Periodo da turma
-   */
-  periodo: string;
-  /**
-   * Nome da turma
-   */
-  nome?: string | null;
-  /**
-   * Curso da turma
-   */
-  curso: {
-    [key: string]: unknown;
-  };
-  /**
-   * Ambiente padrao da sala de aula
-   */
-  ambientePadraoAula?: {
-    [key: string]: unknown;
-  } | null;
-};
-
-export type TurmaUpdateInputDto = {
-  /**
-   * Periodo da turma
-   */
-  periodo?: string;
-  /**
-   * Nome da turma
-   */
-  nome?: string | null;
-  /**
-   * Curso da turma
-   */
-  curso?: {
-    [key: string]: unknown;
-  };
-  /**
-   * Ambiente padrao da sala de aula
-   */
-  ambientePadraoAula?: {
-    [key: string]: unknown;
-  } | null;
-};
-
-export type TurmaDiarioConfigurarItemDto = {
-  /**
-   * ID da disciplina
-   */
-  disciplinaId: string;
-  /**
-   * IDs dos professores (perfis)
-   */
-  professorPerfilIds?: Array<string>;
-};
-
-export type TurmaDiarioConfigurarInputDto = {
-  /**
-   * ID do calendario letivo
-   */
-  calendarioLetivoId: string;
-  /**
-   * Configuracao de disciplinas
-   */
-  diarios: Array<TurmaDiarioConfigurarItemDto>;
-};
-
-export type TurmaDiarioConfigurarOutputDto = {
-  /**
-   * Quantidade de diarios criados
-   */
-  created: number;
-};
-
 export type GerarHorarioCreateInputDto = {
   /**
    * Data inicio do periodo
@@ -2716,6 +3954,30 @@ export type GerarHorarioCreateInputDto = {
    * IDs dos calendarios letivos
    */
   calendarioLetivoIds?: Array<string>;
+  /**
+   * Peso para manter o mesmo dia da semana e horario da grade anterior
+   */
+  boostSameDayOfWeekAndTimeSlot?: number;
+  /**
+   * Peso para manter apenas o mesmo dia da semana da grade anterior
+   */
+  boostSameDayOfWeekOnly?: number;
+  /**
+   * Peso para manter apenas o mesmo horario da grade anterior
+   */
+  boostSameTimeSlotOnly?: number;
+  /**
+   * Peso para ficar proximo do dia da semana da grade anterior
+   */
+  boostLesserDistanceFromDayOfWeek?: number;
+  /**
+   * Peso para ficar proximo do horario da grade anterior
+   */
+  boostLesserDistanceFromTimeSlot?: number;
+  /**
+   * Restricoes habilitadas. Ausente ou nulo habilita todas.
+   */
+  enabledConstraints?: Array<unknown> | null;
   /**
    * Duracao: TEMPORARIO ou PERMANENTE
    */
@@ -2756,6 +4018,10 @@ export type GerarHorarioFindOneOutputDto = {
     [key: string]: unknown;
   } | null;
   /**
+   * Sessão de edição aberta com a grade aceita como proposta, preenchida só na resposta de POST /:id/aceitar
+   */
+  sessaoEdicaoId?: string;
+  /**
    * Data de criacao da solicitacao
    */
   dateCreated: string;
@@ -2793,7 +4059,316 @@ export type HorarioEdicaoMudancaOutputRestDto = {
   dados: {
     [key: string]: unknown;
   };
+  /**
+   * Estado antes desta mudança — nulo para CRIAR
+   */
+  dadosAnteriores?: {
+    [key: string]: unknown;
+  };
   dateCreated: string;
+};
+
+export type HorarioEdicaoDiferencaEntradaOutputRestDto = {
+  mudancaId: string;
+  tipoOperacao: 'CRIAR' | 'MOVER' | 'REMOVER';
+  calendarioAgendamentoId?: string;
+  antes?: {
+    [key: string]: unknown;
+  };
+  depois?: {
+    [key: string]: unknown;
+  };
+};
+
+export type HorarioEdicaoSessaoDiferencaOutputRestDto = {
+  sessaoId: string;
+  entram: Array<HorarioEdicaoDiferencaEntradaOutputRestDto>;
+  saem: Array<HorarioEdicaoDiferencaEntradaOutputRestDto>;
+  mudam: Array<HorarioEdicaoDiferencaEntradaOutputRestDto>;
+};
+
+export type CalendarioSolicitacaoMudancaFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Usuário autor da solicitação
+   */
+  autor: UsuarioFindOneOutputDto;
+  /**
+   * ID do agendamento alvo da solicitação
+   */
+  calendarioAgendamentoId: string;
+  /**
+   * Tipo de operação proposta: MOVER (alterar campos) ou REMOVER
+   */
+  tipoOperacao: 'MOVER' | 'REMOVER';
+  /**
+   * Patch parcial dos campos propostos para o agendamento (nome, cor, dataInicio, dataFim, horarioInicio, horarioFim, diaInteiro)
+   */
+  dadosPropostos: {
+    [key: string]: unknown;
+  };
+  /**
+   * Justificativa da solicitação
+   */
+  justificativa: string;
+  /**
+   * Status da solicitação
+   */
+  status: 'ABERTA' | 'APROVADA' | 'RECUSADA';
+  /**
+   * Motivo da recusa, preenchido quando status é RECUSADA
+   */
+  motivoRecusa?: string | null;
+  /**
+   * ID da sessão de edição aberta ao aprovar a solicitação
+   */
+  sessaoEdicaoId?: string | null;
+};
+
+export type CalendarioSolicitacaoMudancaListOutputDto = {
+  /**
+   * Metadados da busca
+   */
+  meta: PaginationMetaRestDto;
+  /**
+   * Resultados da busca
+   */
+  data: Array<CalendarioSolicitacaoMudancaFindOneOutputDto>;
+};
+
+export type CalendarioSolicitacaoMudancaCreateInputDto = {
+  /**
+   * ID do agendamento alvo da solicitação
+   */
+  calendarioAgendamentoId: string;
+  /**
+   * Tipo de operação proposta: MOVER (alterar campos) ou REMOVER
+   */
+  tipoOperacao: 'MOVER' | 'REMOVER';
+  /**
+   * Patch parcial dos campos propostos para o agendamento (nome, cor, dataInicio, dataFim, horarioInicio, horarioFim, diaInteiro)
+   */
+  dadosPropostos: {
+    [key: string]: unknown;
+  };
+  /**
+   * Justificativa da solicitação
+   */
+  justificativa: string;
+};
+
+export type CalendarioSolicitacaoMudancaRecusarInputDto = {
+  /**
+   * Motivo da recusa, preenchido quando status é RECUSADA
+   */
+  motivoRecusa?: string | null;
+};
+
+export type CalendarioIndisponibilidadeProfessorFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Professor (perfil) ao qual a indisponibilidade se aplica
+   */
+  perfil: PerfilFindOneOutputDto;
+  /**
+   * BLOQUEIO (professor genuinamente não pode ser escalado) ou PREFERENCIA (evitar se possível, mas não proibido)
+   */
+  tipo: 'BLOQUEIO' | 'PREFERENCIA';
+  /**
+   * Dia da semana da regra recorrente (0=domingo..6=sábado). Mutuamente exclusivo com data — presente aqui significa regra semanal, aplicada toda semana.
+   */
+  diaSemana?: number | null;
+  /**
+   * Data (YYYY-MM-DD) da exceção pontual. Mutuamente exclusivo com diaSemana — presente aqui significa que a indisponibilidade vale apenas nesse dia específico.
+   */
+  data?: string | null;
+  /**
+   * Horário de início (HH:MM:SS)
+   */
+  inicio: string;
+  /**
+   * Horário de fim (HH:MM:SS)
+   */
+  fim: string;
+  /**
+   * Motivo da indisponibilidade
+   */
+  motivo?: string | null;
+};
+
+export type CalendarioIndisponibilidadeProfessorListOutputDto = {
+  /**
+   * Metadados da busca
+   */
+  meta: PaginationMetaRestDto;
+  /**
+   * Resultados da busca
+   */
+  data: Array<CalendarioIndisponibilidadeProfessorFindOneOutputDto>;
+};
+
+export type CalendarioIndisponibilidadeProfessorPorPeriodoOutputDto = {
+  /**
+   * Indisponibilidades aplicáveis ao período
+   */
+  data: Array<CalendarioIndisponibilidadeProfessorFindOneOutputDto>;
+};
+
+export type CalendarioIndisponibilidadeProfessorCreateInputDto = {
+  /**
+   * Professor (perfil) ao qual a indisponibilidade se aplica
+   */
+  perfil: PerfilFindOneInputDto;
+  /**
+   * BLOQUEIO (professor genuinamente não pode ser escalado) ou PREFERENCIA (evitar se possível, mas não proibido)
+   */
+  tipo: 'BLOQUEIO' | 'PREFERENCIA';
+  /**
+   * Dia da semana da regra recorrente (0=domingo..6=sábado). Mutuamente exclusivo com data — presente aqui significa regra semanal, aplicada toda semana.
+   */
+  diaSemana?: number | null;
+  /**
+   * Data (YYYY-MM-DD) da exceção pontual. Mutuamente exclusivo com diaSemana — presente aqui significa que a indisponibilidade vale apenas nesse dia específico.
+   */
+  data?: string | null;
+  /**
+   * Horário de início (HH:MM:SS)
+   */
+  inicio: string;
+  /**
+   * Horário de fim (HH:MM:SS)
+   */
+  fim: string;
+  /**
+   * Motivo da indisponibilidade
+   */
+  motivo?: string | null;
+};
+
+export type CalendarioIndisponibilidadeAmbienteFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Ambiente ao qual a indisponibilidade se aplica
+   */
+  ambiente: AmbienteFindOneOutputDto;
+  /**
+   * BLOQUEIO (ambiente genuinamente não pode ser utilizado) ou PREFERENCIA (evitar se possível, mas não proibido)
+   */
+  tipo: 'BLOQUEIO' | 'PREFERENCIA';
+  /**
+   * Dia da semana da regra recorrente (0=domingo..6=sábado). Mutuamente exclusivo com data — presente aqui significa regra semanal, aplicada toda semana.
+   */
+  diaSemana?: number | null;
+  /**
+   * Data (YYYY-MM-DD) da exceção pontual. Mutuamente exclusivo com diaSemana — presente aqui significa que a indisponibilidade vale apenas nesse dia específico.
+   */
+  data?: string | null;
+  /**
+   * Horário de início (HH:MM:SS)
+   */
+  inicio: string;
+  /**
+   * Horário de fim (HH:MM:SS)
+   */
+  fim: string;
+  /**
+   * Motivo da indisponibilidade
+   */
+  motivo?: string | null;
+};
+
+export type CalendarioIndisponibilidadeAmbienteListOutputDto = {
+  /**
+   * Metadados da busca
+   */
+  meta: PaginationMetaRestDto;
+  /**
+   * Resultados da busca
+   */
+  data: Array<CalendarioIndisponibilidadeAmbienteFindOneOutputDto>;
+};
+
+export type CalendarioIndisponibilidadeAmbientePorPeriodoOutputDto = {
+  /**
+   * Indisponibilidades aplicáveis ao período
+   */
+  data: Array<CalendarioIndisponibilidadeAmbienteFindOneOutputDto>;
+};
+
+export type CalendarioIndisponibilidadeAmbienteCreateInputDto = {
+  /**
+   * Ambiente ao qual a indisponibilidade se aplica
+   */
+  ambiente: AmbienteFindOneInputDto;
+  /**
+   * BLOQUEIO (ambiente genuinamente não pode ser utilizado) ou PREFERENCIA (evitar se possível, mas não proibido)
+   */
+  tipo: 'BLOQUEIO' | 'PREFERENCIA';
+  /**
+   * Dia da semana da regra recorrente (0=domingo..6=sábado). Mutuamente exclusivo com data — presente aqui significa regra semanal, aplicada toda semana.
+   */
+  diaSemana?: number | null;
+  /**
+   * Data (YYYY-MM-DD) da exceção pontual. Mutuamente exclusivo com diaSemana — presente aqui significa que a indisponibilidade vale apenas nesse dia específico.
+   */
+  data?: string | null;
+  /**
+   * Horário de início (HH:MM:SS)
+   */
+  inicio: string;
+  /**
+   * Horário de fim (HH:MM:SS)
+   */
+  fim: string;
+  /**
+   * Motivo da indisponibilidade
+   */
+  motivo?: string | null;
 };
 
 export type EstadoListOutputDto = {
@@ -2805,6 +4380,107 @@ export type EstadoListOutputDto = {
    * Resultados da busca
    */
   data: Array<EstadoFindOneOutputDto>;
+};
+
+export type ArquivoFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Nome do arquivo
+   */
+  name?: string | null;
+  /**
+   * Formato do arquivo
+   */
+  mimeType?: string | null;
+  /**
+   * Tamanho do arquivo (em bytes)
+   */
+  sizeBytes?: number | null;
+  /**
+   * Estrategia de armazenamento do conteudo
+   */
+  storageType: string;
+};
+
+export type ImagemArquivoFindOneFromImagemOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Largura da imagem
+   */
+  largura: number;
+  /**
+   * Altura da imagem
+   */
+  altura: number;
+  /**
+   * Formato da imagem
+   */
+  formato: string;
+  /**
+   * Mime-type da imagem
+   */
+  mimeType: string;
+  /**
+   * Arquivo
+   */
+  arquivo: ArquivoFindOneOutputDto;
+};
+
+export type ImagemFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * Descricao da imagem
+   */
+  descricao?: string | null;
+  /**
+   * Versões da imagem
+   */
+  versoes: Array<ImagemArquivoFindOneFromImagemOutputDto>;
 };
 
 export type EmpresaFindOneOutputDto = {
@@ -2844,6 +4520,10 @@ export type EmpresaFindOneOutputDto = {
    * E-mail da empresa
    */
   email: string;
+  /**
+   * Foto da empresa
+   */
+  fotoEmpresa?: ImagemFindOneOutputDto | null;
   /**
    * Endereço vinculado à empresa
    */
@@ -2925,185 +4605,26 @@ export type EmpresaUpdateInputDto = {
   };
 };
 
-export type Object = {
-  [key: string]: unknown;
-};
-
-export type HorarioEstagioOutputDto = {
+export type EmpresaAvaliacaoAutorOutputDto = {
   /**
-   * Dia da semana (0=dom..6=sab)
-   */
-  diaSemana: number;
-  /**
-   * Hora de inicio
-   */
-  horaInicio: string;
-  /**
-   * Hora de fim
-   */
-  horaFim: string;
-  /**
-   * Identificador do registro (uuid)
-   */
-  id: string;
-};
-
-export type EstagioFindOneOutputDto = {
-  /**
-   * Identificador do registro (uuid)
+   * ID do usuário/estagiário autor da avaliação
    */
   id: string;
   /**
-   * Empresa do estágio
+   * Nome do autor
    */
-  empresa: {
-    [key: string]: unknown;
-  };
+  nome?: string;
   /**
-   * Estagiário (opcional enquanto a vaga estiver aberta)
+   * Email institucional ou pessoal do autor
    */
-  estagiario?: {
-    [key: string]: unknown;
-  } | null;
+  email?: string;
   /**
-   * Carga horária semanal
+   * Matrícula do estagiário
    */
-  cargaHoraria: number;
-  /**
-   * Data de início do estágio
-   */
-  dataInicio?: string | null;
-  /**
-   * Data de fim do estágio
-   */
-  dataFim?: string | null;
-  /**
-   * Status do estágio
-   */
-  status: 'ABERTA' | 'EM_ANDAMENTO' | 'CONCLUIDA';
-  /**
-   * Horários do estágio
-   */
-  horariosEstagio: Array<HorarioEstagioOutputDto>;
-  /**
-   * Se o estágio está ativo
-   */
-  ativo: boolean;
-  /**
-   * Data e hora da criacao do registro
-   */
-  dateCreated: string;
-  /**
-   * Data e hora da alteracao do registro
-   */
-  dateUpdated: string;
+  matricula?: string;
 };
 
-export type EstagioListOutputDto = {
-  /**
-   * Resultados da busca
-   */
-  data: Array<EstagioFindOneOutputDto>;
-  /**
-   * Total de itens
-   */
-  total: number;
-  /**
-   * Pagina de consulta
-   */
-  page: number | null;
-  /**
-   * Limite da quantidade de resultados por pagina
-   */
-  limit: number | null;
-};
-
-export type HorarioEstagioInputDto = {
-  /**
-   * Dia da semana (0=dom..6=sab)
-   */
-  diaSemana: number;
-  /**
-   * Hora de inicio
-   */
-  horaInicio: string;
-  /**
-   * Hora de fim
-   */
-  horaFim: string;
-};
-
-export type EstagioCreateInputDto = {
-  /**
-   * Empresa do estágio
-   */
-  empresa: {
-    [key: string]: unknown;
-  };
-  /**
-   * Estagiário (opcional enquanto a vaga estiver aberta)
-   */
-  estagiario?: {
-    [key: string]: unknown;
-  } | null;
-  /**
-   * Carga horária semanal
-   */
-  cargaHoraria: number;
-  /**
-   * Data de início do estágio
-   */
-  dataInicio?: string | null;
-  /**
-   * Data de fim do estágio
-   */
-  dataFim?: string | null;
-  /**
-   * Status do estágio
-   */
-  status?: 'ABERTA' | 'EM_ANDAMENTO' | 'CONCLUIDA';
-  /**
-   * Horários do estágio
-   */
-  horariosEstagio?: Array<HorarioEstagioInputDto>;
-};
-
-export type EstagioUpdateInputDto = {
-  /**
-   * Empresa do estágio
-   */
-  empresa?: {
-    [key: string]: unknown;
-  };
-  /**
-   * Estagiário (opcional enquanto a vaga estiver aberta)
-   */
-  estagiario?: {
-    [key: string]: unknown;
-  } | null;
-  /**
-   * Carga horária semanal
-   */
-  cargaHoraria?: number;
-  /**
-   * Data de início do estágio
-   */
-  dataInicio?: string | null;
-  /**
-   * Data de fim do estágio
-   */
-  dataFim?: string | null;
-  /**
-   * Status do estágio
-   */
-  status?: 'ABERTA' | 'EM_ANDAMENTO' | 'CONCLUIDA';
-  /**
-   * Horários do estágio
-   */
-  horariosEstagio?: Array<HorarioEstagioInputDto>;
-};
-
-export type EstagiarioFindOneOutputDto = {
+export type EmpresaAvaliacaoFindOneOutputDto = {
   /**
    * Identificador do registro (uuid)
    */
@@ -3121,110 +4642,457 @@ export type EstagiarioFindOneOutputDto = {
    */
   dateDeleted?: string | null;
   /**
-   * Perfil vinculado ao estagiário
+   * ID da empresa avaliada
    */
-  perfil: PerfilFindOneOutputDto | null;
+  empresaId: string;
   /**
-   * Curso vinculado ao estagiário
+   * ID do perfil de estagiário
    */
-  curso: CursoFindOneOutputDto | null;
+  estagiarioId: string;
   /**
-   * Turma vinculada ao estagiário
+   * Dados do autor da avaliação
    */
-  turma: TurmaFindOneOutputDto | null;
+  autor: EmpresaAvaliacaoAutorOutputDto;
   /**
-   * Telefone do estagiário
+   * Nota atribuída de 1 a 5 estrelas
    */
-  telefone: string;
+  rating: number;
   /**
-   * Email institucional do estagiário
+   * Comentário sobre o estágio (até 2000 caracteres)
    */
-  emailInstitucional?: string | null;
+  comentario?: string;
   /**
-   * Data de nascimento do estagiário
+   * Score de relevância calculado para o comentário
    */
-  dataNascimento: string;
+  relevanceScore: number;
   /**
-   * Se o estagiário está ativo
+   * Quantidade total de curtidas recebidas
    */
-  ativo: boolean;
+  likesCount: number;
+  /**
+   * Indica se o usuário autenticado curtiu esta avaliação
+   */
+  isLikedByCurrentUser?: boolean;
 };
 
-export type EstagiarioListOutputDto = {
-  /**
-   * Metadados da busca
-   */
+export type EmpresaAvaliacaoListOutputDto = {
   meta: PaginationMetaRestDto;
-  /**
-   * Resultados da busca
-   */
-  data: Array<EstagiarioFindOneOutputDto>;
+  data: Array<EmpresaAvaliacaoFindOneOutputDto>;
 };
 
-export type EstagiarioCreateInputDto = {
+export type EmpresaAvaliacaoCreateInputDto = {
   /**
-   * Perfil vinculado ao estagiário
+   * Nota de 1 a 5 estrelas
    */
-  perfil: {
-    [key: string]: unknown;
-  };
+  rating: number;
   /**
-   * Curso vinculado ao estagiário
+   * Comentário detalhado (até 2.000 caracteres)
    */
-  curso: {
-    [key: string]: unknown;
-  };
-  /**
-   * Turma vinculada ao estagiário
-   */
-  turma: {
-    [key: string]: unknown;
-  };
-  /**
-   * Telefone do estagiário
-   */
-  telefone: string;
-  /**
-   * Email institucional do estagiário
-   */
-  emailInstitucional: string | null;
-  /**
-   * Data de nascimento do estagiário
-   */
-  dataNascimento: string;
+  comentario?: string;
 };
 
-export type EstagiarioUpdateInputDto = {
+export type EmpresaAvaliacaoUpdateInputDto = {
   /**
-   * Perfil vinculado ao estagiário
+   * Nota atualizada de 1 a 5 estrelas
    */
-  perfil?: {
+  rating?: number;
+  /**
+   * Comentário atualizado (até 2.000 caracteres)
+   */
+  comentario?: string;
+};
+
+export type EmpresaAvaliacaoLikeOutputDto = {
+  /**
+   * ID da avaliação
+   */
+  avaliacaoId: string;
+  /**
+   * Quantidade atualizada de curtidas
+   */
+  likesCount: number;
+  /**
+   * Se o usuário atual curtiu a avaliação
+   */
+  isLikedByCurrentUser: boolean;
+  /**
+   * Score de relevância recalculado
+   */
+  relevanceScore: number;
+};
+
+export type EmpresaAvaliacaoHistoricoOutputDto = {
+  /**
+   * ID do registro de histórico
+   */
+  id: string;
+  /**
+   * ID da avaliação
+   */
+  avaliacaoId: string;
+  /**
+   * ID do usuário que efetuou a alteração
+   */
+  usuarioId: string;
+  /**
+   * Nome do usuário
+   */
+  usuarioNome?: string;
+  /**
+   * Nota anterior
+   */
+  ratingAnterior?: number;
+  /**
+   * Nota nova
+   */
+  ratingNovo: number;
+  /**
+   * Comentário anterior
+   */
+  comentarioAnterior?: string;
+  /**
+   * Comentário novo
+   */
+  comentarioNovo?: string;
+  /**
+   * Ação realizada: CRIACAO, EDICAO, REMOCAO
+   */
+  acao: string;
+  /**
+   * Data/hora da alteração
+   */
+  dateCreated: string;
+};
+
+export type EmpresaScoreDistributionDto = {
+  /**
+   * Total de avaliações com 1 estrela
+   */
+  1: number;
+  /**
+   * Total de avaliações com 2 estrelas
+   */
+  2: number;
+  /**
+   * Total de avaliações com 3 estrelas
+   */
+  3: number;
+  /**
+   * Total de avaliações com 4 estrelas
+   */
+  4: number;
+  /**
+   * Total de avaliações com 5 estrelas
+   */
+  5: number;
+};
+
+export type EmpresaScoreFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * ID da empresa avaliada
+   */
+  empresaId: string;
+  /**
+   * Score normalizado de 0 a 100 ponderado por recência e regularização Bayesiana
+   */
+  score: number;
+  /**
+   * Média simples das notas de 1 a 5 estrelas
+   */
+  averageRating: number;
+  /**
+   * Quantidade total de avaliações contabilizadas
+   */
+  totalReviews: number;
+  /**
+   * Distribuição das notas por estrelas
+   */
+  distribution: EmpresaScoreDistributionDto;
+  /**
+   * Versão do algoritmo estatístico utilizado para calcular o score
+   */
+  scoreVersion: number;
+  /**
+   * Indicadores estatísticos complementares utilizados no cálculo
+   */
+  indicators?: {
     [key: string]: unknown;
   };
   /**
-   * Curso vinculado ao estagiário
+   * Data/hora do último cálculo
    */
-  curso?: {
+  calculatedAt: string;
+};
+
+export type FolhaPontoEstagioRefRestDto = {
+  /**
+   * ID do Estágio
+   */
+  id: string;
+};
+
+export type FolhaPontoFindOneOutputRestDto = {
+  /**
+   * ID da Folha de Ponto
+   */
+  id: string;
+  /**
+   * Referência ao estágio
+   */
+  estagio: FolhaPontoEstagioRefRestDto;
+  /**
+   * Data do registro de ponto (YYYY-MM-DD)
+   */
+  data: string;
+  /**
+   * Hora de início do turno (HH:MM)
+   */
+  horaInicio: string;
+  /**
+   * Hora de fim do turno (HH:MM)
+   */
+  horaFim: string;
+  /**
+   * Total de horas trabalhadas no dia (decimal, ex: 8.5)
+   */
+  quantidadeHoras: number;
+  /**
+   * Observações opcionais do estagiário
+   */
+  observacoes?: string | null;
+  /**
+   * Status atual da folha de ponto
+   */
+  status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'EXPIRED' | 'CANCELLED';
+  /**
+   * Data e hora em que o ponto foi registrado
+   */
+  dataSolicitacao: string;
+  /**
+   * Data e hora em que o ponto foi aprovado pelo supervisor
+   */
+  dataAprovacao?: string | null;
+  /**
+   * Data e hora em que o ponto foi rejeitado pelo supervisor
+   */
+  dataRejeicao?: string | null;
+};
+
+export type FolhaPontoListOutputRestDto = {
+  data: Array<FolhaPontoFindOneOutputRestDto>;
+  meta: PaginationMetaRestDto;
+};
+
+export type FolhaPontoEstagioRefInputRestDto = {
+  /**
+   * Referência ao estágio (id)
+   */
+  id: string;
+};
+
+export type FolhaPontoCreateInputRestDto = {
+  /**
+   * Referência ao estágio
+   */
+  estagio: FolhaPontoEstagioRefInputRestDto;
+  /**
+   * Data do registro de ponto (YYYY-MM-DD)
+   */
+  data: string;
+  /**
+   * Hora de início do turno (HH:MM)
+   */
+  horaInicio: string;
+  /**
+   * Hora de fim do turno (HH:MM)
+   */
+  horaFim: string;
+  /**
+   * Observações opcionais do estagiário
+   */
+  observacoes?: string | null;
+};
+
+export type SendWhatsappNotificationDto = {
+  /**
+   * Telefone do destinatário em formato internacional
+   */
+  phone: string;
+  /**
+   * Mensagem a ser enviada
+   */
+  message: string;
+};
+
+export type WhatsappStatusResponseDto = {
+  /**
+   * Status da sessão na API do WAHA
+   */
+  apiStatus?: {
     [key: string]: unknown;
   };
   /**
-   * Turma vinculada ao estagiário
+   * Status do Webhook
    */
-  turma?: {
+  webhookStatus: string;
+};
+
+export type WhatsappPairingCodeDto = {
+  /**
+   * Telefone do destinatário em formato internacional
+   */
+  phone: string;
+};
+
+export type WahaWebhookEventDto = {
+  /**
+   * O tipo do evento emitido pelo WAHA
+   */
+  event: string;
+  /**
+   * Nome da sessão que originou o evento
+   */
+  session: string;
+  /**
+   * Dados do evento (mensagem recebida, status de sessão, etc.)
+   */
+  payload?: {
     [key: string]: unknown;
   };
   /**
-   * Telefone do estagiário
+   * Informações da conta (número, nome)
    */
-  telefone?: string;
+  me?: {
+    [key: string]: unknown;
+  };
   /**
-   * Email institucional do estagiário
+   * Timestamp do evento em milissegundos
    */
-  emailInstitucional?: string | null;
+  timestamp?: number;
+};
+
+export type RelatorioEstagioRefRestDto = {
   /**
-   * Data de nascimento do estagiário
+   * ID do Estágio
    */
-  dataNascimento?: string;
+  id: string;
+};
+
+export type RelatorioArquivoRefRestDto = {
+  /**
+   * ID do Arquivo
+   */
+  id: string;
+  /**
+   * Nome do arquivo
+   */
+  name?: string;
+  /**
+   * MIME type do arquivo
+   */
+  mimeType?: string;
+  /**
+   * Tamanho em bytes
+   */
+  sizeBytes?: number;
+};
+
+export type RelatorioFindOneOutputRestDto = {
+  /**
+   * ID do Relatório de Estágio
+   */
+  id: string;
+  /**
+   * Referência ao estágio
+   */
+  estagio: RelatorioEstagioRefRestDto;
+  /**
+   * Referência ao arquivo PDF do relatório
+   */
+  arquivo?: RelatorioArquivoRefRestDto;
+  /**
+   * Conteúdo do relatório em formato JSON
+   */
+  conteudoJson?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Data de criação
+   */
+  dateCreated: string;
+  /**
+   * Data de atualização
+   */
+  dateUpdated: string;
+  /**
+   * Data de exclusão
+   */
+  dateDeleted?: string;
+};
+
+export type RelatorioListOutputRestDto = {
+  data: Array<RelatorioFindOneOutputRestDto>;
+  meta: PaginationMetaRestDto;
+};
+
+export type RelatorioEstagioRefInputRestDto = {
+  /**
+   * Referência ao estágio (id)
+   */
+  id: string;
+};
+
+export type RelatorioArquivoRefInputRestDto = {
+  /**
+   * Referência ao arquivo (id)
+   */
+  id: string;
+};
+
+export type RelatorioCreateInputRestDto = {
+  /**
+   * Referência ao estágio
+   */
+  estagio: RelatorioEstagioRefInputRestDto;
+  /**
+   * Referência ao arquivo PDF
+   */
+  arquivo?: RelatorioArquivoRefInputRestDto;
+  /**
+   * Conteúdo do formulário em JSON
+   */
+  conteudoJson?: {
+    [key: string]: unknown;
+  };
+};
+
+export type RelatorioUpdateInputRestDto = {
+  /**
+   * Referência ao arquivo PDF
+   */
+  arquivo?: RelatorioArquivoRefInputRestDto;
+  /**
+   * Conteúdo do formulário em JSON
+   */
+  conteudoJson?: {
+    [key: string]: unknown;
+  };
 };
 
 export type GradeHorariaIntervaloOutputDto = {
@@ -3949,6 +5817,135 @@ export type CampusUpdateResponses = {
 export type CampusUpdateResponse =
   CampusUpdateResponses[keyof CampusUpdateResponses];
 
+export type EnderecoListData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+  };
+  url: '/enderecos';
+};
+
+export type EnderecoListErrors = {
+  403: unknown;
+};
+
+export type EnderecoListResponses = {
+  200: EnderecoListOutputDto;
+};
+
+export type EnderecoListResponse =
+  EnderecoListResponses[keyof EnderecoListResponses];
+
+export type EnderecoCreateData = {
+  body: EnderecoInputDto;
+  path?: never;
+  query?: never;
+  url: '/enderecos';
+};
+
+export type EnderecoCreateErrors = {
+  403: unknown;
+};
+
+export type EnderecoCreateResponses = {
+  201: EnderecoFindOneOutputDto;
+};
+
+export type EnderecoCreateResponse =
+  EnderecoCreateResponses[keyof EnderecoCreateResponses];
+
+export type EnderecoDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/enderecos/{id}';
+};
+
+export type EnderecoDeleteErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EnderecoDeleteResponses = {
+  200: boolean;
+};
+
+export type EnderecoDeleteResponse =
+  EnderecoDeleteResponses[keyof EnderecoDeleteResponses];
+
+export type EnderecoFindOneData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/enderecos/{id}';
+};
+
+export type EnderecoFindOneErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EnderecoFindOneResponses = {
+  200: EnderecoFindOneOutputDto;
+};
+
+export type EnderecoFindOneResponse =
+  EnderecoFindOneResponses[keyof EnderecoFindOneResponses];
+
+export type EnderecoUpdateData = {
+  body: EnderecoInputDto;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/enderecos/{id}';
+};
+
+export type EnderecoUpdateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EnderecoUpdateResponses = {
+  200: EnderecoFindOneOutputDto;
+};
+
+export type EnderecoUpdateResponse =
+  EnderecoUpdateResponses[keyof EnderecoUpdateResponses];
+
 export type OfertaFormacaoFindAllData = {
   body?: never;
   path?: never;
@@ -4466,6 +6463,48 @@ export type UsuarioEnsinoByIdResponses = {
 export type UsuarioEnsinoByIdResponse =
   UsuarioEnsinoByIdResponses[keyof UsuarioEnsinoByIdResponses];
 
+export type UsuarioImportCsvData = {
+  body: {
+    file: Blob | File;
+  };
+  path?: never;
+  query?: never;
+  url: '/usuarios/importar/csv';
+};
+
+export type UsuarioImportCsvErrors = {
+  400: unknown;
+  403: unknown;
+};
+
+export type UsuarioImportCsvResponses = {
+  201: UsuarioImportJobOutputDto;
+};
+
+export type UsuarioImportCsvResponse =
+  UsuarioImportCsvResponses[keyof UsuarioImportCsvResponses];
+
+export type UsuarioImportAlunosSuapXlsData = {
+  body: {
+    file: Blob | File;
+  };
+  path?: never;
+  query?: never;
+  url: '/usuarios/importar/alunos-xls';
+};
+
+export type UsuarioImportAlunosSuapXlsErrors = {
+  400: unknown;
+  403: unknown;
+};
+
+export type UsuarioImportAlunosSuapXlsResponses = {
+  201: UsuarioImportJobOutputDto;
+};
+
+export type UsuarioImportAlunosSuapXlsResponse =
+  UsuarioImportAlunosSuapXlsResponses[keyof UsuarioImportAlunosSuapXlsResponses];
+
 export type UsuarioHorarioSemanalData = {
   body?: never;
   path: {
@@ -4635,6 +6674,30 @@ export type UsuarioUpdateImagemPerfilResponses = {
 export type UsuarioUpdateImagemPerfilResponse =
   UsuarioUpdateImagemPerfilResponses[keyof UsuarioUpdateImagemPerfilResponses];
 
+export type UsuarioRestControllerDefinirPerfisData = {
+  body: UsuarioDefinirPerfisInputDto;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/usuarios/{id}/perfis';
+};
+
+export type UsuarioRestControllerDefinirPerfisErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type UsuarioRestControllerDefinirPerfisResponses = {
+  200: boolean;
+};
+
+export type UsuarioRestControllerDefinirPerfisResponse =
+  UsuarioRestControllerDefinirPerfisResponses[keyof UsuarioRestControllerDefinirPerfisResponses];
+
 export type PerfilListData = {
   body?: never;
   path?: never;
@@ -4685,6 +6748,37 @@ export type PerfilListResponses = {
 
 export type PerfilListResponse = PerfilListResponses[keyof PerfilListResponses];
 
+export type PerfilVinculosFiltroData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Filtro por ID de campus
+     */
+    campusId?: string;
+    /**
+     * Filtro por nome do cargo (ex: aluno, professor)
+     */
+    cargoNome?: string;
+    /**
+     * Filtro por ID de curso
+     */
+    cursoId?: string;
+  };
+  url: '/perfis/vinculos';
+};
+
+export type PerfilVinculosFiltroErrors = {
+  403: unknown;
+};
+
+export type PerfilVinculosFiltroResponses = {
+  200: Array<PerfilFindOneOutputDto>;
+};
+
+export type PerfilVinculosFiltroResponse =
+  PerfilVinculosFiltroResponses[keyof PerfilVinculosFiltroResponses];
+
 export type PerfilFindByIdData = {
   body?: never;
   path: {
@@ -4709,7 +6803,31 @@ export type PerfilFindByIdResponses = {
 export type PerfilFindByIdResponse =
   PerfilFindByIdResponses[keyof PerfilFindByIdResponses];
 
-export type PerfilFindById2Data = {
+export type PerfilUpdateData = {
+  body: PerfilUpdateInputDto;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/perfis/{id}';
+};
+
+export type PerfilUpdateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type PerfilUpdateResponses = {
+  200: PerfilFindOneOutputDto;
+};
+
+export type PerfilUpdateResponse =
+  PerfilUpdateResponses[keyof PerfilUpdateResponses];
+
+export type PerfilFindByIdViaUsuarioData = {
   body?: never;
   path: {
     /**
@@ -4721,17 +6839,17 @@ export type PerfilFindById2Data = {
   url: '/usuarios/{usuarioId}/perfis/{id}';
 };
 
-export type PerfilFindById2Errors = {
+export type PerfilFindByIdViaUsuarioErrors = {
   403: unknown;
   404: unknown;
 };
 
-export type PerfilFindById2Responses = {
+export type PerfilFindByIdViaUsuarioResponses = {
   200: PerfilFindOneOutputDto;
 };
 
-export type PerfilFindById2Response =
-  PerfilFindById2Responses[keyof PerfilFindById2Responses];
+export type PerfilFindByIdViaUsuarioResponse =
+  PerfilFindByIdViaUsuarioResponses[keyof PerfilFindByIdViaUsuarioResponses];
 
 export type PerfilEnsinoByIdData = {
   body?: never;
@@ -4756,6 +6874,117 @@ export type PerfilEnsinoByIdResponses = {
 
 export type PerfilEnsinoByIdResponse =
   PerfilEnsinoByIdResponses[keyof PerfilEnsinoByIdResponses];
+
+export type CargoRestControllerListData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Página atual
+     */
+    page?: number;
+    /**
+     * Itens por página
+     */
+    limit?: number;
+  };
+  url: '/cargos';
+};
+
+export type CargoRestControllerListErrors = {
+  403: unknown;
+};
+
+export type CargoRestControllerListResponses = {
+  200: CargoListOutputDto;
+};
+
+export type CargoRestControllerListResponse =
+  CargoRestControllerListResponses[keyof CargoRestControllerListResponses];
+
+export type CargoRestControllerCreateData = {
+  body: CargoCreateInputDto;
+  path?: never;
+  query?: never;
+  url: '/cargos';
+};
+
+export type CargoRestControllerCreateErrors = {
+  403: unknown;
+};
+
+export type CargoRestControllerCreateResponses = {
+  201: CargoOutputDto;
+};
+
+export type CargoRestControllerCreateResponse =
+  CargoRestControllerCreateResponses[keyof CargoRestControllerCreateResponses];
+
+export type CargoRestControllerDeleteData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/cargos/{id}';
+};
+
+export type CargoRestControllerDeleteErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CargoRestControllerDeleteResponses = {
+  /**
+   * Cargo deletado com sucesso
+   */
+  200: boolean;
+};
+
+export type CargoRestControllerDeleteResponse =
+  CargoRestControllerDeleteResponses[keyof CargoRestControllerDeleteResponses];
+
+export type CargoRestControllerFindOneData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/cargos/{id}';
+};
+
+export type CargoRestControllerFindOneErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CargoRestControllerFindOneResponses = {
+  200: CargoOutputDto;
+};
+
+export type CargoRestControllerFindOneResponse =
+  CargoRestControllerFindOneResponses[keyof CargoRestControllerFindOneResponses];
+
+export type CargoRestControllerUpdateData = {
+  body: CargoUpdateInputDto;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/cargos/{id}';
+};
+
+export type CargoRestControllerUpdateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CargoRestControllerUpdateResponses = {
+  200: CargoOutputDto;
+};
+
+export type CargoRestControllerUpdateResponse =
+  CargoRestControllerUpdateResponses[keyof CargoRestControllerUpdateResponses];
 
 export type HorarioMescladoData = {
   body?: never;
@@ -4788,7 +7017,7 @@ export type HorarioMescladoResponses = {
 export type HorarioMescladoResponse =
   HorarioMescladoResponses[keyof HorarioMescladoResponses];
 
-export type DisciplinaFindAllData = {
+export type TurmaFindAllData = {
   body?: never;
   path?: never;
   query?: {
@@ -4813,43 +7042,87 @@ export type DisciplinaFindAllData = {
      */
     'filter.id'?: Array<string> | null;
     /**
-     * Filtro por ID dos Diarios
+     * Filtro por periodo da turma
      */
-    'filter.diarios.id'?: Array<string>;
+    'filter.periodo'?: Array<string>;
+    /**
+     * Filtro por nome do Ambiente Padrao de Aula
+     */
+    'filter.ambientePadraoAula.nome'?: Array<string>;
+    /**
+     * Filtro por codigo do Ambiente Padrao de Aula
+     */
+    'filter.ambientePadraoAula.codigo'?: Array<string>;
+    /**
+     * Filtro por capacidade do Ambiente Padrao de Aula
+     */
+    'filter.ambientePadraoAula.capacidade'?: Array<string>;
+    /**
+     * Filtro por tipo do Ambiente Padrao de Aula
+     */
+    'filter.ambientePadraoAula.tipo'?: Array<string>;
+    /**
+     * Filtro por ID do Curso
+     */
+    'filter.curso.id'?: Array<string>;
+    /**
+     * Filtro por nome do Curso
+     */
+    'filter.curso.nome'?: Array<string>;
+    /**
+     * Filtro por nome abreviado do Curso
+     */
+    'filter.curso.nomeAbreviado'?: Array<string>;
+    /**
+     * Filtro por ID do Campus do Curso
+     */
+    'filter.curso.campus.id'?: Array<string>;
+    /**
+     * Filtro por ID da Oferta de Formacao do Curso
+     */
+    'filter.curso.ofertaFormacao.id'?: Array<string>;
+    /**
+     * Filtro por nome da Oferta de Formacao do Curso
+     */
+    'filter.curso.ofertaFormacao.nome'?: Array<string>;
+    /**
+     * Filtro por slug da Oferta de Formacao do Curso
+     */
+    'filter.curso.ofertaFormacao.slug'?: Array<string>;
   };
-  url: '/disciplinas';
+  url: '/turmas';
 };
 
-export type DisciplinaFindAllErrors = {
+export type TurmaFindAllErrors = {
   403: unknown;
 };
 
-export type DisciplinaFindAllResponses = {
-  200: DisciplinaListOutputDto;
+export type TurmaFindAllResponses = {
+  200: TurmaListOutputDto;
 };
 
-export type DisciplinaFindAllResponse =
-  DisciplinaFindAllResponses[keyof DisciplinaFindAllResponses];
+export type TurmaFindAllResponse =
+  TurmaFindAllResponses[keyof TurmaFindAllResponses];
 
-export type DisciplinaCreateData = {
-  body: DisciplinaCreateInputDto;
+export type TurmaCreateData = {
+  body: TurmaCreateInputDto;
   path?: never;
   query?: never;
-  url: '/disciplinas';
+  url: '/turmas';
 };
 
-export type DisciplinaCreateErrors = {
+export type TurmaCreateErrors = {
   403: unknown;
 };
 
-export type DisciplinaCreateResponses = {
-  201: DisciplinaFindOneOutputDto;
+export type TurmaCreateResponses = {
+  201: TurmaFindOneOutputDto;
 };
 
-export type DisciplinaCreateResponse =
-  DisciplinaCreateResponses[keyof DisciplinaCreateResponses];
+export type TurmaCreateResponse =
+  TurmaCreateResponses[keyof TurmaCreateResponses];
 
-export type DisciplinaDeleteOneByIdData = {
+export type TurmaDeleteOneByIdData = {
   body?: never;
   path: {
     /**
@@ -4858,22 +7131,22 @@ export type DisciplinaDeleteOneByIdData = {
     id: string;
   };
   query?: never;
-  url: '/disciplinas/{id}';
+  url: '/turmas/{id}';
 };
 
-export type DisciplinaDeleteOneByIdErrors = {
+export type TurmaDeleteOneByIdErrors = {
   403: unknown;
   404: unknown;
 };
 
-export type DisciplinaDeleteOneByIdResponses = {
+export type TurmaDeleteOneByIdResponses = {
   200: boolean;
 };
 
-export type DisciplinaDeleteOneByIdResponse =
-  DisciplinaDeleteOneByIdResponses[keyof DisciplinaDeleteOneByIdResponses];
+export type TurmaDeleteOneByIdResponse =
+  TurmaDeleteOneByIdResponses[keyof TurmaDeleteOneByIdResponses];
 
-export type DisciplinaFindByIdData = {
+export type TurmaFindByIdData = {
   body?: never;
   path: {
     /**
@@ -4882,23 +7155,23 @@ export type DisciplinaFindByIdData = {
     id: string;
   };
   query?: never;
-  url: '/disciplinas/{id}';
+  url: '/turmas/{id}';
 };
 
-export type DisciplinaFindByIdErrors = {
+export type TurmaFindByIdErrors = {
   403: unknown;
   404: unknown;
 };
 
-export type DisciplinaFindByIdResponses = {
-  200: DisciplinaFindOneOutputDto;
+export type TurmaFindByIdResponses = {
+  200: TurmaFindOneOutputDto;
 };
 
-export type DisciplinaFindByIdResponse =
-  DisciplinaFindByIdResponses[keyof DisciplinaFindByIdResponses];
+export type TurmaFindByIdResponse =
+  TurmaFindByIdResponses[keyof TurmaFindByIdResponses];
 
-export type DisciplinaUpdateData = {
-  body: DisciplinaUpdateInputDto;
+export type TurmaUpdateData = {
+  body: TurmaUpdateInputDto;
   path: {
     /**
      * Identificador do registro (uuid)
@@ -4906,22 +7179,22 @@ export type DisciplinaUpdateData = {
     id: string;
   };
   query?: never;
-  url: '/disciplinas/{id}';
+  url: '/turmas/{id}';
 };
 
-export type DisciplinaUpdateErrors = {
+export type TurmaUpdateErrors = {
   403: unknown;
   404: unknown;
 };
 
-export type DisciplinaUpdateResponses = {
-  200: DisciplinaFindOneOutputDto;
+export type TurmaUpdateResponses = {
+  200: TurmaFindOneOutputDto;
 };
 
-export type DisciplinaUpdateResponse =
-  DisciplinaUpdateResponses[keyof DisciplinaUpdateResponses];
+export type TurmaUpdateResponse =
+  TurmaUpdateResponses[keyof TurmaUpdateResponses];
 
-export type DisciplinaGetImagemCapaData = {
+export type TurmaListEstagiariosData = {
   body?: never;
   path: {
     /**
@@ -4930,19 +7203,72 @@ export type DisciplinaGetImagemCapaData = {
     id: string;
   };
   query?: never;
-  url: '/disciplinas/{id}/imagem/capa';
+  url: '/turmas/{id}/estagiarios';
 };
 
-export type DisciplinaGetImagemCapaErrors = {
+export type TurmaListEstagiariosErrors = {
   403: unknown;
   404: unknown;
 };
 
-export type DisciplinaGetImagemCapaResponses = {
+export type TurmaListEstagiariosResponses = {
+  200: TurmaListEstagiariosOutputDto;
+};
+
+export type TurmaListEstagiariosResponse =
+  TurmaListEstagiariosResponses[keyof TurmaListEstagiariosResponses];
+
+export type TurmaHorarioSemanalData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query: {
+    /**
+     * Data da semana desejada (YYYY-MM-DD). Qualquer dia da semana; a API calcula seg-dom.
+     */
+    semana: string;
+  };
+  url: '/turmas/{id}/horario';
+};
+
+export type TurmaHorarioSemanalErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type TurmaHorarioSemanalResponses = {
+  200: HorarioSemanalOutputDto;
+};
+
+export type TurmaHorarioSemanalResponse =
+  TurmaHorarioSemanalResponses[keyof TurmaHorarioSemanalResponses];
+
+export type TurmaGetImagemCapaData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/turmas/{id}/imagem/capa';
+};
+
+export type TurmaGetImagemCapaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type TurmaGetImagemCapaResponses = {
   200: unknown;
 };
 
-export type DisciplinaUpdateImagemCapaData = {
+export type TurmaUpdateImagemCapaData = {
   body: {
     file: Blob | File;
   };
@@ -4953,701 +7279,43 @@ export type DisciplinaUpdateImagemCapaData = {
     id: string;
   };
   query?: never;
-  url: '/disciplinas/{id}/imagem/capa';
+  url: '/turmas/{id}/imagem/capa';
 };
 
-export type DisciplinaUpdateImagemCapaErrors = {
+export type TurmaUpdateImagemCapaErrors = {
   403: unknown;
   404: unknown;
 };
 
-export type DisciplinaUpdateImagemCapaResponses = {
+export type TurmaUpdateImagemCapaResponses = {
   200: boolean;
 };
 
-export type DisciplinaUpdateImagemCapaResponse =
-  DisciplinaUpdateImagemCapaResponses[keyof DisciplinaUpdateImagemCapaResponses];
+export type TurmaUpdateImagemCapaResponse =
+  TurmaUpdateImagemCapaResponses[keyof TurmaUpdateImagemCapaResponses];
 
-export type CalendarioAgendamentoFindAllData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Pagina de consulta
-     */
-    page?: number | null;
-    /**
-     * Limite da quantidade de resultados por pagina
-     */
-    limit?: number | null;
-    /**
-     * Busca textual
-     */
-    search?: string | null;
-    /**
-     * Ordenação
-     */
-    sortBy?: Array<string> | null;
-    /**
-     * Filtro por ID
-     */
-    'filter.id'?: Array<string> | null;
-    /**
-     * Filtro por tipo de agendamento (INDISPONIBILIDADE, AULA, EVENTO, RESERVA)
-     */
-    'filter.tipo'?: Array<string>;
-    /**
-     * Filtro por status do agendamento (RASCUNHO, ATIVO, INATIVO)
-     */
-    'filter.status'?: Array<string>;
-    /**
-     * Filtro por ID da turma vinculada
-     */
-    'filter.turma.id'?: Array<string>;
-    /**
-     * Filtro por ID do perfil vinculado
-     */
-    'filter.perfil.id'?: Array<string>;
-    /**
-     * Filtro por ID do calendario letivo vinculado
-     */
-    'filter.calendarioLetivo.id'?: Array<string>;
-    /**
-     * Filtro por ID da oferta de formacao vinculada
-     */
-    'filter.ofertaFormacao.id'?: Array<string>;
-    /**
-     * Filtro por ID da modalidade vinculada
-     */
-    'filter.modalidade.id'?: Array<string>;
-    /**
-     * Filtro por ID do ambiente vinculado
-     */
-    'filter.ambiente.id'?: Array<string>;
-    /**
-     * Filtro por ID do diario vinculado
-     */
-    'filter.diario.id'?: Array<string>;
-  };
-  url: '/calendario/agendamentos';
-};
-
-export type CalendarioAgendamentoFindAllErrors = {
-  403: unknown;
-};
-
-export type CalendarioAgendamentoFindAllResponses = {
-  200: CalendarioAgendamentoListOutputDto;
-};
-
-export type CalendarioAgendamentoFindAllResponse =
-  CalendarioAgendamentoFindAllResponses[keyof CalendarioAgendamentoFindAllResponses];
-
-export type CalendarioAgendamentoCreateData = {
-  body: CalendarioAgendamentoCreateInputDto;
-  path?: never;
-  query?: never;
-  url: '/calendario/agendamentos';
-};
-
-export type CalendarioAgendamentoCreateErrors = {
-  403: unknown;
-};
-
-export type CalendarioAgendamentoCreateResponses = {
-  201: CalendarioAgendamentoFindOneOutputDto;
-};
-
-export type CalendarioAgendamentoCreateResponse =
-  CalendarioAgendamentoCreateResponses[keyof CalendarioAgendamentoCreateResponses];
-
-export type CalendarioAgendamentoDeleteOneByIdData = {
-  body?: never;
+export type TurmaDiarioConfigurarData = {
+  body: TurmaDiarioConfigurarInputDto;
   path: {
     /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/calendario/agendamentos/{id}';
-};
-
-export type CalendarioAgendamentoDeleteOneByIdErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type CalendarioAgendamentoDeleteOneByIdResponses = {
-  200: boolean;
-};
-
-export type CalendarioAgendamentoDeleteOneByIdResponse =
-  CalendarioAgendamentoDeleteOneByIdResponses[keyof CalendarioAgendamentoDeleteOneByIdResponses];
-
-export type CalendarioAgendamentoFindByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/calendario/agendamentos/{id}';
-};
-
-export type CalendarioAgendamentoFindByIdErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type CalendarioAgendamentoFindByIdResponses = {
-  200: CalendarioAgendamentoFindOneOutputDto;
-};
-
-export type CalendarioAgendamentoFindByIdResponse =
-  CalendarioAgendamentoFindByIdResponses[keyof CalendarioAgendamentoFindByIdResponses];
-
-export type CalendarioAgendamentoUpdateData = {
-  body: CalendarioAgendamentoUpdateInputDto;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/calendario/agendamentos/{id}';
-};
-
-export type CalendarioAgendamentoUpdateErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type CalendarioAgendamentoUpdateResponses = {
-  200: CalendarioAgendamentoFindOneOutputDto;
-};
-
-export type CalendarioAgendamentoUpdateResponse =
-  CalendarioAgendamentoUpdateResponses[keyof CalendarioAgendamentoUpdateResponses];
-
-export type CalendarioAgendamentoDesvincularTurmaData = {
-  body?: never;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-    /**
-     * ID da turma a desvincular
+     * ID da turma
      */
     turmaId: string;
   };
   query?: never;
-  url: '/calendario/agendamentos/{id}/turmas/{turmaId}';
+  url: '/turmas/{turmaId}/diarios/configurar';
 };
 
-export type CalendarioAgendamentoDesvincularTurmaErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type CalendarioAgendamentoDesvincularTurmaResponses = {
-  200: boolean;
-};
-
-export type CalendarioAgendamentoDesvincularTurmaResponse =
-  CalendarioAgendamentoDesvincularTurmaResponses[keyof CalendarioAgendamentoDesvincularTurmaResponses];
-
-export type CalendarioAgendamentoUpdateStatusData = {
-  body: CalendarioAgendamentoUpdateStatusInputDto;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/calendario/agendamentos/{id}/status';
-};
-
-export type CalendarioAgendamentoUpdateStatusErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type CalendarioAgendamentoUpdateStatusResponses = {
-  200: CalendarioAgendamentoFindOneOutputDto;
-};
-
-export type CalendarioAgendamentoUpdateStatusResponse =
-  CalendarioAgendamentoUpdateStatusResponses[keyof CalendarioAgendamentoUpdateStatusResponses];
-
-export type ConsultaOcorrenciasPorDataData = {
-  body?: never;
-  path?: never;
-  query: {
-    /**
-     * Data início do período (YYYY-MM-DD)
-     */
-    dateStart: string;
-    /**
-     * Data fim do período (YYYY-MM-DD)
-     */
-    dateEnd: string;
-    /**
-     * Filtro por campus ID
-     */
-    campus?: string;
-    /**
-     * Filtro por turma ID
-     */
-    turma?: string;
-    /**
-     * Filtro por professor (perfil) ID
-     */
-    professor?: string;
-    /**
-     * Filtro por tipo de ocorrência (AULA, EVENTO, INDISPONIBILIDADE, RESERVA)
-     */
-    tipo?: string;
-  };
-  url: '/calendario/consultas/ocorrencias';
-};
-
-export type ConsultaOcorrenciasPorDataErrors = {
+export type TurmaDiarioConfigurarErrors = {
   403: unknown;
 };
 
-export type ConsultaOcorrenciasPorDataResponses = {
-  200: ConsultaOcorrenciasOutputDto;
+export type TurmaDiarioConfigurarResponses = {
+  201: TurmaDiarioConfigurarOutputDto;
 };
 
-export type ConsultaOcorrenciasPorDataResponse =
-  ConsultaOcorrenciasPorDataResponses[keyof ConsultaOcorrenciasPorDataResponses];
-
-export type ProfessorAgendaFindAllData = {
-  body?: never;
-  path: {
-    perfilId: string;
-  };
-  query?: {
-    /**
-     * Pagina de consulta
-     */
-    page?: number | null;
-    /**
-     * Limite da quantidade de resultados por pagina
-     */
-    limit?: number | null;
-    /**
-     * Busca textual
-     */
-    search?: string | null;
-    /**
-     * Ordenação
-     */
-    sortBy?: Array<string> | null;
-    /**
-     * Filtro por ID
-     */
-    'filter.id'?: Array<string> | null;
-    /**
-     * Filtro por tipo de agendamento (INDISPONIBILIDADE, AULA, EVENTO, RESERVA)
-     */
-    'filter.tipo'?: Array<string>;
-    /**
-     * Filtro por status do agendamento (RASCUNHO, ATIVO, INATIVO)
-     */
-    'filter.status'?: Array<string>;
-    /**
-     * Filtro por ID da turma vinculada
-     */
-    'filter.turma.id'?: Array<string>;
-    /**
-     * Filtro por ID do perfil vinculado
-     */
-    'filter.perfil.id'?: Array<string>;
-    /**
-     * Filtro por ID do calendario letivo vinculado
-     */
-    'filter.calendarioLetivo.id'?: Array<string>;
-    /**
-     * Filtro por ID da oferta de formacao vinculada
-     */
-    'filter.ofertaFormacao.id'?: Array<string>;
-    /**
-     * Filtro por ID da modalidade vinculada
-     */
-    'filter.modalidade.id'?: Array<string>;
-    /**
-     * Filtro por ID do ambiente vinculado
-     */
-    'filter.ambiente.id'?: Array<string>;
-    /**
-     * Filtro por ID do diario vinculado
-     */
-    'filter.diario.id'?: Array<string>;
-  };
-  url: '/calendario/professores/{perfilId}/agenda';
-};
-
-export type ProfessorAgendaFindAllResponses = {
-  200: CalendarioAgendamentoListOutputDto;
-};
-
-export type ProfessorAgendaFindAllResponse =
-  ProfessorAgendaFindAllResponses[keyof ProfessorAgendaFindAllResponses];
-
-export type CalendarioLetivoFindAllData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Pagina de consulta
-     */
-    page?: number | null;
-    /**
-     * Limite da quantidade de resultados por pagina
-     */
-    limit?: number | null;
-    /**
-     * Busca textual
-     */
-    search?: string | null;
-    /**
-     * Ordenação
-     */
-    sortBy?: Array<string> | null;
-    /**
-     * Filtro por ID
-     */
-    'filter.id'?: Array<string> | null;
-    /**
-     * Filtro por ano letivo
-     */
-    'filter.ano'?: Array<string>;
-    /**
-     * Filtro por ID do Campus
-     */
-    'filter.campus.id'?: Array<string>;
-    /**
-     * Filtro por ID da Oferta de Formacao
-     */
-    'filter.ofertaFormacao.id'?: Array<string>;
-  };
-  url: '/calendarios-letivos';
-};
-
-export type CalendarioLetivoFindAllErrors = {
-  403: unknown;
-};
-
-export type CalendarioLetivoFindAllResponses = {
-  200: CalendarioLetivoListOutputDto;
-};
-
-export type CalendarioLetivoFindAllResponse =
-  CalendarioLetivoFindAllResponses[keyof CalendarioLetivoFindAllResponses];
-
-export type CalendarioLetivoCreateData = {
-  body: CalendarioLetivoCreateInputDto;
-  path?: never;
-  query?: never;
-  url: '/calendarios-letivos';
-};
-
-export type CalendarioLetivoCreateErrors = {
-  403: unknown;
-};
-
-export type CalendarioLetivoCreateResponses = {
-  201: CalendarioLetivoFindOneOutputDto;
-};
-
-export type CalendarioLetivoCreateResponse =
-  CalendarioLetivoCreateResponses[keyof CalendarioLetivoCreateResponses];
-
-export type CalendarioLetivoDeleteOneByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/calendarios-letivos/{id}';
-};
-
-export type CalendarioLetivoDeleteOneByIdErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type CalendarioLetivoDeleteOneByIdResponses = {
-  200: boolean;
-};
-
-export type CalendarioLetivoDeleteOneByIdResponse =
-  CalendarioLetivoDeleteOneByIdResponses[keyof CalendarioLetivoDeleteOneByIdResponses];
-
-export type CalendarioLetivoFindByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/calendarios-letivos/{id}';
-};
-
-export type CalendarioLetivoFindByIdErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type CalendarioLetivoFindByIdResponses = {
-  200: CalendarioLetivoFindOneOutputDto;
-};
-
-export type CalendarioLetivoFindByIdResponse =
-  CalendarioLetivoFindByIdResponses[keyof CalendarioLetivoFindByIdResponses];
-
-export type CalendarioLetivoUpdateData = {
-  body: CalendarioLetivoUpdateInputDto;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/calendarios-letivos/{id}';
-};
-
-export type CalendarioLetivoUpdateErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type CalendarioLetivoUpdateResponses = {
-  200: CalendarioLetivoFindOneOutputDto;
-};
-
-export type CalendarioLetivoUpdateResponse =
-  CalendarioLetivoUpdateResponses[keyof CalendarioLetivoUpdateResponses];
-
-export type CalendarioLetivoDiaFindAllData = {
-  body?: never;
-  path: {
-    /**
-     * ID do calendario letivo (uuid)
-     */
-    calendarioLetivoId: string;
-  };
-  query?: {
-    /**
-     * Pagina de consulta
-     */
-    page?: number | null;
-    /**
-     * Limite da quantidade de resultados por pagina
-     */
-    limit?: number | null;
-    /**
-     * Busca textual
-     */
-    search?: string | null;
-    /**
-     * Ordenação
-     */
-    sortBy?: Array<string> | null;
-    /**
-     * Filtro por ID
-     */
-    'filter.id'?: Array<string> | null;
-    /**
-     * Filtro por nome do Calendario
-     */
-    'filter.calendario.nome'?: Array<string>;
-    /**
-     * Filtro por ano do Calendario
-     */
-    'filter.calendario.ano'?: Array<string>;
-  };
-  url: '/calendarios-letivos/{calendarioLetivoId}/dias';
-};
-
-export type CalendarioLetivoDiaFindAllErrors = {
-  403: unknown;
-};
-
-export type CalendarioLetivoDiaFindAllResponses = {
-  200: CalendarioLetivoDiaListOutputDto;
-};
-
-export type CalendarioLetivoDiaFindAllResponse =
-  CalendarioLetivoDiaFindAllResponses[keyof CalendarioLetivoDiaFindAllResponses];
-
-export type CalendarioLetivoDiaFindByDataData = {
-  body?: never;
-  path: {
-    /**
-     * ID do calendario letivo (uuid)
-     */
-    calendarioLetivoId: string;
-    /**
-     * Data do dia no calendario (YYYY-MM-DD)
-     */
-    data: string;
-  };
-  query?: never;
-  url: '/calendarios-letivos/{calendarioLetivoId}/dias/{data}';
-};
-
-export type CalendarioLetivoDiaFindByDataErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type CalendarioLetivoDiaFindByDataResponses = {
-  200: CalendarioLetivoDiaFindOneOutputDto;
-};
-
-export type CalendarioLetivoDiaFindByDataResponse =
-  CalendarioLetivoDiaFindByDataResponses[keyof CalendarioLetivoDiaFindByDataResponses];
-
-export type CalendarioLetivoDiaUpdateData = {
-  body: CalendarioLetivoDiaUpdateInputDto;
-  path: {
-    /**
-     * ID do calendario letivo (uuid)
-     */
-    calendarioLetivoId: string;
-    /**
-     * Data do dia no calendario (YYYY-MM-DD)
-     */
-    data: string;
-  };
-  query?: never;
-  url: '/calendarios-letivos/{calendarioLetivoId}/dias/{data}';
-};
-
-export type CalendarioLetivoDiaUpdateErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type CalendarioLetivoDiaUpdateResponses = {
-  200: CalendarioLetivoDiaFindOneOutputDto;
-};
-
-export type CalendarioLetivoDiaUpdateResponse =
-  CalendarioLetivoDiaUpdateResponses[keyof CalendarioLetivoDiaUpdateResponses];
-
-export type CalendarioLetivoDesativarData = {
-  body?: never;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/calendarios-letivos/{id}/desativar';
-};
-
-export type CalendarioLetivoDesativarErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type CalendarioLetivoDesativarResponses = {
-  200: boolean;
-};
-
-export type CalendarioLetivoDesativarResponse =
-  CalendarioLetivoDesativarResponses[keyof CalendarioLetivoDesativarResponses];
-
-export type CidadeFindAllData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Pagina de consulta
-     */
-    page?: number | null;
-    /**
-     * Limite da quantidade de resultados por pagina
-     */
-    limit?: number | null;
-    /**
-     * Busca textual
-     */
-    search?: string | null;
-    /**
-     * Ordenação
-     */
-    sortBy?: Array<string> | null;
-    /**
-     * Filtro por ID
-     */
-    'filter.id'?: Array<string> | null;
-    /**
-     * Filtro por ID do Estado
-     */
-    'filter.estado.id'?: Array<string>;
-    /**
-     * Filtro por nome do Estado
-     */
-    'filter.estado.nome'?: Array<string>;
-    /**
-     * Filtro por sigla do Estado
-     */
-    'filter.estado.sigla'?: Array<string>;
-  };
-  url: '/base/cidades';
-};
-
-export type CidadeFindAllErrors = {
-  403: unknown;
-};
-
-export type CidadeFindAllResponses = {
-  200: CidadeListOutputDto;
-};
-
-export type CidadeFindAllResponse =
-  CidadeFindAllResponses[keyof CidadeFindAllResponses];
-
-export type CidadeFindByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Identificador do registro (numerico)
-     */
-    id: number;
-  };
-  query?: never;
-  url: '/base/cidades/{id}';
-};
-
-export type CidadeFindByIdErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type CidadeFindByIdResponses = {
-  200: CidadeFindOneOutputDto;
-};
-
-export type CidadeFindByIdResponse =
-  CidadeFindByIdResponses[keyof CidadeFindByIdResponses];
+export type TurmaDiarioConfigurarResponse =
+  TurmaDiarioConfigurarResponses[keyof TurmaDiarioConfigurarResponses];
 
 export type AmbienteListDisponiveisData = {
   body?: never;
@@ -6048,6 +7716,1906 @@ export type BlocoUpdateImagemCapaResponses = {
 
 export type BlocoUpdateImagemCapaResponse =
   BlocoUpdateImagemCapaResponses[keyof BlocoUpdateImagemCapaResponses];
+
+export type EstagiarioFindAllData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por ID de perfil
+     */
+    'filter.perfil.id'?: Array<string>;
+    /**
+     * Filtro por ID de curso
+     */
+    'filter.curso.id'?: Array<string>;
+    /**
+     * Filtro por período
+     */
+    'filter.periodo'?: Array<string>;
+  };
+  url: '/estagiarios';
+};
+
+export type EstagiarioFindAllErrors = {
+  403: unknown;
+};
+
+export type EstagiarioFindAllResponses = {
+  200: EstagiarioListOutputDto;
+};
+
+export type EstagiarioFindAllResponse =
+  EstagiarioFindAllResponses[keyof EstagiarioFindAllResponses];
+
+export type EstagiarioCreateData = {
+  body: EstagiarioCreateInputDto;
+  path?: never;
+  query?: never;
+  url: '/estagiarios';
+};
+
+export type EstagiarioCreateErrors = {
+  403: unknown;
+};
+
+export type EstagiarioCreateResponses = {
+  201: EstagiarioFindOneOutputDto;
+};
+
+export type EstagiarioCreateResponse =
+  EstagiarioCreateResponses[keyof EstagiarioCreateResponses];
+
+export type EstagiarioDeleteOneByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/estagiarios/{id}';
+};
+
+export type EstagiarioDeleteOneByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EstagiarioDeleteOneByIdResponses = {
+  200: boolean;
+};
+
+export type EstagiarioDeleteOneByIdResponse =
+  EstagiarioDeleteOneByIdResponses[keyof EstagiarioDeleteOneByIdResponses];
+
+export type EstagiarioFindByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/estagiarios/{id}';
+};
+
+export type EstagiarioFindByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EstagiarioFindByIdResponses = {
+  200: EstagiarioFindOneOutputDto;
+};
+
+export type EstagiarioFindByIdResponse =
+  EstagiarioFindByIdResponses[keyof EstagiarioFindByIdResponses];
+
+export type EstagiarioUpdateData = {
+  body: EstagiarioUpdateInputDto;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/estagiarios/{id}';
+};
+
+export type EstagiarioUpdateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EstagiarioUpdateResponses = {
+  200: EstagiarioFindOneOutputDto;
+};
+
+export type EstagiarioUpdateResponse =
+  EstagiarioUpdateResponses[keyof EstagiarioUpdateResponses];
+
+export type EstagioFindAllData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por campus
+     */
+    'filter.campus.id'?: Object | null;
+    /**
+     * Filtro por empresa
+     */
+    'filter.empresa.id'?: Object | null;
+    /**
+     * Filtro por estagiário
+     */
+    'filter.estagiario.id'?: Object | null;
+    /**
+     * Filtro por status (string ou array)
+     */
+    'filter.status'?: Object | null;
+    /**
+     * Filtro por ID do curso
+     */
+    'filter.CursoReferencia.id'?: Object | null;
+  };
+  url: '/estagios';
+};
+
+export type EstagioFindAllErrors = {
+  403: unknown;
+};
+
+export type EstagioFindAllResponses = {
+  200: EstagioListOutputDto;
+};
+
+export type EstagioFindAllResponse =
+  EstagioFindAllResponses[keyof EstagioFindAllResponses];
+
+export type EstagioCreateData = {
+  body: EstagioCreateInputDto;
+  path?: never;
+  query?: never;
+  url: '/estagios';
+};
+
+export type EstagioCreateErrors = {
+  403: unknown;
+};
+
+export type EstagioCreateResponses = {
+  201: EstagioFindOneOutputDto;
+};
+
+export type EstagioCreateResponse =
+  EstagioCreateResponses[keyof EstagioCreateResponses];
+
+export type EstagioFindByOrientadorMatriculaData = {
+  body?: never;
+  path: {
+    matricula: string;
+  };
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por campus
+     */
+    'filter.campus.id'?: Object | null;
+    /**
+     * Filtro por empresa
+     */
+    'filter.empresa.id'?: Object | null;
+    /**
+     * Filtro por estagiário
+     */
+    'filter.estagiario.id'?: Object | null;
+    /**
+     * Filtro por status (string ou array)
+     */
+    'filter.status'?: Object | null;
+    /**
+     * Filtro por ID do curso
+     */
+    'filter.CursoReferencia.id'?: Object | null;
+  };
+  url: '/estagios/orientador/{matricula}';
+};
+
+export type EstagioFindByOrientadorMatriculaErrors = {
+  403: unknown;
+};
+
+export type EstagioFindByOrientadorMatriculaResponses = {
+  200: EstagioListOutputDto;
+};
+
+export type EstagioFindByOrientadorMatriculaResponse =
+  EstagioFindByOrientadorMatriculaResponses[keyof EstagioFindByOrientadorMatriculaResponses];
+
+export type EstagioDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/estagios/{id}';
+};
+
+export type EstagioDeleteErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EstagioDeleteResponses = {
+  /**
+   * Estágio deletado com sucesso
+   */
+  200: unknown;
+};
+
+export type EstagioFindByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/estagios/{id}';
+};
+
+export type EstagioFindByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EstagioFindByIdResponses = {
+  200: EstagioFindOneOutputDto;
+};
+
+export type EstagioFindByIdResponse =
+  EstagioFindByIdResponses[keyof EstagioFindByIdResponses];
+
+export type EstagioUpdateData = {
+  body: EstagioUpdateInputDto;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/estagios/{id}';
+};
+
+export type EstagioUpdateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EstagioUpdateResponses = {
+  200: EstagioFindOneOutputDto;
+};
+
+export type EstagioUpdateResponse =
+  EstagioUpdateResponses[keyof EstagioUpdateResponses];
+
+export type EstagioReplaceData = {
+  body: EstagioUpdateInputDto;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/estagios/{id}';
+};
+
+export type EstagioReplaceErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EstagioReplaceResponses = {
+  200: EstagioFindOneOutputDto;
+};
+
+export type EstagioReplaceResponse =
+  EstagioReplaceResponses[keyof EstagioReplaceResponses];
+
+export type EstagioImportCsvData = {
+  body: {
+    file: Blob | File;
+  };
+  path?: never;
+  query?: never;
+  url: '/estagios/importar/csv';
+};
+
+export type EstagioImportCsvErrors = {
+  400: unknown;
+  403: unknown;
+};
+
+export type EstagioImportCsvResponses = {
+  201: EstagioImportJobOutputDto;
+};
+
+export type EstagioImportCsvResponse =
+  EstagioImportCsvResponses[keyof EstagioImportCsvResponses];
+
+export type NotificacaoFindAllData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/notificacoes';
+};
+
+export type NotificacaoFindAllErrors = {
+  403: unknown;
+};
+
+export type NotificacaoFindAllResponses = {
+  200: unknown;
+};
+
+export type NotificacaoContagemNaoLidasData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/notificacoes/contagem-nao-lidas';
+};
+
+export type NotificacaoContagemNaoLidasErrors = {
+  403: unknown;
+};
+
+export type NotificacaoContagemNaoLidasResponses = {
+  200: unknown;
+};
+
+export type NotificacaoMarcarLidaData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/notificacoes/{id}/lida';
+};
+
+export type NotificacaoMarcarLidaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type NotificacaoMarcarLidaResponses = {
+  200: unknown;
+};
+
+export type DisciplinaFindAllData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por ID dos Diarios
+     */
+    'filter.diarios.id'?: Array<string>;
+  };
+  url: '/disciplinas';
+};
+
+export type DisciplinaFindAllErrors = {
+  403: unknown;
+};
+
+export type DisciplinaFindAllResponses = {
+  200: DisciplinaListOutputDto;
+};
+
+export type DisciplinaFindAllResponse =
+  DisciplinaFindAllResponses[keyof DisciplinaFindAllResponses];
+
+export type DisciplinaCreateData = {
+  body: DisciplinaCreateInputDto;
+  path?: never;
+  query?: never;
+  url: '/disciplinas';
+};
+
+export type DisciplinaCreateErrors = {
+  403: unknown;
+};
+
+export type DisciplinaCreateResponses = {
+  201: DisciplinaFindOneOutputDto;
+};
+
+export type DisciplinaCreateResponse =
+  DisciplinaCreateResponses[keyof DisciplinaCreateResponses];
+
+export type DisciplinaDeleteOneByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/disciplinas/{id}';
+};
+
+export type DisciplinaDeleteOneByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type DisciplinaDeleteOneByIdResponses = {
+  200: boolean;
+};
+
+export type DisciplinaDeleteOneByIdResponse =
+  DisciplinaDeleteOneByIdResponses[keyof DisciplinaDeleteOneByIdResponses];
+
+export type DisciplinaFindByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/disciplinas/{id}';
+};
+
+export type DisciplinaFindByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type DisciplinaFindByIdResponses = {
+  200: DisciplinaFindOneOutputDto;
+};
+
+export type DisciplinaFindByIdResponse =
+  DisciplinaFindByIdResponses[keyof DisciplinaFindByIdResponses];
+
+export type DisciplinaUpdateData = {
+  body: DisciplinaUpdateInputDto;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/disciplinas/{id}';
+};
+
+export type DisciplinaUpdateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type DisciplinaUpdateResponses = {
+  200: DisciplinaFindOneOutputDto;
+};
+
+export type DisciplinaUpdateResponse =
+  DisciplinaUpdateResponses[keyof DisciplinaUpdateResponses];
+
+export type DisciplinaGetImagemCapaData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/disciplinas/{id}/imagem/capa';
+};
+
+export type DisciplinaGetImagemCapaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type DisciplinaGetImagemCapaResponses = {
+  200: unknown;
+};
+
+export type DisciplinaUpdateImagemCapaData = {
+  body: {
+    file: Blob | File;
+  };
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/disciplinas/{id}/imagem/capa';
+};
+
+export type DisciplinaUpdateImagemCapaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type DisciplinaUpdateImagemCapaResponses = {
+  200: boolean;
+};
+
+export type DisciplinaUpdateImagemCapaResponse =
+  DisciplinaUpdateImagemCapaResponses[keyof DisciplinaUpdateImagemCapaResponses];
+
+export type CalendarioAgendamentoFindAllData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por tipo de agendamento (INDISPONIBILIDADE, AULA, EVENTO, RESERVA)
+     */
+    'filter.tipo'?: Array<string>;
+    /**
+     * Filtro por status do agendamento (RASCUNHO, ATIVO, INATIVO)
+     */
+    'filter.status'?: Array<string>;
+    /**
+     * Filtro por ID da turma vinculada
+     */
+    'filter.turma.id'?: Array<string>;
+    /**
+     * Filtro por ID do perfil vinculado
+     */
+    'filter.perfil.id'?: Array<string>;
+    /**
+     * Filtro por ID do calendario letivo vinculado
+     */
+    'filter.calendarioLetivo.id'?: Array<string>;
+    /**
+     * Filtro por ID da oferta de formacao vinculada
+     */
+    'filter.ofertaFormacao.id'?: Array<string>;
+    /**
+     * Filtro por ID da modalidade vinculada
+     */
+    'filter.modalidade.id'?: Array<string>;
+    /**
+     * Filtro por ID do ambiente vinculado
+     */
+    'filter.ambiente.id'?: Array<string>;
+    /**
+     * Filtro por ID do diario vinculado
+     */
+    'filter.diario.id'?: Array<string>;
+  };
+  url: '/calendario/agendamentos';
+};
+
+export type CalendarioAgendamentoFindAllErrors = {
+  403: unknown;
+};
+
+export type CalendarioAgendamentoFindAllResponses = {
+  200: CalendarioAgendamentoListOutputDto;
+};
+
+export type CalendarioAgendamentoFindAllResponse =
+  CalendarioAgendamentoFindAllResponses[keyof CalendarioAgendamentoFindAllResponses];
+
+export type CalendarioAgendamentoCreateData = {
+  body: CalendarioAgendamentoCreateInputDto;
+  path?: never;
+  query?: never;
+  url: '/calendario/agendamentos';
+};
+
+export type CalendarioAgendamentoCreateErrors = {
+  403: unknown;
+};
+
+export type CalendarioAgendamentoCreateResponses = {
+  201: CalendarioAgendamentoFindOneOutputDto;
+};
+
+export type CalendarioAgendamentoCreateResponse =
+  CalendarioAgendamentoCreateResponses[keyof CalendarioAgendamentoCreateResponses];
+
+export type CalendarioAgendamentoDeleteOneByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/agendamentos/{id}';
+};
+
+export type CalendarioAgendamentoDeleteOneByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioAgendamentoDeleteOneByIdResponses = {
+  200: boolean;
+};
+
+export type CalendarioAgendamentoDeleteOneByIdResponse =
+  CalendarioAgendamentoDeleteOneByIdResponses[keyof CalendarioAgendamentoDeleteOneByIdResponses];
+
+export type CalendarioAgendamentoFindByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/agendamentos/{id}';
+};
+
+export type CalendarioAgendamentoFindByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioAgendamentoFindByIdResponses = {
+  200: CalendarioAgendamentoFindOneOutputDto;
+};
+
+export type CalendarioAgendamentoFindByIdResponse =
+  CalendarioAgendamentoFindByIdResponses[keyof CalendarioAgendamentoFindByIdResponses];
+
+export type CalendarioAgendamentoUpdateData = {
+  body: CalendarioAgendamentoUpdateInputDto;
+  headers: {
+    'if-match': string;
+  };
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/agendamentos/{id}';
+};
+
+export type CalendarioAgendamentoUpdateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioAgendamentoUpdateResponses = {
+  200: CalendarioAgendamentoFindOneOutputDto;
+};
+
+export type CalendarioAgendamentoUpdateResponse =
+  CalendarioAgendamentoUpdateResponses[keyof CalendarioAgendamentoUpdateResponses];
+
+export type CalendarioAgendamentoLinhaDoTempoData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador externo do agendamento (estável entre versões)
+     */
+    identificadorExterno: string;
+  };
+  query?: never;
+  url: '/calendario/agendamentos/identificador-externo/{identificadorExterno}/linha-do-tempo';
+};
+
+export type CalendarioAgendamentoLinhaDoTempoErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioAgendamentoLinhaDoTempoResponses = {
+  200: CalendarioAgendamentoLinhaDoTempoOutputDto;
+};
+
+export type CalendarioAgendamentoLinhaDoTempoResponse =
+  CalendarioAgendamentoLinhaDoTempoResponses[keyof CalendarioAgendamentoLinhaDoTempoResponses];
+
+export type CalendarioAgendamentoDesvincularTurmaData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+    /**
+     * ID da turma a desvincular
+     */
+    turmaId: string;
+  };
+  query?: never;
+  url: '/calendario/agendamentos/{id}/turmas/{turmaId}';
+};
+
+export type CalendarioAgendamentoDesvincularTurmaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioAgendamentoDesvincularTurmaResponses = {
+  200: boolean;
+};
+
+export type CalendarioAgendamentoDesvincularTurmaResponse =
+  CalendarioAgendamentoDesvincularTurmaResponses[keyof CalendarioAgendamentoDesvincularTurmaResponses];
+
+export type CalendarioAgendamentoUpdateStatusData = {
+  body: CalendarioAgendamentoUpdateStatusInputDto;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/agendamentos/{id}/status';
+};
+
+export type CalendarioAgendamentoUpdateStatusErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioAgendamentoUpdateStatusResponses = {
+  200: CalendarioAgendamentoFindOneOutputDto;
+};
+
+export type CalendarioAgendamentoUpdateStatusResponse =
+  CalendarioAgendamentoUpdateStatusResponses[keyof CalendarioAgendamentoUpdateStatusResponses];
+
+export type CalendarioAgendamentoEditarOcorrenciaData = {
+  body: CalendarioAgendamentoEditarOcorrenciaInputDto;
+  headers: {
+    'if-match': string;
+  };
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/agendamentos/{id}/editar-ocorrencia';
+};
+
+export type CalendarioAgendamentoEditarOcorrenciaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioAgendamentoEditarOcorrenciaResponses = {
+  201: CalendarioAgendamentoFindOneOutputDto;
+};
+
+export type CalendarioAgendamentoEditarOcorrenciaResponse =
+  CalendarioAgendamentoEditarOcorrenciaResponses[keyof CalendarioAgendamentoEditarOcorrenciaResponses];
+
+export type CalendarioAgendamentoCancelarOcorrenciaData = {
+  body: CalendarioAgendamentoCancelarOcorrenciaInputDto;
+  headers: {
+    'if-match': string;
+  };
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/agendamentos/{id}/cancelar-ocorrencia';
+};
+
+export type CalendarioAgendamentoCancelarOcorrenciaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioAgendamentoCancelarOcorrenciaResponses = {
+  201: CalendarioAgendamentoFindOneOutputDto;
+};
+
+export type CalendarioAgendamentoCancelarOcorrenciaResponse =
+  CalendarioAgendamentoCancelarOcorrenciaResponses[keyof CalendarioAgendamentoCancelarOcorrenciaResponses];
+
+export type CalendarioAgendamentoEditarSerieData = {
+  body: CalendarioAgendamentoEditarSerieInputDto;
+  headers: {
+    'if-match': string;
+  };
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/agendamentos/{id}/editar-serie';
+};
+
+export type CalendarioAgendamentoEditarSerieErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioAgendamentoEditarSerieResponses = {
+  201: CalendarioAgendamentoFindOneOutputDto;
+};
+
+export type CalendarioAgendamentoEditarSerieResponse =
+  CalendarioAgendamentoEditarSerieResponses[keyof CalendarioAgendamentoEditarSerieResponses];
+
+export type CalendarioAgendamentoAdicionarDataAvulsaData = {
+  body: CalendarioAgendamentoAdicionarDataAvulsaInputDto;
+  headers: {
+    'if-match': string;
+  };
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/agendamentos/{id}/adicionar-data-avulsa';
+};
+
+export type CalendarioAgendamentoAdicionarDataAvulsaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioAgendamentoAdicionarDataAvulsaResponses = {
+  201: CalendarioAgendamentoFindOneOutputDto;
+};
+
+export type CalendarioAgendamentoAdicionarDataAvulsaResponse =
+  CalendarioAgendamentoAdicionarDataAvulsaResponses[keyof CalendarioAgendamentoAdicionarDataAvulsaResponses];
+
+export type CalendarioAgendamentoImportarIcsData = {
+  body: CalendarioAgendamentoImportarIcsInputDto;
+  path?: never;
+  query?: never;
+  url: '/calendario/agendamentos/importar-ics';
+};
+
+export type CalendarioAgendamentoImportarIcsErrors = {
+  403: unknown;
+};
+
+export type CalendarioAgendamentoImportarIcsResponses = {
+  201: CalendarioAgendamentoImportarIcsOutputDto;
+};
+
+export type CalendarioAgendamentoImportarIcsResponse =
+  CalendarioAgendamentoImportarIcsResponses[keyof CalendarioAgendamentoImportarIcsResponses];
+
+export type CalendarioColecaoFindAllData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por ID do campus
+     */
+    'filter.campus.id'?: Array<string>;
+    /**
+     * Filtro por visibilidade
+     */
+    'filter.visibilidade'?: Array<string>;
+  };
+  url: '/calendario/colecoes';
+};
+
+export type CalendarioColecaoFindAllErrors = {
+  403: unknown;
+};
+
+export type CalendarioColecaoFindAllResponses = {
+  200: CalendarioColecaoListOutputDto;
+};
+
+export type CalendarioColecaoFindAllResponse =
+  CalendarioColecaoFindAllResponses[keyof CalendarioColecaoFindAllResponses];
+
+export type CalendarioColecaoCreateData = {
+  body: CalendarioColecaoCreateInputDto;
+  path?: never;
+  query?: never;
+  url: '/calendario/colecoes';
+};
+
+export type CalendarioColecaoCreateErrors = {
+  403: unknown;
+};
+
+export type CalendarioColecaoCreateResponses = {
+  201: CalendarioColecaoFindOneOutputDto;
+};
+
+export type CalendarioColecaoCreateResponse =
+  CalendarioColecaoCreateResponses[keyof CalendarioColecaoCreateResponses];
+
+export type CalendarioColecaoDeleteOneByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/colecoes/{id}';
+};
+
+export type CalendarioColecaoDeleteOneByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioColecaoDeleteOneByIdResponses = {
+  200: boolean;
+};
+
+export type CalendarioColecaoDeleteOneByIdResponse =
+  CalendarioColecaoDeleteOneByIdResponses[keyof CalendarioColecaoDeleteOneByIdResponses];
+
+export type CalendarioColecaoFindOneByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/colecoes/{id}';
+};
+
+export type CalendarioColecaoFindOneByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioColecaoFindOneByIdResponses = {
+  200: CalendarioColecaoFindOneOutputDto;
+};
+
+export type CalendarioColecaoFindOneByIdResponse =
+  CalendarioColecaoFindOneByIdResponses[keyof CalendarioColecaoFindOneByIdResponses];
+
+export type CalendarioColecaoUpdateData = {
+  body: CalendarioColecaoUpdateInputDto;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/colecoes/{id}';
+};
+
+export type CalendarioColecaoUpdateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioColecaoUpdateResponses = {
+  200: CalendarioColecaoFindOneOutputDto;
+};
+
+export type CalendarioColecaoUpdateResponse =
+  CalendarioColecaoUpdateResponses[keyof CalendarioColecaoUpdateResponses];
+
+export type CalendarioColecaoTransferirDonoData = {
+  body: CalendarioColecaoTransferirDonoInputDto;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/colecoes/{id}/transferir-dono';
+};
+
+export type CalendarioColecaoTransferirDonoErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioColecaoTransferirDonoResponses = {
+  200: CalendarioColecaoFindOneOutputDto;
+};
+
+export type CalendarioColecaoTransferirDonoResponse =
+  CalendarioColecaoTransferirDonoResponses[keyof CalendarioColecaoTransferirDonoResponses];
+
+export type CalendarioColecaoAcessoFindAllData = {
+  body?: never;
+  path: {
+    /**
+     * ID da coleção
+     */
+    colecaoId: string;
+  };
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por escopo do acesso
+     */
+    'filter.escopo'?: Array<string>;
+  };
+  url: '/calendario/colecoes/{colecaoId}/acessos';
+};
+
+export type CalendarioColecaoAcessoFindAllErrors = {
+  403: unknown;
+};
+
+export type CalendarioColecaoAcessoFindAllResponses = {
+  200: CalendarioColecaoAcessoListOutputDto;
+};
+
+export type CalendarioColecaoAcessoFindAllResponse =
+  CalendarioColecaoAcessoFindAllResponses[keyof CalendarioColecaoAcessoFindAllResponses];
+
+export type CalendarioColecaoAcessoConcederData = {
+  body: CalendarioColecaoAcessoConcederInputDto;
+  path: {
+    /**
+     * ID da coleção
+     */
+    colecaoId: string;
+  };
+  query?: never;
+  url: '/calendario/colecoes/{colecaoId}/acessos';
+};
+
+export type CalendarioColecaoAcessoConcederErrors = {
+  403: unknown;
+};
+
+export type CalendarioColecaoAcessoConcederResponses = {
+  201: CalendarioColecaoAcessoFindOneOutputDto;
+};
+
+export type CalendarioColecaoAcessoConcederResponse =
+  CalendarioColecaoAcessoConcederResponses[keyof CalendarioColecaoAcessoConcederResponses];
+
+export type CalendarioColecaoAcessoRevogarOneByIdData = {
+  body?: never;
+  path: {
+    /**
+     * ID da coleção
+     */
+    colecaoId: string;
+    /**
+     * ID do acesso concedido
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/colecoes/{colecaoId}/acessos/{id}';
+};
+
+export type CalendarioColecaoAcessoRevogarOneByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioColecaoAcessoRevogarOneByIdResponses = {
+  200: boolean;
+};
+
+export type CalendarioColecaoAcessoRevogarOneByIdResponse =
+  CalendarioColecaoAcessoRevogarOneByIdResponses[keyof CalendarioColecaoAcessoRevogarOneByIdResponses];
+
+export type ConsultaOcorrenciasPorDataData = {
+  body?: never;
+  path?: never;
+  query: {
+    /**
+     * Data início do período (YYYY-MM-DD)
+     */
+    dateStart: string;
+    /**
+     * Data fim do período (YYYY-MM-DD)
+     */
+    dateEnd: string;
+    /**
+     * Filtro por campus ID
+     */
+    campus?: string;
+    /**
+     * Filtro por turma ID
+     */
+    turma?: string;
+    /**
+     * Filtro por professor (perfil) ID
+     */
+    professor?: string;
+    /**
+     * Filtro por tipo de ocorrência (AULA, EVENTO, INDISPONIBILIDADE, RESERVA)
+     */
+    tipo?: string;
+  };
+  url: '/calendario/consultas/ocorrencias';
+};
+
+export type ConsultaOcorrenciasPorDataErrors = {
+  403: unknown;
+};
+
+export type ConsultaOcorrenciasPorDataResponses = {
+  200: ConsultaOcorrenciasOutputDto;
+};
+
+export type ConsultaOcorrenciasPorDataResponse =
+  ConsultaOcorrenciasPorDataResponses[keyof ConsultaOcorrenciasPorDataResponses];
+
+export type CalendarioAgendamentoExportarIcsData = {
+  body?: never;
+  path?: never;
+  query: {
+    /**
+     * Data início do período (YYYY-MM-DD)
+     */
+    dateStart: string;
+    /**
+     * Data fim do período (YYYY-MM-DD)
+     */
+    dateEnd: string;
+    /**
+     * Filtro por campus ID
+     */
+    campus?: string;
+    /**
+     * Filtro por turma ID
+     */
+    turma?: string;
+    /**
+     * Filtro por professor (perfil) ID
+     */
+    professor?: string;
+    /**
+     * Filtro por tipo de ocorrência (AULA, EVENTO, INDISPONIBILIDADE, RESERVA)
+     */
+    tipo?: string;
+  };
+  url: '/calendario/consultas/ocorrencias/ics';
+};
+
+export type CalendarioAgendamentoExportarIcsErrors = {
+  403: unknown;
+};
+
+export type CalendarioAgendamentoExportarIcsResponses = {
+  /**
+   * Arquivo .ics (RFC 5545) com as ocorrências do período
+   */
+  200: unknown;
+};
+
+export type CalendarioOcupacaoSemDetalheData = {
+  body?: never;
+  path?: never;
+  query: {
+    /**
+     * Filtro por campus ID
+     */
+    campus: string;
+    /**
+     * Data início do período (YYYY-MM-DD)
+     */
+    dateStart: string;
+    /**
+     * Data fim do período (YYYY-MM-DD)
+     */
+    dateEnd: string;
+  };
+  url: '/calendario/consultas/ocupacao';
+};
+
+export type CalendarioOcupacaoSemDetalheErrors = {
+  403: unknown;
+};
+
+export type CalendarioOcupacaoSemDetalheResponses = {
+  200: CalendarioOcupacaoSemDetalheOutputDto;
+};
+
+export type CalendarioOcupacaoSemDetalheResponse =
+  CalendarioOcupacaoSemDetalheResponses[keyof CalendarioOcupacaoSemDetalheResponses];
+
+export type CalendarioColecaoMudancasDesdeData = {
+  body?: never;
+  path?: never;
+  query: {
+    /**
+     * ID da coleção
+     */
+    colecaoId: string;
+    /**
+     * Marcador de sincronização (sync_token) já conhecido pelo cliente
+     */
+    desde: number;
+  };
+  url: '/calendario/consultas/colecao/mudancas-desde';
+};
+
+export type CalendarioColecaoMudancasDesdeErrors = {
+  403: unknown;
+};
+
+export type CalendarioColecaoMudancasDesdeResponses = {
+  200: CalendarioColecaoMudancasDesdeOutputDto;
+};
+
+export type CalendarioColecaoMudancasDesdeResponse =
+  CalendarioColecaoMudancasDesdeResponses[keyof CalendarioColecaoMudancasDesdeResponses];
+
+export type ProfessorAgendaFindAllData = {
+  body?: never;
+  path: {
+    perfilId: string;
+  };
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por tipo de agendamento (INDISPONIBILIDADE, AULA, EVENTO, RESERVA)
+     */
+    'filter.tipo'?: Array<string>;
+    /**
+     * Filtro por status do agendamento (RASCUNHO, ATIVO, INATIVO)
+     */
+    'filter.status'?: Array<string>;
+    /**
+     * Filtro por ID da turma vinculada
+     */
+    'filter.turma.id'?: Array<string>;
+    /**
+     * Filtro por ID do perfil vinculado
+     */
+    'filter.perfil.id'?: Array<string>;
+    /**
+     * Filtro por ID do calendario letivo vinculado
+     */
+    'filter.calendarioLetivo.id'?: Array<string>;
+    /**
+     * Filtro por ID da oferta de formacao vinculada
+     */
+    'filter.ofertaFormacao.id'?: Array<string>;
+    /**
+     * Filtro por ID da modalidade vinculada
+     */
+    'filter.modalidade.id'?: Array<string>;
+    /**
+     * Filtro por ID do ambiente vinculado
+     */
+    'filter.ambiente.id'?: Array<string>;
+    /**
+     * Filtro por ID do diario vinculado
+     */
+    'filter.diario.id'?: Array<string>;
+  };
+  url: '/calendario/professores/{perfilId}/agenda';
+};
+
+export type ProfessorAgendaFindAllResponses = {
+  200: CalendarioAgendamentoListOutputDto;
+};
+
+export type ProfessorAgendaFindAllResponse =
+  ProfessorAgendaFindAllResponses[keyof ProfessorAgendaFindAllResponses];
+
+export type TurmaMatriculaFindAllData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por ID da turma — lista os alunos matriculados na turma
+     */
+    'filter.turma.id'?: Array<string>;
+    /**
+     * Filtro por ID do perfil — lista as turmas em que o perfil esta matriculado
+     */
+    'filter.perfil.id'?: Array<string>;
+  };
+  url: '/matriculas';
+};
+
+export type TurmaMatriculaFindAllErrors = {
+  403: unknown;
+};
+
+export type TurmaMatriculaFindAllResponses = {
+  200: TurmaMatriculaListOutputDto;
+};
+
+export type TurmaMatriculaFindAllResponse =
+  TurmaMatriculaFindAllResponses[keyof TurmaMatriculaFindAllResponses];
+
+export type TurmaMatriculaVincularData = {
+  body: TurmaMatriculaVincularInputDto;
+  path?: never;
+  query?: never;
+  url: '/matriculas';
+};
+
+export type TurmaMatriculaVincularErrors = {
+  403: unknown;
+};
+
+export type TurmaMatriculaVincularResponses = {
+  201: TurmaMatriculaFindOneOutputDto;
+};
+
+export type TurmaMatriculaVincularResponse =
+  TurmaMatriculaVincularResponses[keyof TurmaMatriculaVincularResponses];
+
+export type TurmaMatriculaDesvincularOneByIdData = {
+  body?: never;
+  path: {
+    /**
+     * ID da matricula
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/matriculas/{id}';
+};
+
+export type TurmaMatriculaDesvincularOneByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type TurmaMatriculaDesvincularOneByIdResponses = {
+  200: boolean;
+};
+
+export type TurmaMatriculaDesvincularOneByIdResponse =
+  TurmaMatriculaDesvincularOneByIdResponses[keyof TurmaMatriculaDesvincularOneByIdResponses];
+
+export type CalendarioLetivoFindAllData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por ano letivo
+     */
+    'filter.ano'?: Array<string>;
+    /**
+     * Filtro por ID do Campus
+     */
+    'filter.campus.id'?: Array<string>;
+    /**
+     * Filtro por ID da Oferta de Formacao
+     */
+    'filter.ofertaFormacao.id'?: Array<string>;
+  };
+  url: '/calendarios-letivos';
+};
+
+export type CalendarioLetivoFindAllErrors = {
+  403: unknown;
+};
+
+export type CalendarioLetivoFindAllResponses = {
+  200: CalendarioLetivoListOutputDto;
+};
+
+export type CalendarioLetivoFindAllResponse =
+  CalendarioLetivoFindAllResponses[keyof CalendarioLetivoFindAllResponses];
+
+export type CalendarioLetivoCreateData = {
+  body: CalendarioLetivoCreateInputDto;
+  path?: never;
+  query?: never;
+  url: '/calendarios-letivos';
+};
+
+export type CalendarioLetivoCreateErrors = {
+  403: unknown;
+};
+
+export type CalendarioLetivoCreateResponses = {
+  201: CalendarioLetivoFindOneOutputDto;
+};
+
+export type CalendarioLetivoCreateResponse =
+  CalendarioLetivoCreateResponses[keyof CalendarioLetivoCreateResponses];
+
+export type CalendarioLetivoDeleteOneByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendarios-letivos/{id}';
+};
+
+export type CalendarioLetivoDeleteOneByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioLetivoDeleteOneByIdResponses = {
+  200: boolean;
+};
+
+export type CalendarioLetivoDeleteOneByIdResponse =
+  CalendarioLetivoDeleteOneByIdResponses[keyof CalendarioLetivoDeleteOneByIdResponses];
+
+export type CalendarioLetivoFindByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendarios-letivos/{id}';
+};
+
+export type CalendarioLetivoFindByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioLetivoFindByIdResponses = {
+  200: CalendarioLetivoFindOneOutputDto;
+};
+
+export type CalendarioLetivoFindByIdResponse =
+  CalendarioLetivoFindByIdResponses[keyof CalendarioLetivoFindByIdResponses];
+
+export type CalendarioLetivoUpdateData = {
+  body: CalendarioLetivoUpdateInputDto;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendarios-letivos/{id}';
+};
+
+export type CalendarioLetivoUpdateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioLetivoUpdateResponses = {
+  200: CalendarioLetivoFindOneOutputDto;
+};
+
+export type CalendarioLetivoUpdateResponse =
+  CalendarioLetivoUpdateResponses[keyof CalendarioLetivoUpdateResponses];
+
+export type CalendarioLetivoDiaFindAllData = {
+  body?: never;
+  path: {
+    /**
+     * ID do calendario letivo (uuid)
+     */
+    calendarioLetivoId: string;
+  };
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por nome do Calendario
+     */
+    'filter.calendario.nome'?: Array<string>;
+    /**
+     * Filtro por ano do Calendario
+     */
+    'filter.calendario.ano'?: Array<string>;
+  };
+  url: '/calendarios-letivos/{calendarioLetivoId}/dias';
+};
+
+export type CalendarioLetivoDiaFindAllErrors = {
+  403: unknown;
+};
+
+export type CalendarioLetivoDiaFindAllResponses = {
+  200: CalendarioLetivoDiaListOutputDto;
+};
+
+export type CalendarioLetivoDiaFindAllResponse =
+  CalendarioLetivoDiaFindAllResponses[keyof CalendarioLetivoDiaFindAllResponses];
+
+export type CalendarioLetivoDiaFindByDataData = {
+  body?: never;
+  path: {
+    /**
+     * ID do calendario letivo (uuid)
+     */
+    calendarioLetivoId: string;
+    /**
+     * Data do dia no calendario (YYYY-MM-DD)
+     */
+    data: string;
+  };
+  query?: never;
+  url: '/calendarios-letivos/{calendarioLetivoId}/dias/{data}';
+};
+
+export type CalendarioLetivoDiaFindByDataErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioLetivoDiaFindByDataResponses = {
+  200: CalendarioLetivoDiaFindOneOutputDto;
+};
+
+export type CalendarioLetivoDiaFindByDataResponse =
+  CalendarioLetivoDiaFindByDataResponses[keyof CalendarioLetivoDiaFindByDataResponses];
+
+export type CalendarioLetivoDiaUpdateData = {
+  body: CalendarioLetivoDiaUpdateInputDto;
+  path: {
+    /**
+     * ID do calendario letivo (uuid)
+     */
+    calendarioLetivoId: string;
+    /**
+     * Data do dia no calendario (YYYY-MM-DD)
+     */
+    data: string;
+  };
+  query?: never;
+  url: '/calendarios-letivos/{calendarioLetivoId}/dias/{data}';
+};
+
+export type CalendarioLetivoDiaUpdateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioLetivoDiaUpdateResponses = {
+  200: CalendarioLetivoDiaFindOneOutputDto;
+};
+
+export type CalendarioLetivoDiaUpdateResponse =
+  CalendarioLetivoDiaUpdateResponses[keyof CalendarioLetivoDiaUpdateResponses];
+
+export type CalendarioLetivoDesativarData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendarios-letivos/{id}/desativar';
+};
+
+export type CalendarioLetivoDesativarErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioLetivoDesativarResponses = {
+  200: boolean;
+};
+
+export type CalendarioLetivoDesativarResponse =
+  CalendarioLetivoDesativarResponses[keyof CalendarioLetivoDesativarResponses];
+
+export type CidadeFindAllData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por ID do Estado
+     */
+    'filter.estado.id'?: Array<string>;
+    /**
+     * Filtro por nome do Estado
+     */
+    'filter.estado.nome'?: Array<string>;
+    /**
+     * Filtro por sigla do Estado
+     */
+    'filter.estado.sigla'?: Array<string>;
+  };
+  url: '/base/cidades';
+};
+
+export type CidadeFindAllErrors = {
+  403: unknown;
+};
+
+export type CidadeFindAllResponses = {
+  200: CidadeListOutputDto;
+};
+
+export type CidadeFindAllResponse =
+  CidadeFindAllResponses[keyof CidadeFindAllResponses];
+
+export type CidadeFindByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (numerico)
+     */
+    id: number;
+  };
+  query?: never;
+  url: '/base/cidades/{id}';
+};
+
+export type CidadeFindByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CidadeFindByIdResponses = {
+  200: CidadeFindOneOutputDto;
+};
+
+export type CidadeFindByIdResponse =
+  CidadeFindByIdResponses[keyof CidadeFindByIdResponses];
 
 export type AutenticacaoWhoAmIEnsinoData = {
   body?: never;
@@ -6518,284 +10086,11 @@ export type DiarioPreferenciaAgrupamentoBulkReplaceResponses = {
 export type DiarioPreferenciaAgrupamentoBulkReplaceResponse =
   DiarioPreferenciaAgrupamentoBulkReplaceResponses[keyof DiarioPreferenciaAgrupamentoBulkReplaceResponses];
 
-export type TurmaFindAllData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Pagina de consulta
-     */
-    page?: number | null;
-    /**
-     * Limite da quantidade de resultados por pagina
-     */
-    limit?: number | null;
-    /**
-     * Busca textual
-     */
-    search?: string | null;
-    /**
-     * Ordenação
-     */
-    sortBy?: Array<string> | null;
-    /**
-     * Filtro por ID
-     */
-    'filter.id'?: Array<string> | null;
-    /**
-     * Filtro por periodo da turma
-     */
-    'filter.periodo'?: Array<string>;
-    /**
-     * Filtro por nome do Ambiente Padrao de Aula
-     */
-    'filter.ambientePadraoAula.nome'?: Array<string>;
-    /**
-     * Filtro por codigo do Ambiente Padrao de Aula
-     */
-    'filter.ambientePadraoAula.codigo'?: Array<string>;
-    /**
-     * Filtro por capacidade do Ambiente Padrao de Aula
-     */
-    'filter.ambientePadraoAula.capacidade'?: Array<string>;
-    /**
-     * Filtro por tipo do Ambiente Padrao de Aula
-     */
-    'filter.ambientePadraoAula.tipo'?: Array<string>;
-    /**
-     * Filtro por ID do Curso
-     */
-    'filter.curso.id'?: Array<string>;
-    /**
-     * Filtro por nome do Curso
-     */
-    'filter.curso.nome'?: Array<string>;
-    /**
-     * Filtro por nome abreviado do Curso
-     */
-    'filter.curso.nomeAbreviado'?: Array<string>;
-    /**
-     * Filtro por ID do Campus do Curso
-     */
-    'filter.curso.campus.id'?: Array<string>;
-    /**
-     * Filtro por ID da Oferta de Formacao do Curso
-     */
-    'filter.curso.ofertaFormacao.id'?: Array<string>;
-    /**
-     * Filtro por nome da Oferta de Formacao do Curso
-     */
-    'filter.curso.ofertaFormacao.nome'?: Array<string>;
-    /**
-     * Filtro por slug da Oferta de Formacao do Curso
-     */
-    'filter.curso.ofertaFormacao.slug'?: Array<string>;
-  };
-  url: '/turmas';
-};
-
-export type TurmaFindAllErrors = {
-  403: unknown;
-};
-
-export type TurmaFindAllResponses = {
-  200: TurmaListOutputDto;
-};
-
-export type TurmaFindAllResponse =
-  TurmaFindAllResponses[keyof TurmaFindAllResponses];
-
-export type TurmaCreateData = {
-  body: TurmaCreateInputDto;
-  path?: never;
-  query?: never;
-  url: '/turmas';
-};
-
-export type TurmaCreateErrors = {
-  403: unknown;
-};
-
-export type TurmaCreateResponses = {
-  201: TurmaFindOneOutputDto;
-};
-
-export type TurmaCreateResponse =
-  TurmaCreateResponses[keyof TurmaCreateResponses];
-
-export type TurmaDeleteOneByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/turmas/{id}';
-};
-
-export type TurmaDeleteOneByIdErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type TurmaDeleteOneByIdResponses = {
-  200: boolean;
-};
-
-export type TurmaDeleteOneByIdResponse =
-  TurmaDeleteOneByIdResponses[keyof TurmaDeleteOneByIdResponses];
-
-export type TurmaFindByIdData = {
-  body?: never;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/turmas/{id}';
-};
-
-export type TurmaFindByIdErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type TurmaFindByIdResponses = {
-  200: TurmaFindOneOutputDto;
-};
-
-export type TurmaFindByIdResponse =
-  TurmaFindByIdResponses[keyof TurmaFindByIdResponses];
-
-export type TurmaUpdateData = {
-  body: TurmaUpdateInputDto;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/turmas/{id}';
-};
-
-export type TurmaUpdateErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type TurmaUpdateResponses = {
-  200: TurmaFindOneOutputDto;
-};
-
-export type TurmaUpdateResponse =
-  TurmaUpdateResponses[keyof TurmaUpdateResponses];
-
-export type TurmaHorarioSemanalData = {
-  body?: never;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query: {
-    /**
-     * Data da semana desejada (YYYY-MM-DD). Qualquer dia da semana; a API calcula seg-dom.
-     */
-    semana: string;
-  };
-  url: '/turmas/{id}/horario';
-};
-
-export type TurmaHorarioSemanalErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type TurmaHorarioSemanalResponses = {
-  200: HorarioSemanalOutputDto;
-};
-
-export type TurmaHorarioSemanalResponse =
-  TurmaHorarioSemanalResponses[keyof TurmaHorarioSemanalResponses];
-
-export type TurmaGetImagemCapaData = {
-  body?: never;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/turmas/{id}/imagem/capa';
-};
-
-export type TurmaGetImagemCapaErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type TurmaGetImagemCapaResponses = {
-  200: unknown;
-};
-
-export type TurmaUpdateImagemCapaData = {
-  body: {
-    file: Blob | File;
-  };
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/turmas/{id}/imagem/capa';
-};
-
-export type TurmaUpdateImagemCapaErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type TurmaUpdateImagemCapaResponses = {
-  200: boolean;
-};
-
-export type TurmaUpdateImagemCapaResponse =
-  TurmaUpdateImagemCapaResponses[keyof TurmaUpdateImagemCapaResponses];
-
-export type TurmaDiarioConfigurarData = {
-  body: TurmaDiarioConfigurarInputDto;
-  path: {
-    /**
-     * ID da turma
-     */
-    turmaId: string;
-  };
-  query?: never;
-  url: '/turmas/{turmaId}/diarios/configurar';
-};
-
-export type TurmaDiarioConfigurarErrors = {
-  403: unknown;
-};
-
-export type TurmaDiarioConfigurarResponses = {
-  201: TurmaDiarioConfigurarOutputDto;
-};
-
-export type TurmaDiarioConfigurarResponse =
-  TurmaDiarioConfigurarResponses[keyof TurmaDiarioConfigurarResponses];
-
 export type GerarHorarioCreateData = {
   body: GerarHorarioCreateInputDto;
+  headers: {
+    'Idempotency-Key': string;
+  };
   path?: never;
   query?: never;
   url: '/gerar-horario';
@@ -6902,6 +10197,27 @@ export type HorarioEdicaoCreateResponses = {
 export type HorarioEdicaoCreateResponse =
   HorarioEdicaoCreateResponses[keyof HorarioEdicaoCreateResponses];
 
+export type HorarioEdicaoFindOneData = {
+  body?: never;
+  path: {
+    sessaoId: string;
+  };
+  query?: never;
+  url: '/horarios/edicao/{sessaoId}';
+};
+
+export type HorarioEdicaoFindOneErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type HorarioEdicaoFindOneResponses = {
+  200: HorarioEdicaoSessaoOutputRestDto;
+};
+
+export type HorarioEdicaoFindOneResponse =
+  HorarioEdicaoFindOneResponses[keyof HorarioEdicaoFindOneResponses];
+
 export type HorarioEdicaoApplyChangeData = {
   body: HorarioEdicaoMudancaInputRestDto;
   path: {
@@ -6967,6 +10283,506 @@ export type HorarioEdicaoCancelarResponses = {
 
 export type HorarioEdicaoCancelarResponse =
   HorarioEdicaoCancelarResponses[keyof HorarioEdicaoCancelarResponses];
+
+export type HorarioEdicaoPublicarData = {
+  body?: never;
+  headers: {
+    'Idempotency-Key': string;
+  };
+  path: {
+    sessaoId: string;
+  };
+  query?: never;
+  url: '/horarios/edicao/{sessaoId}/publicar';
+};
+
+export type HorarioEdicaoPublicarErrors = {
+  400: unknown;
+  403: unknown;
+  404: unknown;
+};
+
+export type HorarioEdicaoPublicarResponses = {
+  200: HorarioEdicaoSessaoOutputRestDto;
+};
+
+export type HorarioEdicaoPublicarResponse =
+  HorarioEdicaoPublicarResponses[keyof HorarioEdicaoPublicarResponses];
+
+export type HorarioEdicaoDesfazerMudancaData = {
+  body?: never;
+  path: {
+    sessaoId: string;
+    mudancaId: string;
+  };
+  query?: never;
+  url: '/horarios/edicao/{sessaoId}/mudancas/{mudancaId}/desfazer';
+};
+
+export type HorarioEdicaoDesfazerMudancaErrors = {
+  400: unknown;
+  403: unknown;
+  404: unknown;
+};
+
+export type HorarioEdicaoDesfazerMudancaResponses = {
+  200: HorarioEdicaoSessaoOutputRestDto;
+};
+
+export type HorarioEdicaoDesfazerMudancaResponse =
+  HorarioEdicaoDesfazerMudancaResponses[keyof HorarioEdicaoDesfazerMudancaResponses];
+
+export type HorarioEdicaoSessaoDiferencaData = {
+  body?: never;
+  path: {
+    sessaoId: string;
+  };
+  query?: never;
+  url: '/horarios/edicao/{sessaoId}/diferenca';
+};
+
+export type HorarioEdicaoSessaoDiferencaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type HorarioEdicaoSessaoDiferencaResponses = {
+  200: HorarioEdicaoSessaoDiferencaOutputRestDto;
+};
+
+export type HorarioEdicaoSessaoDiferencaResponse =
+  HorarioEdicaoSessaoDiferencaResponses[keyof HorarioEdicaoSessaoDiferencaResponses];
+
+export type CalendarioSolicitacaoMudancaFindAllData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por status
+     */
+    'filter.status'?: Array<string>;
+    /**
+     * Filtro por ID do agendamento alvo
+     */
+    'filter.calendarioAgendamento.id'?: Array<string>;
+    /**
+     * Filtro por ID do autor
+     */
+    'filter.autor.id'?: Array<string>;
+  };
+  url: '/calendario/solicitacoes-mudanca';
+};
+
+export type CalendarioSolicitacaoMudancaFindAllErrors = {
+  403: unknown;
+};
+
+export type CalendarioSolicitacaoMudancaFindAllResponses = {
+  200: CalendarioSolicitacaoMudancaListOutputDto;
+};
+
+export type CalendarioSolicitacaoMudancaFindAllResponse =
+  CalendarioSolicitacaoMudancaFindAllResponses[keyof CalendarioSolicitacaoMudancaFindAllResponses];
+
+export type CalendarioSolicitacaoMudancaCreateData = {
+  body: CalendarioSolicitacaoMudancaCreateInputDto;
+  path?: never;
+  query?: never;
+  url: '/calendario/solicitacoes-mudanca';
+};
+
+export type CalendarioSolicitacaoMudancaCreateErrors = {
+  403: unknown;
+};
+
+export type CalendarioSolicitacaoMudancaCreateResponses = {
+  201: CalendarioSolicitacaoMudancaFindOneOutputDto;
+};
+
+export type CalendarioSolicitacaoMudancaCreateResponse =
+  CalendarioSolicitacaoMudancaCreateResponses[keyof CalendarioSolicitacaoMudancaCreateResponses];
+
+export type CalendarioSolicitacaoMudancaFindOneByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/solicitacoes-mudanca/{id}';
+};
+
+export type CalendarioSolicitacaoMudancaFindOneByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioSolicitacaoMudancaFindOneByIdResponses = {
+  200: CalendarioSolicitacaoMudancaFindOneOutputDto;
+};
+
+export type CalendarioSolicitacaoMudancaFindOneByIdResponse =
+  CalendarioSolicitacaoMudancaFindOneByIdResponses[keyof CalendarioSolicitacaoMudancaFindOneByIdResponses];
+
+export type CalendarioSolicitacaoMudancaAprovarData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/solicitacoes-mudanca/{id}/aprovar';
+};
+
+export type CalendarioSolicitacaoMudancaAprovarErrors = {
+  400: unknown;
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioSolicitacaoMudancaAprovarResponses = {
+  200: CalendarioSolicitacaoMudancaFindOneOutputDto;
+};
+
+export type CalendarioSolicitacaoMudancaAprovarResponse =
+  CalendarioSolicitacaoMudancaAprovarResponses[keyof CalendarioSolicitacaoMudancaAprovarResponses];
+
+export type CalendarioSolicitacaoMudancaRecusarData = {
+  body: CalendarioSolicitacaoMudancaRecusarInputDto;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/solicitacoes-mudanca/{id}/recusar';
+};
+
+export type CalendarioSolicitacaoMudancaRecusarErrors = {
+  400: unknown;
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioSolicitacaoMudancaRecusarResponses = {
+  200: CalendarioSolicitacaoMudancaFindOneOutputDto;
+};
+
+export type CalendarioSolicitacaoMudancaRecusarResponse =
+  CalendarioSolicitacaoMudancaRecusarResponses[keyof CalendarioSolicitacaoMudancaRecusarResponses];
+
+export type CalendarioIndisponibilidadeProfessorFindAllData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por ID do perfil (professor)
+     */
+    'filter.perfil.id'?: Array<string>;
+    /**
+     * Filtro por tipo
+     */
+    'filter.tipo'?: Array<string>;
+  };
+  url: '/calendario/indisponibilidades-professor';
+};
+
+export type CalendarioIndisponibilidadeProfessorFindAllErrors = {
+  403: unknown;
+};
+
+export type CalendarioIndisponibilidadeProfessorFindAllResponses = {
+  200: CalendarioIndisponibilidadeProfessorListOutputDto;
+};
+
+export type CalendarioIndisponibilidadeProfessorFindAllResponse =
+  CalendarioIndisponibilidadeProfessorFindAllResponses[keyof CalendarioIndisponibilidadeProfessorFindAllResponses];
+
+export type CalendarioIndisponibilidadeProfessorCreateData = {
+  body: CalendarioIndisponibilidadeProfessorCreateInputDto;
+  path?: never;
+  query?: never;
+  url: '/calendario/indisponibilidades-professor';
+};
+
+export type CalendarioIndisponibilidadeProfessorCreateErrors = {
+  403: unknown;
+};
+
+export type CalendarioIndisponibilidadeProfessorCreateResponses = {
+  201: CalendarioIndisponibilidadeProfessorFindOneOutputDto;
+};
+
+export type CalendarioIndisponibilidadeProfessorCreateResponse =
+  CalendarioIndisponibilidadeProfessorCreateResponses[keyof CalendarioIndisponibilidadeProfessorCreateResponses];
+
+export type CalendarioIndisponibilidadeProfessorPorPeriodoData = {
+  body?: never;
+  path?: never;
+  query: {
+    /**
+     * ID do perfil (professor)
+     */
+    perfilId: string;
+    /**
+     * Data início do período (YYYY-MM-DD)
+     */
+    dateStart: string;
+    /**
+     * Data fim do período (YYYY-MM-DD)
+     */
+    dateEnd: string;
+  };
+  url: '/calendario/indisponibilidades-professor/por-periodo';
+};
+
+export type CalendarioIndisponibilidadeProfessorPorPeriodoErrors = {
+  403: unknown;
+};
+
+export type CalendarioIndisponibilidadeProfessorPorPeriodoResponses = {
+  200: CalendarioIndisponibilidadeProfessorPorPeriodoOutputDto;
+};
+
+export type CalendarioIndisponibilidadeProfessorPorPeriodoResponse =
+  CalendarioIndisponibilidadeProfessorPorPeriodoResponses[keyof CalendarioIndisponibilidadeProfessorPorPeriodoResponses];
+
+export type CalendarioIndisponibilidadeProfessorDeleteOneByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/indisponibilidades-professor/{id}';
+};
+
+export type CalendarioIndisponibilidadeProfessorDeleteOneByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioIndisponibilidadeProfessorDeleteOneByIdResponses = {
+  200: boolean;
+};
+
+export type CalendarioIndisponibilidadeProfessorDeleteOneByIdResponse =
+  CalendarioIndisponibilidadeProfessorDeleteOneByIdResponses[keyof CalendarioIndisponibilidadeProfessorDeleteOneByIdResponses];
+
+export type CalendarioIndisponibilidadeProfessorFindOneByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/indisponibilidades-professor/{id}';
+};
+
+export type CalendarioIndisponibilidadeProfessorFindOneByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioIndisponibilidadeProfessorFindOneByIdResponses = {
+  200: CalendarioIndisponibilidadeProfessorFindOneOutputDto;
+};
+
+export type CalendarioIndisponibilidadeProfessorFindOneByIdResponse =
+  CalendarioIndisponibilidadeProfessorFindOneByIdResponses[keyof CalendarioIndisponibilidadeProfessorFindOneByIdResponses];
+
+export type CalendarioIndisponibilidadeAmbienteFindAllData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtro por ID do ambiente
+     */
+    'filter.ambiente.id'?: Array<string>;
+    /**
+     * Filtro por tipo
+     */
+    'filter.tipo'?: Array<string>;
+  };
+  url: '/calendario/indisponibilidades-ambiente';
+};
+
+export type CalendarioIndisponibilidadeAmbienteFindAllErrors = {
+  403: unknown;
+};
+
+export type CalendarioIndisponibilidadeAmbienteFindAllResponses = {
+  200: CalendarioIndisponibilidadeAmbienteListOutputDto;
+};
+
+export type CalendarioIndisponibilidadeAmbienteFindAllResponse =
+  CalendarioIndisponibilidadeAmbienteFindAllResponses[keyof CalendarioIndisponibilidadeAmbienteFindAllResponses];
+
+export type CalendarioIndisponibilidadeAmbienteCreateData = {
+  body: CalendarioIndisponibilidadeAmbienteCreateInputDto;
+  path?: never;
+  query?: never;
+  url: '/calendario/indisponibilidades-ambiente';
+};
+
+export type CalendarioIndisponibilidadeAmbienteCreateErrors = {
+  403: unknown;
+};
+
+export type CalendarioIndisponibilidadeAmbienteCreateResponses = {
+  201: CalendarioIndisponibilidadeAmbienteFindOneOutputDto;
+};
+
+export type CalendarioIndisponibilidadeAmbienteCreateResponse =
+  CalendarioIndisponibilidadeAmbienteCreateResponses[keyof CalendarioIndisponibilidadeAmbienteCreateResponses];
+
+export type CalendarioIndisponibilidadeAmbientePorPeriodoData = {
+  body?: never;
+  path?: never;
+  query: {
+    /**
+     * ID do ambiente
+     */
+    ambienteId: string;
+    /**
+     * Data início do período (YYYY-MM-DD)
+     */
+    dateStart: string;
+    /**
+     * Data fim do período (YYYY-MM-DD)
+     */
+    dateEnd: string;
+  };
+  url: '/calendario/indisponibilidades-ambiente/por-periodo';
+};
+
+export type CalendarioIndisponibilidadeAmbientePorPeriodoErrors = {
+  403: unknown;
+};
+
+export type CalendarioIndisponibilidadeAmbientePorPeriodoResponses = {
+  200: CalendarioIndisponibilidadeAmbientePorPeriodoOutputDto;
+};
+
+export type CalendarioIndisponibilidadeAmbientePorPeriodoResponse =
+  CalendarioIndisponibilidadeAmbientePorPeriodoResponses[keyof CalendarioIndisponibilidadeAmbientePorPeriodoResponses];
+
+export type CalendarioIndisponibilidadeAmbienteDeleteOneByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/indisponibilidades-ambiente/{id}';
+};
+
+export type CalendarioIndisponibilidadeAmbienteDeleteOneByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioIndisponibilidadeAmbienteDeleteOneByIdResponses = {
+  200: boolean;
+};
+
+export type CalendarioIndisponibilidadeAmbienteDeleteOneByIdResponse =
+  CalendarioIndisponibilidadeAmbienteDeleteOneByIdResponses[keyof CalendarioIndisponibilidadeAmbienteDeleteOneByIdResponses];
+
+export type CalendarioIndisponibilidadeAmbienteFindOneByIdData = {
+  body?: never;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/calendario/indisponibilidades-ambiente/{id}';
+};
+
+export type CalendarioIndisponibilidadeAmbienteFindOneByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type CalendarioIndisponibilidadeAmbienteFindOneByIdResponses = {
+  200: CalendarioIndisponibilidadeAmbienteFindOneOutputDto;
+};
+
+export type CalendarioIndisponibilidadeAmbienteFindOneByIdResponse =
+  CalendarioIndisponibilidadeAmbienteFindOneByIdResponses[keyof CalendarioIndisponibilidadeAmbienteFindOneByIdResponses];
 
 export type EstadoFindAllData = {
   body?: never;
@@ -7172,72 +10988,7 @@ export type EmpresaUpdateResponses = {
 export type EmpresaUpdateResponse =
   EmpresaUpdateResponses[keyof EmpresaUpdateResponses];
 
-export type EstagioFindAllData = {
-  body?: never;
-  path?: never;
-  query?: {
-    /**
-     * Pagina de consulta
-     */
-    page?: number | null;
-    /**
-     * Limite da quantidade de resultados por pagina
-     */
-    limit?: number | null;
-    /**
-     * Busca textual
-     */
-    search?: string | null;
-    /**
-     * Ordenação
-     */
-    sortBy?: Array<string> | null;
-    /**
-     * Filtro por empresa
-     */
-    'filter.empresa.id'?: Object;
-    /**
-     * Filtro por estagiário
-     */
-    'filter.estagiario.id'?: Object;
-    /**
-     * Filtro por status (string ou array)
-     */
-    'filter.status'?: Object;
-  };
-  url: '/estagios';
-};
-
-export type EstagioFindAllErrors = {
-  403: unknown;
-};
-
-export type EstagioFindAllResponses = {
-  200: EstagioListOutputDto;
-};
-
-export type EstagioFindAllResponse =
-  EstagioFindAllResponses[keyof EstagioFindAllResponses];
-
-export type EstagioCreateData = {
-  body: EstagioCreateInputDto;
-  path?: never;
-  query?: never;
-  url: '/estagios';
-};
-
-export type EstagioCreateErrors = {
-  403: unknown;
-};
-
-export type EstagioCreateResponses = {
-  201: EstagioFindOneOutputDto;
-};
-
-export type EstagioCreateResponse =
-  EstagioCreateResponses[keyof EstagioCreateResponses];
-
-export type EstagioDeleteData = {
+export type EmpresaGetFotoEmpresaData = {
   body?: never;
   path: {
     /**
@@ -7246,70 +10997,328 @@ export type EstagioDeleteData = {
     id: string;
   };
   query?: never;
-  url: '/estagios/{id}';
+  url: '/empresas/{id}/imagem/foto-empresa';
 };
 
-export type EstagioDeleteErrors = {
+export type EmpresaGetFotoEmpresaErrors = {
   403: unknown;
   404: unknown;
 };
 
-export type EstagioDeleteResponses = {
+export type EmpresaGetFotoEmpresaResponses = {
+  200: unknown;
+};
+
+export type EmpresaUpdateFotoEmpresaData = {
+  body: {
+    file: Blob | File;
+  };
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/{id}/imagem/foto-empresa';
+};
+
+export type EmpresaUpdateFotoEmpresaErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaUpdateFotoEmpresaResponses = {
+  200: boolean;
+};
+
+export type EmpresaUpdateFotoEmpresaResponse =
+  EmpresaUpdateFotoEmpresaResponses[keyof EmpresaUpdateFotoEmpresaResponses];
+
+export type EmpresaAvaliacaoListData = {
+  body?: never;
+  path: {
+    empresaId: string;
+  };
+  query?: {
+    /**
+     * Número da página
+     */
+    page?: number;
+    /**
+     * Itens por página
+     */
+    limit?: number;
+    /**
+     * Critério de ordenação dos comentários/avaliações
+     */
+    order?:
+      | 'relevancia'
+      | 'mais_recentes'
+      | 'mais_curtidos'
+      | 'melhor_avaliacao'
+      | 'pior_avaliacao';
+    /**
+     * Filtrar por nota exata (1 a 5)
+     */
+    rating?: number;
+  };
+  url: '/empresas/{empresaId}/avaliacoes';
+};
+
+export type EmpresaAvaliacaoListErrors = {
+  403: unknown;
+};
+
+export type EmpresaAvaliacaoListResponses = {
+  200: EmpresaAvaliacaoListOutputDto;
+};
+
+export type EmpresaAvaliacaoListResponse =
+  EmpresaAvaliacaoListResponses[keyof EmpresaAvaliacaoListResponses];
+
+export type EmpresaAvaliacaoCreateData = {
+  body: EmpresaAvaliacaoCreateInputDto;
+  path: {
+    empresaId: string;
+  };
+  query?: never;
+  url: '/empresas/{empresaId}/avaliacoes';
+};
+
+export type EmpresaAvaliacaoCreateErrors = {
+  403: unknown;
+};
+
+export type EmpresaAvaliacaoCreateResponses = {
+  201: EmpresaAvaliacaoFindOneOutputDto;
+};
+
+export type EmpresaAvaliacaoCreateResponse =
+  EmpresaAvaliacaoCreateResponses[keyof EmpresaAvaliacaoCreateResponses];
+
+export type EmpresaAvaliacaoFindMyData = {
+  body?: never;
+  path: {
+    empresaId: string;
+  };
+  query?: never;
+  url: '/empresas/{empresaId}/avaliacoes/minha';
+};
+
+export type EmpresaAvaliacaoFindMyErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaAvaliacaoFindMyResponses = {
+  200: EmpresaAvaliacaoFindOneOutputDto;
+};
+
+export type EmpresaAvaliacaoFindMyResponse =
+  EmpresaAvaliacaoFindMyResponses[keyof EmpresaAvaliacaoFindMyResponses];
+
+export type EmpresaAvaliacaoDeleteData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/avaliacoes/{id}';
+};
+
+export type EmpresaAvaliacaoDeleteErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaAvaliacaoDeleteResponses = {
+  200: boolean;
+};
+
+export type EmpresaAvaliacaoDeleteResponse =
+  EmpresaAvaliacaoDeleteResponses[keyof EmpresaAvaliacaoDeleteResponses];
+
+export type EmpresaAvaliacaoFindByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/avaliacoes/{id}';
+};
+
+export type EmpresaAvaliacaoFindByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaAvaliacaoFindByIdResponses = {
+  200: EmpresaAvaliacaoFindOneOutputDto;
+};
+
+export type EmpresaAvaliacaoFindByIdResponse =
+  EmpresaAvaliacaoFindByIdResponses[keyof EmpresaAvaliacaoFindByIdResponses];
+
+export type EmpresaAvaliacaoUpdateData = {
+  body: EmpresaAvaliacaoUpdateInputDto;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/avaliacoes/{id}';
+};
+
+export type EmpresaAvaliacaoUpdateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaAvaliacaoUpdateResponses = {
+  200: EmpresaAvaliacaoFindOneOutputDto;
+};
+
+export type EmpresaAvaliacaoUpdateResponse =
+  EmpresaAvaliacaoUpdateResponses[keyof EmpresaAvaliacaoUpdateResponses];
+
+export type EmpresaAvaliacaoUnlikeData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/avaliacoes/{id}/curtidas';
+};
+
+export type EmpresaAvaliacaoUnlikeErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaAvaliacaoUnlikeResponses = {
+  200: EmpresaAvaliacaoLikeOutputDto;
+};
+
+export type EmpresaAvaliacaoUnlikeResponse =
+  EmpresaAvaliacaoUnlikeResponses[keyof EmpresaAvaliacaoUnlikeResponses];
+
+export type EmpresaAvaliacaoLikeData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/avaliacoes/{id}/curtidas';
+};
+
+export type EmpresaAvaliacaoLikeErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaAvaliacaoLikeResponses = {
+  200: EmpresaAvaliacaoLikeOutputDto;
+};
+
+export type EmpresaAvaliacaoLikeResponse =
+  EmpresaAvaliacaoLikeResponses[keyof EmpresaAvaliacaoLikeResponses];
+
+export type EmpresaAvaliacaoHistoricoListData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/avaliacoes/{id}/historico';
+};
+
+export type EmpresaAvaliacaoHistoricoListErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaAvaliacaoHistoricoListResponses = {
+  200: Array<EmpresaAvaliacaoHistoricoOutputDto>;
+};
+
+export type EmpresaAvaliacaoHistoricoListResponse =
+  EmpresaAvaliacaoHistoricoListResponses[keyof EmpresaAvaliacaoHistoricoListResponses];
+
+export type EmpresaScoreFindOneData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/{id}/score';
+};
+
+export type EmpresaScoreFindOneErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaScoreFindOneResponses = {
+  200: EmpresaScoreFindOneOutputDto;
+};
+
+export type EmpresaScoreFindOneResponse =
+  EmpresaScoreFindOneResponses[keyof EmpresaScoreFindOneResponses];
+
+export type EmpresaScoreRecalculateData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/{id}/score/recalcular';
+};
+
+export type EmpresaScoreRecalculateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaScoreRecalculateResponses = {
+  200: EmpresaScoreFindOneOutputDto;
+};
+
+export type EmpresaScoreRecalculateResponse =
+  EmpresaScoreRecalculateResponses[keyof EmpresaScoreRecalculateResponses];
+
+export type FolhaPontoTokenExibirConfirmacaoData = {
+  body?: never;
+  path: {
+    tokenId: string;
+  };
+  query?: never;
+  url: '/folha-ponto/tokens/{tokenId}/confirmar';
+};
+
+export type FolhaPontoTokenExibirConfirmacaoResponses = {
   /**
-   * Estágio deletado com sucesso
+   * Página HTML com botão para confirmar ação
    */
   200: unknown;
 };
 
-export type EstagioFindByIdData = {
+export type FolhaPontoTokenConfirmarData = {
   body?: never;
   path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
+    tokenId: string;
   };
   query?: never;
-  url: '/estagios/{id}';
+  url: '/folha-ponto/tokens/{tokenId}/confirmar';
 };
 
-export type EstagioFindByIdErrors = {
-  403: unknown;
-  404: unknown;
+export type FolhaPontoTokenConfirmarResponses = {
+  /**
+   * Ação confirmada com sucesso
+   */
+  200: unknown;
 };
 
-export type EstagioFindByIdResponses = {
-  200: EstagioFindOneOutputDto;
-};
-
-export type EstagioFindByIdResponse =
-  EstagioFindByIdResponses[keyof EstagioFindByIdResponses];
-
-export type EstagioUpdateData = {
-  body: EstagioUpdateInputDto;
-  path: {
-    /**
-     * Identificador do registro (uuid)
-     */
-    id: string;
-  };
-  query?: never;
-  url: '/estagios/{id}';
-};
-
-export type EstagioUpdateErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type EstagioUpdateResponses = {
-  200: EstagioFindOneOutputDto;
-};
-
-export type EstagioUpdateResponse =
-  EstagioUpdateResponses[keyof EstagioUpdateResponses];
-
-export type EstagiarioFindAllData = {
+export type FolhaPontoFindAllData = {
   body?: never;
   path?: never;
   query?: {
@@ -7334,167 +11343,182 @@ export type EstagiarioFindAllData = {
      */
     'filter.id'?: Array<string> | null;
     /**
-     * Filtro por ID de perfil
+     * Filtrar por status
      */
-    'filter.perfil.id'?: Array<string>;
+    'filter.status'?: Array<string>;
     /**
-     * Filtro por ID de curso
+     * Filtrar por estágio
      */
-    'filter.curso.id'?: Array<string>;
-    /**
-     * Filtro por ID de turma
-     */
-    'filter.turma.id'?: Array<string>;
+    'filter.estagio.id'?: Array<string>;
   };
-  url: '/estagiarios';
+  url: '/folha-ponto';
 };
 
-export type EstagiarioFindAllErrors = {
+export type FolhaPontoFindAllErrors = {
   403: unknown;
 };
 
-export type EstagiarioFindAllResponses = {
-  200: EstagiarioListOutputDto;
+export type FolhaPontoFindAllResponses = {
+  200: FolhaPontoListOutputRestDto;
 };
 
-export type EstagiarioFindAllResponse =
-  EstagiarioFindAllResponses[keyof EstagiarioFindAllResponses];
+export type FolhaPontoFindAllResponse =
+  FolhaPontoFindAllResponses[keyof FolhaPontoFindAllResponses];
 
-export type EstagiarioCreateData = {
-  body: EstagiarioCreateInputDto;
+export type FolhaPontoCreateData = {
+  body: FolhaPontoCreateInputRestDto;
   path?: never;
   query?: never;
-  url: '/estagiarios';
+  url: '/folha-ponto';
 };
 
-export type EstagiarioCreateErrors = {
+export type FolhaPontoCreateErrors = {
   403: unknown;
 };
 
-export type EstagiarioCreateResponses = {
-  201: EstagiarioFindOneOutputDto;
+export type FolhaPontoCreateResponses = {
+  201: FolhaPontoFindOneOutputRestDto;
 };
 
-export type EstagiarioCreateResponse =
-  EstagiarioCreateResponses[keyof EstagiarioCreateResponses];
+export type FolhaPontoCreateResponse =
+  FolhaPontoCreateResponses[keyof FolhaPontoCreateResponses];
 
-export type EstagiarioDeleteOneByIdData = {
+export type FolhaPontoCancelData = {
   body?: never;
   path: {
     /**
-     * Identificador do registro (uuid)
+     * ID da Folha de Ponto
      */
     id: string;
   };
   query?: never;
-  url: '/estagiarios/{id}';
+  url: '/folha-ponto/{id}';
 };
 
-export type EstagiarioDeleteOneByIdErrors = {
+export type FolhaPontoCancelErrors = {
   403: unknown;
   404: unknown;
 };
 
-export type EstagiarioDeleteOneByIdResponses = {
+export type FolhaPontoCancelResponses = {
   200: boolean;
 };
 
-export type EstagiarioDeleteOneByIdResponse =
-  EstagiarioDeleteOneByIdResponses[keyof EstagiarioDeleteOneByIdResponses];
+export type FolhaPontoCancelResponse =
+  FolhaPontoCancelResponses[keyof FolhaPontoCancelResponses];
 
-export type EstagiarioFindByIdData = {
+export type FolhaPontoFindByIdData = {
   body?: never;
   path: {
     /**
-     * Identificador do registro (uuid)
+     * ID da Folha de Ponto
      */
     id: string;
   };
   query?: never;
-  url: '/estagiarios/{id}';
+  url: '/folha-ponto/{id}';
 };
 
-export type EstagiarioFindByIdErrors = {
+export type FolhaPontoFindByIdErrors = {
   403: unknown;
   404: unknown;
 };
 
-export type EstagiarioFindByIdResponses = {
-  200: EstagiarioFindOneOutputDto;
+export type FolhaPontoFindByIdResponses = {
+  200: FolhaPontoFindOneOutputRestDto;
 };
 
-export type EstagiarioFindByIdResponse =
-  EstagiarioFindByIdResponses[keyof EstagiarioFindByIdResponses];
+export type FolhaPontoFindByIdResponse =
+  FolhaPontoFindByIdResponses[keyof FolhaPontoFindByIdResponses];
 
-export type EstagiarioUpdateData = {
-  body: EstagiarioUpdateInputDto;
-  path: {
+export type WhatsappNotificationsControllerSendWhatsAppMessageData = {
+  body: SendWhatsappNotificationDto;
+  path?: never;
+  query?: never;
+  url: '/notifications/whatsapp/send';
+};
+
+export type WhatsappNotificationsControllerSendWhatsAppMessageErrors = {
+  /**
+   * Payload inválido (ex: telefone ou mensagem fora do padrão)
+   */
+  400: unknown;
+  /**
+   * Não autorizado
+   */
+  401: unknown;
+};
+
+export type WhatsappNotificationsControllerSendWhatsAppMessageResponses = {
+  /**
+   * Operação concluída
+   */
+  200: unknown;
+};
+
+export type WhatsappNotificationsControllerGetStatusData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: '/notifications/whatsapp/status';
+};
+
+export type WhatsappNotificationsControllerGetStatusErrors = {
+  /**
+   * Não autorizado
+   */
+  401: unknown;
+};
+
+export type WhatsappNotificationsControllerGetStatusResponses = {
+  /**
+   * Status da sessão retornado com sucesso
+   */
+  200: WhatsappStatusResponseDto;
+};
+
+export type WhatsappNotificationsControllerGetStatusResponse =
+  WhatsappNotificationsControllerGetStatusResponses[keyof WhatsappNotificationsControllerGetStatusResponses];
+
+export type WhatsappNotificationsControllerGetPairingCodeData = {
+  body: WhatsappPairingCodeDto;
+  path?: never;
+  query?: never;
+  url: '/notifications/whatsapp/pairing-code';
+};
+
+export type WhatsappNotificationsControllerGetPairingCodeErrors = {
+  /**
+   * Falha na geração (ex: sessão já conectada ou número inválido)
+   */
+  400: unknown;
+  /**
+   * Não autorizado
+   */
+  401: unknown;
+};
+
+export type WhatsappNotificationsControllerGetPairingCodeResponses = {
+  /**
+   * Código gerado com sucesso
+   */
+  200: unknown;
+};
+
+export type WhatsappWebhooksControllerHandleWebhookData = {
+  body: WahaWebhookEventDto;
+  headers: {
     /**
-     * Identificador do registro (uuid)
+     * Assinatura HMAC-SHA512 do payload, calculada pelo WAHA com a chave compartilhada
      */
-    id: string;
+    'X-Webhook-Hmac': string;
   };
-  query?: never;
-  url: '/estagiarios/{id}';
-};
-
-export type EstagiarioUpdateErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type EstagiarioUpdateResponses = {
-  200: EstagiarioFindOneOutputDto;
-};
-
-export type EstagiarioUpdateResponse =
-  EstagiarioUpdateResponses[keyof EstagiarioUpdateResponses];
-
-export type NotificacaoFindAllData = {
-  body?: never;
   path?: never;
   query?: never;
-  url: '/notificacoes';
+  url: '/webhooks/whatsapp';
 };
 
-export type NotificacaoFindAllErrors = {
-  403: unknown;
-};
-
-export type NotificacaoFindAllResponses = {
-  200: unknown;
-};
-
-export type NotificacaoContagemNaoLidasData = {
-  body?: never;
-  path?: never;
-  query?: never;
-  url: '/notificacoes/contagem-nao-lidas';
-};
-
-export type NotificacaoContagemNaoLidasErrors = {
-  403: unknown;
-};
-
-export type NotificacaoContagemNaoLidasResponses = {
-  200: unknown;
-};
-
-export type NotificacaoMarcarLidaData = {
-  body?: never;
-  path: {
-    id: string;
-  };
-  query?: never;
-  url: '/notificacoes/{id}/lida';
-};
-
-export type NotificacaoMarcarLidaErrors = {
-  403: unknown;
-  404: unknown;
-};
-
-export type NotificacaoMarcarLidaResponses = {
+export type WhatsappWebhooksControllerHandleWebhookResponses = {
   200: unknown;
 };
 
@@ -7528,6 +11552,323 @@ export type RelatorioAulasMinistradasPdfData = {
 
 export type RelatorioAulasMinistradasPdfErrors = {
   403: unknown;
+};
+
+export type RelatorioFindAllData = {
+  body?: never;
+  path?: never;
+  query?: {
+    /**
+     * Pagina de consulta
+     */
+    page?: number | null;
+    /**
+     * Limite da quantidade de resultados por pagina
+     */
+    limit?: number | null;
+    /**
+     * Busca textual
+     */
+    search?: string | null;
+    /**
+     * Ordenação
+     */
+    sortBy?: Array<string> | null;
+    /**
+     * Filtro por ID
+     */
+    'filter.id'?: Array<string> | null;
+    /**
+     * Filtrar por estágio
+     */
+    'filter.estagio.id'?: Array<string>;
+  };
+  url: '/relatorios-estagio';
+};
+
+export type RelatorioFindAllErrors = {
+  403: unknown;
+};
+
+export type RelatorioFindAllResponses = {
+  200: RelatorioListOutputRestDto;
+};
+
+export type RelatorioFindAllResponse =
+  RelatorioFindAllResponses[keyof RelatorioFindAllResponses];
+
+export type RelatorioCreateData = {
+  body: RelatorioCreateInputRestDto;
+  path?: never;
+  query?: never;
+  url: '/relatorios-estagio';
+};
+
+export type RelatorioCreateErrors = {
+  403: unknown;
+};
+
+export type RelatorioCreateResponses = {
+  201: RelatorioFindOneOutputRestDto;
+};
+
+export type RelatorioCreateResponse =
+  RelatorioCreateResponses[keyof RelatorioCreateResponses];
+
+export type RelatorioDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * ID do Relatório de Estágio
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/relatorios-estagio/{id}';
+};
+
+export type RelatorioDeleteErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type RelatorioDeleteResponses = {
+  /**
+   * Relatório de estágio deletado com sucesso
+   */
+  200: unknown;
+};
+
+export type RelatorioFindByIdData = {
+  body?: never;
+  path: {
+    /**
+     * ID do Relatório de Estágio
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/relatorios-estagio/{id}';
+};
+
+export type RelatorioFindByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type RelatorioFindByIdResponses = {
+  200: RelatorioFindOneOutputRestDto;
+};
+
+export type RelatorioFindByIdResponse =
+  RelatorioFindByIdResponses[keyof RelatorioFindByIdResponses];
+
+export type RelatorioUpdateData = {
+  body: RelatorioUpdateInputRestDto;
+  path: {
+    /**
+     * ID do Relatório de Estágio
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/relatorios-estagio/{id}';
+};
+
+export type RelatorioUpdateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type RelatorioUpdateResponses = {
+  200: RelatorioFindOneOutputRestDto;
+};
+
+export type RelatorioUpdateResponse =
+  RelatorioUpdateResponses[keyof RelatorioUpdateResponses];
+
+export type RelatorioReplaceData = {
+  body: RelatorioUpdateInputRestDto;
+  path: {
+    /**
+     * ID do Relatório de Estágio
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/relatorios-estagio/{id}';
+};
+
+export type RelatorioReplaceErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type RelatorioReplaceResponses = {
+  200: RelatorioFindOneOutputRestDto;
+};
+
+export type RelatorioReplaceResponse =
+  RelatorioReplaceResponses[keyof RelatorioReplaceResponses];
+
+export type EstagioRelatorioDeleteData = {
+  body?: never;
+  path: {
+    /**
+     * ID do Estágio
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/estagios/{id}/relatorio';
+};
+
+export type EstagioRelatorioDeleteErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EstagioRelatorioDeleteResponses = {
+  /**
+   * Relatório de estágio removido com sucesso
+   */
+  200: unknown;
+};
+
+export type RelatorioFindByEstagioIdData = {
+  body?: never;
+  path: {
+    /**
+     * ID do Estágio
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/estagios/{id}/relatorio';
+};
+
+export type RelatorioFindByEstagioIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type RelatorioFindByEstagioIdResponses = {
+  200: RelatorioFindOneOutputRestDto;
+};
+
+export type RelatorioFindByEstagioIdResponse =
+  RelatorioFindByEstagioIdResponses[keyof RelatorioFindByEstagioIdResponses];
+
+export type EstagioRelatorioUploadPdfData = {
+  body: {
+    /**
+     * Arquivo PDF do relatório
+     */
+    file: Blob | File;
+  };
+  path: {
+    /**
+     * ID do Estágio
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/estagios/{id}/relatorio';
+};
+
+export type EstagioRelatorioUploadPdfErrors = {
+  /**
+   * Arquivo não informado ou não é PDF
+   */
+  400: unknown;
+  403: unknown;
+};
+
+export type EstagioRelatorioUploadPdfResponses = {
+  201: RelatorioFindOneOutputRestDto;
+};
+
+export type EstagioRelatorioUploadPdfResponse =
+  EstagioRelatorioUploadPdfResponses[keyof EstagioRelatorioUploadPdfResponses];
+
+export type EstagioRelatorioUploadPdfAliasData = {
+  body: {
+    /**
+     * Arquivo PDF do relatório
+     */
+    file: Blob | File;
+  };
+  path: {
+    /**
+     * ID do Estágio
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/estagios/{id}/relatorio/upload';
+};
+
+export type EstagioRelatorioUploadPdfAliasErrors = {
+  /**
+   * Arquivo não informado ou não é PDF
+   */
+  400: unknown;
+  403: unknown;
+};
+
+export type EstagioRelatorioUploadPdfAliasResponses = {
+  201: RelatorioFindOneOutputRestDto;
+};
+
+export type EstagioRelatorioUploadPdfAliasResponse =
+  EstagioRelatorioUploadPdfAliasResponses[keyof EstagioRelatorioUploadPdfAliasResponses];
+
+export type RelatorioGetPdfData = {
+  body?: never;
+  path: {
+    /**
+     * ID do Estágio
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/estagios/{id}/relatorio/pdf';
+};
+
+export type RelatorioGetPdfErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type RelatorioGetPdfResponses = {
+  /**
+   * Arquivo PDF do relatório
+   */
+  200: unknown;
+};
+
+export type EstagioRelatorioDownloadPdfData = {
+  body?: never;
+  path: {
+    /**
+     * ID do Estágio
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/estagios/{id}/relatorio/download';
+};
+
+export type EstagioRelatorioDownloadPdfErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EstagioRelatorioDownloadPdfResponses = {
+  /**
+   * Arquivo PDF do relatório
+   */
+  200: unknown;
 };
 
 export type GradeHorariaFindByCampusData = {

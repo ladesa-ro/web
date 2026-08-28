@@ -22,6 +22,8 @@ const hamburgerActive = defineModel<boolean>({
 
     <AppbarChangeCampus />
 
+    <UIButtonNotification class="shrink-0 mr-3" />
+
     <AppbarChangeTheme class="shrink-0 min-[740px]:mr-3" />
 
     <AppbarChangeSystem />

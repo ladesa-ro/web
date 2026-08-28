@@ -30,6 +30,6 @@ const { data: coverImageSrc } = cursos.imageCover(computed(() => unref(curso)?.i
     :form-component="CursosForm"
   >
     <UICardLine :text="`Abreviacao: ${curso?.nomeAbreviado}`" />
-    <UICardLine :text="`Formacao: ${curso?.ofertaFormacao.nome}`" />
+    <UICardLine :text="`Formacao: ${curso?.ofertaFormacao?.nome}`" />
   </UIGenericCrudItem>
 </template>

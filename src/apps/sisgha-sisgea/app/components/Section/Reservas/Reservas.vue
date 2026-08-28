@@ -1,41 +1,139 @@
 <script lang="ts" setup>
-// import type { ILesson } from '~/components/Section/Horario/-Helpers/ILesson';
+import { useForm, useFormValues } from 'vee-validate';
 
-// o componente UIGenericLesson será chamado e tentarei levar a lógica de estilização de acordo com horário para lá.
+const currentPage = ref(1);
+const pageSize = 10;
+
+useForm({
+  initialValues: { ambienteId: null as string | null },
+});
+
+const formValues = useFormValues();
+const filterAmbienteIdValue = computed(
+  () => (formValues.value.ambienteId as string | null) ?? null
+);
+
+const filterPeriodoInicio = ref<string | null>(null);
+const filterPeriodoFim = ref<string | null>(null);
+
+const agendamento = useCalendarioAgendamento();
+
+const queryParams = computed(() => {
+  const params: Record<string, unknown> = {
+    page: currentPage.value,
+    limit: pageSize,
+    'filter.tipo': ['RESERVA'],
+  };
+  if (filterAmbienteIdValue.value) {
+    params['filter.ambiente.id'] = [filterAmbienteIdValue.value];
+  }
+  return params;
+});
+
+const { data: result, isLoading, isError } = agendamento.findAll(queryParams);
+
+const reservasBrutas = computed(() => result.value?.data ?? []);
+const totalPages = computed(() => result.value?.meta?.totalPages ?? 1);
+
+const reservas = computed(() => {
+  return reservasBrutas.value.filter(r => {
+    if (filterPeriodoInicio.value && r.dataInicio < filterPeriodoInicio.value) {
+      return false;
+    }
+    if (filterPeriodoFim.value && r.dataInicio > filterPeriodoFim.value) {
+      return false;
+    }
+    return true;
+  });
+});
+
+watch(
+  [filterAmbienteIdValue, filterPeriodoInicio, filterPeriodoFim],
+  () => {
+    currentPage.value = 1;
+  }
+);
+
+async function onCancel(id: string) {
+  await agendamento.remove(id);
+  agendamento.invalidate();
+}
+
+function onCreated() {
+  agendamento.invalidate();
+}
 </script>
 
 <template>
   <div
-    class="flex flex-1 overflow-auto flex-col items-center gap-12 pb-14 xl:max-w-screen-2xl xl:mx-auto max-xl:mx-16 max-[900px]:text-sm max-[850px]:mx-7"
+    class="flex flex-1 overflow-auto flex-col items-center gap-8 pb-14 xl:max-w-screen-2xl xl:mx-auto max-xl:mx-16 max-[900px]:text-sm max-[850px]:mx-7"
   >
-    <div class="max-w-screen-lg w-full mx-auto mt-14">
-      <UISearchBar id="size" />
-    </div>
-
-    <div class="max-w-screen-lg w-full mx-auto">
-      <SectionHorarioDailyViewDaySquareList />
-
-      <div class="flex flex-col gap-5 mt-12">
-        <!-- este é apenas um código de exemplo. ele será alterado. -->
-        <UIGenericRectangle>
-          <template #title> Nome do ambiente</template>
-          <template #content>
-            <p>Horário:</p>
-            <p>Autor da reserva:</p>
-          </template>
-        </UIGenericRectangle>
-        <!-- <SectionHorarioDailyViewLesson
-          v-for="(lesson, index) in lessons"
-          :lesson="lesson"
-          :variant="getVariantForIndex(index)"
-        /> -->
+    <div class="max-w-screen-lg w-full mx-auto mt-14 flex flex-col gap-6">
+      <div class="flex items-center justify-between gap-3 flex-wrap">
+        <UITitle variant="small" text="Reservas de ambientes" />
+        <SectionReservasCreateModal @created="onCreated" />
       </div>
+
+      <div class="flex flex-wrap gap-3 items-end">
+        <div class="w-full sm:w-56">
+          <VVAutocompleteAPIAmbiente name="ambienteId" />
+        </div>
+
+        <div class="flex items-end gap-2 w-full sm:w-auto">
+          <div class="flex-1 sm:w-40">
+            <UIFormTextField
+              :model-value="filterPeriodoInicio ?? undefined"
+              name="filterPeriodoInicio"
+              label="Período início"
+              type="date"
+              @update:model-value="filterPeriodoInicio = $event || null"
+            />
+          </div>
+          <span class="pb-2 text-ldsa-grey">—</span>
+          <div class="flex-1 sm:w-40">
+            <UIFormTextField
+              :model-value="filterPeriodoFim ?? undefined"
+              name="filterPeriodoFim"
+              label="Período fim"
+              type="date"
+              @update:model-value="filterPeriodoFim = $event || null"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div v-if="isLoading" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <UICardSkeleton v-for="i in 4" :key="i" />
+      </div>
+
+      <div v-else-if="isError" class="text-center text-ldsa-red py-8">
+        Erro ao carregar reservas. Tente novamente.
+      </div>
+
+      <div
+        v-else-if="reservas.length === 0"
+        class="flex flex-col justify-center items-center gap-5 py-8"
+      >
+        <UIContentStateEmpty class="dark:saturate-75 dark:opacity-50" />
+        <span class="text-ldsa-grey dark:contrast-0 text-center">
+          Nenhuma reserva encontrada. Tente ajustar os filtros ou criar uma
+          nova reserva.
+        </span>
+      </div>
+
+      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <SectionReservasCard
+          v-for="reserva in reservas"
+          :key="reserva.id"
+          :reserva="reserva"
+          @cancel="onCancel"
+        />
+      </div>
+
+      <UIPaginationSimplePagination
+        v-model:current-page="currentPage"
+        :total-pages="totalPages"
+      />
     </div>
   </div>
 </template>
-
-<style scoped>
-#size {
-  max-width: none;
-}
-</style>

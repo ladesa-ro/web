@@ -1,4 +1,5 @@
 export {
+  ApiError,
   createLadesaApi,
   type LadesaApi,
   type LadesaApiClientConfig,

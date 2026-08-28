@@ -43,6 +43,7 @@ const form = useForm<FormUserValues, FormUserOutput>({
 });
 
 provide('FORM_USER', form);
+provide('FORM_USER_ORIGINAL_VINCULOS', currentUsuario);
 </script>
 
 <template>

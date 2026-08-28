@@ -34,7 +34,7 @@ const isLoading = computed(
 const estrategiaModalidade = computed(() => {
   if (cursoSelecionado.value) {
     const estrategiaAutomatica = verificarModalidade(
-      cursoSelecionado.value.ofertaFormacao,
+      cursoSelecionado.value.ofertaFormacao ?? null,
       FALLBACK_TO_PERIODO
     );
 
@@ -71,7 +71,7 @@ const estrategiaModalidade = computed(() => {
     >
       O sistema ainda não suporta o cadastro de turmas para a modalidade
       <span class="font-semibold"
-        >"{{ cursoSelecionado.ofertaFormacao.nome }}"</span
+        >"{{ cursoSelecionado.ofertaFormacao?.nome }}"</span
       >.
     </div>
   </template>

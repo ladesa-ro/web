@@ -10,6 +10,20 @@ export type CalendarEvent = {
   locale?: string | null | undefined;
   calendar?: { id: string };
   type: 'etapa' | 'agendamento';
+
+  colecao?: { id: string; nome?: string | null; cor?: string | null } | null;
+  campus?: { id: string; apelido?: string | null } | null;
+  autorId?: string | null;
+  motivo?: string | null;
+  repeticao?: string | null;
+  identificadorExterno?: string | null;
+  detalhesOcultos?: boolean;
+  identificadorExternoSerieOrigem?: string | null;
+  dataOcorrenciaReferenciada?: string | null;
+  version?: number;
+  horarioInicio?: string | null;
+  horarioFim?: string | null;
+  ambientes?: Array<{ id: string; nome?: string | null }> | null;
 };
 
 export type CalendarData = {
@@ -25,6 +39,7 @@ export type Day = {
   color?: string;
   holiday?: boolean;
   school?: boolean;
+  occupied?: boolean;
 };
 
 export type EmptyDays = {
