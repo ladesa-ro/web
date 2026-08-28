@@ -23,6 +23,7 @@ import {
   calendarioAgendamentoCancelarOcorrencia,
   calendarioAgendamentoEditarSerie,
   calendarioAgendamentoAdicionarDataAvulsa,
+  calendarioAgendamentoLinhaDoTempo,
   consultaOcorrenciasPorData,
 } from '@ladesa-ro/web.api.client';
 import type {
@@ -42,6 +43,7 @@ import type {
   CalendarioAgendamentoEditarSerieResponse,
   CalendarioAgendamentoAdicionarDataAvulsaInputDto,
   CalendarioAgendamentoAdicionarDataAvulsaResponse,
+  CalendarioAgendamentoLinhaDoTempoResponse,
   ConsultaOcorrenciasPorDataResponse,
   ReqBody,
 } from '@ladesa-ro/web.api.client';
@@ -86,6 +88,7 @@ export type IUseCalendarioAgendamento = {
   consulta: ConsultaFn;
   findAll: FindAllFn;
   findOne: FindOneFn<CalendarioAgendamentoFindByIdResponse>;
+  linhaDoTempo: FindOneFn<CalendarioAgendamentoLinhaDoTempoResponse>;
   create: CreateFn<
     ReqBody<CalendarioAgendamentoCreateData>,
     CalendarioAgendamentoCreateResponse
@@ -154,6 +157,14 @@ export const useCalendarioAgendamento = (): IUseCalendarioAgendamento => {
     queryKey: keys,
     fetcher: (id: string) =>
       api.call(calendarioAgendamentoFindById, { path: { id } }),
+  });
+
+  const linhaDoTempo = createFindOneQuery({
+    queryKey: [...keys, 'linha-do-tempo'],
+    fetcher: (identificadorExterno: string) =>
+      api.call(calendarioAgendamentoLinhaDoTempo, {
+        path: { identificadorExterno },
+      }),
   });
 
   const create = createCreateFn<
@@ -229,6 +240,7 @@ export const useCalendarioAgendamento = (): IUseCalendarioAgendamento => {
     consulta,
     findAll,
     findOne,
+    linhaDoTempo,
     create,
     update,
     editarOcorrencia,

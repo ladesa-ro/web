@@ -15,6 +15,8 @@ export type CalendarEvent = {
   campus?: { id: string } | null;
   autorId?: string | null;
   motivo?: string | null;
+  repeticao?: string | null;
+  identificadorExterno?: string | null;
   detalhesOcultos?: boolean;
   identificadorExternoSerieOrigem?: string | null;
   dataOcorrenciaReferenciada?: string | null;
