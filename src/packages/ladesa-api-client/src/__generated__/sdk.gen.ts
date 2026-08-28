@@ -343,6 +343,33 @@ import type {
   DisciplinaUpdateImagemCapaErrors,
   DisciplinaUpdateImagemCapaResponses,
   DisciplinaUpdateResponses,
+  EmpresaAvaliacaoCreateData,
+  EmpresaAvaliacaoCreateErrors,
+  EmpresaAvaliacaoCreateResponses,
+  EmpresaAvaliacaoDeleteData,
+  EmpresaAvaliacaoDeleteErrors,
+  EmpresaAvaliacaoDeleteResponses,
+  EmpresaAvaliacaoFindByIdData,
+  EmpresaAvaliacaoFindByIdErrors,
+  EmpresaAvaliacaoFindByIdResponses,
+  EmpresaAvaliacaoFindMyData,
+  EmpresaAvaliacaoFindMyErrors,
+  EmpresaAvaliacaoFindMyResponses,
+  EmpresaAvaliacaoHistoricoListData,
+  EmpresaAvaliacaoHistoricoListErrors,
+  EmpresaAvaliacaoHistoricoListResponses,
+  EmpresaAvaliacaoLikeData,
+  EmpresaAvaliacaoLikeErrors,
+  EmpresaAvaliacaoLikeResponses,
+  EmpresaAvaliacaoListData,
+  EmpresaAvaliacaoListErrors,
+  EmpresaAvaliacaoListResponses,
+  EmpresaAvaliacaoUnlikeData,
+  EmpresaAvaliacaoUnlikeErrors,
+  EmpresaAvaliacaoUnlikeResponses,
+  EmpresaAvaliacaoUpdateData,
+  EmpresaAvaliacaoUpdateErrors,
+  EmpresaAvaliacaoUpdateResponses,
   EmpresaCreateData,
   EmpresaCreateErrors,
   EmpresaCreateResponses,
@@ -358,6 +385,12 @@ import type {
   EmpresaGetFotoEmpresaData,
   EmpresaGetFotoEmpresaErrors,
   EmpresaGetFotoEmpresaResponses,
+  EmpresaScoreFindOneData,
+  EmpresaScoreFindOneErrors,
+  EmpresaScoreFindOneResponses,
+  EmpresaScoreRecalculateData,
+  EmpresaScoreRecalculateErrors,
+  EmpresaScoreRecalculateResponses,
   EmpresaUpdateData,
   EmpresaUpdateErrors,
   EmpresaUpdateFotoEmpresaData,
@@ -482,9 +515,12 @@ import type {
   HorarioEdicaoDesfazerMudancaData,
   HorarioEdicaoDesfazerMudancaErrors,
   HorarioEdicaoDesfazerMudancaResponses,
-  HorarioEdicaoSalvar2Data,
-  HorarioEdicaoSalvar2Errors,
-  HorarioEdicaoSalvar2Responses,
+  HorarioEdicaoFindOneData,
+  HorarioEdicaoFindOneErrors,
+  HorarioEdicaoFindOneResponses,
+  HorarioEdicaoPublicarData,
+  HorarioEdicaoPublicarErrors,
+  HorarioEdicaoPublicarResponses,
   HorarioEdicaoSalvarData,
   HorarioEdicaoSalvarErrors,
   HorarioEdicaoSalvarResponses,
@@ -569,15 +605,18 @@ import type {
   PerfilEnsinoByIdData,
   PerfilEnsinoByIdErrors,
   PerfilEnsinoByIdResponses,
-  PerfilFindById2Data,
-  PerfilFindById2Errors,
-  PerfilFindById2Responses,
   PerfilFindByIdData,
   PerfilFindByIdErrors,
   PerfilFindByIdResponses,
+  PerfilFindByIdViaUsuarioData,
+  PerfilFindByIdViaUsuarioErrors,
+  PerfilFindByIdViaUsuarioResponses,
   PerfilListData,
   PerfilListErrors,
   PerfilListResponses,
+  PerfilUpdateData,
+  PerfilUpdateErrors,
+  PerfilUpdateResponses,
   PerfilVinculosFiltroData,
   PerfilVinculosFiltroErrors,
   PerfilVinculosFiltroResponses,
@@ -1749,16 +1788,37 @@ export const perfilFindById = <ThrowOnError extends boolean = false>(
   >({ url: '/perfis/{id}', ...options });
 
 /**
- * Busca um perfil por ID
+ * Atualiza um perfil (vinculo)
  *
- * Busca um perfil por ID
+ * Atualiza um perfil (vinculo)
  */
-export const perfilFindById2 = <ThrowOnError extends boolean = false>(
-  options: Options<PerfilFindById2Data, ThrowOnError>
+export const perfilUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<PerfilUpdateData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    PerfilUpdateResponses,
+    PerfilUpdateErrors,
+    ThrowOnError
+  >({
+    url: '/perfis/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Busca um perfil de um usuario por ID
+ *
+ * Busca um perfil de um usuario por ID
+ */
+export const perfilFindByIdViaUsuario = <ThrowOnError extends boolean = false>(
+  options: Options<PerfilFindByIdViaUsuarioData, ThrowOnError>
 ) =>
   (options.client ?? client).get<
-    PerfilFindById2Responses,
-    PerfilFindById2Errors,
+    PerfilFindByIdViaUsuarioResponses,
+    PerfilFindByIdViaUsuarioErrors,
     ThrowOnError
   >({ url: '/usuarios/{usuarioId}/perfis/{id}', ...options });
 
@@ -3849,6 +3909,20 @@ export const horarioEdicaoCreate = <ThrowOnError extends boolean = false>(
   >({ url: '/horarios/edicao', ...options });
 
 /**
+ * Busca uma sessao de edicao de horario por id
+ *
+ * Busca uma sessao de edicao de horario por id
+ */
+export const horarioEdicaoFindOne = <ThrowOnError extends boolean = false>(
+  options: Options<HorarioEdicaoFindOneData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    HorarioEdicaoFindOneResponses,
+    HorarioEdicaoFindOneErrors,
+    ThrowOnError
+  >({ url: '/horarios/edicao/{sessaoId}', ...options });
+
+/**
  * Aplica uma mudanca a sessao de edicao de horario
  *
  * Aplica uma mudanca a sessao de edicao de horario
@@ -3898,16 +3972,16 @@ export const horarioEdicaoCancelar = <ThrowOnError extends boolean = false>(
   >({ url: '/horarios/edicao/{sessaoId}/cancelar', ...options });
 
 /**
- * Salva sessao de edicao permanentemente
+ * Publica as mudancas da sessao de edicao no calendario oficial
  *
- * Salva sessao de edicao permanentemente
+ * Publica as mudancas da sessao de edicao no calendario oficial
  */
-export const horarioEdicaoSalvar2 = <ThrowOnError extends boolean = false>(
-  options: Options<HorarioEdicaoSalvar2Data, ThrowOnError>
+export const horarioEdicaoPublicar = <ThrowOnError extends boolean = false>(
+  options: Options<HorarioEdicaoPublicarData, ThrowOnError>
 ) =>
   (options.client ?? client).post<
-    HorarioEdicaoSalvar2Responses,
-    HorarioEdicaoSalvar2Errors,
+    HorarioEdicaoPublicarResponses,
+    HorarioEdicaoPublicarErrors,
     ThrowOnError
   >({ url: '/horarios/edicao/{sessaoId}/publicar', ...options });
 
@@ -4388,6 +4462,176 @@ export const empresaUpdateFotoEmpresa = <ThrowOnError extends boolean = false>(
       ...options.headers,
     },
   });
+
+/**
+ * Lista avaliações e comentários de uma empresa ordenados por relevância ou filtros
+ *
+ * Lista avaliações e comentários de uma empresa ordenados por relevância ou filtros
+ */
+export const empresaAvaliacaoList = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoListData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    EmpresaAvaliacaoListResponses,
+    EmpresaAvaliacaoListErrors,
+    ThrowOnError
+  >({ url: '/empresas/{empresaId}/avaliacoes', ...options });
+
+/**
+ * Cria uma nova avaliação para uma empresa pelo estagiário autenticado
+ *
+ * Cria uma nova avaliação para uma empresa pelo estagiário autenticado
+ */
+export const empresaAvaliacaoCreate = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoCreateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    EmpresaAvaliacaoCreateResponses,
+    EmpresaAvaliacaoCreateErrors,
+    ThrowOnError
+  >({
+    url: '/empresas/{empresaId}/avaliacoes',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Busca a avaliação do usuário autenticado para uma determinada empresa
+ *
+ * Busca a avaliação do usuário autenticado para uma determinada empresa
+ */
+export const empresaAvaliacaoFindMy = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoFindMyData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    EmpresaAvaliacaoFindMyResponses,
+    EmpresaAvaliacaoFindMyErrors,
+    ThrowOnError
+  >({ url: '/empresas/{empresaId}/avaliacoes/minha', ...options });
+
+/**
+ * Inativa/remove uma avaliação de empresa pelo próprio autor ou superusuário
+ *
+ * Inativa/remove uma avaliação de empresa pelo próprio autor ou superusuário
+ */
+export const empresaAvaliacaoDelete = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoDeleteData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    EmpresaAvaliacaoDeleteResponses,
+    EmpresaAvaliacaoDeleteErrors,
+    ThrowOnError
+  >({ url: '/empresas/avaliacoes/{id}', ...options });
+
+/**
+ * Busca uma avaliação de empresa por ID
+ *
+ * Busca uma avaliação de empresa por ID
+ */
+export const empresaAvaliacaoFindById = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoFindByIdData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    EmpresaAvaliacaoFindByIdResponses,
+    EmpresaAvaliacaoFindByIdErrors,
+    ThrowOnError
+  >({ url: '/empresas/avaliacoes/{id}', ...options });
+
+/**
+ * Atualiza uma avaliação existente pelo próprio autor
+ *
+ * Atualiza uma avaliação existente pelo próprio autor
+ */
+export const empresaAvaliacaoUpdate = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoUpdateData, ThrowOnError>
+) =>
+  (options.client ?? client).patch<
+    EmpresaAvaliacaoUpdateResponses,
+    EmpresaAvaliacaoUpdateErrors,
+    ThrowOnError
+  >({
+    url: '/empresas/avaliacoes/{id}',
+    ...options,
+    headers: {
+      'Content-Type': 'application/json',
+      ...options.headers,
+    },
+  });
+
+/**
+ * Remove uma curtida previamente registrada em uma avaliação
+ *
+ * Remove uma curtida previamente registrada em uma avaliação
+ */
+export const empresaAvaliacaoUnlike = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoUnlikeData, ThrowOnError>
+) =>
+  (options.client ?? client).delete<
+    EmpresaAvaliacaoUnlikeResponses,
+    EmpresaAvaliacaoUnlikeErrors,
+    ThrowOnError
+  >({ url: '/empresas/avaliacoes/{id}/curtidas', ...options });
+
+/**
+ * Registra uma curtida em uma avaliação por um usuário autenticado
+ *
+ * Registra uma curtida em uma avaliação por um usuário autenticado
+ */
+export const empresaAvaliacaoLike = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaAvaliacaoLikeData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    EmpresaAvaliacaoLikeResponses,
+    EmpresaAvaliacaoLikeErrors,
+    ThrowOnError
+  >({ url: '/empresas/avaliacoes/{id}/curtidas', ...options });
+
+/**
+ * Consulta histórico completo de alterações de uma avaliação
+ *
+ * Consulta histórico completo de alterações de uma avaliação
+ */
+export const empresaAvaliacaoHistoricoList = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<EmpresaAvaliacaoHistoricoListData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    EmpresaAvaliacaoHistoricoListResponses,
+    EmpresaAvaliacaoHistoricoListErrors,
+    ThrowOnError
+  >({ url: '/empresas/avaliacoes/{id}/historico', ...options });
+
+/**
+ * Consulta métricas e Score de Reputação da Empresa (0 a 100)
+ *
+ * Consulta métricas e Score de Reputação da Empresa (0 a 100)
+ */
+export const empresaScoreFindOne = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaScoreFindOneData, ThrowOnError>
+) =>
+  (options.client ?? client).get<
+    EmpresaScoreFindOneResponses,
+    EmpresaScoreFindOneErrors,
+    ThrowOnError
+  >({ url: '/empresas/{id}/score', ...options });
+
+/**
+ * Recalcula forçadamente o Score e distribuição de uma empresa
+ *
+ * Recalcula forçadamente o Score e distribuição de uma empresa
+ */
+export const empresaScoreRecalculate = <ThrowOnError extends boolean = false>(
+  options: Options<EmpresaScoreRecalculateData, ThrowOnError>
+) =>
+  (options.client ?? client).post<
+    EmpresaScoreRecalculateResponses,
+    EmpresaScoreRecalculateErrors,
+    ThrowOnError
+  >({ url: '/empresas/{id}/score/recalcular', ...options });
 
 /**
  * Exibe tela de confirmação da folha de ponto para o supervisor

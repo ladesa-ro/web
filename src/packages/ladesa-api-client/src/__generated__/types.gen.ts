@@ -1359,6 +1359,21 @@ export type PerfilListOutputDto = {
   data: Array<PerfilFindOneOutputDto>;
 };
 
+export type PerfilUpdateInputDto = {
+  /**
+   * Indica se o vinculo esta ativo
+   */
+  ativo?: boolean;
+  /**
+   * Cargo do usuario no vinculo
+   */
+  cargo?: string;
+  /**
+   * Carga horária semanal máxima do professor, em horas — nulo significa sem limite
+   */
+  cargaMaximaSemanal?: number | null;
+};
+
 export type CargoCreateInputDto = {
   /**
    * Nome do cargo
@@ -4054,6 +4069,7 @@ export type HorarioEdicaoMudancaOutputRestDto = {
 };
 
 export type HorarioEdicaoDiferencaEntradaOutputRestDto = {
+  mudancaId: string;
   tipoOperacao: 'CRIAR' | 'MOVER' | 'REMOVER';
   calendarioAgendamentoId?: string;
   antes?: {
@@ -4587,6 +4603,241 @@ export type EmpresaUpdateInputDto = {
   endereco?: {
     id?: string;
   };
+};
+
+export type EmpresaAvaliacaoAutorOutputDto = {
+  /**
+   * ID do usuário/estagiário autor da avaliação
+   */
+  id: string;
+  /**
+   * Nome do autor
+   */
+  nome?: string;
+  /**
+   * Email institucional ou pessoal do autor
+   */
+  email?: string;
+  /**
+   * Matrícula do estagiário
+   */
+  matricula?: string;
+};
+
+export type EmpresaAvaliacaoFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * ID da empresa avaliada
+   */
+  empresaId: string;
+  /**
+   * ID do perfil de estagiário
+   */
+  estagiarioId: string;
+  /**
+   * Dados do autor da avaliação
+   */
+  autor: EmpresaAvaliacaoAutorOutputDto;
+  /**
+   * Nota atribuída de 1 a 5 estrelas
+   */
+  rating: number;
+  /**
+   * Comentário sobre o estágio (até 2000 caracteres)
+   */
+  comentario?: string;
+  /**
+   * Score de relevância calculado para o comentário
+   */
+  relevanceScore: number;
+  /**
+   * Quantidade total de curtidas recebidas
+   */
+  likesCount: number;
+  /**
+   * Indica se o usuário autenticado curtiu esta avaliação
+   */
+  isLikedByCurrentUser?: boolean;
+};
+
+export type EmpresaAvaliacaoListOutputDto = {
+  meta: PaginationMetaRestDto;
+  data: Array<EmpresaAvaliacaoFindOneOutputDto>;
+};
+
+export type EmpresaAvaliacaoCreateInputDto = {
+  /**
+   * Nota de 1 a 5 estrelas
+   */
+  rating: number;
+  /**
+   * Comentário detalhado (até 2.000 caracteres)
+   */
+  comentario?: string;
+};
+
+export type EmpresaAvaliacaoUpdateInputDto = {
+  /**
+   * Nota atualizada de 1 a 5 estrelas
+   */
+  rating?: number;
+  /**
+   * Comentário atualizado (até 2.000 caracteres)
+   */
+  comentario?: string;
+};
+
+export type EmpresaAvaliacaoLikeOutputDto = {
+  /**
+   * ID da avaliação
+   */
+  avaliacaoId: string;
+  /**
+   * Quantidade atualizada de curtidas
+   */
+  likesCount: number;
+  /**
+   * Se o usuário atual curtiu a avaliação
+   */
+  isLikedByCurrentUser: boolean;
+  /**
+   * Score de relevância recalculado
+   */
+  relevanceScore: number;
+};
+
+export type EmpresaAvaliacaoHistoricoOutputDto = {
+  /**
+   * ID do registro de histórico
+   */
+  id: string;
+  /**
+   * ID da avaliação
+   */
+  avaliacaoId: string;
+  /**
+   * ID do usuário que efetuou a alteração
+   */
+  usuarioId: string;
+  /**
+   * Nome do usuário
+   */
+  usuarioNome?: string;
+  /**
+   * Nota anterior
+   */
+  ratingAnterior?: number;
+  /**
+   * Nota nova
+   */
+  ratingNovo: number;
+  /**
+   * Comentário anterior
+   */
+  comentarioAnterior?: string;
+  /**
+   * Comentário novo
+   */
+  comentarioNovo?: string;
+  /**
+   * Ação realizada: CRIACAO, EDICAO, REMOCAO
+   */
+  acao: string;
+  /**
+   * Data/hora da alteração
+   */
+  dateCreated: string;
+};
+
+export type EmpresaScoreDistributionDto = {
+  /**
+   * Total de avaliações com 1 estrela
+   */
+  1: number;
+  /**
+   * Total de avaliações com 2 estrelas
+   */
+  2: number;
+  /**
+   * Total de avaliações com 3 estrelas
+   */
+  3: number;
+  /**
+   * Total de avaliações com 4 estrelas
+   */
+  4: number;
+  /**
+   * Total de avaliações com 5 estrelas
+   */
+  5: number;
+};
+
+export type EmpresaScoreFindOneOutputDto = {
+  /**
+   * Identificador do registro (uuid)
+   */
+  id: string;
+  /**
+   * Data e hora da criacao do registro
+   */
+  dateCreated: string;
+  /**
+   * Data e hora da alteracao do registro
+   */
+  dateUpdated: string;
+  /**
+   * Data e hora da exclusao do registro
+   */
+  dateDeleted?: string | null;
+  /**
+   * ID da empresa avaliada
+   */
+  empresaId: string;
+  /**
+   * Score normalizado de 0 a 100 ponderado por recência e regularização Bayesiana
+   */
+  score: number;
+  /**
+   * Média simples das notas de 1 a 5 estrelas
+   */
+  averageRating: number;
+  /**
+   * Quantidade total de avaliações contabilizadas
+   */
+  totalReviews: number;
+  /**
+   * Distribuição das notas por estrelas
+   */
+  distribution: EmpresaScoreDistributionDto;
+  /**
+   * Versão do algoritmo estatístico utilizado para calcular o score
+   */
+  scoreVersion: number;
+  /**
+   * Indicadores estatísticos complementares utilizados no cálculo
+   */
+  indicators?: {
+    [key: string]: unknown;
+  };
+  /**
+   * Data/hora do último cálculo
+   */
+  calculatedAt: string;
 };
 
 export type FolhaPontoEstagioRefRestDto = {
@@ -6552,7 +6803,31 @@ export type PerfilFindByIdResponses = {
 export type PerfilFindByIdResponse =
   PerfilFindByIdResponses[keyof PerfilFindByIdResponses];
 
-export type PerfilFindById2Data = {
+export type PerfilUpdateData = {
+  body: PerfilUpdateInputDto;
+  path: {
+    /**
+     * Identificador do registro (uuid)
+     */
+    id: string;
+  };
+  query?: never;
+  url: '/perfis/{id}';
+};
+
+export type PerfilUpdateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type PerfilUpdateResponses = {
+  200: PerfilFindOneOutputDto;
+};
+
+export type PerfilUpdateResponse =
+  PerfilUpdateResponses[keyof PerfilUpdateResponses];
+
+export type PerfilFindByIdViaUsuarioData = {
   body?: never;
   path: {
     /**
@@ -6564,17 +6839,17 @@ export type PerfilFindById2Data = {
   url: '/usuarios/{usuarioId}/perfis/{id}';
 };
 
-export type PerfilFindById2Errors = {
+export type PerfilFindByIdViaUsuarioErrors = {
   403: unknown;
   404: unknown;
 };
 
-export type PerfilFindById2Responses = {
+export type PerfilFindByIdViaUsuarioResponses = {
   200: PerfilFindOneOutputDto;
 };
 
-export type PerfilFindById2Response =
-  PerfilFindById2Responses[keyof PerfilFindById2Responses];
+export type PerfilFindByIdViaUsuarioResponse =
+  PerfilFindByIdViaUsuarioResponses[keyof PerfilFindByIdViaUsuarioResponses];
 
 export type PerfilEnsinoByIdData = {
   body?: never;
@@ -9922,6 +10197,27 @@ export type HorarioEdicaoCreateResponses = {
 export type HorarioEdicaoCreateResponse =
   HorarioEdicaoCreateResponses[keyof HorarioEdicaoCreateResponses];
 
+export type HorarioEdicaoFindOneData = {
+  body?: never;
+  path: {
+    sessaoId: string;
+  };
+  query?: never;
+  url: '/horarios/edicao/{sessaoId}';
+};
+
+export type HorarioEdicaoFindOneErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type HorarioEdicaoFindOneResponses = {
+  200: HorarioEdicaoSessaoOutputRestDto;
+};
+
+export type HorarioEdicaoFindOneResponse =
+  HorarioEdicaoFindOneResponses[keyof HorarioEdicaoFindOneResponses];
+
 export type HorarioEdicaoApplyChangeData = {
   body: HorarioEdicaoMudancaInputRestDto;
   path: {
@@ -9988,7 +10284,7 @@ export type HorarioEdicaoCancelarResponses = {
 export type HorarioEdicaoCancelarResponse =
   HorarioEdicaoCancelarResponses[keyof HorarioEdicaoCancelarResponses];
 
-export type HorarioEdicaoSalvar2Data = {
+export type HorarioEdicaoPublicarData = {
   body?: never;
   headers: {
     'Idempotency-Key': string;
@@ -10000,18 +10296,18 @@ export type HorarioEdicaoSalvar2Data = {
   url: '/horarios/edicao/{sessaoId}/publicar';
 };
 
-export type HorarioEdicaoSalvar2Errors = {
+export type HorarioEdicaoPublicarErrors = {
   400: unknown;
   403: unknown;
   404: unknown;
 };
 
-export type HorarioEdicaoSalvar2Responses = {
+export type HorarioEdicaoPublicarResponses = {
   200: HorarioEdicaoSessaoOutputRestDto;
 };
 
-export type HorarioEdicaoSalvar2Response =
-  HorarioEdicaoSalvar2Responses[keyof HorarioEdicaoSalvar2Responses];
+export type HorarioEdicaoPublicarResponse =
+  HorarioEdicaoPublicarResponses[keyof HorarioEdicaoPublicarResponses];
 
 export type HorarioEdicaoDesfazerMudancaData = {
   body?: never;
@@ -10738,6 +11034,257 @@ export type EmpresaUpdateFotoEmpresaResponses = {
 
 export type EmpresaUpdateFotoEmpresaResponse =
   EmpresaUpdateFotoEmpresaResponses[keyof EmpresaUpdateFotoEmpresaResponses];
+
+export type EmpresaAvaliacaoListData = {
+  body?: never;
+  path: {
+    empresaId: string;
+  };
+  query?: {
+    /**
+     * Número da página
+     */
+    page?: number;
+    /**
+     * Itens por página
+     */
+    limit?: number;
+    /**
+     * Critério de ordenação dos comentários/avaliações
+     */
+    order?:
+      | 'relevancia'
+      | 'mais_recentes'
+      | 'mais_curtidos'
+      | 'melhor_avaliacao'
+      | 'pior_avaliacao';
+    /**
+     * Filtrar por nota exata (1 a 5)
+     */
+    rating?: number;
+  };
+  url: '/empresas/{empresaId}/avaliacoes';
+};
+
+export type EmpresaAvaliacaoListErrors = {
+  403: unknown;
+};
+
+export type EmpresaAvaliacaoListResponses = {
+  200: EmpresaAvaliacaoListOutputDto;
+};
+
+export type EmpresaAvaliacaoListResponse =
+  EmpresaAvaliacaoListResponses[keyof EmpresaAvaliacaoListResponses];
+
+export type EmpresaAvaliacaoCreateData = {
+  body: EmpresaAvaliacaoCreateInputDto;
+  path: {
+    empresaId: string;
+  };
+  query?: never;
+  url: '/empresas/{empresaId}/avaliacoes';
+};
+
+export type EmpresaAvaliacaoCreateErrors = {
+  403: unknown;
+};
+
+export type EmpresaAvaliacaoCreateResponses = {
+  201: EmpresaAvaliacaoFindOneOutputDto;
+};
+
+export type EmpresaAvaliacaoCreateResponse =
+  EmpresaAvaliacaoCreateResponses[keyof EmpresaAvaliacaoCreateResponses];
+
+export type EmpresaAvaliacaoFindMyData = {
+  body?: never;
+  path: {
+    empresaId: string;
+  };
+  query?: never;
+  url: '/empresas/{empresaId}/avaliacoes/minha';
+};
+
+export type EmpresaAvaliacaoFindMyErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaAvaliacaoFindMyResponses = {
+  200: EmpresaAvaliacaoFindOneOutputDto;
+};
+
+export type EmpresaAvaliacaoFindMyResponse =
+  EmpresaAvaliacaoFindMyResponses[keyof EmpresaAvaliacaoFindMyResponses];
+
+export type EmpresaAvaliacaoDeleteData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/avaliacoes/{id}';
+};
+
+export type EmpresaAvaliacaoDeleteErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaAvaliacaoDeleteResponses = {
+  200: boolean;
+};
+
+export type EmpresaAvaliacaoDeleteResponse =
+  EmpresaAvaliacaoDeleteResponses[keyof EmpresaAvaliacaoDeleteResponses];
+
+export type EmpresaAvaliacaoFindByIdData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/avaliacoes/{id}';
+};
+
+export type EmpresaAvaliacaoFindByIdErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaAvaliacaoFindByIdResponses = {
+  200: EmpresaAvaliacaoFindOneOutputDto;
+};
+
+export type EmpresaAvaliacaoFindByIdResponse =
+  EmpresaAvaliacaoFindByIdResponses[keyof EmpresaAvaliacaoFindByIdResponses];
+
+export type EmpresaAvaliacaoUpdateData = {
+  body: EmpresaAvaliacaoUpdateInputDto;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/avaliacoes/{id}';
+};
+
+export type EmpresaAvaliacaoUpdateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaAvaliacaoUpdateResponses = {
+  200: EmpresaAvaliacaoFindOneOutputDto;
+};
+
+export type EmpresaAvaliacaoUpdateResponse =
+  EmpresaAvaliacaoUpdateResponses[keyof EmpresaAvaliacaoUpdateResponses];
+
+export type EmpresaAvaliacaoUnlikeData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/avaliacoes/{id}/curtidas';
+};
+
+export type EmpresaAvaliacaoUnlikeErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaAvaliacaoUnlikeResponses = {
+  200: EmpresaAvaliacaoLikeOutputDto;
+};
+
+export type EmpresaAvaliacaoUnlikeResponse =
+  EmpresaAvaliacaoUnlikeResponses[keyof EmpresaAvaliacaoUnlikeResponses];
+
+export type EmpresaAvaliacaoLikeData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/avaliacoes/{id}/curtidas';
+};
+
+export type EmpresaAvaliacaoLikeErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaAvaliacaoLikeResponses = {
+  200: EmpresaAvaliacaoLikeOutputDto;
+};
+
+export type EmpresaAvaliacaoLikeResponse =
+  EmpresaAvaliacaoLikeResponses[keyof EmpresaAvaliacaoLikeResponses];
+
+export type EmpresaAvaliacaoHistoricoListData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/avaliacoes/{id}/historico';
+};
+
+export type EmpresaAvaliacaoHistoricoListErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaAvaliacaoHistoricoListResponses = {
+  200: Array<EmpresaAvaliacaoHistoricoOutputDto>;
+};
+
+export type EmpresaAvaliacaoHistoricoListResponse =
+  EmpresaAvaliacaoHistoricoListResponses[keyof EmpresaAvaliacaoHistoricoListResponses];
+
+export type EmpresaScoreFindOneData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/{id}/score';
+};
+
+export type EmpresaScoreFindOneErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaScoreFindOneResponses = {
+  200: EmpresaScoreFindOneOutputDto;
+};
+
+export type EmpresaScoreFindOneResponse =
+  EmpresaScoreFindOneResponses[keyof EmpresaScoreFindOneResponses];
+
+export type EmpresaScoreRecalculateData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: '/empresas/{id}/score/recalcular';
+};
+
+export type EmpresaScoreRecalculateErrors = {
+  403: unknown;
+  404: unknown;
+};
+
+export type EmpresaScoreRecalculateResponses = {
+  200: EmpresaScoreFindOneOutputDto;
+};
+
+export type EmpresaScoreRecalculateResponse =
+  EmpresaScoreRecalculateResponses[keyof EmpresaScoreRecalculateResponses];
 
 export type FolhaPontoTokenExibirConfirmacaoData = {
   body?: never;
