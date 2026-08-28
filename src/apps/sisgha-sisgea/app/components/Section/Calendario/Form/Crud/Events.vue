@@ -19,6 +19,7 @@ const calendarioEvents = useInjectCalendarioEvents();
 const isEvent = ref<boolean | null>(null);
 const initialData = ref<Partial<CalendarioAgendamentoCreateInputDto>>({});
 const selectedCalendarId = ref<string | null>(props.calendarId ?? null);
+const eventVersion = ref<number | null>(null);
 
 const formBaseRef = ref<{
   validateAndGetValues: () => Promise<IAgendamentoFormOutput | null>;
@@ -29,11 +30,19 @@ const formBaseRef = ref<{
 // Query reativa: carrega evento existente por ID
 const eventQuery = agendamento.findOne(computed(() => props.eventId ?? null));
 
+const { handle: handleWriteError, conflictMessage } =
+  useApiWriteErrorHandler({
+    onReload: async () => {
+      await eventQuery.refetch();
+    },
+  });
+
 watch(
   () => eventQuery.data.value,
   found => {
     if (!found) return;
     isEvent.value = true;
+    eventVersion.value = found.version;
     initialData.value = {
       nome: found.nome ?? '',
       cor: found.cor ?? undefined,
@@ -72,29 +81,43 @@ const validateEventCrud = async (): Promise<boolean> => {
 
   const calId = effectiveCalendarId.value;
 
-  if (isEvent.value && props.eventId) {
-    await agendamento.update(props.eventId, {
-      nome: data.nome,
-      cor: data.cor ?? undefined,
-      diaInteiro: data.diaInteiro,
-      dataInicio: data.dataInicio,
-      dataFim: data.dataFim ?? undefined,
-      horarioInicio: data.horarioInicio ?? undefined,
-      horarioFim: data.horarioFim ?? undefined,
-      ...(calId ? { calendariosLetivos: [{ id: calId }] } : {}),
-    });
-  } else {
-    await agendamento.create({
-      tipo: 'EVENTO',
-      nome: data.nome,
-      cor: data.cor ?? undefined,
-      diaInteiro: data.diaInteiro,
-      dataInicio: data.dataInicio,
-      dataFim: data.dataFim ?? undefined,
-      horarioInicio: data.horarioInicio ?? undefined,
-      horarioFim: data.horarioFim ?? undefined,
-      ...(calId ? { calendariosLetivos: [{ id: calId }] } : {}),
-    });
+  conflictMessage.value = null;
+
+  try {
+    if (isEvent.value && props.eventId) {
+      if (eventVersion.value === null) return false;
+
+      await agendamento.update(
+        props.eventId,
+        {
+          nome: data.nome,
+          cor: data.cor ?? undefined,
+          diaInteiro: data.diaInteiro,
+          dataInicio: data.dataInicio,
+          dataFim: data.dataFim ?? undefined,
+          horarioInicio: data.horarioInicio ?? undefined,
+          horarioFim: data.horarioFim ?? undefined,
+          ...(calId ? { calendariosLetivos: [{ id: calId }] } : {}),
+        },
+        eventVersion.value
+      );
+    } else {
+      await agendamento.create({
+        tipo: 'EVENTO',
+        nome: data.nome,
+        cor: data.cor ?? undefined,
+        diaInteiro: data.diaInteiro,
+        dataInicio: data.dataInicio,
+        dataFim: data.dataFim ?? undefined,
+        horarioInicio: data.horarioInicio ?? undefined,
+        horarioFim: data.horarioFim ?? undefined,
+        ...(calId ? { calendariosLetivos: [{ id: calId }] } : {}),
+      });
+    }
+  } catch (err) {
+    const handled = await handleWriteError(err);
+    if (!handled) throw err;
+    return false;
   }
 
   await agendamento.invalidate();
@@ -128,6 +151,13 @@ defineExpose({ validateEventCrud, fillForm, deleteEvent });
 
 <template>
   <div v-if="!eventQuery.isLoading.value" class="flex flex-col gap-5">
+    <p
+      v-if="conflictMessage"
+      class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 rounded-md p-3"
+    >
+      {{ conflictMessage }}
+    </p>
+
     <VVAutocompleteAPICalendarioLetivo
       v-model="selectedCalendarId"
       name="calendarioLetivo"

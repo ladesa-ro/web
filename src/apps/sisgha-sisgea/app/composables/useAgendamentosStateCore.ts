@@ -174,7 +174,9 @@ export function useAgendamentosStateCore(turmaId: MaybeRef<string | null>) {
     }
 
     for (const [id, data] of updates) {
-      promises.push(agendamentos.update(id, data));
+      const version = serverEventos.value.find(e => e.id === id)?.version;
+      if (version === undefined) continue;
+      promises.push(agendamentos.update(id, data, version));
     }
 
     for (const id of deletes) {
