@@ -102,17 +102,14 @@ function onCreated() {
         </div>
       </div>
 
-      <!-- Loading -->
       <div v-if="isLoading" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <UICardSkeleton v-for="i in 4" :key="i" />
       </div>
 
-      <!-- Error -->
       <div v-else-if="isError" class="text-center text-ldsa-red py-8">
         Erro ao carregar reservas. Tente novamente.
       </div>
 
-      <!-- Empty -->
       <div
         v-else-if="reservas.length === 0"
         class="flex flex-col justify-center items-center gap-5 py-8"
@@ -124,7 +121,6 @@ function onCreated() {
         </span>
       </div>
 
-      <!-- Reservas grid -->
       <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <SectionReservasCard
           v-for="reserva in reservas"
@@ -134,7 +130,6 @@ function onCreated() {
         />
       </div>
 
-      <!-- Pagination -->
       <UIPaginationSimplePagination
         v-model:current-page="currentPage"
         :total-pages="totalPages"

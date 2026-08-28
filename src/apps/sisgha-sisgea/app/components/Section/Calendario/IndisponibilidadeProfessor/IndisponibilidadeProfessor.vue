@@ -72,8 +72,6 @@ const weeklyItems = computed(() =>
 );
 const exceptionItems = computed(() => items.value.filter(item => !!item.data));
 
-// Modal state
-
 const modalOpen = ref(false);
 const editingItem = ref<IndisponibilidadeItem | null>(null);
 const diaSemanaPreSelecionado = ref<number | null>(null);

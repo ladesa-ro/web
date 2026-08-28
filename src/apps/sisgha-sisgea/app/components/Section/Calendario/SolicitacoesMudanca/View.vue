@@ -48,8 +48,6 @@ const ambientePropostoQuery = useQuery({
 
 const isAberta = computed(() => solicitacao.value?.status === 'ABERTA');
 
-// Aprovar
-
 const aprovarConfirmOpen = ref(false);
 const aprovando = ref(false);
 
@@ -80,8 +78,6 @@ async function confirmarAprovacao() {
     aprovando.value = false;
   }
 }
-
-// Recusar
 
 const recusarOpen = ref(false);
 </script>

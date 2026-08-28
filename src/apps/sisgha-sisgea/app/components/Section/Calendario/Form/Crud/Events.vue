@@ -108,10 +108,6 @@ const effectiveCalendarId = computed(
   () => selectedCalendarId.value || props.calendarId || null
 );
 
-// Data da ocorrência usada como referência para editar-ocorrencia/editar-serie/
-// cancelar-ocorrencia: como este formulário sempre opera sobre um único
-// registro de agendamento (a série ou uma exceção), usamos a própria data de
-// início carregada como a "ocorrência clicada".
 const occurrenceDate = computed(() => initialData.value.dataInicio || '');
 
 const validateEventCrud = async (): Promise<boolean> => {

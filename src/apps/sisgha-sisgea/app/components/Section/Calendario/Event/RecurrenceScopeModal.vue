@@ -11,11 +11,6 @@ export type RecurrenceScopeConfirmPayload = {
 const props = defineProps<{
   modelValue: boolean;
   mode: RecurrenceScopeMode;
-  /**
-   * Quando true, restringe o escopo à opção "esta ocorrência" e oculta a
-   * seleção — usado no fluxo do professor cancelando a própria ocorrência
-   * sem papel EDITOR sobre a série.
-   */
   restrictToCurrentOccurrence?: boolean;
 }>();
 
