@@ -1,0 +1,71 @@
+x-agent-build: &agent-build
+  context: ..
+  dockerfile: .docker/Containerfile
+  target: devcontainer
+
+x-agent-base: &agent-base
+  command: ["sleep", "infinity"]
+  environment:
+    CI: "true"
+    # Mantém o store do pnpm fora do bind mount de /repo — sem isso o `pnpm
+    # install` cria um .pnpm-store/ dentro do worktree, que `git add -A` pega
+    # junto (achado ao testar a Onda 0).
+    NPM_CONFIG_STORE_DIR: /pnpm/store
+
+services:
+  # Também atua como coordenador de merge: enxerga (read-only) o clone de
+  # todos os outros slices em /mnt/<slice>, além do próprio clone em /repo.
+  fundacoes:
+    build: *agent-build
+    <<: *agent-base
+    volumes:
+      - ../../web-agent-fundacoes:/repo
+      - ../../web-agent-breaking-fix:/mnt/breaking-fix:ro
+      - ../../web-agent-colecoes:/mnt/colecoes:ro
+      - ../../web-agent-recorrencia:/mnt/recorrencia:ro
+      - ../../web-agent-pessoas-a:/mnt/pessoas-a:ro
+      - ../../web-agent-pessoas-b:/mnt/pessoas-b:ro
+      - ../../web-agent-integracoes:/mnt/integracoes:ro
+      - ${HOME}/.gitconfig:/root/.gitconfig:ro
+
+  breaking-fix:
+    build: *agent-build
+    <<: *agent-base
+    volumes:
+      - ../../web-agent-breaking-fix:/repo
+      - ${HOME}/.gitconfig:/root/.gitconfig:ro
+
+  colecoes:
+    build: *agent-build
+    <<: *agent-base
+    volumes:
+      - ../../web-agent-colecoes:/repo
+      - ${HOME}/.gitconfig:/root/.gitconfig:ro
+
+  recorrencia:
+    build: *agent-build
+    <<: *agent-base
+    volumes:
+      - ../../web-agent-recorrencia:/repo
+      - ${HOME}/.gitconfig:/root/.gitconfig:ro
+
+  pessoas-a:
+    build: *agent-build
+    <<: *agent-base
+    volumes:
+      - ../../web-agent-pessoas-a:/repo
+      - ${HOME}/.gitconfig:/root/.gitconfig:ro
+
+  pessoas-b:
+    build: *agent-build
+    <<: *agent-base
+    volumes:
+      - ../../web-agent-pessoas-b:/repo
+      - ${HOME}/.gitconfig:/root/.gitconfig:ro
+
+  integracoes:
+    build: *agent-build
+    <<: *agent-base
+    volumes:
+      - ../../web-agent-integracoes:/repo
+      - ${HOME}/.gitconfig:/root/.gitconfig:ro
