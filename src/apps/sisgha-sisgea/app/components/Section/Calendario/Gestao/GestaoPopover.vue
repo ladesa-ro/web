@@ -25,6 +25,11 @@ const open = ref(false);
           <IconsEvent class="w-10 h-10 text-ldsa-text-default icon" />
           Eventos
         </NuxtLink>
+
+        <NuxtLink to="/sisgha/dape/calendario/colecoes" class="link">
+          <IconsCalendar class="w-8 h-8 text-ldsa-text-default icon" />
+          Coleções
+        </NuxtLink>
       </div>
 
       <UIButtonModalCancel
