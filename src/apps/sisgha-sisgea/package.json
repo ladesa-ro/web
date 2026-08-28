@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
+    "eslint": "^9.39.4",
     "type-fest": "^5.7.0",
     "typescript": "6.0.3",
     "vue-tsc": "3.3.3"
