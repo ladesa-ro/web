@@ -62,11 +62,12 @@ agents-shell SLICE:
     {{COMMAND_COMPOSE_AGENTS}} exec {{SLICE}} bash
 
 # Roda o gate de qualidade (build:all + types:check) dentro do container do slice.
-# "lint" fica fora do gate obrigatório: o binário do eslint não fica linkado em
-# apps/sisgha-sisgea/node_modules/.bin depois de um install limpo (eslint é só
-# peer dependency de @nuxt/eslint, nunca dependency direta) — isso já acontece
-# em origin/main, não é coisa introduzida pelos agentes. Rodar via `pnpm exec`
-# como best-effort, sem travar o gate nisso.
+# "lint" fica fora do gate obrigatório: agora que `eslint` é devDependency direta
+# de apps/sisgha-sisgea (antes só existia como peer de @nuxt/eslint e o binário
+# nunca linkava — corrigido na branch feat/789-calendario-institucional), o lint
+# roda de verdade e expõe ~65 erros pré-existentes em código não tocado pela
+# issue #789. Corrigir esse débito é fora de escopo aqui — `pnpm exec eslint`
+# continua best-effort, sem travar o gate.
 check SLICE:
     just exec {{SLICE}} "cd /repo/src && pnpm install --frozen-lockfile && pnpm run -w build:all && pnpm --filter @ladesa-ro/web.service run types:check"
     -just exec {{SLICE}} "cd /repo/src/apps/sisgha-sisgea && pnpm exec eslint ."
