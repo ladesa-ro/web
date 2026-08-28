@@ -44,6 +44,7 @@ export const renderDays = {
     try {
       // Pre-process events into a date→color map (O(m) where m = total event-days)
       const dateColorMap = new Map<string, string>();
+      const occupiedDates = new Set<string>();
 
       if (events) {
         for (let j = 0; j < events.length; j++) {
@@ -56,6 +57,9 @@ export const renderDays = {
             const key = current.format('YYYY-MM-DD');
             if (event.color) {
               dateColorMap.set(key, event.color);
+            }
+            if (event.detalhesOcultos) {
+              occupiedDates.add(key);
             }
             current = current.add(1, 'day');
           }
@@ -75,6 +79,7 @@ export const renderDays = {
         const day: Day = {
           date: dateStr,
           color: dateColorMap.get(dateStr) ?? 'none',
+          occupied: occupiedDates.has(dateStr),
         };
 
         // Push in Array

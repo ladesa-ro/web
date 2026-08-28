@@ -38,7 +38,14 @@ const remainingDays = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-3 border-2 border-ldsa-grey rounded-lg p-5">
+  <SectionCalendarioEventOcupado
+    v-if="props.event.detalhesOcultos"
+    :horario-inicio="props.event.horarioInicio"
+    :horario-fim="props.event.horarioFim"
+    :ambientes="props.event.ambientes"
+  />
+
+  <div v-else class="flex flex-col gap-3 border-2 border-ldsa-grey rounded-lg p-5">
     <div class="flex justify-between items-center">
       <div class="flex items-center gap-2 font-medium">
         <div

@@ -99,7 +99,15 @@ const statusClass = computed(() => {
 </script>
 
 <template>
+  <SectionCalendarioEventOcupado
+    v-if="evento.detalhesOcultos"
+    :horario-inicio="evento.horarioInicio"
+    :horario-fim="evento.horarioFim"
+    :ambientes="evento.ambientes"
+  />
+
   <div
+    v-else
     class="p-5 rounded-lg border-2 border-ldsa-grey flex flex-col gap-3.5 hover:bg-ldsa-grey/10 h-full transition-colors"
   >
     <div class="flex-1 flex justify-between items-center">
