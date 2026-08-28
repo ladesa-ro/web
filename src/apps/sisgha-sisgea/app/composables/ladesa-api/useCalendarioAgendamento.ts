@@ -24,6 +24,7 @@ import {
   calendarioAgendamentoEditarSerie,
   calendarioAgendamentoAdicionarDataAvulsa,
   calendarioAgendamentoLinhaDoTempo,
+  calendarioAgendamentoImportarIcs,
   consultaOcorrenciasPorData,
 } from '@ladesa-ro/web.api.client';
 import type {
@@ -44,6 +45,8 @@ import type {
   CalendarioAgendamentoAdicionarDataAvulsaInputDto,
   CalendarioAgendamentoAdicionarDataAvulsaResponse,
   CalendarioAgendamentoLinhaDoTempoResponse,
+  CalendarioAgendamentoImportarIcsInputDto,
+  CalendarioAgendamentoImportarIcsResponse,
   ConsultaOcorrenciasPorDataResponse,
   ReqBody,
 } from '@ladesa-ro/web.api.client';
@@ -116,6 +119,9 @@ export type IUseCalendarioAgendamento = {
   remove: RemoveFn;
   desvincularTurma: DesvincularTurmaFn;
   updateStatus: UpdateStatusFn;
+  importarIcs: (
+    data: CalendarioAgendamentoImportarIcsInputDto
+  ) => Promise<CalendarioAgendamentoImportarIcsResponse>;
   invalidate: InvalidateFn;
 };
 
@@ -233,6 +239,9 @@ export const useCalendarioAgendamento = (): IUseCalendarioAgendamento => {
       body: { status },
     });
 
+  const importarIcs: IUseCalendarioAgendamento['importarIcs'] = data =>
+    api.call(calendarioAgendamentoImportarIcs, { body: data });
+
   const invalidate = createInvalidate(keys);
 
   return {
@@ -250,6 +259,7 @@ export const useCalendarioAgendamento = (): IUseCalendarioAgendamento => {
     remove,
     desvincularTurma,
     updateStatus: updateStatusFn,
+    importarIcs,
     invalidate,
   };
 };
