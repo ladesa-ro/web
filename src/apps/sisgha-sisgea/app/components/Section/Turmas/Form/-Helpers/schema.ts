@@ -21,6 +21,14 @@ const schema = yup
 
     periodo: yup.string().required('Período é obrigatório!').default(''),
 
+    numeroEstimadoAlunos: yup
+      .number()
+      .nullable()
+      .transform((value, originalValue) =>
+        originalValue === '' ? null : value
+      )
+      .default(null),
+
     //
 
     _: yup

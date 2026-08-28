@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import { getWeekDays } from '~/utils/get-week-days';
 
+const props = defineProps<{ turmaId?: string | null }>();
+
 const selectedOption = ref<'dia' | 'semana'>('dia');
 
 const { data: authData } = useAuth();
@@ -42,7 +44,10 @@ const exportDateEnd = computed(
       v-show="selectedOption === 'semana'"
       class="flex flex-col min-[1400px]:items-center justify-center gap-10"
     >
-      <SectionHorarioProfessorEAlunoGeral class="overflow-auto" />
+      <SectionHorarioProfessorEAlunoGeral
+        :turma-id="props.turmaId"
+        class="overflow-auto"
+      />
 
       <!-- Botão "Gerar PDF" -->
       <UIButtonDefault class="mx-auto min-h-14 max-w-40">
@@ -53,6 +58,7 @@ const exportDateEnd = computed(
     <!-- Opção "Horário do dia" -->
     <SectionHorarioProfessorEAlunoDailyViewDaysAndLessons
       v-show="selectedOption === 'dia'"
+      :turma-id="props.turmaId"
     />
   </UIContainer>
 </template>

@@ -5,6 +5,8 @@ export type TurmaFormValues = {
   ambientePadraoAula: { id: string | null };
 
   periodo: string;
+
+  numeroEstimadoAlunos: number | null;
 };
 
 export type TurmaFormOutput = {
@@ -14,6 +16,8 @@ export type TurmaFormOutput = {
   ambientePadraoAula: { id: string } | null;
 
   periodo: string;
+
+  numeroEstimadoAlunos: number | null;
 
   _?: any;
 };
