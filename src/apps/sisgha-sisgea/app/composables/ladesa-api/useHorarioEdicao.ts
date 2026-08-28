@@ -1,21 +1,39 @@
 import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query';
 import { createInvalidate } from '~/composables/query-helpers';
 import {
+  horarioEdicaoFindOne,
   horarioEdicaoSessaoDiferenca,
-  horarioEdicaoSalvar2,
+  horarioEdicaoPublicar,
   horarioEdicaoCancelar,
   horarioEdicaoDesfazerMudanca,
 } from '@ladesa-ro/web.api.client';
-import type { HorarioEdicaoSessaoDiferencaOutputRestDto } from '@ladesa-ro/web.api.client';
+import type {
+  HorarioEdicaoSessaoDiferencaOutputRestDto,
+  HorarioEdicaoSessaoOutputRestDto,
+} from '@ladesa-ro/web.api.client';
 import { buildIdempotencyKeyHeaders } from './-helpers/idempotencyKey';
 
 type DiferencaFn = (
   sessaoId: MaybeRef<string | null>
 ) => UseQueryReturnType<HorarioEdicaoSessaoDiferencaOutputRestDto, Error>;
 
+type FindOneFn = (
+  sessaoId: MaybeRef<string | null>
+) => UseQueryReturnType<HorarioEdicaoSessaoOutputRestDto, Error>;
+
 export const useHorarioEdicao = () => {
   const api = useApiClient();
   const keys = ['horario-edicao'] as const;
+
+  const findOne: FindOneFn = sessaoId =>
+    useQuery<HorarioEdicaoSessaoOutputRestDto>({
+      queryKey: computed(() => [...keys, unref(sessaoId)]),
+      queryFn: () =>
+        api.call(horarioEdicaoFindOne, {
+          path: { sessaoId: unref(sessaoId)! },
+        }),
+      enabled: computed(() => !!unref(sessaoId)),
+    });
 
   const diferenca: DiferencaFn = sessaoId =>
     useQuery<HorarioEdicaoSessaoDiferencaOutputRestDto>({
@@ -28,7 +46,7 @@ export const useHorarioEdicao = () => {
     });
 
   const publicar = (sessaoId: string, idempotencyKey: string) =>
-    api.call(horarioEdicaoSalvar2, {
+    api.call(horarioEdicaoPublicar, {
       path: { sessaoId },
       headers: buildIdempotencyKeyHeaders(idempotencyKey),
     });
@@ -41,5 +59,13 @@ export const useHorarioEdicao = () => {
 
   const invalidate = createInvalidate(keys);
 
-  return { keys, diferenca, publicar, cancelar, desfazerMudanca, invalidate };
+  return {
+    keys,
+    findOne,
+    diferenca,
+    publicar,
+    cancelar,
+    desfazerMudanca,
+    invalidate,
+  };
 };

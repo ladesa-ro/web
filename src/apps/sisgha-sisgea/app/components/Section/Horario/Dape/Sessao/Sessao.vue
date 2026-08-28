@@ -9,9 +9,26 @@ const { success: toastSuccess, error: toastError } = useToast();
 const horarioEdicao = useHorarioEdicao();
 
 const sessaoIdRef = computed(() => props.sessaoId);
-const { data: diferenca, isLoading, isError } = horarioEdicao.diferenca(sessaoIdRef);
+const {
+  data: sessao,
+  isLoading: isLoadingSessao,
+  refetch: refetchSessao,
+} = horarioEdicao.findOne(sessaoIdRef);
+const {
+  data: diferenca,
+  isLoading,
+  isError,
+  refetch: refetchDiferenca,
+} = horarioEdicao.diferenca(sessaoIdRef);
 
-const estadoSessao = ref<'ABERTA' | 'SALVA' | 'CANCELADA'>('ABERTA');
+async function handleDesfeito() {
+  await refetchDiferenca();
+  await refetchSessao();
+}
+
+const estadoSessao = computed(
+  () => (sessao.value?.status ?? 'ABERTA') as 'ABERTA' | 'SALVA' | 'CANCELADA'
+);
 
 const estadoLabel = computed(
   () =>
@@ -43,11 +60,8 @@ async function handlePublicar() {
   if (!confirmado) return;
 
   try {
-    const resultado = await horarioEdicao.publicar(
-      props.sessaoId,
-      publicarIdempotencyKey
-    );
-    estadoSessao.value = resultado.status as typeof estadoSessao.value;
+    await horarioEdicao.publicar(props.sessaoId, publicarIdempotencyKey);
+    await refetchSessao();
     toastSuccess({ title: 'Mudanças publicadas no calendário oficial' });
     router.push('/sisgha/dape/horario');
   } catch {
@@ -60,8 +74,8 @@ async function handleCancelar() {
   if (!confirmado) return;
 
   try {
-    const resultado = await horarioEdicao.cancelar(props.sessaoId);
-    estadoSessao.value = resultado.status as typeof estadoSessao.value;
+    await horarioEdicao.cancelar(props.sessaoId);
+    await refetchSessao();
     toastSuccess({ title: 'Sessão cancelada' });
     router.push('/sisgha/dape/horario');
   } catch {
@@ -105,6 +119,8 @@ async function handleCancelar() {
           cor="green-2"
           modo="entram"
           :itens="diferenca?.entram ?? []"
+          :sessao-id="sessaoId"
+          @desfeito="handleDesfeito"
         />
 
         <SectionHorarioDapeSessaoMudancaGroup
@@ -112,6 +128,8 @@ async function handleCancelar() {
           cor="red"
           modo="saem"
           :itens="diferenca?.saem ?? []"
+          :sessao-id="sessaoId"
+          @desfeito="handleDesfeito"
         />
 
         <SectionHorarioDapeSessaoMudancaGroup
@@ -119,12 +137,14 @@ async function handleCancelar() {
           cor="yellow"
           modo="mudam"
           :itens="diferenca?.mudam ?? []"
+          :sessao-id="sessaoId"
+          @desfeito="handleDesfeito"
         />
       </div>
     </template>
 
     <footer
-      v-if="!isLoading && !isError && estadoSessao === 'ABERTA'"
+      v-if="!isLoading && !isLoadingSessao && !isError && estadoSessao === 'ABERTA'"
       class="flex max-sm:flex-col gap-3 justify-between mt-4"
     >
       <UIButtonModalBaseLayout

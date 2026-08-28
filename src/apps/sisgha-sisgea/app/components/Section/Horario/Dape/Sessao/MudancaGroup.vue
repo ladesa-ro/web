@@ -6,7 +6,10 @@ const props = defineProps<{
   cor: 'green-2' | 'red' | 'yellow';
   itens: HorarioEdicaoDiferencaEntradaOutputRestDto[];
   modo: 'entram' | 'saem' | 'mudam';
+  sessaoId: string;
 }>();
+
+const emit = defineEmits<{ desfeito: [] }>();
 
 const style = computed(() => ({
   '--color': `rgb(from var(--ladesa-${props.cor}-color) R G B / 1)`,
@@ -26,10 +29,12 @@ const style = computed(() => ({
 
     <ul class="flex flex-col gap-2">
       <SectionHorarioDapeSessaoMudancaItem
-        v-for="(item, index) in itens"
-        :key="index"
+        v-for="item in itens"
+        :key="item.mudancaId"
         :entrada="item"
         :modo="modo"
+        :sessao-id="sessaoId"
+        @desfeito="emit('desfeito')"
       />
     </ul>
   </section>
