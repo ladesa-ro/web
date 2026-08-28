@@ -7,6 +7,10 @@ x-agent-base: &agent-base
   command: ["sleep", "infinity"]
   environment:
     CI: "true"
+    # Mantém o store do pnpm fora do bind mount de /repo — sem isso o `pnpm
+    # install` cria um .pnpm-store/ dentro do worktree, que `git add -A` pega
+    # junto (achado ao testar a Onda 0).
+    NPM_CONFIG_STORE_DIR: /pnpm/store
 
 services:
   # Também atua como coordenador de merge: enxerga (read-only) o clone de

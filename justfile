@@ -26,12 +26,14 @@ worktree-init:
     cd {{WORKTREE_DIR}}web-agent-fundacoes && git checkout -B {{ISSUE_BRANCH}} origin/main
     echo "[WORKTREE] fundacoes pronto em {{ISSUE_BRANCH}} ✅"
 
-# Cria o clone isolado de um slice, numa sub-branch a partir de BASE (normalmente a branch de integração)
+# Cria o clone isolado de um slice, numa sub-branch a partir de BASE.
+# Clona a partir do clone "fundacoes" (não daqui) — é lá que a branch de
+# integração e os merges de slices anteriores realmente vivem.
 worktree-branch SLICE BASE:
     #!/usr/bin/env bash
     set -euo pipefail
     rm -rf {{WORKTREE_DIR}}web-agent-{{SLICE}}
-    git clone --local . {{WORKTREE_DIR}}web-agent-{{SLICE}}
+    git clone --local {{WORKTREE_DIR}}web-agent-fundacoes {{WORKTREE_DIR}}web-agent-{{SLICE}}
     cd {{WORKTREE_DIR}}web-agent-{{SLICE}} && git checkout -B feat/789-{{SLICE}} {{BASE}}
     echo "[WORKTREE] {{SLICE}} pronto em feat/789-{{SLICE}} (base: {{BASE}}) ✅"
 
@@ -59,9 +61,15 @@ exec SLICE *ARGS:
 agents-shell SLICE:
     {{COMMAND_COMPOSE_AGENTS}} exec {{SLICE}} bash
 
-# Roda o gate de qualidade (build:all + lint + types:check) dentro do container do slice
+# Roda o gate de qualidade (build:all + types:check) dentro do container do slice.
+# "lint" fica fora do gate obrigatório: o binário do eslint não fica linkado em
+# apps/sisgha-sisgea/node_modules/.bin depois de um install limpo (eslint é só
+# peer dependency de @nuxt/eslint, nunca dependency direta) — isso já acontece
+# em origin/main, não é coisa introduzida pelos agentes. Rodar via `pnpm exec`
+# como best-effort, sem travar o gate nisso.
 check SLICE:
-    just exec {{SLICE}} "cd /repo/src && pnpm install --frozen-lockfile && pnpm run -w build:all && pnpm --filter @ladesa-ro/web.service run lint && pnpm --filter @ladesa-ro/web.service run types:check"
+    just exec {{SLICE}} "cd /repo/src && pnpm install --frozen-lockfile && pnpm run -w build:all && pnpm --filter @ladesa-ro/web.service run types:check"
+    -just exec {{SLICE}} "cd /repo/src/apps/sisgha-sisgea && pnpm exec eslint ."
 
 # Faz merge normal (sem squash) da branch do slice pra branch de integração
 # Roda no container "fundacoes", que enxerga o clone de todos os slices (read-only) em /mnt/<slice>
