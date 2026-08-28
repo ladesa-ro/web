@@ -87,6 +87,7 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
       curso: rest.curso,
       periodo: rest.periodo,
       ambientePadraoAula: rest.ambientePadraoAula,
+      numeroEstimadoAlunos: rest.numeroEstimadoAlunos,
     };
     const created = await turmas.create(data);
     if (created?.id) {
@@ -102,6 +103,7 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
       curso: rest.curso,
       periodo: rest.periodo,
       ambientePadraoAula: rest.ambientePadraoAula,
+      numeroEstimadoAlunos: rest.numeroEstimadoAlunos,
     };
     await turmas.update(id, data);
     if (imagem) await turmas.uploadCover(id, imagem);
@@ -166,6 +168,13 @@ watch(
           <SectionTurmasFormFieldsPeriodo
             :disabled="isBusy"
             :is-loading="isLoading"
+          />
+
+          <VVTextField
+            name="numeroEstimadoAlunos"
+            label="Número estimado de alunos"
+            placeholder="Digite aqui"
+            type="number"
           />
         </UIFormLayout>
       </template>
