@@ -21,6 +21,7 @@ export enum LayoutName {
   DEFAULT = 'default',
   SISGHA_DAPE = 'sisgha-dape',
   SISGHA_PROFESSOR = 'sisgha-professor',
+  SISGHA_ALUNO = 'sisgha-aluno',
   SISGHA_CONSULTA = 'sisgha-consulta',
   SISGEA = 'sisgea',
 }
@@ -60,6 +61,7 @@ export const AUTH_REFRESH_INTERVAL_MS = 15_000 as const;
 export const Cargo = {
   DAPE: 'dape',
   PROFESSOR: 'professor',
+  ALUNO: 'aluno',
 } as const;
 
 export type CargoType = (typeof Cargo)[keyof typeof Cargo];
@@ -67,6 +69,7 @@ export type CargoType = (typeof Cargo)[keyof typeof Cargo];
 export const CargoLabels: Record<CargoType, string> = {
   [Cargo.DAPE]: 'DAPE',
   [Cargo.PROFESSOR]: 'Professor',
+  [Cargo.ALUNO]: 'Aluno',
 };
 
 export const CargoOptions = Object.values(Cargo).map(value => ({

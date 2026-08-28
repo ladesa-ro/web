@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+const props = defineProps<{ turmaId?: string | null }>();
+
 const selectedOption = ref<'dia' | 'semana'>('dia');
 </script>
 
@@ -18,7 +20,10 @@ const selectedOption = ref<'dia' | 'semana'>('dia');
       v-show="selectedOption === 'semana'"
       class="flex flex-col min-[1400px]:items-center justify-center gap-10"
     >
-      <SectionHorarioProfessorEAlunoGeral class="overflow-auto" />
+      <SectionHorarioProfessorEAlunoGeral
+        :turma-id="props.turmaId"
+        class="overflow-auto"
+      />
 
       <!-- Botão "Gerar PDF" -->
       <UIButtonDefault class="mx-auto min-h-14 max-w-40">
@@ -29,6 +34,7 @@ const selectedOption = ref<'dia' | 'semana'>('dia');
     <!-- Opção "Horário do dia" -->
     <SectionHorarioProfessorEAlunoDailyViewDaysAndLessons
       v-show="selectedOption === 'dia'"
+      :turma-id="props.turmaId"
     />
   </UIContainer>
 </template>

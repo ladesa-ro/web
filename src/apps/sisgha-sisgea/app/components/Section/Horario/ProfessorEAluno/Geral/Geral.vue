@@ -13,10 +13,15 @@ const diasDaSemana: IDiasDaSemana = [
   { nome: 'Sábado' },
 ];
 
+const props = defineProps<{ turmaId?: string | null }>();
+
 const { perfisAtivos, resumoVinculos } = useApiContext();
 const perfilId = computed(() => perfisAtivos.value?.[0]?.id ?? null);
 const campusId = computed(
-  () => resumoVinculos.value.mapaCargoCampi.professor?.[0]?.id ?? null
+  () =>
+    resumoVinculos.value.mapaCargoCampi.professor?.[0]?.id ??
+    resumoVinculos.value.mapaCargoCampi.aluno?.[0]?.id ??
+    null
 );
 
 // Grade horária do campus
@@ -98,7 +103,9 @@ const agendamento = useCalendarioAgendamento();
 const consultaParams = computed(() => ({
   dateStart: weekStart.value.format('YYYY-MM-DD'),
   dateEnd: weekEnd.value.format('YYYY-MM-DD'),
-  professor: perfilId.value ?? '',
+  ...(props.turmaId
+    ? { turma: props.turmaId }
+    : { professor: perfilId.value ?? '' }),
 }));
 const consultaQuery = agendamento.consulta(consultaParams);
 
