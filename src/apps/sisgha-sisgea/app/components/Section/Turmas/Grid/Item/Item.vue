@@ -35,7 +35,7 @@ const { data: coverImageSrc } = turmas.imageCover(computed(() => turma?.id ?? nu
         </UICardActions>
       </template>
 
-      <UICardLine :text="`Formação: ${turma.curso.ofertaFormacao.nome}`" />
+      <UICardLine :text="`Formação: ${turma.curso.ofertaFormacao?.nome}`" />
       <UICardLine text="Turno: Matutino e Vespertino" />
     </UICard>
   </UICardAutoSkeleton>

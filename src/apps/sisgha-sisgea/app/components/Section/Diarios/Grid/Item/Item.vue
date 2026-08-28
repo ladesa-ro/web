@@ -58,7 +58,7 @@ if (professoresQuery) {
       </UICardLine>
 
       <UICardLine
-        :text="`Turmas: ${diario.turma.periodo} - ${diario.turma.curso.ofertaFormacao.nome}`"
+        :text="`Turmas: ${diario.turma.periodo} - ${diario.turma.curso.ofertaFormacao?.nome}`"
       />
     </UICard>
   </UICardAutoSkeleton>

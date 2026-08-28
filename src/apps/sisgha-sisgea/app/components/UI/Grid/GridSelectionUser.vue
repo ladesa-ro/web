@@ -1,4 +1,4 @@
-<script generic="T" lang="ts" setup>
+<script generic="T extends { id: string }" lang="ts" setup>
 const props = defineProps<{
   items: T[];
 }>();
