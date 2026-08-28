@@ -11,8 +11,8 @@ export type CalendarEvent = {
   calendar?: { id: string };
   type: 'etapa' | 'agendamento';
 
-  colecao?: { id: string } | null;
-  campus?: { id: string } | null;
+  colecao?: { id: string; nome?: string | null; cor?: string | null } | null;
+  campus?: { id: string; apelido?: string | null } | null;
   autorId?: string | null;
   motivo?: string | null;
   detalhesOcultos?: boolean;
