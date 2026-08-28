@@ -22,3 +22,8 @@ FROM base AS web-runtime
 WORKDIR /opt/ladesa/web
 COPY --from=builder /sources/apps/sisgha-sisgea/.output /opt/ladesa/web/.output
 CMD ["node", ".output/server/index.mjs"]
+
+FROM base AS devcontainer
+RUN apt-get update && apt-get install -y --no-install-recommends git ripgrep jq && rm -rf /var/lib/apt/lists/*
+WORKDIR /repo
+CMD ["sleep", "infinity"]
