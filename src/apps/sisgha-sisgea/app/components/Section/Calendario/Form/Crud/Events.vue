@@ -59,6 +59,13 @@ watch(
       horarioFim: found.dataFim
         ? dayjs(found.dataFim).format('HH:mm')
         : undefined,
+      colecao: (found as Record<string, unknown>).colecao
+        ? { id: ((found as Record<string, any>).colecao as { id: string }).id }
+        : undefined,
+      campus: (found as Record<string, unknown>).campus
+        ? { id: ((found as Record<string, any>).campus as { id: string }).id }
+        : undefined,
+      motivo: (found as Record<string, unknown>).motivo as string | undefined,
     };
 
     // Preencher calendário vinculado ao evento existente
@@ -97,6 +104,9 @@ const validateEventCrud = async (): Promise<boolean> => {
           dataFim: data.dataFim ?? undefined,
           horarioInicio: data.horarioInicio ?? undefined,
           horarioFim: data.horarioFim ?? undefined,
+          colecao: data.colecao?.id ? { id: data.colecao.id } : undefined,
+          campus: data.campus?.id ? { id: data.campus.id } : undefined,
+          motivo: data.motivo ?? undefined,
           ...(calId ? { calendariosLetivos: [{ id: calId }] } : {}),
         },
         eventVersion.value
@@ -111,6 +121,9 @@ const validateEventCrud = async (): Promise<boolean> => {
         dataFim: data.dataFim ?? undefined,
         horarioInicio: data.horarioInicio ?? undefined,
         horarioFim: data.horarioFim ?? undefined,
+        colecao: data.colecao?.id ? { id: data.colecao.id } : undefined,
+        campus: data.campus?.id ? { id: data.campus.id } : undefined,
+        motivo: data.motivo ?? undefined,
         ...(calId ? { calendariosLetivos: [{ id: calId }] } : {}),
       });
     }

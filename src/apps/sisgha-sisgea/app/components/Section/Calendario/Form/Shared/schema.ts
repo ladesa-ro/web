@@ -47,6 +47,18 @@ const schema = yup
 
     horarioFim: yup.string().nullable().default(null),
 
+    colecao: yup
+      .object({ id: yup.string().nullable().default(null) })
+      .nullable()
+      .default(null),
+
+    campus: yup
+      .object({ id: yup.string().nullable().default(null) })
+      .nullable()
+      .default(null),
+
+    motivo: yup.string().nullable().default(null),
+
     participantes: participantesSchema,
   })
   .required();

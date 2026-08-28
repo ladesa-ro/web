@@ -40,6 +40,9 @@ function buildInitialValues(
     dataFim: data?.dataFim ?? null,
     horarioInicio: data?.horarioInicio ?? '',
     horarioFim: data?.horarioFim ?? '',
+    colecao: data?.colecao ? { id: data.colecao.id } : null,
+    campus: data?.campus ? { id: data.campus.id } : null,
+    motivo: data?.motivo ?? null,
     participantes: {
       todosParticipam: false,
       turmas: [],
