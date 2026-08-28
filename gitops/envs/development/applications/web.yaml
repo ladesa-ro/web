@@ -8,7 +8,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "0"
     argocd-image-updater.argoproj.io/image-list: web=ghcr.io/ladesa-ro/web/web:development
     argocd-image-updater.argoproj.io/web.update-strategy: digest
-    argocd-image-updater.argoproj.io/web.helm.image-tag: application.deployment.image.digest
+    argocd-image-updater.argoproj.io/web.helm.image-tag: application.deployment.image.tag
     argocd-image-updater.argoproj.io/web.force-update: "true"
     argocd-image-updater.argoproj.io/write-back-method: argocd
 spec:
