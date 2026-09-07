@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import {
   Alert,
+  Breadcrumb,
   Button,
   Card,
+  CardActions,
   CardAutoSkeleton,
   CardLine,
   CardSelectionDiscipline,
@@ -128,6 +130,26 @@ const page = ref(1);
     <section>
       <h2>Footer</h2>
       <Footer />
+    </section>
+
+    <section>
+      <h2>Breadcrumb</h2>
+      <Breadcrumb
+        :segments="[
+          { title: 'Início', to: '/' },
+          { title: 'Seção', to: '/secao' },
+          { title: 'Página atual' },
+        ]"
+        show-go-back
+        @go-back="() => {}"
+      />
+    </section>
+
+    <section>
+      <h2>CardActions</h2>
+      <CardActions to="/">
+        <Button>Ação</Button>
+      </CardActions>
     </section>
   </div>
 </template>
