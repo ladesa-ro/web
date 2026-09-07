@@ -1,0 +1,72 @@
+.ui-title {
+  color: var(--ladesa-text-default-color);
+}
+
+.ui-title--default {
+  display: flex;
+  align-items: baseline;
+  font-weight: var(--ui-font-weight-semibold);
+  font-size: 1.125rem;
+}
+
+.ui-title--default::before {
+  content: '';
+  width: 0.375rem;
+  align-self: stretch;
+  background-color: var(--ladesa-text-green-color);
+  margin-right: 0.75rem;
+}
+
+.ui-title--small {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: var(--ui-font-weight-bold);
+}
+
+.ui-title--small::before {
+  content: '';
+  display: inline-block;
+  width: 0.25rem;
+  height: 1em;
+  margin-right: 0.5rem;
+  background-color: var(--ladesa-text-green-color);
+}
+
+.ui-title--mini {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  font-weight: var(--ui-font-weight-semibold);
+}
+
+.ui-title--mini::before {
+  content: '';
+  display: inline-block;
+  width: 0.25rem;
+  height: 1em;
+  margin-right: 0.375rem;
+  background-color: var(--ladesa-text-green-color);
+}
+
+@media (min-width: 640px) {
+  .ui-title--default {
+    font-size: 1.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .ui-title--small {
+    font-size: 1rem;
+  }
+
+  .ui-title--mini {
+    font-size: initial;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ui-title--small {
+    font-size: 1.125rem;
+  }
+}

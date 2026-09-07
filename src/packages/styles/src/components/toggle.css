@@ -1,0 +1,64 @@
+.ui-toggle {
+  display: flex;
+}
+
+.ui-toggle--disabled {
+  opacity: 0.5;
+}
+
+.ui-toggle-button {
+  display: flex;
+  width: 100%;
+  gap: 0.375rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  color: var(--ladesa-grey-color);
+  border: 2px solid var(--ladesa-grey-color);
+  border-right: 0;
+  font-size: 0.875rem;
+  font-weight: var(--ui-font-weight-semibold);
+}
+
+@media (min-width: 1024px) {
+  .ui-toggle-button {
+    gap: 0.5rem;
+    padding: 0.75rem;
+  }
+}
+
+.ui-toggle-button:first-child {
+  border-start-start-radius: var(--ui-radius-lg);
+  border-end-start-radius: var(--ui-radius-lg);
+}
+
+.ui-toggle-button:last-child {
+  border-start-end-radius: var(--ui-radius-lg);
+  border-end-end-radius: var(--ui-radius-lg);
+  border-right-width: 2px;
+}
+
+.ui-toggle-button--selected {
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 10%);
+  color: var(--ladesa-text-green-color);
+  border-color: var(--ladesa-green-1-color);
+}
+
+.ui-toggle-button--selected + .ui-toggle-button {
+  border-left-color: var(--ladesa-green-1-color);
+}
+
+.ui-toggle-button__icon {
+  height: 1.125rem;
+  flex-shrink: 0;
+}
+
+@media (min-width: 640px) {
+  .ui-toggle-button__icon {
+    height: 1.25rem;
+  }
+}
+
+.ui-toggle-button__label {
+  line-height: 1.125rem;
+}

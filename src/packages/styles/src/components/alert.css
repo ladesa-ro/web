@@ -1,0 +1,23 @@
+.ui-alert {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.25rem 0.5rem 0.5rem;
+  border-radius: var(--ui-radius-lg);
+  font-weight: var(--ui-font-weight-medium);
+  font-size: 0.875rem;
+  background-color: rgb(from var(--ui-alert-color) R G B / 10%);
+  color: var(--ui-alert-color);
+  border: 2px solid rgb(from var(--ui-alert-color) R G B / 10%);
+}
+
+@media (min-width: 640px) {
+  .ui-alert {
+    padding: 0.75rem 0.5rem 0.75rem 0.75rem;
+  }
+}
+
+.ui-alert__icon {
+  width: 1.25rem;
+  flex-shrink: 0;
+}

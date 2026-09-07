@@ -1,0 +1,126 @@
+.ui-card {
+  overflow: hidden;
+  border: 2px solid var(--ladesa-grey-color);
+  border-radius: var(--ui-radius-lg);
+}
+
+.ui-card:hover {
+  filter: brightness(0.9);
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.ui-card__image {
+  height: 11rem;
+}
+
+.ui-card__body {
+  padding: 0.75rem 0.75rem 0.75rem 1rem;
+}
+
+.ui-card__header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.ui-card__title {
+  font-weight: var(--ui-font-weight-semibold);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ui-card__actions {
+  flex-shrink: 0;
+}
+
+.ui-card__description {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.875rem;
+  font-weight: var(--ui-font-weight-medium);
+  color: var(--ladesa-grey-color);
+}
+
+.ui-card-skeleton {
+  overflow: hidden;
+  margin-inline: auto;
+  padding-bottom: 1.25rem;
+  cursor: default;
+  border: 2px solid var(--ladesa-grey-color);
+  border-radius: var(--ui-radius-lg);
+  animation: ui-card-skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes ui-card-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.ui-card-skeleton__block {
+  height: 10rem;
+  background-color: var(--ladesa-grey-color);
+  border-radius: var(--ui-radius-md);
+  margin-bottom: 1rem;
+}
+
+.ui-card-skeleton__lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.ui-card-skeleton__line {
+  height: 1rem;
+  background-color: var(--ladesa-grey-color);
+  border-radius: var(--ui-radius-sm);
+}
+
+.ui-card-skeleton__line--3-4 {
+  width: 75%;
+}
+
+.ui-card-skeleton__line--1-2 {
+  width: 50%;
+}
+
+.ui-card-line {
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border: 2px solid var(--ladesa-grey-color);
+  border-radius: var(--ui-radius-lg);
+}
+
+.ui-card-line__content {
+  flex: 1 1 0%;
+  width: 100%;
+  margin-block: 0.5rem 0.75rem;
+  margin-left: 0.5rem;
+}
+
+.ui-card-line__title {
+  font-weight: var(--ui-font-weight-semibold);
+  padding-top: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.ui-card-line__actions {
+  margin-right: 0.5rem;
+}
+
+.ui-card-selection-discipline__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

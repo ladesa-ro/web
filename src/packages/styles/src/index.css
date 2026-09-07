@@ -13,3 +13,14 @@
 @import './foundation/a11y.css' layer(base);
 
 @import './components/button.css' layer(components);
+@import './components/progress-circular.css' layer(components);
+@import './components/title.css' layer(components);
+@import './components/img.css' layer(components);
+@import './components/pagination.css' layer(components);
+@import './components/alert.css' layer(components);
+@import './components/footer.css' layer(components);
+@import './components/loading.css' layer(components);
+@import './components/toggle.css' layer(components);
+@import './components/radio.css' layer(components);
+@import './components/checkbox.css' layer(components);
+@import './components/card.css' layer(components);
