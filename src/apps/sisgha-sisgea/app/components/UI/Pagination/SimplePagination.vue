@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { Pagination } from '@ladesa-ro/web.ui';
+import { Pagination, type PaginationProps } from '@ladesa-ro/web.ui';
 
-defineProps<InstanceType<typeof Pagination>['$props']>();
+defineProps<PaginationProps>();
+defineEmits<{
+  'update:currentPage': [page: number];
+}>();
 </script>
 
 <template>
-  <Pagination v-bind="$props" />
+  <Pagination v-bind="$props" @update:current-page="page => $emit('update:currentPage', page)" />
 </template>

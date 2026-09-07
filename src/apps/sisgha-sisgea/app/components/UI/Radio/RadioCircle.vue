@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { RadioCircle } from '@ladesa-ro/web.ui';
+import { RadioCircle, type RadioCircleProps } from '@ladesa-ro/web.ui';
 
-defineProps<InstanceType<typeof RadioCircle>['$props']>();
+defineProps<RadioCircleProps>();
 </script>
 
 <template>

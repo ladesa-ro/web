@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { Toggle } from '@ladesa-ro/web.ui';
+import { Toggle, type ToggleItem, type ToggleProps } from '@ladesa-ro/web.ui';
 
-defineProps<InstanceType<typeof Toggle>['$props']>();
+defineProps<ToggleProps>();
+const model = defineModel<ToggleItem['value']>({ required: true });
 </script>
 
 <template>
-  <Toggle v-bind="$props" />
+  <Toggle v-bind="$props" v-model="model" />
 </template>

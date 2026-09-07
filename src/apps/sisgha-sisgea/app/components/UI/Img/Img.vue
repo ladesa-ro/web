@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Img } from '@ladesa-ro/web.ui';
+import { Img, type ImgProps } from '@ladesa-ro/web.ui';
 
-defineProps<InstanceType<typeof Img>['$props']>();
+defineProps<ImgProps>();
 </script>
 
 <template>

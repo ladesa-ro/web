@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { CheckboxSquare } from '@ladesa-ro/web.ui';
+import { CheckboxSquare, type CheckboxSquareProps } from '@ladesa-ro/web.ui';
 
-defineProps<InstanceType<typeof CheckboxSquare>['$props']>();
+defineProps<CheckboxSquareProps>();
 </script>
 
 <template>

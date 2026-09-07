@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ToggleButton } from '@ladesa-ro/web.ui';
+import { ToggleButton, type ToggleButtonProps } from '@ladesa-ro/web.ui';
 
-defineProps<InstanceType<typeof ToggleButton>['$props']>();
+defineProps<ToggleButtonProps>();
 </script>
 
 <template>

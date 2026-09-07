@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { Radio } from '@ladesa-ro/web.ui';
+import { Radio, type RadioProps } from '@ladesa-ro/web.ui';
+import type { AcceptableValue } from 'reka-ui';
 
-defineProps<InstanceType<typeof Radio>['$props']>();
+defineProps<RadioProps>();
+const model = defineModel<AcceptableValue>({ default: null });
 </script>
 
 <template>
-  <Radio v-bind="$props">
+  <Radio v-bind="$props" v-model="model">
     <template v-for="(_, name) in $slots" #[name]="slotProps">
       <slot :name="name" v-bind="slotProps" />
     </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Alert } from '@ladesa-ro/web.ui';
+import { Alert, type AlertProps } from '@ladesa-ro/web.ui';
 
-defineProps<InstanceType<typeof Alert>['$props']>();
+defineProps<AlertProps>();
 </script>
 
 <template>

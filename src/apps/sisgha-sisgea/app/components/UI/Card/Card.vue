@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Card } from '@ladesa-ro/web.ui';
+import { Card, type CardProps } from '@ladesa-ro/web.ui';
 
-defineProps<InstanceType<typeof Card>['$props']>();
+defineProps<CardProps>();
 </script>
 
 <template>

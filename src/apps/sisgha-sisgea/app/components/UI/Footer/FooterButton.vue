@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { FooterButton } from '@ladesa-ro/web.ui';
+import { FooterButton, type FooterButtonProps } from '@ladesa-ro/web.ui';
 
-defineProps<InstanceType<typeof FooterButton>['$props']>();
+defineProps<FooterButtonProps>();
 </script>
 
 <template>
