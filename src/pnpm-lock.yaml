@@ -152,6 +152,13 @@ importers:
   packages/styles: {}
 
   packages/ui:
+    dependencies:
+      '@vueuse/core':
+        specifier: ^14.3.0
+        version: 14.3.0(vue@3.5.35(typescript@6.0.3))
+      reka-ui:
+        specifier: ^2.9.8
+        version: 2.9.8(vue@3.5.35(typescript@6.0.3))
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^6.0.0
