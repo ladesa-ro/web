@@ -11,7 +11,9 @@ const needsAccessDenied = computed(() => {
   if (
     route.path === '/sem-acesso' ||
     route.path === '/login' ||
-    route.path === '/logout'
+    route.path === '/logout' ||
+    route.path === '/__ui-test' ||
+    route.path === '/__fouc-test'
   )
     return false;
   const user = usuario.value;
