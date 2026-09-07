@@ -40,6 +40,7 @@ import {
 } from '@ladesa-ro/web.ui';
 import { computed, h, reactive, ref } from 'vue';
 import EntityListPage from '~/components/Section/-Shared/EntityListPage.vue';
+import EntityDetailPage from '~/components/Section/-Shared/EntityDetailPage.vue';
 import type { IEntityListModule } from '~/components/UI/API/List/Context/UIApiListContext';
 
 definePageMeta({ auth: false });
@@ -95,6 +96,14 @@ const harnessFilterOn = ref(false);
 const harnessFilter = computed(() =>
   harnessFilterOn.value ? { 'filter.teste': ['ativo'] } : {}
 );
+
+// Harness do EntityDetailPage: mesma ideia, sem tocar em API nem em rota.
+const detailRemoveCalls = ref<string[]>([]);
+const harnessRemove = (id: string) => {
+  detailRemoveCalls.value.push(id);
+  return Promise.resolve();
+};
+const harnessInvalidate = () => Promise.resolve();
 </script>
 
 <template>
@@ -329,6 +338,35 @@ const harnessFilter = computed(() =>
         </template>
       </EntityListPage>
       <pre class="harness-query">query recebida: {{ entityListLastQuery }}</pre>
+    </section>
+
+    <section>
+      <h2>EntityDetailPage (harness)</h2>
+      <EntityDetailPage
+        resource-id="harness-1"
+        :form-component="HarnessForm"
+        title="Título do recurso"
+        subtitle="Subtítulo do recurso"
+        :image-src="null"
+        :is-loading="false"
+        :is-error="false"
+        delete-message="Deseja realmente excluir este recurso de teste?"
+        :remove="harnessRemove"
+        :invalidate="harnessInvalidate"
+        redirect-to="/__ui-test"
+      >
+        <template #details>
+          <UIResourceViewFieldGroup :columns="3">
+            <UIResourceViewField label="Campo A" value="valor A" />
+            <UIResourceViewField label="Campo B" value="valor B" />
+            <UIResourceViewField label="Campo C" value="valor C" />
+          </UIResourceViewFieldGroup>
+        </template>
+
+        <template #related>
+          <div class="harness-item">bloco relacionado (slot #related)</div>
+        </template>
+      </EntityDetailPage>
     </section>
 
     <section>
