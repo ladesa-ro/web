@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { Pagination } from '@ladesa-ro/web.ui';
+
+defineProps<InstanceType<typeof Pagination>['$props']>();
 </script>
 
 <template>
-  <Pagination v-bind="$attrs as any" />
+  <Pagination v-bind="$props" />
 </template>
