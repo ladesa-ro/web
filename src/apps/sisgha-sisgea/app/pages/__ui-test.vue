@@ -3,6 +3,17 @@ import {
   Alert,
   Breadcrumb,
   Button,
+  ButtonAdd,
+  ButtonArrow,
+  ButtonEdit,
+  ButtonEventsList,
+  ButtonModalAdvance,
+  ButtonModalCancel,
+  ButtonModalClearDanger,
+  ButtonModalConfirm,
+  ButtonModalDelete,
+  ButtonModalGoBack,
+  ButtonSearch,
   Card,
   CardActions,
   CardAutoSkeleton,
@@ -143,6 +154,25 @@ const page = ref(1);
         show-go-back
         @go-back="() => {}"
       />
+    </section>
+
+    <section>
+      <h2>Button family</h2>
+      <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap">
+        <ButtonAdd />
+        <ButtonArrow />
+        <ButtonSearch />
+        <ButtonEdit />
+        <ButtonEventsList />
+      </div>
+      <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-top: 1rem">
+        <ButtonModalConfirm />
+        <ButtonModalCancel />
+        <ButtonModalAdvance />
+        <ButtonModalGoBack />
+        <ButtonModalDelete />
+        <ButtonModalClearDanger text="Limpar" />
+      </div>
     </section>
 
     <section>
