@@ -1,0 +1,50 @@
+.ui-week-day-selector {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.ui-week-day-selector__button {
+  flex: 1 1 0%;
+  text-align: center;
+  font-weight: var(--ui-font-weight-semibold);
+  padding: 1rem 0.5rem;
+  border-radius: var(--ui-radius-xl);
+  border: 2px solid var(--ladesa-green-1-color);
+}
+
+.ui-week-day-selector__button--selected {
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+}
+
+.ui-week-day-selector__button--unselected {
+  color: var(--ladesa-text-green-color);
+}
+
+.ui-week-day-selector__button--compact {
+  font-size: 0.875rem;
+  padding-block: 0.5rem !important;
+}
+
+.ui-options-carousel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.ui-options-carousel__toggle:disabled {
+  opacity: 0.4;
+}
+
+.ui-options-carousel__toggle--next {
+  transform: rotate(180deg);
+}
+
+.ui-options-carousel__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -27,3 +27,12 @@
 @import './components/breadcrumb.css' layer(components);
 @import './components/button-square.css' layer(components);
 @import './components/button-modal.css' layer(components);
+@import './components/collapsible.css' layer(components);
+@import './components/container.css' layer(components);
+@import './components/grid.css' layer(components);
+@import './components/popover.css' layer(components);
+@import './components/resource-view.css' layer(components);
+@import './components/select-image.css' layer(components);
+@import './components/week-day-selector.css' layer(components);
+@import './components/form-input.css' layer(components);
+@import './components/form-controls.css' layer(components);

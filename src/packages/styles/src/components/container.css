@@ -1,0 +1,105 @@
+.ui-container {
+  flex: 1 1 0%;
+  margin-inline: 1.25rem;
+  color: var(--ladesa-text-default-color);
+}
+
+@media (min-width: 385px) {
+  .ui-container {
+    margin-inline: 2.5rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .ui-container {
+    margin-inline: 5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .ui-container--tighter {
+    margin-inline: 10.5rem;
+  }
+
+  .ui-container--tight {
+    margin-inline: 9rem;
+  }
+
+  .ui-container--default {
+    margin-inline: 8rem;
+  }
+
+  .ui-container--large {
+    margin-inline: 6.5rem;
+  }
+
+  .ui-container--larger {
+    margin-inline: 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ui-container--tighter {
+    margin-inline: 14.5rem;
+  }
+
+  .ui-container--tight {
+    margin-inline: 12rem;
+  }
+
+  .ui-container--default {
+    margin-inline: 10rem;
+  }
+
+  .ui-container--large {
+    margin-inline: 8rem;
+  }
+
+  .ui-container--larger {
+    margin-inline: 3rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .ui-container--tighter {
+    margin-inline: 24rem;
+  }
+
+  .ui-container--tight {
+    margin-inline: 18rem;
+  }
+
+  .ui-container--default {
+    margin-inline: 14rem;
+  }
+
+  .ui-container--large {
+    margin-inline: 12rem;
+  }
+
+  .ui-container--larger {
+    margin-inline: 7rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .ui-container--tighter {
+    margin-inline: 27rem;
+  }
+
+  .ui-container--tight {
+    margin-inline: 24rem;
+  }
+
+  .ui-container--default {
+    margin-inline: 18rem;
+  }
+
+  .ui-container--large {
+    margin-inline: 15rem;
+  }
+
+  .ui-container--larger {
+    margin-inline: 10rem;
+  }
+}
