@@ -1,35 +1,14 @@
 <script setup lang="ts">
-import {
-  ComboboxAnchor as Anchor,
-  ComboboxRoot as AutocompleteRoot,
-  ComboboxCancel as Cancel,
-  ComboboxContent as Content,
-  ComboboxInput as Input,
-  ComboboxEmpty as NoResultsState,
-  ComboboxPortal as Portal,
-  ComboboxTrigger as Trigger,
-  ComboboxViewport as Viewport,
-} from 'reka-ui';
-import { getParsedItems } from '~/composables/useOptionItems';
-import type { AutocompleteProps } from '../../-Utils/inputTypes';
-import Arrow from '../IconArrow.vue';
-import AutocompleteItem from '../Item.vue';
+import { computed } from 'vue';
+import { FormAutocomplete, type FormAutocompleteProps } from '@ladesa-ro/web.ui';
 
-const {
-  items: itemsProps,
-  label,
-  placeholder,
-  error,
-  onBlur,
-} = defineProps<
-  AutocompleteProps & {
+const { error } = defineProps<
+  FormAutocompleteProps & {
     error?: string | null;
     onBlur?: () => void;
     disabled?: boolean;
   }
 >();
-
-const items = getParsedItems(itemsProps);
 
 const selectedOption = defineModel<string | number | null>('selectedOption', {
   required: false,
@@ -41,87 +20,18 @@ const search = defineModel<string | null>('searchTerm', {
   default: null,
 });
 
-const open = ref(false);
-
-const getDisplayValue = (value: string) => {
-  const item = items.find(i => i.value === value);
-  return item ? item.label : '';
-};
-
-const customError = computed(() =>
-  error?.includes('ambientePadraoAula.id')
-    ? 'Sala de aula é obrigatória!'
-    : error
-);
+const customError = computed(() => (error?.includes('ambientePadraoAula.id') ? 'Sala de aula é obrigatória!' : error));
 </script>
 
 <template>
-  <AutocompleteRoot
-    v-model="selectedOption"
-    v-model:open="open"
-    :disabled
-    :class="disabled && 'opacity-90 cursor-not-allowed'"
-  >
-    <Anchor
-      class="input-base flex justify-between items-center"
-      :class="{ 'has-error': customError }"
-    >
-      <label>{{ label }}</label>
-
-      <Input
-        :model-value="search ?? undefined"
-        :placeholder="placeholder"
-        class="w-full h-full"
-        :display-value="(value: any) => getDisplayValue(value)"
-        @update:model-value="search = $event"
-        @click="open = !open"
-        @blur="onBlur?.()"
-      />
-
-      <Cancel
-        v-if="selectedOption && !disabled"
-        class="p-1.5 bg-ldsa-grey/20 rounded-full"
-        @click="selectedOption = null"
-      >
-        <IconsClose class="w-2.5 h-2.5 text-ldsa-text-default/50" />
-      </Cancel>
-
-      <Trigger class="px-3 py-4 shrink-0">
-        <Arrow :disabled :open="open" />
-      </Trigger>
-    </Anchor>
-
-    <Portal>
-      <Content
-        class="input-base-content w-(--reka-combobox-trigger-width) z-10000 py-2"
-        position="popper"
-      >
-        <Viewport class="max-h-68 overflow-y-auto">
-          <NoResultsState
-            class="flex items-center px-3 font-normal text-ldsa-grey h-(--reka-combobox-trigger-height)"
-          >
-            Nenhum resultado encontrado
-          </NoResultsState>
-
-          <AutocompleteItem
-            v-for="item in items"
-            :key="item.value"
-            mode="autocomplete"
-            :item="item"
-          />
-        </Viewport>
-      </Content>
-    </Portal>
-    <p v-if="customError" class="text-ldsa-red text-xs font-semibold">
-      {{ customError }}
-    </p>
-  </AutocompleteRoot>
+  <FormAutocomplete
+    v-model:selected-option="selectedOption"
+    v-model:search-term="search"
+    :items="items"
+    :label="label"
+    :placeholder="placeholder"
+    :disabled="disabled"
+    :error="customError"
+    :on-blur="onBlur"
+  />
 </template>
-
-<style src="../../-Utils/style/inputStyles.css" />
-
-<style scoped>
-.input-base {
-  padding-right: 0;
-}
-</style>

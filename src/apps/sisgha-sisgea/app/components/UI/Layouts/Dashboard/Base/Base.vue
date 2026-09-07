@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { provideLayoutsDashboardContext } from './context';
-
+import { DashboardLayout } from '@ladesa-ro/web.ui';
 import { UIToast } from '#components';
+import { provideLayoutsDashboardContext } from './context';
 
 type Slots = {
   sidebar(): any;
@@ -17,68 +17,25 @@ const { hamburguerActive } = provideLayoutsDashboardContext();
 </script>
 
 <template>
-  <div class="layout-grid layout-height">
-    <Appbar id="appbar" v-model="hamburguerActive" class="sticky" />
+  <DashboardLayout :hamburguer-active="hamburguerActive">
+    <template #header>
+      <Appbar v-model="hamburguerActive" />
+    </template>
 
-    <slot id="sidebar" name="sidebar" />
+    <template #sidebar>
+      <slot name="sidebar" />
+    </template>
 
-    <section
-      class="flex flex-col overflow-auto max-sm:ml-0 min-sm:ml-0"
-      :data-hamburger-active="hamburguerActive"
-    >
-      <!-- main content -->
-      <main class="flex-1 flex flex-col py-10">
-        <slot />
-      </main>
+    <template #default>
+      <slot />
+    </template>
 
+    <template #footer>
       <UIFooter />
-    </section>
+    </template>
 
-    <UIToast />
-  </div>
+    <template #toast>
+      <UIToast />
+    </template>
+  </DashboardLayout>
 </template>
-
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-.layout-height {
-  @apply h-[100vh]  /* fallback caso o dispositivo não suporte dvh */
-  h-[100dvh];
-}
-
-/* Grid layout */
-
-.layout-grid {
-  @apply grid;
-  grid-template:
-    'appbar appbar' auto
-    'sidebar content' 1fr
-    / auto 1fr;
-}
-
-#appbar {
-  grid-area: appbar;
-}
-
-#sidebar {
-  grid-area: sidebar;
-}
-
-section {
-  grid-area: content;
-}
-
-/* Transition */
-
-section {
-  @apply transition-[margin] duration-200;
-}
-
-section[data-hamburger-active='true'] {
-  @apply min-sm:ml-64;
-}
-
-section[data-hamburger-active='false'] {
-  @apply min-sm:ml-14;
-}
-</style>

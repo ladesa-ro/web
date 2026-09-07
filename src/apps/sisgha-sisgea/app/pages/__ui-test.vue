@@ -22,15 +22,23 @@ import {
   CardSkeleton,
   Checkbox,
   Footer,
+  FormAutocomplete,
+  FormAutocompleteMultiple,
+  FormRadioGroup,
+  FormSearchBar,
+  FormSelect,
   IconHome,
   Loading,
   Pagination,
   ProgressCircular,
   Radio,
+  RRuleEditor,
   Title,
+  Toast,
   Toggle,
+  type ToastItem,
 } from '@ladesa-ro/web.ui';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 
 definePageMeta({ auth: false });
 
@@ -38,6 +46,17 @@ const radioValue = ref('a');
 const checkedItems = ref<string[]>([]);
 const toggleValue = ref('x');
 const page = ref(1);
+
+const selectItem = ref();
+const autocompleteSelected = ref<string | number | null>(null);
+const autocompleteSearch = ref<string | null>(null);
+const autocompleteMultiple = ref<any[]>([]);
+const autocompleteMultipleSearch = ref('');
+const radioGroupValue = ref('a');
+const rruleValue = ref<string | null>(null);
+const searchBarValue = ref('');
+
+const testToasts = reactive<ToastItem[]>([]);
 </script>
 
 <template>
@@ -180,6 +199,88 @@ const page = ref(1);
       <CardActions to="/">
         <Button>Ação</Button>
       </CardActions>
+    </section>
+
+    <section>
+      <h2>FormSelect</h2>
+      <div style="width: 16rem">
+        <FormSelect
+          v-model="selectItem"
+          label="Selecione"
+          placeholder="Escolha uma opção"
+          :items="[
+            { label: 'Opção 1', value: 1 },
+            { label: 'Opção 2', value: 2 },
+          ]"
+        />
+      </div>
+    </section>
+
+    <section>
+      <h2>FormAutocomplete</h2>
+      <div style="width: 16rem">
+        <FormAutocomplete
+          v-model:selected-option="autocompleteSelected"
+          v-model:search-term="autocompleteSearch"
+          label="Autocomplete"
+          placeholder="Buscar"
+          :items="[
+            { label: 'Item A', value: 'a' },
+            { label: 'Item B', value: 'b' },
+          ]"
+        />
+      </div>
+    </section>
+
+    <section>
+      <h2>FormAutocompleteMultiple</h2>
+      <div style="width: 20rem">
+        <FormAutocompleteMultiple
+          v-model:selected-options="autocompleteMultiple"
+          v-model:search-term="autocompleteMultipleSearch"
+          label="Multi autocomplete"
+          placeholder="Buscar"
+          :items="[
+            { label: 'Tag A', value: 'a' },
+            { label: 'Tag B', value: 'b' },
+          ]"
+        />
+      </div>
+    </section>
+
+    <section>
+      <h2>FormRadioGroup</h2>
+      <FormRadioGroup
+        v-model="radioGroupValue"
+        label="Escolha"
+        :items="[
+          { label: 'Opção A', value: 'a' },
+          { label: 'Opção B', value: 'b' },
+        ]"
+      />
+    </section>
+
+    <section>
+      <h2>FormSearchBar</h2>
+      <div style="width: 16rem">
+        <FormSearchBar v-model="searchBarValue" />
+      </div>
+    </section>
+
+    <section>
+      <h2>RRuleEditor</h2>
+      <div style="width: 20rem">
+        <RRuleEditor v-model="rruleValue" />
+      </div>
+      <pre>{{ rruleValue }}</pre>
+    </section>
+
+    <section>
+      <h2>Toast</h2>
+      <button type="button" @click="testToasts.push({ id: Date.now(), open: ref(true), title: 'Novo toast', type: 'info' })">
+        Adicionar toast
+      </button>
+      <Toast :items="testToasts" />
     </section>
   </div>
 </template>

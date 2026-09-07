@@ -1,11 +1,13 @@
+import { computed, nextTick, ref, watch } from 'vue';
 import { RRule, type Weekday } from 'rrule';
+import type { ParsedOptionItem } from './option-item';
 
 type FrequencyOption = 'none' | 'daily' | 'weekly' | 'monthly' | 'yearly';
 type EndCondition = 'never' | 'count' | 'until';
 
-const frequencyNone: ParsedItem = { label: 'Não repetir', value: 'none' };
+const frequencyNone: ParsedOptionItem = { label: 'Não repetir', value: 'none' };
 
-const frequencyItems: ParsedItem[] = [
+const frequencyItems: ParsedOptionItem[] = [
   frequencyNone,
   { label: 'Diário', value: 'daily' },
   { label: 'Semanal', value: 'weekly' },
@@ -29,8 +31,6 @@ const weekdayMap: { label: string; value: Weekday }[] = [
   { label: 'Dom', value: RRule.SU },
 ];
 
-const weekdayItems = weekdayMap.map(d => d.label);
-
 const frequencyToRRule: Record<Exclude<FrequencyOption, 'none'>, number> = {
   daily: RRule.DAILY,
   weekly: RRule.WEEKLY,
@@ -45,14 +45,12 @@ const rruleFreqToOption: Record<number, FrequencyOption> = {
   [RRule.YEARLY]: 'yearly',
 };
 
-export function useRRuleState(
+export function useRRuleEditorState(
   props: { modelValue: string | null; disabled: boolean },
-  emit: (event: 'update:modelValue', value: string | null) => void
+  emit: (event: 'update:modelValue', value: string | null) => void,
 ) {
-  const frequencySelected = ref<ParsedItem | undefined>(frequencyNone);
-  const frequency = computed<FrequencyOption>(
-    () => (frequencySelected.value?.value as FrequencyOption) ?? 'none'
-  );
+  const frequencySelected = ref<ParsedOptionItem | undefined>(frequencyNone);
+  const frequency = computed<FrequencyOption>(() => (frequencySelected.value?.value as FrequencyOption) ?? 'none');
 
   const interval = ref(1);
   const selectedDayLabels = ref<string[]>([]);
@@ -96,9 +94,7 @@ export function useRRuleState(
     if (props.disabled) return;
     const idx = selectedDayLabels.value.indexOf(label);
     if (idx >= 0) {
-      selectedDayLabels.value = selectedDayLabels.value.filter(
-        l => l !== label
-      );
+      selectedDayLabels.value = selectedDayLabels.value.filter(l => l !== label);
     } else {
       selectedDayLabels.value = [...selectedDayLabels.value, label];
     }
@@ -107,9 +103,7 @@ export function useRRuleState(
   function normalizeRRuleString(input: string): string {
     let str = input.trim();
     const lines = str.split('\n');
-    const rruleLine = lines.find(
-      l => l.startsWith('RRULE:') || l.startsWith('FREQ=')
-    );
+    const rruleLine = lines.find(l => l.startsWith('RRULE:') || l.startsWith('FREQ='));
     if (rruleLine) str = rruleLine;
     if (!str.startsWith('RRULE:')) str = 'RRULE:' + str;
     return str;
@@ -133,8 +127,7 @@ export function useRRuleState(
 
       if (opts.freq !== undefined && opts.freq !== null) {
         const freqOpt = rruleFreqToOption[opts.freq] ?? 'none';
-        frequencySelected.value =
-          frequencyItems.find(i => i.value === freqOpt) ?? frequencyNone;
+        frequencySelected.value = frequencyItems.find(i => i.value === freqOpt) ?? frequencyNone;
       } else {
         frequencySelected.value = frequencyNone;
       }
@@ -142,18 +135,12 @@ export function useRRuleState(
       interval.value = opts.interval ?? 1;
 
       if (opts.byweekday) {
-        const days = Array.isArray(opts.byweekday)
-          ? opts.byweekday
-          : [opts.byweekday];
+        const days = Array.isArray(opts.byweekday) ? opts.byweekday : [opts.byweekday];
         selectedDayLabels.value = days
           .filter(Boolean)
           .map(d => {
             const weekday =
-              typeof d === 'number'
-                ? d
-                : typeof d === 'string'
-                  ? ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'].indexOf(d)
-                  : d.weekday;
+              typeof d === 'number' ? d : typeof d === 'string' ? ['MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU'].indexOf(d) : d.weekday;
             return weekdayMap[weekday]?.label;
           })
           .filter((label): label is string => label !== undefined);
@@ -193,25 +180,14 @@ export function useRRuleState(
       options.count = count.value;
     } else if (endCondition.value === 'until' && untilDate.value) {
       const parts = untilDate.value.split('-').map(Number);
-      options.until = new Date(
-        Date.UTC(
-          parts[0] ?? new Date().getFullYear(),
-          (parts[1] ?? 1) - 1,
-          parts[2] ?? 1,
-          23,
-          59,
-          59
-        )
-      );
+      options.until = new Date(Date.UTC(parts[0] ?? new Date().getFullYear(), (parts[1] ?? 1) - 1, parts[2] ?? 1, 23, 59, 59));
     }
 
     const rule = new RRule(options);
     const str = rule.toString();
     const lines = str.split('\n');
     const rruleLine = lines.find(l => l.startsWith('RRULE:'));
-    return rruleLine
-      ? rruleLine.replace('RRULE:', '')
-      : str.replace('RRULE:', '');
+    return rruleLine ? rruleLine.replace('RRULE:', '') : str.replace('RRULE:', '');
   }
 
   let isInternalUpdate = false;
@@ -230,7 +206,7 @@ export function useRRuleState(
       if (isInternalUpdate) return;
       parseModelValue(newVal);
     },
-    { immediate: true }
+    { immediate: true },
   );
 
   watch(frequencySelected, () => {
@@ -255,7 +231,6 @@ export function useRRuleState(
     intervalSuffix,
     selectedDayLabels,
     weekdayMap,
-    weekdayItems,
     endCondition,
     endConditionItems,
     count,
