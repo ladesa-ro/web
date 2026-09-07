@@ -120,6 +120,28 @@
   margin-right: 0.5rem;
 }
 
+.ui-card-actions {
+  display: flex;
+  align-items: center;
+}
+
+.ui-card-actions__link {
+  display: flex;
+  padding: 0.375rem;
+  border-radius: var(--ui-radius-lg);
+  transition: background-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.ui-card-actions__link:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 20%);
+}
+
+.ui-card-actions__icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--ladesa-text-default-color);
+}
+
 .ui-card-selection-discipline__text {
   overflow: hidden;
   text-overflow: ellipsis;
