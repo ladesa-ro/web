@@ -1,0 +1,60 @@
+.ui-button-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color);
+  border-radius: var(--ui-radius-lg);
+  color: var(--color);
+  transition: background-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.ui-button-modal:hover,
+.ui-button-modal:focus-visible {
+  background-color: rgb(from var(--color) R G B / 15%);
+}
+
+.ui-button-modal:active {
+  background-color: rgb(from var(--color) R G B / 30%);
+}
+
+.ui-button-modal:disabled {
+  background-color: transparent;
+  border-color: rgb(from var(--color) R G B / 40%);
+  color: rgb(from var(--color) R G B / 40%);
+}
+
+.ui-button-modal--normal {
+  height: 2.25rem;
+  min-width: 7rem;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 640px) {
+  .ui-button-modal--normal {
+    justify-content: space-evenly;
+    min-width: 8.438rem;
+    font-size: 1rem;
+    gap: 0;
+  }
+}
+
+.ui-button-modal--small {
+  gap: 0.5rem;
+  padding-inline: 0.5rem;
+  height: 1.875rem;
+  font-size: 0.875rem;
+}
+
+.ui-button-modal__label {
+  font-weight: var(--ui-font-weight-medium);
+}
+
+.ui-button-modal__icon--normal {
+  width: 0.75rem;
+  opacity: 0.85;
+}
+
+.ui-button-modal__icon--small {
+  width: 0.625rem;
+}
