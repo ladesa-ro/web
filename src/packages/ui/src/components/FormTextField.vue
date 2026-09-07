@@ -1,12 +1,10 @@
-<script lang="ts">
-export default { inheritAttrs: false };
-</script>
-
 <script setup lang="ts">
 import { type MaskInputOptions } from 'maska';
 import { vMaska } from 'maska/vue';
 import { computed } from 'vue';
 import type { FormTextFieldProps } from './form-input-types';
+
+defineOptions({ inheritAttrs: false });
 
 type Props = FormTextFieldProps & { error?: string; modelValue?: string | number };
 

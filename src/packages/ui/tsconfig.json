@@ -5,6 +5,7 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "declarationDir": "./dist/types",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "types": ["web-bluetooth"]
   }
 }

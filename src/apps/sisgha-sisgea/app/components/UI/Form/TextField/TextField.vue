@@ -1,10 +1,8 @@
-<script lang="ts">
-export default { inheritAttrs: false };
-</script>
-
 <script setup lang="ts">
 import { FormTextField } from '@ladesa-ro/web.ui';
 import type { TextFieldProps } from '../-Utils/inputTypes';
+
+defineOptions({ inheritAttrs: false });
 
 type Props = TextFieldProps & { error?: string; modelValue?: string | number };
 
