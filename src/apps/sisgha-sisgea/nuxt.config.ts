@@ -1,4 +1,3 @@
-import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
 
 const DEFAULT_DEV_PUBLIC = 'https://dev.ladesa.com.br/api/v1';
@@ -46,8 +45,6 @@ export default defineNuxtConfig({
   },
 
   vite: {
-    plugins: [tailwindcss()],
-
     optimizeDeps: {
       include: [
         '@atlaskit/pragmatic-drag-and-drop',

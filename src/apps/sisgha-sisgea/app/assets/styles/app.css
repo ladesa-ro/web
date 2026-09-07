@@ -3,11 +3,7 @@
   this file is the only one imported by nuxt.config, so all the general application styles must be imported here.
 */
 
-@import 'tailwindcss';
-@import './themes/theme.css' layer(theme);
 @import './fonts/fonts.css';
-
-@custom-variant dark (&:where(.dark, .dark *));
 
 body {
   color: var(--ladesa-text-default-color);
