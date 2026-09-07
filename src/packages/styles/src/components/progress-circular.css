@@ -1,4 +1,5 @@
 .ui-progress-circular {
+  flex-shrink: 0;
   border-radius: var(--ui-radius-full);
   border: 7px solid var(--ladesa-green-1-color);
   border-top-color: rgb(from var(--ladesa-green-1-color) R G B / 20%);
