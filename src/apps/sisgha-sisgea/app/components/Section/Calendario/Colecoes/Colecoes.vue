@@ -1,20 +1,15 @@
 <script lang="ts" setup>
+import { calendarioColecaoFindAll } from '@ladesa-ro/web.api.client';
+import type { IEntityListModule } from '~/components/UI/API/List/Context/UIApiListContext';
+import EntityListPage from '../../-Shared/EntityListPage.vue';
 import ColecoesForm from './Form/Form.vue';
-import {
-  createApiListContextOptions,
-  type IEntityListModule,
-} from '~~/app/components/UI/API/List/Context/UIApiListContext';
-import {
-  calendarioColecaoFindAll,
-  calendarioColecaoFindOneById,
-} from '@ladesa-ro/web.api.client';
+import ColecoesGridItem from './Grid/Item/Item.vue';
 
 const api = useApiClient();
 
 const crudModule = {
   baseQueryKeys: ['calendario-colecoes'] as string[],
   list: (data?: any) => api.call(calendarioColecaoFindAll, { query: data }),
-  getOne: (id: string) => api.call(calendarioColecaoFindOneById, { path: { id } }),
 } satisfies IEntityListModule;
 
 const campusContext = useCampusContext();
@@ -39,24 +34,17 @@ const filter = computed(() => {
   }
   return f;
 });
-
-const options = createApiListContextOptions({
-  crudModule,
-  filter,
-  filteredByCampus: true,
-});
 </script>
 
 <template>
-  <UIAPIList :options="options">
-    <template #header>
-      <UIBreadcrumbDapeBreadcrumb />
-    </template>
-
-    <template #options-actions>
-      <DialogModalEditOrCreateModal :form-component="ColecoesForm" />
-    </template>
-
+  <EntityListPage
+    :crud-module="crudModule"
+    :form-component="ColecoesForm"
+    :grid-item-component="ColecoesGridItem"
+    :filter="filter"
+    show-breadcrumb
+    filtered-by-campus
+  >
     <template #filters>
       <div class="u-flex u-flex-wrap u-gap-3 u-items-end">
         <div class="colecoes-filter-visibilidade u-flex-1">
@@ -69,15 +57,7 @@ const options = createApiListContextOptions({
         </div>
       </div>
     </template>
-
-    <template #grid-item="{ item, isLoading }">
-      <SectionCalendarioColecoesGridItem :is-loading="isLoading" :item="item" />
-    </template>
-
-    <template #grid-item-skeleton>
-      <SectionCalendarioColecoesGridItem :is-loading="true" :item="null" />
-    </template>
-  </UIAPIList>
+  </EntityListPage>
 </template>
 
 <style scoped>
