@@ -1,0 +1,39 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+*:disabled {
+  cursor: not-allowed;
+}
+
+button {
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+input {
+  color: inherit;
+  font: inherit;
+}
+
+input:focus-visible {
+  outline: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}

@@ -1,0 +1,10 @@
+body {
+  font-family: var(--ui-font-sans);
+  text-decoration: none;
+}
+
+.nunito {
+  font-family: var(--ui-font-heading);
+  text-decoration: none;
+  font-weight: var(--ui-font-weight-semibold);
+}

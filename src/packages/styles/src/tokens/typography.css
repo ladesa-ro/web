@@ -1,0 +1,9 @@
+:root {
+  --ui-font-sans: 'Poppins', system-ui, sans-serif;
+  --ui-font-heading: 'Nunito', 'Poppins', system-ui, sans-serif;
+
+  --ui-font-weight-regular: 400;
+  --ui-font-weight-medium: 500;
+  --ui-font-weight-semibold: 600;
+  --ui-font-weight-bold: 700;
+}

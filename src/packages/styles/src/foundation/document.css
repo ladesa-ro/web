@@ -1,0 +1,5 @@
+.app-color-mode-light,
+.app-color-mode-dark {
+  background-color: var(--ladesa-background-color);
+  color: var(--ladesa-text-default-color);
+}

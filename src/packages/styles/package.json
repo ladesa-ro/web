@@ -1,0 +1,8 @@
+{
+  "name": "@ladesa-ro/web.styles",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./index.css": "./src/index.css"
+  }
+}

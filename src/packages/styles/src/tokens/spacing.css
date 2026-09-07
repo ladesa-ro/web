@@ -1,0 +1,9 @@
+:root {
+  --ui-space-unit: 0.25rem;
+  --ui-space-1: calc(var(--ui-space-unit) * 1);
+  --ui-space-2: calc(var(--ui-space-unit) * 2);
+  --ui-space-3: calc(var(--ui-space-unit) * 3);
+  --ui-space-4: calc(var(--ui-space-unit) * 4);
+  --ui-space-6: calc(var(--ui-space-unit) * 6);
+  --ui-space-8: calc(var(--ui-space-unit) * 8);
+}
