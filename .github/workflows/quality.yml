@@ -1,0 +1,61 @@
+name: "Quality"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - .github/workflows/quality.yml
+      - src/**
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/quality.yml
+      - src/**
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: "CI: Build & Types"
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    defaults:
+      run:
+        working-directory: ./src
+
+    steps:
+      - name: Checkout do código-fonte
+        uses: actions/checkout@v6
+
+      - name: Habilitação do corepack
+        run: corepack enable
+        working-directory: .
+
+      - name: Configuração do Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 25
+          cache: pnpm
+          cache-dependency-path: src/pnpm-lock.yaml
+
+      - name: Instalação das dependências
+        run: pnpm install --frozen-lockfile
+
+      - name: Build de todos os pacotes
+        run: pnpm run -w build:all
+
+      - name: Checagem de tipos
+        run: pnpm --filter @ladesa-ro/web.service run types:check
+
+      # Informativo, não bloqueante: o gate local (recipe `check` do justfile)
+      # também roda o eslint com `-`, e o app tem erros pré-existentes.
+      - name: Lint (informativo)
+        continue-on-error: true
+        working-directory: ./src/apps/sisgha-sisgea
+        run: pnpm exec eslint .
