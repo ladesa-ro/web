@@ -1,21 +1,16 @@
 <script generic="T extends { id: string }" lang="ts" setup>
-const props = defineProps<{
-  items: T[];
-}>();
+import { GridSelectionUser } from '@ladesa-ro/web.ui';
 
-const items = toRef(props, 'items');
-
-const slots = defineSlots<{
+defineProps<{ items: T[] }>();
+defineSlots<{
   item(props: { item: T }): any;
 }>();
 </script>
 
 <template>
-  <div class="px-4">
-    <div v-if="items" class="grid grid-cols-1 gap-4">
-      <template v-for="item in items" :key="item.id">
-        <slot name="item" v-bind="{ item: item as T }" />
-      </template>
-    </div>
-  </div>
+  <GridSelectionUser v-bind="$props">
+    <template #item="slotProps">
+      <slot name="item" v-bind="slotProps" />
+    </template>
+  </GridSelectionUser>
 </template>

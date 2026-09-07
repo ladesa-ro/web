@@ -153,12 +153,24 @@ importers:
 
   packages/ui:
     dependencies:
+      '@internationalized/date':
+        specifier: ^3.12.2
+        version: 3.12.2
       '@vueuse/core':
         specifier: ^14.3.0
         version: 14.3.0(vue@3.5.35(typescript@6.0.3))
+      dayjs:
+        specifier: ^1.11.21
+        version: 1.11.21
+      maska:
+        specifier: ^3.2.0
+        version: 3.2.0
       reka-ui:
         specifier: ^2.9.8
         version: 2.9.8(vue@3.5.35(typescript@6.0.3))
+      vue3-dropzone:
+        specifier: ^2.2.1
+        version: 2.2.1(vue@3.5.35(typescript@6.0.3))
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^6.0.0

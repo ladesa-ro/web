@@ -1,24 +1,11 @@
 <script lang="ts" setup>
-type Props = {
-  columns?: 1 | 2 | 3;
-};
+import { ResourceViewFieldGroup, type ResourceViewFieldGroupProps } from '@ladesa-ro/web.ui';
 
-const { columns = 2 } = defineProps<Props>();
-
-const gridClass = computed(() => {
-  switch (columns) {
-    case 1:
-      return 'grid-cols-1';
-    case 3:
-      return 'md:grid-cols-3';
-    default:
-      return 'md:grid-cols-2';
-  }
-});
+defineProps<ResourceViewFieldGroupProps>();
 </script>
 
 <template>
-  <section class="grid gap-4 md:gap-6" :class="gridClass">
+  <ResourceViewFieldGroup v-bind="$props">
     <slot />
-  </section>
+  </ResourceViewFieldGroup>
 </template>
