@@ -21,6 +21,8 @@
     "@atlaskit/pragmatic-drag-and-drop-hitbox": "^1.1.0",
     "@internationalized/date": "^3.12.2",
     "@ladesa-ro/web.api.client": "workspace:*",
+    "@ladesa-ro/web.styles": "workspace:*",
+    "@ladesa-ro/web.ui": "workspace:*",
     "@ladesa-ro/web.utils": "workspace:*",
     "@nuxt/devtools": "4.0.0-alpha.4",
     "@nuxt/eslint": "^1.15.2",

@@ -25,7 +25,7 @@ export default defineNuxtConfig({
 
   ssr: true,
 
-  css: ['~/assets/styles/app.css'],
+  css: ['@ladesa-ro/web.styles/index.css', '~/assets/styles/app.css'],
 
   imports: {
     dirs: ['composables/ladesa-api', 'composables/query-helpers'],

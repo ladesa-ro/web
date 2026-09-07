@@ -36,6 +36,12 @@ importers:
       '@ladesa-ro/web.api.client':
         specifier: workspace:*
         version: link:../../packages/ladesa-api-client
+      '@ladesa-ro/web.styles':
+        specifier: workspace:*
+        version: link:../../packages/styles
+      '@ladesa-ro/web.ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       '@ladesa-ro/web.utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -142,6 +148,29 @@ importers:
       typescript:
         specifier: 6.0.3
         version: 6.0.3
+
+  packages/styles: {}
+
+  packages/ui:
+    devDependencies:
+      '@vitejs/plugin-vue':
+        specifier: ^6.0.0
+        version: 6.0.7(vite@7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0))(vue@3.5.35(typescript@6.0.3))
+      '@vue/tsconfig':
+        specifier: ^0.8.0
+        version: 0.8.1(typescript@6.0.3)(vue@3.5.35(typescript@6.0.3))
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
+      vite:
+        specifier: ^7.0.0
+        version: 7.3.3(@types/node@25.2.0)(jiti@2.7.0)(lightningcss@1.32.0)(terser@5.47.1)(yaml@2.9.0)
+      vue:
+        specifier: ^3.5.35
+        version: 3.5.35(typescript@6.0.3)
+      vue-tsc:
+        specifier: ^3.0.0
+        version: 3.3.3(typescript@6.0.3)
 
   packages/utils:
     devDependencies:
@@ -2391,6 +2420,17 @@ packages:
 
   '@vue/shared@3.5.35':
     resolution: {integrity: sha512-zSbjL7gRXwks2ZQLRGCajBtBXEOXW9Ddhn/HvSdrGkE2dqGnumzW8XtusRrxrE9LvqtiqDXQ+A60Hp6mvdYxfA==}
+
+  '@vue/tsconfig@0.8.1':
+    resolution: {integrity: sha512-aK7feIWPXFSUhsCP9PFqPyFOcz4ENkb8hZ2pneL6m2UjCkccvaOhC/5KCKluuBufvp2KzkbdA2W2pk20vLzu3g==}
+    peerDependencies:
+      typescript: 5.x
+      vue: ^3.4.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+      vue:
+        optional: true
 
   '@vueuse/core@14.3.0':
     resolution: {integrity: sha512-aHfz47g0ZhMtTVHmIzMVpJy8ePhhOy68GY5bv110+5DVtZ+W7BsOx+m61UNQqfrWyPztIHIanWa3E2tib3NFIw==}
@@ -8118,6 +8158,11 @@ snapshots:
   '@vue/shared@3.5.34': {}
 
   '@vue/shared@3.5.35': {}
+
+  '@vue/tsconfig@0.8.1(typescript@6.0.3)(vue@3.5.35(typescript@6.0.3))':
+    optionalDependencies:
+      typescript: 6.0.3
+      vue: 3.5.35(typescript@6.0.3)
 
   '@vueuse/core@14.3.0(vue@3.5.35(typescript@6.0.3))':
     dependencies:
