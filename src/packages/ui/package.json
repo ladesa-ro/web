@@ -19,8 +19,12 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "@internationalized/date": "^3.12.2",
     "@vueuse/core": "^14.3.0",
-    "reka-ui": "^2.9.8"
+    "dayjs": "^1.11.21",
+    "maska": "^3.2.0",
+    "reka-ui": "^2.9.8",
+    "vue3-dropzone": "^2.2.1"
   },
   "peerDependencies": {
     "vue": "^3.5.0"
