@@ -1,4 +1,25 @@
+export { default as Alert } from './components/Alert.vue';
 export { default as Button } from './components/Button.vue';
+export { default as Card } from './components/Card.vue';
+export { default as CardAutoSkeleton } from './components/CardAutoSkeleton.vue';
+export { default as CardLine } from './components/CardLine.vue';
+export { default as CardSelectionDiscipline } from './components/CardSelectionDiscipline.vue';
+export { default as CardSkeleton } from './components/CardSkeleton.vue';
+export { default as Checkbox } from './components/Checkbox.vue';
+export { default as CheckboxSquare } from './components/CheckboxSquare.vue';
+export { default as Footer } from './components/Footer.vue';
+export { default as FooterButton } from './components/FooterButton.vue';
+export { default as Img } from './components/Img.vue';
+export { default as Loading } from './components/Loading.vue';
+export * from './components/option-item';
+export { default as Pagination } from './components/SimplePagination.vue';
+export { default as ProgressCircular } from './components/ProgressCircular.vue';
+export { default as Radio } from './components/Radio.vue';
+export { default as RadioCircle } from './components/RadioCircle.vue';
+export { default as Title } from './components/Title.vue';
+export { default as Toggle } from './components/Toggle.vue';
+export { default as ToggleButton } from './components/ToggleButton.vue';
+export * from './components/toggle-item';
 
 export { default as IconAdd } from './icons/Add.vue';
 export { default as IconArrowArrow } from './icons/Arrow/Arrow.vue';
