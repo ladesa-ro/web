@@ -38,7 +38,9 @@ import {
   Toggle,
   type ToastItem,
 } from '@ladesa-ro/web.ui';
-import { reactive, ref } from 'vue';
+import { computed, h, reactive, ref } from 'vue';
+import EntityListPage from '~/components/Section/-Shared/EntityListPage.vue';
+import type { IEntityListModule } from '~/components/UI/API/List/Context/UIApiListContext';
 
 definePageMeta({ auth: false });
 
@@ -57,6 +59,42 @@ const rruleValue = ref<string | null>(null);
 const searchBarValue = ref('');
 
 const testToasts = reactive<ToastItem[]>([]);
+
+// Harness do EntityListPage: exercita props/slots/filtro reativo sem depender
+// da API real (o crudModule abaixo devolve dados fixos).
+const entityListLastQuery = ref<Record<string, unknown> | null>(null);
+
+const harnessCrudModule = {
+  baseQueryKeys: ['entity-list-harness'] as string[],
+  list: (data?: Record<string, unknown>) => {
+    entityListLastQuery.value = data ?? {};
+    return Promise.resolve({
+      data: [
+        { id: '1', nome: 'Item Um' },
+        { id: '2', nome: 'Item Dois' },
+        { id: '3', nome: 'Item Três' },
+      ],
+      meta: { currentPage: 1, totalPages: 1, totalItems: 3 },
+    });
+  },
+} satisfies IEntityListModule;
+
+const HarnessGridItem = (props: {
+  item?: { nome?: string } | null;
+  isLoading?: boolean;
+}) =>
+  h(
+    'div',
+    { class: 'harness-item' },
+    props.isLoading ? 'carregando…' : (props.item?.nome ?? 'sem item')
+  );
+
+const HarnessForm = () => h('div', 'form stub');
+
+const harnessFilterOn = ref(false);
+const harnessFilter = computed(() =>
+  harnessFilterOn.value ? { 'filter.teste': ['ativo'] } : {}
+);
 </script>
 
 <template>
@@ -276,6 +314,24 @@ const testToasts = reactive<ToastItem[]>([]);
     </section>
 
     <section>
+      <h2>EntityListPage (harness)</h2>
+      <EntityListPage
+        :crud-module="harnessCrudModule"
+        :form-component="HarnessForm"
+        :grid-item-component="HarnessGridItem"
+        :filter="harnessFilter"
+        show-breadcrumb
+      >
+        <template #filters>
+          <button type="button" class="harness-filter" @click="harnessFilterOn = !harnessFilterOn">
+            filtro: {{ harnessFilterOn ? 'ativo' : 'nenhum' }}
+          </button>
+        </template>
+      </EntityListPage>
+      <pre class="harness-query">query recebida: {{ entityListLastQuery }}</pre>
+    </section>
+
+    <section>
       <h2>Toast</h2>
       <button type="button" @click="testToasts.push({ id: Date.now(), open: ref(true), title: 'Novo toast', type: 'info' })">
         Adicionar toast
@@ -284,3 +340,21 @@ const testToasts = reactive<ToastItem[]>([]);
     </section>
   </div>
 </template>
+
+<style scoped>
+.harness-item {
+  border: 2px solid var(--ladesa-grey-color);
+  border-radius: var(--ui-radius-lg);
+  padding: var(--ui-space-4);
+}
+
+.harness-filter {
+  border: 2px solid var(--ladesa-green-1-color);
+  border-radius: var(--ui-radius-lg);
+  padding: var(--ui-space-2) var(--ui-space-4);
+}
+
+.harness-query {
+  font-size: 0.75rem;
+}
+</style>
