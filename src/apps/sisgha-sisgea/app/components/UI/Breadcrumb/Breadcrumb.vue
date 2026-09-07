@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { Breadcrumb, type BreadcrumbEntry } from '@ladesa-ro/web.ui';
+import { resolveComponent } from 'vue';
 import type { ISidebarItem } from '~/components/Sidebar/SidebarItem/ISidebarItem';
 
 const props = withDefaults(
@@ -13,7 +15,7 @@ const props = withDefaults(
 const route = useRoute();
 const { goBack } = useSafeBack();
 
-type BreadcrumbEntry = { title: string; to?: string };
+const NuxtLink = resolveComponent('NuxtLink');
 
 const breadcrumbResult = computed<{
   segments: BreadcrumbEntry[];
@@ -64,71 +66,26 @@ const breadcrumbResult = computed<{
   return bestMatch ?? { segments: [], isHome: false };
 });
 
-const breadcrumb = computed(() => {
-  const segments = breadcrumbResult.value.segments;
+const segments = computed(() => {
+  const value = breadcrumbResult.value.segments;
   if (props.extraSegment) {
-    return [...segments, { title: props.extraSegment }];
+    return [...value, { title: props.extraSegment }];
   }
-  return segments;
+  return value;
 });
 const isHome = computed(() => breadcrumbResult.value.isHome);
 const shouldShowGoBack = computed(
-  () => props.showGoBack && !isHome.value && breadcrumb.value.length > 0
+  () => props.showGoBack && !isHome.value && segments.value.length > 0
 );
 </script>
 
 <template>
-  <div v-if="breadcrumb.length > 0" class="flex flex-wrap items-center gap-4">
-    <button
-      v-if="shouldShowGoBack"
-      type="button"
-      class="go-back"
-      @click="goBack()"
-    >
-      <IconsArrowAlt class="w-5.5 text-ldsa-grey" />
-    </button>
-    <UITitle class="flex-1">
-      <nav class="flex items-center">
-        <template v-for="(entry, index) in breadcrumb" :key="index">
-          <span v-if="index > 0" class="separator">/</span>
-          <NuxtLink
-            v-if="entry.to && index < breadcrumb.length - 1"
-            :to="entry.to"
-            class="entry parent"
-          >
-            {{ entry.title }}
-          </NuxtLink>
-          <span
-            v-else
-            class="entry"
-            :class="{ parent: index < breadcrumb.length - 1 }"
-          >
-            {{ entry.title }}
-          </span>
-        </template>
-      </nav>
-    </UITitle>
+  <Breadcrumb
+    :segments="segments"
+    :show-go-back="shouldShowGoBack"
+    :as="NuxtLink"
+    @go-back="() => goBack()"
+  >
     <slot />
-  </div>
+  </Breadcrumb>
 </template>
-
-<style scoped>
-@reference "~/assets/styles/app.css";
-
-.separator {
-  @apply mx-2 text-ldsa-grey font-normal;
-}
-
-.entry {
-  @apply text-ldsa-text-default no-underline;
-}
-
-.entry.parent {
-  @apply text-ldsa-text-default/40;
-}
-
-.go-back {
-  @apply hover:shadow-[0_0_0_5px_rgb(0,0,0,0.05)] dark:hover:shadow-[0_0_0_5px_rgb(255,255,255,0.04)]
-    hover:bg-ldsa-grey/15 flex shrink-0 items-center p-1 rounded-full cursor-pointer;
-}
-</style>

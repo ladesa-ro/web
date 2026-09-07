@@ -1,18 +1,14 @@
-<script lang="ts" setup>
-defineProps<{
-  to?: string;
-}>();
+<script setup lang="ts">
+import { CardActions, type CardActionsProps } from '@ladesa-ro/web.ui';
+import { resolveComponent } from 'vue';
+
+defineProps<CardActionsProps>();
+
+const NuxtLink = resolveComponent('NuxtLink');
 </script>
 
 <template>
-  <div class="flex items-center">
+  <CardActions v-bind="$props" :as="NuxtLink">
     <slot />
-    <nuxt-link
-      v-if="to"
-      :to="to"
-      class="flex p-1.5 rounded-lg transition-colors hover:bg-ldsa-grey/20"
-    >
-      <IconsEyeOn class="w-5 h-5 text-ldsa-text-default" />
-    </nuxt-link>
-  </div>
+  </CardActions>
 </template>
