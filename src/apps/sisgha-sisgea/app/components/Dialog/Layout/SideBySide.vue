@@ -77,24 +77,30 @@ const isSecondaryVisible = computed(() => {
 <template>
   <div
     :class="[
-      isGrid ? (isSinglePanel ? 'root-grid-single' : 'root-grid') : 'root-tabs',
-      !isGrid && collapsed && 'root-tabs-collapsed',
+      isGrid
+        ? isSinglePanel
+          ? 'side-by-side__root--grid-single'
+          : 'u-w-full'
+        : 'side-by-side__root--tabs',
+      !isGrid && collapsed && 'side-by-side__root--tabs-collapsed',
     ]"
   >
     <!-- Tabs header (only in tabs mode, not collapsed, secondary enabled) -->
-    <div v-show="!isGrid && !isSinglePanel" class="tabs-header">
+    <div v-show="!isGrid && !isSinglePanel" class="side-by-side__tabs-header">
       <button
         type="button"
-        class="tab-button"
-        :class="activeTab === 'primary' && 'tab-button-active'"
+        class="side-by-side__tab-button"
+        :class="activeTab === 'primary' && 'side-by-side__tab-button--active'"
         @click="activeTab = 'primary'"
       >
         {{ primaryLabel ?? 'Painel 1' }}
       </button>
       <button
         type="button"
-        class="tab-button"
-        :class="activeTab === 'secondary' && 'tab-button-active'"
+        class="side-by-side__tab-button"
+        :class="
+          activeTab === 'secondary' && 'side-by-side__tab-button--active'
+        "
         @click="activeTab = 'secondary'"
       >
         {{ secondaryLabel ?? 'Painel 2' }}
@@ -107,8 +113,11 @@ const isSecondaryVisible = computed(() => {
     -->
     <div
       :class="[
-        isGrid ? 'content-grid' : 'content-tabs',
-        isGrid && (isSinglePanel ? 'single-panel' : 'side-by-side'),
+        isGrid ? 'side-by-side__content--grid' : 'side-by-side__content--tabs',
+        isGrid &&
+          (isSinglePanel
+            ? 'side-by-side__content--single'
+            : 'side-by-side__content--dual'),
       ]"
       :style="
         isGrid ? { gridTemplateColumns: `repeat(${columns}, 1fr)` } : undefined
@@ -117,11 +126,11 @@ const isSecondaryVisible = computed(() => {
       <div
         v-show="isGrid ? isPrimaryVisible : true"
         :class="[
-          isGrid ? 'grid-panel' : 'tab-panel',
+          isGrid ? 'side-by-side__panel--grid' : 'side-by-side__panel--tab',
           !isGrid &&
             (activeTab === 'primary'
-              ? 'tab-panel-active'
-              : 'tab-panel-hidden-left'),
+              ? 'side-by-side__panel--tab-active'
+              : 'side-by-side__panel--tab-hidden-left'),
         ]"
       >
         <slot name="primary" />
@@ -129,11 +138,11 @@ const isSecondaryVisible = computed(() => {
       <div
         v-show="isGrid ? isSecondaryVisible : true"
         :class="[
-          isGrid ? 'grid-panel' : 'tab-panel',
+          isGrid ? 'side-by-side__panel--grid' : 'side-by-side__panel--tab',
           !isGrid &&
             (activeTab === 'secondary'
-              ? 'tab-panel-active'
-              : 'tab-panel-hidden-right'),
+              ? 'side-by-side__panel--tab-active'
+              : 'side-by-side__panel--tab-hidden-right'),
         ]"
       >
         <slot name="secondary" />
@@ -143,108 +152,154 @@ const isSecondaryVisible = computed(() => {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
 /* --- Root modes --- */
 
-.root-grid {
-  @apply w-full;
+.side-by-side__root--grid-single {
+  width: fit-content;
 }
 
-.root-grid-single {
-  @apply w-fit;
-}
-
-.root-tabs {
-  @apply flex flex-col px-3 py-16 mx-auto;
+.side-by-side__root--tabs {
+  display: flex;
+  flex-direction: column;
+  margin-inline: auto;
+  padding-inline: var(--ui-space-3);
+  padding-block: 4rem;
   width: min(95vw, 35rem);
   height: 100dvh;
 }
 
-.root-tabs-collapsed {
+.side-by-side__root--tabs-collapsed {
   width: min(95vw, 40rem);
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-top: var(--ui-space-8);
+  padding-bottom: var(--ui-space-8);
 }
 
 /* --- Grid content --- */
 
-.content-grid {
-  @apply gap-4 p-2 items-stretch mx-auto;
+.side-by-side__content--grid {
   display: grid;
+  gap: var(--ui-space-4);
+  padding: var(--ui-space-2);
+  align-items: stretch;
+  margin-inline: auto;
 }
 
-.content-grid.side-by-side {
-  @apply w-[min(95vw,70rem)];
+.side-by-side__content--grid.side-by-side__content--dual {
+  width: min(95vw, 70rem);
 }
 
-.content-grid.single-panel {
-  @apply w-auto;
+.side-by-side__content--grid.side-by-side__content--single {
+  width: auto;
 }
 
-.grid-panel {
-  @apply min-w-0 h-full;
+.side-by-side__panel--grid {
+  min-width: 0;
+  height: 100%;
 }
 
-.side-by-side .grid-panel :deep(.modal-layout) {
-  @apply sm:max-w-none max-w-none w-full h-full;
+.side-by-side__content--dual
+  .side-by-side__panel--grid
+  :deep(.modal-layout) {
+  max-width: none;
+  width: 100%;
+  height: 100%;
 }
 
 /* --- Tabs content --- */
 
-.content-tabs {
-  @apply w-full flex-1 min-h-0 relative;
+.side-by-side__content--tabs {
+  width: 100%;
+  flex: 1 1 0%;
+  min-height: 0;
+  position: relative;
 }
 
-.tabs-header {
-  @apply flex gap-2 w-full mb-3;
+.side-by-side__tabs-header {
+  display: flex;
+  gap: var(--ui-space-2);
+  width: 100%;
+  margin-bottom: var(--ui-space-3);
 }
 
-.tab-button {
-  @apply flex-1 py-3 px-4 text-sm font-medium rounded-lg
-         border-2 border-ldsa-grey bg-ldsa-bg text-ldsa-text-default
-         transition-colors duration-200 cursor-pointer
-         hover:bg-ldsa-grey
-         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ldsa-green-1 focus-visible:ring-offset-2;
+.side-by-side__tab-button {
+  flex: 1 1 0%;
+  padding-block: var(--ui-space-3);
+  padding-inline: var(--ui-space-4);
+  font-size: 0.875rem;
+  font-weight: var(--ui-font-weight-medium);
+  border-radius: var(--ui-radius-lg);
+  border: 2px solid var(--ladesa-grey-color);
+  background-color: var(--ladesa-background-color);
+  color: var(--ladesa-text-default-color);
+  cursor: pointer;
+  transition:
+    background-color var(--ui-duration-base) var(--ui-easing-standard),
+    border-color var(--ui-duration-base) var(--ui-easing-standard);
 }
 
-.tab-button-active {
-  @apply bg-ldsa-green-1 border-ldsa-green-1 text-white
-         hover:bg-ldsa-green-1;
+.side-by-side__tab-button:hover {
+  background-color: var(--ladesa-grey-color);
 }
 
-.tab-panel {
-  @apply absolute inset-0 flex flex-col items-stretch;
+.side-by-side__tab-button:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px var(--ladesa-background-color),
+    0 0 0 4px var(--ladesa-green-1-color);
+}
+
+.side-by-side__tab-button--active {
+  background-color: var(--ladesa-green-1-color);
+  border-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+}
+
+.side-by-side__tab-button--active:hover {
+  background-color: var(--ladesa-green-1-color);
+}
+
+.side-by-side__panel--tab {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   transition:
     opacity 400ms cubic-bezier(0.22, 1, 0.36, 1),
     transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.tab-panel-active {
+.side-by-side__panel--tab-active {
   opacity: 1;
   transform: translateX(0) scale(1);
   z-index: 1;
 }
 
-.tab-panel-hidden-left {
+.side-by-side__panel--tab-hidden-left {
   opacity: 0;
   transform: translateX(-1.5rem) scale(0.97);
   z-index: 0;
   pointer-events: none;
 }
 
-.tab-panel-hidden-right {
+.side-by-side__panel--tab-hidden-right {
   opacity: 0;
   transform: translateX(1.5rem) scale(0.97);
   z-index: 0;
   pointer-events: none;
 }
 
-.tab-panel :deep(.modal-layout) {
-  @apply sm:max-w-none max-w-none w-full h-full max-h-none min-h-0;
+.side-by-side__panel--tab :deep(.modal-layout) {
+  max-width: none;
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  min-height: 0;
 }
 
-.tab-panel :deep(.modal-layout .content) {
-  @apply max-h-none flex-1 min-h-0;
+.side-by-side__panel--tab :deep(.modal-layout .content) {
+  max-height: none;
+  flex: 1 1 0%;
+  min-height: 0;
 }
 </style>

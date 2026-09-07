@@ -17,9 +17,11 @@ const { item } = defineProps<Props>();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
 .active {
-  @apply bg-ldsa-white/[0.12] hover:bg-ldsa-white/[0.16];
+  background-color: rgb(from var(--ladesa-white-color) R G B / 12%);
+}
+
+.active:hover {
+  background-color: rgb(from var(--ladesa-white-color) R G B / 16%);
 }
 </style>

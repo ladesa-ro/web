@@ -1,6 +1,9 @@
-@reference "~/assets/styles/app.css";
-
 .card {
-  @apply overflow-hidden mx-auto pb-5 cursor-default;
-  @apply border-2 border-ldsa-grey divide-solid rounded-lg;
+  overflow: hidden;
+  margin-inline: auto;
+  padding-bottom: var(--ui-space-5);
+  cursor: default;
+  border: 2px solid var(--ladesa-grey-color);
+  border-style: solid;
+  border-radius: var(--ui-radius-lg);
 }

@@ -33,8 +33,8 @@ defineSlots<Slots>();
 </script>
 
 <template>
-  <div :class="style || 'w-full justify-between items-center flex gap-4'">
-    <div class="flex-1">
+  <div :class="style || 'u-w-full u-justify-between u-items-center u-flex u-gap-4'">
+    <div class="u-flex-1">
       <UISearchBar v-model="formOptions.search" />
     </div>
 
@@ -46,11 +46,17 @@ defineSlots<Slots>();
       :placeholder="
         isFilteredByCampus ? 'Selecione um campus' : 'Todos os campi'
       "
-      class="shrink-0 w-[20rem]"
+      class="u-shrink-0 api-list-options__campus-field"
     />
 
-    <div class="flex items-center shrink-0">
+    <div class="u-flex u-items-center u-shrink-0">
       <slot name="actions" />
     </div>
   </div>
 </template>
+
+<style scoped>
+.api-list-options__campus-field {
+  width: 20rem;
+}
+</style>

@@ -1,13 +1,23 @@
-@reference "~/assets/styles/app.css";
-
 .ui-api-list-results-grid {
   display: grid;
   gap: 1rem;
-  @apply grid-cols-1 sm:grid-cols-2 md:grid-cols-3;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 640px) {
+  .ui-api-list-results-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .ui-api-list-results-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .ui-api-list-results-grid > * {
-  grid-column: 1/-1;
+  grid-column: 1 / -1;
 }
 
 .ui-api-list-results-grid .ui-api-list-results-grid-item {

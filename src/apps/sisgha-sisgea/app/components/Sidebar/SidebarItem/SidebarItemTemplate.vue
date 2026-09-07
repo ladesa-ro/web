@@ -8,13 +8,10 @@ const { item, open } = defineProps<Props>();
 
 <template>
   <button class="template-base">
-    <span class="flex items-center gap-4">
-      <component
-        :is="item.icon"
-        class="min-w-5 w-5 sm:min-w-5.5 sm:w-5.5 text-ldsa-white"
-      />
+    <span class="u-flex u-items-center u-gap-4">
+      <component :is="item.icon" class="sidebar-item__icon" />
 
-      <p class="text-nowrap">{{ item.title }}</p>
+      <p class="sidebar-item__label">{{ item.title }}</p>
     </span>
 
     <IconsArrowSidebar
@@ -26,19 +23,54 @@ const { item, open } = defineProps<Props>();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
 .template-base {
-  @apply flex items-center justify-between;
-  @apply w-full min-h-10 sm:min-h-11 px-4;
-  @apply text-ldsa-white hover:bg-ldsa-white/[0.07];
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 2.5rem;
+  padding-inline: var(--ui-space-4);
+  color: var(--ladesa-white-color);
+}
+
+.template-base:hover {
+  background-color: rgb(from var(--ladesa-white-color) R G B / 7%);
+}
+
+@media (min-width: 640px) {
+  .template-base {
+    min-height: 2.75rem;
+  }
+}
+
+.sidebar-item__icon {
+  min-width: var(--ui-space-5);
+  width: var(--ui-space-5);
+  color: var(--ladesa-white-color);
+}
+
+@media (min-width: 640px) {
+  .sidebar-item__icon {
+    min-width: 1.375rem;
+    width: 1.375rem;
+  }
+}
+
+.sidebar-item__label {
+  white-space: nowrap;
 }
 
 .icon-arrow {
-  @apply w-3 mr-1 transition-transform text-ldsa-white opacity-60;
+  width: var(--ui-space-3);
+  margin-right: var(--ui-space-1);
+  transition: transform 150ms var(--ui-easing-standard);
+  color: var(--ladesa-white-color);
+  opacity: 0.6;
 }
 
 .arrow-active {
-  @apply rotate-180 text-ldsa-white opacity-100;
+  transform: rotate(180deg);
+  color: var(--ladesa-white-color);
+  opacity: 1;
 }
 </style>

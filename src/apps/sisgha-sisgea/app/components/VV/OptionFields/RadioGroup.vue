@@ -25,7 +25,7 @@ const { value: fieldValue, errorMessage } = useField<string | number>(
 </script>
 
 <template>
-  <div class="flex flex-col gap-1">
+  <div class="u-flex u-flex-col u-gap-1">
     <UIFormOptionFieldsRadioGroup
       v-model="fieldValue"
       :items="items"
@@ -34,8 +34,14 @@ const { value: fieldValue, errorMessage } = useField<string | number>(
       :orientation="orientation"
     />
 
-    <p v-if="errorMessage" class="text-ldsa-red text-xs font-semibold px-1">
+    <p v-if="errorMessage" class="error-message u-text-xs u-font-semibold u-px-1">
       {{ errorMessage }}
     </p>
   </div>
 </template>
+
+<style scoped>
+.error-message {
+  color: var(--ladesa-red-color);
+}
+</style>

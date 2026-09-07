@@ -22,34 +22,36 @@ const handleCargoClick = (cargo: string) => {
 <template>
   <div
     v-if="usuario && cargos"
-    class="flex items-center gap-3 w-max max-w-48 min-[600px]:max-w-62 max-sm:h-12 rounded-lg inset-y-0 bg-ldsa-green-1/[.125] dark:bg-ldsa-grey/30 px-3 sm:pr-4 py-2"
+    class="u-flex u-items-center u-gap-3 u-rounded-lg u-px-3 u-py-2 profile-card"
   >
     <UIImg
       :src="profilePicureUrl"
       alt="Foto de perfil."
-      class="max-[21.5rem]:hidden min-w-9 max-w-9 h-9 sm:min-w-12 sm:max-w-12 sm:h-12 rounded-full"
+      class="u-rounded-full profile-card-avatar"
       fallback-bg-color="var(--ladesa-green-1-color)"
     >
       <template #fallbackIcon>
-        <IconsUser class="text-ldsa-white w-5 mb-px" />
+        <IconsUser class="profile-card-avatar-fallback-icon" />
       </template>
     </UIImg>
 
     <!-- if is mobile -->
-    <p class="inline sm:hidden font-semibold text-left truncate text-sm">
+    <p
+      class="u-font-semibold u-text-left u-truncate u-text-sm profile-card-mobile-only"
+    >
       {{ usuario?.nome?.split(' ')[0] }}
     </p>
-    <span class="inline sm:hidden">
+    <span class="profile-card-mobile-only">
       <slot name="arrowIcon" />
     </span>
 
     <!-- if is not mobile -->
-    <div class="max-sm:hidden overflow-hidden">
-      <p class="font-semibold text-left truncate">
+    <div class="u-overflow-hidden profile-card-desktop-only">
+      <p class="u-font-semibold u-text-left u-truncate">
         {{ usuario.nome?.split(' ')[0] }}
       </p>
 
-      <p class="font-normal flex flex-row items-center gap-2">
+      <p class="u-font-regular u-flex u-flex-row u-items-center u-gap-2">
         <span v-for="(cargo, index) in cargos" :key="cargo">
           <span @click="handleCargoClick(cargo)">
             {{
@@ -68,3 +70,81 @@ const handleCargoClick = (cargo: string) => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.profile-card {
+  width: max-content;
+  max-width: 12rem;
+  top: 0;
+  bottom: 0;
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 12.5%);
+}
+
+@media (min-width: 600px) {
+  .profile-card {
+    max-width: 15.5rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .profile-card {
+    height: 3rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .profile-card {
+    padding-right: 1rem;
+  }
+}
+
+:global(.dark) .profile-card {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 30%);
+}
+
+.profile-card-avatar {
+  min-width: 2.25rem;
+  max-width: 2.25rem;
+  height: 2.25rem;
+}
+
+@media (max-width: 21.5rem) {
+  .profile-card-avatar {
+    display: none;
+  }
+}
+
+@media (min-width: 640px) {
+  .profile-card-avatar {
+    min-width: 3rem;
+    max-width: 3rem;
+    height: 3rem;
+  }
+}
+
+.profile-card-avatar-fallback-icon {
+  color: var(--ladesa-white-color);
+  width: 1.25rem;
+  margin-bottom: 1px;
+}
+
+.profile-card-mobile-only {
+  display: inline;
+}
+
+@media (min-width: 640px) {
+  .profile-card-mobile-only {
+    display: none;
+  }
+}
+
+.profile-card-desktop-only {
+  display: block;
+}
+
+@media (max-width: 639px) {
+  .profile-card-desktop-only {
+    display: none;
+  }
+}
+</style>

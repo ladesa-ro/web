@@ -68,16 +68,22 @@ const selectedTurmaItem = computed({
 
 <template>
   <GuardCargoRequired cargo="aluno">
-    <UIContainer v-if="turmaItems.length > 1" class="pt-4">
+    <UIContainer v-if="turmaItems.length > 1" class="u-pt-4">
       <UIFormOptionFieldsSelect
         v-model="selectedTurmaItem"
         :items="turmaItems"
         label="Turma"
         placeholder="Selecione uma turma"
-        class="max-w-sm"
+        class="horario-aluno__turma-select"
       />
     </UIContainer>
 
     <SectionHorarioProfessorEAlunoHorario :turma-id="selectedTurmaId" />
   </GuardCargoRequired>
 </template>
+
+<style scoped>
+.horario-aluno__turma-select {
+  max-width: 24rem;
+}
+</style>

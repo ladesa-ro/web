@@ -21,7 +21,7 @@ provide('selectedItem', selectedItem);
   <nav
     :class="{
       active: hamburgerActive,
-      'max-sm:-translate-x-full': !hamburgerActive,
+      'sidebar--closed': !hamburgerActive,
     }"
     class="sidebar"
   >
@@ -36,19 +36,59 @@ provide('selectedItem', selectedItem);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
 .sidebar {
-  @apply fixed top-14 sm:top-[4.563rem] bottom-0;
-  @apply overflow-hidden z-20;
-  @apply flex flex-col gap-2.5 lg:gap-3;
-  @apply w-14 py-[0.438rem];
-  @apply border-r-2 border-r-ldsa-green-2/50 bg-ldsa-green-1;
-  @apply transition-[width,translate] duration-200;
+  position: fixed;
+  top: 3.5rem;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-2-5);
+  width: 3.5rem;
+  padding-block: 0.438rem;
+  border-right: 2px solid rgb(from var(--ladesa-green-2-color) R G B / 50%);
+  background-color: var(--ladesa-green-1-color);
+  transition:
+    width var(--ui-duration-base) var(--ui-easing-standard),
+    translate var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+@media (min-width: 640px) {
+  .sidebar {
+    top: 4.563rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .sidebar {
+    gap: var(--ui-space-3);
+  }
 }
 
 .sidebar:hover,
 .active {
-  @apply max-[345px]:w-56 min-[345px]:w-64 overflow-y-auto overflow-x-hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+@media (max-width: 345px) {
+  .sidebar:hover,
+  .active {
+    width: 14rem;
+  }
+}
+
+@media (min-width: 345px) {
+  .sidebar:hover,
+  .active {
+    width: 16rem;
+  }
+}
+
+@media (max-width: 639.98px) {
+  .sidebar--closed {
+    transform: translateX(-100%);
+  }
 }
 </style>

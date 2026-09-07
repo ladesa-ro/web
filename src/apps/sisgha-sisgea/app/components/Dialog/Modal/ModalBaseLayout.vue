@@ -37,42 +37,95 @@ const { title = 'Título', closeButton = true } = defineProps<Props>();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
 .modal-layout {
-  @apply w-full max-w-[95%] max-h-[85vh] min-h-[20vh];
-  @apply sm:max-w-[31.5rem] sm:min-h-[15rem] p-4 sm:p-6;
-  @apply flex flex-col justify-between items-center;
-  @apply shadow-xl border-3 border-ldsa-grey rounded-2xl bg-ldsa-bg;
+  width: 100%;
+  max-width: 95%;
+  max-height: 85vh;
+  min-height: 20vh;
+  padding: var(--ui-space-4);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+  border: 3px solid var(--ladesa-grey-color);
+  border-radius: 1rem;
+  background-color: var(--ladesa-background-color);
+}
+
+@media (min-width: 40rem) {
+  .modal-layout {
+    max-width: 31.5rem;
+    min-height: 15rem;
+    padding: var(--ui-space-6);
+  }
 }
 
 .header {
-  @apply w-full flex items-center justify-between;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .close-button {
-  @apply shrink-0 flex items-center justify-center rounded-full cursor-pointer;
-  @apply hover:bg-ldsa-grey/30 transition-[background-color] duration-[225ms];
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--ui-radius-full);
+  cursor: pointer;
+  transition: background-color 225ms;
+}
+
+.close-button:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 30%);
 }
 
 .close-icon {
-  @apply text-ldsa-text-default w-3 h-2.5 m-2.5;
+  color: var(--ladesa-text-default-color);
+  width: var(--ui-space-3);
+  height: var(--ui-space-2-5);
+  margin: var(--ui-space-2-5);
 }
 
 .content {
-  @apply flex-1 flex flex-col gap-6 overflow-y-auto mt-5 w-full break-words;
-  @apply max-h-[70vh];
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-6);
+  overflow-y: auto;
+  margin-top: var(--ui-space-5);
+  width: 100%;
+  overflow-wrap: break-word;
+  max-height: 70vh;
 }
 
 .button-group {
-  @apply flex max-sm:flex-col max-sm:*:w-full gap-3 w-full mt-6 mx-3;
+  display: flex;
+  gap: var(--ui-space-3);
+  width: 100%;
+  margin-top: var(--ui-space-6);
+  margin-inline: var(--ui-space-3);
+}
+
+@media (max-width: 639px) {
+  .button-group {
+    flex-direction: column;
+  }
+
+  .button-group > * {
+    width: 100%;
+  }
 }
 
 .button-group:has(*):has(> :first-child:last-child) {
-  @apply justify-center;
+  justify-content: center;
 }
 
 .button-group:has(*):not(:has(> :first-child:last-child)) {
-  @apply justify-between;
+  justify-content: space-between;
 }
 </style>

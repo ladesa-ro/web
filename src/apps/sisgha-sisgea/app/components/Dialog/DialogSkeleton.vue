@@ -30,7 +30,7 @@ const onClose = () => (isActive.value = false);
 
 <template>
   <nav
-    :class="!disableInlineBlock && 'inline-block'"
+    :class="!disableInlineBlock && 'dialog-skeleton__activator--inline'"
     v-bind="$attrs"
     @pointerdown="!disabled && pointerdownEvent && onOpen()"
     @click="!disabled && !pointerdownEvent && onOpen()"
@@ -44,15 +44,18 @@ const onClose = () => (isActive.value = false);
         v-if="isActive"
         :class="
           mustHideInBigScreen
-            ? 'overlay-layout-max-screen-size'
-            : 'overlay-layout'
+            ? 'dialog-skeleton__overlay--hide-big-screen'
+            : 'dialog-skeleton__overlay'
         "
       >
-        <div class="backdrop" @click="() => closeOnClickOutside && onClose()" />
+        <div
+          class="dialog-skeleton__backdrop"
+          @click="() => closeOnClickOutside && onClose()"
+        />
 
         <div
           ref="modal"
-          class="modal-container"
+          class="dialog-skeleton__modal-container"
           tabindex="0"
           @keyup.esc="onClose"
         >
@@ -64,54 +67,94 @@ const onClose = () => (isActive.value = false);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
-.overlay-layout {
-  @apply fixed top-0 left-0 z-[997];
-  @apply flex items-center justify-center h-screen w-screen;
-}
-.overlay-layout-max-screen-size {
-  @apply max-[875px]:fixed top-0 left-0 z-[997];
-  @apply min-[875px]:hidden! max-[875px]:flex items-center justify-center h-screen w-screen;
+.dialog-skeleton__activator--inline {
+  display: inline-block;
 }
 
-.backdrop {
-  @apply fixed z-[998] w-full h-full;
-  @apply bg-ldsa-black/35 dark:bg-ldsa-white/25;
-  @apply backdrop-blur-[2px];
-  @apply transition-[opacity,backdrop-filter] duration-500 ease-in-out;
+.dialog-skeleton__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 997;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
 }
 
-.modal-container {
-  @apply z-[999] max-h-screen;
-  @apply flex items-center justify-center;
-  @apply transition-[all] duration-300;
+.dialog-skeleton__overlay--hide-big-screen {
+  top: 0;
+  left: 0;
+  z-index: 997;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+@media (max-width: 875px) {
+  .dialog-skeleton__overlay--hide-big-screen {
+    position: fixed;
+    display: flex;
+  }
+}
+
+@media (min-width: 875px) {
+  .dialog-skeleton__overlay--hide-big-screen {
+    display: none !important;
+  }
+}
+
+.dialog-skeleton__backdrop {
+  position: fixed;
+  z-index: 998;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(from var(--ladesa-black-color) R G B / 35%);
+  backdrop-filter: blur(2px);
+  transition:
+    opacity 500ms ease-in-out,
+    backdrop-filter 500ms ease-in-out;
+}
+
+:global(.dark) .dialog-skeleton__backdrop {
+  background-color: rgb(from var(--ladesa-white-color) R G B / 25%);
+}
+
+.dialog-skeleton__modal-container {
+  z-index: 999;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 300ms;
 }
 
 /* see the Vue documentation to learn more about Transition and Teleport animations. that's what the classes below do! */
 
 .modal-enter-from,
 .modal-leave-to {
-  @apply opacity-0;
+  opacity: 0;
 }
 
 .modal-enter-active,
 .modal-leave-active {
-  @apply transition-[opacity] duration-[0.25s] ease-in-out;
+  transition: opacity 0.25s ease-in-out;
 }
 
-.modal-enter-from .modal-container,
-.modal-leave-to .modal-container {
-  @apply translate-y-6 scale-90;
+.modal-enter-from .dialog-skeleton__modal-container,
+.modal-leave-to .dialog-skeleton__modal-container {
+  transform: translateY(var(--ui-space-6)) scale(0.9);
 }
 
-.modal-enter-to .modal-container,
-.modal-leave-from .modal-container {
-  @apply translate-y-0 scale-100;
+.modal-enter-to .dialog-skeleton__modal-container,
+.modal-leave-from .dialog-skeleton__modal-container {
+  transform: translateY(0) scale(1);
 }
 
-.modal-enter-active .modal-container,
-.modal-leave-active .modal-container {
-  @apply transition-[all] duration-300 ease-out;
+.modal-enter-active .dialog-skeleton__modal-container,
+.modal-leave-active .dialog-skeleton__modal-container {
+  transition: all 300ms ease-out;
 }
 </style>

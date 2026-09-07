@@ -1,3 +1,3 @@
 <template>
-  <div class="flex-1" />
+  <div class="u-flex-1" />
 </template>

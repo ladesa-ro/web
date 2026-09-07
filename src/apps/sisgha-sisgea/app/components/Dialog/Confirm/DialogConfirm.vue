@@ -40,14 +40,28 @@ function confirm() {
       :close-button="true"
       :on-close="cancel"
     >
-      <p class="text-ldsa-grey text-center mx-auto max-w-[18rem] break-words">
+      <p class="dialog-confirm__message">
         {{ props.message }}
       </p>
 
       <template #button-group>
-        <UIButtonModalCancel type="close" class="flex w-full" @click="cancel" />
+        <UIButtonModalCancel
+          type="close"
+          class="u-flex u-w-full"
+          @click="cancel"
+        />
         <UIButtonModalConfirm type="submit" @click="confirm" />
       </template>
     </ModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.dialog-confirm__message {
+  color: var(--ladesa-grey-color);
+  text-align: center;
+  margin-inline: auto;
+  max-width: 18rem;
+  overflow-wrap: break-word;
+}
+</style>

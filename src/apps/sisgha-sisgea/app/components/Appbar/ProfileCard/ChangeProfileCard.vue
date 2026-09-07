@@ -17,7 +17,7 @@ const open = ref(false);
             <IconsArrow
               v-if="canChangeProfile"
               :class="{ down: open }"
-              class="text-ldsa-text-green transition-transform duration-300 -rotate-90"
+              class="profile-card-arrow-icon"
             />
           </ClientOnly>
         </template>
@@ -31,7 +31,12 @@ const open = ref(false);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+.profile-card-arrow-icon {
+  color: var(--ladesa-text-green-color);
+  transition-property: transform;
+  transition-duration: 300ms;
+  transform: rotate(-90deg);
+}
 
 .arrow.down {
   transform: rotate(180deg);

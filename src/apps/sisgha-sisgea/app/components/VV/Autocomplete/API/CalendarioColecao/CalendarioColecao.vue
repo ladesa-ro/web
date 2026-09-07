@@ -32,10 +32,10 @@ const selectedColor = computed(
 </script>
 
 <template>
-  <div class="flex items-center gap-2">
+  <div class="u-flex u-items-center u-gap-2">
     <span
       v-if="selectedColor"
-      class="rounded-full w-3 h-3 shrink-0"
+      class="collection-color-dot u-rounded-full u-shrink-0"
       :style="{ backgroundColor: selectedColor }"
     />
     <VVAutocompleteAPI
@@ -44,8 +44,15 @@ const selectedColor = computed(
       :options="options"
       :label="label ?? 'Coleção'"
       placeholder="Selecione uma coleção"
-      class="flex-1"
+      class="u-flex-1"
       v-bind="$attrs"
     />
   </div>
 </template>
+
+<style scoped>
+.collection-color-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+</style>

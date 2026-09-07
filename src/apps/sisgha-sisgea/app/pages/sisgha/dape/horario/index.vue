@@ -6,8 +6,8 @@ const { values, turmasOptions } = useHorarioDapeFilters();
 <template>
   <UIContainer
     variant="large"
-    class="flex flex-col"
-    :class="selectedToggleItem !== 'mesclado' ? 'gap-7' : 'gap-3'"
+    class="u-flex u-flex-col"
+    :class="selectedToggleItem !== 'mesclado' ? 'u-gap-7' : 'u-gap-3'"
   >
     <UIBreadcrumbDapeBreadcrumb />
 
@@ -30,17 +30,17 @@ const { values, turmasOptions } = useHorarioDapeFilters();
         v-if="selectedToggleItem === 'turma'"
         :options="turmasOptions"
         :default-style="false"
-        search-bar-container-style="flex max-lg:flex-col sm:gap-3 gap-4"
+        search-bar-container-style="u-flex dape-horario__search-actions"
       >
         <template #options-actions>
           <form
-            class="flex max-sm:flex-col gap-4 sm:gap-3 w-full lg:max-w-135 h-max"
+            class="u-flex u-gap-4 u-w-full dape-horario__filters-form"
           >
             <VVAutocompleteAPIOfertaFormacao
-              class="flex-1"
+              class="u-flex-1"
               name="ofertaFormacaoId"
             />
-            <VVAutocompleteAPICurso class="flex-1" name="cursoId" />
+            <VVAutocompleteAPICurso class="u-flex-1" name="cursoId" />
           </form>
         </template>
 
@@ -72,3 +72,40 @@ const { values, turmasOptions } = useHorarioDapeFilters();
 </template>
 
 <style scoped src="~/components/UI/API/List/Results/Grid/Grid.css" />
+
+<style scoped>
+.dape-horario__filters-form {
+  flex-direction: column;
+  height: max-content;
+}
+
+@media (min-width: 640px) {
+  .dape-horario__filters-form {
+    flex-direction: row;
+    gap: var(--ui-space-3);
+  }
+}
+
+@media (min-width: 1024px) {
+  .dape-horario__filters-form {
+    max-width: 33.75rem;
+  }
+}
+
+:deep(.dape-horario__search-actions) {
+  flex-direction: column;
+  gap: var(--ui-space-4);
+}
+
+@media (min-width: 640px) {
+  :deep(.dape-horario__search-actions) {
+    gap: var(--ui-space-3);
+  }
+}
+
+@media (min-width: 1024px) {
+  :deep(.dape-horario__search-actions) {
+    flex-direction: row;
+  }
+}
+</style>

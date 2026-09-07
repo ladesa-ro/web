@@ -36,7 +36,7 @@ const thisGroupIsSelected = computed({
     />
 
     <CollapsibleContent
-      class="collapsible-animation flex flex-col overflow-hidden"
+      class="collapsible-animation u-flex u-flex-col u-overflow-hidden"
     >
       <div class="divider" />
 
@@ -51,25 +51,26 @@ const thisGroupIsSelected = computed({
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
 .open {
-  @apply bg-ldsa-green-2/25;
+  background-color: rgb(from var(--ladesa-green-2-color) R G B / 25%);
 }
 
 .divider {
   /* uses min and max height and not just height to avoid conflict with the reka-ui variable */
-  @apply min-h-px max-h-px bg-ldsa-white/10 my-1.5;
+  min-height: 1px;
+  max-height: 1px;
+  background-color: rgb(from var(--ladesa-white-color) R G B / 10%);
+  margin-block: var(--ui-space-1-5);
 }
 
 /* Collapsible animation */
 
 .collapsible-animation[data-state='open'] {
-  @apply animate-[slideDown_0.3s];
+  animation: slideDown 0.3s;
 }
 
 .collapsible-animation[data-state='closed'] {
-  @apply animate-[slideUp_0.3s];
+  animation: slideUp 0.3s;
 }
 
 @keyframes slideDown {
