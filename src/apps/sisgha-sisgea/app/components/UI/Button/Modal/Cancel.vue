@@ -1,9 +1,7 @@
+<script setup lang="ts">
+import { ButtonModalCancel } from '@ladesa-ro/web.ui';
+</script>
+
 <template>
-  <UIButtonModalBaseLayout
-    text="Cancelar"
-    color="var(--ladesa-grey-color)"
-    type="button"
-  >
-    <IconsClose />
-  </UIButtonModalBaseLayout>
+  <ButtonModalCancel />
 </template>

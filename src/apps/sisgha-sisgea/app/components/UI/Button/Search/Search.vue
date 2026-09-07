@@ -1,5 +1,7 @@
+<script setup lang="ts">
+import { ButtonSearch } from '@ladesa-ro/web.ui';
+</script>
+
 <template>
-  <UIButtonDefaultSquare>
-    <IconsSearch class="w-5 h-5 ml-0.5" />
-  </UIButtonDefaultSquare>
+  <ButtonSearch v-bind="$attrs" />
 </template>

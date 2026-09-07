@@ -1,7 +1,7 @@
+<script setup lang="ts">
+import { ButtonArrow } from '@ladesa-ro/web.ui';
+</script>
+
 <template>
-  <UIButtonDefaultSquare
-    class="flex border-2 border-ldsa-grey justify-center items-center rounded-lg bg-transparent"
-  >
-    <IconsArrow />
-  </UIButtonDefaultSquare>
+  <ButtonArrow v-bind="$attrs" />
 </template>

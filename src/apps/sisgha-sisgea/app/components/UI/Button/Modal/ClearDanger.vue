@@ -1,14 +1,9 @@
 <script setup lang="ts">
+import { ButtonModalClearDanger } from '@ladesa-ro/web.ui';
+
 defineProps<{ text: string }>();
 </script>
 
 <template>
-  <UIButtonModalBaseLayout
-    :text="text"
-    color="var(--ladesa-red-color)"
-    type="button"
-    variant="small"
-  >
-    <IconsExclude />
-  </UIButtonModalBaseLayout>
+  <ButtonModalClearDanger v-bind="$props" />
 </template>

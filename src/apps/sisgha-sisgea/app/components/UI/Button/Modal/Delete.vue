@@ -1,10 +1,7 @@
+<script setup lang="ts">
+import { ButtonModalDelete } from '@ladesa-ro/web.ui';
+</script>
+
 <template>
-  <UIButtonModalBaseLayout
-    text="Excluir"
-    :opacity="85"
-    color="var(--ladesa-red-color)"
-    type="button"
-  >
-    <IconsExclude />
-  </UIButtonModalBaseLayout>
+  <ButtonModalDelete />
 </template>

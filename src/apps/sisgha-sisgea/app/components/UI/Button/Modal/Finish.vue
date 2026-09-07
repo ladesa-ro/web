@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { ButtonModalFinish } from '@ladesa-ro/web.ui';
+</script>
+
 <template>
-  <UIButtonModalCommonButtonsGreenWithCheck text="Concluir" />
+  <ButtonModalFinish />
 </template>

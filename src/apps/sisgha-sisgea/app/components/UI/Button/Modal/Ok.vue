@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { ButtonModalOk } from '@ladesa-ro/web.ui';
+</script>
+
 <template>
-  <UIButtonModalCommonButtonsGreenWithCheck text="Ok" />
+  <ButtonModalOk />
 </template>
