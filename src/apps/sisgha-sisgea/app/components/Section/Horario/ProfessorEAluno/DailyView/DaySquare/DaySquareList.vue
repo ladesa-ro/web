@@ -12,6 +12,7 @@ const weekDays = computed(() => getWeekDays(selectedDay.value));
   <div class="day-square-list">
     <SectionHorarioProfessorEAlunoDailyViewDaySquare
       v-for="weekDay in weekDays"
+      :key="weekDay.dayMonth"
       :selected="weekDay.dayMonth === activeDayMonth"
       :day-month="weekDay.dayMonth"
       :day-week="weekDay.dayWeek"

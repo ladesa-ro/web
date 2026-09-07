@@ -31,6 +31,7 @@ const startHours: Ref<HoursPerShift> = ref(
     <div class="week__header-grid u-grid u-mb-3 u-mr-5 u-gap-5">
       <SectionHorarioDapeEditPopoverDayAndShift
         v-for="(_, date) of weekSchedule"
+        :key="date"
         :disabled="!editMode"
       >
         <div

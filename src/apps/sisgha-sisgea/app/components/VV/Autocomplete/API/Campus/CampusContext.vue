@@ -77,7 +77,9 @@ const displayItems = computed(() => {
 });
 
 const displaySelectedId = computed(() => {
-  return isSelectedIdProvided && selectedId !== NotProvided ? selectedId : null;
+  return isSelectedIdProvided.value && selectedId !== NotProvided
+    ? selectedId
+    : null;
 });
 </script>
 

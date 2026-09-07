@@ -29,24 +29,19 @@ const {
   isError: isErrorProfs,
 } = usuariosEntity.list();
 
-const turmasParsedItems = computed(() => {
-  if (turmas.value) {
-    return turmas.value?.data.map(turma => {
-      return {
-        label: turma.periodo + ' - ' + turma.curso.nomeAbreviado,
-        value: turma.id,
-      };
-    });
-  }
-});
+const turmasParsedItems = computed(() =>
+  (turmas.value?.data ?? []).map(turma => ({
+    label: turma.periodo + ' - ' + turma.curso.nomeAbreviado,
+    value: turma.id,
+  }))
+);
 
-const professoresParsedItems = computed(() => {
-  if (professores.value) {
-    return professores.value?.data.map(professor => {
-      return { label: professor.nome ?? '', value: professor.id };
-    });
-  }
-});
+const professoresParsedItems = computed(() =>
+  (professores.value?.data ?? []).map(professor => ({
+    label: professor.nome ?? '',
+    value: professor.id,
+  }))
+);
 
 //
 
