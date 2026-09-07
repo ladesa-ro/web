@@ -1,6 +1,8 @@
 export { default as Alert, type AlertProps } from './components/Alert.vue';
+export { default as Breadcrumb, type BreadcrumbEntry, type BreadcrumbProps } from './components/Breadcrumb.vue';
 export { default as Button } from './components/Button.vue';
 export { default as Card, type CardProps } from './components/Card.vue';
+export { default as CardActions, type CardActionsProps } from './components/CardActions.vue';
 export { default as CardAutoSkeleton } from './components/CardAutoSkeleton.vue';
 export { default as CardLine } from './components/CardLine.vue';
 export { default as CardSelectionDiscipline } from './components/CardSelectionDiscipline.vue';
