@@ -1,0 +1,71 @@
+.u-text-xs {
+  font-size: 0.75rem;
+}
+
+.u-text-sm {
+  font-size: 0.875rem;
+}
+
+.u-text-base {
+  font-size: 1rem;
+}
+
+.u-text-lg {
+  font-size: 1.125rem;
+}
+
+.u-text-xl {
+  font-size: 1.25rem;
+}
+
+.u-text-left {
+  text-align: left;
+}
+
+.u-text-center {
+  text-align: center;
+}
+
+.u-text-right {
+  text-align: right;
+}
+
+.u-font-regular {
+  font-weight: var(--ui-font-weight-regular);
+}
+
+.u-font-medium {
+  font-weight: var(--ui-font-weight-medium);
+}
+
+.u-font-semibold {
+  font-weight: var(--ui-font-weight-semibold);
+}
+
+.u-font-bold {
+  font-weight: var(--ui-font-weight-bold);
+}
+
+.u-rounded-xs {
+  border-radius: var(--ui-radius-xs);
+}
+
+.u-rounded-sm {
+  border-radius: var(--ui-radius-sm);
+}
+
+.u-rounded-md {
+  border-radius: var(--ui-radius-md);
+}
+
+.u-rounded-lg {
+  border-radius: var(--ui-radius-lg);
+}
+
+.u-rounded-xl {
+  border-radius: var(--ui-radius-xl);
+}
+
+.u-rounded-full {
+  border-radius: var(--ui-radius-full);
+}

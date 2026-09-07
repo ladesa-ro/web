@@ -39,3 +39,5 @@
 @import './components/form-option-fields.css' layer(components);
 @import './components/dashboard-layout.css' layer(components);
 @import './components/toast.css' layer(components);
+
+@import './utilities/index.css' layer(utilities);
