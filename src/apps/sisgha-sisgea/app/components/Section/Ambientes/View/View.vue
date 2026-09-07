@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import EntityDetailPage from '../../-Shared/EntityDetailPage.vue';
 import AmbientesForm from '../Form/Form.vue';
 
 type Props = { resourceId: string };
@@ -12,32 +13,22 @@ const {
 } = ambientes.findOne(ref(resourceId));
 
 const { data: coverImageSrc } = ambientes.imageCover(ref(resourceId));
-
-const { confirmDelete, handleDelete } = useResourceDelete({
-  remove: id => ambientes.remove(id),
-  invalidate: () => ambientes.invalidate(),
-  redirectTo: '/sisgea/ambientes',
-});
 </script>
 
 <template>
-  <UIResourceView
-    :title="ambiente?.nome ?? ''"
+  <EntityDetailPage
+    :resource-id="resourceId"
+    :form-component="AmbientesForm"
+    :title="ambiente?.nome"
     :subtitle="ambiente?.descricao"
     :image-src="coverImageSrc"
     :is-loading="isLoading"
     :is-error="isError"
+    delete-message="Deseja realmente excluir este ambiente?"
+    :remove="id => ambientes.remove(id)"
+    :invalidate="() => ambientes.invalidate()"
+    redirect-to="/sisgea/ambientes"
   >
-    <template #breadcrumb />
-
-    <template #header-actions>
-      <DialogModalEditOrCreateModal
-        :edit-id="resourceId"
-        :form-component="AmbientesForm"
-      />
-      <UIButtonModalDelete @click="handleDelete(resourceId)" />
-    </template>
-
     <template #details>
       <UIResourceViewFieldGroup :columns="3">
         <UIResourceViewField label="Nome" :value="ambiente?.nome" />
@@ -77,13 +68,7 @@ const { confirmDelete, handleDelete } = useResourceDelete({
         </div>
       </UICollapsible>
     </template>
-  </UIResourceView>
-
-  <DialogConfirm
-    v-model="confirmDelete.isOpen.value"
-    message="Deseja realmente excluir este ambiente?"
-    @confirm="confirmDelete.onConfirm"
-  />
+  </EntityDetailPage>
 </template>
 
 <style scoped>
