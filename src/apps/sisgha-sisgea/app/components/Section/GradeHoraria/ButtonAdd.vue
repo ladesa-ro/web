@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{ disabled?: boolean }>();
+defineProps<{ label: string; disabled?: boolean }>();
 </script>
 
 <template>
@@ -8,7 +8,7 @@ defineProps<{ disabled?: boolean }>();
     :disabled="disabled"
     class="u-flex u-items-center u-justify-center u-gap-2 u-px-2 u-text-sm u-font-medium grade-add-button"
   >
-    <p>Adicionar em massa</p>
+    <p>{{ label }}</p>
     <IconsAdd class="grade-add-button__icon" />
   </button>
 </template>

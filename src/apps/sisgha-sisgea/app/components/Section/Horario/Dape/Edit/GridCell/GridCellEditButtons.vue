@@ -66,6 +66,44 @@ onMounted(() => {
 });
 
 const turmasOrProfessoresSelected = ref();
+
+// Quando a grade é de uma turma escolhe-se o professor, e vice-versa.
+// Centralizado aqui para os dois modos não divergirem (já divergiram: os
+// estados de carregando/erro do modo professor liam a query de professores).
+const professorItems = computed(() =>
+  (professoresQuery.data.value?.data ?? []).map(professor => ({
+    label: professor.nome ?? 'Nome não disponível',
+    value: professor.id,
+  }))
+);
+
+const turmaItems = computed(() =>
+  (turmasQuery.data.value?.data ?? []).map(turma => ({
+    label: `${turma.periodo} ${turma.curso.nomeAbreviado}`,
+    value: turma.id,
+  }))
+);
+
+const picker = computed(() => {
+  if (scheduleOf !== 'turma' && scheduleOf !== 'professor') return null;
+
+  const isTurmaSchedule = scheduleOf === 'turma';
+  const query = isTurmaSchedule ? professoresQuery : turmasQuery;
+
+  return {
+    label: isTurmaSchedule ? 'Professor' : 'Turma',
+    placeholder: isTurmaSchedule
+      ? 'Selecione um professor'
+      : 'Selecione uma turma',
+    errorMessage: isTurmaSchedule
+      ? 'Ocorreu um erro ao buscar os professores.'
+      : 'Ocorreu um erro ao buscar as turmas.',
+    hasData: !!query.data.value,
+    isLoading: query.isLoading.value,
+    isError: query.isError.value,
+    items: isTurmaSchedule ? professorItems.value : turmaItems.value,
+  };
+});
 </script>
 
 <template>
@@ -86,46 +124,18 @@ const turmasOrProfessoresSelected = ref();
       <UIToggle v-model="changeActivityValue" :items="toggleItems" />
 
       <template v-if="changeActivityValue === 'aula'">
-        <template v-if="scheduleOf === 'turma'">
+        <template v-if="picker">
           <UIFormOptionFieldsAutocomplete
-            v-if="professoresQuery.data.value"
+            v-if="picker.hasData"
             v-model:selected-option="turmasOrProfessoresSelected"
-            placeholder="Selecione um professor"
-            label="Professor"
-            :items="
-              professoresQuery.data.value.data.map((professor: any) => ({
-                label: professor.usuario.nome ?? 'Nome não disponível',
-                value: professor.id,
-              }))
-            "
+            :placeholder="picker.placeholder"
+            :label="picker.label"
+            :items="picker.items"
           />
 
-          <span v-else-if="professoresQuery.isLoading"> Carregando... </span>
+          <span v-else-if="picker.isLoading"> Carregando... </span>
 
-          <span v-else-if="professoresQuery.isError">
-            Ocorreu um erro ao buscar os professores.
-          </span>
-        </template>
-
-        <template v-else-if="scheduleOf === 'professor'">
-          <UIFormOptionFieldsAutocomplete
-            v-if="turmasQuery.data.value"
-            v-model:selected-option="turmasOrProfessoresSelected"
-            placeholder="Selecione uma turma"
-            label="Turma"
-            :items="
-              turmasQuery.data.value.data.map(turma => ({
-                label: `${turma.periodo} ${turma.curso.nomeAbreviado}`,
-                value: turma.id,
-              }))
-            "
-          />
-
-          <span v-else-if="professoresQuery.isLoading"> Carregando... </span>
-
-          <span v-else-if="professoresQuery.isError">
-            Ocorreu um erro ao buscar os professores.
-          </span>
+          <span v-else-if="picker.isError">{{ picker.errorMessage }}</span>
         </template>
 
         <VVAutocompleteAPIDisciplina

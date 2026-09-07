@@ -247,13 +247,15 @@ function getIntervalError(
           v-if="isEditing"
           class="u-flex u-items-center u-justify-center u-gap-2 u-mt-4"
         >
-          <SectionGradeHorariaButtonAddHorario
+          <SectionGradeHorariaButtonAdd
+            label="Adicionar horário de aula"
             :disabled="disabled"
             class="u-flex-1"
             @click="emit('add-interval', periodo.nome)"
           />
           <div class="u-shrink-0 grade-accordion__divider" />
-          <SectionGradeHorariaButtonAddEmMassa
+          <SectionGradeHorariaButtonAdd
+            label="Adicionar em massa"
             :disabled="disabled"
             class="u-flex-1"
             @click="openBulkModal(periodo.nome)"
