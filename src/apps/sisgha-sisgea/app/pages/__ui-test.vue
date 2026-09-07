@@ -42,7 +42,7 @@ const page = ref(1);
       <h2>ProgressCircular / Loading</h2>
       <div style="display: flex; gap: 1rem; align-items: center">
         <ProgressCircular size="2rem" />
-        <div style="width: 4rem; height: 4rem; border: 1px dashed #ccc">
+        <div style="width: 4rem; height: 4rem">
           <Loading />
         </div>
       </div>
