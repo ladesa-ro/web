@@ -198,7 +198,7 @@ useTitle(null, 'Login');
   width: 6.4375rem;
   height: 0.125rem;
 
-  background: var(--ladesa-border-color);
+  background: var(--ladesa-grey-color);
 }
 
 .fields {
