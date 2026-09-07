@@ -2,8 +2,8 @@
 import { RadioGroupIndicator as Selected, RadioGroupItem as Radio } from 'reka-ui';
 import type { ParsedOptionItem } from './option-item';
 
-type Props = { itemValue: ParsedOptionItem['value']; isSelected: boolean };
-defineProps<Props>();
+export type RadioCircleProps = { itemValue: ParsedOptionItem['value']; isSelected: boolean };
+defineProps<RadioCircleProps>();
 </script>
 
 <template>

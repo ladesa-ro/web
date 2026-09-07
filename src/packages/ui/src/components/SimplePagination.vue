@@ -1,10 +1,10 @@
 <script setup lang="ts">
-type Props = {
+export type PaginationProps = {
   currentPage: number;
   totalPages: number;
 };
 
-const props = defineProps<Props>();
+const props = defineProps<PaginationProps>();
 const emit = defineEmits<{
   'update:currentPage': [page: number];
 }>();

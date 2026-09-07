@@ -3,8 +3,8 @@ import { watchEffect } from 'vue';
 import type { ToggleItem } from './toggle-item';
 import ToggleButton from './ToggleButton.vue';
 
-type Props = { items: ToggleItem[]; disabled?: boolean };
-const { items, disabled } = defineProps<Props>();
+export type ToggleProps = { items: ToggleItem[]; disabled?: boolean };
+const { items, disabled } = defineProps<ToggleProps>();
 
 //
 

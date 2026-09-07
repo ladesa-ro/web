@@ -4,11 +4,11 @@ import IconConfirm from '../icons/Confirm.vue';
 import IconInfo from '../icons/Info.vue';
 import IconWarning from '../icons/Warning.vue';
 
-type Props = {
+export type AlertProps = {
   type: 'info' | 'success' | 'warning' | 'error';
   message: string;
 };
-defineProps<Props>();
+defineProps<AlertProps>();
 
 const rgb = (color: string) => `rgb(from var(--ladesa-${color}-color) R G B / 1)`;
 

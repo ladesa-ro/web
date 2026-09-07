@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import IconImage from '../icons/Image.vue';
 
-type Props = {
+export type ImgProps = {
   src: any;
   alt?: string;
   fallbackBgColor?: string;
@@ -11,7 +11,7 @@ const {
   src,
   alt,
   fallbackBgColor = 'rgb(from var(--ladesa-grey-color) R G B / 30%)',
-} = defineProps<Props>();
+} = defineProps<ImgProps>();
 
 //
 

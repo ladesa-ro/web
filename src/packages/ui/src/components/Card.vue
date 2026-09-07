@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import Img from './Img.vue';
 
-type Props = {
+export type CardProps = {
   variant: 'block';
   src: string | null;
   title: string | null;
 };
 
-defineProps<Props>();
+defineProps<CardProps>();
 </script>
 
 <template>

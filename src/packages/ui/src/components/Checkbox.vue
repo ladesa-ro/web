@@ -7,7 +7,7 @@ import {
 import CheckboxSquare from './CheckboxSquare.vue';
 import { getParsedOptionItems, type OptionItem, type ParsedOptionItem } from './option-item';
 
-type Props = {
+export type CheckboxProps = {
   items: OptionItem[];
   disabledItems?: AcceptableValue[];
   gap?: string;
@@ -17,7 +17,7 @@ const {
   items: itemsProps,
   disabledItems = [],
   gap = '0.375rem',
-} = defineProps<Props>();
+} = defineProps<CheckboxProps>();
 
 const items = getParsedOptionItems(itemsProps);
 const checkedItems = defineModel<AcceptableValue[]>({ default: [] });

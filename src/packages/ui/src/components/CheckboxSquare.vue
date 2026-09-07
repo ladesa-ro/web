@@ -3,13 +3,13 @@ import { CheckboxIndicator as Check, CheckboxRoot as Checkbox } from 'reka-ui';
 import IconConfirm from '../icons/Confirm.vue';
 import type { ParsedOptionItem } from './option-item';
 
-type Props = {
+export type CheckboxSquareProps = {
   item: ParsedOptionItem;
   active: boolean;
   disabled?: boolean;
   enterHandle?: (item: ParsedOptionItem) => void;
 };
-const { enterHandle = () => {}, disabled = false } = defineProps<Props>();
+const { enterHandle = () => {}, disabled = false } = defineProps<CheckboxSquareProps>();
 </script>
 
 <template>

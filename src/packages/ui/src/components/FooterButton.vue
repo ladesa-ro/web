@@ -2,14 +2,14 @@
 import type { Component } from 'vue';
 import IconFooterHRef from '../icons/Footer/HRef.vue';
 
-type Link = {
+export type FooterLink = {
   label: string;
   icon: Component | (SVGElement & HTMLElement);
   href: string;
 };
 
-type Props = { link: Link };
-defineProps<Props>();
+export type FooterButtonProps = { link: FooterLink };
+defineProps<FooterButtonProps>();
 </script>
 
 <template>

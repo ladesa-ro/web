@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { ToggleItem } from './toggle-item';
 
-type Props = {
+export type ToggleButtonProps = {
   item: ToggleItem;
   selected: boolean;
 };
 
-defineProps<Props>();
+defineProps<ToggleButtonProps>();
 </script>
 
 <template>

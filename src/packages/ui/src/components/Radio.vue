@@ -8,8 +8,8 @@ import { computed } from 'vue';
 import { getParsedOptionItems, type OptionItem } from './option-item';
 import RadioCircle from './RadioCircle.vue';
 
-type Props = { items: OptionItem[] };
-const { items: itemsProps } = defineProps<Props>();
+export type RadioProps = { items: OptionItem[] };
+const { items: itemsProps } = defineProps<RadioProps>();
 
 const items = computed(() => getParsedOptionItems(itemsProps));
 
