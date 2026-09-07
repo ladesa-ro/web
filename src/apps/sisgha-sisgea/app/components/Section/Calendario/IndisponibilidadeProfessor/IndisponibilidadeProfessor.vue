@@ -156,13 +156,13 @@ async function handleConfirmDelete() {
 </script>
 
 <template>
-  <div class="flex flex-col gap-6">
-    <div v-if="showSelector" class="w-full sm:w-80">
+  <div class="u-flex u-flex-col u-gap-6">
+    <div v-if="showSelector" class="u-w-full indisponibilidade-professor__selector">
       <ProfessorSelector v-model="selectorValue" />
     </div>
 
     <template v-if="!effectiveEntidadeId">
-      <div class="text-center text-ldsa-grey py-8">
+      <div class="u-text-center u-py-8 indisponibilidade-professor__status">
         {{
           isProfessor
             ? 'Selecione um professor para visualizar as indisponibilidades.'
@@ -172,7 +172,7 @@ async function handleConfirmDelete() {
     </template>
 
     <template v-else-if="isLoading">
-      <div class="text-center text-ldsa-grey py-8">Carregando...</div>
+      <div class="u-text-center u-py-8 indisponibilidade-professor__status">Carregando...</div>
     </template>
 
     <template v-else>
@@ -182,14 +182,14 @@ async function handleConfirmDelete() {
         @empty-click="openCreateFromGrid"
       />
 
-      <div class="flex items-center justify-between">
-        <h2 class="text-sm font-semibold">Exceções pontuais</h2>
+      <div class="u-flex u-items-center u-justify-between">
+        <h2 class="u-text-sm u-font-semibold">Exceções pontuais</h2>
         <button
           type="button"
-          class="flex items-center gap-1.5 text-sm font-medium text-ldsa-text-green hover:underline"
+          class="u-flex u-items-center u-gap-1-5 u-text-sm u-font-medium indisponibilidade-professor__link"
           @click="openCreateException"
         >
-          <IconsAdd class="w-4 h-4" />
+          <IconsAdd class="indisponibilidade-professor__link-icon" />
           Nova exceção
         </button>
       </div>
@@ -216,3 +216,28 @@ async function handleConfirmDelete() {
     />
   </div>
 </template>
+
+<style scoped>
+.indisponibilidade-professor__status {
+  color: var(--ladesa-grey-color);
+}
+
+.indisponibilidade-professor__link {
+  color: var(--ladesa-text-green-color);
+}
+
+.indisponibilidade-professor__link:hover {
+  text-decoration: underline;
+}
+
+.indisponibilidade-professor__link-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+@media (min-width: 640px) {
+  .indisponibilidade-professor__selector {
+    width: 20rem;
+  }
+}
+</style>

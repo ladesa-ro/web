@@ -61,11 +61,11 @@ const onClose = () => $emit('close');
 </script>
 
 <template>
-  <form class="h-full" @submit.prevent="onSubmit">
+  <form class="u-h-full" @submit.prevent="onSubmit">
     <DialogModalBaseLayout
       :on-close="onClose"
       :title="editId ? 'Editar Usuário' : 'Cadastrar Usuário'"
-      class="w-full h-full overflow-x-hidden overflow-y-auto"
+      class="profile-form__panel u-w-full u-h-full"
     >
       <VVSelectImage name="imagem" />
 
@@ -93,7 +93,9 @@ const onClose = () => $emit('close');
       <SectionUsuariosFormProfileRoles />
 
       <template #button-group>
-        <div class="flex flex-col sm:flex-row gap-2 justify-between w-full">
+        <div
+          class="profile-form__actions u-flex u-flex-col u-gap-2 u-justify-between u-w-full"
+        >
           <UIButtonModalCancel @click="$emit('close')" />
 
           <UIButtonModalEdit v-if="editId" />
@@ -103,3 +105,16 @@ const onClose = () => $emit('close');
     </DialogModalBaseLayout>
   </form>
 </template>
+
+<style scoped>
+.profile-form__panel {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+@media (min-width: 640px) {
+  .profile-form__actions {
+    flex-direction: row;
+  }
+}
+</style>

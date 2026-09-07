@@ -58,12 +58,11 @@ watch(
       editId ? 'Editar etapas do ano letivo' : 'Cadastrar etapas do ano letivo'
     "
   >
-    <div
-      v-if="editId"
-      class="flex gap-3 items-center rounded-[5px] bg-ldsa-yellow/10 border border-ldsa-yellow/10 px-3 py-2.5 overflow-clip"
-    >
-      <span class="i-mdi-alert-outline text-ldsa-yellow shrink-0 text-lg" />
-      <p class="text-ldsa-yellow text-xs font-medium tracking-wide">
+    <div v-if="editId" class="u-flex u-gap-3 u-items-center formacoes-form2__banner">
+      <span
+        class="i-mdi-alert-outline u-shrink-0 u-text-lg formacoes-form2__banner-icon"
+      />
+      <p class="u-text-xs u-font-medium formacoes-form2__banner-text">
         As edições nas etapas do ano letivo não terão efeito em calendários já
         existentes vinculados a essa formação, somente em calendários criados
         posteriormente.
@@ -85,3 +84,22 @@ watch(
     </template>
   </DialogModalBaseLayout>
 </template>
+
+<style scoped>
+.formacoes-form2__banner {
+  border-radius: 5px;
+  background-color: rgb(from var(--ladesa-yellow-color) R G B / 10%);
+  border: 1px solid rgb(from var(--ladesa-yellow-color) R G B / 10%);
+  padding: var(--ui-space-2-5) var(--ui-space-3);
+  overflow: clip;
+}
+
+.formacoes-form2__banner-icon {
+  color: var(--ladesa-yellow-color);
+}
+
+.formacoes-form2__banner-text {
+  color: var(--ladesa-yellow-color);
+  letter-spacing: 0.025em;
+}
+</style>

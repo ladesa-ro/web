@@ -96,13 +96,13 @@ function handleUndoPending(dataInicio: string) {
 </script>
 
 <template>
-  <div class="flex h-full">
+  <div class="u-flex u-h-full">
     <DialogModalBaseLayout
       :close-button="false"
       :on-close="onClose"
       title="Disponibilidade"
-      class="flex-1"
-      content-class="!gap-4"
+      class="u-flex-1"
+      content-class="availability-content"
     >
       <WeekNavigator
         :week-label="weekLabel"
@@ -132,13 +132,13 @@ function handleUndoPending(dataInicio: string) {
 
       <div
         v-else-if="isEditing || activeConfigInfo || currentWeekPending"
-        class="flex flex-col gap-4"
+        class="u-flex u-flex-col u-gap-4"
       >
         <WeekdaySelector
           v-model="selectedDayWeek"
           :items="weekDayLabels"
           mode="compact"
-          class="font-semibold gap-2"
+          class="u-font-semibold u-gap-2"
         />
 
         <ShiftTimes
@@ -182,7 +182,7 @@ function handleUndoPending(dataInicio: string) {
           @click="enterEditMode"
         >
           Editar Horários de Aula
-          <IconsEdit class="w-3.5 shrink-0" />
+          <IconsEdit class="edit-icon u-shrink-0" />
         </button>
       </template>
 
@@ -240,9 +240,39 @@ function handleUndoPending(dataInicio: string) {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+:deep(.availability-content) {
+  gap: var(--ui-space-4) !important;
+}
 
 .editar-disponibilidade-button {
-  @apply flex justify-center items-center gap-5 border-2 border-ldsa-grey text-ldsa-text-default py-1 text-sm rounded-lg w-full font-semibold hover:bg-ldsa-grey/15 active:bg-ldsa-grey/25 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--ui-space-5);
+  width: 100%;
+  padding-block: var(--ui-space-1);
+  border: 2px solid var(--ladesa-grey-color);
+  border-radius: var(--ui-radius-lg);
+  color: var(--ladesa-text-default-color);
+  font-size: 0.875rem;
+  font-weight: var(--ui-font-weight-semibold);
+  transition: background-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.editar-disponibilidade-button:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 15%);
+}
+
+.editar-disponibilidade-button:active {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 25%);
+}
+
+.editar-disponibilidade-button:disabled {
+  opacity: var(--ui-disabled-opacity);
+  cursor: not-allowed;
+}
+
+.edit-icon {
+  width: 0.875rem;
 }
 </style>

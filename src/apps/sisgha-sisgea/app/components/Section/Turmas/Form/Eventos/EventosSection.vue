@@ -111,25 +111,21 @@ function handleExclusiveCancel() {
 </script>
 
 <template>
-  <div v-if="isManageMode" class="flex flex-col gap-3 pt-2">
-    <div class="flex items-center justify-between">
-      <div
-        class="flex h-[13px] items-center border-l-3 border-ldsa-green-1 pl-1"
-      >
-        <span
-          class="text-[13px] font-semibold tracking-wide text-ldsa-text-default"
-        >
+  <div v-if="isManageMode" class="u-flex u-flex-col u-gap-3 u-pt-2">
+    <div class="u-flex u-items-center u-justify-between">
+      <div class="eventos-header u-flex u-items-center u-pl-1">
+        <span class="eventos-header__title u-font-semibold">
           Eventos
         </span>
       </div>
 
       <button
         type="button"
-        class="flex size-[26px] items-center justify-center rounded-md bg-ldsa-green-1 text-white hover:bg-ldsa-green-1/90 disabled:opacity-50"
+        class="eventos-add-button u-flex u-items-center u-justify-center u-rounded-md"
         :disabled="disabled"
         @click="emit('open-create')"
       >
-        <IconsAdd class="size-3" />
+        <IconsAdd class="eventos-add-icon" />
       </button>
     </div>
 
@@ -144,7 +140,7 @@ function handleExclusiveCancel() {
     </template>
 
     <template v-else>
-      <p class="px-2 text-center text-[11px] leading-relaxed text-ldsa-grey">
+      <p class="eventos-note eventos-note--relaxed u-px-2 u-text-center">
         Nenhum evento registrado. Você pode criar um novo evento pelo botão
         superior direito ou vincular a turma a um evento já existente na
         funcionalidade de "Calendário".
@@ -152,15 +148,13 @@ function handleExclusiveCancel() {
     </template>
   </div>
 
-  <div v-else class="flex flex-col gap-3 pt-2">
-    <div class="flex h-[13px] items-center border-l-3 border-ldsa-green-1 pl-1">
-      <span
-        class="text-[13px] font-semibold tracking-wide text-ldsa-text-default"
-      >
+  <div v-else class="u-flex u-flex-col u-gap-3 u-pt-2">
+    <div class="eventos-header u-flex u-items-center u-pl-1">
+      <span class="eventos-header__title u-font-semibold">
         Eventos
       </span>
     </div>
-    <p class="text-center text-[11px] text-ldsa-grey">
+    <p class="eventos-note u-text-center">
       Salve a turma para gerenciar eventos.
     </p>
   </div>
@@ -179,28 +173,28 @@ function handleExclusiveCancel() {
       :close-button="true"
       :on-close="handleExclusiveCancel"
     >
-      <p class="text-ldsa-grey text-center mx-auto max-w-[20rem] break-words">
+      <p class="exclusive-delete-message u-text-center">
         Este evento pertence apenas a esta turma. O que deseja fazer?
       </p>
 
       <template #button-group>
         <button
           type="button"
-          class="flex-1 rounded-lg border border-ldsa-grey/30 px-4 py-2 text-sm font-medium text-ldsa-text-default hover:bg-ldsa-grey/10"
+          class="exclusive-delete-button--cancel u-flex-1 u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium"
           @click="handleExclusiveCancel"
         >
           Cancelar
         </button>
         <button
           type="button"
-          class="flex-1 rounded-lg bg-ldsa-yellow/90 px-4 py-2 text-sm font-medium text-white hover:bg-ldsa-yellow"
+          class="exclusive-delete-button--inactivate u-flex-1 u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium"
           @click="handleExclusiveInactivate"
         >
           Inativar evento
         </button>
         <button
           type="button"
-          class="flex-1 rounded-lg bg-ldsa-red px-4 py-2 text-sm font-medium text-white hover:bg-ldsa-red/90"
+          class="exclusive-delete-button--delete u-flex-1 u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium"
           @click="handleExclusiveDelete"
         >
           Deletar evento
@@ -209,3 +203,79 @@ function handleExclusiveCancel() {
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.eventos-header {
+  height: 13px;
+  border-left: 3px solid var(--ladesa-green-1-color);
+}
+
+.eventos-header__title {
+  font-size: 13px;
+  letter-spacing: 0.025em;
+  color: var(--ladesa-text-default-color);
+}
+
+.eventos-add-button {
+  width: 26px;
+  height: 26px;
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+}
+
+.eventos-add-button:hover {
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 90%);
+}
+
+.eventos-add-button:disabled {
+  opacity: var(--ui-disabled-opacity);
+}
+
+.eventos-add-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.eventos-note {
+  font-size: 11px;
+  color: var(--ladesa-grey-color);
+}
+
+.eventos-note--relaxed {
+  line-height: 1.625;
+}
+
+.exclusive-delete-message {
+  color: var(--ladesa-grey-color);
+  margin-inline: auto;
+  max-width: 20rem;
+  overflow-wrap: break-word;
+}
+
+.exclusive-delete-button--cancel {
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 30%);
+  color: var(--ladesa-text-default-color);
+}
+
+.exclusive-delete-button--cancel:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.exclusive-delete-button--inactivate {
+  background-color: rgb(from var(--ladesa-yellow-color) R G B / 90%);
+  color: var(--ladesa-white-color);
+}
+
+.exclusive-delete-button--inactivate:hover {
+  background-color: var(--ladesa-yellow-color);
+}
+
+.exclusive-delete-button--delete {
+  background-color: var(--ladesa-red-color);
+  color: var(--ladesa-white-color);
+}
+
+.exclusive-delete-button--delete:hover {
+  background-color: rgb(from var(--ladesa-red-color) R G B / 90%);
+}
+</style>

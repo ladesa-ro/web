@@ -39,7 +39,7 @@ const selectedGradeName = computed(() => {
 </script>
 
 <template>
-  <div v-if="isEditing && !disabled" class="flex flex-col gap-1">
+  <div v-if="isEditing && !disabled" class="u-flex u-flex-col u-gap-1">
     <UIFormOptionFieldsAutocomplete
       v-model:selected-option="selectedOption"
       label="Grade horária"

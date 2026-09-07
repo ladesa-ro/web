@@ -15,11 +15,11 @@ const open = defineModel<boolean>();
     </template>
 
     <div
-      class="flex flex-col gap-4 border-2 border-ldsa-green-1 rounded-lg p-2.5 bg-ldsa-bg sm:w-76"
+      class="popover-edit u-flex u-flex-col u-gap-4 u-rounded-lg u-p-2-5"
     >
       <slot />
 
-      <div class="flex justify-between gap-3">
+      <div class="u-flex u-justify-between u-gap-3">
         <UIButtonModalCancel variant="small" @click="open = !open" />
 
         <UIButtonModalConfirm
@@ -38,3 +38,16 @@ const open = defineModel<boolean>();
     </div>
   </UIPopover>
 </template>
+
+<style scoped>
+.popover-edit {
+  border: 2px solid var(--ladesa-green-1-color);
+  background-color: var(--ladesa-background-color);
+}
+
+@media (min-width: 640px) {
+  .popover-edit {
+    width: 19rem;
+  }
+}
+</style>

@@ -176,15 +176,15 @@ function handleEventsUpdated() {
     :on-close="closeModal"
     title="Ver Eventos"
   >
-    <div class="mt-1">
+    <div class="events-list__search">
       <SearchBar v-model="searchQuery" placeholder="Buscar evento..." />
     </div>
 
-    <div class="flex gap-2 border-b-2 border-b-ldsa-grey pb-4">
+    <div class="u-flex u-gap-2 u-pb-4 events-list__sort-bar">
       <VVAutocomplete
         :items="sortOptions"
         :model-value="sortBy"
-        class="w-full"
+        class="u-w-full"
         label="Classificar por"
         name="sortBy"
         placeholder="Selecione uma opção"
@@ -193,7 +193,7 @@ function handleEventsUpdated() {
       <VVAutocomplete
         :items="orderOptions"
         :model-value="sortOrder"
-        class="w-1/2"
+        class="events-list__sort-order"
         label="Ordem"
         name="sortOrder"
         placeholder="Selecione a ordem"
@@ -201,28 +201,28 @@ function handleEventsUpdated() {
       />
     </div>
 
-    <div class="flex flex-col w-full h-full gap-4 max-h-[90vh]">
+    <div class="u-flex u-flex-col u-w-full u-h-full u-gap-4 events-list__events">
       <div
         v-for="event in filteredEvents"
         :key="event.id"
-        class="flex flex-col border-2 border-ldsa-grey rounded-lg p-3 text-ldsa-text-default"
+        class="u-flex u-flex-col u-rounded-lg u-p-3 events-list__card"
       >
         <!-- Cabeçalho -->
-        <div class="flex justify-between items-center">
-          <div class="flex gap-2 items-center">
+        <div class="u-flex u-justify-between u-items-center">
+          <div class="u-flex u-gap-2 u-items-center">
             <div
-              class="rounded-full w-3 h-3"
+              class="u-rounded-full events-list__dot"
               :style="{ backgroundColor: event.color || '#ddd' }"
             />
-            <h2 class="font-bold text-base">
+            <h2 class="u-font-bold u-text-base">
               {{ event.name }}
             </h2>
             <span
-              class="text-xs px-2 py-0.5 rounded-full"
+              class="u-text-xs u-px-2 u-py-0-5 u-rounded-full"
               :class="
                 event.type === 'etapa'
-                  ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
-                  : 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
+                  ? 'events-list__badge events-list__badge--etapa'
+                  : 'events-list__badge events-list__badge--evento'
               "
             >
               {{ event.type === 'etapa' ? 'Etapa' : 'Evento' }}
@@ -231,7 +231,7 @@ function handleEventsUpdated() {
         </div>
 
         <!-- Conteúdo -->
-        <ul class="mt-2 text-sm">
+        <ul class="u-text-sm events-list__meta">
           <li>
             Início: <span>{{ formatDate(event.startDate) }}</span>
           </li>
@@ -240,10 +240,10 @@ function handleEventsUpdated() {
           </li>
         </ul>
 
-        <p v-if="isNotStarted(event)" class="my-2">
+        <p v-if="isNotStarted(event)" class="events-list__remaining">
           Começa em <span>{{ remainingDays(event) }}</span> dias.
         </p>
-        <p v-else-if="isInProgress(event)" class="my-2">
+        <p v-else-if="isInProgress(event)" class="events-list__remaining">
           Termina em <span>{{ remainingDays(event) }}</span> dias.
         </p>
 
@@ -255,7 +255,7 @@ function handleEventsUpdated() {
 
       <p
         v-if="filteredEvents.length === 0"
-        class="text-center text-ldsa-grey mt-4"
+        class="u-text-center events-list__empty"
       >
         Nenhum evento encontrado.
       </p>
@@ -265,9 +265,60 @@ function handleEventsUpdated() {
     <template #button-group>
       <UIButtonModalCancel
         type="close"
-        class="flex w-full"
+        class="u-flex u-w-full"
         @click="closeModal"
       />
     </template>
   </DialogModalBaseLayout>
 </template>
+
+<style scoped>
+.events-list__search {
+  margin-top: var(--ui-space-1);
+}
+
+.events-list__sort-bar {
+  border-bottom: 2px solid var(--ladesa-grey-color);
+}
+
+.events-list__sort-order {
+  width: 50%;
+}
+
+.events-list__events {
+  max-height: 90vh;
+}
+
+.events-list__card {
+  border: 2px solid var(--ladesa-grey-color);
+  color: var(--ladesa-text-default-color);
+}
+
+.events-list__dot {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.events-list__badge--etapa {
+  background-color: rgb(from var(--ladesa-blue-color) R G B / 10%);
+  color: var(--ladesa-blue-color);
+}
+
+.events-list__badge--evento {
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 10%);
+  color: var(--ladesa-green-1-color);
+}
+
+.events-list__meta {
+  margin-top: var(--ui-space-2);
+}
+
+.events-list__remaining {
+  margin-block: var(--ui-space-2);
+}
+
+.events-list__empty {
+  color: var(--ladesa-grey-color);
+  margin-top: var(--ui-space-4);
+}
+</style>

@@ -104,31 +104,34 @@ const collapsibleOpen = ref(true);
 </script>
 
 <template>
-  <UICollapsible
-    v-model="collapsibleOpen"
-    class="border-2 border-ldsa-grey rounded-lg"
-  >
+  <UICollapsible v-model="collapsibleOpen" class="availability u-rounded-lg">
     <template #trigger>
       <div
-        class="flex items-center justify-between p-5 hover:bg-ldsa-grey/10 font-medium"
+        class="availability__trigger u-flex u-items-center u-justify-between u-p-5 u-font-medium"
       >
         {{ campus?.apelido }}
 
         <IconsArrow
-          class="text-ldsa-text-green transition-[rotate]"
-          :class="collapsibleOpen ? 'rotate-90' : '-rotate-90'"
+          class="availability__arrow"
+          :class="
+            collapsibleOpen
+              ? 'availability__arrow--open'
+              : 'availability__arrow--closed'
+          "
         />
       </div>
     </template>
 
-    <div class="m-5 mt-2 flex flex-col gap-9">
-      <section class="flex justify-between">
+    <div class="availability__body u-flex u-flex-col u-m-5 u-mt-2">
+      <section class="u-flex u-justify-between">
         <div v-for="shift in dayShifts" :key="shift.title">
-          <h1 class="font-medium mb-2">{{ capitalizeFirst(shift.title) }}</h1>
+          <h1 class="u-font-medium u-mb-2">
+            {{ capitalizeFirst(shift.title) }}
+          </h1>
           <UICheckbox
             v-model="selectedTimes"
             :items="shift.times"
-            class="nunito w-full max-w-full"
+            class="nunito availability__checkbox u-w-full"
           />
         </div>
       </section>
@@ -137,15 +140,15 @@ const collapsibleOpen = ref(true);
         <UIAlert
           type="warning"
           message="Há horários cuja indisponibilidade ainda não foi justificada"
-          class="mb-4"
+          class="u-mb-4"
         />
 
         <button
-          class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-9 py-3 rounded-lg w-full text-sm font-semibold hover:bg-ldsa-green-1/10"
+          class="availability__cta u-flex u-justify-between u-items-center u-gap-2 u-py-3 u-rounded-lg u-w-full u-text-sm u-font-semibold"
           @click="$emit('abrir-modal', 'cadastrar')"
         >
           Cadastrar motivos de indisponibilidade
-          <IconsAdd class="w-4 h-4" />
+          <IconsAdd class="availability__cta-icon" />
         </button>
       </div>
 
@@ -153,24 +156,24 @@ const collapsibleOpen = ref(true);
         <UITitle
           variant="mini"
           text="Motivos de indisponibilidade"
-          class="pb-5"
+          class="u-pb-5"
         />
 
-        <div class="flex max-sm:flex-col gap-4 justify-between">
+        <div class="availability__reasons-row u-flex u-gap-4 u-justify-between">
           <button
-            class="indisponibilidade-button"
+            class="indisponibilidade-button u-flex u-justify-center u-items-center u-gap-5 u-py-2 u-rounded-lg u-w-full u-font-semibold"
             @click="$emit('abrir-modal', 'consultar')"
           >
             Consultar
-            <IconsEyeOn class="w-5 shrink-0" />
+            <IconsEyeOn class="availability__reason-icon--eye u-shrink-0" />
           </button>
 
           <button
-            class="indisponibilidade-button"
+            class="indisponibilidade-button u-flex u-justify-center u-items-center u-gap-5 u-py-2 u-rounded-lg u-w-full u-font-semibold"
             @click="$emit('abrir-modal', 'listar')"
           >
             Editar
-            <IconsEdit class="w-3.5 shrink-0" />
+            <IconsEdit class="availability__reason-icon--edit u-shrink-0" />
           </button>
         </div>
       </div>
@@ -179,9 +182,75 @@ const collapsibleOpen = ref(true);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+.availability {
+  border: 2px solid var(--ladesa-grey-color);
+}
+
+.availability__trigger:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.availability__arrow {
+  color: var(--ladesa-text-green-color);
+  transition: rotate var(--ui-duration-fast) var(--ui-easing-standard);
+}
+
+.availability__arrow--open {
+  rotate: 90deg;
+}
+
+.availability__arrow--closed {
+  rotate: -90deg;
+}
+
+.availability__body {
+  gap: 2.25rem;
+}
+
+.availability__checkbox {
+  max-width: 100%;
+}
+
+.availability__cta {
+  border: 2px solid var(--ladesa-green-1-color);
+  color: var(--ladesa-green-1-color);
+  padding-inline: 2.25rem;
+}
+
+.availability__cta:hover {
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 10%);
+}
+
+.availability__cta-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.availability__reason-icon--eye {
+  width: 1.25rem;
+}
+
+.availability__reason-icon--edit {
+  width: 0.875rem;
+}
+
+@media (max-width: 639.98px) {
+  .availability__reasons-row {
+    flex-direction: column;
+  }
+}
 
 .indisponibilidade-button {
-  @apply flex justify-center items-center gap-5 border-2 border-ldsa-grey text-ldsa-text-default py-2 rounded-lg w-full font-semibold hover:bg-ldsa-grey/15 active:bg-ldsa-grey/25 transition-colors;
+  border: 2px solid var(--ladesa-grey-color);
+  color: var(--ladesa-text-default-color);
+  transition: background-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.indisponibilidade-button:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 15%);
+}
+
+.indisponibilidade-button:active {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 25%);
 }
 </style>

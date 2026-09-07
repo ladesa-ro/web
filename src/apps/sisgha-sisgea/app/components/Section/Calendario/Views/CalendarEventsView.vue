@@ -42,7 +42,7 @@ function fecharModal() {
 </script>
 
 <template>
-  <div class="flex flex-wrap w-full h-max gap-6">
+  <div class="calendar-events-view u-flex u-flex-wrap u-w-full u-gap-6">
     <UIButtonEventsList @open="abrirModal" />
 
     <DialogSkeleton v-model="showEventModal">
@@ -54,11 +54,11 @@ function fecharModal() {
       />
     </DialogSkeleton>
 
-    <div class="flex flex-col w-full gap-6">
+    <div class="u-flex u-flex-col u-w-full u-gap-6">
       <div
         v-for="(monthPair, index) in monthPairs"
         :key="index"
-        class="flex w-full gap-6 justify-center"
+        class="u-flex u-w-full u-gap-6 u-justify-center"
       >
         <SectionCalendarioMonth
           v-for="month in monthPair"
@@ -68,11 +68,15 @@ function fecharModal() {
           :events="events"
           :month-num="month"
           :calendar-id="props.calendarId"
-          class="flex-1"
+          class="u-flex-1"
         />
       </div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.calendar-events-view {
+  height: max-content;
+}
+</style>

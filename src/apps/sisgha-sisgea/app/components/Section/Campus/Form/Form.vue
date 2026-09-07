@@ -72,7 +72,7 @@ watch(estadoId, () => {
         mask="##.###.###/####-##"
       />
 
-      <h3 class="text-sm font-semibold text-ldsa-text-default mt-2">
+      <h3 class="u-text-sm u-font-semibold u-mt-2 campus-form__section-title">
         Endereço
       </h3>
 
@@ -122,3 +122,9 @@ watch(estadoId, () => {
     @confirm="confirmDelete.onConfirm"
   />
 </template>
+
+<style scoped>
+.campus-form__section-title {
+  color: var(--ladesa-text-default-color);
+}
+</style>

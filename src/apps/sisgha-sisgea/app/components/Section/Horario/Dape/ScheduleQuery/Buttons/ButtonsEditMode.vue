@@ -10,7 +10,7 @@ const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
 </script>
 
 <template>
-  <span v-if="editMode" class="flex gap-2.5">
+  <span v-if="editMode" class="u-flex u-gap-2-5">
     <slot />
 
     <!-- <div class="divider" /> -->
@@ -20,30 +20,44 @@ const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
       :disabled="selectedItemsSize === 0"
       @click="useSelectedCells({ action: 'removeAll' })"
     >
-      <IconsBroom class="w-4.5" />
+      <IconsBroom class="buttons-edit-mode__icon--broom" />
     </Button> -->
 
     <Button text="Intervalos" @click="showBreaks = !showBreaks">
-      <IconsEyeOff v-show="showBreaks" class="w-5" />
-      <IconsEyeOn v-if="!showBreaks" class="w-5" />
+      <IconsEyeOff v-show="showBreaks" class="buttons-edit-mode__icon" />
+      <IconsEyeOn v-if="!showBreaks" class="buttons-edit-mode__icon" />
     </Button>
 
     <div class="divider" />
 
     <Button color="var(--ladesa-red-color)" @click="editMode = false">
-      <IconsClose class="w-4" />
+      <IconsClose class="buttons-edit-mode__icon--close" />
     </Button>
 
     <Button color="var(--ladesa-text-green-color)" @click="editMode = false">
-      <IconsConfirm class="w-5" />
+      <IconsConfirm class="buttons-edit-mode__icon" />
     </Button>
   </span>
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
 .divider {
-  @apply h-full min-h-10 w-0.5 bg-ldsa-grey/40 mx-2.5;
+  height: 100%;
+  min-height: var(--ui-space-10);
+  width: 0.125rem;
+  margin-inline: var(--ui-space-2-5);
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 40%);
+}
+
+.buttons-edit-mode__icon {
+  width: 1.25rem;
+}
+
+.buttons-edit-mode__icon--close {
+  width: 1rem;
+}
+
+.buttons-edit-mode__icon--broom {
+  width: 1.125rem;
 }
 </style>

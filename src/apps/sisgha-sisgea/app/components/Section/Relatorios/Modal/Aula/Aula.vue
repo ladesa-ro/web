@@ -15,12 +15,10 @@ const carregarMais = () => {
 </script>
 
 <template>
-  <div class="aula mb-5">
-    <div
-      class="aula-header bg-ldsa-green-1 text-ldsa-white border-2 border-ldsa-grey rounded-t-lg p-[1.06rem] gap-1"
-    >
-      <h6 class="title font-semibold text-[11px]">{{ titulo }}</h6>
-      <p class="quantidade text-[10px] text-ldsa-white-1/25">{{ subtitulo }}</p>
+  <div class="aula u-mb-5">
+    <div class="aula-header u-gap-1">
+      <h6 class="title u-font-semibold">{{ titulo }}</h6>
+      <p class="quantidade">{{ subtitulo }}</p>
     </div>
 
     <div class="aula-content">
@@ -34,10 +32,45 @@ const carregarMais = () => {
 
     <div
       v-if="aulasExibidas < aulas.length"
-      class="aula-more bg-ldsa-white-1/25 flex items-center justify-center border-ldsa-grey border-x-2 border-b-2 rounded-b-lg p-[0.4rem] cursor-pointer bg-ldsa-grey/25"
+      class="aula-more u-flex u-items-center u-justify-center"
       @click="carregarMais"
     >
-      <p class="text-medium text-[11px]">Ver Mais +</p>
+      <p class="text-medium">Ver Mais +</p>
     </div>
   </div>
 </template>
+
+<style scoped>
+.aula-header {
+  padding: 1.06rem;
+  border: 2px solid var(--ladesa-grey-color);
+  border-top-left-radius: var(--ui-radius-lg);
+  border-top-right-radius: var(--ui-radius-lg);
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+}
+
+.title {
+  font-size: 0.6875rem;
+}
+
+.quantidade {
+  font-size: 0.625rem;
+  color: rgb(from var(--ladesa-white-color) R G B / 25%);
+}
+
+.aula-more {
+  padding: 0.4rem;
+  cursor: pointer;
+  border-left: 2px solid var(--ladesa-grey-color);
+  border-right: 2px solid var(--ladesa-grey-color);
+  border-bottom: 2px solid var(--ladesa-grey-color);
+  border-bottom-left-radius: var(--ui-radius-lg);
+  border-bottom-right-radius: var(--ui-radius-lg);
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 25%);
+}
+
+.aula-more .text-medium {
+  font-size: 0.6875rem;
+}
+</style>

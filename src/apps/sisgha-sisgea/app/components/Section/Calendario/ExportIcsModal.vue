@@ -90,16 +90,13 @@ async function onCopyLink() {
     </template>
 
     <DialogModalBaseLayout title="Exportar agenda (.ics)" :on-close="onClose">
-      <div class="flex flex-col gap-5">
-        <p
-          v-if="downloadError"
-          class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 rounded-md p-3"
-        >
+      <div class="u-flex u-flex-col u-gap-5">
+        <p v-if="downloadError" class="u-text-sm u-rounded-md u-p-3 export-ics__error">
           {{ downloadError }}
         </p>
 
-        <div class="flex items-end gap-2">
-          <div class="flex-1">
+        <div class="u-flex u-items-end u-gap-2">
+          <div class="u-flex-1">
             <UIFormTextField
               v-model="dateStart"
               type="date"
@@ -107,8 +104,8 @@ async function onCopyLink() {
               label="Período início"
             />
           </div>
-          <span class="pb-2 text-ldsa-grey">—</span>
-          <div class="flex-1">
+          <span class="u-pb-2 export-ics__separator">—</span>
+          <div class="u-flex-1">
             <UIFormTextField
               v-model="dateEnd"
               type="date"
@@ -118,7 +115,7 @@ async function onCopyLink() {
           </div>
         </div>
 
-        <p class="text-xs text-ldsa-grey">
+        <p class="u-text-xs export-ics__hint">
           "Copiar link da agenda" gera uma URL que pode ser colada no Google
           Calendar ou Outlook como assinatura de agenda.
         </p>

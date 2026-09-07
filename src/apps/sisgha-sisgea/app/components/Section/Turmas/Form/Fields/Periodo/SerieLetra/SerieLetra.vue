@@ -35,7 +35,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-[2fr_1fr] gap-4">
+  <div class="serie-letra-grid u-grid u-gap-4">
     <VVTextField
       v-model="serie"
       :disabled="isLoading || disabled"
@@ -55,3 +55,9 @@ onMounted(() => {
     />
   </div>
 </template>
+
+<style scoped>
+.serie-letra-grid {
+  grid-template-columns: 2fr 1fr;
+}
+</style>

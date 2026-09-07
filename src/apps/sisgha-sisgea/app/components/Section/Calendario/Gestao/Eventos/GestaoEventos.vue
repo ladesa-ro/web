@@ -132,9 +132,9 @@ function handleModalClose() {
 </script>
 
 <template>
-  <UIContainer class="flex flex-col gap-6">
+  <UIContainer class="u-flex u-flex-col u-gap-6">
     <UIBreadcrumbDapeBreadcrumb>
-      <div class="flex items-center gap-2">
+      <div class="u-flex u-items-center u-gap-2">
         <SectionCalendarioExportIcsModal
           :date-start="filtersStore.gestaoEventosPeriodoInicio ?? exportDefaultStart"
           :date-end="filtersStore.gestaoEventosPeriodoFim ?? exportDefaultEnd"
@@ -144,14 +144,14 @@ function handleModalClose() {
           @imported="agendamento.invalidate()"
         />
         <UIButtonDefaultSquare @click="createModalOpen = true">
-          <IconsAdd class="w-6 h-full" />
+          <IconsAdd class="gestao-eventos__header-icon u-h-full" />
         </UIButtonDefaultSquare>
       </div>
     </UIBreadcrumbDapeBreadcrumb>
 
     <!-- Filters -->
-    <div class="flex flex-wrap gap-3 items-end">
-      <div class="w-full sm:w-52">
+    <div class="u-flex u-flex-wrap u-gap-3 u-items-end">
+      <div class="gestao-eventos__field-w52 u-w-full">
         <VVAutocompleteAPICalendarioLetivo
           v-model="filtersStore.gestaoEventosCalendarioId"
           name="filterCalendario"
@@ -159,7 +159,7 @@ function handleModalClose() {
         />
       </div>
 
-      <div class="w-full sm:w-52">
+      <div class="gestao-eventos__field-w52 u-w-full">
         <UIFormOptionFieldsAutocomplete
           v-model="selectedParticipantes"
           :items="participantesOptions"
@@ -169,7 +169,7 @@ function handleModalClose() {
         />
       </div>
 
-      <div class="w-full sm:w-44">
+      <div class="gestao-eventos__field-w44 u-w-full">
         <UIFormOptionFieldsAutocomplete
           v-model="selectedStatus"
           :items="statusOptions"
@@ -179,8 +179,8 @@ function handleModalClose() {
         />
       </div>
 
-      <div class="flex items-end gap-2 w-full sm:w-auto">
-        <div class="flex-1 sm:w-40">
+      <div class="gestao-eventos__periodo-wrap u-flex u-items-end u-gap-2 u-w-full">
+        <div class="gestao-eventos__field-w40 u-flex-1">
           <UIFormTextField
             :model-value="filtersStore.gestaoEventosPeriodoInicio ?? undefined"
             name="filterPeriodoInicio"
@@ -191,8 +191,8 @@ function handleModalClose() {
             "
           />
         </div>
-        <span class="pb-2 text-ldsa-grey">—</span>
-        <div class="flex-1 sm:w-40">
+        <span class="gestao-eventos__periodo-sep u-pb-2">—</span>
+        <div class="gestao-eventos__field-w40 u-flex-1">
           <UIFormTextField
             :model-value="filtersStore.gestaoEventosPeriodoFim ?? undefined"
             name="filterPeriodoFim"
@@ -206,18 +206,18 @@ function handleModalClose() {
       </div>
 
       <button
-        class="flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm font-medium transition-colors"
+        class="gestao-eventos__filtros-btn u-flex u-items-center u-gap-1-5 u-px-3 u-py-2 u-rounded-lg u-text-sm u-font-medium"
         :class="
           showOutrosFiltros
-            ? 'border-ldsa-green-1 text-ldsa-green-1 bg-ldsa-green-1/10'
-            : 'border-ldsa-grey/30 text-ldsa-grey hover:border-ldsa-grey/60'
+            ? 'gestao-eventos__filtros-btn--active'
+            : 'gestao-eventos__filtros-btn--inactive'
         "
         @click="showOutrosFiltros = !showOutrosFiltros"
       >
         Outros filtros
         <svg
-          class="w-4 h-4 transition-transform"
-          :class="{ 'rotate-180': showOutrosFiltros }"
+          class="gestao-eventos__chevron"
+          :class="{ 'gestao-eventos__chevron--open': showOutrosFiltros }"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -231,8 +231,8 @@ function handleModalClose() {
     </div>
 
     <!-- Outros filtros (expandable) -->
-    <div v-if="showOutrosFiltros" class="flex flex-wrap gap-3">
-      <div class="w-full sm:w-44">
+    <div v-if="showOutrosFiltros" class="u-flex u-flex-wrap u-gap-3">
+      <div class="gestao-eventos__field-w44 u-w-full">
         <UIFormOptionFieldsAutocomplete
           v-model="selectedTipo"
           :items="tipoOptions"
@@ -249,29 +249,29 @@ function handleModalClose() {
     />
 
     <!-- Loading -->
-    <div v-if="isLoading" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+    <div v-if="isLoading" class="gestao-eventos__grid u-grid u-gap-5">
       <UICardSkeleton v-for="i in 4" :key="i" />
     </div>
 
     <!-- Error -->
-    <div v-else-if="isError" class="text-center text-ldsa-red py-8">
+    <div v-else-if="isError" class="gestao-eventos__error u-text-center u-py-8">
       Erro ao carregar eventos. Tente novamente.
     </div>
 
     <!-- Empty -->
     <div
       v-else-if="eventos.length === 0"
-      class="flex flex-col justify-center items-center gap-5 py-8"
+      class="u-flex u-flex-col u-justify-center u-items-center u-gap-5 u-py-8"
     >
-      <UIContentStateEmpty class="dark:saturate-75 dark:opacity-50" />
-      <span class="text-ldsa-grey dark:contrast-0 text-center">
+      <UIContentStateEmpty class="gestao-eventos__empty-icon" />
+      <span class="gestao-eventos__empty-text u-text-center">
         Nenhum evento encontrado. Tente ajustar os filtros ou criar um novo
         evento.
       </span>
     </div>
 
     <!-- Events grid -->
-    <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+    <div v-else class="gestao-eventos__grid u-grid u-gap-5">
       <Card
         v-for="evento in eventos"
         :key="evento.id"
@@ -310,3 +310,97 @@ function handleModalClose() {
     </DialogSkeleton>
   </UIContainer>
 </template>
+
+<style scoped>
+.gestao-eventos__header-icon {
+  width: 1.5rem;
+}
+
+.gestao-eventos__field-w52,
+.gestao-eventos__field-w44,
+.gestao-eventos__periodo-wrap {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .gestao-eventos__field-w52 {
+    width: 13rem;
+  }
+
+  .gestao-eventos__field-w44 {
+    width: 11rem;
+  }
+
+  .gestao-eventos__periodo-wrap {
+    width: auto;
+  }
+
+  .gestao-eventos__field-w40 {
+    width: 10rem;
+  }
+}
+
+.gestao-eventos__periodo-sep {
+  color: var(--ladesa-grey-color);
+}
+
+.gestao-eventos__filtros-btn {
+  border: 1px solid transparent;
+  transition:
+    color var(--ui-duration-base) var(--ui-easing-standard),
+    border-color var(--ui-duration-base) var(--ui-easing-standard),
+    background-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.gestao-eventos__filtros-btn--active {
+  border-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-green-1-color);
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 10%);
+}
+
+.gestao-eventos__filtros-btn--inactive {
+  border-color: rgb(from var(--ladesa-grey-color) R G B / 30%);
+  color: var(--ladesa-grey-color);
+}
+
+.gestao-eventos__filtros-btn--inactive:hover {
+  border-color: rgb(from var(--ladesa-grey-color) R G B / 60%);
+}
+
+.gestao-eventos__chevron {
+  width: 1rem;
+  height: 1rem;
+  transition: transform var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.gestao-eventos__chevron--open {
+  transform: rotate(180deg);
+}
+
+.gestao-eventos__grid {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 1024px) {
+  .gestao-eventos__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.gestao-eventos__error {
+  color: var(--ladesa-red-color);
+}
+
+.gestao-eventos__empty-text {
+  color: var(--ladesa-grey-color);
+}
+
+:global(.dark) .gestao-eventos__empty-icon {
+  filter: saturate(0.75);
+  opacity: 0.5;
+}
+
+:global(.dark) .gestao-eventos__empty-text {
+  filter: contrast(0);
+}
+</style>

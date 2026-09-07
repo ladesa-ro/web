@@ -41,7 +41,7 @@ const { data: profilePicureUrl } = usuarios.imageProfile(computed(() => usuario?
       variant="block"
     >
       <template #fallbackIcon>
-        <IconsUser class="w-1/3 2xl:w-1/4 text-ldsa-grey" />
+        <IconsUser class="grid-item__fallback-icon" />
       </template>
 
       <template #actions>
@@ -55,3 +55,16 @@ const { data: profilePicureUrl } = usuarios.imageProfile(computed(() => usuario?
     </UICard>
   </UICardAutoSkeleton>
 </template>
+
+<style scoped>
+.grid-item__fallback-icon {
+  width: 33.333%;
+  color: var(--ladesa-grey-color);
+}
+
+@media (min-width: 1536px) {
+  .grid-item__fallback-icon {
+    width: 25%;
+  }
+}
+</style>

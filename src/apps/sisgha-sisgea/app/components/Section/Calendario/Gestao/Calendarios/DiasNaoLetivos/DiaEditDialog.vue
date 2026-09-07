@@ -96,17 +96,17 @@ defineExpose({ resetForEdit, resetForCreate });
       :close-button="true"
       :on-close="close"
     >
-      <form class="flex flex-col gap-4" @submit.prevent="saveEdit">
+      <form class="u-flex u-flex-col u-gap-4" @submit.prevent="saveEdit">
         <VVTextField name="feriado" label="Nome" placeholder="Nome do dia" />
 
-        <div class="flex flex-col gap-1.5">
-          <span class="text-[0.813rem] font-semibold text-ldsa-grey px-1"
+        <div class="u-flex u-flex-col u-gap-1-5">
+          <span class="dia-edit-dialog__label u-font-semibold u-px-1"
             >Cor</span
           >
           <VVColorPalette name="cor" />
         </div>
 
-        <div class="text-sm text-ldsa-grey">
+        <div class="dia-edit-dialog__data-info u-text-sm">
           Data: <strong>{{ formatDate(dia.data) }}</strong>
         </div>
 
@@ -118,14 +118,14 @@ defineExpose({ resetForEdit, resetForCreate });
       <template #button-group>
         <button
           type="button"
-          class="rounded-lg border border-ldsa-grey/30 px-4 py-2 text-sm font-medium"
+          class="dia-edit-dialog__btn-cancel u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium"
           @click="close"
         >
           Cancelar
         </button>
         <button
           type="button"
-          class="rounded-lg bg-ldsa-green-1 px-4 py-2 text-sm font-medium text-white"
+          class="dia-edit-dialog__btn-save u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium"
           @click="saveEdit"
         >
           Salvar
@@ -134,3 +134,23 @@ defineExpose({ resetForEdit, resetForCreate });
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.dia-edit-dialog__label,
+.dia-edit-dialog__data-info {
+  color: var(--ladesa-grey-color);
+}
+
+.dia-edit-dialog__label {
+  font-size: 0.813rem;
+}
+
+.dia-edit-dialog__btn-cancel {
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 30%);
+}
+
+.dia-edit-dialog__btn-save {
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+}
+</style>

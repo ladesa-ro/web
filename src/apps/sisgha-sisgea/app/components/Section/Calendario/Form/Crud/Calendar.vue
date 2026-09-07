@@ -198,7 +198,7 @@ watch(
 
 <template>
   <div>
-    <div v-show="_formStage === 1" class="flex flex-col gap-4 overflow-visible">
+    <div v-show="_formStage === 1" class="u-flex u-flex-col u-gap-4 calendar-crud__overflow-visible">
       <VVTextField
         name="calendarName"
         type="text"
@@ -226,34 +226,30 @@ watch(
       />
     </div>
 
-    <div v-show="_formStage === 2" class="flex flex-col gap-4 pr-2">
+    <div v-show="_formStage === 2" class="u-flex u-flex-col u-gap-4 calendar-crud__stage-two">
       <div
         v-if="isEditMode && calendarQuery.isLoading.value"
-        class="flex items-center justify-center py-8"
+        class="u-flex u-items-center u-justify-center calendar-crud__loading"
       >
-        <div
-          class="animate-spin w-6 h-6 border-2 border-ldsa-green-2 border-t-transparent rounded-full"
-        />
+        <div class="calendar-crud__spinner" />
       </div>
 
       <div
         v-else-if="formacaoQuery.isLoading.value"
-        class="flex items-center justify-center py-8"
+        class="u-flex u-items-center u-justify-center calendar-crud__loading"
       >
-        <div
-          class="animate-spin w-6 h-6 border-2 border-ldsa-green-2 border-t-transparent rounded-full"
-        />
+        <div class="calendar-crud__spinner" />
       </div>
 
       <p
         v-else-if="formacaoPeriodos.length === 0"
-        class="text-sm text-ldsa-text-default/60 py-4 text-center"
+        class="u-text-sm u-text-center calendar-crud__empty"
       >
         Nenhuma etapa configurada para esta formação.
       </p>
 
       <template v-else v-for="periodo in formacaoPeriodos" :key="periodo.id">
-        <h3 class="font-bold text-lg mt-2">
+        <h3 class="u-font-bold u-text-lg calendar-crud__periodo-title">
           Período {{ periodo.numeroPeriodo }}
         </h3>
         <VVCalendarStep
@@ -270,8 +266,51 @@ watch(
       </template>
     </div>
 
-    <p v-if="submitError" class="text-red-500 text-sm mt-2">
+    <p v-if="submitError" class="u-text-sm calendar-crud__error">
       {{ submitError }}
     </p>
   </div>
 </template>
+
+<style scoped>
+.calendar-crud__overflow-visible {
+  overflow: visible;
+}
+
+.calendar-crud__stage-two {
+  padding-right: var(--ui-space-2);
+}
+
+.calendar-crud__loading {
+  padding-block: var(--ui-space-8);
+}
+
+.calendar-crud__spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--ladesa-green-2-color);
+  border-top-color: transparent;
+  border-radius: var(--ui-radius-full);
+  animation: calendar-crud-spin 1s linear infinite;
+}
+
+@keyframes calendar-crud-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.calendar-crud__empty {
+  color: rgb(from var(--ladesa-text-default-color) R G B / 60%);
+  padding-block: var(--ui-space-4);
+}
+
+.calendar-crud__periodo-title {
+  margin-top: var(--ui-space-2);
+}
+
+.calendar-crud__error {
+  color: var(--ladesa-red-color);
+  margin-top: var(--ui-space-2);
+}
+</style>

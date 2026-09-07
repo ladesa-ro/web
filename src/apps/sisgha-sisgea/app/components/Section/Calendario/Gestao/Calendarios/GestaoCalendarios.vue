@@ -113,27 +113,27 @@ function handleModalClose() {
 </script>
 
 <template>
-  <UIContainer class="flex flex-col gap-6">
+  <UIContainer class="u-flex u-flex-col u-gap-6">
     <UIBreadcrumbDapeBreadcrumb>
-      <div class="flex gap-3.5">
+      <div class="u-flex u-gap-3-5">
         <NuxtLink
           to="/sisgha/dape/calendario/gestao-calendarios/dias-nao-letivos"
         >
           <UIButtonDefaultSquare>
-            <IconsCalendarX class="w-6 h-full" />
+            <IconsCalendarX class="gestao-calendarios__header-icon u-h-full" />
           </UIButtonDefaultSquare>
         </NuxtLink>
 
         <UIButtonDefaultSquare @click="createModalOpen = true">
-          <IconsAdd class="w-6 h-full" />
+          <IconsAdd class="gestao-calendarios__header-icon u-h-full" />
         </UIButtonDefaultSquare>
       </div>
     </UIBreadcrumbDapeBreadcrumb>
 
     <!-- Filters -->
-    <div class="flex flex-col gap-3.5 -mt-1.5">
-      <div class="flex flex-wrap items-end gap-3.5">
-        <div class="w-full sm:w-30">
+    <div class="gestao-calendarios__filters u-flex u-flex-col u-gap-3-5">
+      <div class="u-flex u-flex-wrap u-items-end u-gap-3-5">
+        <div class="gestao-calendarios__field-year u-w-full">
           <UIFormTextField
             v-model="selectedYear"
             name="calendarYear"
@@ -143,7 +143,7 @@ function handleModalClose() {
           />
         </div>
 
-        <div class="w-full sm:flex-1 sm:min-w-48">
+        <div class="gestao-calendarios__field-formacao u-w-full">
           <VVAutocompleteAPIOfertaFormacao
             v-model="filtersStore.formacaoId"
             name="filterFormacao"
@@ -151,7 +151,7 @@ function handleModalClose() {
           />
         </div>
 
-        <div class="w-full sm:w-52">
+        <div class="gestao-calendarios__field-calendario u-w-full">
           <VVAutocompleteAPICalendarioLetivo
             v-model="filtersStore.calendarioId"
             name="filterCalendario"
@@ -159,7 +159,7 @@ function handleModalClose() {
           />
         </div>
 
-        <div class="w-full sm:w-44">
+        <div class="gestao-calendarios__field-status u-w-full">
           <UIFormOptionFieldsAutocomplete
             v-model="selectedStatus"
             :items="statusOptions"
@@ -177,29 +177,29 @@ function handleModalClose() {
     </div>
 
     <!-- Loading -->
-    <div v-if="isLoading" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+    <div v-if="isLoading" class="gestao-calendarios__grid u-grid u-gap-5">
       <UICardSkeleton v-for="i in 4" :key="i" />
     </div>
 
     <!-- Error -->
-    <div v-else-if="isError" class="text-center text-ldsa-red py-8">
+    <div v-else-if="isError" class="gestao-calendarios__error u-text-center u-py-8">
       Erro ao carregar calendários. Tente novamente.
     </div>
 
     <!-- Empty -->
     <div
       v-else-if="calendarios.length === 0"
-      class="flex flex-col justify-center items-center gap-5 py-8"
+      class="u-flex u-flex-col u-justify-center u-items-center u-gap-5 u-py-8"
     >
-      <UIContentStateEmpty class="dark:saturate-75 dark:opacity-50" />
-      <span class="text-ldsa-grey dark:contrast-0 text-center">
+      <UIContentStateEmpty class="gestao-calendarios__empty-icon" />
+      <span class="gestao-calendarios__empty-text u-text-center">
         Nenhum calendário encontrado. Tente ajustar os filtros ou criar um novo
         calendário.
       </span>
     </div>
 
     <!-- Calendars grid -->
-    <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+    <div v-else class="gestao-calendarios__grid u-grid u-gap-5">
       <Card
         v-for="calendario in calendarios"
         :key="calendario.id"
@@ -235,3 +235,67 @@ function handleModalClose() {
     </DialogSkeleton>
   </UIContainer>
 </template>
+
+<style scoped>
+.gestao-calendarios__header-icon {
+  width: 1.5rem;
+}
+
+.gestao-calendarios__filters {
+  margin-top: -0.375rem;
+}
+
+.gestao-calendarios__field-year,
+.gestao-calendarios__field-formacao,
+.gestao-calendarios__field-calendario,
+.gestao-calendarios__field-status {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .gestao-calendarios__field-year {
+    width: 7.5rem;
+  }
+
+  .gestao-calendarios__field-formacao {
+    width: auto;
+    flex: 1 1 0%;
+    min-width: 12rem;
+  }
+
+  .gestao-calendarios__field-calendario {
+    width: 13rem;
+  }
+
+  .gestao-calendarios__field-status {
+    width: 11rem;
+  }
+}
+
+.gestao-calendarios__grid {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 1024px) {
+  .gestao-calendarios__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.gestao-calendarios__error {
+  color: var(--ladesa-red-color);
+}
+
+.gestao-calendarios__empty-text {
+  color: var(--ladesa-grey-color);
+}
+
+:global(.dark) .gestao-calendarios__empty-icon {
+  filter: saturate(0.75);
+  opacity: 0.5;
+}
+
+:global(.dark) .gestao-calendarios__empty-text {
+  filter: contrast(0);
+}
+</style>

@@ -74,13 +74,13 @@ const professoresSelecionados = computed({
 </script>
 
 <template>
-  <div class="flex flex-col gap-3">
+  <div class="u-flex u-flex-col u-gap-3">
     <!-- Loading -->
     <div
       v-if="listQuery.isLoading.value"
-      class="flex items-center justify-center py-6"
+      class="u-flex u-items-center u-justify-center professores-tab__loading"
     >
-      <span class="text-sm text-ldsa-grey/100 animate-pulse">Carregando professores...</span>
+      <span class="u-text-sm professores-tab__loading-text">Carregando professores...</span>
     </div>
 
     <template v-else>
@@ -94,38 +94,34 @@ const professoresSelecionados = computed({
     />
 
     <!-- Lista de professores -->
-    <div class="max-h-[250px] overflow-y-auto flex flex-col gap-2">
+    <div class="u-flex u-flex-col u-gap-2 u-overflow-auto professores-tab__list">
       <UICheckbox
         v-slot="{ item, selected, invertItem }"
         v-model="professoresSelecionados"
         :items="professores"
       >
         <div
-          class="flex items-center gap-3 border-2 rounded-lg pr-3 mb-1 cursor-pointer transition-colors"
-          :class="
-            selected
-              ? 'border-ldsa-green-1 bg-ldsa-green-50'
-              : 'border-ldsa-grey/100'
-          "
+          class="u-flex u-items-center u-gap-3 u-rounded-lg professores-tab__item"
+          :class="{ 'professores-tab__item--selected': selected }"
           @click.stop="invertItem(item)"
         >
           <div
-            class="w-12 h-12 bg-ldsa-grey/20 rounded-md flex items-center justify-center shrink-0 overflow-hidden"
+            class="u-flex u-items-center u-justify-center u-shrink-0 u-overflow-hidden u-rounded-md professores-tab__avatar"
           >
             <img
               v-if="(item as Record<string, unknown>).imageUrl"
               :src="(item as Record<string, unknown>).imageUrl as string"
-              class="w-full h-full object-cover"
+              class="u-w-full u-h-full professores-tab__avatar-image"
             >
-            <IconsUser v-else class="w-6 h-6 text-ldsa-grey" />
+            <IconsUser v-else class="professores-tab__avatar-icon" />
           </div>
-          <div class="flex flex-col flex-1 py-2">
-            <p class="font-semibold text-sm text-ldsa-text-default">
+          <div class="u-flex u-flex-col u-flex-1 professores-tab__info">
+            <p class="u-font-semibold u-text-sm professores-tab__name">
               {{ item.label }}
             </p>
             <p
               v-if="(item as Record<string, unknown>).cargo"
-              class="text-xs text-ldsa-grey/100"
+              class="u-text-xs professores-tab__cargo"
             >
               {{ (item as Record<string, unknown>).cargo }}
             </p>
@@ -137,3 +133,70 @@ const professoresSelecionados = computed({
     </template>
   </div>
 </template>
+
+<style scoped>
+.professores-tab__loading {
+  padding-block: var(--ui-space-6);
+}
+
+.professores-tab__loading-text {
+  color: rgb(from var(--ladesa-grey-color) R G B / 100%);
+  animation: professores-tab-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes professores-tab-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.professores-tab__list {
+  max-height: 15.625rem;
+}
+
+.professores-tab__item {
+  border: 2px solid rgb(from var(--ladesa-grey-color) R G B / 100%);
+  padding-right: var(--ui-space-3);
+  margin-bottom: var(--ui-space-1);
+  cursor: pointer;
+  transition: background-color var(--ui-duration-base) var(--ui-easing-standard),
+    border-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.professores-tab__item--selected {
+  border-color: var(--ladesa-green-1-color);
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 10%);
+}
+
+.professores-tab__avatar {
+  width: 3rem;
+  height: 3rem;
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 20%);
+}
+
+.professores-tab__avatar-image {
+  object-fit: cover;
+}
+
+.professores-tab__avatar-icon {
+  width: var(--ui-space-6);
+  height: var(--ui-space-6);
+  color: rgb(from var(--ladesa-grey-color) R G B / 100%);
+}
+
+.professores-tab__info {
+  padding-block: var(--ui-space-2);
+}
+
+.professores-tab__name {
+  color: var(--ladesa-text-default-color);
+}
+
+.professores-tab__cargo {
+  color: rgb(from var(--ladesa-grey-color) R G B / 100%);
+}
+</style>

@@ -86,9 +86,9 @@ function close() {
       :close-button="true"
       :on-close="close"
     >
-      <form class="flex flex-col gap-4" @submit.prevent="save">
-        <div class="text-sm text-ldsa-grey">
-          Evento: <strong class="text-ldsa-text-default">{{ evento?.nome }}</strong>
+      <form class="u-flex u-flex-col u-gap-4" @submit.prevent="save">
+        <div class="u-text-sm abertura-modal__meta">
+          Evento: <strong class="abertura-modal__meta-value">{{ evento?.nome }}</strong>
           <span v-if="evento">
             — {{ evento.dataInicio }} {{ evento.horarioInicio?.slice(0, 5) }}
           </span>
@@ -121,14 +121,14 @@ function close() {
       <template #button-group>
         <button
           type="button"
-          class="rounded-lg border border-ldsa-grey/30 px-4 py-2 text-sm font-medium"
+          class="u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium button-secondary"
           @click="close"
         >
           Cancelar
         </button>
         <button
           type="button"
-          class="rounded-lg bg-ldsa-green-1 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+          class="u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium button-primary"
           :disabled="saving"
           @click="save"
         >
@@ -138,3 +138,26 @@ function close() {
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.abertura-modal__meta {
+  color: var(--ladesa-grey-color);
+}
+
+.abertura-modal__meta-value {
+  color: var(--ladesa-text-default-color);
+}
+
+.button-secondary {
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 30%);
+}
+
+.button-primary {
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+}
+
+.button-primary:disabled {
+  opacity: var(--ui-disabled-opacity);
+}
+</style>

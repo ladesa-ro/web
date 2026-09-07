@@ -14,8 +14,8 @@ const diaInteiro = computed(() => formValues.value.diaInteiro as boolean);
 <template>
   <VVTextField name="nome" label="Nome" :disabled="disabled" :required="true" />
 
-  <div class="flex flex-col gap-1.5">
-    <span class="text-[0.813rem] font-semibold text-ldsa-grey px-1">Cor</span>
+  <div class="u-flex u-flex-col u-gap-1-5">
+    <span class="u-font-semibold u-px-1 evento-form-fields__cor-label">Cor</span>
     <VVColorPalette name="cor" :disabled="disabled" />
   </div>
 
@@ -27,8 +27,8 @@ const diaInteiro = computed(() => formValues.value.diaInteiro as boolean);
     :disabled="disabled"
   />
 
-  <div class="flex gap-4">
-    <div class="flex-1">
+  <div class="u-flex u-gap-4">
+    <div class="u-flex-1">
       <VVDateField
         name="dataInicio"
         label="Data inicial"
@@ -36,20 +36,20 @@ const diaInteiro = computed(() => formValues.value.diaInteiro as boolean);
         :disabled="disabled"
       />
     </div>
-    <div class="flex-1">
+    <div class="u-flex-1">
       <VVDateField name="dataFim" label="Data final" :disabled="disabled" />
     </div>
   </div>
 
-  <div v-if="!diaInteiro" class="flex gap-4">
-    <div class="flex-1">
+  <div v-if="!diaInteiro" class="u-flex u-gap-4">
+    <div class="u-flex-1">
       <VVTimeField
         name="horarioInicio"
         label="Horário inicial"
         :disabled="disabled"
       />
     </div>
-    <div class="flex-1">
+    <div class="u-flex-1">
       <VVTimeField
         name="horarioFim"
         label="Horário final"
@@ -80,10 +80,10 @@ const diaInteiro = computed(() => formValues.value.diaInteiro as boolean);
   <template v-if="showParticipants">
     <div
       v-if="origemProfessor"
-      class="flex items-start gap-2.5 p-3 rounded-lg bg-blue-50 border border-blue-200"
+      class="u-flex u-items-start u-gap-2-5 u-p-3 u-rounded-lg evento-form-fields__info"
     >
-      <IconsInfo class="text-blue-600 shrink-0 mt-0.5 w-[18px] h-[18px]" />
-      <span class="text-sm text-blue-800">
+      <IconsInfo class="u-shrink-0 evento-form-fields__info-icon" />
+      <span class="u-text-sm evento-form-fields__info-text">
         Este evento foi criado na edição de agenda do professor e, portanto, não
         é possível vinculá-lo a mais nenhum professor ou turma.
       </span>
@@ -95,3 +95,26 @@ const diaInteiro = computed(() => formValues.value.diaInteiro as boolean);
     />
   </template>
 </template>
+
+<style scoped>
+.evento-form-fields__cor-label {
+  font-size: 0.813rem;
+  color: var(--ladesa-grey-color);
+}
+
+.evento-form-fields__info {
+  background-color: rgb(from var(--ladesa-blue-color) R G B / 10%);
+  border: 1px solid rgb(from var(--ladesa-blue-color) R G B / 30%);
+}
+
+.evento-form-fields__info-icon {
+  color: var(--ladesa-blue-color);
+  margin-top: 0.125rem;
+  width: 18px;
+  height: 18px;
+}
+
+.evento-form-fields__info-text {
+  color: var(--ladesa-blue-color);
+}
+</style>

@@ -47,13 +47,15 @@ function openSolicitarMudanca() {
 }
 </script>
 <template>
-  <div class="flex flex-col gap-2">
-    <h1 class="font-semibold">{{ lesson.discipline }} - {{ lesson.class }}</h1>
+  <div class="u-flex u-flex-col u-gap-2">
+    <h1 class="u-font-semibold">
+      {{ lesson.discipline }} - {{ lesson.class }}
+    </h1>
 
-    <div v-if="lesson.id" class="flex flex-wrap gap-3 text-xs">
+    <div v-if="lesson.id" class="u-flex u-flex-wrap u-gap-3 u-text-xs">
       <button
         type="button"
-        class="text-ldsa-red font-medium hover:underline"
+        class="cancel-button u-font-medium"
         @click="openCancelar"
       >
         Cancelar minha ocorrência
@@ -61,7 +63,7 @@ function openSolicitarMudanca() {
 
       <button
         type="button"
-        class="text-ldsa-text-green font-medium hover:underline"
+        class="request-button u-font-medium"
         @click="openSolicitarMudanca"
       >
         Solicitar mudança
@@ -82,3 +84,21 @@ function openSolicitarMudanca() {
     />
   </div>
 </template>
+
+<style scoped>
+.cancel-button {
+  color: var(--ladesa-red-color);
+}
+
+.cancel-button:hover {
+  text-decoration: underline;
+}
+
+.request-button {
+  color: var(--ladesa-text-green-color);
+}
+
+.request-button:hover {
+  text-decoration: underline;
+}
+</style>

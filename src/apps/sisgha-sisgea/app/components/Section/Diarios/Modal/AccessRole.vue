@@ -15,33 +15,33 @@ const selectAgrupamento = () => {
 </script>
 
 <template>
-  <div class="flex flex-col justify-between items-center bg-ldsa-bg">
-    <section class="flex flex-row justify-between w-full gap-4">
+  <div class="u-flex u-flex-col u-justify-between u-items-center access-role">
+    <section class="u-flex u-flex-row u-justify-between u-w-full u-gap-4">
       <!-- ===================== AGRUPAMENTO ===================== -->
       <div
         :class="{
-          active: activeButton === 'AGRUPAMENTO',
-          'border-ldsa-grey': activeButton !== 'AGRUPAMENTO',
+          'toggle-option--active': activeButton === 'AGRUPAMENTO',
+          'toggle-option--inactive': activeButton !== 'AGRUPAMENTO',
         }"
         class="toggle-option"
         @click="selectAgrupamento"
       >
         <IconsGroup height="40" width="42" />
-        <p class="font-[600]">Aulas por dia</p>
+        <p class="toggle-option__label">Aulas por dia</p>
       </div>
       <!-- =============================================== -->
 
       <!-- ================== PROFESSOR ================== -->
       <div
         :class="{
-          active: activeButton === 'Professor',
-          'border-ldsa-grey': activeButton !== 'Professor',
+          'toggle-option--active': activeButton === 'Professor',
+          'toggle-option--inactive': activeButton !== 'Professor',
         }"
         class="toggle-option"
         @click="selectProfessor"
       >
         <IconsEducator height="49" width="36" />
-        <p class="font-[600]">Professores</p>
+        <p class="toggle-option__label">Professores</p>
       </div>
       <!-- =============================================== -->
     </section>
@@ -49,14 +49,35 @@ const selectAgrupamento = () => {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
-.toggle-option {
-  @apply flex flex-col justify-center items-center gap-2;
-  @apply w-56 h-40 border-2 rounded-lg text-center cursor-pointer;
+.access-role {
+  background-color: var(--ladesa-background-color);
 }
 
-.active {
-  @apply bg-ldsa-green-1 border-ldsa-green-1 text-ldsa-white;
+.toggle-option {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--ui-space-2);
+  width: 14rem;
+  height: 10rem;
+  border: 2px solid transparent;
+  border-radius: var(--ui-radius-lg);
+  text-align: center;
+  cursor: pointer;
+}
+
+.toggle-option__label {
+  font-weight: 600;
+}
+
+.toggle-option--inactive {
+  border-color: rgb(from var(--ladesa-grey-color) R G B / 100%);
+}
+
+.toggle-option--active {
+  background-color: var(--ladesa-green-1-color);
+  border-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
 }
 </style>

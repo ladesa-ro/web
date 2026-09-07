@@ -31,49 +31,79 @@ const isTruncated = computed(
 
 <template>
   <div
-    class="flex flex-col gap-2 border border-ldsa-grey/20 rounded-xl p-4 cursor-pointer hover:border-ldsa-green-1/50 transition-colors"
+    class="u-flex u-flex-col u-gap-2 u-rounded-xl u-p-4 solicitacao-card"
     @click="emit('open', solicitacao.id)"
   >
-    <div class="flex items-center justify-between gap-2">
-      <span class="font-semibold text-sm truncate">
+    <div class="u-flex u-items-center u-justify-between u-gap-2">
+      <span class="u-font-semibold u-text-sm u-truncate">
         {{ evento?.nome ?? 'Evento' }}
       </span>
 
       <span
-        class="text-xs font-semibold px-2 py-0.5 rounded-full shrink-0"
+        class="u-text-xs u-font-semibold u-px-2 u-py-0-5 u-rounded-full u-shrink-0"
         :class="
           solicitacao.tipoOperacao === 'REMOVER'
-            ? 'bg-ldsa-red/15 text-ldsa-red'
-            : 'bg-ldsa-blue/15 text-ldsa-blue'
+            ? 'solicitacao-card__badge--remover'
+            : 'solicitacao-card__badge--mover'
         "
       >
         {{ formatTipoOperacao(solicitacao.tipoOperacao) }}
       </span>
     </div>
 
-    <div v-if="evento" class="text-xs text-ldsa-grey">
+    <div v-if="evento" class="u-text-xs solicitacao-card__meta">
       Hoje: {{ dayjs(evento.dataInicio).format('DD/MM/YYYY') }}
       {{ evento.horarioInicio?.slice(0, 5) }}–{{ evento.horarioFim?.slice(0, 5) }}
     </div>
 
-    <div class="text-xs text-ldsa-grey">
+    <div class="u-text-xs solicitacao-card__meta">
       Autor: {{ solicitacao.autor.nome ?? '—' }}
     </div>
 
-    <p class="text-sm">
+    <p class="u-text-sm">
       {{ expanded ? solicitacao.justificativa : justificativaCurta }}
       <button
         v-if="isTruncated"
         type="button"
-        class="text-ldsa-text-green font-medium ml-1"
+        class="u-font-medium u-ml-1 solicitacao-card__toggle"
         @click.stop="expanded = !expanded"
       >
         {{ expanded ? 'ver menos' : 'ver mais' }}
       </button>
     </p>
 
-    <div class="text-xs text-ldsa-grey">
+    <div class="u-text-xs solicitacao-card__meta">
       Aberta em {{ dayjs(solicitacao.dateCreated).format('DD/MM/YYYY HH:mm') }}
     </div>
   </div>
 </template>
+
+<style scoped>
+.solicitacao-card {
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 20%);
+  cursor: pointer;
+  transition: border-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.solicitacao-card:hover {
+  border-color: rgb(from var(--ladesa-green-1-color) R G B / 50%);
+}
+
+.solicitacao-card__badge--remover {
+  background-color: rgb(from var(--ladesa-red-color) R G B / 15%);
+  color: var(--ladesa-red-color);
+}
+
+.solicitacao-card__badge--mover {
+  background-color: rgb(from var(--ladesa-blue-color) R G B / 15%);
+  color: var(--ladesa-blue-color);
+}
+
+.solicitacao-card__meta {
+  color: var(--ladesa-grey-color);
+}
+
+.solicitacao-card__toggle {
+  color: var(--ladesa-text-green-color);
+}
+</style>

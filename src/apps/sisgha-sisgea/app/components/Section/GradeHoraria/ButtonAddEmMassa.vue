@@ -6,9 +6,36 @@ defineProps<{ disabled?: boolean }>();
   <button
     type="button"
     :disabled="disabled"
-    class="flex items-center justify-center gap-2 px-2 h-7.5 text-sm font-medium text-ldsa-grey transition-colors hover:bg-ldsa-grey/15 active:bg-ldsa-grey/30 disabled:text-ldsa-grey/40 disabled:bg-transparent"
+    class="u-flex u-items-center u-justify-center u-gap-2 u-px-2 u-text-sm u-font-medium grade-add-button"
   >
     <p>Adicionar em massa</p>
-    <IconsAdd class="w-2.5" />
+    <IconsAdd class="grade-add-button__icon" />
   </button>
 </template>
+
+<style scoped>
+.grade-add-button {
+  height: 1.875rem;
+  color: var(--ladesa-grey-color);
+  transition:
+    background-color var(--ui-duration-fast) var(--ui-easing-standard),
+    color var(--ui-duration-fast) var(--ui-easing-standard);
+}
+
+.grade-add-button:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 15%);
+}
+
+.grade-add-button:active {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 30%);
+}
+
+.grade-add-button:disabled {
+  color: rgb(from var(--ladesa-grey-color) R G B / 40%);
+  background-color: transparent;
+}
+
+.grade-add-button__icon {
+  width: 0.625rem;
+}
+</style>

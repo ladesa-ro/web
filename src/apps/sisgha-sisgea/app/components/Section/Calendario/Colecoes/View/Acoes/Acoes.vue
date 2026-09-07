@@ -15,10 +15,10 @@ async function handleDelete() {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
-    <h2 class="font-semibold text-lg">Ações</h2>
+  <div class="u-flex u-flex-col u-gap-4">
+    <h2 class="u-font-semibold u-text-lg">Ações</h2>
 
-    <div class="flex flex-wrap gap-3">
+    <div class="u-flex u-flex-wrap u-gap-3">
       <SectionCalendarioColecoesViewAcoesTransferirDonoModal
         :colecao-id="colecaoId"
         :dono-atual-nome="donoAtualNome"

@@ -10,20 +10,19 @@ const props = defineProps<Day>();
 
 <template>
   <div
-    class="flex aspect-square w-6 sm:w-6 md:w-8 lg:w-10 justify-center items-center rounded-lg p-4 sm:p-1 md:p-1.5"
+    class="day-cell u-flex u-justify-center u-items-center u-rounded-lg"
     :class="{
-      'bg-ldsa-grey/30': !props.date,
-      'bg-ldsa-grey/60 ': props.color === 'none',
-      'bg-[repeating-linear-gradient(135deg,rgba(107,114,128,0.6)_0,rgba(107,114,128,0.6)_2px,transparent_2px,transparent_6px)]':
-        props.occupied,
+      'day-cell--empty': !props.date,
+      'day-cell--no-color': props.color === 'none',
+      'day-cell--occupied': props.occupied,
     }"
     :style="{ backgroundColor: props.color }"
   >
     <p
-      class="flex justify-center items-center text-ldsa-white font-bold w-full h-full"
+      class="day-cell__label u-flex u-justify-center u-items-center u-font-bold u-w-full u-h-full"
       :class="{
-        invisible: !props.date,
-        'border-2 border-ldsa-white rounded-md':
+        'day-cell__label--hidden': !props.date,
+        'day-cell__label--today':
           dayjs(props.date).format('YYYY-MM-DD') ===
           dayjs().format('YYYY-MM-DD'),
       }"
@@ -33,4 +32,61 @@ const props = defineProps<Day>();
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.day-cell {
+  aspect-ratio: 1 / 1;
+  width: 1.5rem;
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .day-cell {
+    width: 1.5rem;
+    padding: 0.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .day-cell {
+    width: 2rem;
+    padding: 0.375rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .day-cell {
+    width: 2.5rem;
+  }
+}
+
+.day-cell--empty {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 30%);
+}
+
+.day-cell--no-color {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 60%);
+}
+
+.day-cell--occupied {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(107, 114, 128, 0.6) 0,
+    rgba(107, 114, 128, 0.6) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+}
+
+.day-cell__label {
+  color: var(--ladesa-white-color);
+}
+
+.day-cell__label--hidden {
+  visibility: hidden;
+}
+
+.day-cell__label--today {
+  border: 2px solid var(--ladesa-white-color);
+  border-radius: var(--ui-radius-md);
+}
+</style>

@@ -94,7 +94,7 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
 
 <template>
   <!-- Bare mode: just the form fields, no modal wrapper -->
-  <div v-if="bare" class="flex flex-col gap-5">
+  <div v-if="bare" class="u-flex u-flex-col u-gap-5">
     <SectionCalendarioFormSharedEventoFormFields
       :disabled="disabled"
       :show-participants="showParticipants"
@@ -110,7 +110,7 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
     :on-close="() => emit('back')"
     class="evento-form-modal"
   >
-    <form class="flex flex-col gap-5" @submit.prevent="onSubmit">
+    <form class="u-flex u-flex-col u-gap-5" @submit.prevent="onSubmit">
       <SectionCalendarioFormSharedEventoFormFields
         :disabled="disabled"
         :show-participants="showParticipants"

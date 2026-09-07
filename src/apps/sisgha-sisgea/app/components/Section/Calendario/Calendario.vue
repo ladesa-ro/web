@@ -185,12 +185,12 @@ const selectedCalendarItem = computed({
 </script>
 
 <template>
-  <UIContainer class="flex flex-col gap-4">
+  <UIContainer class="u-flex u-flex-col u-gap-4">
     <UIBreadcrumbDapeBreadcrumb />
 
     <!-- Menu -->
-    <div class="flex items-end gap-3.5 w-full">
-      <div class="w-30">
+    <div class="u-flex u-items-end u-gap-3-5 u-w-full">
+      <div class="calendario-menu__year-field">
         <VVTextField
           v-model="selectedYear"
           label="Ano Letivo"
@@ -204,7 +204,7 @@ const selectedCalendarItem = computed({
 
       <VVAutocompleteAPIOfertaFormacao
         v-model="selectedTrainingOffer"
-        class="flex-1"
+        class="u-flex-1"
         name="trainingOffer"
         label="Formação"
         :required="false"
@@ -218,7 +218,7 @@ const selectedCalendarItem = computed({
         :items="calendarSelectItems"
         label="Calendário"
         placeholder="Selecione um calendário"
-        class="flex-1"
+        class="u-flex-1"
       />
 
       <GestaoPopover v-if="dapeVisualization" />
@@ -229,7 +229,7 @@ const selectedCalendarItem = computed({
       v-model="toggleView"
       :disabled="!selectedCalendar"
       :items="toggleItems"
-      class="w-full"
+      class="u-w-full"
     />
 
     <KeepAlive>
@@ -246,15 +246,35 @@ const selectedCalendarItem = computed({
       :year="selectedCalendar.year || 0"
     />
 
-    <div
-      v-if="!selectedTrainingOffer || !selectedCalendarId"
-      class="flex flex-col justify-center items-center gap-5 mt-15"
-    >
-      <UIContentStateEmpty class="dark:saturate-75 dark:opacity-50" />
-      <span class="text-ldsa-grey dark:contrast-0 text-center">
+    <div v-if="!selectedTrainingOffer || !selectedCalendarId" class="u-flex u-flex-col u-justify-center u-items-center u-gap-5 calendario-empty-state">
+      <UIContentStateEmpty class="calendario-empty-state__icon" />
+      <span class="u-text-center calendario-empty-state__text">
         Selecione um calendário nos filtros acima para visualizar suas
         informações.
       </span>
     </div>
   </UIContainer>
 </template>
+
+<style scoped>
+.calendario-menu__year-field {
+  width: 7.5rem;
+}
+
+.calendario-empty-state {
+  margin-top: 3.75rem;
+}
+
+.calendario-empty-state__text {
+  color: var(--ladesa-grey-color);
+}
+
+:global(.dark) .calendario-empty-state__icon {
+  filter: saturate(75%);
+  opacity: 0.5;
+}
+
+:global(.dark) .calendario-empty-state__text {
+  filter: contrast(0);
+}
+</style>

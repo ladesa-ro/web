@@ -10,9 +10,9 @@ const props = defineProps<Props>();
 
 <template>
   <div
-    class="card flex flex-col justify-center items-center py-8 gap-6 cursor-pointer text-ldsa-text-default"
+    class="card card-option u-flex u-flex-col u-justify-center u-items-center u-py-8 u-gap-6"
   >
-    <div class="flex w-[3rem]">
+    <div class="card-option__icon-wrap u-flex">
       <component :is="props.icon" />
     </div>
     <p>{{ props.text }}</p>
@@ -21,4 +21,13 @@ const props = defineProps<Props>();
 
 <style scoped>
 @import '@/components/UI/Card/Card.css';
+
+.card-option {
+  cursor: pointer;
+  color: var(--ladesa-text-default-color);
+}
+
+.card-option__icon-wrap {
+  width: 3rem;
+}
 </style>

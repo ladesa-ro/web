@@ -88,11 +88,11 @@ async function handleCancelar() {
   <UIContainer variant="larger">
     <UIBreadcrumbDapeBreadcrumb />
 
-    <div class="flex flex-col gap-6 mt-4">
-    <header class="flex flex-wrap items-center justify-between gap-2">
+    <div class="u-flex u-flex-col u-gap-6 u-mt-4">
+    <header class="u-flex u-flex-wrap u-items-center u-justify-between u-gap-2">
       <UITitle text="Revisão da sessão de edição" variant="small" />
 
-      <span class="text-sm text-ldsa-grey">
+      <span class="sessao__meta u-text-sm">
         Sessão {{ sessaoId }} · {{ estadoLabel }}
       </span>
     </header>
@@ -108,12 +108,12 @@ async function handleCancelar() {
     <template v-else>
       <p
         v-if="semMudancasPendentes"
-        class="text-ldsa-grey text-center py-10"
+        class="sessao__empty u-text-center u-py-10"
       >
         Nenhuma mudança pendente nesta sessão.
       </p>
 
-      <div v-else class="flex flex-col gap-8">
+      <div v-else class="u-flex u-flex-col u-gap-8">
         <SectionHorarioDapeSessaoMudancaGroup
           titulo="Entram"
           cor="green-2"
@@ -145,7 +145,7 @@ async function handleCancelar() {
 
     <footer
       v-if="!isLoading && !isLoadingSessao && !isError && estadoSessao === 'ABERTA'"
-      class="flex max-sm:flex-col gap-3 justify-between mt-4"
+      class="sessao__footer u-flex u-gap-3 u-justify-between u-mt-4"
     >
       <UIButtonModalBaseLayout
         text="Cancelar sessão"
@@ -183,3 +183,16 @@ async function handleCancelar() {
     @confirm="confirmCancelar.onConfirm"
   />
 </template>
+
+<style scoped>
+.sessao__meta,
+.sessao__empty {
+  color: var(--ladesa-grey-color);
+}
+
+@media (max-width: 639.98px) {
+  .sessao__footer {
+    flex-direction: column;
+  }
+}
+</style>

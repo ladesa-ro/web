@@ -58,18 +58,18 @@ const { confirmDelete, handleDelete } = useResourceDelete({
     </template>
 
     <template #related>
-      <UICollapsible class="border-2 border-ldsa-grey rounded-lg">
+      <UICollapsible class="u-rounded-lg ambiente-collapsible">
         <template #trigger>
           <div
-            class="flex items-center justify-between p-5 hover:bg-ldsa-grey/10 font-medium"
+            class="u-flex u-items-center u-justify-between u-p-5 u-font-medium ambiente-collapsible__trigger"
           >
             Indisponibilidade
 
-            <IconsArrow class="text-ldsa-text-green" />
+            <IconsArrow class="ambiente-collapsible__icon" />
           </div>
         </template>
 
-        <div class="p-5 pt-0">
+        <div class="u-p-5 u-pt-0">
           <SectionCalendarioIndisponibilidadeProfessor
             tipo-entidade="ambiente"
             :entidade-id="resourceId"
@@ -85,3 +85,17 @@ const { confirmDelete, handleDelete } = useResourceDelete({
     @confirm="confirmDelete.onConfirm"
   />
 </template>
+
+<style scoped>
+.ambiente-collapsible {
+  border: 2px solid var(--ladesa-grey-color);
+}
+
+.ambiente-collapsible__trigger:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.ambiente-collapsible__icon {
+  color: var(--ladesa-text-green-color);
+}
+</style>

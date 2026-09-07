@@ -58,8 +58,8 @@ const options = createApiListContextOptions({
     </template>
 
     <template #filters>
-      <div class="flex flex-wrap gap-3 items-end">
-        <div class="min-w-56 flex-1">
+      <div class="u-flex u-flex-wrap u-gap-3 u-items-end">
+        <div class="colecoes-filter-visibilidade u-flex-1">
           <UIFormOptionFieldsSelect
             v-model="selectedVisibilidade"
             label="Visibilidade"
@@ -79,3 +79,9 @@ const options = createApiListContextOptions({
     </template>
   </UIAPIList>
 </template>
+
+<style scoped>
+.colecoes-filter-visibilidade {
+  min-width: 14rem;
+}
+</style>

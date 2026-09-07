@@ -36,7 +36,10 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
 </script>
 
 <template>
-  <form @submit.prevent="onSubmit" class="flex items-center justify-center">
+  <form
+    class="u-flex u-items-center u-justify-center"
+    @submit.prevent="onSubmit"
+  >
     <UIFormLayout
       :title="
         mode === FormMode.MANAGE ? 'Editar Disciplina' : 'Cadastrar Disciplina'

@@ -19,8 +19,8 @@ const {
 </script>
 
 <template>
-  <div class="flex flex-col gap-1">
-    <label v-if="label" class="text-sm font-medium text-ldsa-grey px-1">
+  <div class="u-flex u-flex-col u-gap-1">
+    <label v-if="label" class="u-text-sm u-font-medium u-px-1 textarea-field__label">
       {{ label }}
     </label>
 
@@ -29,12 +29,38 @@ const {
       :placeholder="placeholder"
       :disabled="disabled"
       :rows="rows ?? 4"
-      class="w-full px-3 py-2.5 rounded-md border border-ldsa-grey/30 bg-transparent resize-none disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:border-ldsa-green-1"
+      class="u-w-full u-px-3 u-py-2-5 u-rounded-md textarea-field__control"
       @blur="handleBlur"
     />
 
-    <p v-if="errorMessage" class="text-ldsa-red text-xs font-semibold px-1">
+    <p v-if="errorMessage" class="u-text-xs u-font-semibold u-px-1 textarea-field__error">
       {{ errorMessage }}
     </p>
   </div>
 </template>
+
+<style scoped>
+.textarea-field__label {
+  color: var(--ladesa-grey-color);
+}
+
+.textarea-field__control {
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 30%);
+  background-color: transparent;
+  resize: none;
+}
+
+.textarea-field__control:disabled {
+  opacity: var(--ui-disabled-opacity);
+  cursor: not-allowed;
+}
+
+.textarea-field__control:focus {
+  outline: none;
+  border-color: var(--ladesa-green-1-color);
+}
+
+.textarea-field__error {
+  color: var(--ladesa-red-color);
+}
+</style>

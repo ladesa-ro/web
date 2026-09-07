@@ -7,11 +7,11 @@ const isActive = ref(false);
   <DialogSkeleton v-model="isActive" :disabled>
     <template #activator>
       <span
-        class="text-ldsa-text-green inline"
+        class="reset-password-trigger"
         :class="
           disabled
-            ? 'opacity-50 cursor-not-allowed'
-            : 'hover:underline! cursor-pointer'
+            ? 'reset-password-trigger--disabled'
+            : 'reset-password-trigger--enabled'
         "
         @click="isActive = true"
       >
@@ -22,3 +22,23 @@ const isActive = ref(false);
     <SectionLoginResetPasswordForm @close="isActive = false" />
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.reset-password-trigger {
+  display: inline;
+  color: var(--ladesa-text-green-color);
+}
+
+.reset-password-trigger--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.reset-password-trigger--enabled {
+  cursor: pointer;
+}
+
+.reset-password-trigger--enabled:hover {
+  text-decoration: underline !important;
+}
+</style>

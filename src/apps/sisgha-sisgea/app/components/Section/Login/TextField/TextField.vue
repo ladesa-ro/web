@@ -90,11 +90,11 @@ const handleContainerClick = () => {
       >
         <IconsEyeOff
           v-if="showPassword"
-          class="visibility-icon flex items-center"
+          class="visibility-icon u-flex u-items-center"
         />
         <IconsEyeOn
           v-if="!showPassword"
-          class="visibility-icon flex items-center"
+          class="visibility-icon u-flex u-items-center"
         />
       </button>
     </div>
@@ -102,8 +102,6 @@ const handleContainerClick = () => {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
 .ui-text-field {
   display: flex;
   flex-direction: row;
@@ -112,7 +110,8 @@ const handleContainerClick = () => {
 
   padding: 0 1.125rem;
 
-  @apply border-2 border-ldsa-grey/60 rounded-[0.5625rem];
+  border: 2px solid rgb(from var(--ladesa-grey-color) R G B / 60%);
+  border-radius: 0.5625rem;
 
   cursor: text;
 
@@ -133,11 +132,11 @@ const handleContainerClick = () => {
 }
 
 .ui-text-field input::placeholder {
-  @apply text-ldsa-grey;
+  color: var(--ladesa-grey-color);
 }
 
 .ui-text-field:focus-within {
-  @apply border-ldsa-green-1;
+  border-color: var(--ladesa-green-1-color);
   box-shadow: 0 0 0.5px 5px rgb(from var(--ladesa-green-1-color) R G B / 20%);
 }
 

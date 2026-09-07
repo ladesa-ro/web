@@ -88,12 +88,11 @@ const duracaoLabel = computed(() => {
       :items="duracaoItems"
     />
 
-    <div
-      v-if="duracaoLabel"
-      class="flex gap-3 items-center rounded-[5px] bg-ldsa-blue/10 border border-ldsa-blue/10 px-3 py-2.5 overflow-clip"
-    >
-      <span class="i-mdi-information-outline text-ldsa-blue shrink-0 text-lg" />
-      <p class="text-ldsa-blue text-xs font-medium tracking-wide">
+    <div v-if="duracaoLabel" class="u-flex u-gap-3 u-items-center formacoes-form1__banner">
+      <span
+        class="i-mdi-information-outline u-shrink-0 u-text-lg formacoes-form1__banner-icon"
+      />
+      <p class="u-text-xs u-font-medium formacoes-form1__banner-text">
         {{ duracaoLabel }}
       </p>
     </div>
@@ -109,3 +108,22 @@ const duracaoLabel = computed(() => {
     </template>
   </DialogModalBaseLayout>
 </template>
+
+<style scoped>
+.formacoes-form1__banner {
+  border-radius: 5px;
+  background-color: rgb(from var(--ladesa-blue-color) R G B / 10%);
+  border: 1px solid rgb(from var(--ladesa-blue-color) R G B / 10%);
+  padding: var(--ui-space-2-5) var(--ui-space-3);
+  overflow: clip;
+}
+
+.formacoes-form1__banner-icon {
+  color: var(--ladesa-blue-color);
+}
+
+.formacoes-form1__banner-text {
+  color: var(--ladesa-blue-color);
+  letter-spacing: 0.025em;
+}
+</style>

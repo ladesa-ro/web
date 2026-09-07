@@ -69,7 +69,7 @@ const turmasOrProfessoresSelected = ref();
 </script>
 
 <template>
-  <div class="flex max-lg:mt-[0.688rem]">
+  <div class="grid-cell-edit-buttons u-flex">
     <SectionHorarioDapeEditPopoverEdit
       v-model="popoverOpen"
       :handle-confirm-button-click="changeCellType"
@@ -77,7 +77,7 @@ const turmasOrProfessoresSelected = ref();
     >
       <template #activator>
         <button
-          class="w-5.5 h-5.5 p-[0.313rem] flex items-center justify-center rounded hover:bg-ldsa-text-default/15 text-ldsa-text-default"
+          class="grid-cell-edit-buttons__edit-btn u-flex u-items-center u-justify-center u-rounded-sm"
         >
           <IconsEdit />
         </button>
@@ -136,9 +136,11 @@ const turmasOrProfessoresSelected = ref();
     </SectionHorarioDapeEditPopoverEdit>
 
     <button
+      class="grid-cell-edit-buttons__exclude-btn u-flex u-items-center u-justify-center u-rounded-sm u-p-1"
       :class="[
-        'w-5.5 h-5.5 p-1 rounded flex items-center justify-center hover:bg-ldsa-red/15 text-ldsa-red',
-        cell.type === 'vago' ? 'opacity-0 cursor-default' : 'cursor-pointer',
+        cell.type === 'vago'
+          ? 'grid-cell-edit-buttons__exclude-btn--disabled'
+          : 'grid-cell-edit-buttons__exclude-btn--enabled',
       ]"
       @click.stop="changeCellType('vago')"
     >
@@ -146,3 +148,43 @@ const turmasOrProfessoresSelected = ref();
     </button>
   </div>
 </template>
+
+<style scoped>
+.grid-cell-edit-buttons__edit-btn,
+.grid-cell-edit-buttons__exclude-btn {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.grid-cell-edit-buttons__edit-btn {
+  padding: 0.313rem;
+  color: var(--ladesa-text-default-color);
+}
+
+.grid-cell-edit-buttons__edit-btn:hover {
+  background-color: rgb(from var(--ladesa-text-default-color) R G B / 15%);
+}
+
+.grid-cell-edit-buttons__exclude-btn {
+  color: var(--ladesa-red-color);
+}
+
+.grid-cell-edit-buttons__exclude-btn:hover {
+  background-color: rgb(from var(--ladesa-red-color) R G B / 15%);
+}
+
+.grid-cell-edit-buttons__exclude-btn--disabled {
+  opacity: 0;
+  cursor: default;
+}
+
+.grid-cell-edit-buttons__exclude-btn--enabled {
+  cursor: pointer;
+}
+
+@media (max-width: 1023.98px) {
+  .grid-cell-edit-buttons {
+    margin-top: 0.688rem;
+  }
+}
+</style>

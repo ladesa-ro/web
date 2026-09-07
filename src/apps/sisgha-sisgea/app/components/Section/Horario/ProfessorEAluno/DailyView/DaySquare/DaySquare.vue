@@ -10,10 +10,10 @@ defineProps<Props>();
 <template>
   <button :class="{ selected }" class="day-square">
     <p class="day-week">
-      <span class="max-[820px]:hidden min-[820px]:inline">
+      <span class="day-week-full">
         {{ dayWeek }}
       </span>
-      <span class="min-[820px]:hidden max-[820px]:inline">
+      <span class="day-week-short">
         {{ dayWeek.slice(0, 3) }}
       </span>
     </p>
@@ -22,24 +22,77 @@ defineProps<Props>();
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
 .day-square {
-  @apply w-full flex flex-col justify-center items-center gap-1 lg:gap-2 overflow-hidden;
-  @apply min-w-10 lg:max-w-28 lg:max-h-28 p-1 py-2.5 min-[462px]:p-2 sm:p-3 lg:p-4;
-  @apply border-2 border-ldsa-green-1 rounded-[0.625rem];
-  @apply text-xs sm:text-sm lg:text-base font-semibold text-ldsa-text-green;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--ui-space-1);
+  overflow: hidden;
+  min-width: 2.5rem;
+  padding: var(--ui-space-1);
+  padding-block: 0.625rem;
+  border: 2px solid var(--ladesa-green-1-color);
+  border-radius: 0.625rem;
+  font-size: 0.75rem;
+  font-weight: var(--ui-font-weight-semibold);
+  color: var(--ladesa-text-green-color);
+}
+
+@media (min-width: 462px) {
+  .day-square {
+    padding: var(--ui-space-2);
+  }
+}
+
+@media (min-width: 640px) {
+  .day-square {
+    padding: var(--ui-space-3);
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .day-square {
+    gap: var(--ui-space-2);
+    max-width: 7rem;
+    max-height: 7rem;
+    padding: var(--ui-space-4);
+    font-size: 1rem;
+  }
 }
 
 .day-week {
-  @apply p-0 pb-[0.313rem] border-b-2 border-b-ldsa-green-1;
+  padding: 0;
+  padding-bottom: 0.313rem;
+  border-bottom: 2px solid var(--ladesa-green-1-color);
+}
+
+.day-week-full {
+  display: none;
+}
+
+.day-week-short {
+  display: inline;
+}
+
+@media (min-width: 820px) {
+  .day-week-full {
+    display: inline;
+  }
+
+  .day-week-short {
+    display: none;
+  }
 }
 
 .selected {
-  @apply bg-ldsa-green-1 text-ldsa-white;
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
 }
 
 .selected .day-week {
-  @apply border-b-ldsa-white;
+  border-bottom-color: var(--ladesa-white-color);
 }
 </style>

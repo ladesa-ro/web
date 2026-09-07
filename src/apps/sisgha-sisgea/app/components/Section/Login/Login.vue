@@ -11,7 +11,7 @@ useTitle(null, 'Login');
       <div class="light-1" />
       <div class="light-2" />
 
-      <div class="login-card w-full">
+      <div class="login-card u-w-full">
         <LogoSISGHALogomarca class="logo" />
 
         <div class="fields">
@@ -38,7 +38,7 @@ useTitle(null, 'Login');
           />
         </div>
 
-        <span class="block mb-8 text-center">
+        <span class="login-forgot-password u-mb-8 u-text-center">
           Esqueceu a senha?
           <LazySectionLoginResetPasswordModal :disabled="isBusy" />
         </span>
@@ -53,9 +53,9 @@ useTitle(null, 'Login');
 
         <div
           v-if="isError"
-          class="flex gap-2 bg-ldsa-red/10 text-ldsa-red p-2 rounded-md text-sm border border-ldsa-red/10 mt-8"
+          class="login-error u-flex u-gap-2 u-p-2 u-rounded-md u-text-sm u-mt-8"
         >
-          <IconsWarning class="w-4.5" />
+          <IconsWarning class="login-error-icon" />
           Não foi possível realizar o login.
         </div>
       </div>
@@ -73,11 +73,11 @@ useTitle(null, 'Login');
           type="button"
         >
           <template #start-icon>
-            <IconsUser class="flex w-6 h-6 mr-4" />
+            <IconsUser class="login-alternative-icon u-flex u-mr-4" />
           </template>
 
-          <p class="w-full h-full border-l-2">
-            <span class="ml-4" />
+          <p class="login-alternative-content u-w-full u-h-full">
+            <span class="u-ml-4" />
             <span>Entrar como aluno</span>
           </p>
         </UIButtonDefault>
@@ -87,8 +87,6 @@ useTitle(null, 'Login');
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
 .login {
   flex-shrink: 0;
 
@@ -115,30 +113,47 @@ useTitle(null, 'Login');
 }
 
 .login-form {
-  @apply grid grid-rows-[1rem_1fr_1rem] sm:grid-cols-[3.0625rem_1fr_2.8125rem];
-  @apply grid-cols-[1rem_1fr_1rem] sm:grid-cols-[3.1875rem_1fr_3.25rem] justify-center content-center overflow-hidden mb-4;
+  display: grid;
+  grid-template-rows: 1rem 1fr 1rem;
+  grid-template-columns: 1rem 1fr 1rem;
+  justify-content: center;
+  align-content: center;
+  overflow: hidden;
+  margin-bottom: 1rem;
 }
 
-.login-card {
-  @apply max-w-[21.25rem];
+@media (min-width: 40rem) {
+  .login-form {
+    grid-template-columns: 3.1875rem 1fr 3.25rem;
+  }
 }
 
 .login-alternative-actions {
-  @apply px-4 w-full shrink-0;
+  padding-inline: 1rem;
+  width: 100%;
+  flex-shrink: 0;
 }
 
 .login-alternative-link {
-  @apply max-w-[21.25rem] mx-auto;
+  display: block;
+  max-width: 21.25rem;
+  margin-inline: auto;
 }
 
 .login-card {
   grid-row: 2 / 3;
   grid-column: 2 / 3;
 
+  max-width: 21.25rem;
+
   background: var(--ladesa-background-color);
   box-shadow: 0px 0px 1px rgba(13, 92, 25, 0.25);
-  @apply border border-ldsa-grey/45 rounded-[0.5625rem];
-  @apply mt-8 mb-4 p-8;
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 45%);
+  border-radius: 0.5625rem;
+
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  padding: 2rem;
 }
 
 .light-1,
@@ -199,8 +214,27 @@ useTitle(null, 'Login');
   min-width: 100%;
 }
 
-.login-alternative-link {
+.login-forgot-password {
   display: block;
+}
+
+.login-error {
+  background-color: rgb(from var(--ladesa-red-color) R G B / 10%);
+  color: var(--ladesa-red-color);
+  border: 1px solid rgb(from var(--ladesa-red-color) R G B / 10%);
+}
+
+.login-error-icon {
+  width: 1.125rem;
+}
+
+.login-alternative-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.login-alternative-content {
+  border-left: 2px solid currentColor;
 }
 
 .login-alternative-button {

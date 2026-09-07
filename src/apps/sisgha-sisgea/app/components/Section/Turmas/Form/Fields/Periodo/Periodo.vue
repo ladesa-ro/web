@@ -67,12 +67,20 @@ const estrategiaModalidade = computed(() => {
 
   <template v-else-if="cursoSelecionado">
     <div
-      class="p-4 mb-4 text-sm rounded border border-yellow-200 bg-yellow-100 text-yellow-800"
+      class="unsupported-modalidade-warning u-p-4 u-mb-4 u-text-sm u-rounded-sm"
     >
       O sistema ainda não suporta o cadastro de turmas para a modalidade
-      <span class="font-semibold"
+      <span class="u-font-semibold"
         >"{{ cursoSelecionado.ofertaFormacao?.nome }}"</span
       >.
     </div>
   </template>
 </template>
+
+<style scoped>
+.unsupported-modalidade-warning {
+  border: 1px solid #fef08a;
+  background-color: #fef9c3;
+  color: #854d0e;
+}
+</style>

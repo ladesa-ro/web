@@ -97,7 +97,7 @@ function close() {
       :close-button="true"
       :on-close="close"
     >
-      <form class="flex flex-col gap-4" @submit.prevent="save">
+      <form class="u-flex u-flex-col u-gap-4" @submit.prevent="save">
         <VVOptionFieldsRadioGroup
           name="modo"
           label="Recorrência"
@@ -124,7 +124,7 @@ function close() {
           label="Tipo"
           :items="tipoOptions"
         />
-        <p class="text-xs text-ldsa-grey px-1 -mt-2">
+        <p class="u-text-xs u-px-1 edit-modal__hint">
           Bloqueio: nunca aloca. Preferência: evita alocar, mas não impede.
         </p>
 
@@ -138,14 +138,14 @@ function close() {
       <template #button-group>
         <button
           type="button"
-          class="rounded-lg border border-ldsa-grey/30 px-4 py-2 text-sm font-medium"
+          class="u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium button-secondary"
           @click="close"
         >
           Cancelar
         </button>
         <button
           type="button"
-          class="rounded-lg bg-ldsa-green-1 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
+          class="u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium button-primary"
           :disabled="saving"
           @click="save"
         >
@@ -155,3 +155,23 @@ function close() {
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.edit-modal__hint {
+  color: var(--ladesa-grey-color);
+  margin-top: calc(var(--ui-space-2) * -1);
+}
+
+.button-secondary {
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 30%);
+}
+
+.button-primary {
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+}
+
+.button-primary:disabled {
+  opacity: var(--ui-disabled-opacity);
+}
+</style>

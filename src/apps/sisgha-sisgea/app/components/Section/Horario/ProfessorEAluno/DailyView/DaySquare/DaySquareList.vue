@@ -9,9 +9,7 @@ const weekDays = computed(() => getWeekDays(selectedDay.value));
 </script>
 
 <template>
-  <div
-    class="flex justify-between gap-2 min-[502px]:gap-4 lg:gap-6 xl:gap-12 w-full overflow-x-auto"
-  >
+  <div class="day-square-list">
     <SectionHorarioProfessorEAlunoDailyViewDaySquare
       v-for="weekDay in weekDays"
       :selected="weekDay.dayMonth === activeDayMonth"
@@ -21,3 +19,31 @@ const weekDays = computed(() => getWeekDays(selectedDay.value));
     />
   </div>
 </template>
+
+<style scoped>
+.day-square-list {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  overflow-x: auto;
+  gap: var(--ui-space-2);
+}
+
+@media (min-width: 502px) {
+  .day-square-list {
+    gap: var(--ui-space-4);
+  }
+}
+
+@media (min-width: 1024px) {
+  .day-square-list {
+    gap: var(--ui-space-6);
+  }
+}
+
+@media (min-width: 1280px) {
+  .day-square-list {
+    gap: var(--ui-space-12);
+  }
+}
+</style>

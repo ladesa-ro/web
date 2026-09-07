@@ -20,10 +20,7 @@ const goBack = () => {
 </script>
 
 <template>
-  <UIContainer
-    variant="larger"
-    class="flex flex-col justify-center gap-5 lg:gap-6.5 xl:gap-8"
-  >
+  <UIContainer variant="larger" class="profile-page__container">
     <UIBreadcrumbDapeBreadcrumb />
 
     <template v-if="user">
@@ -33,14 +30,14 @@ const goBack = () => {
       <SectionProfileHeader :user="user" />
 
       <!-- TODO: puxar da api -->
-      <section class="grid gap-4 md:grid-cols-5 auto-rows-auto">
+      <section class="profile-page__grid">
         <SectionProfileAvailability
-          class="border-card md:order-none md:col-span-2"
+          class="border-card profile-page__availability"
         />
 
         <SectionProfileTeaching
           :user="user"
-          class="border-card md:order-none md:col-span-3"
+          class="border-card profile-page__teaching"
         />
       </section>
     </template>
@@ -53,10 +50,53 @@ const goBack = () => {
 </template>
 
 <style>
-@reference "~/assets/styles/app.css";
-
 /* class provided for the child components */
 .border-card {
-  @apply overflow-hidden border-2 border-ldsa-grey rounded-xl;
+  overflow: hidden;
+  border: 2px solid var(--ladesa-grey-color);
+  border-radius: var(--ui-radius-xl);
+}
+</style>
+
+<style scoped>
+.profile-page__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--ui-space-5);
+}
+
+@media (min-width: 64rem) {
+  .profile-page__container {
+    gap: 1.625rem;
+  }
+}
+
+@media (min-width: 80rem) {
+  .profile-page__container {
+    gap: var(--ui-space-8);
+  }
+}
+
+.profile-page__grid {
+  display: grid;
+  gap: var(--ui-space-4);
+  grid-auto-rows: auto;
+}
+
+@media (min-width: 48rem) {
+  .profile-page__grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .profile-page__availability {
+    order: 0;
+    grid-column: span 2 / span 2;
+  }
+
+  .profile-page__teaching {
+    order: 0;
+    grid-column: span 3 / span 3;
+  }
 }
 </style>

@@ -38,17 +38,17 @@ const toggleAll = (shift: { times: string[] }) => {
 </script>
 
 <template>
-  <section class="flex justify-between gap-4">
-    <div v-for="shift in dayShifts" :key="shift.title" class="flex-1">
-      <div class="flex items-center pb-2 mb-2 border-b-1 border-ldsa-grey">
+  <section class="u-flex u-justify-between u-gap-4">
+    <div v-for="shift in dayShifts" :key="shift.title" class="u-flex-1">
+      <div class="shift-header u-flex u-items-center u-pb-2 u-mb-2">
         <UICheckbox
           :items="['']"
           :disabled-items="disabledSelectAll"
           :model-value="isAllSelected(shift) ? [''] : []"
-          class="mr-2 w-5 h-5"
+          class="shift-checkbox u-mr-2"
           @update:model-value="() => toggleAll(shift)"
         />
-        <h1 class="font-medium text-ldsa-text-default">
+        <h1 class="shift-title u-font-medium">
           {{ capitalizeFirst(shift.title) }}
         </h1>
       </div>
@@ -56,9 +56,24 @@ const toggleAll = (shift: { times: string[] }) => {
         :model-value="props.selectedTimes"
         :items="shift.times"
         :disabled-items="disabledItems"
-        class="nunito flex flex-col justify-between"
+        class="nunito u-flex u-flex-col u-justify-between"
         @update:model-value="val => emit('update:selectedTimes', val)"
       />
     </div>
   </section>
 </template>
+
+<style scoped>
+.shift-header {
+  border-bottom: 1px solid var(--ladesa-grey-color);
+}
+
+.shift-checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.shift-title {
+  color: var(--ladesa-text-default-color);
+}
+</style>

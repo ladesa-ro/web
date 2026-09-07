@@ -32,7 +32,7 @@ useOnCalendarioForceClose(onClose);
     <DialogModalBaseLayout :on-close="onClose" :title="'Eventos'">
       <SearchBar />
 
-      <div class="flex flex-col w-full h-full">
+      <div class="u-flex u-flex-col u-w-full u-h-full">
         <SectionCalendarioEvent
           v-for="event in props.events"
           :key="event.id"
@@ -46,7 +46,7 @@ useOnCalendarioForceClose(onClose);
       <template #button-group>
         <UIButtonModalCancel
           type="close"
-          class="flex w-full"
+          class="u-flex u-w-full"
           @click="onClose"
         />
       </template>

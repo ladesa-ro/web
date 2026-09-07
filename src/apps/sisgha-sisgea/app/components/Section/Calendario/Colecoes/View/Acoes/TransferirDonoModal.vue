@@ -61,15 +61,15 @@ const onSubmit = handleSubmit(async formValues => {
     </template>
 
     <DialogModalBaseLayout title="Transferir dono da coleção" :on-close="onClose">
-      <form class="flex flex-col gap-5" @submit.prevent="onSubmit">
+      <form class="u-flex u-flex-col u-gap-5" @submit.prevent="onSubmit">
         <p
           v-if="conflictMessage"
-          class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 rounded-md p-3"
+          class="transferir-dono-modal__conflict u-text-sm u-rounded-md u-p-3"
         >
           {{ conflictMessage }}
         </p>
 
-        <p class="text-sm text-ldsa-grey">
+        <p class="transferir-dono-modal__hint u-text-sm">
           O dono atual ({{ donoAtualNome ?? '-' }}) perderá o controle
           implícito sobre esta coleção.
         </p>
@@ -91,3 +91,14 @@ const onSubmit = handleSubmit(async formValues => {
     @confirm="confirmTransfer.onConfirm"
   />
 </template>
+
+<style scoped>
+.transferir-dono-modal__conflict {
+  color: var(--ladesa-red-color);
+  background-color: rgb(from var(--ladesa-red-color) R G B / 10%);
+}
+
+.transferir-dono-modal__hint {
+  color: var(--ladesa-grey-color);
+}
+</style>

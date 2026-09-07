@@ -11,7 +11,7 @@ const disciplinasById = periodos.disciplinasById;
   >
     <div
       v-if="periodos.periodosVisiveis.value.length === 0"
-      class="text-ldsa-grey text-sm text-center py-8"
+      class="u-text-sm u-text-center u-py-8 form-disciplinas__empty"
     >
       Defina a quantidade de períodos no formulário ao lado.
     </div>
@@ -19,17 +19,17 @@ const disciplinasById = periodos.disciplinasById;
     <div
       v-for="periodo in periodos.periodosVisiveis.value"
       :key="periodo.numeroPeriodo"
-      class="flex flex-col"
+      class="u-flex u-flex-col"
     >
-      <div class="flex items-center gap-2.5">
-        <h1 class="font-medium">Período {{ periodo.numeroPeriodo }}</h1>
-        <div class="h-[2.5px] flex-1 bg-ldsa-grey" />
+      <div class="u-flex u-items-center u-gap-2-5">
+        <h1 class="u-font-medium">Período {{ periodo.numeroPeriodo }}</h1>
+        <div class="u-flex-1 form-disciplinas__divider" />
         <button
           type="button"
-          class="shrink-0 flex items-center justify-center size-7 rounded-md bg-ldsa-green-1 text-white hover:bg-ldsa-green-2 transition-colors"
+          class="u-shrink-0 u-flex u-items-center u-justify-center u-rounded-md form-disciplinas__edit-button"
           @click="periodos.openSelectDisciplinas(periodo.numeroPeriodo)"
         >
-          <IconsEdit class="w-3" />
+          <IconsEdit class="form-disciplinas__edit-icon" />
         </button>
       </div>
 
@@ -38,9 +38,9 @@ const disciplinasById = periodos.disciplinasById;
           periodo.disciplinas.length === 0 &&
           periodo.removedDisciplinaIds.length === 0
         "
-        class="py-3 px-1"
+        class="u-py-3 u-px-1"
       >
-        <span class="text-ldsa-grey text-sm">
+        <span class="u-text-sm form-disciplinas__empty-label">
           Nenhuma disciplina vinculada
         </span>
       </div>
@@ -49,9 +49,9 @@ const disciplinasById = periodos.disciplinasById;
       <div
         v-for="disc in periodo.disciplinas"
         :key="disc.disciplinaId"
-        class="flex items-center justify-between border-b border-ldsa-grey px-1 py-3.5 overflow-clip"
+        class="u-flex u-items-center u-justify-between u-px-1 u-py-3-5 form-disciplinas__row"
       >
-        <span class="text-ldsa-text-default text-sm font-medium">
+        <span class="u-text-sm u-font-medium form-disciplinas__row-nome">
           {{ disciplinasById.get(disc.disciplinaId)?.nome ?? '...' }}
           <span
             v-if="
@@ -60,12 +60,12 @@ const disciplinasById = periodos.disciplinasById;
                 disc.disciplinaId
               )
             "
-            class="text-ldsa-green-1 text-xs font-semibold ml-1"
+            class="u-text-xs u-font-semibold u-ml-1 form-disciplinas__nova-tag"
           >
             Nova
           </span>
         </span>
-        <span class="text-ldsa-grey text-xs font-medium">
+        <span class="u-text-xs u-font-medium form-disciplinas__row-carga">
           Carga Horária:
           {{
             disc.cargaHoraria ??
@@ -79,17 +79,21 @@ const disciplinasById = periodos.disciplinasById;
       <div
         v-for="removedId in periodo.removedDisciplinaIds"
         :key="removedId"
-        class="flex items-center justify-between border-b border-ldsa-grey/50 px-1 py-3.5 overflow-clip opacity-50"
+        class="u-flex u-items-center u-justify-between u-px-1 u-py-3-5 form-disciplinas__row form-disciplinas__row--removed"
       >
-        <span class="text-ldsa-text-default text-sm font-medium line-through">
+        <span
+          class="u-text-sm u-font-medium form-disciplinas__row-nome form-disciplinas__row-nome--removed"
+        >
           {{ disciplinasById.get(removedId)?.nome ?? '...' }}
           <span
-            class="text-ldsa-red text-xs font-semibold ml-1 no-underline inline-block"
+            class="u-text-xs u-font-semibold u-ml-1 form-disciplinas__removida-tag"
           >
             Removida
           </span>
         </span>
-        <span class="text-ldsa-grey text-xs font-medium line-through">
+        <span
+          class="u-text-xs u-font-medium form-disciplinas__row-carga form-disciplinas__row-carga--removed"
+        >
           Carga Horária:
           {{ disciplinasById.get(removedId)?.cargaHoraria ?? '—' }}h
         </span>
@@ -97,3 +101,70 @@ const disciplinasById = periodos.disciplinasById;
     </div>
   </DialogModalBaseLayout>
 </template>
+
+<style scoped>
+.form-disciplinas__empty {
+  color: var(--ladesa-grey-color);
+}
+
+.form-disciplinas__divider {
+  height: 2.5px;
+  background-color: var(--ladesa-grey-color);
+}
+
+.form-disciplinas__edit-button {
+  width: var(--ui-space-7);
+  height: var(--ui-space-7);
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+  transition: background-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.form-disciplinas__edit-button:hover {
+  background-color: var(--ladesa-green-2-color);
+}
+
+.form-disciplinas__edit-icon {
+  width: var(--ui-space-3);
+}
+
+.form-disciplinas__empty-label {
+  color: var(--ladesa-grey-color);
+}
+
+.form-disciplinas__row {
+  border-bottom: 1px solid var(--ladesa-grey-color);
+  overflow: clip;
+}
+
+.form-disciplinas__row--removed {
+  border-bottom-color: rgb(from var(--ladesa-grey-color) R G B / 50%);
+  opacity: 0.5;
+}
+
+.form-disciplinas__row-nome {
+  color: var(--ladesa-text-default-color);
+}
+
+.form-disciplinas__row-nome--removed {
+  text-decoration: line-through;
+}
+
+.form-disciplinas__nova-tag {
+  color: var(--ladesa-green-1-color);
+}
+
+.form-disciplinas__row-carga {
+  color: var(--ladesa-grey-color);
+}
+
+.form-disciplinas__row-carga--removed {
+  text-decoration: line-through;
+}
+
+.form-disciplinas__removida-tag {
+  color: var(--ladesa-red-color);
+  text-decoration: none;
+  display: inline-block;
+}
+</style>

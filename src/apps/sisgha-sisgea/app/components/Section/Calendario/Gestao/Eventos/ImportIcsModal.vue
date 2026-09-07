@@ -125,34 +125,34 @@ function onFinish() {
       :title="step === 1 ? 'Importar agenda (.ics)' : 'Resultado da importação'"
       :on-close="onClose"
     >
-      <form v-if="step === 1" class="flex flex-col gap-5" @submit.prevent="onSubmit">
+      <form v-if="step === 1" class="u-flex u-flex-col u-gap-5" @submit.prevent="onSubmit">
         <p
           v-if="importError"
-          class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 rounded-md p-3"
+          class="import-ics__error u-text-sm u-rounded-md u-p-3"
         >
           {{ importError }}
         </p>
 
         <label
-          class="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed p-8 text-center cursor-pointer transition-colors"
+          class="import-ics__dropzone u-flex u-flex-col u-items-center u-justify-center u-gap-2 u-rounded-lg u-p-8 u-text-center"
           :class="
             isDragging
-              ? 'border-ldsa-green-1 bg-ldsa-green-1/10'
-              : 'border-ldsa-grey/40 hover:border-ldsa-grey/70'
+              ? 'import-ics__dropzone--active'
+              : 'import-ics__dropzone--inactive'
           "
           @dragover.prevent="isDragging = true"
           @dragleave.prevent="isDragging = false"
           @drop.prevent="onDrop"
         >
-          <IconsFilePicker class="w-10 h-10 text-ldsa-grey" />
-          <span v-if="fileName" class="text-sm font-medium">{{ fileName }}</span>
-          <span v-else class="text-sm text-ldsa-grey">
+          <IconsFilePicker class="import-ics__dropzone-icon" />
+          <span v-if="fileName" class="u-text-sm u-font-medium">{{ fileName }}</span>
+          <span v-else class="import-ics__dropzone-hint u-text-sm">
             Arraste um arquivo .ics aqui ou clique para selecionar
           </span>
           <input
             type="file"
             accept=".ics,text/calendar"
-            class="hidden"
+            class="u-hidden"
             @change="onFilePicked"
           />
         </label>
@@ -164,46 +164,46 @@ function onFinish() {
         />
       </form>
 
-      <div v-else class="flex flex-col gap-5">
-        <div class="grid grid-cols-2 gap-3">
-          <div class="rounded-lg border-2 border-ldsa-grey p-4 text-center">
-            <p class="text-2xl font-semibold text-ldsa-green-1">
+      <div v-else class="u-flex u-flex-col u-gap-5">
+        <div class="import-ics__stats-grid u-grid u-gap-3">
+          <div class="import-ics__stat-box u-rounded-lg u-p-4 u-text-center">
+            <p class="import-ics__stat-number import-ics__stat-number--success">
               {{ result?.criados ?? 0 }}
             </p>
-            <p class="text-sm text-ldsa-grey">Criados</p>
+            <p class="import-ics__stat-label u-text-sm">Criados</p>
           </div>
-          <div class="rounded-lg border-2 border-ldsa-grey p-4 text-center">
-            <p class="text-2xl font-semibold text-ldsa-grey">
+          <div class="import-ics__stat-box u-rounded-lg u-p-4 u-text-center">
+            <p class="import-ics__stat-number import-ics__stat-number--neutral">
               {{ result?.puladosPorUidDuplicado ?? 0 }}
             </p>
-            <p class="text-sm text-ldsa-grey">Pulados (UID duplicado)</p>
+            <p class="import-ics__stat-label u-text-sm">Pulados (UID duplicado)</p>
           </div>
         </div>
 
-        <div v-if="result?.rejeitados?.length" class="flex flex-col gap-2">
-          <p class="text-sm font-semibold text-ldsa-red">
+        <div v-if="result?.rejeitados?.length" class="u-flex u-flex-col u-gap-2">
+          <p class="import-ics__rejected-title u-text-sm u-font-semibold">
             {{ result.rejeitados.length }} rejeitado(s)
           </p>
-          <div class="overflow-auto rounded-lg border border-ldsa-grey/40 max-h-52">
-            <table class="w-full text-sm">
-              <thead class="bg-ldsa-grey/10">
+          <div class="import-ics__rejected-table-wrap u-overflow-auto u-rounded-lg">
+            <table class="u-w-full u-text-sm">
+              <thead class="import-ics__table-head">
                 <tr>
-                  <th class="text-left p-2">#</th>
-                  <th class="text-left p-2">UID</th>
-                  <th class="text-left p-2">Motivo</th>
+                  <th class="u-text-left u-p-2">#</th>
+                  <th class="u-text-left u-p-2">UID</th>
+                  <th class="u-text-left u-p-2">Motivo</th>
                 </tr>
               </thead>
               <tbody>
                 <tr
                   v-for="rejeitado in result.rejeitados"
                   :key="rejeitado.index"
-                  class="border-t border-ldsa-grey/20"
+                  class="import-ics__table-row"
                 >
-                  <td class="p-2">{{ rejeitado.index }}</td>
-                  <td class="p-2 truncate max-w-[8rem]">
+                  <td class="u-p-2">{{ rejeitado.index }}</td>
+                  <td class="import-ics__table-uid u-p-2 u-truncate">
                     {{ rejeitado.uid ?? '—' }}
                   </td>
-                  <td class="p-2">{{ rejeitado.motivo }}</td>
+                  <td class="u-p-2">{{ rejeitado.motivo }}</td>
                 </tr>
               </tbody>
             </table>
@@ -231,3 +231,85 @@ function onFinish() {
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.import-ics__error {
+  color: var(--ladesa-red-color);
+  background-color: rgb(from var(--ladesa-red-color) R G B / 10%);
+}
+
+.import-ics__dropzone {
+  border: 2px dashed transparent;
+  cursor: pointer;
+  transition: border-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.import-ics__dropzone--active {
+  border-color: var(--ladesa-green-1-color);
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 10%);
+}
+
+.import-ics__dropzone--inactive {
+  border-color: rgb(from var(--ladesa-grey-color) R G B / 40%);
+}
+
+.import-ics__dropzone--inactive:hover {
+  border-color: rgb(from var(--ladesa-grey-color) R G B / 70%);
+}
+
+.import-ics__dropzone-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--ladesa-grey-color);
+}
+
+.import-ics__dropzone-hint {
+  color: var(--ladesa-grey-color);
+}
+
+.import-ics__stats-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.import-ics__stat-box {
+  border: 2px solid var(--ladesa-grey-color);
+}
+
+.import-ics__stat-number {
+  font-size: 1.5rem;
+  font-weight: var(--ui-font-weight-semibold);
+}
+
+.import-ics__stat-number--success {
+  color: var(--ladesa-green-1-color);
+}
+
+.import-ics__stat-number--neutral {
+  color: var(--ladesa-grey-color);
+}
+
+.import-ics__stat-label {
+  color: var(--ladesa-grey-color);
+}
+
+.import-ics__rejected-title {
+  color: var(--ladesa-red-color);
+}
+
+.import-ics__rejected-table-wrap {
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 40%);
+  max-height: 13rem;
+}
+
+.import-ics__table-head {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.import-ics__table-row {
+  border-top: 1px solid rgb(from var(--ladesa-grey-color) R G B / 20%);
+}
+
+.import-ics__table-uid {
+  max-width: 8rem;
+}
+</style>

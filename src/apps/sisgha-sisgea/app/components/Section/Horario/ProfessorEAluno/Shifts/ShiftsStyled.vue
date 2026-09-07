@@ -10,7 +10,7 @@ defineProps<Props>();
 </script>
 
 <template>
-  <div class="grade-horario text-ldsa-text-default">
+  <div class="grade-horario">
     <SectionHorarioShifts :dias-da-semana="diasDaSemana" :turnos="turnos" />
   </div>
 </template>
@@ -24,6 +24,7 @@ defineProps<Props>();
       6,
       minmax(11.25rem, 1fr)
     );
+  color: var(--ladesa-text-default-color);
 }
 
 :deep(.v-expansion-panel-text__wrapper) {

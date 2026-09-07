@@ -27,21 +27,21 @@ const startHours: Ref<HoursPerShift> = ref(
 </script>
 
 <template>
-  <div class="min-w-[50rem]">
-    <div class="grid grid-cols-6 mb-3 ml-[6.344rem] mr-5 gap-5">
+  <div class="week">
+    <div class="week__header-grid u-grid u-mb-3 u-mr-5 u-gap-5">
       <SectionHorarioDapeEditPopoverDayAndShift
         v-for="(_, date) of weekSchedule"
         :disabled="!editMode"
       >
         <div
-          :class="editMode && 'hover:bg-ldsa-green-1/85'"
-          class="flex justify-center max-lg:flex-col bg-ldsa-green-1 rounded-t-lg py-[0.313rem] text-center text-ldsa-white font-medium text-[0.813rem]"
+          class="week__day-header u-flex u-justify-center u-text-center u-font-medium"
+          :class="[editMode && 'week__day-header--hoverable']"
         >
           <span>
             {{ capitalizeFirst(useDayJs()(date).format('dddd')) }}
           </span>
 
-          <span class="max-lg:hidden">&nbsp;-&nbsp;</span>
+          <span class="week__day-header-separator">&nbsp;-&nbsp;</span>
 
           <span>
             {{ useDayJs()(date).format('DD/MM') }}
@@ -50,43 +50,41 @@ const startHours: Ref<HoursPerShift> = ref(
       </SectionHorarioDapeEditPopoverDayAndShift>
     </div>
 
-    <div class="flex flex-col gap-5">
-      <div v-for="(shift, shiftIndex) in shiftNames" :key="shift" class="flex">
+    <div class="u-flex u-flex-col u-gap-5">
+      <div v-for="(shift, shiftIndex) in shiftNames" :key="shift" class="u-flex">
         <SectionHorarioDapeEditPopoverDayAndShift
-          class="bg-ldsa-green-1 border-r-2 border-ldsa-green-1 brightness-100"
+          class="week__shift-label"
           :class="[
-            shiftIndex === 0 && 'rounded-tl-lg',
-            shiftIndex === shiftNames.length - 1 && 'rounded-bl-lg',
-            editMode && 'hover:bg-ldsa-green-1/85',
+            shiftIndex === 0 && 'week__rounded-tl',
+            shiftIndex === shiftNames.length - 1 && 'week__rounded-bl',
+            editMode && 'week__shift-label--hoverable',
           ]"
           :disabled="!editMode"
         >
-          <div
-            class="vertical-text text-white font-medium text-center py-[0.313rem] text-[0.813rem]"
-          >
+          <div class="vertical-text u-font-medium u-text-center">
             {{ getRowShiftName(shift) }}
           </div>
         </SectionHorarioDapeEditPopoverDayAndShift>
 
         <div
-          class="border-2 border-ldsa-green-1 border-l-0 flex flex-1 pl-4 px-5 py-2 gap-4"
+          class="week__shift-body u-flex u-flex-1 u-pl-4 u-pr-5 u-py-2 u-gap-4"
           :class="[
-            shiftIndex === 0 && 'rounded-tr-lg',
-            shiftIndex === shiftNames.length - 1 && 'rounded-br-lg',
+            shiftIndex === 0 && 'week__rounded-tr',
+            shiftIndex === shiftNames.length - 1 && 'week__rounded-br',
           ]"
         >
           <div
-            class="flex flex-col w-10 h-full justify-between items-center text-center"
+            class="week__hours-column u-flex u-flex-col u-h-full u-justify-between u-items-center u-text-center"
           >
             <div
               v-for="(hour, hourShift) in startHours[shift]"
               v-show="showBreaks ? true : !hour.includes('intervalo')"
               :key="hourShift"
-              class="border-b-2 border-b-ldsa-text-default/55 last:border-b-0 text-center min-h-6 max-lg:h-12 text-[0.813rem] font-medium px-1 py-0.5 h-full flex items-center justify-center"
+              class="week__hour-cell u-text-center u-font-medium u-px-1 u-py-0-5 u-h-full u-flex u-items-center u-justify-center"
               :class="
                 hour.includes('intervalo')
-                  ? 'bg-ldsa-grey/15 text-ldsa-text-default/55'
-                  : 'text-ldsa-text-default/95'
+                  ? 'week__hour-cell--intervalo'
+                  : 'week__hour-cell--normal'
               "
             >
               {{ hour.replace(' intervalo', '') }}
@@ -94,10 +92,10 @@ const startHours: Ref<HoursPerShift> = ref(
           </div>
 
           <div
-            class="grid grid-cols-6 gap-5 border-ldsa-green-1 flex-1"
+            class="week__cells-grid u-grid u-gap-5 u-flex-1"
             :class="[
-              shiftIndex === 0 && 'rounded-tr-lg',
-              shiftIndex === shiftNames.length - 1 && 'rounded-br-lg',
+              shiftIndex === 0 && 'week__rounded-tr',
+              shiftIndex === shiftNames.length - 1 && 'week__rounded-br',
             ]"
           >
             <div v-for="(day, date) of weekSchedule" :key="date">
@@ -125,8 +123,110 @@ const startHours: Ref<HoursPerShift> = ref(
 </template>
 
 <style scoped>
+.week {
+  min-width: 50rem;
+}
+
+.week__header-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin-left: 6.344rem;
+}
+
+.week__day-header {
+  background-color: var(--ladesa-green-1-color);
+  border-top-left-radius: var(--ui-radius-lg);
+  border-top-right-radius: var(--ui-radius-lg);
+  padding-block: 0.313rem;
+  color: var(--ladesa-white-color);
+  font-size: 0.813rem;
+}
+
+@media (max-width: 1023.98px) {
+  .week__day-header {
+    flex-direction: column;
+  }
+}
+
+.week__day-header--hoverable:hover {
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 85%);
+}
+
+@media (max-width: 1023.98px) {
+  .week__day-header-separator {
+    display: none;
+  }
+}
+
+.week__shift-label {
+  background-color: var(--ladesa-green-1-color);
+  border-right: 2px solid var(--ladesa-green-1-color);
+  filter: brightness(1);
+}
+
+.week__shift-label--hoverable:hover {
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 85%);
+}
+
 .vertical-text {
   writing-mode: vertical-lr;
   transform: rotate(180deg);
+  color: var(--ladesa-white-color);
+  padding-block: 0.313rem;
+  font-size: 0.813rem;
+}
+
+.week__shift-body {
+  border: 2px solid var(--ladesa-green-1-color);
+  border-left: 0;
+}
+
+.week__hours-column {
+  width: 2.5rem;
+}
+
+.week__hour-cell {
+  border-bottom: 2px solid rgb(from var(--ladesa-text-default-color) R G B / 55%);
+  min-height: 1.5rem;
+  font-size: 0.813rem;
+}
+
+.week__hour-cell:last-child {
+  border-bottom: 0;
+}
+
+@media (max-width: 1023.98px) {
+  .week__hour-cell {
+    height: 3rem;
+  }
+}
+
+.week__hour-cell--intervalo {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 15%);
+  color: rgb(from var(--ladesa-text-default-color) R G B / 55%);
+}
+
+.week__hour-cell--normal {
+  color: rgb(from var(--ladesa-text-default-color) R G B / 95%);
+}
+
+.week__cells-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  border-color: var(--ladesa-green-1-color);
+}
+
+.week__rounded-tl {
+  border-top-left-radius: var(--ui-radius-lg);
+}
+
+.week__rounded-bl {
+  border-bottom-left-radius: var(--ui-radius-lg);
+}
+
+.week__rounded-tr {
+  border-top-right-radius: var(--ui-radius-lg);
+}
+
+.week__rounded-br {
+  border-bottom-right-radius: var(--ui-radius-lg);
 }
 </style>

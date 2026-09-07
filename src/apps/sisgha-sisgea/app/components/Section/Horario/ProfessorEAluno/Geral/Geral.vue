@@ -155,9 +155,9 @@ const isLoading = computed(
   <UILoading v-if="isLoading" />
 
   <div v-else class="grade-horario">
-    <div class="col-start-1 col-span-2" />
+    <div class="grade-horario-spacer" />
 
-    <div class="grid grid-cols-subgrid col-span-6">
+    <div class="grade-horario-days">
       <SectionHorarioProfessorEAlunoWeekHeaderDays
         :dias-da-semana="diasDaSemana"
       />
@@ -177,5 +177,15 @@ const isLoading = computed(
   column-gap: 16px;
   grid-template-columns: min-content min-content repeat(6, 180px) min-content;
   grid-auto-rows: auto;
+}
+
+.grade-horario-spacer {
+  grid-column: 1 / span 2;
+}
+
+.grade-horario-days {
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-column: span 6;
 }
 </style>

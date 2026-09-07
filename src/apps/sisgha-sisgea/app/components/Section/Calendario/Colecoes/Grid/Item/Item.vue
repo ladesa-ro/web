@@ -36,32 +36,32 @@ const acessosCount = computed(
     <NuxtLink
       v-if="colecao"
       :to="`/sisgha/dape/calendario/colecoes/${colecao.id}`"
-      class="flex flex-col overflow-hidden border-2 border-ldsa-grey rounded-lg hover:brightness-90 hover:bg-ldsa-grey/10"
+      class="colecoes-grid-item u-flex u-flex-col u-overflow-hidden u-rounded-lg"
     >
       <div
-        class="h-2 shrink-0"
+        class="colecoes-grid-item__color-bar u-shrink-0"
         :style="{ backgroundColor: colecao.cor || 'var(--ladesa-grey-color)' }"
       />
 
-      <div class="p-4 flex flex-col gap-2">
-        <h1 class="font-semibold truncate">{{ colecao.nome }}</h1>
+      <div class="u-p-4 u-flex u-flex-col u-gap-2">
+        <h1 class="u-font-semibold u-truncate">{{ colecao.nome }}</h1>
 
-        <div class="flex items-center gap-2 flex-wrap">
+        <div class="u-flex u-items-center u-gap-2 u-flex-wrap">
           <span
-            class="text-xs px-2 py-0.5 rounded-full bg-ldsa-grey/15 text-ldsa-text-default font-medium"
+            class="colecoes-grid-item__badge u-text-xs u-px-2 u-py-0-5 u-rounded-full u-font-medium"
           >
             {{ visibilidadeLabel }}
           </span>
 
           <span
             v-if="colecao.campus"
-            class="text-xs px-2 py-0.5 rounded-full bg-ldsa-grey/15 text-ldsa-text-default font-medium"
+            class="colecoes-grid-item__badge u-text-xs u-px-2 u-py-0-5 u-rounded-full u-font-medium"
           >
             {{ colecao.campus.apelido }}
           </span>
         </div>
 
-        <p class="text-sm text-ldsa-grey">
+        <p class="colecoes-grid-item__meta u-text-sm">
           {{ acessosCount }} acesso{{ acessosCount === 1 ? '' : 's' }}
           concedido{{ acessosCount === 1 ? '' : 's' }}
         </p>
@@ -69,3 +69,30 @@ const acessosCount = computed(
     </NuxtLink>
   </UICardAutoSkeleton>
 </template>
+
+<style scoped>
+.colecoes-grid-item {
+  border: 2px solid var(--ladesa-grey-color);
+  transition:
+    filter var(--ui-duration-base) var(--ui-easing-standard),
+    background-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.colecoes-grid-item:hover {
+  filter: brightness(0.9);
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.colecoes-grid-item__color-bar {
+  height: 0.5rem;
+}
+
+.colecoes-grid-item__badge {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 15%);
+  color: var(--ladesa-text-default-color);
+}
+
+.colecoes-grid-item__meta {
+  color: var(--ladesa-grey-color);
+}
+</style>

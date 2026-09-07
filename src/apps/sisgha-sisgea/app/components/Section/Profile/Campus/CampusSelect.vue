@@ -37,19 +37,19 @@ const selectedLabel = computed(
 <template>
   <div>
     <template v-if="moreThanOneCampus">
-      <div class="w-auto">
+      <div class="campus-select__wrapper">
         <AutocompleteRoot
           v-model:open="open"
           :model-value="props.modelValue"
           @update:model-value="emit('update:modelValue', $event)"
         >
           <Anchor class="input">
-            <IconsIconLocale class="w-2 h-2 text-ldsa-green-1 mr-1" />
+            <IconsIconLocale class="campus-select__pin-icon" />
 
             <Input
               v-model="search"
               placeholder="Selecione um campus"
-              class="text-center w-auto h-full text-[0.6rem] shrink max-w-fit"
+              class="campus-select__input"
               :display-value="
                 value => props.campi.find(i => i.value === value)?.label || ''
               "
@@ -57,25 +57,22 @@ const selectedLabel = computed(
 
             <Trigger>
               <IconsArrow
-                class="w-2.5! h-2.5!"
-                :class="[
-                  'text-ldsa-green-1 transition-transform duration-200',
-                  open ? 'rotate-90' : 'rotate-270',
-                ]"
+                class="campus-select__trigger-icon"
+                :class="[open ? 'campus-select__trigger-icon--open' : 'campus-select__trigger-icon--closed']"
               />
             </Trigger>
           </Anchor>
 
           <Portal>
             <Content
-              class="input-base-content w-(--reka-combobox-trigger-width) z-[10000] bg-ldsa-bg rounded-lg shadow-lg"
+              class="campus-select__content u-rounded-lg"
               position="popper"
               side="bottom"
               align="start"
             >
-              <Viewport class="text-[11px]">
+              <Viewport class="campus-select__viewport">
                 <NoResultsState
-                  class="text-ldsa-grey font-normal px-3 py-2 min-h-[2.25rem] flex items-start"
+                  class="campus-select__no-results u-px-3 u-py-2 u-flex u-items-start"
                 >
                   Nenhum resultado encontrado
                 </NoResultsState>
@@ -94,9 +91,9 @@ const selectedLabel = computed(
     </template>
 
     <template v-else>
-      <div class="input flex items-center">
-        <IconsIconLocale class="w-2 h-2 text-ldsa-green-1 mr-1" />
-        <span class="text-[0.6rem] font-medium text-center">{{
+      <div class="input u-flex u-items-center">
+        <IconsIconLocale class="campus-select__pin-icon" />
+        <span class="campus-select__selected-label u-font-medium u-text-center">{{
           selectedLabel
         }}</span>
       </div>
@@ -105,25 +102,103 @@ const selectedLabel = computed(
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-.input {
-  @apply relative flex border-2 rounded-lg;
-  @apply h-7 min-h-0 px-2 max-w-41 text-sm font-medium text-center text-ldsa-text-default data-[placeholder]:text-ldsa-grey/90;
-  @apply focus-within:border-ldsa-green-2 focus-visible:outline-none disabled:cursor-not-allowed;
+.campus-select__wrapper {
+  width: auto;
+}
+
+.campus-select__pin-icon {
+  width: 0.5rem;
+  height: 0.5rem;
+  color: var(--ladesa-green-1-color);
+  margin-right: var(--ui-space-1);
+}
+
+.campus-select__input {
+  text-align: center;
+  width: auto;
+  height: 100%;
+  font-size: 0.6rem;
+  flex-shrink: 1;
+  max-width: fit-content;
+}
+
+.campus-select__trigger-icon {
+  width: 0.625rem !important;
+  height: 0.625rem !important;
+  color: var(--ladesa-green-1-color);
+  transition: transform var(--ui-duration-base);
+}
+
+.campus-select__trigger-icon--open {
+  transform: rotate(90deg);
+}
+
+.campus-select__trigger-icon--closed {
+  transform: rotate(-90deg);
+}
+
+.campus-select__content {
+  width: var(--reka-combobox-trigger-width);
+  z-index: 10000;
+  background-color: var(--ladesa-background-color);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
+}
+
+.campus-select__viewport {
+  font-size: 0.6875rem;
+}
+
+.campus-select__no-results {
+  color: var(--ladesa-grey-color);
+  font-weight: var(--ui-font-weight-regular);
+  min-height: 2.25rem;
+}
+
+.campus-select__selected-label {
+  font-size: 0.6rem;
 }
 
 .input {
-  @apply border-ldsa-grey;
+  position: relative;
+  display: flex;
+  border: 2px solid var(--ladesa-grey-color);
+  border-radius: var(--ui-radius-lg);
+  height: 1.75rem;
+  min-height: 0;
+  padding-inline: var(--ui-space-2);
+  max-width: 10.25rem;
+  font-size: 0.875rem;
+  font-weight: var(--ui-font-weight-medium);
+  text-align: center;
+  color: var(--ladesa-text-default-color);
+}
+
+.input[data-placeholder] {
+  color: rgb(from var(--ladesa-grey-color) R G B / 90%);
+}
+
+.input:focus-within {
+  border-color: var(--ladesa-green-2-color);
+}
+
+.input:focus-visible {
+  outline: none;
+}
+
+.input:disabled {
+  cursor: not-allowed;
 }
 
 .input:is([data-open], [data-state='open'], :focus-within) {
-  @apply border-ldsa-green-2;
+  border-color: var(--ladesa-green-2-color);
 }
 
 .input ::placeholder {
-  @apply font-medium text-ldsa-grey;
+  font-weight: var(--ui-font-weight-medium);
+  color: var(--ladesa-grey-color);
 }
+
 .input:has(input[disabled]) {
-  @apply opacity-60;
+  opacity: 0.6;
 }
 </style>

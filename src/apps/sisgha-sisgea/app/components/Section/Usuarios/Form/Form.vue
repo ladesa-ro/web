@@ -47,7 +47,7 @@ provide('FORM_USER_ORIGINAL_VINCULOS', currentUsuario);
 </script>
 
 <template>
-  <div class="flex gap-3">
+  <div class="u-flex u-gap-3">
     <slot />
   </div>
 </template>

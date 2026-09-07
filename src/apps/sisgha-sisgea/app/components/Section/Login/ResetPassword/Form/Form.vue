@@ -53,7 +53,7 @@ const onSubmit = handleSubmit(async formData => {
       <VVTextField
         v-if="!showAlert"
         :disabled="showAlert"
-        class="mt-1.5"
+        class="u-mt-1-5"
         label="E-mail"
         name="email"
         placeholder="Digite aqui seu email"
@@ -87,7 +87,7 @@ const onSubmit = handleSubmit(async formData => {
 
         <UIButtonModalOk
           v-if="showAlert"
-          class="px-10"
+          class="u-px-10"
           type="button"
           @click="$emit('close')"
         />

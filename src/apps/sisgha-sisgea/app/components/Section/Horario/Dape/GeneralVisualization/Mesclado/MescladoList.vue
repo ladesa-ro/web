@@ -20,7 +20,7 @@ const selectedCheckboxes = defineModel<AcceptableValue[]>();
 </script>
 
 <template>
-  <div class="flex flex-col max-h-64 sm:max-h-76 overflow-y-auto">
+  <div class="mesclado-list u-flex u-flex-col">
     <UICheckbox
       v-slot="{ item, invertItem, selected }"
       v-model="selectedCheckboxes"
@@ -28,18 +28,42 @@ const selectedCheckboxes = defineModel<AcceptableValue[]>();
       gap="0"
     >
       <div
-        class="flex items-center p-3 gap-2 border-t-1 border-t-ldsa-grey/50 font-medium"
+        class="mesclado-list__item u-flex u-items-center u-p-3 u-gap-2 u-font-medium"
       >
         <UICheckboxSquare :item :active="selected" @click="invertItem(item)" />
 
-        <span class="truncate text-sm">
+        <span class="u-truncate u-text-sm">
           {{ item.label }}
         </span>
       </div>
     </UICheckbox>
 
-    <span v-if="filteredItems.length === 0" class="text-ldsa-grey text-center">
+    <span
+      v-if="filteredItems.length === 0"
+      class="mesclado-list__empty u-text-center"
+    >
       Nenhum resultado encontrado
     </span>
   </div>
 </template>
+
+<style scoped>
+.mesclado-list {
+  max-height: 16rem;
+  overflow-y: auto;
+}
+
+.mesclado-list__item {
+  border-top: 1px solid rgb(from var(--ladesa-grey-color) R G B / 50%);
+}
+
+.mesclado-list__empty {
+  color: var(--ladesa-grey-color);
+}
+
+@media (min-width: 640px) {
+  .mesclado-list {
+    max-height: 19rem;
+  }
+}
+</style>

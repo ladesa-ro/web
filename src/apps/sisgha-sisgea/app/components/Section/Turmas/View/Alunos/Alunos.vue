@@ -31,9 +31,9 @@ async function onMatriculado() {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
-    <div class="flex justify-between items-center">
-      <h2 class="font-semibold text-lg">Alunos</h2>
+  <div class="u-flex u-flex-col u-gap-4">
+    <div class="u-flex u-justify-between u-items-center">
+      <h2 class="u-font-semibold u-text-lg">Alunos</h2>
       <MatricularModal
         :turma-id="turmaId"
         :campus-id="campusId"
@@ -41,18 +41,18 @@ async function onMatriculado() {
       />
     </div>
 
-    <p v-if="alunos.length === 0" class="text-sm text-ldsa-grey">
+    <p v-if="alunos.length === 0" class="alunos-empty u-text-sm">
       Nenhum aluno matriculado nesta turma.
     </p>
 
-    <div v-else class="overflow-x-auto">
-      <table class="w-full text-sm border-collapse">
+    <div v-else class="alunos-table-wrapper">
+      <table class="alunos-table u-w-full u-text-sm">
         <thead>
-          <tr class="border-b-2 border-ldsa-grey text-left text-ldsa-grey">
-            <th class="py-2 pr-3 font-semibold">Nome</th>
-            <th class="py-2 pr-3 font-semibold">Matrícula</th>
-            <th class="py-2 pr-3 font-semibold">Vinculado em</th>
-            <th class="py-2 pr-3 font-semibold" />
+          <tr class="alunos-table__header-row">
+            <th class="u-py-2 u-pr-3 u-font-semibold">Nome</th>
+            <th class="u-py-2 u-pr-3 u-font-semibold">Matrícula</th>
+            <th class="u-py-2 u-pr-3 u-font-semibold">Vinculado em</th>
+            <th class="u-py-2 u-pr-3 u-font-semibold" />
           </tr>
         </thead>
         <tbody>
@@ -74,3 +74,23 @@ async function onMatriculado() {
     />
   </div>
 </template>
+
+<style scoped>
+.alunos-empty {
+  color: var(--ladesa-grey-color);
+}
+
+.alunos-table-wrapper {
+  overflow-x: auto;
+}
+
+.alunos-table {
+  border-collapse: collapse;
+}
+
+.alunos-table__header-row {
+  border-bottom: 2px solid var(--ladesa-grey-color);
+  text-align: left;
+  color: var(--ladesa-grey-color);
+}
+</style>

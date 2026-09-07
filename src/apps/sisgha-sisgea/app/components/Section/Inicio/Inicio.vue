@@ -7,8 +7,8 @@ const DAPE_PATH = '/sisgha/dape';
 </script>
 
 <template>
-  <UIContainer class="flex flex-col">
-    <UIBreadcrumbDapeBreadcrumb class="mb-7" />
+  <UIContainer class="u-flex u-flex-col">
+    <UIBreadcrumbDapeBreadcrumb class="u-mb-7" />
 
     <Section title="Horário Acadêmico">
       <CardLink

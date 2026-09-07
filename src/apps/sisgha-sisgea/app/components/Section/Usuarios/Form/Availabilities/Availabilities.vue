@@ -77,12 +77,12 @@ const onClose = () => emit('close');
     :close-button="false"
     :on-close="onClose"
     title="Disponibilidade"
-    class="w-full h-full overflow-x-hidden overflow-y-auto"
+    class="u-w-full u-h-full availabilities__scroll"
   >
     <WeekdaySelector
       v-model="selectedDayWeek"
       :items="weekDays"
-      class="font-semibold"
+      class="u-font-semibold"
     />
 
     <SectionUsuariosFormAvailabilitiesAvailability
@@ -97,3 +97,10 @@ const onClose = () => emit('close');
     />
   </DialogModalBaseLayout>
 </template>
+
+<style scoped>
+.availabilities__scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+</style>

@@ -165,15 +165,15 @@ async function handleDeleteCalendar() {
       <DialogModalBaseLayout
         :on-close="onClose"
         :title="modalTitle"
-        class="min-w-[550px]"
+        class="calendario-form__modal"
       >
         <!-- Choose Register -->
         <div
           v-show="stage === 0 && !props.editMode"
-          class="flex flex-row gap-4"
+          class="u-flex u-flex-row u-gap-4"
         >
           <SectionCalendarioUICardOption
-            class="w-full"
+            class="u-w-full"
             :icon="cardCalendario.icon"
             :text="cardCalendario.text"
             @click="
@@ -183,7 +183,7 @@ async function handleDeleteCalendar() {
 
           <SectionCalendarioUICardOption
             v-show="props.calendarId"
-            class="w-full"
+            class="u-w-full"
             :icon="cardEvento.icon"
             :text="cardEvento.text"
             @click="(selectRegisterType(cardEvento.text), formStage('next'))"
@@ -219,22 +219,22 @@ async function handleDeleteCalendar() {
               stage > 0 &&
               (!props.editMode || (props.editMode === 'calendar' && stage > 1))
             "
-            class="flex w-full"
+            class="u-flex u-w-full"
             @click.prevent="formStage('prev')"
           />
           <UIButtonModalCancel
             type="close"
-            class="flex w-full"
+            class="u-flex u-w-full"
             @click="onClose"
           />
           <UIButtonModalDelete
             v-show="props.editMode === 'events'"
-            class="flex w-full"
+            class="u-flex u-w-full"
             @click.prevent="handleDelete"
           />
           <UIButtonModalDelete
             v-show="props.editMode === 'calendar'"
-            class="flex w-full"
+            class="u-flex u-w-full"
             @click.prevent="handleDeleteCalendar"
           />
 
@@ -243,7 +243,7 @@ async function handleDeleteCalendar() {
               stage === 1 &&
               (registerType === 'calendar' || props.editMode === 'calendar')
             "
-            class="flex w-full"
+            class="u-flex u-w-full"
             @click.prevent="formStage('next')"
           />
           <UIButtonModalSave
@@ -271,3 +271,9 @@ async function handleDeleteCalendar() {
     @confirm="confirmDelete.onConfirm"
   />
 </template>
+
+<style scoped>
+.calendario-form__modal {
+  min-width: 550px;
+}
+</style>

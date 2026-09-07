@@ -141,19 +141,19 @@ async function onDialogSaved() {
 </script>
 
 <template>
-  <UIContainer class="flex flex-col gap-6">
+  <UIContainer class="u-flex u-flex-col u-gap-6">
     <UIBreadcrumbDapeBreadcrumb>
       <UIButtonDefaultSquare
         :disabled="!selectedCalendarioId"
         @click="openCreateDialog"
       >
-        <IconsAdd class="w-6 h-full" />
+        <IconsAdd class="dias-nao-letivos__add-icon u-h-full" />
       </UIButtonDefaultSquare>
     </UIBreadcrumbDapeBreadcrumb>
 
     <!-- Calendar selector -->
-    <div class="flex flex-wrap gap-3 items-end">
-      <div class="w-full sm:flex-1">
+    <div class="u-flex u-flex-wrap u-gap-3 u-items-end">
+      <div class="dias-nao-letivos__calendar-field u-w-full">
         <VVAutocompleteAPICalendarioLetivo
           v-model="selectedCalendarioId"
           name="filterCalendario"
@@ -162,22 +162,28 @@ async function onDialogSaved() {
       </div>
     </div>
 
-    <UIToggle v-model="toggleView" :items="toggleItems" class="w-full" />
+    <UIToggle v-model="toggleView" :items="toggleItems" class="u-w-full" />
 
     <!-- No calendar selected -->
-    <div v-if="!selectedCalendarioId" class="text-center text-ldsa-grey py-8">
+    <div
+      v-if="!selectedCalendarioId"
+      class="dias-nao-letivos__message u-text-center u-py-8"
+    >
       Selecione um calendário para visualizar os dias.
     </div>
 
     <!-- Loading -->
-    <div v-else-if="isLoadingDias" class="text-center text-ldsa-grey py-8">
+    <div
+      v-else-if="isLoadingDias"
+      class="dias-nao-letivos__message u-text-center u-py-8"
+    >
       Carregando dias...
     </div>
 
     <!-- Month view -->
     <template v-else-if="toggleView === 'mes'">
-      <div class="flex flex-col lg:flex-row gap-6">
-        <div class="lg:w-[340px] shrink-0">
+      <div class="dias-nao-letivos__responsive-row u-flex u-flex-col u-gap-6">
+        <div class="dias-nao-letivos__month-col u-shrink-0">
           <SectionCalendarioMonth
             :year="calendarYear"
             :events="calendarEvents"
@@ -187,17 +193,17 @@ async function onDialogSaved() {
           />
         </div>
 
-        <div class="flex-1 flex flex-col gap-3">
+        <div class="u-flex-1 u-flex u-flex-col u-gap-3">
           <UISearchBar v-model="searchQuery" placeholder="Pesquisar dia..." />
 
           <div
             v-if="filteredDiasDoMes.length === 0"
-            class="text-center text-ldsa-grey py-4"
+            class="dias-nao-letivos__message u-text-center u-py-4"
           >
             Nenhum dia não letivo neste mês.
           </div>
 
-          <div class="flex flex-col">
+          <div class="u-flex u-flex-col">
             <DiaListItem
               v-for="dia in filteredDiasDoMes"
               :key="dia.id"
@@ -213,21 +219,21 @@ async function onDialogSaved() {
     <template v-else>
       <UISearchBar v-model="searchQuery" placeholder="Pesquisar dia..." />
 
-      <div class="flex flex-col gap-8">
+      <div class="u-flex u-flex-col u-gap-8">
         <div v-for="month in 12" :key="month">
           <template v-if="(diasPorMes.get(month) ?? []).length > 0">
             <div
-              class="flex h-[13px] items-center border-l-3 border-ldsa-green-1 pl-1 mb-4"
+              class="dias-nao-letivos__month-header u-flex u-items-center u-pl-1 u-mb-4"
             >
-              <span
-                class="text-[13px] font-semibold tracking-wide text-ldsa-text-default"
-              >
+              <span class="dias-nao-letivos__month-header-text u-font-semibold">
                 {{ MONTH_NAMES[month - 1] }}
               </span>
             </div>
 
-            <div class="flex flex-col lg:flex-row gap-4">
-              <div class="lg:w-[300px] shrink-0">
+            <div
+              class="dias-nao-letivos__responsive-row u-flex u-flex-col u-gap-4"
+            >
+              <div class="dias-nao-letivos__month-col-year u-shrink-0">
                 <SectionCalendarioMonth
                   :year="calendarYear"
                   :events="calendarEvents"
@@ -237,7 +243,7 @@ async function onDialogSaved() {
                 />
               </div>
 
-              <div class="flex-1 flex flex-col">
+              <div class="u-flex-1 u-flex u-flex-col">
                 <DiaListItem
                   v-for="dia in diasPorMes.get(month) ?? []"
                   :key="dia.id"
@@ -261,3 +267,53 @@ async function onDialogSaved() {
     />
   </UIContainer>
 </template>
+
+<style scoped>
+.dias-nao-letivos__add-icon {
+  width: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .dias-nao-letivos__calendar-field {
+    width: auto;
+    flex: 1 1 0%;
+  }
+}
+
+.dias-nao-letivos__message {
+  color: var(--ladesa-grey-color);
+}
+
+.dias-nao-letivos__month-col {
+  flex-shrink: 0;
+}
+
+.dias-nao-letivos__month-col-year {
+  flex-shrink: 0;
+}
+
+@media (min-width: 1024px) {
+  .dias-nao-letivos__responsive-row {
+    flex-direction: row;
+  }
+
+  .dias-nao-letivos__month-col {
+    width: 340px;
+  }
+
+  .dias-nao-letivos__month-col-year {
+    width: 300px;
+  }
+}
+
+.dias-nao-letivos__month-header {
+  height: 13px;
+  border-left: 3px solid var(--ladesa-green-1-color);
+}
+
+.dias-nao-letivos__month-header-text {
+  font-size: 13px;
+  letter-spacing: 0.025em;
+  color: var(--ladesa-text-default-color);
+}
+</style>

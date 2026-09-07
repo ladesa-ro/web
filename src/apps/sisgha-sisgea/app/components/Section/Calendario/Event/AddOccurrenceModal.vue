@@ -79,14 +79,14 @@ async function submit() {
       :close-button="true"
       :on-close="cancel"
     >
-      <p class="text-sm text-ldsa-grey">
+      <p class="u-text-sm add-occurrence-modal__description">
         Adiciona uma ocorrência extra a esta série recorrente, fora da regra
         de repetição definida.
       </p>
 
       <p
         v-if="conflictMessage"
-        class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 rounded-md p-3"
+        class="u-text-sm u-rounded-md u-p-3 add-occurrence-modal__conflict"
       >
         {{ conflictMessage }}
       </p>
@@ -98,20 +98,20 @@ async function submit() {
         label="Data da ocorrência"
       />
 
-      <div class="flex gap-4">
-        <div class="flex-1">
+      <div class="u-flex u-gap-4">
+        <div class="u-flex-1">
           <UIFormTimeField v-model="horarioInicio" label="Horário inicial" />
         </div>
-        <div class="flex-1">
+        <div class="u-flex-1">
           <UIFormTimeField v-model="horarioFim" label="Horário final" />
         </div>
       </div>
 
       <template #button-group>
-        <UIButtonModalCancel type="close" class="flex w-full" @click="cancel" />
+        <UIButtonModalCancel type="close" class="u-flex u-w-full" @click="cancel" />
         <UIButtonModalConfirm
           type="submit"
-          class="flex w-full"
+          class="u-flex u-w-full"
           :disabled="isSubmitting || !dataOcorrencia"
           @click="submit"
         />
@@ -119,3 +119,14 @@ async function submit() {
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.add-occurrence-modal__description {
+  color: var(--ladesa-grey-color);
+}
+
+.add-occurrence-modal__conflict {
+  color: var(--ladesa-red-color);
+  background-color: rgb(from var(--ladesa-red-color) R G B / 10%);
+}
+</style>

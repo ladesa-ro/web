@@ -11,27 +11,46 @@ defineEmits<{
 </script>
 
 <template>
-  <div class="flex items-center justify-between w-full gap-2">
+  <div class="u-flex u-items-center u-justify-between u-w-full u-gap-2">
     <UIButtonDefaultSquare
       v-if="!hideButtons"
       type="button"
-      class="border-2 border-ldsa-grey !bg-transparent"
+      class="week-nav-button"
       @click="$emit('prev')"
     >
-      <IconsArrow class="text-ldsa-green-1" />
+      <IconsArrow class="week-nav-icon" />
     </UIButtonDefaultSquare>
 
-    <span class="font-semibold text-ldsa-text-default text-center flex-1">
+    <span class="week-label u-font-semibold u-text-center u-flex-1">
       {{ weekLabel }}
     </span>
 
     <UIButtonDefaultSquare
       v-if="!hideButtons"
       type="button"
-      class="border-2 border-ldsa-grey !bg-transparent rotate-180"
+      class="week-nav-button week-nav-button--next"
       @click="$emit('next')"
     >
-      <IconsArrow class="text-ldsa-green-1" />
+      <IconsArrow class="week-nav-icon" />
     </UIButtonDefaultSquare>
   </div>
 </template>
+
+<style scoped>
+.week-nav-button {
+  border: 2px solid var(--ladesa-grey-color);
+  background-color: transparent !important;
+}
+
+.week-nav-button--next {
+  transform: rotate(180deg);
+}
+
+.week-label {
+  color: var(--ladesa-text-default-color);
+}
+
+.week-nav-icon {
+  color: var(--ladesa-green-1-color);
+}
+</style>

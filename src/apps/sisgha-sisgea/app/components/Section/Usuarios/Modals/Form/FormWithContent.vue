@@ -120,7 +120,7 @@ function setDiaSelecionado(dia: string) {
 </script>
 
 <template>
-  <SectionUsuariosForm v-if="true" :edit-id="editId" class="w-full">
+  <SectionUsuariosForm v-if="true" :edit-id="editId" class="u-w-full">
     <DialogLayoutSideBySide
       v-show="isMainContentVisible"
       primary-label="Perfil"
@@ -130,7 +130,7 @@ function setDiaSelecionado(dia: string) {
       <template #primary>
         <SectionUsuariosFormProfile
           :edit-id="editId"
-          class="h-full overflow-x-hidden overflow-y-auto"
+          class="form-with-content__scroll u-h-full"
           @close="onClose"
         />
       </template>
@@ -138,7 +138,7 @@ function setDiaSelecionado(dia: string) {
         <SectionUsuariosModalsFormDialogAvailability
           :selected-day-week="diaSelecionado"
           :motivos-confirmados="motivosConfirmados"
-          class="h-full overflow-x-hidden overflow-y-auto"
+          class="form-with-content__scroll u-h-full"
           @abrir-modal="abrirModal"
           @atualizar-horarios-sem-motivo="atualizarHorariosSemMotivo"
           @atualizar-motivos="atualizarMotivos"
@@ -202,3 +202,10 @@ function setDiaSelecionado(dia: string) {
     />
   </DialogManagedDialog>
 </template>
+
+<style scoped>
+.form-with-content__scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+</style>

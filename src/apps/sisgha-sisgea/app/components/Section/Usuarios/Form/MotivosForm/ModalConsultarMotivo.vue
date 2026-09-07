@@ -53,39 +53,81 @@ const onClose = () => emit('fechar');
     :close-button="false"
     :on-close="onClose"
     title="Consultar motivos de indisponibilidade"
-    class="h-[min(35rem,85vh)] w-[min(95vw,31.5rem)]"
+    class="modal-consultar-motivo__panel"
   >
-    <div class="overflow-y-auto pr-2">
-      <div v-for="item in motivosFormatadosPorDia" :key="item.dia" class="mb-8">
+    <div class="modal-consultar-motivo__scroll u-pr-2">
+      <div
+        v-for="item in motivosFormatadosPorDia"
+        :key="item.dia"
+        class="u-mb-8"
+      >
         <h3
-          class="main-title font-semibold text-sm mb-2 capitalize text-ldsa-text-default"
+          class="main-title modal-consultar-motivo__day-title u-font-semibold u-text-sm u-mb-2"
         >
           {{ formatarDia(item.dia) }}
         </h3>
 
-        <div v-if="item.motivos.length === 0" class="text-sm text-ldsa-grey">
+        <div
+          v-if="item.motivos.length === 0"
+          class="modal-consultar-motivo__empty u-text-sm"
+        >
           Não há indisponibilidade neste dia
         </div>
 
-        <ul v-else class="space-y-1 text-sm">
+        <ul v-else class="modal-consultar-motivo__list u-text-sm">
           <li
             v-for="motivo in item.motivos"
             :key="motivo.horario + motivo.motivo"
-            class="flex justify-between items-center border-b border-ldsa-grey py-2"
+            class="modal-consultar-motivo__item u-flex u-justify-between u-items-center u-py-2"
           >
-            <span class="font-semibold text-sm text-ldsa-text-default">{{
-              motivo.motivo
+            <span
+              class="modal-consultar-motivo__item-name u-font-semibold u-text-sm"
+              >{{ motivo.motivo }}</span
+            >
+            <span class="modal-consultar-motivo__empty u-text-sm">{{
+              motivo.horario
             }}</span>
-            <span class="text-sm text-ldsa-grey">{{ motivo.horario }}</span>
           </li>
         </ul>
       </div>
     </div>
 
     <template #button-group>
-      <div class="flex justify-start w-full">
+      <div class="u-flex u-justify-start u-w-full">
         <UIButtonModalGoBack @click="emit('fechar')" />
       </div>
     </template>
   </DialogModalBaseLayout>
 </template>
+
+<style scoped>
+.modal-consultar-motivo__panel {
+  height: min(35rem, 85vh);
+  width: min(95vw, 31.5rem);
+}
+
+.modal-consultar-motivo__scroll {
+  overflow-y: auto;
+}
+
+.modal-consultar-motivo__day-title {
+  text-transform: capitalize;
+  color: var(--ladesa-text-default-color);
+}
+
+.modal-consultar-motivo__empty {
+  color: var(--ladesa-grey-color);
+}
+
+.modal-consultar-motivo__list > * + * {
+  margin-top: var(--ui-space-1);
+}
+
+.modal-consultar-motivo__item {
+  border-bottom: 1px solid var(--ladesa-grey-color);
+}
+
+.modal-consultar-motivo__item-name {
+  color: var(--ladesa-text-default-color);
+}
+</style>

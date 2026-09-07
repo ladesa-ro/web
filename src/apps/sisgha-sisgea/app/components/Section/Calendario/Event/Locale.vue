@@ -4,10 +4,23 @@ defineProps<{ locale?: string }>();
 
 <template>
   <div
-    class="flex w-max border-2 border-ldsa-grey justify-center items-center rounded-lg p-2 gap-2 mt-1"
+    class="u-flex u-justify-center u-items-center u-rounded-lg u-p-2 u-gap-2 event-locale"
   >
-    <IconsIconLocale class="h-3 w-3" />
+    <IconsIconLocale class="event-locale__icon" />
 
-    <p class="text-sm">{{ locale || 'Sem local definido' }}</p>
+    <p class="u-text-sm">{{ locale || 'Sem local definido' }}</p>
   </div>
 </template>
+
+<style scoped>
+.event-locale {
+  width: max-content;
+  border: 2px solid var(--ladesa-grey-color);
+  margin-top: var(--ui-space-1);
+}
+
+.event-locale__icon {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+</style>

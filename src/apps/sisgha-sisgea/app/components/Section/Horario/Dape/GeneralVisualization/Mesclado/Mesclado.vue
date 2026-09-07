@@ -54,8 +54,8 @@ const selectedCheckboxes = ref([]);
 </script>
 
 <template>
-  <div class="flex max-lg:flex-col gap-6 justify-between w-full">
-    <div class="flex flex-col gap-5 w-full lg:max-w-3xs">
+  <div class="mesclado u-flex u-justify-between u-gap-6 u-w-full">
+    <div class="mesclado__sidebar u-flex u-flex-col u-gap-5 u-w-full">
       <UIToggle v-model="toggleValue" :items="toggleItems" />
 
       <UISearchBar v-model="searchBarValue" />
@@ -64,12 +64,12 @@ const selectedCheckboxes = ref([]);
 
       <span
         v-if="isLoadingProfs && toggleValue === 'professor'"
-        class="text-center text-ldsa-grey"
+        class="mesclado__status-text u-text-center"
         >Carregando...</span
       >
       <span
         v-if="isErrorProfs && toggleValue === 'professor'"
-        class="text-center text-ldsa-grey"
+        class="mesclado__status-text u-text-center"
       >
         Não foi possível carregar a listagem de professores.
       </span>
@@ -85,12 +85,12 @@ const selectedCheckboxes = ref([]);
 
       <span
         v-if="isLoadingProfs && toggleValue === 'turma'"
-        class="text-center text-ldsa-grey"
+        class="mesclado__status-text u-text-center"
         >Carregando...</span
       >
       <span
         v-if="isErrorProfs && toggleValue === 'turma'"
-        class="text-center text-ldsa-grey"
+        class="mesclado__status-text u-text-center"
         >Não foi possível carregar a listagem de turmas.</span
       >
 
@@ -102,8 +102,26 @@ const selectedCheckboxes = ref([]);
       />
     </div>
 
-    <div class="flex-1">
+    <div class="u-flex-1">
       <!-- TODO: adicionar grade de horário -->
     </div>
   </div>
 </template>
+
+<style scoped>
+.mesclado__status-text {
+  color: var(--ladesa-grey-color);
+}
+
+@media (max-width: 1023.98px) {
+  .mesclado {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mesclado__sidebar {
+    max-width: 16rem;
+  }
+}
+</style>

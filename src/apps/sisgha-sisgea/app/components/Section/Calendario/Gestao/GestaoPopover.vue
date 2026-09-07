@@ -6,35 +6,35 @@ const open = ref(false);
   <UIPopover v-model="open">
     <template #activator>
       <UIButtonDefaultSquare>
-        <IconsSettings class="w-5.5 h-5" />
+        <IconsSettings class="gestao-popover__trigger-icon" />
       </UIButtonDefaultSquare>
     </template>
 
     <div
-      class="flex flex-col border-2 gap-5 border-ldsa-grey rounded-lg p-4 bg-ldsa-bg mt-2"
+      class="gestao-popover__panel u-flex u-flex-col u-gap-5 u-rounded-lg u-p-4 u-mt-2"
     >
       <UITitle text="Gestão de..." variant="mini" />
 
-      <div class="flex gap-4">
+      <div class="u-flex u-gap-4">
         <NuxtLink to="/sisgha/dape/calendario/gestao-calendarios" class="link">
-          <IconsCalendar class="w-8 h-8 text-ldsa-text-default icon" />
+          <IconsCalendar class="gestao-popover__icon gestao-popover__icon--md icon" />
           Calendários
         </NuxtLink>
 
         <NuxtLink to="/sisgha/dape/calendario/gestao-eventos" class="link">
-          <IconsEvent class="w-10 h-10 text-ldsa-text-default icon" />
+          <IconsEvent class="gestao-popover__icon gestao-popover__icon--lg icon" />
           Eventos
         </NuxtLink>
 
         <NuxtLink to="/sisgha/dape/calendario/colecoes" class="link">
-          <IconsCalendar class="w-8 h-8 text-ldsa-text-default icon" />
+          <IconsCalendar class="gestao-popover__icon gestao-popover__icon--md icon" />
           Coleções
         </NuxtLink>
       </div>
 
       <UIButtonModalCancel
         variant="small"
-        class="w-full"
+        class="u-w-full"
         @click="open = false"
       />
     </div>
@@ -42,13 +42,63 @@ const open = ref(false);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+.gestao-popover__trigger-icon {
+  width: 1.375rem;
+  height: 1.25rem;
+}
+
+.gestao-popover__panel {
+  border: 2px solid var(--ladesa-grey-color);
+  background-color: var(--ladesa-background-color);
+}
+
+.gestao-popover__icon {
+  color: var(--ladesa-text-default-color);
+}
+
+.gestao-popover__icon--md {
+  width: 2rem;
+  height: 2rem;
+}
+
+.gestao-popover__icon--lg {
+  width: 2.5rem;
+  height: 2.5rem;
+}
 
 .link {
-  @apply flex flex-col justify-end items-center gap-2 w-24 h-28 sm:w-28 sm:h-34 py-7 sm:py-8 border-2 rounded-lg border-ldsa-grey/50 text-center font-semibold text-sm hover:bg-ldsa-green-1 hover:text-ldsa-white hover:border-ldsa-green-1 hover:scale-105 transition-all duration-100;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  width: 6rem;
+  height: 7rem;
+  padding-block: 1.75rem;
+  border: 2px solid rgb(from var(--ladesa-grey-color) R G B / 50%);
+  border-radius: var(--ui-radius-lg);
+  text-align: center;
+  font-weight: var(--ui-font-weight-semibold);
+  font-size: 0.875rem;
+  transition: all 100ms;
+}
+
+@media (min-width: 640px) {
+  .link {
+    width: 7rem;
+    height: 8.5rem;
+    padding-block: 2rem;
+  }
+}
+
+.link:hover {
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+  border-color: var(--ladesa-green-1-color);
+  transform: scale(1.05);
 }
 
 .link:hover > .icon {
-  @apply text-ldsa-white;
+  color: var(--ladesa-white-color);
 }
 </style>

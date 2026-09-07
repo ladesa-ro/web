@@ -67,37 +67,29 @@ watch(
 </script>
 
 <template>
-  <div
-    class="flex flex-col border-2 border-ldsa-grey rounded-lg overflow-hidden h-min"
-  >
+  <div class="month-card u-flex u-flex-col u-overflow-hidden u-rounded-lg">
     <!-- Month Head -->
-    <div
-      class="flex w-full justify-between items-center bg-ldsa-grey/60 p-2 xs:p-4 md:p-4"
-    >
+    <div class="month-head u-flex u-w-full u-justify-between u-items-center">
       <UIButtonArrow v-show="props.toggleMonth" @click="toggleMonth(-1)" />
 
-      <h2
-        class="text-ldsa-white uppercase text-center w-full font-bold text-xs sm:text-sm md:text-base lg:text-lg"
-      >
+      <h2 class="month-head__title u-text-center u-w-full u-font-bold">
         {{ dayjs(`${props.year}-${currentMonth}-01`).format('MMMM') }}
       </h2>
 
       <UIButtonArrow
         v-show="props.toggleMonth"
-        class="rotate-180"
+        class="month-head__arrow--reverse"
         @click="toggleMonth(1)"
       />
     </div>
 
     <!-- Days of Month -->
-    <div
-      class="grid p-4 xs:p-0.5 sm:p-0.5 md:p-4 gap-2 sm:gap-2 md:gap-2 grid-cols-7 place-items-center"
-    >
+    <div class="month-days-grid u-grid u-gap-2">
       <!-- Name Columns -->
       <p
         v-for="item of weekDays"
         :key="item"
-        class="font-semibold text-center text-xs"
+        class="u-font-semibold u-text-center u-text-xs"
       >
         {{ item }}
       </p>
@@ -125,3 +117,67 @@ watch(
     </div>
   </div>
 </template>
+
+<style scoped>
+.month-card {
+  border: 2px solid var(--ladesa-grey-color);
+  height: min-content;
+}
+
+.month-head {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 60%);
+  padding: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .month-head {
+    padding: 1rem;
+  }
+}
+
+.month-head__title {
+  color: var(--ladesa-white-color);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .month-head__title {
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .month-head__title {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .month-head__title {
+    font-size: 1.125rem;
+  }
+}
+
+.month-head__arrow--reverse {
+  transform: rotate(180deg);
+}
+
+.month-days-grid {
+  padding: 1rem;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  place-items: center;
+}
+
+@media (min-width: 640px) {
+  .month-days-grid {
+    padding: 0.125rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .month-days-grid {
+    padding: 1rem;
+  }
+}
+</style>

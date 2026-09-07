@@ -81,13 +81,13 @@ const canEdit = computed(() => {
 </script>
 
 <template>
-  <UIContainer variant="larger" class="flex flex-col gap-6">
+  <UIContainer variant="larger" class="u-flex u-flex-col u-gap-6">
     <UIBreadcrumbDapeBreadcrumb>
-      <div class="flex gap-4 items-center">
+      <div class="u-flex u-gap-4 u-items-center">
         <template v-if="!isEditing">
           <button
             :disabled="!canEdit"
-            class="px-4 py-2 bg-ldsa-green-1 text-white rounded-md text-sm font-medium hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+            class="u-px-4 u-py-2 u-rounded-md u-text-sm u-font-medium grade-editor__btn-primary"
             @click="enterEditMode"
           >
             Editar
@@ -96,14 +96,14 @@ const canEdit = computed(() => {
         <template v-else>
           <button
             :disabled="isSaving"
-            class="px-4 py-2 bg-ldsa-green-1 text-white rounded-md text-sm font-medium hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+            class="u-px-4 u-py-2 u-rounded-md u-text-sm u-font-medium grade-editor__btn-primary"
             @click="salvar"
           >
             {{ isSaving ? 'Salvando...' : 'Salvar' }}
           </button>
           <button
             :disabled="isSaving"
-            class="px-4 py-2 border border-ldsa-grey text-ldsa-grey rounded-md text-sm font-medium hover:opacity-90 disabled:opacity-40 disabled:cursor-not-allowed"
+            class="u-px-4 u-py-2 u-rounded-md u-text-sm u-font-medium grade-editor__btn-secondary"
             @click="cancelar"
           >
             Cancelar
@@ -118,16 +118,19 @@ const canEdit = computed(() => {
       message="Verifique as inconsistências destacadas abaixo."
     />
 
-    <div v-if="isLoading" class="text-center py-12 text-ldsa-grey">
+    <div v-if="isLoading" class="u-text-center u-py-12 grade-editor__placeholder">
       Carregando grades horárias...
     </div>
 
-    <div v-else-if="!campusContext" class="text-center py-12 text-ldsa-grey">
+    <div
+      v-else-if="!campusContext"
+      class="u-text-center u-py-12 grade-editor__placeholder"
+    >
       Selecione um campus para visualizar as grades horárias.
     </div>
 
     <template v-else>
-      <div class="flex flex-col gap-4">
+      <div class="u-flex u-flex-col u-gap-4">
         <SectionGradeHorariaAccordionItem
           v-for="(grade, index) in grades"
           :key="grade.identificadorExterno"
@@ -156,7 +159,7 @@ const canEdit = computed(() => {
 
       <div
         v-if="grades.length === 0 && !isEditing"
-        class="text-center py-12 text-ldsa-grey"
+        class="u-text-center u-py-12 grade-editor__placeholder"
       >
         Nenhuma grade horária cadastrada.
       </div>
@@ -164,7 +167,7 @@ const canEdit = computed(() => {
       <button
         v-if="isEditing"
         :disabled="isSaving"
-        class="px-4 py-2 border-2 border-dashed border-ldsa-green-2 text-ldsa-text-green rounded-lg text-sm font-medium hover:opacity-70 disabled:opacity-40 disabled:cursor-not-allowed"
+        class="u-px-4 u-py-2 u-rounded-lg u-text-sm u-font-medium grade-editor__btn-add"
         @click="addGrade"
       >
         + Adicionar grade horária
@@ -172,3 +175,51 @@ const canEdit = computed(() => {
     </template>
   </UIContainer>
 </template>
+
+<style scoped>
+.grade-editor__btn-primary {
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+}
+
+.grade-editor__btn-primary:hover {
+  opacity: 0.9;
+}
+
+.grade-editor__btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.grade-editor__btn-secondary {
+  border: 1px solid var(--ladesa-grey-color);
+  color: var(--ladesa-grey-color);
+}
+
+.grade-editor__btn-secondary:hover {
+  opacity: 0.9;
+}
+
+.grade-editor__btn-secondary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.grade-editor__placeholder {
+  color: var(--ladesa-grey-color);
+}
+
+.grade-editor__btn-add {
+  border: 2px dashed var(--ladesa-green-2-color);
+  color: var(--ladesa-text-green-color);
+}
+
+.grade-editor__btn-add:hover {
+  opacity: 0.7;
+}
+
+.grade-editor__btn-add:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+</style>

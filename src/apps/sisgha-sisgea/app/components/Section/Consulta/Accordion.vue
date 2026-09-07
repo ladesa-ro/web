@@ -26,33 +26,39 @@ const open = defineModel<boolean>('open', {
   <UICollapsible
     v-model="open"
     :disabled
-    class="border-2 rounded-lg"
-    :class="open && !disabled ? 'border-ldsa-green-2' : 'border-ldsa-grey'"
+    class="consulta-accordion"
+    :class="
+      open && !disabled
+        ? 'consulta-accordion--open'
+        : 'consulta-accordion--closed'
+    "
   >
     <template #trigger>
       <div
-        class="p-3 sm:p-4 flex justify-between items-center sm:text-lg font-semibold"
+        class="u-flex u-justify-between u-items-center u-font-semibold consulta-accordion__trigger"
         :class="
           disabled
-            ? 'text-ldsa-grey cursor-not-allowed'
-            : 'text-ldsa-text-default'
+            ? 'consulta-accordion__trigger--disabled'
+            : 'consulta-accordion__trigger--enabled'
         "
       >
         {{ title }}
 
         <IconsArrow
-          class="transition-[rotate] duration-200"
+          class="consulta-accordion__arrow"
           :class="[
-            open ? 'rotate-90' : '-rotate-90',
-            disabled ? 'text-ldsa-grey' : 'text-ldsa-text-green',
+            open
+              ? 'consulta-accordion__arrow--open'
+              : 'consulta-accordion__arrow--closed',
+            disabled
+              ? 'consulta-accordion__arrow--disabled'
+              : 'consulta-accordion__arrow--enabled',
           ]"
         />
       </div>
     </template>
 
-    <div
-      class="m-3 mt-0 sm:m-4 sm:mt-0 max-w-full min-w-0 whitespace-nowrap overflow-x-auto overflow-y-hidden"
-    >
+    <div class="consulta-accordion__content">
       <div v-if="loading">Carregando...</div>
 
       <div v-else-if="error">Ocorreu um erro inesperado.</div>
@@ -74,3 +80,71 @@ const open = defineModel<boolean>('open', {
     </div>
   </UICollapsible>
 </template>
+
+<style scoped>
+.consulta-accordion {
+  border: 2px solid var(--ladesa-grey-color);
+  border-radius: var(--ui-radius-lg);
+}
+
+.consulta-accordion--open {
+  border-color: var(--ladesa-green-2-color);
+}
+
+.consulta-accordion__trigger {
+  padding: var(--ui-space-3);
+}
+
+@media (min-width: 640px) {
+  .consulta-accordion__trigger {
+    padding: var(--ui-space-4);
+    font-size: 1.125rem;
+  }
+}
+
+.consulta-accordion__trigger--disabled {
+  color: var(--ladesa-grey-color);
+  cursor: not-allowed;
+}
+
+.consulta-accordion__trigger--enabled {
+  color: var(--ladesa-text-default-color);
+}
+
+.consulta-accordion__arrow {
+  transition: transform var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.consulta-accordion__arrow--open {
+  transform: rotate(90deg);
+}
+
+.consulta-accordion__arrow--closed {
+  transform: rotate(-90deg);
+}
+
+.consulta-accordion__arrow--disabled {
+  color: var(--ladesa-grey-color);
+}
+
+.consulta-accordion__arrow--enabled {
+  color: var(--ladesa-text-green-color);
+}
+
+.consulta-accordion__content {
+  margin: var(--ui-space-3);
+  margin-top: 0;
+  max-width: 100%;
+  min-width: 0;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+@media (min-width: 640px) {
+  .consulta-accordion__content {
+    margin: var(--ui-space-4);
+    margin-top: 0;
+  }
+}
+</style>

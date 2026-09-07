@@ -38,18 +38,18 @@ async function handleDesfazer() {
 
 <template>
   <li
-    class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-lg border border-ldsa-grey/30 bg-ldsa-bg"
+    class="mudanca-item u-flex u-flex-wrap u-items-center u-justify-between u-gap-3 u-p-3 u-rounded-lg"
   >
-    <div class="flex flex-wrap gap-x-4 gap-y-1">
+    <div class="mudanca-item__campos u-flex u-flex-wrap">
       <span
         v-for="campo in campos"
         :key="campo.chave"
-        class="text-sm text-ldsa-text-default"
+        class="mudanca-item__campo u-text-sm"
       >
-        <span class="font-medium">{{ campo.rotulo }}:</span>
+        <span class="u-font-medium">{{ campo.rotulo }}:</span>
 
         <template v-if="modo === 'mudam'">
-          <span class="text-ldsa-grey line-through">{{ campo.antes }}</span>
+          <span class="mudanca-item__antes">{{ campo.antes }}</span>
           →
           <span>{{ campo.depois }}</span>
         </template>
@@ -62,7 +62,7 @@ async function handleDesfazer() {
 
     <button
       type="button"
-      class="text-sm font-medium text-ldsa-red hover:underline shrink-0 disabled:opacity-50"
+      class="mudanca-item__undo u-text-sm u-font-medium u-shrink-0"
       :disabled="desfazendo"
       @click="handleDesfazer"
     >
@@ -70,3 +70,36 @@ async function handleDesfazer() {
     </button>
   </li>
 </template>
+
+<style scoped>
+.mudanca-item {
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 30%);
+  background-color: var(--ladesa-background-color);
+}
+
+.mudanca-item__campos {
+  column-gap: 1rem;
+  row-gap: 0.25rem;
+}
+
+.mudanca-item__campo {
+  color: var(--ladesa-text-default-color);
+}
+
+.mudanca-item__antes {
+  color: var(--ladesa-grey-color);
+  text-decoration: line-through;
+}
+
+.mudanca-item__undo {
+  color: var(--ladesa-red-color);
+}
+
+.mudanca-item__undo:hover {
+  text-decoration: underline;
+}
+
+.mudanca-item__undo:disabled {
+  opacity: var(--ui-disabled-opacity);
+}
+</style>

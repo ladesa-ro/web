@@ -50,12 +50,12 @@ function itemsForDay(dia: number) {
 </script>
 
 <template>
-  <div class="flex gap-2 overflow-x-auto">
-    <div class="flex flex-col shrink-0 w-12 pt-8" style="height: 960px">
+  <div class="u-flex u-gap-2 calendario-grid__wrapper">
+    <div class="u-flex u-flex-col u-shrink-0 u-pt-8 calendario-grid__hours" style="height: 960px">
       <div
         v-for="hour in hourMarks"
         :key="hour"
-        class="flex-1 text-[0.688rem] text-ldsa-grey text-right pr-1 -translate-y-1.5"
+        class="u-flex-1 u-pr-1 u-text-right calendario-grid__hour-mark"
       >
         {{ String(hour).padStart(2, '0') }}:00
       </div>
@@ -64,21 +64,21 @@ function itemsForDay(dia: number) {
     <div
       v-for="dia in DIAS_SEMANA"
       :key="dia.value"
-      class="flex flex-col flex-1 min-w-[6.5rem]"
+      class="u-flex u-flex-col u-flex-1 calendario-grid__day"
     >
-      <div class="text-xs font-semibold text-center pb-2 truncate">
+      <div class="u-text-xs u-font-semibold u-text-center u-pb-2 u-truncate">
         {{ dia.label.slice(0, 3) }}
       </div>
 
       <div
-        class="relative flex-1 rounded-lg border border-ldsa-grey/20 bg-ldsa-grey/5 cursor-pointer"
+        class="u-relative u-flex-1 u-rounded-lg calendario-grid__day-track"
         style="height: 960px"
         @click="emit('empty-click', dia.value)"
       >
         <div
           v-for="hour in hourMarks"
           :key="hour"
-          class="absolute left-0 right-0 border-t border-ldsa-grey/10"
+          class="u-absolute calendario-grid__grid-line"
           :style="{
             top: `${((hour * 60 - RANGE_START_MIN) / RANGE_SPAN_MIN) * 100}%`,
           }"
@@ -88,12 +88,8 @@ function itemsForDay(dia: number) {
           v-for="item in itemsForDay(dia.value)"
           :key="item.id"
           type="button"
-          class="absolute left-0.5 right-0.5 rounded-md px-1 py-0.5 text-left text-[0.688rem] font-medium text-white overflow-hidden"
-          :class="[
-            item.tipo === 'BLOQUEIO'
-              ? 'bg-ldsa-red/85'
-              : 'bg-ldsa-red/85 bg-stripes',
-          ]"
+          class="u-absolute u-rounded-md u-px-1 u-py-0-5 u-text-left u-font-medium u-overflow-hidden calendario-grid__block"
+          :class="{ 'bg-stripes': item.tipo !== 'BLOQUEIO' }"
           :style="blockStyle(item)"
           @click.stop="emit('block-click', item)"
         >
@@ -105,6 +101,44 @@ function itemsForDay(dia: number) {
 </template>
 
 <style scoped>
+.calendario-grid__wrapper {
+  overflow-x: auto;
+}
+
+.calendario-grid__hours {
+  width: 3rem;
+}
+
+.calendario-grid__hour-mark {
+  font-size: 0.688rem;
+  color: var(--ladesa-grey-color);
+  transform: translateY(-0.375rem);
+}
+
+.calendario-grid__day {
+  min-width: 6.5rem;
+}
+
+.calendario-grid__day-track {
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 20%);
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 5%);
+  cursor: pointer;
+}
+
+.calendario-grid__grid-line {
+  left: 0;
+  right: 0;
+  border-top: 1px solid rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.calendario-grid__block {
+  left: 0.125rem;
+  right: 0.125rem;
+  font-size: 0.688rem;
+  color: var(--ladesa-white-color);
+  background-color: rgb(from var(--ladesa-red-color) R G B / 85%);
+}
+
 .bg-stripes {
   background-image: repeating-linear-gradient(
     45deg,

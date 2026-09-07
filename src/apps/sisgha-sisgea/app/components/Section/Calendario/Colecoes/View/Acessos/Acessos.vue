@@ -65,44 +65,44 @@ async function askRevoke(acesso: CalendarioColecaoAcessoFindOneOutputDto) {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
-    <div class="flex justify-between items-center">
-      <h2 class="font-semibold text-lg">Acessos</h2>
+  <div class="u-flex u-flex-col u-gap-4">
+    <div class="u-flex u-justify-between u-items-center">
+      <h2 class="u-font-semibold u-text-lg">Acessos</h2>
       <SectionCalendarioColecoesViewAcessosGrantModal
         :colecao-id="colecaoId"
         @granted="acessosQuery.refetch()"
       />
     </div>
 
-    <p v-if="acessos.length === 0" class="text-sm text-ldsa-grey">
+    <p v-if="acessos.length === 0" class="acessos-empty u-text-sm">
       Nenhum acesso concedido além do dono.
     </p>
 
-    <div v-else class="overflow-x-auto">
-      <table class="w-full text-sm border-collapse">
+    <div v-else class="acessos-table-wrapper">
+      <table class="acessos-table u-w-full u-text-sm">
         <thead>
-          <tr class="border-b-2 border-ldsa-grey text-left text-ldsa-grey">
-            <th class="py-2 pr-3 font-semibold">Escopo</th>
-            <th class="py-2 pr-3 font-semibold">Alvo</th>
-            <th class="py-2 pr-3 font-semibold">Papel</th>
-            <th class="py-2 pr-3 font-semibold" />
+          <tr class="acessos-table__head-row u-text-left">
+            <th class="u-py-2 u-pr-3 u-font-semibold">Escopo</th>
+            <th class="u-py-2 u-pr-3 u-font-semibold">Alvo</th>
+            <th class="u-py-2 u-pr-3 u-font-semibold">Papel</th>
+            <th class="u-py-2 u-pr-3 u-font-semibold" />
           </tr>
         </thead>
         <tbody>
           <tr
             v-for="acesso in acessos"
             :key="acesso.id"
-            class="border-b border-ldsa-grey/40"
+            class="acessos-table__row"
           >
-            <td class="py-2 pr-3">{{ escopoLabel(acesso.escopo) }}</td>
-            <td class="py-2 pr-3">{{ alvoLabel(acesso) }}</td>
-            <td class="py-2 pr-3" :title="papelHint(acesso.papel)">
+            <td class="u-py-2 u-pr-3">{{ escopoLabel(acesso.escopo) }}</td>
+            <td class="u-py-2 u-pr-3">{{ alvoLabel(acesso) }}</td>
+            <td class="u-py-2 u-pr-3" :title="papelHint(acesso.papel)">
               {{ papelLabel(acesso.papel) }}
             </td>
-            <td class="py-2 pr-3 text-right">
+            <td class="u-py-2 u-pr-3 u-text-right">
               <button
                 type="button"
-                class="text-ldsa-red font-medium hover:underline"
+                class="acessos-revoke-button u-font-medium"
                 @click="askRevoke(acesso)"
               >
                 Revogar
@@ -121,3 +121,34 @@ async function askRevoke(acesso: CalendarioColecaoAcessoFindOneOutputDto) {
     />
   </div>
 </template>
+
+<style scoped>
+.acessos-empty {
+  color: var(--ladesa-grey-color);
+}
+
+.acessos-table-wrapper {
+  overflow-x: auto;
+}
+
+.acessos-table {
+  border-collapse: collapse;
+}
+
+.acessos-table__head-row {
+  border-bottom: 2px solid var(--ladesa-grey-color);
+  color: var(--ladesa-grey-color);
+}
+
+.acessos-table__row {
+  border-bottom: 1px solid rgb(from var(--ladesa-grey-color) R G B / 40%);
+}
+
+.acessos-revoke-button {
+  color: var(--ladesa-red-color);
+}
+
+.acessos-revoke-button:hover {
+  text-decoration: underline;
+}
+</style>

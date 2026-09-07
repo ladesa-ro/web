@@ -66,41 +66,41 @@ const onClose = () => emit('fechar');
 </script>
 
 <template>
-  <div
-    class="flex flex-col gap-4 md:flex-row h-[min(90vh,100%)] w-[min(95vw,50rem)]"
-  >
+  <div class="modal-cadastrar-motivo__wrapper u-flex u-flex-col u-gap-4">
     <DialogModalBaseLayout
       :close-button="false"
       :on-close="onClose"
       title="Cadastrar Motivos de Indisponibilidade"
-      class="w-full md:w-1/2 h-full overflow-x-hidden overflow-y-auto"
+      class="modal-cadastrar-motivo__panel"
     >
       <div
         v-if="props.horariosSemMotivo.length === 0"
-        class="text-center text-sm text-ldsa-grey"
+        class="modal-cadastrar-motivo__empty u-text-center u-text-sm"
       >
         Todos os horários já possuem um motivo.
       </div>
 
       <form
         v-else
-        class="flex flex-col gap-5"
+        class="u-flex u-flex-col u-gap-5"
         @submit.prevent="registrarMotivos"
       >
         <WeekdaySelector
           v-model="selectedDayWeek"
           :items="weekDays"
-          class="font-semibold mb-1"
+          class="u-font-semibold u-mb-1"
         />
 
         <!-- checkbox de horários -->
-        <section class="flex flex-row flex-wrap gap-3 justify-between w-full">
+        <section
+          class="u-flex u-flex-row u-flex-wrap u-gap-3 u-justify-between u-w-full"
+        >
           <div
             v-for="shift in dayShifts"
             :key="shift.title"
-            class="flex-1 min-w-[80px] max-w-[120px] overflow-x-hidden"
+            class="modal-cadastrar-motivo__shift u-flex-1"
           >
-            <h1 class="mb-2 text-ldsa-text-default">
+            <h1 class="modal-cadastrar-motivo__shift-title u-mb-2">
               {{ capitalizeFirst(shift.title) }}
             </h1>
             <UICheckbox
@@ -117,13 +117,14 @@ const onClose = () => emit('fechar');
         </section>
 
         <!-- inputs de motivo -->
-        <div v-if="selectedTimes.length > 0" class="flex flex-col gap-4">
+        <div v-if="selectedTimes.length > 0" class="u-flex u-flex-col u-gap-4">
           <div
             v-for="horario in selectedTimes"
             :key="horario"
-            class="flex flex-col gap-2 w-full"
+            class="u-flex u-flex-col u-gap-2 u-w-full"
           >
-            <label class="text-xs font-medium text-ldsa-grey"
+            <label
+              class="modal-cadastrar-motivo__label u-text-xs u-font-medium"
               >Motivo para {{ horario }}</label
             >
 
@@ -133,23 +134,25 @@ const onClose = () => emit('fechar');
               placeholder="Digite ou selecione um motivo"
               label="Motivo"
               name="motivo"
-              class="w-full text-xs"
+              class="u-w-full u-text-xs"
             />
           </div>
 
           <button
             type="submit"
             :disabled="!podeRegistrar"
-            class="flex justify-between items-center gap-2 border-2 border-ldsa-green-1 text-ldsa-green-1 px-3 py-3.5 rounded-lg w-full text-xs font-medium hover:bg-ldsa-green-1/10 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="modal-cadastrar-motivo__submit u-flex u-justify-between u-items-center u-gap-2 u-px-3 u-py-3-5 u-rounded-lg u-w-full u-text-xs u-font-medium"
           >
             Registrar motivo para horário selecionado
-            <IconsConfirm class="w-4 h-4" />
+            <IconsConfirm class="modal-cadastrar-motivo__submit-icon" />
           </button>
         </div>
       </form>
 
       <template #button-group>
-        <div class="flex flex-col sm:flex-row justify-start w-full gap-2">
+        <div
+          class="modal-cadastrar-motivo__actions u-flex u-flex-col u-justify-start u-w-full u-gap-2"
+        >
           <UIButtonModalGoBack @click="emit('fechar')" />
         </div>
       </template>
@@ -159,37 +162,39 @@ const onClose = () => emit('fechar');
       :close-button="false"
       :on-close="onClose"
       title="Motivos pendentes de confirmação"
-      class="w-full md:w-1/2 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto"
+      class="modal-cadastrar-motivo__pending-panel"
     >
       <div
         v-if="pendentes.length === 0"
-        class="flex items-center justify-center text-center text-sm text-ldsa-grey"
+        class="modal-cadastrar-motivo__empty u-flex u-items-center u-justify-center u-text-center u-text-sm"
       >
         Ainda não há motivos pendentes de confirmação
       </div>
 
-      <ul v-else class="space-y-2 text-sm">
+      <ul v-else class="modal-cadastrar-motivo__pending-list u-text-sm">
         <li
           v-for="m in pendentes"
           :key="m.horario"
-          class="flex justify-between items-center py-3 border-b-1 border-ldsa-grey"
+          class="modal-cadastrar-motivo__pending-item u-flex u-justify-between u-items-center u-py-3"
         >
-          <div class="flex justify-between w-full items-center">
-            <span class="font-semibold text-sm text-ldsa-text-default">{{
-              m.motivo
-            }}</span>
+          <div class="u-flex u-justify-between u-w-full u-items-center">
+            <span
+              class="modal-cadastrar-motivo__pending-name u-font-semibold u-text-sm"
+              >{{ m.motivo }}</span
+            >
 
-            <div class="flex items-center gap-2">
-              <span class="font-medium text-sm text-ldsa-grey">{{
-                m.horario
-              }}</span>
+            <div class="u-flex u-items-center u-gap-2">
+              <span
+                class="modal-cadastrar-motivo__pending-time u-font-medium u-text-sm"
+                >{{ m.horario }}</span
+              >
 
               <button
-                class="text-ldsa-red hover:text-ldsa-red/75"
+                class="modal-cadastrar-motivo__delete-btn"
                 aria-label="Excluir motivo"
                 @click="excluirMotivo(m.horario)"
               >
-                <IconsExclude class="w-3 h-3" />
+                <IconsExclude class="modal-cadastrar-motivo__delete-icon" />
               </button>
             </div>
           </div>
@@ -209,3 +214,115 @@ const onClose = () => emit('fechar');
     </DialogModalBaseLayout>
   </div>
 </template>
+
+<style scoped>
+.modal-cadastrar-motivo__wrapper {
+  height: min(90vh, 100%);
+  width: min(95vw, 50rem);
+}
+
+@media (min-width: 768px) {
+  .modal-cadastrar-motivo__wrapper {
+    flex-direction: row;
+  }
+}
+
+.modal-cadastrar-motivo__panel {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  .modal-cadastrar-motivo__panel {
+    width: 50%;
+  }
+}
+
+.modal-cadastrar-motivo__pending-panel {
+  width: 100%;
+  height: auto;
+  max-height: 90vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+@media (min-width: 768px) {
+  .modal-cadastrar-motivo__pending-panel {
+    width: 50%;
+  }
+}
+
+.modal-cadastrar-motivo__empty {
+  color: var(--ladesa-grey-color);
+}
+
+.modal-cadastrar-motivo__shift {
+  min-width: 5rem;
+  max-width: 7.5rem;
+  overflow-x: hidden;
+}
+
+.modal-cadastrar-motivo__shift-title {
+  color: var(--ladesa-text-default-color);
+}
+
+.modal-cadastrar-motivo__label {
+  color: var(--ladesa-grey-color);
+}
+
+.modal-cadastrar-motivo__submit {
+  border: 2px solid var(--ladesa-green-1-color);
+  color: var(--ladesa-green-1-color);
+}
+
+.modal-cadastrar-motivo__submit:hover {
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 10%);
+}
+
+.modal-cadastrar-motivo__submit:disabled {
+  opacity: var(--ui-disabled-opacity);
+  cursor: not-allowed;
+}
+
+.modal-cadastrar-motivo__submit-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+@media (min-width: 640px) {
+  .modal-cadastrar-motivo__actions {
+    flex-direction: row;
+  }
+}
+
+.modal-cadastrar-motivo__pending-list > * + * {
+  margin-top: var(--ui-space-2);
+}
+
+.modal-cadastrar-motivo__pending-item {
+  border-bottom: 1px solid var(--ladesa-grey-color);
+}
+
+.modal-cadastrar-motivo__pending-name {
+  color: var(--ladesa-text-default-color);
+}
+
+.modal-cadastrar-motivo__pending-time {
+  color: var(--ladesa-grey-color);
+}
+
+.modal-cadastrar-motivo__delete-btn {
+  color: var(--ladesa-red-color);
+}
+
+.modal-cadastrar-motivo__delete-btn:hover {
+  color: rgb(from var(--ladesa-red-color) R G B / 75%);
+}
+
+.modal-cadastrar-motivo__delete-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+</style>

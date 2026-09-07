@@ -25,23 +25,23 @@ function getAula(dia: number, horario: number) {
 <template>
   <div
     :style="{ gridRow: `span ${props.turno.horarios.length}` }"
-    class="grid mt-4 pr-2 grid-cols-subgrid grid-rows-subgrid col-span-full border-2 border-ldsa-green-1 overflow-hidden"
+    class="shift u-grid u-overflow-hidden u-mt-4 u-pr-2"
   >
     <SectionHorarioProfessorEAlunoShiftTag :turno="props.turno" />
 
     <!-- Coluna dos horários -->
-    <div class="grid grid-rows-subgrid col-start-2 row-start-1 row-span-full">
+    <div class="shift__hours-column u-grid">
       <div
         v-for="(horario, index) in props.turno.horarios"
         :key="horario.hora"
         :class="{
-          'border-b-2 pb-[2px]': index < props.turno.horarios.length - 1,
-          'mt-3': index === 0,
-          'mb-3': index === props.turno.horarios.length - 1,
-          'interval-background': horario.tipo === 'intervalo',
-          'hovered-row': hoveredRowIndex === index,
+          'shift__row--divider': index < props.turno.horarios.length - 1,
+          'shift__row--first': index === 0,
+          'shift__row--last': index === props.turno.horarios.length - 1,
+          'shift__row--interval': horario.tipo === 'intervalo',
+          'shift__row--hovered': hoveredRowIndex === index,
         }"
-        class="text-center border-ldsa-text-default m-0 px-2 flex items-center justify-center"
+        class="shift__row u-text-center u-m-0 u-px-2 u-flex u-items-center u-justify-center"
         @mouseleave="setHoveredRow(null)"
         @mouseover="setHoveredRow(index)"
       >
@@ -54,19 +54,19 @@ function getAula(dia: number, horario: number) {
       v-for="(diaDaSemana, colIndex) in props.diasDaSemana"
       :key="diaDaSemana.nome"
       :style="{ gridColumnStart: 3 + colIndex }"
-      class="grid grid-rows-subgrid col-start-3 row-start-1 row-span-full"
+      class="shift__day-column u-grid"
     >
       <div
         v-for="(horario, rowIndex) in props.turno.horarios"
         :key="horario.hora"
         :class="{
-          'border-b-2 pb-[2px]': rowIndex < props.turno.horarios.length - 1,
-          'mt-3': rowIndex === 0,
-          'mb-3': rowIndex === props.turno.horarios.length - 1,
-          'interval-background': horario.tipo === 'intervalo',
-          'hovered-row': hoveredRowIndex === rowIndex,
+          'shift__row--divider': rowIndex < props.turno.horarios.length - 1,
+          'shift__row--first': rowIndex === 0,
+          'shift__row--last': rowIndex === props.turno.horarios.length - 1,
+          'shift__row--interval': horario.tipo === 'intervalo',
+          'shift__row--hovered': hoveredRowIndex === rowIndex,
         }"
-        class="text-center border-ldsa-text-default m-0 px-2 flex items-center justify-center"
+        class="shift__row u-text-center u-m-0 u-px-2 u-flex u-items-center u-justify-center"
         @mouseleave="setHoveredRow(null)"
         @mouseover="setHoveredRow(rowIndex)"
       >
@@ -84,18 +84,52 @@ function getAula(dia: number, horario: number) {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
 .turno {
   writing-mode: vertical-lr;
   transform: rotate(180deg);
 }
 
-.interval-background {
-  @apply bg-ldsa-grey/35;
+.shift {
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+  grid-column: 1 / -1;
+  border: 2px solid var(--ladesa-green-1-color);
 }
 
-.hovered-row {
-  @apply bg-ldsa-green-2/15;
+.shift__hours-column {
+  grid-template-rows: subgrid;
+  grid-column-start: 2;
+  grid-row: 1 / -1;
+}
+
+.shift__day-column {
+  grid-template-rows: subgrid;
+  grid-column-start: 3;
+  grid-row: 1 / -1;
+}
+
+.shift__row {
+  border-color: var(--ladesa-text-default-color);
+}
+
+.shift__row--divider {
+  border-bottom: 2px solid;
+  padding-bottom: 2px;
+}
+
+.shift__row--first {
+  margin-top: var(--ui-space-3);
+}
+
+.shift__row--last {
+  margin-bottom: var(--ui-space-3);
+}
+
+.shift__row--interval {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 35%);
+}
+
+.shift__row--hovered {
+  background-color: rgb(from var(--ladesa-green-2-color) R G B / 15%);
 }
 </style>

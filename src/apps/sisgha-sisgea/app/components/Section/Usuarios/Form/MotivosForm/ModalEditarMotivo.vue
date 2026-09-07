@@ -61,14 +61,12 @@ const onClose = () => emit('fechar');
 </script>
 
 <template>
-  <div
-    class="flex flex-col gap-4 md:flex-row md:gap-4 h-[min(90vh,100%)] w-[min(95vw,50rem)]"
-  >
+  <div class="modal-editar-motivo__wrapper u-flex u-flex-col u-gap-4">
     <DialogModalBaseLayout
       :close-button="false"
       :on-close="onClose"
       title="Editar motivos de indisponibilidade"
-      class="flex-1 h-full overflow-x-hidden overflow-y-auto p-4"
+      class="modal-editar-motivo__panel u-flex-1 u-h-full u-p-4"
     >
       <div>
         <VVAutocomplete
@@ -77,19 +75,19 @@ const onClose = () => emit('fechar');
           placeholder="Digite ou selecione um novo motivo"
           label="Motivo"
           name="motivo"
-          class="w-full text-sm mt-1"
+          class="u-w-full u-text-sm u-mt-1"
         />
 
-        <div class="mt-4 text-sm">
+        <div class="u-mt-4 u-text-sm">
           <div
             v-for="dia in props.motivoAtual.dias"
             :key="dia"
-            class="flex justify-between border-b border-ldsa-grey py-2"
+            class="modal-editar-motivo__day-row u-flex u-justify-between u-py-2"
           >
-            <span class="capitalize font-semibold text-ldsa-text-default">
+            <span class="modal-editar-motivo__day-label u-font-semibold">
               {{ formatarDia(dia) }}
             </span>
-            <span class="text-right text-ldsa-text-default">
+            <span class="modal-editar-motivo__day-value u-text-right">
               {{
                 agruparHorarios(
                   props.motivoAtual.horariosPorDia[dia] || []
@@ -101,16 +99,11 @@ const onClose = () => emit('fechar');
       </div>
 
       <template #button-group>
-        <UIButtonModalCancel
-          @click="emit('fechar')"
-        />
+        <UIButtonModalCancel @click="emit('fechar')" />
         <UIButtonModalDelete
           @click="emit('deletar', props.motivoAtual.motivo)"
         />
-        <UIButtonModalSave
-          :disabled="!podeSalvar"
-          @click="salvarAlteracoes"
-        />
+        <UIButtonModalSave :disabled="!podeSalvar" @click="salvarAlteracoes" />
       </template>
     </DialogModalBaseLayout>
 
@@ -118,22 +111,24 @@ const onClose = () => emit('fechar');
       :close-button="false"
       :on-close="onClose"
       title="Editar motivos de indisponibilidade"
-      class="flex-1 max-h-[90vh] h-auto overflow-x-hidden overflow-y-auto p-4"
+      class="modal-editar-motivo__panel-schedule u-flex-1 u-p-4"
     >
       <div>
         <WeekdaySelector
           v-model="selectedDayWeek"
           :items="weekDays"
-          class="font-semibold mb-4"
+          class="u-font-semibold u-mb-4"
         />
 
-        <section class="flex flex-row flex-wrap gap-3 justify-between w-full">
+        <section
+          class="u-flex u-flex-row u-flex-wrap u-gap-3 u-justify-between u-w-full"
+        >
           <div
             v-for="shift in dayShifts"
             :key="shift.title"
-            class="flex-1 min-w-[80px] max-w-[120px] overflow-x-hidden"
+            class="modal-editar-motivo__shift u-flex-1"
           >
-            <h3 class="mb-2 text-ldsa-text-default">
+            <h3 class="modal-editar-motivo__shift-title u-mb-2">
               {{ capitalizeFirst(shift.title) }}
             </h3>
             <UICheckbox
@@ -147,3 +142,51 @@ const onClose = () => emit('fechar');
     </DialogModalBaseLayout>
   </div>
 </template>
+
+<style scoped>
+.modal-editar-motivo__wrapper {
+  height: min(90vh, 100%);
+  width: min(95vw, 50rem);
+}
+
+@media (min-width: 768px) {
+  .modal-editar-motivo__wrapper {
+    flex-direction: row;
+  }
+}
+
+.modal-editar-motivo__panel {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.modal-editar-motivo__panel-schedule {
+  max-height: 90vh;
+  height: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.modal-editar-motivo__day-row {
+  border-bottom: 1px solid var(--ladesa-grey-color);
+}
+
+.modal-editar-motivo__day-label {
+  text-transform: capitalize;
+  color: var(--ladesa-text-default-color);
+}
+
+.modal-editar-motivo__day-value {
+  color: var(--ladesa-text-default-color);
+}
+
+.modal-editar-motivo__shift {
+  min-width: 5rem;
+  max-width: 7.5rem;
+  overflow-x: hidden;
+}
+
+.modal-editar-motivo__shift-title {
+  color: var(--ladesa-text-default-color);
+}
+</style>

@@ -114,87 +114,92 @@ function authorLabel(entry: CalendarioAgendamentoLinhaDoTempoEntradaDto): string
       :on-close="onClose"
       class="timeline-drawer-modal"
     >
-      <div v-if="timelineQuery.isLoading.value" class="py-8 text-center text-ldsa-grey">
+      <div
+        v-if="timelineQuery.isLoading.value"
+        class="timeline-drawer__state u-py-8 u-text-center"
+      >
         Carregando histórico...
       </div>
 
       <div
         v-else-if="errorStatus === 403"
-        class="py-8 text-center text-ldsa-grey"
+        class="timeline-drawer__state u-py-8 u-text-center"
       >
         Você não tem permissão para ver o histórico deste agendamento.
       </div>
 
       <div
         v-else-if="errorStatus === 404"
-        class="py-8 text-center text-ldsa-grey"
+        class="timeline-drawer__state u-py-8 u-text-center"
       >
         Este agendamento não possui histórico visível.
       </div>
 
       <div
         v-else-if="timelineQuery.isError.value"
-        class="py-8 text-center text-ldsa-grey"
+        class="timeline-drawer__state u-py-8 u-text-center"
       >
         Não foi possível carregar o histórico deste agendamento.
       </div>
 
       <div
         v-else-if="versoesDesc.length === 0"
-        class="py-8 text-center text-ldsa-grey"
+        class="timeline-drawer__state u-py-8 u-text-center"
       >
         Nenhum histórico encontrado.
       </div>
 
-      <ol v-else class="flex flex-col gap-5">
+      <ol v-else class="u-flex u-flex-col u-gap-5">
         <li
           v-for="entry in versoesDesc"
           :key="entry.id"
-          class="flex flex-col gap-2 border-l-2 border-ldsa-grey/40 pl-4 relative"
+          class="timeline-entry u-flex u-flex-col u-gap-2 u-pl-4 u-relative"
         >
-          <span
-            class="absolute -left-[0.4375rem] top-1 w-3 h-3 rounded-full bg-ldsa-green-1"
-          />
+          <span class="timeline-entry__dot u-absolute u-rounded-full" />
 
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="font-semibold text-ldsa-text-default">
+          <div class="u-flex u-items-center u-gap-2 u-flex-wrap">
+            <span class="timeline-entry__version u-font-semibold">
               v{{ entry.version }}
             </span>
 
             <span
               v-if="entry.version === oldestVersion"
-              class="text-xs px-2 py-0.5 rounded-full bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300"
+              class="timeline-entry__badge-criado u-text-xs u-px-2 u-py-0-5 u-rounded-full"
             >
               Criado
             </span>
 
-            <span class="text-sm text-ldsa-grey">
+            <span class="timeline-entry__meta u-text-sm">
               {{ authorLabel(entry) }} · {{ formatWhen(entry.validFrom) }}
             </span>
           </div>
 
-          <p v-if="entry.motivo" class="text-sm text-ldsa-text-default">
+          <p v-if="entry.motivo" class="timeline-entry__motivo u-text-sm">
             Motivo: {{ entry.motivo }}
           </p>
 
           <ul
             v-if="entry.mudancas.length > 0"
-            class="flex flex-col gap-1 text-sm text-ldsa-text-default"
+            class="timeline-entry__mudancas u-flex u-flex-col u-gap-1 u-text-sm"
           >
             <li v-for="(mudanca, idx) in entry.mudancas" :key="idx">
-              <span class="font-medium">{{ fieldLabel(mudanca.campo) }}:</span>
-              <span class="line-through text-ldsa-grey mx-1">{{
+              <span class="u-font-medium">{{ fieldLabel(mudanca.campo) }}:</span>
+              <span class="timeline-entry__value-before u-mx-1">{{
                 formatValue(mudanca.de)
               }}</span>
               →
-              <span class="ml-1">{{ formatValue(mudanca.para) }}</span>
+              <span class="u-ml-1">{{ formatValue(mudanca.para) }}</span>
             </li>
           </ul>
         </li>
       </ol>
 
       <template #button-group>
-        <UIButtonModalCancel type="close" class="flex w-full" @click="onClose" />
+        <UIButtonModalCancel
+          type="close"
+          class="u-flex u-w-full"
+          @click="onClose"
+        />
       </template>
     </DialogModalBaseLayout>
   </DialogSkeleton>
@@ -203,5 +208,49 @@ function authorLabel(entry: CalendarioAgendamentoLinhaDoTempoEntradaDto): string
 <style>
 .timeline-drawer-modal.modal-layout {
   max-width: 40rem;
+}
+</style>
+
+<style scoped>
+.timeline-drawer__state {
+  color: var(--ladesa-grey-color);
+}
+
+.timeline-entry {
+  border-left: 2px solid rgb(from var(--ladesa-grey-color) R G B / 40%);
+}
+
+.timeline-entry__dot {
+  left: -0.4375rem;
+  top: 0.25rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: var(--ladesa-green-1-color);
+}
+
+.timeline-entry__version {
+  color: var(--ladesa-text-default-color);
+}
+
+.timeline-entry__badge-criado {
+  background-color: rgb(from var(--ladesa-green-1-color) R G B / 15%);
+  color: var(--ladesa-green-1-color);
+}
+
+.timeline-entry__meta {
+  color: var(--ladesa-grey-color);
+}
+
+.timeline-entry__motivo {
+  color: var(--ladesa-text-default-color);
+}
+
+.timeline-entry__mudancas {
+  color: var(--ladesa-text-default-color);
+}
+
+.timeline-entry__value-before {
+  text-decoration: line-through;
+  color: var(--ladesa-grey-color);
 }
 </style>

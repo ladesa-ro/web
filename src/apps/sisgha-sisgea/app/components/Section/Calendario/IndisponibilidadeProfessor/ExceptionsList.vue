@@ -17,10 +17,10 @@ const sorted = computed(() =>
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="u-flex u-flex-col u-gap-2">
     <div
       v-if="sorted.length === 0"
-      class="text-sm text-ldsa-grey text-center py-4"
+      class="u-text-sm u-text-center u-py-4 exceptions-list__empty"
     >
       Nenhuma exceção pontual cadastrada.
     </div>
@@ -28,42 +28,42 @@ const sorted = computed(() =>
     <div
       v-for="item in sorted"
       :key="item.id"
-      class="flex items-center gap-3 border border-ldsa-grey/20 rounded-lg px-3 py-2.5 flex-wrap"
+      class="u-flex u-items-center u-gap-3 u-rounded-lg u-px-3 u-py-2-5 u-flex-wrap exceptions-list__row"
     >
-      <span class="font-semibold text-sm w-24 shrink-0">
+      <span class="u-font-semibold u-text-sm u-shrink-0 exceptions-list__date">
         {{ dayjs(item.data).format('DD/MM/YYYY') }}
       </span>
 
-      <span class="text-sm text-ldsa-grey shrink-0">
+      <span class="u-text-sm u-shrink-0 exceptions-list__time">
         {{ item.inicio.slice(0, 5) }}–{{ item.fim.slice(0, 5) }}
       </span>
 
       <span
-        class="text-xs font-semibold px-2 py-0.5 rounded-full shrink-0"
+        class="u-text-xs u-font-semibold u-px-2 u-py-0-5 u-rounded-full u-shrink-0"
         :class="
           item.tipo === 'BLOQUEIO'
-            ? 'bg-ldsa-red/15 text-ldsa-red'
-            : 'bg-ldsa-yellow/20 text-ldsa-text-default'
+            ? 'exceptions-list__badge--bloqueio'
+            : 'exceptions-list__badge--preferencia'
         "
       >
         {{ item.tipo === 'BLOQUEIO' ? 'Bloqueio' : 'Preferência' }}
       </span>
 
-      <span class="text-sm text-ldsa-grey flex-1 min-w-[8rem] truncate">
+      <span class="u-text-sm u-flex-1 u-truncate exceptions-list__reason">
         {{ item.motivo || '—' }}
       </span>
 
-      <div class="flex items-center gap-2 shrink-0 ml-auto">
+      <div class="u-flex u-items-center u-gap-2 u-shrink-0 exceptions-list__actions">
         <button
           type="button"
-          class="text-sm font-medium text-ldsa-text-green hover:underline"
+          class="u-text-sm u-font-medium exceptions-list__edit-button"
           @click="emit('edit', item)"
         >
           Editar
         </button>
         <button
           type="button"
-          class="text-sm font-medium text-ldsa-red hover:underline"
+          class="u-text-sm u-font-medium exceptions-list__remove-button"
           @click="emit('remove', item)"
         >
           Excluir
@@ -72,3 +72,56 @@ const sorted = computed(() =>
     </div>
   </div>
 </template>
+
+<style scoped>
+.exceptions-list__empty {
+  color: var(--ladesa-grey-color);
+}
+
+.exceptions-list__row {
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 20%);
+}
+
+.exceptions-list__date {
+  width: 6rem;
+}
+
+.exceptions-list__time {
+  color: var(--ladesa-grey-color);
+}
+
+.exceptions-list__badge--bloqueio {
+  background-color: rgb(from var(--ladesa-red-color) R G B / 15%);
+  color: var(--ladesa-red-color);
+}
+
+.exceptions-list__badge--preferencia {
+  background-color: rgb(from var(--ladesa-yellow-color) R G B / 20%);
+  color: var(--ladesa-text-default-color);
+}
+
+.exceptions-list__reason {
+  color: var(--ladesa-grey-color);
+  min-width: 8rem;
+}
+
+.exceptions-list__actions {
+  margin-left: auto;
+}
+
+.exceptions-list__edit-button {
+  color: var(--ladesa-text-green-color);
+}
+
+.exceptions-list__edit-button:hover {
+  text-decoration: underline;
+}
+
+.exceptions-list__remove-button {
+  color: var(--ladesa-red-color);
+}
+
+.exceptions-list__remove-button:hover {
+  text-decoration: underline;
+}
+</style>

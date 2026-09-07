@@ -39,7 +39,7 @@ const selectedItem = computed({
 </script>
 
 <template>
-  <div class="flex flex-col gap-1">
+  <div class="u-flex u-flex-col u-gap-1">
     <UIFormOptionFieldsSelect
       v-model="selectedItem"
       :items="items"
@@ -48,8 +48,17 @@ const selectedItem = computed({
       :disabled="fieldDisabled"
       @blur="handleBlur"
     />
-    <p v-if="errorMessage" class="text-ldsa-red text-xs font-semibold px-1">
+    <p
+      v-if="errorMessage"
+      class="enum-select-field__error u-text-xs u-font-semibold u-px-1"
+    >
       {{ errorMessage }}
     </p>
   </div>
 </template>
+
+<style scoped>
+.enum-select-field__error {
+  color: var(--ladesa-red-color);
+}
+</style>

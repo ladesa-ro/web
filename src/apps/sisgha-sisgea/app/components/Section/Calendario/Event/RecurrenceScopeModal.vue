@@ -88,7 +88,7 @@ function confirmChoice() {
       :close-button="true"
       :on-close="cancel"
     >
-      <p class="text-sm text-ldsa-grey">{{ description }}</p>
+      <p class="u-text-sm recurrence-scope-modal__description">{{ description }}</p>
 
       <UIFormOptionFieldsRadioGroup
         v-if="!restrictToCurrentOccurrence"
@@ -105,13 +105,19 @@ function confirmChoice() {
       />
 
       <template #button-group>
-        <UIButtonModalCancel type="close" class="flex w-full" @click="cancel" />
+        <UIButtonModalCancel type="close" class="u-flex u-w-full" @click="cancel" />
         <UIButtonModalConfirm
           type="submit"
-          class="flex w-full"
+          class="u-flex u-w-full"
           @click="confirmChoice"
         />
       </template>
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.recurrence-scope-modal__description {
+  color: var(--ladesa-grey-color);
+}
+</style>

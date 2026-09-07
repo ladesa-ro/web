@@ -13,12 +13,46 @@ const buttonColor = { '--color': color };
   <!-- TODO: add radix tooltip -->
   <button
     :style="buttonColor"
-    class="flex items-center justify-center gap-1.5 min-w-10 h-10 px-2 border-2 rounded-lg transition-[background-color] border-(--color) text-(--color) hover:bg-(--color)/10 focus:outline-0 focus-visible:bg-(--color)/15 active:bg-(--color)/20 disabled:bg-transparent disabled:border-(--color)/40 disabled:text-(--color)/40 disabled:cursor-not-allowed"
+    class="schedule-query-button u-flex u-items-center u-justify-center u-gap-1-5 u-px-2"
   >
-    <span v-if="text !== ''" class="font-semibold text-sm">{{ text }}</span>
+    <span v-if="text !== ''" class="u-font-semibold u-text-sm">{{ text }}</span>
 
-    <span v-if="$slots['default']" class="shrink-0">
+    <span v-if="$slots['default']" class="u-shrink-0">
       <slot />
     </span>
   </button>
 </template>
+
+<style scoped>
+.schedule-query-button {
+  min-width: var(--ui-space-10);
+  height: var(--ui-space-10);
+  border: 2px solid var(--color);
+  border-radius: var(--ui-radius-lg);
+  color: var(--color);
+  transition: background-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.schedule-query-button:hover {
+  background-color: rgb(from var(--color) R G B / 10%);
+}
+
+.schedule-query-button:focus {
+  outline: 0;
+}
+
+.schedule-query-button:focus-visible {
+  background-color: rgb(from var(--color) R G B / 15%);
+}
+
+.schedule-query-button:active {
+  background-color: rgb(from var(--color) R G B / 20%);
+}
+
+.schedule-query-button:disabled {
+  cursor: not-allowed;
+  background-color: transparent;
+  border-color: rgb(from var(--color) R G B / 40%);
+  color: rgb(from var(--color) R G B / 40%);
+}
+</style>

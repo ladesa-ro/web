@@ -31,7 +31,7 @@ watch(
 <template>
   <SectionUsuariosFormAvailabilities
     v-if="hasAtLeastOneActiveTeacherRole"
-    class="h-full"
+    class="u-h-full"
     @abrir-modal="(...args) => emit('abrir-modal', ...args)"
     @atualizar-horarios-sem-motivo="
       emit('atualizar-horarios-sem-motivo', $event)

@@ -11,8 +11,19 @@ const props = defineProps<Props>();
 <template>
   <p
     :style="{ gridRow: `span ${props.turno.horarios.length}` }"
-    class="turno col-start-1 block font-medium text-ldsa-white w-11 text-center content-center bg-ldsa-green-1"
+    class="turno shift-tag u-font-medium u-text-center"
   >
     {{ turno.nome }}
   </p>
 </template>
+
+<style scoped>
+.shift-tag {
+  display: block;
+  grid-column-start: 1;
+  width: 2.75rem;
+  align-content: center;
+  color: var(--ladesa-white-color);
+  background-color: var(--ladesa-green-1-color);
+}
+</style>

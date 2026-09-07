@@ -90,10 +90,10 @@ const onSubmit = handleSubmit(async values => {
     </template>
 
     <DialogModalBaseLayout title="Nova reserva" :on-close="onClose">
-      <form class="flex flex-col gap-4" @submit.prevent="onSubmit">
+      <form class="u-flex u-flex-col u-gap-4" @submit.prevent="onSubmit">
         <p
           v-if="conflictMessage"
-          class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 rounded-md p-3"
+          class="u-text-sm u-rounded-md u-p-3 create-modal__alert create-modal__alert--error"
         >
           {{ conflictMessage }}
         </p>
@@ -106,7 +106,7 @@ const onSubmit = handleSubmit(async values => {
 
         <p
           v-if="ocupacaoAviso"
-          class="text-sm text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950 rounded-md p-3"
+          class="u-text-sm u-rounded-md u-p-3 create-modal__alert create-modal__alert--warning"
         >
           Este ambiente já tem outra ocupação nesse período. Você ainda pode
           enviar a reserva, mas ela pode ser recusada pelo servidor.
@@ -122,3 +122,15 @@ const onSubmit = handleSubmit(async values => {
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.create-modal__alert--error {
+  color: var(--ladesa-red-color);
+  background-color: rgb(from var(--ladesa-red-color) R G B / 10%);
+}
+
+.create-modal__alert--warning {
+  color: var(--ladesa-yellow-color);
+  background-color: rgb(from var(--ladesa-yellow-color) R G B / 10%);
+}
+</style>

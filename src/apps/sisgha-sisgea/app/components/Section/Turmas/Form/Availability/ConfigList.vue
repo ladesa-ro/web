@@ -85,12 +85,12 @@ const possuiPendencias = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="u-flex u-flex-col u-gap-2">
     <!-- Active configs (servidor) -->
-    <div class="flex flex-col gap-2">
+    <div class="u-flex u-flex-col u-gap-2">
       <h3
         v-if="possuiPendencias"
-        class="text-xs font-semibold text-ldsa-text-default uppercase tracking-wide"
+        class="config-group-title u-text-xs u-font-semibold"
       >
         Configurações pré-existentes
       </h3>
@@ -99,7 +99,7 @@ const possuiPendencias = computed(() => {
 
       <div
         v-else-if="activeConfigs.length === 0"
-        class="text-sm text-ldsa-grey text-center py-3"
+        class="config-empty u-text-sm u-text-center u-py-3"
       >
         Nenhuma configuração ativa.
       </div>
@@ -108,35 +108,33 @@ const possuiPendencias = computed(() => {
         v-for="config in activeConfigs"
         v-else
         :key="config.data_inicio"
-        class="flex items-center justify-between w-full rounded-lg px-3 py-0.5 text-xs font-medium cursor-pointer transition-colors"
+        class="config-row u-flex u-items-center u-justify-between u-w-full u-rounded-lg u-px-3 u-py-0-5 u-text-xs u-font-medium"
         :class="
           getTipo(config) === 'permanente'
-            ? 'bg-ldsa-green-2/10 text-ldsa-green-2 hover:bg-ldsa-green-2/20'
-            : 'bg-ldsa-blue/10 text-ldsa-blue hover:bg-ldsa-blue/20'
+            ? 'config-row--permanente'
+            : 'config-row--temporario'
         "
         @click="emit('navigate-to', config.data_inicio)"
       >
-        <span class="flex-1 min-w-0">
+        <span class="config-row__label u-flex-1">
           {{ getLabel(config) }}
         </span>
 
         <button
           v-if="config.id"
           :disabled="disabled"
-          class="shrink-0 p-1 rounded opacity-60 hover:opacity-100 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
+          class="config-row__action u-shrink-0 u-p-1 u-rounded-sm"
           title="Desativar configuração"
           @click.stop="emit('deactivate', config.id!)"
         >
-          <IconsExclude class="w-3.5 h-3.5" />
+          <IconsExclude class="action-icon" />
         </button>
       </div>
     </div>
 
     <!-- Pending new configs (novo arranjo) -->
-    <div v-if="possuiPendencias" class="flex flex-col gap-2">
-      <h3
-        class="text-xs font-semibold text-ldsa-text-default uppercase tracking-wide"
-      >
+    <div v-if="possuiPendencias" class="u-flex u-flex-col u-gap-2">
+      <h3 class="config-group-title u-text-xs u-font-semibold">
         Novo arranjo
       </h3>
 
@@ -144,25 +142,25 @@ const possuiPendencias = computed(() => {
       <div
         v-for="config in pendingConfigs"
         :key="`pending-${config.data_inicio}`"
-        class="flex items-center justify-between w-full rounded-lg px-3 py-0.5 text-xs font-medium border-2 border-dashed cursor-pointer transition-colors"
+        class="config-row config-row--pending u-flex u-items-center u-justify-between u-w-full u-rounded-lg u-px-3 u-py-0-5 u-text-xs u-font-medium"
         :class="
           getTipo(config) === 'permanente'
-            ? 'border-ldsa-green-2/40 bg-ldsa-green-2/5 text-ldsa-green-2 hover:bg-ldsa-green-2/10'
-            : 'border-ldsa-blue/40 bg-ldsa-blue/5 text-ldsa-blue hover:bg-ldsa-blue/10'
+            ? 'config-row--pending-permanente'
+            : 'config-row--pending-temporario'
         "
         @click="emit('navigate-to', config.data_inicio)"
       >
-        <span class="flex-1 min-w-0">
+        <span class="config-row__label u-flex-1">
           {{ getLabel(config) }}
         </span>
 
         <button
           :disabled="disabled"
-          class="shrink-0 p-1 rounded opacity-60 hover:opacity-100 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed"
+          class="config-row__action u-shrink-0 u-p-1 u-rounded-sm"
           title="Desfazer"
           @click.stop="emit('undo-pending', config.data_inicio)"
         >
-          <IconsExclude class="w-3.5 h-3.5" />
+          <IconsExclude class="action-icon" />
         </button>
       </div>
 
@@ -170,23 +168,128 @@ const possuiPendencias = computed(() => {
       <div
         v-for="config in deactivatingConfigs"
         :key="`deact-${config.id}`"
-        class="flex items-center justify-between w-full rounded-lg px-3 py-2.5 text-xs font-medium border-2 border-dashed border-ldsa-red/40 bg-ldsa-red/5 text-ldsa-red/70 line-through cursor-pointer transition-colors hover:bg-ldsa-red/10"
+        class="config-row config-row--deactivating u-flex u-items-center u-justify-between u-w-full u-rounded-lg u-px-3 u-py-2-5 u-text-xs u-font-medium"
         @click="emit('navigate-to', config.data_inicio)"
       >
-        <span class="flex-1 min-w-0">
+        <span class="config-row__label u-flex-1">
           {{ getLabel(config) }}
-          <span class="opacity-60 no-underline">(será desativada)</span>
+          <span class="config-row__note">(será desativada)</span>
         </span>
 
         <button
           :disabled="disabled"
-          class="shrink-0 p-1 rounded opacity-60 hover:opacity-100 transition-opacity disabled:opacity-30 disabled:cursor-not-allowed no-underline"
+          class="config-row__action config-row__action--no-underline u-shrink-0 u-p-1 u-rounded-sm"
           title="Desfazer desativação"
           @click.stop="emit('undo-deactivation', config.id!)"
         >
-          <IconsExclude class="w-3.5 h-3.5" />
+          <IconsExclude class="action-icon" />
         </button>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.config-group-title {
+  color: var(--ladesa-text-default-color);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.config-empty {
+  color: var(--ladesa-grey-color);
+}
+
+.config-row {
+  cursor: pointer;
+  transition: background-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.config-row--permanente {
+  background-color: rgb(from var(--ladesa-green-2-color) R G B / 10%);
+  color: var(--ladesa-green-2-color);
+}
+
+.config-row--permanente:hover {
+  background-color: rgb(from var(--ladesa-green-2-color) R G B / 20%);
+}
+
+.config-row--temporario {
+  background-color: rgb(from var(--ladesa-blue-color) R G B / 10%);
+  color: var(--ladesa-blue-color);
+}
+
+.config-row--temporario:hover {
+  background-color: rgb(from var(--ladesa-blue-color) R G B / 20%);
+}
+
+.config-row--pending {
+  border-style: dashed;
+  border-width: 2px;
+}
+
+.config-row--pending-permanente {
+  border-color: rgb(from var(--ladesa-green-2-color) R G B / 40%);
+  background-color: rgb(from var(--ladesa-green-2-color) R G B / 5%);
+  color: var(--ladesa-green-2-color);
+}
+
+.config-row--pending-permanente:hover {
+  background-color: rgb(from var(--ladesa-green-2-color) R G B / 10%);
+}
+
+.config-row--pending-temporario {
+  border-color: rgb(from var(--ladesa-blue-color) R G B / 40%);
+  background-color: rgb(from var(--ladesa-blue-color) R G B / 5%);
+  color: var(--ladesa-blue-color);
+}
+
+.config-row--pending-temporario:hover {
+  background-color: rgb(from var(--ladesa-blue-color) R G B / 10%);
+}
+
+.config-row--deactivating {
+  border-style: dashed;
+  border-width: 2px;
+  border-color: rgb(from var(--ladesa-red-color) R G B / 40%);
+  background-color: rgb(from var(--ladesa-red-color) R G B / 5%);
+  color: rgb(from var(--ladesa-red-color) R G B / 70%);
+  text-decoration: line-through;
+}
+
+.config-row--deactivating:hover {
+  background-color: rgb(from var(--ladesa-red-color) R G B / 10%);
+}
+
+.config-row__label {
+  min-width: 0;
+}
+
+.config-row__note {
+  opacity: 0.6;
+  text-decoration: none;
+}
+
+.config-row__action {
+  opacity: 0.6;
+  transition: opacity var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.config-row__action:hover {
+  opacity: 1;
+}
+
+.config-row__action:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.config-row__action--no-underline {
+  text-decoration: none;
+}
+
+.action-icon {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+</style>
