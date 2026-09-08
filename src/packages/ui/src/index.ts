@@ -34,6 +34,35 @@ export { default as FormTextField } from './components/FormTextField.vue';
 export { default as FormTimeField } from './components/FormTimeField.vue';
 export { default as FormTimeRangeField } from './components/FormTimeRangeField.vue';
 export {
+  default as SideBySide,
+  type SideBySideProps,
+} from './components/SideBySide.vue';
+export {
+  default as EditOrCreateModal,
+  type EditOrCreateModalProps,
+} from './components/EditOrCreateModal.vue';
+export {
+  default as ManagedDialog,
+  type ManagedDialogManager,
+  type ManagedDialogProps,
+} from './components/ManagedDialog.vue';
+export {
+  default as ConfirmContent,
+  type ConfirmContentProps,
+} from './components/ConfirmContent.vue';
+export {
+  default as DialogConfirm,
+  type DialogConfirmProps,
+} from './components/DialogConfirm.vue';
+export {
+  default as DialogSkeleton,
+  type DialogSkeletonProps,
+} from './components/DialogSkeleton.vue';
+export {
+  default as ModalBaseLayout,
+  type ModalBaseLayoutProps,
+} from './components/ModalBaseLayout.vue';
+export {
   default as EmptyState,
   type EmptyStateProps,
 } from './components/EmptyState.vue';

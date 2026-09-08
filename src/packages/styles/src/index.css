@@ -26,6 +26,10 @@
 @import './components/card.css' layer(components);
 @import './components/badge.css' layer(components);
 @import './components/empty-state.css' layer(components);
+@import './components/modal-layout.css' layer(components);
+@import './components/dialog-skeleton.css' layer(components);
+@import './components/dialog-confirm.css' layer(components);
+@import './components/side-by-side.css' layer(components);
 @import './components/breadcrumb.css' layer(components);
 @import './components/button-square.css' layer(components);
 @import './components/button-modal.css' layer(components);

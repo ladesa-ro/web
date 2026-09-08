@@ -131,7 +131,7 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
 </template>
 
 <style>
-.evento-form-modal.modal-layout {
+.evento-form-modal.ui-modal-layout {
   max-width: 50rem;
 }
 </style>

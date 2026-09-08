@@ -255,7 +255,7 @@ const titleVerb = computed(() =>
 </style>
 
 <style>
-.select-disciplinas-modal.modal-layout {
+.select-disciplinas-modal.ui-modal-layout {
   max-width: 40rem !important;
   max-height: 90vh !important;
   min-width: 530px !important;

@@ -203,7 +203,7 @@ function authorLabel(entry: CalendarioAgendamentoLinhaDoTempoEntradaDto): string
 </template>
 
 <style>
-.timeline-drawer-modal.modal-layout {
+.timeline-drawer-modal.ui-modal-layout {
   max-width: 40rem;
 }
 </style>

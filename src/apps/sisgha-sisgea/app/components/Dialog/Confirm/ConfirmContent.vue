@@ -1,10 +1,7 @@
 <script lang="ts" setup>
-import ModalBaseLayout from '../Modal/ModalBaseLayout.vue';
+import { ConfirmContent, type ConfirmContentProps } from '@ladesa-ro/web.ui';
 
-const { title = 'Confirmação' } = defineProps<{
-  title?: string;
-  message: string;
-}>();
+defineProps<ConfirmContentProps>();
 
 const emit = defineEmits<{
   (e: 'confirm'): void;
@@ -13,32 +10,9 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <ModalBaseLayout
-    :title="title"
-    :close-button="true"
-    :on-close="() => emit('cancel')"
-  >
-    <p class="confirm-content__message">
-      {{ message }}
-    </p>
-
-    <template #button-group>
-      <UIButtonModalCancel
-        type="close"
-        class="u-flex u-w-full"
-        @click="emit('cancel')"
-      />
-      <UIButtonModalConfirm type="submit" @click="emit('confirm')" />
-    </template>
-  </ModalBaseLayout>
+  <ConfirmContent
+    v-bind="$props"
+    @confirm="emit('confirm')"
+    @cancel="emit('cancel')"
+  />
 </template>
-
-<style scoped>
-.confirm-content__message {
-  color: var(--ladesa-grey-color);
-  text-align: center;
-  margin-inline: auto;
-  max-width: 18rem;
-  overflow-wrap: break-word;
-}
-</style>
