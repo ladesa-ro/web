@@ -14,6 +14,9 @@ import { buildIdempotencyKeyHeaders } from './-helpers/idempotencyKey';
 
 const PROCESSING_STATUSES = new Set(['SOLICITADO', 'PENDENTE']);
 
+const POLL_INTERVAL_INITIAL_MS = 3000;
+const POLL_INTERVAL_MAX_MS = 10000;
+
 type FindByIdFn = (
   id: MaybeRef<string | null>
 ) => UseQueryReturnType<GerarHorarioFindOneOutputDto, Error>;
@@ -28,8 +31,18 @@ export const useGerarHorario = () => {
       queryFn: () =>
         api.call(gerarHorarioFindById, { path: { id: unref(id)! } }),
       enabled: computed(() => !!unref(id)),
-      refetchInterval: query =>
-        PROCESSING_STATUSES.has(query.state.data?.status ?? '') ? 2000 : false,
+      refetchInterval: query => {
+        if (!PROCESSING_STATUSES.has(query.state.data?.status ?? '')) {
+          return false;
+        }
+
+        const attempts = query.state.dataUpdateCount;
+
+        return Math.min(
+          POLL_INTERVAL_INITIAL_MS * 2 ** attempts,
+          POLL_INTERVAL_MAX_MS
+        );
+      },
     });
 
   const create = (body: GerarHorarioCreateInputDto, idempotencyKey: string) =>
