@@ -1,29 +1,9 @@
 <script lang="ts" setup>
-import { useVVField } from './-Helpers/useVVField';
+import { VVTimeField, type VVTimeFieldProps } from '@ladesa-ro/web.ui';
 
-const props = defineProps<{
-  name: string;
-  label?: string;
-  disabled?: boolean;
-  required?: boolean;
-}>();
-
-const {
-  fieldValue: modelValue,
-  errorMessage,
-  fieldDisabled,
-} = useVVField<string | null>({
-  name: props.name,
-  disabled: props.disabled,
-  required: props.required,
-});
+defineProps<VVTimeFieldProps>();
 </script>
 
 <template>
-  <UIFormTimeField
-    v-model="modelValue"
-    :label="props.label"
-    :disabled="fieldDisabled"
-    :error="errorMessage"
-  />
+  <VVTimeField v-bind="$props" />
 </template>
