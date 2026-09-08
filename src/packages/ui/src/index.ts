@@ -34,6 +34,40 @@ export { default as FormTextField } from './components/FormTextField.vue';
 export { default as FormTimeField } from './components/FormTimeField.vue';
 export { default as FormTimeRangeField } from './components/FormTimeRangeField.vue';
 export {
+  default as ScheduleGrid,
+  type ScheduleGridProps,
+} from './components/ScheduleGrid.vue';
+export {
+  default as ScheduleHeaderDay,
+  type ScheduleHeaderDayProps,
+} from './components/ScheduleHeaderDay.vue';
+export {
+  default as ScheduleHeaderDays,
+  type ScheduleHeaderDaysProps,
+} from './components/ScheduleHeaderDays.vue';
+export {
+  default as ScheduleShift,
+  type ScheduleShiftProps,
+} from './components/ScheduleShift.vue';
+export {
+  default as ScheduleShifts,
+  type ScheduleShiftsProps,
+} from './components/ScheduleShifts.vue';
+export {
+  default as ScheduleShiftTag,
+  type ScheduleShiftTagProps,
+} from './components/ScheduleShiftTag.vue';
+export type {
+  ScheduleDiscipline,
+  ScheduleLesson,
+  ScheduleShift as ScheduleShiftModel,
+  ScheduleShifts as ScheduleShiftsModel,
+  ScheduleShiftSlot,
+  ScheduleShiftSlots,
+  ScheduleWeekDay,
+  ScheduleWeekDays,
+} from './components/schedule';
+export {
   default as Sidebar,
   type SidebarProps,
 } from './components/Sidebar.vue';
