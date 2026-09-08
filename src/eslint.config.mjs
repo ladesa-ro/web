@@ -7,7 +7,7 @@ import sonarjs from 'eslint-plugin-sonarjs';
 import vue from 'eslint-plugin-vue';
 import { noCommentsPlugin } from './eslint.no-comments.mjs';
 
-const COGNITIVE_COMPLEXITY_MAX = 15;
+const COGNITIVE_COMPLEXITY_MAX = 12;
 
 const MAX_LINES_PER_FILE = 300;
 
@@ -15,7 +15,7 @@ const MAX_LINES_PER_BLOCK = { template: 120, script: 150, style: 120 };
 
 const MAX_TEMPLATE_DEPTH = 6;
 
-const MAX_PROPS = 8;
+const MAX_PROPS = 6;
 
 const sizeRules = {
   'max-lines': [
