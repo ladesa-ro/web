@@ -95,29 +95,9 @@
 
 .ui-card-line {
   max-width: 100%;
-  display: flex;
-  align-items: center;
   overflow: hidden;
-  border: 2px solid var(--ladesa-grey-color);
-  border-radius: var(--ui-radius-lg);
-}
-
-.ui-card-line__content {
-  flex: 1 1 0%;
-  width: 100%;
-  margin-block: 0.5rem 0.75rem;
-  margin-left: 0.5rem;
-}
-
-.ui-card-line__title {
-  font-weight: var(--ui-font-weight-semibold);
-  padding-top: 0;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.ui-card-line__actions {
-  margin-right: 0.5rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .ui-card-actions {

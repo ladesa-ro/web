@@ -200,7 +200,8 @@ const harnessInvalidate = () => Promise.resolve();
           <CardAutoSkeleton :skeleton="true" />
         </div>
       </div>
-      <CardLine title="Card em linha">Descrição</CardLine>
+      <CardLine text="Card em linha" />
+      <CardLine>Card em linha via slot</CardLine>
       <CardSelectionDiscipline text="Disciplina selecionada" />
     </section>
 
