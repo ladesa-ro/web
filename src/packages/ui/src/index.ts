@@ -39,6 +39,22 @@ export {
   type WeekNavigatorProps,
 } from './components/WeekNavigator.vue';
 export {
+  default as AccessRoleButton,
+  type AccessRoleButtonProps,
+} from './components/AccessRoleButton.vue';
+export {
+  default as VVTextareaField,
+  type VVTextareaFieldProps,
+} from './components/VVTextareaField.vue';
+export {
+  default as ProfileSectionsLayout,
+  type ProfileSectionsLayoutProps,
+} from './components/ProfileSectionsLayout.vue';
+export {
+  default as VVCheckboxField,
+  type VVCheckboxFieldProps,
+} from './components/VVCheckboxField.vue';
+export {
   default as VVDateField,
   type VVDateFieldProps,
 } from './components/VVDateField.vue';
