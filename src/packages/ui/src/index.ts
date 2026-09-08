@@ -34,6 +34,10 @@ export { default as FormTextField } from './components/FormTextField.vue';
 export { default as FormTimeField } from './components/FormTimeField.vue';
 export { default as FormTimeRangeField } from './components/FormTimeRangeField.vue';
 export {
+  default as EmptyState,
+  type EmptyStateProps,
+} from './components/EmptyState.vue';
+export {
   default as Badge,
   type BadgeProps,
   type BadgeVariant,
