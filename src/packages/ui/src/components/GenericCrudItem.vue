@@ -12,7 +12,7 @@ export type GenericCrudItemProps = {
   title?: string | null;
   link: string;
   formComponent: Component;
-  formProps?: Record<string, unknown> | null;
+  formProps?: { [key: string]: unknown } | null;
   as?: string | Component;
 };
 

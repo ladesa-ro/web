@@ -8,7 +8,7 @@ import DialogSkeleton from './DialogSkeleton.vue';
 export type EditOrCreateModalProps = {
   editId?: string | null;
   formComponent: Component;
-  formProps?: Record<string, unknown> | null;
+  formProps?: { [key: string]: unknown } | null;
 };
 
 const { editId = null } = defineProps<EditOrCreateModalProps>();

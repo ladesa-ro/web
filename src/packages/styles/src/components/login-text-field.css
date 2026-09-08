@@ -1,0 +1,65 @@
+.ui-login-text-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+
+  padding: 0 1.125rem;
+
+  border: 2px solid rgb(from var(--ladesa-grey-color) R G B / 60%);
+  border-radius: 0.5625rem;
+
+  cursor: text;
+
+  transition:
+    box-shadow 0.05s ease-in-out,
+    border 0.085s ease-in-out;
+}
+
+.ui-login-text-field input {
+  min-width: auto;
+  width: 100%;
+
+  padding: 0.875rem 0;
+}
+
+.ui-login-text-field input:focus {
+  outline: none;
+}
+
+.ui-login-text-field input::placeholder {
+  color: var(--ladesa-grey-color);
+}
+
+.ui-login-text-field:focus-within {
+  border-color: var(--ladesa-green-1-color);
+  box-shadow: 0 0 0.5px 5px rgb(from var(--ladesa-green-1-color) R G B / 20%);
+}
+
+.ui-login-text-field__toggle {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-login-text-field__toggle button {
+  width: 100%;
+  height: 100%;
+
+  padding: 0.25rem;
+}
+
+.ui-login-text-field__toggle button:focus {
+  outline: 1px dotted;
+}
+
+.ui-login-text-field__toggle button:disabled {
+  opacity: 0.5;
+}
+
+.ui-login-text-field__icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}

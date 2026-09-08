@@ -39,6 +39,10 @@ export {
   type WeekNavigatorProps,
 } from './components/WeekNavigator.vue';
 export {
+  default as LoginTextField,
+  type LoginTextFieldProps,
+} from './components/LoginTextField.vue';
+export {
   default as AccessRoleButton,
   type AccessRoleButtonProps,
 } from './components/AccessRoleButton.vue';
