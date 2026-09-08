@@ -5,8 +5,8 @@
     "context": ".",
     "target": "devcontainer"
   },
-  "workspaceFolder": "/workspaces/web",
-  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/web,type=bind",
+  "workspaceFolder": "/repo",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/repo,type=bind",
   "containerEnv": {
     "NPM_CONFIG_STORE_DIR": "/pnpm/store"
   },

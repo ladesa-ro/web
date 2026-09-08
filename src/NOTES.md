@@ -147,10 +147,10 @@ para `apps` e `packages` inteiros.
 um `exec` por passo), sem publicar imagem nenhuma — assim cada passo continua
 com seu próprio pass/fail e o que é informativo segue informativo.
 
-O repositório inteiro é montado em `/workspaces/web`, então os comandos rodam
-de `/workspaces/web/src`. Difere do container local de desenvolvimento, onde
-`/repo` é o `src/`; a montagem precisa ser da raiz para o lint alcançar
-`.github/` e `.docker/`.
+`/repo` é a raiz do repositório em todos os ambientes — devcontainer, container
+local e `compose.agents.yml`. O workspace pnpm fica em `/repo/src`, e é de lá
+que sai quase todo comando; o eslint que cobre `.github/` e `.docker/` roda de
+`/repo`. A montagem precisa ser da raiz justamente para alcançar esses dois.
 
 `NPM_CONFIG_STORE_DIR=/pnpm/store` está no `containerEnv` pelo mesmo motivo do
 compose dos agentes: sem isso o store do pnpm nasce dentro do workspace.
