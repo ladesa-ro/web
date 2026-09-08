@@ -34,6 +34,17 @@ export { default as FormTextField } from './components/FormTextField.vue';
 export { default as FormTimeField } from './components/FormTimeField.vue';
 export { default as FormTimeRangeField } from './components/FormTimeRangeField.vue';
 export {
+  default as DaySquare,
+  type DaySquareProps,
+} from './components/DaySquare.vue';
+export { default as DaySquareList } from './components/DaySquareList.vue';
+export {
+  default as PopoverEdit,
+  type PopoverEditActivity,
+  type PopoverEditProps,
+} from './components/PopoverEdit.vue';
+export { getWeekDays, type WeekDay } from './components/week-day';
+export {
   default as ScheduleGrid,
   type ScheduleGridProps,
 } from './components/ScheduleGrid.vue';

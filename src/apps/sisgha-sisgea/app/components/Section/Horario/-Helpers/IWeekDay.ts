@@ -1,8 +1,1 @@
-import type { Dayjs } from 'dayjs';
-
-export type IWeekDay = {
-  day: string;
-  dayWeek: string;
-  dayMonth: string;
-  dayAsDayJs: Dayjs;
-};
+export type { WeekDay as IWeekDay } from '@ladesa-ro/web.ui';

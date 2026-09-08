@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@internationalized/date": "^3.12.4",
+    "@ladesa-ro/web.utils": "workspace:*",
     "@vueuse/core": "^14.3.0",
     "dayjs": "^1.11.21",
     "maska": "^3.2.0",

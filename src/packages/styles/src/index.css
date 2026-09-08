@@ -32,6 +32,7 @@
 @import './components/side-by-side.css' layer(components);
 @import './components/sidebar.css' layer(components);
 @import './components/schedule.css' layer(components);
+@import './components/day-square.css' layer(components);
 @import './components/breadcrumb.css' layer(components);
 @import './components/button-square.css' layer(components);
 @import './components/button-modal.css' layer(components);

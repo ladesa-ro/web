@@ -1,0 +1,110 @@
+.ui-day-square {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--ui-space-1);
+  overflow: hidden;
+  min-width: 2.5rem;
+  padding: var(--ui-space-1);
+  padding-block: 0.625rem;
+  border: 2px solid var(--ladesa-green-1-color);
+  border-radius: 0.625rem;
+  font-size: 0.75rem;
+  font-weight: var(--ui-font-weight-semibold);
+  color: var(--ladesa-text-green-color);
+}
+
+@media (min-width: 462px) {
+  .ui-day-square {
+    padding: var(--ui-space-2);
+  }
+}
+
+@media (min-width: 640px) {
+  .ui-day-square {
+    padding: var(--ui-space-3);
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ui-day-square {
+    gap: var(--ui-space-2);
+    max-width: 7rem;
+    max-height: 7rem;
+    padding: var(--ui-space-4);
+    font-size: 1rem;
+  }
+}
+
+.ui-day-square__week {
+  padding: 0;
+  padding-bottom: 0.313rem;
+  border-bottom: 2px solid var(--ladesa-green-1-color);
+}
+
+.ui-day-square__week-full {
+  display: none;
+}
+
+.ui-day-square__week-short {
+  display: inline;
+}
+
+@media (min-width: 820px) {
+  .ui-day-square__week-full {
+    display: inline;
+  }
+
+  .ui-day-square__week-short {
+    display: none;
+  }
+}
+
+.ui-day-square--selected {
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+}
+
+.ui-day-square--selected .ui-day-square__week {
+  border-bottom-color: var(--ladesa-white-color);
+}
+
+.ui-day-square-list {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  overflow-x: auto;
+  gap: var(--ui-space-2);
+}
+
+@media (min-width: 502px) {
+  .ui-day-square-list {
+    gap: var(--ui-space-4);
+  }
+}
+
+@media (min-width: 1024px) {
+  .ui-day-square-list {
+    gap: var(--ui-space-6);
+  }
+}
+
+@media (min-width: 1280px) {
+  .ui-day-square-list {
+    gap: var(--ui-space-12);
+  }
+}
+
+.ui-popover-edit {
+  border: 2px solid var(--ladesa-green-1-color);
+  background-color: var(--ladesa-background-color);
+}
+
+@media (min-width: 640px) {
+  .ui-popover-edit {
+    width: 19rem;
+  }
+}
