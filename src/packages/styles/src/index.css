@@ -24,6 +24,7 @@
 @import './components/radio.css' layer(components);
 @import './components/checkbox.css' layer(components);
 @import './components/card.css' layer(components);
+@import './components/badge.css' layer(components);
 @import './components/breadcrumb.css' layer(components);
 @import './components/button-square.css' layer(components);
 @import './components/button-modal.css' layer(components);

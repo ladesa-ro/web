@@ -33,6 +33,11 @@ export { default as FormStepper } from './components/FormStepper.vue';
 export { default as FormTextField } from './components/FormTextField.vue';
 export { default as FormTimeField } from './components/FormTimeField.vue';
 export { default as FormTimeRangeField } from './components/FormTimeRangeField.vue';
+export {
+  default as Badge,
+  type BadgeProps,
+  type BadgeVariant,
+} from './components/Badge.vue';
 export { default as Card, type CardProps } from './components/Card.vue';
 export { default as CardActions, type CardActionsProps } from './components/CardActions.vue';
 export { default as CardAutoSkeleton } from './components/CardAutoSkeleton.vue';
