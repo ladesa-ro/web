@@ -89,9 +89,7 @@ const duracaoLabel = computed(() => {
     />
 
     <div v-if="duracaoLabel" class="u-flex u-gap-3 u-items-center formacoes-form1__banner">
-      <span
-        class="i-mdi-information-outline u-shrink-0 u-text-lg formacoes-form1__banner-icon"
-      />
+      <IconsInfo class="u-shrink-0 formacoes-form1__banner-icon" />
       <p class="u-text-xs u-font-medium formacoes-form1__banner-text">
         {{ duracaoLabel }}
       </p>
@@ -119,6 +117,7 @@ const duracaoLabel = computed(() => {
 }
 
 .formacoes-form1__banner-icon {
+  width: 1.125rem;
   color: var(--ladesa-blue-color);
 }
 

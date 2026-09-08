@@ -19,11 +19,23 @@ defineProps<Props>();
     v-for="(turno, index) in turnos"
     :key="turno.nome"
     :class="{
-      'rounded-t-xl': index === 0,
-      'rounded-b-xl': index === turnos.length - 1,
+      'shifts__item--first': index === 0,
+      'shifts__item--last': index === turnos.length - 1,
     }"
     :dias-da-semana="diasDaSemana"
     :grade-disciplinas="gradeDisciplinas"
     :turno="turno"
   />
 </template>
+
+<style scoped>
+.shifts__item--first {
+  border-start-start-radius: var(--ui-radius-xl);
+  border-start-end-radius: var(--ui-radius-xl);
+}
+
+.shifts__item--last {
+  border-end-start-radius: var(--ui-radius-xl);
+  border-end-end-radius: var(--ui-radius-xl);
+}
+</style>

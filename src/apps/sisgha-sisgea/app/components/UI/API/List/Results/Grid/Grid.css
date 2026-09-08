@@ -23,3 +23,9 @@
 .ui-api-list-results-grid .ui-api-list-results-grid-item {
   grid-column: auto;
 }
+
+.ui-api-list-results-grid--auto-fill {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+}

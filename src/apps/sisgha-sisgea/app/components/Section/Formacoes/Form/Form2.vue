@@ -59,9 +59,7 @@ watch(
     "
   >
     <div v-if="editId" class="u-flex u-gap-3 u-items-center formacoes-form2__banner">
-      <span
-        class="i-mdi-alert-outline u-shrink-0 u-text-lg formacoes-form2__banner-icon"
-      />
+      <IconsWarning class="u-shrink-0 formacoes-form2__banner-icon" />
       <p class="u-text-xs u-font-medium formacoes-form2__banner-text">
         As edições nas etapas do ano letivo não terão efeito em calendários já
         existentes vinculados a essa formação, somente em calendários criados
@@ -95,6 +93,7 @@ watch(
 }
 
 .formacoes-form2__banner-icon {
+  width: 1.125rem;
   color: var(--ladesa-yellow-color);
 }
 
