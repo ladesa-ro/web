@@ -158,20 +158,22 @@ const recusarOpen = ref(false);
     </div>
 
     <template v-if="isAberta" #button-group>
-      <button
+      <UIButtonModalBaseLayout
+        text="Recusar"
+        color="var(--ladesa-red-color)"
         type="button"
-        class="u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium button-outline-danger"
         @click="recusarOpen = true"
       >
-        Recusar
-      </button>
-      <button
+        <IconsExclude />
+      </UIButtonModalBaseLayout>
+      <UIButtonModalBaseLayout
+        text="Aprovar"
+        color="var(--ladesa-green-2-color)"
         type="button"
-        class="u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium button-primary"
         @click="aprovarConfirmOpen = true"
       >
-        Aprovar
-      </button>
+        <IconsConfirm />
+      </UIButtonModalBaseLayout>
     </template>
   </DialogModalBaseLayout>
 
@@ -202,13 +204,4 @@ const recusarOpen = ref(false);
   color: var(--ladesa-red-color);
 }
 
-.button-outline-danger {
-  border: 1px solid var(--ladesa-red-color);
-  color: var(--ladesa-red-color);
-}
-
-.button-primary {
-  background-color: var(--ladesa-green-1-color);
-  color: var(--ladesa-white-color);
-}
 </style>

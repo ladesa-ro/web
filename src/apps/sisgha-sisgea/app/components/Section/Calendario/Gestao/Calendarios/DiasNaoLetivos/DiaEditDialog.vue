@@ -116,20 +116,15 @@ defineExpose({ resetForEdit, resetForCreate });
       </form>
 
       <template #button-group>
-        <button
+        <UIButtonModalCancel @click="close" />
+        <UIButtonModalBaseLayout
+          text="Salvar"
+          color="var(--ladesa-green-2-color)"
           type="button"
-          class="dia-edit-dialog__btn-cancel u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium"
-          @click="close"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          class="dia-edit-dialog__btn-save u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium"
           @click="saveEdit"
         >
-          Salvar
-        </button>
+          <IconsConfirm />
+        </UIButtonModalBaseLayout>
       </template>
     </DialogModalBaseLayout>
   </DialogSkeleton>
@@ -145,12 +140,4 @@ defineExpose({ resetForEdit, resetForCreate });
   font-size: 0.813rem;
 }
 
-.dia-edit-dialog__btn-cancel {
-  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 30%);
-}
-
-.dia-edit-dialog__btn-save {
-  background-color: var(--ladesa-green-1-color);
-  color: var(--ladesa-white-color);
-}
 </style>

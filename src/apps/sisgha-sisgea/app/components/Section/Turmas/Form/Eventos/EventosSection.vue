@@ -178,27 +178,25 @@ function handleExclusiveCancel() {
       </p>
 
       <template #button-group>
-        <button
+        <UIButtonModalCancel class="u-flex-1" @click="handleExclusiveCancel" />
+        <UIButtonModalBaseLayout
+          class="u-flex-1"
+          text="Inativar evento"
+          color="var(--ladesa-yellow-color)"
           type="button"
-          class="exclusive-delete-button--cancel u-flex-1 u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium"
-          @click="handleExclusiveCancel"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          class="exclusive-delete-button--inactivate u-flex-1 u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium"
           @click="handleExclusiveInactivate"
         >
-          Inativar evento
-        </button>
-        <button
+          <IconsClose />
+        </UIButtonModalBaseLayout>
+        <UIButtonModalBaseLayout
+          class="u-flex-1"
+          text="Deletar evento"
+          color="var(--ladesa-red-color)"
           type="button"
-          class="exclusive-delete-button--delete u-flex-1 u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium"
           @click="handleExclusiveDelete"
         >
-          Deletar evento
-        </button>
+          <IconsExclude />
+        </UIButtonModalBaseLayout>
       </template>
     </DialogModalBaseLayout>
   </DialogSkeleton>
@@ -252,30 +250,4 @@ function handleExclusiveCancel() {
   overflow-wrap: break-word;
 }
 
-.exclusive-delete-button--cancel {
-  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 30%);
-  color: var(--ladesa-text-default-color);
-}
-
-.exclusive-delete-button--cancel:hover {
-  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
-}
-
-.exclusive-delete-button--inactivate {
-  background-color: rgb(from var(--ladesa-yellow-color) R G B / 90%);
-  color: var(--ladesa-white-color);
-}
-
-.exclusive-delete-button--inactivate:hover {
-  background-color: var(--ladesa-yellow-color);
-}
-
-.exclusive-delete-button--delete {
-  background-color: var(--ladesa-red-color);
-  color: var(--ladesa-white-color);
-}
-
-.exclusive-delete-button--delete:hover {
-  background-color: rgb(from var(--ladesa-red-color) R G B / 90%);
-}
 </style>

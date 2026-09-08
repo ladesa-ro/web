@@ -136,21 +136,16 @@ function close() {
       </form>
 
       <template #button-group>
-        <button
+        <UIButtonModalCancel @click="close" />
+        <UIButtonModalBaseLayout
+          text="Salvar"
+          color="var(--ladesa-green-2-color)"
           type="button"
-          class="u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium button-secondary"
-          @click="close"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          class="u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium button-primary"
           :disabled="saving"
           @click="save"
         >
-          Salvar
-        </button>
+          <IconsConfirm />
+        </UIButtonModalBaseLayout>
       </template>
     </DialogModalBaseLayout>
   </DialogSkeleton>
@@ -162,16 +157,4 @@ function close() {
   margin-top: calc(var(--ui-space-2) * -1);
 }
 
-.button-secondary {
-  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 30%);
-}
-
-.button-primary {
-  background-color: var(--ladesa-green-1-color);
-  color: var(--ladesa-white-color);
-}
-
-.button-primary:disabled {
-  opacity: var(--ui-disabled-opacity);
-}
 </style>

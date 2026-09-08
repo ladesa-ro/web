@@ -70,37 +70,18 @@ function close() {
       </form>
 
       <template #button-group>
-        <button
+        <UIButtonModalCancel @click="close" />
+        <UIButtonModalBaseLayout
+          text="Recusar"
+          color="var(--ladesa-red-color)"
           type="button"
-          class="u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium button-secondary"
-          @click="close"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          class="u-rounded-lg u-px-4 u-py-2 u-text-sm u-font-medium button-danger"
           :disabled="saving"
           @click="confirmRecusar"
         >
-          Recusar
-        </button>
+          <IconsExclude />
+        </UIButtonModalBaseLayout>
       </template>
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
 
-<style scoped>
-.button-secondary {
-  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 30%);
-}
-
-.button-danger {
-  background-color: var(--ladesa-red-color);
-  color: var(--ladesa-white-color);
-}
-
-.button-danger:disabled {
-  opacity: var(--ui-disabled-opacity);
-}
-</style>
