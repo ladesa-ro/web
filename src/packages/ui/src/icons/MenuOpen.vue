@@ -1,5 +1,5 @@
 <template>
-  <div class="pl-3">
+  <div class="icon-inset">
     <svg
       height="40"
       viewBox="0 -960 960 960"
@@ -14,6 +14,10 @@
 </template>
 
 <style scoped>
+.icon-inset {
+  padding-left: 0.75rem;
+}
+
 svg {
   fill: currentColor;
   cursor: pointer;

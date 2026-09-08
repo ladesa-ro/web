@@ -5,7 +5,7 @@
     viewBox="0 0 23 23"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    class="-scale-x-100"
+    class="icon-mirrored"
   >
     <g clip-path="url(#clip0_9846_20394)">
       <path
@@ -33,3 +33,9 @@
     </defs>
   </svg>
 </template>
+
+<style scoped>
+.icon-mirrored {
+  transform: scaleX(-1);
+}
+</style>
