@@ -1,16 +1,22 @@
 import { useField } from 'vee-validate';
 import { useFieldDisabled } from './form-context';
 
+type MaybeGetter<T> = T | (() => T);
+
 export type UseVVFieldOptions<T = unknown> = {
   name: string | (() => string);
-  disabled?: boolean;
-  required?: boolean;
+  disabled?: MaybeGetter<boolean | undefined>;
+  required?: MaybeGetter<boolean | undefined>;
+  requiredMessage?: string;
   initialValue?: T;
   validateOnValueUpdate?: boolean;
 };
 
+const read = <T>(source: MaybeGetter<T>): T =>
+  typeof source === 'function' ? (source as () => T)() : source;
+
 export function useVVField<T = unknown>(options: UseVVFieldOptions<T>) {
-  const fieldDisabled = useFieldDisabled(() => !!options.disabled);
+  const fieldDisabled = useFieldDisabled(() => !!read(options.disabled));
 
   const {
     errorMessage,
@@ -19,8 +25,8 @@ export function useVVField<T = unknown>(options: UseVVFieldOptions<T>) {
   } = useField<T>(
     options.name,
     inputValue => {
-      if (!options.required) return true;
-      if (!inputValue) return false;
+      if (!read(options.required)) return true;
+      if (!inputValue) return options.requiredMessage ?? false;
       return true;
     },
     {

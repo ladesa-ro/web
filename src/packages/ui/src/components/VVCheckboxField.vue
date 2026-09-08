@@ -13,7 +13,7 @@ const props = defineProps<VVCheckboxFieldProps>();
 
 const { fieldValue, fieldDisabled } = useVVField<boolean>({
   name: () => props.name,
-  disabled: props.disabled,
+  disabled: () => props.disabled,
 });
 </script>
 

@@ -19,7 +19,7 @@ const {
   fieldDisabled,
 } = useVVField<ParsedOptionItem | undefined>({
   name: props.name,
-  disabled: props.disabled,
+  disabled: () => props.disabled,
 });
 </script>
 

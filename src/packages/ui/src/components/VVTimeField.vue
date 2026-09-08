@@ -17,8 +17,8 @@ const {
   fieldDisabled,
 } = useVVField<string | null>({
   name: props.name,
-  disabled: props.disabled,
-  required: props.required,
+  disabled: () => props.disabled,
+  required: () => props.required,
 });
 </script>
 
