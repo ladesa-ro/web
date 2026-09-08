@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Container, type ContainerProps } from '@ladesa-ro/web.ui';
 
-defineProps<ContainerProps>();
+withDefaults(defineProps<ContainerProps>(), { styled: true });
 </script>
 
 <template>
