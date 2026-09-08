@@ -48,14 +48,15 @@ do SonarSource.
 ## Tamanho e complexidade
 
 Todos os tetos abaixo valem para o app e para os pacotes, e todos são aviso.
-Somados dão 91 avisos, todos anteriores à adoção das regras.
+Somados dão 29 avisos. A profundidade de template já foi zerada; o resto é
+anterior à adoção das regras.
 
 | Regra                          | Teto                                | Ocorrências |
 | ------------------------------ | ----------------------------------- | ----------- |
-| `vue/max-template-depth`       | 6                                   | 17 arquivos |
-| `vue/max-lines-per-block`      | template 120, script 150, style 120 | 18 arquivos |
+| `vue/max-template-depth`       | 6                                   | 0           |
+| `vue/max-lines-per-block`      | template 120, script 150, style 120 | 17 arquivos |
 | `sonarjs/cognitive-complexity` | 15                                  | 9 funções   |
-| `max-lines`                    | 300                                 | 4 arquivos  |
+| `max-lines`                    | 300                                 | 2 arquivos  |
 | `vue/max-props`                | 8                                   | 1 arquivo   |
 
 Os tetos foram escolhidos medindo a base, não por convenção: o p95 de template
