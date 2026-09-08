@@ -8,14 +8,17 @@ await suspense();
 const route = useRoute();
 
 const needsAccessDenied = computed(() => {
-  if (
-    route.path === '/sem-acesso' ||
-    route.path === '/login' ||
-    route.path === '/logout' ||
-    route.path === '/__ui-test' ||
-    route.path === '/__fouc-test'
-  )
+  if (route.path === '/sem-acesso') return false;
+
+  const authMeta = route.meta.auth as
+    | false
+    | { unauthenticatedOnly?: boolean }
+    | undefined;
+
+  if (authMeta === false) return false;
+  if (typeof authMeta === 'object' && authMeta?.unauthenticatedOnly)
     return false;
+
   const user = usuario.value;
   if (!user) return true;
   if (user.isSuperUser) return false;
