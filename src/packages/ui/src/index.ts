@@ -38,6 +38,16 @@ export {
   default as WeekNavigator,
   type WeekNavigatorProps,
 } from './components/WeekNavigator.vue';
+export { default as CalendarDay } from './components/CalendarDay.vue';
+export type * from './components/calendar-types';
+export {
+  default as ProfileCarousel,
+  type ProfileCarouselProps,
+} from './components/ProfileCarousel.vue';
+export {
+  default as ScheduleQueryButton,
+  type ScheduleQueryButtonProps,
+} from './components/ScheduleQueryButton.vue';
 export {
   default as LoginTextField,
   type LoginTextFieldProps,

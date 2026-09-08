@@ -1,0 +1,75 @@
+.ui-carousel {
+  margin: 1rem auto;
+  overflow-x: auto;
+  display: flex;
+  gap: 1rem;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scroll-marker-group: after;
+  anchor-name: --carousel;
+}
+
+.ui-carousel::scroll-marker-group {
+  display: flex;
+  justify-content: center;
+  gap: 0.3em;
+}
+
+.ui-card::scroll-marker {
+  content: '';
+  height: 0.3em;
+  width: 0.9em;
+  background-color: var(--ladesa-grey-color);
+  border-radius: 0.5rem;
+}
+
+.ui-card::scroll-marker:target-current {
+  background-color: var(--ladesa-text-default-color);
+}
+
+.ui-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.ui-carousel::scroll-button(right),
+.ui-carousel::scroll-button(left) {
+  content: '>';
+  border: none;
+  font-family: Consolas;
+  background: none;
+  font-size: 1.5rem;
+  color: var(--ladesa-text-default-color);
+  border-radius: 50%;
+  cursor: pointer;
+  position: fixed;
+  position-anchor: --carousel;
+  position-area: right center;
+  translate: -20%;
+}
+
+.ui-carousel::scroll-button(left) {
+  content: '<';
+  position-area: left center;
+  translate: 20%;
+}
+
+.ui-carousel::scroll-button(right):disabled,
+.ui-carousel::scroll-button(left):disabled {
+  opacity: 0.5;
+  cursor: auto;
+}
+
+.ui-card {
+  scroll-snap-align: start;
+  flex: 0 0 20em;
+  aspect-ratio: 5 / 3;
+  border-radius: 0.5rem;
+  text-align: center;
+  align-content: center;
+}
+
+@media (max-width: 500px) {
+  .ui-card {
+    flex: 0 0 100%;
+  }
+}

@@ -1,0 +1,31 @@
+.ui-schedule-query-button {
+  min-width: var(--ui-space-10);
+  height: var(--ui-space-10);
+  border: 2px solid var(--color);
+  border-radius: var(--ui-radius-lg);
+  color: var(--color);
+  transition: background-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.ui-schedule-query-button:hover {
+  background-color: rgb(from var(--color) R G B / 10%);
+}
+
+.ui-schedule-query-button:focus {
+  outline: 0;
+}
+
+.ui-schedule-query-button:focus-visible {
+  background-color: rgb(from var(--color) R G B / 15%);
+}
+
+.ui-schedule-query-button:active {
+  background-color: rgb(from var(--color) R G B / 20%);
+}
+
+.ui-schedule-query-button:disabled {
+  cursor: not-allowed;
+  background-color: transparent;
+  border-color: rgb(from var(--color) R G B / 40%);
+  color: rgb(from var(--color) R G B / 40%);
+}
