@@ -16,5 +16,7 @@ export const useAuthState = () => {
     () => new Date()
   );
 
-  return { data, status, lastRefreshedAt };
+  const sessionGeneration = useState<number>('auth:sessionGeneration', () => 0);
+
+  return { data, status, lastRefreshedAt, sessionGeneration };
 };
