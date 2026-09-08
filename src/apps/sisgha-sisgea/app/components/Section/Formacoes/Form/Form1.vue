@@ -88,12 +88,7 @@ const duracaoLabel = computed(() => {
       :items="duracaoItems"
     />
 
-    <div v-if="duracaoLabel" class="u-flex u-gap-3 u-items-center formacoes-form1__banner">
-      <IconsInfo class="u-shrink-0 formacoes-form1__banner-icon" />
-      <p class="u-text-xs u-font-medium formacoes-form1__banner-text">
-        {{ duracaoLabel }}
-      </p>
-    </div>
+    <UIAlert v-if="duracaoLabel" type="info" :message="duracaoLabel" />
 
     <template #button-group>
       <UIButtonModalCancel @click="emit('close')" />
@@ -107,22 +102,3 @@ const duracaoLabel = computed(() => {
   </DialogModalBaseLayout>
 </template>
 
-<style scoped>
-.formacoes-form1__banner {
-  border-radius: 5px;
-  background-color: rgb(from var(--ladesa-blue-color) R G B / 10%);
-  border: 1px solid rgb(from var(--ladesa-blue-color) R G B / 10%);
-  padding: var(--ui-space-2-5) var(--ui-space-3);
-  overflow: clip;
-}
-
-.formacoes-form1__banner-icon {
-  width: 1.125rem;
-  color: var(--ladesa-blue-color);
-}
-
-.formacoes-form1__banner-text {
-  color: var(--ladesa-blue-color);
-  letter-spacing: 0.025em;
-}
-</style>

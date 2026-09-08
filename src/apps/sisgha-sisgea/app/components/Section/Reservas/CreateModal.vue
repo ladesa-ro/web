@@ -91,12 +91,7 @@ const onSubmit = handleSubmit(async values => {
 
     <DialogModalBaseLayout title="Nova reserva" :on-close="onClose">
       <form class="u-flex u-flex-col u-gap-4" @submit.prevent="onSubmit">
-        <p
-          v-if="conflictMessage"
-          class="u-text-sm u-rounded-md u-p-3 create-modal__alert create-modal__alert--error"
-        >
-          {{ conflictMessage }}
-        </p>
+        <UIAlert v-if="conflictMessage" type="error" :message="conflictMessage" />
 
         <VVAutocompleteAPIAmbiente name="ambiente.id" />
 
@@ -104,13 +99,11 @@ const onSubmit = handleSubmit(async values => {
 
         <VVTimeRangeField name-start="inicio" name-end="fim" label="Horário" />
 
-        <p
+        <UIAlert
           v-if="ocupacaoAviso"
-          class="u-text-sm u-rounded-md u-p-3 create-modal__alert create-modal__alert--warning"
-        >
-          Este ambiente já tem outra ocupação nesse período. Você ainda pode
-          enviar a reserva, mas ela pode ser recusada pelo servidor.
-        </p>
+          type="warning"
+          message="Este ambiente já tem outra ocupação nesse período. Você ainda pode enviar a reserva, mas ela pode ser recusada pelo servidor."
+        />
 
         <VVTextField name="motivo" label="Motivo" placeholder="Ex: Reunião do colegiado" />
       </form>
@@ -123,14 +116,3 @@ const onSubmit = handleSubmit(async values => {
   </DialogSkeleton>
 </template>
 
-<style scoped>
-.create-modal__alert--error {
-  color: var(--ladesa-red-color);
-  background-color: rgb(from var(--ladesa-red-color) R G B / 10%);
-}
-
-.create-modal__alert--warning {
-  color: var(--ladesa-yellow-color);
-  background-color: rgb(from var(--ladesa-yellow-color) R G B / 10%);
-}
-</style>
