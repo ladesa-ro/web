@@ -49,6 +49,21 @@ export {
 } from './components/CalendarMonth.vue';
 export * from './components/calendar-month';
 export {
+  default as RecurrenceScopeModal,
+  type RecurrenceScopeConfirmPayload,
+  type RecurrenceScopeMode,
+  type RecurrenceScopeModalProps,
+} from './components/RecurrenceScopeModal.vue';
+export {
+  default as UnavailabilityGrid,
+  type UnavailabilityGridProps,
+} from './components/UnavailabilityGrid.vue';
+export {
+  default as UnavailabilityList,
+  type UnavailabilityListProps,
+} from './components/UnavailabilityList.vue';
+export * from './components/unavailability';
+export {
   default as GradeSelector,
   type GradeSelectorProps,
 } from './components/GradeSelector.vue';
