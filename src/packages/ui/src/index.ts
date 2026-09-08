@@ -34,6 +34,26 @@ export { default as FormTextField } from './components/FormTextField.vue';
 export { default as FormTimeField } from './components/FormTimeField.vue';
 export { default as FormTimeRangeField } from './components/FormTimeRangeField.vue';
 export {
+  default as ButtonAddInline,
+  type ButtonAddInlineProps,
+} from './components/ButtonAddInline.vue';
+export {
+  default as GenericCrudItem,
+  type GenericCrudItemProps,
+} from './components/GenericCrudItem.vue';
+export {
+  default as ReportLine,
+  type ReportLineProps,
+} from './components/ReportLine.vue';
+export {
+  default as CardLink,
+  type CardLinkProps,
+} from './components/CardLink.vue';
+export {
+  default as GuardMessage,
+  type GuardMessageProps,
+} from './components/GuardMessage.vue';
+export {
   default as AccordionOptions,
   type AccordionOptionsProps,
 } from './components/AccordionOptions.vue';

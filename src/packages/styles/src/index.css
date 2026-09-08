@@ -35,6 +35,8 @@
 @import './components/day-square.css' layer(components);
 @import './components/card-option.css' layer(components);
 @import './components/section-block.css' layer(components);
+@import './components/guard-message.css' layer(components);
+@import './components/generic-crud-item.css' layer(components);
 @import './components/breadcrumb.css' layer(components);
 @import './components/button-square.css' layer(components);
 @import './components/button-modal.css' layer(components);
