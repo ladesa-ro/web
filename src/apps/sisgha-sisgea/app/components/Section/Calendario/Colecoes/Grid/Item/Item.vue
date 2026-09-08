@@ -47,18 +47,11 @@ const acessosCount = computed(
         <h1 class="u-font-semibold u-truncate">{{ colecao.nome }}</h1>
 
         <div class="u-flex u-items-center u-gap-2 u-flex-wrap">
-          <span
-            class="colecoes-grid-item__badge u-text-xs u-px-2 u-py-0-5 u-rounded-full u-font-medium"
-          >
-            {{ visibilidadeLabel }}
-          </span>
+          <UIBadge>{{ visibilidadeLabel }}</UIBadge>
 
-          <span
-            v-if="colecao.campus"
-            class="colecoes-grid-item__badge u-text-xs u-px-2 u-py-0-5 u-rounded-full u-font-medium"
-          >
+          <UIBadge v-if="colecao.campus">
             {{ colecao.campus.apelido }}
-          </span>
+          </UIBadge>
         </div>
 
         <p class="colecoes-grid-item__meta u-text-sm">
@@ -85,11 +78,6 @@ const acessosCount = computed(
 
 .colecoes-grid-item__color-bar {
   height: 0.5rem;
-}
-
-.colecoes-grid-item__badge {
-  background-color: rgb(from var(--ladesa-grey-color) R G B / 15%);
-  color: var(--ladesa-text-default-color);
 }
 
 .colecoes-grid-item__meta {

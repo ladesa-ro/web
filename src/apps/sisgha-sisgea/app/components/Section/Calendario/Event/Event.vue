@@ -77,16 +77,9 @@ function onOccurrenceAdded() {
 
         <h1>{{ props.event.name }}</h1>
 
-        <span
-          class="u-text-xs u-px-2 u-py-0-5 u-rounded-full"
-          :class="
-            props.event.type === 'etapa'
-              ? 'event-card__badge event-card__badge--etapa'
-              : 'event-card__badge event-card__badge--evento'
-          "
-        >
+        <UIBadge :variant="props.event.type === 'etapa' ? 'info' : 'success'">
           {{ props.event.type === 'etapa' ? 'Etapa' : 'Evento' }}
-        </span>
+        </UIBadge>
 
         <span
           v-if="props.event.colecao"
@@ -212,16 +205,6 @@ function onOccurrenceAdded() {
 .event-card__dot {
   width: 0.625rem;
   height: 0.625rem;
-}
-
-.event-card__badge--etapa {
-  background-color: rgb(from var(--ladesa-blue-color) R G B / 10%);
-  color: var(--ladesa-blue-color);
-}
-
-.event-card__badge--evento {
-  background-color: rgb(from var(--ladesa-green-1-color) R G B / 10%);
-  color: var(--ladesa-green-1-color);
 }
 
 .event-card__colecao {

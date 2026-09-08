@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { BadgeVariant } from '@ladesa-ro/web.ui';
 import type { CalendarioAgendamentoFindOneOutputDto } from '@ladesa-ro/web.api.client';
 
 const props = defineProps<{
@@ -87,14 +88,14 @@ const statusLabel = computed(() => {
   return map[s] ?? s;
 });
 
-const statusClass = computed(() => {
+const statusVariant = computed(() => {
   const s = props.evento.status;
-  const map: Record<string, string> = {
-    ATIVO: 'evento-card__badge--ativo',
-    INATIVO: 'evento-card__badge--inativo',
-    RASCUNHO: 'evento-card__badge--rascunho',
+  const map: Record<string, BadgeVariant> = {
+    ATIVO: 'success',
+    INATIVO: 'danger',
+    RASCUNHO: 'warning',
   };
-  return s && map[s] ? map[s] : 'evento-card__badge--default';
+  return (s && map[s]) || 'neutral';
 });
 
 const timelineDrawerOpen = ref(false);
@@ -124,13 +125,9 @@ const timelineDrawerOpen = ref(false);
       </div>
 
       <div class="u-flex u-items-center u-gap-2 u-shrink-0 u-ml-2">
-        <span
-          v-if="statusLabel"
-          class="u-rounded-sm u-px-2 u-py-0-5 u-text-xs u-font-medium"
-          :class="statusClass"
-        >
+        <UIBadge v-if="statusLabel" :variant="statusVariant">
           {{ statusLabel }}
-        </span>
+        </UIBadge>
 
         <button
           v-if="!evento.detalhesOcultos"
@@ -206,23 +203,4 @@ const timelineDrawerOpen = ref(false);
   color: var(--ladesa-grey-color);
 }
 
-.evento-card__badge--ativo {
-  background-color: rgb(from var(--ladesa-green-2-color) R G B / 15%);
-  color: var(--ladesa-green-1-color);
-}
-
-.evento-card__badge--inativo {
-  background-color: rgb(from var(--ladesa-red-color) R G B / 15%);
-  color: var(--ladesa-red-color);
-}
-
-.evento-card__badge--rascunho {
-  background-color: rgb(from var(--ladesa-yellow-color) R G B / 15%);
-  color: var(--ladesa-yellow-color);
-}
-
-.evento-card__badge--default {
-  background-color: rgb(from var(--ladesa-grey-color) R G B / 15%);
-  color: var(--ladesa-grey-color);
-}
 </style>

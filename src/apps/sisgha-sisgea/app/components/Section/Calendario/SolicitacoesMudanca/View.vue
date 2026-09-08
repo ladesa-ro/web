@@ -94,9 +94,7 @@ const recusarOpen = ref(false);
         <span class="u-text-sm u-font-semibold">
           {{ formatTipoOperacao(solicitacao.tipoOperacao) }}
         </span>
-        <span class="u-text-xs u-font-semibold u-px-2 u-py-0-5 u-rounded-full view__status-badge">
-          {{ formatStatus(solicitacao.status) }}
-        </span>
+        <UIBadge>{{ formatStatus(solicitacao.status) }}</UIBadge>
       </div>
 
       <div class="u-grid u-gap-4 view__grid">
@@ -192,10 +190,6 @@ const recusarOpen = ref(false);
 </template>
 
 <style scoped>
-.view__status-badge {
-  background-color: rgb(from var(--ladesa-grey-color) R G B / 15%);
-}
-
 .view__grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }

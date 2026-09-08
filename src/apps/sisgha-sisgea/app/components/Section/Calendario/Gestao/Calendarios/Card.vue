@@ -68,12 +68,9 @@ const qtdPeriodos = computed(() => etapas.value.length);
         <h2 class="calendario-card__title u-font-medium u-text-lg u-truncate">
           {{ calendario.nome }}
         </h2>
-        <span
-          v-if="isInativo"
-          class="calendario-card__badge-inativo u-shrink-0 u-text-xs u-px-2 u-py-0-5 u-rounded-full"
-        >
+        <UIBadge v-if="isInativo" variant="danger" class="u-shrink-0">
           Inativo
-        </span>
+        </UIBadge>
       </div>
 
       <div class="u-flex u-items-center u-gap-2 u-shrink-0 u-ml-2">
@@ -155,11 +152,6 @@ const qtdPeriodos = computed(() => etapas.value.length);
 .calendario-card__header-info,
 .calendario-card__title {
   min-width: 0;
-}
-
-.calendario-card__badge-inativo {
-  background-color: rgb(from var(--ladesa-red-color) R G B / 15%);
-  color: var(--ladesa-red-color);
 }
 
 .calendario-card__etapa {

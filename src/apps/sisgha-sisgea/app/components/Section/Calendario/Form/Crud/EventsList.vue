@@ -217,16 +217,9 @@ function handleEventsUpdated() {
             <h2 class="u-font-bold u-text-base">
               {{ event.name }}
             </h2>
-            <span
-              class="u-text-xs u-px-2 u-py-0-5 u-rounded-full"
-              :class="
-                event.type === 'etapa'
-                  ? 'events-list__badge events-list__badge--etapa'
-                  : 'events-list__badge events-list__badge--evento'
-              "
-            >
+            <UIBadge :variant="event.type === 'etapa' ? 'info' : 'success'">
               {{ event.type === 'etapa' ? 'Etapa' : 'Evento' }}
-            </span>
+            </UIBadge>
           </div>
         </div>
 
@@ -297,16 +290,6 @@ function handleEventsUpdated() {
 .events-list__dot {
   width: 0.75rem;
   height: 0.75rem;
-}
-
-.events-list__badge--etapa {
-  background-color: rgb(from var(--ladesa-blue-color) R G B / 10%);
-  color: var(--ladesa-blue-color);
-}
-
-.events-list__badge--evento {
-  background-color: rgb(from var(--ladesa-green-1-color) R G B / 10%);
-  color: var(--ladesa-green-1-color);
 }
 
 .events-list__meta {

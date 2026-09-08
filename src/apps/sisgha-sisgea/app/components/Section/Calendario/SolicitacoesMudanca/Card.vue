@@ -39,16 +39,14 @@ const isTruncated = computed(
         {{ evento?.nome ?? 'Evento' }}
       </span>
 
-      <span
-        class="u-text-xs u-font-semibold u-px-2 u-py-0-5 u-rounded-full u-shrink-0"
-        :class="
-          solicitacao.tipoOperacao === 'REMOVER'
-            ? 'solicitacao-card__badge--remover'
-            : 'solicitacao-card__badge--mover'
+      <UIBadge
+        class="u-shrink-0"
+        :variant="
+          solicitacao.tipoOperacao === 'REMOVER' ? 'danger' : 'info'
         "
       >
         {{ formatTipoOperacao(solicitacao.tipoOperacao) }}
-      </span>
+      </UIBadge>
     </div>
 
     <div v-if="evento" class="u-text-xs solicitacao-card__meta">
@@ -87,16 +85,6 @@ const isTruncated = computed(
 
 .solicitacao-card:hover {
   border-color: rgb(from var(--ladesa-green-1-color) R G B / 50%);
-}
-
-.solicitacao-card__badge--remover {
-  background-color: rgb(from var(--ladesa-red-color) R G B / 15%);
-  color: var(--ladesa-red-color);
-}
-
-.solicitacao-card__badge--mover {
-  background-color: rgb(from var(--ladesa-blue-color) R G B / 15%);
-  color: var(--ladesa-blue-color);
 }
 
 .solicitacao-card__meta {

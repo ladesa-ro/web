@@ -162,12 +162,9 @@ function authorLabel(entry: CalendarioAgendamentoLinhaDoTempoEntradaDto): string
               v{{ entry.version }}
             </span>
 
-            <span
-              v-if="entry.version === oldestVersion"
-              class="timeline-entry__badge-criado u-text-xs u-px-2 u-py-0-5 u-rounded-full"
-            >
+            <UIBadge v-if="entry.version === oldestVersion" variant="success">
               Criado
-            </span>
+            </UIBadge>
 
             <span class="timeline-entry__meta u-text-sm">
               {{ authorLabel(entry) }} · {{ formatWhen(entry.validFrom) }}
@@ -230,11 +227,6 @@ function authorLabel(entry: CalendarioAgendamentoLinhaDoTempoEntradaDto): string
 
 .timeline-entry__version {
   color: var(--ladesa-text-default-color);
-}
-
-.timeline-entry__badge-criado {
-  background-color: rgb(from var(--ladesa-green-1-color) R G B / 15%);
-  color: var(--ladesa-green-1-color);
 }
 
 .timeline-entry__meta {

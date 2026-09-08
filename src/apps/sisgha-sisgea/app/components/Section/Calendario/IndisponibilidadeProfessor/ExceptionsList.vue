@@ -38,16 +38,12 @@ const sorted = computed(() =>
         {{ item.inicio.slice(0, 5) }}–{{ item.fim.slice(0, 5) }}
       </span>
 
-      <span
-        class="u-text-xs u-font-semibold u-px-2 u-py-0-5 u-rounded-full u-shrink-0"
-        :class="
-          item.tipo === 'BLOQUEIO'
-            ? 'exceptions-list__badge--bloqueio'
-            : 'exceptions-list__badge--preferencia'
-        "
+      <UIBadge
+        class="u-shrink-0"
+        :variant="item.tipo === 'BLOQUEIO' ? 'danger' : 'warning'"
       >
         {{ item.tipo === 'BLOQUEIO' ? 'Bloqueio' : 'Preferência' }}
-      </span>
+      </UIBadge>
 
       <span class="u-text-sm u-flex-1 u-truncate exceptions-list__reason">
         {{ item.motivo || '—' }}
@@ -88,16 +84,6 @@ const sorted = computed(() =>
 
 .exceptions-list__time {
   color: var(--ladesa-grey-color);
-}
-
-.exceptions-list__badge--bloqueio {
-  background-color: rgb(from var(--ladesa-red-color) R G B / 15%);
-  color: var(--ladesa-red-color);
-}
-
-.exceptions-list__badge--preferencia {
-  background-color: rgb(from var(--ladesa-yellow-color) R G B / 20%);
-  color: var(--ladesa-text-default-color);
 }
 
 .exceptions-list__reason {
