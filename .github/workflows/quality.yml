@@ -53,6 +53,12 @@ jobs:
       - name: Checagem de tipos
         run: pnpm --filter @ladesa-ro/web.service run types:check
 
+      - name: Instalação do navegador para os testes
+        run: pnpm --filter @ladesa-ro/web.ui exec playwright install --with-deps chromium
+
+      - name: Testes do design system
+        run: pnpm run -w test:all
+
       # Informativo, não bloqueante: o gate local (recipe `check` do justfile)
       # também roda o eslint com `-`, e o app tem erros pré-existentes.
       - name: Lint (informativo)
