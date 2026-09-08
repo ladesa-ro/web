@@ -1,0 +1,31 @@
+.ui-access-role-cards {
+  background-color: var(--ladesa-background-color);
+}
+
+.ui-access-role-cards__option {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--ui-space-2);
+  width: 14rem;
+  height: 10rem;
+  border: 2px solid transparent;
+  border-radius: var(--ui-radius-lg);
+  text-align: center;
+  cursor: pointer;
+}
+
+.ui-access-role-cards__option-label {
+  font-weight: 600;
+}
+
+.ui-access-role-cards__option--inactive {
+  border-color: rgb(from var(--ladesa-grey-color) R G B / 100%);
+}
+
+.ui-access-role-cards__option--active {
+  background-color: var(--ladesa-green-1-color);
+  border-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+}

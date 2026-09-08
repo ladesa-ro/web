@@ -5,7 +5,6 @@ export type ParsedOptionItem = {
   value: any;
 };
 
-/** Convert all items to a { label, value } object. */
 export const getParsedOptionItems = (items: OptionItem[]): ParsedOptionItem[] => {
   return items.map(item => {
     if (typeof item === 'string' || typeof item === 'number') {
@@ -21,3 +20,19 @@ export const getParsedOptionItems = (items: OptionItem[]): ParsedOptionItem[] =>
     };
   });
 };
+
+export const normalizeOptionItemText = (text: string) =>
+  text
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+
+export const filterOptionItemsBySearch = (
+  items: ParsedOptionItem[],
+  searchBarValue: string
+) =>
+  items.filter(item =>
+    normalizeOptionItemText(item.label).includes(
+      normalizeOptionItemText(searchBarValue)
+    )
+  );

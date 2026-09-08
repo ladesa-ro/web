@@ -44,6 +44,9 @@
 @import './components/calendar-day.css' layer(components);
 @import './components/profile-carousel.css' layer(components);
 @import './components/shift-times.css' layer(components);
+@import './components/mesclado-list.css' layer(components);
+@import './components/access-role-cards.css' layer(components);
+@import './components/report-lesson.css' layer(components);
 @import './components/breadcrumb.css' layer(components);
 @import './components/button-square.css' layer(components);
 @import './components/button-modal.css' layer(components);

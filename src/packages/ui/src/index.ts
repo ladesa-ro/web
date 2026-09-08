@@ -38,6 +38,19 @@ export {
   default as WeekNavigator,
   type WeekNavigatorProps,
 } from './components/WeekNavigator.vue';
+export { default as AccessRoleCards } from './components/AccessRoleCards.vue';
+export {
+  default as GradeSelector,
+  type GradeSelectorProps,
+} from './components/GradeSelector.vue';
+export {
+  default as MescladoList,
+  type MescladoListProps,
+} from './components/MescladoList.vue';
+export {
+  default as ReportLesson,
+  type ReportLessonProps,
+} from './components/ReportLesson.vue';
 export { default as PopoverDayAndShift } from './components/PopoverDayAndShift.vue';
 export {
   default as ShiftTimes,
