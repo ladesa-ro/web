@@ -25,7 +25,7 @@
 
 .ui-week-day-selector__button--compact {
   font-size: 0.875rem;
-  padding-block: 0.5rem !important;
+  padding-block: 0.5rem;
 }
 
 .ui-options-carousel {
