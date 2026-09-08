@@ -47,6 +47,7 @@
 @import './components/accordion-select.css' layer(components);
 @import './components/calendar-month.css' layer(components);
 @import './components/mesclado-list.css' layer(components);
+@import './components/reasons-modal.css' layer(components);
 @import './components/recurrence-scope-modal.css' layer(components);
 @import './components/unavailability-grid.css' layer(components);
 @import './components/unavailability-list.css' layer(components);

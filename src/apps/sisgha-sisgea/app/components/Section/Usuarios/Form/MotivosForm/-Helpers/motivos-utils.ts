@@ -20,18 +20,6 @@ export const motivosDisponiveis = [
   'Outro',
 ];
 
-export function formatarDia(dia: string): string {
-  const diasComFeira = [
-    'segunda',
-    'terca',
-    'terça',
-    'quarta',
-    'quinta',
-    'sexta',
-  ];
-  return diasComFeira.includes(dia.toLowerCase()) ? `${dia}-feira` : dia;
-}
-
 export function getProximoHorario(horario: string): string | null {
   const todos = dayShifts.flatMap(s => s.times);
   const idx = todos.indexOf(horario);
@@ -61,9 +49,7 @@ export function agruparHorarios(horarios: string[]): string[] {
   return blocos;
 }
 
-export function normalizarChave(str: string): string {
-  return str
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase();
-}
+export {
+  formatWeekDayLabel as formatarDia,
+  normalizeWeekDayKey as normalizarChave,
+} from '@ladesa-ro/web.ui';

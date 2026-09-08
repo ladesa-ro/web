@@ -64,6 +64,16 @@ export {
 } from './components/UnavailabilityList.vue';
 export * from './components/unavailability';
 export {
+  default as ReasonsEditModal,
+  type GroupedReason,
+  type ReasonsEditModalProps,
+} from './components/ReasonsEditModal.vue';
+export {
+  default as ReasonsViewModal,
+  type ReasonsViewModalProps,
+} from './components/ReasonsViewModal.vue';
+export * from './components/reason';
+export {
   default as GradeSelector,
   type GradeSelectorProps,
 } from './components/GradeSelector.vue';
