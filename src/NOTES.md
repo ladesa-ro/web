@@ -140,6 +140,25 @@ para `apps` e `packages` inteiros.
 - `utils/schedule/types.ts` — mistura português e inglês e é reconhecidamente
   confuso; o autor original deixou aviso a quem viesse depois.
 
+## Devcontainer
+
+`.devcontainer/devcontainer.json` constrói o estágio `devcontainer` do
+`.docker/Containerfile`. O CI usa o CLI do devcontainer (`devcontainer up` mais
+um `exec` por passo), sem publicar imagem nenhuma — assim cada passo continua
+com seu próprio pass/fail e o que é informativo segue informativo.
+
+O repositório inteiro é montado em `/workspaces/web`, então os comandos rodam
+de `/workspaces/web/src`. Difere do container local de desenvolvimento, onde
+`/repo` é o `src/`; a montagem precisa ser da raiz para o lint alcançar
+`.github/` e `.docker/`.
+
+`NPM_CONFIG_STORE_DIR=/pnpm/store` está no `containerEnv` pelo mesmo motivo do
+compose dos agentes: sem isso o store do pnpm nasce dentro do workspace.
+
+O `COPY . /sources` saiu do estágio `base` para um estágio `sources` próprio.
+Sem isso qualquer arquivo alterado invalidava a camada do `apt-get` e o
+devcontainer era reconstruído do zero a cada commit.
+
 ## Agentes paralelos
 
 `.docker/compose.agents.yml` sobe um container por slice, cada um com seu
