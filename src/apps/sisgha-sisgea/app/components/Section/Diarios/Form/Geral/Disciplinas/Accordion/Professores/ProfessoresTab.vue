@@ -110,34 +110,15 @@ const professoresSelecionados = computed({
           v-model="professoresSelecionados"
           :items="professores"
         >
-          <div
-            class="u-flex u-items-center u-gap-3 u-rounded-lg professores-tab__item"
-            :class="{ 'professores-tab__item--selected': selected }"
-            @click.stop="invertItem(item)"
+          <SectionDiariosFormGeralDisciplinasAccordionProfessoresItem
+            :label="item.label"
+            :image-url="professorOf(item).imageUrl"
+            :cargo="professorOf(item).cargo"
+            :selected="selected"
+            @toggle="invertItem(item)"
           >
-            <div
-              class="u-flex u-items-center u-justify-center u-shrink-0 u-overflow-hidden u-rounded-md professores-tab__avatar"
-            >
-              <img
-                v-if="professorOf(item).imageUrl"
-                :src="professorOf(item).imageUrl ?? ''"
-                class="u-w-full u-h-full professores-tab__avatar-image"
-              />
-              <IconsUser v-else class="professores-tab__avatar-icon" />
-            </div>
-            <div class="u-flex u-flex-col u-flex-1 professores-tab__info">
-              <p class="u-font-semibold u-text-sm professores-tab__name">
-                {{ item.label }}
-              </p>
-              <p
-                v-if="professorOf(item).cargo"
-                class="u-text-xs professores-tab__cargo"
-              >
-                {{ professorOf(item).cargo }}
-              </p>
-            </div>
             <UICheckboxSquare :item="item" :active="selected" @click.stop />
-          </div>
+          </SectionDiariosFormGeralDisciplinasAccordionProfessoresItem>
         </UICheckbox>
       </div>
     </template>
@@ -166,48 +147,5 @@ const professoresSelecionados = computed({
 
 .professores-tab__list {
   max-height: 15.625rem;
-}
-
-.professores-tab__item {
-  border: 2px solid rgb(from var(--ladesa-grey-color) R G B / 100%);
-  padding-right: var(--ui-space-3);
-  margin-bottom: var(--ui-space-1);
-  cursor: pointer;
-  transition:
-    background-color var(--ui-duration-base) var(--ui-easing-standard),
-    border-color var(--ui-duration-base) var(--ui-easing-standard);
-}
-
-.professores-tab__item--selected {
-  border-color: var(--ladesa-green-1-color);
-  background-color: rgb(from var(--ladesa-green-1-color) R G B / 10%);
-}
-
-.professores-tab__avatar {
-  width: 3rem;
-  height: 3rem;
-  background-color: rgb(from var(--ladesa-grey-color) R G B / 20%);
-}
-
-.professores-tab__avatar-image {
-  object-fit: cover;
-}
-
-.professores-tab__avatar-icon {
-  width: var(--ui-space-6);
-  height: var(--ui-space-6);
-  color: rgb(from var(--ladesa-grey-color) R G B / 100%);
-}
-
-.professores-tab__info {
-  padding-block: var(--ui-space-2);
-}
-
-.professores-tab__name {
-  color: var(--ladesa-text-default-color);
-}
-
-.professores-tab__cargo {
-  color: rgb(from var(--ladesa-grey-color) R G B / 100%);
 }
 </style>

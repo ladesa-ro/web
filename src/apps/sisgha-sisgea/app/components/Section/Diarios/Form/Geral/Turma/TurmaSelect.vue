@@ -246,37 +246,14 @@ function nextForm() {
         <div
           class="u-flex u-flex-col u-gap-2 u-overflow-auto turma-select__list"
         >
-          <div
+          <SectionDiariosFormGeralTurmaItem
             v-for="item in turmaRadioItems"
             :key="item.value"
-            class="u-flex u-items-center u-justify-between u-rounded-lg turma-select__item"
-            :class="{
-              'turma-select__item--selected':
-                contexto.turmaId.value === item.value,
-            }"
-            @click="onTurmaSelect(item.value)"
-          >
-            <div class="u-flex u-flex-col">
-              <span class="u-font-semibold u-text-sm turma-select__item-label">
-                {{ item.label }}
-              </span>
-              <span class="u-text-xs turma-select__item-curso">
-                {{ item.curso }}
-              </span>
-            </div>
-            <div
-              class="u-flex u-items-center u-justify-center u-shrink-0 u-rounded-full turma-select__radio"
-              :class="{
-                'turma-select__radio--selected':
-                  contexto.turmaId.value === item.value,
-              }"
-            >
-              <div
-                v-if="contexto.turmaId.value === item.value"
-                class="u-rounded-full turma-select__radio-dot"
-              />
-            </div>
-          </div>
+            :label="item.label"
+            :curso="item.curso"
+            :selected="contexto.turmaId.value === item.value"
+            @select="onTurmaSelect(item.value)"
+          />
 
           <div
             v-if="turmaRadioItems.length === 0 && contexto.cursoId.value"
@@ -298,44 +275,6 @@ function nextForm() {
 <style scoped>
 .turma-select__list {
   max-height: 18.75rem;
-}
-
-.turma-select__item {
-  border: 2px solid rgb(from var(--ladesa-grey-color) R G B / 100%);
-  padding: var(--ui-space-3) var(--ui-space-4);
-  cursor: pointer;
-  transition:
-    background-color var(--ui-duration-base) var(--ui-easing-standard),
-    border-color var(--ui-duration-base) var(--ui-easing-standard);
-}
-
-.turma-select__item--selected {
-  border-color: var(--ladesa-green-1-color);
-  background-color: rgb(from var(--ladesa-green-1-color) R G B / 10%);
-}
-
-.turma-select__item-label {
-  color: var(--ladesa-text-default-color);
-}
-
-.turma-select__item-curso {
-  color: rgb(from var(--ladesa-grey-color) R G B / 100%);
-}
-
-.turma-select__radio {
-  width: var(--ui-space-5);
-  height: var(--ui-space-5);
-  border: 2px solid rgb(from var(--ladesa-grey-color) R G B / 100%);
-}
-
-.turma-select__radio--selected {
-  border-color: var(--ladesa-green-1-color);
-}
-
-.turma-select__radio-dot {
-  width: var(--ui-space-3);
-  height: var(--ui-space-3);
-  background-color: var(--ladesa-green-1-color);
 }
 
 .turma-select__empty {
