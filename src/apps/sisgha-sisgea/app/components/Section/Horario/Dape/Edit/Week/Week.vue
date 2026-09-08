@@ -9,7 +9,6 @@ import {
   type HoursPerShift,
 } from '~/components/Section/Horario/Dape/Edit/-Helpers/turnGridPrettier';
 import type { WeekSchedule } from '~/utils/schedule/types';
-import GridCell from '../GridCell/GridCell.vue';
 import { useDayJs } from '#imports';
 
 const { commit } = defineProps<{ commit: () => void }>();
@@ -103,23 +102,15 @@ const startHours: Ref<HoursPerShift> = ref(
               shiftIndex === shiftNames.length - 1 && 'week__rounded-br',
             ]"
           >
-            <div v-for="(day, date) of weekSchedule" :key="date">
-              <GridCell
-                v-for="(cell, cellIndex) in day.daySchedule[shift]
-                  .shiftSchedule"
-                :key="cell.id"
-                v-model="
-                  weekSchedule[date]!.daySchedule[shift].shiftSchedule[
-                    cellIndex
-                  ]!
-                "
-                :cell-index="cellIndex"
-                :shift-name="shift"
-                :shift-index="shiftIndex"
-                :day-date="date"
-                @edit-cell="commit()"
-              />
-            </div>
+            <SectionHorarioDapeEditWeekDayCells
+              v-for="(day, date) of weekSchedule"
+              :key="date"
+              v-model="weekSchedule[date]!.daySchedule[shift].shiftSchedule"
+              :shift-name="shift"
+              :shift-index="shiftIndex"
+              :day-date="date"
+              @edit-cell="commit()"
+            />
           </div>
         </div>
       </div>

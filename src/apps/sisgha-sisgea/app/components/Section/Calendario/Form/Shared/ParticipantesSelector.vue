@@ -217,38 +217,18 @@ watch(todosParticipam, () => emitUpdate());
         </button>
 
         <template v-if="expandedFormacoes.has(formacao.id)">
-          <div
+          <SectionCalendarioFormSharedCursoTurmas
             v-for="curso in cursosByFormacao.get(formacao.id) ?? []"
             :key="curso.id"
-            class="u-flex u-flex-col u-gap-2 participantes-selector__curso"
-          >
-            <span
-              class="u-text-xs u-font-medium participantes-selector__curso-nome"
-              >{{ curso.nome }}</span
-            >
-
-            <div
-              class="u-flex u-flex-wrap u-gap-2 participantes-selector__turmas"
-            >
-              <UIFormCheckbox
-                v-for="turma in turmasByCurso.get(curso.id) ?? []"
-                :key="turma.id"
-                :model-value="isTurmaSelected(curso.id, turma.id)"
-                :disabled="disabled"
-                :label="turma.nome"
-                @update:model-value="toggleTurma(curso.id, turma.id)"
-              />
-            </div>
-
-            <button
-              v-if="!turmasByCurso.has(curso.id)"
-              type="button"
-              class="u-text-xs participantes-selector__load-turmas"
-              @click="loadTurmas(curso.id)"
-            >
-              Carregar turmas
-            </button>
-          </div>
+            :nome="curso.nome"
+            :turmas="turmasByCurso.get(curso.id)"
+            :disabled="disabled"
+            :is-turma-selected="
+              (turmaId: string) => isTurmaSelected(curso.id, turmaId)
+            "
+            @toggle="(turmaId: string) => toggleTurma(curso.id, turmaId)"
+            @load="loadTurmas(curso.id)"
+          />
 
           <p
             v-if="(cursosByFormacao.get(formacao.id) ?? []).length === 0"
@@ -311,24 +291,6 @@ watch(todosParticipam, () => emitUpdate());
 
 .participantes-selector__chevron {
   color: var(--ladesa-green-1-color);
-}
-
-.participantes-selector__curso {
-  padding-left: var(--ui-space-3);
-}
-
-.participantes-selector__curso-nome {
-  color: var(--ladesa-grey-color);
-}
-
-.participantes-selector__turmas {
-  padding-left: var(--ui-space-2);
-}
-
-.participantes-selector__load-turmas {
-  color: var(--ladesa-green-1-color);
-  text-decoration: underline;
-  padding-left: var(--ui-space-2);
 }
 
 .participantes-selector__empty-cursos {

@@ -181,16 +181,13 @@ function authorLabel(
             v-if="entry.mudancas.length > 0"
             class="timeline-entry__mudancas u-flex u-flex-col u-gap-1 u-text-sm"
           >
-            <li v-for="(mudanca, idx) in entry.mudancas" :key="idx">
-              <span class="u-font-medium"
-                >{{ fieldLabel(mudanca.campo) }}:</span
-              >
-              <span class="timeline-entry__value-before u-mx-1">{{
-                formatValue(mudanca.de)
-              }}</span>
-              →
-              <span class="u-ml-1">{{ formatValue(mudanca.para) }}</span>
-            </li>
+            <SectionCalendarioTimelineMudancaItem
+              v-for="(mudanca, idx) in entry.mudancas"
+              :key="idx"
+              :campo="fieldLabel(mudanca.campo)"
+              :de="formatValue(mudanca.de)"
+              :para="formatValue(mudanca.para)"
+            />
           </ul>
         </li>
       </ol>
@@ -243,10 +240,5 @@ function authorLabel(
 
 .timeline-entry__mudancas {
   color: var(--ladesa-text-default-color);
-}
-
-.timeline-entry__value-before {
-  text-decoration: line-through;
-  color: var(--ladesa-grey-color);
 }
 </style>
