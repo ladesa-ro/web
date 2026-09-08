@@ -42,7 +42,7 @@ async function onMarcarTodasLidas() {
   <UIPopover v-model="open">
     <template #activator>
       <UIButtonDefaultSquare class="u-relative">
-        <IconsIconNotifications class="notification-bell-icon" />
+        <IconsNotifications class="notification-bell-icon" />
 
         <span v-if="contagemNaoLidas > 0" class="u-flex u-items-center u-justify-center u-px-1 u-rounded-full u-font-semibold notification-badge">
           {{ badgeText }}

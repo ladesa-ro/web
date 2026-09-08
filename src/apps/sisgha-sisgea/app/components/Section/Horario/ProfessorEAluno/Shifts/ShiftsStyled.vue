@@ -1,9 +1,14 @@
 <script lang="ts" setup>
-import type { IDiasDaSemana, ITurnos } from '../IGradeHorario';
+import type {
+  IDiasDaSemana,
+  IGradeDisciplina,
+  ITurnos,
+} from '../IGradeHorario';
 
 type Props = {
   turnos: ITurnos;
   diasDaSemana: IDiasDaSemana;
+  gradeDisciplinas: IGradeDisciplina[];
 };
 
 defineProps<Props>();
@@ -11,7 +16,11 @@ defineProps<Props>();
 
 <template>
   <div class="grade-horario">
-    <SectionHorarioShifts :dias-da-semana="diasDaSemana" :turnos="turnos" />
+    <SectionHorarioProfessorEAlunoShifts
+      :dias-da-semana="diasDaSemana"
+      :turnos="turnos"
+      :grade-disciplinas="gradeDisciplinas"
+    />
   </div>
 </template>
 

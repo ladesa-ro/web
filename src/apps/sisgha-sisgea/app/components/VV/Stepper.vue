@@ -22,7 +22,7 @@ const { value: fieldValue, errorMessage } = useField<number>(
 </script>
 
 <template>
-  <UIFormStepperStepper
+  <UIFormStepper
     v-model="fieldValue"
     :label="label"
     :min="min"
