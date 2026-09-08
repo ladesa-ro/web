@@ -12,14 +12,12 @@ const ApiContextKey = Symbol();
 export const createApiContext = (shouldProvide = true) => {
   const api = useApiClient();
 
-  const { data, status, lastRefreshedAt } = useAuthState();
+  const { data, status } = useAuthState();
 
   const whoAmIQueryKey = computed(() => [
     'usuarios',
     'who-am-i',
-    data.value?.accessTokenExpires,
-    unref(status),
-    unref(lastRefreshedAt),
+    data.value?.user?.id ?? null,
   ]);
 
   const whoAmIQuery = useQuery({
