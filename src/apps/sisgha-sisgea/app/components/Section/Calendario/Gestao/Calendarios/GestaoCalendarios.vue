@@ -187,16 +187,10 @@ function handleModalClose() {
     </div>
 
     <!-- Empty -->
-    <div
+    <UIEmptyState
       v-else-if="calendarios.length === 0"
-      class="u-flex u-flex-col u-justify-center u-items-center u-gap-5 u-py-8"
-    >
-      <UIContentStateEmpty class="gestao-calendarios__empty-icon" />
-      <span class="gestao-calendarios__empty-text u-text-center">
-        Nenhum calendário encontrado. Tente ajustar os filtros ou criar um novo
-        calendário.
-      </span>
-    </div>
+      description="Nenhum calendário encontrado. Tente ajustar os filtros ou criar um novo calendário."
+    />
 
     <!-- Calendars grid -->
     <div v-else class="gestao-calendarios__grid u-grid u-gap-5">
@@ -286,16 +280,4 @@ function handleModalClose() {
   color: var(--ladesa-red-color);
 }
 
-.gestao-calendarios__empty-text {
-  color: var(--ladesa-grey-color);
-}
-
-:global(.dark) .gestao-calendarios__empty-icon {
-  filter: saturate(0.75);
-  opacity: 0.5;
-}
-
-:global(.dark) .gestao-calendarios__empty-text {
-  filter: contrast(0);
-}
 </style>

@@ -151,31 +151,23 @@ await suspendQuery(query);
       </template>
 
       <template v-else-if="!isFetching && hasSearchQuery">
-        <div
+        <UIEmptyState
           key="no-search-results"
-          class="u-flex u-flex-col u-items-center u-justify-center u-text-center u-p-8 grid-results__span-full grid-results__empty-state"
-        >
-          <h3 class="u-text-lg u-font-semibold grid-results__empty-title">
-            Nenhum resultado encontrado.
-          </h3>
-          <p class="u-text-sm">
-            Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos
-            menos específicos ou consultas mais amplas podem ajudá-lo a
-            encontrar o que procura.
-          </p>
-        </div>
+          illustration="none"
+          class="grid-results__span-full grid-results__empty-state"
+          title="Nenhum resultado encontrado."
+          description="Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos menos específicos ou consultas mais amplas podem ajudá-lo a encontrar o que procura."
+        />
       </template>
 
       <template v-else-if="!isFetching">
-        <div
+        <UIEmptyState
           key="no-records"
-          class="u-flex u-flex-col u-items-center u-justify-center u-text-center u-p-8 grid-results__span-full grid-results__empty-state"
-        >
-          <h3 class="u-text-lg u-font-semibold grid-results__empty-title">
-            Nenhum registro encontrado.
-          </h3>
-          <p class="u-text-sm">Não há registros cadastrados para exibir.</p>
-        </div>
+          illustration="none"
+          class="grid-results__span-full grid-results__empty-state"
+          title="Nenhum registro encontrado."
+          description="Não há registros cadastrados para exibir."
+        />
       </template>
 
       <template
@@ -207,10 +199,6 @@ await suspendQuery(query);
 .grid-results__empty-state {
   min-height: min-content;
   flex: 1 1 0%;
-}
-
-.grid-results__empty-title {
-  margin-bottom: var(--ui-space-3);
 }
 
 .grid-results__error {

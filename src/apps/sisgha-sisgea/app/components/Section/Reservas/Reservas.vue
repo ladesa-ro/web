@@ -110,16 +110,10 @@ function onCreated() {
         Erro ao carregar reservas. Tente novamente.
       </div>
 
-      <div
+      <UIEmptyState
         v-else-if="reservas.length === 0"
-        class="u-flex u-flex-col u-justify-center u-items-center u-gap-5 u-py-8"
-      >
-        <UIContentStateEmpty class="reservas__empty-icon" />
-        <span class="u-text-center reservas__empty-label">
-          Nenhuma reserva encontrada. Tente ajustar os filtros ou criar uma
-          nova reserva.
-        </span>
-      </div>
+        description="Nenhuma reserva encontrada. Tente ajustar os filtros ou criar uma nova reserva."
+      />
 
       <div v-else class="u-grid u-gap-5 reservas__cards-grid">
         <SectionReservasCard
@@ -214,16 +208,4 @@ function onCreated() {
   color: var(--ladesa-red-color);
 }
 
-.reservas__empty-label {
-  color: var(--ladesa-grey-color);
-}
-
-:global(.dark) .reservas__empty-icon {
-  filter: saturate(0.75);
-  opacity: 0.5;
-}
-
-:global(.dark) .reservas__empty-label {
-  filter: contrast(0);
-}
 </style>

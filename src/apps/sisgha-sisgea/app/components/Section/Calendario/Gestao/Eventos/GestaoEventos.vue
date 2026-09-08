@@ -259,16 +259,10 @@ function handleModalClose() {
     </div>
 
     <!-- Empty -->
-    <div
+    <UIEmptyState
       v-else-if="eventos.length === 0"
-      class="u-flex u-flex-col u-justify-center u-items-center u-gap-5 u-py-8"
-    >
-      <UIContentStateEmpty class="gestao-eventos__empty-icon" />
-      <span class="gestao-eventos__empty-text u-text-center">
-        Nenhum evento encontrado. Tente ajustar os filtros ou criar um novo
-        evento.
-      </span>
-    </div>
+      description="Nenhum evento encontrado. Tente ajustar os filtros ou criar um novo evento."
+    />
 
     <!-- Events grid -->
     <div v-else class="gestao-eventos__grid u-grid u-gap-5">
@@ -391,16 +385,4 @@ function handleModalClose() {
   color: var(--ladesa-red-color);
 }
 
-.gestao-eventos__empty-text {
-  color: var(--ladesa-grey-color);
-}
-
-:global(.dark) .gestao-eventos__empty-icon {
-  filter: saturate(0.75);
-  opacity: 0.5;
-}
-
-:global(.dark) .gestao-eventos__empty-text {
-  filter: contrast(0);
-}
 </style>

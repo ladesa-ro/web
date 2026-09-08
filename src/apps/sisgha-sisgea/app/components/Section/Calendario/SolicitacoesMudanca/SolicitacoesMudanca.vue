@@ -41,15 +41,10 @@ function closeDetail() {
       Erro ao carregar solicitações. Tente novamente.
     </div>
 
-    <div
+    <UIEmptyState
       v-else-if="lista.length === 0"
-      class="u-flex u-flex-col u-justify-center u-items-center u-gap-5 u-py-8"
-    >
-      <UIContentStateEmpty class="solicitacoes-mudanca__empty-icon" />
-      <span class="u-text-center solicitacoes-mudanca__empty-label">
-        Nenhuma solicitação encontrada.
-      </span>
-    </div>
+      description="Nenhuma solicitação encontrada."
+    />
 
     <div v-else class="u-grid u-gap-4 solicitacoes-mudanca__grid">
       <Card
@@ -76,19 +71,6 @@ function closeDetail() {
 
 .solicitacoes-mudanca__status--error {
   color: var(--ladesa-red-color);
-}
-
-.solicitacoes-mudanca__empty-label {
-  color: var(--ladesa-grey-color);
-}
-
-:global(.dark) .solicitacoes-mudanca__empty-icon {
-  filter: saturate(0.75);
-  opacity: 0.5;
-}
-
-:global(.dark) .solicitacoes-mudanca__empty-label {
-  filter: contrast(0);
 }
 
 .solicitacoes-mudanca__grid {

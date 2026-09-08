@@ -246,13 +246,11 @@ const selectedCalendarItem = computed({
       :year="selectedCalendar.year || 0"
     />
 
-    <div v-if="!selectedTrainingOffer || !selectedCalendarId" class="u-flex u-flex-col u-justify-center u-items-center u-gap-5 calendario-empty-state">
-      <UIContentStateEmpty class="calendario-empty-state__icon" />
-      <span class="u-text-center calendario-empty-state__text">
-        Selecione um calendário nos filtros acima para visualizar suas
-        informações.
-      </span>
-    </div>
+    <UIEmptyState
+      v-if="!selectedTrainingOffer || !selectedCalendarId"
+      class="calendario-empty-state"
+      description="Selecione um calendário nos filtros acima para visualizar suas informações."
+    />
   </UIContainer>
 </template>
 
@@ -265,16 +263,4 @@ const selectedCalendarItem = computed({
   margin-top: 3.75rem;
 }
 
-.calendario-empty-state__text {
-  color: var(--ladesa-grey-color);
-}
-
-:global(.dark) .calendario-empty-state__icon {
-  filter: saturate(75%);
-  opacity: 0.5;
-}
-
-:global(.dark) .calendario-empty-state__text {
-  filter: contrast(0);
-}
 </style>
