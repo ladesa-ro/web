@@ -141,17 +141,13 @@ const vinculosBadges = computed(() => {
 
         <span class="profile-metadata__badges-wrapper">
           <div class="u-flex u-flex-wrap u-gap-2">
-            <span
+            <SectionProfileRoleBadge
               v-for="(v, index) in vinculosBadges"
               :key="index"
-              :class="[
-                'role-badge u-flex u-items-center u-gap-1 u-px-2 u-py-1 u-rounded-xl u-font-semibold',
-                v.border,
-              ]"
-            >
-              {{ v.label }}
-              <component :is="v.icon" class="role-badge__icon" />
-            </span>
+              :label="v.label"
+              :border="v.border"
+              :icon="v.icon"
+            />
           </div>
         </span>
       </section>
@@ -292,25 +288,5 @@ const vinculosBadges = computed(() => {
 
 .profile-metadata__badges-wrapper {
   line-height: 1.25rem;
-}
-
-.role-badge {
-  border-width: 2px;
-  border-style: solid;
-  font-size: 0.6rem;
-  color: var(--ladesa-text-green-color);
-}
-
-.role-badge--green {
-  border-color: var(--ladesa-green-1-color);
-}
-
-.role-badge--grey {
-  border-color: rgb(156, 163, 175);
-}
-
-.role-badge__icon {
-  width: 0.75rem;
-  height: 0.75rem;
 }
 </style>

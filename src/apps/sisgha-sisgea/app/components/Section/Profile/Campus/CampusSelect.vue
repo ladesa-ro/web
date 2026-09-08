@@ -2,16 +2,11 @@
 import {
   ComboboxAnchor as Anchor,
   ComboboxRoot as AutocompleteRoot,
-  ComboboxContent as Content,
   ComboboxInput as Input,
-  ComboboxEmpty as NoResultsState,
-  ComboboxPortal as Portal,
   ComboboxTrigger as Trigger,
-  ComboboxViewport as Viewport,
 } from 'reka-ui';
 import { computed, ref } from 'vue';
 import { IconsArrow, IconsIconLocale } from '#components';
-import AutoCompleteItem from '../../../UI/Form/OptionFields/Item.vue';
 
 type CampusItem = { label: string; value: string };
 
@@ -36,73 +31,46 @@ const selectedLabel = computed(
 
 <template>
   <div>
-    <template v-if="moreThanOneCampus">
-      <div class="campus-select__wrapper">
-        <AutocompleteRoot
-          v-model:open="open"
-          :model-value="props.modelValue"
-          @update:model-value="emit('update:modelValue', $event)"
-        >
-          <Anchor class="input">
-            <IconsIconLocale class="campus-select__pin-icon" />
+    <div v-if="moreThanOneCampus" class="campus-select__wrapper">
+      <AutocompleteRoot
+        v-model:open="open"
+        :model-value="props.modelValue"
+        @update:model-value="emit('update:modelValue', $event)"
+      >
+        <Anchor class="input">
+          <IconsIconLocale class="campus-select__pin-icon" />
 
-            <Input
-              v-model="search"
-              placeholder="Selecione um campus"
-              class="campus-select__input"
-              :display-value="
-                value => props.campi.find(i => i.value === value)?.label || ''
-              "
+          <Input
+            v-model="search"
+            placeholder="Selecione um campus"
+            class="campus-select__input"
+            :display-value="
+              value => props.campi.find(i => i.value === value)?.label || ''
+            "
+          />
+
+          <Trigger>
+            <IconsArrow
+              class="campus-select__trigger-icon"
+              :class="[
+                open
+                  ? 'campus-select__trigger-icon--open'
+                  : 'campus-select__trigger-icon--closed',
+              ]"
             />
+          </Trigger>
+        </Anchor>
 
-            <Trigger>
-              <IconsArrow
-                class="campus-select__trigger-icon"
-                :class="[
-                  open
-                    ? 'campus-select__trigger-icon--open'
-                    : 'campus-select__trigger-icon--closed',
-                ]"
-              />
-            </Trigger>
-          </Anchor>
+        <SectionProfileCampusOptions :campi="props.campi" />
+      </AutocompleteRoot>
+    </div>
 
-          <Portal>
-            <Content
-              class="campus-select__content u-rounded-lg"
-              position="popper"
-              side="bottom"
-              align="start"
-            >
-              <Viewport class="campus-select__viewport">
-                <NoResultsState
-                  class="campus-select__no-results u-px-3 u-py-2 u-flex u-items-start"
-                >
-                  Nenhum resultado encontrado
-                </NoResultsState>
-
-                <AutoCompleteItem
-                  v-for="campus in props.campi"
-                  :key="campus.value"
-                  :item="campus"
-                  mode="autocomplete"
-                />
-              </Viewport>
-            </Content>
-          </Portal>
-        </AutocompleteRoot>
-      </div>
-    </template>
-
-    <template v-else>
-      <div class="input u-flex u-items-center">
-        <IconsIconLocale class="campus-select__pin-icon" />
-        <span
-          class="campus-select__selected-label u-font-medium u-text-center"
-          >{{ selectedLabel }}</span
-        >
-      </div>
-    </template>
+    <div v-else class="input u-flex u-items-center">
+      <IconsIconLocale class="campus-select__pin-icon" />
+      <span class="campus-select__selected-label u-font-medium u-text-center">{{
+        selectedLabel
+      }}</span>
+    </div>
   </div>
 </template>
 
@@ -140,25 +108,6 @@ const selectedLabel = computed(
 
 .campus-select__trigger-icon--closed {
   transform: rotate(-90deg);
-}
-
-.campus-select__content {
-  width: var(--reka-combobox-trigger-width);
-  z-index: 10000;
-  background-color: var(--ladesa-background-color);
-  box-shadow:
-    0 10px 15px -3px rgb(0 0 0 / 10%),
-    0 4px 6px -4px rgb(0 0 0 / 10%);
-}
-
-.campus-select__viewport {
-  font-size: 0.6875rem;
-}
-
-.campus-select__no-results {
-  color: var(--ladesa-grey-color);
-  font-weight: var(--ui-font-weight-regular);
-  min-height: 2.25rem;
 }
 
 .campus-select__selected-label {

@@ -91,26 +91,15 @@ async function askRevoke(acesso: CalendarioColecaoAcessoFindOneOutputDto) {
           </tr>
         </thead>
         <tbody>
-          <tr
+          <SectionCalendarioColecoesViewAcessosRow
             v-for="acesso in acessos"
             :key="acesso.id"
-            class="acessos-table__row"
-          >
-            <td class="u-py-2 u-pr-3">{{ escopoLabel(acesso.escopo) }}</td>
-            <td class="u-py-2 u-pr-3">{{ alvoLabel(acesso) }}</td>
-            <td class="u-py-2 u-pr-3" :title="papelHint(acesso.papel)">
-              {{ papelLabel(acesso.papel) }}
-            </td>
-            <td class="u-py-2 u-pr-3 u-text-right">
-              <button
-                type="button"
-                class="acessos-revoke-button u-font-medium"
-                @click="askRevoke(acesso)"
-              >
-                Revogar
-              </button>
-            </td>
-          </tr>
+            :escopo="escopoLabel(acesso.escopo)"
+            :alvo="alvoLabel(acesso)"
+            :papel="papelLabel(acesso.papel)"
+            :papel-hint="papelHint(acesso.papel)"
+            @revoke="askRevoke(acesso)"
+          />
         </tbody>
       </table>
     </div>
@@ -140,17 +129,5 @@ async function askRevoke(acesso: CalendarioColecaoAcessoFindOneOutputDto) {
 .acessos-table__head-row {
   border-bottom: 2px solid var(--ladesa-grey-color);
   color: var(--ladesa-grey-color);
-}
-
-.acessos-table__row {
-  border-bottom: 1px solid rgb(from var(--ladesa-grey-color) R G B / 40%);
-}
-
-.acessos-revoke-button {
-  color: var(--ladesa-red-color);
-}
-
-.acessos-revoke-button:hover {
-  text-decoration: underline;
 }
 </style>
