@@ -9,9 +9,9 @@ const { outlineOnClick = true } = defineProps<Props>();
       <slot name="start-icon" />
     </span>
 
-    <p class="ui-button__label">
+    <span class="ui-button__label">
       <slot />
-    </p>
+    </span>
 
     <span v-if="$slots['end-icon']" class="ui-button__icon">
       <slot name="end-icon" />

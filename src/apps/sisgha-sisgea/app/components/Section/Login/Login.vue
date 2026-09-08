@@ -76,10 +76,10 @@ useTitle(null, 'Login');
             <IconsUser class="login-alternative-icon u-flex u-mr-4" />
           </template>
 
-          <p class="login-alternative-content u-w-full u-h-full">
+          <span class="login-alternative-content u-w-full u-h-full">
             <span class="u-ml-4" />
             <span>Entrar como aluno</span>
-          </p>
+          </span>
         </UIButtonDefault>
       </NuxtLink>
     </div>
