@@ -84,7 +84,6 @@ const professoresSelecionados = computed({
 
 <template>
   <div class="u-flex u-flex-col u-gap-3">
-    <!-- Loading -->
     <div
       v-if="listQuery.isLoading.value"
       class="u-flex u-items-center u-justify-center professores-tab__loading"
@@ -95,7 +94,6 @@ const professoresSelecionados = computed({
     </div>
 
     <template v-else>
-      <!-- Busca -->
       <UIFormTextField
         :model-value="professorSearch"
         label="Pesquisar"
@@ -104,7 +102,6 @@ const professoresSelecionados = computed({
         @update:model-value="professorSearch = String($event ?? '')"
       />
 
-      <!-- Lista de professores -->
       <div
         class="u-flex u-flex-col u-gap-2 u-overflow-auto professores-tab__list"
       >
