@@ -22,21 +22,16 @@ const togglePadding = {
   padding: toggleButtonsPadding,
 };
 
-//
-
 const selectedItem = defineModel<OptionItem>();
-
-//
 
 const selectedIndex = ref(selectedItemDefaultIndex);
 
 function navigate(num: number) {
-  selectedIndex.value = (selectedIndex.value + num + items.length) % items.length;
+  selectedIndex.value =
+    (selectedIndex.value + num + items.length) % items.length;
 
   selectedItem.value = items[selectedIndex.value]?.value;
 }
-
-//
 
 onMounted(() => {
   selectedItem.value = items[selectedIndex.value]?.value;
@@ -55,7 +50,9 @@ onMounted(() => {
       <slot name="toggleButton" />
     </button>
 
-    <span class="ui-options-carousel__label">{{ items[selectedIndex]?.label }}</span>
+    <span class="ui-options-carousel__label">{{
+      items[selectedIndex]?.label
+    }}</span>
 
     <button
       v-if="omitTogglesWhenItemsLengthIsOne ? items.length > 1 : true"

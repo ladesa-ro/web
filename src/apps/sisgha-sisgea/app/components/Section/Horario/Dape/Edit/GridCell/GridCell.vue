@@ -125,7 +125,8 @@ const popoverOpen = ref(false);
 
 <style scoped>
 .grid-cell-row {
-  border-bottom: 2px solid rgb(from var(--ladesa-text-default-color) R G B / 55%);
+  border-bottom: 2px solid
+    rgb(from var(--ladesa-text-default-color) R G B / 55%);
   color: rgb(from var(--ladesa-text-default-color) R G B / 95%);
   min-height: 1.5rem;
 }

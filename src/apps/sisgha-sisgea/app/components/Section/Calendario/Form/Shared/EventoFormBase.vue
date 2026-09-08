@@ -120,10 +120,7 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
 
     <template #button-group>
       <UIButtonModalGoBack @click="emit('back')" />
-      <UIButtonModalDelete
-        v-if="isEditMode"
-        @click="emit('delete')"
-      />
+      <UIButtonModalDelete v-if="isEditMode" @click="emit('delete')" />
       <UIButtonModalEdit v-if="isEditMode" @click="onSubmit" />
       <UIButtonModalSave v-else @click="onSubmit" />
     </template>

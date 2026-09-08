@@ -63,7 +63,9 @@ watch(
 </script>
 
 <template>
-  <div class="ui-calendar-month u-flex u-flex-col u-overflow-hidden u-rounded-lg">
+  <div
+    class="ui-calendar-month u-flex u-flex-col u-overflow-hidden u-rounded-lg"
+  >
     <div
       class="ui-calendar-month__head u-flex u-w-full u-justify-between u-items-center"
     >

@@ -52,4 +52,4 @@ describe('DialogSkeleton', () => {
     expect(wrapper.emitted('update:modelValue')).toBeUndefined();
     wrapper.unmount();
   });
-})
+});

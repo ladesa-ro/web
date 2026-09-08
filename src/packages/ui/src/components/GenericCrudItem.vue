@@ -21,12 +21,7 @@ defineProps<GenericCrudItemProps>();
 
 <template>
   <CardAutoSkeleton :skeleton="isLoading || !item">
-    <Card
-      v-if="item"
-      :src="src ?? null"
-      :title="title ?? null"
-      variant="block"
-    >
+    <Card v-if="item" :src="src ?? null" :title="title ?? null" variant="block">
       <template #actions>
         <CardActions :to="`${link}/${item.id}`" :as="as">
           <EditOrCreateModal

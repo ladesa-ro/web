@@ -51,7 +51,9 @@ const papelHint = (papel: string) => {
 };
 
 const confirmRevoke = useConfirmDelete();
-const acessoToRevoke = ref<CalendarioColecaoAcessoFindOneOutputDto | null>(null);
+const acessoToRevoke = ref<CalendarioColecaoAcessoFindOneOutputDto | null>(
+  null
+);
 
 async function askRevoke(acesso: CalendarioColecaoAcessoFindOneOutputDto) {
   acessoToRevoke.value = acesso;

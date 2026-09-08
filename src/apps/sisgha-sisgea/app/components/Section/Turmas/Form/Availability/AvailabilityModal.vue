@@ -198,10 +198,7 @@ function handleUndoPending(dataInicio: string) {
 
       <template #button-group>
         <template v-if="isEditing">
-          <UIButtonModalCancel
-            type="close"
-            @click="cancelEdit"
-          />
+          <UIButtonModalCancel type="close" @click="cancelEdit" />
 
           <UIButtonModalCommonButtonsGreenWithCheck
             text="Confirmar"

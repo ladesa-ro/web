@@ -14,10 +14,7 @@ const popoverOpen = defineModel<boolean>({ required: true, default: false });
 
 <template>
   <UIPopoverCalendar v-model="popoverOpen">
-    <UIButtonDefault
-      :outline-on-clink="false"
-      class="select-week-button"
-    >
+    <UIButtonDefault :outline-on-clink="false" class="select-week-button">
       <template #start-icon>
         <IconsCalendar class="select-week-button__icon" />
       </template>

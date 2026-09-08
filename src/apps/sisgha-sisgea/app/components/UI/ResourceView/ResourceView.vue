@@ -9,7 +9,9 @@ const props = defineProps<ResourceViewProps>();
     <template #breadcrumb>
       <slot name="breadcrumb">
         <UIBreadcrumbDapeBreadcrumb
-          :extra-segment="!props.isLoading && !props.isError ? props.title : null"
+          :extra-segment="
+            !props.isLoading && !props.isError ? props.title : null
+          "
         />
       </slot>
     </template>

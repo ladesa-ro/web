@@ -56,7 +56,8 @@ function readFile(file: File) {
 
   const reader = new FileReader();
   reader.onload = () => {
-    fileContent.value = typeof reader.result === 'string' ? reader.result : null;
+    fileContent.value =
+      typeof reader.result === 'string' ? reader.result : null;
   };
   reader.onerror = () => {
     importError.value = 'Não foi possível ler o arquivo selecionado.';
@@ -125,7 +126,11 @@ function onFinish() {
       :title="step === 1 ? 'Importar agenda (.ics)' : 'Resultado da importação'"
       :on-close="onClose"
     >
-      <form v-if="step === 1" class="u-flex u-flex-col u-gap-5" @submit.prevent="onSubmit">
+      <form
+        v-if="step === 1"
+        class="u-flex u-flex-col u-gap-5"
+        @submit.prevent="onSubmit"
+      >
         <p
           v-if="importError"
           class="import-ics__error u-text-sm u-rounded-md u-p-3"
@@ -145,7 +150,9 @@ function onFinish() {
           @drop.prevent="onDrop"
         >
           <IconsFilePicker class="import-ics__dropzone-icon" />
-          <span v-if="fileName" class="u-text-sm u-font-medium">{{ fileName }}</span>
+          <span v-if="fileName" class="u-text-sm u-font-medium">{{
+            fileName
+          }}</span>
           <span v-else class="import-ics__dropzone-hint u-text-sm">
             Arraste um arquivo .ics aqui ou clique para selecionar
           </span>
@@ -176,15 +183,22 @@ function onFinish() {
             <p class="import-ics__stat-number import-ics__stat-number--neutral">
               {{ result?.puladosPorUidDuplicado ?? 0 }}
             </p>
-            <p class="import-ics__stat-label u-text-sm">Pulados (UID duplicado)</p>
+            <p class="import-ics__stat-label u-text-sm">
+              Pulados (UID duplicado)
+            </p>
           </div>
         </div>
 
-        <div v-if="result?.rejeitados?.length" class="u-flex u-flex-col u-gap-2">
+        <div
+          v-if="result?.rejeitados?.length"
+          class="u-flex u-flex-col u-gap-2"
+        >
           <p class="import-ics__rejected-title u-text-sm u-font-semibold">
             {{ result.rejeitados.length }} rejeitado(s)
           </p>
-          <div class="import-ics__rejected-table-wrap u-overflow-auto u-rounded-lg">
+          <div
+            class="import-ics__rejected-table-wrap u-overflow-auto u-rounded-lg"
+          >
             <table class="u-w-full u-text-sm">
               <thead class="import-ics__table-head">
                 <tr>

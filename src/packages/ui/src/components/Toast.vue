@@ -1,5 +1,13 @@
 <script setup lang="ts">
-import { ToastAction, ToastClose, ToastDescription, ToastProvider, ToastRoot, ToastTitle, ToastViewport } from 'reka-ui';
+import {
+  ToastAction,
+  ToastClose,
+  ToastDescription,
+  ToastProvider,
+  ToastRoot,
+  ToastTitle,
+  ToastViewport,
+} from 'reka-ui';
 import IconClose from '../icons/Close.vue';
 import IconConfirm from '../icons/Confirm.vue';
 import IconInfo from '../icons/Info.vue';
@@ -35,13 +43,10 @@ function toastConfig(type: ToastType) {
 }
 
 function handleActionClick(t: ToastItem) {
-  if (t.onAction) {
-    try {
-      t.onAction();
-    } catch {
-      // ação do toast falhou; o toast ainda deve fechar
-    }
-  }
+  try {
+    t.onAction?.();
+  } catch {}
+
   t.open.value = false;
 }
 </script>
@@ -49,9 +54,16 @@ function handleActionClick(t: ToastItem) {
 <template>
   <ToastProvider>
     <template v-for="toast in items" :key="toast.id">
-      <ToastRoot v-model:open="toast.open" class="ui-toast" :class="toastConfig(toast.type).classes">
+      <ToastRoot
+        v-model:open="toast.open"
+        class="ui-toast"
+        :class="toastConfig(toast.type).classes"
+      >
         <div class="ui-toast__icon-wrapper">
-          <component :is="toastConfig(toast.type).icon" class="ui-toast__icon" />
+          <component
+            :is="toastConfig(toast.type).icon"
+            class="ui-toast__icon"
+          />
         </div>
 
         <div class="ui-toast__body">
@@ -62,8 +74,14 @@ function handleActionClick(t: ToastItem) {
         </div>
 
         <div class="ui-toast__actions">
-          <ToastAction v-if="toast.actionLabel" as-child alt-text="Fechar toast">
-            <button class="ui-toast__action" @click="handleActionClick(toast)">{{ toast.actionLabel }}</button>
+          <ToastAction
+            v-if="toast.actionLabel"
+            as-child
+            alt-text="Fechar toast"
+          >
+            <button class="ui-toast__action" @click="handleActionClick(toast)">
+              {{ toast.actionLabel }}
+            </button>
           </ToastAction>
 
           <ToastClose as-child alt-text="Fechar toast">

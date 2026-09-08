@@ -4,7 +4,10 @@ import { computed, inject } from 'vue';
 import { CollapsibleContent, CollapsibleRoot } from 'reka-ui';
 import SidebarItem from './SidebarItem.vue';
 import SidebarItemTemplate from './SidebarItemTemplate.vue';
-import { SidebarSelectedItemKey, type SidebarItemGroupModel } from './sidebar-item';
+import {
+  SidebarSelectedItemKey,
+  type SidebarItemGroupModel,
+} from './sidebar-item';
 
 export type SidebarItemGroupProps = {
   item: SidebarItemGroupModel;
@@ -18,7 +21,9 @@ const selectedItem = inject(SidebarSelectedItemKey);
 const isSelected = computed({
   get() {
     const current = selectedItem?.value;
-    return !!current && current.type === 'group' && current.title === item.title;
+    return (
+      !!current && current.type === 'group' && current.title === item.title
+    );
   },
 
   set(value: boolean) {

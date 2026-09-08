@@ -24,7 +24,10 @@ defineSlots<{
       <slot name="sidebar" />
     </div>
 
-    <section class="ui-dashboard-layout__content" :data-hamburger-active="hamburguerActive">
+    <section
+      class="ui-dashboard-layout__content"
+      :data-hamburger-active="hamburguerActive"
+    >
       <main class="ui-dashboard-layout__main">
         <slot />
       </main>

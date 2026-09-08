@@ -15,7 +15,9 @@ const diaInteiro = computed(() => formValues.value.diaInteiro as boolean);
   <VVTextField name="nome" label="Nome" :disabled="disabled" :required="true" />
 
   <div class="u-flex u-flex-col u-gap-1-5">
-    <span class="u-font-semibold u-px-1 evento-form-fields__cor-label">Cor</span>
+    <span class="u-font-semibold u-px-1 evento-form-fields__cor-label"
+      >Cor</span
+    >
     <VVColorPalette name="cor" :disabled="disabled" />
   </div>
 

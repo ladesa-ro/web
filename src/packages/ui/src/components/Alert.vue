@@ -10,7 +10,8 @@ export type AlertProps = {
 };
 defineProps<AlertProps>();
 
-const rgb = (color: string) => `rgb(from var(--ladesa-${color}-color) R G B / 1)`;
+const rgb = (color: string) =>
+  `rgb(from var(--ladesa-${color}-color) R G B / 1)`;
 
 const defineType = {
   info: {

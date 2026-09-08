@@ -4,7 +4,11 @@ import ButtonModalBaseLayout from './ButtonModalBaseLayout.vue';
 </script>
 
 <template>
-  <ButtonModalBaseLayout text="Avançar" color="var(--ladesa-green-2-color)" type="button">
+  <ButtonModalBaseLayout
+    text="Avançar"
+    color="var(--ladesa-green-2-color)"
+    type="button"
+  >
     <IconArrowArrowAlt style="transform: rotate(180deg)" />
   </ButtonModalBaseLayout>
 </template>

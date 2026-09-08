@@ -55,12 +55,11 @@ const formBaseRef = ref<{
 // Query reativa: carrega evento existente por ID
 const eventQuery = agendamento.findOne(computed(() => props.eventId ?? null));
 
-const { handle: handleWriteError, conflictMessage } =
-  useApiWriteErrorHandler({
-    onReload: async () => {
-      await eventQuery.refetch();
-    },
-  });
+const { handle: handleWriteError, conflictMessage } = useApiWriteErrorHandler({
+  onReload: async () => {
+    await eventQuery.refetch();
+  },
+});
 
 watch(
   () => eventQuery.data.value,

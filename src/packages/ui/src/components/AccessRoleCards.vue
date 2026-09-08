@@ -25,7 +25,8 @@ const selectAgrupamento = () => {
     <section class="u-flex u-flex-row u-justify-between u-w-full u-gap-4">
       <div
         :class="{
-          'ui-access-role-cards__option--active': activeButton === 'AGRUPAMENTO',
+          'ui-access-role-cards__option--active':
+            activeButton === 'AGRUPAMENTO',
           'ui-access-role-cards__option--inactive':
             activeButton !== 'AGRUPAMENTO',
         }"
@@ -39,7 +40,8 @@ const selectAgrupamento = () => {
       <div
         :class="{
           'ui-access-role-cards__option--active': activeButton === 'Professor',
-          'ui-access-role-cards__option--inactive': activeButton !== 'Professor',
+          'ui-access-role-cards__option--inactive':
+            activeButton !== 'Professor',
         }"
         class="ui-access-role-cards__option"
         @click="selectProfessor"

@@ -8,5 +8,8 @@ defineEmits<{
 </script>
 
 <template>
-  <Pagination v-bind="$props" @update:current-page="page => $emit('update:currentPage', page)" />
+  <Pagination
+    v-bind="$props"
+    @update:current-page="page => $emit('update:currentPage', page)"
+  />
 </template>

@@ -17,7 +17,9 @@ const closeEditModal = () => {
   showEditModal.value = false;
 };
 
-const { data: profilePictureUrl } = useUsuarios().imageProfile(computed(() => user?.id ?? null));
+const { data: profilePictureUrl } = useUsuarios().imageProfile(
+  computed(() => user?.id ?? null)
+);
 
 const { campiList } = useUserCargoAndCampi();
 const api = useApiClient();

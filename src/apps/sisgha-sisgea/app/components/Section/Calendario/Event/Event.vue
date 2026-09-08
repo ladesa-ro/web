@@ -88,7 +88,8 @@ function onOccurrenceAdded() {
           <span
             class="u-rounded-full u-shrink-0 event-card__colecao-dot"
             :style="{
-              backgroundColor: props.event.colecao.cor || 'var(--ladesa-grey-color)',
+              backgroundColor:
+                props.event.colecao.cor || 'var(--ladesa-grey-color)',
             }"
           />
           {{ props.event.colecao.nome ?? 'Coleção' }}
@@ -161,7 +162,9 @@ function onOccurrenceAdded() {
     </div>
 
     <SectionCalendarioEventAddOccurrenceModal
-      v-if="props.event.type === 'agendamento' && props.event.version !== undefined"
+      v-if="
+        props.event.type === 'agendamento' && props.event.version !== undefined
+      "
       v-model="addOccurrenceModalOpen"
       :event-id="props.event.id"
       :version="props.event.version ?? 0"

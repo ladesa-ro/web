@@ -7,11 +7,7 @@ const { resourceId } = defineProps<Props>();
 const router = useRouter();
 const colecoes = useCalendarioColecao();
 
-const {
-  data: colecao,
-  isLoading,
-  isError,
-} = colecoes.findOne(ref(resourceId));
+const { data: colecao, isLoading, isError } = colecoes.findOne(ref(resourceId));
 
 const visibilidadeLabel = computed(() => {
   switch (colecao.value?.visibilidade) {

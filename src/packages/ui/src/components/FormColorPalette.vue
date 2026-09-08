@@ -45,7 +45,9 @@ function selectColor(color: string) {
         type="button"
         :disabled="disabled"
         class="ui-color-palette__swatch"
-        :class="[modelValue === color ? 'ui-color-palette__swatch--selected' : '']"
+        :class="[
+          modelValue === color ? 'ui-color-palette__swatch--selected' : '',
+        ]"
         :style="{
           backgroundColor: color,
           '--ui-swatch-ring-color': modelValue === color ? color : undefined,

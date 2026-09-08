@@ -202,5 +202,4 @@ const timelineDrawerOpen = ref(false);
 .evento-card__details {
   color: var(--ladesa-grey-color);
 }
-
 </style>

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { FormAutocomplete, type FormAutocompleteProps } from '@ladesa-ro/web.ui';
+import {
+  FormAutocomplete,
+  type FormAutocompleteProps,
+} from '@ladesa-ro/web.ui';
 
 const { error } = defineProps<
   FormAutocompleteProps & {
@@ -20,7 +23,11 @@ const search = defineModel<string | null>('searchTerm', {
   default: null,
 });
 
-const customError = computed(() => (error?.includes('ambientePadraoAula.id') ? 'Sala de aula é obrigatória!' : error));
+const customError = computed(() =>
+  error?.includes('ambientePadraoAula.id')
+    ? 'Sala de aula é obrigatória!'
+    : error
+);
 </script>
 
 <template>

@@ -26,7 +26,10 @@ const desfazendo = ref(false);
 async function handleDesfazer() {
   desfazendo.value = true;
   try {
-    await horarioEdicao.desfazerMudanca(props.sessaoId, props.entrada.mudancaId);
+    await horarioEdicao.desfazerMudanca(
+      props.sessaoId,
+      props.entrada.mudancaId
+    );
     emit('desfeito');
   } catch {
     toastError({ title: 'Não foi possível desfazer esta mudança' });

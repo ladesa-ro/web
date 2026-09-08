@@ -10,11 +10,11 @@ const isAuthenticated = computed(() => !!authData.value);
 
 const currentDay = useCurrentDay();
 const weekDays = computed(() => getWeekDays(currentDay.value));
-const exportDateStart = computed(
-  () => weekDays.value[0]!.dayAsDayJs.format('YYYY-MM-DD')
+const exportDateStart = computed(() =>
+  weekDays.value[0]!.dayAsDayJs.format('YYYY-MM-DD')
 );
-const exportDateEnd = computed(
-  () => weekDays.value[5]!.dayAsDayJs.format('YYYY-MM-DD')
+const exportDateEnd = computed(() =>
+  weekDays.value[5]!.dayAsDayJs.format('YYYY-MM-DD')
 );
 </script>
 
@@ -50,9 +50,7 @@ const exportDateEnd = computed(
       />
 
       <!-- Botão "Gerar PDF" -->
-      <UIButtonDefault class="horario-pdf-button">
-        Gerar PDF
-      </UIButtonDefault>
+      <UIButtonDefault class="horario-pdf-button"> Gerar PDF </UIButtonDefault>
     </section>
 
     <!-- Opção "Horário do dia" -->

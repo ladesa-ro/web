@@ -13,7 +13,10 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <FormCheckbox v-bind="$props" @update:model-value="value => emit('update:modelValue', value)">
+  <FormCheckbox
+    v-bind="$props"
+    @update:model-value="value => emit('update:modelValue', value)"
+  >
     <slot />
   </FormCheckbox>
 </template>

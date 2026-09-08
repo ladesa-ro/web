@@ -19,12 +19,17 @@ const props = withDefaults(defineProps<FormSelectProps>(), {
   multipleOptions: false,
 });
 
-const selectedItem = defineModel<ParsedOptionItem | undefined>({ required: false, default: undefined });
+const selectedItem = defineModel<ParsedOptionItem | undefined>({
+  required: false,
+  default: undefined,
+});
 
 const internalValue = computed({
   get: () => selectedItem.value?.value ?? undefined,
   set: (val: any) => {
-    const found = props.items?.find(i => (typeof i === 'object' ? i.value : i) === val);
+    const found = props.items?.find(
+      i => (typeof i === 'object' ? i.value : i) === val
+    );
     if (found && typeof found === 'object') {
       selectedItem.value = { label: String(found.label), value: val };
     } else if (found) {
@@ -48,7 +53,12 @@ function clear(e: Event) {
 </script>
 
 <template>
-  <SelectRoot v-model="internalValue" v-model:open="open" :multiple="multipleOptions" :disabled="props.disabled">
+  <SelectRoot
+    v-model="internalValue"
+    v-model:open="open"
+    :multiple="multipleOptions"
+    :disabled="props.disabled"
+  >
     <SelectTrigger
       class="ui-input-base"
       :class="{ 'ui-select__trigger--disabled': props.disabled }"
@@ -68,9 +78,17 @@ function clear(e: Event) {
     </SelectTrigger>
 
     <SelectPortal>
-      <SelectContent class="ui-input-base-content ui-select__content" position="popper">
+      <SelectContent
+        class="ui-input-base-content ui-select__content"
+        position="popper"
+      >
         <SelectViewport>
-          <FormOptionItem v-for="(item, index) of items" :key="index" mode="select" :item="item" />
+          <FormOptionItem
+            v-for="(item, index) of items"
+            :key="index"
+            mode="select"
+            :item="item"
+          />
         </SelectViewport>
       </SelectContent>
     </SelectPortal>

@@ -14,9 +14,8 @@ export type PopoverProps = {
   disabled?: boolean;
   disableAnimation?: boolean;
 };
-const { disabled = false, disableAnimation = false } = defineProps<PopoverProps>();
-
-//
+const { disabled = false, disableAnimation = false } =
+  defineProps<PopoverProps>();
 
 const open = defineModel({ required: false, default: false });
 
@@ -45,7 +44,11 @@ onClickOutside(
     <Trigger
       ref="trigger"
       class="ui-popover-trigger"
-      :class="disabled ? 'ui-popover-trigger--disabled' : 'ui-popover-trigger--enabled'"
+      :class="
+        disabled
+          ? 'ui-popover-trigger--disabled'
+          : 'ui-popover-trigger--enabled'
+      "
       v-bind="$attrs"
       @click="!disabled && (open = !open)"
     >

@@ -6,8 +6,6 @@ import ToggleButton from './ToggleButton.vue';
 export type ToggleProps = { items: ToggleItem[]; disabled?: boolean };
 const { items, disabled } = defineProps<ToggleProps>();
 
-//
-
 const toggleValue = defineModel<ToggleItem['value']>({
   required: true,
 });

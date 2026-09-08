@@ -15,7 +15,9 @@ const WEEK_DAYS_WITH_FEIRA = [
 ];
 
 export function formatWeekDayLabel(dia: string): string {
-  return WEEK_DAYS_WITH_FEIRA.includes(dia.toLowerCase()) ? `${dia}-feira` : dia;
+  return WEEK_DAYS_WITH_FEIRA.includes(dia.toLowerCase())
+    ? `${dia}-feira`
+    : dia;
 }
 
 export function normalizeWeekDayKey(str: string): string {

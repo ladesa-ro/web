@@ -58,7 +58,11 @@ const selectedLabel = computed(
             <Trigger>
               <IconsArrow
                 class="campus-select__trigger-icon"
-                :class="[open ? 'campus-select__trigger-icon--open' : 'campus-select__trigger-icon--closed']"
+                :class="[
+                  open
+                    ? 'campus-select__trigger-icon--open'
+                    : 'campus-select__trigger-icon--closed',
+                ]"
               />
             </Trigger>
           </Anchor>
@@ -93,9 +97,10 @@ const selectedLabel = computed(
     <template v-else>
       <div class="input u-flex u-items-center">
         <IconsIconLocale class="campus-select__pin-icon" />
-        <span class="campus-select__selected-label u-font-medium u-text-center">{{
-          selectedLabel
-        }}</span>
+        <span
+          class="campus-select__selected-label u-font-medium u-text-center"
+          >{{ selectedLabel }}</span
+        >
       </div>
     </template>
   </div>
@@ -141,7 +146,9 @@ const selectedLabel = computed(
   width: var(--reka-combobox-trigger-width);
   z-index: 10000;
   background-color: var(--ladesa-background-color);
-  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -4px rgb(0 0 0 / 10%);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 10%),
+    0 4px 6px -4px rgb(0 0 0 / 10%);
 }
 
 .campus-select__viewport {

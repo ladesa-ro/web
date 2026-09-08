@@ -2,8 +2,6 @@ import type { OptionItem, ParsedOptionItem } from './option-item';
 
 type OptionFieldsItems = { items: OptionItem[] };
 
-//
-
 type InputTypeTextField = { type: 'textfield' };
 
 type InputTypeSelect = { type: 'select' } & OptionFieldsItems;
@@ -12,17 +10,16 @@ type InputTypeAutocomplete = {
   type: 'autocomplete';
 } & OptionFieldsItems;
 
-export type FormInputTypes = InputTypeTextField | InputTypeSelect | InputTypeAutocomplete;
-
-//
+export type FormInputTypes =
+  | InputTypeTextField
+  | InputTypeSelect
+  | InputTypeAutocomplete;
 
 type FieldMeta = {
   placeholder?: string;
   label?: string;
   disabled?: boolean;
 };
-
-//
 
 export type FormTextFieldProps = FieldMeta & {
   type?: string;

@@ -14,7 +14,8 @@ const isPublicRoute = computed(() => {
     | undefined;
 
   if (authMeta === false) return true;
-  if (typeof authMeta === 'object' && authMeta?.unauthenticatedOnly) return true;
+  if (typeof authMeta === 'object' && authMeta?.unauthenticatedOnly)
+    return true;
 
   return false;
 });

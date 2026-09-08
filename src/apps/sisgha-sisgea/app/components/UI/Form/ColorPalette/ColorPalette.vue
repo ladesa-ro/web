@@ -14,5 +14,8 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <FormColorPalette v-bind="$props" @update:model-value="color => emit('update:modelValue', color)" />
+  <FormColorPalette
+    v-bind="$props"
+    @update:model-value="color => emit('update:modelValue', color)"
+  />
 </template>

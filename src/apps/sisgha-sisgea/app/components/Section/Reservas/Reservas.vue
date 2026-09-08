@@ -47,12 +47,9 @@ const reservas = computed(() => {
   });
 });
 
-watch(
-  [filterAmbienteIdValue, filterPeriodoInicio, filterPeriodoFim],
-  () => {
-    currentPage.value = 1;
-  }
-);
+watch([filterAmbienteIdValue, filterPeriodoInicio, filterPeriodoFim], () => {
+  currentPage.value = 1;
+});
 
 async function onCancel(id: string) {
   await agendamento.remove(id);
@@ -79,7 +76,9 @@ function onCreated() {
           <VVAutocompleteAPIAmbiente name="ambienteId" />
         </div>
 
-        <div class="u-flex u-items-end u-gap-2 u-w-full reservas__filter-periodo">
+        <div
+          class="u-flex u-items-end u-gap-2 u-w-full reservas__filter-periodo"
+        >
           <div class="u-flex-1 reservas__filter-periodo-field">
             <UIFormTextField
               :model-value="filterPeriodoInicio ?? undefined"
@@ -207,5 +206,4 @@ function onCreated() {
 .reservas__error {
   color: var(--ladesa-red-color);
 }
-
 </style>

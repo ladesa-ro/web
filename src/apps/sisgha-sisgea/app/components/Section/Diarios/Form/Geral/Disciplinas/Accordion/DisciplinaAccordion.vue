@@ -32,19 +32,21 @@ const tabItems = [
 </script>
 
 <template>
-  <UICollapsible
-    v-if="dcRef"
-    v-model="isOpen"
-    class="disciplina-accordion"
-  >
+  <UICollapsible v-if="dcRef" v-model="isOpen" class="disciplina-accordion">
     <template #trigger>
-      <div class="u-flex u-items-center u-justify-between disciplina-accordion__trigger">
+      <div
+        class="u-flex u-items-center u-justify-between disciplina-accordion__trigger"
+      >
         <span class="u-font-semibold u-text-sm disciplina-accordion__title">
           {{ dcRef.disciplina.disciplinaNome ?? dcRef.disciplinaId }}
         </span>
         <IconsArrow
           class="disciplina-accordion__arrow"
-          :class="isOpen ? 'disciplina-accordion__arrow--open' : 'disciplina-accordion__arrow--closed'"
+          :class="
+            isOpen
+              ? 'disciplina-accordion__arrow--open'
+              : 'disciplina-accordion__arrow--closed'
+          "
         />
       </div>
     </template>
@@ -56,10 +58,14 @@ const tabItems = [
           v-for="tab in tabItems"
           :key="tab.value"
           class="u-flex-1 u-flex u-flex-col u-items-center u-justify-center u-gap-2 u-rounded-lg disciplina-accordion__tab"
-          :class="{ 'disciplina-accordion__tab--active': activeTab === tab.value }"
+          :class="{
+            'disciplina-accordion__tab--active': activeTab === tab.value,
+          }"
           @click="activeTab = tab.value as 'dias' | 'professores'"
         >
-          <span class="u-font-semibold u-text-xs disciplina-accordion__tab-label">
+          <span
+            class="u-font-semibold u-text-xs disciplina-accordion__tab-label"
+          >
             {{ tab.label }}
           </span>
         </button>
@@ -118,7 +124,8 @@ const tabItems = [
   border: 2px solid rgb(from var(--ladesa-grey-color) R G B / 100%);
   color: var(--ladesa-text-default-color);
   cursor: pointer;
-  transition: background-color var(--ui-duration-base) var(--ui-easing-standard),
+  transition:
+    background-color var(--ui-duration-base) var(--ui-easing-standard),
     border-color var(--ui-duration-base) var(--ui-easing-standard),
     color var(--ui-duration-base) var(--ui-easing-standard);
 }

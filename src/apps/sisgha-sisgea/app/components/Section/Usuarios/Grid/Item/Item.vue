@@ -2,7 +2,6 @@
 import type { UsuarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
 import { CargoLabels, type CargoType } from '~/utils/constants';
 
-
 type Props = {
   isLoading?: boolean;
   usuario?: UsuarioFindOneOutputDto | null;
@@ -29,7 +28,9 @@ const vinculosConcatenated = computed(() => {
 //
 
 const usuarios = useUsuarios();
-const { data: profilePicureUrl } = usuarios.imageProfile(computed(() => usuario?.id ?? null));
+const { data: profilePicureUrl } = usuarios.imageProfile(
+  computed(() => usuario?.id ?? null)
+);
 </script>
 
 <template>

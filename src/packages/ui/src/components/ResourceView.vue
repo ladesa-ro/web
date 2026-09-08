@@ -45,6 +45,8 @@ defineProps<ResourceViewProps>();
 
     <Loading v-else-if="isLoading" />
 
-    <span v-else class="ui-resource-view__error"> Ocorreu um erro inesperado. </span>
+    <span v-else class="ui-resource-view__error">
+      Ocorreu um erro inesperado.
+    </span>
   </Container>
 </template>

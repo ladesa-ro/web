@@ -50,9 +50,7 @@ useForm({
 });
 
 const { value: ofertaFormacao } = useField<string>('ofertaFormacao');
-const { value: toggleValue } = useField<'permanente' | 'temporario'>(
-  'duracao'
-);
+const { value: toggleValue } = useField<'permanente' | 'temporario'>('duracao');
 const { value: initialDate } = useField<string>('initialDate');
 const { value: finalDate } = useField<string>('finalDate');
 
@@ -178,10 +176,7 @@ const erroGerador = computed(() => {
         <UIToggle v-model="toggleValue" :items="toggleItems" />
 
         <div class="generate-modal__dates-row u-flex u-gap-5">
-          <VVDateField
-            name="initialDate"
-            label="Data de Início"
-          />
+          <VVDateField name="initialDate" label="Data de Início" />
 
           <VVDateField
             v-if="toggleValue === 'temporario'"

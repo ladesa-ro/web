@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { type OptionItem, OptionsCarousel, type OptionsCarouselProps } from '@ladesa-ro/web.ui';
+import {
+  type OptionItem,
+  OptionsCarousel,
+  type OptionsCarouselProps,
+} from '@ladesa-ro/web.ui';
 
 defineProps<OptionsCarouselProps>();
 const selectedItem = defineModel<OptionItem>();

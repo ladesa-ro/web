@@ -100,7 +100,9 @@ function formatWhen(validFrom: string): string {
   return dayjs(validFrom).fromNow();
 }
 
-function authorLabel(entry: CalendarioAgendamentoLinhaDoTempoEntradaDto): string {
+function authorLabel(
+  entry: CalendarioAgendamentoLinhaDoTempoEntradaDto
+): string {
   return entry.autorNome || 'sistema';
 }
 </script>
@@ -180,7 +182,9 @@ function authorLabel(entry: CalendarioAgendamentoLinhaDoTempoEntradaDto): string
             class="timeline-entry__mudancas u-flex u-flex-col u-gap-1 u-text-sm"
           >
             <li v-for="(mudanca, idx) in entry.mudancas" :key="idx">
-              <span class="u-font-medium">{{ fieldLabel(mudanca.campo) }}:</span>
+              <span class="u-font-medium"
+                >{{ fieldLabel(mudanca.campo) }}:</span
+              >
               <span class="timeline-entry__value-before u-mx-1">{{
                 formatValue(mudanca.de)
               }}</span>

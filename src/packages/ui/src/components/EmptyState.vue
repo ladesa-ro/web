@@ -23,10 +23,7 @@ const slots = defineSlots<{
 
     <h3 v-if="title" class="ui-empty-state__title">{{ title }}</h3>
 
-    <p
-      v-if="description || slots.default"
-      class="ui-empty-state__description"
-    >
+    <p v-if="description || slots.default" class="ui-empty-state__description">
       <slot>{{ description }}</slot>
     </p>
   </div>

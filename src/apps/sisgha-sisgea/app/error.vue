@@ -5,7 +5,9 @@ const error = useError();
 <template>
   <NuxtLayout>
     <template v-if="error?.statusCode === 404">
-      <div class="u-flex u-flex-col u-items-center u-justify-center u-text-center u-p-8 error-page error-page--404">
+      <div
+        class="u-flex u-flex-col u-items-center u-justify-center u-text-center u-p-8 error-page error-page--404"
+      >
         <h1 class="u-font-medium error-page__title">Oops! 404</h1>
         <h2 class="error-page__subtitle">Página não encontrada</h2>
         <p class="error-page__description">
@@ -15,7 +17,9 @@ const error = useError();
     </template>
 
     <template v-else>
-      <div class="u-flex u-flex-col u-items-center u-justify-center u-text-center u-p-8 error-page">
+      <div
+        class="u-flex u-flex-col u-items-center u-justify-center u-text-center u-p-8 error-page"
+      >
         <h1 class="u-font-medium error-page__title">Oops!</h1>
         <p class="error-page__subtitle error-page__subtitle--spaced">
           Houve um comportamento não esperado em nossa aplicação.

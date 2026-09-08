@@ -21,9 +21,7 @@ provide(SidebarSelectedItemKey, selectedItem);
 <template>
   <nav
     class="ui-sidebar"
-    :class="
-      hamburgerActive ? 'ui-sidebar--open' : 'ui-sidebar--closed'
-    "
+    :class="hamburgerActive ? 'ui-sidebar--open' : 'ui-sidebar--closed'"
   >
     <template v-for="(item, index) in items" :key="index">
       <SidebarItem

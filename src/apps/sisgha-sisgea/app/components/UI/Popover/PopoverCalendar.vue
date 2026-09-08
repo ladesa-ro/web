@@ -14,7 +14,11 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <PopoverCalendar v-model="open" :selected-day="selectedDay" @select="day => emit('select', day)">
+  <PopoverCalendar
+    v-model="open"
+    :selected-day="selectedDay"
+    @select="day => emit('select', day)"
+  >
     <slot />
   </PopoverCalendar>
 </template>

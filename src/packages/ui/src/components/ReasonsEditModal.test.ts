@@ -33,9 +33,7 @@ describe('ReasonsEditModal', () => {
     const tooltip = wrapper
       .find('.ui-reasons-edit-modal__tooltip')
       .attributes('title');
-    expect(tooltip).toBe(
-      'quarta-feira: 13:00 | segunda-feira: 07:30 08:20'
-    );
+    expect(tooltip).toBe('quarta-feira: 13:00 | segunda-feira: 07:30 08:20');
     wrapper.unmount();
   });
 

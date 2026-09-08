@@ -14,12 +14,9 @@ export type VVEnumSelectFieldProps = {
 
 const props = defineProps<VVEnumSelectFieldProps>();
 
-const {
-  fieldValue,
-  errorMessage,
-  fieldDisabled,
-  handleBlur,
-} = useVVField<string | null>({
+const { fieldValue, errorMessage, fieldDisabled, handleBlur } = useVVField<
+  string | null
+>({
   name: () => props.name,
   disabled: () => props.disabled,
   required: () => props.required,

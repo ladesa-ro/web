@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-const props = defineProps<{ colecaoId: string; donoAtualNome?: string | null }>();
+const props = defineProps<{
+  colecaoId: string;
+  donoAtualNome?: string | null;
+}>();
 const emit = defineEmits<{ transferred: []; deleted: [] }>();
 
 const colecoes = useCalendarioColecao();

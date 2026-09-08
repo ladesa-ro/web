@@ -64,22 +64,18 @@ const calendarioListQuery = calendariosLetivos.list(
 // Opções para selects (ParsedItem[])
 const campusItems = computed(
   () =>
-    campiListQuery.data.value?.data?.map(
-      (c: Record<string, unknown>) => ({
-        value: c.id as string,
-        label: (c.apelido as string) ?? '',
-      })
-    ) ?? []
+    campiListQuery.data.value?.data?.map((c: Record<string, unknown>) => ({
+      value: c.id as string,
+      label: (c.apelido as string) ?? '',
+    })) ?? []
 );
 
 const calendarioItems = computed(
   () =>
-    calendarioListQuery.data.value?.data?.map(
-      (c: Record<string, unknown>) => ({
-        value: c.id as string,
-        label: (c.nome as string) ?? '',
-      })
-    ) ?? []
+    calendarioListQuery.data.value?.data?.map((c: Record<string, unknown>) => ({
+      value: c.id as string,
+      label: (c.nome as string) ?? '',
+    })) ?? []
 );
 
 const ofertaFormacaoItems = computed(
@@ -94,31 +90,29 @@ const ofertaFormacaoItems = computed(
 
 const cursoItems = computed(
   () =>
-    cursoListQuery.data.value?.data?.map(
-      (c: Record<string, unknown>) => ({
-        value: c.id as string,
-        label: (c.nome as string) ?? '',
-      })
-    ) ?? []
+    cursoListQuery.data.value?.data?.map((c: Record<string, unknown>) => ({
+      value: c.id as string,
+      label: (c.nome as string) ?? '',
+    })) ?? []
 );
 
 const turmaRadioItems = computed(
   () =>
-    turmaListQuery.data.value?.data?.map(
-      (t: Record<string, unknown>) => ({
-        value: t.id as string,
-        label: (t.periodo as string) ?? '',
-        turma: t,
-      })
-    ) ?? []
+    turmaListQuery.data.value?.data?.map((t: Record<string, unknown>) => ({
+      value: t.id as string,
+      label: (t.periodo as string) ?? '',
+      turma: t,
+      curso:
+        ((t.curso as Record<string, unknown> | undefined)?.nome as string) ??
+        '',
+    })) ?? []
 );
 
 // Modelos para selects (ParsedItem)
 const campusSelected = computed({
   get: () =>
-    campusItems.value.find(
-      (i) => i.value === contexto.campusId.value
-    ) ?? undefined,
+    campusItems.value.find(i => i.value === contexto.campusId.value) ??
+    undefined,
   set: (val: ParsedItem | undefined) => {
     contexto.campusId.value = val?.value ?? null;
   },
@@ -127,7 +121,7 @@ const campusSelected = computed({
 const calendarioSelected = computed({
   get: () =>
     calendarioItems.value.find(
-      (i) => i.value === contexto.calendarioLetivoId.value
+      i => i.value === contexto.calendarioLetivoId.value
     ) ?? undefined,
   set: (val: ParsedItem | undefined) => {
     contexto.calendarioLetivoId.value = val?.value ?? null;
@@ -137,7 +131,7 @@ const calendarioSelected = computed({
 const ofertaFormacaoSelected = computed({
   get: () =>
     ofertaFormacaoItems.value.find(
-      (i) => i.value === contexto.ofertaFormacaoId.value
+      i => i.value === contexto.ofertaFormacaoId.value
     ) ?? undefined,
   set: (val: ParsedItem | undefined) => {
     contexto.ofertaFormacaoId.value = val?.value ?? null;
@@ -146,8 +140,7 @@ const ofertaFormacaoSelected = computed({
 
 const cursoSelected = computed({
   get: () =>
-    cursoItems.value.find((i) => i.value === contexto.cursoId.value) ??
-    undefined,
+    cursoItems.value.find(i => i.value === contexto.cursoId.value) ?? undefined,
   set: (val: ParsedItem | undefined) => {
     contexto.cursoId.value = val?.value ?? null;
   },
@@ -157,15 +150,30 @@ const cursoSelected = computed({
 useCascadingFilters([
   {
     ref: contexto.campusId,
-    resetOnChange: [contexto.calendarioLetivoId, contexto.ofertaFormacaoId, contexto.cursoId, contexto.turmaId, contexto.turmaSelecionada],
+    resetOnChange: [
+      contexto.calendarioLetivoId,
+      contexto.ofertaFormacaoId,
+      contexto.cursoId,
+      contexto.turmaId,
+      contexto.turmaSelecionada,
+    ],
   },
   {
     ref: contexto.calendarioLetivoId,
-    resetOnChange: [contexto.ofertaFormacaoId, contexto.cursoId, contexto.turmaId, contexto.turmaSelecionada],
+    resetOnChange: [
+      contexto.ofertaFormacaoId,
+      contexto.cursoId,
+      contexto.turmaId,
+      contexto.turmaSelecionada,
+    ],
   },
   {
     ref: contexto.ofertaFormacaoId,
-    resetOnChange: [contexto.cursoId, contexto.turmaId, contexto.turmaSelecionada],
+    resetOnChange: [
+      contexto.cursoId,
+      contexto.turmaId,
+      contexto.turmaSelecionada,
+    ],
   },
   {
     ref: contexto.cursoId,
@@ -178,8 +186,7 @@ function onTurmaSelect(turmaId: string) {
   const turma = turmaListQuery.data.value?.data?.find(
     (t: Record<string, unknown>) => t.id === turmaId
   );
-  contexto.turmaSelecionada.value =
-    (turma as Record<string, unknown>) ?? null;
+  contexto.turmaSelecionada.value = (turma as Record<string, unknown>) ?? null;
 }
 
 const canAdvance = computed(
@@ -222,7 +229,9 @@ function nextForm() {
         label="Formação"
         placeholder="Selecione..."
         :items="ofertaFormacaoItems"
-        :disabled="!contexto.campusId.value || !contexto.calendarioLetivoId.value"
+        :disabled="
+          !contexto.campusId.value || !contexto.calendarioLetivoId.value
+        "
       />
 
       <!-- Curso -->
@@ -245,45 +254,48 @@ function nextForm() {
         />
 
         <!-- Lista de turmas -->
-        <div class="u-flex u-flex-col u-gap-2 u-overflow-auto turma-select__list">
         <div
-          v-for="item in turmaRadioItems"
-          :key="item.value"
-          class="u-flex u-items-center u-justify-between u-rounded-lg turma-select__item"
-          :class="{ 'turma-select__item--selected': contexto.turmaId.value === item.value }"
-          @click="onTurmaSelect(item.value)"
+          class="u-flex u-flex-col u-gap-2 u-overflow-auto turma-select__list"
         >
-          <div class="u-flex u-flex-col">
-            <span class="u-font-semibold u-text-sm turma-select__item-label">
-              {{ item.label }}
-            </span>
-            <span class="u-text-xs turma-select__item-curso">
-              {{
-                (
-                  (item.turma as Record<string, unknown>)
-                    ?.curso as Record<string, unknown>
-                )?.nome ?? ''
-              }}
-            </span>
-          </div>
           <div
-            class="u-flex u-items-center u-justify-center u-shrink-0 u-rounded-full turma-select__radio"
-            :class="{ 'turma-select__radio--selected': contexto.turmaId.value === item.value }"
+            v-for="item in turmaRadioItems"
+            :key="item.value"
+            class="u-flex u-items-center u-justify-between u-rounded-lg turma-select__item"
+            :class="{
+              'turma-select__item--selected':
+                contexto.turmaId.value === item.value,
+            }"
+            @click="onTurmaSelect(item.value)"
           >
+            <div class="u-flex u-flex-col">
+              <span class="u-font-semibold u-text-sm turma-select__item-label">
+                {{ item.label }}
+              </span>
+              <span class="u-text-xs turma-select__item-curso">
+                {{ item.curso }}
+              </span>
+            </div>
             <div
-              v-if="contexto.turmaId.value === item.value"
-              class="u-rounded-full turma-select__radio-dot"
-            />
+              class="u-flex u-items-center u-justify-center u-shrink-0 u-rounded-full turma-select__radio"
+              :class="{
+                'turma-select__radio--selected':
+                  contexto.turmaId.value === item.value,
+              }"
+            >
+              <div
+                v-if="contexto.turmaId.value === item.value"
+                class="u-rounded-full turma-select__radio-dot"
+              />
+            </div>
+          </div>
+
+          <div
+            v-if="turmaRadioItems.length === 0 && contexto.cursoId.value"
+            class="u-text-center u-text-sm turma-select__empty"
+          >
+            Nenhuma turma encontrada.
           </div>
         </div>
-
-        <div
-          v-if="turmaRadioItems.length === 0 && contexto.cursoId.value"
-          class="u-text-center u-text-sm turma-select__empty"
-        >
-          Nenhuma turma encontrada.
-        </div>
-      </div>
       </template>
     </div>
 
@@ -303,7 +315,8 @@ function nextForm() {
   border: 2px solid rgb(from var(--ladesa-grey-color) R G B / 100%);
   padding: var(--ui-space-3) var(--ui-space-4);
   cursor: pointer;
-  transition: background-color var(--ui-duration-base) var(--ui-easing-standard),
+  transition:
+    background-color var(--ui-duration-base) var(--ui-easing-standard),
     border-color var(--ui-duration-base) var(--ui-easing-standard);
 }
 

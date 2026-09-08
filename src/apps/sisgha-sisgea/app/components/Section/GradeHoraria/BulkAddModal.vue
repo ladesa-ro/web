@@ -140,7 +140,9 @@ function handleConfirm() {
     <div class="u-flex u-flex-col u-gap-4">
       <!-- Turno toggle -->
       <div class="u-flex u-flex-col u-gap-1">
-        <label class="u-text-xs u-font-medium bulk-add-modal__label">Turno</label>
+        <label class="u-text-xs u-font-medium bulk-add-modal__label"
+          >Turno</label
+        >
         <UIToggle v-model="selectedPeriodo" :items="periodoItems" />
       </div>
 
@@ -200,19 +202,10 @@ function handleConfirm() {
           </div>
         </div>
       </div>
-
-      <!-- Modo toggle (comentado — sempre usa "append") -->
-      <!-- <div class="u-flex u-flex-col u-gap-1">
-        <label class="u-text-xs u-font-medium bulk-add-modal__label">Modo</label>
-        <UIToggle v-model="mode" :items="modeItems" />
-      </div> -->
     </div>
 
     <template #button-group>
-      <UIButtonModalCancel
-        type="close"
-        @click="emit('close')"
-      />
+      <UIButtonModalCancel type="close" @click="emit('close')" />
       <UIButtonModalCommonButtonsGreenWithCheck
         text="Adicionar"
         :disabled="!isValid"

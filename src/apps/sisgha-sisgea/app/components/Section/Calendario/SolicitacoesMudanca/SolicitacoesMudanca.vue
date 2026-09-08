@@ -33,11 +33,17 @@ function closeDetail() {
 
     <UIToggle v-model="status" :items="STATUS_TABS" class="u-w-full" />
 
-    <div v-if="isLoading" class="u-text-center u-py-8 solicitacoes-mudanca__status">
+    <div
+      v-if="isLoading"
+      class="u-text-center u-py-8 solicitacoes-mudanca__status"
+    >
       Carregando...
     </div>
 
-    <div v-else-if="isError" class="u-text-center u-py-8 solicitacoes-mudanca__status--error">
+    <div
+      v-else-if="isError"
+      class="u-text-center u-py-8 solicitacoes-mudanca__status--error"
+    >
       Erro ao carregar solicitações. Tente novamente.
     </div>
 

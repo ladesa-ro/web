@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { ButtonModalBaseLayout, type ButtonModalBaseLayoutProps } from '@ladesa-ro/web.ui';
+import {
+  ButtonModalBaseLayout,
+  type ButtonModalBaseLayoutProps,
+} from '@ladesa-ro/web.ui';
 
 defineProps<ButtonModalBaseLayoutProps>();
 </script>

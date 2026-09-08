@@ -79,16 +79,17 @@ function confirm() {
           :min="today"
           class="date-input"
         />
-        <p v-if="dataInicio && !isDataInicioValid" class="field-error u-text-xs">
+        <p
+          v-if="dataInicio && !isDataInicioValid"
+          class="field-error u-text-xs"
+        >
           A data de inicio nao pode ser no passado.
         </p>
       </div>
 
       <!-- Data fim (only if temporario) -->
       <div v-if="tipo === 'temporario'" class="u-flex u-flex-col u-gap-1-5">
-        <label class="field-label u-text-xs u-font-medium">
-          Data de fim
-        </label>
+        <label class="field-label u-text-xs u-font-medium"> Data de fim </label>
         <input
           v-model="dataFim"
           type="date"

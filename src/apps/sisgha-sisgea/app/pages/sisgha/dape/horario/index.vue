@@ -33,9 +33,7 @@ const { values, turmasOptions } = useHorarioDapeFilters();
         search-bar-container-style="u-flex dape-horario__search-actions"
       >
         <template #options-actions>
-          <form
-            class="u-flex u-gap-4 u-w-full dape-horario__filters-form"
-          >
+          <form class="u-flex u-gap-4 u-w-full dape-horario__filters-form">
             <VVAutocompleteAPIOfertaFormacao
               class="u-flex-1"
               name="ofertaFormacaoId"

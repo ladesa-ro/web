@@ -20,13 +20,20 @@ const checked = computed({
 </script>
 
 <template>
-  <label class="ui-form-checkbox" :class="{ 'ui-form-checkbox--disabled': disabled }">
+  <label
+    class="ui-form-checkbox"
+    :class="{ 'ui-form-checkbox--disabled': disabled }"
+  >
     <span class="ui-checkbox-square-wrapper">
       <Checkbox
         v-model:model-value="checked"
         :disabled="disabled"
         class="ui-checkbox-square"
-        :class="checked ? 'ui-checkbox-square--active' : 'ui-checkbox-square--inactive'"
+        :class="
+          checked
+            ? 'ui-checkbox-square--active'
+            : 'ui-checkbox-square--inactive'
+        "
       >
         <Check class="ui-checkbox-square__check">
           <IconConfirm class="ui-checkbox-square__check-icon" />

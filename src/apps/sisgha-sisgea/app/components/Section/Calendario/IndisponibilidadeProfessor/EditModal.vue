@@ -113,11 +113,7 @@ function close() {
         />
         <VVDateField v-else name="data" label="Data" :required="true" />
 
-        <VVTimeRangeField
-          name-start="inicio"
-          name-end="fim"
-          label="Horário"
-        />
+        <VVTimeRangeField name-start="inicio" name-end="fim" label="Horário" />
 
         <VVOptionFieldsRadioGroup
           name="tipo"
@@ -128,11 +124,7 @@ function close() {
           Bloqueio: nunca aloca. Preferência: evita alocar, mas não impede.
         </p>
 
-        <VVTextField
-          name="motivo"
-          label="Motivo"
-          placeholder="Opcional"
-        />
+        <VVTextField name="motivo" label="Motivo" placeholder="Opcional" />
       </form>
 
       <template #button-group>
@@ -156,5 +148,4 @@ function close() {
   color: var(--ladesa-grey-color);
   margin-top: calc(var(--ui-space-2) * -1);
 }
-
 </style>

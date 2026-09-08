@@ -127,10 +127,7 @@ const turmaInfo = computed(() => {
   <DialogModalBaseLayout :on-close="() => emit('close')" :title="title">
     <div class="u-flex u-flex-col u-gap-4">
       <!-- Card turma (read-only) -->
-      <div
-        v-if="turmaInfo"
-        class="u-rounded-lg disciplinas-config__turma-card"
-      >
+      <div v-if="turmaInfo" class="u-rounded-lg disciplinas-config__turma-card">
         <p class="u-font-semibold u-text-sm disciplinas-config__turma-nome">
           {{ turmaInfo.nome }}
         </p>

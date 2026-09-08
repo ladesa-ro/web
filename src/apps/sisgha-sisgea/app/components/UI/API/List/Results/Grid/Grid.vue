@@ -176,11 +176,16 @@ await suspendQuery(query);
           query.isFetchPreviousPageError.value
         "
       >
-        <div class="u-flex u-items-center u-justify-between u-p-4 grid-results__span-full grid-results__error">
+        <div
+          class="u-flex u-items-center u-justify-between u-p-4 grid-results__span-full grid-results__error"
+        >
           <p class="u-font-semibold grid-results__error-text">
             Não foi possível buscar mais conteúdo...
           </p>
-          <button class="u-text-sm u-px-4 u-py-1 grid-results__retry-button" @click="load({ done: () => {}, side: 'end' })">
+          <button
+            class="u-text-sm u-px-4 u-py-1 grid-results__retry-button"
+            @click="load({ done: () => {}, side: 'end' })"
+          >
             Tentar Novamente
           </button>
         </div>

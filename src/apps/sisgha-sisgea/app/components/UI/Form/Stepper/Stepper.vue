@@ -22,5 +22,8 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <FormStepper v-bind="props" @update:model-value="value => emit('update:modelValue', value)" />
+  <FormStepper
+    v-bind="props"
+    @update:model-value="value => emit('update:modelValue', value)"
+  />
 </template>

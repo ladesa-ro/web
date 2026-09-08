@@ -10,7 +10,11 @@ defineProps<FormOptionItemProps>();
 </script>
 
 <template>
-  <ComboboxItem v-if="mode === 'autocomplete'" :value="item.value" class="ui-option-item">
+  <ComboboxItem
+    v-if="mode === 'autocomplete'"
+    :value="item.value"
+    class="ui-option-item"
+  >
     {{ item.label }}
   </ComboboxItem>
 

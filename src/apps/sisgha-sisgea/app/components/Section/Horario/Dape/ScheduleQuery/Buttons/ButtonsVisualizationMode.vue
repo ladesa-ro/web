@@ -12,12 +12,21 @@ const showIndisponibilidades = ref(true);
       text="Indisponibilidades"
       @click="showIndisponibilidades = !showIndisponibilidades"
     >
-      <IconsEyeOn v-show="showIndisponibilidades" class="buttons-visualization-mode__icon" />
-      <IconsEyeOff v-if="!showIndisponibilidades" class="buttons-visualization-mode__icon" />
+      <IconsEyeOn
+        v-show="showIndisponibilidades"
+        class="buttons-visualization-mode__icon"
+      />
+      <IconsEyeOff
+        v-if="!showIndisponibilidades"
+        class="buttons-visualization-mode__icon"
+      />
     </Button>
 
     <Button text="Intervalos" @click="showBreaks = !showBreaks">
-      <IconsEyeOff v-show="showBreaks" class="buttons-visualization-mode__icon" />
+      <IconsEyeOff
+        v-show="showBreaks"
+        class="buttons-visualization-mode__icon"
+      />
       <IconsEyeOn v-if="!showBreaks" class="buttons-visualization-mode__icon" />
     </Button>
 

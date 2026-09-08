@@ -144,7 +144,9 @@ const open = ref(false);
           </button>
         </UIRadio>
 
-        <span class="u-mt-2 u-flex u-justify-between u-gap-2 campus-actions-row">
+        <span
+          class="u-mt-2 u-flex u-justify-between u-gap-2 campus-actions-row"
+        >
           <UIButtonModalCancel variant="small" @click="open = false" />
 
           <UIButtonModalConfirm

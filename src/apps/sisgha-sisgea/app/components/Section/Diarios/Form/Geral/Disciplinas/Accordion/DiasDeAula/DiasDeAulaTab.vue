@@ -157,13 +157,17 @@ function setDiaSemana(prefIndex: number, dia: number) {
             :disabled="pref.aulasSeguidas <= 1"
             @click="decrementarAulas(prefIndex)"
           >
-            <IconsArrow class="dias-de-aula__stepper-icon dias-de-aula__stepper-icon--down" />
+            <IconsArrow
+              class="dias-de-aula__stepper-icon dias-de-aula__stepper-icon--down"
+            />
           </button>
           <span class="u-font-semibold u-text-xs">
             Total de aulas: {{ pref.aulasSeguidas }}
           </span>
           <button class="u-p-1" @click="incrementarAulas(prefIndex)">
-            <IconsArrow class="dias-de-aula__stepper-icon dias-de-aula__stepper-icon--up" />
+            <IconsArrow
+              class="dias-de-aula__stepper-icon dias-de-aula__stepper-icon--up"
+            />
           </button>
         </div>
 
@@ -210,7 +214,8 @@ function setDiaSemana(prefIndex: number, dia: number) {
   border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 100%);
   color: var(--ladesa-text-default-color);
   background-color: transparent;
-  transition: color var(--ui-duration-base) var(--ui-easing-standard),
+  transition:
+    color var(--ui-duration-base) var(--ui-easing-standard),
     background-color var(--ui-duration-base) var(--ui-easing-standard),
     border-color var(--ui-duration-base) var(--ui-easing-standard);
 }

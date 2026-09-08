@@ -9,7 +9,8 @@ export type CheckboxSquareProps = {
   disabled?: boolean;
   enterHandle?: (item: ParsedOptionItem) => void;
 };
-const { enterHandle = () => {}, disabled = false } = defineProps<CheckboxSquareProps>();
+const { enterHandle = () => {}, disabled = false } =
+  defineProps<CheckboxSquareProps>();
 </script>
 
 <template>
@@ -18,7 +19,9 @@ const { enterHandle = () => {}, disabled = false } = defineProps<CheckboxSquareP
       :value="item.value"
       :disabled="disabled ?? false"
       class="ui-checkbox-square"
-      :class="active ? 'ui-checkbox-square--active' : 'ui-checkbox-square--inactive'"
+      :class="
+        active ? 'ui-checkbox-square--active' : 'ui-checkbox-square--inactive'
+      "
       @keyup.enter="enterHandle(item)"
     >
       <Check class="ui-checkbox-square__check">

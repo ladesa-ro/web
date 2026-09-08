@@ -33,7 +33,9 @@ defineSlots<Slots>();
 </script>
 
 <template>
-  <div :class="style || 'u-w-full u-justify-between u-items-center u-flex u-gap-4'">
+  <div
+    :class="style || 'u-w-full u-justify-between u-items-center u-flex u-gap-4'"
+  >
     <div class="u-flex-1">
       <UISearchBar v-model="formOptions.search" />
     </div>

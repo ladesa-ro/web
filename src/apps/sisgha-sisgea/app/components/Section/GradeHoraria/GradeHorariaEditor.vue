@@ -118,7 +118,10 @@ const canEdit = computed(() => {
       message="Verifique as inconsistências destacadas abaixo."
     />
 
-    <div v-if="isLoading" class="u-text-center u-py-12 grade-editor__placeholder">
+    <div
+      v-if="isLoading"
+      class="u-text-center u-py-12 grade-editor__placeholder"
+    >
       Carregando grades horárias...
     </div>
 

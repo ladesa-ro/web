@@ -10,8 +10,11 @@ const isSubmitting = ref(false);
 
 const matriculas = useTurmaMatricula();
 
-const { handle: handleWriteError, conflictMessage, clearConflictMessage } =
-  useApiWriteErrorHandler();
+const {
+  handle: handleWriteError,
+  conflictMessage,
+  clearConflictMessage,
+} = useApiWriteErrorHandler();
 
 function onOpen() {
   clearConflictMessage();

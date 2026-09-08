@@ -43,7 +43,9 @@ defineEmits<{
           <span
             v-else
             class="ui-breadcrumb__entry"
-            :class="{ 'ui-breadcrumb__entry--parent': index < segments.length - 1 }"
+            :class="{
+              'ui-breadcrumb__entry--parent': index < segments.length - 1,
+            }"
           >
             {{ entry.title }}
           </span>

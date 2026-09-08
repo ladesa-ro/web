@@ -4,13 +4,14 @@ export type ScheduleQueryButtonProps = {
   text?: string;
 };
 
-const { color = 'var(--ladesa-grey-color)', text = '' } = defineProps<ScheduleQueryButtonProps>();
+const { color = 'var(--ladesa-grey-color)', text = '' } =
+  defineProps<ScheduleQueryButtonProps>();
 
 const buttonColor = { '--color': color };
 </script>
 
 <template>
-    <button
+  <button
     :style="buttonColor"
     class="ui-schedule-query-button u-flex u-items-center u-justify-center u-gap-1-5 u-px-2"
   >

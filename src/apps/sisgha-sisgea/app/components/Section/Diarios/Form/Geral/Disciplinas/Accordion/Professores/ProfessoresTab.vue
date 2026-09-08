@@ -50,7 +50,7 @@ const professores = computed(() => {
       const vinculos = u.vinculos ?? [];
       if (vinculos.length === 0) return [];
       // Usar o primeiro vinculo ativo como perfilId
-      const vinculo = vinculos.find((v) => v.ativo) ?? vinculos[0];
+      const vinculo = vinculos.find(v => v.ativo) ?? vinculos[0];
       if (!vinculo) return [];
       return [
         {
@@ -63,6 +63,15 @@ const professores = computed(() => {
     })
     .toSorted((a, b) => a.label.localeCompare(b.label));
 });
+
+type ProfessorItem = {
+  value: string;
+  label: string;
+  imageUrl: string | null;
+  cargo: string;
+};
+
+const professorOf = (item: unknown) => item as ProfessorItem;
 
 const professoresSelecionados = computed({
   get: () => dcRef.value?.professoresSelecionados ?? [],
@@ -80,56 +89,60 @@ const professoresSelecionados = computed({
       v-if="listQuery.isLoading.value"
       class="u-flex u-items-center u-justify-center professores-tab__loading"
     >
-      <span class="u-text-sm professores-tab__loading-text">Carregando professores...</span>
+      <span class="u-text-sm professores-tab__loading-text"
+        >Carregando professores...</span
+      >
     </div>
 
     <template v-else>
-    <!-- Busca -->
-    <UIFormTextField
-      :model-value="professorSearch"
-      label="Pesquisar"
-      placeholder="Digite aqui."
-      name="professor-search"
-      @update:model-value="professorSearch = String($event ?? '')"
-    />
+      <!-- Busca -->
+      <UIFormTextField
+        :model-value="professorSearch"
+        label="Pesquisar"
+        placeholder="Digite aqui."
+        name="professor-search"
+        @update:model-value="professorSearch = String($event ?? '')"
+      />
 
-    <!-- Lista de professores -->
-    <div class="u-flex u-flex-col u-gap-2 u-overflow-auto professores-tab__list">
-      <UICheckbox
-        v-slot="{ item, selected, invertItem }"
-        v-model="professoresSelecionados"
-        :items="professores"
+      <!-- Lista de professores -->
+      <div
+        class="u-flex u-flex-col u-gap-2 u-overflow-auto professores-tab__list"
       >
-        <div
-          class="u-flex u-items-center u-gap-3 u-rounded-lg professores-tab__item"
-          :class="{ 'professores-tab__item--selected': selected }"
-          @click.stop="invertItem(item)"
+        <UICheckbox
+          v-slot="{ item, selected, invertItem }"
+          v-model="professoresSelecionados"
+          :items="professores"
         >
           <div
-            class="u-flex u-items-center u-justify-center u-shrink-0 u-overflow-hidden u-rounded-md professores-tab__avatar"
+            class="u-flex u-items-center u-gap-3 u-rounded-lg professores-tab__item"
+            :class="{ 'professores-tab__item--selected': selected }"
+            @click.stop="invertItem(item)"
           >
-            <img
-              v-if="(item as Record<string, unknown>).imageUrl"
-              :src="(item as Record<string, unknown>).imageUrl as string"
-              class="u-w-full u-h-full professores-tab__avatar-image"
+            <div
+              class="u-flex u-items-center u-justify-center u-shrink-0 u-overflow-hidden u-rounded-md professores-tab__avatar"
             >
-            <IconsUser v-else class="professores-tab__avatar-icon" />
+              <img
+                v-if="professorOf(item).imageUrl"
+                :src="professorOf(item).imageUrl ?? ''"
+                class="u-w-full u-h-full professores-tab__avatar-image"
+              />
+              <IconsUser v-else class="professores-tab__avatar-icon" />
+            </div>
+            <div class="u-flex u-flex-col u-flex-1 professores-tab__info">
+              <p class="u-font-semibold u-text-sm professores-tab__name">
+                {{ item.label }}
+              </p>
+              <p
+                v-if="professorOf(item).cargo"
+                class="u-text-xs professores-tab__cargo"
+              >
+                {{ professorOf(item).cargo }}
+              </p>
+            </div>
+            <UICheckboxSquare :item="item" :active="selected" @click.stop />
           </div>
-          <div class="u-flex u-flex-col u-flex-1 professores-tab__info">
-            <p class="u-font-semibold u-text-sm professores-tab__name">
-              {{ item.label }}
-            </p>
-            <p
-              v-if="(item as Record<string, unknown>).cargo"
-              class="u-text-xs professores-tab__cargo"
-            >
-              {{ (item as Record<string, unknown>).cargo }}
-            </p>
-          </div>
-          <UICheckboxSquare :item="item" :active="selected" @click.stop />
-        </div>
-      </UICheckbox>
-    </div>
+        </UICheckbox>
+      </div>
     </template>
   </div>
 </template>
@@ -163,7 +176,8 @@ const professoresSelecionados = computed({
   padding-right: var(--ui-space-3);
   margin-bottom: var(--ui-space-1);
   cursor: pointer;
-  transition: background-color var(--ui-duration-base) var(--ui-easing-standard),
+  transition:
+    background-color var(--ui-duration-base) var(--ui-easing-standard),
     border-color var(--ui-duration-base) var(--ui-easing-standard);
 }
 

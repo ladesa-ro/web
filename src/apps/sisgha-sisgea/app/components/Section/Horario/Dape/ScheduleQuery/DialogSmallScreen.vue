@@ -20,7 +20,10 @@ const editMode = inject('editMode');
         message="A tela de seu dispositivo não tem tamanho suficiente para suportar a funcionalidade de edição de horário. Por favor, abra em um dispositivo maior para ter acesso a esta funcionalidade."
       />
 
-      <UIButtonModalOk class="dialog-small-screen-ok" @click="editMode = false" />
+      <UIButtonModalOk
+        class="dialog-small-screen-ok"
+        @click="editMode = false"
+      />
     </div>
   </DialogSkeleton>
 </template>

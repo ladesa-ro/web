@@ -19,18 +19,27 @@ const data = computed(() => formValues.value.data as string | undefined);
 const inicio = computed(() => formValues.value.inicio as string | undefined);
 const fim = computed(() => formValues.value.fim as string | undefined);
 
-const { handle: handleWriteError, conflictMessage, clearConflictMessage } =
-  useApiWriteErrorHandler();
+const {
+  handle: handleWriteError,
+  conflictMessage,
+  clearConflictMessage,
+} = useApiWriteErrorHandler();
 
 const ambientes = useAmbientes();
 const ambienteDetalhe = ambientes.findOne(ambienteId);
-const campusId = computed(() => ambienteDetalhe.data.value?.bloco?.campus?.id ?? null);
+const campusId = computed(
+  () => ambienteDetalhe.data.value?.bloco?.campus?.id ?? null
+);
 
 const consultas = useCalendarioConsultas();
 const ocupacaoQuery = consultas.ocupacao(
   computed(() => {
     if (!campusId.value || !data.value) return undefined;
-    return { campus: campusId.value, dateStart: data.value, dateEnd: data.value };
+    return {
+      campus: campusId.value,
+      dateStart: data.value,
+      dateEnd: data.value,
+    };
   })
 );
 
@@ -91,7 +100,11 @@ const onSubmit = handleSubmit(async values => {
 
     <DialogModalBaseLayout title="Nova reserva" :on-close="onClose">
       <form class="u-flex u-flex-col u-gap-4" @submit.prevent="onSubmit">
-        <UIAlert v-if="conflictMessage" type="error" :message="conflictMessage" />
+        <UIAlert
+          v-if="conflictMessage"
+          type="error"
+          :message="conflictMessage"
+        />
 
         <VVAutocompleteAPIAmbiente name="ambiente.id" />
 
@@ -105,7 +118,11 @@ const onSubmit = handleSubmit(async values => {
           message="Este ambiente já tem outra ocupação nesse período. Você ainda pode enviar a reserva, mas ela pode ser recusada pelo servidor."
         />
 
-        <VVTextField name="motivo" label="Motivo" placeholder="Ex: Reunião do colegiado" />
+        <VVTextField
+          name="motivo"
+          label="Motivo"
+          placeholder="Ex: Reunião do colegiado"
+        />
       </form>
 
       <template #button-group>
@@ -115,4 +132,3 @@ const onSubmit = handleSubmit(async values => {
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
-

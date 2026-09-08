@@ -14,7 +14,8 @@ export type MescladoListProps = {
   searchBarValue?: string;
 };
 
-const { items: itemsProps, searchBarValue = '' } = defineProps<MescladoListProps>();
+const { items: itemsProps, searchBarValue = '' } =
+  defineProps<MescladoListProps>();
 
 const parsedItems = computed(() => getParsedOptionItems(itemsProps));
 const filteredItems = computed(() =>

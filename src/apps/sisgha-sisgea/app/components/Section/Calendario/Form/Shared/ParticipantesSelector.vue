@@ -177,7 +177,10 @@ watch(todosParticipam, () => emitUpdate());
     <!-- Formações -->
     <template v-if="!todosParticipam">
       <div class="u-flex u-flex-col u-gap-2">
-        <span class="u-text-xs u-font-semibold participantes-selector__section-label">Formações</span>
+        <span
+          class="u-text-xs u-font-semibold participantes-selector__section-label"
+          >Formações</span
+        >
         <div class="u-flex u-flex-wrap u-gap-2">
           <button
             v-for="formacao in formacoes"
@@ -212,9 +215,10 @@ watch(todosParticipam, () => emitUpdate());
               : expandedFormacoes.add(formacao.id)
           "
         >
-          <span class="u-text-sm u-font-semibold participantes-selector__formacao-nome">{{
-            formacao.nome
-          }}</span>
+          <span
+            class="u-text-sm u-font-semibold participantes-selector__formacao-nome"
+            >{{ formacao.nome }}</span
+          >
           <span class="u-text-xs participantes-selector__chevron">{{
             expandedFormacoes.has(formacao.id) ? '▲' : '▼'
           }}</span>
@@ -227,11 +231,14 @@ watch(todosParticipam, () => emitUpdate());
             :key="curso.id"
             class="u-flex u-flex-col u-gap-2 participantes-selector__curso"
           >
-            <span class="u-text-xs u-font-medium participantes-selector__curso-nome">{{
-              curso.nome
-            }}</span>
+            <span
+              class="u-text-xs u-font-medium participantes-selector__curso-nome"
+              >{{ curso.nome }}</span
+            >
 
-            <div class="u-flex u-flex-wrap u-gap-2 participantes-selector__turmas">
+            <div
+              class="u-flex u-flex-wrap u-gap-2 participantes-selector__turmas"
+            >
               <UIFormCheckbox
                 v-for="turma in turmasByCurso.get(curso.id) ?? []"
                 :key="turma.id"
@@ -282,7 +289,8 @@ watch(todosParticipam, () => emitUpdate());
 
 .participantes-selector__formacao-chip {
   border: 1px solid transparent;
-  transition: background-color var(--ui-duration-fast) var(--ui-easing-standard),
+  transition:
+    background-color var(--ui-duration-fast) var(--ui-easing-standard),
     color var(--ui-duration-fast) var(--ui-easing-standard),
     border-color var(--ui-duration-fast) var(--ui-easing-standard);
 }

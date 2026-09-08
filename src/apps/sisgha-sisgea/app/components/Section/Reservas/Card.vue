@@ -48,9 +48,13 @@ function onConfirmCancel() {
 </script>
 
 <template>
-  <div class="u-p-5 u-rounded-lg u-flex u-flex-col u-gap-3 u-h-full reserva-card">
+  <div
+    class="u-p-5 u-rounded-lg u-flex u-flex-col u-gap-3 u-h-full reserva-card"
+  >
     <div class="u-flex u-justify-between u-items-center u-gap-2">
-      <div class="u-flex u-gap-2 u-items-center u-font-medium u-text-lg reserva-card__title-wrapper">
+      <div
+        class="u-flex u-gap-2 u-items-center u-font-medium u-text-lg reserva-card__title-wrapper"
+      >
         <IconsReserve class="reserva-card__icon" />
         <h2 class="u-truncate">{{ ambientesText }}</h2>
       </div>

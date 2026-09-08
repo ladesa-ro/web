@@ -12,7 +12,11 @@ const emit = defineEmits<{
 const api = useApiClient();
 
 const perfilQuery = useQuery({
-  queryKey: computed(() => ['perfis-alunos', 'detail', props.matricula.perfil.id]),
+  queryKey: computed(() => [
+    'perfis-alunos',
+    'detail',
+    props.matricula.perfil.id,
+  ]),
   queryFn: () =>
     api.call(perfilFindById, { path: { id: props.matricula.perfil.id } }),
 });

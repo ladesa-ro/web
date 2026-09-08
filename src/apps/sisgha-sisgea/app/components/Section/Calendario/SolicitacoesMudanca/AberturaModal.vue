@@ -88,7 +88,8 @@ function close() {
     >
       <form class="u-flex u-flex-col u-gap-4" @submit.prevent="save">
         <div class="u-text-sm abertura-modal__meta">
-          Evento: <strong class="abertura-modal__meta-value">{{ evento?.nome }}</strong>
+          Evento:
+          <strong class="abertura-modal__meta-value">{{ evento?.nome }}</strong>
           <span v-if="evento">
             — {{ evento.dataInicio }} {{ evento.horarioInicio?.slice(0, 5) }}
           </span>
@@ -142,5 +143,4 @@ function close() {
 .abertura-modal__meta-value {
   color: var(--ladesa-text-default-color);
 }
-
 </style>

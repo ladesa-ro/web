@@ -14,12 +14,12 @@ const handleLogout = async () => {
 
 <template>
   <div class="u-flex u-items-center u-justify-center u-px-4 sem-acesso">
-    <div class="u-flex u-flex-col u-items-center u-gap-6 u-text-center sem-acesso__content">
+    <div
+      class="u-flex u-flex-col u-items-center u-gap-6 u-text-center sem-acesso__content"
+    >
       <IconsInfo class="sem-acesso__icon" />
 
-      <h1 class="u-font-bold sem-acesso__title">
-        Sem acesso ao sistema
-      </h1>
+      <h1 class="u-font-bold sem-acesso__title">Sem acesso ao sistema</h1>
 
       <p class="u-text-sm sem-acesso__description">
         Você não possui perfil vinculado a nenhum campus. Entre em contato com o

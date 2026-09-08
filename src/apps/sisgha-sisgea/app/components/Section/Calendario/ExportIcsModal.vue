@@ -62,7 +62,9 @@ async function onDownload() {
     toastSuccess({ title: 'Agenda exportada com sucesso' });
   } catch (err) {
     downloadError.value =
-      err instanceof Error ? err.message : 'Não foi possível exportar a agenda.';
+      err instanceof Error
+        ? err.message
+        : 'Não foi possível exportar a agenda.';
   } finally {
     isDownloading.value = false;
   }
@@ -91,7 +93,10 @@ async function onCopyLink() {
 
     <DialogModalBaseLayout title="Exportar agenda (.ics)" :on-close="onClose">
       <div class="u-flex u-flex-col u-gap-5">
-        <p v-if="downloadError" class="u-text-sm u-rounded-md u-p-3 export-ics__error">
+        <p
+          v-if="downloadError"
+          class="u-text-sm u-rounded-md u-p-3 export-ics__error"
+        >
           {{ downloadError }}
         </p>
 
@@ -122,10 +127,18 @@ async function onCopyLink() {
       </div>
 
       <template #button-group>
-        <UIButtonDefault type="button" :disabled="isDownloading" @click="onCopyLink">
+        <UIButtonDefault
+          type="button"
+          :disabled="isDownloading"
+          @click="onCopyLink"
+        >
           {{ linkCopied ? 'Link copiado!' : 'Copiar link da agenda' }}
         </UIButtonDefault>
-        <UIButtonDefault type="button" :disabled="isDownloading" @click="onDownload">
+        <UIButtonDefault
+          type="button"
+          :disabled="isDownloading"
+          @click="onDownload"
+        >
           {{ isDownloading ? 'Baixando...' : 'Baixar .ics' }}
         </UIButtonDefault>
       </template>

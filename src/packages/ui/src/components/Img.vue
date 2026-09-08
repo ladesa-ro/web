@@ -13,8 +13,6 @@ const {
   fallbackBgColor = 'rgb(from var(--ladesa-grey-color) R G B / 30%)',
 } = defineProps<ImgProps>();
 
-//
-
 type Slots = {
   fallbackIcon: () => any;
 };
@@ -28,7 +26,11 @@ defineSlots<Slots>();
       <img :alt="alt" :src="src" class="ui-img__image" />
     </div>
 
-    <div v-else class="ui-img__fallback" :style="{ 'background-color': fallbackBgColor }">
+    <div
+      v-else
+      class="ui-img__fallback"
+      :style="{ 'background-color': fallbackBgColor }"
+    >
       <slot name="fallbackIcon">
         <IconImage class="ui-img__fallback-icon" />
       </slot>

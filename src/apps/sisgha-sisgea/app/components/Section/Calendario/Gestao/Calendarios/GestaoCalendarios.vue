@@ -182,7 +182,10 @@ function handleModalClose() {
     </div>
 
     <!-- Error -->
-    <div v-else-if="isError" class="gestao-calendarios__error u-text-center u-py-8">
+    <div
+      v-else-if="isError"
+      class="gestao-calendarios__error u-text-center u-py-8"
+    >
       Erro ao carregar calendários. Tente novamente.
     </div>
 
@@ -279,5 +282,4 @@ function handleModalClose() {
 .gestao-calendarios__error {
   color: var(--ladesa-red-color);
 }
-
 </style>

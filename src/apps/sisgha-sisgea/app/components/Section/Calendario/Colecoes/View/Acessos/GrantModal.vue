@@ -9,8 +9,11 @@ const isActive = ref(false);
 
 const colecoes = useCalendarioColecao();
 
-const { handle: handleWriteError, conflictMessage, clearConflictMessage } =
-  useApiWriteErrorHandler();
+const {
+  handle: handleWriteError,
+  conflictMessage,
+  clearConflictMessage,
+} = useApiWriteErrorHandler();
 
 type IGrantForm = {
   escopo: 'USUARIO' | 'CAMPUS' | 'PUBLICO';

@@ -41,9 +41,7 @@ const isTruncated = computed(
 
       <UIBadge
         class="u-shrink-0"
-        :variant="
-          solicitacao.tipoOperacao === 'REMOVER' ? 'danger' : 'info'
-        "
+        :variant="solicitacao.tipoOperacao === 'REMOVER' ? 'danger' : 'info'"
       >
         {{ formatTipoOperacao(solicitacao.tipoOperacao) }}
       </UIBadge>
@@ -51,7 +49,9 @@ const isTruncated = computed(
 
     <div v-if="evento" class="u-text-xs solicitacao-card__meta">
       Hoje: {{ dayjs(evento.dataInicio).format('DD/MM/YYYY') }}
-      {{ evento.horarioInicio?.slice(0, 5) }}–{{ evento.horarioFim?.slice(0, 5) }}
+      {{ evento.horarioInicio?.slice(0, 5) }}–{{
+        evento.horarioFim?.slice(0, 5)
+      }}
     </div>
 
     <div class="u-text-xs solicitacao-card__meta">

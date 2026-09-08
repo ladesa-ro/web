@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { FormOptionFieldArrow, type FormOptionFieldArrowProps } from '@ladesa-ro/web.ui';
+import {
+  FormOptionFieldArrow,
+  type FormOptionFieldArrowProps,
+} from '@ladesa-ro/web.ui';
 
 defineProps<FormOptionFieldArrowProps>();
 </script>

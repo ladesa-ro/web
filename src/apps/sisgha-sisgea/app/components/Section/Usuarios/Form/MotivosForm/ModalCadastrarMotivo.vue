@@ -123,8 +123,7 @@ const onClose = () => emit('fechar');
             :key="horario"
             class="u-flex u-flex-col u-gap-2 u-w-full"
           >
-            <label
-              class="modal-cadastrar-motivo__label u-text-xs u-font-medium"
+            <label class="modal-cadastrar-motivo__label u-text-xs u-font-medium"
               >Motivo para {{ horario }}</label
             >
 

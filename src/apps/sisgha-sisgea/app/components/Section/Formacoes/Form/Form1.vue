@@ -101,4 +101,3 @@ const duracaoLabel = computed(() => {
     </template>
   </DialogModalBaseLayout>
 </template>
-

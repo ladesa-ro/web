@@ -85,9 +85,7 @@ function formatPeriodo(evento: AgendamentoMergedItem): string {
           :style="{ backgroundColor: getCorHex(evento) }"
         />
 
-        <span
-          class="evento-name u-flex-1 u-truncate u-text-xs u-font-medium"
-        >
+        <span class="evento-name u-flex-1 u-truncate u-text-xs u-font-medium">
           {{ getNome(evento) }}
         </span>
 

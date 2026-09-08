@@ -44,14 +44,21 @@ async function onMarcarTodasLidas() {
       <UIButtonDefaultSquare class="u-relative">
         <IconsNotifications class="notification-bell-icon" />
 
-        <span v-if="contagemNaoLidas > 0" class="u-flex u-items-center u-justify-center u-px-1 u-rounded-full u-font-semibold notification-badge">
+        <span
+          v-if="contagemNaoLidas > 0"
+          class="u-flex u-items-center u-justify-center u-px-1 u-rounded-full u-font-semibold notification-badge"
+        >
           {{ badgeText }}
         </span>
       </UIButtonDefaultSquare>
     </template>
 
-    <div class="u-flex u-flex-col u-rounded-lg u-overflow-hidden notification-panel">
-      <div class="u-flex u-items-center u-justify-between u-px-4 u-py-3 notification-panel__header">
+    <div
+      class="u-flex u-flex-col u-rounded-lg u-overflow-hidden notification-panel"
+    >
+      <div
+        class="u-flex u-items-center u-justify-between u-px-4 u-py-3 notification-panel__header"
+      >
         <h2 class="u-font-semibold">Notificações</h2>
         <button
           v-if="contagemNaoLidas > 0"
@@ -64,11 +71,17 @@ async function onMarcarTodasLidas() {
       </div>
 
       <div class="u-flex-1 u-overflow-auto">
-        <div v-if="isLoading" class="u-p-4 u-text-sm u-text-center notification-panel__empty">
+        <div
+          v-if="isLoading"
+          class="u-p-4 u-text-sm u-text-center notification-panel__empty"
+        >
           Carregando...
         </div>
 
-        <div v-else-if="notificacoesList.length === 0" class="u-p-4 u-text-sm u-text-center notification-panel__empty">
+        <div
+          v-else-if="notificacoesList.length === 0"
+          class="u-p-4 u-text-sm u-text-center notification-panel__empty"
+        >
           Nenhuma notificação por aqui.
         </div>
 
@@ -81,9 +94,14 @@ async function onMarcarTodasLidas() {
           @click="onClickNotificacao(notificacao.id, notificacao.lida)"
         >
           <div class="u-flex u-items-start u-gap-2">
-            <span v-if="!notificacao.lida" class="u-shrink-0 u-rounded-full notification-item__dot" />
+            <span
+              v-if="!notificacao.lida"
+              class="u-shrink-0 u-rounded-full notification-item__dot"
+            />
             <div class="u-flex-1 notification-item__content">
-              <p class="u-text-sm u-font-medium u-truncate">{{ notificacao.titulo }}</p>
+              <p class="u-text-sm u-font-medium u-truncate">
+                {{ notificacao.titulo }}
+              </p>
               <p class="u-text-sm notification-item__body">
                 {{ notificacao.conteudo }}
               </p>

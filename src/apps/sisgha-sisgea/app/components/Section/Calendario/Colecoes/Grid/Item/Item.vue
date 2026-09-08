@@ -55,7 +55,9 @@ const acessosCount = computed(
         </div>
 
         <p class="colecoes-grid-item__meta u-text-sm">
-          {{ acessosCount }} acesso{{ acessosCount === 1 ? '' : 's' }}
+          {{ acessosCount }} acesso{{
+            acessosCount === 1 ? '' : 's'
+          }}
           concedido{{ acessosCount === 1 ? '' : 's' }}
         </p>
       </div>

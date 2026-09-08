@@ -15,5 +15,8 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <FormTimeField v-bind="$props" @update:model-value="value => emit('update:modelValue', value)" />
+  <FormTimeField
+    v-bind="$props"
+    @update:model-value="value => emit('update:modelValue', value)"
+  />
 </template>

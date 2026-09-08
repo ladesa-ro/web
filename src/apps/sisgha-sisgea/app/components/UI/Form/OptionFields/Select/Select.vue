@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-import { FormSelect, type FormSelectProps, type ParsedOptionItem } from '@ladesa-ro/web.ui';
+import {
+  FormSelect,
+  type FormSelectProps,
+  type ParsedOptionItem,
+} from '@ladesa-ro/web.ui';
 
 defineOptions({ inheritAttrs: false });
 
@@ -7,7 +11,10 @@ const props = withDefaults(defineProps<FormSelectProps>(), {
   multipleOptions: false,
 });
 
-const selectedItem = defineModel<ParsedOptionItem>({ required: false, default: undefined });
+const selectedItem = defineModel<ParsedOptionItem>({
+  required: false,
+  default: undefined,
+});
 </script>
 
 <template>

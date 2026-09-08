@@ -36,13 +36,19 @@ function isItemDisabled(item: FormRadioGroupItem): boolean {
 
 <template>
   <fieldset class="ui-form-radio-group">
-    <legend v-if="label" class="ui-form-radio-group__legend">{{ label }}</legend>
+    <legend v-if="label" class="ui-form-radio-group__legend">
+      {{ label }}
+    </legend>
 
     <RadioGroupRoot
       v-model="selected"
       :disabled="disabled"
       :orientation="orientation"
-      :class="orientation === 'horizontal' ? 'ui-form-radio-group__items--horizontal' : 'ui-form-radio-group__items--vertical'"
+      :class="
+        orientation === 'horizontal'
+          ? 'ui-form-radio-group__items--horizontal'
+          : 'ui-form-radio-group__items--vertical'
+      "
     >
       <label
         v-for="item in items"
@@ -55,7 +61,11 @@ function isItemDisabled(item: FormRadioGroupItem): boolean {
             :value="item.value"
             :disabled="isItemDisabled(item)"
             class="ui-form-radio-circle"
-            :class="selected === item.value ? 'ui-form-radio-circle--selected' : 'ui-form-radio-circle--unselected'"
+            :class="
+              selected === item.value
+                ? 'ui-form-radio-circle--selected'
+                : 'ui-form-radio-circle--unselected'
+            "
           >
             <RadioGroupIndicator class="ui-form-radio-indicator" />
           </RadioGroupItem>

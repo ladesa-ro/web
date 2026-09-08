@@ -26,8 +26,9 @@ const selectedColecaoQuery = colecoes.findOne(
   computed(() => fieldValue.value ?? null)
 );
 const selectedColor = computed(
-  () => (selectedColecaoQuery.data.value as { cor?: string | null } | null)
-    ?.cor ?? null
+  () =>
+    (selectedColecaoQuery.data.value as { cor?: string | null } | null)?.cor ??
+    null
 );
 </script>
 

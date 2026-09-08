@@ -10,7 +10,9 @@ defineProps<FormOptionFieldArrowProps>();
     class="ui-option-field-arrow"
     :class="[
       open ? 'ui-option-field-arrow--open' : 'ui-option-field-arrow--closed',
-      disabled ? 'ui-option-field-arrow--disabled' : 'ui-option-field-arrow--enabled',
+      disabled
+        ? 'ui-option-field-arrow--disabled'
+        : 'ui-option-field-arrow--enabled',
     ]"
   />
 </template>

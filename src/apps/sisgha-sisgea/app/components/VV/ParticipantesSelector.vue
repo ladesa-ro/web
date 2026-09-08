@@ -32,7 +32,10 @@ const { value: fieldValue, errorMessage } = useField<IParticipantesData>(
       @update:model-value="fieldValue = $event"
     />
 
-    <p v-if="errorMessage" class="error-message u-text-xs u-font-semibold u-px-1">
+    <p
+      v-if="errorMessage"
+      class="error-message u-text-xs u-font-semibold u-px-1"
+    >
       {{ errorMessage }}
     </p>
   </div>

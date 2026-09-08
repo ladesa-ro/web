@@ -59,7 +59,10 @@ const getDisplayValue = (value: string) => {
     class="ui-autocomplete"
     :class="disabled && 'ui-autocomplete--disabled'"
   >
-    <ComboboxAnchor class="ui-input-base ui-autocomplete__anchor" :class="{ 'ui-input-has-error': error }">
+    <ComboboxAnchor
+      class="ui-input-base ui-autocomplete__anchor"
+      :class="{ 'ui-input-has-error': error }"
+    >
       <label>{{ label }}</label>
 
       <ComboboxInput
@@ -72,7 +75,11 @@ const getDisplayValue = (value: string) => {
         @blur="onBlur?.()"
       />
 
-      <ComboboxCancel v-if="selectedOption && !disabled" class="ui-autocomplete__clear" @click="selectedOption = null">
+      <ComboboxCancel
+        v-if="selectedOption && !disabled"
+        class="ui-autocomplete__clear"
+        @click="selectedOption = null"
+      >
         <IconClose class="ui-autocomplete__clear-icon" />
       </ComboboxCancel>
 
@@ -82,11 +89,21 @@ const getDisplayValue = (value: string) => {
     </ComboboxAnchor>
 
     <ComboboxPortal>
-      <ComboboxContent class="ui-input-base-content ui-autocomplete__content" position="popper">
+      <ComboboxContent
+        class="ui-input-base-content ui-autocomplete__content"
+        position="popper"
+      >
         <ComboboxViewport class="ui-autocomplete__viewport">
-          <ComboboxEmpty class="ui-autocomplete__no-results">Nenhum resultado encontrado</ComboboxEmpty>
+          <ComboboxEmpty class="ui-autocomplete__no-results"
+            >Nenhum resultado encontrado</ComboboxEmpty
+          >
 
-          <FormOptionItem v-for="item in items" :key="item.value" mode="autocomplete" :item="item" />
+          <FormOptionItem
+            v-for="item in items"
+            :key="item.value"
+            mode="autocomplete"
+            :item="item"
+          />
         </ComboboxViewport>
       </ComboboxContent>
     </ComboboxPortal>

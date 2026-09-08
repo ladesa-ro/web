@@ -25,11 +25,7 @@ defineEmits(['close']);
   <div
     class="access-role u-flex u-flex-col u-justify-between u-items-center u-p-5 u-rounded-lg u-font-semibold"
   >
-    <UITitle
-      variant="mini"
-      text="Alternar cargo"
-      class="access-role__title"
-    />
+    <UITitle variant="mini" text="Alternar cargo" class="access-role__title" />
 
     <section
       class="access-role__buttons u-flex u-justify-between u-gap-3-5 u-w-full"

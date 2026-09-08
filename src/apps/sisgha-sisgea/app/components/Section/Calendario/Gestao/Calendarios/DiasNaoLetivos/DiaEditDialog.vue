@@ -100,9 +100,7 @@ defineExpose({ resetForEdit, resetForCreate });
         <VVTextField name="feriado" label="Nome" placeholder="Nome do dia" />
 
         <div class="u-flex u-flex-col u-gap-1-5">
-          <span class="dia-edit-dialog__label u-font-semibold u-px-1"
-            >Cor</span
-          >
+          <span class="dia-edit-dialog__label u-font-semibold u-px-1">Cor</span>
           <VVColorPalette name="cor" />
         </div>
 
@@ -139,5 +137,4 @@ defineExpose({ resetForEdit, resetForCreate });
 .dia-edit-dialog__label {
   font-size: 0.813rem;
 }
-
 </style>

@@ -262,5 +262,4 @@ const selectedCalendarItem = computed({
 .calendario-empty-state {
   margin-top: 3.75rem;
 }
-
 </style>

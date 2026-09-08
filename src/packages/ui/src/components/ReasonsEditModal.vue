@@ -119,7 +119,9 @@ const onClose = () => emit('fechar');
                 >
                   {{ horario }}
                 </span>
-                <span v-if="index < item.dias.length - 1" class="u-mr-1">,</span>
+                <span v-if="index < item.dias.length - 1" class="u-mr-1"
+                  >,</span
+                >
               </template>
             </div>
 

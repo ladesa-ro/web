@@ -136,7 +136,9 @@ function handleModalClose() {
     <UIBreadcrumbDapeBreadcrumb>
       <div class="u-flex u-items-center u-gap-2">
         <SectionCalendarioExportIcsModal
-          :date-start="filtersStore.gestaoEventosPeriodoInicio ?? exportDefaultStart"
+          :date-start="
+            filtersStore.gestaoEventosPeriodoInicio ?? exportDefaultStart
+          "
           :date-end="filtersStore.gestaoEventosPeriodoFim ?? exportDefaultEnd"
           :tipo="filtersStore.gestaoEventosTipo"
         />
@@ -179,7 +181,9 @@ function handleModalClose() {
         />
       </div>
 
-      <div class="gestao-eventos__periodo-wrap u-flex u-items-end u-gap-2 u-w-full">
+      <div
+        class="gestao-eventos__periodo-wrap u-flex u-items-end u-gap-2 u-w-full"
+      >
         <div class="gestao-eventos__field-w40 u-flex-1">
           <UIFormTextField
             :model-value="filtersStore.gestaoEventosPeriodoInicio ?? undefined"
@@ -384,5 +388,4 @@ function handleModalClose() {
 .gestao-eventos__error {
   color: var(--ladesa-red-color);
 }
-
 </style>

@@ -13,15 +13,17 @@ const { items: itemsProps } = defineProps<RadioProps>();
 
 const items = computed(() => getParsedOptionItems(itemsProps));
 
-//
-
 const selectedRadio = defineModel<AcceptableValue>({ default: null });
 </script>
 
 <template>
   <RadioGroup v-model="selectedRadio">
     <label v-for="item in items" :key="item.value" class="ui-radio-label">
-      <Radio v-if="$slots['default']" :value="item.value" class="ui-radio-item--full">
+      <Radio
+        v-if="$slots['default']"
+        :value="item.value"
+        class="ui-radio-item--full"
+      >
         <slot :item="item" :selected="item.value === selectedRadio" />
       </Radio>
 

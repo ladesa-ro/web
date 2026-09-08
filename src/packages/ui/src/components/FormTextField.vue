@@ -6,7 +6,10 @@ import type { FormTextFieldProps } from './form-input-types';
 
 defineOptions({ inheritAttrs: false });
 
-type Props = FormTextFieldProps & { error?: string; modelValue?: string | number };
+type Props = FormTextFieldProps & {
+  error?: string;
+  modelValue?: string | number;
+};
 
 const {
   type = 'text',
@@ -52,7 +55,11 @@ const emit = defineEmits(['update:modelValue', 'blur']);
 
   <template v-else>
     <div>
-      <div v-bind="$attrs" class="ui-input-base" :class="{ 'ui-input-has-error': !!error }">
+      <div
+        v-bind="$attrs"
+        class="ui-input-base"
+        :class="{ 'ui-input-has-error': !!error }"
+      >
         <label v-if="label">
           {{ label }}
         </label>

@@ -43,7 +43,9 @@ const selectedCourseTurmas = computed(() => {
   return item.turmas.map(turma => turma.turma.periodo);
 });
 
-const { data: disciplinaImageUrl } = useDisciplinas().imageCover(computed(() => subject.disciplina?.id ?? null));
+const { data: disciplinaImageUrl } = useDisciplinas().imageCover(
+  computed(() => subject.disciplina?.id ?? null)
+);
 </script>
 
 <template>
@@ -55,13 +57,18 @@ const { data: disciplinaImageUrl } = useDisciplinas().imageCover(computed(() => 
       :src="disciplinaImageUrl ?? undefined"
     />
 
-    <div v-else class="carousel-item__cover carousel-item__cover--placeholder u-w-full" />
+    <div
+      v-else
+      class="carousel-item__cover carousel-item__cover--placeholder u-w-full"
+    />
 
     <!-- card body -->
     <main class="u-p-4">
       <h1>{{ subject.disciplina.nomeAbreviado }}</h1>
 
-      <div class="course-and-classes border-card u-rounded-lg u-mt-3 u-py-3 u-text-sm">
+      <div
+        class="course-and-classes border-card u-rounded-lg u-mt-3 u-py-3 u-text-sm"
+      >
         <!-- navigation -->
         <UIOptionsCarousel
           v-model="selectedCourse"

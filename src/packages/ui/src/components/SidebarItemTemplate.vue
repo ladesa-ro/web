@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import IconArrowSidebar from '../icons/Arrow/ArrowSidebar.vue';
-import type { SidebarItemGroupModel, SidebarItemLinkModel } from './sidebar-item';
+import type {
+  SidebarItemGroupModel,
+  SidebarItemLinkModel,
+} from './sidebar-item';
 
 export type SidebarItemTemplateProps = {
   item: SidebarItemLinkModel | SidebarItemGroupModel;

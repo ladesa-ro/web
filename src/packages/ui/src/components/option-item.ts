@@ -5,7 +5,9 @@ export type ParsedOptionItem = {
   value: any;
 };
 
-export const getParsedOptionItems = (items: OptionItem[]): ParsedOptionItem[] => {
+export const getParsedOptionItems = (
+  items: OptionItem[]
+): ParsedOptionItem[] => {
   return items.map(item => {
     if (typeof item === 'string' || typeof item === 'number') {
       return {

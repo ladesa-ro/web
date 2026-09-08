@@ -134,9 +134,7 @@ const possuiPendencias = computed(() => {
 
     <!-- Pending new configs (novo arranjo) -->
     <div v-if="possuiPendencias" class="u-flex u-flex-col u-gap-2">
-      <h3 class="config-group-title u-text-xs u-font-semibold">
-        Novo arranjo
-      </h3>
+      <h3 class="config-group-title u-text-xs u-font-semibold">Novo arranjo</h3>
 
       <!-- Pending additions -->
       <div

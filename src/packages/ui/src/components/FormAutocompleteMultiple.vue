@@ -33,7 +33,7 @@ const props = withDefaults(
   {
     getValue: undefined,
     buildItem: undefined,
-  },
+  }
 );
 
 const items = computed(() => getParsedOptionItems(props.items));
@@ -50,8 +50,12 @@ const search = defineModel<string>('searchTerm', {
 
 const open = ref(false);
 
-const getValueFn = computed(() => props.getValue ?? ((v: any) => v as string | number));
-const buildItemFn = computed(() => props.buildItem ?? ((v: string | number) => v));
+const getValueFn = computed(
+  () => props.getValue ?? ((v: any) => v as string | number)
+);
+const buildItemFn = computed(
+  () => props.buildItem ?? ((v: string | number) => v)
+);
 
 const primitiveValues = computed({
   get: () => (modelValue.value ?? []).map(getValueFn.value),
@@ -77,10 +81,17 @@ const selectedTags = computed(() => {
     :class="disabled && 'ui-autocomplete--disabled'"
     multiple
   >
-    <ComboboxAnchor class="ui-input-base ui-autocomplete__anchor ui-autocomplete-multiple__anchor" :class="{ 'ui-input-has-error': error }">
+    <ComboboxAnchor
+      class="ui-input-base ui-autocomplete__anchor ui-autocomplete-multiple__anchor"
+      :class="{ 'ui-input-has-error': error }"
+    >
       <label>{{ label }}</label>
 
-      <TagsInputRoot v-model="primitiveValues" class="ui-autocomplete-multiple__tags" delimiter="">
+      <TagsInputRoot
+        v-model="primitiveValues"
+        class="ui-autocomplete-multiple__tags"
+        delimiter=""
+      >
         <TagsInputItem
           v-for="tag in selectedTags"
           :key="tag.value"
@@ -100,7 +111,10 @@ const selectedTags = computed(() => {
           @blur="onBlur?.()"
           @click="open = true"
         >
-          <TagsInputInput class="ui-autocomplete-multiple__tag-input" @click="open = true" />
+          <TagsInputInput
+            class="ui-autocomplete-multiple__tag-input"
+            @click="open = true"
+          />
         </ComboboxInput>
       </TagsInputRoot>
 
@@ -119,11 +133,21 @@ const selectedTags = computed(() => {
     </ComboboxAnchor>
 
     <ComboboxPortal>
-      <ComboboxContent class="ui-input-base-content ui-autocomplete__content" position="popper">
+      <ComboboxContent
+        class="ui-input-base-content ui-autocomplete__content"
+        position="popper"
+      >
         <ComboboxViewport class="ui-autocomplete__viewport">
-          <ComboboxEmpty class="ui-autocomplete__no-results">Nenhum resultado encontrado</ComboboxEmpty>
+          <ComboboxEmpty class="ui-autocomplete__no-results"
+            >Nenhum resultado encontrado</ComboboxEmpty
+          >
 
-          <FormOptionItem v-for="item in items" :key="item.value" mode="autocomplete" :item="item" />
+          <FormOptionItem
+            v-for="item in items"
+            :key="item.value"
+            mode="autocomplete"
+            :item="item"
+          />
         </ComboboxViewport>
       </ComboboxContent>
     </ComboboxPortal>

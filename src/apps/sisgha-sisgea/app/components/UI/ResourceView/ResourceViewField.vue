@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-import { ResourceViewField, type ResourceViewFieldProps } from '@ladesa-ro/web.ui';
+import {
+  ResourceViewField,
+  type ResourceViewFieldProps,
+} from '@ladesa-ro/web.ui';
 
 defineProps<ResourceViewFieldProps>();
 </script>

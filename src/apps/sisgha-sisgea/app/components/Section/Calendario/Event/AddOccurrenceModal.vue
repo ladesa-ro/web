@@ -14,8 +14,11 @@ const emit = defineEmits<{
 
 const agendamento = useCalendarioAgendamento();
 
-const { handle: handleWriteError, conflictMessage, clearConflictMessage } =
-  useApiWriteErrorHandler();
+const {
+  handle: handleWriteError,
+  conflictMessage,
+  clearConflictMessage,
+} = useApiWriteErrorHandler();
 
 const isOpen = ref(props.modelValue);
 const isSubmitting = ref(false);
@@ -80,8 +83,8 @@ async function submit() {
       :on-close="cancel"
     >
       <p class="u-text-sm add-occurrence-modal__description">
-        Adiciona uma ocorrência extra a esta série recorrente, fora da regra
-        de repetição definida.
+        Adiciona uma ocorrência extra a esta série recorrente, fora da regra de
+        repetição definida.
       </p>
 
       <p
@@ -108,7 +111,11 @@ async function submit() {
       </div>
 
       <template #button-group>
-        <UIButtonModalCancel type="close" class="u-flex u-w-full" @click="cancel" />
+        <UIButtonModalCancel
+          type="close"
+          class="u-flex u-w-full"
+          @click="cancel"
+        />
         <UIButtonModalConfirm
           type="submit"
           class="u-flex u-w-full"

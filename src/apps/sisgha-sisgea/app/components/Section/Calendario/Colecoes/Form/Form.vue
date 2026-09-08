@@ -60,9 +60,7 @@ const visibilidadeHint = computed(() => {
 <template>
   <form @submit.prevent="onSubmit">
     <UIFormLayout
-      :title="
-        mode === FormMode.MANAGE ? 'Editar coleção' : 'Nova coleção'
-      "
+      :title="mode === FormMode.MANAGE ? 'Editar coleção' : 'Nova coleção'"
       :mode="mode"
       :is-busy="isBusy"
       :on-close="() => emit('close')"
@@ -71,9 +69,7 @@ const visibilidadeHint = computed(() => {
       <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
 
       <div class="u-flex u-flex-col u-gap-1-5">
-        <span class="colecoes-form__label u-font-semibold u-px-1">
-          Cor
-        </span>
+        <span class="colecoes-form__label u-font-semibold u-px-1"> Cor </span>
         <VVColorPalette name="cor" />
       </div>
 
@@ -84,7 +80,9 @@ const visibilidadeHint = computed(() => {
           :items="visibilidadeItems"
           :required="true"
         />
-        <p class="colecoes-form__hint u-text-xs u-px-1">{{ visibilidadeHint }}</p>
+        <p class="colecoes-form__hint u-text-xs u-px-1">
+          {{ visibilidadeHint }}
+        </p>
       </div>
 
       <VVAutocompleteAPICampus

@@ -114,9 +114,7 @@ function handleExclusiveCancel() {
   <div v-if="isManageMode" class="u-flex u-flex-col u-gap-3 u-pt-2">
     <div class="u-flex u-items-center u-justify-between">
       <div class="eventos-header u-flex u-items-center u-pl-1">
-        <span class="eventos-header__title u-font-semibold">
-          Eventos
-        </span>
+        <span class="eventos-header__title u-font-semibold"> Eventos </span>
       </div>
 
       <button
@@ -150,9 +148,7 @@ function handleExclusiveCancel() {
 
   <div v-else class="u-flex u-flex-col u-gap-3 u-pt-2">
     <div class="eventos-header u-flex u-items-center u-pl-1">
-      <span class="eventos-header__title u-font-semibold">
-        Eventos
-      </span>
+      <span class="eventos-header__title u-font-semibold"> Eventos </span>
     </div>
     <p class="eventos-note u-text-center">
       Salve a turma para gerenciar eventos.
@@ -249,5 +245,4 @@ function handleExclusiveCancel() {
   max-width: 20rem;
   overflow-wrap: break-word;
 }
-
 </style>

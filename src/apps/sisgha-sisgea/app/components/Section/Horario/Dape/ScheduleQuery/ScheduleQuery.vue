@@ -97,7 +97,9 @@ provide('editMode', editMode);
 
       <ButtonsEditMode>
         <Button :disabled="!canUndo" @click="undo()">
-          <IconsUndoRedo class="schedule-query-icon schedule-query-icon--flipped" />
+          <IconsUndoRedo
+            class="schedule-query-icon schedule-query-icon--flipped"
+          />
         </Button>
 
         <Button :disabled="!canRedo" @click="redo()">

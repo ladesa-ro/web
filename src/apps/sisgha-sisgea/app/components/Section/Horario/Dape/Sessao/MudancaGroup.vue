@@ -24,7 +24,9 @@ const style = computed(() => ({
     >
       <span class="mudanca-group__dot u-rounded-full" />
       {{ titulo }}
-      <span class="mudanca-group__count u-text-sm u-font-regular">({{ itens.length }})</span>
+      <span class="mudanca-group__count u-text-sm u-font-regular"
+        >({{ itens.length }})</span
+      >
     </h2>
 
     <ul class="u-flex u-flex-col u-gap-2">

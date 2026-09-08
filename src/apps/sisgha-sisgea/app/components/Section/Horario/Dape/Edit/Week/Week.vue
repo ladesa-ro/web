@@ -52,7 +52,11 @@ const startHours: Ref<HoursPerShift> = ref(
     </div>
 
     <div class="u-flex u-flex-col u-gap-5">
-      <div v-for="(shift, shiftIndex) in shiftNames" :key="shift" class="u-flex">
+      <div
+        v-for="(shift, shiftIndex) in shiftNames"
+        :key="shift"
+        class="u-flex"
+      >
         <SectionHorarioDapeEditPopoverDayAndShift
           class="week__shift-label"
           :class="[
@@ -186,7 +190,8 @@ const startHours: Ref<HoursPerShift> = ref(
 }
 
 .week__hour-cell {
-  border-bottom: 2px solid rgb(from var(--ladesa-text-default-color) R G B / 55%);
+  border-bottom: 2px solid
+    rgb(from var(--ladesa-text-default-color) R G B / 55%);
   min-height: 1.5rem;
   font-size: 0.813rem;
 }

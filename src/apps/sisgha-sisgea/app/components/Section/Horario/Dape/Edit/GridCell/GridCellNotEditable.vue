@@ -10,7 +10,9 @@ const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
     v-show="showBreaks ? true : type !== 'intervalo'"
     class="grid-cell-not-editable"
   >
-    <div class="grid-cell-not-editable__content u-py-0-5 u-text-center u-h-full">
+    <div
+      class="grid-cell-not-editable__content u-py-0-5 u-text-center u-h-full"
+    >
       <span v-if="type === 'intervalo'" class="grid-cell-not-editable__label">
         Intervalo
       </span>

@@ -21,7 +21,9 @@ const collapseTarget = computed(() => props.collapseTarget ?? 'secondary');
 
 const secondaryEnabled = computed(() => props.showSecondary);
 
-const isSinglePanel = computed(() => !secondaryEnabled.value || props.collapsed);
+const isSinglePanel = computed(
+  () => !secondaryEnabled.value || props.collapsed
+);
 
 const showPrimary = computed(() => {
   if (!secondaryEnabled.value) return true;

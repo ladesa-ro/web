@@ -5,7 +5,11 @@ import {
   CheckboxRoot as Checkbox,
 } from 'reka-ui';
 import CheckboxSquare from './CheckboxSquare.vue';
-import { getParsedOptionItems, type OptionItem, type ParsedOptionItem } from './option-item';
+import {
+  getParsedOptionItems,
+  type OptionItem,
+  type ParsedOptionItem,
+} from './option-item';
 
 export type CheckboxProps = {
   items: OptionItem[];
@@ -22,13 +26,13 @@ const {
 const items = getParsedOptionItems(itemsProps);
 const checkedItems = defineModel<AcceptableValue[]>({ default: [] });
 
-//
-
 const invertItem = (item: ParsedOptionItem) => {
   if (disabledItems.includes(item.value)) return;
 
   if (checkedItems.value.includes(item.value)) {
-    checkedItems.value = checkedItems.value.filter(value => value !== item.value);
+    checkedItems.value = checkedItems.value.filter(
+      value => value !== item.value
+    );
   } else {
     checkedItems.value.push(item.value);
   }
@@ -42,7 +46,9 @@ const invertItem = (item: ParsedOptionItem) => {
       :key="item.value"
       class="ui-checkbox-label"
       :style="{ gap }"
-      :class="{ 'ui-checkbox-label--disabled': disabledItems.includes(item.value) }"
+      :class="{
+        'ui-checkbox-label--disabled': disabledItems.includes(item.value),
+      }"
     >
       <Checkbox
         v-if="$slots['default']"

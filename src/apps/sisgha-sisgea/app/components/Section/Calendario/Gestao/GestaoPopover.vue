@@ -17,17 +17,23 @@ const open = ref(false);
 
       <div class="u-flex u-gap-4">
         <NuxtLink to="/sisgha/dape/calendario/gestao-calendarios" class="link">
-          <IconsCalendar class="gestao-popover__icon gestao-popover__icon--md icon" />
+          <IconsCalendar
+            class="gestao-popover__icon gestao-popover__icon--md icon"
+          />
           Calendários
         </NuxtLink>
 
         <NuxtLink to="/sisgha/dape/calendario/gestao-eventos" class="link">
-          <IconsEvent class="gestao-popover__icon gestao-popover__icon--lg icon" />
+          <IconsEvent
+            class="gestao-popover__icon gestao-popover__icon--lg icon"
+          />
           Eventos
         </NuxtLink>
 
         <NuxtLink to="/sisgha/dape/calendario/colecoes" class="link">
-          <IconsCalendar class="gestao-popover__icon gestao-popover__icon--md icon" />
+          <IconsCalendar
+            class="gestao-popover__icon gestao-popover__icon--md icon"
+          />
           Coleções
         </NuxtLink>
       </div>

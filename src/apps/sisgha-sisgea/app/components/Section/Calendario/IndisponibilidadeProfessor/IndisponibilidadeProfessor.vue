@@ -50,10 +50,14 @@ const queryParams = computed(() => {
 });
 
 const { data: professorListData, isLoading: professorIsLoading } =
-  professorComposable.list(computed(() => (isProfessor ? queryParams.value : undefined)));
+  professorComposable.list(
+    computed(() => (isProfessor ? queryParams.value : undefined))
+  );
 
 const { data: ambienteListData, isLoading: ambienteIsLoading } =
-  ambienteComposable.list(computed(() => (!isProfessor ? queryParams.value : undefined)));
+  ambienteComposable.list(
+    computed(() => (!isProfessor ? queryParams.value : undefined))
+  );
 
 const items = computed<IndisponibilidadeItem[]>(() =>
   isProfessor
@@ -157,7 +161,10 @@ async function handleConfirmDelete() {
 
 <template>
   <div class="u-flex u-flex-col u-gap-6">
-    <div v-if="showSelector" class="u-w-full indisponibilidade-professor__selector">
+    <div
+      v-if="showSelector"
+      class="u-w-full indisponibilidade-professor__selector"
+    >
       <ProfessorSelector v-model="selectorValue" />
     </div>
 
@@ -172,7 +179,9 @@ async function handleConfirmDelete() {
     </template>
 
     <template v-else-if="isLoading">
-      <div class="u-text-center u-py-8 indisponibilidade-professor__status">Carregando...</div>
+      <div class="u-text-center u-py-8 indisponibilidade-professor__status">
+        Carregando...
+      </div>
     </template>
 
     <template v-else>

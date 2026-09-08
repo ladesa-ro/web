@@ -102,8 +102,12 @@ function getIntervalError(
     :class="open ? 'grade-accordion--open' : 'grade-accordion--closed'"
   >
     <template #trigger>
-      <div class="u-flex u-justify-between u-items-center grade-accordion__header">
-        <div class="u-flex u-items-center u-gap-2 u-flex-1 grade-accordion__title-wrap">
+      <div
+        class="u-flex u-justify-between u-items-center grade-accordion__header"
+      >
+        <div
+          class="u-flex u-items-center u-gap-2 u-flex-1 grade-accordion__title-wrap"
+        >
           <template v-if="isEditing">
             <input
               :value="props.grade.nome"
@@ -130,20 +134,29 @@ function getIntervalError(
             </button>
           </template>
           <template v-else>
-            <span class="u-font-semibold u-truncate grade-accordion__title-static">
+            <span
+              class="u-font-semibold u-truncate grade-accordion__title-static"
+            >
               {{ props.grade.nome || 'Grade sem nome' }}
             </span>
           </template>
         </div>
         <IconsArrow
           class="u-shrink-0 u-ml-2 grade-accordion__arrow"
-          :class="open ? 'grade-accordion__arrow--open' : 'grade-accordion__arrow--closed'"
+          :class="
+            open
+              ? 'grade-accordion__arrow--open'
+              : 'grade-accordion__arrow--closed'
+          "
         />
       </div>
     </template>
 
     <!-- Erro no nome (abaixo do header) -->
-    <p v-if="errors?.nome && isEditing" class="u-text-xs u-px-4 u-pt-2 grade-accordion__error-text">
+    <p
+      v-if="errors?.nome && isEditing"
+      class="u-text-xs u-px-4 u-pt-2 grade-accordion__error-text"
+    >
       {{ errors.nome }}
     </p>
 
@@ -171,7 +184,11 @@ function getIntervalError(
           />
         </div>
 
-        <div v-for="(intervalo, j) in periodo.intervalos" :key="j" class="u-mb-2">
+        <div
+          v-for="(intervalo, j) in periodo.intervalos"
+          :key="j"
+          class="u-mb-2"
+        >
           <div
             class="u-flex u-flex-wrap u-items-center u-justify-center u-gap-2 u-p-3 grade-accordion__interval-row"
             :class="

@@ -6,7 +6,9 @@ defineProps<Props>();
 
 const { usuario } = useApiContext();
 
-const { data: profilePicureUrl } = useUsuarios().imageProfile(computed(() => usuario.value?.id ?? null));
+const { data: profilePicureUrl } = useUsuarios().imageProfile(
+  computed(() => usuario.value?.id ?? null)
+);
 
 //
 

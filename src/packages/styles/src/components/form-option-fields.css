@@ -118,7 +118,9 @@
 }
 
 .ui-form-radio-shadow {
-  --ui-form-radio-shadow-color: rgb(from var(--ladesa-green-2-color) R G B / 10%);
+  --ui-form-radio-shadow-color: rgb(
+    from var(--ladesa-green-2-color) R G B / 10%
+  );
   border-radius: var(--ui-radius-full);
 }
 

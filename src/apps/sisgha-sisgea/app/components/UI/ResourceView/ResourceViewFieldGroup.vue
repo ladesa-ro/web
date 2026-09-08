@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-import { ResourceViewFieldGroup, type ResourceViewFieldGroupProps } from '@ladesa-ro/web.ui';
+import {
+  ResourceViewFieldGroup,
+  type ResourceViewFieldGroupProps,
+} from '@ladesa-ro/web.ui';
 
 defineProps<ResourceViewFieldGroupProps>();
 </script>

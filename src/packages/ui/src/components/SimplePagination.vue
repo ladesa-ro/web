@@ -31,7 +31,9 @@ function nextPage() {
     >
       Anterior
     </button>
-    <span class="ui-pagination__label">{{ currentPage }} / {{ totalPages }}</span>
+    <span class="ui-pagination__label"
+      >{{ currentPage }} / {{ totalPages }}</span
+    >
     <button
       :disabled="currentPage >= totalPages"
       class="ui-pagination__button"

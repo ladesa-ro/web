@@ -2,15 +2,21 @@
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 
-const props = defineProps<{ colecaoId: string; donoAtualNome?: string | null }>();
+const props = defineProps<{
+  colecaoId: string;
+  donoAtualNome?: string | null;
+}>();
 const emit = defineEmits<{ transferred: [] }>();
 
 const isActive = ref(false);
 const confirmTransfer = useConfirmDelete();
 
 const colecoes = useCalendarioColecao();
-const { handle: handleWriteError, conflictMessage, clearConflictMessage } =
-  useApiWriteErrorHandler();
+const {
+  handle: handleWriteError,
+  conflictMessage,
+  clearConflictMessage,
+} = useApiWriteErrorHandler();
 
 const schema = yup.object({
   novoDono: yup
@@ -60,7 +66,10 @@ const onSubmit = handleSubmit(async formValues => {
       </UIButtonDefault>
     </template>
 
-    <DialogModalBaseLayout title="Transferir dono da coleção" :on-close="onClose">
+    <DialogModalBaseLayout
+      title="Transferir dono da coleção"
+      :on-close="onClose"
+    >
       <form class="u-flex u-flex-col u-gap-5" @submit.prevent="onSubmit">
         <p
           v-if="conflictMessage"
@@ -70,8 +79,8 @@ const onSubmit = handleSubmit(async formValues => {
         </p>
 
         <p class="transferir-dono-modal__hint u-text-sm">
-          O dono atual ({{ donoAtualNome ?? '-' }}) perderá o controle
-          implícito sobre esta coleção.
+          O dono atual ({{ donoAtualNome ?? '-' }}) perderá o controle implícito
+          sobre esta coleção.
         </p>
 
         <VVAutocompleteAPIUsuario name="novoDono.id" label="Novo dono" />

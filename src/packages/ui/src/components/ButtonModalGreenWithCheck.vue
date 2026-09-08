@@ -6,7 +6,11 @@ defineProps<{ text: string }>();
 </script>
 
 <template>
-  <ButtonModalBaseLayout :text="text" color="var(--ladesa-green-2-color)" type="submit">
+  <ButtonModalBaseLayout
+    :text="text"
+    color="var(--ladesa-green-2-color)"
+    type="submit"
+  >
     <IconConfirm />
   </ButtonModalBaseLayout>
 </template>

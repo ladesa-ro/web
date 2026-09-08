@@ -20,7 +20,10 @@ const hasError = computed(() => !!props.error);
 
 <template>
   <div class="ui-time-range-field">
-    <div class="ui-input-base ui-input-base--centered" :class="{ 'ui-input-has-error': hasError }">
+    <div
+      class="ui-input-base ui-input-base--centered"
+      :class="{ 'ui-input-has-error': hasError }"
+    >
       <label v-if="label">{{ label }}</label>
 
       <div class="ui-time-range-field__row">

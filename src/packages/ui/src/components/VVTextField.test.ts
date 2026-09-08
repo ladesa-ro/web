@@ -7,12 +7,11 @@ import VVTextField from './VVTextField.vue';
 const mountField = (disabled: ReturnType<typeof ref<boolean>>) =>
   mount(
     defineComponent({
-      setup: () =>
-        () =>
-          h(Form, null, {
-            default: () =>
-              h(VVTextField, { name: 'nome', disabled: disabled.value }),
-          }),
+      setup: () => () =>
+        h(Form, null, {
+          default: () =>
+            h(VVTextField, { name: 'nome', disabled: disabled.value }),
+        }),
     }),
     { attachTo: document.body }
   );

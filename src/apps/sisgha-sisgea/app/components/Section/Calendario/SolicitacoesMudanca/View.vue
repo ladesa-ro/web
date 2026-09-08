@@ -112,7 +112,9 @@ const recusarOpen = ref(false);
         </div>
 
         <div class="u-flex u-flex-col u-gap-1">
-          <span class="u-text-xs u-font-semibold view__muted-text">Proposto</span>
+          <span class="u-text-xs u-font-semibold view__muted-text"
+            >Proposto</span
+          >
 
           <template v-if="solicitacao.tipoOperacao === 'REMOVER'">
             <span class="u-text-sm u-font-medium view__danger-text">
@@ -135,7 +137,10 @@ const recusarOpen = ref(false);
                 dadosPropostos.horarioFim ?? '—'
               }}
             </span>
-            <span v-if="ambientePropostoQuery.data.value" class="u-text-sm view__muted-text">
+            <span
+              v-if="ambientePropostoQuery.data.value"
+              class="u-text-sm view__muted-text"
+            >
               {{ ambientePropostoQuery.data.value.nome }}
             </span>
           </template>
@@ -143,7 +148,9 @@ const recusarOpen = ref(false);
       </div>
 
       <div class="u-flex u-flex-col u-gap-1">
-        <span class="u-text-xs u-font-semibold view__muted-text">Justificativa</span>
+        <span class="u-text-xs u-font-semibold view__muted-text"
+          >Justificativa</span
+        >
         <p class="u-text-sm">{{ solicitacao.justificativa }}</p>
       </div>
 
@@ -151,8 +158,13 @@ const recusarOpen = ref(false);
         Autor: {{ solicitacao.autor.nome ?? '—' }}
       </div>
 
-      <div v-if="solicitacao.status === 'RECUSADA'" class="u-flex u-flex-col u-gap-1">
-        <span class="u-text-xs u-font-semibold view__muted-text">Motivo da recusa</span>
+      <div
+        v-if="solicitacao.status === 'RECUSADA'"
+        class="u-flex u-flex-col u-gap-1"
+      >
+        <span class="u-text-xs u-font-semibold view__muted-text"
+          >Motivo da recusa</span
+        >
         <p class="u-text-sm">{{ solicitacao.motivoRecusa || '—' }}</p>
       </div>
     </div>
@@ -203,5 +215,4 @@ const recusarOpen = ref(false);
 .view__danger-text {
   color: var(--ladesa-red-color);
 }
-
 </style>

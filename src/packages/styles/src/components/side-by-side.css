@@ -39,9 +39,7 @@
   height: 100%;
 }
 
-.ui-side-by-side__content--dual
-  .ui-side-by-side__panel--grid
-  .ui-modal-layout {
+.ui-side-by-side__content--dual .ui-side-by-side__panel--grid .ui-modal-layout {
   max-width: none;
   width: 100%;
   height: 100%;

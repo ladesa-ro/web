@@ -198,7 +198,10 @@ watch(
 
 <template>
   <div>
-    <div v-show="_formStage === 1" class="u-flex u-flex-col u-gap-4 calendar-crud__overflow-visible">
+    <div
+      v-show="_formStage === 1"
+      class="u-flex u-flex-col u-gap-4 calendar-crud__overflow-visible"
+    >
       <VVTextField
         name="calendarName"
         type="text"
@@ -226,7 +229,10 @@ watch(
       />
     </div>
 
-    <div v-show="_formStage === 2" class="u-flex u-flex-col u-gap-4 calendar-crud__stage-two">
+    <div
+      v-show="_formStage === 2"
+      class="u-flex u-flex-col u-gap-4 calendar-crud__stage-two"
+    >
       <div
         v-if="isEditMode && calendarQuery.isLoading.value"
         class="u-flex u-items-center u-justify-center calendar-crud__loading"

@@ -4,7 +4,11 @@ import ButtonModalBaseLayout from './ButtonModalBaseLayout.vue';
 </script>
 
 <template>
-  <ButtonModalBaseLayout text="Cancelar" color="var(--ladesa-grey-color)" type="button">
+  <ButtonModalBaseLayout
+    text="Cancelar"
+    color="var(--ladesa-grey-color)"
+    type="button"
+  >
     <IconClose />
   </ButtonModalBaseLayout>
 </template>

@@ -14,5 +14,7 @@ type Story = StoryObj<typeof meta>;
 export const ComTexto: Story = {};
 
 export const TextoLongoTruncado: Story = {
-  args: { text: 'Formação: ' + 'Bacharelado em Sistemas de Informação '.repeat(4) },
+  args: {
+    text: 'Formação: ' + 'Bacharelado em Sistemas de Informação '.repeat(4),
+  },
 };

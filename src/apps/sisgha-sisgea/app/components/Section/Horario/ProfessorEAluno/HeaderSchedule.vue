@@ -41,7 +41,11 @@ function onSelectDay(day: Dayjs) {
         @select="onSelectDay"
       >
         <IconsArrow
-          :class="open ? 'header-schedule__arrow--open' : 'header-schedule__arrow--closed'"
+          :class="
+            open
+              ? 'header-schedule__arrow--open'
+              : 'header-schedule__arrow--closed'
+          "
           class="header-schedule__arrow"
         />
       </UIPopoverCalendar>

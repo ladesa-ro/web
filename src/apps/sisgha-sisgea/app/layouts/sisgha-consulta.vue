@@ -2,9 +2,7 @@
   <div class="u-flex u-flex-col u-overflow-hidden sisgha-consulta-layout">
     <AppbarPublicConsultation />
 
-    <div
-      class="u-flex-1 u-flex u-flex-col sisgha-consulta-layout__body"
-    >
+    <div class="u-flex-1 u-flex u-flex-col sisgha-consulta-layout__body">
       <main
         class="u-flex-1 u-py-10 u-flex u-flex-col sisgha-consulta-layout__main"
       >

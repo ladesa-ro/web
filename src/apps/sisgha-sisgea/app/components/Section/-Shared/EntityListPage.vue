@@ -22,8 +22,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 defineSlots<{ filters(): VNode[] }>();
 
-// `filter` chega já desembrulhado pelo template do pai, então reembrulha num
-// computed sobre props para o contexto continuar reagindo a troca de campus.
 const options = createApiListContextOptions({
   crudModule: props.crudModule,
   filter: computed(() => props.filter),

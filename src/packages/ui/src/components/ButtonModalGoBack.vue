@@ -4,7 +4,11 @@ import ButtonModalBaseLayout from './ButtonModalBaseLayout.vue';
 </script>
 
 <template>
-  <ButtonModalBaseLayout text="Voltar" color="var(--ladesa-grey-color)" type="button">
+  <ButtonModalBaseLayout
+    text="Voltar"
+    color="var(--ladesa-grey-color)"
+    type="button"
+  >
     <IconArrowArrowAlt />
   </ButtonModalBaseLayout>
 </template>

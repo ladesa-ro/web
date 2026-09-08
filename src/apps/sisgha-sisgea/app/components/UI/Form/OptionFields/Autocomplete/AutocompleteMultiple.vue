@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { FormAutocompleteMultiple, type FormAutocompleteProps } from '@ladesa-ro/web.ui';
+import {
+  FormAutocompleteMultiple,
+  type FormAutocompleteProps,
+} from '@ladesa-ro/web.ui';
 
 defineProps<
   FormAutocompleteProps & {

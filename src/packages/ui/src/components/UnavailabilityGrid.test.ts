@@ -49,9 +49,7 @@ describe('UnavailabilityGrid', () => {
 
   it('stripes only the non-blocking entries', () => {
     const wrapper = mountGrid();
-    const striped = wrapper.findAll(
-      '.ui-unavailability-grid__block--striped'
-    );
+    const striped = wrapper.findAll('.ui-unavailability-grid__block--striped');
     expect(striped).toHaveLength(1);
     expect(striped[0]?.text()).toBe('14:00–15:00');
     wrapper.unmount();

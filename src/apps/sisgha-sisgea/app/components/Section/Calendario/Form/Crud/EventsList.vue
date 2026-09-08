@@ -201,7 +201,9 @@ function handleEventsUpdated() {
       />
     </div>
 
-    <div class="u-flex u-flex-col u-w-full u-h-full u-gap-4 events-list__events">
+    <div
+      class="u-flex u-flex-col u-w-full u-h-full u-gap-4 events-list__events"
+    >
       <div
         v-for="event in filteredEvents"
         :key="event.id"

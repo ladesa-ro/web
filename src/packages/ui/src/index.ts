@@ -1,12 +1,19 @@
 export { default as Alert, type AlertProps } from './components/Alert.vue';
-export { default as Breadcrumb, type BreadcrumbEntry, type BreadcrumbProps } from './components/Breadcrumb.vue';
+export {
+  default as Breadcrumb,
+  type BreadcrumbEntry,
+  type BreadcrumbProps,
+} from './components/Breadcrumb.vue';
 export { default as Button } from './components/Button.vue';
 export { default as ButtonAdd } from './components/ButtonAdd.vue';
 export { default as ButtonArrow } from './components/ButtonArrow.vue';
 export { default as ButtonEdit } from './components/ButtonEdit.vue';
 export { default as ButtonEventsList } from './components/ButtonEventsList.vue';
 export { default as ButtonModalAdvance } from './components/ButtonModalAdvance.vue';
-export { default as ButtonModalBaseLayout, type ButtonModalBaseLayoutProps } from './components/ButtonModalBaseLayout.vue';
+export {
+  default as ButtonModalBaseLayout,
+  type ButtonModalBaseLayoutProps,
+} from './components/ButtonModalBaseLayout.vue';
 export { default as ButtonModalCancel } from './components/ButtonModalCancel.vue';
 export { default as ButtonModalClearDanger } from './components/ButtonModalClearDanger.vue';
 export { default as ButtonModalConfirm } from './components/ButtonModalConfirm.vue';
@@ -24,9 +31,19 @@ export { default as FormAutocompleteMultiple } from './components/FormAutocomple
 export { default as FormCheckbox } from './components/FormCheckbox.vue';
 export { default as FormColorPalette } from './components/FormColorPalette.vue';
 export * from './components/form-input-types';
-export { default as FormOptionFieldArrow, type FormOptionFieldArrowProps } from './components/FormOptionFieldArrow.vue';
-export { default as FormOptionItem, type FormOptionItemProps } from './components/FormOptionItem.vue';
-export { default as FormRadioGroup, type FormRadioGroupItem, type FormRadioGroupProps } from './components/FormRadioGroup.vue';
+export {
+  default as FormOptionFieldArrow,
+  type FormOptionFieldArrowProps,
+} from './components/FormOptionFieldArrow.vue';
+export {
+  default as FormOptionItem,
+  type FormOptionItemProps,
+} from './components/FormOptionItem.vue';
+export {
+  default as FormRadioGroup,
+  type FormRadioGroupItem,
+  type FormRadioGroupProps,
+} from './components/FormRadioGroup.vue';
 export { default as FormSearchBar } from './components/FormSearchBar.vue';
 export { default as FormSelect } from './components/FormSelect.vue';
 export { default as FormStepper } from './components/FormStepper.vue';
@@ -306,47 +323,101 @@ export {
   type BadgeVariant,
 } from './components/Badge.vue';
 export { default as Card, type CardProps } from './components/Card.vue';
-export { default as CardActions, type CardActionsProps } from './components/CardActions.vue';
+export {
+  default as CardActions,
+  type CardActionsProps,
+} from './components/CardActions.vue';
 export { default as CardAutoSkeleton } from './components/CardAutoSkeleton.vue';
 export { default as CardLine } from './components/CardLine.vue';
 export { default as CardSelectionDiscipline } from './components/CardSelectionDiscipline.vue';
 export { default as CardSkeleton } from './components/CardSkeleton.vue';
-export { default as Checkbox, type CheckboxProps } from './components/Checkbox.vue';
-export { default as CheckboxSquare, type CheckboxSquareProps } from './components/CheckboxSquare.vue';
+export {
+  default as Checkbox,
+  type CheckboxProps,
+} from './components/Checkbox.vue';
+export {
+  default as CheckboxSquare,
+  type CheckboxSquareProps,
+} from './components/CheckboxSquare.vue';
 export { default as Collapsible } from './components/Collapsible.vue';
-export { default as Container, type ContainerProps } from './components/Container.vue';
+export {
+  default as Container,
+  type ContainerProps,
+} from './components/Container.vue';
 export { default as ContentStateEmpty } from './components/ContentStateEmpty.vue';
-export { default as DashboardLayout, type DashboardLayoutProps } from './components/DashboardLayout.vue';
+export {
+  default as DashboardLayout,
+  type DashboardLayoutProps,
+} from './components/DashboardLayout.vue';
 export { default as DefaultSquare } from './components/DefaultSquare.vue';
 export { default as Grid } from './components/Grid.vue';
 export * from './components/grid-item-slot-props';
 export { default as GridSelectionDiscipline } from './components/GridSelectionDiscipline.vue';
 export { default as GridSelectionUser } from './components/GridSelectionUser.vue';
 export { default as Footer } from './components/Footer.vue';
-export { default as FooterButton, type FooterButtonProps, type FooterLink } from './components/FooterButton.vue';
+export {
+  default as FooterButton,
+  type FooterButtonProps,
+  type FooterLink,
+} from './components/FooterButton.vue';
 export { default as Img, type ImgProps } from './components/Img.vue';
 export { default as Loading } from './components/Loading.vue';
 export * from './components/option-item';
 export * from './components/form-context';
 export * from './components/vv-field';
-export { default as OptionsCarousel, type OptionsCarouselProps } from './components/OptionsCarousel.vue';
-export { default as Pagination, type PaginationProps } from './components/SimplePagination.vue';
-export { default as Popover, type PopoverProps } from './components/Popover.vue';
+export {
+  default as OptionsCarousel,
+  type OptionsCarouselProps,
+} from './components/OptionsCarousel.vue';
+export {
+  default as Pagination,
+  type PaginationProps,
+} from './components/SimplePagination.vue';
+export {
+  default as Popover,
+  type PopoverProps,
+} from './components/Popover.vue';
 export { default as PopoverCalendar } from './components/PopoverCalendar.vue';
 export { default as ProgressCircular } from './components/ProgressCircular.vue';
 export { default as Radio, type RadioProps } from './components/Radio.vue';
-export { default as RadioCircle, type RadioCircleProps } from './components/RadioCircle.vue';
-export { default as ResourceView, type ResourceViewProps } from './components/ResourceView.vue';
-export { default as ResourceViewField, type ResourceViewFieldProps } from './components/ResourceViewField.vue';
-export { default as ResourceViewFieldGroup, type ResourceViewFieldGroupProps } from './components/ResourceViewFieldGroup.vue';
-export { default as RRuleEditor, type RRuleEditorProps } from './components/RRuleEditor.vue';
+export {
+  default as RadioCircle,
+  type RadioCircleProps,
+} from './components/RadioCircle.vue';
+export {
+  default as ResourceView,
+  type ResourceViewProps,
+} from './components/ResourceView.vue';
+export {
+  default as ResourceViewField,
+  type ResourceViewFieldProps,
+} from './components/ResourceViewField.vue';
+export {
+  default as ResourceViewFieldGroup,
+  type ResourceViewFieldGroupProps,
+} from './components/ResourceViewFieldGroup.vue';
+export {
+  default as RRuleEditor,
+  type RRuleEditorProps,
+} from './components/RRuleEditor.vue';
 export { default as SelectImage } from './components/SelectImage.vue';
 export { default as Title } from './components/Title.vue';
-export { default as Toast, type ToastItem, type ToastProps, type ToastType } from './components/Toast.vue';
+export {
+  default as Toast,
+  type ToastItem,
+  type ToastProps,
+  type ToastType,
+} from './components/Toast.vue';
 export { default as Toggle, type ToggleProps } from './components/Toggle.vue';
-export { default as ToggleButton, type ToggleButtonProps } from './components/ToggleButton.vue';
+export {
+  default as ToggleButton,
+  type ToggleButtonProps,
+} from './components/ToggleButton.vue';
 export * from './components/toggle-item';
-export { default as WeekDaySelector, type WeekDaySelectorProps } from './components/WeekDaySelector.vue';
+export {
+  default as WeekDaySelector,
+  type WeekDaySelectorProps,
+} from './components/WeekDaySelector.vue';
 
 export { default as IconAdd } from './icons/Add.vue';
 export { default as IconArrowArrow } from './icons/Arrow/Arrow.vue';

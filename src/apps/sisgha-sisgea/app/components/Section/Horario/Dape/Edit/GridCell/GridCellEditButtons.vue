@@ -67,9 +67,6 @@ onMounted(() => {
 
 const turmasOrProfessoresSelected = ref();
 
-// Quando a grade é de uma turma escolhe-se o professor, e vice-versa.
-// Centralizado aqui para os dois modos não divergirem (já divergiram: os
-// estados de carregando/erro do modo professor liam a query de professores).
 const professorItems = computed(() =>
   (professoresQuery.data.value?.data ?? []).map(professor => ({
     label: professor.nome ?? 'Nome não disponível',
