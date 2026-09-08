@@ -41,8 +41,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 25
-          cache: pnpm
-          cache-dependency-path: src/pnpm-lock.yaml
+
+      - name: Caminho do store do pnpm
+        id: pnpm-store
+        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache do store do pnpm
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store.outputs.path }}
+          key: pnpm-${{ runner.os }}-${{ hashFiles('src/pnpm-lock.yaml') }}
+          restore-keys: pnpm-${{ runner.os }}-
 
       - name: Instalação das dependências
         run: pnpm install --frozen-lockfile
