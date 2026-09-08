@@ -1,264 +1,171 @@
-# Notas de implementação
+# Notas
 
-O código deste repositório não leva comentários — a regra `ladesa/no-comments`
-falha o lint em `.vue`, `.ts`, `.js`, `.css` e `.yaml`. Só passam diretivas de
-ferramenta (`@ts-expect-error`, `eslint-disable`, `prettier-ignore`) e o
-shebang de scripts executáveis.
+Contexto que o código não consegue expressar, e o que está pendente. O código
+não leva comentários, então o que não cabe num nome de função mora aqui.
 
-Contexto que não cabe num nome de variável ou função mora aqui. Cada entrada
-aponta o arquivo, para que dê para chegar nela pelo `grep` a partir do código.
+## Convenções
+
+Comentário em `.vue`, `.ts`, `.js`, `.css` ou `.yaml` derruba o lint. Passam só
+diretivas de ferramenta (`@ts-expect-error`, `eslint-disable`,
+`prettier-ignore`) e shebang.
 
 ```bash
 pnpm run -w lint
 ```
 
-Um comando só: comentário é erro e derruba o lint; tamanho e complexidade são
-avisos e não derrubam. `lint:strict` trata aviso como erro — é o que deve
-virar o padrão quando o backlog abaixo zerar.
+```bash
+pnpm run -w lint:duplication
+```
 
-A regra vale também para os workflows em `.github/`. Como eles ficam fora do
-workspace pnpm — e fora do bind mount do container de desenvolvimento, que
-monta só `src/` —, quem cobre os dois de uma vez é o `eslint.config.mjs` da
-raiz do repositório, que reexporta o de `src/` só para alargar o base path do
-ESLint. É esse que o CI roda:
+Ferramentas: ESLint e Prettier. Biome não serve aqui — lê só o `<script>` do
+`.vue`, ignora `<template>` e `.yaml`, e não tem as regras `vue/*`.
+
+O `.github/` fica fora do workspace pnpm, então quem cobre workspace e
+workflows de uma vez é o `eslint.config.mjs` da raiz do repositório, que
+reexporta o de `src/` só para alargar o base path do ESLint. É o que o CI roda:
 
 ```bash
 ./src/node_modules/.bin/eslint .
 ```
 
-O `pnpm run -w lint` continua sendo o caminho local, dentro do container, e
-cobre só o workspace. A diferença entre os dois é o `.github`.
+## Limites
 
-No `quality.yml` esse passo é bloqueante. O eslint do app segue informativo,
-por causa dos 29 erros pré-existentes lá. O `justfile` (recipe `check`) repete
-o arranjo, sem o `.github`, porque roda dentro do container.
+Comentário é erro. O resto é aviso; `lint:strict` transforma aviso em erro e
+deve virar o padrão quando a tabela zerar.
 
-## Ferramentas
+| Regra                          | Teto            | Pendente    |
+| ------------------------------ | --------------- | ----------- |
+| `ladesa/no-comments`           | zero            | 0           |
+| `vue/max-template-depth`       | 6               | 0           |
+| `vue/max-lines-per-block`      | 120 / 150 / 120 | 17 arquivos |
+| `sonarjs/cognitive-complexity` | 12              | 10 funções  |
+| `vue/max-props`                | 6               | 6 arquivos  |
+| `max-lines`                    | 300             | 2 arquivos  |
+| duplicação (jscpd)             | 3,5%            | 3,39%       |
 
-São duas, e só duas: **ESLint** e **Prettier**.
+Os tetos vieram de medir a distribuição, não de convenção. Apertar mais só
+depois de zerar o backlog: profundidade 5 custaria 35 arquivos, `max-lines` 200
+custaria 32.
 
-Chegou a entrar um Biome para medir complexidade cognitiva, e ele saiu. Num
-projeto Nuxt o Biome não substitui nenhum dos dois: ele abre o `.vue` mas
-enxerga só o bloco `<script>` — não formata o `<template>` nem vê os
-comentários `<!-- -->` dele — e não lê `.yaml`. Também não tem as regras
-`vue/*` que o `@nuxt/eslint` já traz. A medida de complexidade veio para o
-ESLint via `eslint-plugin-sonarjs`, que implementa a mesma métrica cognitiva
-do SonarSource.
+Duplicação depende de escopo: só `apps/sisgha-sisgea/app` dá 1,46%; o teto vale
+para `apps` e `packages` inteiros.
 
-## Tamanho e complexidade
-
-Todos os tetos abaixo valem para o app e para os pacotes, e todos são aviso.
-Somados dão 29 avisos. A profundidade de template já foi zerada; o resto é
-anterior à adoção das regras.
-
-| Regra                          | Teto                                | Ocorrências |
-| ------------------------------ | ----------------------------------- | ----------- |
-| `vue/max-template-depth`       | 6                                   | 0           |
-| `vue/max-lines-per-block`      | template 120, script 150, style 120 | 17 arquivos |
-| `sonarjs/cognitive-complexity` | 15                                  | 9 funções   |
-| `max-lines`                    | 300                                 | 2 arquivos  |
-| `vue/max-props`                | 8                                   | 1 arquivo   |
-
-Os tetos foram escolhidos medindo a base, não por convenção: o p95 de template
-é 75 linhas, o de script 87, e a profundidade p95 é 6. Ou seja, escrever um
-componente normal não encosta em nenhum deles — os limites só pegam a cauda.
-
-`vue/max-template-depth` emite uma mensagem por elemento aninhado demais, então
-o número de avisos dela é sempre maior que o de arquivos. Os 17 arquivos que
-estouravam o teto foram achatados extraindo componentes filhos; ao mover um
-bloco para um filho, as regras `scoped` do pai que valiam para o interior
-daquele bloco vão junto, senão o estilo se perde silenciosamente — o CSS
-`scoped` do pai só alcança a raiz do filho.
-
-Fica de fora `max-lines-per-function`. Em 60 ela daria 31 violações, e as
-maiores seriam composables — `useAgendamentosStateCore` tem 193 linhas e é
-completamente plano, tanto que a complexidade cognitiva não o acusa. Comprimento
-de função pune o idioma de composable sem dizer nada que a complexidade já não
-diga melhor.
-
-O barril `packages/*/src/index.ts` está isento de `max-lines`: são só reexports,
-e quebrá-lo em vários arquivos pioraria.
-
-### Complexidade cognitiva
-
-Teto 15, via `sonarjs/cognitive-complexity`. Nove funções acima dele, todas
-anteriores à adoção da regra.
-
-| Função                                                                                   | Score |
-| ---------------------------------------------------------------------------------------- | ----- |
-| `app/composables/useGradeHorariaValidation.ts:60`                                        | 48    |
-| `app/components/Section/Calendario/Form/Crud/Events.vue:110`                             | 46    |
-| `app/components/UI/Breadcrumb/Breadcrumb.vue:23`                                         | 30    |
-| `app/composables/useGradeHorariaState.ts:78`                                             | 22    |
-| `app/components/UI/API/List/Results/Grid/Grid.vue:59`                                    | 22    |
-| `packages/ui/src/components/calendar-month.ts:35`                                        | 19    |
-| `server/api/auth/session.get.ts:9`                                                       | 19    |
-| `app/components/Section/Diarios/Form/Geral/Disciplinas/useDisciplinasConfigSubmit.ts:99` | 17    |
-| `app/components/Section/Calendario/Timeline/AgendamentoTimelineDrawer.vue:83`            | 16    |
-
-O Biome pontuava as mesmas funções mais alto e pegava quatro a mais, na faixa
-de 17 a 20 — `useTurmaSyncLogic.ts`, `useModalManager.ts` e as duas de
-`rrule-editor-state.ts`. As duas ferramentas dizem implementar a métrica do
-SonarSource; o ranking bate, os números não. Vale saber disso se um dia se
-comparar com relatório de outra origem.
+`packages/*/src/index.ts` é isento de `max-lines`: são reexports.
 
 ## Pendências
 
-Migradas dos `TODO` que existiam no código.
+### Duplicação a eliminar
+
+- Vinte e dois composables em `composables/ladesa-api/` seguem o mesmo molde, e
+  oito compartilham 43 linhas idênticas duas a duas. Uma fábrica de composable
+  de entidade derruba o percentual de duplicação de vez.
+- `Section/Calendario/Types.ts` e `packages/ui/src/components/calendar-types.ts`
+  são idênticos. Apagar o do app e apontar os sete importadores para o pacote.
+- `Week/dnd-monitor.ts` e `useDragAndDropSchedule.ts` — duas implementações de
+  drag and drop convivendo, 65 linhas repetidas.
+- `Section/Profile/RoleBadge.vue` é quase o `Badge` do pacote; falta um slot de
+  ícone no `Badge` para poder apagá-lo.
 
 ### Integração com a API
 
-- `packages/ladesa-api-client/src/LadesaApiClient.ts` — o token é injetado por
-  interceptor em vez do `auth` do client porque o spec OpenAPI não declara
-  `security` nas operações, então o SDK gerado nunca chama `setAuthParams`.
-  Quando o spec passar a declarar, trocar pelo mecanismo nativo.
+- `packages/ladesa-api-client/src/LadesaApiClient.ts` — o token entra por
+  interceptor porque o spec OpenAPI não declara `security` nas operações e o SDK
+  nunca chama `setAuthParams`. Trocar pelo mecanismo nativo quando o spec
+  declarar.
 - `app/utils/schedule/classAndTempoDeAulaConverts.ts` e
-  `app/utils/schedule/types.ts` — as estruturas de aula são locais; ao integrar
-  de vez, estender `Ladesa_ManagementService_Domain_Contracts_AulaFindOneOutput`.
-- Casts para `Record<string, unknown>` que somem quando o SDK for regerado com
-  os campos que faltam: `situacao` em
-  `app/components/Section/Calendario/Gestao/Calendarios/Card.vue` e
-  `app/components/Section/Calendario/View/View.vue`; `cor` em
-  `.../DiasNaoLetivos/-Helpers/format.ts` e `.../DiasNaoLetivos/DiaEditDialog.vue`.
+  `app/utils/schedule/types.ts` — estender
+  `Ladesa_ManagementService_Domain_Contracts_AulaFindOneOutput` ao integrar.
+- Casts para `Record<string, unknown>` que somem quando o SDK for regerado:
+  `situacao` em `Gestao/Calendarios/Card.vue` e `Calendario/View/View.vue`;
+  `cor` em `DiasNaoLetivos/-Helpers/format.ts` e
+  `DiasNaoLetivos/DiaEditDialog.vue`.
 
 ### Horário
 
-- `app/components/Section/Horario/Dape/Edit/-Helpers/turnGridPrettier.ts` — as
-  duas funções deduzem o intervalo por heurística. Refazer a partir dos tempos
-  de aula dá um resultado mais preciso.
-- `app/composables/schedule/useWeekSchedule.ts` — o parâmetro `onlyAulas` está
-  declarado mas não filtra nada; falta também adaptar a conversão para a
-  tipagem nova de `IdentifiedDays`.
-- `app/composables/schedule/edit/useSelectedScheduleCells.ts` — o número de
-  tempos está fixo no arquivo; deve vir da função que calcula isso a partir dos
-  tempos de aula.
-- `app/utils/schedule/separateScheduleInShifts.ts` — considerar só os períodos
-  calculados no time slot.
-- `app/components/Section/Horario/Dape/Edit/GridCell/GridCellEditButtons.vue` —
-  cada instância dispara a própria query; subir para um ancestral e fazer uma só.
-  Falta também permitir editar o diário da aula.
-- `app/components/Section/Horario/Dape/GeneralVisualization/Mesclado/Mesclado.vue`
-  — falta a grade de horário.
-
-### Infraestrutura
-
-- `.github/dependabot.yml` — os três ecossistemas tinham um `cooldown` de 14
-  dias escrito e comentado. Se a ideia era segurar atualizações recém-lançadas,
-  a opção existe e basta habilitar; enquanto não se decide, ela não está ativa.
+- `Dape/Edit/-Helpers/turnGridPrettier.ts` — as duas funções deduzem o intervalo
+  por heurística; refazer a partir dos tempos de aula.
+- `composables/schedule/useWeekSchedule.ts` — `onlyAulas` está declarado mas não
+  filtra nada; falta adaptar a conversão para a tipagem de `IdentifiedDays`.
+- `composables/schedule/edit/useSelectedScheduleCells.ts` — número de tempos
+  fixo no arquivo; deve vir do cálculo por tempos de aula.
+- `utils/schedule/separateScheduleInShifts.ts` — considerar só os períodos do
+  time slot.
+- `Dape/Edit/GridCell/GridCellEditButtons.vue` — cada instância dispara a
+  própria query; subir para um ancestral. Falta editar o diário da aula.
+- `Dape/GeneralVisualization/Mesclado/Mesclado.vue` — falta a grade de horário.
 
 ### Telas
 
-- `app/components/Section/Relatorios/Relatorios.vue` — a geração de PDF não
-  existe; a tela e o modal são maquete, inclusive as aulas listadas.
-- `app/components/Section/Profile/Profile.vue` — os dados exibidos são fixos,
-  precisam vir da API.
-- `app/components/Section/Turmas/Form/Fields/Periodo/-Helpers/verificar-modalidade.ts`
-  — a verificação compara ids fixos de modalidade.
-- `app/pages/sisgha/consulta/index.vue` — usa `UIContainer` sem a variante
-  `mini`, que ainda não existe no pacote.
+- `Section/Relatorios/Relatorios.vue` — tela e modal são maquete, aulas
+  incluídas; não existe geração de PDF.
+- `Section/Profile/Profile.vue` — dados fixos, precisam vir da API.
+- `Turmas/Form/Fields/Periodo/-Helpers/verificar-modalidade.ts` — compara ids
+  fixos de modalidade.
+- `pages/sisgha/consulta/index.vue` — usa `UIContainer` sem a variante `mini`,
+  que não existe no pacote.
 
-## Decisões e armadilhas
+## Armadilhas
 
-### Formulários
+- CSS `scoped` do pai só alcança a raiz do filho. Ao extrair um bloco para um
+  componente, as regras que valiam para o interior dele têm de ir junto, senão
+  o estilo some sem erro nem aviso.
+- `classifyDayPeriod` devolve `Noturno` para entrada não numérica, porque
+  `Number.parseInt` produz `NaN` e `NaN` falha nas duas comparações.
+- `packages/utils` exporta a instância de dayjs já configurada, não só
+  `configureDayjs()`. Importar `dayjs` de lá é o que garante locale pt-br;
+  `import 'dayjs/locale/pt-br'` apenas registra, não ativa.
+- `createIdempotencyKey` é a única função não pura de `packages/utils`.
 
-- `app/components/Section/Diarios/Form/Geral/Contexto.ts` — `disciplinasConfig`
-  é um `ref` separado do formulário porque carrega campos que só existem para a
-  UI (`disciplina`, `accordionOpen`, `activeTab`) e não pertencem ao schema. Um
-  watcher sincroniza para o formulário apenas o subconjunto relevante.
-- `app/components/Section/Diarios/Form/Geral/-Helpers/schema.ts` — `dataInicio`
-  e `dataFim` não são preenchidos pelo usuário; o fallback entra em
-  `mapPreferencias()` logo antes do envio.
-- `app/components/Section/Cursos/Form/Form.vue` — o campo de
-  `quantidadePeriodos` tem fallback porque o vee-validate ainda não hidratou no
-  primeiro render e o valor chegaria `undefined`.
-- `app/components/Section/Usuarios/Form/Profile/Roles/Roles.vue` — a carga
-  horária é lida e gravada direto contra o perfil existente, fora do "Salvar"
-  em lote, porque o schema do formulário não carrega o id real do vínculo.
-- `app/components/VV/Autocomplete/API/Campus/CampusContext.vue` — o `useField`
-  só é chamado quando `functional` é verdadeiro; como a prop é estática, isso
-  não viola as regras de composables.
-- `app/components/VV/Autocomplete/API/-Base/createAutocompleteComponent.ts` —
-  monta o `options` (`IUIAutocompleteApiRetrieverOptions`) que todo wrapper de
-  autocomplete por entidade repetiria à mão. Uso: `const { options } =
-createAutocompleteComponent(...)` dentro do `<script setup>`.
-- `app/components/Section/Profile/Teaching/carouselItem.vue` — quando o item é
-  um `CourseOption` o valor está em `sel.value`; caso contrário a própria
-  variável já é o valor.
-- `app/components/Section/Diarios/Form/Geral/Disciplinas/DisciplinasConfig.vue`
-  — busca os diários que já existem para a turma e o calendário para não criar
-  duplicata.
+## Decisões que o código não expressa
 
-### API e composables
+- `Diarios/Form/Geral/Contexto.ts` — `disciplinasConfig` é um `ref` fora do
+  formulário porque carrega campos que só existem para a UI (`disciplina`,
+  `accordionOpen`, `activeTab`). Um watcher sincroniza o subconjunto do schema.
+- `Diarios/Form/Geral/-Helpers/schema.ts` — `dataInicio` e `dataFim` não são
+  preenchidos pelo usuário; o fallback entra em `mapPreferencias()` antes do
+  envio.
+- `Cursos/Form/Form.vue` — `quantidadePeriodos` tem fallback porque o
+  vee-validate ainda não hidratou no primeiro render.
+- `Usuarios/Form/Profile/Roles/Roles.vue` — carga horária é gravada direto no
+  perfil, fora do "Salvar" em lote, porque o schema não carrega o id do vínculo.
+- `VV/Autocomplete/API/Campus/CampusContext.vue` — `useField` só é chamado com
+  `functional` verdadeiro; a prop é estática, então não viola as regras de
+  composables.
+- `Diarios/Form/Geral/Disciplinas/DisciplinasConfig.vue` — busca diários
+  existentes da turma e do calendário para não criar duplicata.
+- `composables/ladesa-api/-helpers/crudHelpers.ts` — cada helper recebe o `api`
+  e a função do SDK e devolve a assinatura que o composable espera: `create`
+  envia `{ body }`, `update` `{ path: { id }, body }`, `remove`
+  `{ path: { id } }`, `uploadImage` `{ path: { id }, body: { file } }`.
+- `utils/schedule/types.ts` — mistura português e inglês e é reconhecidamente
+  confuso; o autor original deixou aviso a quem viesse depois.
 
-- `app/composables/ladesa-api/-helpers/crudHelpers.ts` — cada helper recebe o
-  `api` e a função gerada pelo SDK e devolve a função com a assinatura que o
-  composable espera: `create` envia `{ body }`, `update` envia
-  `{ path: { id }, body }`, `remove` envia `{ path: { id } }` e `uploadImage`
-  envia `{ path: { id }, body: { file } }`.
-- `app/composables/api-context/setup.ts` — `useAPIContext` é o ponto de acesso
-  às informações do usuário logado a partir de qualquer componente.
+## Agentes paralelos
 
-### Horário (utilitários)
+`.docker/compose.agents.yml` sobe um container por slice, cada um com seu
+worktree. Duas coisas que o arquivo não diz sozinho:
 
-- `app/utils/schedule/types.ts` — o módulo mistura português e inglês e é
-  reconhecidamente confuso. O autor original deixou registrado um pedido de
-  desculpas a quem viesse depois, dizendo que não teve condições de melhorá-lo
-  na época. Quem for mexer aqui, conte com isso.
-- `app/composables/schedule/useWeekSchedule.ts` — devolve o horário completo
-  com aulas ordenadas, horas vagas, intervalos, quebras de turno e quebras de
-  dia.
-- `app/utils/schedule/nonTeachingPeriods.ts` — recebe um horário só com aulas e
-  tempos vagos e insere intervalos, quebras de turno e, se pedido, a transição
-  entre dias.
-- `app/utils/schedule/separateScheduleInDays.ts` — agrupa por dia a partir das
-  marcações `TransicaoDia`. Quando não há transição identificada, devolve o
-  horário sem dividir.
+`NPM_CONFIG_STORE_DIR=/pnpm/store` mantém o store do pnpm fora do bind mount de
+`/repo`. Sem isso o `pnpm install` cria um `.pnpm-store/` dentro do worktree e
+o `git add -A` leva junto — dezenas de milhares de arquivos. O `.gitignore` já
+cobre como rede de segurança, mas o container tem de subir com a variável.
 
-## Helpers compartilhados
+O serviço `fundacoes` também é o coordenador de merge: enxerga em `/mnt/<slice>`
+o clone read-only de todos os outros slices, além do próprio em `/repo`.
 
-`packages/utils` guarda função pura e reaproveitável, sem Vue, sem Nuxt e sem
-conhecer a API. Hoje tem formatação de horário (`ensureSeconds`,
-`stripSeconds`), classificação de período do dia (`classifyDayPeriod`,
-`groupIntervalsByDayPeriod`) e construção de header HTTP
-(`buildIdempotencyKeyHeaders`, `buildIfMatchHeaders`, `createIdempotencyKey`).
+## Renovate
 
-Também mora ali a configuração do dayjs. `configureDayjs()` estende os quatro
-plugins usados no projeto, ativa o locale pt-br e sobrescreve os nomes dos dias
-da semana; o módulo exporta a instância já configurada como `dayjs`, e é ela
-que os componentes importam.
+Substituiu o Dependabot em `.github/renovate.json`. Cobre npm (o workspace em
+`src/`), o `.docker/Containerfile` e os workflows; agrupa dev-dependencies
+minor e patch num PR só, exceto `@hey-api/openapi-ts`, que gera o SDK e merece
+PR próprio.
 
-Isso corrigiu um bug real. `import 'dayjs/locale/pt-br'` apenas registra o
-locale, quem ativa é `dayjs.locale()` — e essa chamada só existia no app. Os
-componentes de calendário do pacote importavam o locale sem nunca ativá-lo, e
-funcionavam no app por acidente de ordem de carregamento, porque o composable
-do app mutava a instância global do dayjs antes. Fora do app, em Storybook ou
-nos testes do pacote, o `CalendarMonth` escrevia "September" no lugar de
-"setembro". Há teste cobrindo isso agora.
-
-Por isso o módulo exporta a instância em vez de só a função: quem importa
-`dayjs` do pacote recebe algo já configurado, sem depender de alguém ter
-chamado `configureDayjs()` antes.
-
-Duas arestas herdadas da versão que morava no app, mantidas de propósito para
-não mudar comportamento junto com a mudança de lugar:
-
-`classifyDayPeriod` devolve `Noturno` para qualquer entrada que não comece com
-hora numérica, porque `Number.parseInt` produz `NaN` e `NaN` falha nas duas
-comparações. Quem chamar com dado não validado recebe noturno em silêncio.
-
-`createIdempotencyKey` é a única função não pura do pacote, já que depende de
-`crypto.randomUUID()`. Está ali por ficar ao lado dos construtores de header
-que a acompanham.
-
-O que ficou de fora na migração: `achatarPeriodos` e `validarIntervalos`
-existiam em `utils/horarios.ts` sem nenhuma chamada em todo o repositório,
-desde o commit que as criou. Foram apagadas em vez de migradas — levar código
-morto para um pacote compartilhado é pior do que deixá-lo onde estava. Estão
-recuperáveis no histórico se a validação de sobreposição de intervalos voltar a
-ser necessária.
+Precisa do GitHub App da Mend instalado no repositório — este é o primeiro
+Renovate da organização, os outros repos ainda usam Dependabot. Enquanto o app
+não for instalado, nada roda: não há PR de dependência automático.
 
 ## Referências
 
-- Paleta de cores: os tokens de `packages/styles/src/tokens/colors.css` seguem
-  os nomes do protótipo no Figma —
+- Paleta: os tokens de `packages/styles/src/tokens/colors.css` seguem os nomes
+  do protótipo no Figma —
   https://www.figma.com/design/gwJHnj5RVnjt05AdOQNMy5/SISGHA---V2.0?node-id=7660-18059
