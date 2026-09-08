@@ -43,6 +43,7 @@
 @import './components/schedule-query.css' layer(components);
 @import './components/calendar-day.css' layer(components);
 @import './components/profile-carousel.css' layer(components);
+@import './components/shift-times.css' layer(components);
 @import './components/breadcrumb.css' layer(components);
 @import './components/button-square.css' layer(components);
 @import './components/button-modal.css' layer(components);

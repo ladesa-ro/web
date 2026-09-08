@@ -38,6 +38,11 @@ export {
   default as WeekNavigator,
   type WeekNavigatorProps,
 } from './components/WeekNavigator.vue';
+export { default as PopoverDayAndShift } from './components/PopoverDayAndShift.vue';
+export {
+  default as ShiftTimes,
+  type ShiftTimesProps,
+} from './components/ShiftTimes.vue';
 export { default as CalendarDay } from './components/CalendarDay.vue';
 export type * from './components/calendar-types';
 export {
