@@ -2,13 +2,6 @@
 import { CalendarDate } from '@internationalized/date';
 import dayjs, { type Dayjs } from 'dayjs';
 import {
-  CalendarCell,
-  CalendarCellTrigger,
-  CalendarGrid,
-  CalendarGridBody,
-  CalendarGridHead,
-  CalendarGridRow,
-  CalendarHeadCell,
   CalendarHeader,
   CalendarHeading,
   CalendarNext,
@@ -18,6 +11,7 @@ import {
 import { computed } from 'vue';
 import IconArrowArrow from '../icons/Arrow/Arrow.vue';
 import Popover from './Popover.vue';
+import PopoverCalendarMonth from './PopoverCalendarMonth.vue';
 
 const open = defineModel<boolean>({ required: true, default: false });
 
@@ -72,44 +66,12 @@ const calendarValue = computed({
           </CalendarNext>
         </CalendarHeader>
 
-        <CalendarGrid
+        <PopoverCalendarMonth
           v-for="month in grid"
           :key="month.value.toString()"
-          class="ui-popover-calendar__grid"
-        >
-          <CalendarGridHead>
-            <CalendarGridRow style="display: flex">
-              <CalendarHeadCell
-                v-for="day in weekDays"
-                :key="day"
-                class="ui-popover-calendar__weekday"
-              >
-                {{ day }}
-              </CalendarHeadCell>
-            </CalendarGridRow>
-          </CalendarGridHead>
-
-          <CalendarGridBody>
-            <CalendarGridRow
-              v-for="(weekDates, weekIndex) in month.rows"
-              :key="`week-${weekIndex}`"
-              style="display: flex; gap: 0.25rem"
-            >
-              <CalendarCell
-                v-for="weekDate in weekDates"
-                :key="weekDate.toString()"
-                :date="weekDate"
-                class="ui-popover-calendar__cell"
-              >
-                <CalendarCellTrigger
-                  :day="weekDate"
-                  :month="month.value"
-                  class="ui-popover-calendar__day"
-                />
-              </CalendarCell>
-            </CalendarGridRow>
-          </CalendarGridBody>
-        </CalendarGrid>
+          :month="month"
+          :week-days="weekDays"
+        />
       </CalendarRoot>
     </div>
   </Popover>

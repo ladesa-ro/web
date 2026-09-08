@@ -82,9 +82,13 @@ export {
 export * from './components/unavailability';
 export {
   default as ReasonsEditModal,
-  type GroupedReason,
   type ReasonsEditModalProps,
 } from './components/ReasonsEditModal.vue';
+export {
+  default as ReasonsEditModalRow,
+  type ReasonsEditModalRowProps,
+} from './components/ReasonsEditModalRow.vue';
+export * from './components/grouped-reason';
 export {
   default as ReasonsViewModal,
   type ReasonsViewModalProps,
@@ -402,12 +406,16 @@ export {
 } from './components/RRuleEditor.vue';
 export { default as SelectImage } from './components/SelectImage.vue';
 export { default as Title } from './components/Title.vue';
+export { default as Toast, type ToastProps } from './components/Toast.vue';
 export {
-  default as Toast,
-  type ToastItem,
-  type ToastProps,
-  type ToastType,
-} from './components/Toast.vue';
+  default as ToastEntry,
+  type ToastEntryProps,
+} from './components/ToastEntry.vue';
+export * from './components/toast';
+export {
+  default as PopoverCalendarMonth,
+  type PopoverCalendarMonthProps,
+} from './components/PopoverCalendarMonth.vue';
 export { default as Toggle, type ToggleProps } from './components/Toggle.vue';
 export {
   default as ToggleButton,
