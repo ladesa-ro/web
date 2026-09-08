@@ -1,6 +1,6 @@
 import type { Dayjs } from 'dayjs';
 import type { TurmaDisponibilidadeWeekOutputDto } from '@ladesa-ro/web.api.client';
-import { toDisplayFormat } from '~/utils/horarios';
+import { stripSeconds } from '@ladesa-ro/web.utils';
 import type { useTurmaGradeSelection } from './useTurmaGradeSelection';
 import type { useTurmaEditState } from './useTurmaEditState';
 import type { useTurmaPendingConfigs } from './useTurmaPendingConfigs';
@@ -29,9 +29,7 @@ export function useTurmaSyncLogic(
     const config = data.configs[0]!;
     const mapped: Record<number, string[]> = {};
     for (const dia of config.horarios) {
-      mapped[dia.dia_semana] = dia.intervalos.map(i =>
-        toDisplayFormat(i.inicio)
-      );
+      mapped[dia.dia_semana] = dia.intervalos.map(i => stripSeconds(i.inicio));
     }
     return mapped;
   };

@@ -4,8 +4,12 @@ import type {
   GradeHorariaEditorGrade,
   GradeValidationErrors,
 } from '~/composables/useGradeHorariaEditor';
-import type { PeriodoGroup } from '~/utils/horarios';
-import { agruparPorPeriodo, toDisplayFormat } from '~/utils/horarios';
+import {
+  groupIntervalsByDayPeriod,
+  stripSeconds,
+  type DayPeriod,
+  type DayPeriodGroup,
+} from '@ladesa-ro/web.utils';
 
 const props = defineProps<{
   grade: GradeHorariaEditorGrade;
@@ -29,10 +33,10 @@ const emit = defineEmits<{
 
 const open = ref(true);
 const showBulkModal = ref(false);
-const bulkModalPeriodo = ref<import('~/utils/horarios').Periodo>('Matutino');
+const bulkModalPeriodo = ref<DayPeriod>('Matutino');
 
 function openBulkModal(periodo: string) {
-  bulkModalPeriodo.value = periodo as import('~/utils/horarios').Periodo;
+  bulkModalPeriodo.value = periodo as DayPeriod;
   showBulkModal.value = true;
 }
 
@@ -41,14 +45,14 @@ function handleBulkConfirm(params: BulkAddParams) {
   showBulkModal.value = false;
 }
 
-const periodos = computed<PeriodoGroup[]>(() => {
+const periodos = computed<DayPeriodGroup[]>(() => {
   const formatted = props.grade.intervalos.map((i, originalIndex) => ({
-    inicio: toDisplayFormat(i.inicio),
-    fim: toDisplayFormat(i.fim),
+    inicio: stripSeconds(i.inicio),
+    fim: stripSeconds(i.fim),
     _originalIndex: originalIndex,
   }));
 
-  const grupos = agruparPorPeriodo(
+  const grupos = groupIntervalsByDayPeriod(
     formatted.map(f => ({ inicio: f.inicio, fim: f.fim }))
   );
 
@@ -159,13 +163,13 @@ function getIntervalError(
         >
           <SectionGradeHorariaIntervalRow
             :start="
-              toDisplayFormat(
+              stripSeconds(
                 props.grade.intervalos[getOriginalIndex(periodo, j)]?.inicio ??
                   ''
               )
             "
             :end="
-              toDisplayFormat(
+              stripSeconds(
                 props.grade.intervalos[getOriginalIndex(periodo, j)]?.fim ?? ''
               )
             "

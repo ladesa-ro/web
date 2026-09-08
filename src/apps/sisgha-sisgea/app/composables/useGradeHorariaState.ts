@@ -1,5 +1,5 @@
 import type { GradeHorariaItemOutputDto } from '@ladesa-ro/web.api.client';
-import type { Periodo } from '~/utils/horarios';
+import type { DayPeriod } from '@ladesa-ro/web.utils';
 
 export interface GradeHorariaEditorGrade {
   identificadorExterno: string;
@@ -13,7 +13,7 @@ export interface BulkAddParams {
   classDuration: number;
   breakDuration: number;
   breakAfterClass: number;
-  periodo: Periodo;
+  periodo: DayPeriod;
   mode: 'append' | 'replace';
 }
 

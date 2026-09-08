@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { createIdempotencyKey } from '~/composables/ladesa-api/-helpers/idempotencyKey';
+import { createIdempotencyKey } from '@ladesa-ro/web.utils';
 
 type Props = { sessaoId: string };
 const props = defineProps<Props>();

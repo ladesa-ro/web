@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import dayjs from 'dayjs';
 import { useApiContext } from '~/composables/api-context/setup';
-import { agruparPorPeriodo } from '~/utils/horarios';
+import { groupIntervalsByDayPeriod } from '@ladesa-ro/web.utils';
 import type { IDiasDaSemana, IGradeDisciplina } from '../IGradeHorario';
 
 const diasDaSemana: IDiasDaSemana = [
@@ -76,7 +76,7 @@ const turnos = computed(() => {
 
   const unicos = [...new Map(todosIntervalos.map(i => [i.inicio, i])).values()];
 
-  const periodos = agruparPorPeriodo(unicos);
+  const periodos = groupIntervalsByDayPeriod(unicos);
 
   return periodos
     .filter(p => p.intervalos.length > 0)

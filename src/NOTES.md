@@ -214,6 +214,32 @@ createAutocompleteComponent(...)` dentro do `<script setup>`.
   marcações `TransicaoDia`. Quando não há transição identificada, devolve o
   horário sem dividir.
 
+## Helpers compartilhados
+
+`packages/utils` guarda função pura e reaproveitável, sem Vue, sem Nuxt e sem
+conhecer a API. Hoje tem formatação de horário (`ensureSeconds`,
+`stripSeconds`), classificação de período do dia (`classifyDayPeriod`,
+`groupIntervalsByDayPeriod`) e construção de header HTTP
+(`buildIdempotencyKeyHeaders`, `buildIfMatchHeaders`, `createIdempotencyKey`).
+
+Duas arestas herdadas da versão que morava no app, mantidas de propósito para
+não mudar comportamento junto com a mudança de lugar:
+
+`classifyDayPeriod` devolve `Noturno` para qualquer entrada que não comece com
+hora numérica, porque `Number.parseInt` produz `NaN` e `NaN` falha nas duas
+comparações. Quem chamar com dado não validado recebe noturno em silêncio.
+
+`createIdempotencyKey` é a única função não pura do pacote, já que depende de
+`crypto.randomUUID()`. Está ali por ficar ao lado dos construtores de header
+que a acompanham.
+
+O que ficou de fora na migração: `achatarPeriodos` e `validarIntervalos`
+existiam em `utils/horarios.ts` sem nenhuma chamada em todo o repositório,
+desde o commit que as criou. Foram apagadas em vez de migradas — levar código
+morto para um pacote compartilhado é pior do que deixá-lo onde estava. Estão
+recuperáveis no histórico se a validação de sobreposição de intervalos voltar a
+ser necessária.
+
 ## Referências
 
 - Paleta de cores: os tokens de `packages/styles/src/tokens/colors.css` seguem

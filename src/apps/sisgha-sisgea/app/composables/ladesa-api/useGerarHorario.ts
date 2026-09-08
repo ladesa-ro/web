@@ -10,7 +10,7 @@ import type {
   GerarHorarioCreateInputDto,
   GerarHorarioFindOneOutputDto,
 } from '@ladesa-ro/web.api.client';
-import { buildIdempotencyKeyHeaders } from './-helpers/idempotencyKey';
+import { buildIdempotencyKeyHeaders } from '@ladesa-ro/web.utils';
 
 const PROCESSING_STATUSES = new Set(['SOLICITADO', 'PENDENTE']);
 

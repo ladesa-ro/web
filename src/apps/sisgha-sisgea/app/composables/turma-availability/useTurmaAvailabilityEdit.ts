@@ -1,6 +1,6 @@
 import type { Dayjs } from 'dayjs';
 import type { FormMode } from '~/utils/constants';
-import { toApiFormat, toDisplayFormat } from '~/utils/horarios';
+import { ensureSeconds, stripSeconds } from '@ladesa-ro/web.utils';
 import type { TurmaDisponibilidadeConfigInputDto } from '@ladesa-ro/web.api.client';
 import type { useTurmaGradeSelection } from './useTurmaGradeSelection';
 import { useTurmaEditState } from './useTurmaEditState';
@@ -40,11 +40,11 @@ export function useTurmaAvailabilityEdit(
         const intervalos = times.map(displayTime => {
           const match = gradeIntervalos.find(
             (item: { inicio: string; fim: string }) =>
-              toDisplayFormat(item.inicio) === displayTime
+              stripSeconds(item.inicio) === displayTime
           );
           return {
-            inicio: match ? match.inicio : toApiFormat(displayTime),
-            fim: match ? match.fim : toApiFormat(displayTime),
+            inicio: match ? match.inicio : ensureSeconds(displayTime),
+            fim: match ? match.fim : ensureSeconds(displayTime),
           };
         });
         return {

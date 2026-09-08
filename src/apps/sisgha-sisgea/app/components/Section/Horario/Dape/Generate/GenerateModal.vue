@@ -5,7 +5,7 @@ import {
   IconsClockPermanent,
   IconsClockTemporary,
 } from '#components';
-import { createIdempotencyKey } from '~/composables/ladesa-api/-helpers/idempotencyKey';
+import { createIdempotencyKey } from '@ladesa-ro/web.utils';
 
 const { mode = 'green' } = defineProps<{
   selectedToggleItem?: 'mesclado' | 'professor' | 'turma';

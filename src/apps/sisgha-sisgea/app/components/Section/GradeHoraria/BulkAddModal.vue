@@ -2,10 +2,10 @@
 import { useForm, useField } from 'vee-validate';
 import ModalBaseLayout from '~/components/Dialog/Modal/ModalBaseLayout.vue';
 import type { BulkAddParams } from '~/composables/useGradeHorariaEditor';
-import { classificarPeriodo, type Periodo } from '~/utils/horarios';
+import { classifyDayPeriod, type DayPeriod } from '@ladesa-ro/web.utils';
 
 const props = defineProps<{
-  defaultPeriodo?: Periodo;
+  defaultPeriodo?: DayPeriod;
 }>();
 
 const emit = defineEmits<{
@@ -13,7 +13,7 @@ const emit = defineEmits<{
   close: [];
 }>();
 
-const periodoDefaults: Record<Periodo, string> = {
+const periodoDefaults: Record<DayPeriod, string> = {
   Matutino: '07:30',
   Vespertino: '13:00',
   Noturno: '19:00',
@@ -25,7 +25,7 @@ const periodoItems = [
   { text: 'Noturno', value: 'Noturno' },
 ];
 
-const selectedPeriodo = ref<Periodo>(props.defaultPeriodo ?? 'Matutino');
+const selectedPeriodo = ref<DayPeriod>(props.defaultPeriodo ?? 'Matutino');
 const mode = ref<'append' | 'replace'>('append');
 
 useForm({
@@ -46,14 +46,14 @@ const { value: breakAfterClass } = useField<number>('breakAfterClass');
 
 watch(selectedPeriodo, periodo => {
   const current = startTime.value;
-  if (!current || classificarPeriodo(current) !== periodo) {
+  if (!current || classifyDayPeriod(current) !== periodo) {
     startTime.value = periodoDefaults[periodo];
   }
 });
 
 watch(startTime, time => {
   if (!time) return;
-  const detected = classificarPeriodo(time);
+  const detected = classifyDayPeriod(time);
   if (detected !== selectedPeriodo.value) {
     selectedPeriodo.value = detected;
   }
