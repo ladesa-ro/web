@@ -5,17 +5,24 @@ on:
   pull_request:
     paths:
       - .github/workflows/quality.yml
+      - .devcontainer/**
+      - .docker/Containerfile
       - src/**
   push:
     branches:
       - main
     paths:
       - .github/workflows/quality.yml
+      - .devcontainer/**
+      - .docker/Containerfile
       - src/**
 
 concurrency:
   group: quality-${{ github.ref }}
   cancel-in-progress: true
+
+env:
+  EXEC: devcontainer exec --workspace-folder . bash -lc
 
 jobs:
   check:
@@ -25,58 +32,38 @@ jobs:
     permissions:
       contents: read
 
-    defaults:
-      run:
-        working-directory: ./src
-
     steps:
       - name: Checkout do código-fonte
         uses: actions/checkout@v6
 
-      - name: Habilitação do corepack
-        run: corepack enable
-        working-directory: .
+      - name: Instalação do CLI do devcontainer
+        run: npm install -g @devcontainers/cli
 
-      - name: Configuração do Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 25
-
-      - name: Caminho do store do pnpm
-        id: pnpm-store
-        run: echo "path=$(pnpm store path --silent)" >> "$GITHUB_OUTPUT"
-
-      - name: Cache do store do pnpm
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.pnpm-store.outputs.path }}
-          key: pnpm-${{ runner.os }}-${{ hashFiles('src/pnpm-lock.yaml') }}
-          restore-keys: pnpm-${{ runner.os }}-
+      - name: Subida do devcontainer
+        run: devcontainer up --workspace-folder .
 
       - name: Instalação das dependências
-        run: pnpm install --frozen-lockfile
+        run: ${{ env.EXEC }} "cd src && pnpm install --frozen-lockfile"
 
       - name: Build de todos os pacotes
-        run: pnpm run -w build:all
+        run: ${{ env.EXEC }} "cd src && pnpm run -w build:all"
 
       - name: Checagem de tipos
-        run: pnpm --filter @ladesa-ro/web.service run types:check
+        run: ${{ env.EXEC }} "cd src && pnpm --filter @ladesa-ro/web.service run types:check"
 
       - name: Instalação do navegador para os testes
-        run: pnpm --filter @ladesa-ro/web.ui exec playwright install --with-deps chromium
+        run: ${{ env.EXEC }} "cd src && pnpm --filter @ladesa-ro/web.ui exec playwright install --with-deps chromium"
 
       - name: Testes do design system
-        run: pnpm run -w test:all
+        run: ${{ env.EXEC }} "cd src && pnpm run -w test:all"
 
       - name: Lint do workspace e do .github
-        working-directory: .
-        run: ./src/node_modules/.bin/eslint .
+        run: ${{ env.EXEC }} "./src/node_modules/.bin/eslint ."
 
       - name: Duplicação (informativo)
         continue-on-error: true
-        run: pnpm run -w lint:duplication
+        run: ${{ env.EXEC }} "cd src && pnpm run -w lint:duplication"
 
       - name: Lint (informativo)
         continue-on-error: true
-        working-directory: ./src/apps/sisgha-sisgea
-        run: pnpm exec eslint .
+        run: ${{ env.EXEC }} "cd src/apps/sisgha-sisgea && pnpm exec eslint ."
