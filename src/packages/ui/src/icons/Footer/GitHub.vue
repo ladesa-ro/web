@@ -4,7 +4,6 @@
     width="20"
     height="20"
     fill="currentColor"
-    class="bi bi-github"
     viewBox="0 0 16 16"
   >
     <path
