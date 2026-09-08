@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { Day } from './calendar-types';
-import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
+import { dayjs } from '@ladesa-ro/web.utils';
 const props = defineProps<Day>();
 </script>
 

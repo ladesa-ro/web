@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import dayjs from 'dayjs';
+import { dayjs } from '@ladesa-ro/web.utils';
 import { computed } from 'vue';
 import Badge from './Badge.vue';
 import type { UnavailabilityItem } from './unavailability';

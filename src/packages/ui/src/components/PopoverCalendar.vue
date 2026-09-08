@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { CalendarDate } from '@internationalized/date';
-import dayjs, { type Dayjs } from 'dayjs';
+import { dayjs } from '@ladesa-ro/web.utils';
+import type { Dayjs } from 'dayjs';
 import {
   CalendarHeader,
   CalendarHeading,

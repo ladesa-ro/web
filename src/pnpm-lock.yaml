@@ -255,6 +255,10 @@ importers:
         version: 3.3.3(typescript@6.0.3)
 
   packages/utils:
+    dependencies:
+      dayjs:
+        specifier: ^1.11.21
+        version: 1.11.21
     devDependencies:
       typescript:
         specifier: 6.0.3

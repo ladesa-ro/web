@@ -222,6 +222,23 @@ conhecer a API. Hoje tem formatação de horário (`ensureSeconds`,
 `groupIntervalsByDayPeriod`) e construção de header HTTP
 (`buildIdempotencyKeyHeaders`, `buildIfMatchHeaders`, `createIdempotencyKey`).
 
+Também mora ali a configuração do dayjs. `configureDayjs()` estende os quatro
+plugins usados no projeto, ativa o locale pt-br e sobrescreve os nomes dos dias
+da semana; o módulo exporta a instância já configurada como `dayjs`, e é ela
+que os componentes importam.
+
+Isso corrigiu um bug real. `import 'dayjs/locale/pt-br'` apenas registra o
+locale, quem ativa é `dayjs.locale()` — e essa chamada só existia no app. Os
+componentes de calendário do pacote importavam o locale sem nunca ativá-lo, e
+funcionavam no app por acidente de ordem de carregamento, porque o composable
+do app mutava a instância global do dayjs antes. Fora do app, em Storybook ou
+nos testes do pacote, o `CalendarMonth` escrevia "September" no lugar de
+"setembro". Há teste cobrindo isso agora.
+
+Por isso o módulo exporta a instância em vez de só a função: quem importa
+`dayjs` do pacote recebe algo já configurado, sem depender de alguém ter
+chamado `configureDayjs()` antes.
+
 Duas arestas herdadas da versão que morava no app, mantidas de propósito para
 não mudar comportamento junto com a mudança de lugar:
 

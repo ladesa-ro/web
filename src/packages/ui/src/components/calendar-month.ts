@@ -1,9 +1,5 @@
-import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
-import isBetween from 'dayjs/plugin/isBetween';
+import { dayjs } from '@ladesa-ro/web.utils';
 import type { CalendarEvent, Day, EmptyDays } from './calendar-types';
-
-dayjs.extend(isBetween);
 
 export const renderDays = {
   EmptyDays: (year: number, month: number): EmptyDays => {

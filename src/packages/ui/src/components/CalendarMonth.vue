@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import dayjs from 'dayjs';
-import 'dayjs/locale/pt-br';
+import { dayjs } from '@ladesa-ro/web.utils';
 import { onMounted, ref, watch } from 'vue';
 import ButtonArrow from './ButtonArrow.vue';
 import CalendarDay from './CalendarDay.vue';

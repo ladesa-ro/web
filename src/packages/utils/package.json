@@ -17,5 +17,8 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.21"
   }
 }
