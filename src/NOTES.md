@@ -63,9 +63,11 @@ Os tetos foram escolhidos medindo a base, não por convenção: o p95 de templat
 componente normal não encosta em nenhum deles — os limites só pegam a cauda.
 
 `vue/max-template-depth` emite uma mensagem por elemento aninhado demais, então
-o número de avisos dela (58) é bem maior que o de arquivos (17). Os campeões
-são `ImportIcsModal.vue` com 9, e sete arquivos com 8 — dois deles no pacote
-de UI (`PopoverCalendar` e `ReasonsEditModal`).
+o número de avisos dela é sempre maior que o de arquivos. Os 17 arquivos que
+estouravam o teto foram achatados extraindo componentes filhos; ao mover um
+bloco para um filho, as regras `scoped` do pai que valiam para o interior
+daquele bloco vão junto, senão o estilo se perde silenciosamente — o CSS
+`scoped` do pai só alcança a raiz do filho.
 
 Fica de fora `max-lines-per-function`. Em 60 ela daria 31 violações, e as
 maiores seriam composables — `useAgendamentosStateCore` tem 193 linhas e é

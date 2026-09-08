@@ -216,38 +216,16 @@ async function onDialogSaved() {
 
       <div class="u-flex u-flex-col u-gap-8">
         <div v-for="month in 12" :key="month">
-          <template v-if="(diasPorMes.get(month) ?? []).length > 0">
-            <div
-              class="dias-nao-letivos__month-header u-flex u-items-center u-pl-1 u-mb-4"
-            >
-              <span class="dias-nao-letivos__month-header-text u-font-semibold">
-                {{ MONTH_NAMES[month - 1] }}
-              </span>
-            </div>
-
-            <div
-              class="dias-nao-letivos__responsive-row u-flex u-flex-col u-gap-4"
-            >
-              <div class="dias-nao-letivos__month-col-year u-shrink-0">
-                <SectionCalendarioMonth
-                  :year="calendarYear"
-                  :events="calendarEvents"
-                  :toggle-month="false"
-                  :calendar-id="selectedCalendarioId ?? ''"
-                  :month-num="month"
-                />
-              </div>
-
-              <div class="u-flex-1 u-flex u-flex-col">
-                <DiaListItem
-                  v-for="dia in diasPorMes.get(month) ?? []"
-                  :key="dia.id"
-                  :dia="dia"
-                  @edit="openEdit"
-                />
-              </div>
-            </div>
-          </template>
+          <SectionCalendarioGestaoCalendariosDiasNaoLetivosMonthSection
+            v-if="(diasPorMes.get(month) ?? []).length > 0"
+            :month-name="MONTH_NAMES[month - 1] ?? ''"
+            :month-num="month"
+            :dias="diasPorMes.get(month) ?? []"
+            :calendar-year="calendarYear"
+            :calendar-events="calendarEvents"
+            :calendar-id="selectedCalendarioId ?? ''"
+            @edit="openEdit"
+          />
         </div>
       </div>
     </template>

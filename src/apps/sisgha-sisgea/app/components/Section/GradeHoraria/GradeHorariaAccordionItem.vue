@@ -104,42 +104,14 @@ function getIntervalError(
       <div
         class="u-flex u-justify-between u-items-center grade-accordion__header"
       >
-        <div
-          class="u-flex u-items-center u-gap-2 u-flex-1 grade-accordion__title-wrap"
-        >
-          <template v-if="isEditing">
-            <input
-              :value="props.grade.nome"
-              :disabled="disabled"
-              placeholder="Nome da grade horária"
-              class="u-px-2 u-py-1 u-text-sm u-font-semibold u-flex-1 grade-accordion__name-input"
-              :class="
-                errors?.nome
-                  ? 'grade-accordion__name-input--error'
-                  : 'grade-accordion__name-input--default'
-              "
-              @input="
-                emit('update:nome', ($event.target as HTMLInputElement).value)
-              "
-              @click.stop
-            />
-            <button
-              :disabled="disabled"
-              class="u-text-sm u-px-2 u-shrink-0 grade-accordion__remove-btn"
-              title="Remover grade horária"
-              @click.stop="emit('remove-grade')"
-            >
-              <IconsExclude class="grade-accordion__remove-icon" />
-            </button>
-          </template>
-          <template v-else>
-            <span
-              class="u-font-semibold u-truncate grade-accordion__title-static"
-            >
-              {{ props.grade.nome || 'Grade sem nome' }}
-            </span>
-          </template>
-        </div>
+        <SectionGradeHorariaTitleField
+          :nome="props.grade.nome"
+          :is-editing="isEditing"
+          :disabled="disabled"
+          :has-error="!!errors?.nome"
+          @update:nome="emit('update:nome', $event)"
+          @remove-grade="emit('remove-grade')"
+        />
         <IconsArrow
           class="u-shrink-0 u-ml-2 grade-accordion__arrow"
           :class="
@@ -185,60 +157,35 @@ function getIntervalError(
           :key="j"
           class="u-mb-2"
         >
-          <div
-            class="u-flex u-flex-wrap u-items-center u-justify-center u-gap-2 u-p-3 grade-accordion__interval-row"
-            :class="
-              getIntervalError(periodo, j)
-                ? 'grade-accordion__interval-row--error'
-                : 'grade-accordion__interval-row--default'
+          <SectionGradeHorariaIntervalRow
+            :start="
+              toDisplayFormat(
+                props.grade.intervalos[getOriginalIndex(periodo, j)]?.inicio ??
+                  ''
+              )
             "
-          >
-            <template v-if="isEditing">
-              <UIFormTimeRangeField
-                :start="
-                  toDisplayFormat(
-                    props.grade.intervalos[getOriginalIndex(periodo, j)]
-                      ?.inicio ?? ''
-                  )
-                "
-                :end="
-                  toDisplayFormat(
-                    props.grade.intervalos[getOriginalIndex(periodo, j)]?.fim ??
-                      ''
-                  )
-                "
-                :disabled="disabled"
-                :error="getIntervalError(periodo, j)"
-                class="u-flex-1"
-                @update:start="
-                  emit(
-                    'update:intervalo-inicio',
-                    getOriginalIndex(periodo, j),
-                    $event ?? ''
-                  )
-                "
-                @update:end="
-                  emit(
-                    'update:intervalo-fim',
-                    getOriginalIndex(periodo, j),
-                    $event ?? ''
-                  )
-                "
-              />
-              <button
-                :disabled="disabled"
-                class="u-shrink-0 grade-accordion__remove-interval-btn"
-                @click="emit('remove-interval', getOriginalIndex(periodo, j))"
-              >
-                <IconsExclude />
-              </button>
-            </template>
-            <template v-else>
-              <div class="u-font-medium grade-accordion__interval-static">
-                {{ intervalo.inicio }} - {{ intervalo.fim }}
-              </div>
-            </template>
-          </div>
+            :end="
+              toDisplayFormat(
+                props.grade.intervalos[getOriginalIndex(periodo, j)]?.fim ?? ''
+              )
+            "
+            :inicio="intervalo.inicio"
+            :fim="intervalo.fim"
+            :is-editing="isEditing"
+            :disabled="disabled"
+            :error="getIntervalError(periodo, j)"
+            @update:start="
+              emit(
+                'update:intervalo-inicio',
+                getOriginalIndex(periodo, j),
+                $event
+              )
+            "
+            @update:end="
+              emit('update:intervalo-fim', getOriginalIndex(periodo, j), $event)
+            "
+            @remove="emit('remove-interval', getOriginalIndex(periodo, j))"
+          />
 
           <p
             v-if="getIntervalError(periodo, j) && isEditing"
@@ -321,58 +268,6 @@ function getIntervalError(
   }
 }
 
-.grade-accordion__title-wrap {
-  min-width: 0;
-}
-
-.grade-accordion__name-input {
-  min-width: 0;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: var(--ui-radius-md);
-  color: var(--ladesa-white-color);
-}
-
-.grade-accordion__name-input::placeholder {
-  color: rgb(from var(--ladesa-white-color) R G B / 60%);
-}
-
-.grade-accordion__name-input:disabled {
-  opacity: 0.4;
-}
-
-.grade-accordion__name-input--error {
-  border-color: var(--ladesa-red-color);
-  background-color: rgb(from var(--ladesa-red-color) R G B / 20%);
-}
-
-.grade-accordion__name-input--default {
-  border-color: rgb(from var(--ladesa-white-color) R G B / 30%);
-  background-color: rgb(from var(--ladesa-white-color) R G B / 20%);
-}
-
-.grade-accordion__remove-btn {
-  color: rgb(from var(--ladesa-white-color) R G B / 80%);
-}
-
-.grade-accordion__remove-btn:hover {
-  color: var(--ladesa-white-color);
-}
-
-.grade-accordion__remove-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.grade-accordion__remove-icon {
-  width: 1rem;
-  height: 1rem;
-}
-
-.grade-accordion__title-static {
-  color: var(--ladesa-white-color);
-}
-
 .grade-accordion__arrow {
   color: var(--ladesa-white-color);
   transition: rotate var(--ui-duration-base) linear;
@@ -410,43 +305,6 @@ function getIntervalError(
   font-size: 1rem;
   border-left: 4px solid var(--ladesa-green-1-color);
   padding-left: var(--ui-space-2);
-}
-
-.grade-accordion__interval-row {
-  border-bottom-width: 2px;
-  border-bottom-style: solid;
-}
-
-@media (min-width: 768px) {
-  .grade-accordion__interval-row {
-    flex-wrap: nowrap;
-  }
-}
-
-.grade-accordion__interval-row--error {
-  border-bottom-color: rgb(from var(--ladesa-red-color) R G B / 30%);
-}
-
-.grade-accordion__interval-row--default {
-  border-bottom-color: rgb(from var(--ladesa-grey-color) R G B / 20%);
-}
-
-.grade-accordion__interval-static {
-  font-size: 0.8125rem;
-  white-space: nowrap;
-}
-
-.grade-accordion__remove-interval-btn {
-  width: 0.9rem;
-}
-
-.grade-accordion__remove-interval-btn:hover {
-  color: var(--ladesa-red-color);
-}
-
-.grade-accordion__remove-interval-btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
 }
 
 .grade-accordion__empty-text {
