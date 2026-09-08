@@ -15,10 +15,12 @@
   "scripts": {
     "build": "pnpm run clean && pnpm run build:types && vite build",
     "build:types": "vue-tsc --declaration --emitDeclarationOnly",
-    "typecheck": "vue-tsc --noEmit",
+    "typecheck": "vue-tsc --noEmit && vue-tsc --noEmit -p tsconfig.dev.json",
     "clean": "rm -rf dist",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "storybook": "storybook dev -p 6006 --no-open",
+    "storybook:build": "storybook build"
   },
   "dependencies": {
     "@internationalized/date": "^3.12.4",
@@ -34,6 +36,9 @@
   },
   "devDependencies": {
     "@ladesa-ro/web.styles": "workspace:*",
+    "@storybook/addon-docs": "^10.6.0",
+    "@storybook/addon-vitest": "^10.6.0",
+    "@storybook/vue3-vite": "^10.6.0",
     "@types/web-bluetooth": "^0.0.21",
     "@vitejs/plugin-vue": "^6.0.0",
     "@vitest/browser": "^5.0.0",
@@ -41,6 +46,7 @@
     "@vue/test-utils": "^2.5.0",
     "@vue/tsconfig": "^0.8.0",
     "playwright": "^1.63.0",
+    "storybook": "^10.6.0",
     "typescript": "6.0.3",
     "vite": "^7.0.0",
     "vitest": "^5.0.0",

@@ -141,3 +141,4 @@ dist
 .codex
 # Vitest
 **/.vitest/**
+storybook-static/

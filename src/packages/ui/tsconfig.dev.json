@@ -1,0 +1,15 @@
+{
+  "extends": ["@vue/tsconfig/tsconfig.dom.json", "@vue/tsconfig/tsconfig.lib.json"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    ".storybook/**/*.ts",
+    "vitest.config.ts",
+    "vitest.setup.ts"
+  ],
+  "compilerOptions": {
+    "noEmit": true,
+    "skipLibCheck": true,
+    "types": ["web-bluetooth", "vite/client"]
+  }
+}
