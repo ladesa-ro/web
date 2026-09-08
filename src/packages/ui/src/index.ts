@@ -33,6 +33,11 @@ export { default as FormStepper } from './components/FormStepper.vue';
 export { default as FormTextField } from './components/FormTextField.vue';
 export { default as FormTimeField } from './components/FormTimeField.vue';
 export { default as FormTimeRangeField } from './components/FormTimeRangeField.vue';
+export { default as ReportButtons } from './components/ReportButtons.vue';
+export {
+  default as WeekNavigator,
+  type WeekNavigatorProps,
+} from './components/WeekNavigator.vue';
 export {
   default as ButtonAddInline,
   type ButtonAddInlineProps,
