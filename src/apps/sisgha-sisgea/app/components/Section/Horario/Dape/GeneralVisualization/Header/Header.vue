@@ -24,8 +24,6 @@ const selectedToggleItem = defineModel<'professor' | 'turma' | 'mesclado'>(
   { required: true }
 );
 
-//
-
 const popoverOpen = ref(false);
 </script>
 

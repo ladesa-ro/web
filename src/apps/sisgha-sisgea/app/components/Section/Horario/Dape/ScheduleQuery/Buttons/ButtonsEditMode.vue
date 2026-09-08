@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import Button from './ScheduleQueryButton.vue';
 
-// const selectedItemsSize = computed(
-//   () => useSelectedCells({ action: 'getAll', get: 'ids' }).value.size ?? 0
-// );
-
 const editMode: Ref<boolean> = inject('editMode') ?? ref(false);
 const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
 </script>
@@ -12,16 +8,6 @@ const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
 <template>
   <span v-if="editMode" class="u-flex u-gap-2-5">
     <slot />
-
-    <!-- <div class="divider" /> -->
-
-    <!-- <Button
-      text="Limpar seleção"
-      :disabled="selectedItemsSize === 0"
-      @click="useSelectedCells({ action: 'removeAll' })"
-    >
-      <IconsBroom class="buttons-edit-mode__icon--broom" />
-    </Button> -->
 
     <Button text="Intervalos" @click="showBreaks = !showBreaks">
       <IconsEyeOff v-show="showBreaks" class="buttons-edit-mode__icon" />

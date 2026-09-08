@@ -66,11 +66,7 @@ export const useAuthSignIn = () => {
     isLoading,
     isError,
 
-    // ...
-
     credentials,
-
-    //
 
     signInWithCredentials,
   };

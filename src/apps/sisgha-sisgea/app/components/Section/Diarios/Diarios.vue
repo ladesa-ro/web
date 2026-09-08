@@ -14,7 +14,6 @@ const crudModule = {
   getOne: (id: string) => api.call(diarioFindById, { path: { id } }),
 } satisfies IEntityListModule;
 
-// Filtros
 const ofertaFormacoes = useOfertasFormacoes();
 const cursos = useCursos();
 const turmasComposable = useTurmas();
@@ -74,7 +73,6 @@ const disciplinaItems = computed(
     })) ?? []
 );
 
-// Cascata: limpar filtros dependentes
 watch(selectedOfertaFormacao, () => {
   selectedCurso.value = undefined;
   selectedTurma.value = undefined;
@@ -84,10 +82,8 @@ watch(selectedCurso, () => {
   selectedTurma.value = undefined;
 });
 
-// Filtro de campus
 const campusContext = useCampusContext();
 
-// Filtro reativo para a listagem
 const filter = computed(() => {
   const f: Record<string, unknown> = {};
   if (campusContext.value) {

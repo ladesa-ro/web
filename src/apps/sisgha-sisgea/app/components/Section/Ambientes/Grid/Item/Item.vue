@@ -18,7 +18,9 @@ const link =
     : props.link;
 
 const ambientes = useAmbientes();
-const { data: coverImageSrc } = ambientes.imageCover(computed(() => unref(ambiente)?.id ?? null));
+const { data: coverImageSrc } = ambientes.imageCover(
+  computed(() => unref(ambiente)?.id ?? null)
+);
 </script>
 
 <template>

@@ -10,8 +10,7 @@ const preferenciaAgrupamentoSchema = yup.object({
     .max(7, 'Dia inválido')
     .default(null),
   aulasSeguidas: yup.number().required().min(1, 'Mínimo 1 aula').default(1),
-  // dataInicio/dataFim não são preenchidos pelo usuário na UI;
-  // o fallback é aplicado no mapPreferencias() antes do envio à API
+
   dataInicio: yup.string().optional().default(''),
   dataFim: yup.string().nullable().default(null),
 });

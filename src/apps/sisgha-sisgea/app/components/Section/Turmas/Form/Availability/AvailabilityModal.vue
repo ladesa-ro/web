@@ -157,7 +157,6 @@ function handleUndoPending(dataInicio: string) {
       />
 
       <template v-if="!isEditing && !isPastWeek">
-        <!-- Config list (view mode, after edit button) -->
         <SectionTurmasFormAvailabilityConfigList
           v-if="!isEditing"
           :configs="allConfigs"
@@ -186,7 +185,6 @@ function handleUndoPending(dataInicio: string) {
         </button>
       </template>
 
-      <!-- Eventos da turma -->
       <SectionTurmasFormEventosSection
         v-if="!isEditing && props.mode === FormMode.MANAGE"
         :disabled="props.disabled"
@@ -208,7 +206,6 @@ function handleUndoPending(dataInicio: string) {
         </template>
       </template>
 
-      <!-- Save scope: permanente ou temporário -->
       <DialogManagedDialog
         name="saveScope"
         :manager="modals"
@@ -220,7 +217,6 @@ function handleUndoPending(dataInicio: string) {
         />
       </DialogManagedDialog>
 
-      <!-- Navigation confirmation when dirty -->
       <DialogManagedDialog
         name="navConfirm"
         :manager="modals"

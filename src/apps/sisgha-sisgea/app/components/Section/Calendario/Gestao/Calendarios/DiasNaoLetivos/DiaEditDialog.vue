@@ -29,11 +29,7 @@ watch(
   () => props.dia,
   newDia => {
     if (!newDia) return;
-    if (newDia.id) {
-      // Edit mode — values are set by the parent before opening
-      // The parent should call expose.resetForEdit() or set dia prop
-    } else {
-      // Create mode
+    if (!newDia.id) {
       resetEditForm({ values: diaEditSchema.getDefault() });
     }
   }
@@ -66,7 +62,6 @@ function close() {
 }
 
 function resetForEdit(dia: CalendarioLetivoDiaFindOneOutputDto) {
-  // TODO: remove Record cast after SDK regeneration includes 'cor' field
   resetEditForm({
     values: {
       feriado: dia.feriado ?? '',

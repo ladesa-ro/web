@@ -11,14 +11,12 @@ const contexto = useContextDiariosFormGeral();
 
 const searchBarText = ref('');
 
-// Composables
 const campi = useCampi();
 const ofertaFormacoes = useOfertasFormacoes();
 const cursos = useCursos();
 const turmas = useTurmas();
 const calendariosLetivos = useCalendarioLetivo();
 
-// Queries
 const campiListQuery = campi.list();
 
 const ofertaFormacaoListQuery = ofertaFormacoes.list(
@@ -61,7 +59,6 @@ const calendarioListQuery = calendariosLetivos.list(
   })
 );
 
-// Opções para selects (ParsedItem[])
 const campusItems = computed(
   () =>
     campiListQuery.data.value?.data?.map((c: Record<string, unknown>) => ({
@@ -108,7 +105,6 @@ const turmaRadioItems = computed(
     })) ?? []
 );
 
-// Modelos para selects (ParsedItem)
 const campusSelected = computed({
   get: () =>
     campusItems.value.find(i => i.value === contexto.campusId.value) ??
@@ -146,7 +142,6 @@ const cursoSelected = computed({
   },
 });
 
-// Watchers cascata
 useCascadingFilters([
   {
     ref: contexto.campusId,
@@ -206,7 +201,6 @@ function nextForm() {
     title="Cadastrar diários: Selecionar turma"
   >
     <div class="u-flex u-flex-col u-gap-4">
-      <!-- Campus -->
       <UIFormOptionFieldsSelect
         v-model="campusSelected"
         label="Campus"
@@ -214,7 +208,6 @@ function nextForm() {
         :items="campusItems"
       />
 
-      <!-- Calendário Letivo -->
       <UIFormOptionFieldsSelect
         v-model="calendarioSelected"
         label="Calendário Letivo"
@@ -223,7 +216,6 @@ function nextForm() {
         :disabled="!contexto.campusId.value"
       />
 
-      <!-- Formação -->
       <UIFormOptionFieldsSelect
         v-model="ofertaFormacaoSelected"
         label="Formação"
@@ -234,7 +226,6 @@ function nextForm() {
         "
       />
 
-      <!-- Curso -->
       <UIFormOptionFieldsSelect
         v-model="cursoSelected"
         label="Curso"
@@ -243,7 +234,6 @@ function nextForm() {
         :disabled="!contexto.ofertaFormacaoId.value"
       />
 
-      <!-- Pesquisa e turmas (só aparecem com curso selecionado) -->
       <template v-if="contexto.cursoId.value">
         <UIFormTextField
           :model-value="searchBarText"
@@ -253,7 +243,6 @@ function nextForm() {
           @update:model-value="searchBarText = String($event ?? '')"
         />
 
-        <!-- Lista de turmas -->
         <div
           class="u-flex u-flex-col u-gap-2 u-overflow-auto turma-select__list"
         >

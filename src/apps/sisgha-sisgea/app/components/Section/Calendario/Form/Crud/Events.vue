@@ -52,7 +52,6 @@ const formBaseRef = ref<{
   resetForm: (opts?: { values: Record<string, unknown> }) => void;
 }>();
 
-// Query reativa: carrega evento existente por ID
 const eventQuery = agendamento.findOne(computed(() => props.eventId ?? null));
 
 const { handle: handleWriteError, conflictMessage } = useApiWriteErrorHandler({
@@ -93,7 +92,6 @@ watch(
       motivo: (found as Record<string, unknown>).motivo as string | undefined,
     };
 
-    // Preencher calendário vinculado ao evento existente
     const calendarios = (found as Record<string, unknown>)
       .calendariosLetivos as Array<{ id: string }> | undefined;
     if (calendarios && calendarios.length > 0 && calendarios[0]) {
@@ -240,9 +238,7 @@ const deleteEvent = async (): Promise<boolean> => {
   }
 };
 
-const fillForm = async () => {
-  // No-op: dados carregam reativamente via eventQuery
-};
+const fillForm = async () => {};
 
 defineExpose({ validateEventCrud, fillForm, deleteEvent });
 </script>

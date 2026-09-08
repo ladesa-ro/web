@@ -98,8 +98,6 @@ watch(selectedDay, novo => emit('atualizar-dia-selecionado', novo), {
   immediate: true,
 });
 
-//
-
 const collapsibleOpen = ref(true);
 </script>
 

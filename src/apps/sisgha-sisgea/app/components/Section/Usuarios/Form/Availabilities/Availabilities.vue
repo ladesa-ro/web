@@ -25,13 +25,9 @@ const campiList = vinculosComCargoProfessor.value.map(vinculo => {
   return campus ?? null;
 });
 
-//
-
 const activePanel = ref<string | null>(
   vinculosComCargoProfessor.value[0]?.campus.id || null
 );
-
-//
 
 watch(vinculosComCargoProfessor, (current, previous) => {
   const inserted = current.find(
@@ -52,8 +48,6 @@ watch(vinculosComCargoProfessor, (current, previous) => {
     }
   }
 });
-
-//
 
 const emit = defineEmits<{
   (

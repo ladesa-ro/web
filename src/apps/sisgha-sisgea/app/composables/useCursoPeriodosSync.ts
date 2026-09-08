@@ -33,7 +33,6 @@ export function useCursoPeriodosSync(
     });
   }
 
-  // ---- Sincronizar dados do servidor (via cursoQuery.data.periodos) ----
   watch(
     () => cursoQuery.data.value,
     serverData => {
@@ -70,7 +69,6 @@ export function useCursoPeriodosSync(
     { immediate: true }
   );
 
-  // ---- Ajustar array local quando quantidadePeriodos muda ----
   watch(
     () => unref(quantidadePeriodos),
     count => {
@@ -80,8 +78,6 @@ export function useCursoPeriodosSync(
     },
     { immediate: true }
   );
-
-  // ---- Converter para payload de envio ----
 
   function toPeriodosPayload() {
     return localPeriodos.value.map(p => ({

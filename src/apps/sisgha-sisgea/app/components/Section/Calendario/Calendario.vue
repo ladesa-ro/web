@@ -27,7 +27,6 @@ const selectedCampusGlobalState = useCampusContext();
 const toggleView = ref<number>(0);
 const showDeleteModal = ref(false);
 
-// Computed wrappers for store fields (bidirectional)
 const selectedYear = computed({
   get: () => filtersStore.anoLetivo,
   set: (v: number) => {
@@ -49,7 +48,6 @@ const selectedCalendarId = computed({
   },
 });
 
-// Query reativa: listar calendários por campus
 const calendarsQuery = calendarioLetivo.list(
   computed(() => {
     const campusId = selectedCampusGlobalState.value;
@@ -75,7 +73,6 @@ const filteredCalendars = computed(() => {
   );
 });
 
-// Query reativa: carregar calendário selecionado
 const calendarDetailQuery = calendarioLetivo.findOne(selectedCalendarId);
 
 const selectedCalendar = computed<CalendarData | null>(() => {
@@ -101,7 +98,6 @@ const toggleItems = [
 
 const { showToast } = useToast();
 
-// On mount: hydrate store from URL query params
 onMounted(() => {
   if (route.query.ano) filtersStore.anoLetivo = Number(route.query.ano);
   if (route.query.formacao && typeof route.query.formacao === 'string')
@@ -110,7 +106,6 @@ onMounted(() => {
     filtersStore.calendarioId = route.query.calendario;
 });
 
-// Sync store → URL (deep linking without page reload)
 watch(
   [
     () => filtersStore.anoLetivo,
@@ -129,7 +124,6 @@ watch(
   }
 );
 
-// Sync campus context → store
 watch(selectedCampusGlobalState, newCampus => {
   filtersStore.campusId = newCampus;
 });
@@ -188,7 +182,6 @@ const selectedCalendarItem = computed({
   <UIContainer class="u-flex u-flex-col u-gap-4">
     <UIBreadcrumbDapeBreadcrumb />
 
-    <!-- Menu -->
     <div class="u-flex u-items-end u-gap-3-5 u-w-full">
       <div class="calendario-menu__year-field">
         <VVTextField
@@ -224,7 +217,6 @@ const selectedCalendarItem = computed({
       <GestaoPopover v-if="dapeVisualization" />
     </div>
 
-    <!-- Content -->
     <UIToggle
       v-model="toggleView"
       :disabled="!selectedCalendar"

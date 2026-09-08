@@ -151,7 +151,6 @@ async function onDialogSaved() {
       </UIButtonDefaultSquare>
     </UIBreadcrumbDapeBreadcrumb>
 
-    <!-- Calendar selector -->
     <div class="u-flex u-flex-wrap u-gap-3 u-items-end">
       <div class="dias-nao-letivos__calendar-field u-w-full">
         <VVAutocompleteAPICalendarioLetivo
@@ -164,7 +163,6 @@ async function onDialogSaved() {
 
     <UIToggle v-model="toggleView" :items="toggleItems" class="u-w-full" />
 
-    <!-- No calendar selected -->
     <div
       v-if="!selectedCalendarioId"
       class="dias-nao-letivos__message u-text-center u-py-8"
@@ -172,7 +170,6 @@ async function onDialogSaved() {
       Selecione um calendário para visualizar os dias.
     </div>
 
-    <!-- Loading -->
     <div
       v-else-if="isLoadingDias"
       class="dias-nao-letivos__message u-text-center u-py-8"
@@ -180,7 +177,6 @@ async function onDialogSaved() {
       Carregando dias...
     </div>
 
-    <!-- Month view -->
     <template v-else-if="toggleView === 'mes'">
       <div class="dias-nao-letivos__responsive-row u-flex u-flex-col u-gap-6">
         <div class="dias-nao-letivos__month-col u-shrink-0">
@@ -215,7 +211,6 @@ async function onDialogSaved() {
       </div>
     </template>
 
-    <!-- Year view -->
     <template v-else>
       <UISearchBar v-model="searchQuery" placeholder="Pesquisar dia..." />
 
@@ -257,7 +252,6 @@ async function onDialogSaved() {
       </div>
     </template>
 
-    <!-- Edit Dialog -->
     <DiaEditDialog
       ref="editDialogRef"
       v-model="editDialogOpen"

@@ -21,7 +21,6 @@ const formValidate = inject(diariosFormValidateKey);
 
 const isEditMode = computed(() => !!props.editId);
 
-// Buscar disciplinas do curso da turma selecionada
 const cursoId = computed(() => {
   const turma = contexto.turmaSelecionada.value;
   return (
@@ -32,7 +31,6 @@ const cursoId = computed(() => {
 const { disciplinas, isLoading: isLoadingDisciplinas } =
   useDisciplinasByCurso(cursoId);
 
-// Buscar diários já existentes para turma+calendário (evitar duplicatas)
 const diarios = useDiarios();
 const existingDiariosQuery = diarios.list(
   computed(() => {
@@ -62,7 +60,6 @@ const disciplinasDisponiveis = computed(() =>
   )
 );
 
-// Inicializar config das disciplinas quando carregarem (modo criação)
 watch(
   disciplinasDisponiveis,
   newDisciplinas => {
@@ -94,10 +91,8 @@ watch(
   { immediate: true }
 );
 
-// Edição: carregar dados existentes
 useDisciplinasConfigEdit(props.editId, contexto);
 
-// Submissão e ações
 const { onSubmit, onDelete, canSubmit, isBusy, imagemFile, confirmDelete } =
   useDisciplinasConfigSubmit(
     computed(() => props.editId),
@@ -126,7 +121,6 @@ const turmaInfo = computed(() => {
 <template>
   <DialogModalBaseLayout :on-close="() => emit('close')" :title="title">
     <div class="u-flex u-flex-col u-gap-4">
-      <!-- Card turma (read-only) -->
       <div v-if="turmaInfo" class="u-rounded-lg disciplinas-config__turma-card">
         <p class="u-font-semibold u-text-sm disciplinas-config__turma-nome">
           {{ turmaInfo.nome }}
@@ -136,10 +130,8 @@ const turmaInfo = computed(() => {
         </p>
       </div>
 
-      <!-- Imagem de capa (modo edição) -->
       <UISelectImage v-if="isEditMode" v-model="imagemFile" />
 
-      <!-- Banner informativo -->
       <div
         v-if="!isEditMode && turmaInfo"
         class="u-flex u-items-center u-gap-3 disciplinas-config__info-banner"
@@ -150,7 +142,6 @@ const turmaInfo = computed(() => {
         </span>
       </div>
 
-      <!-- Loading -->
       <div
         v-if="isLoadingDisciplinas || contexto.isLoadingEdit.value"
         class="u-flex u-items-center u-justify-center disciplinas-config__loading"
@@ -164,7 +155,6 @@ const turmaInfo = computed(() => {
         </span>
       </div>
 
-      <!-- Todas as disciplinas já possuem diário -->
       <div
         v-else-if="
           !isEditMode &&
@@ -179,7 +169,6 @@ const turmaInfo = computed(() => {
         </span>
       </div>
 
-      <!-- Lista de accordions -->
       <div v-else class="u-overflow-auto u-flex u-flex-col u-gap-4">
         <SectionDiariosFormGeralDisciplinasAccordionDisciplinaAccordion
           v-for="(dc, index) in contexto.disciplinasConfig.value"

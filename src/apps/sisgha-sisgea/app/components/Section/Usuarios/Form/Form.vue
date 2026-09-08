@@ -3,8 +3,6 @@ import { useForm } from 'vee-validate';
 import type { FormUserOutput, FormUserValues } from './FormUtils';
 import { usuarioSchema } from './-Helpers/schema';
 
-//
-
 type Props = {
   editId?: string | null;
 };
@@ -13,11 +11,7 @@ const props = withDefaults(defineProps<Props>(), {
   editId: null,
 });
 
-//
-
 const editIdRef = toRef(props, 'editId');
-
-//
 
 const usuarios = useUsuarios();
 

@@ -9,7 +9,6 @@ const { userId } = defineProps<Props>();
 const usuarios = useUsuarios();
 const { data: user, isLoading, isError } = usuarios.findOne(ref(userId));
 
-//
 const { canEdit } = useCanEditProfile(userId);
 const showGoBack = computed(() => !canEdit.value);
 
@@ -29,7 +28,6 @@ const goBack = () => {
       </div>
       <SectionProfileHeader :user="user" />
 
-      <!-- TODO: puxar da api -->
       <section class="profile-page__grid">
         <SectionProfileAvailability
           class="border-card profile-page__availability"

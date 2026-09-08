@@ -1,0 +1,42 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.12/schema.json",
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "includes": [
+      "apps/**/*.{js,mjs,cjs,ts,mts,cts,vue}",
+      "packages/**/*.{js,mjs,cjs,ts,mts,cts,vue}",
+      "!**/node_modules/**",
+      "!**/dist/**",
+      "!**/.nuxt/**",
+      "!**/.output/**",
+      "!**/.nx/**",
+      "!**/storybook-static/**",
+      "!**/.vitest/**",
+      "!packages/ladesa-api-client/src/__generated__/**"
+    ]
+  },
+  "formatter": {
+    "enabled": false
+  },
+  "assist": {
+    "enabled": false
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": false,
+      "complexity": {
+        "noExcessiveCognitiveComplexity": {
+          "level": "warn",
+          "options": {
+            "maxAllowedComplexity": 15
+          }
+        }
+      }
+    }
+  }
+}

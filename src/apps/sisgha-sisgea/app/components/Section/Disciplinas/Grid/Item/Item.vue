@@ -16,7 +16,9 @@ const link =
   props.link === undefined || props.link === '' ? 'disciplinas' : props.link;
 
 const disciplinas = useDisciplinas();
-const { data: coverImageSrc } = disciplinas.imageCover(computed(() => unref(disciplina)?.id ?? null));
+const { data: coverImageSrc } = disciplinas.imageCover(
+  computed(() => unref(disciplina)?.id ?? null)
+);
 </script>
 
 <template>

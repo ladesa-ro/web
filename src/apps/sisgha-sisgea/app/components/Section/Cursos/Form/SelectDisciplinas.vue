@@ -23,7 +23,6 @@ const emit = defineEmits<{
   back: [];
 }>();
 
-// Query compartilhada via inject
 const periodos = useInjectCursoPeriodos();
 const { disciplinasInfiniteQuery, disciplinasList } = periodos;
 
@@ -63,7 +62,6 @@ function confirmSelection() {
   emit('confirm', selectedIds.value);
 }
 
-// Scroll infinito com cleanup
 const scrollTrigger = ref<HTMLElement | null>(null);
 let observer: IntersectionObserver | null = null;
 
@@ -152,7 +150,6 @@ const titleVerb = computed(() =>
         </div>
       </div>
 
-      <!-- Trigger para scroll infinito -->
       <div ref="scrollTrigger" class="u-shrink-0 select-disciplinas__trigger" />
 
       <UILoading v-if="disciplinasInfiniteQuery.isFetching.value" />

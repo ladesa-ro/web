@@ -3,7 +3,6 @@ import FormacoesForm from '../../Form/Form.vue';
 
 import type { OfertaFormacaoFindOneOutputDto } from '@ladesa-ro/web.api.client';
 
-
 type Props = {
   isLoading?: boolean;
   item?: OfertaFormacaoFindOneOutputDto | null;
@@ -20,7 +19,9 @@ const link =
 const modalidadeNome = computed(() => formacao.value?.modalidade?.nome ?? '-');
 
 const ofertasFormacoes = useOfertasFormacoes();
-const { data: coverImageSrc } = ofertasFormacoes.imageCover(computed(() => unref(formacao)?.id ?? null));
+const { data: coverImageSrc } = ofertasFormacoes.imageCover(
+  computed(() => unref(formacao)?.id ?? null)
+);
 </script>
 
 <template>

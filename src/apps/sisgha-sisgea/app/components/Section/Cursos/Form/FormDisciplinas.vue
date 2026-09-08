@@ -45,7 +45,6 @@ const disciplinasById = periodos.disciplinasById;
         </span>
       </div>
 
-      <!-- Disciplinas ativas -->
       <div
         v-for="disc in periodo.disciplinas"
         :key="disc.disciplinaId"
@@ -75,7 +74,6 @@ const disciplinasById = periodos.disciplinasById;
         </span>
       </div>
 
-      <!-- Disciplinas removidas (só no modo edição) -->
       <div
         v-for="removedId in periodo.removedDisciplinaIds"
         :key="removedId"

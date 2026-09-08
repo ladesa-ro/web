@@ -50,7 +50,6 @@ function handleForceClose() {
   closeModal();
 }
 
-// Queries reativas
 const calendarioLetivo = useCalendarioLetivo();
 const agendamento = useCalendarioAgendamento();
 
@@ -107,7 +106,6 @@ const events = computed(() => {
 useOnCalendarioForceClose(handleForceClose);
 useOnCalendarioEventsUpdated(handleEventsUpdated);
 
-// Computed
 const filteredEvents = computed(() => {
   let result = events.value;
 
@@ -137,7 +135,6 @@ const filteredEvents = computed(() => {
   return result;
 });
 
-// Helpers
 function formatDate(date: string) {
   return dayjs(date).format('DD/MM/YYYY');
 }
@@ -209,7 +206,6 @@ function handleEventsUpdated() {
         :key="event.id"
         class="u-flex u-flex-col u-rounded-lg u-p-3 events-list__card"
       >
-        <!-- Cabeçalho -->
         <div class="u-flex u-justify-between u-items-center">
           <div class="u-flex u-gap-2 u-items-center">
             <div
@@ -225,7 +221,6 @@ function handleEventsUpdated() {
           </div>
         </div>
 
-        <!-- Conteúdo -->
         <ul class="u-text-sm events-list__meta">
           <li>
             Início: <span>{{ formatDate(event.startDate) }}</span>
@@ -256,7 +251,6 @@ function handleEventsUpdated() {
       </p>
     </div>
 
-    <!-- Botão fechar -->
     <template #button-group>
       <UIButtonModalCancel
         type="close"

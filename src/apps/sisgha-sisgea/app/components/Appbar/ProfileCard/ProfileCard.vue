@@ -10,8 +10,6 @@ const { data: profilePicureUrl } = useUsuarios().imageProfile(
   computed(() => usuario.value?.id ?? null)
 );
 
-//
-
 const cargos = useCampusContextCargos();
 
 const selectedCargo = ref<string | null>(null);
@@ -37,7 +35,6 @@ const handleCargoClick = (cargo: string) => {
       </template>
     </UIImg>
 
-    <!-- if is mobile -->
     <p
       class="u-font-semibold u-text-left u-truncate u-text-sm profile-card-mobile-only"
     >
@@ -47,7 +44,6 @@ const handleCargoClick = (cargo: string) => {
       <slot name="arrowIcon" />
     </span>
 
-    <!-- if is not mobile -->
     <div class="u-overflow-hidden profile-card-desktop-only">
       <p class="u-font-semibold u-text-left u-truncate">
         {{ usuario.nome?.split(' ')[0] }}

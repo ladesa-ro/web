@@ -15,7 +15,6 @@ provide('lesson', lesson);
 
 const variant = verifyClassStatusByLesson(lesson.value);
 
-// #region logic to show the campus only if the teacher teaches on more than one campus
 const { resumoVinculos } = useApiContext();
 
 const campiWhereTeaches = computed(
@@ -25,7 +24,6 @@ const campiWhereTeaches = computed(
 const showCampus = computed(() => {
   return campiWhereTeaches.value.length > 1 && viewFor.value === 'teacher';
 });
-// #endregion
 </script>
 
 <template>
@@ -40,10 +38,8 @@ const showCampus = computed(() => {
           v-else-if="viewFor === 'student'"
         />
 
-        <!--ambiente-->
         <LessonInfoEnvironment :show-campus="showCampus" />
 
-        <!--horário-->
         <SectionHorarioProfessorEAlunoDailyViewLessonInfoTime />
       </slot>
     </section>

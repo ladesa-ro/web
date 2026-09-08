@@ -52,7 +52,6 @@ const tabItems = [
     </template>
 
     <div class="u-flex u-flex-col u-gap-5 disciplina-accordion__body">
-      <!-- Abas -->
       <div class="u-flex u-gap-2">
         <button
           v-for="tab in tabItems"
@@ -71,7 +70,6 @@ const tabItems = [
         </button>
       </div>
 
-      <!-- Conteúdo da aba ativa (v-show preserva estado sem desmontar) -->
       <div v-show="activeTab === 'dias'">
         <SectionDiariosFormGeralDisciplinasAccordionDiasDeAulaTab
           :index="index"

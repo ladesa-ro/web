@@ -22,7 +22,6 @@ const { value: selectedCursoId } = useField<string | null>('curso.id');
 const cursoQuery = cursos.findOne(selectedCursoId);
 const { value: campusId } = useField<string | null>('campus.id');
 
-// Em edição, preencher campus.id a partir de curso.campus.id
 watch(
   () => turmaQuery.data.value?.curso?.campus?.id,
   campusFromCurso => {
@@ -30,7 +29,7 @@ watch(
       campusId.value = campusFromCurso;
     }
   },
-  { immediate: true },
+  { immediate: true }
 );
 
 const modeRef = ref<FormMode>(FormMode.CREATE);
@@ -43,7 +42,6 @@ const avail = useProvideTurmaAvailability(
 
 const eventosState = useProvideAgendamentos(computed(() => editId));
 
-// Evento dialog management
 type EventoDialogName = 'evento-create' | 'evento-edit';
 const eventoModals = useModalManager<EventoDialogName>({
   modals: {
@@ -192,7 +190,6 @@ watch(
     </DialogLayoutSideBySide>
   </form>
 
-  <!-- Dialog: Criar Evento -->
   <DialogManagedDialog
     name="evento-create"
     :manager="eventoModals"
@@ -210,7 +207,6 @@ watch(
     />
   </DialogManagedDialog>
 
-  <!-- Dialog: Editar Evento -->
   <DialogManagedDialog
     name="evento-edit"
     :manager="eventoModals"

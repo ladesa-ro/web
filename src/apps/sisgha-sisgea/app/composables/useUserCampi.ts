@@ -18,7 +18,6 @@ export const useUserCargoAndCampi = () => {
   const campiPorCargo: campiPorCargo[] = [];
 
   if (isSuperUser) {
-    // Super user: cargos fixos, campi vem da API (gerenciado pelo ChangeCampus)
     for (const cargo of SUPERUSER_CARGOS) {
       const existingCampi = apiCargoCampi[cargo] ?? [];
       campiPorCargo.push({ cargo, campi: existingCampi });

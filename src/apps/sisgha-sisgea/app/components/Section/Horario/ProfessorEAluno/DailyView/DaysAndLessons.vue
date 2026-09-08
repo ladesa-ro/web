@@ -13,8 +13,6 @@ const viewFor = computed(() => {
   return 'student';
 });
 
-// Dia selecionado (elevado de DaySquareList)
-// Se for domingo (day=0), ajusta para segunda (day=1)
 const currentDay = useCurrentDay();
 
 function ensureWeekday(day: Dayjs): Dayjs {
@@ -23,15 +21,12 @@ function ensureWeekday(day: Dayjs): Dayjs {
 
 const selectedDay = ref<Dayjs>(ensureWeekday(currentDay.value));
 
-// Quando currentDay mudar (ex: via popover do calendário), sincronizar
 watch(currentDay, val => {
   selectedDay.value = ensureWeekday(val);
 });
 
-// Perfil do professor logado
 const perfilId = computed(() => perfisAtivos.value?.[0]?.id ?? null);
 
-// Consultar ocorrências da API
 const agendamento = useCalendarioAgendamento();
 
 const consultaParams = computed(() => {
@@ -47,7 +42,6 @@ const consultaParams = computed(() => {
 
 const consultaQuery = agendamento.consulta(consultaParams);
 
-// Mapear ocorrências para ILesson[]
 const lessons = computed<ILesson[]>(() => {
   const ocorrencias = consultaQuery.data.value?.ocorrencias;
   if (!ocorrencias?.length) return [];

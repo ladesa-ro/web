@@ -46,7 +46,6 @@ const { campusId: campusUsuarioDefault } = useCampusDoUsuario();
 
 const isEditMode = computed(() => !!props.calendarId);
 
-// Query reativa: carrega calendário existente para edição
 const calendarQuery = calendarioLetivo.findOne(
   computed(() => props.calendarId ?? null)
 );
@@ -67,7 +66,6 @@ watch(
   { immediate: true }
 );
 
-// Query reativa: carrega períodos da formação selecionada
 const formacaoQuery = ofertasFormacoes.findOne(
   computed(() => values.trainingOffer || null)
 );
@@ -76,7 +74,6 @@ const formacaoPeriodos = computed(
   () => formacaoQuery.data.value?.periodos ?? []
 );
 
-// Campus default para criação
 watch(
   campusUsuarioDefault,
   newCampusId => {
@@ -98,7 +95,6 @@ watch(
   }
 );
 
-// Limpar refs stale quando a lista de períodos muda (ex: troca de oferta)
 watch(formacaoPeriodos, () => {
   stepRefs.value = [];
 });

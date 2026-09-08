@@ -5,11 +5,6 @@ export type ScheduleInDaysWithoutShifts = Record<
   (Horario & HorDayjs)[]
 >;
 
-/**
- * A partir de um array com elementos do tipo `TransicaoDia`, dividido em turnos ou não, cria um objeto do tipo `Dias`.
- * @param horarioCompleto Array com horários do tipo `TransicaoDia`.
- * @returns Um array do tipo `Horario`, caso o parâmetro `horarioCompleto` não tenha sido dividido em transições de dia, ou, caso contrário, um objeto do tipo `Dias`. Cada chave deste objeto é uma data no formato `YYYY-MM-DD` e o valor é um array dos horários correspondentes a essa data.
- */
 export const separateScheduleInDays = (
   horarioCompleto: (Horario & HorDayjs)[]
 ): Horario[] | ScheduleInDaysWithoutShifts => {
@@ -18,11 +13,8 @@ export const separateScheduleInDays = (
     .filter(item => item !== null);
 
   if (idxTransicoes.length === 0) {
-    // se não foram identificadas transições de dia anteriormente, retorna-se o próprio horário sem dividi-lo em arrays
     return horarioCompleto;
   }
-
-  //
 
   const getKey = (dia: Horario & HorDayjs): string =>
     dia.date.format('YYYY-MM-DD');

@@ -25,8 +25,6 @@ const selectedCampusId = computed(() => {
   return campusContext.value;
 });
 
-//
-
 type Slots = { actions(): any };
 
 defineSlots<Slots>();

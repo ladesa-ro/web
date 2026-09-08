@@ -57,11 +57,13 @@ export function useCalendarEvents(calendarId: Ref<string | undefined>) {
           calendar: { id },
           type: 'agendamento',
           colecao:
-            (o.colecao as {
-              id: string;
-              nome?: string | null;
-              cor?: string | null;
-            } | undefined) ?? null,
+            (o.colecao as
+              | {
+                  id: string;
+                  nome?: string | null;
+                  cor?: string | null;
+                }
+              | undefined) ?? null,
           campus:
             (o.campus as { id: string; apelido?: string | null } | undefined) ??
             null,

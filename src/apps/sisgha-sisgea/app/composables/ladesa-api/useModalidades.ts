@@ -94,7 +94,8 @@ export const useModalidades = (): IUseModalidades => {
 
   const imageCover = createImageBlobQuery({
     queryKey: keys,
-    fetcher: (id: string) => api.call(modalidadeGetImagemCapa, { path: { id } }),
+    fetcher: (id: string) =>
+      api.call(modalidadeGetImagemCapa, { path: { id } }),
   });
 
   const invalidate = createInvalidate(keys);

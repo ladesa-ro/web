@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-// # IMPORTS
 import { IconsCalendar, IconsEvent } from '#components';
 import { nextTick, ref, watch } from 'vue';
 
-// # PROPS
 type Props = {
   calendarId?: string;
   eventName?: string;
@@ -13,13 +11,11 @@ type Props = {
 };
 const props = withDefaults(defineProps<Props>(), { showParticipants: false });
 
-// # EMITS
 const emit = defineEmits<{
   (e: 'refresh'): void;
   (e: 'close'): void;
 }>();
 
-// # STATES
 const stage = ref(0);
 const registerType = ref<'calendar' | 'events' | null>(null);
 const modalTitle = ref(props.editMode ? 'Editar' : 'Cadastrar');
@@ -35,7 +31,6 @@ const eventCrudRef = ref<{
   deleteEvent: () => Promise<boolean>;
 }>();
 
-// # ICONS
 const cardCalendario = {
   text: 'Calendário' as const,
   value: 0,
@@ -43,7 +38,6 @@ const cardCalendario = {
 };
 const cardEvento = { text: 'Evento' as const, value: 1, icon: IconsEvent };
 
-// # FUNCTIONS
 function changeModalTitle(type?: string) {
   if (props.editMode) {
     modalTitle.value =
@@ -167,7 +161,6 @@ async function handleDeleteCalendar() {
         :title="modalTitle"
         class="calendario-form__modal"
       >
-        <!-- Choose Register -->
         <div
           v-show="stage === 0 && !props.editMode"
           class="u-flex u-flex-row u-gap-4"
@@ -190,7 +183,6 @@ async function handleDeleteCalendar() {
           />
         </div>
 
-        <!-- Calendar Form -->
         <SectionCalendarioFormCrudCalendar
           v-show="registerType === 'calendar' || props.editMode === 'calendar'"
           ref="calendarCrudRef"
@@ -198,7 +190,6 @@ async function handleDeleteCalendar() {
           :form-stage="stage"
         />
 
-        <!-- Event Form -->
         <SectionCalendarioFormCrudEvents
           v-show="
             props.editMode === 'events' ||
@@ -212,7 +203,6 @@ async function handleDeleteCalendar() {
           :show-participants="props.showParticipants"
         />
 
-        <!-- Buttons -->
         <template #button-group>
           <UIButtonModalGoBack
             v-show="

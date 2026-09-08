@@ -39,7 +39,6 @@ const { values, validate, setValues } = useForm({
   },
 });
 
-// Reagir a props assíncronas (edição: dados carregam depois do mount)
 watch(
   () => [props.dataInicio, props.dataTermino, props.etapaCor],
   ([inicio, termino, cor]) => {

@@ -13,30 +13,25 @@ const emit = defineEmits<{
   'update:modelValue': [value: typeof props.modelValue];
 }>();
 
-// Composables reativos
 const ofertasFormacoes = useOfertasFormacoes();
 const cursosComposable = useCursos();
 const turmasComposable = useTurmas();
 
-// Local state
 const todosParticipam = ref(props.modelValue.todosParticipam);
 const selectedFormacoes = ref<Array<{ id: string; nome: string }>>([]);
 const selectedTurmas = ref<Map<string, Set<string>>>(new Map());
 const selectedPerfis = ref<Set<string>>(new Set());
 const expandedFormacoes = ref<Set<string>>(new Set());
 
-// Queries reativas
 const formacoesList = ofertasFormacoes.list();
 const formacoes = computed(() =>
   (formacoesList.data.value?.data ?? []).map(f => ({ id: f.id, nome: f.nome }))
 );
 
-// IDs de formações selecionadas para carregar cursos
 const selectedFormacaoIds = computed(() =>
   selectedFormacoes.value.map(f => f.id)
 );
 
-// Cursos filtrados por formações selecionadas
 const cursosByFormacao = ref<Map<string, Array<{ id: string; nome: string }>>>(
   new Map()
 );
@@ -53,7 +48,7 @@ async function loadCursos(formacaoId: string) {
         limit: 100,
       }))
     );
-    // Aguardar dados carregarem
+
     const stop = watch(
       () => result.data.value,
       data => {
@@ -167,14 +162,12 @@ watch(todosParticipam, () => emitUpdate());
       </span>
     </div>
 
-    <!-- Global checkbox -->
     <UIFormCheckbox
       v-model="todosParticipam"
       label="Todas as turmas e professores participam"
       :disabled="disabled"
     />
 
-    <!-- Formações -->
     <template v-if="!todosParticipam">
       <div class="u-flex u-flex-col u-gap-2">
         <span
@@ -200,7 +193,6 @@ watch(todosParticipam, () => emitUpdate());
         </div>
       </div>
 
-      <!-- Accordion per formação -->
       <div
         v-for="formacao in selectedFormacoes"
         :key="formacao.id"
@@ -225,7 +217,6 @@ watch(todosParticipam, () => emitUpdate());
         </button>
 
         <template v-if="expandedFormacoes.has(formacao.id)">
-          <!-- Cursos and Turmas -->
           <div
             v-for="curso in cursosByFormacao.get(formacao.id) ?? []"
             :key="curso.id"

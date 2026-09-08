@@ -8,8 +8,6 @@ type Props = {
 const props = defineProps<Props>();
 const { name } = toRefs(props);
 
-//
-
 const fieldDisabled = useFieldDisabled(() => props.disabled);
 
 const {

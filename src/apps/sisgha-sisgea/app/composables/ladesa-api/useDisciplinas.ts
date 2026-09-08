@@ -94,7 +94,8 @@ export const useDisciplinas = (): IUseDisciplinas => {
 
   const imageCover = createImageBlobQuery({
     queryKey: keys,
-    fetcher: (id: string) => api.call(disciplinaGetImagemCapa, { path: { id } }),
+    fetcher: (id: string) =>
+      api.call(disciplinaGetImagemCapa, { path: { id } }),
   });
 
   const invalidate = createInvalidate(keys);

@@ -16,15 +16,9 @@ const changeCellType = (atv: EditableCellType) => {
   if (cell.value.type !== atv) {
     cell.value.type = atv;
 
-    if (cell.value.type === 'aula') {
-      // TODO: fazer modificações no diário da aula
-    }
-
     emit('atividade-change');
   }
 };
-
-//
 
 const popoverOpen = defineModel<boolean>('popover', {
   default: false,
@@ -40,11 +34,8 @@ const cellType = computed(() => cell.value.type);
 
 const changeActivityValue = ref(cellType.value ?? 'vago');
 
-//
-
 const scheduleOf: 'professor' | 'turma' | undefined = inject('scheduleOf');
 
-// TODO: melhorar essa estrutura de querries para fazer apenas 1 query à api em algum componente ancestral a este, ao inves de uma query em todas as instâncias
 const professoresQuery = useQuery({
   queryKey: ['usuarios', 'professor-list'],
   queryFn: () => api.call(usuarioFindAll, { query: {} }),

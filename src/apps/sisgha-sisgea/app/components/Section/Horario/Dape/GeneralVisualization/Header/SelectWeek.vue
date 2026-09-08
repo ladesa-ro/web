@@ -7,8 +7,6 @@ const week = getWeekDays(today.value);
 const weekFirstDay = week[0]!.dayMonth;
 const weekLastDay = week[5]!.dayMonth;
 
-//
-
 const popoverOpen = defineModel<boolean>({ required: true, default: false });
 </script>
 

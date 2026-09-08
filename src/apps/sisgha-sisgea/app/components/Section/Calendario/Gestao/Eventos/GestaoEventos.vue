@@ -103,11 +103,9 @@ watch(
   }
 );
 
-// Edit modal
 const editEventoId = ref<string | null>(null);
 const editModalOpen = ref(false);
 
-// Create modal
 const createModalOpen = ref(false);
 
 onMounted(() => {
@@ -151,7 +149,6 @@ function handleModalClose() {
       </div>
     </UIBreadcrumbDapeBreadcrumb>
 
-    <!-- Filters -->
     <div class="u-flex u-flex-wrap u-gap-3 u-items-end">
       <div class="gestao-eventos__field-w52 u-w-full">
         <VVAutocompleteAPICalendarioLetivo
@@ -234,7 +231,6 @@ function handleModalClose() {
       </button>
     </div>
 
-    <!-- Outros filtros (expandable) -->
     <div v-if="showOutrosFiltros" class="u-flex u-flex-wrap u-gap-3">
       <div class="gestao-eventos__field-w44 u-w-full">
         <UIFormOptionFieldsAutocomplete
@@ -252,23 +248,19 @@ function handleModalClose() {
       placeholder="Pesquisar evento..."
     />
 
-    <!-- Loading -->
     <div v-if="isLoading" class="gestao-eventos__grid u-grid u-gap-5">
       <UICardSkeleton v-for="i in 4" :key="i" />
     </div>
 
-    <!-- Error -->
     <div v-else-if="isError" class="gestao-eventos__error u-text-center u-py-8">
       Erro ao carregar eventos. Tente novamente.
     </div>
 
-    <!-- Empty -->
     <UIEmptyState
       v-else-if="eventos.length === 0"
       description="Nenhum evento encontrado. Tente ajustar os filtros ou criar um novo evento."
     />
 
-    <!-- Events grid -->
     <div v-else class="gestao-eventos__grid u-grid u-gap-5">
       <Card
         v-for="evento in eventos"
@@ -278,13 +270,11 @@ function handleModalClose() {
       />
     </div>
 
-    <!-- Pagination -->
     <UIPaginationSimplePagination
       v-model:current-page="currentPage"
       :total-pages="totalPages"
     />
 
-    <!-- Edit modal -->
     <DialogSkeleton v-model="editModalOpen">
       <SectionCalendarioForm
         v-if="editEventoId"
@@ -296,7 +286,6 @@ function handleModalClose() {
       />
     </DialogSkeleton>
 
-    <!-- Create modal -->
     <DialogSkeleton v-model="createModalOpen">
       <SectionCalendarioForm
         v-if="createModalOpen"

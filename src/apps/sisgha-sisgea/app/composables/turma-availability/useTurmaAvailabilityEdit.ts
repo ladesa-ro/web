@@ -30,8 +30,6 @@ export function useTurmaAvailabilityEdit(
     pending
   );
 
-  // --- Build / Confirm / Save ---
-
   function buildConfig(scope: SaveScope): TurmaDisponibilidadeConfigInputDto {
     const gradeObj = selectedGrade.value;
     const gradeIntervalos = gradeObj?.intervalos ?? [];
@@ -103,8 +101,6 @@ export function useTurmaAvailabilityEdit(
     await sync.disponibilidade.invalidate();
     pending.clearAll();
   }
-
-  // --- Actions ---
 
   function selectAllTimes() {
     const times = allCampusTimes.value;

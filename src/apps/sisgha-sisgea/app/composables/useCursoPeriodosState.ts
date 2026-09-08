@@ -11,17 +11,9 @@ export type {
 
 export type CursoPeriodosState = ReturnType<typeof useCursoPeriodosState>;
 
-// ============================================================
-// Injection key
-// ============================================================
-
 const CURSO_PERIODOS_KEY = Symbol(
   'curso-periodos'
 ) as InjectionKey<CursoPeriodosState>;
-
-// ============================================================
-// Provider / Inject
-// ============================================================
 
 export function useProvideCursoPeriodos(
   mode: MaybeRef<FormMode>,
@@ -45,10 +37,6 @@ export function useInjectCursoPeriodos() {
   return state;
 }
 
-// ============================================================
-// Core state (orchestrator)
-// ============================================================
-
 function useCursoPeriodosState(
   mode: MaybeRef<FormMode>,
   quantidadePeriodos: MaybeRef<number>,
@@ -62,26 +50,21 @@ function useCursoPeriodosState(
   );
 
   return {
-    // Sync state
     localPeriodos: readonly(sync.localPeriodos),
     savedPeriodos: readonly(sync.savedPeriodos),
 
-    // Selection state
     isEditing: selection.isEditing,
     isCreateMode: selection.isCreateMode,
     selectedNumeroPeriodo: selection.selectedNumeroPeriodo,
 
-    // Queries
     disciplinasInfiniteQuery: selection.disciplinasInfiniteQuery,
     disciplinasList: selection.disciplinasList,
     disciplinasById: selection.disciplinasById,
 
-    // Modal
     modals: selection.modals,
     periodosVisiveis: selection.periodosVisiveis,
     selectedDisciplinaIds: selection.selectedDisciplinaIds,
 
-    // Ações
     isDisciplinaNova: selection.isDisciplinaNova,
     openSelectDisciplinas: selection.openSelectDisciplinas,
     confirmDisciplinas: selection.confirmDisciplinas,

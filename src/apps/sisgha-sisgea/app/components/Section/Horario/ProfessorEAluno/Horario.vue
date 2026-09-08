@@ -23,7 +23,6 @@ const exportDateEnd = computed(() =>
     class="horario-root u-flex u-flex-col"
     :class="{ 'u-items-center': selectedOption !== 'semana' }"
   >
-    <!-- Cabeçalho -->
     <SectionHorarioProfessorEAlunoHeaderSchedule
       v-model:toggle-option="selectedOption"
       class="horario-header u-w-full"
@@ -39,7 +38,6 @@ const exportDateEnd = computed(() =>
       />
     </div>
 
-    <!-- Opção "Horário da semana" -->
     <section
       v-show="selectedOption === 'semana'"
       class="horario-week-section u-flex u-flex-col u-justify-center u-gap-10"
@@ -49,11 +47,9 @@ const exportDateEnd = computed(() =>
         class="u-overflow-auto"
       />
 
-      <!-- Botão "Gerar PDF" -->
       <UIButtonDefault class="horario-pdf-button"> Gerar PDF </UIButtonDefault>
     </section>
 
-    <!-- Opção "Horário do dia" -->
     <SectionHorarioProfessorEAlunoDailyViewDaysAndLessons
       v-show="selectedOption === 'dia'"
       :turma-id="props.turmaId"

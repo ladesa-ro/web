@@ -25,8 +25,6 @@ const vinculosConcatenated = computed(() => {
   return labels.join(' e ');
 });
 
-//
-
 const usuarios = useUsuarios();
 const { data: profilePicureUrl } = usuarios.imageProfile(
   computed(() => usuario?.id ?? null)

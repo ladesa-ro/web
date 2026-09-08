@@ -22,9 +22,7 @@ const visualizarRelatorio = () => {
   showModal.value = true;
 };
 
-const gerarPDF = () => {
-  // TODO: implementar lógica para gerar PDF
-};
+const gerarPDF = () => {};
 </script>
 
 <template>

@@ -18,13 +18,9 @@ export function useTurmaSyncLogic(
   const { serverAvailability, isEditing, applyAvailability } = editState;
   const { findPendingForWeek, mapPendingToAvailability } = pending;
 
-  // --- Week query ---
-
   const semanaParam = computed(() => currentWeekRef.value.format('YYYY-MM-DD'));
 
   const weekQuery = disponibilidade.findByWeek(turmaId, semanaParam);
-
-  // --- Sync server → local ---
 
   const mapConfigToAvailability = (
     data: TurmaDisponibilidadeWeekOutputDto | undefined
@@ -74,14 +70,10 @@ export function useTurmaSyncLogic(
     }
   });
 
-  // --- Pending config for current week ---
-
   const currentWeekPending = computed(() => {
     const weekKey = currentWeekRef.value.format('YYYY-MM-DD');
     return findPendingForWeek(weekKey) ?? null;
   });
-
-  // --- Grade Divergence Detection ---
 
   const hasGradeDivergence = computed(() => {
     if (!selectedGradeIdentifier.value) return false;
@@ -102,8 +94,6 @@ export function useTurmaSyncLogic(
     }
     return false;
   });
-
-  // --- Active config info ---
 
   const activeConfigInfo = computed(() => {
     const data = weekQuery.data.value;

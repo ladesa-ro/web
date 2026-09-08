@@ -1,7 +1,6 @@
 <script setup lang="ts">
 defineProps<{ type: string }>();
 
-// const editMode: Ref<boolean> = inject('editMode') ?? ref(false);
 const showBreaks: Ref<boolean> = inject('showBreaks') ?? ref(false);
 </script>
 

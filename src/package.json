@@ -7,10 +7,13 @@
     "test:all": "nx run-many -t test --exclude @ladesa-ro/web.root",
     "format:check": "prettier --ignore-unknown \"**/*\" --check",
     "format:fix": "prettier --ignore-unknown \"**/*\" --write",
-    "code-static:check": "pnpm run format:check",
+    "code-static:check": "pnpm run format:check && pnpm run lint:comments && pnpm run lint:complexity",
     "code-static:fix": "pnpm run format:fix",
     "chore:update": "corepack use pnpm@10 && pnpm -r update && pnpm run -w code-static:fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "lint:comments": "eslint .",
+    "lint:complexity": "biome lint .",
+    "lint:complexity:strict": "biome lint . --error-on-warnings"
   },
   "dependencies": {
     "husky": "^9.1.7",
@@ -18,7 +21,14 @@
   },
   "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319",
   "devDependencies": {
-    "nx": "^22.7.5"
+    "@biomejs/biome": "^2.5.12",
+    "@eslint/css": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.58.1",
+    "@typescript-eslint/parser": "^8.58.1",
+    "eslint": "^9.39.5",
+    "eslint-plugin-yml": "^3.8.1",
+    "nx": "^22.7.5",
+    "vue-eslint-parser": "^10.4.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

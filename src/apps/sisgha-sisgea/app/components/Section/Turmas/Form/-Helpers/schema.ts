@@ -17,8 +17,6 @@ const schema = yup
       id: yup.string().required('Sala de aula é obrigatória!').default(null),
     }),
 
-    //
-
     periodo: yup.string().required('Período é obrigatório!').default(''),
 
     numeroEstimadoAlunos: yup
@@ -28,8 +26,6 @@ const schema = yup
         originalValue === '' ? null : value
       )
       .default(null),
-
-    //
 
     _: yup
       .object({

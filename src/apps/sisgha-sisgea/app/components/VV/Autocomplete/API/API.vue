@@ -37,7 +37,6 @@ const { value } = useField(name, inputValue => {
 
 const crudModule = apiRetrieverOptions.crudModule;
 
-// FindOne query for the currently selected value
 const activeResourceQuery = useQuery({
   queryKey: computed(() => [
     ...unref(crudModule.baseQueryKeys),
@@ -65,7 +64,6 @@ const searchOptions = computed(() => {
   return { search: consideredSearch };
 });
 
-// List query for dropdown options
 const listQuery = useQuery({
   queryKey: computed(() => [
     ...unref(crudModule.baseQueryKeys),

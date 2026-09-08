@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-// # IMPORT
 import SearchBar from '~/components/UI/SearchBar/SearchBar.vue';
 import type { CalendarEvent } from '../Types';
 import {
@@ -7,14 +6,12 @@ import {
   useOnCalendarioForceClose,
 } from '../useCalendarioEventBus';
 
-// # CODE
 type Props = {
   events?: CalendarEvent[];
 };
 
 const props = defineProps<Props>();
 
-// # EMITS
 const $emit = defineEmits(['close', 'refresh']);
 
 const calendarioEvents = useInjectCalendarioEvents();
@@ -42,7 +39,6 @@ useOnCalendarioForceClose(onClose);
         />
       </div>
 
-      <!-- Buttons -->
       <template #button-group>
         <UIButtonModalCancel
           type="close"

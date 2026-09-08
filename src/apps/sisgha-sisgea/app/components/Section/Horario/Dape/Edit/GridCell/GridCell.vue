@@ -43,8 +43,6 @@ onMounted(() => {
       }),
     }),
 
-    //
-
     dropTargetForElements({
       element: droppableElement.value,
       canDrop: ({ source }) =>

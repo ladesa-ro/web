@@ -17,7 +17,9 @@ const link =
   props.link === undefined || props.link === '' ? 'cursos' : props.link;
 
 const cursos = useCursos();
-const { data: coverImageSrc } = cursos.imageCover(computed(() => unref(curso)?.id ?? null));
+const { data: coverImageSrc } = cursos.imageCover(
+  computed(() => unref(curso)?.id ?? null)
+);
 </script>
 
 <template>

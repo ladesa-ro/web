@@ -18,7 +18,7 @@ const handleToggleSituacao = async () => {
   const confirmed = await confirmDeactivate.confirm();
   if (confirmed) {
     const novaSituacao = isInativo.value ? 'ATIVO' : 'INATIVO';
-    // TODO: remove Record cast after SDK regeneration includes 'situacao' field in update DTO
+
     await calendarioLetivo.update(props.calendario.id, {
       situacao: novaSituacao,
     } as Record<string, string>);
@@ -103,7 +103,6 @@ const qtdPeriodos = computed(() => etapas.value.length);
       <span>Situação: {{ calendario.situacao ?? 'ATIVO' }}</span>
     </div>
 
-    <!-- Etapas list -->
     <div v-if="etapas.length > 0" class="u-flex u-flex-col u-gap-1-5 u-text-sm">
       <div
         v-for="etapa in etapas"
@@ -119,7 +118,6 @@ const qtdPeriodos = computed(() => etapas.value.length);
       </div>
     </div>
 
-    <!-- No etapas -->
     <div v-else class="calendario-card__empty u-text-xs">
       Nenhuma etapa cadastrada.
     </div>

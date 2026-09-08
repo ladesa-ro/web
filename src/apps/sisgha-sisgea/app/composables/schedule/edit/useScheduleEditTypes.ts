@@ -9,13 +9,10 @@ export type Cell = (EditableCell | NonEditableCell) &
     shiftIndex?: number;
     dayIndex?: number;
 
-    // manter essas aqui
     cellIndex?: number;
     shiftName?: string;
     dayDate?: string;
   };
-
-//
 
 export type ShiftEdit = {
   shiftIndex: string;

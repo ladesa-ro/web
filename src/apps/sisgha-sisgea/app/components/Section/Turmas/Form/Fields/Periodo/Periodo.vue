@@ -2,11 +2,7 @@
 import { useField } from 'vee-validate';
 import { verificarModalidade } from './-Helpers/verificar-modalidade';
 
-//
-
 const FALLBACK_TO_PERIODO = true;
-
-//
 
 type Props = {
   disabled?: boolean;
@@ -15,8 +11,6 @@ type Props = {
 
 const props = defineProps<Props>();
 
-//
-
 const { value: cursoId } = useField<string | null>('curso.id');
 
 const cursos_api = useCursos();
@@ -24,8 +18,6 @@ const cursos_api = useCursos();
 const cursoQuery = cursos_api.findOne(cursoId);
 
 const cursoSelecionado = cursoQuery.data;
-
-//
 
 const isLoading = computed(
   () => props.isLoading || unref(cursoQuery.isLoading)

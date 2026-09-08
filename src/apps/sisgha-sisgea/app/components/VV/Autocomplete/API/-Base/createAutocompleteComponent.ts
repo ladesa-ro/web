@@ -10,22 +10,6 @@ export type AutocompleteEntityConfig = {
   transformer: (item: any) => { label: string; value: any };
 };
 
-/**
- * Creates the `options` object (IUIAutocompleteApiRetrieverOptions) for an
- * autocomplete entity wrapper, reducing the repeated boilerplate across every
- * entity-specific component.
- *
- * Usage inside a `<script setup>`:
- *
- * ```ts
- * const { options } = useAutocompleteEntity({
- *   baseQueryKeys: ['campi'],
- *   listFn: campusFindAll,
- *   getOneFn: campusFindById,
- *   transformer: item => ({ value: item.id, label: item.apelido }),
- * });
- * ```
- */
 export function useAutocompleteEntity(config: {
   baseQueryKeys: MaybeRef<readonly string[] | string[]>;
   listFn: (...args: any[]) => any;

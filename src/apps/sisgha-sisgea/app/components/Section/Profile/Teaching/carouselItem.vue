@@ -16,8 +16,6 @@ type DisciplinaCursoTurma = {
 type Props = { subject: DisciplinaCursoTurma };
 const { subject } = defineProps<Props>();
 
-//
-
 type CourseOption = {
   value: DisciplinaCursoTurma['cursos'][number];
   label: string;
@@ -31,10 +29,6 @@ const coursesCarousel: CourseOption[] = subject.cursos.map(curso => ({
 const selectedCourse = ref<CourseOption>(coursesCarousel[0]!);
 
 const selectedCourseTurmas = computed(() => {
-  // if the type is CourseOption, get sel.value, otherwise assume that the desired value is already in the variable itself, without any internal item
-
-  // this code snippet is to handle an unexpected error coming from v-model, even though i didn't understand it very well
-
   const sel = selectedCourse.value;
   const item = sel?.value ?? sel;
 
@@ -62,14 +56,12 @@ const { data: disciplinaImageUrl } = useDisciplinas().imageCover(
       class="carousel-item__cover carousel-item__cover--placeholder u-w-full"
     />
 
-    <!-- card body -->
     <main class="u-p-4">
       <h1>{{ subject.disciplina.nomeAbreviado }}</h1>
 
       <div
         class="course-and-classes border-card u-rounded-lg u-mt-3 u-py-3 u-text-sm"
       >
-        <!-- navigation -->
         <UIOptionsCarousel
           v-model="selectedCourse"
           class="carousel-item__carousel-nav u-pb-2 u-mb-2"

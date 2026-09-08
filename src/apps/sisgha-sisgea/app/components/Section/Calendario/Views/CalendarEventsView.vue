@@ -7,7 +7,6 @@ import { computed, ref, toRef } from 'vue';
 import type { CalendarData } from '../Types';
 import { useCalendarEvents } from '../useCalendarEvent';
 
-// # PROPS
 type Props = {
   year: number;
   calendarId: string;
@@ -16,10 +15,8 @@ type Props = {
 
 const props = defineProps<Props>();
 
-// # STATES
 const showEventModal = ref(false);
 
-// # MONTH PAIRS (mantido igual)
 const months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 const monthPairs = computed(() => {
   const pairs: number[][] = [];
@@ -29,10 +26,8 @@ const monthPairs = computed(() => {
   return pairs;
 });
 
-// # EVENTS — usando o hook reativo
 const { events, reload } = useCalendarEvents(toRef(props, 'calendarId'));
 
-// # MODALS
 function abrirModal() {
   showEventModal.value = true;
 }

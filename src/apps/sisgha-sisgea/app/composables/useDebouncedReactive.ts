@@ -41,10 +41,10 @@ export const useDebouncedReactive = <T>(
 
   return {
     reactiveState,
-    //
+
     debouncedReactiveState,
     debouncedReactiveStateRef,
-    //
+
     isDebouncePending,
   };
 };

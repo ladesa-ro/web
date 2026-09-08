@@ -20,7 +20,6 @@ const statusOptions = [
   { label: 'Inativo', value: 'INATIVO' },
 ];
 
-// Computed wrapper: store.anoLetivo is number, UIFormTextField emits string
 const selectedYear = computed({
   get: () => String(filtersStore.anoLetivo),
   set: (val: string | number) => {
@@ -84,11 +83,9 @@ watch(
   }
 );
 
-// Edit modal
 const editCalendarioId = ref<string | null>(null);
 const editModalOpen = ref(false);
 
-// Create modal
 const createModalOpen = ref(false);
 
 onMounted(() => {
@@ -130,7 +127,6 @@ function handleModalClose() {
       </div>
     </UIBreadcrumbDapeBreadcrumb>
 
-    <!-- Filters -->
     <div class="gestao-calendarios__filters u-flex u-flex-col u-gap-3-5">
       <div class="u-flex u-flex-wrap u-items-end u-gap-3-5">
         <div class="gestao-calendarios__field-year u-w-full">
@@ -176,12 +172,10 @@ function handleModalClose() {
       />
     </div>
 
-    <!-- Loading -->
     <div v-if="isLoading" class="gestao-calendarios__grid u-grid u-gap-5">
       <UICardSkeleton v-for="i in 4" :key="i" />
     </div>
 
-    <!-- Error -->
     <div
       v-else-if="isError"
       class="gestao-calendarios__error u-text-center u-py-8"
@@ -189,13 +183,11 @@ function handleModalClose() {
       Erro ao carregar calendários. Tente novamente.
     </div>
 
-    <!-- Empty -->
     <UIEmptyState
       v-else-if="calendarios.length === 0"
       description="Nenhum calendário encontrado. Tente ajustar os filtros ou criar um novo calendário."
     />
 
-    <!-- Calendars grid -->
     <div v-else class="gestao-calendarios__grid u-grid u-gap-5">
       <Card
         v-for="calendario in calendarios"
@@ -205,13 +197,11 @@ function handleModalClose() {
       />
     </div>
 
-    <!-- Pagination -->
     <UIPaginationSimplePagination
       v-model:current-page="currentPage"
       :total-pages="totalPages"
     />
 
-    <!-- Edit modal -->
     <DialogSkeleton v-model="editModalOpen">
       <SectionCalendarioForm
         v-if="editCalendarioId"
@@ -222,7 +212,6 @@ function handleModalClose() {
       />
     </DialogSkeleton>
 
-    <!-- Create modal -->
     <DialogSkeleton v-model="createModalOpen">
       <SectionCalendarioForm
         v-if="createModalOpen"

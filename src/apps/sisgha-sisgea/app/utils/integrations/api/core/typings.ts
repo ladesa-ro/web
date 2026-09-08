@@ -1,5 +1,3 @@
-//
-
 export type GenericInput = Record<string, any>;
 
 export type PaginationOptions = {

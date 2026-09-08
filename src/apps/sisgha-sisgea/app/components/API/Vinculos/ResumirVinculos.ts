@@ -5,28 +5,12 @@ import type {
 } from '@ladesa-ro/web.api.client';
 
 export type ResumoVinculos = {
-  /**
-   * ["dape", "professor"]
-   */
-
   cargos: string[];
 
-  /**
-   * {
-   *  dape: CampusFindOneResultDto[],
-   *  professor: CampusFindOneResultDto[]
-   * }
-   */
   mapaCargoCampi: {
     [x: string]: CampusFindOneOutputDto[];
   };
 
-  /**
-   * {
-   *  dape: VinculoFindOneResultDto[],
-   *  professor: VinculoFindOneResultDto[]
-   * }
-   */
   mapaCargoVinculos: { [key: string]: PerfilFindOneOutputDto[] };
 };
 

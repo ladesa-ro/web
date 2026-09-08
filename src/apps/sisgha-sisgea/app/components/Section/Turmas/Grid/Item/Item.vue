@@ -9,16 +9,14 @@ type Props = {
   link?: string;
 };
 
-//
-
 const { item: turma, link: linkProps } = defineProps<Props>();
 
 const link = linkProps === undefined || linkProps === '' ? 'turmas' : linkProps;
 
-//
-
 const turmas = useTurmas();
-const { data: coverImageSrc } = turmas.imageCover(computed(() => turma?.id ?? null));
+const { data: coverImageSrc } = turmas.imageCover(
+  computed(() => turma?.id ?? null)
+);
 </script>
 
 <template>

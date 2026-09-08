@@ -49,7 +49,7 @@ const professores = computed(() => {
     .flatMap((u: UsuarioFindOneOutputDto) => {
       const vinculos = u.vinculos ?? [];
       if (vinculos.length === 0) return [];
-      // Usar o primeiro vinculo ativo como perfilId
+
       const vinculo = vinculos.find(v => v.ativo) ?? vinculos[0];
       if (!vinculo) return [];
       return [

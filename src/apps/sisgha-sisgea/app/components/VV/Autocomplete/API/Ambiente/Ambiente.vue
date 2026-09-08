@@ -17,7 +17,9 @@ const { options } = useAutocompleteEntity({
     api.call(ambienteFindAll, {
       query: {
         ...data,
-        ...(props.campusId ? { 'filter.bloco.campus.id': [props.campusId] } : {}),
+        ...(props.campusId
+          ? { 'filter.bloco.campus.id': [props.campusId] }
+          : {}),
       },
     }),
 });

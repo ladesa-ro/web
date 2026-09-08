@@ -8,11 +8,7 @@ const toggleItems = [
 
 const toggleValue = ref<'professor' | 'turma'>('professor');
 
-//
-
 const searchBarValue = ref('');
-
-//
 
 const turmasEntity = useTurmas();
 const usuariosEntity = useUsuarios();
@@ -43,8 +39,6 @@ const professoresParsedItems = computed(() =>
   }))
 );
 
-//
-
 const selectedCheckboxes = ref([]);
 </script>
 
@@ -54,8 +48,6 @@ const selectedCheckboxes = ref([]);
       <UIToggle v-model="toggleValue" :items="toggleItems" />
 
       <UISearchBar v-model="searchBarValue" />
-
-      <!-- professor -->
 
       <span
         v-if="isLoadingProfs && toggleValue === 'professor'"
@@ -76,8 +68,6 @@ const selectedCheckboxes = ref([]);
         :search-bar-value="searchBarValue"
       />
 
-      <!-- turma -->
-
       <span
         v-if="isLoadingProfs && toggleValue === 'turma'"
         class="mesclado__status-text u-text-center"
@@ -97,9 +87,7 @@ const selectedCheckboxes = ref([]);
       />
     </div>
 
-    <div class="u-flex-1">
-      <!-- TODO: adicionar grade de horário -->
-    </div>
+    <div class="u-flex-1"></div>
   </div>
 </template>
 

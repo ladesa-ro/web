@@ -88,7 +88,6 @@ function setDiaSemana(prefIndex: number, dia: number) {
 
 <template>
   <div class="u-flex u-flex-col u-gap-3">
-    <!-- Loading -->
     <div
       v-if="contexto.isLoadingEdit.value"
       class="u-flex u-items-center u-justify-center dias-de-aula__loading"
@@ -99,7 +98,6 @@ function setDiaSemana(prefIndex: number, dia: number) {
     </div>
 
     <template v-else>
-      <!-- Toggle modo -->
       <div class="u-flex u-items-center u-gap-2 u-text-xs">
         <button
           class="dias-de-aula__modo-toggle"
@@ -119,13 +117,11 @@ function setDiaSemana(prefIndex: number, dia: number) {
         </button>
       </div>
 
-      <!-- Lista de dias -->
       <div
         v-for="(pref, prefIndex) in prefs"
         :key="prefIndex"
         class="u-flex u-items-center u-gap-3 u-rounded-lg u-overflow-hidden dias-de-aula__row"
       >
-        <!-- Badge do dia -->
         <div
           v-if="modo === 'DEFINIDO'"
           class="u-font-semibold u-text-xs u-text-center dias-de-aula__badge"
@@ -133,7 +129,6 @@ function setDiaSemana(prefIndex: number, dia: number) {
           Dia {{ pref.ordem }}
         </div>
 
-        <!-- Selector dia da semana -->
         <select
           v-if="modo === 'POR_DIA_SEMANA'"
           :value="pref.diaSemanaIso ?? 1"
@@ -150,7 +145,6 @@ function setDiaSemana(prefIndex: number, dia: number) {
           </option>
         </select>
 
-        <!-- Stepper de aulas -->
         <div class="u-flex u-items-center u-gap-3 u-flex-1 u-justify-center">
           <button
             class="u-p-1"
@@ -171,13 +165,11 @@ function setDiaSemana(prefIndex: number, dia: number) {
           </button>
         </div>
 
-        <!-- Remover -->
         <button class="dias-de-aula__remove" @click="removerDia(prefIndex)">
           <span class="u-text-xs dias-de-aula__remove-icon">&#10005;</span>
         </button>
       </div>
 
-      <!-- Botão adicionar dia -->
       <button
         class="u-flex u-items-center u-justify-center u-gap-1 u-rounded-lg u-py-3 u-text-sm u-font-semibold dias-de-aula__add"
         @click="adicionarDia"

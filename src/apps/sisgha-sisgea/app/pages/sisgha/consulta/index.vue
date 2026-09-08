@@ -6,7 +6,6 @@ definePageMeta({
 </script>
 
 <template>
-  <!-- TODO: add variant mini em UIContainer -->
   <UIContainer
     variant="tighter"
     class="u-flex u-flex-col u-gap-6 consulta-horario"

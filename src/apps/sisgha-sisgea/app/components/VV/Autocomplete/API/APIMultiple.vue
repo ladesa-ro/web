@@ -30,7 +30,6 @@ const selectedIds = computed(() =>
   (value.value ?? []).map(props.getValue).filter(Boolean)
 );
 
-// getOne per selected item (like single API.vue does)
 const activeResourcesQueries = useQueries({
   queries: computed(() =>
     selectedIds.value.map(id => ({

@@ -15,8 +15,6 @@ const { values, errors, handleSubmit } = useForm({
 
 const showAlert = ref(false);
 
-//
-
 const api = useApiClient();
 
 const {
@@ -31,14 +29,13 @@ const {
 });
 
 const onSubmit = handleSubmit(async formData => {
-  try {
-    await mutateAsync(formData.email);
+  const requested = await mutateAsync(formData.email).then(
+    () => true,
+    () => false
+  );
 
-    if (canRecoverPassword) {
-      showAlert.value = true;
-    }
-  } catch {
-    // erro tratado pelo useMutation (isError)
+  if (requested && canRecoverPassword) {
+    showAlert.value = true;
   }
 });
 </script>

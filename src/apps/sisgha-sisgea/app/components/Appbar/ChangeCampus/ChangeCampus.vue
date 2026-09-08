@@ -42,7 +42,6 @@ const selectedCampus = ref(
   selectedCampusGlobalState.value ?? toggleCampusItems.value[0]?.value ?? null
 );
 
-// Auto-select first campus when items become available
 watch(
   toggleCampusItems,
   items => {
@@ -54,8 +53,6 @@ watch(
   },
   { immediate: true }
 );
-
-//
 
 const cargos = useCampusContextCargos();
 
@@ -86,22 +83,17 @@ onBeforeUnmount(() => {
   removeGuard();
 });
 
-//
-
 const changeCampus = () => {
   selectedCampusGlobalState.value = selectedCampus.value;
   verifyCargo();
   open.value = false;
 };
 
-//
-
 const open = ref(false);
 </script>
 
 <template>
   <ClientOnly>
-    <!-- Always show campus name; popover only when multiple options -->
     <UIPopover v-if="showSelector" v-model="open">
       <template #activator>
         <div
@@ -158,7 +150,6 @@ const open = ref(false);
       </div>
     </UIPopover>
 
-    <!-- Read-only display when only 1 campus (no selector needed) -->
     <div
       v-else-if="selectedCampusLabel !== 'Carregando...'"
       class="u-items-center u-font-medium u-mr-3 u-truncate u-p-1 u-rounded-sm campus-badge"

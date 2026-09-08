@@ -13,7 +13,6 @@ export type QuerySuspenseBehaviour = {
   mode?: QuerySuspenseBehaviourMode;
 };
 
-/** Tipo mínimo que representa uma query suspendível (compatível com UseQueryReturnType e UseInfiniteQueryReturnType). */
 export type SuspendableQuery = {
   suspense: () => Promise<unknown>;
   isEnabled: Ref<boolean>;

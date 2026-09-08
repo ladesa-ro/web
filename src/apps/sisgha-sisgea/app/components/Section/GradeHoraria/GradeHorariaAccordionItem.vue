@@ -41,7 +41,6 @@ function handleBulkConfirm(params: BulkAddParams) {
   showBulkModal.value = false;
 }
 
-// Agrupa intervalos por turno para exibição
 const periodos = computed<PeriodoGroup[]>(() => {
   const formatted = props.grade.intervalos.map((i, originalIndex) => ({
     inicio: toDisplayFormat(i.inicio),
@@ -152,7 +151,6 @@ function getIntervalError(
       </div>
     </template>
 
-    <!-- Erro no nome (abaixo do header) -->
     <p
       v-if="errors?.nome && isEditing"
       class="u-text-xs u-px-4 u-pt-2 grade-accordion__error-text"
@@ -160,7 +158,6 @@ function getIntervalError(
       {{ errors.nome }}
     </p>
 
-    <!-- Botão limpar todos -->
     <div v-if="isEditing" class="u-flex u-justify-end u-px-4 u-pt-3">
       <UIButtonModalClearDanger
         text="Limpar todos os horários"
@@ -169,7 +166,6 @@ function getIntervalError(
       />
     </div>
 
-    <!-- Conteúdo dividido por turnos (Matutino / Vespertino / Noturno) -->
     <div class="u-grid grade-accordion__periods">
       <div v-for="periodo in periodos" :key="periodo.nome" class="u-px-4">
         <div class="u-flex u-justify-between u-items-center u-mb-3">
@@ -244,7 +240,6 @@ function getIntervalError(
             </template>
           </div>
 
-          <!-- Erro inline do intervalo -->
           <p
             v-if="getIntervalError(periodo, j) && isEditing"
             class="u-text-xs u-mt-1 u-pl-3 grade-accordion__error-text"
@@ -281,7 +276,6 @@ function getIntervalError(
       </div>
     </div>
 
-    <!-- Erro de sobreposição geral da grade -->
     <p
       v-if="errors?.overlap && isEditing"
       class="u-text-xs u-px-4 u-pb-3 grade-accordion__error-text"
@@ -289,7 +283,6 @@ function getIntervalError(
       {{ errors.overlap }}
     </p>
 
-    <!-- Modal de adição em massa -->
     <DialogSkeleton v-model="showBulkModal">
       <SectionGradeHorariaBulkAddModal
         :default-periodo="bulkModalPeriodo"

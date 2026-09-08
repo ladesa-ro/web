@@ -3,8 +3,6 @@ const cargos = useCampusContextCargos();
 
 const canChangeProfile = computed(() => cargos.value.length > 1);
 
-//
-
 const open = ref(false);
 </script>
 

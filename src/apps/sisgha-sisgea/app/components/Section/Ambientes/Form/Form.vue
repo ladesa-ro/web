@@ -37,7 +37,6 @@ const { mode, isBusy, onSubmit, onDelete } = useEntityForm({
 
 const { value: campusId } = useField<string | null>('campus.id');
 
-// Em edição, preencher campus.id a partir de bloco.campus.id
 watch(
   () => ambienteQuery.data.value?.bloco?.campus?.id,
   campusFromBloco => {
@@ -45,7 +44,7 @@ watch(
       campusId.value = campusFromBloco;
     }
   },
-  { immediate: true },
+  { immediate: true }
 );
 </script>
 

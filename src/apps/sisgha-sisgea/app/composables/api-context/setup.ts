@@ -49,16 +49,14 @@ export const createApiContext = (shouldProvide = true) => {
   };
 
   const apiContext = {
-    //
     whoAmI,
     usuario,
     perfisAtivos,
     resumoVinculos,
-    //
+
     whoAmIQuery,
-    //
+
     suspense,
-    //
   };
 
   if (shouldProvide) {
@@ -67,12 +65,6 @@ export const createApiContext = (shouldProvide = true) => {
 
   return apiContext;
 };
-
-/**
- * esse useAPIContext é o cara que pode ser chamado em qualquer componente para saber as informações do usuãrio logado eu vou usar pela primeira vez no appbar
- * @param _strict
- * @returns
- */
 
 export const useApiContext = <
   Strict extends boolean = true,

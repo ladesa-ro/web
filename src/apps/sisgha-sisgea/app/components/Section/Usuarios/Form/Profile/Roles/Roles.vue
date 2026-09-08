@@ -4,9 +4,6 @@ import { Cargo } from '~/utils/constants';
 
 const { value: vinculos } = useField<any[]>('vinculos');
 
-// Vínculos como vieram do servidor (com id real de cada perfil) — o schema
-// do formulário não carrega o id, então a carga horária é lida/gravada
-// direto contra o perfil existente, fora do fluxo de "Salvar" em lote.
 const originalVinculos = inject<Ref<{ vinculos: any[] } | undefined>>(
   'FORM_USER_ORIGINAL_VINCULOS'
 );

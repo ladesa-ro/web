@@ -62,9 +62,6 @@ export function useInjectCalendarioEvents(): CalendarioEvents {
   return events;
 }
 
-/**
- * Registers a handler for `eventsUpdated` that is automatically cleaned up on unmount.
- */
 export function useOnCalendarioEventsUpdated(handler: EventHandler) {
   const events = useInjectCalendarioEvents();
   events.onEventsUpdated(handler);
@@ -74,9 +71,6 @@ export function useOnCalendarioEventsUpdated(handler: EventHandler) {
   });
 }
 
-/**
- * Registers a handler for `forceCloseInnerModals` that is automatically cleaned up on unmount.
- */
 export function useOnCalendarioForceClose(handler: EventHandler) {
   const events = useInjectCalendarioEvents();
   events.onForceCloseInnerModals(handler);

@@ -86,7 +86,6 @@ const possuiPendencias = computed(() => {
 
 <template>
   <div class="u-flex u-flex-col u-gap-2">
-    <!-- Active configs (servidor) -->
     <div class="u-flex u-flex-col u-gap-2">
       <h3
         v-if="possuiPendencias"
@@ -132,11 +131,9 @@ const possuiPendencias = computed(() => {
       </div>
     </div>
 
-    <!-- Pending new configs (novo arranjo) -->
     <div v-if="possuiPendencias" class="u-flex u-flex-col u-gap-2">
       <h3 class="config-group-title u-text-xs u-font-semibold">Novo arranjo</h3>
 
-      <!-- Pending additions -->
       <div
         v-for="config in pendingConfigs"
         :key="`pending-${config.data_inicio}`"
@@ -162,7 +159,6 @@ const possuiPendencias = computed(() => {
         </button>
       </div>
 
-      <!-- Pending deactivations -->
       <div
         v-for="config in deactivatingConfigs"
         :key="`deact-${config.id}`"

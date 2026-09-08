@@ -7,10 +7,6 @@ export enum UIApiListViewMode {
 
 export type UIApiListContext = ReturnType<typeof createUIApiListContext>;
 
-/**
- * Simple interface for entity listing.
- * Any object with `list` and `baseQueryKeys` can be used.
- */
 export type IEntityListModule = {
   baseQueryKeys: readonly string[] | string[];
   list: (data?: any, contextCampi?: any) => Promise<any>;

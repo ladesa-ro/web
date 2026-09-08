@@ -93,7 +93,6 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
 </script>
 
 <template>
-  <!-- Bare mode: just the form fields, no modal wrapper -->
   <div v-if="bare" class="u-flex u-flex-col u-gap-5">
     <SectionCalendarioFormSharedEventoFormFields
       :disabled="disabled"
@@ -102,7 +101,6 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
     />
   </div>
 
-  <!-- Modal mode: wrapped in dialog layout -->
   <DialogModalBaseLayout
     v-else
     :title="isEditMode ? 'Editar evento' : 'Cadastrar evento'"

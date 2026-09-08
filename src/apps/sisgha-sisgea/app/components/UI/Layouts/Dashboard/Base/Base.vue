@@ -9,10 +9,8 @@ type Slots = {
 };
 defineSlots<Slots>();
 
-//defines the tab name
 useTitle('dashboard');
 
-//defines if the hamburguer sidebar is active
 const { hamburguerActive } = provideLayoutsDashboardContext();
 </script>
 

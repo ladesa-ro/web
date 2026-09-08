@@ -1,6 +1,3 @@
-// # API - Calendar Types
-
-// # COMPONENTS - Calendar Types
 export type CalendarEvent = {
   id: string;
   name: string;

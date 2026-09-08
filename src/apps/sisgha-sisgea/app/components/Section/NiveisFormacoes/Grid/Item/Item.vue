@@ -2,7 +2,6 @@
 import NiveisFormacoesForm from '../../Form/Form.vue';
 import type { NivelFormacaoFindOneOutputDto } from '@ladesa-ro/web.api.client';
 
-
 type Props = {
   isLoading?: boolean;
   item?: NivelFormacaoFindOneOutputDto | null;
@@ -19,7 +18,9 @@ const link =
     : props.link;
 
 const niveisFormacoes = useNiveisFormacoes();
-const { data: coverImageSrc } = niveisFormacoes.imageCover(computed(() => unref(nivelFormacao)?.id ?? null));
+const { data: coverImageSrc } = niveisFormacoes.imageCover(
+  computed(() => unref(nivelFormacao)?.id ?? null)
+);
 </script>
 
 <template>

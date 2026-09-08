@@ -29,8 +29,6 @@ const {
 
 const ownerName = getOwnerName(isLoading, isProfessor, scheduleOwner);
 
-//
-
 const weekSchedule: Ref<WeekSchedule> = ref(
   useWeekSchedule(temposDeAulaExemplo, aulasSemDiaSemanaExemplo)
 ) as Ref<WeekSchedule>;

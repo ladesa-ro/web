@@ -25,11 +25,6 @@ const periodoItems = [
   { text: 'Noturno', value: 'Noturno' },
 ];
 
-// const modeItems = [
-//   { text: 'Acrescentar', value: 'append' },
-//   { text: 'Substituir', value: 'replace' },
-// ];
-
 const selectedPeriodo = ref<Periodo>(props.defaultPeriodo ?? 'Matutino');
 const mode = ref<'append' | 'replace'>('append');
 
@@ -49,7 +44,6 @@ const { value: classDuration } = useField<number>('classDuration');
 const { value: breakDuration } = useField<number>('breakDuration');
 const { value: breakAfterClass } = useField<number>('breakAfterClass');
 
-// Auto-update startTime when turno changes via toggle (only if current time is outside the new turno range)
 watch(selectedPeriodo, periodo => {
   const current = startTime.value;
   if (!current || classificarPeriodo(current) !== periodo) {
@@ -57,7 +51,6 @@ watch(selectedPeriodo, periodo => {
   }
 });
 
-// Auto-switch turno when startTime changes manually
 watch(startTime, time => {
   if (!time) return;
   const detected = classificarPeriodo(time);
@@ -138,7 +131,6 @@ function handleConfirm() {
     class="bulk-add-modal"
   >
     <div class="u-flex u-flex-col u-gap-4">
-      <!-- Turno toggle -->
       <div class="u-flex u-flex-col u-gap-1">
         <label class="u-text-xs u-font-medium bulk-add-modal__label"
           >Turno</label
@@ -177,7 +169,6 @@ function handleConfirm() {
         </div>
       </div>
 
-      <!-- Preview -->
       <div
         v-if="preview.length > 0"
         class="u-rounded-md u-p-3 bulk-add-modal__preview"

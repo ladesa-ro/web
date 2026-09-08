@@ -10,7 +10,6 @@ export type LadesaApiClientConfig = {
   TOKEN?: (() => Promise<string | undefined> | string | undefined) | string;
 };
 
-/** Extracts the success data type from an SDK function's return. */
 export type SdkResponseData<TFn extends (...args: any[]) => Promise<any>> =
   NonNullable<Awaited<ReturnType<TFn>>['data']>;
 
@@ -57,7 +56,6 @@ export function createLadesaApi(config?: LadesaApiClientConfig): LadesaApi {
     })
   );
 
-  // TODO: use client `auth` config instead of interceptor once the OpenAPI spec declares `security` on operations (the generated SDK doesn't emit `security`, so `setAuthParams` is never called)
   if (authToken) {
     _client.interceptors.request.use(async request => {
       const token =

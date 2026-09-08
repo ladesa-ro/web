@@ -91,7 +91,6 @@ const onClose = () => emit('fechar');
           class="u-font-semibold u-mb-1"
         />
 
-        <!-- checkbox de horários -->
         <section
           class="u-flex u-flex-row u-flex-wrap u-gap-3 u-justify-between u-w-full"
         >
@@ -116,7 +115,6 @@ const onClose = () => emit('fechar');
           </div>
         </section>
 
-        <!-- inputs de motivo -->
         <div v-if="selectedTimes.length > 0" class="u-flex u-flex-col u-gap-4">
           <div
             v-for="horario in selectedTimes"

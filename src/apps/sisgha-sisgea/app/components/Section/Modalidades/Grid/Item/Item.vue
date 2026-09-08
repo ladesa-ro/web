@@ -2,7 +2,6 @@
 import ModalidadesForm from '../../Form/Form.vue';
 import type { ModalidadeFindOneOutputDto } from '@ladesa-ro/web.api.client';
 
-
 type Props = {
   isLoading?: boolean;
   item?: ModalidadeFindOneOutputDto | null;
@@ -17,7 +16,9 @@ const link =
   props.link === undefined || props.link === '' ? 'modalidades' : props.link;
 
 const modalidades = useModalidades();
-const { data: coverImageSrc } = modalidades.imageCover(computed(() => unref(modalidade)?.id ?? null));
+const { data: coverImageSrc } = modalidades.imageCover(
+  computed(() => unref(modalidade)?.id ?? null)
+);
 </script>
 
 <template>

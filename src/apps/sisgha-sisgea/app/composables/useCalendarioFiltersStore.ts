@@ -3,7 +3,6 @@ import { defineStore } from 'pinia';
 export const useCalendarioFiltersStore = defineStore(
   'calendario-filters',
   () => {
-    // Shared filters
     const anoLetivo = useState<number>('calendario:anoLetivo', () =>
       new Date().getFullYear()
     );
@@ -11,10 +10,8 @@ export const useCalendarioFiltersStore = defineStore(
     const calendarioId = ref<string | null>(null);
     const campusId = ref<string | null>(null);
 
-    // Gestão de Calendários
     const gestaoCalendariosStatus = ref<string | null>(null);
 
-    // Gestão de Eventos
     const gestaoEventosStatus = ref<string | null>(null);
     const gestaoEventosTipo = ref<string | null>(null);
     const gestaoEventosParticipantes = ref<string | null>(null);

@@ -24,7 +24,6 @@ const campusId = computed(
     null
 );
 
-// Grade horária do campus
 const gradesHorarias = useGradesHorarias();
 const gradeQuery = gradesHorarias.findByCampus(campusId);
 
@@ -68,7 +67,6 @@ const turnos = computed(() => {
   const grades = gradeQuery.data.value?.data ?? [];
   if (!grades.length) return defaultTurnos;
 
-  // Juntar todos os intervalos de todas as grades e reagrupar por período (Matutino/Vespertino/Noturno)
   const todosIntervalos = grades.flatMap(g =>
     g.intervalos.map(i => ({
       inicio: i.inicio.substring(0, 5),
@@ -76,7 +74,6 @@ const turnos = computed(() => {
     }))
   );
 
-  // Deduplicar por início
   const unicos = [...new Map(todosIntervalos.map(i => [i.inicio, i])).values()];
 
   const periodos = agruparPorPeriodo(unicos);
@@ -93,12 +90,10 @@ const turnos = computed(() => {
     }));
 });
 
-// Semana baseada no currentDay (controlado pelo PopoverCalendar do header)
 const currentDay = useCurrentDay();
 const weekStart = computed(() => currentDay.value.day(1));
 const weekEnd = computed(() => currentDay.value.day(6));
 
-// Ocorrências da semana
 const agendamento = useCalendarioAgendamento();
 const consultaParams = computed(() => ({
   dateStart: weekStart.value.format('YYYY-MM-DD'),
@@ -109,7 +104,6 @@ const consultaParams = computed(() => ({
 }));
 const consultaQuery = agendamento.consulta(consultaParams);
 
-// Mapear ocorrências para gradeDisciplinas
 const gradeDisciplinas = computed<IGradeDisciplina[]>(() => {
   const ocorrencias = consultaQuery.data.value?.ocorrencias;
   if (!ocorrencias?.length) return [];
@@ -125,9 +119,8 @@ const gradeDisciplinas = computed<IGradeDisciplina[]>(() => {
   return ocorrencias
     .filter((o: any) => o.horarioInicio && o.dataInicio)
     .map((o: any): IGradeDisciplina => {
-      const diaDaSemana = dayjs(o.dataInicio).day(); // 0=dom, 1=seg...
+      const diaDaSemana = dayjs(o.dataInicio).day();
 
-      // Match por intervalo: encontrar índices dos slots que a ocorrência cobre
       const hInicio = (o.horarioInicio as string).substring(0, 5);
       const hFim = (o.horarioFim as string).substring(0, 5);
 

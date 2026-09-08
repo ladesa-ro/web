@@ -26,7 +26,6 @@ const agendamento = useCalendarioAgendamento();
 const confirmDelete = useConfirmDelete();
 const confirmMessage = ref('');
 
-// Exclusive delete dialog state (3-option: delete / inactivate / cancel)
 const exclusiveDeleteDialog = ref(false);
 const exclusiveDeleteEventoId = ref<string | null>(null);
 
@@ -60,11 +59,9 @@ async function handleRemove(id: string) {
   const exclusive = isExclusive(id);
 
   if (exclusive) {
-    // Show 3-option dialog: delete / inactivate / cancel
     exclusiveDeleteEventoId.value = id;
     exclusiveDeleteDialog.value = true;
   } else {
-    // Shared evento: desvincular from this turma
     const turmaId = props.turmaId;
     if (!turmaId) return;
 
@@ -161,7 +158,6 @@ function handleExclusiveCancel() {
     @confirm="confirmDelete.onConfirm"
   />
 
-  <!-- Exclusive delete dialog: delete / inactivate / cancel -->
   <DialogSkeleton v-model="exclusiveDeleteDialog">
     <DialogModalBaseLayout
       v-if="exclusiveDeleteDialog"

@@ -60,7 +60,6 @@ function confirm() {
     class="save-scope-layout"
   >
     <div class="u-flex u-flex-col u-gap-5">
-      <!-- Toggle: Permanente / Temporario -->
       <div class="u-flex u-flex-col u-gap-2">
         <label class="field-label u-text-xs u-font-medium">
           Tipo de disponibilidade
@@ -68,7 +67,6 @@ function confirm() {
         <UIToggle v-model="tipo" :items="toggleItems" />
       </div>
 
-      <!-- Data inicio -->
       <div class="u-flex u-flex-col u-gap-1-5">
         <label class="field-label u-text-xs u-font-medium">
           Data de inicio
@@ -87,7 +85,6 @@ function confirm() {
         </p>
       </div>
 
-      <!-- Data fim (only if temporario) -->
       <div v-if="tipo === 'temporario'" class="u-flex u-flex-col u-gap-1-5">
         <label class="field-label u-text-xs u-font-medium"> Data de fim </label>
         <input
