@@ -2,7 +2,9 @@
   "$schema": "node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": [
+        "^build"
+      ],
       "cache": true
     },
     "dev": {
@@ -10,6 +12,9 @@
       "continuous": true
     },
     "lint": {
+      "cache": true
+    },
+    "test": {
       "cache": true
     }
   },

@@ -139,3 +139,5 @@ dist
 **/.nx/**
 
 .codex
+# Vitest
+**/.vitest/**

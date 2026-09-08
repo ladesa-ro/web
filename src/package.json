@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "nx run-many -t dev --exclude @ladesa-ro/web.root",
     "build:all": "nx run-many -t build --exclude @ladesa-ro/web.root",
+    "test:all": "nx run-many -t test --exclude @ladesa-ro/web.root",
     "format:check": "prettier --ignore-unknown \"**/*\" --check",
     "format:fix": "prettier --ignore-unknown \"**/*\" --write",
     "code-static:check": "pnpm run format:check",
