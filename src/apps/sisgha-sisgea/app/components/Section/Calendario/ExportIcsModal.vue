@@ -132,3 +132,15 @@ async function onCopyLink() {
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.export-ics__error {
+  color: var(--ladesa-red-color);
+  background-color: rgb(from var(--ladesa-red-color) R G B / 10%);
+}
+
+.export-ics__separator,
+.export-ics__hint {
+  color: var(--ladesa-grey-color);
+}
+</style>
