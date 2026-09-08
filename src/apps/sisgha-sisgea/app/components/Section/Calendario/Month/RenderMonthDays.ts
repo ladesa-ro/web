@@ -37,7 +37,7 @@ export const renderDays = {
     year: number,
     currentMonth: number,
     events: Array<CalendarEvent>,
-    calendarId: string
+    _calendarId: string
   ): Promise<Day[]> => {
     const days: Array<Day> = [];
 

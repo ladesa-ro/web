@@ -66,7 +66,7 @@ export const useEntityForm = <TSchema extends ObjectSchema<any>>(
 
   const isBusy = computed(() => form.isSubmitting.value || isLoading.value);
 
-  const onSubmit = async (e?: Event) => {
+  const onSubmit = async (_e?: Event) => {
     await form.handleSubmit(async rawData => {
       const data = options.schema.cast(rawData, {
         stripUnknown: true,

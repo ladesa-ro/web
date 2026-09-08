@@ -1,5 +1,4 @@
 import type {
-  Shift,
   ShiftName,
   ShiftWhithoutInfo,
   WeekSchedule,

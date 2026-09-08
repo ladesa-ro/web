@@ -28,7 +28,7 @@ export const useWeekSchedule = (
   temposDeAula: TimeSlotObj,
   aulas: Omit<Aula & HorString, 'weekday' | 'id'>[],
   turnosEDias: boolean = true,
-  mustBeDayjs: boolean = true
+  _mustBeDayjs: boolean = true
   // onlyAulas: boolean = false
   // TODO: completar implementação deste parâmetro filtrando o horario sem dias e turnos para ter apenas cells do tipo aula
 ) => {

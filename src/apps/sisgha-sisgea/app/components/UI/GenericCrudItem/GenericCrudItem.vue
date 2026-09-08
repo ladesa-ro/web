@@ -11,7 +11,7 @@ type Props = {
   formProps?: Record<string, any> | null;
 };
 
-const props = defineProps<Props>();
+defineProps<Props>();
 </script>
 
 <template>

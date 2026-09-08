@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { FormMode } from '~/utils/constants';
 import { ofertaFormacaoSchema, transformForApi } from './-Helpers/schema';
 import Form1 from './Form1.vue';
 import Form2 from './Form2.vue';

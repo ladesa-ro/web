@@ -10,7 +10,7 @@ type Slots = {
   'grid-item-skeleton'(props: any): any;
 };
 
-const slots = defineSlots<Slots>();
+defineSlots<Slots>();
 
 const { viewMode } = useUIApiListContext();
 </script>

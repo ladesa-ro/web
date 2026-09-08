@@ -16,7 +16,7 @@ const props = withDefaults(
   }
 );
 
-const slots = defineSlots<{
+defineSlots<{
   'header'(props: any): any;
   'options-actions'(props: any): any;
   'filters'(props: any): any;

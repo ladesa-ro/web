@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RelatorioAulaLinha from './Line/Line.vue';
 
-const props = defineProps<{
+defineProps<{
   titulo: string;
   subtitulo: string;
   aulas: { data: string; horario: string }[];
