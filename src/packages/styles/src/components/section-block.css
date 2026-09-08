@@ -1,0 +1,60 @@
+.ui-accordion-options {
+  width: max-content;
+  overflow-x: auto;
+}
+
+.ui-accordion-options__button {
+  border: 2px solid var(--ladesa-grey-color);
+  padding: var(--ui-space-2-5);
+  min-width: max-content;
+}
+
+@media (min-width: 640px) {
+  .ui-accordion-options__button {
+    padding: var(--ui-space-3-5);
+  }
+}
+
+@media (max-width: 639px) {
+  .ui-accordion-options__button {
+    font-size: 0.875rem;
+  }
+}
+
+.ui-accordion-options__button--selected {
+  border-color: var(--ladesa-green-2-color);
+  color: var(--ladesa-text-green-color);
+  background-color: rgb(from var(--ladesa-green-2-color) R G B / 10%);
+}
+
+.ui-section-block {
+  border-top: 1px solid var(--ladesa-grey-color);
+  padding-top: var(--ui-space-8);
+  padding-bottom: 2.25rem;
+}
+
+.ui-section-block__title {
+  line-height: 1rem;
+}
+
+.ui-section-block__grid {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 501px) {
+  .ui-section-block__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .ui-section-block__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1536px) {
+  .ui-section-block__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

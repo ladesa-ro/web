@@ -1,0 +1,54 @@
+.ui-card-option {
+  overflow: hidden;
+  margin-inline: auto;
+  padding-bottom: var(--ui-space-5);
+  border: 2px solid var(--ladesa-grey-color);
+  border-radius: var(--ui-radius-lg);
+  cursor: pointer;
+  color: var(--ladesa-text-default-color);
+}
+
+.ui-card-option__icon {
+  width: 3rem;
+}
+
+.ui-event-locale {
+  width: max-content;
+  border: 2px solid var(--ladesa-grey-color);
+  margin-top: var(--ui-space-1);
+}
+
+.ui-event-locale__icon {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.ui-event-ocupado {
+  border: 2px dashed rgb(from var(--ladesa-grey-color) R G B / 60%);
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--ladesa-grey-color, #9ca3af) 0,
+    var(--ladesa-grey-color, #9ca3af) 2px,
+    transparent 2px,
+    transparent 10px
+  );
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.dark .ui-event-ocupado {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 20%);
+}
+
+.ui-event-ocupado__title {
+  color: var(--ladesa-grey-color);
+}
+
+.ui-event-ocupado__dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 60%);
+}
+
+.ui-event-ocupado__time {
+  color: var(--ladesa-grey-color);
+}

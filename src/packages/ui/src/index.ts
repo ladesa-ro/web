@@ -34,6 +34,26 @@ export { default as FormTextField } from './components/FormTextField.vue';
 export { default as FormTimeField } from './components/FormTimeField.vue';
 export { default as FormTimeRangeField } from './components/FormTimeRangeField.vue';
 export {
+  default as AccordionOptions,
+  type AccordionOptionsProps,
+} from './components/AccordionOptions.vue';
+export {
+  default as SectionBlock,
+  type SectionBlockProps,
+} from './components/SectionBlock.vue';
+export {
+  default as CardOption,
+  type CardOptionProps,
+} from './components/CardOption.vue';
+export {
+  default as EventOcupado,
+  type EventOcupadoProps,
+} from './components/EventOcupado.vue';
+export {
+  default as EventLocale,
+  type EventLocaleProps,
+} from './components/EventLocale.vue';
+export {
   default as DaySquare,
   type DaySquareProps,
 } from './components/DaySquare.vue';
