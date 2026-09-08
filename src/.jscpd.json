@@ -1,0 +1,19 @@
+{
+  "threshold": 3.5,
+  "minTokens": 40,
+  "minLines": 5,
+  "reporters": ["console"],
+  "absolute": false,
+  "gitignore": true,
+  "ignore": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.nuxt/**",
+    "**/.output/**",
+    "**/.nx/**",
+    "**/storybook-static/**",
+    "**/.vitest/**",
+    "**/__generated__/**"
+  ],
+  "format": ["typescript", "javascript", "markup", "vue"]
+}

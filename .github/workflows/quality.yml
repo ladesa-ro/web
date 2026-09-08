@@ -63,6 +63,10 @@ jobs:
         working-directory: .
         run: ./src/node_modules/.bin/eslint .
 
+      - name: Duplicação (informativo)
+        continue-on-error: true
+        run: pnpm run -w lint:duplication
+
       - name: Lint (informativo)
         continue-on-error: true
         working-directory: ./src/apps/sisgha-sisgea

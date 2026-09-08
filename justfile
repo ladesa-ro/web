@@ -70,6 +70,7 @@ agents-shell SLICE:
 # continua best-effort, sem travar o gate.
 check SLICE:
     just exec {{SLICE}} "cd /repo/src && pnpm install --frozen-lockfile && pnpm run -w build:all && pnpm --filter @ladesa-ro/web.service run types:check && pnpm run -w lint"
+    -just exec {{SLICE}} "cd /repo/src && pnpm run -w lint:duplication"
     -just exec {{SLICE}} "cd /repo/src/apps/sisgha-sisgea && pnpm exec eslint ."
 
 # Faz merge normal (sem squash) da branch do slice pra branch de integração

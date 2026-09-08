@@ -12,7 +12,8 @@
     "chore:update": "corepack use pnpm@10 && pnpm -r update && pnpm run -w code-static:fix",
     "prepare": "husky",
     "lint": "eslint .",
-    "lint:strict": "eslint . --max-warnings 0"
+    "lint:strict": "eslint . --max-warnings 0",
+    "lint:duplication": "jscpd apps packages"
   },
   "dependencies": {
     "husky": "^9.1.7",
@@ -27,6 +28,7 @@
     "eslint-plugin-sonarjs": "^4.2.0",
     "eslint-plugin-vue": "^10.8.0",
     "eslint-plugin-yml": "^3.8.1",
+    "jscpd": "^4.3.0",
     "nx": "^22.7.5",
     "vue-eslint-parser": "^10.4.0"
   },
