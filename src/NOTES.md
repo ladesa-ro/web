@@ -2,42 +2,102 @@
 
 O código deste repositório não leva comentários — a regra `ladesa/no-comments`
 falha o lint em `.vue`, `.ts`, `.js`, `.css` e `.yaml`. Só passam diretivas de
-ferramenta (`@ts-expect-error`, `eslint-disable`, `prettier-ignore`,
-`biome-ignore`) e o shebang de scripts executáveis.
+ferramenta (`@ts-expect-error`, `eslint-disable`, `prettier-ignore`) e o
+shebang de scripts executáveis.
 
 Contexto que não cabe num nome de variável ou função mora aqui. Cada entrada
 aponta o arquivo, para que dê para chegar nela pelo `grep` a partir do código.
 
 ```bash
-pnpm run -w lint:comments
+pnpm run -w lint
 ```
+
+Um comando só: comentário é erro e derruba o lint; tamanho e complexidade são
+avisos e não derrubam. `lint:strict` trata aviso como erro — é o que deve
+virar o padrão quando o backlog abaixo zerar.
+
+A regra vale também para os workflows em `.github/`. Como eles ficam fora do
+workspace pnpm — e fora do bind mount do container de desenvolvimento, que
+monta só `src/` —, quem cobre os dois de uma vez é o `eslint.config.mjs` da
+raiz do repositório, que reexporta o de `src/` só para alargar o base path do
+ESLint. É esse que o CI roda:
 
 ```bash
-pnpm run -w lint:complexity
+./src/node_modules/.bin/eslint .
 ```
 
-## Complexidade cognitiva
+O `pnpm run -w lint` continua sendo o caminho local, dentro do container, e
+cobre só o workspace. A diferença entre os dois é o `.github`.
 
-O Biome mede complexidade cognitiva com teto 15 (`biome.json`). Hoje está como
-aviso, não como erro: são treze funções acima do teto, todas anteriores à
-adoção da regra. `lint:complexity:strict` roda a mesma checagem falhando em
-aviso — é o que deve virar o padrão quando a lista abaixo zerar.
+No `quality.yml` esse passo é bloqueante. O eslint do app segue informativo,
+por causa dos 29 erros pré-existentes lá. O `justfile` (recipe `check`) repete
+o arranjo, sem o `.github`, porque roda dentro do container.
+
+## Ferramentas
+
+São duas, e só duas: **ESLint** e **Prettier**.
+
+Chegou a entrar um Biome para medir complexidade cognitiva, e ele saiu. Num
+projeto Nuxt o Biome não substitui nenhum dos dois: ele abre o `.vue` mas
+enxerga só o bloco `<script>` — não formata o `<template>` nem vê os
+comentários `<!-- -->` dele — e não lê `.yaml`. Também não tem as regras
+`vue/*` que o `@nuxt/eslint` já traz. A medida de complexidade veio para o
+ESLint via `eslint-plugin-sonarjs`, que implementa a mesma métrica cognitiva
+do SonarSource.
+
+## Tamanho e complexidade
+
+Todos os tetos abaixo valem para o app e para os pacotes, e todos são aviso.
+Somados dão 91 avisos, todos anteriores à adoção das regras.
+
+| Regra                          | Teto                                | Ocorrências |
+| ------------------------------ | ----------------------------------- | ----------- |
+| `vue/max-template-depth`       | 6                                   | 17 arquivos |
+| `vue/max-lines-per-block`      | template 120, script 150, style 120 | 18 arquivos |
+| `sonarjs/cognitive-complexity` | 15                                  | 9 funções   |
+| `max-lines`                    | 300                                 | 4 arquivos  |
+| `vue/max-props`                | 8                                   | 1 arquivo   |
+
+Os tetos foram escolhidos medindo a base, não por convenção: o p95 de template
+é 75 linhas, o de script 87, e a profundidade p95 é 6. Ou seja, escrever um
+componente normal não encosta em nenhum deles — os limites só pegam a cauda.
+
+`vue/max-template-depth` emite uma mensagem por elemento aninhado demais, então
+o número de avisos dela (58) é bem maior que o de arquivos (17). Os campeões
+são `ImportIcsModal.vue` com 9, e sete arquivos com 8 — dois deles no pacote
+de UI (`PopoverCalendar` e `ReasonsEditModal`).
+
+Fica de fora `max-lines-per-function`. Em 60 ela daria 31 violações, e as
+maiores seriam composables — `useAgendamentosStateCore` tem 193 linhas e é
+completamente plano, tanto que a complexidade cognitiva não o acusa. Comprimento
+de função pune o idioma de composable sem dizer nada que a complexidade já não
+diga melhor.
+
+O barril `packages/*/src/index.ts` está isento de `max-lines`: são só reexports,
+e quebrá-lo em vários arquivos pioraria.
+
+### Complexidade cognitiva
+
+Teto 15, via `sonarjs/cognitive-complexity`. Nove funções acima dele, todas
+anteriores à adoção da regra.
 
 | Função                                                                                   | Score |
 | ---------------------------------------------------------------------------------------- | ----- |
-| `app/composables/useGradeHorariaValidation.ts:60`                                        | 62    |
-| `app/components/Section/Calendario/Form/Crud/Events.vue:110`                             | 56    |
-| `app/components/UI/Breadcrumb/Breadcrumb.vue:23`                                         | 38    |
-| `app/composables/useGradeHorariaState.ts:78`                                             | 35    |
-| `app/components/Section/Diarios/Form/Geral/Disciplinas/useDisciplinasConfigSubmit.ts:99` | 24    |
+| `app/composables/useGradeHorariaValidation.ts:60`                                        | 48    |
+| `app/components/Section/Calendario/Form/Crud/Events.vue:110`                             | 46    |
+| `app/components/UI/Breadcrumb/Breadcrumb.vue:23`                                         | 30    |
+| `app/composables/useGradeHorariaState.ts:78`                                             | 22    |
 | `app/components/UI/API/List/Results/Grid/Grid.vue:59`                                    | 22    |
-| `server/api/auth/session.get.ts:9`                                                       | 22    |
-| `packages/ui/src/components/calendar-month.ts:35` (`MonthDays`)                          | 21    |
-| `app/composables/turma-availability/useTurmaSyncLogic.ts:78`                             | 20    |
-| `packages/ui/src/components/rrule-editor-state.ts:179` (`buildRRuleString`)              | 18    |
-| `app/components/Section/Calendario/Timeline/AgendamentoTimelineDrawer.vue:83`            | 17    |
-| `app/composables/useModalManager.ts:69`                                                  | 17    |
-| `packages/ui/src/components/rrule-editor-state.ts:118` (`parseModelValue`)               | 17    |
+| `packages/ui/src/components/calendar-month.ts:35`                                        | 19    |
+| `server/api/auth/session.get.ts:9`                                                       | 19    |
+| `app/components/Section/Diarios/Form/Geral/Disciplinas/useDisciplinasConfigSubmit.ts:99` | 17    |
+| `app/components/Section/Calendario/Timeline/AgendamentoTimelineDrawer.vue:83`            | 16    |
+
+O Biome pontuava as mesmas funções mais alto e pegava quatro a mais, na faixa
+de 17 a 20 — `useTurmaSyncLogic.ts`, `useModalManager.ts` e as duas de
+`rrule-editor-state.ts`. As duas ferramentas dizem implementar a métrica do
+SonarSource; o ranking bate, os números não. Vale saber disso se um dia se
+comparar com relatório de outra origem.
 
 ## Pendências
 
@@ -76,6 +136,12 @@ Migradas dos `TODO` que existiam no código.
   Falta também permitir editar o diário da aula.
 - `app/components/Section/Horario/Dape/GeneralVisualization/Mesclado/Mesclado.vue`
   — falta a grade de horário.
+
+### Infraestrutura
+
+- `.github/dependabot.yml` — os três ecossistemas tinham um `cooldown` de 14
+  dias escrito e comentado. Se a ideia era segurar atualizações recém-lançadas,
+  a opção existe e basta habilitar; enquanto não se decide, ela não está ativa.
 
 ### Telas
 

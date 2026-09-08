@@ -42,11 +42,17 @@ function toastConfig(type: ToastType) {
   }
 }
 
-function handleActionClick(t: ToastItem) {
+function runToastAction(action: ToastItem['onAction']) {
   try {
-    t.onAction?.();
-  } catch {}
+    action?.();
+    return true;
+  } catch {
+    return false;
+  }
+}
 
+function handleActionClick(t: ToastItem) {
+  runToastAction(t.onAction);
   t.open.value = false;
 }
 </script>

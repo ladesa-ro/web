@@ -3,7 +3,26 @@ import yml from 'eslint-plugin-yml';
 import vueParser from 'vue-eslint-parser';
 import tsParser from '@typescript-eslint/parser';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
+import sonarjs from 'eslint-plugin-sonarjs';
+import vue from 'eslint-plugin-vue';
 import { noCommentsPlugin } from './eslint.no-comments.mjs';
+
+const COGNITIVE_COMPLEXITY_MAX = 15;
+
+const MAX_LINES_PER_FILE = 300;
+
+const MAX_LINES_PER_BLOCK = { template: 120, script: 150, style: 120 };
+
+const MAX_TEMPLATE_DEPTH = 6;
+
+const MAX_PROPS = 8;
+
+const sizeRules = {
+  'max-lines': [
+    'warn',
+    { max: MAX_LINES_PER_FILE, skipBlankLines: true, skipComments: true },
+  ],
+};
 
 const IGNORES = [
   '**/node_modules/**',
@@ -13,9 +32,7 @@ const IGNORES = [
   '**/.nx/**',
   '**/storybook-static/**',
   '**/.vitest/**',
-  'packages/ladesa-api-client/src/__generated__/**',
-  'apps/sisgha-sisgea/.nuxt/**',
-  'apps/sisgha-sisgea/.output/**',
+  '**/__generated__/**',
 ];
 
 export default [
@@ -29,8 +46,16 @@ export default [
       parser: tsParser,
       parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
     },
-    plugins: { ladesa: noCommentsPlugin, '@typescript-eslint': tsPlugin },
-    rules: { 'ladesa/no-comments': 'error' },
+    plugins: {
+      ladesa: noCommentsPlugin,
+      '@typescript-eslint': tsPlugin,
+      sonarjs,
+    },
+    rules: {
+      ...sizeRules,
+      'ladesa/no-comments': 'error',
+      'sonarjs/cognitive-complexity': ['warn', COGNITIVE_COMPLEXITY_MAX],
+    },
   },
 
   {
@@ -43,8 +68,20 @@ export default [
         sourceType: 'module',
       },
     },
-    plugins: { ladesa: noCommentsPlugin, '@typescript-eslint': tsPlugin },
-    rules: { 'ladesa/no-comments': 'error' },
+    plugins: {
+      ladesa: noCommentsPlugin,
+      '@typescript-eslint': tsPlugin,
+      sonarjs,
+      vue,
+    },
+    rules: {
+      ...sizeRules,
+      'ladesa/no-comments': 'error',
+      'sonarjs/cognitive-complexity': ['warn', COGNITIVE_COMPLEXITY_MAX],
+      'vue/max-lines-per-block': ['warn', MAX_LINES_PER_BLOCK],
+      'vue/max-template-depth': ['warn', { maxDepth: MAX_TEMPLATE_DEPTH }],
+      'vue/max-props': ['warn', { maxProps: MAX_PROPS }],
+    },
   },
 
   {
@@ -53,6 +90,11 @@ export default [
     plugins: { css, ladesa: noCommentsPlugin },
     languageOptions: { tolerant: true },
     rules: { 'ladesa/no-css-comments': 'error' },
+  },
+
+  {
+    files: ['packages/*/src/index.ts'],
+    rules: { 'max-lines': 'off' },
   },
 
   ...yml.configs['flat/base'],

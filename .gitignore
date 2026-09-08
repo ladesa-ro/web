@@ -142,3 +142,5 @@ dist
 # Vitest
 **/.vitest/**
 storybook-static/
+
+.pnpm-store/

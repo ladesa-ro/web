@@ -59,19 +59,10 @@ jobs:
       - name: Testes do design system
         run: pnpm run -w test:all
 
-      # Bloqueante: o código não leva comentários. Contexto duradouro vai para
-      # src/NOTES.md — a regra e o que ela aceita estão descritos lá.
-      - name: Ausência de comentários no código
-        run: pnpm run -w lint:comments
+      - name: Lint do workspace e do .github
+        working-directory: .
+        run: ./src/node_modules/.bin/eslint .
 
-      # Informativo enquanto as treze funções listadas em src/NOTES.md não
-      # forem refatoradas. Depois disso, trocar por `lint:complexity:strict`.
-      - name: Complexidade cognitiva (informativo)
-        continue-on-error: true
-        run: pnpm run -w lint:complexity
-
-      # Informativo, não bloqueante: o gate local (recipe `check` do justfile)
-      # também roda o eslint com `-`, e o app tem erros pré-existentes.
       - name: Lint (informativo)
         continue-on-error: true
         working-directory: ./src/apps/sisgha-sisgea
