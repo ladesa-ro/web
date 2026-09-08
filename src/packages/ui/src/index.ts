@@ -40,6 +40,15 @@ export {
 } from './components/WeekNavigator.vue';
 export { default as AccessRoleCards } from './components/AccessRoleCards.vue';
 export {
+  default as AccordionSelect,
+  type AccordionSelectProps,
+} from './components/AccordionSelect.vue';
+export {
+  default as CalendarMonth,
+  type CalendarMonthProps,
+} from './components/CalendarMonth.vue';
+export * from './components/calendar-month';
+export {
   default as GradeSelector,
   type GradeSelectorProps,
 } from './components/GradeSelector.vue';

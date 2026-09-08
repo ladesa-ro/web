@@ -1,13 +1,9 @@
-// # IMPORT
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import isBetween from 'dayjs/plugin/isBetween';
-import type { CalendarEvent, Day, EmptyDays } from '../Types';
+import type { CalendarEvent, Day, EmptyDays } from './calendar-types';
 
-// # SETUP
 dayjs.extend(isBetween);
-
-// # CODE
 
 export const renderDays = {
   EmptyDays: (year: number, month: number): EmptyDays => {
@@ -17,13 +13,11 @@ export const renderDays = {
     };
 
     try {
-      // Get Month Infos
       const firstDayOfMonth = dayjs(`${year}-${month}-01`);
       const lastDayOfMonth: number = Number(
         firstDayOfMonth.endOf('month').format('D')
       );
 
-      // Calc Empty Days
       emptyDays.before = Number(firstDayOfMonth.day());
       emptyDays.after = 7 * 6 - (emptyDays.before + lastDayOfMonth);
 
@@ -42,7 +36,6 @@ export const renderDays = {
     const days: Array<Day> = [];
 
     try {
-      // Pre-process events into a date→color map (O(m) where m = total event-days)
       const dateColorMap = new Map<string, string>();
       const occupiedDates = new Set<string>();
 
@@ -66,7 +59,6 @@ export const renderDays = {
         }
       }
 
-      // Formatting Days
       const daysInMonth = Number(
         dayjs(`${year}-${currentMonth}-01`).endOf('month').format('D')
       );
@@ -82,7 +74,6 @@ export const renderDays = {
           occupied: occupiedDates.has(dateStr),
         };
 
-        // Push in Array
         days.push(day);
       }
       return days;
