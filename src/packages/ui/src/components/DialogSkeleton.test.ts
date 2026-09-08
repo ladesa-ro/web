@@ -35,7 +35,8 @@ describe('DialogSkeleton', () => {
     backdrop?.click();
     await wrapper.vm.$nextTick();
 
-    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([false]);
+    const emitted = wrapper.emitted('update:modelValue');
+    expect(emitted?.[emitted.length - 1]).toEqual([false]);
     wrapper.unmount();
   });
 

@@ -30,6 +30,7 @@
 @import './components/dialog-skeleton.css' layer(components);
 @import './components/dialog-confirm.css' layer(components);
 @import './components/side-by-side.css' layer(components);
+@import './components/sidebar.css' layer(components);
 @import './components/breadcrumb.css' layer(components);
 @import './components/button-square.css' layer(components);
 @import './components/button-modal.css' layer(components);

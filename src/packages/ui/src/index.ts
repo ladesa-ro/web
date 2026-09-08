@@ -34,6 +34,23 @@ export { default as FormTextField } from './components/FormTextField.vue';
 export { default as FormTimeField } from './components/FormTimeField.vue';
 export { default as FormTimeRangeField } from './components/FormTimeRangeField.vue';
 export {
+  default as Sidebar,
+  type SidebarProps,
+} from './components/Sidebar.vue';
+export {
+  default as SidebarItem,
+  type SidebarItemProps,
+} from './components/SidebarItem.vue';
+export type {
+  SidebarItemModel,
+  SidebarItemGroupModel,
+  SidebarItemLinkModel,
+  SidebarItemSpacerModel,
+} from './components/sidebar-item';
+export { default as SisgeaLogomarca } from './logos/SisgeaLogomarca.vue';
+export { default as SisghaLogo } from './logos/SisghaLogo.vue';
+export { default as SisghaLogomarca } from './logos/SisghaLogomarca.vue';
+export {
   default as SideBySide,
   type SideBySideProps,
 } from './components/SideBySide.vue';
