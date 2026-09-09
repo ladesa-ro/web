@@ -2,7 +2,7 @@
   "name": "ladesa-web",
   "build": {
     "dockerfile": "../.docker/Containerfile",
-    "context": ".",
+    "context": "../src",
     "target": "devcontainer"
   },
   "workspaceFolder": "/repo",

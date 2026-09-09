@@ -7,6 +7,10 @@ ENV PATH="$PNPM_HOME:$PATH"
 ENV CI=true
 RUN corepack enable
 
+COPY package.json /tmp/workspace-package.json
+RUN corepack prepare "$(node -p "require('/tmp/workspace-package.json').packageManager")" --activate \
+  && rm /tmp/workspace-package.json
+
 FROM base AS sources
 COPY . /sources
 WORKDIR /sources
