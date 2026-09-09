@@ -34,7 +34,7 @@ const onSubmit = handleSubmit(async formData => {
     () => false
   );
 
-  if (requested && canRecoverPassword) {
+  if (requested && canRecoverPassword.value) {
     showAlert.value = true;
   }
 });
