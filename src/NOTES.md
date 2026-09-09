@@ -152,8 +152,21 @@ local e `compose.agents.yml`. O workspace pnpm fica em `/repo/src`, e é de lá
 que sai quase todo comando; o eslint que cobre `.github/` e `.docker/` roda de
 `/repo`. A montagem precisa ser da raiz justamente para alcançar esses dois.
 
-`NPM_CONFIG_STORE_DIR=/pnpm/store` está no `containerEnv` pelo mesmo motivo do
-compose dos agentes: sem isso o store do pnpm nasce dentro do workspace.
+`NPM_CONFIG_STORE_DIR=/pnpm/store` é `ENV` do `Containerfile`, não de cada
+compose: sem ele o store do pnpm nasce dentro do workspace e o `git add -A`
+leva junto. A versão do pnpm também vem da imagem, via `corepack prepare` lendo
+o `packageManager` de `src/package.json` — sem isso, rodar `pnpm` de `/repo`
+baixa a versão mais recente em vez da fixada.
+
+Os três builds usam contexto `src/`: `build-push.dev.yml`, o `devcontainer.json`
+e o `compose.agents.yml`. É o que faz o `COPY package.json` do `Containerfile`
+resolver igual nos três.
+
+A sequência de verificação vive em `ci:verify`, no `package.json`. O workflow e
+a receita `check` do justfile chamam esse script em vez de repetir a lista.
+
+O container de desenvolvimento é declarado em `.docker/compose.dev.yml`:
+`just dev-up`, `just dev-shell`, `just dev-exec "<cmd>"`.
 
 O `COPY . /sources` saiu do estágio `base` para um estágio `sources` próprio.
 Sem isso qualquer arquivo alterado invalidava a camada do `apt-get` e o
