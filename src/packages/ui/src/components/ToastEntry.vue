@@ -10,7 +10,7 @@ import IconClose from '../icons/Close.vue';
 import IconConfirm from '../icons/Confirm.vue';
 import IconInfo from '../icons/Info.vue';
 import IconWarning from '../icons/Warning.vue';
-import type { ToastItem, ToastType } from './toast';
+import { closeToast, type ToastItem, type ToastType } from './toast';
 
 export type ToastEntryProps = { toast: ToastItem };
 
@@ -41,7 +41,7 @@ function runToastAction(action: ToastItem['onAction']) {
 
 function handleActionClick(t: ToastItem) {
   runToastAction(t.onAction);
-  t.open.value = false;
+  closeToast(t);
 }
 </script>
 
