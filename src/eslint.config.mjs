@@ -93,7 +93,7 @@ export default [
   },
 
   {
-    files: ['packages/*/src/index.ts'],
+    files: ['**/packages/*/src/index.ts'],
     rules: { 'max-lines': 'off' },
   },
 
