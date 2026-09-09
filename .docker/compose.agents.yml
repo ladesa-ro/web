@@ -1,13 +1,10 @@
 x-agent-build: &agent-build
-  context: ..
-  dockerfile: .docker/Containerfile
+  context: ../src
+  dockerfile: ../.docker/Containerfile
   target: devcontainer
 
 x-agent-base: &agent-base
   command: ["sleep", "infinity"]
-  environment:
-    CI: "true"
-    NPM_CONFIG_STORE_DIR: /pnpm/store
 
 services:
   fundacoes:

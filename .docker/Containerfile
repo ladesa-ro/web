@@ -5,6 +5,7 @@ RUN npm uninstall -g yarn pnpm && npm install -g corepack
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 ENV CI=true
+ENV NPM_CONFIG_STORE_DIR="/pnpm/store"
 RUN corepack enable
 
 COPY package.json /tmp/workspace-package.json
