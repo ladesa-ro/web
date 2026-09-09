@@ -4,6 +4,7 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 COMMAND_TOOL_OCI_RUNTIME := env_var_or_default("OCI_RUNTIME", "docker")
 COMMAND_COMPOSE_AGENTS := COMMAND_TOOL_OCI_RUNTIME + " compose --file .docker/compose.agents.yml -p ladesa-web-agents"
+COMMAND_COMPOSE_DEV := COMMAND_TOOL_OCI_RUNTIME + " compose --file .docker/compose.dev.yml -p ladesa-web-dev"
 
 ISSUE_BRANCH := "feat/789-calendario-institucional"
 WORKTREE_DIR := "../"
@@ -11,6 +12,18 @@ WORKTREE_DIR := "../"
 # Mostra as receitas disponíveis
 default:
     @just --list
+dev-up:
+    {{COMMAND_COMPOSE_DEV}} up -d --build
+
+dev-down:
+    {{COMMAND_COMPOSE_DEV}} down
+
+dev-shell:
+    {{COMMAND_COMPOSE_DEV}} exec web bash
+
+dev-exec +CMD:
+    {{COMMAND_COMPOSE_DEV}} exec web bash -lc "{{CMD}}"
+
 
 # Builda as imagens dos agentes (só se o Containerfile mudou)
 agents-build:

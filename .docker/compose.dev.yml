@@ -1,0 +1,13 @@
+services:
+  web:
+    container_name: ladesa-web-dev-c
+    build:
+      context: ../src
+      dockerfile: ../.docker/Containerfile
+      target: devcontainer
+    command: ["sleep", "infinity"]
+    working_dir: /repo
+    volumes:
+      - ..:/repo
+    ports:
+      - "3701:3000"
