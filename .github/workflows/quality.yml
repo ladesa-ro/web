@@ -45,25 +45,13 @@ jobs:
       - name: Instalação das dependências
         run: ${{ env.EXEC }} "cd src && pnpm install --frozen-lockfile"
 
-      - name: Build de todos os pacotes
-        run: ${{ env.EXEC }} "cd src && pnpm run -w build:all"
-
-      - name: Checagem de tipos
-        run: ${{ env.EXEC }} "cd src && pnpm --filter @ladesa-ro/web.service run types:check"
-
-      - name: Instalação do navegador para os testes
-        run: ${{ env.EXEC }} "cd src && pnpm --filter @ladesa-ro/web.ui exec playwright install --with-deps chromium"
-
-      - name: Testes do design system
-        run: ${{ env.EXEC }} "cd src && pnpm run -w test:all"
-
-      - name: Lint do workspace e do .github
-        run: ${{ env.EXEC }} "./src/node_modules/.bin/eslint ."
+      - name: Build, tipos, testes e lint
+        run: ${{ env.EXEC }} "cd src && pnpm run -w ci:verify"
 
       - name: Duplicação (informativo)
         continue-on-error: true
         run: ${{ env.EXEC }} "cd src && pnpm run -w lint:duplication"
 
-      - name: Lint (informativo)
+      - name: Lint do app (informativo)
         continue-on-error: true
         run: ${{ env.EXEC }} "cd src/apps/sisgha-sisgea && pnpm exec eslint ."

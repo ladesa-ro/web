@@ -13,7 +13,11 @@
     "prepare": "husky",
     "lint": "eslint .",
     "lint:strict": "eslint . --max-warnings 0",
-    "lint:duplication": "jscpd apps packages"
+    "lint:duplication": "jscpd apps packages",
+    "lint:root": "cd .. && ./src/node_modules/.bin/eslint .",
+    "test:browser": "pnpm --filter @ladesa-ro/web.ui exec playwright install --with-deps chromium",
+    "types:check": "pnpm --filter @ladesa-ro/web.service run types:check",
+    "ci:verify": "pnpm run -w build:all && pnpm run -w types:check && pnpm run -w test:browser && pnpm run -w test:all && pnpm run -w lint:root"
   },
   "dependencies": {
     "husky": "^9.1.7",
