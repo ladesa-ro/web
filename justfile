@@ -3,90 +3,30 @@
 set shell := ["bash", "-euo", "pipefail", "-c"]
 
 COMMAND_TOOL_OCI_RUNTIME := env_var_or_default("OCI_RUNTIME", "docker")
-COMMAND_COMPOSE_AGENTS := COMMAND_TOOL_OCI_RUNTIME + " compose --file .docker/compose.agents.yml -p ladesa-web-agents"
 COMMAND_COMPOSE_DEV := COMMAND_TOOL_OCI_RUNTIME + " compose --file .docker/compose.dev.yml -p ladesa-web-dev"
-
-ISSUE_BRANCH := "feat/789-calendario-institucional"
-WORKTREE_DIR := "../"
 
 # Mostra as receitas disponíveis
 default:
     @just --list
+
+# Sobe o container de desenvolvimento
 dev-up:
     {{COMMAND_COMPOSE_DEV}} up -d --build
 
+# Derruba o container de desenvolvimento
 dev-down:
     {{COMMAND_COMPOSE_DEV}} down
 
+# Shell manual pra debug
 dev-shell:
     {{COMMAND_COMPOSE_DEV}} exec web bash
 
+# Executa um comando arbitrário dentro do container de desenvolvimento
 dev-exec +CMD:
     {{COMMAND_COMPOSE_DEV}} exec web bash -lc "{{CMD}}"
 
-
-# Builda as imagens dos agentes (só se o Containerfile mudou)
-agents-build:
-    {{COMMAND_COMPOSE_AGENTS}} build
-
-# Cria o clone isolado do slice "fundacoes", na branch de integração, a partir de origin/main
-worktree-init:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    git fetch origin main
-    rm -rf {{WORKTREE_DIR}}web-agent-fundacoes
-    git clone --local . {{WORKTREE_DIR}}web-agent-fundacoes
-    cd {{WORKTREE_DIR}}web-agent-fundacoes && git checkout -B {{ISSUE_BRANCH}} origin/main
-    echo "[WORKTREE] fundacoes pronto em {{ISSUE_BRANCH}} ✅"
-
-# Cria o clone isolado de um slice, numa sub-branch a partir de BASE.
-# Clona a partir do clone "fundacoes" (não daqui) — é lá que a branch de
-# integração e os merges de slices anteriores realmente vivem.
-worktree-branch SLICE BASE:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    rm -rf {{WORKTREE_DIR}}web-agent-{{SLICE}}
-    git clone --local {{WORKTREE_DIR}}web-agent-fundacoes {{WORKTREE_DIR}}web-agent-{{SLICE}}
-    cd {{WORKTREE_DIR}}web-agent-{{SLICE}} && git checkout -B feat/789-{{SLICE}} {{BASE}}
-    echo "[WORKTREE] {{SLICE}} pronto em feat/789-{{SLICE}} (base: {{BASE}}) ✅"
-
-# Remove o clone de um slice depois do merge (a branch já vive mergeada na integração, não precisa preservar)
-worktree-done SLICE:
-    rm -rf {{WORKTREE_DIR}}web-agent-{{SLICE}}
-
-# Sobe o container de um slice
-agents-up SLICE:
-    {{COMMAND_COMPOSE_AGENTS}} up -d {{SLICE}}
-
-# Derruba todos os containers de agente
-agents-down:
-    {{COMMAND_COMPOSE_AGENTS}} down --remove-orphans
-
-# Logs de um slice
-agents-logs SLICE:
-    {{COMMAND_COMPOSE_AGENTS}} logs -f {{SLICE}}
-
-# Executa um comando arbitrário dentro do container de um slice (única porta de execução pros subagentes)
-exec SLICE *ARGS:
-    {{COMMAND_COMPOSE_AGENTS}} exec {{SLICE}} bash -c "{{ARGS}}"
-
-# Shell manual pra debug
-agents-shell SLICE:
-    {{COMMAND_COMPOSE_AGENTS}} exec {{SLICE}} bash
-
-# Roda o gate de qualidade (build:all + types:check) dentro do container do slice.
-# "lint" fica fora do gate obrigatório: agora que `eslint` é devDependency direta
-# de apps/sisgha-sisgea (antes só existia como peer de @nuxt/eslint e o binário
-# nunca linkava — corrigido na branch feat/789-calendario-institucional), o lint
-# roda de verdade e expõe ~65 erros pré-existentes em código não tocado pela
-# issue #789. Corrigir esse débito é fora de escopo aqui — `pnpm exec eslint`
-# continua best-effort, sem travar o gate.
-check SLICE:
-    just exec {{SLICE}} "cd /repo/src && pnpm install --frozen-lockfile && pnpm run -w ci:verify"
-    -just exec {{SLICE}} "cd /repo/src && pnpm run -w lint:duplication"
-    -just exec {{SLICE}} "cd /repo/src/apps/sisgha-sisgea && pnpm exec eslint ."
-
-# Faz merge normal (sem squash) da branch do slice pra branch de integração
-# Roda no container "fundacoes", que enxerga o clone de todos os slices (read-only) em /mnt/<slice>
-merge SLICE:
-    just exec fundacoes "cd /repo && git fetch /mnt/{{SLICE}} feat/789-{{SLICE}} && git merge --no-ff FETCH_HEAD -m 'merge: integrar slice {{SLICE}} da issue web#789'"
+# Roda o gate de qualidade; duplicação e lint do app seguem informativos
+check:
+    just dev-exec "cd /repo/src && pnpm install --frozen-lockfile && pnpm run -w ci:verify"
+    -just dev-exec "cd /repo/src && pnpm run -w lint:duplication"
+    -just dev-exec "cd /repo/src/apps/sisgha-sisgea && pnpm exec eslint ."

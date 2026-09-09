@@ -147,8 +147,8 @@ para `apps` e `packages` inteiros.
 um `exec` por passo), sem publicar imagem nenhuma — assim cada passo continua
 com seu próprio pass/fail e o que é informativo segue informativo.
 
-`/repo` é a raiz do repositório em todos os ambientes — devcontainer, container
-local e `compose.agents.yml`. O workspace pnpm fica em `/repo/src`, e é de lá
+`/repo` é a raiz do repositório em todos os ambientes — devcontainer e container
+local. O workspace pnpm fica em `/repo/src`, e é de lá
 que sai quase todo comando; o eslint que cobre `.github/` e `.docker/` roda de
 `/repo`. A montagem precisa ser da raiz justamente para alcançar esses dois.
 
@@ -158,9 +158,9 @@ leva junto. A versão do pnpm também vem da imagem, via `corepack prepare` lend
 o `packageManager` de `src/package.json` — sem isso, rodar `pnpm` de `/repo`
 baixa a versão mais recente em vez da fixada.
 
-Os três builds usam contexto `src/`: `build-push.dev.yml`, o `devcontainer.json`
-e o `compose.agents.yml`. É o que faz o `COPY package.json` do `Containerfile`
-resolver igual nos três.
+Os builds usam contexto `src/`: `build-push.dev.yml`, o `devcontainer.json` e o
+`compose.dev.yml`. É o que faz o `COPY package.json` do `Containerfile` resolver
+igual nos três.
 
 A sequência de verificação vive em `ci:verify`, no `package.json`. O workflow e
 a receita `check` do justfile chamam esse script em vez de repetir a lista.
@@ -171,19 +171,6 @@ O container de desenvolvimento é declarado em `.docker/compose.dev.yml`:
 O `COPY . /sources` saiu do estágio `base` para um estágio `sources` próprio.
 Sem isso qualquer arquivo alterado invalidava a camada do `apt-get` e o
 devcontainer era reconstruído do zero a cada commit.
-
-## Agentes paralelos
-
-`.docker/compose.agents.yml` sobe um container por slice, cada um com seu
-worktree. Duas coisas que o arquivo não diz sozinho:
-
-`NPM_CONFIG_STORE_DIR=/pnpm/store` mantém o store do pnpm fora do bind mount de
-`/repo`. Sem isso o `pnpm install` cria um `.pnpm-store/` dentro do worktree e
-o `git add -A` leva junto — dezenas de milhares de arquivos. O `.gitignore` já
-cobre como rede de segurança, mas o container tem de subir com a variável.
-
-O serviço `fundacoes` também é o coordenador de merge: enxerga em `/mnt/<slice>`
-o clone read-only de todos os outros slices, além do próprio em `/repo`.
 
 ## Renovate
 
