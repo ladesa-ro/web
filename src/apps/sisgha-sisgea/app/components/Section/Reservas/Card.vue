@@ -49,12 +49,14 @@ function onConfirmCancel() {
 
 <template>
   <div
-    class="p-5 rounded-lg border-2 border-ldsa-grey flex flex-col gap-3 hover:bg-ldsa-grey/10 h-full transition-colors"
+    class="u-p-5 u-rounded-lg u-flex u-flex-col u-gap-3 u-h-full reserva-card"
   >
-    <div class="flex justify-between items-center gap-2">
-      <div class="flex gap-2 items-center font-medium text-lg min-w-0">
-        <IconsReserve class="w-5 h-5 shrink-0 text-ldsa-green-1" />
-        <h2 class="truncate">{{ ambientesText }}</h2>
+    <div class="u-flex u-justify-between u-items-center u-gap-2">
+      <div
+        class="u-flex u-gap-2 u-items-center u-font-medium u-text-lg reserva-card__title-wrapper"
+      >
+        <IconsReserve class="reserva-card__icon" />
+        <h2 class="u-truncate">{{ ambientesText }}</h2>
       </div>
 
       <DialogConfirm
@@ -65,17 +67,56 @@ function onConfirmCancel() {
       />
       <button
         type="button"
-        class="shrink-0 text-sm font-medium text-ldsa-red hover:underline"
+        class="u-shrink-0 u-text-sm u-font-medium reserva-card__cancel-button"
         @click="confirmOpen = true"
       >
         Cancelar
       </button>
     </div>
 
-    <span class="text-sm text-ldsa-text-default">{{ periodo }}</span>
+    <span class="u-text-sm reserva-card__periodo">{{ periodo }}</span>
 
-    <p class="text-sm text-ldsa-grey">{{ reserva.nome }}</p>
+    <p class="u-text-sm reserva-card__nome">{{ reserva.nome }}</p>
 
-    <p class="text-xs text-ldsa-grey">Autor: {{ autorText }}</p>
+    <p class="u-text-xs reserva-card__autor">Autor: {{ autorText }}</p>
   </div>
 </template>
+
+<style scoped>
+.reserva-card {
+  border: 2px solid var(--ladesa-grey-color);
+  transition: background-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.reserva-card:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.reserva-card__title-wrapper {
+  min-width: 0;
+}
+
+.reserva-card__icon {
+  width: var(--ui-space-5);
+  height: var(--ui-space-5);
+  flex-shrink: 0;
+  color: var(--ladesa-green-1-color);
+}
+
+.reserva-card__cancel-button {
+  color: var(--ladesa-red-color);
+}
+
+.reserva-card__cancel-button:hover {
+  text-decoration: underline;
+}
+
+.reserva-card__periodo {
+  color: var(--ladesa-text-default-color);
+}
+
+.reserva-card__nome,
+.reserva-card__autor {
+  color: var(--ladesa-grey-color);
+}
+</style>

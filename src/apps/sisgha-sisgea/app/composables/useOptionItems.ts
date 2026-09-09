@@ -1,23 +1,6 @@
-export type Item = string | number | ParsedItem;
+export type {
+  OptionItem as Item,
+  ParsedOptionItem as ParsedItem,
+} from '@ladesa-ro/web.ui';
 
-export type ParsedItem = {
-  label: string;
-  value: any;
-};
-
-/** Convert all items to a { label, value } object. */
-export const getParsedItems = (items: Item[]): ParsedItem[] => {
-  return items.map(item => {
-    if (typeof item === 'string' || typeof item === 'number') {
-      return {
-        label: String(item),
-        value: item,
-      };
-    }
-
-    return {
-      label: String(item.label),
-      value: item.value,
-    };
-  });
-};
+export { getParsedOptionItems as getParsedItems } from '@ladesa-ro/web.ui';

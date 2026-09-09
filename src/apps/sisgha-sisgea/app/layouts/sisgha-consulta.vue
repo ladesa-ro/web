@@ -1,9 +1,11 @@
 <template>
-  <div class="h-screen flex flex-col overflow-hidden">
+  <div class="u-flex u-flex-col u-overflow-hidden sisgha-consulta-layout">
     <AppbarPublicConsultation />
 
-    <div class="flex-1 overflow-y-auto flex flex-col">
-      <main class="flex-1 py-10 shrink flex flex-col">
+    <div class="u-flex-1 u-flex u-flex-col sisgha-consulta-layout__body">
+      <main
+        class="u-flex-1 u-py-10 u-flex u-flex-col sisgha-consulta-layout__main"
+      >
         <slot />
       </main>
 
@@ -11,3 +13,17 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+.sisgha-consulta-layout {
+  height: 100vh;
+}
+
+.sisgha-consulta-layout__body {
+  overflow-y: auto;
+}
+
+.sisgha-consulta-layout__main {
+  flex-shrink: 1;
+}
+</style>

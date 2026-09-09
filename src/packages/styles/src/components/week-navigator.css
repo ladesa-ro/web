@@ -1,0 +1,22 @@
+@media (max-width: 767.98px) {
+  .ui-report-buttons {
+    flex-direction: column;
+  }
+}
+
+.ui-button-square.ui-week-navigator__button {
+  border: 2px solid var(--ladesa-grey-color);
+  background-color: transparent;
+}
+
+.ui-week-navigator__button--next {
+  transform: rotate(180deg);
+}
+
+.ui-week-navigator__label {
+  color: var(--ladesa-text-default-color);
+}
+
+.ui-week-navigator__icon {
+  color: var(--ladesa-green-1-color);
+}

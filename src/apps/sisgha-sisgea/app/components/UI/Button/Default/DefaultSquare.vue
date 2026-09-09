@@ -1,9 +1,9 @@
+<script setup lang="ts">
+import { DefaultSquare } from '@ladesa-ro/web.ui';
+</script>
+
 <template>
-  <button
-    class="flex justify-center items-center shrink-0 w-12 h-12 rounded-lg bg-ldsa-green-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-ldsa-grey"
-  >
-    <div class="flex justify-center items-center text-ldsa-white w-6 h-6">
-      <slot />
-    </div>
-  </button>
+  <DefaultSquare v-bind="$attrs">
+    <slot />
+  </DefaultSquare>
 </template>

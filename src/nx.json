@@ -11,6 +11,9 @@
     },
     "lint": {
       "cache": true
+    },
+    "test": {
+      "cache": true
     }
   },
   "defaultBase": "main",

@@ -29,8 +29,6 @@ const {
 
 const ownerName = getOwnerName(isLoading, isProfessor, scheduleOwner);
 
-//
-
 const weekSchedule: Ref<WeekSchedule> = ref(
   useWeekSchedule(temposDeAulaExemplo, aulasSemDiaSemanaExemplo)
 ) as Ref<WeekSchedule>;
@@ -54,17 +52,17 @@ provide('editMode', editMode);
   <UIContainer variant="larger">
     <UIBreadcrumbDapeBreadcrumb />
 
-    <header class="flex justify-between items-center mb-8">
-      <span class="flex gap-6 font-semibold text-lg">
+    <header class="u-flex u-justify-between u-items-center u-mb-8">
+      <span class="u-flex u-gap-6 u-font-semibold u-text-lg">
         <span
-          class="hover:shadow-[0_0_0_5px_rgb(0,0,0,0.05)] dark:hover:shadow-[0_0_0_5px_rgb(255,255,255,0.04)] hover:bg-ldsa-grey/15 flex items-center my-auto h-max rounded-full"
+          class="schedule-query-back-wrapper u-flex u-items-center u-rounded-full"
         >
           <NuxtLink
             v-show="!editMode"
             to="../../horario"
-            class="flex items-center justify-center"
+            class="u-flex u-items-center u-justify-center"
           >
-            <IconsArrowAlt class="w-5.5 text-ldsa-grey" />
+            <IconsArrowAlt class="schedule-query-back-icon" />
           </NuxtLink>
         </span>
 
@@ -97,11 +95,13 @@ provide('editMode', editMode);
 
       <ButtonsEditMode>
         <Button :disabled="!canUndo" @click="undo()">
-          <IconsUndoRedo class="w-4 scale-x-[-1]" />
+          <IconsUndoRedo
+            class="schedule-query-icon schedule-query-icon--flipped"
+          />
         </Button>
 
         <Button :disabled="!canRedo" @click="redo()">
-          <IconsUndoRedo class="w-4" />
+          <IconsUndoRedo class="schedule-query-icon" />
         </Button>
       </ButtonsEditMode>
     </header>
@@ -111,9 +111,34 @@ provide('editMode', editMode);
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
 h1.text.default {
-  @apply text-lg;
+  font-size: 1.125rem;
+}
+
+.schedule-query-back-wrapper {
+  height: max-content;
+  margin-block: auto;
+}
+
+.schedule-query-back-wrapper:hover {
+  box-shadow: 0 0 0 5px rgb(0, 0, 0, 0.05);
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 15%);
+}
+
+:global(.dark) .schedule-query-back-wrapper:hover {
+  box-shadow: 0 0 0 5px rgb(255, 255, 255, 0.04);
+}
+
+.schedule-query-back-icon {
+  width: 1.375rem;
+  color: var(--ladesa-grey-color);
+}
+
+.schedule-query-icon {
+  width: 1rem;
+}
+
+.schedule-query-icon--flipped {
+  transform: scaleX(-1);
 }
 </style>

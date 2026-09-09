@@ -1,45 +1,12 @@
-<script setup lang="ts">
+<script lang="ts" setup>
+import { MescladoList, type MescladoListProps } from '@ladesa-ro/web.ui';
 import type { AcceptableValue } from 'reka-ui';
-import type { Item } from '~/composables/useOptionItems';
 
-type Props = {
-  items: Item[];
-  searchBarValue?: string;
-};
-
-const { items: itemsProps, searchBarValue = '' } = defineProps<Props>();
-
-const parsedItems = computed(() => getParsedItems(itemsProps));
-
-// TODO: substituir por busca da API
-const filteredItems = computed(() =>
-  filterItemsBySearch(parsedItems.value, searchBarValue)
-);
+defineProps<MescladoListProps>();
 
 const selectedCheckboxes = defineModel<AcceptableValue[]>();
 </script>
 
 <template>
-  <div class="flex flex-col max-h-64 sm:max-h-76 overflow-y-auto">
-    <UICheckbox
-      v-slot="{ item, invertItem, selected }"
-      v-model="selectedCheckboxes"
-      :items="filteredItems"
-      gap="0"
-    >
-      <div
-        class="flex items-center p-3 gap-2 border-t-1 border-t-ldsa-grey/50 font-medium"
-      >
-        <UICheckboxSquare :item :active="selected" @click="invertItem(item)" />
-
-        <span class="truncate text-sm">
-          {{ item.label }}
-        </span>
-      </div>
-    </UICheckbox>
-
-    <span v-if="filteredItems.length === 0" class="text-ldsa-grey text-center">
-      Nenhum resultado encontrado
-    </span>
-  </div>
+  <MescladoList v-bind="$props" v-model="selectedCheckboxes" />
 </template>

@@ -1,0 +1,28 @@
+.ui-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--ui-space-5);
+  padding: var(--ui-space-8);
+}
+
+.ui-empty-state__title {
+  font-size: 1.125rem;
+  font-weight: var(--ui-font-weight-semibold);
+}
+
+.ui-empty-state__description {
+  font-size: 0.875rem;
+  color: var(--ladesa-grey-color);
+}
+
+.dark .ui-empty-state__illustration {
+  filter: saturate(75%);
+  opacity: 0.5;
+}
+
+.dark .ui-empty-state__description {
+  filter: contrast(0);
+}

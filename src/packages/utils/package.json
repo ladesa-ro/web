@@ -11,6 +11,14 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "devDependencies": {
-    "typescript": "6.0.3"
+    "typescript": "6.0.3",
+    "vitest": "^5.0.0"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.21"
   }
 }

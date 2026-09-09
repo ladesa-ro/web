@@ -1,0 +1,57 @@
+name: "Quality"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - .github/workflows/quality.yml
+      - .devcontainer/**
+      - .docker/Containerfile
+      - src/**
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/quality.yml
+      - .devcontainer/**
+      - .docker/Containerfile
+      - src/**
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  EXEC: devcontainer exec --workspace-folder . bash -lc
+
+jobs:
+  check:
+    name: "CI: Build & Types"
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout do código-fonte
+        uses: actions/checkout@v6
+
+      - name: Instalação do CLI do devcontainer
+        run: npm install -g @devcontainers/cli
+
+      - name: Subida do devcontainer
+        run: devcontainer up --workspace-folder .
+
+      - name: Instalação das dependências
+        run: ${{ env.EXEC }} "cd src && pnpm install --frozen-lockfile"
+
+      - name: Build, tipos, testes e lint
+        run: ${{ env.EXEC }} "cd src && pnpm run -w ci:verify"
+
+      - name: Duplicação (informativo)
+        continue-on-error: true
+        run: ${{ env.EXEC }} "cd src && pnpm run -w lint:duplication"
+
+      - name: Lint do app (informativo)
+        continue-on-error: true
+        run: ${{ env.EXEC }} "cd src/apps/sisgha-sisgea && pnpm exec eslint ."

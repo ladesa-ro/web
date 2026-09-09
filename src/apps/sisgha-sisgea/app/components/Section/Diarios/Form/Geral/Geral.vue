@@ -20,13 +20,11 @@ const { validate, setValues, values } = useForm({
   keepValuesOnUnmount: true,
 });
 
-// Context is backed by form values — form is the source of truth
 const contexto = createAndProvideContextDiariosFormGeral(
   { values, setValues },
   computed(() => props.editId ?? null)
 );
 
-// Provide form validate to children
 provide(diariosFormValidateKey, validate);
 
 const isEditMode = computed(() => !!props.editId);
@@ -41,7 +39,6 @@ function fecharTudo() {
   emit('close');
 }
 
-// Quando todos os modais fecham (ex: via backdrop), propagar close para o pai
 watch(modals.hasActiveModal, hasActive => {
   if (!hasActive) {
     emit('close');
@@ -49,7 +46,6 @@ watch(modals.hasActiveModal, hasActive => {
 });
 
 async function avancarParaDisciplinas() {
-  // Validate step 1 fields before advancing
   const { valid } = await validate({ mode: 'validated-only' });
   if (valid || (contexto.turmaId.value && contexto.calendarioLetivoId.value)) {
     modals.open('configurar-disciplinas');

@@ -16,15 +16,9 @@ const changeCellType = (atv: EditableCellType) => {
   if (cell.value.type !== atv) {
     cell.value.type = atv;
 
-    if (cell.value.type === 'aula') {
-      // TODO: fazer modificações no diário da aula
-    }
-
     emit('atividade-change');
   }
 };
-
-//
 
 const popoverOpen = defineModel<boolean>('popover', {
   default: false,
@@ -40,11 +34,8 @@ const cellType = computed(() => cell.value.type);
 
 const changeActivityValue = ref(cellType.value ?? 'vago');
 
-//
-
 const scheduleOf: 'professor' | 'turma' | undefined = inject('scheduleOf');
 
-// TODO: melhorar essa estrutura de querries para fazer apenas 1 query à api em algum componente ancestral a este, ao inves de uma query em todas as instâncias
 const professoresQuery = useQuery({
   queryKey: ['usuarios', 'professor-list'],
   queryFn: () => api.call(usuarioFindAll, { query: {} }),
@@ -66,10 +57,45 @@ onMounted(() => {
 });
 
 const turmasOrProfessoresSelected = ref();
+
+const professorItems = computed(() =>
+  (professoresQuery.data.value?.data ?? []).map(professor => ({
+    label: professor.nome ?? 'Nome não disponível',
+    value: professor.id,
+  }))
+);
+
+const turmaItems = computed(() =>
+  (turmasQuery.data.value?.data ?? []).map(turma => ({
+    label: `${turma.periodo} ${turma.curso.nomeAbreviado}`,
+    value: turma.id,
+  }))
+);
+
+const picker = computed(() => {
+  if (scheduleOf !== 'turma' && scheduleOf !== 'professor') return null;
+
+  const isTurmaSchedule = scheduleOf === 'turma';
+  const query = isTurmaSchedule ? professoresQuery : turmasQuery;
+
+  return {
+    label: isTurmaSchedule ? 'Professor' : 'Turma',
+    placeholder: isTurmaSchedule
+      ? 'Selecione um professor'
+      : 'Selecione uma turma',
+    errorMessage: isTurmaSchedule
+      ? 'Ocorreu um erro ao buscar os professores.'
+      : 'Ocorreu um erro ao buscar as turmas.',
+    hasData: !!query.data.value,
+    isLoading: query.isLoading.value,
+    isError: query.isError.value,
+    items: isTurmaSchedule ? professorItems.value : turmaItems.value,
+  };
+});
 </script>
 
 <template>
-  <div class="flex max-lg:mt-[0.688rem]">
+  <div class="grid-cell-edit-buttons u-flex">
     <SectionHorarioDapeEditPopoverEdit
       v-model="popoverOpen"
       :handle-confirm-button-click="changeCellType"
@@ -77,7 +103,7 @@ const turmasOrProfessoresSelected = ref();
     >
       <template #activator>
         <button
-          class="w-5.5 h-5.5 p-[0.313rem] flex items-center justify-center rounded hover:bg-ldsa-text-default/15 text-ldsa-text-default"
+          class="grid-cell-edit-buttons__edit-btn u-flex u-items-center u-justify-center u-rounded-sm"
         >
           <IconsEdit />
         </button>
@@ -86,46 +112,18 @@ const turmasOrProfessoresSelected = ref();
       <UIToggle v-model="changeActivityValue" :items="toggleItems" />
 
       <template v-if="changeActivityValue === 'aula'">
-        <template v-if="scheduleOf === 'turma'">
+        <template v-if="picker">
           <UIFormOptionFieldsAutocomplete
-            v-if="professoresQuery.data.value"
+            v-if="picker.hasData"
             v-model:selected-option="turmasOrProfessoresSelected"
-            placeholder="Selecione um professor"
-            label="Professor"
-            :items="
-              professoresQuery.data.value.data.map((professor: any) => ({
-                label: professor.usuario.nome ?? 'Nome não disponível',
-                value: professor.id,
-              }))
-            "
+            :placeholder="picker.placeholder"
+            :label="picker.label"
+            :items="picker.items"
           />
 
-          <span v-else-if="professoresQuery.isLoading"> Carregando... </span>
+          <span v-else-if="picker.isLoading"> Carregando... </span>
 
-          <span v-else-if="professoresQuery.isError">
-            Ocorreu um erro ao buscar os professores.
-          </span>
-        </template>
-
-        <template v-else-if="scheduleOf === 'professor'">
-          <UIFormOptionFieldsAutocomplete
-            v-if="turmasQuery.data.value"
-            v-model:selected-option="turmasOrProfessoresSelected"
-            placeholder="Selecione uma turma"
-            label="Turma"
-            :items="
-              turmasQuery.data.value.data.map(turma => ({
-                label: `${turma.periodo} ${turma.curso.nomeAbreviado}`,
-                value: turma.id,
-              }))
-            "
-          />
-
-          <span v-else-if="professoresQuery.isLoading"> Carregando... </span>
-
-          <span v-else-if="professoresQuery.isError">
-            Ocorreu um erro ao buscar os professores.
-          </span>
+          <span v-else-if="picker.isError">{{ picker.errorMessage }}</span>
         </template>
 
         <VVAutocompleteAPIDisciplina
@@ -136,9 +134,11 @@ const turmasOrProfessoresSelected = ref();
     </SectionHorarioDapeEditPopoverEdit>
 
     <button
+      class="grid-cell-edit-buttons__exclude-btn u-flex u-items-center u-justify-center u-rounded-sm u-p-1"
       :class="[
-        'w-5.5 h-5.5 p-1 rounded flex items-center justify-center hover:bg-ldsa-red/15 text-ldsa-red',
-        cell.type === 'vago' ? 'opacity-0 cursor-default' : 'cursor-pointer',
+        cell.type === 'vago'
+          ? 'grid-cell-edit-buttons__exclude-btn--disabled'
+          : 'grid-cell-edit-buttons__exclude-btn--enabled',
       ]"
       @click.stop="changeCellType('vago')"
     >
@@ -146,3 +146,43 @@ const turmasOrProfessoresSelected = ref();
     </button>
   </div>
 </template>
+
+<style scoped>
+.grid-cell-edit-buttons__edit-btn,
+.grid-cell-edit-buttons__exclude-btn {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.grid-cell-edit-buttons__edit-btn {
+  padding: 0.313rem;
+  color: var(--ladesa-text-default-color);
+}
+
+.grid-cell-edit-buttons__edit-btn:hover {
+  background-color: rgb(from var(--ladesa-text-default-color) R G B / 15%);
+}
+
+.grid-cell-edit-buttons__exclude-btn {
+  color: var(--ladesa-red-color);
+}
+
+.grid-cell-edit-buttons__exclude-btn:hover {
+  background-color: rgb(from var(--ladesa-red-color) R G B / 15%);
+}
+
+.grid-cell-edit-buttons__exclude-btn--disabled {
+  opacity: 0;
+  cursor: default;
+}
+
+.grid-cell-edit-buttons__exclude-btn--enabled {
+  cursor: pointer;
+}
+
+@media (max-width: 1023.98px) {
+  .grid-cell-edit-buttons {
+    margin-top: 0.688rem;
+  }
+}
+</style>

@@ -17,17 +17,19 @@ const style = computed(() => ({
 </script>
 
 <template>
-  <section v-if="itens.length > 0" class="flex flex-col gap-3">
+  <section v-if="itens.length > 0" class="u-flex u-flex-col u-gap-3">
     <h2
       :style="style"
-      class="flex items-center gap-2 font-semibold text-ldsa-text-default"
+      class="mudanca-group__title u-flex u-items-center u-gap-2 u-font-semibold"
     >
-      <span class="w-2.5 h-2.5 rounded-full bg-(--color)" />
+      <span class="mudanca-group__dot u-rounded-full" />
       {{ titulo }}
-      <span class="text-sm font-normal text-ldsa-grey">({{ itens.length }})</span>
+      <span class="mudanca-group__count u-text-sm u-font-regular"
+        >({{ itens.length }})</span
+      >
     </h2>
 
-    <ul class="flex flex-col gap-2">
+    <ul class="u-flex u-flex-col u-gap-2">
       <SectionHorarioDapeSessaoMudancaItem
         v-for="item in itens"
         :key="item.mudancaId"
@@ -39,3 +41,19 @@ const style = computed(() => ({
     </ul>
   </section>
 </template>
+
+<style scoped>
+.mudanca-group__title {
+  color: var(--ladesa-text-default-color);
+}
+
+.mudanca-group__dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  background-color: var(--color);
+}
+
+.mudanca-group__count {
+  color: var(--ladesa-grey-color);
+}
+</style>

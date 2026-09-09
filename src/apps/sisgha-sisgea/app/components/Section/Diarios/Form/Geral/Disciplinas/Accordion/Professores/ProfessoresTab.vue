@@ -49,8 +49,8 @@ const professores = computed(() => {
     .flatMap((u: UsuarioFindOneOutputDto) => {
       const vinculos = u.vinculos ?? [];
       if (vinculos.length === 0) return [];
-      // Usar o primeiro vinculo ativo como perfilId
-      const vinculo = vinculos.find((v) => v.ativo) ?? vinculos[0];
+
+      const vinculo = vinculos.find(v => v.ativo) ?? vinculos[0];
       if (!vinculo) return [];
       return [
         {
@@ -64,6 +64,15 @@ const professores = computed(() => {
     .toSorted((a, b) => a.label.localeCompare(b.label));
 });
 
+type ProfessorItem = {
+  value: string;
+  label: string;
+  imageUrl: string | null;
+  cargo: string;
+};
+
+const professorOf = (item: unknown) => item as ProfessorItem;
+
 const professoresSelecionados = computed({
   get: () => dcRef.value?.professoresSelecionados ?? [],
   set: (val: string[]) => {
@@ -74,66 +83,69 @@ const professoresSelecionados = computed({
 </script>
 
 <template>
-  <div class="flex flex-col gap-3">
-    <!-- Loading -->
+  <div class="u-flex u-flex-col u-gap-3">
     <div
       v-if="listQuery.isLoading.value"
-      class="flex items-center justify-center py-6"
+      class="u-flex u-items-center u-justify-center professores-tab__loading"
     >
-      <span class="text-sm text-ldsa-grey/100 animate-pulse">Carregando professores...</span>
+      <span class="u-text-sm professores-tab__loading-text"
+        >Carregando professores...</span
+      >
     </div>
 
     <template v-else>
-    <!-- Busca -->
-    <UIFormTextField
-      :model-value="professorSearch"
-      label="Pesquisar"
-      placeholder="Digite aqui."
-      name="professor-search"
-      @update:model-value="professorSearch = String($event ?? '')"
-    />
+      <UIFormTextField
+        :model-value="professorSearch"
+        label="Pesquisar"
+        placeholder="Digite aqui."
+        name="professor-search"
+        @update:model-value="professorSearch = String($event ?? '')"
+      />
 
-    <!-- Lista de professores -->
-    <div class="max-h-[250px] overflow-y-auto flex flex-col gap-2">
-      <UICheckbox
-        v-slot="{ item, selected, invertItem }"
-        v-model="professoresSelecionados"
-        :items="professores"
+      <div
+        class="u-flex u-flex-col u-gap-2 u-overflow-auto professores-tab__list"
       >
-        <div
-          class="flex items-center gap-3 border-2 rounded-lg pr-3 mb-1 cursor-pointer transition-colors"
-          :class="
-            selected
-              ? 'border-ldsa-green-1 bg-ldsa-green-50'
-              : 'border-ldsa-grey/100'
-          "
-          @click.stop="invertItem(item)"
+        <UICheckbox
+          v-slot="{ item, selected, invertItem }"
+          v-model="professoresSelecionados"
+          :items="professores"
         >
-          <div
-            class="w-12 h-12 bg-ldsa-grey/20 rounded-md flex items-center justify-center shrink-0 overflow-hidden"
+          <SectionDiariosFormGeralDisciplinasAccordionProfessoresItem
+            :label="item.label"
+            :image-url="professorOf(item).imageUrl"
+            :cargo="professorOf(item).cargo"
+            :selected="selected"
+            @toggle="invertItem(item)"
           >
-            <img
-              v-if="(item as Record<string, unknown>).imageUrl"
-              :src="(item as Record<string, unknown>).imageUrl as string"
-              class="w-full h-full object-cover"
-            >
-            <IconsUser v-else class="w-6 h-6 text-ldsa-grey" />
-          </div>
-          <div class="flex flex-col flex-1 py-2">
-            <p class="font-semibold text-sm text-ldsa-text-default">
-              {{ item.label }}
-            </p>
-            <p
-              v-if="(item as Record<string, unknown>).cargo"
-              class="text-xs text-ldsa-grey/100"
-            >
-              {{ (item as Record<string, unknown>).cargo }}
-            </p>
-          </div>
-          <UICheckboxSquare :item="item" :active="selected" @click.stop />
-        </div>
-      </UICheckbox>
-    </div>
+            <UICheckboxSquare :item="item" :active="selected" @click.stop />
+          </SectionDiariosFormGeralDisciplinasAccordionProfessoresItem>
+        </UICheckbox>
+      </div>
     </template>
   </div>
 </template>
+
+<style scoped>
+.professores-tab__loading {
+  padding-block: var(--ui-space-6);
+}
+
+.professores-tab__loading-text {
+  color: rgb(from var(--ladesa-grey-color) R G B / 100%);
+  animation: professores-tab-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes professores-tab-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.professores-tab__list {
+  max-height: 15.625rem;
+}
+</style>

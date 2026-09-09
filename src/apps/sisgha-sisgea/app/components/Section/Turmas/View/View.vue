@@ -54,18 +54,18 @@ const handleDelete = async () => {
     </template>
 
     <template #related>
-      <UICollapsible class="border-2 border-ldsa-grey rounded-lg">
+      <UICollapsible class="turma-alunos-collapsible u-rounded-lg">
         <template #trigger>
           <div
-            class="flex items-center justify-between p-5 hover:bg-ldsa-grey/10 font-medium"
+            class="turma-alunos-trigger u-flex u-items-center u-justify-between u-p-5 u-font-medium"
           >
             Alunos
 
-            <IconsArrow class="text-ldsa-text-green" />
+            <IconsArrow class="turma-alunos-trigger-icon" />
           </div>
         </template>
 
-        <div class="p-5 pt-0">
+        <div class="u-p-5 u-pt-0">
           <SectionTurmasViewAlunos
             :turma-id="resourceId"
             :campus-id="turma?.curso?.campus?.id"
@@ -81,3 +81,17 @@ const handleDelete = async () => {
     @confirm="confirmDelete.onConfirm"
   />
 </template>
+
+<style scoped>
+.turma-alunos-collapsible {
+  border: 2px solid var(--ladesa-grey-color);
+}
+
+.turma-alunos-trigger:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.turma-alunos-trigger-icon {
+  color: var(--ladesa-text-green-color);
+}
+</style>

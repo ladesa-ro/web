@@ -1,4 +1,3 @@
-import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
 
 const DEFAULT_DEV_PUBLIC = 'https://dev.ladesa.com.br/api/v1';
@@ -19,19 +18,15 @@ export default defineNuxtConfig({
     normalizeComponentNames: true,
   },
 
-  // ==============================================
-
   srcDir: './app',
 
   ssr: true,
 
-  css: ['~/assets/styles/app.css'],
+  css: ['@ladesa-ro/web.styles/index.css', '~/assets/styles/app.css'],
 
   imports: {
     dirs: ['composables/ladesa-api', 'composables/query-helpers'],
   },
-
-  // ===========
 
   typescript: {
     typeCheck: true,
@@ -39,15 +34,11 @@ export default defineNuxtConfig({
 
   eslint: {},
 
-  // ===========
-
   devtools: {
     enabled: true,
   },
 
   vite: {
-    plugins: [tailwindcss()],
-
     optimizeDeps: {
       include: [
         '@atlaskit/pragmatic-drag-and-drop',
@@ -63,12 +54,12 @@ export default defineNuxtConfig({
         'yup',
         '@vueuse/core',
         'vue3-dropzone',
-        'dayjs', // CJS
-        'dayjs/locale/pt-br', // CJS
-        'dayjs/plugin/customParseFormat', // CJS
-        'dayjs/plugin/isBetween', // CJS
-        'dayjs/plugin/updateLocale', // CJS
-        'dayjs/plugin/weekOfYear', // CJS
+        'dayjs',
+        'dayjs/locale/pt-br',
+        'dayjs/plugin/customParseFormat',
+        'dayjs/plugin/isBetween',
+        'dayjs/plugin/updateLocale',
+        'dayjs/plugin/weekOfYear',
         'lodash-es',
       ],
     },
@@ -87,13 +78,9 @@ export default defineNuxtConfig({
     },
   },
 
-  // ===========
-
   features: {
     inlineStyles: true,
   },
-
-  // ==============================================
 
   modules: [
     '@pinia/nuxt',
@@ -110,8 +97,6 @@ export default defineNuxtConfig({
     storage: 'cookie',
     storageKey: 'nuxt-color-mode',
   },
-
-  // ===========
 
   routeRules: {
     '/': { redirect: '/sisgha/dape' },

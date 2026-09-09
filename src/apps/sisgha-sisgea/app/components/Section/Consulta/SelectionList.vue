@@ -177,9 +177,8 @@ for (const selectionData of selectionDatas) {
     @update:selected-option="value => (item.value.value = value)"
   />
 
-  <!-- if all items are selected, send to the schedule of the selected turma  -->
-  <NuxtLink :to="`/sisgha/consulta/horario/${values.turmaId}`" class="w-full">
-    <UIButtonDefault :disabled="!allHaveSelected" class="w-full">
+  <NuxtLink :to="`/sisgha/consulta/horario/${values.turmaId}`" class="u-w-full">
+    <UIButtonDefault :disabled="!allHaveSelected" class="u-w-full">
       Ver horário
     </UIButtonDefault>
   </NuxtLink>

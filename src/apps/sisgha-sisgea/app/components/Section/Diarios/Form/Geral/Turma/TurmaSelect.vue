@@ -11,14 +11,12 @@ const contexto = useContextDiariosFormGeral();
 
 const searchBarText = ref('');
 
-// Composables
 const campi = useCampi();
 const ofertaFormacoes = useOfertasFormacoes();
 const cursos = useCursos();
 const turmas = useTurmas();
 const calendariosLetivos = useCalendarioLetivo();
 
-// Queries
 const campiListQuery = campi.list();
 
 const ofertaFormacaoListQuery = ofertaFormacoes.list(
@@ -61,25 +59,20 @@ const calendarioListQuery = calendariosLetivos.list(
   })
 );
 
-// Opções para selects (ParsedItem[])
 const campusItems = computed(
   () =>
-    campiListQuery.data.value?.data?.map(
-      (c: Record<string, unknown>) => ({
-        value: c.id as string,
-        label: (c.apelido as string) ?? '',
-      })
-    ) ?? []
+    campiListQuery.data.value?.data?.map((c: Record<string, unknown>) => ({
+      value: c.id as string,
+      label: (c.apelido as string) ?? '',
+    })) ?? []
 );
 
 const calendarioItems = computed(
   () =>
-    calendarioListQuery.data.value?.data?.map(
-      (c: Record<string, unknown>) => ({
-        value: c.id as string,
-        label: (c.nome as string) ?? '',
-      })
-    ) ?? []
+    calendarioListQuery.data.value?.data?.map((c: Record<string, unknown>) => ({
+      value: c.id as string,
+      label: (c.nome as string) ?? '',
+    })) ?? []
 );
 
 const ofertaFormacaoItems = computed(
@@ -94,31 +87,28 @@ const ofertaFormacaoItems = computed(
 
 const cursoItems = computed(
   () =>
-    cursoListQuery.data.value?.data?.map(
-      (c: Record<string, unknown>) => ({
-        value: c.id as string,
-        label: (c.nome as string) ?? '',
-      })
-    ) ?? []
+    cursoListQuery.data.value?.data?.map((c: Record<string, unknown>) => ({
+      value: c.id as string,
+      label: (c.nome as string) ?? '',
+    })) ?? []
 );
 
 const turmaRadioItems = computed(
   () =>
-    turmaListQuery.data.value?.data?.map(
-      (t: Record<string, unknown>) => ({
-        value: t.id as string,
-        label: (t.periodo as string) ?? '',
-        turma: t,
-      })
-    ) ?? []
+    turmaListQuery.data.value?.data?.map((t: Record<string, unknown>) => ({
+      value: t.id as string,
+      label: (t.periodo as string) ?? '',
+      turma: t,
+      curso:
+        ((t.curso as Record<string, unknown> | undefined)?.nome as string) ??
+        '',
+    })) ?? []
 );
 
-// Modelos para selects (ParsedItem)
 const campusSelected = computed({
   get: () =>
-    campusItems.value.find(
-      (i) => i.value === contexto.campusId.value
-    ) ?? undefined,
+    campusItems.value.find(i => i.value === contexto.campusId.value) ??
+    undefined,
   set: (val: ParsedItem | undefined) => {
     contexto.campusId.value = val?.value ?? null;
   },
@@ -127,7 +117,7 @@ const campusSelected = computed({
 const calendarioSelected = computed({
   get: () =>
     calendarioItems.value.find(
-      (i) => i.value === contexto.calendarioLetivoId.value
+      i => i.value === contexto.calendarioLetivoId.value
     ) ?? undefined,
   set: (val: ParsedItem | undefined) => {
     contexto.calendarioLetivoId.value = val?.value ?? null;
@@ -137,7 +127,7 @@ const calendarioSelected = computed({
 const ofertaFormacaoSelected = computed({
   get: () =>
     ofertaFormacaoItems.value.find(
-      (i) => i.value === contexto.ofertaFormacaoId.value
+      i => i.value === contexto.ofertaFormacaoId.value
     ) ?? undefined,
   set: (val: ParsedItem | undefined) => {
     contexto.ofertaFormacaoId.value = val?.value ?? null;
@@ -146,26 +136,39 @@ const ofertaFormacaoSelected = computed({
 
 const cursoSelected = computed({
   get: () =>
-    cursoItems.value.find((i) => i.value === contexto.cursoId.value) ??
-    undefined,
+    cursoItems.value.find(i => i.value === contexto.cursoId.value) ?? undefined,
   set: (val: ParsedItem | undefined) => {
     contexto.cursoId.value = val?.value ?? null;
   },
 });
 
-// Watchers cascata
 useCascadingFilters([
   {
     ref: contexto.campusId,
-    resetOnChange: [contexto.calendarioLetivoId, contexto.ofertaFormacaoId, contexto.cursoId, contexto.turmaId, contexto.turmaSelecionada],
+    resetOnChange: [
+      contexto.calendarioLetivoId,
+      contexto.ofertaFormacaoId,
+      contexto.cursoId,
+      contexto.turmaId,
+      contexto.turmaSelecionada,
+    ],
   },
   {
     ref: contexto.calendarioLetivoId,
-    resetOnChange: [contexto.ofertaFormacaoId, contexto.cursoId, contexto.turmaId, contexto.turmaSelecionada],
+    resetOnChange: [
+      contexto.ofertaFormacaoId,
+      contexto.cursoId,
+      contexto.turmaId,
+      contexto.turmaSelecionada,
+    ],
   },
   {
     ref: contexto.ofertaFormacaoId,
-    resetOnChange: [contexto.cursoId, contexto.turmaId, contexto.turmaSelecionada],
+    resetOnChange: [
+      contexto.cursoId,
+      contexto.turmaId,
+      contexto.turmaSelecionada,
+    ],
   },
   {
     ref: contexto.cursoId,
@@ -178,8 +181,7 @@ function onTurmaSelect(turmaId: string) {
   const turma = turmaListQuery.data.value?.data?.find(
     (t: Record<string, unknown>) => t.id === turmaId
   );
-  contexto.turmaSelecionada.value =
-    (turma as Record<string, unknown>) ?? null;
+  contexto.turmaSelecionada.value = (turma as Record<string, unknown>) ?? null;
 }
 
 const canAdvance = computed(
@@ -198,8 +200,7 @@ function nextForm() {
     :on-close="() => emit('close')"
     title="Cadastrar diários: Selecionar turma"
   >
-    <div class="flex flex-col gap-4">
-      <!-- Campus -->
+    <div class="u-flex u-flex-col u-gap-4">
       <UIFormOptionFieldsSelect
         v-model="campusSelected"
         label="Campus"
@@ -207,7 +208,6 @@ function nextForm() {
         :items="campusItems"
       />
 
-      <!-- Calendário Letivo -->
       <UIFormOptionFieldsSelect
         v-model="calendarioSelected"
         label="Calendário Letivo"
@@ -216,16 +216,16 @@ function nextForm() {
         :disabled="!contexto.campusId.value"
       />
 
-      <!-- Formação -->
       <UIFormOptionFieldsSelect
         v-model="ofertaFormacaoSelected"
         label="Formação"
         placeholder="Selecione..."
         :items="ofertaFormacaoItems"
-        :disabled="!contexto.campusId.value || !contexto.calendarioLetivoId.value"
+        :disabled="
+          !contexto.campusId.value || !contexto.calendarioLetivoId.value
+        "
       />
 
-      <!-- Curso -->
       <UIFormOptionFieldsSelect
         v-model="cursoSelected"
         label="Curso"
@@ -234,7 +234,6 @@ function nextForm() {
         :disabled="!contexto.ofertaFormacaoId.value"
       />
 
-      <!-- Pesquisa e turmas (só aparecem com curso selecionado) -->
       <template v-if="contexto.cursoId.value">
         <UIFormTextField
           :model-value="searchBarText"
@@ -244,54 +243,25 @@ function nextForm() {
           @update:model-value="searchBarText = String($event ?? '')"
         />
 
-        <!-- Lista de turmas -->
-        <div class="max-h-[300px] overflow-y-auto flex flex-col gap-2">
         <div
-          v-for="item in turmaRadioItems"
-          :key="item.value"
-          class="flex items-center justify-between border-2 rounded-lg px-4 py-3 cursor-pointer transition-colors"
-          :class="
-            contexto.turmaId.value === item.value
-              ? 'border-ldsa-green-1 bg-ldsa-green-1/10'
-              : 'border-ldsa-grey/100'
-          "
-          @click="onTurmaSelect(item.value)"
+          class="u-flex u-flex-col u-gap-2 u-overflow-auto turma-select__list"
         >
-          <div class="flex flex-col">
-            <span class="font-semibold text-sm text-ldsa-text-default">
-              {{ item.label }}
-            </span>
-            <span class="text-xs text-ldsa-grey/100">
-              {{
-                (
-                  (item.turma as Record<string, unknown>)
-                    ?.curso as Record<string, unknown>
-                )?.nome ?? ''
-              }}
-            </span>
-          </div>
-          <div
-            class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0"
-            :class="
-              contexto.turmaId.value === item.value
-                ? 'border-ldsa-green-1'
-                : 'border-ldsa-grey/100'
-            "
-          >
-            <div
-              v-if="contexto.turmaId.value === item.value"
-              class="w-3 h-3 rounded-full bg-ldsa-green-1"
-            />
-          </div>
-        </div>
+          <SectionDiariosFormGeralTurmaItem
+            v-for="item in turmaRadioItems"
+            :key="item.value"
+            :label="item.label"
+            :curso="item.curso"
+            :selected="contexto.turmaId.value === item.value"
+            @select="onTurmaSelect(item.value)"
+          />
 
-        <div
-          v-if="turmaRadioItems.length === 0 && contexto.cursoId.value"
-          class="text-center text-sm text-ldsa-grey/100 py-4"
-        >
-          Nenhuma turma encontrada.
+          <div
+            v-if="turmaRadioItems.length === 0 && contexto.cursoId.value"
+            class="u-text-center u-text-sm turma-select__empty"
+          >
+            Nenhuma turma encontrada.
+          </div>
         </div>
-      </div>
       </template>
     </div>
 
@@ -301,3 +271,14 @@ function nextForm() {
     </template>
   </DialogModalBaseLayout>
 </template>
+
+<style scoped>
+.turma-select__list {
+  max-height: 18.75rem;
+}
+
+.turma-select__empty {
+  color: rgb(from var(--ladesa-grey-color) R G B / 100%);
+  padding-block: var(--ui-space-4);
+}
+</style>

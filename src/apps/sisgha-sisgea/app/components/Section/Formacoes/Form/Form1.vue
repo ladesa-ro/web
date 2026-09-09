@@ -88,15 +88,7 @@ const duracaoLabel = computed(() => {
       :items="duracaoItems"
     />
 
-    <div
-      v-if="duracaoLabel"
-      class="flex gap-3 items-center rounded-[5px] bg-ldsa-blue/10 border border-ldsa-blue/10 px-3 py-2.5 overflow-clip"
-    >
-      <span class="i-mdi-information-outline text-ldsa-blue shrink-0 text-lg" />
-      <p class="text-ldsa-blue text-xs font-medium tracking-wide">
-        {{ duracaoLabel }}
-      </p>
-    </div>
+    <UIAlert v-if="duracaoLabel" type="info" :message="duracaoLabel" />
 
     <template #button-group>
       <UIButtonModalCancel @click="emit('close')" />

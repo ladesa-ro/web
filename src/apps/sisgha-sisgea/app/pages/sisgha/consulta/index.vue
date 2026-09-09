@@ -6,18 +6,61 @@ definePageMeta({
 </script>
 
 <template>
-  <!-- TODO: add variant mini em UIContainer -->
   <UIContainer
     variant="tighter"
-    class="flex flex-col gap-6 sm:px-10 md:px-18 lg:px-25"
+    class="u-flex u-flex-col u-gap-6 consulta-horario"
   >
     <h1
-      class="flex items-center gap-2 text-lg sm:text-[1.375rem] font-semibold"
+      class="u-flex u-items-center u-gap-2 u-font-semibold consulta-horario__title"
     >
-      <IconsClock class="w-3.5 sm:w-4.5 shrink-0" />
+      <IconsClock class="u-shrink-0 consulta-horario__title-icon" />
       Selecionar Horário
     </h1>
 
     <SectionConsultaSelectionList />
   </UIContainer>
 </template>
+
+<style scoped>
+.consulta-horario {
+  padding-inline: 0;
+}
+
+@media (min-width: 640px) {
+  .consulta-horario {
+    padding-inline: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .consulta-horario {
+    padding-inline: 4.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .consulta-horario {
+    padding-inline: 6.25rem;
+  }
+}
+
+.consulta-horario__title {
+  font-size: 1.125rem;
+}
+
+@media (min-width: 640px) {
+  .consulta-horario__title {
+    font-size: 1.375rem;
+  }
+}
+
+.consulta-horario__title-icon {
+  width: 0.875rem;
+}
+
+@media (min-width: 640px) {
+  .consulta-horario__title-icon {
+    width: 1.125rem;
+  }
+}
+</style>

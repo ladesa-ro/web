@@ -1,0 +1,29 @@
+.app-color-mode-light {
+  --ladesa-white-color: rgb(255, 255, 255);
+  --ladesa-black-color: rgb(5, 15, 7);
+  --ladesa-grey-color: rgb(159, 159, 159);
+  --ladesa-green-1-color: rgb(47, 158, 65);
+  --ladesa-green-2-color: rgb(60, 192, 82);
+  --ladesa-red-color: rgb(205, 25, 30);
+  --ladesa-blue-color: rgb(30, 93, 204);
+  --ladesa-yellow-color: rgb(184, 160, 3);
+
+  --ladesa-background-color: var(--ladesa-white-color);
+  --ladesa-text-default-color: var(--ladesa-black-color);
+  --ladesa-text-green-color: var(--ladesa-green-1-color);
+}
+
+.app-color-mode-dark {
+  --ladesa-white-color: rgb(212, 222, 222);
+  --ladesa-black-color: rgb(25, 27, 34);
+  --ladesa-grey-color: rgb(72, 83, 105);
+  --ladesa-green-1-color: rgb(6, 100, 54);
+  --ladesa-green-2-color: rgb(29, 147, 90);
+  --ladesa-red-color: rgb(160, 15, 37);
+  --ladesa-blue-color: rgb(49, 97, 181);
+  --ladesa-yellow-color: rgb(159, 140, 21);
+
+  --ladesa-background-color: var(--ladesa-black-color);
+  --ladesa-text-default-color: var(--ladesa-white-color);
+  --ladesa-text-green-color: var(--ladesa-green-2-color);
+}

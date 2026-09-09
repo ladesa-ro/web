@@ -1,14 +1,14 @@
-// @ts-check
 import withNuxt from './.nuxt/eslint.config.mjs';
+import { noCommentsPlugin } from '../../eslint.no-comments.mjs';
 
 export default withNuxt({
+  plugins: { ladesa: noCommentsPlugin },
   rules: {
     'vue/component-name-in-template-casing': ['error', 'PascalCase'],
+    'ladesa/no-comments': 'error',
   },
 }).override('nuxt/typescript/rules', {
-  // Your custom configs here,
   rules: {
-    // ...Override rules, for example:
     '@typescript-eslint/no-explicit-any': 'warn',
   },
 });

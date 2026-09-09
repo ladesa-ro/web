@@ -103,7 +103,8 @@ export const useNiveisFormacoes = (): IUseNiveisFormacoes => {
 
   const imageCover = createImageBlobQuery({
     queryKey: keys,
-    fetcher: (id: string) => api.call(nivelFormacaoGetImagemCapa, { path: { id } }),
+    fetcher: (id: string) =>
+      api.call(nivelFormacaoGetImagemCapa, { path: { id } }),
   });
 
   const invalidate = createInvalidate(keys);

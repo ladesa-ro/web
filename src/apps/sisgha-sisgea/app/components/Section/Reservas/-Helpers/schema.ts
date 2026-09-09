@@ -7,7 +7,10 @@ export const reservaSchema = yup.object({
     })
     .test('ambiente-obrigatorio', 'Selecione um ambiente', value => !!value?.id)
     .default({ id: null } as { id: string | null }),
-  data: yup.string().required('Informe a data').default('' as string),
+  data: yup
+    .string()
+    .required('Informe a data')
+    .default('' as string),
   inicio: yup
     .string()
     .required('Informe o horário inicial')

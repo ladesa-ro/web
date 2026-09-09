@@ -11,7 +11,7 @@ import type {
   HorarioEdicaoSessaoDiferencaOutputRestDto,
   HorarioEdicaoSessaoOutputRestDto,
 } from '@ladesa-ro/web.api.client';
-import { buildIdempotencyKeyHeaders } from './-helpers/idempotencyKey';
+import { buildIdempotencyKeyHeaders } from '@ladesa-ro/web.utils';
 
 type DiferencaFn = (
   sessaoId: MaybeRef<string | null>

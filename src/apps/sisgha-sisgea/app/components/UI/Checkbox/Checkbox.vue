@@ -1,82 +1,15 @@
 <script setup lang="ts">
-import {
-  type AcceptableValue,
-  CheckboxRoot as Checkbox,
-  CheckboxGroupRoot,
-} from 'reka-ui';
-import {
-  type Item,
-  type ParsedItem,
-  getParsedItems,
-} from '~/composables/useOptionItems';
+import { Checkbox, type CheckboxProps } from '@ladesa-ro/web.ui';
+import type { AcceptableValue } from 'reka-ui';
 
-type Props = {
-  items: Item[];
-  disabledItems?: AcceptableValue[];
-  gap?: string;
-};
-
-const {
-  items: itemsProps,
-  disabledItems = [],
-  gap = '0.375rem',
-} = defineProps<Props>();
-
-const items = getParsedItems(itemsProps);
-const checkedItems = defineModel<AcceptableValue[]>({ default: [] });
-
-//
-
-const invertItem = (item: ParsedItem) => {
-  if (disabledItems.includes(item.value)) return; // impede ação se estiver desabilitado
-
-  if (checkedItems.value.includes(item.value)) {
-    checkedItems.value = checkedItems.value.filter(
-      value => value !== item.value
-    );
-  } else {
-    checkedItems.value.push(item.value);
-  }
-};
+defineProps<CheckboxProps>();
+const model = defineModel<AcceptableValue[]>({ default: [] });
 </script>
 
 <template>
-  <CheckboxGroupRoot v-model="checkedItems">
-    <label
-      v-for="item in items"
-      :key="item.value"
-      class="flex items-center cursor-pointer last:mb-0 text-ldsa-text-default"
-      :style="{ gap }"
-      :class="{
-        'opacity-50 cursor-not-allowed': disabledItems.includes(item.value),
-      }"
-    >
-      <Checkbox
-        v-if="$slots['default']"
-        class="w-full"
-        :value="item.value"
-        @keyup.enter="invertItem(item)"
-      >
-        <slot
-          :item="item"
-          :selected="checkedItems.includes(item.value)"
-          :disabled="disabledItems.includes(item.value)"
-          :invert-item="invertItem"
-        />
-      </Checkbox>
-
-      <template v-else>
-        <UICheckboxSquare
-          :item="item"
-          :active="checkedItems.includes(item.value)"
-          :disabled="disabledItems.includes(item.value)"
-          :enter-handle="invertItem"
-        />
-
-        <span v-bind="$attrs">
-          {{ item.label }}
-        </span>
-      </template>
-    </label>
-  </CheckboxGroupRoot>
+  <Checkbox v-bind="$props" v-model="model">
+    <template v-for="(_, name) in $slots" #[name]="slotProps">
+      <slot :name="name" v-bind="slotProps" />
+    </template>
+  </Checkbox>
 </template>

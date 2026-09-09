@@ -5,27 +5,76 @@ const hamburgerActive = defineModel<boolean>({
 </script>
 
 <template>
-  <header
-    class="flex items-center w-full max-[345px]:pr-1.5 pr-3 min-[740px]:pr-6.5 h-14 sm:h-[4.563rem] border-b border-ldsa-grey/50 bg-ldsa-bg"
-  >
+  <header class="u-flex u-items-center u-w-full appbar">
     <button
-      class="m-[0.34375rem] shrink-0"
+      class="u-shrink-0 appbar__hamburger-button"
       @pointerdown="hamburgerActive = !hamburgerActive"
     >
-      <IconsMenuHamburgerOn v-if="hamburgerActive" class="p-3 w-[2.813rem]" />
-      <IconsMenuHamburgerOff v-else class="p-3 w-[2.813rem] h-full" />
+      <IconsMenuHamburgerOn
+        v-if="hamburgerActive"
+        class="u-p-3 appbar__hamburger-icon"
+      />
+      <IconsMenuHamburgerOff
+        v-else
+        class="u-p-3 u-h-full appbar__hamburger-icon"
+      />
     </button>
 
     <AppbarProfileCardChangeProfileCard />
 
-    <div class="flex-1" />
+    <div class="u-flex-1" />
 
     <AppbarChangeCampus />
 
-    <UIButtonNotification class="shrink-0 mr-3" />
+    <UIButtonNotification class="u-shrink-0 u-mr-3" />
 
-    <AppbarChangeTheme class="shrink-0 min-[740px]:mr-3" />
+    <AppbarChangeTheme class="u-shrink-0 appbar__theme-toggle" />
 
     <AppbarChangeSystem />
   </header>
 </template>
+
+<style scoped>
+.appbar {
+  padding-right: 0.75rem;
+  height: 3.5rem;
+  border-bottom: 1px solid rgb(from var(--ladesa-grey-color) R G B / 50%);
+  background-color: var(--ladesa-background-color);
+}
+
+@media (max-width: 345px) {
+  .appbar {
+    padding-right: 0.375rem;
+  }
+}
+
+@media (min-width: 740px) {
+  .appbar {
+    padding-right: 1.625rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .appbar {
+    height: 4.563rem;
+  }
+}
+
+.appbar__hamburger-button {
+  margin: 0.34375rem;
+}
+
+.appbar__hamburger-icon {
+  width: 2.813rem;
+}
+
+.appbar__theme-toggle {
+  margin-right: 0;
+}
+
+@media (min-width: 740px) {
+  .appbar__theme-toggle {
+    margin-right: 0.75rem;
+  }
+}
+</style>

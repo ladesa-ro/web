@@ -57,20 +57,18 @@ function confirm() {
     title="Confirmar disponibilidade"
     :close-button="true"
     :on-close="cancel"
-    class="!sm:max-w-[38rem]"
+    class="save-scope-layout"
   >
-    <div class="flex flex-col gap-5">
-      <!-- Toggle: Permanente / Temporario -->
-      <div class="flex flex-col gap-2">
-        <label class="text-xs font-medium text-ldsa-text-default">
+    <div class="u-flex u-flex-col u-gap-5">
+      <div class="u-flex u-flex-col u-gap-2">
+        <label class="field-label u-text-xs u-font-medium">
           Tipo de disponibilidade
         </label>
         <UIToggle v-model="tipo" :items="toggleItems" />
       </div>
 
-      <!-- Data inicio -->
-      <div class="flex flex-col gap-1.5">
-        <label class="text-xs font-medium text-ldsa-text-default">
+      <div class="u-flex u-flex-col u-gap-1-5">
+        <label class="field-label u-text-xs u-font-medium">
           Data de inicio
         </label>
         <input
@@ -79,23 +77,23 @@ function confirm() {
           :min="today"
           class="date-input"
         />
-        <p v-if="dataInicio && !isDataInicioValid" class="text-xs text-red-500">
+        <p
+          v-if="dataInicio && !isDataInicioValid"
+          class="field-error u-text-xs"
+        >
           A data de inicio nao pode ser no passado.
         </p>
       </div>
 
-      <!-- Data fim (only if temporario) -->
-      <div v-if="tipo === 'temporario'" class="flex flex-col gap-1.5">
-        <label class="text-xs font-medium text-ldsa-text-default">
-          Data de fim
-        </label>
+      <div v-if="tipo === 'temporario'" class="u-flex u-flex-col u-gap-1-5">
+        <label class="field-label u-text-xs u-font-medium"> Data de fim </label>
         <input
           v-model="dataFim"
           type="date"
           :min="dataInicio || today"
           class="date-input"
         />
-        <p v-if="dataFim && !isDataFimValid" class="text-xs text-red-500">
+        <p v-if="dataFim && !isDataFimValid" class="field-error u-text-xs">
           A data de fim deve ser igual ou posterior a data de inicio.
         </p>
       </div>
@@ -114,12 +112,36 @@ function confirm() {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@media (min-width: 40rem) {
+  .save-scope-layout {
+    max-width: 38rem !important;
+  }
+}
+
+.field-label {
+  color: var(--ladesa-text-default-color);
+}
+
+.field-error {
+  color: var(--ladesa-red-color);
+}
 
 .date-input {
-  @apply border-2 border-ldsa-grey rounded-lg px-3 py-2 text-sm
-         text-ldsa-text-default bg-ldsa-bg
-         focus:outline-none focus:border-ldsa-green-1
-         transition-colors duration-200;
+  border: 2px solid var(--ladesa-grey-color);
+  border-radius: var(--ui-radius-lg);
+  padding-inline: var(--ui-space-3);
+  padding-block: var(--ui-space-2);
+  font-size: 0.875rem;
+  color: var(--ladesa-text-default-color);
+  background-color: var(--ladesa-background-color);
+  transition:
+    border-color var(--ui-duration-base) var(--ui-easing-standard),
+    background-color var(--ui-duration-base) var(--ui-easing-standard),
+    color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: var(--ladesa-green-1-color);
 }
 </style>

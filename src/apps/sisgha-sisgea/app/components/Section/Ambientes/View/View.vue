@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import EntityDetailPage from '../../-Shared/EntityDetailPage.vue';
 import AmbientesForm from '../Form/Form.vue';
 
 type Props = { resourceId: string };
@@ -12,32 +13,22 @@ const {
 } = ambientes.findOne(ref(resourceId));
 
 const { data: coverImageSrc } = ambientes.imageCover(ref(resourceId));
-
-const { confirmDelete, handleDelete } = useResourceDelete({
-  remove: id => ambientes.remove(id),
-  invalidate: () => ambientes.invalidate(),
-  redirectTo: '/sisgea/ambientes',
-});
 </script>
 
 <template>
-  <UIResourceView
-    :title="ambiente?.nome ?? ''"
+  <EntityDetailPage
+    :resource-id="resourceId"
+    :form-component="AmbientesForm"
+    :title="ambiente?.nome"
     :subtitle="ambiente?.descricao"
     :image-src="coverImageSrc"
     :is-loading="isLoading"
     :is-error="isError"
+    delete-message="Deseja realmente excluir este ambiente?"
+    :remove="id => ambientes.remove(id)"
+    :invalidate="() => ambientes.invalidate()"
+    redirect-to="/sisgea/ambientes"
   >
-    <template #breadcrumb />
-
-    <template #header-actions>
-      <DialogModalEditOrCreateModal
-        :edit-id="resourceId"
-        :form-component="AmbientesForm"
-      />
-      <UIButtonModalDelete @click="handleDelete(resourceId)" />
-    </template>
-
     <template #details>
       <UIResourceViewFieldGroup :columns="3">
         <UIResourceViewField label="Nome" :value="ambiente?.nome" />
@@ -58,18 +49,18 @@ const { confirmDelete, handleDelete } = useResourceDelete({
     </template>
 
     <template #related>
-      <UICollapsible class="border-2 border-ldsa-grey rounded-lg">
+      <UICollapsible class="u-rounded-lg ambiente-collapsible">
         <template #trigger>
           <div
-            class="flex items-center justify-between p-5 hover:bg-ldsa-grey/10 font-medium"
+            class="u-flex u-items-center u-justify-between u-p-5 u-font-medium ambiente-collapsible__trigger"
           >
             Indisponibilidade
 
-            <IconsArrow class="text-ldsa-text-green" />
+            <IconsArrow class="ambiente-collapsible__icon" />
           </div>
         </template>
 
-        <div class="p-5 pt-0">
+        <div class="u-p-5 u-pt-0">
           <SectionCalendarioIndisponibilidadeProfessor
             tipo-entidade="ambiente"
             :entidade-id="resourceId"
@@ -77,11 +68,19 @@ const { confirmDelete, handleDelete } = useResourceDelete({
         </div>
       </UICollapsible>
     </template>
-  </UIResourceView>
-
-  <DialogConfirm
-    v-model="confirmDelete.isOpen.value"
-    message="Deseja realmente excluir este ambiente?"
-    @confirm="confirmDelete.onConfirm"
-  />
+  </EntityDetailPage>
 </template>
+
+<style scoped>
+.ambiente-collapsible {
+  border: 2px solid var(--ladesa-grey-color);
+}
+
+.ambiente-collapsible__trigger:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.ambiente-collapsible__icon {
+  color: var(--ladesa-text-green-color);
+}
+</style>

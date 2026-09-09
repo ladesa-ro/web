@@ -17,7 +17,9 @@ const closeEditModal = () => {
   showEditModal.value = false;
 };
 
-const { data: profilePictureUrl } = useUsuarios().imageProfile(computed(() => user?.id ?? null));
+const { data: profilePictureUrl } = useUsuarios().imageProfile(
+  computed(() => user?.id ?? null)
+);
 
 const { campiList } = useUserCargoAndCampi();
 const api = useApiClient();
@@ -25,10 +27,10 @@ const api = useApiClient();
 const roleConfig = {
   professor: {
     label: 'Professor',
-    border: 'border-ldsa-green-1',
+    border: 'role-badge--green',
     icon: IconsEducator,
   },
-  dape: { label: 'DAPE', border: 'border-ldsa-green-1', icon: IconsUser },
+  dape: { label: 'DAPE', border: 'role-badge--green', icon: IconsUser },
 };
 
 const toggleCampusItems = campiList.map(c => ({
@@ -99,7 +101,7 @@ const vinculosBadges = computed(() => {
     const badge =
       key in roleConfig
         ? roleConfig[key as keyof typeof roleConfig]
-        : { label: v.cargo, border: 'border-gray-400', icon: IconsUser };
+        : { label: v.cargo, border: 'role-badge--grey', icon: IconsUser };
     if (!seen.has(badge.label)) {
       badges.push(badge);
       seen.add(badge.label);
@@ -115,21 +117,19 @@ const vinculosBadges = computed(() => {
       <UIImg
         :src="profilePictureUrl"
         alt="Foto de perfil do usuário."
-        class="shrink-0 w-18 h-18 sm:w-24 sm:h-24 lg:w-29.5 lg:h-29.5 border-2 border-ldsa-grey rounded-lg"
+        class="profile-card__avatar u-shrink-0 u-rounded-lg"
       >
         <template #fallbackIcon>
-          <IconsUser class="w-1/2 text-ldsa-grey" />
+          <IconsUser class="profile-card__avatar-fallback" />
         </template>
       </UIImg>
 
-      <section
-        class="profile-metadata text-xs font-medium max-[25rem]:text-center"
-      >
+      <section class="profile-metadata u-text-xs u-font-medium">
         <span>
-          <h1 class="font-semibold text-sm lg:text-base text-wrap">
+          <h1 class="profile-metadata__name u-font-semibold u-text-sm">
             {{ user.nome }}
           </h1>
-          <p class="text-ldsa-grey text-wrap break-words">{{ user.email }}</p>
+          <p class="profile-metadata__email">{{ user.email }}</p>
         </span>
 
         <div>
@@ -139,20 +139,15 @@ const vinculosBadges = computed(() => {
           />
         </div>
 
-        <span class="leading-5">
-          <div class="flex flex-wrap gap-2">
-            <span
+        <span class="profile-metadata__badges-wrapper">
+          <div class="u-flex u-flex-wrap u-gap-2">
+            <SectionProfileRoleBadge
               v-for="(v, index) in vinculosBadges"
               :key="index"
-              :class="[
-                'flex items-center gap-1 px-2 py-1 rounded-xl border-2 font-semibold text-[0.6rem]',
-                v.border,
-                'text-ldsa-text-green',
-              ]"
-            >
-              {{ v.label }}
-              <component :is="v.icon" class="w-3 h-3" />
-            </span>
+              :label="v.label"
+              :border="v.border"
+              :icon="v.icon"
+            />
           </div>
         </span>
       </section>
@@ -165,20 +160,133 @@ const vinculosBadges = computed(() => {
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
 .banner {
-  @apply flex justify-center sm:justify-start items-end;
-  @apply h-50 rounded-lg;
-  @apply bg-[url('@/assets/imgs/Usuario.jpg')] bg-cover;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 12.5rem;
+  border-radius: var(--ui-radius-lg);
+  background-image: url('@/assets/imgs/Usuario.jpg');
+  background-size: cover;
+}
+
+@media (min-width: 40rem) {
+  .banner {
+    justify-content: flex-start;
+  }
 }
 
 .profile-card {
-  @apply flex max-[25rem]:flex-col max-[25rem]:items-center max-[25rem]:gap-2 gap-4 overflow-visible max-[25rem]:max-w-56 max-w-9/10;
-  @apply ml-0 sm:ml-6 lg:ml-8 p-2.5 sm:p-3 lg:p-4 xl:p-5 lg:min-w-[22.5rem] h-max rounded-t-[0.625rem] bg-ldsa-bg;
+  display: flex;
+  gap: var(--ui-space-4);
+  overflow: visible;
+  max-width: 90%;
+  margin-left: 0;
+  padding: 0.625rem;
+  height: max-content;
+  border-top-left-radius: 0.625rem;
+  border-top-right-radius: 0.625rem;
+  background-color: var(--ladesa-background-color);
+}
+
+@media (max-width: 25rem) {
+  .profile-card {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--ui-space-2);
+    max-width: 14rem;
+  }
+}
+
+@media (min-width: 40rem) {
+  .profile-card {
+    margin-left: var(--ui-space-6);
+    padding: var(--ui-space-3);
+  }
+}
+
+@media (min-width: 64rem) {
+  .profile-card {
+    margin-left: var(--ui-space-8);
+    padding: var(--ui-space-4);
+    min-width: 22.5rem;
+  }
+}
+
+@media (min-width: 80rem) {
+  .profile-card {
+    padding: var(--ui-space-5);
+  }
+}
+
+.profile-card__avatar {
+  width: 4.5rem;
+  height: 4.5rem;
+  border: 2px solid var(--ladesa-grey-color);
+}
+
+@media (min-width: 40rem) {
+  .profile-card__avatar {
+    width: 6rem;
+    height: 6rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .profile-card__avatar {
+    width: 7.375rem;
+    height: 7.375rem;
+  }
+}
+
+.profile-card__avatar-fallback {
+  width: 50%;
+  color: var(--ladesa-grey-color);
 }
 
 .profile-metadata {
-  @apply flex flex-col justify-center max-[25rem]:items-center gap-2 md:ml-2 lg:ml-4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--ui-space-2);
+}
+
+@media (max-width: 25rem) {
+  .profile-metadata {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+@media (min-width: 48rem) {
+  .profile-metadata {
+    margin-left: var(--ui-space-2);
+  }
+}
+
+@media (min-width: 64rem) {
+  .profile-metadata {
+    margin-left: var(--ui-space-4);
+  }
+}
+
+.profile-metadata__name {
+  text-wrap: wrap;
+}
+
+@media (min-width: 64rem) {
+  .profile-metadata__name {
+    font-size: 1rem;
+  }
+}
+
+.profile-metadata__email {
+  color: var(--ladesa-grey-color);
+  text-wrap: wrap;
+  overflow-wrap: break-word;
+}
+
+.profile-metadata__badges-wrapper {
+  line-height: 1.25rem;
 }
 </style>

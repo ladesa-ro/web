@@ -9,8 +9,11 @@ const isActive = ref(false);
 
 const colecoes = useCalendarioColecao();
 
-const { handle: handleWriteError, conflictMessage, clearConflictMessage } =
-  useApiWriteErrorHandler();
+const {
+  handle: handleWriteError,
+  conflictMessage,
+  clearConflictMessage,
+} = useApiWriteErrorHandler();
 
 type IGrantForm = {
   escopo: 'USUARIO' | 'CAMPUS' | 'PUBLICO';
@@ -122,10 +125,10 @@ const onSubmit = handleSubmit(async values => {
     </template>
 
     <DialogModalBaseLayout title="Conceder acesso" :on-close="onClose">
-      <form class="flex flex-col gap-5" @submit.prevent="onSubmit">
+      <form class="u-flex u-flex-col u-gap-5" @submit.prevent="onSubmit">
         <p
           v-if="conflictMessage"
-          class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 rounded-md p-3"
+          class="grant-modal__conflict u-text-sm u-rounded-md u-p-3"
         >
           {{ conflictMessage }}
         </p>
@@ -159,3 +162,10 @@ const onSubmit = handleSubmit(async values => {
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.grant-modal__conflict {
+  color: var(--ladesa-red-color);
+  background-color: rgb(from var(--ladesa-red-color) R G B / 10%);
+}
+</style>

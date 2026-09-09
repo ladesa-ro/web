@@ -87,63 +87,52 @@ function setDiaSemana(prefIndex: number, dia: number) {
 </script>
 
 <template>
-  <div class="flex flex-col gap-3">
-    <!-- Loading -->
+  <div class="u-flex u-flex-col u-gap-3">
     <div
       v-if="contexto.isLoadingEdit.value"
-      class="flex items-center justify-center py-6"
+      class="u-flex u-items-center u-justify-center dias-de-aula__loading"
     >
-      <span class="text-sm text-ldsa-grey/100 animate-pulse"
+      <span class="u-text-sm dias-de-aula__loading-text"
         >Carregando dias de aula...</span
       >
     </div>
 
     <template v-else>
-      <!-- Toggle modo -->
-      <div class="flex items-center gap-2 text-xs">
+      <div class="u-flex u-items-center u-gap-2 u-text-xs">
         <button
-          class="px-3 py-1 rounded-full border transition-colors"
-          :class="
-            modo === 'DEFINIDO'
-              ? 'bg-ldsa-green-1 text-white border-ldsa-green-1'
-              : 'border-ldsa-grey/100 text-ldsa-text-default'
-          "
+          class="dias-de-aula__modo-toggle"
+          :class="{ 'dias-de-aula__modo-toggle--active': modo === 'DEFINIDO' }"
           @click="modo = 'DEFINIDO'"
         >
           Simples
         </button>
         <button
-          class="px-3 py-1 rounded-full border transition-colors"
-          :class="
-            modo === 'POR_DIA_SEMANA'
-              ? 'bg-ldsa-green-1 text-white border-ldsa-green-1'
-              : 'border-ldsa-grey/100 text-ldsa-text-default'
-          "
+          class="dias-de-aula__modo-toggle"
+          :class="{
+            'dias-de-aula__modo-toggle--active': modo === 'POR_DIA_SEMANA',
+          }"
           @click="modo = 'POR_DIA_SEMANA'"
         >
           Por dia da semana
         </button>
       </div>
 
-      <!-- Lista de dias -->
       <div
         v-for="(pref, prefIndex) in prefs"
         :key="prefIndex"
-        class="flex items-center gap-3 border-2 border-ldsa-grey/100 rounded-lg overflow-hidden"
+        class="u-flex u-items-center u-gap-3 u-rounded-lg u-overflow-hidden dias-de-aula__row"
       >
-        <!-- Badge do dia -->
         <div
           v-if="modo === 'DEFINIDO'"
-          class="bg-ldsa-green-1 text-white font-semibold text-xs px-4 py-3 min-w-[70px] text-center"
+          class="u-font-semibold u-text-xs u-text-center dias-de-aula__badge"
         >
           Dia {{ pref.ordem }}
         </div>
 
-        <!-- Selector dia da semana -->
         <select
           v-if="modo === 'POR_DIA_SEMANA'"
           :value="pref.diaSemanaIso ?? 1"
-          class="bg-ldsa-green-1 text-white font-semibold text-xs px-2 py-3 min-w-[100px] border-none"
+          class="u-font-semibold u-text-xs dias-de-aula__select"
           @change="
             setDiaSemana(
               prefIndex,
@@ -156,32 +145,33 @@ function setDiaSemana(prefIndex: number, dia: number) {
           </option>
         </select>
 
-        <!-- Stepper de aulas -->
-        <div class="flex items-center gap-3 flex-1 justify-center">
+        <div class="u-flex u-items-center u-gap-3 u-flex-1 u-justify-center">
           <button
-            class="p-1"
+            class="u-p-1"
             :disabled="pref.aulasSeguidas <= 1"
             @click="decrementarAulas(prefIndex)"
           >
-            <IconsArrow class="w-3 h-3 rotate-90" />
+            <IconsArrow
+              class="dias-de-aula__stepper-icon dias-de-aula__stepper-icon--down"
+            />
           </button>
-          <span class="font-semibold text-xs">
+          <span class="u-font-semibold u-text-xs">
             Total de aulas: {{ pref.aulasSeguidas }}
           </span>
-          <button class="p-1" @click="incrementarAulas(prefIndex)">
-            <IconsArrow class="w-3 h-3 -rotate-90" />
+          <button class="u-p-1" @click="incrementarAulas(prefIndex)">
+            <IconsArrow
+              class="dias-de-aula__stepper-icon dias-de-aula__stepper-icon--up"
+            />
           </button>
         </div>
 
-        <!-- Remover -->
-        <button class="p-2 mr-2" @click="removerDia(prefIndex)">
-          <span class="text-ldsa-grey/100 text-xs">&#10005;</span>
+        <button class="dias-de-aula__remove" @click="removerDia(prefIndex)">
+          <span class="u-text-xs dias-de-aula__remove-icon">&#10005;</span>
         </button>
       </div>
 
-      <!-- Botão adicionar dia -->
       <button
-        class="flex items-center justify-center gap-1 border-2 border-dashed border-ldsa-grey/100 rounded-lg py-3 text-sm font-semibold text-ldsa-text-default cursor-pointer hover:bg-gray-50 transition-colors"
+        class="u-flex u-items-center u-justify-center u-gap-1 u-rounded-lg u-py-3 u-text-sm u-font-semibold dias-de-aula__add"
         @click="adicionarDia"
       >
         Adicionar dia +
@@ -189,3 +179,94 @@ function setDiaSemana(prefIndex: number, dia: number) {
     </template>
   </div>
 </template>
+
+<style scoped>
+.dias-de-aula__loading {
+  padding-block: var(--ui-space-6);
+}
+
+.dias-de-aula__loading-text {
+  color: rgb(from var(--ladesa-grey-color) R G B / 100%);
+  animation: dias-de-aula-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes dias-de-aula-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.dias-de-aula__modo-toggle {
+  padding: var(--ui-space-1) var(--ui-space-3);
+  border-radius: var(--ui-radius-full);
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 100%);
+  color: var(--ladesa-text-default-color);
+  background-color: transparent;
+  transition:
+    color var(--ui-duration-base) var(--ui-easing-standard),
+    background-color var(--ui-duration-base) var(--ui-easing-standard),
+    border-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.dias-de-aula__modo-toggle--active {
+  background-color: var(--ladesa-green-1-color);
+  border-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+}
+
+.dias-de-aula__row {
+  border: 2px solid rgb(from var(--ladesa-grey-color) R G B / 100%);
+}
+
+.dias-de-aula__badge {
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+  padding: var(--ui-space-3) var(--ui-space-4);
+  min-width: 4.375rem;
+}
+
+.dias-de-aula__select {
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+  padding: var(--ui-space-3) var(--ui-space-2);
+  min-width: 6.25rem;
+  border: none;
+}
+
+.dias-de-aula__stepper-icon {
+  width: var(--ui-space-3);
+  height: var(--ui-space-3);
+}
+
+.dias-de-aula__stepper-icon--down {
+  transform: rotate(90deg);
+}
+
+.dias-de-aula__stepper-icon--up {
+  transform: rotate(-90deg);
+}
+
+.dias-de-aula__remove {
+  padding: var(--ui-space-2);
+  margin-right: var(--ui-space-2);
+}
+
+.dias-de-aula__remove-icon {
+  color: rgb(from var(--ladesa-grey-color) R G B / 100%);
+}
+
+.dias-de-aula__add {
+  border: 2px dashed rgb(from var(--ladesa-grey-color) R G B / 100%);
+  color: var(--ladesa-text-default-color);
+  cursor: pointer;
+  transition: background-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.dias-de-aula__add:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+</style>

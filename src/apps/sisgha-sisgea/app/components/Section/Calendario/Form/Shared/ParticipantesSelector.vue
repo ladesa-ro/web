@@ -13,30 +13,25 @@ const emit = defineEmits<{
   'update:modelValue': [value: typeof props.modelValue];
 }>();
 
-// Composables reativos
 const ofertasFormacoes = useOfertasFormacoes();
 const cursosComposable = useCursos();
 const turmasComposable = useTurmas();
 
-// Local state
 const todosParticipam = ref(props.modelValue.todosParticipam);
 const selectedFormacoes = ref<Array<{ id: string; nome: string }>>([]);
 const selectedTurmas = ref<Map<string, Set<string>>>(new Map());
 const selectedPerfis = ref<Set<string>>(new Set());
 const expandedFormacoes = ref<Set<string>>(new Set());
 
-// Queries reativas
 const formacoesList = ofertasFormacoes.list();
 const formacoes = computed(() =>
   (formacoesList.data.value?.data ?? []).map(f => ({ id: f.id, nome: f.nome }))
 );
 
-// IDs de formações selecionadas para carregar cursos
 const selectedFormacaoIds = computed(() =>
   selectedFormacoes.value.map(f => f.id)
 );
 
-// Cursos filtrados por formações selecionadas
 const cursosByFormacao = ref<Map<string, Array<{ id: string; nome: string }>>>(
   new Map()
 );
@@ -53,7 +48,7 @@ async function loadCursos(formacaoId: string) {
         limit: 100,
       }))
     );
-    // Aguardar dados carregarem
+
     const stop = watch(
       () => result.data.value,
       data => {
@@ -160,37 +155,36 @@ watch(todosParticipam, () => emitUpdate());
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
-    <div class="flex h-[13px] items-center border-l-3 border-ldsa-green-1 pl-1">
-      <span
-        class="text-[13px] font-semibold tracking-wide text-ldsa-text-default"
-      >
+  <div class="u-flex u-flex-col u-gap-4">
+    <div class="u-flex u-items-center u-pl-1 participantes-selector__header">
+      <span class="u-font-semibold participantes-selector__title">
         Turmas e professores participantes
       </span>
     </div>
 
-    <!-- Global checkbox -->
     <UIFormCheckbox
       v-model="todosParticipam"
       label="Todas as turmas e professores participam"
       :disabled="disabled"
     />
 
-    <!-- Formações -->
     <template v-if="!todosParticipam">
-      <div class="flex flex-col gap-2">
-        <span class="text-xs font-semibold text-ldsa-grey">Formações</span>
-        <div class="flex flex-wrap gap-2">
+      <div class="u-flex u-flex-col u-gap-2">
+        <span
+          class="u-text-xs u-font-semibold participantes-selector__section-label"
+          >Formações</span
+        >
+        <div class="u-flex u-flex-wrap u-gap-2">
           <button
             v-for="formacao in formacoes"
             :key="formacao.id"
             type="button"
             :disabled="disabled"
-            class="px-3 py-1.5 rounded-lg border text-xs font-medium transition-colors"
+            class="u-px-3 u-py-1-5 u-rounded-lg u-text-xs u-font-medium participantes-selector__formacao-chip"
             :class="
               isFormacaoSelected(formacao.id)
-                ? 'bg-ldsa-green-1 text-white border-ldsa-green-1'
-                : 'border-ldsa-grey/30 text-ldsa-text-default hover:bg-ldsa-grey/10'
+                ? 'participantes-selector__formacao-chip--selected'
+                : 'participantes-selector__formacao-chip--unselected'
             "
             @click="toggleFormacao(formacao)"
           >
@@ -199,64 +193,46 @@ watch(todosParticipam, () => emitUpdate());
         </div>
       </div>
 
-      <!-- Accordion per formação -->
       <div
         v-for="formacao in selectedFormacoes"
         :key="formacao.id"
-        class="border border-ldsa-grey/30 rounded-lg p-3 flex flex-col gap-3"
+        class="u-rounded-lg u-p-3 u-flex u-flex-col u-gap-3 participantes-selector__accordion"
       >
         <button
           type="button"
-          class="flex items-center justify-between w-full"
+          class="u-flex u-items-center u-justify-between u-w-full"
           @click="
             expandedFormacoes.has(formacao.id)
               ? expandedFormacoes.delete(formacao.id)
               : expandedFormacoes.add(formacao.id)
           "
         >
-          <span class="text-sm font-semibold text-ldsa-text-default">{{
-            formacao.nome
-          }}</span>
-          <span class="text-ldsa-green-1 text-xs">{{
+          <span
+            class="u-text-sm u-font-semibold participantes-selector__formacao-nome"
+            >{{ formacao.nome }}</span
+          >
+          <span class="u-text-xs participantes-selector__chevron">{{
             expandedFormacoes.has(formacao.id) ? '▲' : '▼'
           }}</span>
         </button>
 
         <template v-if="expandedFormacoes.has(formacao.id)">
-          <!-- Cursos and Turmas -->
-          <div
+          <SectionCalendarioFormSharedCursoTurmas
             v-for="curso in cursosByFormacao.get(formacao.id) ?? []"
             :key="curso.id"
-            class="pl-3 flex flex-col gap-2"
-          >
-            <span class="text-xs font-medium text-ldsa-grey">{{
-              curso.nome
-            }}</span>
-
-            <div class="flex flex-wrap gap-2 pl-2">
-              <UIFormCheckbox
-                v-for="turma in turmasByCurso.get(curso.id) ?? []"
-                :key="turma.id"
-                :model-value="isTurmaSelected(curso.id, turma.id)"
-                :disabled="disabled"
-                :label="turma.nome"
-                @update:model-value="toggleTurma(curso.id, turma.id)"
-              />
-            </div>
-
-            <button
-              v-if="!turmasByCurso.has(curso.id)"
-              type="button"
-              class="text-xs text-ldsa-green-1 underline pl-2"
-              @click="loadTurmas(curso.id)"
-            >
-              Carregar turmas
-            </button>
-          </div>
+            :nome="curso.nome"
+            :turmas="turmasByCurso.get(curso.id)"
+            :disabled="disabled"
+            :is-turma-selected="
+              (turmaId: string) => isTurmaSelected(curso.id, turmaId)
+            "
+            @toggle="(turmaId: string) => toggleTurma(curso.id, turmaId)"
+            @load="loadTurmas(curso.id)"
+          />
 
           <p
             v-if="(cursosByFormacao.get(formacao.id) ?? []).length === 0"
-            class="text-xs text-ldsa-grey pl-3"
+            class="u-text-xs participantes-selector__empty-cursos"
           >
             Nenhum curso encontrado para esta formação.
           </p>
@@ -265,3 +241,60 @@ watch(todosParticipam, () => emitUpdate());
     </template>
   </div>
 </template>
+
+<style scoped>
+.participantes-selector__header {
+  height: 13px;
+  border-left: 3px solid var(--ladesa-green-1-color);
+}
+
+.participantes-selector__title {
+  font-size: 13px;
+  letter-spacing: 0.025em;
+  color: var(--ladesa-text-default-color);
+}
+
+.participantes-selector__section-label {
+  color: var(--ladesa-grey-color);
+}
+
+.participantes-selector__formacao-chip {
+  border: 1px solid transparent;
+  transition:
+    background-color var(--ui-duration-fast) var(--ui-easing-standard),
+    color var(--ui-duration-fast) var(--ui-easing-standard),
+    border-color var(--ui-duration-fast) var(--ui-easing-standard);
+}
+
+.participantes-selector__formacao-chip--selected {
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+  border-color: var(--ladesa-green-1-color);
+}
+
+.participantes-selector__formacao-chip--unselected {
+  border-color: rgb(from var(--ladesa-grey-color) R G B / 30%);
+  color: var(--ladesa-text-default-color);
+}
+
+.participantes-selector__formacao-chip--unselected:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.participantes-selector__accordion {
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 30%);
+}
+
+.participantes-selector__formacao-nome {
+  color: var(--ladesa-text-default-color);
+}
+
+.participantes-selector__chevron {
+  color: var(--ladesa-green-1-color);
+}
+
+.participantes-selector__empty-cursos {
+  color: var(--ladesa-grey-color);
+  padding-left: var(--ui-space-3);
+}
+</style>

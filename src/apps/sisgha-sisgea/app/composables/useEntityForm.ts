@@ -4,10 +4,6 @@ import { useForm } from 'vee-validate';
 import type { InferType, ObjectSchema } from 'yup';
 import { FormMode } from '~/utils/constants';
 
-// ============================================================
-// Interfaces
-// ============================================================
-
 export interface IEntityFormOptions<TSchema extends ObjectSchema<any>> {
   schema: TSchema;
   editId: MaybeRef<string | null>;
@@ -30,10 +26,6 @@ export interface IEntityFormReturn<TSchema extends ObjectSchema<any>> {
   onSubmit: (e?: Event) => Promise<void>;
   onDelete: () => Promise<void>;
 }
-
-// ============================================================
-// Composable
-// ============================================================
 
 export const useEntityForm = <TSchema extends ObjectSchema<any>>(
   options: IEntityFormOptions<TSchema>
@@ -66,7 +58,7 @@ export const useEntityForm = <TSchema extends ObjectSchema<any>>(
 
   const isBusy = computed(() => form.isSubmitting.value || isLoading.value);
 
-  const onSubmit = async (e?: Event) => {
+  const onSubmit = async (_e?: Event) => {
     await form.handleSubmit(async rawData => {
       const data = options.schema.cast(rawData, {
         stripUnknown: true,

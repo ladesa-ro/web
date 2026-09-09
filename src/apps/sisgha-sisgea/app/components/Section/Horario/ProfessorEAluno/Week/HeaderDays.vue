@@ -1,17 +1,12 @@
 <script lang="ts" setup>
-import type { IDiasDaSemana } from '../IGradeHorario';
+import {
+  ScheduleHeaderDays,
+  type ScheduleHeaderDaysProps,
+} from '@ladesa-ro/web.ui';
 
-type Props = {
-  diasDaSemana: IDiasDaSemana;
-};
-
-defineProps<Props>();
+defineProps<ScheduleHeaderDaysProps>();
 </script>
 
 <template>
-  <SectionHorarioProfessorEAlunoWeekHeaderDay
-    v-for="diaDaSemana in diasDaSemana"
-    :key="diaDaSemana.nome"
-    :dia-da-semana="diaDaSemana"
-  />
+  <ScheduleHeaderDays v-bind="$props" />
 </template>

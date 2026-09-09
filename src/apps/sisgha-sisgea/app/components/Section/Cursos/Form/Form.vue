@@ -45,17 +45,14 @@ const { mode, isBusy, isLoading, onSubmit, onDelete } = useEntityForm({
   onFinish: () => emit('close'),
 });
 
-// Campo reativo para quantidadePeriodos (fallback evita undefined antes da hidratação do vee-validate)
 const { value: quantidadePeriodosField } =
   useField<number>('quantidadePeriodos');
 const { value: periodosField } =
   useField<typeof cursoSchema.__outputType.periodos>('periodos');
 const quantidadePeriodos = computed(() => quantidadePeriodosField.value ?? 1);
 
-// Composable de períodos/disciplinas
 const periodos = useProvideCursoPeriodos(mode, quantidadePeriodos, cursoQuery);
 
-// Metadados da formação compartilhados entre painel principal e modal
 const ofertasFormacoes = useOfertasFormacoes();
 const { value: ofertaFormacaoId } = useField<string>('ofertaFormacao.id');
 const ofertaFormacaoQuery = ofertasFormacoes.findOne(

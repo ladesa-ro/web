@@ -1,0 +1,57 @@
+.ui-select-image {
+  background: no-repeat center/cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  font-size: 0.875rem;
+  width: 100%;
+  min-height: 10.5rem;
+  border: 2px solid var(--ladesa-grey-color);
+  border-radius: var(--ui-radius-lg);
+  cursor: pointer;
+  text-align: center;
+  color: var(--ladesa-grey-color);
+}
+
+.ui-select-image input[type='file'] {
+  display: none;
+}
+
+.ui-select-image__info {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0 3.125rem;
+}
+
+.ui-select-image__info-message {
+  font-weight: var(--ui-font-weight-medium);
+}
+
+.ui-select-image--selected .ui-select-image__info {
+  opacity: 0;
+  transition: 0.15s ease-in-out;
+}
+
+.ui-select-image:not(.ui-select-image--disabled):hover .ui-select-image__info {
+  opacity: 1;
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 20%);
+}
+
+.ui-select-image--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@media screen and (max-width: 800px) {
+  .ui-select-image__info-message {
+    margin-top: 0.625rem;
+    font-size: 0.75rem;
+  }
+}

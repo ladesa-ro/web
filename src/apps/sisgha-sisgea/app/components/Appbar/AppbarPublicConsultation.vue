@@ -33,24 +33,23 @@ const goBackRoute = () => {
 </script>
 
 <template>
-  <header
-    class="flex justify-between px-0.5 min-[350px]:px-1.5 sm:px-3 lg:px-7 bg-ldsa-green-1 text-ldsa-white font-semibold border-b border-b-ldsa-green-2 h-16 z-100 max-w-full"
-  >
-    <button class="flex items-center p-2 shrink-0" @pointerdown="goBackRoute">
-      <IconsArrowAlt class="w-7.5 p-1.5 mr-1" />
-      <span class="max-md:hidden"> Voltar </span>
+  <header class="u-flex u-justify-between consultation-header">
+    <button
+      class="u-flex u-items-center u-p-2 u-shrink-0"
+      @pointerdown="goBackRoute"
+    >
+      <IconsArrowAlt class="u-p-1-5 u-mr-1 consultation-back-icon" />
+      <span class="consultation-back-label"> Voltar </span>
     </button>
 
     <span
-      class="flex items-center sm:gap-3 md:max-w-3/4 shrink overflow-hidden"
+      class="u-flex u-items-center u-overflow-hidden consultation-title-group"
     >
       <div
-        class="overflow-hidden relative whitespace-nowrap flex items-center h-full"
+        class="u-overflow-hidden u-relative u-flex u-items-center u-h-full consultation-marquee"
       >
-        <div
-          class="inline-block max-sm:pl-[100%] text-animation sm:animate-none! sm:truncate"
-        >
-          <span v-if="turmaId" class="ml-10">
+        <div class="consultation-marquee-inner text-animation">
+          <span v-if="turmaId" class="u-ml-10">
             <span v-if="isLoading"> Carregando... </span>
 
             <span v-else-if="isError"> Ocorreu um erro inesperado. </span>
@@ -62,12 +61,94 @@ const goBackRoute = () => {
           </span>
         </div>
       </div>
-      <AppbarChangeTheme class="shrink-0" />
+      <AppbarChangeTheme class="u-shrink-0" />
     </span>
   </header>
 </template>
 
 <style scoped>
+.consultation-header {
+  padding-inline: 0.125rem;
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+  font-weight: var(--ui-font-weight-semibold);
+  border-bottom: 1px solid var(--ladesa-green-2-color);
+  height: 4rem;
+  z-index: 100;
+  max-width: 100%;
+}
+
+@media (min-width: 350px) {
+  .consultation-header {
+    padding-inline: 0.375rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .consultation-header {
+    padding-inline: 0.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .consultation-header {
+    padding-inline: 1.75rem;
+  }
+}
+
+.consultation-back-icon {
+  width: 1.875rem;
+}
+
+.consultation-back-label {
+  display: inline;
+}
+
+@media (max-width: 767px) {
+  .consultation-back-label {
+    display: none;
+  }
+}
+
+.consultation-title-group {
+  flex-shrink: 1;
+}
+
+@media (min-width: 640px) {
+  .consultation-title-group {
+    gap: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .consultation-title-group {
+    max-width: 75%;
+  }
+}
+
+.consultation-marquee {
+  white-space: nowrap;
+}
+
+.consultation-marquee-inner {
+  display: inline-block;
+}
+
+@media (max-width: 639px) {
+  .consultation-marquee-inner {
+    padding-left: 100%;
+  }
+}
+
+@media (min-width: 640px) {
+  .consultation-marquee-inner {
+    animation: none !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
 .text-animation {
   animation: scroll-text 8s linear infinite;
 }

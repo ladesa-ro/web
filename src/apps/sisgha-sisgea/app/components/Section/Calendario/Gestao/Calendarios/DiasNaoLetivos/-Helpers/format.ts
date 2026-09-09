@@ -12,7 +12,6 @@ export function formatDateShort(data: string): string {
   return dayjs(data).format('ddd, D MMM');
 }
 
-// TODO: remove Record cast after SDK regeneration includes 'cor' field in CalendarioLetivoDiaFindOneOutputDto
 export function getDotColor(dia: CalendarioLetivoDiaFindOneOutputDto): string {
   return ((dia as Record<string, unknown>).cor as string) ?? '#6b7280';
 }

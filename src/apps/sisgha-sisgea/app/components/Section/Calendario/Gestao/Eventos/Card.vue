@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { BadgeVariant } from '@ladesa-ro/web.ui';
 import type { CalendarioAgendamentoFindOneOutputDto } from '@ladesa-ro/web.api.client';
 
 const props = defineProps<{
@@ -87,14 +88,14 @@ const statusLabel = computed(() => {
   return map[s] ?? s;
 });
 
-const statusClass = computed(() => {
+const statusVariant = computed(() => {
   const s = props.evento.status;
-  const map: Record<string, string> = {
-    ATIVO: 'bg-green-100 text-green-700',
-    INATIVO: 'bg-red-100 text-red-700',
-    RASCUNHO: 'bg-yellow-100 text-yellow-700',
+  const map: Record<string, BadgeVariant> = {
+    ATIVO: 'success',
+    INATIVO: 'danger',
+    RASCUNHO: 'warning',
   };
-  return s && map[s] ? map[s] : 'bg-gray-100 text-gray-600';
+  return (s && map[s]) || 'neutral';
 });
 
 const timelineDrawerOpen = ref(false);
@@ -110,43 +111,41 @@ const timelineDrawerOpen = ref(false);
 
   <div
     v-else
-    class="p-5 rounded-lg border-2 border-ldsa-grey flex flex-col gap-3.5 hover:bg-ldsa-grey/10 h-full transition-colors"
+    class="evento-card u-p-5 u-rounded-lg u-flex u-flex-col u-gap-3-5 u-h-full"
   >
-    <div class="flex-1 flex justify-between items-center">
-      <div class="flex gap-2 items-center font-medium text-lg min-w-0">
+    <div class="u-flex-1 u-flex u-justify-between u-items-center">
+      <div
+        class="evento-card__title u-flex u-gap-2 u-items-center u-font-medium u-text-lg"
+      >
         <div
-          class="rounded-full w-2.5 h-2.5 shrink-0"
+          class="evento-card__dot u-rounded-full u-shrink-0"
           :style="{ backgroundColor: dotColor }"
         />
-        <h2 class="truncate">{{ nome }}</h2>
+        <h2 class="u-truncate">{{ nome }}</h2>
       </div>
 
-      <div class="flex items-center gap-2 shrink-0 ml-2">
-        <span
-          v-if="statusLabel"
-          class="rounded px-2 py-0.5 text-xs font-medium"
-          :class="statusClass"
-        >
+      <div class="u-flex u-items-center u-gap-2 u-shrink-0 u-ml-2">
+        <UIBadge v-if="statusLabel" :variant="statusVariant">
           {{ statusLabel }}
-        </span>
+        </UIBadge>
 
         <button
           v-if="!evento.detalhesOcultos"
           type="button"
-          class="flex p-2 justify-center items-center rounded-lg transition-colors duration-150 hover:bg-ldsa-grey/30"
+          class="evento-card__history-btn u-flex u-p-2 u-justify-center u-items-center u-rounded-lg"
           title="Histórico"
           @click.prevent="timelineDrawerOpen = true"
         >
-          <IconsClock class="text-ldsa-text-default w-5 h-5" />
+          <IconsClock class="evento-card__history-icon" />
         </button>
 
         <UIButtonEdit @click.prevent="emit('edit', evento.id)" />
       </div>
     </div>
 
-    <span class="text-sm text-ldsa-text-default">{{ periodo }}</span>
+    <span class="evento-card__periodo u-text-sm">{{ periodo }}</span>
 
-    <div class="flex flex-col gap-1.5 text-sm text-ldsa-grey">
+    <div class="evento-card__details u-flex u-flex-col u-gap-1-5 u-text-sm">
       <span v-if="turmasText"> Turmas: {{ turmasText }} </span>
       <span v-if="professoresText"> Professores: {{ professoresText }} </span>
     </div>
@@ -159,3 +158,48 @@ const timelineDrawerOpen = ref(false);
     />
   </div>
 </template>
+
+<style scoped>
+.evento-card {
+  border: 2px solid var(--ladesa-grey-color);
+  transition:
+    background-color var(--ui-duration-base) var(--ui-easing-standard),
+    border-color var(--ui-duration-base) var(--ui-easing-standard),
+    color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.evento-card:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.evento-card__title {
+  min-width: 0;
+}
+
+.evento-card__dot {
+  width: 0.625rem;
+  height: 0.625rem;
+}
+
+.evento-card__history-btn {
+  transition: background-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.evento-card__history-btn:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 30%);
+}
+
+.evento-card__history-icon {
+  color: var(--ladesa-text-default-color);
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.evento-card__periodo {
+  color: var(--ladesa-text-default-color);
+}
+
+.evento-card__details {
+  color: var(--ladesa-grey-color);
+}
+</style>

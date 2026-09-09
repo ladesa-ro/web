@@ -23,7 +23,6 @@ const emit = defineEmits<{
   back: [];
 }>();
 
-// Query compartilhada via inject
 const periodos = useInjectCursoPeriodos();
 const { disciplinasInfiniteQuery, disciplinasList } = periodos;
 
@@ -63,7 +62,6 @@ function confirmSelection() {
   emit('confirm', selectedIds.value);
 }
 
-// Scroll infinito com cleanup
 const scrollTrigger = ref<HTMLElement | null>(null);
 let observer: IntersectionObserver | null = null;
 
@@ -109,53 +107,50 @@ const titleVerb = computed(() =>
 
     <UISearchBar v-model="searchText" />
 
-    <div class="flex-1 flex flex-col gap-2.5 overflow-y-auto min-h-0">
+    <div class="u-flex-1 u-flex u-flex-col u-gap-2-5 select-disciplinas__list">
       <div
         v-for="disc in filteredDisciplinas"
         :key="disc.id"
-        class="flex items-center gap-4 border-[1.5px] border-ldsa-grey rounded-md overflow-clip cursor-pointer hover:bg-ldsa-grey/5"
+        class="u-flex u-items-center u-gap-4 u-rounded-md select-disciplinas__item"
         @click="toggleDisciplina(disc.id)"
       >
         <div
-          class="shrink-0 w-16 bg-ldsa-grey/20 flex items-center justify-center self-stretch"
+          class="u-shrink-0 u-flex u-items-center u-justify-center select-disciplinas__thumb"
         >
           <img
             v-if="disc.imagemCapa"
             :src="getDisciplinaCoverUrl(disc) ?? undefined"
-            class="w-full h-full object-cover"
+            class="u-w-full u-h-full select-disciplinas__thumb-img"
             alt=""
           />
-          <IconsImage v-else class="w-6 text-ldsa-grey" />
+          <IconsImage v-else class="select-disciplinas__thumb-icon" />
         </div>
 
-        <div class="flex-1 flex flex-col py-3">
-          <span class="text-ldsa-text-default text-sm font-semibold">
+        <div class="u-flex-1 u-flex u-flex-col select-disciplinas__info">
+          <span class="u-text-sm u-font-semibold select-disciplinas__nome">
             {{ disc.nome }}
           </span>
-          <span class="text-ldsa-grey text-xs font-medium">
+          <span class="u-text-xs u-font-medium select-disciplinas__carga">
             Carga horária: {{ disc.cargaHoraria }} horas
           </span>
         </div>
 
-        <div class="shrink-0 pr-5">
+        <div class="u-shrink-0 u-pr-5">
           <div
-            class="size-5 rounded-sm border-[1.5px] flex items-center justify-center transition-colors"
-            :class="
-              selectedIds.has(disc.id)
-                ? 'bg-ldsa-green-1 border-ldsa-green-1'
-                : 'border-ldsa-grey bg-transparent'
-            "
+            class="u-flex u-items-center u-justify-center u-rounded-sm select-disciplinas__check"
+            :class="{
+              'select-disciplinas__check--selected': selectedIds.has(disc.id),
+            }"
           >
             <IconsConfirm
               v-if="selectedIds.has(disc.id)"
-              class="w-2.5 text-white"
+              class="select-disciplinas__check-icon"
             />
           </div>
         </div>
       </div>
 
-      <!-- Trigger para scroll infinito -->
-      <div ref="scrollTrigger" class="h-1 shrink-0" />
+      <div ref="scrollTrigger" class="u-shrink-0 select-disciplinas__trigger" />
 
       <UILoading v-if="disciplinasInfiniteQuery.isFetching.value" />
 
@@ -164,7 +159,7 @@ const titleVerb = computed(() =>
           filteredDisciplinas.length === 0 &&
           !disciplinasInfiniteQuery.isLoading.value
         "
-        class="text-ldsa-grey text-sm text-center py-4"
+        class="u-text-sm u-text-center u-py-4 select-disciplinas__empty"
       >
         Nenhuma disciplina encontrada.
       </div>
@@ -184,8 +179,80 @@ const titleVerb = computed(() =>
   </DialogModalBaseLayout>
 </template>
 
+<style scoped>
+.select-disciplinas__list {
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.select-disciplinas__item {
+  border: 1.5px solid var(--ladesa-grey-color);
+  overflow: clip;
+  cursor: pointer;
+}
+
+.select-disciplinas__item:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 5%);
+}
+
+.select-disciplinas__thumb {
+  width: 4rem;
+  align-self: stretch;
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 20%);
+}
+
+.select-disciplinas__thumb-img {
+  object-fit: cover;
+}
+
+.select-disciplinas__thumb-icon {
+  width: var(--ui-space-6);
+  color: var(--ladesa-grey-color);
+}
+
+.select-disciplinas__info {
+  padding-block: var(--ui-space-3);
+}
+
+.select-disciplinas__nome {
+  color: var(--ladesa-text-default-color);
+}
+
+.select-disciplinas__carga {
+  color: var(--ladesa-grey-color);
+}
+
+.select-disciplinas__check {
+  width: var(--ui-space-5);
+  height: var(--ui-space-5);
+  border: 1.5px solid var(--ladesa-grey-color);
+  background-color: transparent;
+  transition:
+    background-color var(--ui-duration-base) var(--ui-easing-standard),
+    border-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.select-disciplinas__check--selected {
+  background-color: var(--ladesa-green-1-color);
+  border-color: var(--ladesa-green-1-color);
+}
+
+.select-disciplinas__check-icon {
+  width: var(--ui-space-2-5);
+  color: var(--ladesa-white-color);
+}
+
+.select-disciplinas__trigger {
+  height: var(--ui-space-1);
+}
+
+.select-disciplinas__empty {
+  color: var(--ladesa-grey-color);
+}
+</style>
+
 <style>
-.select-disciplinas-modal.modal-layout {
+.select-disciplinas-modal.ui-modal-layout {
   max-width: 40rem !important;
   max-height: 90vh !important;
   min-width: 530px !important;

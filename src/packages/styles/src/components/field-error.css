@@ -1,0 +1,136 @@
+.ui-field-error {
+  color: var(--ladesa-red-color);
+}
+
+.ui-vv-checkbox {
+  cursor: pointer;
+}
+
+.ui-vv-checkbox--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ui-vv-checkbox__shadow {
+  --checkbox-shadow-color: rgb(from var(--ladesa-green-2-color) R G B / 10%);
+}
+
+.ui-vv-checkbox__shadow:focus-within,
+.ui-vv-checkbox__shadow:hover {
+  box-shadow: 0 0 0 0.35rem var(--checkbox-shadow-color);
+}
+
+.ui-vv-checkbox__shadow:focus-within {
+  background-color: var(--checkbox-shadow-color);
+}
+
+.ui-vv-checkbox__box {
+  border: 2px solid;
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.ui-vv-checkbox__box:hover {
+  background-color: rgb(from var(--ladesa-green-2-color) R G B / 10%);
+}
+
+.ui-vv-checkbox__box:focus-visible {
+  outline-color: var(--ladesa-green-2-color);
+}
+
+.ui-vv-checkbox__box--checked {
+  border-color: var(--ladesa-green-2-color);
+}
+
+.ui-vv-checkbox__box--unchecked {
+  border-color: var(--ladesa-grey-color);
+}
+
+.ui-vv-checkbox__indicator {
+  background-color: var(--ladesa-green-2-color);
+}
+
+.ui-vv-checkbox__indicator-icon {
+  color: var(--ladesa-white-color);
+}
+
+.ui-vv-checkbox__label {
+  color: var(--ladesa-text-default-color);
+  user-select: none;
+}
+
+.ui-profile-section {
+  padding: var(--ui-space-3-5);
+}
+
+@media (min-width: 64rem) {
+  .ui-profile-section {
+    padding: var(--ui-space-4);
+  }
+}
+
+@media (min-width: 80rem) {
+  .ui-profile-section {
+    padding: var(--ui-space-5);
+  }
+}
+
+.ui-profile-section__icon {
+  width: 1.125rem;
+}
+
+@media (min-width: 48rem) {
+  .ui-profile-section__icon {
+    width: 1.375rem;
+  }
+
+  .ui-profile-section__title {
+    font-size: 1rem;
+  }
+}
+
+.ui-textarea-field__label {
+  color: var(--ladesa-grey-color);
+}
+
+.ui-textarea-field__control {
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 30%);
+  background-color: transparent;
+  resize: none;
+}
+
+.ui-textarea-field__control:disabled {
+  opacity: var(--ui-disabled-opacity);
+  cursor: not-allowed;
+}
+
+.ui-textarea-field__control:focus {
+  outline: none;
+  border-color: var(--ladesa-green-1-color);
+}
+
+.ui-access-role-button {
+  width: 6rem;
+  height: 7rem;
+  border: 2px solid rgb(from var(--ladesa-grey-color) R G B / 50%);
+}
+
+@media (max-width: 639.98px) {
+  .ui-access-role-button {
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .ui-access-role-button {
+    width: 7rem;
+    height: 9rem;
+    padding-block: var(--ui-space-8);
+  }
+}
+
+.ui-access-role-button--active {
+  background-color: var(--ladesa-green-1-color);
+  border-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+}

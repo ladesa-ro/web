@@ -118,7 +118,7 @@ await suspendQuery(query);
 </script>
 
 <template>
-  <div class="flex-1">
+  <div class="u-flex-1">
     <div
       ref="infiniteScrollTrigger"
       :class="customGridClass ?? 'ui-api-list-results-grid'"
@@ -140,9 +140,9 @@ await suspendQuery(query);
       </template>
 
       <template v-if="!isFetching && paginationMeta.totalItems > 0">
-        <div class="col-span-full text-center p-4">
-          <p class="font-normal">Você chegou ao fim dos resultados.</p>
-          <p class="text-sm">
+        <div class="u-text-center u-p-4 grid-results__span-full">
+          <p class="u-font-regular">Você chegou ao fim dos resultados.</p>
+          <p class="u-text-sm">
             Página: {{ paginationMeta.currentPage }} de
             {{ paginationMeta.totalPages }}. Total:
             {{ paginationMeta.totalItems }} registros.
@@ -151,31 +151,23 @@ await suspendQuery(query);
       </template>
 
       <template v-else-if="!isFetching && hasSearchQuery">
-        <div
+        <UIEmptyState
           key="no-search-results"
-          class="col-span-full min-h-min flex-1 flex flex-col items-center justify-center text-center p-8"
-        >
-          <h3 class="text-lg font-semibold mb-3">
-            Nenhum resultado encontrado.
-          </h3>
-          <p class="text-sm">
-            Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos
-            menos específicos ou consultas mais amplas podem ajudá-lo a
-            encontrar o que procura.
-          </p>
-        </div>
+          illustration="none"
+          class="grid-results__span-full grid-results__empty-state"
+          title="Nenhum resultado encontrado."
+          description="Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos menos específicos ou consultas mais amplas podem ajudá-lo a encontrar o que procura."
+        />
       </template>
 
       <template v-else-if="!isFetching">
-        <div
+        <UIEmptyState
           key="no-records"
-          class="col-span-full min-h-min flex-1 flex flex-col items-center justify-center text-center p-8"
-        >
-          <h3 class="text-lg font-semibold mb-3">
-            Nenhum registro encontrado.
-          </h3>
-          <p class="text-sm">Não há registros cadastrados para exibir.</p>
-        </div>
+          illustration="none"
+          class="grid-results__span-full grid-results__empty-state"
+          title="Nenhum registro encontrado."
+          description="Não há registros cadastrados para exibir."
+        />
       </template>
 
       <template
@@ -185,13 +177,13 @@ await suspendQuery(query);
         "
       >
         <div
-          class="col-span-full p-4 border border-red-700 bg-red-100 flex items-center justify-between"
+          class="u-flex u-items-center u-justify-between u-p-4 grid-results__span-full grid-results__error"
         >
-          <p class="text-red-700 font-semibold">
+          <p class="u-font-semibold grid-results__error-text">
             Não foi possível buscar mais conteúdo...
           </p>
           <button
-            class="border border-red-700 text-red-700 text-sm px-4 py-1 rounded hover:bg-red-200"
+            class="u-text-sm u-px-4 u-py-1 grid-results__retry-button"
             @click="load({ done: () => {}, side: 'end' })"
           >
             Tentar Novamente
@@ -203,3 +195,33 @@ await suspendQuery(query);
 </template>
 
 <style scoped src="./Grid.css"></style>
+
+<style scoped>
+.grid-results__span-full {
+  grid-column: 1 / -1;
+}
+
+.grid-results__empty-state {
+  min-height: min-content;
+  flex: 1 1 0%;
+}
+
+.grid-results__error {
+  border: 1px solid #b91c1c;
+  background-color: #fee2e2;
+}
+
+.grid-results__error-text {
+  color: #b91c1c;
+}
+
+.grid-results__retry-button {
+  border: 1px solid #b91c1c;
+  color: #b91c1c;
+  border-radius: var(--ui-radius-sm);
+}
+
+.grid-results__retry-button:hover {
+  background-color: #fecaca;
+}
+</style>

@@ -1,12 +1,7 @@
+<script setup lang="ts">
+import { IconNivelFormacao } from '@ladesa-ro/web.ui';
+</script>
+
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
-    <polyline
-      points="16 200 72 200 72 152 128 152 128 104 184 104 184 56 240 56"
-      stroke="currentColor"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="16"
-      fill="none"
-    />
-  </svg>
+  <IconNivelFormacao />
 </template>

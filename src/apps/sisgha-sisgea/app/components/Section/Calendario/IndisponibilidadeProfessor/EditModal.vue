@@ -97,7 +97,7 @@ function close() {
       :close-button="true"
       :on-close="close"
     >
-      <form class="flex flex-col gap-4" @submit.prevent="save">
+      <form class="u-flex u-flex-col u-gap-4" @submit.prevent="save">
         <VVOptionFieldsRadioGroup
           name="modo"
           label="Recorrência"
@@ -113,45 +113,39 @@ function close() {
         />
         <VVDateField v-else name="data" label="Data" :required="true" />
 
-        <VVTimeRangeField
-          name-start="inicio"
-          name-end="fim"
-          label="Horário"
-        />
+        <VVTimeRangeField name-start="inicio" name-end="fim" label="Horário" />
 
         <VVOptionFieldsRadioGroup
           name="tipo"
           label="Tipo"
           :items="tipoOptions"
         />
-        <p class="text-xs text-ldsa-grey px-1 -mt-2">
+        <p class="u-text-xs u-px-1 edit-modal__hint">
           Bloqueio: nunca aloca. Preferência: evita alocar, mas não impede.
         </p>
 
-        <VVTextField
-          name="motivo"
-          label="Motivo"
-          placeholder="Opcional"
-        />
+        <VVTextField name="motivo" label="Motivo" placeholder="Opcional" />
       </form>
 
       <template #button-group>
-        <button
+        <UIButtonModalCancel @click="close" />
+        <UIButtonModalBaseLayout
+          text="Salvar"
+          color="var(--ladesa-green-2-color)"
           type="button"
-          class="rounded-lg border border-ldsa-grey/30 px-4 py-2 text-sm font-medium"
-          @click="close"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          class="rounded-lg bg-ldsa-green-1 px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
           :disabled="saving"
           @click="save"
         >
-          Salvar
-        </button>
+          <IconsConfirm />
+        </UIButtonModalBaseLayout>
       </template>
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.edit-modal__hint {
+  color: var(--ladesa-grey-color);
+  margin-top: calc(var(--ui-space-2) * -1);
+}
+</style>

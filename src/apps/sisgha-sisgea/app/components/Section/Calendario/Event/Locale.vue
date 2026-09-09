@@ -1,13 +1,9 @@
 <script lang="ts" setup>
-defineProps<{ locale?: string }>();
+import { EventLocale, type EventLocaleProps } from '@ladesa-ro/web.ui';
+
+defineProps<EventLocaleProps>();
 </script>
 
 <template>
-  <div
-    class="flex w-max border-2 border-ldsa-grey justify-center items-center rounded-lg p-2 gap-2 mt-1"
-  >
-    <IconsIconLocale class="h-3 w-3" />
-
-    <p class="text-sm">{{ locale || 'Sem local definido' }}</p>
-  </div>
+  <EventLocale v-bind="$props" />
 </template>

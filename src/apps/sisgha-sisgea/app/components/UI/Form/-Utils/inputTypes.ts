@@ -2,8 +2,6 @@ import type { Item, ParsedItem } from '~/composables/useOptionItems';
 
 type OptionFieldsItems = { items: Item[] };
 
-//
-
 type InputTypeTextField = { type: 'textfield' };
 
 type InputTypeSelect = { type: 'select' } & OptionFieldsItems;
@@ -17,15 +15,11 @@ export type InputTypes =
   | InputTypeSelect
   | InputTypeAutocomplete;
 
-//
-
 type FieldMeta = {
   placeholder?: string;
   label?: string;
   disabled?: boolean;
 };
-
-//
 
 export type TextFieldProps = FieldMeta & {
   type?: string;

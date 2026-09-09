@@ -1,0 +1,35 @@
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  padding-inline: var(--ui-space-2);
+  padding-block: var(--ui-space-0-5);
+  border-radius: var(--ui-radius-full);
+  font-size: 0.75rem;
+  font-weight: var(--ui-font-weight-medium);
+  white-space: nowrap;
+}
+
+.ui-badge--neutral {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 15%);
+  color: var(--ladesa-text-default-color);
+}
+
+.ui-badge--success {
+  background-color: rgb(from var(--ladesa-green-2-color) R G B / 15%);
+  color: var(--ladesa-green-1-color);
+}
+
+.ui-badge--danger {
+  background-color: rgb(from var(--ladesa-red-color) R G B / 15%);
+  color: var(--ladesa-red-color);
+}
+
+.ui-badge--warning {
+  background-color: rgb(from var(--ladesa-yellow-color) R G B / 15%);
+  color: var(--ladesa-yellow-color);
+}
+
+.ui-badge--info {
+  background-color: rgb(from var(--ladesa-blue-color) R G B / 15%);
+  color: var(--ladesa-blue-color);
+}

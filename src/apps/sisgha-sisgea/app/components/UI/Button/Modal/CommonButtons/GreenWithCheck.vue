@@ -1,14 +1,9 @@
 <script setup lang="ts">
-type Props = { text: string };
-defineProps<Props>();
+import { ButtonModalGreenWithCheck } from '@ladesa-ro/web.ui';
+
+defineProps<{ text: string }>();
 </script>
 
 <template>
-  <UIButtonModalBaseLayout
-    :text="text"
-    color="var(--ladesa-green-2-color)"
-    type="submit"
-  >
-    <IconsConfirm />
-  </UIButtonModalBaseLayout>
+  <ButtonModalGreenWithCheck v-bind="$props" />
 </template>

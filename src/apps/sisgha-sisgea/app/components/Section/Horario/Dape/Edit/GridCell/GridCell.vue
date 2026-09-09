@@ -43,8 +43,6 @@ onMounted(() => {
       }),
     }),
 
-    //
-
     dropTargetForElements({
       element: droppableElement.value,
       canDrop: ({ source }) =>
@@ -75,46 +73,43 @@ const popoverOpen = ref(false);
   <div
     v-show="showBreaks ? true : cellInfo.type !== 'intervalo'"
     ref="el2"
-    class="font-medium border-b-2 border-b-ldsa-text-default/55 text-ldsa-text-default/95 last:border-b-0 min-h-6 max-lg:h-12"
+    class="grid-cell-row u-font-medium"
   >
     <div
       id="cell"
       ref="el"
-      class="py-0.5 text-center text-[0.813rem] h-full relative"
+      class="grid-cell u-py-0-5 u-text-center u-h-full u-relative"
       :class="[
         underAnotherElementDragging &&
           cellInfo.type !== 'intervalo' &&
-          'bg-ldsa-green-2/15 text-ldsa-green-1',
-        cellInfo.type === 'intervalo' &&
-          'bg-ldsa-grey/15 text-ldsa-text-default/55',
+          'grid-cell--dragging-over',
+        cellInfo.type === 'intervalo' && 'grid-cell--intervalo',
       ]"
     >
       <span
         v-if="cellInfo.type === 'intervalo'"
-        class="max-w-full whitespace-normal break-word lg:whitespace-nowrap lg:overflow-hidden lg:text-ellipsis h-full flex items-center justify-center"
+        class="grid-cell__label grid-cell__label--intervalo u-h-full u-flex u-items-center u-justify-center"
       >
         Intervalo
       </span>
 
       <span
         v-else-if="cellInfo.type === 'vago'"
-        class="h-full flex items-center justify-center"
+        class="u-h-full u-flex u-items-center u-justify-center"
         >-</span
       >
 
       <span
         v-else-if="cellInfo.type === 'aula'"
-        class="max-w-full whitespace-normal break-word lg:whitespace-nowrap overflow-hidden lg:text-ellipsis lg:line-clamp-1 max-lg:line-clamp-2 max-lg:pt-0.5"
+        class="grid-cell__label grid-cell__label--aula"
       >
         {{ cellInfo.diario.disciplina }} - {{ cellInfo.diario.professor }}
       </span>
 
       <span
         v-if="cellInfo.type !== 'intervalo' && editMode"
-        :class="[
-          'absolute right-0 top-1/2 transform -translate-y-1/2 max-lg:h-11 bg-ldsa-bg',
-          !popoverOpen && 'hover',
-        ]"
+        class="grid-cell__edit-buttons u-absolute"
+        :class="[!popoverOpen && 'hover']"
       >
         <SectionHorarioDapeEditGridCellEditButtons
           v-model="cellInfo"
@@ -127,6 +122,91 @@ const popoverOpen = ref(false);
 </template>
 
 <style scoped>
+.grid-cell-row {
+  border-bottom: 2px solid
+    rgb(from var(--ladesa-text-default-color) R G B / 55%);
+  color: rgb(from var(--ladesa-text-default-color) R G B / 95%);
+  min-height: 1.5rem;
+}
+
+.grid-cell-row:last-child {
+  border-bottom: 0;
+}
+
+@media (max-width: 1023.98px) {
+  .grid-cell-row {
+    height: 3rem;
+  }
+}
+
+.grid-cell {
+  font-size: 0.813rem;
+}
+
+.grid-cell--dragging-over {
+  background-color: rgb(from var(--ladesa-green-2-color) R G B / 15%);
+  color: var(--ladesa-green-1-color);
+}
+
+.grid-cell--intervalo {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 15%);
+  color: rgb(from var(--ladesa-text-default-color) R G B / 55%);
+}
+
+.grid-cell__label {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.grid-cell__label--intervalo {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+@media (min-width: 1024px) {
+  .grid-cell__label--intervalo {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.grid-cell__label--aula {
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 1023.98px) {
+  .grid-cell__label--aula {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    padding-top: 0.125rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-cell__label--aula {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+}
+
+.grid-cell__edit-buttons {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--ladesa-background-color);
+}
+
+@media (max-width: 1023.98px) {
+  .grid-cell__edit-buttons {
+    height: 2.75rem;
+  }
+}
+
 .hover {
   display: none;
 }

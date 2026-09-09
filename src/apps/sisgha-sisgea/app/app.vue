@@ -1,13 +1,9 @@
 <script lang="ts" setup>
 setupApiClient();
 
-//
-
 const dayjs = useDayJs();
 const currentDay = ref(dayjs());
 provide('currentDay', currentDay);
-
-//
 
 const { isDark } = useCustomTheme();
 

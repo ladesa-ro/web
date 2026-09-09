@@ -1,17 +1,15 @@
 <script lang="ts" setup>
-import AmbientesForm from '~/components/Section/Ambientes/Form/Form.vue';
-import {
-  createApiListContextOptions,
-  type IEntityListModule,
-} from '~~/app/components/UI/API/List/Context/UIApiListContext';
-import { ambienteFindAll, ambienteFindById } from '@ladesa-ro/web.api.client';
+import { ambienteFindAll } from '@ladesa-ro/web.api.client';
+import type { IEntityListModule } from '~/components/UI/API/List/Context/UIApiListContext';
+import EntityListPage from '../-Shared/EntityListPage.vue';
+import AmbientesForm from './Form/Form.vue';
+import AmbientesGridItem from './Grid/Item/Item.vue';
 
 const api = useApiClient();
 
 const crudModule = {
   baseQueryKeys: ['ambientes'] as string[],
   list: (data?: any) => api.call(ambienteFindAll, { query: data }),
-  getOne: (id: string) => api.call(ambienteFindById, { path: { id } }),
 } satisfies IEntityListModule;
 
 const campusContext = useCampusContext();
@@ -20,26 +18,14 @@ const campusFilter = computed(() => {
   if (!campusContext.value) return {};
   return { 'filter.bloco.campus.id': [campusContext.value] };
 });
-
-const options = createApiListContextOptions({
-  crudModule,
-  filter: campusFilter,
-  filteredByCampus: true,
-});
 </script>
 
 <template>
-  <UIAPIList :options="options">
-    <template #options-actions>
-      <DialogModalEditOrCreateModal :form-component="AmbientesForm" />
-    </template>
-
-    <template #grid-item="{ item, isLoading }">
-      <SectionAmbientesGridItem :is-loading="isLoading" :item="item" />
-    </template>
-
-    <template #grid-item-skeleton>
-      <SectionAmbientesGridItem :is-loading="true" :item="null" />
-    </template>
-  </UIAPIList>
+  <EntityListPage
+    :crud-module="crudModule"
+    :form-component="AmbientesForm"
+    :grid-item-component="AmbientesGridItem"
+    :filter="campusFilter"
+    filtered-by-campus
+  />
 </template>

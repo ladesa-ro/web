@@ -5,7 +5,7 @@ import {
   nivelFormacaoFindById,
 } from '@ladesa-ro/web.api.client';
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     isLoading?: boolean;
     name: string;

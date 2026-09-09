@@ -1,29 +1,9 @@
 <script lang="ts" setup>
-import type {
-  IDiasDaSemana,
-  IGradeDisciplina,
-  ITurnos,
-} from '../IGradeHorario';
+import { ScheduleShifts, type ScheduleShiftsProps } from '@ladesa-ro/web.ui';
 
-type Props = {
-  turnos: ITurnos;
-  diasDaSemana: IDiasDaSemana;
-  gradeDisciplinas: IGradeDisciplina[];
-};
-
-defineProps<Props>();
+defineProps<ScheduleShiftsProps>();
 </script>
 
 <template>
-  <SectionHorarioProfessorEAlunoShift
-    v-for="(turno, index) in turnos"
-    :key="turno.nome"
-    :class="{
-      'rounded-t-xl': index === 0,
-      'rounded-b-xl': index === turnos.length - 1,
-    }"
-    :dias-da-semana="diasDaSemana"
-    :grade-disciplinas="gradeDisciplinas"
-    :turno="turno"
-  />
+  <ScheduleShifts v-bind="$props" />
 </template>

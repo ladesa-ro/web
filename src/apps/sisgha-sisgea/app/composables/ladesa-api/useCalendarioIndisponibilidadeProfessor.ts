@@ -1,8 +1,5 @@
 import { useQuery, type UseQueryReturnType } from '@tanstack/vue-query';
-import {
-  createListQuery,
-  createInvalidate,
-} from '~/composables/query-helpers';
+import { createListQuery, createInvalidate } from '~/composables/query-helpers';
 import type { ListFn, InvalidateFn } from '~/composables/query-helpers';
 import { createCreateFn, createRemoveFn } from './-helpers/crudHelpers';
 import {

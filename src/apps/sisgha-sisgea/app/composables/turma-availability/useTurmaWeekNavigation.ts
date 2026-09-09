@@ -39,8 +39,6 @@ export function useTurmaWeekNavigation(
     return currentWeekRef.value.isBefore(thisWeekStart, 'day');
   });
 
-  // --- Prefetch ---
-
   function prefetchAdjacentWeeks() {
     const id = unref(turmaId);
     if (!id) return;
@@ -59,8 +57,6 @@ export function useTurmaWeekNavigation(
     },
     { immediate: true }
   );
-
-  // --- Navigation with dirty check ---
 
   let onNavigationBlockedCb = options?.onNavigationBlocked ?? null;
   const pendingNavigation = ref<'prev' | 'next' | null>(null);

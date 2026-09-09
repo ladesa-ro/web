@@ -6,8 +6,6 @@ definePageMeta({
   auth: true,
 });
 
-// useTitle(HeadTitleContext.DASHBOARD, 'Perfil');
-
 const { usuario } = useApiContext();
 </script>
 

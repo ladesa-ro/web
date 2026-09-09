@@ -4,9 +4,6 @@ import { Cargo } from '~/utils/constants';
 
 const { value: vinculos } = useField<any[]>('vinculos');
 
-// Vínculos como vieram do servidor (com id real de cada perfil) — o schema
-// do formulário não carrega o id, então a carga horária é lida/gravada
-// direto contra o perfil existente, fora do fluxo de "Salvar" em lote.
 const originalVinculos = inject<Ref<{ vinculos: any[] } | undefined>>(
   'FORM_USER_ORIGINAL_VINCULOS'
 );
@@ -98,35 +95,38 @@ const removeField = (targetIndex: number) => {
 </script>
 
 <template>
-  <hr class="border border-ldsa-grey my-1" />
+  <hr class="roles__divider u-my-1" />
 
   <div v-for="(vinculo, index) in vinculos" :key="index">
-    <div class="flex gap-4 items-start">
+    <div class="u-flex u-gap-4 u-items-start">
       <VVAutocompleteAPICampus :name="`vinculos[${index}].campus.id`" />
 
       <VVSelectRoles
         :name="`vinculos[${index}].cargo`"
-        class="w-full max-w-[10.65rem]"
+        class="roles__select u-w-full"
       />
 
       <button
         v-if="index > 0"
-        class="shrink-0 flex justify-center text-ldsa-red h-12 w-7 hover:bg-ldsa-red/10 rounded-sm"
+        class="roles__remove-btn u-flex u-justify-center u-shrink-0 u-rounded-sm"
         aria-label="Remover vínculo"
         type="button"
         @click="removeField(index)"
       >
-        <IconsExclude class="w-5" />
+        <IconsExclude class="roles__remove-icon" />
       </button>
     </div>
 
-    <p v-if="isDuplicate(index)" class="text-ldsa-red text-xs font-semibold">
+    <p
+      v-if="isDuplicate(index)"
+      class="roles__duplicate-warning u-text-xs u-font-semibold"
+    >
       Este vínculo já existe!
     </p>
 
     <div
       v-if="vinculo.cargo === Cargo.PROFESSOR && findPerfilId(index)"
-      class="max-w-[16rem] mt-2"
+      class="roles__carga-wrapper u-mt-2"
     >
       <UIFormTextField
         :name="`vinculos[${index}].cargaMaximaSemanal`"
@@ -144,13 +144,59 @@ const removeField = (targetIndex: number) => {
 
   <button
     v-if="canAddMore"
-    class="flex justify-center gap-3 border-dotted border-3 rounded-lg p-4 border-ldsa-grey hover:bg-ldsa-grey/10 transition-[background-color] text-ldsa-text-default"
+    class="roles__add-btn u-flex u-justify-center u-gap-3 u-rounded-lg u-p-4"
     type="button"
     @click="addField"
   >
     Novo Vínculo
-    <IconsAdd class="w-4" />
+    <IconsAdd class="roles__add-icon" />
   </button>
 
-  <hr class="border border-ldsa-grey my-1" />
+  <hr class="roles__divider u-my-1" />
 </template>
+
+<style scoped>
+.roles__divider {
+  border: 1px solid var(--ladesa-grey-color);
+}
+
+.roles__select {
+  max-width: 10.65rem;
+}
+
+.roles__remove-btn {
+  color: var(--ladesa-red-color);
+  height: 3rem;
+  width: 1.75rem;
+}
+
+.roles__remove-btn:hover {
+  background-color: rgb(from var(--ladesa-red-color) R G B / 10%);
+}
+
+.roles__remove-icon {
+  width: 1.25rem;
+}
+
+.roles__duplicate-warning {
+  color: var(--ladesa-red-color);
+}
+
+.roles__carga-wrapper {
+  max-width: 16rem;
+}
+
+.roles__add-btn {
+  border: 3px dotted var(--ladesa-grey-color);
+  color: var(--ladesa-text-default-color);
+  transition: background-color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.roles__add-btn:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.roles__add-icon {
+  width: 1rem;
+}
+</style>

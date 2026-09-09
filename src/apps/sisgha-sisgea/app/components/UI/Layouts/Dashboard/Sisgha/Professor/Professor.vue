@@ -1,6 +1,4 @@
-<script lang="ts" setup>
-// useTitle(HeadTitleContext.DASHBOARD);
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <UILayoutsDashboardBase>

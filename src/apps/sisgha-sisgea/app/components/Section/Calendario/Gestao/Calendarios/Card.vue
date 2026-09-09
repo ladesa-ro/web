@@ -18,7 +18,7 @@ const handleToggleSituacao = async () => {
   const confirmed = await confirmDeactivate.confirm();
   if (confirmed) {
     const novaSituacao = isInativo.value ? 'ATIVO' : 'INATIVO';
-    // TODO: remove Record cast after SDK regeneration includes 'situacao' field in update DTO
+
     await calendarioLetivo.update(props.calendario.id, {
       situacao: novaSituacao,
     } as Record<string, string>);
@@ -61,22 +61,19 @@ const qtdPeriodos = computed(() => etapas.value.length);
 
 <template>
   <div
-    class="p-5 rounded-lg border-2 border-ldsa-grey flex flex-col gap-3.5 hover:bg-ldsa-grey/10 h-full transition-colors"
+    class="calendario-card u-p-5 u-rounded-lg u-flex u-flex-col u-gap-3-5 u-h-full"
   >
-    <div class="flex justify-between items-center">
-      <div class="flex items-center gap-2 min-w-0">
-        <h2 class="font-medium text-lg truncate min-w-0">
+    <div class="u-flex u-justify-between u-items-center">
+      <div class="calendario-card__header-info u-flex u-items-center u-gap-2">
+        <h2 class="calendario-card__title u-font-medium u-text-lg u-truncate">
           {{ calendario.nome }}
         </h2>
-        <span
-          v-if="isInativo"
-          class="shrink-0 text-xs px-2 py-0.5 rounded-full bg-red-100 text-red-700"
-        >
+        <UIBadge v-if="isInativo" variant="danger" class="u-shrink-0">
           Inativo
-        </span>
+        </UIBadge>
       </div>
 
-      <div class="flex items-center gap-2 shrink-0 ml-2">
+      <div class="u-flex u-items-center u-gap-2 u-shrink-0 u-ml-2">
         <UIButtonModalBaseLayout
           v-if="!isInativo"
           text="Desativar"
@@ -99,22 +96,21 @@ const qtdPeriodos = computed(() => etapas.value.length);
       </div>
     </div>
 
-    <div class="flex flex-col gap-1 text-sm">
+    <div class="u-flex u-flex-col u-gap-1 u-text-sm">
       <span>Formação: {{ formacaoNome }}</span>
       <span>Duração: {{ duracao }}</span>
       <span>Qtd. períodos: {{ qtdPeriodos }}</span>
       <span>Situação: {{ calendario.situacao ?? 'ATIVO' }}</span>
     </div>
 
-    <!-- Etapas list -->
-    <div v-if="etapas.length > 0" class="flex flex-col gap-1.5 text-sm">
+    <div v-if="etapas.length > 0" class="u-flex u-flex-col u-gap-1-5 u-text-sm">
       <div
         v-for="etapa in etapas"
         :key="etapa.id"
-        class="flex gap-2 items-center text-ldsa-grey"
+        class="calendario-card__etapa u-flex u-gap-2 u-items-center"
       >
         <div
-          class="rounded-full w-1.5 h-1.5 shrink-0"
+          class="calendario-card__etapa-dot u-rounded-full u-shrink-0"
           :style="{ backgroundColor: etapa.cor }"
         />
         {{ etapa.nome }}: {{ formatDateShort(etapa.dataInicio) }} -
@@ -122,8 +118,9 @@ const qtdPeriodos = computed(() => etapas.value.length);
       </div>
     </div>
 
-    <!-- No etapas -->
-    <div v-else class="text-xs text-ldsa-grey">Nenhuma etapa cadastrada.</div>
+    <div v-else class="calendario-card__empty u-text-xs">
+      Nenhuma etapa cadastrada.
+    </div>
 
     <DialogConfirm
       v-model="confirmDeactivate.isOpen.value"
@@ -136,3 +133,35 @@ const qtdPeriodos = computed(() => etapas.value.length);
     />
   </div>
 </template>
+
+<style scoped>
+.calendario-card {
+  border: 2px solid var(--ladesa-grey-color);
+  transition:
+    background-color var(--ui-duration-base) var(--ui-easing-standard),
+    border-color var(--ui-duration-base) var(--ui-easing-standard),
+    color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.calendario-card:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+}
+
+.calendario-card__header-info,
+.calendario-card__title {
+  min-width: 0;
+}
+
+.calendario-card__etapa {
+  color: var(--ladesa-grey-color);
+}
+
+.calendario-card__etapa-dot {
+  width: 0.375rem;
+  height: 0.375rem;
+}
+
+.calendario-card__empty {
+  color: var(--ladesa-grey-color);
+}
+</style>

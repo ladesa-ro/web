@@ -1,15 +1,9 @@
 <script lang="ts" setup>
+import { FormSearchBar } from '@ladesa-ro/web.ui';
+
 const value = defineModel<string>({ required: false, default: '' });
 </script>
 
 <template>
-  <UIFormTextField
-    v-model="value"
-    name="pesquisar"
-    label="Pesquisar"
-    placeholder="Digite aqui"
-    class="w-full"
-  >
-    <IconsSearch />
-  </UIFormTextField>
+  <FormSearchBar v-model="value" />
 </template>

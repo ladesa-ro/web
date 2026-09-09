@@ -1,0 +1,56 @@
+.ui-day-cell {
+  aspect-ratio: 1 / 1;
+  width: 1.5rem;
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .ui-day-cell {
+    width: 1.5rem;
+    padding: 0.25rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .ui-day-cell {
+    width: 2rem;
+    padding: 0.375rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ui-day-cell {
+    width: 2.5rem;
+  }
+}
+
+.ui-day-cell--empty {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 30%);
+}
+
+.ui-day-cell--no-color {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 60%);
+}
+
+.ui-day-cell--occupied {
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(107, 114, 128, 0.6) 0,
+    rgba(107, 114, 128, 0.6) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+}
+
+.ui-day-cell__label {
+  color: var(--ladesa-white-color);
+}
+
+.ui-day-cell__label--hidden {
+  visibility: hidden;
+}
+
+.ui-day-cell__label--today {
+  border: 2px solid var(--ladesa-white-color);
+  border-radius: var(--ui-radius-md);
+}

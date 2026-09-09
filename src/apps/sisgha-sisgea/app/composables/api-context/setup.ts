@@ -12,14 +12,12 @@ const ApiContextKey = Symbol();
 export const createApiContext = (shouldProvide = true) => {
   const api = useApiClient();
 
-  const { data, status, lastRefreshedAt } = useAuthState();
+  const { data, status } = useAuthState();
 
   const whoAmIQueryKey = computed(() => [
     'usuarios',
     'who-am-i',
-    data.value?.accessTokenExpires,
-    unref(status),
-    unref(lastRefreshedAt),
+    data.value?.user?.id ?? null,
   ]);
 
   const whoAmIQuery = useQuery({
@@ -51,16 +49,14 @@ export const createApiContext = (shouldProvide = true) => {
   };
 
   const apiContext = {
-    //
     whoAmI,
     usuario,
     perfisAtivos,
     resumoVinculos,
-    //
+
     whoAmIQuery,
-    //
+
     suspense,
-    //
   };
 
   if (shouldProvide) {
@@ -69,12 +65,6 @@ export const createApiContext = (shouldProvide = true) => {
 
   return apiContext;
 };
-
-/**
- * esse useAPIContext é o cara que pode ser chamado em qualquer componente para saber as informações do usuãrio logado eu vou usar pela primeira vez no appbar
- * @param _strict
- * @returns
- */
 
 export const useApiContext = <
   Strict extends boolean = true,

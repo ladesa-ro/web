@@ -1,6 +1,6 @@
 import type { GradeHorariaItemOutputDto } from '@ladesa-ro/web.api.client';
 import type { DayShift } from '~/composables/useAvailability';
-import { agruparPorPeriodo, toDisplayFormat } from '~/utils/horarios';
+import { groupIntervalsByDayPeriod, stripSeconds } from '@ladesa-ro/web.utils';
 
 export function useTurmaGradeSelection(campusId: MaybeRef<string | null>) {
   const gradesHorarias = useGradesHorarias();
@@ -40,11 +40,11 @@ export function useTurmaGradeSelection(campusId: MaybeRef<string | null>) {
         fim: item.fim,
       })
     );
-    const grupos = agruparPorPeriodo(intervalos);
+    const grupos = groupIntervalsByDayPeriod(intervalos);
     return grupos
       .map(g => ({
         title: g.nome.toLowerCase(),
-        times: g.intervalos.map(i => toDisplayFormat(i.inicio)),
+        times: g.intervalos.map(i => stripSeconds(i.inicio)),
       }))
       .filter(s => s.times.length > 0);
   });

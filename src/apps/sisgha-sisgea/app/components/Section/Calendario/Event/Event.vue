@@ -65,11 +65,11 @@ function onOccurrenceAdded() {
     :ambientes="props.event.ambientes"
   />
 
-  <div v-else class="flex flex-col gap-3 border-2 border-ldsa-grey rounded-lg p-5">
-    <div class="flex justify-between items-center">
-      <div class="flex items-center gap-2 font-medium">
+  <div v-else class="u-flex u-flex-col u-gap-3 u-rounded-lg u-p-5 event-card">
+    <div class="u-flex u-justify-between u-items-center">
+      <div class="u-flex u-items-center u-gap-2 u-font-medium">
         <div
-          class="rounded-full w-2.5 h-2.5"
+          class="u-rounded-full event-card__dot"
           :style="{
             backgroundColor: props.event.color || 'var(--ladesa-grey-color)',
           }"
@@ -77,25 +77,19 @@ function onOccurrenceAdded() {
 
         <h1>{{ props.event.name }}</h1>
 
-        <span
-          class="text-xs px-2 py-0.5 rounded-full"
-          :class="
-            props.event.type === 'etapa'
-              ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
-              : 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
-          "
-        >
+        <UIBadge :variant="props.event.type === 'etapa' ? 'info' : 'success'">
           {{ props.event.type === 'etapa' ? 'Etapa' : 'Evento' }}
-        </span>
+        </UIBadge>
 
         <span
           v-if="props.event.colecao"
-          class="flex items-center gap-1.5 text-xs px-2 py-0.5 rounded-full bg-ldsa-grey/15 text-ldsa-text-default"
+          class="u-flex u-items-center u-gap-1-5 u-text-xs u-px-2 u-py-0-5 u-rounded-full event-card__colecao"
         >
           <span
-            class="rounded-full w-2 h-2 shrink-0"
+            class="u-rounded-full u-shrink-0 event-card__colecao-dot"
             :style="{
-              backgroundColor: props.event.colecao.cor || 'var(--ladesa-grey-color)',
+              backgroundColor:
+                props.event.colecao.cor || 'var(--ladesa-grey-color)',
             }"
           />
           {{ props.event.colecao.nome ?? 'Coleção' }}
@@ -104,42 +98,23 @@ function onOccurrenceAdded() {
 
       <div
         v-if="props.event.type === 'agendamento'"
-        class="flex items-center gap-1"
+        class="u-flex u-items-center u-gap-1"
       >
         <button
           v-if="canShowHistorico"
           type="button"
-          class="flex p-2 justify-center items-center rounded-lg transition-colors duration-150 hover:bg-ldsa-grey/30"
+          class="u-flex u-p-2 u-justify-center u-items-center u-rounded-lg event-card__icon-button"
           title="Histórico"
           @click="timelineDrawerOpen = true"
         >
-          <IconsClock class="text-ldsa-text-default w-5 h-5" />
+          <IconsClock class="event-card__icon" />
         </button>
 
-        <UIPopover v-if="isRecorrente" v-model="eventMenuOpen">
-          <template #activator>
-            <button
-              type="button"
-              class="flex p-2 justify-center items-center rounded-lg transition-colors duration-150 hover:bg-ldsa-grey/30"
-              title="Mais opções"
-            >
-              <IconsMoreItems class="text-ldsa-text-default w-5 h-5" />
-            </button>
-          </template>
-
-          <div
-            class="flex flex-col border-2 gap-1 border-ldsa-grey rounded-lg p-2 bg-ldsa-bg mt-2 min-w-[12rem]"
-          >
-            <button
-              type="button"
-              class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-left hover:bg-ldsa-grey/20"
-              @click="openAddOccurrence"
-            >
-              <IconsAdd class="w-3.5 h-3.5" />
-              Adicionar data avulsa
-            </button>
-          </div>
-        </UIPopover>
+        <SectionCalendarioEventRecurrenceMenu
+          v-if="isRecorrente"
+          v-model="eventMenuOpen"
+          @add-occurrence="openAddOccurrence"
+        />
 
         <DialogModalEditOrCreateModal
           ref="editModalRef"
@@ -168,7 +143,9 @@ function onOccurrenceAdded() {
     </div>
 
     <SectionCalendarioEventAddOccurrenceModal
-      v-if="props.event.type === 'agendamento' && props.event.version !== undefined"
+      v-if="
+        props.event.type === 'agendamento' && props.event.version !== undefined
+      "
       v-model="addOccurrenceModalOpen"
       :event-id="props.event.id"
       :version="props.event.version ?? 0"
@@ -181,8 +158,8 @@ function onOccurrenceAdded() {
       :identificador-externo="props.event.identificadorExterno ?? null"
     />
 
-    <ul class="text-sm">
-      <li class="mb-0.5">
+    <ul class="u-text-sm">
+      <li class="event-card__list-item">
         Início: <span>{{ startDate.format('DD/MM/YYYY') }}</span>
       </li>
       <li>
@@ -190,10 +167,10 @@ function onOccurrenceAdded() {
       </li>
     </ul>
 
-    <p v-if="notStarted" class="text-sm font-medium">
+    <p v-if="notStarted" class="u-text-sm u-font-medium">
       Começa em {{ remainingDays }} dias.
     </p>
-    <p v-else-if="inProgress" class="text-sm font-medium">
+    <p v-else-if="inProgress" class="u-text-sm u-font-medium">
       Termina em {{ remainingDays }} dias.
     </p>
 
@@ -203,3 +180,43 @@ function onOccurrenceAdded() {
     />
   </div>
 </template>
+
+<style scoped>
+.event-card {
+  border: 2px solid var(--ladesa-grey-color);
+}
+
+.event-card__dot {
+  width: 0.625rem;
+  height: 0.625rem;
+}
+
+.event-card__colecao {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 15%);
+  color: var(--ladesa-text-default-color);
+}
+
+.event-card__colecao-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.event-card__icon-button {
+  color: var(--ladesa-text-default-color);
+  transition: background-color var(--ui-duration-fast) var(--ui-easing-standard);
+}
+
+.event-card__icon-button:hover {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 30%);
+}
+
+.event-card__icon {
+  color: var(--ladesa-text-default-color);
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.event-card__list-item {
+  margin-bottom: 0.125rem;
+}
+</style>

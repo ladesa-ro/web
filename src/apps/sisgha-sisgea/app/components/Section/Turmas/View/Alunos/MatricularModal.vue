@@ -10,8 +10,11 @@ const isSubmitting = ref(false);
 
 const matriculas = useTurmaMatricula();
 
-const { handle: handleWriteError, conflictMessage, clearConflictMessage } =
-  useApiWriteErrorHandler();
+const {
+  handle: handleWriteError,
+  conflictMessage,
+  clearConflictMessage,
+} = useApiWriteErrorHandler();
 
 function onOpen() {
   clearConflictMessage();
@@ -54,10 +57,10 @@ async function onSubmit() {
     </template>
 
     <DialogModalBaseLayout title="Matricular aluno" :on-close="onClose">
-      <form class="flex flex-col gap-5" @submit.prevent="onSubmit">
+      <form class="u-flex u-flex-col u-gap-5" @submit.prevent="onSubmit">
         <p
           v-if="conflictMessage"
-          class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 rounded-md p-3"
+          class="conflict-message u-text-sm u-rounded-md u-p-3"
         >
           {{ conflictMessage }}
         </p>
@@ -75,3 +78,15 @@ async function onSubmit() {
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.conflict-message {
+  color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.dark .conflict-message {
+  color: #f87171;
+  background-color: #450a0a;
+}
+</style>

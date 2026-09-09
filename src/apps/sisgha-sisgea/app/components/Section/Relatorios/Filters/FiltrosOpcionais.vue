@@ -39,15 +39,15 @@ watch(calendarioLetivoId, () => {
 </script>
 
 <template>
-  <div class="relative border-t-2 border-ldsa-grey h-2">
+  <div class="filtros-opcionais__divider u-relative">
     <div
-      class="absolute -top-3/2 left-5 w-max px-1.5 bg-ldsa-bg my-0 text-sm font-semibold text-ldsa-grey z-2"
+      class="filtros-opcionais__divider-label u-absolute u-px-1-5 u-my-0 u-text-sm u-font-semibold"
     >
       Filtros Opcionais
     </div>
   </div>
 
-  <div class="grid grid-cols-1 xl:grid-cols-2 gap-4 w-full">
+  <div class="filtros-opcionais__grid u-grid u-gap-4 u-w-full">
     <VVSelectField
       :items="etapaItems"
       :disabled="!calendarioLetivoId"
@@ -63,3 +63,29 @@ watch(calendarioLetivoId, () => {
     <VVAutocompleteAPITurma name="turma.id" :filter-curso-id="cursoId" />
   </div>
 </template>
+
+<style scoped>
+.filtros-opcionais__divider {
+  height: var(--ui-space-2);
+  border-top: 2px solid var(--ladesa-grey-color);
+}
+
+.filtros-opcionais__divider-label {
+  top: -150%;
+  left: var(--ui-space-5);
+  width: max-content;
+  background-color: var(--ladesa-background-color);
+  color: var(--ladesa-grey-color);
+  z-index: 2;
+}
+
+.filtros-opcionais__grid {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 1280px) {
+  .filtros-opcionais__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+</style>

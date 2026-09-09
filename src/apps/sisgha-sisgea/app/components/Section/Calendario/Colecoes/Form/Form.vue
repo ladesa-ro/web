@@ -60,9 +60,7 @@ const visibilidadeHint = computed(() => {
 <template>
   <form @submit.prevent="onSubmit">
     <UIFormLayout
-      :title="
-        mode === FormMode.MANAGE ? 'Editar coleção' : 'Nova coleção'
-      "
+      :title="mode === FormMode.MANAGE ? 'Editar coleção' : 'Nova coleção'"
       :mode="mode"
       :is-busy="isBusy"
       :on-close="() => emit('close')"
@@ -70,21 +68,21 @@ const visibilidadeHint = computed(() => {
     >
       <VVTextField name="nome" label="Nome" placeholder="Digite aqui" />
 
-      <div class="flex flex-col gap-1.5">
-        <span class="text-[0.813rem] font-semibold text-ldsa-grey px-1">
-          Cor
-        </span>
+      <div class="u-flex u-flex-col u-gap-1-5">
+        <span class="colecoes-form__label u-font-semibold u-px-1"> Cor </span>
         <VVColorPalette name="cor" />
       </div>
 
-      <div class="flex flex-col gap-1">
+      <div class="u-flex u-flex-col u-gap-1">
         <SectionCalendarioColecoesSharedEnumSelectField
           name="visibilidade"
           label="Visibilidade"
           :items="visibilidadeItems"
           :required="true"
         />
-        <p class="text-xs text-ldsa-grey px-1">{{ visibilidadeHint }}</p>
+        <p class="colecoes-form__hint u-text-xs u-px-1">
+          {{ visibilidadeHint }}
+        </p>
       </div>
 
       <VVAutocompleteAPICampus
@@ -100,3 +98,14 @@ const visibilidadeHint = computed(() => {
     @confirm="confirmDelete.onConfirm"
   />
 </template>
+
+<style scoped>
+.colecoes-form__label {
+  font-size: 0.813rem;
+  color: var(--ladesa-grey-color);
+}
+
+.colecoes-form__hint {
+  color: var(--ladesa-grey-color);
+}
+</style>

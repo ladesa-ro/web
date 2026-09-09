@@ -1,6 +1,5 @@
 import type { ModalidadeFindOneOutputDto } from '@ladesa-ro/web.api.client';
 
-// TODO: não depender dos ids
 export const verificarModalidade = (
   modalidade: ModalidadeFindOneOutputDto | null,
   fallbackToPeriodo = false

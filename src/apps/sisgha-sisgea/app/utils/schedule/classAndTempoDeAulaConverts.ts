@@ -1,9 +1,6 @@
 import { getWeekDays } from '~/utils/get-week-days';
 import type { Aula, HorString, TimeSlotObj, TimeSlots } from './types';
 
-// TODO: aceitar um parâmetro do tipo Ladesa_ManagementService_Domain_Contracts_AulaFindOneOutput ao integrar à api
-
-/** Adiciona o dia da semana de um horário à sua estrutura com base em sua date. */
 export const addWeekDayToClass = (
   aula: Omit<Aula & HorString, 'weekday' | 'id'>
 ): Aula & HorString => {
@@ -16,7 +13,6 @@ export const addWeekDayToClass = (
   };
 };
 
-/** Adiciona o dia do mês à estrutura de tempo de aulas com base na date e dia da semana de uma aula. */
 export const addDayMonthToTempoDeAula = (
   aula: Aula & HorString,
   temposDeAula: TimeSlotObj

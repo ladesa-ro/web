@@ -24,13 +24,17 @@ export default defineEventHandler(async event => {
       const exp = payload.exp ? payload.exp * 1000 : 0;
 
       if (exp - Date.now() < AUTH_CONFIG.refreshThresholdMs && refreshToken) {
-        try {
-          const tokens = await refreshAuthTokens(refreshToken);
-          accessToken = tokens.access_token;
-          payload = decodeJwt(accessToken);
-          setAuthCookies(event, tokens);
-        } catch {
-          // Keep current token
+        const refreshed = await refreshAuthTokens(refreshToken)
+          .then(tokens => {
+            const nextPayload = decodeJwt(tokens.access_token);
+            setAuthCookies(event, tokens);
+            return { accessToken: tokens.access_token, payload: nextPayload };
+          })
+          .catch(() => null);
+
+        if (refreshed) {
+          accessToken = refreshed.accessToken;
+          payload = refreshed.payload;
         }
       }
     } catch {

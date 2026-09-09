@@ -1,52 +1,26 @@
 <script generic="T = any" lang="ts" setup>
-import type { IGridItemSlotProps } from '../API/List/Results/Grid/Typings/IGridItemSlotProps';
+import { Grid, type GridItemSlotProps } from '@ladesa-ro/web.ui';
 
-const { isLoading: isLoadingProps } = defineProps<{
+defineProps<{
   isLoading?: boolean;
-  items?: IGridItemSlotProps['item'][] | null;
+  items?: GridItemSlotProps['item'][] | null;
 }>();
 
-const slots = defineSlots<{
-  item(props: IGridItemSlotProps): any;
+defineSlots<{
+  item(props: GridItemSlotProps): any;
   'item-skeleton'(): any;
   default(): any;
 }>();
-
-const isLoading = computed(() => isLoadingProps ?? false);
 </script>
 
 <template>
-  <div class="flex-1">
-    <template v-if="items && items.length > 0">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <template v-for="item in items" :key="item.id">
-          <slot name="item" v-bind="{ item, isLoading }" />
-        </template>
-      </div>
+  <Grid v-bind="$props">
+    <template #item="slotProps">
+      <slot name="item" v-bind="slotProps" />
     </template>
-
-    <template v-else-if="isLoading">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <template v-for="item in 10" :key="item">
-          <slot name="item-skeleton" />
-        </template>
-      </div>
+    <template #item-skeleton>
+      <slot name="item-skeleton" />
     </template>
-
-    <template v-else>
-      <div
-        key="no-results"
-        class="flex flex-1 flex-col items-center justify-center text-center p-8"
-      >
-        <h3 class="text-lg font-semibold mb-3">Nenhum resultado encontrado.</h3>
-        <p class="text-sm">
-          Tente ajustar seus termos ou filtros de pesquisa. Às vezes, termos
-          menos específicos ou consultas mais amplas podem ajudá-lo a encontrar
-          o que procura.
-        </p>
-      </div>
-    </template>
-
     <slot />
-  </div>
+  </Grid>
 </template>

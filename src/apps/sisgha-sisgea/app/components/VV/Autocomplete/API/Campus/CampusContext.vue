@@ -28,8 +28,6 @@ const isSelectedIdProvided = computed(
 
 const campusContext = useCampusContext();
 
-// --- Functional mode: uses vee-validate via VVAutocompleteAPI ---
-
 const { options } = useAutocompleteEntity({
   baseQueryKeys: ['campi'],
   listFn: campusFindAll,
@@ -44,8 +42,6 @@ const isDisabled = computed(() => {
   return false;
 });
 
-// Sync campus context value into the vee-validate field
-// useField is only called when functional=true (static prop, safe for composable rules)
 const fieldValue = props.functional
   ? useField<string | null>(props.name).value
   : ref<string | null>(null);
@@ -62,8 +58,6 @@ if (props.functional) {
   );
 }
 
-// --- Non-functional mode: uses UIFormOptionFieldsAutocomplete directly ---
-
 const campi = useCampi();
 const { data: allCampiData } = campi.list();
 
@@ -77,12 +71,13 @@ const displayItems = computed(() => {
 });
 
 const displaySelectedId = computed(() => {
-  return isSelectedIdProvided && selectedId !== NotProvided ? selectedId : null;
+  return isSelectedIdProvided.value && selectedId !== NotProvided
+    ? selectedId
+    : null;
 });
 </script>
 
 <template>
-  <!-- Functional: bound to vee-validate field -->
   <VVAutocompleteAPI
     v-if="functional"
     :is-loading="isLoading"
@@ -94,7 +89,6 @@ const displaySelectedId = computed(() => {
     v-bind="$attrs"
   />
 
-  <!-- Non-functional: visual indicator only, no vee-validate -->
   <UIFormOptionFieldsAutocomplete
     v-else
     :selected-option="displaySelectedId"

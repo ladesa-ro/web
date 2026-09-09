@@ -24,13 +24,11 @@ export function useCursoPeriodosSelection(
 ) {
   const disciplinas = useDisciplinas();
 
-  // ---- Modal manager ----
   type CursoModal = 'selectDisciplinas';
   const modals = useModalManager<CursoModal>({ history: true });
 
   const isEditing = computed(() => modals.isActive('selectDisciplinas'));
 
-  // ---- Disciplinas query (compartilhada) ----
   const disciplinasInfiniteQuery = disciplinas.listInfinite(
     computed(() => ({ limit: 50 }))
   );
@@ -56,7 +54,6 @@ export function useCursoPeriodosSelection(
 
   const selectedNumeroPeriodo = ref<number | null>(null);
 
-  // ---- IDs das disciplinas do período sendo editado ----
   const selectedDisciplinaIds = computed(() => {
     const periodo = localPeriodos.value.find(
       item => item.numeroPeriodo === selectedNumeroPeriodo.value
@@ -79,8 +76,6 @@ export function useCursoPeriodosSelection(
       };
     });
   });
-
-  // ---- Ações ----
 
   function openSelectDisciplinas(numeroPeriodo: number) {
     selectedNumeroPeriodo.value = numeroPeriodo;
@@ -123,17 +118,14 @@ export function useCursoPeriodosSelection(
     isCreateMode,
     selectedNumeroPeriodo: readonly(selectedNumeroPeriodo),
 
-    // Queries
     disciplinasInfiniteQuery,
     disciplinasList,
     disciplinasById,
 
-    // Modal
     modals,
     periodosVisiveis,
     selectedDisciplinaIds,
 
-    // Ações
     isDisciplinaNova,
     openSelectDisciplinas,
     confirmDisciplinas,

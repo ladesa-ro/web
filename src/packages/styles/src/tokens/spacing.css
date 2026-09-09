@@ -1,0 +1,18 @@
+:root {
+  --ui-space-unit: 0.25rem;
+  --ui-space-0: 0px;
+  --ui-space-0-5: calc(var(--ui-space-unit) * 0.5);
+  --ui-space-1: calc(var(--ui-space-unit) * 1);
+  --ui-space-1-5: calc(var(--ui-space-unit) * 1.5);
+  --ui-space-2: calc(var(--ui-space-unit) * 2);
+  --ui-space-2-5: calc(var(--ui-space-unit) * 2.5);
+  --ui-space-3: calc(var(--ui-space-unit) * 3);
+  --ui-space-3-5: calc(var(--ui-space-unit) * 3.5);
+  --ui-space-4: calc(var(--ui-space-unit) * 4);
+  --ui-space-5: calc(var(--ui-space-unit) * 5);
+  --ui-space-6: calc(var(--ui-space-unit) * 6);
+  --ui-space-7: calc(var(--ui-space-unit) * 7);
+  --ui-space-8: calc(var(--ui-space-unit) * 8);
+  --ui-space-10: calc(var(--ui-space-unit) * 10);
+  --ui-space-12: calc(var(--ui-space-unit) * 12);
+}

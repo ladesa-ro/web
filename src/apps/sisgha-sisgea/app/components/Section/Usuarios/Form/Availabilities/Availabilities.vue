@@ -25,13 +25,9 @@ const campiList = vinculosComCargoProfessor.value.map(vinculo => {
   return campus ?? null;
 });
 
-//
-
 const activePanel = ref<string | null>(
   vinculosComCargoProfessor.value[0]?.campus.id || null
 );
-
-//
 
 watch(vinculosComCargoProfessor, (current, previous) => {
   const inserted = current.find(
@@ -52,8 +48,6 @@ watch(vinculosComCargoProfessor, (current, previous) => {
     }
   }
 });
-
-//
 
 const emit = defineEmits<{
   (
@@ -77,12 +71,12 @@ const onClose = () => emit('close');
     :close-button="false"
     :on-close="onClose"
     title="Disponibilidade"
-    class="w-full h-full overflow-x-hidden overflow-y-auto"
+    class="u-w-full u-h-full availabilities__scroll"
   >
     <WeekdaySelector
       v-model="selectedDayWeek"
       :items="weekDays"
-      class="font-semibold"
+      class="u-font-semibold"
     />
 
     <SectionUsuariosFormAvailabilitiesAvailability
@@ -97,3 +91,10 @@ const onClose = () => emit('close');
     />
   </DialogModalBaseLayout>
 </template>
+
+<style scoped>
+.availabilities__scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+</style>

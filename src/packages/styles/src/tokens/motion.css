@@ -1,0 +1,7 @@
+:root {
+  --ui-duration-fast: 120ms;
+  --ui-duration-base: 200ms;
+  --ui-easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --ui-disabled-opacity: 0.5;
+}

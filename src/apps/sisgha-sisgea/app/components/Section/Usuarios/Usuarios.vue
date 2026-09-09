@@ -15,7 +15,7 @@ const crudModule = {
 
 const options = createApiListContextOptions({
   crudModule,
-  gridClass: 'grid grid-cols-[repeat(auto-fill,_minmax(12.5rem,_1fr))] gap-6',
+  gridClass: 'ui-api-list-results-grid--auto-fill',
 });
 </script>
 

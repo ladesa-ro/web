@@ -27,7 +27,7 @@ export type ToastOptions = {
   title: string;
   description?: string;
   type?: ToastType;
-  duration?: number; // ms
+  duration?: number;
   actionLabel?: string;
   onAction?: () => void;
 };
@@ -100,9 +100,6 @@ export function useToast() {
     return push({ ...opts, type: 'warning' });
   }
 
-  // -------------------
-  // showToast: função para mensagens padrão
-  // -------------------
   type ToastActionType = keyof typeof defaultMessages;
 
   function showToast(

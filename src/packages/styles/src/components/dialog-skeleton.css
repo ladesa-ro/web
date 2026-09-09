@@ -1,0 +1,88 @@
+.ui-dialog-skeleton__activator--inline {
+  display: inline-block;
+}
+
+.ui-dialog-skeleton__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 997;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.ui-dialog-skeleton__overlay--hide-big-screen {
+  top: 0;
+  left: 0;
+  z-index: 997;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+@media (max-width: 875px) {
+  .ui-dialog-skeleton__overlay--hide-big-screen {
+    position: fixed;
+    display: flex;
+  }
+}
+
+@media (min-width: 875px) {
+  .ui-dialog-skeleton__overlay--hide-big-screen {
+    display: none !important;
+  }
+}
+
+.ui-dialog-skeleton__backdrop {
+  position: fixed;
+  z-index: 998;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(from var(--ladesa-black-color) R G B / 35%);
+  backdrop-filter: blur(2px);
+  transition:
+    opacity 500ms ease-in-out,
+    backdrop-filter 500ms ease-in-out;
+}
+
+.dark .ui-dialog-skeleton__backdrop {
+  background-color: rgb(from var(--ladesa-white-color) R G B / 25%);
+}
+
+.ui-dialog-skeleton__modal {
+  z-index: 999;
+  max-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 300ms;
+}
+
+.ui-dialog-skeleton-enter-from,
+.ui-dialog-skeleton-leave-to {
+  opacity: 0;
+}
+
+.ui-dialog-skeleton-enter-active,
+.ui-dialog-skeleton-leave-active {
+  transition: opacity 0.25s ease-in-out;
+}
+
+.ui-dialog-skeleton-enter-from .ui-dialog-skeleton__modal,
+.ui-dialog-skeleton-leave-to .ui-dialog-skeleton__modal {
+  transform: translateY(var(--ui-space-6)) scale(0.9);
+}
+
+.ui-dialog-skeleton-enter-to .ui-dialog-skeleton__modal,
+.ui-dialog-skeleton-leave-from .ui-dialog-skeleton__modal {
+  transform: translateY(0) scale(1);
+}
+
+.ui-dialog-skeleton-enter-active .ui-dialog-skeleton__modal,
+.ui-dialog-skeleton-leave-active .ui-dialog-skeleton__modal {
+  transition: all 300ms ease-out;
+}

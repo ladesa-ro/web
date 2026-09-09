@@ -19,18 +19,27 @@ const data = computed(() => formValues.value.data as string | undefined);
 const inicio = computed(() => formValues.value.inicio as string | undefined);
 const fim = computed(() => formValues.value.fim as string | undefined);
 
-const { handle: handleWriteError, conflictMessage, clearConflictMessage } =
-  useApiWriteErrorHandler();
+const {
+  handle: handleWriteError,
+  conflictMessage,
+  clearConflictMessage,
+} = useApiWriteErrorHandler();
 
 const ambientes = useAmbientes();
 const ambienteDetalhe = ambientes.findOne(ambienteId);
-const campusId = computed(() => ambienteDetalhe.data.value?.bloco?.campus?.id ?? null);
+const campusId = computed(
+  () => ambienteDetalhe.data.value?.bloco?.campus?.id ?? null
+);
 
 const consultas = useCalendarioConsultas();
 const ocupacaoQuery = consultas.ocupacao(
   computed(() => {
     if (!campusId.value || !data.value) return undefined;
-    return { campus: campusId.value, dateStart: data.value, dateEnd: data.value };
+    return {
+      campus: campusId.value,
+      dateStart: data.value,
+      dateEnd: data.value,
+    };
   })
 );
 
@@ -90,13 +99,12 @@ const onSubmit = handleSubmit(async values => {
     </template>
 
     <DialogModalBaseLayout title="Nova reserva" :on-close="onClose">
-      <form class="flex flex-col gap-4" @submit.prevent="onSubmit">
-        <p
+      <form class="u-flex u-flex-col u-gap-4" @submit.prevent="onSubmit">
+        <UIAlert
           v-if="conflictMessage"
-          class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 rounded-md p-3"
-        >
-          {{ conflictMessage }}
-        </p>
+          type="error"
+          :message="conflictMessage"
+        />
 
         <VVAutocompleteAPIAmbiente name="ambiente.id" />
 
@@ -104,15 +112,17 @@ const onSubmit = handleSubmit(async values => {
 
         <VVTimeRangeField name-start="inicio" name-end="fim" label="Horário" />
 
-        <p
+        <UIAlert
           v-if="ocupacaoAviso"
-          class="text-sm text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950 rounded-md p-3"
-        >
-          Este ambiente já tem outra ocupação nesse período. Você ainda pode
-          enviar a reserva, mas ela pode ser recusada pelo servidor.
-        </p>
+          type="warning"
+          message="Este ambiente já tem outra ocupação nesse período. Você ainda pode enviar a reserva, mas ela pode ser recusada pelo servidor."
+        />
 
-        <VVTextField name="motivo" label="Motivo" placeholder="Ex: Reunião do colegiado" />
+        <VVTextField
+          name="motivo"
+          label="Motivo"
+          placeholder="Ex: Reunião do colegiado"
+        />
       </form>
 
       <template #button-group>

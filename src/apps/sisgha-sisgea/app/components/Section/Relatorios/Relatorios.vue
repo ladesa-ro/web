@@ -22,21 +22,21 @@ const visualizarRelatorio = () => {
   showModal.value = true;
 };
 
-const gerarPDF = () => {
-  // TODO: implementar lógica para gerar PDF
-};
+const gerarPDF = () => {};
 </script>
 
 <template>
-  <UIContainer variant="tighter" class="flex justify-center">
-    <div class="flex-1 flex flex-col justify-center gap-7 max-w-3xl">
+  <UIContainer variant="tighter" class="u-flex u-justify-center">
+    <div
+      class="relatorios__content u-flex-1 u-flex u-flex-col u-justify-center u-gap-7"
+    >
       <UIBreadcrumbDapeBreadcrumb />
 
       <RelatorioFiltrosPrincipais />
 
       <RelatorioFiltrosOpcionais />
 
-      <hr class="border-t-2 border-ldsa-grey" />
+      <hr class="relatorios__divider" />
 
       <RelatorioBotoes
         @visualizar="visualizarRelatorio"
@@ -49,3 +49,13 @@ const gerarPDF = () => {
     </div>
   </UIContainer>
 </template>
+
+<style scoped>
+.relatorios__content {
+  max-width: 48rem;
+}
+
+.relatorios__divider {
+  border-top: 2px solid var(--ladesa-grey-color);
+}
+</style>

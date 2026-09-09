@@ -10,28 +10,27 @@ const isAuthenticated = computed(() => !!authData.value);
 
 const currentDay = useCurrentDay();
 const weekDays = computed(() => getWeekDays(currentDay.value));
-const exportDateStart = computed(
-  () => weekDays.value[0]!.dayAsDayJs.format('YYYY-MM-DD')
+const exportDateStart = computed(() =>
+  weekDays.value[0]!.dayAsDayJs.format('YYYY-MM-DD')
 );
-const exportDateEnd = computed(
-  () => weekDays.value[5]!.dayAsDayJs.format('YYYY-MM-DD')
+const exportDateEnd = computed(() =>
+  weekDays.value[5]!.dayAsDayJs.format('YYYY-MM-DD')
 );
 </script>
 
 <template>
   <UIContainer
-    class="flex flex-col gap-8 lg:gap-12"
-    :class="{ 'items-center': selectedOption !== 'semana' }"
+    class="horario-root u-flex u-flex-col"
+    :class="{ 'u-items-center': selectedOption !== 'semana' }"
   >
-    <!-- Cabeçalho -->
     <SectionHorarioProfessorEAlunoHeaderSchedule
       v-model:toggle-option="selectedOption"
-      class="w-full max-w-screen-2xl mx-auto"
+      class="horario-header u-w-full"
     />
 
     <div
       v-if="isAuthenticated"
-      class="w-full max-w-screen-2xl mx-auto flex justify-end -mt-4"
+      class="horario-export u-w-full u-flex u-justify-end"
     >
       <SectionCalendarioExportIcsModal
         :date-start="exportDateStart"
@@ -39,26 +38,56 @@ const exportDateEnd = computed(
       />
     </div>
 
-    <!-- Opção "Horário da semana" -->
     <section
       v-show="selectedOption === 'semana'"
-      class="flex flex-col min-[1400px]:items-center justify-center gap-10"
+      class="horario-week-section u-flex u-flex-col u-justify-center u-gap-10"
     >
       <SectionHorarioProfessorEAlunoGeral
         :turma-id="props.turmaId"
-        class="overflow-auto"
+        class="u-overflow-auto"
       />
 
-      <!-- Botão "Gerar PDF" -->
-      <UIButtonDefault class="mx-auto min-h-14 max-w-40">
-        Gerar PDF
-      </UIButtonDefault>
+      <UIButtonDefault class="horario-pdf-button"> Gerar PDF </UIButtonDefault>
     </section>
 
-    <!-- Opção "Horário do dia" -->
     <SectionHorarioProfessorEAlunoDailyViewDaysAndLessons
       v-show="selectedOption === 'dia'"
       :turma-id="props.turmaId"
     />
   </UIContainer>
 </template>
+
+<style scoped>
+.horario-root {
+  gap: var(--ui-space-8);
+}
+
+@media (min-width: 1024px) {
+  .horario-root {
+    gap: var(--ui-space-12);
+  }
+}
+
+.horario-header {
+  max-width: 1536px;
+  margin-inline: auto;
+}
+
+.horario-export {
+  max-width: 1536px;
+  margin-inline: auto;
+  margin-top: -1rem;
+}
+
+@media (min-width: 1400px) {
+  .horario-week-section {
+    align-items: center;
+  }
+}
+
+.horario-pdf-button {
+  margin-inline: auto;
+  min-height: 3.5rem;
+  max-width: 10rem;
+}
+</style>

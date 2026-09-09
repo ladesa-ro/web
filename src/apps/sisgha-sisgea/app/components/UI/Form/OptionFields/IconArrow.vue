@@ -1,14 +1,12 @@
 <script setup lang="ts">
-type Props = { open?: boolean; disabled?: boolean };
-defineProps<Props>();
+import {
+  FormOptionFieldArrow,
+  type FormOptionFieldArrowProps,
+} from '@ladesa-ro/web.ui';
+
+defineProps<FormOptionFieldArrowProps>();
 </script>
 
 <template>
-  <IconsArrow
-    class="mr-1 p-[0.063rem] transition-transform duration-250"
-    :class="[
-      open ? 'rotate-90' : '-rotate-90',
-      disabled ? 'text-ldsa-grey' : 'text-ldsa-text-green',
-    ]"
-  />
+  <FormOptionFieldArrow :open="open" :disabled="disabled" />
 </template>

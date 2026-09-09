@@ -4,8 +4,12 @@ import type {
   GradeHorariaEditorGrade,
   GradeValidationErrors,
 } from '~/composables/useGradeHorariaEditor';
-import type { PeriodoGroup } from '~/utils/horarios';
-import { agruparPorPeriodo, toDisplayFormat } from '~/utils/horarios';
+import {
+  groupIntervalsByDayPeriod,
+  stripSeconds,
+  type DayPeriod,
+  type DayPeriodGroup,
+} from '@ladesa-ro/web.utils';
 
 const props = defineProps<{
   grade: GradeHorariaEditorGrade;
@@ -29,10 +33,10 @@ const emit = defineEmits<{
 
 const open = ref(true);
 const showBulkModal = ref(false);
-const bulkModalPeriodo = ref<import('~/utils/horarios').Periodo>('Matutino');
+const bulkModalPeriodo = ref<DayPeriod>('Matutino');
 
 function openBulkModal(periodo: string) {
-  bulkModalPeriodo.value = periodo as import('~/utils/horarios').Periodo;
+  bulkModalPeriodo.value = periodo as DayPeriod;
   showBulkModal.value = true;
 }
 
@@ -41,15 +45,14 @@ function handleBulkConfirm(params: BulkAddParams) {
   showBulkModal.value = false;
 }
 
-// Agrupa intervalos por turno para exibição
-const periodos = computed<PeriodoGroup[]>(() => {
+const periodos = computed<DayPeriodGroup[]>(() => {
   const formatted = props.grade.intervalos.map((i, originalIndex) => ({
-    inicio: toDisplayFormat(i.inicio),
-    fim: toDisplayFormat(i.fim),
+    inicio: stripSeconds(i.inicio),
+    fim: stripSeconds(i.fim),
     _originalIndex: originalIndex,
   }));
 
-  const grupos = agruparPorPeriodo(
+  const grupos = groupIntervalsByDayPeriod(
     formatted.map(f => ({ inicio: f.inicio, fim: f.fim }))
   );
 
@@ -98,59 +101,40 @@ function getIntervalError(
 <template>
   <UICollapsible
     v-model="open"
-    class="border-2 rounded-lg"
-    :class="open ? 'border-ldsa-green-2' : 'border-ldsa-grey'"
+    class="u-rounded-lg grade-accordion"
+    :class="open ? 'grade-accordion--open' : 'grade-accordion--closed'"
   >
     <template #trigger>
       <div
-        class="p-3 sm:p-4 flex justify-between items-center bg-ldsa-green-1 text-white rounded-t-md"
+        class="u-flex u-justify-between u-items-center grade-accordion__header"
       >
-        <div class="flex items-center gap-2 flex-1 min-w-0">
-          <template v-if="isEditing">
-            <input
-              :value="props.grade.nome"
-              :disabled="disabled"
-              placeholder="Nome da grade horária"
-              class="border rounded-md px-2 py-1 text-sm font-semibold flex-1 min-w-0 text-white placeholder-white/60 disabled:opacity-40"
-              :class="
-                errors?.nome
-                  ? 'border-ldsa-red bg-red-500/20'
-                  : 'border-white/30 bg-white/20'
-              "
-              @input="
-                emit('update:nome', ($event.target as HTMLInputElement).value)
-              "
-              @click.stop
-            />
-            <button
-              :disabled="disabled"
-              class="text-white/80 hover:text-white text-sm px-2 shrink-0 disabled:opacity-40 disabled:cursor-not-allowed"
-              title="Remover grade horária"
-              @click.stop="emit('remove-grade')"
-            >
-              <IconsExclude class="w-4 h-4" />
-            </button>
-          </template>
-          <template v-else>
-            <span class="font-semibold text-white truncate">
-              {{ props.grade.nome || 'Grade sem nome' }}
-            </span>
-          </template>
-        </div>
+        <SectionGradeHorariaTitleField
+          :nome="props.grade.nome"
+          :is-editing="isEditing"
+          :disabled="disabled"
+          :has-error="!!errors?.nome"
+          @update:nome="emit('update:nome', $event)"
+          @remove-grade="emit('remove-grade')"
+        />
         <IconsArrow
-          class="transition-[rotate] duration-200 shrink-0 ml-2"
-          :class="[open ? 'rotate-90' : '-rotate-90', 'text-white']"
+          class="u-shrink-0 u-ml-2 grade-accordion__arrow"
+          :class="
+            open
+              ? 'grade-accordion__arrow--open'
+              : 'grade-accordion__arrow--closed'
+          "
         />
       </div>
     </template>
 
-    <!-- Erro no nome (abaixo do header) -->
-    <p v-if="errors?.nome && isEditing" class="text-ldsa-red text-xs px-4 pt-2">
+    <p
+      v-if="errors?.nome && isEditing"
+      class="u-text-xs u-px-4 u-pt-2 grade-accordion__error-text"
+    >
       {{ errors.nome }}
     </p>
 
-    <!-- Botão limpar todos -->
-    <div v-if="isEditing" class="flex justify-end px-4 pt-3">
+    <div v-if="isEditing" class="u-flex u-justify-end u-px-4 u-pt-3">
       <UIButtonModalClearDanger
         text="Limpar todos os horários"
         :disabled="disabled || props.grade.intervalos.length === 0"
@@ -158,15 +142,10 @@ function getIntervalError(
       />
     </div>
 
-    <!-- Conteúdo dividido por turnos (Matutino / Vespertino / Noturno) -->
-    <div
-      class="grid grid-cols-1 md:grid-cols-3 md:divide-x md:divide-ldsa-grey py-4 md:py-6"
-    >
-      <div v-for="periodo in periodos" :key="periodo.nome" class="px-4">
-        <div class="flex justify-between items-center mb-3">
-          <h2
-            class="font-semibold text-[16px] border-l-4 border-ldsa-green-1 pl-2"
-          >
+    <div class="u-grid grade-accordion__periods">
+      <div v-for="periodo in periodos" :key="periodo.nome" class="u-px-4">
+        <div class="u-flex u-justify-between u-items-center u-mb-3">
+          <h2 class="u-font-semibold grade-accordion__period-title">
             {{ periodo.nome }}
           </h2>
           <UIButtonModalClearDanger
@@ -177,66 +156,44 @@ function getIntervalError(
           />
         </div>
 
-        <div v-for="(intervalo, j) in periodo.intervalos" :key="j" class="mb-2">
-          <div
-            class="flex flex-wrap md:flex-nowrap items-center justify-center gap-2 p-3 border-b-2"
-            :class="
-              getIntervalError(periodo, j)
-                ? 'border-ldsa-red/30'
-                : 'border-ldsa-grey/20'
+        <div
+          v-for="(intervalo, j) in periodo.intervalos"
+          :key="j"
+          class="u-mb-2"
+        >
+          <SectionGradeHorariaIntervalRow
+            :start="
+              stripSeconds(
+                props.grade.intervalos[getOriginalIndex(periodo, j)]?.inicio ??
+                  ''
+              )
             "
-          >
-            <template v-if="isEditing">
-              <UIFormTimeRangeField
-                :start="
-                  toDisplayFormat(
-                    props.grade.intervalos[getOriginalIndex(periodo, j)]
-                      ?.inicio ?? ''
-                  )
-                "
-                :end="
-                  toDisplayFormat(
-                    props.grade.intervalos[getOriginalIndex(periodo, j)]?.fim ??
-                      ''
-                  )
-                "
-                :disabled="disabled"
-                :error="getIntervalError(periodo, j)"
-                class="flex-1"
-                @update:start="
-                  emit(
-                    'update:intervalo-inicio',
-                    getOriginalIndex(periodo, j),
-                    $event ?? ''
-                  )
-                "
-                @update:end="
-                  emit(
-                    'update:intervalo-fim',
-                    getOriginalIndex(periodo, j),
-                    $event ?? ''
-                  )
-                "
-              />
-              <button
-                :disabled="disabled"
-                class="w-[0.9rem] hover:text-ldsa-red disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
-                @click="emit('remove-interval', getOriginalIndex(periodo, j))"
-              >
-                <IconsExclude />
-              </button>
-            </template>
-            <template v-else>
-              <div class="font-medium text-[13px] whitespace-nowrap">
-                {{ intervalo.inicio }} - {{ intervalo.fim }}
-              </div>
-            </template>
-          </div>
+            :end="
+              stripSeconds(
+                props.grade.intervalos[getOriginalIndex(periodo, j)]?.fim ?? ''
+              )
+            "
+            :inicio="intervalo.inicio"
+            :fim="intervalo.fim"
+            :is-editing="isEditing"
+            :disabled="disabled"
+            :error="getIntervalError(periodo, j)"
+            @update:start="
+              emit(
+                'update:intervalo-inicio',
+                getOriginalIndex(periodo, j),
+                $event
+              )
+            "
+            @update:end="
+              emit('update:intervalo-fim', getOriginalIndex(periodo, j), $event)
+            "
+            @remove="emit('remove-interval', getOriginalIndex(periodo, j))"
+          />
 
-          <!-- Erro inline do intervalo -->
           <p
             v-if="getIntervalError(periodo, j) && isEditing"
-            class="text-ldsa-red text-xs mt-1 pl-3"
+            class="u-text-xs u-mt-1 u-pl-3 grade-accordion__error-text"
           >
             {{ getIntervalError(periodo, j) }}
           </p>
@@ -244,39 +201,39 @@ function getIntervalError(
 
         <p
           v-if="periodo.intervalos.length === 0 && !isEditing"
-          class="text-ldsa-grey text-sm text-center mt-4"
+          class="u-text-sm u-text-center u-mt-4 grade-accordion__empty-text"
         >
           Nenhum intervalo
         </p>
 
         <div
           v-if="isEditing"
-          class="flex items-center justify-center gap-2 mt-4"
+          class="u-flex u-items-center u-justify-center u-gap-2 u-mt-4"
         >
-          <SectionGradeHorariaButtonAddHorario
+          <SectionGradeHorariaButtonAdd
+            label="Adicionar horário de aula"
             :disabled="disabled"
-            class="flex-1"
+            class="u-flex-1"
             @click="emit('add-interval', periodo.nome)"
           />
-          <div class="w-px h-5 bg-ldsa-grey/40 shrink-0" />
-          <SectionGradeHorariaButtonAddEmMassa
+          <div class="u-shrink-0 grade-accordion__divider" />
+          <SectionGradeHorariaButtonAdd
+            label="Adicionar em massa"
             :disabled="disabled"
-            class="flex-1"
+            class="u-flex-1"
             @click="openBulkModal(periodo.nome)"
           />
         </div>
       </div>
     </div>
 
-    <!-- Erro de sobreposição geral da grade -->
     <p
       v-if="errors?.overlap && isEditing"
-      class="text-ldsa-red text-xs px-4 pb-3"
+      class="u-text-xs u-px-4 u-pb-3 grade-accordion__error-text"
     >
       {{ errors.overlap }}
     </p>
 
-    <!-- Modal de adição em massa -->
     <DialogSkeleton v-model="showBulkModal">
       <SectionGradeHorariaBulkAddModal
         :default-periodo="bulkModalPeriodo"
@@ -286,3 +243,81 @@ function getIntervalError(
     </DialogSkeleton>
   </UICollapsible>
 </template>
+
+<style scoped>
+.grade-accordion {
+  border-width: 2px;
+  border-style: solid;
+}
+
+.grade-accordion--open {
+  border-color: var(--ladesa-green-2-color);
+}
+
+.grade-accordion--closed {
+  border-color: var(--ladesa-grey-color);
+}
+
+.grade-accordion__header {
+  padding: var(--ui-space-3);
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+  border-top-left-radius: var(--ui-radius-md);
+  border-top-right-radius: var(--ui-radius-md);
+}
+
+@media (min-width: 640px) {
+  .grade-accordion__header {
+    padding: var(--ui-space-4);
+  }
+}
+
+.grade-accordion__arrow {
+  color: var(--ladesa-white-color);
+  transition: rotate var(--ui-duration-base) linear;
+}
+
+.grade-accordion__arrow--open {
+  rotate: 90deg;
+}
+
+.grade-accordion__arrow--closed {
+  rotate: -90deg;
+}
+
+.grade-accordion__error-text {
+  color: var(--ladesa-red-color);
+}
+
+.grade-accordion__periods {
+  grid-template-columns: 1fr;
+  padding-block: var(--ui-space-4);
+}
+
+@media (min-width: 768px) {
+  .grade-accordion__periods {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding-block: var(--ui-space-6);
+  }
+
+  .grade-accordion__periods > * + * {
+    border-left: 1px solid var(--ladesa-grey-color);
+  }
+}
+
+.grade-accordion__period-title {
+  font-size: 1rem;
+  border-left: 4px solid var(--ladesa-green-1-color);
+  padding-left: var(--ui-space-2);
+}
+
+.grade-accordion__empty-text {
+  color: var(--ladesa-grey-color);
+}
+
+.grade-accordion__divider {
+  width: 1px;
+  height: 1.25rem;
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 40%);
+}
+</style>

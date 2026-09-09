@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { DiarioFindOneOutputDto } from '@ladesa-ro/web.api.client';
 
-
 type Props = {
   diario?: DiarioFindOneOutputDto | null;
   link?: string;
@@ -24,7 +23,9 @@ const diariosProfessoresList = computed(
   () => professoresQuery?.data.value?.data ?? []
 );
 
-const { data: coverImageSrc } = diarios_api.imageCover(computed(() => unref(diario)?.id ?? null));
+const { data: coverImageSrc } = diarios_api.imageCover(
+  computed(() => unref(diario)?.id ?? null)
+);
 
 if (professoresQuery) {
   await suspendQuery(professoresQuery);

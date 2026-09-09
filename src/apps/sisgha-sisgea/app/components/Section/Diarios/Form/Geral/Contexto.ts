@@ -53,7 +53,6 @@ export const createContextDiariosFormGeral = (
   form: IFormAccessor,
   editId?: MaybeRef<string | null>
 ): IContextDiariosFormGeral => {
-  // Form-backed writable computeds — form is the source of truth
   const campusId = computed({
     get: () => (form.values.campusId as string) || null,
     set: (val: string | null) => {
@@ -89,11 +88,8 @@ export const createContextDiariosFormGeral = (
     },
   });
 
-  // disciplinasConfig is a ref because it holds UI-only fields (disciplina, accordionOpen, activeTab)
-  // that are not part of the form schema. A watcher syncs form-relevant subset to the form.
   const disciplinasConfig = ref<IDisciplinaConfig[]>([]);
 
-  // Sync disciplinasConfig -> form (extract form-only fields)
   watch(
     disciplinasConfig,
     configs => {

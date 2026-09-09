@@ -12,7 +12,7 @@ const professorPerfilId = computed(
 <template>
   <SectionProfileSectionsLayout
     title="Disponibilidade"
-    class="max-[56.25rem]:max-h-max"
+    class="availability-layout"
     :icon="SISGHALogo"
   >
     <SectionCalendarioIndisponibilidadeProfessor
@@ -21,21 +21,37 @@ const professorPerfilId = computed(
       :entidade-id="professorPerfilId"
     />
 
-    <p v-else class="text-sm text-ldsa-grey">
+    <p v-else class="availability-empty-message u-text-sm">
       Você não possui vínculo de professor para gerenciar indisponibilidade.
     </p>
   </SectionProfileSectionsLayout>
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
+@media (max-width: 56.25rem) {
+  .availability-layout {
+    max-height: max-content;
+  }
+}
+
+.availability-empty-message {
+  color: var(--ladesa-grey-color);
+}
 
 .day-week-navigator {
-  @apply flex justify-between items-center gap-10;
-  @apply h-9 px-1 bg-ldsa-green-1 text-ldsa-white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--ui-space-10);
+  height: 2.25rem;
+  padding-inline: var(--ui-space-1);
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
 }
 
 .arrow {
-  @apply px-3 py-2.5 text-ldsa-white;
+  padding-inline: var(--ui-space-3);
+  padding-block: var(--ui-space-2-5);
+  color: var(--ladesa-white-color);
 }
 </style>

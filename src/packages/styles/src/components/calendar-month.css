@@ -1,0 +1,61 @@
+.ui-calendar-month {
+  border: 2px solid var(--ladesa-grey-color);
+  height: min-content;
+}
+
+.ui-calendar-month__head {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 60%);
+  padding: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .ui-calendar-month__head {
+    padding: 1rem;
+  }
+}
+
+.ui-calendar-month__title {
+  color: var(--ladesa-white-color);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .ui-calendar-month__title {
+    font-size: 0.875rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .ui-calendar-month__title {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .ui-calendar-month__title {
+    font-size: 1.125rem;
+  }
+}
+
+.ui-calendar-month__arrow--reverse {
+  transform: rotate(180deg);
+}
+
+.ui-calendar-month__grid {
+  padding: 1rem;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  place-items: center;
+}
+
+@media (min-width: 640px) {
+  .ui-calendar-month__grid {
+    padding: 0.125rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .ui-calendar-month__grid {
+    padding: 1rem;
+  }
+}

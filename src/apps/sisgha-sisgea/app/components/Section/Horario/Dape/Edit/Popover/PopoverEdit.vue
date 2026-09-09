@@ -1,40 +1,17 @@
-<script setup lang="ts">
-defineProps<{
-  handleConfirmButtonClick: (args?: any) => void;
-  changeActivityValue?: 'aula' | 'vago';
-  disableConfirmButton?: boolean;
-}>();
+<script lang="ts" setup>
+import { PopoverEdit, type PopoverEditProps } from '@ladesa-ro/web.ui';
+
+defineProps<PopoverEditProps>();
 
 const open = defineModel<boolean>();
 </script>
 
 <template>
-  <UIPopover v-model="open" disable-animation arrow>
+  <PopoverEdit v-model="open" v-bind="$props">
     <template #activator>
       <slot name="activator" />
     </template>
 
-    <div
-      class="flex flex-col gap-4 border-2 border-ldsa-green-1 rounded-lg p-2.5 bg-ldsa-bg sm:w-76"
-    >
-      <slot />
-
-      <div class="flex justify-between gap-3">
-        <UIButtonModalCancel variant="small" @click="open = !open" />
-
-        <UIButtonModalConfirm
-          variant="small"
-          :disabled="disableConfirmButton"
-          @click="
-            () => {
-              if (changeActivityValue) {
-                handleConfirmButtonClick(changeActivityValue);
-              }
-              open = !open;
-            }
-          "
-        />
-      </div>
-    </div>
-  </UIPopover>
+    <slot />
+  </PopoverEdit>
 </template>

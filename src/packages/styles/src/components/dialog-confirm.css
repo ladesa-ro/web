@@ -1,0 +1,7 @@
+.ui-confirm-message {
+  color: var(--ladesa-grey-color);
+  text-align: center;
+  margin-inline: auto;
+  max-width: 18rem;
+  overflow-wrap: break-word;
+}

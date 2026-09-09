@@ -36,7 +36,6 @@ export function useTurmaEditState(currentWeekRef: Ref<Dayjs>) {
     return false;
   });
 
-  // Auto-select day
   watch(
     () => getWeekDays(currentWeekRef.value),
     days => {

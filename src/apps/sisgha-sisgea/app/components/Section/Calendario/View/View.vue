@@ -23,7 +23,6 @@ const handleDelete = async () => {
 
 const confirmDeactivate = useConfirmDelete();
 
-// TODO: remove after SDK regeneration includes 'situacao' field
 const calendarioRecord = computed(
   () => calendario.value as Record<string, unknown> | undefined
 );

@@ -1,13 +1,4 @@
-/*
-  ABOUT app.css:
-  this file is the only one imported by nuxt.config, so all the general application styles must be imported here.
-*/
-
-@import 'tailwindcss';
-@import './themes/theme.css' layer(theme);
 @import './fonts/fonts.css';
-
-@custom-variant dark (&:where(.dark, .dark *));
 
 body {
   color: var(--ladesa-text-default-color);
@@ -15,41 +6,6 @@ body {
 
 .app {
   background-color: var(--ladesa-background-color);
-}
-
-/* ----------- */
-
-*:disabled {
-  cursor: not-allowed;
-}
-
-button {
-  cursor: pointer;
-}
-
-button:disabled {
-  cursor: not-allowed;
-}
-
-input {
-  color: inherit;
-}
-
-input:focus-visible {
-  outline: none;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-}
-
-/* Icons style */
-
-svg {
-  display: block;
-  max-width: 100%;
-  height: auto;
 }
 
 .svg-fill-text path {
@@ -63,8 +19,6 @@ svg {
 .-icon-white {
   filter: invert(100%);
 }
-
-/* Scrollbar style */
 
 ::-webkit-scrollbar {
   width: 0.3rem;

@@ -40,9 +40,13 @@ const { isLoading, isError, data } = useQuery({
 </template>
 
 <style>
-@reference "~/assets/styles/app.css";
-
 .state-warning {
-  @apply w-full h-full flex items-center justify-center pb-15 text-center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 3.75rem;
+  text-align: center;
 }
 </style>

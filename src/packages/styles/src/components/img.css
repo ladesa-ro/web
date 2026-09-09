@@ -1,0 +1,31 @@
+.ui-img {
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+
+.ui-img__content {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(4px) brightness(0.75);
+}
+
+.ui-img__image {
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.ui-img__fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ui-img__fallback-icon {
+  width: 25%;
+  color: var(--ladesa-grey-color);
+}

@@ -12,7 +12,11 @@ const emit = defineEmits<{
 const api = useApiClient();
 
 const perfilQuery = useQuery({
-  queryKey: computed(() => ['perfis-alunos', 'detail', props.matricula.perfil.id]),
+  queryKey: computed(() => [
+    'perfis-alunos',
+    'detail',
+    props.matricula.perfil.id,
+  ]),
   queryFn: () =>
     api.call(perfilFindById, { path: { id: props.matricula.perfil.id } }),
 });
@@ -24,14 +28,14 @@ const dataVinculo = computed(() =>
 </script>
 
 <template>
-  <tr class="border-b border-ldsa-grey/40">
-    <td class="py-2 pr-3">{{ perfil?.usuario?.nome ?? '—' }}</td>
-    <td class="py-2 pr-3">{{ perfil?.usuario?.matricula ?? '—' }}</td>
-    <td class="py-2 pr-3">{{ dataVinculo }}</td>
-    <td class="py-2 pr-3 text-right">
+  <tr class="aluno-row">
+    <td class="u-py-2 u-pr-3">{{ perfil?.usuario?.nome ?? '—' }}</td>
+    <td class="u-py-2 u-pr-3">{{ perfil?.usuario?.matricula ?? '—' }}</td>
+    <td class="u-py-2 u-pr-3">{{ dataVinculo }}</td>
+    <td class="u-py-2 u-pr-3 u-text-right">
       <button
         type="button"
-        class="text-ldsa-red font-medium hover:underline"
+        class="aluno-row__unlink u-font-medium"
         @click="emit('desvincular', matricula)"
       >
         Desvincular
@@ -39,3 +43,17 @@ const dataVinculo = computed(() =>
     </td>
   </tr>
 </template>
+
+<style scoped>
+.aluno-row {
+  border-bottom: 1px solid rgb(from var(--ladesa-grey-color) R G B / 40%);
+}
+
+.aluno-row__unlink {
+  color: var(--ladesa-red-color);
+}
+
+.aluno-row__unlink:hover {
+  text-decoration: underline;
+}
+</style>

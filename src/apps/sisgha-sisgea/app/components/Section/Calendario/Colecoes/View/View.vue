@@ -7,11 +7,7 @@ const { resourceId } = defineProps<Props>();
 const router = useRouter();
 const colecoes = useCalendarioColecao();
 
-const {
-  data: colecao,
-  isLoading,
-  isError,
-} = colecoes.findOne(ref(resourceId));
+const { data: colecao, isLoading, isError } = colecoes.findOne(ref(resourceId));
 
 const visibilidadeLabel = computed(() => {
   switch (colecao.value?.visibilidade) {
@@ -59,15 +55,15 @@ function handleDeleted() {
     </template>
 
     <template #related>
-      <div v-if="colecao" class="flex flex-col gap-6">
-        <div class="flex gap-2 border-b-2 border-ldsa-grey">
+      <div v-if="colecao" class="u-flex u-flex-col u-gap-6">
+        <div class="view-tabs u-flex u-gap-2">
           <button
             type="button"
-            class="px-4 py-2 font-semibold text-sm border-b-2 -mb-0.5"
+            class="view-tab-button u-px-4 u-py-2 u-font-semibold u-text-sm"
             :class="
               activeTab === 'acessos'
-                ? 'border-ldsa-green-1 text-ldsa-green-1'
-                : 'border-transparent text-ldsa-grey'
+                ? 'view-tab-button--active'
+                : 'view-tab-button--inactive'
             "
             @click="activeTab = 'acessos'"
           >
@@ -75,11 +71,11 @@ function handleDeleted() {
           </button>
           <button
             type="button"
-            class="px-4 py-2 font-semibold text-sm border-b-2 -mb-0.5"
+            class="view-tab-button u-px-4 u-py-2 u-font-semibold u-text-sm"
             :class="
               activeTab === 'acoes'
-                ? 'border-ldsa-green-1 text-ldsa-green-1'
-                : 'border-transparent text-ldsa-grey'
+                ? 'view-tab-button--active'
+                : 'view-tab-button--inactive'
             "
             @click="activeTab = 'acoes'"
           >
@@ -102,3 +98,24 @@ function handleDeleted() {
     </template>
   </UIResourceView>
 </template>
+
+<style scoped>
+.view-tabs {
+  border-bottom: 2px solid var(--ladesa-grey-color);
+}
+
+.view-tab-button {
+  border-bottom: 2px solid transparent;
+  margin-bottom: -0.125rem;
+}
+
+.view-tab-button--active {
+  border-bottom-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-green-1-color);
+}
+
+.view-tab-button--inactive {
+  border-bottom-color: transparent;
+  color: var(--ladesa-grey-color);
+}
+</style>

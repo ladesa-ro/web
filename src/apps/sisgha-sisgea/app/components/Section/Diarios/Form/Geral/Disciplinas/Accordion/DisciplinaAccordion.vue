@@ -32,44 +32,44 @@ const tabItems = [
 </script>
 
 <template>
-  <UICollapsible
-    v-if="dcRef"
-    v-model="isOpen"
-    class="border-2 border-ldsa-grey/100 rounded-lg"
-  >
+  <UICollapsible v-if="dcRef" v-model="isOpen" class="disciplina-accordion">
     <template #trigger>
-      <div class="flex items-center justify-between px-5 py-4 cursor-pointer">
-        <span class="font-semibold text-sm text-ldsa-text-default">
+      <div
+        class="u-flex u-items-center u-justify-between disciplina-accordion__trigger"
+      >
+        <span class="u-font-semibold u-text-sm disciplina-accordion__title">
           {{ dcRef.disciplina.disciplinaNome ?? dcRef.disciplinaId }}
         </span>
         <IconsArrow
-          class="w-3 h-3 transition-transform"
-          :class="isOpen ? 'rotate-90' : '-rotate-90'"
+          class="disciplina-accordion__arrow"
+          :class="
+            isOpen
+              ? 'disciplina-accordion__arrow--open'
+              : 'disciplina-accordion__arrow--closed'
+          "
         />
       </div>
     </template>
 
-    <div class="px-5 pb-5 flex flex-col gap-5">
-      <!-- Abas -->
-      <div class="flex gap-2">
+    <div class="u-flex u-flex-col u-gap-5 disciplina-accordion__body">
+      <div class="u-flex u-gap-2">
         <button
           v-for="tab in tabItems"
           :key="tab.value"
-          class="flex-1 flex flex-col items-center justify-center gap-2 h-24 rounded-lg border-2 transition-colors cursor-pointer"
-          :class="
-            activeTab === tab.value
-              ? 'bg-ldsa-green-1 border-ldsa-green-1 text-white'
-              : 'border-ldsa-grey/100 text-ldsa-text-default'
-          "
+          class="u-flex-1 u-flex u-flex-col u-items-center u-justify-center u-gap-2 u-rounded-lg disciplina-accordion__tab"
+          :class="{
+            'disciplina-accordion__tab--active': activeTab === tab.value,
+          }"
           @click="activeTab = tab.value as 'dias' | 'professores'"
         >
-          <span class="font-semibold text-xs tracking-wide">
+          <span
+            class="u-font-semibold u-text-xs disciplina-accordion__tab-label"
+          >
             {{ tab.label }}
           </span>
         </button>
       </div>
 
-      <!-- Conteúdo da aba ativa (v-show preserva estado sem desmontar) -->
       <div v-show="activeTab === 'dias'">
         <SectionDiariosFormGeralDisciplinasAccordionDiasDeAulaTab
           :index="index"
@@ -83,3 +83,58 @@ const tabItems = [
     </div>
   </UICollapsible>
 </template>
+
+<style scoped>
+.disciplina-accordion {
+  border: 2px solid rgb(from var(--ladesa-grey-color) R G B / 100%);
+  border-radius: var(--ui-radius-lg);
+}
+
+.disciplina-accordion__trigger {
+  padding: var(--ui-space-4) var(--ui-space-5);
+  cursor: pointer;
+}
+
+.disciplina-accordion__title {
+  color: var(--ladesa-text-default-color);
+}
+
+.disciplina-accordion__arrow {
+  width: var(--ui-space-3);
+  height: var(--ui-space-3);
+  transition: transform var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.disciplina-accordion__arrow--open {
+  transform: rotate(90deg);
+}
+
+.disciplina-accordion__arrow--closed {
+  transform: rotate(-90deg);
+}
+
+.disciplina-accordion__body {
+  padding: 0 var(--ui-space-5) var(--ui-space-5);
+}
+
+.disciplina-accordion__tab {
+  height: 6rem;
+  border: 2px solid rgb(from var(--ladesa-grey-color) R G B / 100%);
+  color: var(--ladesa-text-default-color);
+  cursor: pointer;
+  transition:
+    background-color var(--ui-duration-base) var(--ui-easing-standard),
+    border-color var(--ui-duration-base) var(--ui-easing-standard),
+    color var(--ui-duration-base) var(--ui-easing-standard);
+}
+
+.disciplina-accordion__tab--active {
+  background-color: var(--ladesa-green-1-color);
+  border-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+}
+
+.disciplina-accordion__tab-label {
+  letter-spacing: 0.025em;
+}
+</style>

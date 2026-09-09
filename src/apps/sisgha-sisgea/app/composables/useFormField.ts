@@ -19,7 +19,6 @@ export function useFormField<T>(
     },
   });
 
-  // Keep fieldValue in sync when model changes externally
   watch(model, (val: T) => {
     if (val !== value.value) {
       value.value = val;

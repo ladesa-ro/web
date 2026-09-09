@@ -1,9 +1,7 @@
 <script lang="ts" setup>
-// # IMPORTS
 import { IconsCalendar, IconsEvent } from '#components';
 import { nextTick, ref, watch } from 'vue';
 
-// # PROPS
 type Props = {
   calendarId?: string;
   eventName?: string;
@@ -13,13 +11,11 @@ type Props = {
 };
 const props = withDefaults(defineProps<Props>(), { showParticipants: false });
 
-// # EMITS
 const emit = defineEmits<{
   (e: 'refresh'): void;
   (e: 'close'): void;
 }>();
 
-// # STATES
 const stage = ref(0);
 const registerType = ref<'calendar' | 'events' | null>(null);
 const modalTitle = ref(props.editMode ? 'Editar' : 'Cadastrar');
@@ -35,7 +31,6 @@ const eventCrudRef = ref<{
   deleteEvent: () => Promise<boolean>;
 }>();
 
-// # ICONS
 const cardCalendario = {
   text: 'Calendário' as const,
   value: 0,
@@ -43,7 +38,6 @@ const cardCalendario = {
 };
 const cardEvento = { text: 'Evento' as const, value: 1, icon: IconsEvent };
 
-// # FUNCTIONS
 function changeModalTitle(type?: string) {
   if (props.editMode) {
     modalTitle.value =
@@ -165,15 +159,14 @@ async function handleDeleteCalendar() {
       <DialogModalBaseLayout
         :on-close="onClose"
         :title="modalTitle"
-        class="min-w-[550px]"
+        class="calendario-form__modal"
       >
-        <!-- Choose Register -->
         <div
           v-show="stage === 0 && !props.editMode"
-          class="flex flex-row gap-4"
+          class="u-flex u-flex-row u-gap-4"
         >
           <SectionCalendarioUICardOption
-            class="w-full"
+            class="u-w-full"
             :icon="cardCalendario.icon"
             :text="cardCalendario.text"
             @click="
@@ -183,14 +176,13 @@ async function handleDeleteCalendar() {
 
           <SectionCalendarioUICardOption
             v-show="props.calendarId"
-            class="w-full"
+            class="u-w-full"
             :icon="cardEvento.icon"
             :text="cardEvento.text"
             @click="(selectRegisterType(cardEvento.text), formStage('next'))"
           />
         </div>
 
-        <!-- Calendar Form -->
         <SectionCalendarioFormCrudCalendar
           v-show="registerType === 'calendar' || props.editMode === 'calendar'"
           ref="calendarCrudRef"
@@ -198,7 +190,6 @@ async function handleDeleteCalendar() {
           :form-stage="stage"
         />
 
-        <!-- Event Form -->
         <SectionCalendarioFormCrudEvents
           v-show="
             props.editMode === 'events' ||
@@ -212,29 +203,28 @@ async function handleDeleteCalendar() {
           :show-participants="props.showParticipants"
         />
 
-        <!-- Buttons -->
         <template #button-group>
           <UIButtonModalGoBack
             v-show="
               stage > 0 &&
               (!props.editMode || (props.editMode === 'calendar' && stage > 1))
             "
-            class="flex w-full"
+            class="u-flex u-w-full"
             @click.prevent="formStage('prev')"
           />
           <UIButtonModalCancel
             type="close"
-            class="flex w-full"
+            class="u-flex u-w-full"
             @click="onClose"
           />
           <UIButtonModalDelete
             v-show="props.editMode === 'events'"
-            class="flex w-full"
+            class="u-flex u-w-full"
             @click.prevent="handleDelete"
           />
           <UIButtonModalDelete
             v-show="props.editMode === 'calendar'"
-            class="flex w-full"
+            class="u-flex u-w-full"
             @click.prevent="handleDeleteCalendar"
           />
 
@@ -243,7 +233,7 @@ async function handleDeleteCalendar() {
               stage === 1 &&
               (registerType === 'calendar' || props.editMode === 'calendar')
             "
-            class="flex w-full"
+            class="u-flex u-w-full"
             @click.prevent="formStage('next')"
           />
           <UIButtonModalSave
@@ -271,3 +261,9 @@ async function handleDeleteCalendar() {
     @confirm="confirmDelete.onConfirm"
   />
 </template>
+
+<style scoped>
+.calendario-form__modal {
+  min-width: 550px;
+}
+</style>

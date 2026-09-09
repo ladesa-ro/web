@@ -21,7 +21,6 @@ const formValidate = inject(diariosFormValidateKey);
 
 const isEditMode = computed(() => !!props.editId);
 
-// Buscar disciplinas do curso da turma selecionada
 const cursoId = computed(() => {
   const turma = contexto.turmaSelecionada.value;
   return (
@@ -32,7 +31,6 @@ const cursoId = computed(() => {
 const { disciplinas, isLoading: isLoadingDisciplinas } =
   useDisciplinasByCurso(cursoId);
 
-// Buscar diários já existentes para turma+calendário (evitar duplicatas)
 const diarios = useDiarios();
 const existingDiariosQuery = diarios.list(
   computed(() => {
@@ -62,7 +60,6 @@ const disciplinasDisponiveis = computed(() =>
   )
 );
 
-// Inicializar config das disciplinas quando carregarem (modo criação)
 watch(
   disciplinasDisponiveis,
   newDisciplinas => {
@@ -94,10 +91,8 @@ watch(
   { immediate: true }
 );
 
-// Edição: carregar dados existentes
 useDisciplinasConfigEdit(props.editId, contexto);
 
-// Submissão e ações
 const { onSubmit, onDelete, canSubmit, isBusy, imagemFile, confirmDelete } =
   useDisciplinasConfigSubmit(
     computed(() => props.editId),
@@ -125,40 +120,33 @@ const turmaInfo = computed(() => {
 
 <template>
   <DialogModalBaseLayout :on-close="() => emit('close')" :title="title">
-    <div class="flex flex-col gap-4">
-      <!-- Card turma (read-only) -->
-      <div
-        v-if="turmaInfo"
-        class="border-2 border-ldsa-grey/100 rounded-lg px-5 py-3"
-      >
-        <p class="font-semibold text-sm text-ldsa-text-default">
+    <div class="u-flex u-flex-col u-gap-4">
+      <div v-if="turmaInfo" class="u-rounded-lg disciplinas-config__turma-card">
+        <p class="u-font-semibold u-text-sm disciplinas-config__turma-nome">
           {{ turmaInfo.nome }}
         </p>
-        <p class="text-xs text-ldsa-grey/100">
+        <p class="u-text-xs disciplinas-config__turma-curso">
           {{ turmaInfo.cursoNome }}
         </p>
       </div>
 
-      <!-- Imagem de capa (modo edição) -->
       <UISelectImage v-if="isEditMode" v-model="imagemFile" />
 
-      <!-- Banner informativo -->
       <div
         v-if="!isEditMode && turmaInfo"
-        class="flex items-center gap-3 bg-ldsa-blue/10 border border-ldsa-blue/10 rounded px-3 py-2"
+        class="u-flex u-items-center u-gap-3 disciplinas-config__info-banner"
       >
-        <span class="text-ldsa-blue/100 text-xs">
+        <span class="u-text-xs disciplinas-config__info-banner-text">
           Para cada disciplina abaixo será criado um diário vinculado à turma
           {{ turmaInfo.nome }}.
         </span>
       </div>
 
-      <!-- Loading -->
       <div
         v-if="isLoadingDisciplinas || contexto.isLoadingEdit.value"
-        class="flex items-center justify-center py-8"
+        class="u-flex u-items-center u-justify-center disciplinas-config__loading"
       >
-        <span class="text-sm text-ldsa-grey/100 animate-pulse">
+        <span class="u-text-sm disciplinas-config__loading-text">
           {{
             contexto.isLoadingEdit.value
               ? 'Carregando diário...'
@@ -167,23 +155,21 @@ const turmaInfo = computed(() => {
         </span>
       </div>
 
-      <!-- Todas as disciplinas já possuem diário -->
       <div
         v-else-if="
           !isEditMode &&
           disciplinasDisponiveis.length === 0 &&
           disciplinas.length > 0
         "
-        class="flex items-center gap-3 bg-amber-50 border border-amber-200 rounded px-3 py-4"
+        class="u-flex u-items-center u-gap-3 disciplinas-config__warning-banner"
       >
-        <span class="text-amber-700 text-xs">
+        <span class="u-text-xs disciplinas-config__warning-banner-text">
           Todas as disciplinas desta turma já possuem diário cadastrado para o
           calendário letivo selecionado.
         </span>
       </div>
 
-      <!-- Lista de accordions -->
-      <div v-else class="overflow-y-auto flex flex-col gap-4">
+      <div v-else class="u-overflow-auto u-flex u-flex-col u-gap-4">
         <SectionDiariosFormGeralDisciplinasAccordionDisciplinaAccordion
           v-for="(dc, index) in contexto.disciplinasConfig.value"
           :key="dc.disciplinaId"
@@ -210,3 +196,59 @@ const turmaInfo = computed(() => {
     />
   </DialogModalBaseLayout>
 </template>
+
+<style scoped>
+.disciplinas-config__turma-card {
+  border: 2px solid rgb(from var(--ladesa-grey-color) R G B / 100%);
+  padding: var(--ui-space-3) var(--ui-space-5);
+}
+
+.disciplinas-config__turma-nome {
+  color: var(--ladesa-text-default-color);
+}
+
+.disciplinas-config__turma-curso {
+  color: rgb(from var(--ladesa-grey-color) R G B / 100%);
+}
+
+.disciplinas-config__info-banner {
+  background-color: rgb(from var(--ladesa-blue-color) R G B / 10%);
+  border: 1px solid rgb(from var(--ladesa-blue-color) R G B / 10%);
+  border-radius: var(--ui-radius-sm);
+  padding: var(--ui-space-2) var(--ui-space-3);
+}
+
+.disciplinas-config__info-banner-text {
+  color: rgb(from var(--ladesa-blue-color) R G B / 100%);
+}
+
+.disciplinas-config__loading {
+  padding-block: var(--ui-space-8);
+}
+
+.disciplinas-config__loading-text {
+  color: rgb(from var(--ladesa-grey-color) R G B / 100%);
+  animation: disciplinas-config-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes disciplinas-config-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.disciplinas-config__warning-banner {
+  background-color: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: var(--ui-radius-sm);
+  padding: var(--ui-space-4) var(--ui-space-3);
+}
+
+.disciplinas-config__warning-banner-text {
+  color: #b45309;
+}
+</style>

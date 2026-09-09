@@ -2,10 +2,10 @@
 import { useForm, useField } from 'vee-validate';
 import ModalBaseLayout from '~/components/Dialog/Modal/ModalBaseLayout.vue';
 import type { BulkAddParams } from '~/composables/useGradeHorariaEditor';
-import { classificarPeriodo, type Periodo } from '~/utils/horarios';
+import { classifyDayPeriod, type DayPeriod } from '@ladesa-ro/web.utils';
 
 const props = defineProps<{
-  defaultPeriodo?: Periodo;
+  defaultPeriodo?: DayPeriod;
 }>();
 
 const emit = defineEmits<{
@@ -13,7 +13,7 @@ const emit = defineEmits<{
   close: [];
 }>();
 
-const periodoDefaults: Record<Periodo, string> = {
+const periodoDefaults: Record<DayPeriod, string> = {
   Matutino: '07:30',
   Vespertino: '13:00',
   Noturno: '19:00',
@@ -25,12 +25,7 @@ const periodoItems = [
   { text: 'Noturno', value: 'Noturno' },
 ];
 
-// const modeItems = [
-//   { text: 'Acrescentar', value: 'append' },
-//   { text: 'Substituir', value: 'replace' },
-// ];
-
-const selectedPeriodo = ref<Periodo>(props.defaultPeriodo ?? 'Matutino');
+const selectedPeriodo = ref<DayPeriod>(props.defaultPeriodo ?? 'Matutino');
 const mode = ref<'append' | 'replace'>('append');
 
 useForm({
@@ -49,18 +44,16 @@ const { value: classDuration } = useField<number>('classDuration');
 const { value: breakDuration } = useField<number>('breakDuration');
 const { value: breakAfterClass } = useField<number>('breakAfterClass');
 
-// Auto-update startTime when turno changes via toggle (only if current time is outside the new turno range)
 watch(selectedPeriodo, periodo => {
   const current = startTime.value;
-  if (!current || classificarPeriodo(current) !== periodo) {
+  if (!current || classifyDayPeriod(current) !== periodo) {
     startTime.value = periodoDefaults[periodo];
   }
 });
 
-// Auto-switch turno when startTime changes manually
 watch(startTime, time => {
   if (!time) return;
-  const detected = classificarPeriodo(time);
+  const detected = classifyDayPeriod(time);
   if (detected !== selectedPeriodo.value) {
     selectedPeriodo.value = detected;
   }
@@ -135,16 +128,17 @@ function handleConfirm() {
     title="Adicionar horários em massa"
     :close-button="true"
     :on-close="() => emit('close')"
-    class="!sm:max-w-[32rem]"
+    class="bulk-add-modal"
   >
-    <div class="flex flex-col gap-4">
-      <!-- Turno toggle -->
-      <div class="flex flex-col gap-1">
-        <label class="text-xs font-medium text-ldsa-text-default">Turno</label>
+    <div class="u-flex u-flex-col u-gap-4">
+      <div class="u-flex u-flex-col u-gap-1">
+        <label class="u-text-xs u-font-medium bulk-add-modal__label"
+          >Turno</label
+        >
         <UIToggle v-model="selectedPeriodo" :items="periodoItems" />
       </div>
 
-      <div class="grid grid-cols-2 gap-3">
+      <div class="u-grid u-gap-3 bulk-add-modal__grid">
         <VVTimeField name="startTime" label="Horário inicial" />
         <VVTextField
           name="classCount"
@@ -165,7 +159,7 @@ function handleConfirm() {
           placeholder="20"
         />
 
-        <div class="col-span-2">
+        <div class="bulk-add-modal__col-span-2">
           <VVTextField
             name="breakAfterClass"
             label="Intervalo após aula nº (0 = sem intervalo)"
@@ -175,44 +169,34 @@ function handleConfirm() {
         </div>
       </div>
 
-      <!-- Preview -->
       <div
         v-if="preview.length > 0"
-        class="border border-ldsa-grey/30 rounded-md p-3"
+        class="u-rounded-md u-p-3 bulk-add-modal__preview"
       >
-        <p class="text-xs font-medium text-ldsa-grey mb-2">
+        <p class="u-text-xs u-font-medium u-mb-2 bulk-add-modal__preview-title">
           Prévia dos horários:
         </p>
-        <div class="flex flex-col gap-1">
+        <div class="u-flex u-flex-col u-gap-1">
           <div
             v-for="(item, i) in preview"
             :key="i"
-            class="text-sm text-ldsa-text-default"
+            class="u-text-sm bulk-add-modal__preview-item"
           >
             <div
               v-if="item.isAfterBreak"
-              class="text-xs text-ldsa-grey italic mb-0.5"
+              class="u-text-xs u-mb-0-5 bulk-add-modal__break-note"
             >
               — intervalo de {{ breakDurationNum }} min —
             </div>
-            <span class="font-medium">Aula {{ i + 1 }}:</span>
+            <span class="u-font-medium">Aula {{ i + 1 }}:</span>
             {{ item.inicio }} - {{ item.fim }}
           </div>
         </div>
       </div>
-
-      <!-- Modo toggle (comentado — sempre usa "append") -->
-      <!-- <div class="flex flex-col gap-1">
-        <label class="text-xs font-medium text-ldsa-text-default">Modo</label>
-        <UIToggle v-model="mode" :items="modeItems" />
-      </div> -->
     </div>
 
     <template #button-group>
-      <UIButtonModalCancel
-        type="close"
-        @click="emit('close')"
-      />
+      <UIButtonModalCancel type="close" @click="emit('close')" />
       <UIButtonModalCommonButtonsGreenWithCheck
         text="Adicionar"
         :disabled="!isValid"
@@ -221,3 +205,40 @@ function handleConfirm() {
     </template>
   </ModalBaseLayout>
 </template>
+
+<style scoped>
+@media (min-width: 640px) {
+  .bulk-add-modal {
+    max-width: 32rem !important;
+  }
+}
+
+.bulk-add-modal__label {
+  color: var(--ladesa-text-default-color);
+}
+
+.bulk-add-modal__grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.bulk-add-modal__col-span-2 {
+  grid-column: span 2 / span 2;
+}
+
+.bulk-add-modal__preview {
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 30%);
+}
+
+.bulk-add-modal__preview-title {
+  color: var(--ladesa-grey-color);
+}
+
+.bulk-add-modal__preview-item {
+  color: var(--ladesa-text-default-color);
+}
+
+.bulk-add-modal__break-note {
+  color: var(--ladesa-grey-color);
+  font-style: italic;
+}
+</style>

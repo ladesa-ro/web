@@ -1,47 +1,13 @@
-<script lang="ts" setup>
-type Props = {
-  src: any;
-  alt?: string;
-  fallbackBgColor?: string;
-};
+<script setup lang="ts">
+import { Img, type ImgProps } from '@ladesa-ro/web.ui';
 
-const {
-  src,
-  alt,
-  fallbackBgColor = 'rgb(from var(--ladesa-grey-color) R G B / 30%)',
-} = defineProps<Props>();
-
-//
-
-type Slots = {
-  fallbackIcon: () => any;
-};
-
-defineSlots<Slots>();
+defineProps<ImgProps>();
 </script>
 
 <template>
-  <div
-    :style="{ backgroundImage: `url(${src})` }"
-    class="overflow-hidden bg-cover bg-center"
-  >
-    <div
-      v-if="src"
-      class="flex justify-center w-full h-full backdrop-blur-xs backdrop-brightness-75"
-    >
-      <img :alt="alt" :src="src" class="max-h-full object-contain" />
-    </div>
-
-    <!-- fallback -->
-    <div
-      v-else
-      :style="{ 'background-color': fallbackBgColor }"
-      class="w-full h-full flex justify-center items-center"
-    >
-      <!-- fallback icon -->
-      <slot name="fallbackIcon">
-        <IconsImage class="w-1/4 text-ldsa-grey" />
-      </slot>
-    </div>
-  </div>
+  <Img v-bind="$props">
+    <template v-for="(_, name) in $slots" #[name]="slotProps">
+      <slot :name="name" v-bind="slotProps" />
+    </template>
+  </Img>
 </template>

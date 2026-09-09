@@ -16,8 +16,6 @@ type DisciplinaCursoTurma = {
 type Props = { subject: DisciplinaCursoTurma };
 const { subject } = defineProps<Props>();
 
-//
-
 type CourseOption = {
   value: DisciplinaCursoTurma['cursos'][number];
   label: string;
@@ -31,10 +29,6 @@ const coursesCarousel: CourseOption[] = subject.cursos.map(curso => ({
 const selectedCourse = ref<CourseOption>(coursesCarousel[0]!);
 
 const selectedCourseTurmas = computed(() => {
-  // if the type is CourseOption, get sel.value, otherwise assume that the desired value is already in the variable itself, without any internal item
-
-  // this code snippet is to handle an unexpected error coming from v-model, even though i didn't understand it very well
-
   const sel = selectedCourse.value;
   const item = sel?.value ?? sel;
 
@@ -43,37 +37,42 @@ const selectedCourseTurmas = computed(() => {
   return item.turmas.map(turma => turma.turma.periodo);
 });
 
-const { data: disciplinaImageUrl } = useDisciplinas().imageCover(computed(() => subject.disciplina?.id ?? null));
+const { data: disciplinaImageUrl } = useDisciplinas().imageCover(
+  computed(() => subject.disciplina?.id ?? null)
+);
 </script>
 
 <template>
-  <div class="card-style border-card">
+  <div class="border-card u-mb-3 u-text-left u-font-semibold">
     <img
       v-if="disciplinaImageUrl"
       alt="Capa da disciplina."
-      class="image w-full min-h-9.5 max-h-14"
+      class="carousel-item__cover u-w-full"
       :src="disciplinaImageUrl ?? undefined"
     />
 
-    <div v-else class="bg-ldsa-grey/50 w-full min-h-9.5 max-h-14" />
+    <div
+      v-else
+      class="carousel-item__cover carousel-item__cover--placeholder u-w-full"
+    />
 
-    <!-- card body -->
-    <main class="p-4">
+    <main class="u-p-4">
       <h1>{{ subject.disciplina.nomeAbreviado }}</h1>
 
-      <div class="course-and-classes border-card">
-        <!-- navigation -->
+      <div
+        class="course-and-classes border-card u-rounded-lg u-mt-3 u-py-3 u-text-sm"
+      >
         <UIOptionsCarousel
           v-model="selectedCourse"
-          class="pb-2 mb-2 border-b-2 border-b-ldsa-grey"
+          class="carousel-item__carousel-nav u-pb-2 u-mb-2"
           :items="coursesCarousel"
         >
           <template #toggleButton>
-            <IconsArrow class="text-ldsa-text-green" />
+            <IconsArrow class="carousel-item__toggle-icon" />
           </template>
         </UIOptionsCarousel>
 
-        <span class="font-medium">{{
+        <span class="u-font-medium">{{
           selectedCourseTurmas ? selectedCourseTurmas.join(', ') : ''
         }}</span>
       </div>
@@ -82,17 +81,35 @@ const { data: disciplinaImageUrl } = useDisciplinas().imageCover(computed(() => 
 </template>
 
 <style scoped>
-@reference "~/assets/styles/app.css";
-
-.card-style {
-  @apply mb-3 text-left font-semibold;
+.icon {
+  max-height: 0.75rem;
+  color: var(--ladesa-text-green-color);
 }
 
-.icon {
-  @apply max-h-3 text-ldsa-text-green;
+.carousel-item__cover {
+  min-height: 2.375rem;
+  max-height: 3.5rem;
+}
+
+.carousel-item__cover--placeholder {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 50%);
 }
 
 .course-and-classes {
-  @apply rounded-lg mt-3 py-3 px-3 lg:px-4 text-sm;
+  padding-inline: var(--ui-space-3);
+}
+
+@media (min-width: 64rem) {
+  .course-and-classes {
+    padding-inline: var(--ui-space-4);
+  }
+}
+
+.carousel-item__carousel-nav {
+  border-bottom: 2px solid var(--ladesa-grey-color);
+}
+
+.carousel-item__toggle-icon {
+  color: var(--ladesa-text-green-color);
 }
 </style>

@@ -5,7 +5,7 @@ import {
   IconsClockPermanent,
   IconsClockTemporary,
 } from '#components';
-import { createIdempotencyKey } from '~/composables/ladesa-api/-helpers/idempotencyKey';
+import { createIdempotencyKey } from '@ladesa-ro/web.utils';
 
 const { mode = 'green' } = defineProps<{
   selectedToggleItem?: 'mesclado' | 'professor' | 'turma';
@@ -50,9 +50,7 @@ useForm({
 });
 
 const { value: ofertaFormacao } = useField<string>('ofertaFormacao');
-const { value: toggleValue } = useField<'permanente' | 'temporario'>(
-  'duracao'
-);
+const { value: toggleValue } = useField<'permanente' | 'temporario'>('duracao');
 const { value: initialDate } = useField<string>('initialDate');
 const { value: finalDate } = useField<string>('finalDate');
 
@@ -140,17 +138,16 @@ const erroGerador = computed(() => {
   <DialogSkeleton
     v-model="isModalActive"
     disable-inline-block
-    class="flex justify-center"
+    class="u-flex u-justify-center"
   >
     <template #activator>
       <UIButtonDefault
         v-if="mode === 'green'"
         ref="generateButton"
         outline-on-clink
-        class="fixed bottom-14 sm:bottom-16 md:bottom-18 2xl:bottom-26 z-10 w-max shadow-[0_7.5px_15px_rgba(0,0,0,0.2)] transition-[translate,filter,scale] duration-[400ms,200ms,100ms] ease-in-out will-change-[transform,filter] hover:brightness-95 active:scale-97"
+        class="generate-modal__fab"
         :class="{
-          'translate-y-[100vh] duration-[1050ms,200ms,100ms]':
-            selectedToggleItem === 'mesclado',
+          'generate-modal__fab--hidden': selectedToggleItem === 'mesclado',
         }"
       >
         <template #start-icon>
@@ -162,7 +159,7 @@ const erroGerador = computed(() => {
 
       <SectionInicioCardLink
         v-else
-        class="w-full"
+        class="u-w-full"
         :icon="IconsClockGenerate"
         title="Gerar Horário"
       />
@@ -170,19 +167,16 @@ const erroGerador = computed(() => {
 
     <DialogModalBaseLayout title="Gerar Horário Acadêmico" :on-close="onClose">
       <template v-if="fase === 'form'">
-        <VVAutocompleteAPIOfertaFormacao name="ofertaFormacao" class="mt-1" />
+        <VVAutocompleteAPIOfertaFormacao name="ofertaFormacao" class="u-mt-1" />
 
-        <hr class="border border-ldsa-grey" />
+        <hr class="generate-modal__divider" />
 
         <UITitle text="O horário deve ser..." variant="mini" />
 
         <UIToggle v-model="toggleValue" :items="toggleItems" />
 
-        <div class="flex max-sm:flex-col gap-5">
-          <VVDateField
-            name="initialDate"
-            label="Data de Início"
-          />
+        <div class="generate-modal__dates-row u-flex u-gap-5">
+          <VVDateField name="initialDate" label="Data de Início" />
 
           <VVDateField
             v-if="toggleValue === 'temporario'"
@@ -203,14 +197,14 @@ const erroGerador = computed(() => {
           message="Ao passar a data de término, este horário temporário será substituído pelo horário permanente atualmente utilizado."
         />
 
-        <div class="lg:h-10" />
+        <div class="generate-modal__spacer" />
       </template>
 
       <template v-else-if="fase === 'processando'">
-        <div class="flex flex-col items-center gap-4 py-10">
+        <div class="u-flex u-flex-col u-items-center u-gap-4 u-py-10">
           <UILoading />
 
-          <p class="text-ldsa-grey text-center">
+          <p class="generate-modal__hint u-text-center">
             Gerando o horário… isso pode levar alguns instantes.
           </p>
         </div>
@@ -224,7 +218,7 @@ const erroGerador = computed(() => {
 
         <pre
           v-if="respostaGeradorPreview"
-          class="text-xs bg-ldsa-grey/10 rounded-lg p-3 overflow-auto max-h-64"
+          class="generate-modal__preview u-text-xs u-rounded-lg u-p-3 u-overflow-auto"
           >{{ respostaGeradorPreview }}</pre
         >
       </template>
@@ -246,10 +240,10 @@ const erroGerador = computed(() => {
             color="var(--ladesa-green-2-color)"
             type="button"
             text="Gerar Horário"
-            class="px-3 gap-2"
+            class="u-px-3 u-gap-2"
             @click="handleGerar"
           >
-            <IconsGenerate class="min-w-4" />
+            <IconsGenerate class="generate-modal__icon" />
           </UIButtonModalBaseLayout>
         </template>
 
@@ -286,10 +280,84 @@ const erroGerador = computed(() => {
             text="Tentar novamente"
             @click="resetFluxo"
           >
-            <IconsGenerate class="min-w-4" />
+            <IconsGenerate class="generate-modal__icon" />
           </UIButtonModalBaseLayout>
         </template>
       </template>
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.generate-modal__fab {
+  position: fixed;
+  bottom: 3.5rem;
+  z-index: 10;
+  width: max-content;
+  box-shadow: 0 7.5px 15px rgba(0, 0, 0, 0.2);
+  transition-property: translate, filter, scale;
+  transition-duration: 400ms, 200ms, 100ms;
+  transition-timing-function: ease-in-out;
+  will-change: transform, filter;
+}
+
+@media (min-width: 640px) {
+  .generate-modal__fab {
+    bottom: 4rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .generate-modal__fab {
+    bottom: 4.5rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .generate-modal__fab {
+    bottom: 6.5rem;
+  }
+}
+
+.generate-modal__fab:hover {
+  filter: brightness(0.95);
+}
+
+.generate-modal__fab:active {
+  scale: 0.97;
+}
+
+.generate-modal__fab--hidden {
+  translate: 0 100vh;
+  transition-duration: 1050ms, 200ms, 100ms;
+}
+
+.generate-modal__divider {
+  border: 1px solid var(--ladesa-grey-color);
+}
+
+@media (max-width: 639.98px) {
+  .generate-modal__dates-row {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 1024px) {
+  .generate-modal__spacer {
+    height: 2.5rem;
+  }
+}
+
+.generate-modal__hint {
+  color: var(--ladesa-grey-color);
+}
+
+.generate-modal__preview {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 10%);
+  max-height: 16rem;
+}
+
+.generate-modal__icon {
+  min-width: 1rem;
+}
+</style>

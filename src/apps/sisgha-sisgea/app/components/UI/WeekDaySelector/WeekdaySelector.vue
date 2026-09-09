@@ -1,50 +1,19 @@
 <script setup lang="ts">
-import type { Item } from '~/composables/useOptionItems';
+import {
+  type OptionItem,
+  WeekDaySelector,
+  type WeekDaySelectorProps,
+} from '@ladesa-ro/web.ui';
 
-type Props = {
-  items: Item[];
-  selectedItemDefaultIndex?: number;
-
-  mode?: 'default' | 'compact';
-};
-
-const {
-  items: itemsProps,
-  selectedItemDefaultIndex = 0,
-  mode = 'default',
-} = defineProps<Props>();
-
-const items = getParsedItems(itemsProps);
-const selectedItem = defineModel<Item>();
-const selectedIndex = ref(selectedItemDefaultIndex);
-
-function selectItem(index: number) {
-  selectedIndex.value = index;
-  selectedItem.value = items[index]?.value;
-}
-
-onMounted(() => {
-  selectedItem.value = items[selectedIndex.value]?.value;
-});
+defineProps<WeekDaySelectorProps>();
+const selectedItem = defineModel<OptionItem>();
 </script>
 
 <template>
-  <div class="flex justify-between gap-2 w-full">
-    <button
-      v-for="(item, index) in items"
-      :key="index"
-      class="flex-1 text-center font-semibold py-4 px-2 rounded-xl border-2 border-ldsa-green-1"
-      :class="[
-        {
-          'bg-ldsa-green-1 text-white': selectedIndex === index,
-          'text-ldsa-text-green': selectedIndex !== index,
-        },
-        mode === 'compact' ? 'text-sm !py-2' : '',
-      ]"
-      type="button"
-      @click="selectItem(index)"
-    >
-      {{ item.label.slice(0, 3) }}
-    </button>
-  </div>
+  <WeekDaySelector
+    v-model="selectedItem"
+    :items="items"
+    :selected-item-default-index="selectedItemDefaultIndex"
+    :mode="mode"
+  />
 </template>

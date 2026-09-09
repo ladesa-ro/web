@@ -89,41 +89,41 @@ const recusarOpen = ref(false);
     :close-button="true"
     :on-close="() => emit('close')"
   >
-    <div class="flex flex-col gap-5">
-      <div class="flex items-center justify-between">
-        <span class="text-sm font-semibold">
+    <div class="u-flex u-flex-col u-gap-5">
+      <div class="u-flex u-items-center u-justify-between">
+        <span class="u-text-sm u-font-semibold">
           {{ formatTipoOperacao(solicitacao.tipoOperacao) }}
         </span>
-        <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-ldsa-grey/15">
-          {{ formatStatus(solicitacao.status) }}
-        </span>
+        <UIBadge>{{ formatStatus(solicitacao.status) }}</UIBadge>
       </div>
 
-      <div class="grid grid-cols-2 gap-4">
-        <div class="flex flex-col gap-1">
-          <span class="text-xs font-semibold text-ldsa-grey">Hoje</span>
-          <span class="text-sm">{{ evento?.nome }}</span>
-          <span class="text-sm text-ldsa-grey">
+      <div class="u-grid u-gap-4 view__grid">
+        <div class="u-flex u-flex-col u-gap-1">
+          <span class="u-text-xs u-font-semibold view__muted-text">Hoje</span>
+          <span class="u-text-sm">{{ evento?.nome }}</span>
+          <span class="u-text-sm view__muted-text">
             {{ evento ? dayjs(evento.dataInicio).format('DD/MM/YYYY') : '—' }}
           </span>
-          <span class="text-sm text-ldsa-grey">
+          <span class="u-text-sm view__muted-text">
             {{ evento?.horarioInicio?.slice(0, 5) }}–{{
               evento?.horarioFim?.slice(0, 5)
             }}
           </span>
         </div>
 
-        <div class="flex flex-col gap-1">
-          <span class="text-xs font-semibold text-ldsa-grey">Proposto</span>
+        <div class="u-flex u-flex-col u-gap-1">
+          <span class="u-text-xs u-font-semibold view__muted-text"
+            >Proposto</span
+          >
 
           <template v-if="solicitacao.tipoOperacao === 'REMOVER'">
-            <span class="text-sm text-ldsa-red font-medium">
+            <span class="u-text-sm u-font-medium view__danger-text">
               Remover evento
             </span>
           </template>
 
           <template v-else>
-            <span class="text-sm text-ldsa-grey">
+            <span class="u-text-sm view__muted-text">
               {{
                 dadosPropostos.dataInicio
                   ? dayjs(String(dadosPropostos.dataInicio)).format(
@@ -132,48 +132,60 @@ const recusarOpen = ref(false);
                   : '—'
               }}
             </span>
-            <span class="text-sm text-ldsa-grey">
+            <span class="u-text-sm view__muted-text">
               {{ dadosPropostos.horarioInicio ?? '—' }}–{{
                 dadosPropostos.horarioFim ?? '—'
               }}
             </span>
-            <span v-if="ambientePropostoQuery.data.value" class="text-sm text-ldsa-grey">
+            <span
+              v-if="ambientePropostoQuery.data.value"
+              class="u-text-sm view__muted-text"
+            >
               {{ ambientePropostoQuery.data.value.nome }}
             </span>
           </template>
         </div>
       </div>
 
-      <div class="flex flex-col gap-1">
-        <span class="text-xs font-semibold text-ldsa-grey">Justificativa</span>
-        <p class="text-sm">{{ solicitacao.justificativa }}</p>
+      <div class="u-flex u-flex-col u-gap-1">
+        <span class="u-text-xs u-font-semibold view__muted-text"
+          >Justificativa</span
+        >
+        <p class="u-text-sm">{{ solicitacao.justificativa }}</p>
       </div>
 
-      <div class="text-xs text-ldsa-grey">
+      <div class="u-text-xs view__muted-text">
         Autor: {{ solicitacao.autor.nome ?? '—' }}
       </div>
 
-      <div v-if="solicitacao.status === 'RECUSADA'" class="flex flex-col gap-1">
-        <span class="text-xs font-semibold text-ldsa-grey">Motivo da recusa</span>
-        <p class="text-sm">{{ solicitacao.motivoRecusa || '—' }}</p>
+      <div
+        v-if="solicitacao.status === 'RECUSADA'"
+        class="u-flex u-flex-col u-gap-1"
+      >
+        <span class="u-text-xs u-font-semibold view__muted-text"
+          >Motivo da recusa</span
+        >
+        <p class="u-text-sm">{{ solicitacao.motivoRecusa || '—' }}</p>
       </div>
     </div>
 
     <template v-if="isAberta" #button-group>
-      <button
+      <UIButtonModalBaseLayout
+        text="Recusar"
+        color="var(--ladesa-red-color)"
         type="button"
-        class="rounded-lg border border-ldsa-red text-ldsa-red px-4 py-2 text-sm font-medium"
         @click="recusarOpen = true"
       >
-        Recusar
-      </button>
-      <button
+        <IconsExclude />
+      </UIButtonModalBaseLayout>
+      <UIButtonModalBaseLayout
+        text="Aprovar"
+        color="var(--ladesa-green-2-color)"
         type="button"
-        class="rounded-lg bg-ldsa-green-1 px-4 py-2 text-sm font-medium text-white"
         @click="aprovarConfirmOpen = true"
       >
-        Aprovar
-      </button>
+        <IconsConfirm />
+      </UIButtonModalBaseLayout>
     </template>
   </DialogModalBaseLayout>
 
@@ -190,3 +202,17 @@ const recusarOpen = ref(false);
     @recusada="emit('close')"
   />
 </template>
+
+<style scoped>
+.view__grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.view__muted-text {
+  color: var(--ladesa-grey-color);
+}
+
+.view__danger-text {
+  color: var(--ladesa-red-color);
+}
+</style>

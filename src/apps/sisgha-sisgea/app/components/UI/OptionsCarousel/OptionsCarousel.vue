@@ -1,77 +1,24 @@
 <script setup lang="ts">
-import type { Item } from '~/composables/useOptionItems';
+import {
+  type OptionItem,
+  OptionsCarousel,
+  type OptionsCarouselProps,
+} from '@ladesa-ro/web.ui';
 
-type Props = {
-  /** List of items */
-  items: Item[];
-
-  /** The index selected when the component initializes */
-  selectedItemDefaultIndex?: number;
-
-  /** Toggles padding */
-  toggleButtonsPadding?: string;
-
-  omitTogglesWhenItemsLengthIsOne?: boolean;
-};
-
-const {
-  items: itemsProps,
-  selectedItemDefaultIndex = 0,
-  toggleButtonsPadding = '0',
-  omitTogglesWhenItemsLengthIsOne = false,
-} = defineProps<Props>();
-
-const items = getParsedItems(itemsProps);
-
-const togglePadding = {
-  padding: toggleButtonsPadding,
-};
-
-//
-
-const selectedItem = defineModel<Item>();
-
-//
-
-const selectedIndex = ref(selectedItemDefaultIndex);
-
-// logic based in modular math!
-function navigate(num: number) {
-  selectedIndex.value =
-    (selectedIndex.value + num + items.length) % items.length;
-
-  selectedItem.value = items[selectedIndex.value]?.value;
-}
-
-//
-
-onMounted(() => {
-  selectedItem.value = items[selectedIndex.value]?.value;
-});
+defineProps<OptionsCarouselProps>();
+const selectedItem = defineModel<OptionItem>();
 </script>
 
 <template>
-  <div class="flex justify-between items-center w-full">
-    <button
-      v-if="omitTogglesWhenItemsLengthIsOne ? items.length > 1 : true"
-      :disabled="items.length === 1"
-      :style="togglePadding"
-      class="disabled:opacity-40"
-      @click="navigate(-1)"
-    >
+  <OptionsCarousel
+    v-model="selectedItem"
+    :items="items"
+    :selected-item-default-index="selectedItemDefaultIndex"
+    :toggle-buttons-padding="toggleButtonsPadding"
+    :omit-toggles-when-items-length-is-one="omitTogglesWhenItemsLengthIsOne"
+  >
+    <template #toggleButton>
       <slot name="toggleButton" />
-    </button>
-
-    <span class="truncate">{{ items[selectedIndex]?.label }}</span>
-
-    <button
-      v-if="omitTogglesWhenItemsLengthIsOne ? items.length > 1 : true"
-      :disabled="items.length === 1"
-      :style="togglePadding"
-      class="rotate-180 disabled:opacity-40"
-      @click="navigate(1)"
-    >
-      <slot name="toggleButton" />
-    </button>
-  </div>
+    </template>
+  </OptionsCarousel>
 </template>

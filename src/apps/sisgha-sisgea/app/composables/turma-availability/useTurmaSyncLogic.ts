@@ -1,6 +1,6 @@
 import type { Dayjs } from 'dayjs';
 import type { TurmaDisponibilidadeWeekOutputDto } from '@ladesa-ro/web.api.client';
-import { toDisplayFormat } from '~/utils/horarios';
+import { stripSeconds } from '@ladesa-ro/web.utils';
 import type { useTurmaGradeSelection } from './useTurmaGradeSelection';
 import type { useTurmaEditState } from './useTurmaEditState';
 import type { useTurmaPendingConfigs } from './useTurmaPendingConfigs';
@@ -18,13 +18,9 @@ export function useTurmaSyncLogic(
   const { serverAvailability, isEditing, applyAvailability } = editState;
   const { findPendingForWeek, mapPendingToAvailability } = pending;
 
-  // --- Week query ---
-
   const semanaParam = computed(() => currentWeekRef.value.format('YYYY-MM-DD'));
 
   const weekQuery = disponibilidade.findByWeek(turmaId, semanaParam);
-
-  // --- Sync server → local ---
 
   const mapConfigToAvailability = (
     data: TurmaDisponibilidadeWeekOutputDto | undefined
@@ -33,9 +29,7 @@ export function useTurmaSyncLogic(
     const config = data.configs[0]!;
     const mapped: Record<number, string[]> = {};
     for (const dia of config.horarios) {
-      mapped[dia.dia_semana] = dia.intervalos.map(i =>
-        toDisplayFormat(i.inicio)
-      );
+      mapped[dia.dia_semana] = dia.intervalos.map(i => stripSeconds(i.inicio));
     }
     return mapped;
   };
@@ -74,14 +68,10 @@ export function useTurmaSyncLogic(
     }
   });
 
-  // --- Pending config for current week ---
-
   const currentWeekPending = computed(() => {
     const weekKey = currentWeekRef.value.format('YYYY-MM-DD');
     return findPendingForWeek(weekKey) ?? null;
   });
-
-  // --- Grade Divergence Detection ---
 
   const hasGradeDivergence = computed(() => {
     if (!selectedGradeIdentifier.value) return false;
@@ -102,8 +92,6 @@ export function useTurmaSyncLogic(
     }
     return false;
   });
-
-  // --- Active config info ---
 
   const activeConfigInfo = computed(() => {
     const data = weekQuery.data.value;

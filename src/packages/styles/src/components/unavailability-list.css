@@ -1,0 +1,40 @@
+.ui-unavailability-list__empty {
+  color: var(--ladesa-grey-color);
+}
+
+.ui-unavailability-list__row {
+  border: 1px solid rgb(from var(--ladesa-grey-color) R G B / 20%);
+}
+
+.ui-unavailability-list__date {
+  width: 6rem;
+}
+
+.ui-unavailability-list__time {
+  color: var(--ladesa-grey-color);
+}
+
+.ui-unavailability-list__reason {
+  color: var(--ladesa-grey-color);
+  min-width: 8rem;
+}
+
+.ui-unavailability-list__actions {
+  margin-left: auto;
+}
+
+.ui-unavailability-list__edit-button {
+  color: var(--ladesa-text-green-color);
+}
+
+.ui-unavailability-list__edit-button:hover {
+  text-decoration: underline;
+}
+
+.ui-unavailability-list__remove-button {
+  color: var(--ladesa-red-color);
+}
+
+.ui-unavailability-list__remove-button:hover {
+  text-decoration: underline;
+}

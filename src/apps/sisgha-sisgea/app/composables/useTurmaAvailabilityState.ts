@@ -56,7 +56,6 @@ export function useTurmaAvailabilityState(
     { onConfirmSave: edit.confirmAvailability }
   );
 
-  // Auto-select all times when grade changes during edit
   watch(grade.campusShifts, () => {
     if (edit.isEditing.value) {
       edit.selectAllTimes();
@@ -64,7 +63,6 @@ export function useTurmaAvailabilityState(
   });
 
   return {
-    // Week
     currentWeekRef,
     weekDays: week.weekDays,
     weekLabel: week.weekLabel,
@@ -72,17 +70,14 @@ export function useTurmaAvailabilityState(
     goToPrevWeek: week.goToPrevWeek,
     goToNextWeek: week.goToNextWeek,
 
-    // Campus Grades
     campusGrades: grade.campusGrades,
     selectedGradeIdentifier: grade.selectedGradeIdentifier,
     selectedGrade: grade.selectedGrade,
     campusShifts: grade.campusShifts,
     campusScheduleLoading: grade.campusScheduleLoading,
 
-    // Disponibilidade
     weekQuery: edit.weekQuery,
 
-    // Edit
     isEditing: edit.isEditing,
     selectedDayWeek: edit.selectedDayWeek,
     selectedTimes: edit.selectedTimes,
@@ -91,27 +86,22 @@ export function useTurmaAvailabilityState(
     cancelEdit: edit.cancelEdit,
     confirmAvailability: edit.confirmAvailability,
 
-    // Save (deferred to form submit)
     pendingConfigs: edit.pendingConfigs,
     undoPendingConfig: edit.undoPendingConfig,
     saveAvailability: edit.saveAvailability,
     hasPendingSave: edit.hasPendingSave,
     invalidateDisponibilidade: edit.invalidateDisponibilidade,
 
-    // All configs
     allConfigsQuery: edit.allConfigsQuery,
     pendingDeactivations: edit.pendingDeactivations,
     addPendingDeactivation: edit.addPendingDeactivation,
     undoPendingDeactivation: edit.undoPendingDeactivation,
 
-    // Config info
     activeConfigInfo: edit.activeConfigInfo,
     currentWeekPending: edit.currentWeekPending,
 
-    // Divergence
     hasGradeDivergence: edit.hasGradeDivergence,
 
-    // Navigation confirmation
     setOnNavigationBlocked: week.setOnNavigationBlocked,
     pendingNavigation: week.pendingNavigation,
     confirmNavigationAndSave: week.confirmNavigationAndSave,

@@ -4,12 +4,20 @@
   "scripts": {
     "dev": "nx run-many -t dev --exclude @ladesa-ro/web.root",
     "build:all": "nx run-many -t build --exclude @ladesa-ro/web.root",
+    "test:all": "nx run-many -t test --exclude @ladesa-ro/web.root",
     "format:check": "prettier --ignore-unknown \"**/*\" --check",
     "format:fix": "prettier --ignore-unknown \"**/*\" --write",
-    "code-static:check": "pnpm run format:check",
+    "code-static:check": "pnpm run format:check && pnpm run lint",
     "code-static:fix": "pnpm run format:fix",
     "chore:update": "corepack use pnpm@10 && pnpm -r update && pnpm run -w code-static:fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "lint": "eslint .",
+    "lint:strict": "eslint . --max-warnings 0",
+    "lint:duplication": "jscpd apps packages",
+    "lint:root": "cd .. && ./src/node_modules/.bin/eslint .",
+    "test:browser": "pnpm --filter @ladesa-ro/web.ui exec playwright install --with-deps chromium",
+    "types:check": "pnpm --filter @ladesa-ro/web.service run types:check",
+    "ci:verify": "pnpm run -w build:all && pnpm run -w types:check && pnpm run -w test:browser && pnpm run -w test:all && pnpm run -w lint:root"
   },
   "dependencies": {
     "husky": "^9.1.7",
@@ -17,7 +25,16 @@
   },
   "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319",
   "devDependencies": {
-    "nx": "^22.7.5"
+    "@eslint/css": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.58.1",
+    "@typescript-eslint/parser": "^8.58.1",
+    "eslint": "^9.39.5",
+    "eslint-plugin-sonarjs": "^4.2.0",
+    "eslint-plugin-vue": "^10.8.0",
+    "eslint-plugin-yml": "^3.8.1",
+    "jscpd": "^4.3.0",
+    "nx": "^22.7.5",
+    "vue-eslint-parser": "^10.4.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

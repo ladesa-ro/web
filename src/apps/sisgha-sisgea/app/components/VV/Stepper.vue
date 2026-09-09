@@ -1,34 +1,9 @@
 <script lang="ts" setup>
-import { useField } from 'vee-validate';
+import { VVStepper, type VVStepperProps } from '@ladesa-ro/web.ui';
 
-const props = defineProps<{
-  name: string;
-  label?: string;
-  min?: number;
-  max?: number;
-  step?: number;
-  disabled?: boolean;
-}>();
-
-const fieldDisabled = useFieldDisabled(() => props.disabled);
-
-const { value: fieldValue, errorMessage } = useField<number>(
-  () => props.name,
-  undefined,
-  {
-    validateOnValueUpdate: false,
-  }
-);
+defineProps<VVStepperProps>();
 </script>
 
 <template>
-  <UIFormStepperStepper
-    v-model="fieldValue"
-    :label="label"
-    :min="min"
-    :max="max"
-    :step="step"
-    :disabled="fieldDisabled"
-    :error="errorMessage"
-  />
+  <VVStepper v-bind="$props" />
 </template>

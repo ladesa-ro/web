@@ -13,10 +13,10 @@ const emit = defineEmits<{
 }>();
 
 const TIPO_LABELS: Record<string, { label: string; color: string }> = {
-  EVENTO: { label: 'Evento', color: 'bg-ldsa-blue' },
-  AULA: { label: 'Aula', color: 'bg-ldsa-green-1' },
-  INDISPONIBILIDADE: { label: 'Indisponibilidade', color: 'bg-ldsa-red' },
-  RESERVA: { label: 'Reserva', color: 'bg-ldsa-yellow' },
+  EVENTO: { label: 'Evento', color: 'evento-badge--blue' },
+  AULA: { label: 'Aula', color: 'evento-badge--green' },
+  INDISPONIBILIDADE: { label: 'Indisponibilidade', color: 'evento-badge--red' },
+  RESERVA: { label: 'Reserva', color: 'evento-badge--yellow' },
 };
 
 function getTipoInfo(evento: AgendamentoMergedItem): {
@@ -72,27 +72,25 @@ function formatPeriodo(evento: AgendamentoMergedItem): string {
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="u-flex u-flex-col">
     <div
       v-for="evento in eventos"
       :key="evento.id"
-      class="flex flex-col gap-0.5 border-b border-ldsa-grey/30 px-2 py-2.5"
-      :class="{ 'opacity-50': evento.isPendingDelete }"
+      class="evento-row u-flex u-flex-col u-gap-0-5 u-px-2 u-py-2-5"
+      :class="{ 'evento-row--pending-delete': evento.isPendingDelete }"
     >
-      <div class="flex items-center gap-2">
+      <div class="u-flex u-items-center u-gap-2">
         <span
-          class="inline-block size-2 shrink-0 rounded-full"
+          class="evento-dot u-shrink-0 u-rounded-full"
           :style="{ backgroundColor: getCorHex(evento) }"
         />
 
-        <span
-          class="flex-1 truncate text-xs font-medium text-ldsa-text-default"
-        >
+        <span class="evento-name u-flex-1 u-truncate u-text-xs u-font-medium">
           {{ getNome(evento) }}
         </span>
 
         <span
-          class="shrink-0 rounded px-1.5 py-0.5 text-[9px] font-semibold text-white"
+          class="evento-badge u-shrink-0 u-rounded-sm u-px-1-5 u-py-0-5 u-font-semibold"
           :class="getTipoInfo(evento).color"
         >
           {{ getTipoInfo(evento).label }}
@@ -100,7 +98,7 @@ function formatPeriodo(evento: AgendamentoMergedItem): string {
 
         <template v-if="evento.isLocal">
           <span
-            class="shrink-0 rounded bg-ldsa-grey/20 px-1.5 py-0.5 text-[9px] font-medium text-ldsa-grey"
+            class="evento-badge-pending u-shrink-0 u-rounded-sm u-px-1-5 u-py-0-5 u-font-medium"
           >
             pendente
           </span>
@@ -109,27 +107,100 @@ function formatPeriodo(evento: AgendamentoMergedItem): string {
         <button
           v-if="!evento.isPendingDelete"
           type="button"
-          class="shrink-0 text-ldsa-grey hover:text-ldsa-text-default disabled:opacity-40"
+          class="evento-action u-shrink-0"
           :disabled="disabled"
           @click="emit('edit', evento.id)"
         >
-          <IconsEdit class="size-3.5" />
+          <IconsEdit class="evento-action-icon" />
         </button>
 
         <button
           v-if="!evento.isPendingDelete"
           type="button"
-          class="shrink-0 text-ldsa-grey hover:text-ldsa-red disabled:opacity-40"
+          class="evento-action evento-action--danger u-shrink-0"
           :disabled="disabled"
           @click="emit('remove', evento.id)"
         >
-          <IconsExclude class="size-3.5" />
+          <IconsExclude class="evento-action-icon" />
         </button>
       </div>
 
-      <span class="pl-4 text-[10px] text-ldsa-grey">
+      <span class="evento-period u-pl-4">
         {{ formatPeriodo(evento) }}
       </span>
     </div>
   </div>
 </template>
+
+<style scoped>
+.evento-row {
+  border-bottom: 1px solid rgb(from var(--ladesa-grey-color) R G B / 30%);
+}
+
+.evento-row--pending-delete {
+  opacity: 0.5;
+}
+
+.evento-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+.evento-name {
+  color: var(--ladesa-text-default-color);
+}
+
+.evento-badge {
+  font-size: 0.5625rem;
+  color: var(--ladesa-white-color);
+}
+
+.evento-badge--blue {
+  background-color: var(--ladesa-blue-color);
+}
+
+.evento-badge--green {
+  background-color: var(--ladesa-green-1-color);
+}
+
+.evento-badge--red {
+  background-color: var(--ladesa-red-color);
+}
+
+.evento-badge--yellow {
+  background-color: var(--ladesa-yellow-color);
+}
+
+.evento-badge-pending {
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 20%);
+  font-size: 0.5625rem;
+  color: var(--ladesa-grey-color);
+}
+
+.evento-action {
+  color: var(--ladesa-grey-color);
+}
+
+.evento-action:hover {
+  color: var(--ladesa-text-default-color);
+}
+
+.evento-action:disabled {
+  opacity: 0.4;
+}
+
+.evento-action--danger:hover {
+  color: var(--ladesa-red-color);
+}
+
+.evento-action-icon {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.evento-period {
+  font-size: 0.625rem;
+  color: var(--ladesa-grey-color);
+}
+</style>

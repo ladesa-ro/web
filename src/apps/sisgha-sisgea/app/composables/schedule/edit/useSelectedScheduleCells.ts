@@ -1,5 +1,4 @@
 import type {
-  Shift,
   ShiftName,
   ShiftWhithoutInfo,
   WeekSchedule,
@@ -19,8 +18,6 @@ export type ActiveCell = {
   cellIndex: number;
 };
 
-// params
-
 type ActionRemoveAll = { action: 'removeAll' };
 
 type ActionGetAll = {
@@ -35,8 +32,6 @@ type ActionAddOrRemoveOne = {
 
 type Action = ActionRemoveAll | ActionGetAll | ActionAddOrRemoveOne;
 
-// function overloads
-
 export function useSelectedCells(params: ActionRemoveAll): void;
 
 export function useSelectedCells(params: ActionAddOrRemoveOne): void;
@@ -48,8 +43,6 @@ export function useSelectedCells(
 export function useSelectedCells(
   params: ActionGetAll & { get: 'ids' }
 ): Ref<Set<string>>;
-
-//
 
 export function useSelectedCells(params: Action) {
   switch (params.action) {
@@ -76,7 +69,6 @@ export function useSelectedCells(params: Action) {
   }
 }
 
-// TODO: importar isso da função que calcula isso com base nos tempos de aula
 const shiftNames: ShiftName[] = ['morning', 'afternoon', 'night'];
 
 export const getActiveCellInfo = (

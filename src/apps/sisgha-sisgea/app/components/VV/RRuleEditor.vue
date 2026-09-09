@@ -1,26 +1,9 @@
 <script lang="ts" setup>
-import { useField } from 'vee-validate';
+import { VVRRuleEditor, type VVRRuleEditorProps } from '@ladesa-ro/web.ui';
 
-const props = defineProps<{
-  name: string;
-  disabled?: boolean;
-}>();
-
-const fieldDisabled = useFieldDisabled(() => props.disabled);
-
-const { value: fieldValue, errorMessage } = useField<string | null>(
-  () => props.name,
-  undefined,
-  {
-    validateOnValueUpdate: false,
-  }
-);
+defineProps<VVRRuleEditorProps>();
 </script>
 
 <template>
-  <UIFormRRuleEditor
-    v-model="fieldValue"
-    :disabled="fieldDisabled"
-    :error="errorMessage"
-  />
+  <VVRRuleEditor v-bind="$props" />
 </template>

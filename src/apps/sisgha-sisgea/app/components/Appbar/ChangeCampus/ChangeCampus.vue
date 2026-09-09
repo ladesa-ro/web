@@ -42,7 +42,6 @@ const selectedCampus = ref(
   selectedCampusGlobalState.value ?? toggleCampusItems.value[0]?.value ?? null
 );
 
-// Auto-select first campus when items become available
 watch(
   toggleCampusItems,
   items => {
@@ -54,8 +53,6 @@ watch(
   },
   { immediate: true }
 );
-
-//
 
 const cargos = useCampusContextCargos();
 
@@ -86,40 +83,35 @@ onBeforeUnmount(() => {
   removeGuard();
 });
 
-//
-
 const changeCampus = () => {
   selectedCampusGlobalState.value = selectedCampus.value;
   verifyCargo();
   open.value = false;
 };
 
-//
-
 const open = ref(false);
 </script>
 
 <template>
   <ClientOnly>
-    <!-- Always show campus name; popover only when multiple options -->
     <UIPopover v-if="showSelector" v-model="open">
       <template #activator>
         <div
-          class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden cursor-pointer"
+          class="u-items-center u-font-medium u-mr-3 u-truncate u-p-1 u-rounded-sm campus-badge campus-badge--clickable"
         >
-          <IconsLocate class="mr-1 text-ldsa-text-green shrink-0" />
-          <span class="truncate">{{ selectedCampusLabel }}</span>
+          <IconsLocate class="u-mr-1 u-shrink-0 campus-badge-marker-icon" />
+          <span class="u-truncate">{{ selectedCampusLabel }}</span>
         </div>
 
-        <div class="p-2.5 min-[46.2rem]:hidden shrink-0">
-          <IconsLocate class="w-4.5" />
+        <div class="u-p-2-5 u-shrink-0 campus-badge-icon-wrap">
+          <IconsLocate class="campus-badge-toggle-icon" />
         </div>
       </template>
 
       <div
-        class="flex flex-col border-2 border-ldsa-grey rounded-lg p-4 bg-ldsa-bg mt-2"
+        class="u-flex u-flex-col u-rounded-lg u-p-4 u-mt-2 campus-popover-panel"
       >
-        <UITitle variant="mini" text="Alternar campus" class="mb-4" />
+        <UITitle variant="mini" text="Alternar campus" class="u-mb-4" />
 
         <UIRadio
           v-slot="{ item, selected }"
@@ -128,14 +120,14 @@ const open = ref(false);
         >
           <button
             :class="[
-              'flex items-center text-left gap-2 p-1.5 w-full max-[21.8rem]:min-w-24 min-w-48 sm:min-w-3xs max-[21.8rem]:max-w-[80vw] min-[21.8rem]:max-w-2xs sm:max-w-xs text-sm font-medium border-2 rounded-lg mb-2',
-              selected &&
-                'bg-ldsa-green-2/10 border-ldsa-green-2/60 text-ldsa-text-green',
-              !selected && 'border-ldsa-grey/75',
+              'u-flex u-items-center u-text-left u-gap-2 u-p-1-5 u-w-full u-text-sm u-font-medium u-rounded-lg u-mb-2 campus-radio-btn',
+              selected
+                ? 'campus-radio-btn--selected'
+                : 'campus-radio-btn--unselected',
             ]"
           >
             <UIRadioCircle
-              class="scale-60 shrink-0"
+              class="u-shrink-0 campus-radio-circle"
               :item-value="item.value"
               :is-selected="selected"
             />
@@ -144,7 +136,9 @@ const open = ref(false);
           </button>
         </UIRadio>
 
-        <span class="mt-2 flex max-[21.8rem]:flex-col justify-between gap-2">
+        <span
+          class="u-mt-2 u-flex u-justify-between u-gap-2 campus-actions-row"
+        >
           <UIButtonModalCancel variant="small" @click="open = false" />
 
           <UIButtonModalConfirm
@@ -156,24 +150,136 @@ const open = ref(false);
       </div>
     </UIPopover>
 
-    <!-- Read-only display when only 1 campus (no selector needed) -->
     <div
       v-else-if="selectedCampusLabel !== 'Carregando...'"
-      class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden"
+      class="u-items-center u-font-medium u-mr-3 u-truncate u-p-1 u-rounded-sm campus-badge"
     >
-      <IconsLocate class="mr-1 text-ldsa-text-green shrink-0" />
-      <span class="truncate">{{ selectedCampusLabel }}</span>
+      <IconsLocate class="u-mr-1 u-shrink-0 campus-badge-marker-icon" />
+      <span class="u-truncate">{{ selectedCampusLabel }}</span>
     </div>
 
     <template #fallback>
       <div
-        class="flex items-center text-[0.6875rem] font-medium text-ldsa-text-default mr-3 truncate max-w-full lg:max-w-80 min-w-12 border-2 border-ldsa-grey rounded p-1 max-[46.2rem]:hidden"
+        class="u-items-center u-font-medium u-mr-3 u-truncate u-p-1 u-rounded-sm campus-badge"
       >
-        <IconsLocate class="mr-1 text-ldsa-text-green shrink-0" />
-        <span
-          class="truncate animate-pulse bg-ldsa-grey/20 rounded h-3 w-20 inline-block"
-        />
+        <IconsLocate class="u-mr-1 u-shrink-0 campus-badge-marker-icon" />
+        <span class="u-truncate campus-skeleton" />
       </div>
     </template>
   </ClientOnly>
 </template>
+
+<style scoped>
+.campus-badge {
+  font-size: 0.6875rem;
+  color: var(--ladesa-text-default-color);
+  max-width: 100%;
+  min-width: 3rem;
+  border: 2px solid var(--ladesa-grey-color);
+  display: flex;
+}
+
+.campus-badge--clickable {
+  cursor: pointer;
+}
+
+@media (max-width: 46.2rem) {
+  .campus-badge {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .campus-badge {
+    max-width: 20rem;
+  }
+}
+
+.campus-badge-marker-icon {
+  color: var(--ladesa-text-green-color);
+}
+
+.campus-badge-icon-wrap {
+  display: block;
+}
+
+@media (min-width: 46.2rem) {
+  .campus-badge-icon-wrap {
+    display: none;
+  }
+}
+
+.campus-badge-toggle-icon {
+  width: 1.125rem;
+}
+
+.campus-popover-panel {
+  border: 2px solid var(--ladesa-grey-color);
+  background-color: var(--ladesa-background-color);
+}
+
+.campus-radio-btn {
+  border-width: 2px;
+  border-style: solid;
+  min-width: 12rem;
+}
+
+@media (max-width: 21.8rem) {
+  .campus-radio-btn {
+    min-width: 6rem;
+    max-width: 80vw;
+  }
+}
+
+@media (min-width: 21.8rem) {
+  .campus-radio-btn {
+    max-width: 18rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .campus-radio-btn {
+    min-width: 16rem;
+    max-width: 20rem;
+  }
+}
+
+.campus-radio-btn--selected {
+  background-color: rgb(from var(--ladesa-green-2-color) R G B / 10%);
+  border-color: rgb(from var(--ladesa-green-2-color) R G B / 60%);
+  color: var(--ladesa-text-green-color);
+}
+
+.campus-radio-btn--unselected {
+  border-color: rgb(from var(--ladesa-grey-color) R G B / 75%);
+}
+
+.campus-radio-circle {
+  transform: scale(0.6);
+}
+
+.campus-actions-row {
+  flex-direction: row;
+}
+
+@media (max-width: 21.8rem) {
+  .campus-actions-row {
+    flex-direction: column;
+  }
+}
+
+.campus-skeleton {
+  display: inline-block;
+  height: 0.75rem;
+  width: 5rem;
+  border-radius: var(--ui-radius-sm);
+  background-color: rgb(from var(--ladesa-grey-color) R G B / 20%);
+  animation: campus-skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes campus-skeleton-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+</style>

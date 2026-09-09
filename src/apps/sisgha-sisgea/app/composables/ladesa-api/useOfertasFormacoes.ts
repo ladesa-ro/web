@@ -103,7 +103,8 @@ export const useOfertasFormacoes = (): IUseOfertasFormacoes => {
 
   const imageCover = createImageBlobQuery({
     queryKey: keys,
-    fetcher: (id: string) => api.call(ofertaFormacaoGetImagemCapa, { path: { id } }),
+    fetcher: (id: string) =>
+      api.call(ofertaFormacaoGetImagemCapa, { path: { id } }),
   });
 
   const invalidate = createInvalidate(keys);

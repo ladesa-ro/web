@@ -4,6 +4,7 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 COMMAND_TOOL_OCI_RUNTIME := env_var_or_default("OCI_RUNTIME", "docker")
 COMMAND_COMPOSE_AGENTS := COMMAND_TOOL_OCI_RUNTIME + " compose --file .docker/compose.agents.yml -p ladesa-web-agents"
+COMMAND_COMPOSE_DEV := COMMAND_TOOL_OCI_RUNTIME + " compose --file .docker/compose.dev.yml -p ladesa-web-dev"
 
 ISSUE_BRANCH := "feat/789-calendario-institucional"
 WORKTREE_DIR := "../"
@@ -11,6 +12,18 @@ WORKTREE_DIR := "../"
 # Mostra as receitas disponíveis
 default:
     @just --list
+dev-up:
+    {{COMMAND_COMPOSE_DEV}} up -d --build
+
+dev-down:
+    {{COMMAND_COMPOSE_DEV}} down
+
+dev-shell:
+    {{COMMAND_COMPOSE_DEV}} exec web bash
+
+dev-exec +CMD:
+    {{COMMAND_COMPOSE_DEV}} exec web bash -lc "{{CMD}}"
+
 
 # Builda as imagens dos agentes (só se o Containerfile mudou)
 agents-build:
@@ -69,7 +82,8 @@ agents-shell SLICE:
 # issue #789. Corrigir esse débito é fora de escopo aqui — `pnpm exec eslint`
 # continua best-effort, sem travar o gate.
 check SLICE:
-    just exec {{SLICE}} "cd /repo/src && pnpm install --frozen-lockfile && pnpm run -w build:all && pnpm --filter @ladesa-ro/web.service run types:check"
+    just exec {{SLICE}} "cd /repo/src && pnpm install --frozen-lockfile && pnpm run -w ci:verify"
+    -just exec {{SLICE}} "cd /repo/src && pnpm run -w lint:duplication"
     -just exec {{SLICE}} "cd /repo/src/apps/sisgha-sisgea && pnpm exec eslint ."
 
 # Faz merge normal (sem squash) da branch do slice pra branch de integração

@@ -1,0 +1,85 @@
+.ui-reasons-view-modal,
+.ui-reasons-edit-modal {
+  height: min(35rem, 85vh);
+  width: min(95vw, 31.5rem);
+}
+
+.ui-reasons-view-modal__scroll,
+.ui-reasons-edit-modal__scroll {
+  overflow-y: auto;
+}
+
+.ui-reasons-view-modal__day-title {
+  text-transform: capitalize;
+  color: var(--ladesa-text-default-color);
+}
+
+.ui-reasons-view-modal__empty {
+  color: var(--ladesa-grey-color);
+}
+
+.ui-reasons-view-modal__list > * + * {
+  margin-top: var(--ui-space-1);
+}
+
+.ui-reasons-view-modal__item {
+  border-bottom: 1px solid var(--ladesa-grey-color);
+}
+
+.ui-reasons-view-modal__item-name {
+  color: var(--ladesa-text-default-color);
+}
+
+.ui-reasons-edit-modal__hint {
+  font-size: 0.62rem;
+  color: var(--ladesa-grey-color);
+}
+
+.ui-reasons-edit-modal__list > * + * {
+  margin-top: var(--ui-space-4);
+}
+
+.ui-reasons-edit-modal__item {
+  border-bottom: 1px solid var(--ladesa-grey-color);
+}
+
+.ui-reasons-edit-modal__name {
+  white-space: nowrap;
+  color: var(--ladesa-text-default-color);
+}
+
+.ui-reasons-edit-modal__details {
+  min-width: 0;
+}
+
+.ui-reasons-edit-modal__tooltip {
+  font-size: 0.62rem;
+  color: var(--ladesa-grey-color);
+  max-width: 28vh;
+}
+
+.ui-reasons-edit-modal__day-label {
+  text-transform: capitalize;
+}
+
+.ui-reasons-edit-modal__action-btn--edit:hover {
+  color: var(--ladesa-green-1-color);
+}
+
+.ui-reasons-edit-modal__action-btn--delete:hover {
+  color: var(--ladesa-red-color);
+}
+
+.ui-reasons-edit-modal__action-icon {
+  width: 0.75rem;
+  height: 0.75rem;
+  color: var(--ladesa-text-default-color);
+}
+
+.ui-reasons-edit-modal__action-icon--danger {
+  color: var(--ladesa-red-color);
+}
+
+.ui-reasons-edit-modal__empty {
+  color: var(--ladesa-grey-color);
+}

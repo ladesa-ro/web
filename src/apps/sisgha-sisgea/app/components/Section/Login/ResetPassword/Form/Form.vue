@@ -15,8 +15,6 @@ const { values, errors, handleSubmit } = useForm({
 
 const showAlert = ref(false);
 
-//
-
 const api = useApiClient();
 
 const {
@@ -31,14 +29,13 @@ const {
 });
 
 const onSubmit = handleSubmit(async formData => {
-  try {
-    await mutateAsync(formData.email);
+  const requested = await mutateAsync(formData.email).then(
+    () => true,
+    () => false
+  );
 
-    if (canRecoverPassword) {
-      showAlert.value = true;
-    }
-  } catch {
-    // erro tratado pelo useMutation (isError)
+  if (requested && canRecoverPassword.value) {
+    showAlert.value = true;
   }
 });
 </script>
@@ -53,7 +50,7 @@ const onSubmit = handleSubmit(async formData => {
       <VVTextField
         v-if="!showAlert"
         :disabled="showAlert"
-        class="mt-1.5"
+        class="u-mt-1-5"
         label="E-mail"
         name="email"
         placeholder="Digite aqui seu email"
@@ -87,7 +84,7 @@ const onSubmit = handleSubmit(async formData => {
 
         <UIButtonModalOk
           v-if="showAlert"
-          class="px-10"
+          class="u-px-10"
           type="button"
           @click="$emit('close')"
         />

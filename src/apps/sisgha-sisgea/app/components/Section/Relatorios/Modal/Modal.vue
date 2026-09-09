@@ -53,29 +53,31 @@ const aulasRedes = [
 </script>
 
 <template>
-  <div
-    class="bg-ldsa-bg text-ldsa-text-default p-12 rounded shadow w-[120vh] max-h-[80vh] overflow-y-auto"
-  >
-    <h2 class="text-lg font-semibold mb-4 flex items-center justify-center">
+  <div class="relatorio-modal u-p-12 u-rounded-sm">
+    <h2
+      class="u-text-lg u-font-semibold u-mb-4 u-flex u-items-center u-justify-center"
+    >
       Relatório de Aulas Ministradas
     </h2>
 
-    <hr class="divider flex-grow pt-5 border-t border-ldsa-grey" />
+    <hr class="divider u-grow u-pt-5" />
 
-    <div class="info flex flex-wrap">
-      <p class="text-[12px] mb-2 w-1/2">
+    <div class="info u-flex u-flex-wrap">
+      <p class="relatorio-modal__info-item u-text-xs u-mb-2">
         <strong>Professor:</strong> {{ form.professor?.id ?? '—' }}
       </p>
-      <p class="text-[12px] mb-2 w-1/2">
+      <p class="relatorio-modal__info-item u-text-xs u-mb-2">
         <strong>Filtros:</strong> {{ filtrosUsados }}
       </p>
-      <p class="text-[12px] mb-2 w-1/2">
+      <p class="relatorio-modal__info-item u-text-xs u-mb-2">
         <strong>Calendário:</strong> {{ form.calendarioLetivo?.id ?? '—' }}
       </p>
-      <p class="text-[12px] mb-2 w-1/2"><strong>Campus:</strong> —</p>
+      <p class="relatorio-modal__info-item u-text-xs u-mb-2">
+        <strong>Campus:</strong> —
+      </p>
     </div>
 
-    <hr class="divider flex-grow pt-5 border-t border-ldsa-grey" />
+    <hr class="divider u-grow u-pt-5" />
 
     <div class="content">
       <RelatorioAula
@@ -98,10 +100,34 @@ const aulasRedes = [
     </div>
 
     <button
-      class="mt-4 px-4 py-2 bg-ldsa-green-1 text-white rounded text-[12px]"
+      class="relatorio-modal__close-button u-mt-4 u-px-4 u-py-2 u-rounded-sm u-text-xs"
       @click="onClose"
     >
       Fechar
     </button>
   </div>
 </template>
+
+<style scoped>
+.relatorio-modal {
+  width: 120vh;
+  max-height: 80vh;
+  overflow-y: auto;
+  background-color: var(--ladesa-background-color);
+  color: var(--ladesa-text-default-color);
+  box-shadow: var(--ui-shadow-md);
+}
+
+.divider {
+  border-top: 1px solid var(--ladesa-grey-color);
+}
+
+.relatorio-modal__info-item {
+  width: 50%;
+}
+
+.relatorio-modal__close-button {
+  background-color: var(--ladesa-green-1-color);
+  color: var(--ladesa-white-color);
+}
+</style>

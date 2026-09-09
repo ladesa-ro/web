@@ -13,8 +13,6 @@ const viewFor = computed(() => {
   return 'student';
 });
 
-// Dia selecionado (elevado de DaySquareList)
-// Se for domingo (day=0), ajusta para segunda (day=1)
 const currentDay = useCurrentDay();
 
 function ensureWeekday(day: Dayjs): Dayjs {
@@ -23,15 +21,12 @@ function ensureWeekday(day: Dayjs): Dayjs {
 
 const selectedDay = ref<Dayjs>(ensureWeekday(currentDay.value));
 
-// Quando currentDay mudar (ex: via popover do calendário), sincronizar
 watch(currentDay, val => {
   selectedDay.value = ensureWeekday(val);
 });
 
-// Perfil do professor logado
 const perfilId = computed(() => perfisAtivos.value?.[0]?.id ?? null);
 
-// Consultar ocorrências da API
 const agendamento = useCalendarioAgendamento();
 
 const consultaParams = computed(() => {
@@ -47,7 +42,6 @@ const consultaParams = computed(() => {
 
 const consultaQuery = agendamento.consulta(consultaParams);
 
-// Mapear ocorrências para ILesson[]
 const lessons = computed<ILesson[]>(() => {
   const ocorrencias = consultaQuery.data.value?.ocorrencias;
   if (!ocorrencias?.length) return [];
@@ -78,12 +72,12 @@ const isLoading = computed(() => consultaQuery.isLoading.value);
 </script>
 
 <template>
-  <div class="max-w-screen-2xl w-full">
+  <div class="daily-view-container u-w-full">
     <SectionHorarioProfessorEAlunoDailyViewDaySquareList
       v-model="selectedDay"
     />
 
-    <div class="flex flex-col gap-5 mt-8 lg:mt-12">
+    <div class="lessons-list u-flex u-flex-col u-gap-5">
       <UILoading v-if="isLoading" />
 
       <template v-else-if="lessons.length > 0">
@@ -95,9 +89,29 @@ const isLoading = computed(() => consultaQuery.isLoading.value);
         />
       </template>
 
-      <p v-else class="text-ldsa-grey text-sm text-center py-8">
+      <p v-else class="empty-state u-text-sm u-text-center u-py-8">
         Nenhuma aula neste dia.
       </p>
     </div>
   </div>
 </template>
+
+<style scoped>
+.daily-view-container {
+  max-width: 1536px;
+}
+
+.lessons-list {
+  margin-top: var(--ui-space-8);
+}
+
+@media (min-width: 1024px) {
+  .lessons-list {
+    margin-top: var(--ui-space-12);
+  }
+}
+
+.empty-state {
+  color: var(--ladesa-grey-color);
+}
+</style>

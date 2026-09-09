@@ -1,9 +1,7 @@
+<script setup lang="ts">
+import { ButtonModalGoBack } from '@ladesa-ro/web.ui';
+</script>
+
 <template>
-  <UIButtonModalBaseLayout
-    text="Voltar"
-    color="var(--ladesa-grey-color)"
-    type="button"
-  >
-    <IconsArrowAlt />
-  </UIButtonModalBaseLayout>
+  <ButtonModalGoBack />
 </template>

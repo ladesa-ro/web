@@ -16,7 +16,9 @@ const link =
   props.link === undefined || props.link === '' ? '/sisgea/blocos' : props.link;
 
 const blocos = useBlocos();
-const { data: coverImageSrc } = blocos.imageCover(computed(() => unref(bloco)?.id ?? null));
+const { data: coverImageSrc } = blocos.imageCover(
+  computed(() => unref(bloco)?.id ?? null)
+);
 </script>
 
 <template>

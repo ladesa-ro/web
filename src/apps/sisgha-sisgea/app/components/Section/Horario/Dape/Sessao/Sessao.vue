@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { createIdempotencyKey } from '~/composables/ladesa-api/-helpers/idempotencyKey';
+import { createIdempotencyKey } from '@ladesa-ro/web.utils';
 
 type Props = { sessaoId: string };
 const props = defineProps<Props>();
@@ -88,84 +88,91 @@ async function handleCancelar() {
   <UIContainer variant="larger">
     <UIBreadcrumbDapeBreadcrumb />
 
-    <div class="flex flex-col gap-6 mt-4">
-    <header class="flex flex-wrap items-center justify-between gap-2">
-      <UITitle text="Revisão da sessão de edição" variant="small" />
-
-      <span class="text-sm text-ldsa-grey">
-        Sessão {{ sessaoId }} · {{ estadoLabel }}
-      </span>
-    </header>
-
-    <UILoading v-if="isLoading" />
-
-    <UIAlert
-      v-else-if="isError"
-      type="error"
-      message="Não foi possível carregar as mudanças desta sessão."
-    />
-
-    <template v-else>
-      <p
-        v-if="semMudancasPendentes"
-        class="text-ldsa-grey text-center py-10"
+    <div class="u-flex u-flex-col u-gap-6 u-mt-4">
+      <header
+        class="u-flex u-flex-wrap u-items-center u-justify-between u-gap-2"
       >
-        Nenhuma mudança pendente nesta sessão.
-      </p>
+        <UITitle text="Revisão da sessão de edição" variant="small" />
 
-      <div v-else class="flex flex-col gap-8">
-        <SectionHorarioDapeSessaoMudancaGroup
-          titulo="Entram"
-          cor="green-2"
-          modo="entram"
-          :itens="diferenca?.entram ?? []"
-          :sessao-id="sessaoId"
-          @desfeito="handleDesfeito"
-        />
+        <span class="sessao__meta u-text-sm">
+          Sessão {{ sessaoId }} · {{ estadoLabel }}
+        </span>
+      </header>
 
-        <SectionHorarioDapeSessaoMudancaGroup
-          titulo="Saem"
-          cor="red"
-          modo="saem"
-          :itens="diferenca?.saem ?? []"
-          :sessao-id="sessaoId"
-          @desfeito="handleDesfeito"
-        />
+      <UILoading v-if="isLoading" />
 
-        <SectionHorarioDapeSessaoMudancaGroup
-          titulo="Mudam"
-          cor="yellow"
-          modo="mudam"
-          :itens="diferenca?.mudam ?? []"
-          :sessao-id="sessaoId"
-          @desfeito="handleDesfeito"
-        />
-      </div>
-    </template>
+      <UIAlert
+        v-else-if="isError"
+        type="error"
+        message="Não foi possível carregar as mudanças desta sessão."
+      />
 
-    <footer
-      v-if="!isLoading && !isLoadingSessao && !isError && estadoSessao === 'ABERTA'"
-      class="flex max-sm:flex-col gap-3 justify-between mt-4"
-    >
-      <UIButtonModalBaseLayout
-        text="Cancelar sessão"
-        color="var(--ladesa-red-color)"
-        type="button"
-        @click="handleCancelar"
+      <template v-else>
+        <p
+          v-if="semMudancasPendentes"
+          class="sessao__empty u-text-center u-py-10"
+        >
+          Nenhuma mudança pendente nesta sessão.
+        </p>
+
+        <div v-else class="u-flex u-flex-col u-gap-8">
+          <SectionHorarioDapeSessaoMudancaGroup
+            titulo="Entram"
+            cor="green-2"
+            modo="entram"
+            :itens="diferenca?.entram ?? []"
+            :sessao-id="sessaoId"
+            @desfeito="handleDesfeito"
+          />
+
+          <SectionHorarioDapeSessaoMudancaGroup
+            titulo="Saem"
+            cor="red"
+            modo="saem"
+            :itens="diferenca?.saem ?? []"
+            :sessao-id="sessaoId"
+            @desfeito="handleDesfeito"
+          />
+
+          <SectionHorarioDapeSessaoMudancaGroup
+            titulo="Mudam"
+            cor="yellow"
+            modo="mudam"
+            :itens="diferenca?.mudam ?? []"
+            :sessao-id="sessaoId"
+            @desfeito="handleDesfeito"
+          />
+        </div>
+      </template>
+
+      <footer
+        v-if="
+          !isLoading &&
+          !isLoadingSessao &&
+          !isError &&
+          estadoSessao === 'ABERTA'
+        "
+        class="sessao__footer u-flex u-gap-3 u-justify-between u-mt-4"
       >
-        <IconsClose />
-      </UIButtonModalBaseLayout>
+        <UIButtonModalBaseLayout
+          text="Cancelar sessão"
+          color="var(--ladesa-red-color)"
+          type="button"
+          @click="handleCancelar"
+        >
+          <IconsClose />
+        </UIButtonModalBaseLayout>
 
-      <UIButtonModalBaseLayout
-        text="Publicar"
-        color="var(--ladesa-green-2-color)"
-        type="button"
-        :disabled="semMudancasPendentes"
-        @click="handlePublicar"
-      >
-        <IconsConfirm />
-      </UIButtonModalBaseLayout>
-    </footer>
+        <UIButtonModalBaseLayout
+          text="Publicar"
+          color="var(--ladesa-green-2-color)"
+          type="button"
+          :disabled="semMudancasPendentes"
+          @click="handlePublicar"
+        >
+          <IconsConfirm />
+        </UIButtonModalBaseLayout>
+      </footer>
     </div>
   </UIContainer>
 
@@ -183,3 +190,16 @@ async function handleCancelar() {
     @confirm="confirmCancelar.onConfirm"
   />
 </template>
+
+<style scoped>
+.sessao__meta,
+.sessao__empty {
+  color: var(--ladesa-grey-color);
+}
+
+@media (max-width: 639.98px) {
+  .sessao__footer {
+    flex-direction: column;
+  }
+}
+</style>

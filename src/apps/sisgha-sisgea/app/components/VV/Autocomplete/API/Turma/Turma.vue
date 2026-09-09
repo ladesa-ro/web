@@ -29,7 +29,9 @@ const { options } = useAutocompleteEntity({
         'filter.curso.id': props.filterCursoId
           ? [props.filterCursoId]
           : undefined,
-        ...(props.campusId ? { 'filter.curso.campus.id': [props.campusId] } : {}),
+        ...(props.campusId
+          ? { 'filter.curso.campus.id': [props.campusId] }
+          : {}),
       },
     }),
 });

@@ -29,11 +29,7 @@ watch(
   () => props.dia,
   newDia => {
     if (!newDia) return;
-    if (newDia.id) {
-      // Edit mode — values are set by the parent before opening
-      // The parent should call expose.resetForEdit() or set dia prop
-    } else {
-      // Create mode
+    if (!newDia.id) {
       resetEditForm({ values: diaEditSchema.getDefault() });
     }
   }
@@ -66,7 +62,6 @@ function close() {
 }
 
 function resetForEdit(dia: CalendarioLetivoDiaFindOneOutputDto) {
-  // TODO: remove Record cast after SDK regeneration includes 'cor' field
   resetEditForm({
     values: {
       feriado: dia.feriado ?? '',
@@ -96,17 +91,15 @@ defineExpose({ resetForEdit, resetForCreate });
       :close-button="true"
       :on-close="close"
     >
-      <form class="flex flex-col gap-4" @submit.prevent="saveEdit">
+      <form class="u-flex u-flex-col u-gap-4" @submit.prevent="saveEdit">
         <VVTextField name="feriado" label="Nome" placeholder="Nome do dia" />
 
-        <div class="flex flex-col gap-1.5">
-          <span class="text-[0.813rem] font-semibold text-ldsa-grey px-1"
-            >Cor</span
-          >
+        <div class="u-flex u-flex-col u-gap-1-5">
+          <span class="dia-edit-dialog__label u-font-semibold u-px-1">Cor</span>
           <VVColorPalette name="cor" />
         </div>
 
-        <div class="text-sm text-ldsa-grey">
+        <div class="dia-edit-dialog__data-info u-text-sm">
           Data: <strong>{{ formatDate(dia.data) }}</strong>
         </div>
 
@@ -116,21 +109,27 @@ defineExpose({ resetForEdit, resetForCreate });
       </form>
 
       <template #button-group>
-        <button
+        <UIButtonModalCancel @click="close" />
+        <UIButtonModalBaseLayout
+          text="Salvar"
+          color="var(--ladesa-green-2-color)"
           type="button"
-          class="rounded-lg border border-ldsa-grey/30 px-4 py-2 text-sm font-medium"
-          @click="close"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          class="rounded-lg bg-ldsa-green-1 px-4 py-2 text-sm font-medium text-white"
           @click="saveEdit"
         >
-          Salvar
-        </button>
+          <IconsConfirm />
+        </UIButtonModalBaseLayout>
       </template>
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.dia-edit-dialog__label,
+.dia-edit-dialog__data-info {
+  color: var(--ladesa-grey-color);
+}
+
+.dia-edit-dialog__label {
+  font-size: 0.813rem;
+}
+</style>

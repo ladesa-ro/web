@@ -1,0 +1,109 @@
+.u-flex {
+  display: flex;
+}
+
+.u-inline-flex {
+  display: inline-flex;
+}
+
+.u-grid {
+  display: grid;
+}
+
+.u-hidden {
+  display: none;
+}
+
+.u-flex-row {
+  flex-direction: row;
+}
+
+.u-flex-col {
+  flex-direction: column;
+}
+
+.u-flex-wrap {
+  flex-wrap: wrap;
+}
+
+.u-flex-nowrap {
+  flex-wrap: nowrap;
+}
+
+.u-flex-1 {
+  flex: 1 1 0%;
+}
+
+.u-shrink-0 {
+  flex-shrink: 0;
+}
+
+.u-grow {
+  flex-grow: 1;
+}
+
+.u-grow-0 {
+  flex-grow: 0;
+}
+
+.u-items-start {
+  align-items: flex-start;
+}
+
+.u-items-center {
+  align-items: center;
+}
+
+.u-items-end {
+  align-items: flex-end;
+}
+
+.u-items-stretch {
+  align-items: stretch;
+}
+
+.u-justify-start {
+  justify-content: flex-start;
+}
+
+.u-justify-center {
+  justify-content: center;
+}
+
+.u-justify-between {
+  justify-content: space-between;
+}
+
+.u-justify-end {
+  justify-content: flex-end;
+}
+
+.u-w-full {
+  width: 100%;
+}
+
+.u-h-full {
+  height: 100%;
+}
+
+.u-relative {
+  position: relative;
+}
+
+.u-absolute {
+  position: absolute;
+}
+
+.u-overflow-hidden {
+  overflow: hidden;
+}
+
+.u-overflow-auto {
+  overflow: auto;
+}
+
+.u-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

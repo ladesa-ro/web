@@ -10,7 +10,7 @@ import type {
   InvalidateFn,
 } from '~/composables/query-helpers';
 import { createCreateFn, createRemoveFn } from './-helpers/crudHelpers';
-import { buildIfMatchHeaders } from './-helpers/ifMatch';
+import { buildIfMatchHeaders } from '@ladesa-ro/web.utils';
 import {
   calendarioAgendamentoFindAll,
   calendarioAgendamentoFindById,

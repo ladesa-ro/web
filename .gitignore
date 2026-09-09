@@ -139,3 +139,8 @@ dist
 **/.nx/**
 
 .codex
+# Vitest
+**/.vitest/**
+storybook-static/
+
+.pnpm-store/

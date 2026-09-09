@@ -1,0 +1,18 @@
+.ui-mesclado-list {
+  max-height: 16rem;
+  overflow-y: auto;
+}
+
+.ui-mesclado-list__item {
+  border-top: 1px solid rgb(from var(--ladesa-grey-color) R G B / 50%);
+}
+
+.ui-mesclado-list__empty {
+  color: var(--ladesa-grey-color);
+}
+
+@media (min-width: 640px) {
+  .ui-mesclado-list {
+    max-height: 19rem;
+  }
+}

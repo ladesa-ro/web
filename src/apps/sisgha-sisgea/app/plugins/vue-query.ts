@@ -15,12 +15,11 @@ import {
 export default defineNuxtPlugin(nuxt => {
   const vueQueryState = useState<DehydratedState | null>('vue-query');
 
-  // Modify your Vue Query global settings here
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 1 * 60 * 60 * 1000,
-        refetchOnMount: 'always',
+        staleTime: 5 * 60 * 1000,
+        refetchOnMount: true,
         placeholderData: (prev: unknown) => prev,
         experimental_prefetchInRender: true,
       },

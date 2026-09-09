@@ -52,15 +52,13 @@ const formBaseRef = ref<{
   resetForm: (opts?: { values: Record<string, unknown> }) => void;
 }>();
 
-// Query reativa: carrega evento existente por ID
 const eventQuery = agendamento.findOne(computed(() => props.eventId ?? null));
 
-const { handle: handleWriteError, conflictMessage } =
-  useApiWriteErrorHandler({
-    onReload: async () => {
-      await eventQuery.refetch();
-    },
-  });
+const { handle: handleWriteError, conflictMessage } = useApiWriteErrorHandler({
+  onReload: async () => {
+    await eventQuery.refetch();
+  },
+});
 
 watch(
   () => eventQuery.data.value,
@@ -94,7 +92,6 @@ watch(
       motivo: (found as Record<string, unknown>).motivo as string | undefined,
     };
 
-    // Preencher calendário vinculado ao evento existente
     const calendarios = (found as Record<string, unknown>)
       .calendariosLetivos as Array<{ id: string }> | undefined;
     if (calendarios && calendarios.length > 0 && calendarios[0]) {
@@ -241,18 +238,16 @@ const deleteEvent = async (): Promise<boolean> => {
   }
 };
 
-const fillForm = async () => {
-  // No-op: dados carregam reativamente via eventQuery
-};
+const fillForm = async () => {};
 
 defineExpose({ validateEventCrud, fillForm, deleteEvent });
 </script>
 
 <template>
-  <div v-if="!eventQuery.isLoading.value" class="flex flex-col gap-5">
+  <div v-if="!eventQuery.isLoading.value" class="u-flex u-flex-col u-gap-5">
     <p
       v-if="conflictMessage"
-      class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 rounded-md p-3"
+      class="u-text-sm u-rounded-md u-p-3 events-crud__conflict"
     >
       {{ conflictMessage }}
     </p>
@@ -280,3 +275,10 @@ defineExpose({ validateEventCrud, fillForm, deleteEvent });
     @cancel="onScopeCancel"
   />
 </template>
+
+<style scoped>
+.events-crud__conflict {
+  color: var(--ladesa-red-color);
+  background-color: rgb(from var(--ladesa-red-color) R G B / 10%);
+}
+</style>

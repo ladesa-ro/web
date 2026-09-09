@@ -1,0 +1,8 @@
+:root {
+  --ui-radius-xs: 0.125rem;
+  --ui-radius-sm: 0.25rem;
+  --ui-radius-md: 0.375rem;
+  --ui-radius-lg: 0.5rem;
+  --ui-radius-xl: 0.75rem;
+  --ui-radius-full: 9999px;
+}

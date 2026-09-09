@@ -2,15 +2,21 @@
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 
-const props = defineProps<{ colecaoId: string; donoAtualNome?: string | null }>();
+const props = defineProps<{
+  colecaoId: string;
+  donoAtualNome?: string | null;
+}>();
 const emit = defineEmits<{ transferred: [] }>();
 
 const isActive = ref(false);
 const confirmTransfer = useConfirmDelete();
 
 const colecoes = useCalendarioColecao();
-const { handle: handleWriteError, conflictMessage, clearConflictMessage } =
-  useApiWriteErrorHandler();
+const {
+  handle: handleWriteError,
+  conflictMessage,
+  clearConflictMessage,
+} = useApiWriteErrorHandler();
 
 const schema = yup.object({
   novoDono: yup
@@ -60,18 +66,21 @@ const onSubmit = handleSubmit(async formValues => {
       </UIButtonDefault>
     </template>
 
-    <DialogModalBaseLayout title="Transferir dono da coleção" :on-close="onClose">
-      <form class="flex flex-col gap-5" @submit.prevent="onSubmit">
+    <DialogModalBaseLayout
+      title="Transferir dono da coleção"
+      :on-close="onClose"
+    >
+      <form class="u-flex u-flex-col u-gap-5" @submit.prevent="onSubmit">
         <p
           v-if="conflictMessage"
-          class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 rounded-md p-3"
+          class="transferir-dono-modal__conflict u-text-sm u-rounded-md u-p-3"
         >
           {{ conflictMessage }}
         </p>
 
-        <p class="text-sm text-ldsa-grey">
-          O dono atual ({{ donoAtualNome ?? '-' }}) perderá o controle
-          implícito sobre esta coleção.
+        <p class="transferir-dono-modal__hint u-text-sm">
+          O dono atual ({{ donoAtualNome ?? '-' }}) perderá o controle implícito
+          sobre esta coleção.
         </p>
 
         <VVAutocompleteAPIUsuario name="novoDono.id" label="Novo dono" />
@@ -91,3 +100,14 @@ const onSubmit = handleSubmit(async formValues => {
     @confirm="confirmTransfer.onConfirm"
   />
 </template>
+
+<style scoped>
+.transferir-dono-modal__conflict {
+  color: var(--ladesa-red-color);
+  background-color: rgb(from var(--ladesa-red-color) R G B / 10%);
+}
+
+.transferir-dono-modal__hint {
+  color: var(--ladesa-grey-color);
+}
+</style>

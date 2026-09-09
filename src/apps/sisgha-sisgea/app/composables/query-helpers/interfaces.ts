@@ -4,10 +4,6 @@ import type {
   UseQueryReturnType,
 } from '@tanstack/vue-query';
 
-// ============================================================
-// Query helper config interfaces (input para os helpers)
-// ============================================================
-
 export interface IListQueryConfig<TResult, TParams = unknown> {
   queryKey: readonly string[];
   fetcher: (params?: TParams | undefined) => Promise<TResult>;
@@ -25,18 +21,9 @@ export interface IFindOneQueryConfig<TResult> {
   fetcher: (id: string) => Promise<TResult>;
 }
 
-// ============================================================
-// Opções de chamada (call-site)
-// ============================================================
-
 export type QueryCallOptions = {
-  /** Se `false`, desabilita o suspend automático no SSR. Default: `true`. */
   suspend?: boolean;
 };
-
-// ============================================================
-// Tipos auxiliares para as capabilities
-// ============================================================
 
 export type ListFn<TResult, TParams = unknown> = (
   params?: MaybeRef<TParams | undefined>,
@@ -78,4 +65,6 @@ export interface IImageBlobQueryConfig {
 export type ImageBlobFn = (
   id: MaybeRef<string | null>,
   options?: QueryCallOptions
-) => Omit<UseQueryReturnType<string, Error>, 'data'> & { data: ComputedRef<string | null> };
+) => Omit<UseQueryReturnType<string, Error>, 'data'> & {
+  data: ComputedRef<string | null>;
+};

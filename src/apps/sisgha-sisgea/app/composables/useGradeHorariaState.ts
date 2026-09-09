@@ -1,5 +1,5 @@
 import type { GradeHorariaItemOutputDto } from '@ladesa-ro/web.api.client';
-import type { Periodo } from '~/utils/horarios';
+import type { DayPeriod } from '@ladesa-ro/web.utils';
 
 export interface GradeHorariaEditorGrade {
   identificadorExterno: string;
@@ -13,7 +13,7 @@ export interface BulkAddParams {
   classDuration: number;
   breakDuration: number;
   breakAfterClass: number;
-  periodo: Periodo;
+  periodo: DayPeriod;
   mode: 'append' | 'replace';
 }
 
@@ -30,7 +30,6 @@ export function useGradeHorariaState(campusId: MaybeRef<string | null>) {
     return JSON.stringify(grades.value) !== JSON.stringify(serverGrades.value);
   });
 
-  // Sync server data
   watch(
     () => campusQuery.data.value,
     data => {
@@ -80,7 +79,6 @@ export function useGradeHorariaState(campusId: MaybeRef<string | null>) {
     const grade = grades.value[gradeIndex];
     if (!grade) return;
 
-    // Determinar horario padrao e posicao de insercao baseado no turno
     const defaults: Record<string, string> = {
       Matutino: '07:00',
       Vespertino: '13:00',
@@ -89,7 +87,6 @@ export function useGradeHorariaState(campusId: MaybeRef<string | null>) {
 
     const defaultTime = periodo ? (defaults[periodo] ?? '') : '';
 
-    // Encontrar o ultimo intervalo desse turno para inserir logo apos
     if (periodo && defaultTime) {
       const limites: Record<string, number> = {
         Matutino: 12,
@@ -112,7 +109,6 @@ export function useGradeHorariaState(campusId: MaybeRef<string | null>) {
         }
       }
 
-      // Usar o fim do ultimo intervalo do turno como inicio do novo
       let inicio = defaultTime;
       if (insertIndex > 0) {
         const prev = grade.intervalos[insertIndex - 1];

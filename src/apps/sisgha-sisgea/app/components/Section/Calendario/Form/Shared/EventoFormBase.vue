@@ -93,8 +93,7 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
 </script>
 
 <template>
-  <!-- Bare mode: just the form fields, no modal wrapper -->
-  <div v-if="bare" class="flex flex-col gap-5">
+  <div v-if="bare" class="u-flex u-flex-col u-gap-5">
     <SectionCalendarioFormSharedEventoFormFields
       :disabled="disabled"
       :show-participants="showParticipants"
@@ -102,7 +101,6 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
     />
   </div>
 
-  <!-- Modal mode: wrapped in dialog layout -->
   <DialogModalBaseLayout
     v-else
     :title="isEditMode ? 'Editar evento' : 'Cadastrar evento'"
@@ -110,7 +108,7 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
     :on-close="() => emit('back')"
     class="evento-form-modal"
   >
-    <form class="flex flex-col gap-5" @submit.prevent="onSubmit">
+    <form class="u-flex u-flex-col u-gap-5" @submit.prevent="onSubmit">
       <SectionCalendarioFormSharedEventoFormFields
         :disabled="disabled"
         :show-participants="showParticipants"
@@ -120,10 +118,7 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
 
     <template #button-group>
       <UIButtonModalGoBack @click="emit('back')" />
-      <UIButtonModalDelete
-        v-if="isEditMode"
-        @click="emit('delete')"
-      />
+      <UIButtonModalDelete v-if="isEditMode" @click="emit('delete')" />
       <UIButtonModalEdit v-if="isEditMode" @click="onSubmit" />
       <UIButtonModalSave v-else @click="onSubmit" />
     </template>
@@ -131,7 +126,7 @@ defineExpose({ validateAndGetValues, setValues, resetForm });
 </template>
 
 <style>
-.evento-form-modal.modal-layout {
+.evento-form-modal.ui-modal-layout {
   max-width: 50rem;
 }
 </style>

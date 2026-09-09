@@ -14,7 +14,6 @@ const crudModule = {
   getOne: (id: string) => api.call(diarioFindById, { path: { id } }),
 } satisfies IEntityListModule;
 
-// Filtros
 const ofertaFormacoes = useOfertasFormacoes();
 const cursos = useCursos();
 const turmasComposable = useTurmas();
@@ -74,7 +73,6 @@ const disciplinaItems = computed(
     })) ?? []
 );
 
-// Cascata: limpar filtros dependentes
 watch(selectedOfertaFormacao, () => {
   selectedCurso.value = undefined;
   selectedTurma.value = undefined;
@@ -84,10 +82,8 @@ watch(selectedCurso, () => {
   selectedTurma.value = undefined;
 });
 
-// Filtro de campus
 const campusContext = useCampusContext();
 
-// Filtro reativo para a listagem
 const filter = computed(() => {
   const f: Record<string, unknown> = {};
   if (campusContext.value) {
@@ -120,8 +116,8 @@ const options = createApiListContextOptions({
     </template>
 
     <template #filters>
-      <div class="flex flex-wrap gap-3 items-end">
-        <div class="min-w-56 flex-1">
+      <div class="u-flex u-flex-wrap u-gap-3 u-items-end">
+        <div class="diarios-filter-field u-flex-1">
           <UIFormOptionFieldsSelect
             v-model="selectedOfertaFormacao"
             label="Formação"
@@ -129,7 +125,7 @@ const options = createApiListContextOptions({
             :items="ofertaFormacaoItems"
           />
         </div>
-        <div class="min-w-56 flex-1">
+        <div class="diarios-filter-field u-flex-1">
           <UIFormOptionFieldsSelect
             v-model="selectedCurso"
             label="Curso"
@@ -137,7 +133,7 @@ const options = createApiListContextOptions({
             :items="cursoItems"
           />
         </div>
-        <div class="min-w-56 flex-1">
+        <div class="diarios-filter-field u-flex-1">
           <UIFormOptionFieldsSelect
             v-model="selectedTurma"
             label="Turma"
@@ -145,7 +141,7 @@ const options = createApiListContextOptions({
             :items="turmaItems"
           />
         </div>
-        <div class="min-w-56 flex-1">
+        <div class="diarios-filter-field u-flex-1">
           <UIFormOptionFieldsSelect
             v-model="selectedDisciplina"
             label="Disciplina"
@@ -165,3 +161,9 @@ const options = createApiListContextOptions({
     </template>
   </UIAPIList>
 </template>
+
+<style scoped>
+.diarios-filter-field {
+  min-width: 14rem;
+}
+</style>

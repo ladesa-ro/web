@@ -1,5 +1,5 @@
 import type { TurmaDisponibilidadeConfigInputDto } from '@ladesa-ro/web.api.client';
-import { toDisplayFormat } from '~/utils/horarios';
+import { stripSeconds } from '@ladesa-ro/web.utils';
 
 export function useTurmaPendingConfigs() {
   const dayjs = useDayJs();
@@ -53,9 +53,7 @@ export function useTurmaPendingConfigs() {
   ): Record<number, string[]> {
     const mapped: Record<number, string[]> = {};
     for (const dia of pending.horarios) {
-      mapped[dia.dia_semana] = dia.intervalos.map(i =>
-        toDisplayFormat(i.inicio)
-      );
+      mapped[dia.dia_semana] = dia.intervalos.map(i => stripSeconds(i.inicio));
     }
     return mapped;
   }

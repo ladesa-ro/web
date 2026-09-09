@@ -1,30 +1,10 @@
 <script setup lang="ts">
-import type { Item } from './item';
+import { Toggle, type ToggleItem, type ToggleProps } from '@ladesa-ro/web.ui';
 
-type Props = { items: Item[]; disabled?: boolean };
-const { items, disabled } = defineProps<Props>();
-
-//
-
-const toggleValue = defineModel<Item['value']>({
-  required: true,
-});
-
-watchEffect(() => {
-  if (toggleValue.value === undefined && items.length > 0)
-    toggleValue.value = items[0]!.value;
-});
+defineProps<ToggleProps>();
+const model = defineModel<ToggleItem['value']>({ required: true });
 </script>
 
 <template>
-  <div class="flex" :class="disabled && 'opacity-50'">
-    <UIToggleButton
-      v-for="item in items"
-      :key="item.value"
-      :disabled
-      :selected="item.value === toggleValue"
-      :item
-      @click="() => !disabled && (toggleValue = item.value)"
-    />
-  </div>
+  <Toggle v-bind="$props" v-model="model" />
 </template>

@@ -61,7 +61,7 @@ function close() {
       :close-button="true"
       :on-close="close"
     >
-      <form class="flex flex-col gap-4" @submit.prevent="confirmRecusar">
+      <form class="u-flex u-flex-col u-gap-4" @submit.prevent="confirmRecusar">
         <TextareaField
           name="motivoRecusa"
           label="Motivo da recusa"
@@ -70,21 +70,16 @@ function close() {
       </form>
 
       <template #button-group>
-        <button
+        <UIButtonModalCancel @click="close" />
+        <UIButtonModalBaseLayout
+          text="Recusar"
+          color="var(--ladesa-red-color)"
           type="button"
-          class="rounded-lg border border-ldsa-grey/30 px-4 py-2 text-sm font-medium"
-          @click="close"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          class="rounded-lg bg-ldsa-red px-4 py-2 text-sm font-medium text-white disabled:opacity-50"
           :disabled="saving"
           @click="confirmRecusar"
         >
-          Recusar
-        </button>
+          <IconsExclude />
+        </UIButtonModalBaseLayout>
       </template>
     </DialogModalBaseLayout>
   </DialogSkeleton>

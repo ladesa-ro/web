@@ -1,7 +1,3 @@
-// ============================================================
-// Auth
-// ============================================================
-
 export enum AuthStatus {
   LOADING = 'loading',
   AUTHENTICATED = 'authenticated',
@@ -11,10 +7,6 @@ export enum AuthStatus {
 export const AUTH_STATE_KEY = 'auth:data' as const;
 export const AUTH_STATUS_KEY = 'auth:status' as const;
 export const AUTH_LAST_REFRESHED_KEY = 'auth:lastRefreshedAt' as const;
-
-// ============================================================
-// Layouts
-// ============================================================
 
 export enum LayoutName {
   EMPTY = 'empty',
@@ -26,37 +18,17 @@ export enum LayoutName {
   SISGEA = 'sisgea',
 }
 
-// ============================================================
-// Form Mode
-// ============================================================
-
 export enum FormMode {
   CREATE = 'create',
   MANAGE = 'manage',
 }
 
-// ============================================================
-// Shared State Keys (useState)
-// ============================================================
-
 export const CAMPUS_CONTEXT_KEY = 'campusContext' as const;
 export const VUE_QUERY_STATE_KEY = 'vue-query' as const;
 
-// ============================================================
-// Query Cache Key
-// ============================================================
-
 export const QUERY_CACHE_STORAGE_KEY = 'LADESA_WEB_QUERY_CACHE' as const;
 
-// ============================================================
-// Auth Refresh
-// ============================================================
-
 export const AUTH_REFRESH_INTERVAL_MS = 15_000 as const;
-
-// ============================================================
-// Cargos
-// ============================================================
 
 export const Cargo = {
   DAPE: 'dape',

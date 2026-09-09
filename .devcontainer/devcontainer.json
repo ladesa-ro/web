@@ -1,0 +1,19 @@
+{
+  "name": "ladesa-web",
+  "build": {
+    "dockerfile": "../.docker/Containerfile",
+    "context": "../src",
+    "target": "devcontainer"
+  },
+  "workspaceFolder": "/repo",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/repo,type=bind",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Vue.volar",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  }
+}

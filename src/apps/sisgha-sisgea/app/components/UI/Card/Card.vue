@@ -1,46 +1,13 @@
-<script lang="ts" setup>
-type Props = {
-  variant: 'block';
-  src: string | null;
-  title: string | null;
-};
+<script setup lang="ts">
+import { Card, type CardProps } from '@ladesa-ro/web.ui';
 
-defineProps<Props>();
+defineProps<CardProps>();
 </script>
 
 <template>
-  <!-- card layout -->
-  <div
-    class="overflow-hidden border-2 border-ldsa-grey rounded-lg hover:brightness-90 hover:bg-ldsa-grey/10"
-  >
-    <UIImg
-      :src="src"
-      class="h-44"
-      fallback-bg-color="rgb(from var(--ladesa-grey-color) R G B / 30%)"
-    >
-      <template #fallbackIcon>
-        <slot name="fallbackIcon" />
-      </template>
-    </UIImg>
-
-    <main class="p-3 pl-4">
-      <!-- title and actions -->
-      <section class="w-full flex justify-between items-center mb-1">
-        <!-- title -->
-        <h1 class="font-semibold truncate">
-          <slot name="title">{{ title ?? '-' }}</slot>
-        </h1>
-
-        <!-- this .stop.prevent prevents scenarios that the click on the father takes to another page, for example -->
-        <div class="shrink-0" @click.stop.prevent="() => {}">
-          <slot name="actions" />
-        </div>
-      </section>
-
-      <!-- description -->
-      <div class="flex flex-col text-sm font-medium text-ldsa-grey">
-        <slot />
-      </div>
-    </main>
-  </div>
+  <Card v-bind="$props">
+    <template v-for="(_, name) in $slots" #[name]="slotProps">
+      <slot :name="name" v-bind="slotProps" />
+    </template>
+  </Card>
 </template>

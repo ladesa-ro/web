@@ -39,7 +39,6 @@ const { values, validate, setValues } = useForm({
   },
 });
 
-// Reagir a props assíncronas (edição: dados carregam depois do mount)
 watch(
   () => [props.dataInicio, props.dataTermino, props.etapaCor],
   ([inicio, termino, cor]) => {
@@ -71,17 +70,17 @@ defineExpose({ getValues, validateStep });
 </script>
 
 <template>
-  <div class="card flex flex-col w-full p-4 gap-4 overflow-visible">
-    <label for="stepColor" class="flex w-full items-center gap-2">
+  <div class="card step-card u-flex u-flex-col u-w-full u-p-4 u-gap-4">
+    <label for="stepColor" class="u-flex u-w-full u-items-center u-gap-2">
       <div
-        class="w-3 h-3 rounded-full bg-ldsa-green-1"
+        class="step-color-dot u-rounded-full"
         :style="{ backgroundColor: values.stepColor ?? '#000000' }"
       />
-      <p class="font-bold whitespace-nowrap">{{ props.text }}</p>
+      <p class="step-label u-font-bold">{{ props.text }}</p>
     </label>
 
     <VVTextField name="stepColor" type="color" label="Cor" />
-    <div class="flex gap-4">
+    <div class="u-flex u-gap-4">
       <VVDateField name="stepStartDate" label="Início" />
       <VVDateField name="stepEndDate" label="Término" />
     </div>
@@ -90,4 +89,18 @@ defineExpose({ getValues, validateStep });
 
 <style scoped>
 @import '@/components/UI/Card/Card.css';
+
+.step-card {
+  overflow: visible;
+}
+
+.step-color-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: var(--ladesa-green-1-color);
+}
+
+.step-label {
+  white-space: nowrap;
+}
 </style>

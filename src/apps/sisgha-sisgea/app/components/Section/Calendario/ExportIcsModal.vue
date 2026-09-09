@@ -62,7 +62,9 @@ async function onDownload() {
     toastSuccess({ title: 'Agenda exportada com sucesso' });
   } catch (err) {
     downloadError.value =
-      err instanceof Error ? err.message : 'Não foi possível exportar a agenda.';
+      err instanceof Error
+        ? err.message
+        : 'Não foi possível exportar a agenda.';
   } finally {
     isDownloading.value = false;
   }
@@ -90,16 +92,16 @@ async function onCopyLink() {
     </template>
 
     <DialogModalBaseLayout title="Exportar agenda (.ics)" :on-close="onClose">
-      <div class="flex flex-col gap-5">
+      <div class="u-flex u-flex-col u-gap-5">
         <p
           v-if="downloadError"
-          class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950 rounded-md p-3"
+          class="u-text-sm u-rounded-md u-p-3 export-ics__error"
         >
           {{ downloadError }}
         </p>
 
-        <div class="flex items-end gap-2">
-          <div class="flex-1">
+        <div class="u-flex u-items-end u-gap-2">
+          <div class="u-flex-1">
             <UIFormTextField
               v-model="dateStart"
               type="date"
@@ -107,8 +109,8 @@ async function onCopyLink() {
               label="Período início"
             />
           </div>
-          <span class="pb-2 text-ldsa-grey">—</span>
-          <div class="flex-1">
+          <span class="u-pb-2 export-ics__separator">—</span>
+          <div class="u-flex-1">
             <UIFormTextField
               v-model="dateEnd"
               type="date"
@@ -118,20 +120,40 @@ async function onCopyLink() {
           </div>
         </div>
 
-        <p class="text-xs text-ldsa-grey">
+        <p class="u-text-xs export-ics__hint">
           "Copiar link da agenda" gera uma URL que pode ser colada no Google
           Calendar ou Outlook como assinatura de agenda.
         </p>
       </div>
 
       <template #button-group>
-        <UIButtonDefault type="button" :disabled="isDownloading" @click="onCopyLink">
+        <UIButtonDefault
+          type="button"
+          :disabled="isDownloading"
+          @click="onCopyLink"
+        >
           {{ linkCopied ? 'Link copiado!' : 'Copiar link da agenda' }}
         </UIButtonDefault>
-        <UIButtonDefault type="button" :disabled="isDownloading" @click="onDownload">
+        <UIButtonDefault
+          type="button"
+          :disabled="isDownloading"
+          @click="onDownload"
+        >
           {{ isDownloading ? 'Baixando...' : 'Baixar .ics' }}
         </UIButtonDefault>
       </template>
     </DialogModalBaseLayout>
   </DialogSkeleton>
 </template>
+
+<style scoped>
+.export-ics__error {
+  color: var(--ladesa-red-color);
+  background-color: rgb(from var(--ladesa-red-color) R G B / 10%);
+}
+
+.export-ics__separator,
+.export-ics__hint {
+  color: var(--ladesa-grey-color);
+}
+</style>

@@ -6,11 +6,11 @@ const error = useError();
   <NuxtLayout>
     <template v-if="error?.statusCode === 404">
       <div
-        class="min-h-min flex-1 flex flex-col items-center justify-center text-center p-8 mt-10"
+        class="u-flex u-flex-col u-items-center u-justify-center u-text-center u-p-8 error-page error-page--404"
       >
-        <h1 class="text-[34px] font-medium text-ldsa-grey mb-2">Oops! 404</h1>
-        <h2 class="text-[20px]">Página não encontrada</h2>
-        <p class="text-[14px] mt-2">
+        <h1 class="u-font-medium error-page__title">Oops! 404</h1>
+        <h2 class="error-page__subtitle">Página não encontrada</h2>
+        <p class="error-page__description">
           A página que você está procurando não existe.
         </p>
       </div>
@@ -18,13 +18,13 @@ const error = useError();
 
     <template v-else>
       <div
-        class="min-h-min flex-1 flex flex-col items-center justify-center text-center p-8"
+        class="u-flex u-flex-col u-items-center u-justify-center u-text-center u-p-8 error-page"
       >
-        <h1 class="text-[34px] font-medium text-ldsa-grey mb-2">Oops!</h1>
-        <p class="text-[20px] mb-2">
+        <h1 class="u-font-medium error-page__title">Oops!</h1>
+        <p class="error-page__subtitle error-page__subtitle--spaced">
           Houve um comportamento não esperado em nossa aplicação.
         </p>
-        <div class="text-center">
+        <div class="u-text-center">
           <p>Pedimos desculpas por este inconveniente.</p>
           <p>Mensagem do erro: {{ error?.message ?? '-' }}</p>
         </div>
@@ -32,3 +32,33 @@ const error = useError();
     </template>
   </NuxtLayout>
 </template>
+
+<style scoped>
+.error-page {
+  min-height: min-content;
+  flex: 1 1 0%;
+}
+
+.error-page--404 {
+  margin-top: var(--ui-space-10);
+}
+
+.error-page__title {
+  font-size: 34px;
+  margin-bottom: var(--ui-space-2);
+  color: var(--ladesa-grey-color);
+}
+
+.error-page__subtitle {
+  font-size: 20px;
+}
+
+.error-page__subtitle--spaced {
+  margin-bottom: var(--ui-space-2);
+}
+
+.error-page__description {
+  font-size: 14px;
+  margin-top: var(--ui-space-2);
+}
+</style>

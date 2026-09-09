@@ -1,8 +1,5 @@
 import type { Aula, HorString, TimeSlots, Vago } from './types';
 
-/**
- * Adiciona tempos vagos no horário a partir de um array de tempos de aula e um array de aulas.
- */
 export const getFreePeriods = (
   temposDeAula: TimeSlots,
   aulas: (Aula & HorString)[]

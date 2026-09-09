@@ -1,31 +1,24 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { AcceptableValue } from 'reka-ui';
+import {
+  AccordionOptions,
+  type AccordionOptionsProps,
+  type ParsedOptionItem,
+} from '@ladesa-ro/web.ui';
 
-type Props = { items: ParsedItem[]; loading?: boolean; error?: boolean };
-defineProps<Props>();
+defineProps<AccordionOptionsProps>();
 
-defineEmits<{ 'option-selected': [item: ParsedItem] }>();
+const emit = defineEmits<{ 'option-selected': [item: ParsedOptionItem] }>();
 
 const selectedOption = defineModel<AcceptableValue>({ required: true });
 </script>
 
 <template>
-  <UIRadio
-    v-slot="{ item, selected }"
+  <AccordionOptions
     v-model="selectedOption"
-    class="flex items-center gap-2.5 w-max overflow-x-auto"
-    :items
-  >
-    <button
-      class="border-2 rounded-lg flex items-center justify-center p-2.5 sm:p-3.5 max-sm:text-sm font-medium min-w-max"
-      :class="
-        selected
-          ? 'border-ldsa-green-2 text-ldsa-text-green bg-ldsa-green-2/10'
-          : 'border-ldsa-grey'
-      "
-      @click="$emit('option-selected', item)"
-    >
-      {{ item.label }}
-    </button>
-  </UIRadio>
+    :items="items"
+    :loading="loading"
+    :error="error"
+    @option-selected="item => emit('option-selected', item)"
+  />
 </template>

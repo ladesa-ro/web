@@ -47,12 +47,9 @@ const reservas = computed(() => {
   });
 });
 
-watch(
-  [filterAmbienteIdValue, filterPeriodoInicio, filterPeriodoFim],
-  () => {
-    currentPage.value = 1;
-  }
-);
+watch([filterAmbienteIdValue, filterPeriodoInicio, filterPeriodoFim], () => {
+  currentPage.value = 1;
+});
 
 async function onCancel(id: string) {
   await agendamento.remove(id);
@@ -66,21 +63,23 @@ function onCreated() {
 
 <template>
   <div
-    class="flex flex-1 overflow-auto flex-col items-center gap-8 pb-14 xl:max-w-screen-2xl xl:mx-auto max-xl:mx-16 max-[900px]:text-sm max-[850px]:mx-7"
+    class="u-flex u-flex-1 u-overflow-auto u-flex-col u-items-center u-gap-8 reservas"
   >
-    <div class="max-w-screen-lg w-full mx-auto mt-14 flex flex-col gap-6">
-      <div class="flex items-center justify-between gap-3 flex-wrap">
+    <div class="u-w-full u-flex u-flex-col u-gap-6 reservas__content">
+      <div class="u-flex u-items-center u-justify-between u-gap-3 u-flex-wrap">
         <UITitle variant="small" text="Reservas de ambientes" />
         <SectionReservasCreateModal @created="onCreated" />
       </div>
 
-      <div class="flex flex-wrap gap-3 items-end">
-        <div class="w-full sm:w-56">
+      <div class="u-flex u-flex-wrap u-gap-3 u-items-end">
+        <div class="u-w-full reservas__filter-ambiente">
           <VVAutocompleteAPIAmbiente name="ambienteId" />
         </div>
 
-        <div class="flex items-end gap-2 w-full sm:w-auto">
-          <div class="flex-1 sm:w-40">
+        <div
+          class="u-flex u-items-end u-gap-2 u-w-full reservas__filter-periodo"
+        >
+          <div class="u-flex-1 reservas__filter-periodo-field">
             <UIFormTextField
               :model-value="filterPeriodoInicio ?? undefined"
               name="filterPeriodoInicio"
@@ -89,8 +88,8 @@ function onCreated() {
               @update:model-value="filterPeriodoInicio = $event || null"
             />
           </div>
-          <span class="pb-2 text-ldsa-grey">—</span>
-          <div class="flex-1 sm:w-40">
+          <span class="u-pb-2 reservas__filter-separator">—</span>
+          <div class="u-flex-1 reservas__filter-periodo-field">
             <UIFormTextField
               :model-value="filterPeriodoFim ?? undefined"
               name="filterPeriodoFim"
@@ -102,26 +101,20 @@ function onCreated() {
         </div>
       </div>
 
-      <div v-if="isLoading" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div v-if="isLoading" class="u-grid u-gap-5 reservas__cards-grid">
         <UICardSkeleton v-for="i in 4" :key="i" />
       </div>
 
-      <div v-else-if="isError" class="text-center text-ldsa-red py-8">
+      <div v-else-if="isError" class="u-text-center u-py-8 reservas__error">
         Erro ao carregar reservas. Tente novamente.
       </div>
 
-      <div
+      <UIEmptyState
         v-else-if="reservas.length === 0"
-        class="flex flex-col justify-center items-center gap-5 py-8"
-      >
-        <UIContentStateEmpty class="dark:saturate-75 dark:opacity-50" />
-        <span class="text-ldsa-grey dark:contrast-0 text-center">
-          Nenhuma reserva encontrada. Tente ajustar os filtros ou criar uma
-          nova reserva.
-        </span>
-      </div>
+        description="Nenhuma reserva encontrada. Tente ajustar os filtros ou criar uma nova reserva."
+      />
 
-      <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div v-else class="u-grid u-gap-5 reservas__cards-grid">
         <SectionReservasCard
           v-for="reserva in reservas"
           :key="reserva.id"
@@ -137,3 +130,80 @@ function onCreated() {
     </div>
   </div>
 </template>
+
+<style scoped>
+.reservas {
+  padding-bottom: 3.5rem;
+}
+
+@media (min-width: 1280px) {
+  .reservas {
+    max-width: 1536px;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 1279px) {
+  .reservas {
+    margin-inline: 4rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .reservas {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 850px) {
+  .reservas {
+    margin-inline: var(--ui-space-7);
+  }
+}
+
+.reservas__content {
+  max-width: 1024px;
+  margin-inline: auto;
+  margin-top: 3.5rem;
+}
+
+.reservas__filter-ambiente {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .reservas__filter-ambiente {
+    width: 14rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .reservas__filter-periodo {
+    width: auto;
+  }
+}
+
+@media (min-width: 640px) {
+  .reservas__filter-periodo-field {
+    width: 10rem;
+  }
+}
+
+.reservas__filter-separator {
+  color: var(--ladesa-grey-color);
+}
+
+.reservas__cards-grid {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 1024px) {
+  .reservas__cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.reservas__error {
+  color: var(--ladesa-red-color);
+}
+</style>
