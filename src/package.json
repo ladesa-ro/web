@@ -33,7 +33,7 @@
     "eslint-plugin-vue": "^10.8.0",
     "eslint-plugin-yml": "^3.8.1",
     "jscpd": "^4.3.0",
-    "nx": "^22.7.5",
+    "nx": "^22.7.7",
     "vue-eslint-parser": "^10.4.0"
   },
   "pnpm": {
